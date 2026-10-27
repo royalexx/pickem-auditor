@@ -60,6 +60,7 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           PHASE: ${{ steps.gate.outputs.phase }}
           PICKEM_ODDS_QUOTA_GUARD: '1'
+          PICKEM_DISABLE_ODDS: ${{ steps.gate.outputs.phase == 'morning' && '1' || '0' }}
         run: |
           python - <<'PY'
           import json,os,subprocess,sys
