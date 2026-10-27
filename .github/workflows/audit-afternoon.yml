@@ -4,6 +4,7 @@ on:
     paths:
       - '.github/workflows/audit-afternoon.yml'
       - 'scripts/audit_afternoon.py'
+      - 'scripts/research_triage.py'
   workflow_dispatch:
     inputs:
       date:
@@ -30,9 +31,17 @@ jobs:
         run: |
           SLATE_DATE="${INPUT_DATE:-$(python -c 'from datetime import datetime; from zoneinfo import ZoneInfo; print(datetime.now(ZoneInfo("America/Toronto")).date().isoformat())')}"
           python scripts/audit_afternoon.py --date "$SLATE_DATE"
+      - name: Build read-only priority verification queue from stored forecasts
+        env:
+          INPUT_DATE: ${{ github.event.inputs.date }}
+        run: |
+          SLATE_DATE="${INPUT_DATE:-$(python -c 'from datetime import datetime; from zoneinfo import ZoneInfo; print(datetime.now(ZoneInfo("America/Toronto")).date().isoformat())')}"
+          python scripts/research_triage.py --date "$SLATE_DATE" --path data/prop_snapshots.jsonl --out reports/research_triage.json
       - name: Publish audit receipt
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: afternoon-rank-audit
-          path: reports/afternoon_audit.json
+          path: |
+            reports/afternoon_audit.json
+            reports/research_triage.json
