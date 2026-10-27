@@ -32,3 +32,5 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_history_bootstrap.py' -q
       - name: Verify original pregame estimates are immutable
         run: python -m unittest discover -s tests -p 'test_verify_history_invariants.py' -q
+      - name: Verify pregame source reuse and stale-odds rejection
+        run: python -m unittest discover -s tests -p 'test_afternoon_reuse.py' -q
