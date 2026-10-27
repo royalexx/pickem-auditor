@@ -74,6 +74,12 @@ jobs:
             args+=(--reviews "data/review_submissions/$VERIFY_DATE.json")
           fi
           python scripts/pick_verification.py "${args[@]}"
+      - name: Build the current, source-linked verified board
+        if: steps.gate.outputs.due == 'true'
+        env:
+          VERIFY_DATE: ${{ steps.gate.outputs.date }}
+        run: |
+          python scripts/verified_board.py --date "$VERIFY_DATE"             --snapshots data/prop_snapshots.jsonl             --archive-root data/verification             --out reports/verified_board.json
       - name: Persist verification evidence independently from original predictions
         if: steps.gate.outputs.due == 'true'
         run: bash scripts/shadow_store.sh save
@@ -84,6 +90,7 @@ jobs:
           name: pregame-evidence-verification
           path: |
             reports/pick_verification.json
+            reports/verified_board.json
             data/verification/${{ steps.gate.outputs.date }}/decisions/
           retention-days: 90
           if-no-files-found: error

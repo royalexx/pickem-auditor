@@ -148,6 +148,11 @@ jobs:
                                'review_queue_both_engines_reliable','blocker_categories')}
                       except (ValueError,OSError):
                           receipt['research_triage']={'error':'INVALID_RESEARCH_TRIAGE'}
+                  if Path('reports/research_triage.json').is_file():
+                      step('review_template',[sys.executable,'scripts/review_template.py',
+                           '--date',triage_date,'--snapshots','data/prop_snapshots.jsonl',
+                           '--queue','reports/research_triage.json',
+                           '--limit','10','--out','reports/review_template.json'])
                   # Initial verification is a new source-linked decision, never
                   # an edit to the 4 p.m. shadow forecast. Missing reviewer facts
                   # deliberately produce blocked decisions, not invented picks.
@@ -166,6 +171,19 @@ jobs:
                       if reviewed.is_file():
                           command.extend(['--reviews',str(reviewed)])
                       step('pick_verification',command)
+                  if Path('data/verification').is_dir():
+                      step('verified_board',[sys.executable,'scripts/verified_board.py',
+                           '--date',triage_date,'--snapshots','data/prop_snapshots.jsonl',
+                           '--archive-root','data/verification',
+                           '--out','reports/verified_board.json'])
+                  if Path('reports/verified_board.json').is_file():
+                      try:
+                          board=json.loads(Path('reports/verified_board.json').read_text())
+                          receipt['verified_board']={k:board.get(k) for k in
+                              ('schema','status','original_forecasts_in_batch','valid_decision_subjects',
+                               'rank_counts','excluded','invalid_receipts')}
+                      except (ValueError,OSError):
+                          receipt['verified_board']={'status':'INVALID_BOARD'}
                   if Path('reports/pick_verification.json').is_file():
                       try:
                           verified=json.loads(Path('reports/pick_verification.json').read_text())
@@ -228,6 +246,8 @@ jobs:
             reports/structured_research.json
             reports/research_triage.json
             reports/pick_verification.json
+            reports/review_template.json
+            reports/verified_board.json
             data/verification/
             data/research_*.json
             data/odds_quotes.jsonl
