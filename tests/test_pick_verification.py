@@ -93,7 +93,7 @@ class VerificationTests(unittest.TestCase):
 
     def test_started_game_never_researched(self):
         rows,queue,packet=build()
-        rows[0]["event_start"]="2026-10-27T20:00:00Z"
+        rows[0]["event_start"]="2026-10-27T20:10:00Z"
         fetch=lambda *a,**k:self.fail("should not fetch")
         result,_=pv.verify(rows,queue,packet,DATE,now=NOW,fetch=fetch)
         self.assertEqual(result["checked"],0)
