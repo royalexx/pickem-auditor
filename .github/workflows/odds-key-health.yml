@@ -1,9 +1,6 @@
 name: Odds API credential health (free endpoint)
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - '.github/workflows/odds-key-health.yml'
 permissions:
   contents: read
 jobs:
