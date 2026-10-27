@@ -36,3 +36,5 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_afternoon_reuse.py' -q
       - name: Verify structured research never fabricates source confirmations
         run: python -m unittest discover -s tests -p 'test_auto_research.py' -q
+      - name: Verify free Odds API credit guard
+        run: python -m unittest discover -s tests -p 'test_odds_quota_guard.py' -q
