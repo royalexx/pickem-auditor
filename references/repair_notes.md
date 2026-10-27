@@ -55,7 +55,7 @@ python3 -m unittest discover -s tests -q
 python3 scripts/schedule_gate.py --schedule '0 13 * * *'
 ```
 
-The time gate uses the execution date to map UTC cron to Toronto time. Production test requires GitHub Actions on a real repo (source reads, a writable `data/shadow-calibration` branch, `ODDS_API_KEY` secret, API access). Calibration validation requires real chronological, settled player-level histories. Do not use fixture successes as a profitability claim.
+The time gate uses the execution date to map UTC cron to Toronto time. Production test requires GitHub Actions on a real repo (source reads, a writable `data/shadow-calibration` branch, `PROPLINE_API_KEY` secret, API access). Calibration validation requires real chronological, settled player-level histories. Do not use fixture successes as a profitability claim.
 
 ## 2026-10-27: source recovery, status and grading diagnostics
 

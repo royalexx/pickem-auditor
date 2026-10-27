@@ -7,7 +7,7 @@ python3 scripts/collect_workflow.py --date 2026-10-26
 ```
 
 Use the actual Toronto slate date. Optional `--data-dir` selects the persistent data root.
-The workflow retains nflreadpy for NFL, nhl-api-py plus NHL REST for NHL, and ESPN for NBA. Existing configured odds access remains separate; no new paid provider is required. Python wrappers do not imply a different underlying data provider.
+The workflow retains nflreadpy for NFL, nhl-api-py plus NHL REST for NHL, and ESPN for NBA. PropLine bulk odds access is configured separately with PROPLINE_API_KEY and can use the free tier. Python wrappers do not imply a different underlying data provider.
 
 Each invocation creates a unique directory under `data/collection_runs/` and records collection, preparation and scan exit codes. It stops on a failed stage, preserves its logs and partial artifacts, and never falls back silently to yesterday's slate. After scanning it runs structured-source research resolution and an ID-reconciled audit, saving `research_queue.json`. Inspect the research stage separately: successful collection cannot hide a blocked research audit. The output manifest provides the actual paths. Usage histories remain within the same run directory as the slate, and downstream stages use that directory as their data root. Research packets emitted by the collector remain within the run directory.
 

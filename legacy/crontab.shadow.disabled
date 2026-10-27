@@ -1,6 +1,6 @@
 # Pick'em auditor shadow calibration (America/Toronto).
 # Install: crontab crontab.shadow
-# Requires ODDS_API_KEY in the environment used by cron.
+# Requires PROPLINE_API_KEY in the environment used by cron.
 
 CRON_TZ=America/Toronto
 

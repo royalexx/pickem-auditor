@@ -62,7 +62,7 @@ jobs:
       - name: Run scheduled job
         if: steps.gate.outputs.job != 'skip'
         env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
         run: python3 scripts/jobs.py "${{ steps.gate.outputs.job }}"
       - name: Persist calibration history
         if: steps.gate.outputs.job != 'skip' && success()

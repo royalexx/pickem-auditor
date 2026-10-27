@@ -241,7 +241,7 @@ class FeedDiagnosticsTests(unittest.TestCase):
         from unittest.mock import patch
         with patch.object(fs,'probe_import',return_value=(True,'')), \
              patch.object(fs,'probe_host',return_value=(True,'HTTP 200')), \
-             patch.dict(fs.os.environ,{'ODDS_API_KEY':''}):
+             patch.dict(fs.os.environ,{'PROPLINE_API_KEY':''}):
             out=fs.preflight()
         self.assertFalse(out['ok'])
         self.assertTrue(any(x['kind']=='credential' and not x['ok'] for x in out['checks']))

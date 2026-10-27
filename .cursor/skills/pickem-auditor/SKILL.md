@@ -23,7 +23,7 @@ label the run incomplete. Never fill a gap or force a tier to make a run look fi
 Run commands from **repository root**, not from this directory. Do fresh source and odds checks every run: never reuse a prior slate, line, or yesterday's injury status. Do not research Underdog, import Underdog lines, build slips, or suggest stakes. Numerical probabilities are *uncalibrated model estimates* until enough settled out-of-sample forecasts establish calibration.
 
 Load odds credentials automatically from the operator's `config/credentials.local.json`
-or `ODDS_API_KEY` environment override. Never print or quote credential values, put
+or `PROPLINE_API_KEY` environment override. Never print or quote credential values, put
 them in research packets, or commit the local configuration. A personal ZIP may
 contain that file; remove it before redistributing the project.
 
