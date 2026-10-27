@@ -556,6 +556,39 @@ def run_snapshot(
     }
 
 
+def reuse_recent_collect(game_date: str, slate_path: Path, quotes_path: Path, *,
+                         now: datetime | None = None, max_age_minutes: int = 30):
+    """Reuse already-fetched, source-timestamped slate and sportsbook quotes.
+
+    Reject mismatches or stale data instead of silently refetching the paid Odds API.
+    """
+    meta_path = fs.meta_path_for(slate_path)
+    if not slate_path.is_file() or not meta_path.is_file() or not quotes_path.is_file():
+        raise JobError('PREFETCH_MISSING: slate, source receipt and two-sided quotes are required')
+    try:
+        meta = json.loads(meta_path.read_text(encoding='utf-8'))
+        rows = fs.read_jsonl(slate_path)
+        quotes = fs.read_jsonl(quotes_path)
+    except (OSError, ValueError) as exc:
+        raise JobError('PREFETCH_INVALID: invalid source JSON') from exc
+    if meta.get('date') != game_date or any(row.get('game_date') != game_date for row in rows):
+        raise JobError('PREFETCH_DATE_MISMATCH: refusing cross-date pregame history')
+    stamp = parse_iso_utc(meta.get('retrieved_at'))
+    clock = now or datetime.now(timezone.utc)
+    if stamp is None or not 0 <= (clock.astimezone(timezone.utc) - stamp).total_seconds() <= max_age_minutes * 60:
+        raise JobError('PREFETCH_STALE: source receipt outside allowed freshness window')
+    odds = (meta.get('feeds') or {}).get('odds') or {}
+    if odds.get('status') != 'ok' or not quotes:
+        raise JobError('PREFETCH_UNPRICED: no verified, fetched sportsbook quotes')
+    if not rows or meta.get('rows') != len(rows) or odds.get('rows') != len(quotes):
+        raise JobError('PREFETCH_ROW_COUNT_MISMATCH: data and receipt disagree')
+    for quote in quotes:
+        retrieved = parse_iso_utc(quote.get('retrieved_at'))
+        if retrieved is None or not 0 <= (clock.astimezone(timezone.utc) - retrieved).total_seconds() <= max_age_minutes * 60:
+            raise JobError('PREFETCH_QUOTE_STALE: quote was not freshly retrieved')
+    return rows, meta
+
+
 def _default_collect(game_date: str, slate_path: Path, quotes_path: Path, fetch_json_fn=fs.fetch_json):
     client, client_error = fs.make_nhl_client()
     rows, summary = fs.collect(
@@ -756,6 +789,8 @@ def main(argv: list[str] | None = None) -> int:
     snap.add_argument("--date", default=eastern_today())
     snap.add_argument("--slate", default=str(fs.DEFAULT_OUT))
     snap.add_argument("--snapshots", default=str(pm.DEFAULT_SNAPSHOT_PATH))
+    snap.add_argument("--reuse-collected", action="store_true",
+                      help="Reuse the fresh slate and market quote batch rather than querying Odds API twice")
 
     close = sub.add_parser("closing", help="Fill closing line and market on today's open rows.")
     close.add_argument("--date", default=eastern_today())
@@ -786,6 +821,9 @@ def main(argv: list[str] | None = None) -> int:
                     slate_path=slate_path,
                     quotes_path=quotes_path,
                     snapshot_path=Path(args.snapshots),
+                    collect_fn=(lambda date, slate_path, quotes_path, fetch_json_fn=None:
+                                reuse_recent_collect(date, slate_path, quotes_path))
+                               if args.reuse_collected else None,
                 ),
             )
         if args.command == "closing":
