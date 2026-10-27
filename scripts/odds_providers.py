@@ -1048,6 +1048,27 @@ class TheOddsAPIProvider(Provider):
         self.fetch_json = fetch or _default_fetch
         self.clock = clock or (lambda: datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"))
 
+    @staticmethod
+    def _free_quota_check(secret: str, opener=None) -> tuple[int | None, str | None]:
+        """Read usage headers from the zero-credit /sports endpoint.
+
+        Never print a URL or exception containing the secret. The check is
+        opt-in for live collection and does not invent sportsbook prices.
+        """
+        url=API_ROOT + "/v4/sports?" + urllib.parse.urlencode({"apiKey":secret})
+        request=urllib.request.Request(url, headers={"Accept":"application/json",
+                                                     "User-Agent":"pickem-auditor-quota"})
+        try:
+            with (opener or urllib.request.urlopen)(request,timeout=12) as response:
+                if getattr(response,"status",200)!=200:
+                    return None, "ODDS_QUOTA_CHECK_HTTP_ERROR"
+                remaining=response.headers.get("x-requests-remaining")
+                if remaining is None or not str(remaining).isdigit():
+                    return None, "ODDS_QUOTA_HEADER_MISSING"
+                return int(remaining), None
+        except (OSError,ValueError,TypeError):
+            return None, "ODDS_QUOTA_CHECK_UNAVAILABLE"
+
     def fetch(self, game_date: str, sports: list[str] | None = None) -> list[dict]:
         self.note = None
         self.source_urls = []
@@ -1058,6 +1079,16 @@ class TheOddsAPIProvider(Provider):
                 "No line or price was invented."
             )
             return []
+        if os.environ.get("PICKEM_ODDS_QUOTA_GUARD") == "1":
+            remaining, error = self._free_quota_check(secret)
+            if error:
+                self.note = "odds: " + error + ". No paid odds requests were made."
+                return []
+            if remaining < 2:
+                self.note = (f"odds: ODDS_QUOTA_INSUFFICIENT: {remaining} usage credits remaining. "
+                             "A two-region player-market request requires additional credits. "
+                             "No paid odds requests were made.")
+                return []
         selected = resolve_sports(sports)
         if sports and not selected:
             self.note = "odds: no NBA, NHL, or NFL sports were requested. No prices were invented."
