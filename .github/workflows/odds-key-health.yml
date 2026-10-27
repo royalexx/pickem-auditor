@@ -1,0 +1,49 @@
+name: Odds API credential health (free endpoint)
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/odds-key-health.yml'
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check credential and credit headers without exposing the key
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json, os, urllib.parse, urllib.request, urllib.error
+          secret=os.environ.get('ODDS_API_KEY','')
+          if not secret:
+              print(json.dumps({'status':'no_secret'}))
+              raise SystemExit(2)
+          uri='https://api.the-odds-api.com/v4/sports?'+urllib.parse.urlencode({'apiKey':secret})
+          try:
+              with urllib.request.urlopen(urllib.request.Request(uri,headers={'Accept':'application/json'}),timeout=15) as resp:
+                  data={'http_status':resp.status}
+                  headers=resp.headers
+          except urllib.error.HTTPError as exc:
+              headers=exc.headers
+              data={'http_status':exc.code}
+              try:
+                  error=json.loads(exc.read().decode())
+                  code=error.get('error_code') or error.get('code')
+                  if isinstance(code,str) and len(code)<80 and all(ch.isupper() or ch.isdigit() or ch=='_' for ch in code):
+                      data['provider_error_code']=code
+              except Exception:
+                  pass
+          except (OSError,ValueError) as exc:
+              print(json.dumps({'status':'network_or_response_error','type':type(exc).__name__}))
+              raise SystemExit(2)
+          for key in ('x-requests-remaining','x-requests-used','x-requests-last'):
+              val=headers.get(key)
+              if val is not None and val.isdigit():
+                  data[key]=int(val)
+          print(json.dumps(data,sort_keys=True))
+          if data['http_status']!=200:
+              raise SystemExit(2)
+          PY
