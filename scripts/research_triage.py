@@ -163,7 +163,9 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
     for item in candidates:
         identity = (item["sport"], str(item["player_id"] or item["player"]),
                     item["team"], item["opponent"])
-        game = (item["sport"], item["game"])
+        # Subject-first matchup labels reverse the same fixture for players on
+        # opposing teams. Rate-limit by the unordered team pair, not that label.
+        game = (item["sport"], tuple(sorted((item["team"], item["opponent"]))))
         if identity in seen:
             excluded["duplicate_player"] += 1
             continue
@@ -206,8 +208,9 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
                                               "source_state": "not_checked", "verified": False,
                                               "candidates": [], "games": []})
             record["candidates"].append(item["candidate_id"])
-            if item["game"] not in record["games"]:
-                record["games"].append(item["game"])
+            fixture = " / ".join(sorted((item["team"], item["opponent"])))
+            if fixture not in record["games"]:
+                record["games"].append(fixture)
     source_checklist = list(shared.values())
     for item in source_checklist:
         item["candidates"].sort()
@@ -223,6 +226,8 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
         "reason_counts": dict(sorted(reasons.items())),
         "blocker_categories": dict(sorted(categories.items())),
         "qualified_before_caps": len(candidates), "review_queue_count": len(queue),
+        "qualified_by_sport": dict(sorted(Counter(c["sport"] for c in candidates).items())),
+        "selected_by_sport": dict(sorted(Counter(c["sport"] for c in queue).items())),
         "review_queue_both_engines_reliable": sum(c["both_engines_reliable"] for c in queue),
         "queue_exclusions": dict(sorted(excluded.items())), "queue": queue,
         "source_checklist": source_checklist,

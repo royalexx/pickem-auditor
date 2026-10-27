@@ -23,3 +23,5 @@ The source checklist deduplicates official ESPN fixture and injury lookups acros
 Per-candidate `source_tasks` list exact missing packet paths. Game, weather and environment paths are included only when the packet player/team/sport and both fixture teams reconcile, using the packet's canonical no-space game key (e.g. `BOS@NSH`). A mismatch is labeled `packet_fixture_identity_not_verified`; it is not silently repaired.
 
 The queue is deliberately **not** executed as an automatic grade or tier approval. The reviewed evidence must still pass the same-date packet validator and existing model ranking vetoes. A replay after games begin cannot backdate verification.
+
+The per-fixture cap groups opponents as an unordered team pair; subject-first matchup labels can be reversed for athletes on opposing teams. The queue reports `qualified_by_sport` and `selected_by_sport` so the daily report makes sport imbalance explicit rather than pretending it is a representative sample.

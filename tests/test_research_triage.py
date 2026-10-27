@@ -47,6 +47,17 @@ class ResearchTriageTests(unittest.TestCase):
         self.assertEqual(report["review_queue_count"],2)
         self.assertEqual(report["forecasts_evaluated"],3)
 
+
+    def test_reverse_subject_matchups_share_one_fixture_budget(self):
+        first=row("Home",game="BOS @ NSH")
+        second=row("Away",game="NSH @ BOS")
+        second["team"],second["opponent"]="NSH","BOS"
+        report=build([first,second],"2026-10-27",now=NOW,max_per_game=1)
+        self.assertEqual(report["qualified_before_caps"],2)
+        self.assertEqual(report["review_queue_count"],1)
+        self.assertEqual(report["queue_exclusions"]["game_cap"],1)
+        self.assertEqual(report["selected_by_sport"]["NHL"],1)
+
     def test_packet_gaps_are_not_positive_status(self):
         packet={"date":"2026-10-27",
                 "index":{"by_player":{"One":{"team":"BOS","game":"BOS@NSH","sport":"NHL"}}},
