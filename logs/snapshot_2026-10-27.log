@@ -1,0 +1,2 @@
+start snapshot at 2026-10-27 15:43 ET
+{"errors": 0, "job": "snapshot", "lineup_collection": {}, "preflight_feeds_ready": {"nba": true, "nfl": true, "nhl": true, "odds": true}, "preflight_partial": false, "rows_written": 180, "run_id": "4c202ec5-f0d4-54b6-9ac6-f06a32f950da", "skipped": 0}
