@@ -67,7 +67,13 @@ def audit(slate: Path, meta_path: Path, output: Path, root: Path, slot: str):
                 with gzip.GzipFile(fileobj=destination, mode="wb", mtime=0) as archive:
                     archive.write("".join(json.dumps(item, sort_keys=True) + "\n" for item in clean).encode("utf-8"))
             result["feed_status"][sport]["archived_path"] = str(target.relative_to(root))
-        if not count or source_status != "ok" or feed.get("rows") != count:
+        no_games = (sport == "NFL" and count == 0 and source_status == "failed"
+                    and any(f"load_schedules returned no REG game on {date}" in str(note)
+                            for note in (feed.get("notes") or [])))
+        if no_games:
+            result["feed_status"][sport]["status"] = "no_games_scheduled"
+            result["feed_status"][sport]["explanation"] = "Verified official schedule returned no NFL regular-season game"
+        elif not count or source_status != "ok" or feed.get("rows") != count:
             result["errors"].append(f"{sport}_FEED_UNVERIFIED")
     result["status"] = (
         "success" if not result["errors"] else
