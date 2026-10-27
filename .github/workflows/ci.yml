@@ -38,3 +38,5 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_auto_research.py' -q
       - name: Verify free Odds API credit guard
         run: python -m unittest discover -s tests -p 'test_odds_quota_guard.py' -q
+      - name: Verify morning history never calls paid odds API
+        run: python -m unittest discover -s tests -p 'test_morning_no_odds.py' -q
