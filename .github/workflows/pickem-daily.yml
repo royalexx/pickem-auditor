@@ -1,5 +1,8 @@
 name: Pickem morning and afternoon
 on:
+  push:
+    paths:
+      - '.github/afternoon-run-trigger.txt'
   workflow_dispatch:
     inputs:
       phase:

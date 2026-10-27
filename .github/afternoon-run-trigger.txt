@@ -1,0 +1,2 @@
+One-shot afternoon collection requested 2026-10-27 after PropLine provider switch.
+Trigger a normal afternoon workflow with existing protected secrets, persistence, and receipts.
