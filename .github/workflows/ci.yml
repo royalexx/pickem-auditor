@@ -26,3 +26,5 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_morning_preflight_recovery.py' -q
       - name: Verify A/B engine contracts
         run: python -m unittest discover -s tests -p 'test_engine_contracts.py' -q
+      - name: Verify three-sport archival receipts
+        run: python -m unittest discover -s tests -p 'test_verify_sports.py' -q
