@@ -30,3 +30,5 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_verify_sports.py' -q
       - name: Verify lossless and idempotent legacy history migration
         run: python -m unittest discover -s tests -p 'test_history_bootstrap.py' -q
+      - name: Verify original pregame estimates are immutable
+        run: python -m unittest discover -s tests -p 'test_verify_history_invariants.py' -q

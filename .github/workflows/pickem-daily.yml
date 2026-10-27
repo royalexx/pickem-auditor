@@ -108,6 +108,10 @@ jobs:
               receipt['stages']['pregame_engines']={'ok':False,'error':'ODDS_API_KEY_SECRET_MISSING'}
           else:
               step('pregame_engines',[sys.executable,'scripts/jobs.py','snapshot'])
+          if archive.is_file():
+              step('verify_forecast_identity',[sys.executable,'scripts/verify_history_invariants.py'])
+          else:
+              receipt['stages']['verify_forecast_identity']={'ok':False,'error':'HISTORY_SNAPSHOT_MISSING'}
           nhl=Path('reports/nhl_collection_receipt.json')
           if nhl.exists():
               try:
@@ -148,6 +152,7 @@ jobs:
             reports/nhl_collection_receipt.json
             reports/sport_coverage.json
             reports/history_bootstrap.json
+            reports/forecast_invariants.json
             data/slate_fetch.meta.json
             data/slate_fetch.jsonl.meta.json
             data/slate_fetch.jsonl.failed.json
