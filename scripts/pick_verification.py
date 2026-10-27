@@ -360,14 +360,27 @@ def main(argv=None):
     packet_path = args.packet or str(Path(args.archive_root) / args.date / "packet.json")
     packet = load_json(packet_path)
     selected, _, _, _ = select(rows, queue, args.date, now, args.phase, args.limit)
+    reviews_payload = load_json(args.reviews, {})
+    attestations = (reviews_payload or {}).get("attestations") or []
+    verified_reviewed = set()
+    for item, original in selected:
+        for assertion in attestations:
+            if (isinstance(assertion, dict) and
+                    assertion.get("candidate_id") == item["candidate_id"] and
+                    review_verified(assertion, original, forecast_digest(original), now)[0]):
+                verified_reviewed.add(item["candidate_id"])
     quotes = None
     quote_note = "original_market_data_subject_to_freshness_gate"
-    if selected and args.refresh_quotes:
+    if selected and args.refresh_quotes and verified_reviewed:
         from odds_providers import PropLineProvider
-        requested = sorted({item["sport"] for item, _ in selected})
+        requested = sorted({item["sport"] for item, _ in selected
+                            if item["candidate_id"] in verified_reviewed})
         provider = PropLineProvider()
         quotes = provider.fetch(args.date, requested)
         quote_note = provider.note or "current_market_quotes_requested"
+    elif selected and args.refresh_quotes:
+        quote_note = "propline_not_called_no_validated_adversarial_review"
+        quotes = []
     elif args.quotes_file:
         quotes = [json.loads(s) for s in Path(args.quotes_file).read_text(encoding="utf-8").splitlines() if s.strip()]
         quote_note = "quote_file"
@@ -379,7 +392,7 @@ def main(argv=None):
     report, checked_packet = verify(
         rows, queue, packet, args.date, now=now, phase=args.phase,
         limit=args.limit, fetch=fetch, quotes=quotes,
-        reviews=load_json(args.reviews, {}),
+        reviews=reviews_payload,
         data_root=Path(args.snapshots).parent)
     report["market_source_note"] = quote_note
     run_id = os.environ.get("GITHUB_RUN_ID") or now.strftime("%Y%m%dT%H%M%S%fZ")
