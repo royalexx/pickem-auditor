@@ -1,65 +1,31 @@
-name: NHL history collection
+name: NHL history collection (manual fallback)
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'scripts/nhl_collect.py'
-      - '.github/workflows/nhl-history.yml'
-  schedule:
-    # 6 a.m. / 4 p.m. Toronto, including DST/standard-time alternatives.
-    - cron: '0 10 * * *'
-    - cron: '0 11 * * *'
-    - cron: '0 20 * * *'
-    - cron: '0 21 * * *'
 permissions:
   contents: write
-concurrency:
-  group: nhl-history-main
-  cancel-in-progress: false
 jobs:
   collect:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Skip duplicate daylight-saving cron slot
-        id: gate
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-        run: |
-          python - <<'PY'
-          import os
-          from datetime import datetime
-          from zoneinfo import ZoneInfo
-          toronto = datetime.now(ZoneInfo('America/Toronto'))
-          should_run = os.environ['EVENT_NAME'] != 'schedule' or toronto.hour in (6, 16)
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
-              output.write(f'run={str(should_run).lower()}\n')
-          print('Toronto time:', toronto.isoformat(), 'run:', should_run)
-          PY
-      - name: Collect official NHL boxscores
-        if: steps.gate.outputs.run == 'true'
+      - name: Collect official NHL game boxscores
         run: python scripts/nhl_collect.py --days 2
-      - name: Commit verified NHL history
-        if: steps.gate.outputs.run == 'true' && success()
+      - name: Commit completed NHL histories
         run: |
-          git config user.name 'pickem-auditor-bot'
-          git config user.email 'pickem-auditor-bot@users.noreply.github.com'
-          git add data/nhl/games/
+          git config user.name pickem-auditor-bot
+          git config user.email pickem-auditor-bot@users.noreply.github.com
+          git add data/nhl/games/ || true
           if ! git diff --cached --quiet; then
-            git commit -m 'data: collect completed NHL games'
-            git push
+            git commit -m 'data: completed NHL histories'
+            git pull --rebase origin main
+            git push origin HEAD:main
           fi
       - name: Upload collection receipt
-        if: always() && steps.gate.outputs.run == 'true'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: nhl-collection-${{ github.run_id }}
-          path: |
-            reports/nhl_collection_receipt.json
-            data/nhl/games/**/*.json
-          if-no-files-found: warn
+          name: nhl-collection-receipt
+          path: reports/nhl_collection_receipt.json
