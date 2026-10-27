@@ -39,6 +39,25 @@ class ResolverTests(unittest.TestCase):
   p,r=resolve(self.packet(),['NHL|Player|shots on goal|over'],fetch,now=self.now())
   self.assertEqual(r['started_games'],['TOR@CGY']);self.assertEqual(len(calls),1)
   self.assertIsNone(p['availability']['Player']['status'])
+ def test_new_negative_injury_does_not_hide_conflicting_active_roster(self):
+  def fetch(url,**kw):
+   if 'scoreboard' in url:return self.scoreboard()
+   if 'injuries' in url:
+    return {'injuries':[{'team':{'abbreviation':'TOR'},'injuries':[
+      {'athlete':{'displayName':'Player'},'status':'Out'}]}]}
+   return {'header':{'id':'1','competitions':[{'status':{'type':{'state':'pre'}}}]},
+           'rosters':[{'team':{'abbreviation':'TOR'},'roster':[
+               {'athlete':{'displayName':'Player'},'active':True}]}]}
+  updated,report=resolve(self.packet(),['NHL|Player|shots on goal|over'],
+                         fetch,now=self.now())
+  self.assertEqual(updated['availability']['Player']['status']['value'],'active')
+  self.assertEqual(updated['_source_conflicts'][-1]['resolution'],'unresolved')
+  self.assertEqual(updated['_source_conflicts'][-1]['challenger']['value'],'out')
+  from pick_verification import status_verified
+  self.assertEqual(status_verified(updated,{'player':'Player','sport':'NHL',
+                   'player_id':None},self.now())[1],
+                   'UNRESOLVED_CONTRADICTORY_STATUS_EVIDENCE')
+
  def test_source_failure_preserves_old_facts_and_notes(self):
   p=self.packet();p['_feed_notes']=['keep'];p['weather']['TOR@CGY']={'indoor':cf.confirmed_fact('indoor',True,'https://source.test',self.now().isoformat())}
   def fail(*a,**k):raise OSError('unavailable')

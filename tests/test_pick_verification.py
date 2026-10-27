@@ -93,6 +93,15 @@ class VerificationTests(unittest.TestCase):
         self.assertTrue(ok)
         self.assertIsNone(reason)
 
+    def test_unresolved_source_conflict_overrides_an_active_flag(self):
+        rows,q,packet=build()
+        active(packet)
+        packet["_source_conflicts"]=[{"player":"Example Player","field":"status",
+                                      "resolution":"unresolved",
+                                      "challenger":{"value":"out"}}]
+        self.assertEqual(pv.status_verified(packet,q["queue"][0],NOW)[1],
+                         "UNRESOLVED_CONTRADICTORY_STATUS_EVIDENCE")
+
     def test_bare_active_fact_cannot_replace_game_specific_report(self):
         rows,queue,packet=build()
         active(packet)

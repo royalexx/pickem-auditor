@@ -154,11 +154,23 @@ def resolve(packet, candidate_ids, fetch, *, now=None):
                             'questionable':'questionable','injured reserve':'out',
                             'long-term injured reserve':'out'}.get(text_status)
                     if status is None:continue
-                    if (result.get('availability',{}).get(name) or {}).get('status') is not None:
-                        continue  # no override of an explicit game-active roster
                     fact=confirmed_fact('ESPN explicit injury designation',status,injury_url,stamp,
                                         quote=str(raw_status),source_name='ESPN NHL injuries')
                     fact['report_type']='injury_feed'
+                    previous=(result.get('availability',{}).get(name) or {}).get('status')
+                    if isinstance(previous,dict):
+                        if previous.get('value') != status:
+                            # Preserve contradictory source observations, not
+                            # just whichever status happens to be retrieved first.
+                            conflicts=result.setdefault('_source_conflicts',[])
+                            if not any(c.get('player')==name and c.get('field')=='status'
+                                       and c.get('resolution')=='unresolved'
+                                       and (c.get('challenger') or {}).get('value')==status
+                                       for c in conflicts):
+                                conflicts.append({'player':name,'field':'status',
+                                                  'resolution':'unresolved',
+                                                  'previous':previous,'challenger':fact})
+                        continue
                     injury_update['availability'][name]={'status':fact,
                         'primary_source':confirmed_fact('source classification','league',injury_url,stamp)}
                     observed+=1

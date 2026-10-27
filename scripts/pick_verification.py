@@ -131,6 +131,12 @@ def review_verified(remark, row, forecast_hash, now):
 
 def status_verified(packet, item, now):
     player = item["player"]
+    stable = str(item["sport"]) + "|" + str(item.get("player_id") or "")
+    if any(isinstance(c, dict) and c.get("field") == "status"
+           and c.get("resolution") == "unresolved"
+           and c.get("player") in (player, stable)
+           for c in packet.get("_source_conflicts") or []):
+        return False, "UNRESOLVED_CONTRADICTORY_STATUS_EVIDENCE"
     row = (packet.get("availability") or {}).get(player) or {}
     fact = row.get("status")
     if not isinstance(fact, dict):
