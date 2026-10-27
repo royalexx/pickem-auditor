@@ -40,8 +40,10 @@ class ResearchTriageTests(unittest.TestCase):
         self.assertEqual(report["queue_exclusions"]["game_started"],1)
 
     def test_uses_latest_run_and_player_game_caps(self):
+        different_game=row("Another",game="NYR@PHI")
+        different_game["team"],different_game["opponent"]="NYR","PHI"
         report=build([row("Old",run="old"),row("Same"),
-                      row("Same",stat="blocked shots"),row("Another",game="NYR@PHI")],
+                      row("Same",stat="blocked shots"),different_game],
                      "2026-10-27",now=NOW,max_per_game=1)
         self.assertEqual(report["run_id"],"new")
         self.assertEqual(report["review_queue_count"],2)
