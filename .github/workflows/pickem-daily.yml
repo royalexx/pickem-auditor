@@ -148,6 +148,32 @@ jobs:
                                'review_queue_both_engines_reliable','blocker_categories')}
                       except (ValueError,OSError):
                           receipt['research_triage']={'error':'INVALID_RESEARCH_TRIAGE'}
+                  # Initial verification is a new source-linked decision, never
+                  # an edit to the 4 p.m. shadow forecast. Missing reviewer facts
+                  # deliberately produce blocked decisions, not invented picks.
+                  if Path('reports/research_triage.json').is_file() and Path(f'data/research_{triage_date}.json').is_file():
+                      command=[sys.executable,'scripts/pick_verification.py','--date',triage_date,
+                               '--phase','initial','--limit','10',
+                               '--queue','reports/research_triage.json',
+                               '--packet',f'data/research_{triage_date}.json',
+                               '--snapshots','data/prop_snapshots.jsonl',
+                               '--archive-root','data/verification',
+                               '--out','reports/pick_verification.json']
+                      quotes=Path('data/odds_quotes.jsonl')
+                      if quotes.is_file():
+                          command.extend(['--quotes-file',str(quotes)])
+                      reviewed=Path(f'data/review_submissions/{triage_date}.json')
+                      if reviewed.is_file():
+                          command.extend(['--reviews',str(reviewed)])
+                      step('pick_verification',command)
+                  if Path('reports/pick_verification.json').is_file():
+                      try:
+                          verified=json.loads(Path('reports/pick_verification.json').read_text())
+                          receipt['pick_verification']={k:verified.get(k) for k in
+                              ('schema','status','date','checked','verified','blocked','queue_size',
+                               'source_forecast_run_id','market_source_note')}
+                      except (ValueError,OSError):
+                          receipt['pick_verification']={'status':'INVALID_VERIFICATION_RECEIPT'}
                   if Path('reports/afternoon_audit.json').exists():
                       try:
                           receipt['afternoon_audit']=json.loads(Path('reports/afternoon_audit.json').read_text())
@@ -201,6 +227,8 @@ jobs:
             reports/afternoon_audit.json
             reports/structured_research.json
             reports/research_triage.json
+            reports/pick_verification.json
+            data/verification/
             data/research_*.json
             data/odds_quotes.jsonl
             data/slate_fetch.jsonl
