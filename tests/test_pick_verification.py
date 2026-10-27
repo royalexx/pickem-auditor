@@ -45,7 +45,7 @@ def attest(row, timestamp="2026-10-27T20:30:00Z"):
     contrary = confirmed_fact("opposition", "reviewed", "https://example.com/opponent",
                               timestamp, quote="Opponent pressure considered")
     return {"date":DATE,"attestations":[{"candidate_id":ID,
-       "forecast_sha256":pv.digest(row), "team":"BOS", "player_id":"42",
+       "forecast_sha256":pv.forecast_digest(row), "team":"BOS", "player_id":"42",
        "decision":"approve", "reviewer":"Human analyst", "source_read":True,
        "reviewed_at":timestamp, "supporting":[positive], "opposing":[contrary]}]}
 
@@ -64,6 +64,15 @@ def active(packet, when="2026-10-27T20:30:00Z"):
 
 
 class VerificationTests(unittest.TestCase):
+    def test_morning_settlement_never_breaks_original_forecast_link(self):
+        rows,_,_=build()
+        original=pv.forecast_digest(rows[0])
+        rows[0].update(actual_stat=4, outcome="win",
+                       settled_at="2026-10-28T08:30:00Z")
+        self.assertEqual(pv.forecast_digest(rows[0]),original)
+        rows[0]["reference_line"]=3.5
+        self.assertNotEqual(pv.forecast_digest(rows[0]),original)
+
     def test_original_forecasts_are_never_modified(self):
         rows, queue, packet=build()
         before=deepcopy(rows)
@@ -114,19 +123,19 @@ class VerificationTests(unittest.TestCase):
     def test_forecast_digests_bind_review_to_exact_input(self):
         rows,queue,packet=build()
         reviewer=attest(rows[0])["attestations"][0]
-        self.assertEqual(pv.review_verified(reviewer,rows[0],pv.digest(rows[0]),NOW),(True,None))
+        self.assertEqual(pv.review_verified(reviewer,rows[0],pv.forecast_digest(rows[0]),NOW),(True,None))
         rows[0]["reference_line"]=3.5
-        self.assertFalse(pv.review_verified(reviewer,rows[0],pv.digest(rows[0]),NOW)[0])
+        self.assertFalse(pv.review_verified(reviewer,rows[0],pv.forecast_digest(rows[0]),NOW)[0])
 
     def test_timestamped_evidence_required_both_directions(self):
         rows,_,_=build()
         review=attest(rows[0])["attestations"][0]
         review["opposing"]=[]
-        self.assertEqual(pv.review_verified(review,rows[0],pv.digest(rows[0]),NOW)[1],
+        self.assertEqual(pv.review_verified(review,rows[0],pv.forecast_digest(rows[0]),NOW)[1],
                          "REVIEW_MISSING_OPPOSING")
         review=attest(rows[0])["attestations"][0]
         review["reviewed_at"]="2026-10-26T20:30:00Z"
-        self.assertFalse(pv.review_verified(review,rows[0],pv.digest(rows[0]),NOW)[0])
+        self.assertFalse(pv.review_verified(review,rows[0],pv.forecast_digest(rows[0]),NOW)[0])
 
     def test_stale_market_quote_file_never_grants_grade(self):
         rows,_,_=build()

@@ -31,6 +31,14 @@ def digest(obj):
                                       ensure_ascii=False, allow_nan=False).encode("utf-8")).hexdigest()
 
 
+SETTLEMENT_FIELDS = frozenset(("actual_stat", "outcome", "settled_at"))
+
+
+def forecast_digest(row):
+    """Keep the original forecast bound after morning settlement adds outcomes."""
+    return digest({k: v for k, v in row.items() if k not in SETTLEMENT_FIELDS})
+
+
 def eligible_window(row, now, phase="initial", min_minutes=RECHECK_MIN, max_minutes=RECHECK_MAX):
     event = utc_time(row.get("event_start"))
     initial = utc_time(row.get("forecast_at"))
@@ -197,7 +205,7 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
     output = []
     for item, original in selection:
         identity = item["candidate_id"]
-        forecast_hash = digest(original)
+        forecast_hash = forecast_digest(original)
         reasons = []
         if packet_game_key(checked_packet, item) is None:
             reasons.append("PACKET_FIXTURE_IDENTITY_MISMATCH")
