@@ -70,7 +70,7 @@ jobs:
           logs=Path('reports/stages')
           logs.mkdir(parents=True,exist_ok=True)
           receipt={'phase':phase,'started_at_utc':datetime.now(timezone.utc).isoformat(),
-                   'stages':{},'legacy_chatgpt_forecasts_imported':False}
+                   'stages':{},'archive_seed': 'data/history-archive'}
           def step(label,command):
               with (logs/(label+'.log')).open('w') as out:
                   try: status=subprocess.run(command,stdout=out,stderr=subprocess.STDOUT,
@@ -83,6 +83,12 @@ jobs:
           step('nhl_boxscores',[sys.executable,'scripts/nhl_collect.py','--days','3'])
           step('install_dependencies',[sys.executable,'-m','pip','install','-r','requirements.txt'])
           step('restore_forecasts',['bash','scripts/shadow_store.sh','load'])
+          if Path('reports/history_bootstrap.json').exists():
+              try:
+                  receipt['history_bootstrap']=json.loads(Path('reports/history_bootstrap.json').read_text())
+              except (OSError,ValueError):
+                  receipt['history_bootstrap']={'error':'INVALID_BOOTSTRAP_RECEIPT'}
+          receipt['persisted_forecasts_loaded']=Path('data/prop_snapshots.jsonl').is_file()
           step('multisport_slate',[sys.executable,'scripts/fetch_slate.py','--out','data/slate_fetch.jsonl'])
           step('sport_coverage',[sys.executable,'scripts/verify_sports.py','--slot',phase])
           coverage=Path('reports/sport_coverage.json')
@@ -141,6 +147,7 @@ jobs:
             reports/daily_receipt.json
             reports/nhl_collection_receipt.json
             reports/sport_coverage.json
+            reports/history_bootstrap.json
             data/slate_fetch.meta.json
             data/slate_fetch.jsonl.meta.json
             data/slate_fetch.jsonl.failed.json
