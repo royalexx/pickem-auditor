@@ -59,6 +59,7 @@ jobs:
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           PHASE: ${{ steps.gate.outputs.phase }}
+          PICKEM_ODDS_QUOTA_GUARD: '1'
         run: |
           python - <<'PY'
           import json,os,subprocess,sys
