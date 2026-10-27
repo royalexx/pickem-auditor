@@ -1,7 +1,7 @@
 """Pluggable player-prop odds for the pickem-auditor slate fetch.
 
-The live source is The Odds API. api.the-odds-api.com must be added to the
-network allowlist before a live fetch can succeed. Load ODDS_API_KEY from the
+The live source is PropLine. api.prop-line.com must be reachable.
+Load PROPLINE_API_KEY from the
 environment or config/credentials.local.json. If neither configures a key,
 return no quotes and never invent a line or a price.
 
@@ -24,28 +24,21 @@ import urllib.parse
 import urllib.request
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from local_credentials import odds_api_key
+from local_credentials import propline_api_key
 
-API_ROOT = "https://api.the-odds-api.com"
-# api.the-odds-api.com must be added to the network allowlist.
-ALLOWLIST_NOTE = "api.the-odds-api.com must be added to the network allowlist."
+API_ROOT = "https://api.prop-line.com"
+# Public API host: api.prop-line.com.
+ALLOWLIST_NOTE = "api.prop-line.com must be added to the network allowlist."
 ODDS_TIMEOUT = 20
 EASTERN = ZoneInfo("America/New_York")
 UTC = ZoneInfo("UTC")
 
-# Skill book list. williamhill_us is the documented Caesars key on The Odds
-# API and is stored as Caesars. circa, bet365, and caesars are requested
-# because the skill approves those books. A 400 is retried once without the
-# keys the public bookmaker list does not document.
+# Requested books are a strict approved subset; never request DFS operators.
 REQUEST_BOOKMAKERS = (
     "pinnacle",
-    "circa",
     "fanduel",
     "draftkings",
-    "bet365",
-    "caesars",
     "betmgm",
-    "williamhill_us",
 )
 DOCUMENTED_BOOKMAKERS = (
     "pinnacle",
@@ -113,7 +106,7 @@ NBA_MARKETS = (
 NHL_MARKETS = (
     ("player_shots_on_goal", "shots on goal"),
     ("player_blocked_shots", "blocked shots"),
-    ("player_total_saves", "goalie saves"),
+    ("goalie_saves", "goalie saves"),
 )
 NFL_MARKETS = (
     ("player_receptions", "receptions"),
@@ -131,6 +124,15 @@ SPORTS = (
     ("NFL", "americanfootball_nfl", NFL_MARKETS),
 )
 STAT_BY_MARKET = {market: stat for _sport, _key, markets in SPORTS for market, stat in markets}
+STAT_BY_MARKET['player_total_saves'] = 'goalie saves'  # legacy historical fixtures only
+PROPLINE_SUPPORTED_MARKETS = frozenset({
+    'player_points', 'player_rebounds', 'player_assists', 'player_threes',
+    'player_points_rebounds_assists', 'player_shots_on_goal',
+    'player_blocked_shots', 'goalie_saves', 'player_receptions',
+    'player_reception_yds', 'player_rush_yds', 'player_pass_yds',
+    'player_pass_attempts', 'player_pass_completions',
+    'player_rush_attempts', 'player_tackles_assists', 'spreads', 'totals',
+})
 KNOWN_STATS = set(STAT_BY_MARKET.values())
 SPORT_FROM_KEY = {key: sport for sport, key, _markets in SPORTS}
 
@@ -540,7 +542,7 @@ def quotes_from_event(event: dict, *, sport: str, retrieved_at: str, source_url:
                     source_url=source_url,
                 )
                 if quote:
-                    quote['event_id_namespace']='the_odds_api'
+                    quote['event_id_namespace']='propline'
                     quote['event_start']=event.get('commence_time')
                     quote['event_teams']=[normalize_team(home),normalize_team(away)]
                     start=parse_time(event.get('commence_time'))
@@ -1003,7 +1005,7 @@ class Provider(abc.ABC):
 
 
 class FixtureProvider(Provider):
-    """Offline provider. Pass quote records or an Odds API event payload."""
+    """Offline provider. Pass quote records or a PropLine event payload."""
 
     def __init__(self, records=None, events=None, sport: str = "NHL", retrieved_at: str | None = None, source_url: str | None = None):
         super().__init__()
@@ -1033,185 +1035,136 @@ class FixtureProvider(Provider):
         return quotes
 
 
-class TheOddsAPIProvider(Provider):
-    """Player props from api.the-odds-api.com. ODDS_API_KEY is required.
+class PropLineProvider(Provider):
+    """PropLine bulk player-prop feed. One request per sport, never per event.
 
-    api.the-odds-api.com must be added to the network allowlist. With no key,
-    fetch returns [] and sets `note`. It does not invent a price.
+    Only approved sportsbooks, paired over/under prices and identity-matched
+    events are retained. Auth is carried in X-API-Key, never in URLs or logs.
     """
 
     def __init__(self, api_key: str | None = None, fetch=None, clock=None):
         super().__init__()
-        if api_key is None:
-            api_key = odds_api_key()
-        self.api_key = str(api_key or "")
+        self.api_key = str(propline_api_key() if api_key is None else api_key or "")
         self.fetch_json = fetch or _default_fetch
         self.clock = clock or (lambda: datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"))
 
     @staticmethod
-    def _free_quota_check(secret: str, opener=None) -> tuple[int | None, str | None]:
-        """Read usage headers from the zero-credit /sports endpoint.
-
-        Never print a URL or exception containing the secret. The check is
-        opt-in for live collection and does not invent sportsbook prices.
-        """
-        url=API_ROOT + "/v4/sports?" + urllib.parse.urlencode({"apiKey":secret})
-        request=urllib.request.Request(url, headers={"Accept":"application/json",
-                                                     "User-Agent":"pickem-auditor-quota"})
+    def _daily_quota_check(secret: str, opener=None) -> tuple[int | None, str | None]:
+        """One authenticated lightweight request; fail closed on absent quota."""
+        request = urllib.request.Request(
+            API_ROOT + "/v1/sports",
+            headers={"X-API-Key":secret, "Accept":"application/json"},
+        )
         try:
-            with (opener or urllib.request.urlopen)(request,timeout=12) as response:
-                if getattr(response,"status",200)!=200:
-                    return None, "ODDS_QUOTA_CHECK_HTTP_ERROR"
-                remaining=response.headers.get("x-requests-remaining")
+            with (opener or urllib.request.urlopen)(request, timeout=12) as response:
+                if getattr(response, "status", 200) != 200:
+                    return None, "PROPLINE_QUOTA_CHECK_HTTP_ERROR"
+                remaining = response.headers.get("X-Daily-Remaining")
                 if remaining is None or not str(remaining).isdigit():
-                    return None, "ODDS_QUOTA_HEADER_MISSING"
+                    return None, "PROPLINE_QUOTA_HEADER_MISSING"
                 return int(remaining), None
-        except (OSError,ValueError,TypeError):
-            return None, "ODDS_QUOTA_CHECK_UNAVAILABLE"
+        except (OSError, ValueError, TypeError):
+            return None, "PROPLINE_QUOTA_CHECK_UNAVAILABLE"
 
-    def fetch(self, game_date: str, sports: list[str] | None = None) -> list[dict]:
-        self.note = None
-        self.source_urls = []
-        secret = self.api_key.strip()
-        if not secret:
-            self.note = (
-                "odds: ODDS_API_KEY is not configured, so no player prices were fetched. "
-                "No line or price was invented."
-            )
-            return []
-        if os.environ.get("PICKEM_ODDS_QUOTA_GUARD") == "1":
-            remaining, error = self._free_quota_check(secret)
-            if error:
-                self.note = "odds: " + error + ". No paid odds requests were made."
-                return []
-            if remaining < 2:
-                self.note = (f"odds: ODDS_QUOTA_INSUFFICIENT: {remaining} usage credits remaining. "
-                             "A two-region player-market request requires additional credits. "
-                             "No paid odds requests were made.")
-                return []
-        selected = resolve_sports(sports)
-        if sports and not selected:
-            self.note = "odds: no NBA, NHL, or NFL sports were requested. No prices were invented."
-            return []
-        notes = []
-        quotes = []
-        fallback = self.clock()
-        for sport, sport_key, markets in selected:
-            events, error = self._events(sport_key, secret)
-            if error:
-                notes.append(error)
-                continue
-            dated = [event for event in events if isinstance(event, dict) and event_on_date(event.get("commence_time"), game_date)]
-            if not dated:
-                notes.append(f"odds: {sport_key} had no events on {game_date}.")
-                continue
-            for event in dated:
-                event_id = str(event.get("id") or "")
-                if not event_id:
-                    continue
-                payload, error, used_books = self._event_odds(sport_key, event_id, markets, secret, notes)
-                if error:
-                    notes.append(error)
-                    continue
-                if not isinstance(payload, dict):
-                    notes.append(f"odds: {sport_key} event {event_id} odds response was not an object.")
-                    continue
-                payload.setdefault("id", event_id)
-                payload.setdefault("home_team", event.get("home_team"))
-                payload.setdefault("away_team", event.get("away_team"))
-                payload.setdefault("sport_key", sport_key)
-                payload.setdefault('commence_time',event.get('commence_time'))
-                quotes.extend(
-                    quotes_from_event(
-                        payload,
-                        sport=sport,
-                        retrieved_at=fallback,
-                        source_url=self._public_event_url(sport_key, event_id, markets, used_books),
-                    )
-                )
-        quotes = dedupe_quotes(quotes)
-        if notes:
-            self.note = " ".join(notes)
-        elif not quotes:
-            self.note = "odds: The Odds API returned no two-sided player props for the approved books."
-        return quotes
-
-    def _url(self, path: str, params: dict) -> str:
-        return f"{API_ROOT}{path}?{urllib.parse.urlencode(params, safe=',')}"
+    def _url(self, path: str, params: dict | None = None) -> str:
+        query = urllib.parse.urlencode(params or {}, safe=",")
+        return API_ROOT + path + (("?" + query) if query else "")
 
     def _remember(self, url: str) -> None:
         public = _public_url(url)
         if public not in self.source_urls:
             self.source_urls.append(public)
 
-    def _public_event_url(self, sport_key: str, event_id: str, markets, bookmakers) -> str:
-        market_keys = ",".join(market for market, _stat in markets)
-        return self._url(
-            f"/v4/sports/{sport_key}/events/{event_id}/odds",
-            {
-                "regions": "us,eu",
-                "markets": market_keys,
-                "oddsFormat": "american",
-                "dateFormat": "iso",
-                "bookmakers": ",".join(bookmakers),
-            },
-        )
-
     def _get(self, url: str, secret: str):
         self._remember(url)
         try:
-            return self.fetch_json(url, timeout=ODDS_TIMEOUT), None
+            return self.fetch_json(
+                url, timeout=ODDS_TIMEOUT, headers={"X-API-Key":secret}
+            ), None
         except Exception as exc:
             return None, exc
 
-    def _fail(self, sport_key: str, what: str, exc: BaseException, secret: str) -> str:
+    def _fail(self, sport_key: str, action: str, exc: BaseException, secret: str) -> str:
         message = _error_text(exc, secret)
-        note = f"odds: {sport_key} {what} failed ({message}). No prices were invented."
-        code = getattr(exc, "code", None)
-        if code != 400 and _is_network_failure(message):
-            note = f"{note} {ALLOWLIST_NOTE}"
+        note = f"odds: PropLine {sport_key} {action} failed ({message}). No prices were invented."
+        if _is_network_failure(message):
+            note += " " + ALLOWLIST_NOTE
         return note
 
     def _events(self, sport_key: str, secret: str):
-        url = self._url(f"/v4/sports/{sport_key}/events", {"apiKey": secret, "dateFormat": "iso"})
-        payload, exc = self._get(url, secret)
-        if exc is not None:
-            return [], self._fail(sport_key, "events", exc, secret)
+        url = self._url(f"/v1/sports/{sport_key}/events")
+        payload, error = self._get(url, secret)
+        if error:
+            return [], self._fail(sport_key, "events", error, secret)
         if isinstance(payload, dict):
-            payload = payload.get("events") or payload.get("data") or []
+            payload = payload.get("events") or payload.get("data")
         if not isinstance(payload, list):
-            return [], f"odds: {sport_key} events response was not a list. No prices were invented."
+            return [], f"odds: PropLine {sport_key} events schema mismatch."
         return payload, None
 
-    def _event_odds(self, sport_key: str, event_id: str, markets, secret: str, notes: list[str]):
-        market_keys = ",".join(market for market, _stat in markets)
-        keys = list(REQUEST_BOOKMAKERS)
-        tried_fallback = False
-        while True:
-            params = {
-                "apiKey": secret,
-                "regions": "us,eu",
-                "markets": market_keys,
-                "oddsFormat": "american",
-                "dateFormat": "iso",
-                "bookmakers": ",".join(keys),
-            }
-            url = self._url(f"/v4/sports/{sport_key}/events/{event_id}/odds", params)
-            payload, exc = self._get(url, secret)
-            if exc is None:
-                return payload, None, list(keys)
-            code = getattr(exc, "code", None)
-            if code == 400 and not tried_fallback:
-                tried_fallback = True
-                keys = list(DOCUMENTED_BOOKMAKERS)
-                if not any(str(item).startswith("odds: The Odds API returned 400") for item in notes):
-                    notes.append(
-                        "odds: The Odds API returned 400 for the requested bookmakers. "
-                        "Retried with pinnacle, fanduel, draftkings, betmgm, and williamhill_us "
-                        "(Caesars). circa, bet365, and caesars were not in that retry."
-                    )
+    def _bulk_odds(self, sport_key: str, markets, secret: str):
+        allowed = [market for market, _stat in markets if market in PROPLINE_SUPPORTED_MARKETS]
+        if not allowed:
+            return [], None
+        url = self._url(f"/v1/sports/{sport_key}/odds", {
+            "markets":",".join(allowed),
+            "bookmakers":",".join(REQUEST_BOOKMAKERS),
+        })
+        payload, error = self._get(url, secret)
+        if error:
+            return [], self._fail(sport_key, "bulk odds", error, secret)
+        if isinstance(payload, dict):
+            payload = payload.get("events") or payload.get("data")
+        if not isinstance(payload, list):
+            return [], f"odds: PropLine {sport_key} bulk odds schema mismatch."
+        return payload, None
+
+    def fetch(self, game_date: str, sports: list[str] | None = None) -> list[dict]:
+        self.note = None
+        self.source_urls = []
+        secret = self.api_key.strip()
+        if not secret:
+            self.note = "odds: PROPLINE_API_KEY is not configured. No line or price was invented."
+            return []
+        selected = resolve_sports(sports)
+        if not selected:
+            self.note = "odds: no supported sports requested."
+            return []
+        if os.environ.get("PICKEM_ODDS_QUOTA_GUARD") == "1":
+            remaining, error = self._daily_quota_check(secret)
+            if error:
+                self.note = "odds: " + error + ". No bulk requests attempted."
+                return []
+            if remaining < len(selected):
+                self.note = (f"odds: PROPLINE_QUOTA_INSUFFICIENT: {remaining} requests remaining, "
+                             f"{len(selected)} sports requested. No bulk requests attempted.")
+                return []
+        notes, quotes = [], []
+        now = self.clock()
+        for sport, key, markets in selected:
+            payload, error = self._bulk_odds(key, markets, secret)
+            if error:
+                notes.append(error)
                 continue
-            return None, self._fail(sport_key, f"event {event_id} odds", exc, secret), list(keys)
+            dated = [ev for ev in payload if isinstance(ev, dict)
+                     and event_on_date(ev.get("commence_time"), game_date)
+                     and not ev.get("is_outright")]
+            if not dated:
+                notes.append(f"odds: PropLine {key} had no matching pregame events on {game_date}.")
+            public = self._url(f"/v1/sports/{key}/odds", {
+                "markets":",".join(m for m,_ in markets if m in PROPLINE_SUPPORTED_MARKETS),
+                "bookmakers":",".join(REQUEST_BOOKMAKERS),
+            })
+            for event in dated:
+                quotes.extend(quotes_from_event(
+                    event, sport=sport, retrieved_at=now, source_url=public
+                ))
+        quotes = dedupe_quotes(quotes)
+        if notes:
+            self.note = " ".join(notes)
+        elif not quotes:
+            self.note = "odds: PropLine returned no approved two-sided player props."
+        return quotes
 
 
 def _assert_quote_shape(quote: dict) -> None:

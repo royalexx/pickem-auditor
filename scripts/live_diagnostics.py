@@ -8,7 +8,7 @@ from datetime import datetime
 import urllib.request
 import urllib.error
 from zoneinfo import ZoneInfo
-from local_credentials import odds_api_key
+from local_credentials import propline_api_key
 
 
 def main():
@@ -44,7 +44,7 @@ def main():
     with ThreadPoolExecutor(max_workers=len(urls)) as pool:
         feeds=dict(pool.map(probe,urls.items()))
     result={'date':args.date,'imports':{k:importlib.util.find_spec(k) is not None for k in ('nflreadpy','nhlpy','nba_api','polars')},
-            'odds_key_present':bool(odds_api_key()),'feeds':feeds}
+            'odds_key_present':bool(propline_api_key()),'feeds':feeds}
     print(json.dumps(result,indent=2))
     return 0 if all(result['imports'].values()) and result['odds_key_present'] and all(x['ok'] for x in feeds.values()) else 2
 

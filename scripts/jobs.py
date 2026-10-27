@@ -421,9 +421,9 @@ def attach_meta(
 
 
 def load_odds_events(game_date: str, fetch_json_fn=fs.fetch_json) -> list[dict]:
-    from odds_providers import SPORTS, TheOddsAPIProvider
+    from odds_providers import SPORTS, PropLineProvider
 
-    provider = TheOddsAPIProvider(fetch=fetch_json_fn)
+    provider = PropLineProvider(fetch=fetch_json_fn)
     secret = getattr(provider, "api_key", "") or ""
     if not str(secret).strip():
         return []

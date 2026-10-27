@@ -3,7 +3,7 @@
 Stdlib plus nhl-api-py for NHL, nflreadpy for NFL, ESPN public JSON for the
 NBA schedule and player counting stats, and nba_api LeagueDashTeamStats for
 NBA team pace. Player props come from odds_providers.py. That module reads
-ODDS_API_KEY and does not invent a price when the key is missing.
+PROPLINE_API_KEY and does not invent a price when the key is missing.
 No HTML scraping. No hand-downloaded nflverse CSVs. No Underdog
 lines, payouts, or entry slips. This file does not grade and does not
 compute a probability. pickem_math.py is the only calculator.
@@ -88,7 +88,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from odds_providers import (
-    TheOddsAPIProvider,
+    PropLineProvider,
     consensus_input as build_consensus_input,
     ordered_quotes,
     primary_price,
@@ -126,7 +126,7 @@ PREFLIGHT_HOSTS = (
     ("site.web.api.espn.com", "nba", "site.web.api.espn.com"),
     ("github.com", "nfl", "github.com (nflverse)"),
     ("stats.nba.com", "nba", "stats.nba.com"),
-    ("api.the-odds-api.com", "odds", "api.the-odds-api.com"),
+    ("api.prop-line.com", "odds", "api.prop-line.com"),
 )
 # Root pages often return 403/404 despite healthy data APIs.
 PREFLIGHT_URLS = {
@@ -135,6 +135,7 @@ PREFLIGHT_URLS = {
     "site.api.espn.com": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard",
     "site.web.api.espn.com": "https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/statistics/byathlete?limit=1",
     "github.com": "https://github.com/nflverse/nflverse-data",
+    "api.prop-line.com": "https://api.prop-line.com/v1/freshness",
 }
 NFL_SOURCE = "nflreadpy.load_player_stats"
 NBA_SOURCE = "https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/statistics/byathlete"
@@ -3450,7 +3451,7 @@ def fetch_odds(game_date: str, fetch=fetch_json, source_urls=None, provider=None
     if os.environ.get("PICKEM_DISABLE_ODDS") == "1":
         return [], "ODDS_DISABLED_FOR_HISTORICAL_COLLECTION: free public game data only; no paid sportsbook requests made."
     if provider is None:
-        provider = TheOddsAPIProvider(fetch=fetch)
+        provider = PropLineProvider(fetch=fetch)
     try:
         quotes = provider.fetch(game_date, sports)
     except Exception as exc:
@@ -3813,14 +3814,14 @@ def preflight(import_check=None, reach_check=None, timeout: float = PREFLIGHT_TI
             }
         )
     if import_check is None and reach_check is None:
-        from local_credentials import odds_api_key
+        from local_credentials import propline_api_key
         try:
-            key_present = bool(odds_api_key())
+            key_present = bool(propline_api_key())
             key_detail = 'present' if key_present else 'missing; player props cannot be priced'
         except ValueError:
             key_present = False
             key_detail = 'invalid local credentials configuration'
-        checks.append({"kind": "credential", "name": "ODDS_API_KEY", "feed": "odds",
+        checks.append({"kind": "credential", "name": "PROPLINE_API_KEY", "feed": "odds",
                        "ok": key_present, "detail": key_detail})
     # Capability assessment is separate from the strict diagnostic "ok" flag.
     # NHL has a urllib/REST fallback without nhl-api-py; NBA's ESPN path does
@@ -3834,8 +3835,8 @@ def preflight(import_check=None, reach_check=None, timeout: float = PREFLIGHT_TI
         "nba": passes("https", "site.api.espn.com") and passes("https", "site.web.api.espn.com"),
         "nfl": (passes("import", "nflreadpy") and passes("import", "polars")
                 and passes("https", "github.com (nflverse)")),
-        "odds": (passes("https", "api.the-odds-api.com") and
-                 (passes("credential", "ODDS_API_KEY") if any(c.get("kind") == "credential" for c in checks)
+        "odds": (passes("https", "api.prop-line.com") and
+                 (passes("credential", "PROPLINE_API_KEY") if any(c.get("kind") == "credential" for c in checks)
                   else True)),
     }
     operational = feeds_ready["odds"] and any(feeds_ready[f] for f in ("nhl", "nba", "nfl"))
@@ -3844,40 +3845,28 @@ def preflight(import_check=None, reach_check=None, timeout: float = PREFLIGHT_TI
 
 
 def load_odds_game_events(game_date: str, fetch=fetch_json, provider=None) -> list[dict]:
-    """Game-level spreads and totals from The Odds API. Empty when the key is unset."""
+    """Public sportsbook game spreads/totals from PropLine bulk feeds."""
     from odds_providers import SPORTS, event_on_date
-
-    if provider is None:
-        provider = TheOddsAPIProvider(fetch=fetch)
-    secret = getattr(provider, "api_key", "") or ""
-    if not str(secret).strip():
+    if os.environ.get("PICKEM_DISABLE_ODDS") == "1":
         return []
-    game_markets = (("spreads", "spread"), ("totals", "total"))
-    notes: list[str] = []
-    dated_events: list[dict] = []
-    for _sport, sport_key, _player_markets in SPORTS:
-        events, error = provider._events(sport_key, str(secret).strip())
+    if provider is None:
+        provider = PropLineProvider(fetch=fetch)
+    secret = str(getattr(provider, "api_key", "") or "").strip()
+    if not secret:
+        return []
+    markets = (("spreads", "spread"), ("totals", "total"))
+    events = []
+    for _sport, key, _player_markets in SPORTS:
+        payload, error = provider._bulk_odds(key, markets, secret)
         if error:
-            notes.append(error)
             continue
-        for event in events or []:
-            if not isinstance(event, dict):
+        for event in payload:
+            if not isinstance(event, dict) or not event_on_date(event.get("commence_time"), game_date):
                 continue
-            if not event_on_date(event.get("commence_time"), game_date):
-                continue
-            event_id = str(event.get("id") or "")
-            if not event_id:
-                continue
-            payload, err, _books = provider._event_odds(sport_key, event_id, game_markets, str(secret).strip(), notes)
-            if err or not isinstance(payload, dict):
-                continue
-            payload.setdefault("id", event_id)
-            payload.setdefault("home_team", event.get("home_team"))
-            payload.setdefault("away_team", event.get("away_team"))
-            payload.setdefault("sport_key", sport_key)
-            payload["source_url"] = provider._public_event_url(sport_key, event_id, game_markets, _books)
-            dated_events.append(payload)
-    return dated_events
+            event = dict(event)
+            event["source_url"] = provider._url(f"/v1/sports/{key}/odds", {"markets":"spreads,totals","bookmakers":",".join(__import__('odds_providers').REQUEST_BOOKMAKERS)})
+            events.append(event)
+    return events
 
 
 def emit_slate_context(

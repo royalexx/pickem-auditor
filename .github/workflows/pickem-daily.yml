@@ -57,7 +57,7 @@ jobs:
         if: steps.gate.outputs.phase != 'skip'
         id: pipeline
         env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
           PHASE: ${{ steps.gate.outputs.phase }}
           PICKEM_ODDS_QUOTA_GUARD: '1'
           PICKEM_DISABLE_ODDS: ${{ steps.gate.outputs.phase == 'morning' && '1' || '0' }}
@@ -107,8 +107,8 @@ jobs:
                   receipt['odds_coverage']={
                       'feed_status':odds_feed.get('status'),
                       'quote_rows':odds_feed.get('rows',0),
-                      'unauthorized_event_requests':odds_notes.count('HTTP 401'),
-                      'limited_coverage':bool('HTTP 401' in odds_notes or 'OUT_OF_USAGE_CREDITS' in odds_notes),
+                      'unauthorized_bulk_requests':odds_notes.count('HTTP 401'),
+                      'limited_coverage':bool('HTTP 401' in odds_notes or 'daily_limit_exceeded' in odds_notes),
                       'source_timestamp':source_meta.get('retrieved_at'),
                       'note':'Valid quotes are usable; unavailable or unauthorized event markets are never invented.'
                   }
@@ -121,8 +121,8 @@ jobs:
               else:
                   receipt['stages']['settle_forecasts']={'ok':False,'error':'HISTORY_SNAPSHOT_MISSING'}
           elif phase=='afternoon':
-              if not os.environ.get('ODDS_API_KEY'):
-                  receipt['stages']['pregame_engines']={'ok':False,'error':'ODDS_API_KEY_SECRET_MISSING'}
+              if not os.environ.get('PROPLINE_API_KEY'):
+                  receipt['stages']['pregame_engines']={'ok':False,'error':'PROPLINE_API_KEY_SECRET_MISSING'}
               else:
                   step('source_research',[sys.executable,'scripts/auto_research.py'])
                   if Path('reports/structured_research.json').exists():

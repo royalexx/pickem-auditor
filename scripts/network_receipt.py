@@ -19,7 +19,7 @@ ENDPOINTS = {
     'nhl_schedule': ('api-web.nhle.com', 'https://api-web.nhle.com/v1/schedule/now', 'gameWeek'),
     'nhl_statistics': ('api.nhle.com', 'https://api.nhle.com/stats/rest/en/team?limit=1', 'data'),
     'espn_scoreboard': ('site.api.espn.com', 'https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard', 'events'),
-    'odds_transport': ('api.the-odds-api.com', 'https://api.the-odds-api.com/v4/sports', None),
+    'odds_transport': ('api.prop-line.com', 'https://api.prop-line.com/v1/freshness', None),
 }
 
 def _error_kind(err: BaseException) -> str:

@@ -27,11 +27,15 @@ The original history was compressed losslessly and stored on `data/history-archi
 
 The complete older replays and research packets remain available in the immutable archive, not in each ephemeral Actions workspace. Missing/unsupported actual outcomes must remain unresolved—no retrospective creation of pregame predictions.
 
+## PropLine market data
+
+The afternoon collector uses the bulk PropLine player-odds endpoint (one request per NBA, NHL, or NFL sport rather than one per game). Authentication uses the `X-API-Key` header; keys are never embedded in stored source URLs. The automatic quota guard reads `X-Daily-Remaining` from the authenticated `/v1/sports` probe, then requires sufficient allowance to collect the three sports. The preflight's public `/v1/freshness` probe does not authenticate or fetch sportsbook prices. Only approved two-sided sportsbook markets are retained. PropLine currently documents NBA PRA but not separate PA, PR and RA; these combinations remain unpriced unless independently evidenced.
+
 ## Credential setup
 
-The Odds API key is **not stored in Git commits**. Add it to repository **Settings > Secrets and variables > Actions** as `ODDS_API_KEY`. Only GitHub's encrypted secret mechanism should supply the key to the 4 p.m. job. A private repository alone does not make plaintext API keys in commits safe.
+PropLine key is **not stored in Git commits**. Add it to repository **Settings > Secrets and variables > Actions** as `PROPLINE_API_KEY`. Only GitHub's encrypted secret mechanism should supply the key to the 4 p.m. job. A private repository alone does not make plaintext API keys in commits safe.
 
-The GitHub connector currently cannot administer Actions secrets; the repository owner must save this one secret through GitHub. Without it, a full priced pregame ranking is blocked and the workflow reports `ODDS_API_KEY_SECRET_MISSING`.
+The GitHub connector currently cannot administer Actions secrets; the repository owner must save this one secret through GitHub. Without it, a full priced pregame ranking is blocked and the workflow reports `PROPLINE_API_KEY_SECRET_MISSING`.
 
 ## Validation and grading
 

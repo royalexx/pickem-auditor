@@ -1,4 +1,4 @@
-name: Odds API credential health (free endpoint)
+name: PropLine API credential and quota health
 on:
   workflow_dispatch:
 permissions:
@@ -8,39 +8,34 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Check credential and credit headers without exposing the key
+      - name: Validate API key and report daily request allowance (never log key)
         env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
         run: |
           python - <<'PY'
-          import json, os, urllib.parse, urllib.request, urllib.error
-          secret=os.environ.get('ODDS_API_KEY','')
+          import json, os, urllib.request, urllib.error
+          secret=os.environ.get('PROPLINE_API_KEY','').strip()
           if not secret:
-              print(json.dumps({'status':'no_secret'}))
+              print(json.dumps({'status':'PROPLINE_API_KEY_SECRET_MISSING'}))
               raise SystemExit(2)
-          uri='https://api.the-odds-api.com/v4/sports?'+urllib.parse.urlencode({'apiKey':secret})
+          request=urllib.request.Request(
+              'https://api.prop-line.com/v1/sports',
+              headers={'X-API-Key':secret,'Accept':'application/json'})
           try:
-              with urllib.request.urlopen(urllib.request.Request(uri,headers={'Accept':'application/json'}),timeout=15) as resp:
-                  data={'http_status':resp.status}
-                  headers=resp.headers
+              with urllib.request.urlopen(request,timeout=15) as resp:
+                  status,headers=resp.status,resp.headers
           except urllib.error.HTTPError as exc:
-              headers=exc.headers
-              data={'http_status':exc.code}
-              try:
-                  error=json.loads(exc.read().decode())
-                  code=error.get('error_code') or error.get('code')
-                  if isinstance(code,str) and len(code)<80 and all(ch.isupper() or ch.isdigit() or ch=='_' for ch in code):
-                      data['provider_error_code']=code
-              except Exception:
-                  pass
+              status,headers=exc.code,exc.headers
+              exc.close()
           except (OSError,ValueError) as exc:
-              print(json.dumps({'status':'network_or_response_error','type':type(exc).__name__}))
+              print(json.dumps({'status':'network_error','kind':type(exc).__name__}))
               raise SystemExit(2)
-          for key in ('x-requests-remaining','x-requests-used','x-requests-last'):
-              val=headers.get(key)
-              if val is not None and val.isdigit():
-                  data[key]=int(val)
-          print(json.dumps(data,sort_keys=True))
-          if data['http_status']!=200:
+          result={'http_status':status}
+          for key in ('X-Daily-Limit','X-Daily-Used','X-Daily-Remaining','X-Daily-Reset'):
+              v=headers.get(key)
+              if v is not None and v.isdigit():
+                  result[key.lower()]=int(v)
+          print(json.dumps(result,sort_keys=True))
+          if status!=200 or 'x-daily-remaining' not in result:
               raise SystemExit(2)
           PY
