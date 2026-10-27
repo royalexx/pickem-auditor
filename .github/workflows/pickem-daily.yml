@@ -7,10 +7,9 @@ on:
         required: true
         type: choice
         options: [morning, afternoon]
-  push:
-    paths:
-      - '.github/workflows/pickem-daily.yml'
   schedule:
+    # Offset from the top of the hour to reduce GitHub cron congestion.
+    # 06:13 and 16:13 Toronto (both DST and standard UTC hours).
     - cron: '13 10 * * *'
     - cron: '13 11 * * *'
     - cron: '13 20 * * *'
@@ -38,7 +37,7 @@ jobs:
           from zoneinfo import ZoneInfo
           with open(os.environ['GITHUB_EVENT_PATH']) as f: event=json.load(f)
           trigger=os.environ['GITHUB_EVENT_NAME']
-          phase=('afternoon' if trigger=='push' else event.get('inputs',{}).get('phase','skip'))
+          phase=event.get('inputs',{}).get('phase','skip')
           if trigger=='schedule':
               phase='skip'
               fields=str(event.get('schedule','')).split()
