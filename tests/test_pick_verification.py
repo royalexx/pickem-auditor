@@ -26,7 +26,12 @@ def build():
         "inputs":{"id":ID, "stat":"shots on goal", "side":"over", "line":2.5,
                   "team":"BOS", "opponent":"NSH", "player_id":"42",
                   "game_date":DATE, "soft_flags":0, "mechanisms":0,
-                  "hard_veto":"no", "data_veto":"no", "research_checklist":"no"},
+                  "hard_veto":"no", "data_veto":"no", "research_checklist":"no",
+                  "market_retrieved_at":"2026-10-27T20:20:00Z",
+                  "books":[{"book":"FanDuel","line":2.5,"target":-115,
+                            "other":-105,"book_side":"over"},
+                           {"book":"DraftKings","line":2.5,"target":-115,
+                            "other":-105,"book_side":"over"}]},
     }
     q = {"date":DATE,"queue":[{
         "candidate_id":ID, "sport":"NHL", "player":"Example Player",
@@ -145,6 +150,13 @@ class VerificationTests(unittest.TestCase):
         review=attest(rows[0])["attestations"][0]
         review["reviewed_at"]="2026-10-26T20:30:00Z"
         self.assertFalse(pv.review_verified(review,rows[0],pv.forecast_digest(rows[0]),NOW)[0])
+
+    def test_stale_original_afternoon_market_cannot_be_reused_at_night(self):
+        rows,_,_=build()
+        updated,issues=pv.quote_refresh(rows[0]["inputs"],None,
+                         datetime(2026,10,27,22,0,tzinfo=timezone.utc))
+        self.assertIsNone(updated)
+        self.assertIn("ORIGINAL_MARKET_TIMESTAMP_STALE_OR_MISSING",issues)
 
     def test_stale_market_quote_file_never_grants_grade(self):
         rows,_,_=build()

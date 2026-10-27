@@ -156,6 +156,30 @@ def status_verified(packet, item, now):
 def quote_refresh(candidate, quote_rows, now):
     """Only same-identity, same-line fresh two-sided book quotes can be substituted."""
     if quote_rows is None:
+        # Original afternoon quotes are usable only while truly current;
+        # an old snapshot is never a substitute for refreshed market data.
+        from pickem_math import APPROVED_BOOKS, canon_book
+        books = candidate.get("books") or []
+        if not isinstance(books, list):
+            return None, ["ORIGINAL_MARKET_BOOKS_INVALID"]
+        approved = set()
+        for quote in books:
+            if not isinstance(quote, dict):
+                return None, ["ORIGINAL_MARKET_BOOKS_INVALID"]
+            if (quote.get("line") != candidate.get("line")
+                    or quote.get("book_side") != candidate.get("side")
+                    or not quote.get("book") or
+                    not isinstance(quote.get("target"), (int, float)) or
+                    not isinstance(quote.get("other"), (int, float))):
+                return None, ["ORIGINAL_MARKET_BOOKS_INVALID"]
+            name = canon_book(quote["book"])
+            if name not in APPROVED_BOOKS:
+                return None, ["UNAPPROVED_MARKET_SOURCE"]
+            approved.add(name)
+        if len(approved) < 2:
+            return None, ["ORIGINAL_TWO_BOOK_CONSENSUS_MISSING"]
+        if not _report_timestamp(candidate.get("market_retrieved_at"), now):
+            return None, ["ORIGINAL_MARKET_TIMESTAMP_STALE_OR_MISSING"]
         return dict(candidate), []
     from odds_providers import quotes_for_row, consensus_input
     found = quotes_for_row(quote_rows, candidate)
@@ -269,6 +293,10 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
             reasons.append("ENGINE_RANK_NOT_ELIGIBLE_" + rank.upper().replace(" ", "_"))
         if rank == "Tier 1" and not blend.get("validated"):
             reasons.append("TIER1_BLEND_NOT_VALIDATED")
+        grade = (result or {}).get("grade") or {}
+        if rank in TIERS and (not probability(grade.get("q_model"))
+                              or not probability(grade.get("q_market_comparable"))):
+            reasons.append("CURRENT_NUMERIC_GRADE_UNVERIFIED")
         accepted = not reasons and rank in TIERS
         final_rank = rank if accepted else "Unranked"
         counts["verified" if accepted else "blocked"] += 1
