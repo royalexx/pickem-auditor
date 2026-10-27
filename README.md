@@ -29,7 +29,7 @@ The complete older replays and research packets remain available in the immutabl
 
 ## PropLine market data
 
-The afternoon collector uses the bulk PropLine player-odds endpoint (one request per NBA, NHL, or NFL sport rather than one per game). Authentication uses the `X-API-Key` header; keys are never embedded in stored source URLs. The automatic quota guard reads `X-Daily-Remaining` from the authenticated `/v1/sports` probe, then requires sufficient allowance to collect the three sports. The preflight's public `/v1/freshness` probe does not authenticate or fetch sportsbook prices. Only approved two-sided sportsbook markets are retained. PropLine currently documents NBA PRA but not separate PA, PR and RA; these combinations remain unpriced unless independently evidenced.
+The afternoon collector uses the bulk PropLine player-odds endpoint at `api.prop-line.com` (one request per NBA, NHL, or NFL sport rather than one per game). Authentication uses the `X-API-Key` header; keys are never embedded in stored source URLs. The automatic quota guard reads `X-Daily-Remaining` from the authenticated `/v1/sports` probe, then requires sufficient allowance to collect the three sports. The preflight's public `/v1/freshness` probe does not authenticate or fetch sportsbook prices. Only approved two-sided sportsbook markets are retained. PropLine currently documents NBA PRA but not separate PA, PR and RA; these combinations remain unpriced unless independently evidenced.
 
 ## Credential setup
 

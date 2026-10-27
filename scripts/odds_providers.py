@@ -145,6 +145,7 @@ _NETWORK_MARKERS = (
     "nodename",
     "not permitted",
     "network is unreachable",
+    "network unavailable",
     "connection refused",
     "connection reset",
     "denied",

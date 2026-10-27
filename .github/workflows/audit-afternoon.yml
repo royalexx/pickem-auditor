@@ -5,6 +5,11 @@ on:
       - '.github/workflows/audit-afternoon.yml'
       - 'scripts/audit_afternoon.py'
   workflow_dispatch:
+    inputs:
+      date:
+        description: 'Slate date (YYYY-MM-DD); defaults to current Toronto date'
+        required: false
+        type: string
 permissions:
   contents: read
 jobs:
@@ -20,7 +25,11 @@ jobs:
           git fetch origin data/shadow-calibration
           git show FETCH_HEAD:data/prop_snapshots.jsonl > data/prop_snapshots.jsonl
       - name: Audit new model forecasts and evidence gates without network calls
-        run: python scripts/audit_afternoon.py --date 2026-10-27
+        env:
+          INPUT_DATE: ${{ github.event.inputs.date }}
+        run: |
+          SLATE_DATE="${INPUT_DATE:-$(python -c 'from datetime import datetime; from zoneinfo import ZoneInfo; print(datetime.now(ZoneInfo("America/Toronto")).date().isoformat())')}"
+          python scripts/audit_afternoon.py --date "$SLATE_DATE"
       - name: Publish audit receipt
         if: always()
         uses: actions/upload-artifact@v4

@@ -22,7 +22,7 @@ def load_json(name):
 
 class GameMarketTests(unittest.TestCase):
     def test_spread_and_total_from_odds_event(self):
-        events = load_json("odds_api_events.json")
+        events = load_json("propline_events.json")
         markets = cf.game_markets_from_events(events, "2026-10-22", RETRIEVED)
         self.assertIn("NSH@BOS", markets)
         self.assertAlmostEqual(markets["NSH@BOS"]["spread_home"], -1.5)
@@ -91,7 +91,7 @@ class CollectContextTests(unittest.TestCase):
             rows,
             RETRIEVED,
             fetch=fake_fetch,
-            odds_events=load_json("odds_api_events.json"),
+            odds_events=load_json("propline_events.json"),
             nhl_schedule_games=nhl_games,
             nfl_loader=None,
             venues=cf.load_venues(SKILL_DIR / "data" / "venues.json"),

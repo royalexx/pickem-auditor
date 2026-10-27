@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Compile skill Python modules
-        run: python -m compileall -q scripts
+        run: python -m compileall -q scripts tests
       - name: Verify connectivity classification without network
         run: python -m unittest discover -s tests -p 'test_network_receipt.py' -q
       - name: Verify morning-preflight recovery

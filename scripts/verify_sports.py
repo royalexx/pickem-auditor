@@ -14,7 +14,7 @@ import sys
 FIELDS = (
     "sport", "game_date", "player", "player_id", "team", "opponent",
     "stat", "baseline_mean", "season_n", "season_mean", "last_5_mean",
-    "last_10_mean", "season_n", "season_mean", "sample_size",
+    "last_10_mean", "sample_size",
     "baseline_window_mean", "baseline_n", "recent_mean", "recent_n",
     "prior_season_mean", "prior_n", "stat_log", "observation_ids",
     "retrieved_at", "event_id", "event_id_namespace",

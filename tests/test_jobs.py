@@ -248,8 +248,9 @@ class JobsHelperTests(unittest.TestCase):
 class UnderdogBanTests(unittest.TestCase):
     JOB_PATHS = (
         SKILL_DIR / "scripts" / "jobs.py",
-        SKILL_DIR / "crontab.shadow",
-        SKILL_DIR / ".github" / "workflows" / "shadow.yml",
+        SKILL_DIR / ".github" / "workflows" / "pickem-daily.yml",
+        SKILL_DIR / "legacy" / "crontab.shadow.disabled",
+        SKILL_DIR / "legacy" / "workflows" / "shadow.yml.disabled",
     )
 
     def test_job_artifacts_have_no_underdog_domain_or_field(self):

@@ -59,8 +59,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from statistics import NormalDist
 
-from reads_engine import project_reads
-
 HOLD_REJECT = 0.0825
 HOLD_FREE = 0.045
 HOLD_SLOPE = 0.15
