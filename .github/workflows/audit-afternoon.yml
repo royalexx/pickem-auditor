@@ -1,0 +1,29 @@
+name: Audit persisted afternoon forecasts
+on:
+  push:
+    paths:
+      - '.github/workflows/audit-afternoon.yml'
+      - 'scripts/audit_afternoon.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore persisted calibration forecasts
+        run: |
+          git fetch origin data/shadow-calibration
+          git show FETCH_HEAD:data/prop_snapshots.jsonl > data/prop_snapshots.jsonl
+      - name: Audit new model forecasts and evidence gates without network calls
+        run: python scripts/audit_afternoon.py --date 2026-10-27
+      - name: Publish audit receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: afternoon-rank-audit
+          path: reports/afternoon_audit.json
