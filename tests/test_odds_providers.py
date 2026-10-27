@@ -15,7 +15,7 @@ import pickem_math as pm
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
 NOW = "2026-10-22T16:10:00Z"
-SOURCE = "https://api.the-odds-api.com/v4/sports/icehockey_nhl/events/evt-bos-nsh/odds"
+SOURCE = "https://api.prop-line.com/v1/sports/icehockey_nhl/events/evt-bos-nsh/odds"
 
 
 def load_json(name):
@@ -24,7 +24,7 @@ def load_json(name):
 
 def parsed_events():
     return op.quotes_from_api_payload(
-        load_json("odds_api_events.json"),
+        load_json("propline_events.json"),
         sport="NHL",
         retrieved_at=NOW,
         source_url=SOURCE,
@@ -330,139 +330,71 @@ class AttachAndConsensusTests(unittest.TestCase):
 
 class ProviderTests(unittest.TestCase):
     def test_missing_key_fetches_nothing(self):
-        def boom(*_args, **_kwargs):
-            raise AssertionError("network")
+        def fail(*args, **kwargs):
+            raise AssertionError("network called without key")
+        provider=op.PropLineProvider(api_key="",fetch=fail)
+        self.assertEqual(provider.fetch("2026-10-22",["NHL"]),[])
+        self.assertIn("PROPLINE_API_KEY",provider.note)
 
-        provider = op.TheOddsAPIProvider(api_key="", fetch=boom)
-        quotes = provider.fetch("2026-10-22", ["NBA", "NHL", "NFL"])
-        self.assertEqual(quotes, [])
-        self.assertIn("ODDS_API_KEY", provider.note)
-        self.assertIn("not configured", provider.note)
-        self.assertIn("invented", provider.note)
+    def test_bulk_one_call_per_sport_and_filter_date(self):
+        events=load_json("propline_events.json")
+        today=events[0]
+        today["commence_time"]="2026-10-23T00:00:00Z"
+        next_day=dict(today,id="future",commence_time="2026-10-24T00:00:00Z")
+        calls=[]
+        def fake(url,timeout=20,headers=None):
+            calls.append((url,headers))
+            self.assertEqual(headers["X-API-Key"],"secret-key")
+            self.assertNotIn("secret-key",url)
+            self.assertEqual(url.count("/odds"),1)
+            return [today,next_day]
+        provider=op.PropLineProvider(api_key="secret-key",fetch=fake,clock=lambda:NOW)
+        quotes=provider.fetch("2026-10-22",["NHL"])
+        self.assertTrue(quotes)
+        self.assertEqual(len(calls),1)
+        self.assertEqual(quotes[0]["event_id_namespace"],"propline")
+        self.assertEqual(quotes[0]["game_date"],"2026-10-22")
+        self.assertTrue(all(q["event_id"]!="future" for q in quotes))
+        self.assertNotIn("secret-key",json.dumps(quotes))
+        self.assertTrue(all(u.startswith("https://api.prop-line.com/v1/") for u in provider.source_urls))
+        self.assertIn("goalie_saves",urllib.parse.parse_qs(urllib.parse.urlsplit(calls[0][0]).query)["markets"][0])
+        self.assertNotIn("underdog",calls[0][0].lower())
 
-    def test_live_provider_filters_the_date_and_hides_the_key(self):
-        event = load_json("odds_api_events.json")[0]
-        calls = []
+    def test_unapproved_books_and_unpaired_quotes_are_skipped(self):
+        event={"id":"1","commence_time":"2026-10-23T00:00:00Z",
+               "home_team":"Boston Bruins","away_team":"Nashville Predators",
+               "bookmakers":[
+                   {"key":"underdog","markets":[{"key":"player_shots_on_goal",
+                    "outcomes":[{"name":"Over","description":"Tim Stutzle","point":2.5,"price":-120},
+                                {"name":"Under","description":"Tim Stutzle","point":2.5,"price":100}]}]},
+                   {"key":"pinnacle","markets":[{"key":"player_shots_on_goal",
+                    "outcomes":[{"name":"Over","description":"Tim Stutzle","point":2.5,"price":-120}]}]}]}
+        provider=op.PropLineProvider(api_key="secret-key",fetch=lambda *a,**k:[event],clock=lambda:NOW)
+        self.assertEqual(provider.fetch("2026-10-22",["NHL"]),[])
 
-        def fake(url, timeout=20, headers=None):
-            calls.append(url)
-            self.assertNotIn("underdog", url.lower())
-            if "/events/" in url and "/odds" in url:
-                return event
-            if url.split("?", 1)[0].endswith("/events"):
-                return [
-                    {
-                        "id": "evt-bos-nsh",
-                        "commence_time": "2026-10-23T00:00:00Z",
-                        "home_team": "Boston Bruins",
-                        "away_team": "Nashville Predators",
-                    },
-                    {
-                        "id": "tomorrow",
-                        "commence_time": "2026-10-23T23:00:00Z",
-                        "home_team": "Boston Bruins",
-                        "away_team": "Nashville Predators",
-                    },
-                ]
-            raise AssertionError(url)
+    def test_quota_denial_does_not_attempt_bulk(self):
+        provider=op.PropLineProvider(api_key="secret-key",fetch=lambda *a,**k:self.fail("request sent"))
+        from unittest.mock import patch
+        with patch.dict("os.environ",{"PICKEM_ODDS_QUOTA_GUARD":"1"}):
+            with patch.object(provider,"_daily_quota_check",return_value=(0,None)):
+                self.assertEqual(provider.fetch("2026-10-22",["NHL"]),[])
+        self.assertIn("PROPLINE_QUOTA_INSUFFICIENT",provider.note)
 
-        provider = op.TheOddsAPIProvider(api_key="secret-key", fetch=fake, clock=lambda: NOW)
-        quotes = provider.fetch("2026-10-22", ["NHL"])
-        self.assertGreater(len(quotes), 0)
-        odds_calls = [url for url in calls if "/odds" in url]
-        self.assertEqual(len(odds_calls), 1)
-        self.assertIn("evt-bos-nsh", odds_calls[0])
-        self.assertNotIn("tomorrow", "".join(calls))
-        self.assertNotIn("secret-key", json.dumps(quotes))
-        self.assertTrue(all("secret-key" not in url for url in provider.source_urls))
-        self.assertTrue(all(url.startswith("https://api.the-odds-api.com/") for url in provider.source_urls))
-        query = urllib.parse.parse_qs(urllib.parse.urlsplit(odds_calls[0]).query)
-        books = query["bookmakers"][0].split(",")
-        self.assertEqual(list(op.REQUEST_BOOKMAKERS), books)
+    def test_network_failure_redacts_secret(self):
+        def fail(url,timeout=20,headers=None):
+            raise OSError(f"Network unavailable: {url} leaked-key")
+        provider=op.PropLineProvider(api_key="secret-key",fetch=fail,clock=lambda:NOW)
+        self.assertEqual(provider.fetch("2026-10-22",["NHL"]),[])
+        self.assertIn(op.ALLOWLIST_NOTE,provider.note)
+        self.assertNotIn("secret-key",provider.note)
 
-    def test_unknown_bookmaker_key_retries_without_inventing_prices(self):
-        event = {
-            "id": "evt-bos-nsh",
-            "sport_key": "icehockey_nhl",
-            "home_team": "Boston Bruins",
-            "away_team": "Nashville Predators",
-            "bookmakers": [
-                {
-                    "key": "pinnacle",
-                    "markets": [
-                        {
-                            "key": "player_shots_on_goal",
-                            "last_update": "2026-10-22T16:00:00Z",
-                            "outcomes": [
-                                {"name": "Over", "description": "Tim Stutzle", "price": -130, "point": 2.5},
-                                {"name": "Under", "description": "Tim Stutzle", "price": 110, "point": 2.5},
-                            ],
-                        }
-                    ],
-                }
-            ],
-        }
-        odds_calls = []
+    def test_allowlist_documented_outside_skill(self):
+        src=(SKILL_DIR/"scripts"/"odds_providers.py").read_text()
+        readme=(SKILL_DIR/"README.md").read_text()
+        self.assertIn(op.ALLOWLIST_NOTE,src)
+        self.assertIn("api.prop-line.com",readme)
+        self.assertNotIn("underdog.com",src.lower())
+        self.assertNotIn("underdog",",".join(op.REQUEST_BOOKMAKERS))
 
-        class Denied(Exception):
-            def __init__(self, code, body):
-                super().__init__(body)
-                self.code = code
-                self._body = body.encode()
-
-            def read(self):
-                return self._body
-
-            def close(self):
-                return None
-
-        def fake(url, timeout=20, headers=None):
-            if "/odds" in url:
-                odds_calls.append(url)
-                if len(odds_calls) == 1:
-                    raise Denied(400, "Unknown bookmaker circa")
-                return event
-            return [
-                {
-                    "id": "evt-bos-nsh",
-                    "commence_time": "2026-10-23T00:00:00Z",
-                    "home_team": "Boston Bruins",
-                    "away_team": "Nashville Predators",
-                }
-            ]
-
-        provider = op.TheOddsAPIProvider(api_key="secret-key", fetch=fake, clock=lambda: NOW)
-        quotes = provider.fetch("2026-10-22", ["NHL"])
-        self.assertEqual(len(quotes), 1)
-        self.assertEqual(quotes[0]["book"], "Pinnacle")
-        self.assertEqual(len(odds_calls), 2)
-        second = urllib.parse.parse_qs(urllib.parse.urlsplit(odds_calls[1]).query)["bookmakers"][0].split(",")
-        self.assertEqual(list(op.DOCUMENTED_BOOKMAKERS), second)
-        self.assertNotIn("circa", second)
-        self.assertIn("Retried", provider.note)
-        self.assertNotIn("secret-key", provider.note)
-
-    def test_network_failure_names_the_allowlist_and_invents_nothing(self):
-        def fake(url, timeout=20, headers=None):
-            raise OSError(f"Network access to {url} is not permitted")
-
-        provider = op.TheOddsAPIProvider(api_key="secret-key", fetch=fake, clock=lambda: NOW)
-        quotes = provider.fetch("2026-10-22", ["NHL"])
-        self.assertEqual(quotes, [])
-        self.assertIn(op.ALLOWLIST_NOTE, provider.note)
-        self.assertNotIn("secret-key", provider.note)
-        self.assertIn("invented", provider.note)
-
-    def test_allowlist_is_documented_outside_the_skill(self):
-        provider_text = (SKILL_DIR / "scripts" / "odds_providers.py").read_text(encoding="utf-8")
-        readme = (SKILL_DIR / "README.md").read_text(encoding="utf-8")
-        skill = (SKILL_DIR / "SKILL.md").read_text(encoding="utf-8")
-        self.assertIn(op.ALLOWLIST_NOTE, provider_text)
-        self.assertIn(op.ALLOWLIST_NOTE, readme)
-        self.assertNotIn("api.the-odds-api.com", skill)
-        self.assertNotIn("underdog.com", provider_text.lower())
-        self.assertNotIn("underdog", ",".join(op.REQUEST_BOOKMAKERS))
-
-
-if __name__ == "__main__":
+if __name__=="__main__":
     unittest.main()

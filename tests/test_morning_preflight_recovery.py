@@ -23,7 +23,7 @@ class RecoveryTests(unittest.TestCase):
                               preflight_fn=lambda:r)
     def test_no_odds_while_sources_ready_is_blocked_for_snapshot(self):
         r=fs.preflight(import_check=lambda name:(True,""),
-                       reach_check=lambda host:(host!="api.the-odds-api.com",""))
+                       reach_check=lambda host:(host!="api.prop-line.com",""))
         self.assertTrue(r["feeds_ready"]["nhl"])
         self.assertFalse(r["operational"])
     def test_settle_outage_is_structured_and_preserves_history(self):
