@@ -55,6 +55,37 @@ class ResearchTriageTests(unittest.TestCase):
         self.assertIn("availability.One.status",result["queue"][0]["source_tasks"])
         self.assertFalse(result["integrity"]["infer_active_from_injury_absence"])
 
+
+    def test_reuses_one_source_url_across_same_sport_without_claiming_verification(self):
+        report=build([row("One"), row("Two")],"2026-10-27",now=NOW)
+        self.assertEqual(report["review_queue_count"],2)
+        self.assertEqual(report["unique_public_source_urls_for_review"],2)
+        self.assertEqual(report["source_urls_verified"],0)
+        self.assertEqual(len(report["source_checklist"][0]["candidates"]),2)
+        self.assertTrue(all(not source["verified"] for source in report["source_checklist"]))
+        self.assertTrue(all(not c["source_guides_are_evidence"] for c in report["queue"]))
+        self.assertEqual(report["queue"][0]["source_guides"][0]["task"],"confirm_fixture_and_start")
+
+    def test_canonical_fixture_keys_supply_real_packet_gap_paths(self):
+        packet={"date":"2026-10-27",
+                "index":{"by_player":{"One":{"team":"BOS","game":"BOS@NSH","sport":"NHL"}}},
+                "availability":{}}
+        report=build([row(game="BOS @ NSH")],"2026-10-27",packet=packet,now=NOW)
+        candidate=report["queue"][0]
+        self.assertEqual(candidate["matched_packet_game"],"BOS@NSH")
+        self.assertIn("weather.BOS@NSH.indoor",candidate["source_tasks"])
+        self.assertNotIn("packet_fixture_identity_not_verified",candidate["missing_evidence"])
+
+    def test_mismatched_packet_game_never_supplies_false_fixture_evidence(self):
+        packet={"date":"2026-10-27",
+                "index":{"by_player":{"One":{"team":"BOS","game":"BOS@MTL","sport":"NHL"}}},
+                "availability":{}}
+        report=build([row(game="BOS @ NSH")],"2026-10-27",packet=packet,now=NOW)
+        candidate=report["queue"][0]
+        self.assertIsNone(candidate["matched_packet_game"])
+        self.assertIn("packet_fixture_identity_not_verified",candidate["missing_evidence"])
+        self.assertFalse(any(x.startswith("weather.") for x in candidate["source_tasks"]))
+
     def test_nan_and_boolean_probabilities_are_rejected(self):
         report=build([row("Nan",grade=float("nan")),row("Bool",market=True)],
                      "2026-10-27",now=NOW)

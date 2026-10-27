@@ -17,6 +17,44 @@ TYPES = {
     "VENUE_OR_FORECAST_UNVERIFIED": "pregame_identity_and_availability",
 }
 DIMENSIONS = ("matchup", "opportunity", "injuries", "game_script")
+ESPN_PATH = {"NBA": "basketball/nba", "NHL": "hockey/nhl", "NFL": "football/nfl"}
+
+def source_guides(item, date):
+    """Find places to CHECK, never imply evidence was actually retrieved."""
+    sport = item["sport"]
+    path = ESPN_PATH.get(sport)
+    if not path:
+        return []
+    root = "https://site.api.espn.com/apis/site/v2/sports/" + path
+    common = {"source_state": "not_checked", "verified": False,
+              "identity_rule": "match date, both teams, player and stable ID where available"}
+    return [
+        {**common, "task": "confirm_fixture_and_start",
+         "url": f"{root}/scoreboard?dates={date.replace('-', '')}"},
+        {**common, "task": "check_explicit_injury_designations",
+         "url": f"{root}/injuries",
+         "warning": "absence from injury report does not confirm active status"},
+        {**common, "task": "check_game_specific_active_roster",
+         "url": None,
+         "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"},
+        {**common, "task": "verify_scouting_checklist",
+         "url": None,
+         "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"},
+    ]
+
+def packet_game_key(packet, item):
+    """Use only a packet game proven to match the subject's team and sport."""
+    meta = ((packet.get("index") or {}).get("by_player") or {}).get(item["player"])
+    if not isinstance(meta, dict) or meta.get("team") != item["team"] or meta.get("sport") != item["sport"]:
+        return None
+    game = meta.get("game")
+    if not isinstance(game, str) or "@" not in game:
+        return None
+    teams = {piece.strip() for piece in game.split("@")}
+    if len(teams) != 2 or teams != {item["team"], item["opponent"]}:
+        return None
+    return game
+
 
 def probability(value):
     return (not isinstance(value, bool) and isinstance(value, (int, float))
@@ -113,6 +151,8 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
             "provisional_gap": round(model-market, 5),
             "independent_book_count": books, "both_engines_reliable": reliable_b,
             "missing_evidence": needs, "source_tasks": [],
+            "source_guides": source_guides({"sport": sport}, date),
+            "source_guides_are_evidence": False,
             "reason": reason, "status": "verification_pending",
             "publication_eligible": False,
         })
@@ -145,13 +185,33 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
                 and r["inputs"].get("id") in identifiers]
         gaps = gap_paths_for_shortlist(packet, list(identifiers), candidate_rows=prep, now=now)
         for item in queue:
-            prefixes = (f"availability.{item['player']}.",
+            game = packet_game_key(packet, item)
+            prefixes = [f"availability.{item['player']}.",
                         f"scouting.{item['candidate_id']}.",
-                        f"lineup.{item['team']}.",
-                        f"weather.{item['game']}.",
-                        f"environment.{item['game']}.")
+                        f"lineup.{item['team']}."]
+            if game:
+                prefixes += [f"weather.{game}.", f"environment.{game}."]
             item["source_tasks"] = sorted({str(g["path"]) for g in gaps
-                if any(str(g.get("path") or "").startswith(p) for p in prefixes)})
+                if any(str(g.get("path") or "").startswith(prefix) for prefix in prefixes)})
+            item["matched_packet_game"] = game
+            if not game:
+                item["missing_evidence"].append("packet_fixture_identity_not_verified")
+    shared = {}
+    for item in queue:
+        for guide in item["source_guides"]:
+            url = guide.get("url")
+            if not url:
+                continue
+            record = shared.setdefault(url, {"url": url, "task": guide["task"],
+                                              "source_state": "not_checked", "verified": False,
+                                              "candidates": [], "games": []})
+            record["candidates"].append(item["candidate_id"])
+            if item["game"] not in record["games"]:
+                record["games"].append(item["game"])
+    source_checklist = list(shared.values())
+    for item in source_checklist:
+        item["candidates"].sort()
+        item["games"].sort()
     for index, item in enumerate(queue, 1):
         item["priority"] = index
     return {
@@ -165,6 +225,10 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
         "qualified_before_caps": len(candidates), "review_queue_count": len(queue),
         "review_queue_both_engines_reliable": sum(c["both_engines_reliable"] for c in queue),
         "queue_exclusions": dict(sorted(excluded.items())), "queue": queue,
+        "source_checklist": source_checklist,
+        "unique_public_source_urls_for_review": len(source_checklist),
+        "subjects_with_packet_gaps": sum(bool(item["source_tasks"]) for item in queue),
+        "source_urls_verified": 0,
         "integrity": {
             "publication_eligible": False, "existing_forecasts_modified": False,
             "model_weights_modified": False, "infer_active_from_injury_absence": False,

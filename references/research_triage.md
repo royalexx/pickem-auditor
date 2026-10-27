@@ -15,3 +15,11 @@ For each subject, the queue identifies missing source-backed facts through the e
 Read source pages or official structured evidence, record URLs, timestamps, short supporting quotes, and an actual reviewer identifier using \`scripts/verified_scouting.py\`. That tool only accepts correctly identified, reviewer-read facts; it cannot be invoked with invented confirmations. Audit the same-date packet using \`scripts/research_packet.py audit\` with the corresponding saved pregame candidate rows. No postgame evidence may be backdated to create a pregame pick. When a lineup or starting goalie is not officially confirmed by 4 p.m., recheck before that specific event starts.
 
 The source queue is a planning artifact. It does not replace human/agent examination of matchup scheme, opportunities, opponent context, injury consequences, opposing arguments, and evidence-gated probabilistic validation.
+
+## Source-specific, identity-checked research plan
+
+The source checklist deduplicates official ESPN fixture and injury lookups across selected subjects. Each proposed URL has `verified=false` and `source_state=not_checked`; a proposed lookup is **not** evidence that its contents were fetched or reviewed. An ESPN injury-list omission cannot prove an athlete is active. Explicit game-specific roster flags, fresh timestamps, cross-source counterevidence, and the complete stat-specific scouting checklist remain required for a publication decision.
+
+Per-candidate `source_tasks` list exact missing packet paths. Game, weather and environment paths are included only when the packet player/team/sport and both fixture teams reconcile, using the packet's canonical no-space game key (e.g. `BOS@NSH`). A mismatch is labeled `packet_fixture_identity_not_verified`; it is not silently repaired.
+
+The queue is deliberately **not** executed as an automatic grade or tier approval. The reviewed evidence must still pass the same-date packet validator and existing model ranking vetoes. A replay after games begin cannot backdate verification.
