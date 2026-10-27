@@ -1,8 +1,5 @@
 name: Pickem morning and afternoon
 on:
-  push:
-    paths:
-      - '.github/afternoon-run-trigger.txt'
   workflow_dispatch:
     inputs:
       phase:
@@ -40,7 +37,7 @@ jobs:
           from zoneinfo import ZoneInfo
           with open(os.environ['GITHUB_EVENT_PATH']) as f: event=json.load(f)
           trigger=os.environ['GITHUB_EVENT_NAME']
-          phase='afternoon' if trigger=='push' else event.get('inputs',{}).get('phase','skip')
+          phase=event.get('inputs',{}).get('phase','skip')
           if trigger=='schedule':
               phase='skip'
               fields=str(event.get('schedule','')).split()
@@ -136,6 +133,21 @@ jobs:
                   step('pregame_engines',[sys.executable,'scripts/jobs.py','snapshot','--reuse-collected'])
                   if Path('data/prop_snapshots.jsonl').is_file():
                       step('afternoon_rank_audit',[sys.executable,'scripts/audit_afternoon.py','--date',datetime.now(timezone.utc).astimezone(__import__('zoneinfo').ZoneInfo('America/Toronto')).date().isoformat()])
+                  if Path('data/prop_snapshots.jsonl').is_file():
+                      triage_date=datetime.now(timezone.utc).astimezone(__import__('zoneinfo').ZoneInfo('America/Toronto')).date().isoformat()
+                      step('research_triage',[sys.executable,'scripts/research_triage.py',
+                           '--date',triage_date,'--path','data/prop_snapshots.jsonl',
+                           '--packet',f'data/research_{triage_date}.json',
+                           '--out','reports/research_triage.json'])
+                  if Path('reports/research_triage.json').exists():
+                      try:
+                          triage=json.loads(Path('reports/research_triage.json').read_text())
+                          receipt['research_triage']={k:triage.get(k) for k in
+                              ('status','forecasts_evaluated','numerically_gradeable',
+                               'unverified_research','qualified_before_caps','review_queue_count',
+                               'review_queue_both_engines_reliable','blocker_categories')}
+                      except (ValueError,OSError):
+                          receipt['research_triage']={'error':'INVALID_RESEARCH_TRIAGE'}
                   if Path('reports/afternoon_audit.json').exists():
                       try:
                           receipt['afternoon_audit']=json.loads(Path('reports/afternoon_audit.json').read_text())
@@ -188,6 +200,7 @@ jobs:
             reports/forecast_invariants.json
             reports/afternoon_audit.json
             reports/structured_research.json
+            reports/research_triage.json
             logs/snapshot_*.log
             data/slate_fetch.meta.json
             data/slate_fetch.jsonl.meta.json
