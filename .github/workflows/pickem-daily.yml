@@ -40,7 +40,7 @@ jobs:
           from zoneinfo import ZoneInfo
           with open(os.environ['GITHUB_EVENT_PATH']) as f: event=json.load(f)
           trigger=os.environ['GITHUB_EVENT_NAME']
-          phase=event.get('inputs',{}).get('phase','skip')
+          phase='afternoon' if trigger=='push' else event.get('inputs',{}).get('phase','skip')
           if trigger=='schedule':
               phase='skip'
               fields=str(event.get('schedule','')).split()

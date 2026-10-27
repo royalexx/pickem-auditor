@@ -1,2 +1,1 @@
-One-shot afternoon collection requested 2026-10-27 after PropLine provider switch.
-Trigger a normal afternoon workflow with existing protected secrets, persistence, and receipts.
+Second trigger: 2026-10-27 afternoon run. GitHub push must map explicitly to phase afternoon; preserve original daily workflow behavior.
