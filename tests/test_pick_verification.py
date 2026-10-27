@@ -190,6 +190,44 @@ class VerificationTests(unittest.TestCase):
         self.assertEqual(called,[ID])
         self.assertEqual(result["verified"],0)
 
+    def test_full_cli_writes_distinct_receipt_without_modifying_snapshots(self):
+        import io
+        import json
+        import os
+        import tempfile
+        from contextlib import redirect_stdout
+        from unittest.mock import patch
+        rows,queue,packet=build()
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            snapshots=root/"snapshots.jsonl"
+            snapshots.write_text(json.dumps(rows[0])+"\n")
+            original=snapshots.read_bytes()
+            q=root/"queue.json"
+            q.write_text(json.dumps(queue))
+            p=root/"packet.json"
+            p.write_text(json.dumps(packet))
+            out=root/"reports"/"verification.json"
+            args=["--date",DATE,"--snapshots",str(snapshots),
+                  "--queue",str(q),"--packet",str(p),
+                  "--phase","initial","--out",str(out),
+                  "--archive-root",str(root/"archive"),
+                  "--now","2026-10-27T20:30:00Z"]
+            with patch.dict(os.environ,{"GITHUB_RUN_ID":"offline-test-1",
+                                         "GITHUB_RUN_ATTEMPT":"1"}):
+                with redirect_stdout(io.StringIO()):
+                    self.assertEqual(pv.main(args),0)
+                self.assertEqual(snapshots.read_bytes(),original)
+                report=json.loads(out.read_text())
+                self.assertEqual(report["checked"],1)
+                self.assertEqual(report["verified"],0)
+                archived=root/"archive"/DATE/"decisions"/"offline-test-1-1-initial.json"
+                self.assertEqual(json.loads(archived.read_text())["schema"],
+                                 "pick-verification-v1")
+                with self.assertRaisesRegex(ValueError,"already exists"):
+                    with redirect_stdout(io.StringIO()):
+                        pv.main(args)
+
     def test_bad_reviewed_packet_date_fails_closed(self):
         rows,queue,packet=build()
         with self.assertRaisesRegex(ValueError,"same-date"):
