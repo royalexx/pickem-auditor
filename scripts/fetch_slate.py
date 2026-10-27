@@ -3447,6 +3447,8 @@ def fetch_odds(game_date: str, fetch=fetch_json, source_urls=None, provider=None
     With no configured odds credential the provider returns [] and a note. This does not
     invent a line or a price. The return is (quotes, note).
     """
+    if os.environ.get("PICKEM_DISABLE_ODDS") == "1":
+        return [], "ODDS_DISABLED_FOR_HISTORICAL_COLLECTION: free public game data only; no paid sportsbook requests made."
     if provider is None:
         provider = TheOddsAPIProvider(fetch=fetch)
     try:
