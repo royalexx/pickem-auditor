@@ -1,0 +1,182 @@
+"""Verification contracts: no backdating, fabricated approval, or mutable history."""
+import sys
+import unittest
+from copy import deepcopy
+from datetime import datetime, timezone, timedelta
+from pathlib import Path
+from unittest.mock import patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import pick_verification as pv
+import research_packet as rp
+from context_feeds import confirmed_fact
+
+NOW = datetime(2026, 10, 27, 20, 30, tzinfo=timezone.utc)
+DATE = "2026-10-27"
+ID = "NHL|Example Player|shots on goal|over"
+
+
+def build():
+    row = {
+        "run_type":"shadow", "run_id":"daily-1", "game_date":DATE, "sport":"NHL",
+        "player":"Example Player", "player_id":"42", "team":"BOS", "opponent":"NSH",
+        "matchup":"BOS @ NSH", "stat":"shots on goal", "side":"over",
+        "reference_line":2.5, "forecast_at":"2026-10-27T20:00:00Z",
+        "event_start":"2026-10-27T23:00:00Z", "researched":False,
+        "inputs":{"id":ID, "stat":"shots on goal", "side":"over", "line":2.5,
+                  "team":"BOS", "opponent":"NSH", "player_id":"42",
+                  "game_date":DATE, "soft_flags":0, "mechanisms":0,
+                  "hard_veto":"no", "data_veto":"no", "research_checklist":"no"},
+    }
+    q = {"date":DATE,"queue":[{
+        "candidate_id":ID, "sport":"NHL", "player":"Example Player",
+        "player_id":"42", "team":"BOS", "opponent":"NSH", "stat":"shots on goal",
+        "side":"over", "line":2.5, "game":"BOS @ NSH"
+    }]}
+    packet = rp.empty_template(DATE)
+    packet["index"]["by_player"]["Example Player"] = {
+        "sport":"NHL", "team":"BOS", "player_id":"42", "game":"BOS@NSH"}
+    return [row],q,packet
+
+
+def attest(row, timestamp="2026-10-27T20:30:00Z"):
+    positive = confirmed_fact("opportunity", "yes", "https://example.com/positive",
+                              timestamp, quote="Top six role confirmed")
+    contrary = confirmed_fact("opposition", "reviewed", "https://example.com/opponent",
+                              timestamp, quote="Opponent pressure considered")
+    return {"date":DATE,"attestations":[{"candidate_id":ID,
+       "forecast_sha256":pv.digest(row), "team":"BOS", "player_id":"42",
+       "decision":"approve", "reviewer":"Human analyst", "source_read":True,
+       "reviewed_at":timestamp, "supporting":[positive], "opposing":[contrary]}]}
+
+
+def active(packet, when="2026-10-27T20:30:00Z"):
+    fact=confirmed_fact("explicit game-active roster", "active", 
+                        "https://site.api.espn.com/summary", when,
+                        quote="Game active")
+    fact["report_type"]="final_active_roster"
+    packet.setdefault("availability", {})["Example Player"]={
+        "status":fact,
+        "primary_source":confirmed_fact("primary_source", "league",
+                                         "https://site.api.espn.com/summary",when)}
+    packet.setdefault("weather", {})["BOS@NSH"]={
+        "indoor":confirmed_fact("indoor", True,"https://site.api.espn.com/scoreboard",when)}
+
+
+class VerificationTests(unittest.TestCase):
+    def test_original_forecasts_are_never_modified(self):
+        rows, queue, packet=build()
+        before=deepcopy(rows)
+        output, checked=pv.verify(rows,queue,packet,DATE,now=NOW)
+        self.assertEqual(rows,before)
+        self.assertEqual(output["verified"],0)
+        self.assertIn("ADVERSARIAL_REVIEW_NOT_ATTESTED_OR_DUPLICATE", output["decisions"][0]["blockers"])
+        self.assertFalse(output["decisions"][0]["publication_eligible"])
+        self.assertIsNot(packet,checked)
+
+    def test_explicit_active_flag_is_not_inferred_from_injury_omission(self):
+        rows,queue,packet=build()
+        ok,reason=pv.status_verified(packet,queue["queue"][0],NOW)
+        self.assertFalse(ok)
+        self.assertEqual(reason,"GAME_SPECIFIC_ACTIVE_STATUS_MISSING")
+        active(packet)
+        ok,reason=pv.status_verified(packet,queue["queue"][0],NOW)
+        self.assertTrue(ok)
+        self.assertIsNone(reason)
+
+    def test_bare_active_fact_cannot_replace_game_specific_report(self):
+        rows,queue,packet=build()
+        active(packet)
+        packet["availability"]["Example Player"]["status"].pop("report_type")
+        self.assertEqual(pv.status_verified(packet,queue["queue"][0],NOW)[1],
+                         "STATUS_NOT_FROM_EXPLICIT_GAME_REPORT")
+
+    def test_started_game_never_researched(self):
+        rows,queue,packet=build()
+        rows[0]["event_start"]="2026-10-27T20:00:00Z"
+        fetch=lambda *a,**k:self.fail("should not fetch")
+        result,_=pv.verify(rows,queue,packet,DATE,now=NOW,fetch=fetch)
+        self.assertEqual(result["checked"],0)
+        self.assertEqual(result["not_due"]["GAME_ALREADY_STARTED"],1)
+
+    def test_recheck_window_limits_source_requests(self):
+        rows,queue,packet=build()
+        calls=[]
+        def fetch(*a,**k):
+            calls.append(a)
+            raise ValueError("not expected")
+        result,_=pv.verify(rows,queue,packet,DATE,now=NOW,phase="recheck",fetch=fetch)
+        self.assertEqual(calls,[])
+        self.assertEqual(result["status"],"no_candidates_due")
+        rows[0]["event_start"]="2026-10-27T21:15:00Z"
+        self.assertIsNone(pv.eligible_window(rows[0],NOW,phase="recheck"))
+
+    def test_forecast_digests_bind_review_to_exact_input(self):
+        rows,queue,packet=build()
+        reviewer=attest(rows[0])["attestations"][0]
+        self.assertEqual(pv.review_verified(reviewer,rows[0],pv.digest(rows[0]),NOW),(True,None))
+        rows[0]["reference_line"]=3.5
+        self.assertFalse(pv.review_verified(reviewer,rows[0],pv.digest(rows[0]),NOW)[0])
+
+    def test_timestamped_evidence_required_both_directions(self):
+        rows,_,_=build()
+        review=attest(rows[0])["attestations"][0]
+        review["opposing"]=[]
+        self.assertEqual(pv.review_verified(review,rows[0],pv.digest(rows[0]),NOW)[1],
+                         "REVIEW_MISSING_OPPOSING")
+        review=attest(rows[0])["attestations"][0]
+        review["reviewed_at"]="2026-10-26T20:30:00Z"
+        self.assertFalse(pv.review_verified(review,rows[0],pv.digest(rows[0]),NOW)[0])
+
+    def test_stale_market_quote_file_never_grants_grade(self):
+        rows,_,_=build()
+        updated, issues=pv.quote_refresh(rows[0]["inputs"], [], NOW)
+        self.assertIsNone(updated)
+        self.assertIn("CURRENT_TWO_SIDED_SAME_LINE_MARKET_MISSING",issues)
+
+    def test_mocked_grading_cannot_approve_without_review_or_sources(self):
+        rows,queue,packet=build()
+        # A positive numerical outcome is insufficient without source review.
+        with patch.object(pv.pm,"evaluate_candidate",return_value={
+                "final_rank":"Tier 2","engine_a":{"reliable":True},
+                "engine_b":{"reliable":True},"blend":{"validated":True}}):
+            result,_=pv.verify(rows,queue,packet,DATE,now=NOW)
+        self.assertEqual(result["verified"],0)
+        self.assertFalse(result["decisions"][0]["publication_eligible"])
+
+    def test_missing_packet_identity_does_not_promote(self):
+        rows,queue,packet=build()
+        packet["index"]["by_player"]["Example Player"]["game"]="BOS@MTL"
+        result,_=pv.verify(rows,queue,packet,DATE,now=NOW)
+        self.assertIn("PACKET_FIXTURE_IDENTITY_MISMATCH", result["decisions"][0]["blockers"])
+
+    def test_attested_review_still_requires_two_reliable_engines(self):
+        rows,queue,packet=build()
+        active(packet)
+        review=attest(rows[0])
+        with patch.object(pv.pm,"evaluate_candidate",return_value={
+                "final_rank":"Tier 2","engine_a":{"reliable":True},
+                "engine_b":{"reliable":False},"blend":{"validated":False}}):
+            result,_=pv.verify(rows,queue,packet,DATE,now=NOW,reviews=review)
+        self.assertEqual(result["verified"],0)
+        self.assertIn("TWO_RELIABLE_ENGINES_REQUIRED", result["decisions"][0]["blockers"])
+
+    def test_source_collection_scope_limited_to_selected_candidates(self):
+        rows,queue,packet=build()
+        called=[]
+        def resolver(p, candidates, fetch, now):
+            called.extend(candidates)
+            return p,{"attempts":[],"verified_pregame_games":[]}
+        with patch("research_resolver.resolve",side_effect=resolver):
+            result,_=pv.verify(rows,queue,packet,DATE,now=NOW,fetch=lambda *a,**k:None)
+        self.assertEqual(called,[ID])
+        self.assertEqual(result["verified"],0)
+
+    def test_bad_reviewed_packet_date_fails_closed(self):
+        rows,queue,packet=build()
+        with self.assertRaisesRegex(ValueError,"same-date"):
+            pv.verify(rows,queue,packet,"2026-10-26",now=NOW)
+
+
+if __name__=="__main__":
+    unittest.main()
