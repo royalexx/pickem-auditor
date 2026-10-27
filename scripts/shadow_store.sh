@@ -38,6 +38,12 @@ if [[ "$mode" == load ]]; then
       exit 2
     fi
     load_cached_sources "$tmpdir/data/source_cache.tar.zst"
+    # Verification sidecars are independent of original forecasts and may be
+    # updated before game start. Old decision receipts must remain intact.
+    if [[ -d "$tmpdir/data/verification" ]]; then
+      mkdir -p data/verification
+      cp -a "$tmpdir/data/verification/." data/verification/
+    fi
   else
     echo 'No calibration branch yet; verifying legacy history archive.'
     if ! git fetch origin "refs/heads/${archive_branch}:refs/remotes/origin/${archive_branch}"; then
@@ -75,6 +81,19 @@ elif [[ "$mode" == save ]]; then
   for file in data/blend_fit_*.json; do
     [[ ! -f "$file" ]] || cp -p "$file" "$tmpdir/tree/data/"
   done
+  # Worktree keeps every prior decision. A decision identity may not be rewritten.
+  if [[ -d data/verification ]]; then
+    while IFS= read -r -d '' evidence; do
+      relative="${evidence#data/verification/}"
+      target="$tmpdir/tree/data/verification/$relative"
+      if [[ -e "$target" ]] && ! cmp -s "$evidence" "$target"; then
+        echo "IMMUTABLE_VERIFICATION_DECISION_CONFLICT: $relative" >&2
+        exit 2
+      fi
+    done < <(find data/verification -path '*/decisions/*.json' -type f -print0)
+    mkdir -p "$tmpdir/tree/data/verification"
+    cp -a data/verification/. "$tmpdir/tree/data/verification/"
+  fi
   for file in logs/*.log; do
     [[ ! -f "$file" ]] || cp -p "$file" "$tmpdir/tree/logs/"
   done
@@ -84,6 +103,9 @@ elif [[ "$mode" == save ]]; then
               "$tmpdir/tree"/data/blend_fit_*.json "$tmpdir/tree"/logs/*.log; do
     [[ ! -f "$file" ]] || git -C "$tmpdir/tree" add -f -- "${file#"$tmpdir/tree/"}"
   done
+  if [[ -d "$tmpdir/tree/data/verification" ]]; then
+    git -C "$tmpdir/tree" add -f data/verification/
+  fi
   if ! git -C "$tmpdir/tree" diff --cached --quiet; then
     git -C "$tmpdir/tree" commit -qm "persist verified source history ${GITHUB_RUN_ID:-local} ${GITHUB_RUN_ATTEMPT:-1}"
     git -C "$tmpdir/tree" push origin "HEAD:refs/heads/${branch}"
