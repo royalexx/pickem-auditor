@@ -201,6 +201,9 @@ jobs:
             reports/afternoon_audit.json
             reports/structured_research.json
             reports/research_triage.json
+            data/research_*.json
+            data/odds_quotes.jsonl
+            data/slate_fetch.jsonl
             logs/snapshot_*.log
             data/slate_fetch.meta.json
             data/slate_fetch.jsonl.meta.json
