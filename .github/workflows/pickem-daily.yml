@@ -10,6 +10,7 @@ on:
   push:
     paths:
       - '.github/workflows/pickem-daily.yml'
+      - 'scripts/verify_sports.py'
   schedule:
     - cron: '0 10 * * *'
     - cron: '0 11 * * *'
