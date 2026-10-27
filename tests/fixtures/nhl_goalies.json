@@ -1,0 +1,11 @@
+[
+  {
+    "goalieFullName": "Example Bruins Goalie",
+    "playerId": 9,
+    "teamAbbrevs": "BOS",
+    "gamesPlayed": 8,
+    "gamesStarted": 8,
+    "saves": 200,
+    "shotsAgainst": 220
+  }
+]

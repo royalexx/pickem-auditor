@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-22",
+  "games": [
+    {
+      "id": 2026020154,
+      "season": 20262027,
+      "gameState": "FUT",
+      "awayTeam": {"id": 18, "abbrev": "NSH", "placeName": "Nashville", "commonName": "Predators"},
+      "homeTeam": {"id": 6, "abbrev": "BOS", "placeName": "Boston", "commonName": "Bruins"}
+    }
+  ]
+}

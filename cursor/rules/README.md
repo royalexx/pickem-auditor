@@ -1,0 +1,1 @@
+Cursor discovers project rules under `.cursor/rules/` and skills under `.cursor/skills/<name>/SKILL.md`. Those canonical paths ship with this archive. `cursor/rules/` is legacy compatibility material only; do not install it over the canonical rule.

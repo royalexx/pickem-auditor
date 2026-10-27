@@ -1,0 +1,25 @@
+{
+  "events": [
+    {
+      "id": "401",
+      "competitions": [
+        {
+          "odds": [
+            {
+              "provider": {"name": "DraftKings"},
+              "overUnder": 220.5,
+              "moneyline": {
+                "home": {"close": {"odds": "-155"}},
+                "away": {"close": {"odds": "130"}}
+              }
+            }
+          ],
+          "competitors": [
+            {"homeAway": "home", "team": {"id": "2", "abbreviation": "BOS"}},
+            {"homeAway": "away", "team": {"id": "18", "abbreviation": "NY"}}
+          ]
+        }
+      ]
+    }
+  ]
+}

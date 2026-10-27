@@ -1,0 +1,54 @@
+{
+  "pagination": {"count": 3, "limit": 500, "page": 1, "pages": 1},
+  "categories": [
+    {
+      "name": "general",
+      "names": ["avgRebounds", "gamesPlayed", "avgMinutes"]
+    },
+    {
+      "name": "offensive",
+      "names": ["avgAssists", "avgThreePointFieldGoalsMade", "avgPoints"]
+    }
+  ],
+  "athletes": [
+    {
+      "athlete": {
+        "id": "1",
+        "displayName": "Example Wing",
+        "teamId": "2",
+        "teamShortName": "BOS",
+        "teams": [{"id": "2", "abbreviation": "BOS"}]
+      },
+      "categories": [
+        {"name": "general", "values": [6.0, 10, 34.5]},
+        {"name": "offensive", "values": [4.0, 3.1, 22.5]}
+      ]
+    },
+    {
+      "athlete": {
+        "id": "2",
+        "displayName": "Other Wing",
+        "teamId": "7",
+        "teamShortName": "DEN",
+        "teams": [{"id": "7", "abbreviation": "DEN"}]
+      },
+      "categories": [
+        {"name": "general", "values": [5.0, 10, 31.0]},
+        {"name": "offensive", "values": [3.0, 2.0, 18.0]}
+      ]
+    },
+    {
+      "athlete": {
+        "id": "3",
+        "displayName": "Zero Games",
+        "teamId": "2",
+        "teamShortName": "BOS",
+        "teams": [{"id": "2", "abbreviation": "BOS"}]
+      },
+      "categories": [
+        {"name": "general", "values": [0, 0, 0]},
+        {"name": "offensive", "values": [0, 0, 0]}
+      ]
+    }
+  ]
+}

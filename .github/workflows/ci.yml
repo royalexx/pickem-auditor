@@ -1,0 +1,28 @@
+name: Pick'em Auditor offline checks
+on:
+  push:
+    paths:
+      - 'scripts/**'
+      - 'tests/**'
+      - '.cursor/**'
+      - '.github/workflows/ci.yml'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile skill Python modules
+        run: python -m compileall -q scripts
+      - name: Verify connectivity classification without network
+        run: python -m unittest discover -s tests -p 'test_network_receipt.py' -q
+      - name: Verify morning-preflight recovery
+        run: python -m unittest discover -s tests -p 'test_morning_preflight_recovery.py' -q
+      - name: Verify A/B engine contracts
+        run: python -m unittest discover -s tests -p 'test_engine_contracts.py' -q

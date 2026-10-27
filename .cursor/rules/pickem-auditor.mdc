@@ -1,0 +1,8 @@
+---
+description: Activate the Pick'em Auditor project skill for fresh NBA, NHL, NFL player-prop research, slate scouting, probability auditing, or tiered target requests.
+alwaysApply: false
+---
+
+# Pick'em Auditor project rule
+
+Read `.cursor/skills/pickem-auditor/SKILL.md` before performing any pick'em scouting, slate analysis, or grading request. Follow its referenced stage documents and hard failure gates. Do not treat an unavailable feed as a clean slate. Never use Underdog as a line or research source, never invent prices, and never hand-edit final_rank. No pick'em slips, stakes, or payouts.

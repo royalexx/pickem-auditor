@@ -1,0 +1,18 @@
+[
+  {
+    "skaterFullName": "Example Bruins Wing",
+    "playerId": 1,
+    "teamAbbrevs": "BOS",
+    "gamesPlayed": 10,
+    "shots": 30,
+    "timeOnIcePerGame": 1200
+  },
+  {
+    "skaterFullName": "Other League Wing",
+    "playerId": 2,
+    "teamAbbrevs": "SEA",
+    "gamesPlayed": 10,
+    "shots": 40,
+    "timeOnIcePerGame": 900
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "gameId": 2026100001,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-02-01",
+    "gamesStarted": 1,
+    "shotsAgainst": 25,
+    "goalsAgainst": 5,
+    "toi": "60:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026100002,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-02-02",
+    "gamesStarted": 1,
+    "shotsAgainst": 27,
+    "goalsAgainst": 5,
+    "toi": "60:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026100003,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-02-03",
+    "gamesStarted": 1,
+    "shotsAgainst": 29,
+    "goalsAgainst": 5,
+    "toi": "60:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026100004,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-02-04",
+    "gamesStarted": 1,
+    "shotsAgainst": 31,
+    "goalsAgainst": 5,
+    "toi": "60:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026100005,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-02-05",
+    "gamesStarted": 1,
+    "shotsAgainst": 33,
+    "goalsAgainst": 5,
+    "toi": "60:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026100006,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-02-06",
+    "gamesStarted": 1,
+    "shotsAgainst": 35,
+    "goalsAgainst": 5,
+    "toi": "60:00",
+    "opponentAbbrev": "NSH"
+  }
+]

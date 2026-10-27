@@ -1,0 +1,98 @@
+[
+  {
+    "gameId": 2026000012,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-01-12",
+    "shots": 4,
+    "toi": "20:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026000011,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-01-11",
+    "shots": 4,
+    "toi": "20:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026000010,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-01-10",
+    "shots": 4,
+    "toi": "20:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026000009,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-01-09",
+    "shots": 4,
+    "toi": "20:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026000008,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-01-08",
+    "shots": 4,
+    "toi": "20:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026000007,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-01-07",
+    "shots": 2,
+    "toi": "20:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026000006,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-01-06",
+    "shots": 2,
+    "toi": "20:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026000005,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-01-05",
+    "shots": 2,
+    "toi": "20:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026000004,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-01-04",
+    "shots": 2,
+    "toi": "20:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026000003,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-01-03",
+    "shots": 2,
+    "toi": "20:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026000002,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-01-02",
+    "shots": 2,
+    "toi": "20:00",
+    "opponentAbbrev": "NSH"
+  },
+  {
+    "gameId": 2026000001,
+    "teamAbbrev": "BOS",
+    "gameDate": "2026-01-01",
+    "shots": 9,
+    "toi": "40:00",
+    "opponentAbbrev": "NSH"
+  }
+]

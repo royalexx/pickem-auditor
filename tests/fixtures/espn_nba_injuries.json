@@ -1,0 +1,13 @@
+{
+  "injuries": [
+    {
+      "team": {"abbreviation": "BOS"},
+      "injuries": [
+        {
+          "athlete": {"displayName": "Test NBA Player"},
+          "status": "Out"
+        }
+      ]
+    }
+  ]
+}

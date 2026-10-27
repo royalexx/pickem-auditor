@@ -1,0 +1,17 @@
+{
+  "events": [
+    {
+      "competitions": [
+        {
+          "odds": [
+            {
+              "provider": {"name": "DraftKings"},
+              "overUnder": 5.5,
+              "moneyline": {"home": {"close": {"odds": "-155"}}, "away": {"close": {"odds": "130"}}}
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

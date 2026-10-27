@@ -1,0 +1,8 @@
+game_id,season,game_type,week,player,team,opponent,offense_snaps,offense_pct,defense_snaps,defense_pct
+G1,2026,REG,1,Example Receiver,NE,CHI,70,0.90,0,0
+G2,2026,REG,2,Example Receiver,NE,NYJ,70,0.86,0,0
+G1,2026,REG,1,Example Linebacker,NE,CHI,0,0,60,0.85
+G2,2026,REG,2,Example Linebacker,NE,NYJ,0,0,60,0.75
+G1,2026,REG,1,Other Offense,NE,CHI,70,0.4,0,0
+G3,2026,REG,1,Slow Player,DAL,PHI,50,0.5,0,0
+G4,2026,REG,1,Slow Player,DAL,NYG,50,0.5,0,0

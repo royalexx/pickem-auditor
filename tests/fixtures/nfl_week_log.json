@@ -1,0 +1,145 @@
+[
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "REG",
+    "week": 1,
+    "game_id": "g1",
+    "receptions": 9,
+    "offense_snaps": 10
+  },
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "REG",
+    "week": 2,
+    "game_id": "g2",
+    "receptions": 5,
+    "offense_snaps": 40
+  },
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "REG",
+    "week": 3,
+    "game_id": "g3",
+    "receptions": 5,
+    "offense_snaps": 40
+  },
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "REG",
+    "week": 4,
+    "game_id": "g4",
+    "receptions": 5,
+    "offense_snaps": 40
+  },
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "REG",
+    "week": 5,
+    "game_id": "g5",
+    "receptions": 5,
+    "offense_snaps": 40
+  },
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "REG",
+    "week": 6,
+    "game_id": "g6",
+    "receptions": 5,
+    "offense_snaps": 40
+  },
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "REG",
+    "week": 7,
+    "game_id": "g7",
+    "receptions": 5,
+    "offense_snaps": 40
+  },
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "REG",
+    "week": 8,
+    "game_id": "g8",
+    "receptions": 1,
+    "offense_snaps": 40
+  },
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "REG",
+    "week": 9,
+    "game_id": "g9",
+    "receptions": 1,
+    "offense_snaps": 40
+  },
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "REG",
+    "week": 10,
+    "game_id": "g10",
+    "receptions": 1,
+    "offense_snaps": 40
+  },
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "REG",
+    "week": 11,
+    "game_id": "g11",
+    "receptions": 1,
+    "offense_snaps": 40
+  },
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "REG",
+    "week": 12,
+    "game_id": "g12",
+    "receptions": 1,
+    "offense_snaps": 40
+  },
+  {
+    "player_display_name": "Example Receiver",
+    "player_id": "WR1",
+    "team": "NE",
+    "season": 2026,
+    "season_type": "POST",
+    "week": 13,
+    "game_id": "post1",
+    "receptions": 99,
+    "offense_snaps": 70
+  }
+]
