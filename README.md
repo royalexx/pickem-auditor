@@ -46,3 +46,18 @@ The GitHub connector currently cannot administer Actions secrets; the repository
 - No Underdog access, payouts, entry slips, or bets.
 
 Older instructions referencing only the original NHL-only bootstrap are superseded by this document; that workflow is now manual-only.
+
+
+## Verified source research and pregame decisions
+
+The afternoon workflow now produces source research, a capped verification
+queue, reviewer-ready task templates, separate forecast-linked decision
+receipts and a verified-only board. A second GitHub Action checks approaching
+games 25–55 minutes before kickoff. Only actually reviewed, current,
+identity-matched evidence and reliable statistical/scouting engines can
+qualify. No original forecasts or calibration weights are rewritten.
+PropLine credits are conserved until a due candidate has a properly
+attested review.
+
+See [Evidence-gated pick verification](references/pick_verification.md) for
+the exact review submission format, workflow stages and failure policy.
