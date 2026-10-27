@@ -1,25 +1,44 @@
-# Pick'em Auditor
+# Pick'em Auditor — GitHub is the authoritative project
 
-Private repository for the Pick'em Auditor workflow.
+Private code, original research and history, collection jobs and diagnostics live in this repository. The historical ChatGPT Tasks were disabled; GitHub Actions owns the daily schedules.
 
-## Phase 1: verified NHL-history collection
+## Architecture
 
-The initial GitHub runner **does not yet contain Engine A, Engine B or the full local skill package**. It establishes a reproducible, network-enabled NHL data pipeline before importing the full research and ranking system.
+| Location | Purpose |
+|---|---|
+| `main` | Engine A (statistical), Engine B (scouting), shared context, research gates, collectors, tests and workflows |
+| `data/history-archive` | **Immutable, lossless copy** of the original 2026-10-26 ChatGPT Library history (7,905 files, 1,492 original pregame forecasts, original timings and source packets) |
+| `data/shadow-calibration` | Authoritative evolving forecasts, verified settlement outcomes, cached usage and season records. Initialized from the immutable archive on the first run. |
+| `data/nhl/games` on `main` | Verified NHL completed-game boxscores |
+| `data/history_slate` on `main` | Daily timestamped, validated NBA/NHL/NFL source-observation snapshots, per sport and collection window |
+| Actions artifacts | Per-run source coverage and execution receipts (temporary logs, **not** sole history storage) |
 
-- Workflow: \`.github/workflows/nhl-history.yml\`
-- Collector: \`scripts/nhl_collect.py\`, using only Python's standard library.
-- Inputs: official NHL scoreboards and completed-game boxscores.
-- Outputs: \`data/nhl/games/YYYY-MM-DD/GAME_ID.json\` plus an execution receipt uploaded as a workflow artifact.
-- Scheduled at 6 a.m. and 4 p.m. Toronto time (including daylight-saving alternatives), with manual runs supported.
+## Daily schedule (America/Toronto)
 
-The workflow fails visibly if NHL APIs cannot be reached or if the response schema changes. Completed game files are deterministic and are not rewritten when unchanged.
+**6:00 a.m. — Morning history and settlement.** Collect yesterday's completed-game evidence; refresh the source observations; restore the authoritative prior forecasts; settle past pregame forecasts using verified actual stats; persist updated history. **Do not automatically modify engine weights, distributions, coefficients, blend-fit files or tier thresholds.**
 
-### Verify the first run
+**4:00 p.m. — Pregame shadow evaluation.** Refresh the current pregame sports slate and public sportsbook quotes; run the existing engines and research checks where evidence permits; retain immutable forecast timestamps and append current projections. Incomplete lineups, scouting research or market data remain unranked and cannot be promoted to official Tier 1/2/3.
 
-Open **Actions → NHL history collection → Run workflow**, then inspect the job, the collection receipt artifact, and committed \`data/nhl/games\` files. A successful trigger is **not** proof that data was collected.
+GitHub schedule: `.github/workflows/pickem-daily.yml`. The four UTC cron expressions are de-duplicated using local Toronto time across DST. For diagnostics, choose Actions > Pickem morning and afternoon > Run workflow and select morning or afternoon.
 
-### Future phases
+## Original history integrity
 
-Import the repaired skill code (excluding credentials and preexisting private archives), restore prior history, add NBA/NFL feeds, verify Odds API secrets, and add the A/B probabilistic ranking/settlement pipelines.
+The original history was compressed losslessly and stored on `data/history-archive` as 90 binary Git blobs with an SHA-256 manifest (`archive/2026-10-26/manifest.json`). It is not regenerated, graded, or relabeled. `scripts/history_bootstrap.py` validates every segment and the full payload, then restores original `data/prop_snapshots.jsonl`, `data/usage`, `data/season` and archive metadata **only when destination files do not already exist**. `scripts/shadow_store.sh` subsequently loads/saves ongoing authoritative state through `data/shadow-calibration`.
 
-Do not commit API credentials, local secrets, raw private archives, or picks to the repository. No Odds API key is required for this first NHL historical collector.
+The complete older replays and research packets remain available in the immutable archive, not in each ephemeral Actions workspace. Missing/unsupported actual outcomes must remain unresolved—no retrospective creation of pregame predictions.
+
+## Credential setup
+
+The Odds API key is **not stored in Git commits**. Add it to repository **Settings > Secrets and variables > Actions** as `ODDS_API_KEY`. Only GitHub's encrypted secret mechanism should supply the key to the 4 p.m. job. A private repository alone does not make plaintext API keys in commits safe.
+
+The GitHub connector currently cannot administer Actions secrets; the repository owner must save this one secret through GitHub. Without it, a full priced pregame ranking is blocked and the workflow reports `ODDS_API_KEY_SECRET_MISSING`.
+
+## Validation and grading
+
+- Live historical NHL, NBA and NFL source fetches have run successfully from GitHub.
+- Offline CI includes source-connectivity classification, engine A/B contracts, source receipts, archive checksum and bootstrap/idempotence tests.
+- A green step alone does **not** certify an operational cycle: inspect the job conclusion **and the run receipt** for feeds, forecasts, settlement and persistence. Failed steps are explicit.
+- All adjustments to weights/calibration remain manual and evidence-gated.
+- No Underdog access, payouts, entry slips, or bets.
+
+Older instructions referencing only the original NHL-only bootstrap are superseded by this document; that workflow is now manual-only.
