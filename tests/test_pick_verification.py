@@ -168,6 +168,30 @@ class VerificationTests(unittest.TestCase):
         result,_=pv.verify(rows,queue,packet,DATE,now=NOW)
         self.assertIn("PACKET_FIXTURE_IDENTITY_MISMATCH", result["decisions"][0]["blockers"])
 
+    def test_fully_attested_case_can_generate_separate_verified_tier2(self):
+        rows,queue,packet=build()
+        active(packet)
+        with patch.object(pv.pm,"evaluate_candidate",return_value={
+                "final_rank":"Tier 2","engine_a":{"reliable":True},
+                "engine_b":{"reliable":True},"blend":{"validated":False},
+                "grade":{"q_model":.64,"q_market_comparable":.54}}):
+            result,_=pv.verify(rows,queue,packet,DATE,now=NOW,reviews=attest(rows[0]))
+        self.assertEqual(result["verified"],1)
+        self.assertEqual(result["decisions"][0]["verified_rank"],"Tier 2")
+        self.assertTrue(result["decisions"][0]["publication_eligible"])
+        self.assertFalse(rows[0]["researched"])
+
+    def test_tier1_still_requires_validated_blend(self):
+        rows,queue,packet=build()
+        active(packet)
+        with patch.object(pv.pm,"evaluate_candidate",return_value={
+                "final_rank":"Tier 1","engine_a":{"reliable":True},
+                "engine_b":{"reliable":True},"blend":{"validated":False},
+                "grade":{"q_model":.64,"q_market_comparable":.54}}):
+            result,_=pv.verify(rows,queue,packet,DATE,now=NOW,reviews=attest(rows[0]))
+        self.assertEqual(result["verified"],0)
+        self.assertIn("TIER1_BLEND_NOT_VALIDATED",result["decisions"][0]["blockers"])
+
     def test_attested_review_still_requires_two_reliable_engines(self):
         rows,queue,packet=build()
         active(packet)
