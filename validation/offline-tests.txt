@@ -1,0 +1,17 @@
+prep coverage: {"priced_sides": 2, "quote_rows": 5, "slate_rows": 2, "unpriced_or_ungradeable_rows": 1}
+prep coverage: {"priced_sides": 0, "quote_rows": 0, "slate_rows": 1, "unpriced_or_ungradeable_rows": 1}
+prep: BLOCKED (NO_ODDS_QUOTES); not an empty successful slate
+/workspace/scratch/4b06eb2d8142/work/pickem-auditor/scripts/pickem_math.py:2743: DeprecationWarning: FanDuel has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+  books = _books_from_payload(books_raw) if books_raw else []
+/workspace/scratch/4b06eb2d8142/work/pickem-auditor/scripts/pickem_math.py:2743: DeprecationWarning: DraftKings has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+  books = _books_from_payload(books_raw) if books_raw else []
+/workspace/scratch/4b06eb2d8142/work/pickem-auditor/scripts/pickem_math.py:2226: DeprecationWarning: Pinnacle:3.5:-130:+110 has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+  books.append(_parse_book_spec(item))
+/workspace/scratch/4b06eb2d8142/work/pickem-auditor/scripts/pickem_math.py:2743: DeprecationWarning: Pinnacle has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+  books = _books_from_payload(books_raw) if books_raw else []
+/workspace/scratch/4b06eb2d8142/work/pickem-auditor/scripts/pickem_math.py:2743: DeprecationWarning: FanDuel has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+  books = _books_from_payload(books_raw) if books_raw else []
+----------------------------------------------------------------------
+Ran 434 tests in 21.808s
+
+OK

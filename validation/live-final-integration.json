@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-26",
+  "tested_at": "2026-10-26T19:47:24.980186+00:00",
+  "feeds": {
+    "nba": {
+      "finished_at": "2026-10-26T19:34:35Z",
+      "notes": [
+        "nba: ESPN athlete gamelog failed for 175 player(s) (https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/{athlete_id}/gamelog?season={season}). Log fields left null. nba: prior-season gamelog failed for 2 player(s). prior_season_mean left null."
+      ],
+      "rows": 924,
+      "started_at": "2026-10-26T19:33:29Z",
+      "status": "ok"
+    },
+    "nfl": {
+      "finished_at": "2026-10-26T19:33:29Z",
+      "notes": [],
+      "rows": 158,
+      "started_at": "2026-10-26T19:33:18Z",
+      "status": "ok"
+    },
+    "nhl": {
+      "finished_at": "2026-10-26T19:33:18Z",
+      "notes": [],
+      "rows": 32,
+      "started_at": "2026-10-26T19:31:57Z",
+      "status": "ok"
+    },
+    "odds": {
+      "finished_at": "2026-10-26T19:34:35Z",
+      "notes": [
+        "odds: basketball_nba events failed (URLError: <urlopen error Tunnel connection failed: 403 Forbidden>). No prices were invented. odds: icehockey_nhl events failed (URLError: <urlopen error Tunnel connection failed: 403 Forbidden>). No prices were invented. odds: americanfootball_nfl events failed (URLError: <urlopen error Tunnel connection failed: 403 Forbidden>). No prices were invented."
+      ],
+      "rows": 0,
+      "started_at": "2026-10-26T19:34:35Z",
+      "status": "failed"
+    }
+  },
+  "slate_rows": 1114,
+  "two_sided_quotes": 2672,
+  "priced_slate_rows": 562,
+  "prepared_sides": 532,
+  "engine_checks": {
+    "NBA": {
+      "evaluated": 436,
+      "engine_a_reliable": 0,
+      "engine_a_source_verified": 436,
+      "engine_b_reliable": 0,
+      "engine_b_source_baseline": 0
+    },
+    "NFL": {
+      "evaluated": 52,
+      "engine_a_reliable": 18,
+      "engine_a_source_verified": 52,
+      "engine_b_reliable": 0,
+      "engine_b_source_baseline": 46
+    },
+    "NHL": {
+      "evaluated": 44,
+      "engine_a_reliable": 36,
+      "engine_a_source_verified": 36,
+      "engine_b_reliable": 34,
+      "engine_b_source_baseline": 42
+    }
+  },
+  "pipeline_errors": {},
+  "context": {
+    "availability_rows": 133,
+    "notes": [
+      "context: nhl schedule (URLError: <urlopen error Tunnel connection failed: 403 Forbidden>)",
+      "context: nba scoreboard (URLError: <urlopen error Tunnel connection failed: 403 Forbidden>)",
+      "nba injuries: ESPN endpoint failed (URLError: <urlopen error Tunnel connection failed: 403 Forbidden>)",
+      "weather: points lookup failed (URLError: <urlopen error Tunnel connection failed: 403 Forbidden>)"
+    ]
+  },
+  "coverage": {
+    "by_sport": {
+      "NHL": {
+        "rows": 32,
+        "history_ready_rows": 30,
+        "priced_rows": 23,
+        "priced_history_ready_rows": 22
+      },
+      "NBA": {
+        "rows": 924,
+        "history_ready_rows": 222,
+        "priced_rows": 504,
+        "priced_history_ready_rows": 218
+      },
+      "NFL": {
+        "rows": 158,
+        "history_ready_rows": 107,
+        "priced_rows": 35,
+        "priced_history_ready_rows": 26
+      }
+    },
+    "has_priced_history_rows": true,
+    "scope": "collected rows only; quote freshness, source completeness and research readiness are not established"
+  },
+  "odds_retry": {
+    "status": "ok",
+    "quotes": 2672,
+    "resolved_quotes": 2672,
+    "unmatched_quotes": 762,
+    "notes": "Fresh independent retry after gateway 403; original feed failure retained above."
+  },
+  "odds_credential_loaded_from_local_config": true,
+  "scope": "Live feeds, price/history join and source-only engine evaluation; research facts not manually completed. No calibration claim."
+}

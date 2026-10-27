@@ -1,0 +1,11 @@
+{
+  "nba_pace": {
+    "ok": true,
+    "teams": 30
+  },
+  "nfl_schedule": {
+    "ok": true,
+    "season_games": 272,
+    "completed_games": 106
+  }
+}

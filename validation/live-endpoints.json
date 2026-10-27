@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-26",
+  "imports": {
+    "nflreadpy": true,
+    "nhlpy": true,
+    "nba_api": true,
+    "polars": true
+  },
+  "odds_key_present": false,
+  "feeds": {
+    "nhl_schedule": {
+      "ok": true,
+      "status": 200,
+      "schema_key": "gameWeek",
+      "items": 7
+    },
+    "nhl_stats": {
+      "ok": true,
+      "status": 200,
+      "schema_key": "data",
+      "items": 1
+    },
+    "nba_scoreboard": {
+      "ok": true,
+      "status": 200,
+      "schema_key": "events",
+      "items": 9
+    },
+    "nba_player_stats": {
+      "ok": true,
+      "status": 200,
+      "schema_key": "athletes",
+      "items": 1
+    },
+    "nfl_history_host": {
+      "ok": true,
+      "status": 200,
+      "note": "host reachable only; data schema not validated"
+    },
+    "nba_pace_host": {
+      "ok": true,
+      "status": 200,
+      "note": "host reachable only; data schema not validated"
+    },
+    "weather_host": {
+      "ok": true,
+      "status": 200,
+      "note": "host reachable only; data schema not validated"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "counts": {
+    "poisson_point": 196,
+    "negbin_point": 196,
+    "poisson_predictive": 196,
+    "normal_predictive": 60,
+    "negbin_quadrature": 18,
+    "gamma_quantile_relative": 45,
+    "point_push_under": 180
+  },
+  "max_absolute_errors": {
+    "poisson_point": 3.8691272408186705e-14,
+    "negbin_point": 3.3639757646142243e-14,
+    "poisson_predictive": 1.4186929409021332e-11,
+    "normal_predictive": 1.1102230246251565e-16,
+    "negbin_quadrature": 0.0006477443728608381,
+    "gamma_quantile_relative": 1.84430248850731e-12,
+    "point_push_under": 3.885780586188048e-14
+  },
+  "tolerances": {
+    "poisson_point": 1e-08,
+    "negbin_point": 1e-08,
+    "poisson_predictive": 1e-08,
+    "normal_predictive": 1e-08,
+    "negbin_quadrature": 0.002,
+    "gamma_quantile_relative": 1e-08,
+    "point_push_under": 1e-08
+  },
+  "passed": true
+}

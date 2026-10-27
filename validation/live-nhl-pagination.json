@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-26",
+  "summary_rows": 150,
+  "teams": [
+    "CGY",
+    "DET",
+    "EDM",
+    "LAK",
+    "NYR",
+    "TOR"
+  ],
+  "notes": [],
+  "history_collection": "deliberately not run in this independent pagination test"
+}

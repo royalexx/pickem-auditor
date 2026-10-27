@@ -1,0 +1,17 @@
+# Pick'em auditor shadow calibration (America/Toronto).
+# Install: crontab crontab.shadow
+# Requires ODDS_API_KEY in the environment used by cron.
+
+CRON_TZ=America/Toronto
+
+# Morning and early-afternoon slate snapshots (odds + prep + shadow pipeline).
+0 9,14 * * * cd /path/to/pickem-auditor && /usr/bin/python3 scripts/jobs.py snapshot >> logs/cron_snapshot.log 2>&1
+
+# Closing lines before evening games.
+55 18 * * * cd /path/to/pickem-auditor && /usr/bin/python3 scripts/jobs.py closing >> logs/cron_closing.log 2>&1
+
+# Settle finished games (Eastern game dates before today).
+30 3 * * * cd /path/to/pickem-auditor && /usr/bin/python3 scripts/jobs.py settle >> logs/cron_settle.log 2>&1
+
+# Weekly calibration report + blend fit (Monday 05:00 Toronto).
+0 5 * * 1 cd /path/to/pickem-auditor && /usr/bin/python3 scripts/jobs.py weekly >> logs/cron_weekly.log 2>&1

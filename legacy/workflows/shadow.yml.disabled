@@ -1,0 +1,79 @@
+name: pickem-auditor-shadow
+on:
+  schedule:
+    # Alternative UTC timestamps; gate selects only actual Toronto-local slots.
+    - cron: '0 13 * * *'
+    - cron: '0 14 * * *'
+    - cron: '0 18 * * *'
+    - cron: '0 19 * * *'
+    - cron: '55 22 * * *'
+    - cron: '55 23 * * *'
+    - cron: '30 7 * * *'
+    - cron: '30 8 * * *'
+    - cron: '0 9 * * 1'
+    - cron: '0 10 * * 1'
+  workflow_dispatch:
+    inputs:
+      job:
+        description: Shadow task to run
+        type: choice
+        required: true
+        default: snapshot
+        options: [snapshot, closing, settle, weekly]
+
+permissions:
+  contents: write
+
+# One writer at a time; no competing snapshot/closing/settle commits.
+concurrency:
+  group: pickem-auditor-shadow-calibration
+  cancel-in-progress: false
+
+jobs:
+  shadow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Resolve intended Toronto-local run
+        id: gate
+        env:
+          EVENT_CRON: ${{ github.event.schedule }}
+          MANUAL_JOB: ${{ inputs.job }}
+        shell: bash
+        run: |
+          kind="$(python3 scripts/schedule_gate.py --schedule "$EVENT_CRON" --manual "$MANUAL_JOB")"
+          echo "job=$kind" >> "$GITHUB_OUTPUT"
+          echo "Planned run: $kind"
+      - name: Load persistent historical records
+        if: steps.gate.outputs.job != 'skip'
+        run: bash scripts/shadow_store.sh load
+      - name: Install dependencies
+        if: steps.gate.outputs.job != 'skip'
+        run: pip install -r requirements.txt
+      - name: Diagnose public API network reachability
+        if: steps.gate.outputs.job != 'skip'
+        continue-on-error: true
+        run: python3 scripts/network_receipt.py --out data/collection_network_receipt.json
+      - name: Run scheduled job
+        if: steps.gate.outputs.job != 'skip'
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python3 scripts/jobs.py "${{ steps.gate.outputs.job }}"
+      - name: Persist calibration history
+        if: steps.gate.outputs.job != 'skip' && success()
+        run: bash scripts/shadow_store.sh save
+      - uses: actions/upload-artifact@v4
+        if: steps.gate.outputs.job != 'skip' && always()
+        with:
+          name: shadow-${{ steps.gate.outputs.job }}-${{ github.run_id }}
+          path: |
+            data/prop_snapshots.jsonl
+            data/blend_fit_*.json
+            logs/*.log
+            data/collection_network_receipt.json
+          if-no-files-found: ignore

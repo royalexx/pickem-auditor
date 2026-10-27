@@ -1,0 +1,241 @@
+{
+  "samples": [
+    {
+      "sport": "NBA",
+      "toa_unique_two_sided": 121,
+      "parlay_unique_two_sided": 27,
+      "tentative_same_name_book_market_line_matches": 26,
+      "matching_prices": 25,
+      "toa_quote_age_median_s": 14.449632,
+      "parlay_quote_age_median_s": 497.2,
+      "parlay_narrow_queries": [
+        {
+          "book": "draftkings",
+          "market": "player_points",
+          "rows": 2,
+          "two_sided": 2,
+          "headers": {
+            "x-requests-last": "3",
+            "x-requests-remaining": "988",
+            "x-requests-used": "12",
+            "x-result-has-more": "false",
+            "x-result-limit": "10000",
+            "x-result-offset": "0",
+            "x-result-page-size": "2",
+            "x-result-row-count": "2"
+          }
+        },
+        {
+          "book": "fanduel",
+          "market": "player_points",
+          "rows": 14,
+          "two_sided": 0,
+          "headers": {
+            "x-requests-last": "3",
+            "x-requests-remaining": "985",
+            "x-requests-used": "15",
+            "x-result-has-more": "false",
+            "x-result-limit": "10000",
+            "x-result-offset": "0",
+            "x-result-page-size": "14",
+            "x-result-row-count": "14"
+          }
+        },
+        {
+          "book": "betmgm",
+          "market": "player_points",
+          "rows": 0,
+          "two_sided": 0,
+          "headers": {
+            "x-requests-last": "3",
+            "x-requests-remaining": "982",
+            "x-requests-used": "18",
+            "x-result-has-more": "false",
+            "x-result-limit": "10000",
+            "x-result-offset": "0",
+            "x-result-page-size": "0",
+            "x-result-row-count": "0"
+          }
+        },
+        {
+          "book": "pinnacle",
+          "market": "player_points",
+          "rows": 14,
+          "two_sided": 14,
+          "headers": {
+            "x-requests-last": "3",
+            "x-requests-remaining": "979",
+            "x-requests-used": "21",
+            "x-result-has-more": "false",
+            "x-result-limit": "10000",
+            "x-result-offset": "0",
+            "x-result-page-size": "14",
+            "x-result-row-count": "14"
+          }
+        }
+      ]
+    },
+    {
+      "sport": "NHL",
+      "toa_unique_two_sided": 51,
+      "parlay_unique_two_sided": 14,
+      "tentative_same_name_book_market_line_matches": 12,
+      "matching_prices": 12,
+      "toa_quote_age_median_s": 1.173467,
+      "parlay_quote_age_median_s": 486.4,
+      "parlay_narrow_queries": [
+        {
+          "book": "draftkings",
+          "market": "player_shots_on_goal",
+          "rows": 0,
+          "two_sided": 0,
+          "headers": {
+            "x-requests-last": "3",
+            "x-requests-remaining": "976",
+            "x-requests-used": "24",
+            "x-result-has-more": "false",
+            "x-result-limit": "10000",
+            "x-result-offset": "0",
+            "x-result-page-size": "0",
+            "x-result-row-count": "0"
+          }
+        },
+        {
+          "book": "fanduel",
+          "market": "player_shots_on_goal",
+          "rows": 0,
+          "two_sided": 0,
+          "headers": {
+            "x-requests-last": "3",
+            "x-requests-remaining": "973",
+            "x-requests-used": "27",
+            "x-result-has-more": "false",
+            "x-result-limit": "10000",
+            "x-result-offset": "0",
+            "x-result-page-size": "0",
+            "x-result-row-count": "0"
+          }
+        },
+        {
+          "book": "betmgm",
+          "market": "player_shots_on_goal",
+          "rows": 0,
+          "two_sided": 0,
+          "headers": {
+            "x-requests-last": "3",
+            "x-requests-remaining": "970",
+            "x-requests-used": "30",
+            "x-result-has-more": "false",
+            "x-result-limit": "10000",
+            "x-result-offset": "0",
+            "x-result-page-size": "0",
+            "x-result-row-count": "0"
+          }
+        },
+        {
+          "book": "pinnacle",
+          "market": "player_shots_on_goal",
+          "rows": 12,
+          "two_sided": 12,
+          "headers": {
+            "x-requests-last": "3",
+            "x-requests-remaining": "967",
+            "x-requests-used": "33",
+            "x-result-has-more": "false",
+            "x-result-limit": "10000",
+            "x-result-offset": "0",
+            "x-result-page-size": "12",
+            "x-result-row-count": "12"
+          }
+        }
+      ]
+    },
+    {
+      "sport": "NFL",
+      "toa_unique_two_sided": 51,
+      "parlay_unique_two_sided": 52,
+      "tentative_same_name_book_market_line_matches": 46,
+      "matching_prices": 46,
+      "toa_quote_age_median_s": 29.477178,
+      "parlay_quote_age_median_s": 43.8,
+      "parlay_narrow_queries": [
+        {
+          "book": "draftkings",
+          "market": "player_tackles_assists",
+          "rows": 0,
+          "two_sided": 0,
+          "headers": {
+            "x-requests-last": "3",
+            "x-requests-remaining": "964",
+            "x-requests-used": "36",
+            "x-result-has-more": "false",
+            "x-result-limit": "10000",
+            "x-result-offset": "0",
+            "x-result-page-size": "0",
+            "x-result-row-count": "0"
+          }
+        },
+        {
+          "book": "fanduel",
+          "market": "player_tackles_assists",
+          "rows": 0,
+          "two_sided": 0,
+          "headers": {
+            "x-requests-last": "3",
+            "x-requests-remaining": "961",
+            "x-requests-used": "39",
+            "x-result-has-more": "false",
+            "x-result-limit": "10000",
+            "x-result-offset": "0",
+            "x-result-page-size": "0",
+            "x-result-row-count": "0"
+          }
+        },
+        {
+          "book": "betmgm",
+          "market": "player_tackles_assists",
+          "rows": 0,
+          "two_sided": 0,
+          "headers": {
+            "x-requests-last": "3",
+            "x-requests-remaining": "958",
+            "x-requests-used": "42",
+            "x-result-has-more": "false",
+            "x-result-limit": "10000",
+            "x-result-offset": "0",
+            "x-result-page-size": "0",
+            "x-result-row-count": "0"
+          }
+        },
+        {
+          "book": "pinnacle",
+          "market": "player_tackles_assists",
+          "rows": 0,
+          "two_sided": 0,
+          "headers": {
+            "x-requests-last": "3",
+            "x-requests-remaining": "955",
+            "x-requests-used": "45",
+            "x-result-has-more": "false",
+            "x-result-limit": "10000",
+            "x-result-offset": "0",
+            "x-result-page-size": "0",
+            "x-result-row-count": "0"
+          }
+        }
+      ]
+    }
+  ],
+  "credits": {
+    "toa": 9,
+    "parlay": 45
+  },
+  "limitations": [
+    "Three fixtures, not a full slate or reliability trial",
+    "Different provider timestamp semantics",
+    "Sequential requests; prices can move",
+    "Name-based overlaps are provisional identities, not verified athlete ID joins"
+  ],
+  "date": "2026-10-26",
+  "recommendation": "Retain The Odds API as primary; Parlay may supplement NFL coverage. Three sampled fixtures do not establish full-slate completeness or uptime."
+}

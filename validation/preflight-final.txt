@@ -1,0 +1,15 @@
+check    feed  target                     result detail
+import   nfl   nflreadpy                  ok
+import   nfl   polars                     ok
+import   nhl   nhlpy                      ok
+import   nba   nba_api                    ok
+https    nhl   api-web.nhle.com           ok     HTTP 200
+https    nhl   api.nhle.com               ok     HTTP 200
+https    nba   site.api.espn.com          ok     HTTP 200
+https    nba   site.web.api.espn.com      ok     HTTP 200
+https    nfl   github.com (nflverse)      ok     HTTP 200
+https    nba   stats.nba.com              ok     HTTP 200
+https    odds  api.the-odds-api.com       ok     HTTP 200
+credential odds  ODDS_API_KEY               ok     present
+down: none
+preflight: ok

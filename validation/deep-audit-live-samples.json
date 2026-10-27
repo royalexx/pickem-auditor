@@ -1,0 +1,51 @@
+{
+  "tested_at": "2026-10-26T20:13:49.757655+00:00",
+  "date": "2026-10-26",
+  "credential_source": "local configuration; value excluded",
+  "scope": "One real odds fixture and up to three markets per sport; one current/prior player log for NBA/NHL; current NFL weekly table. Not full-slate completeness or accuracy validation.",
+  "results": [
+    {
+      "sport": "NBA",
+      "scheduled_events": 9,
+      "two_sided_quotes": 135,
+      "books": 4,
+      "quotes_with_fixture_date": 135,
+      "quotes_with_both_event_teams": 135,
+      "notes": [],
+      "initial_probe_error": [
+        "AttributeError: 'dict' object has no attribute 'append'"
+      ],
+      "sample_player_game_logs": [
+        3,
+        15
+      ],
+      "sample_logs_ok": true
+    },
+    {
+      "sport": "NHL",
+      "scheduled_events": 3,
+      "two_sided_quotes": 51,
+      "books": 4,
+      "quotes_with_fixture_date": 51,
+      "quotes_with_both_event_teams": 51,
+      "sample_player_game_logs": [
+        11,
+        82
+      ],
+      "sample_logs_ok": true,
+      "notes": []
+    },
+    {
+      "sport": "NFL",
+      "scheduled_events": 1,
+      "two_sided_quotes": 99,
+      "books": 4,
+      "quotes_with_fixture_date": 99,
+      "quotes_with_both_event_teams": 99,
+      "weekly_stat_rows": 7377,
+      "dated_weekly_rows": 7377,
+      "sample_logs_ok": true,
+      "notes": []
+    }
+  ]
+}

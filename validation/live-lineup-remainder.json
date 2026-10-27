@@ -1,0 +1,21 @@
+{
+  "NBA|UTA|threes": {
+    "ok": true,
+    "discovered": 3,
+    "completed": 3,
+    "errors": [],
+    "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/26/schedule?season=2027&seasontype=2"
+  },
+  "NHL|CHI|shots on goal": {
+    "ok": true,
+    "discovered": 3,
+    "completed": 3,
+    "errors": [],
+    "source_url": "https://api-web.nhle.com/v1/club-schedule-season/CHI/20262027"
+  },
+  "NFL": {
+    "ok": false,
+    "status": "unsupported_without_complete_active_roster",
+    "detail": "Tested ESPN summary has no active-roster section; tested core roster URL returns 404. Statistics tables are not complete rosters."
+  }
+}
