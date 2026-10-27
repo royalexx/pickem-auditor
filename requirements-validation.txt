@@ -1,2 +1,0 @@
-# Optional independent numerical cross-checks; not needed by the runtime engines.
-scipy

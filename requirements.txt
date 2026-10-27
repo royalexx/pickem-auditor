@@ -1,5 +1,0 @@
-nflreadpy==0.1.5
-nhl-api-py==3.3.0
-nba_api==1.11.6
-
-httpx[socks]==0.28.1
