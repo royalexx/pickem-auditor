@@ -94,6 +94,22 @@ jobs:
                   receipt['sport_coverage']={k:sport_stats.get(k) for k in ('status','date','retrieved_at','source_rows','feed_status','errors')}
               except (ValueError,OSError):
                   receipt['sport_coverage']={'status':'invalid_receipt'}
+          meta_path=Path('data/slate_fetch.meta.json')
+          if meta_path.is_file():
+              try:
+                  source_meta=json.loads(meta_path.read_text())
+                  odds_feed=(source_meta.get('feeds') or {}).get('odds') or {}
+                  odds_notes=' '.join(str(x) for x in (odds_feed.get('notes') or []))
+                  receipt['odds_coverage']={
+                      'feed_status':odds_feed.get('status'),
+                      'quote_rows':odds_feed.get('rows',0),
+                      'unauthorized_event_requests':odds_notes.count('HTTP 401'),
+                      'limited_coverage':bool('HTTP 401' in odds_notes or 'OUT_OF_USAGE_CREDITS' in odds_notes),
+                      'source_timestamp':source_meta.get('retrieved_at'),
+                      'note':'Valid quotes are usable; unavailable or unauthorized event markets are never invented.'
+                  }
+              except (OSError,ValueError,TypeError):
+                  receipt['odds_coverage']={'error':'INVALID_SOURCE_META'}
           archive=Path('data/prop_snapshots.jsonl')
           if phase=='morning':
               if archive.is_file():
