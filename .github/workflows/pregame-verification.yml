@@ -1,0 +1,89 @@
+name: Verify pregame candidates before event start
+on:
+  workflow_dispatch:
+  schedule:
+    # Every 15 minutes, offset to avoid top-of-hour GitHub congestion.
+    # A per-event 25–55 minute window prevents unrelated reruns.
+    - cron: '7,22,37,52 * * * *'
+permissions:
+  contents: write
+concurrency:
+  group: pickem-daily
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore original forecasts and current verification state
+        run: bash scripts/shadow_store.sh load
+      - name: Select due games without requesting market data
+        id: gate
+        run: |
+          python - <<'PY'
+          import json,os
+          from datetime import datetime,timezone
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+          import sys
+          sys.path.insert(0,'scripts')
+          from pick_verification import select
+          now=datetime.now(timezone.utc)
+          date=now.astimezone(ZoneInfo('America/Toronto')).date().isoformat()
+          root=Path('data/verification')/date
+          queue_path=root/'queue.json'
+          packet_path=root/'packet.json'
+          due=[]
+          reason='no_saved_afternoon_research'
+          if queue_path.is_file() and packet_path.is_file():
+              rows=[json.loads(line) for line in Path('data/prop_snapshots.jsonl').read_text().splitlines() if line.strip()]
+              queue=json.loads(queue_path.read_text())
+              packet=json.loads(packet_path.read_text())
+              if queue.get('date')!=date or packet.get('date')!=date:
+                  raise ValueError('same-date packet required')
+              due,excluded,run,total=select(rows,queue,date,now,'recheck',30)
+              reason='due' if due else 'none_within_25_to_55_minutes'
+          print(json.dumps({'date':date,'due_candidates':len(due),'reason':reason}))
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
+              out.write('date='+date+'\n')
+              out.write('due='+('true' if due else 'false')+'\n')
+          PY
+      - name: Install collector requirements for live verification
+        if: steps.gate.outputs.due == 'true'
+        run: python -m pip install -r requirements.txt
+      - name: Refresh official pregame statuses and PropLine prices; evaluate evidence
+        if: steps.gate.outputs.due == 'true'
+        env:
+          PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
+          PICKEM_ODDS_QUOTA_GUARD: '1'
+          VERIFY_DATE: ${{ steps.gate.outputs.date }}
+        run: |
+          args=(--date "$VERIFY_DATE"
+                --phase recheck --limit 30
+                --refresh-sources --refresh-quotes
+                --queue "data/verification/$VERIFY_DATE/queue.json"
+                --packet "data/verification/$VERIFY_DATE/packet.json"
+                --snapshots data/prop_snapshots.jsonl
+                --archive-root data/verification
+                --out reports/pick_verification.json)
+          if [ -f "data/review_submissions/$VERIFY_DATE.json" ]; then
+            args+=(--reviews "data/review_submissions/$VERIFY_DATE.json")
+          fi
+          python scripts/pick_verification.py "${args[@]}"
+      - name: Persist verification evidence independently from original predictions
+        if: steps.gate.outputs.due == 'true'
+        run: bash scripts/shadow_store.sh save
+      - name: Publish audit-ready pregame receipts
+        if: always() && steps.gate.outputs.due == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pregame-evidence-verification
+          path: |
+            reports/pick_verification.json
+            data/verification/${{ steps.gate.outputs.date }}/decisions/
+          retention-days: 90
+          if-no-files-found: error
