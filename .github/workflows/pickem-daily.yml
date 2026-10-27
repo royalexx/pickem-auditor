@@ -7,11 +7,14 @@ on:
         required: true
         type: choice
         options: [morning, afternoon]
+  push:
+    paths:
+      - '.github/workflows/pickem-daily.yml'
   schedule:
-    - cron: '0 10 * * *'
-    - cron: '0 11 * * *'
-    - cron: '0 20 * * *'
-    - cron: '0 21 * * *'
+    - cron: '13 10 * * *'
+    - cron: '13 11 * * *'
+    - cron: '13 20 * * *'
+    - cron: '13 21 * * *'
 permissions:
   contents: write
 concurrency:
@@ -35,7 +38,7 @@ jobs:
           from zoneinfo import ZoneInfo
           with open(os.environ['GITHUB_EVENT_PATH']) as f: event=json.load(f)
           trigger=os.environ['GITHUB_EVENT_NAME']
-          phase=event.get('inputs',{}).get('phase','skip')
+          phase=('afternoon' if trigger=='push' else event.get('inputs',{}).get('phase','skip'))
           if trigger=='schedule':
               phase='skip'
               fields=str(event.get('schedule','')).split()
@@ -44,7 +47,7 @@ jobs:
                   planned=now.replace(hour=int(fields[1]),minute=int(fields[0]),second=0,microsecond=0)
                   if planned>now+timedelta(minutes=2): planned-=timedelta(days=1)
                   local=planned.astimezone(ZoneInfo('America/Toronto'))
-                  if timedelta(0)<=now-planned<timedelta(hours=12) and local.minute==0:
+                  if timedelta(0)<=now-planned<timedelta(hours=12) and local.minute==13:
                       phase={6:'morning',16:'afternoon'}.get(local.hour,'skip')
                   print('Scheduled local slot:',local.isoformat())
           if phase not in ('morning','afternoon'): phase='skip'
@@ -115,24 +118,25 @@ jobs:
               if archive.is_file():
                   step('settle_forecasts',[sys.executable,'scripts/jobs.py','settle'])
               else:
-                  receipt['stages']['settle_forecasts']={'ok':False,'error':'OLD_LIBRARY_ARCHIVE_NOT_IMPORTED'}
-          elif not os.environ.get('ODDS_API_KEY'):
-              receipt['stages']['pregame_engines']={'ok':False,'error':'ODDS_API_KEY_SECRET_MISSING'}
-          else:
-              step('source_research',[sys.executable,'scripts/auto_research.py'])
-          if Path('reports/structured_research.json').exists():
-              try:
-                  receipt['structured_research']=json.loads(Path('reports/structured_research.json').read_text())
-              except (ValueError,OSError):
-                  receipt['structured_research']={'error':'INVALID_RESEARCH_RECEIPT'}
-          step('pregame_engines',[sys.executable,'scripts/jobs.py','snapshot','--reuse-collected'])
-          if Path('data/prop_snapshots.jsonl').is_file():
-              step('afternoon_rank_audit',[sys.executable,'scripts/audit_afternoon.py','--date',datetime.now(timezone.utc).astimezone(__import__('zoneinfo').ZoneInfo('America/Toronto')).date().isoformat()])
-          if Path('reports/afternoon_audit.json').exists():
-              try:
-                  receipt['afternoon_audit']=json.loads(Path('reports/afternoon_audit.json').read_text())
-              except (ValueError,OSError):
-                  receipt['afternoon_audit']={'status':'invalid_audit_receipt'}
+                  receipt['stages']['settle_forecasts']={'ok':False,'error':'HISTORY_SNAPSHOT_MISSING'}
+          elif phase=='afternoon':
+              if not os.environ.get('ODDS_API_KEY'):
+                  receipt['stages']['pregame_engines']={'ok':False,'error':'ODDS_API_KEY_SECRET_MISSING'}
+              else:
+                  step('source_research',[sys.executable,'scripts/auto_research.py'])
+                  if Path('reports/structured_research.json').exists():
+                      try:
+                          receipt['structured_research']=json.loads(Path('reports/structured_research.json').read_text())
+                      except (ValueError,OSError):
+                          receipt['structured_research']={'error':'INVALID_RESEARCH_RECEIPT'}
+                  step('pregame_engines',[sys.executable,'scripts/jobs.py','snapshot','--reuse-collected'])
+                  if Path('data/prop_snapshots.jsonl').is_file():
+                      step('afternoon_rank_audit',[sys.executable,'scripts/audit_afternoon.py','--date',datetime.now(timezone.utc).astimezone(__import__('zoneinfo').ZoneInfo('America/Toronto')).date().isoformat()])
+                  if Path('reports/afternoon_audit.json').exists():
+                      try:
+                          receipt['afternoon_audit']=json.loads(Path('reports/afternoon_audit.json').read_text())
+                      except (ValueError,OSError):
+                          receipt['afternoon_audit']={'status':'invalid_audit_receipt'}
           if archive.is_file():
               step('verify_forecast_identity',[sys.executable,'scripts/verify_history_invariants.py'])
           else:
@@ -180,6 +184,7 @@ jobs:
             reports/forecast_invariants.json
             reports/afternoon_audit.json
             reports/structured_research.json
+            logs/snapshot_*.log
             data/slate_fetch.meta.json
             data/slate_fetch.jsonl.meta.json
             data/slate_fetch.jsonl.failed.json
