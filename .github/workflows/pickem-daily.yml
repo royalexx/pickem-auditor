@@ -119,7 +119,13 @@ jobs:
           elif not os.environ.get('ODDS_API_KEY'):
               receipt['stages']['pregame_engines']={'ok':False,'error':'ODDS_API_KEY_SECRET_MISSING'}
           else:
-              step('pregame_engines',[sys.executable,'scripts/jobs.py','snapshot','--reuse-collected'])
+              step('source_research',[sys.executable,'scripts/auto_research.py'])
+          if Path('reports/structured_research.json').exists():
+              try:
+                  receipt['structured_research']=json.loads(Path('reports/structured_research.json').read_text())
+              except (ValueError,OSError):
+                  receipt['structured_research']={'error':'INVALID_RESEARCH_RECEIPT'}
+          step('pregame_engines',[sys.executable,'scripts/jobs.py','snapshot','--reuse-collected'])
           if Path('data/prop_snapshots.jsonl').is_file():
               step('afternoon_rank_audit',[sys.executable,'scripts/audit_afternoon.py','--date',datetime.now(timezone.utc).astimezone(__import__('zoneinfo').ZoneInfo('America/Toronto')).date().isoformat()])
           if Path('reports/afternoon_audit.json').exists():
@@ -173,6 +179,7 @@ jobs:
             reports/history_bootstrap.json
             reports/forecast_invariants.json
             reports/afternoon_audit.json
+            reports/structured_research.json
             data/slate_fetch.meta.json
             data/slate_fetch.jsonl.meta.json
             data/slate_fetch.jsonl.failed.json
