@@ -29,7 +29,7 @@ class SourceWarehouse(unittest.TestCase):
         rows=wh.canonical_game(raw_game(),"2018-10-01")
         self.assertEqual(len(rows),16)
         self.assertEqual(rows[0]["shots"],0)
-        self.assertEqual(rows[0]["toi_minutes"],12+20/60)
+        self.assertAlmostEqual(rows[0]["toi_minutes"],12+20/60,places=5)
         self.assertEqual(len({r["player_id"] for r in rows}),16)
         self.assertEqual(len({r["source_sha256"] for r in rows}),1)
         bad=raw_game()
