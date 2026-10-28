@@ -21,7 +21,7 @@ NEGATIVE_STATUS = {"PLAYER_NOT_CONFIRMED_ACTIVE",
 def matched_books(row):
     from pickem_math import canon_book, APPROVED_BOOKS
     matched = set()
-    for book in (row.get("inputs") or {}).get("books") or []:
+    for book in ((row.get("inputs") or {}).get("books") or row.get("books") or []):
         if not isinstance(book, dict):
             continue
         name = book.get("book")
