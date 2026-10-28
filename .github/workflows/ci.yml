@@ -80,6 +80,9 @@ jobs:
       - name: Verify source-owned NBA three-point replay and unchanged other markets
         run: python -m unittest discover -s tests -p test_population_repair_nba_threes.py -q
 
+      - name: Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows
+        run: python -m unittest discover -s tests -p test_recent_population_window.py -q
+
       - name: Execute full offline unit-test suite
         run: python -m unittest discover -s tests -q
 
