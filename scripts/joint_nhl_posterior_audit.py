@@ -11,16 +11,16 @@ import math
 from pathlib import Path
 
 
-def evaluate_posterior(idata, manifest):
+def geometry_stats(idata):
+    """Required joint-correlation Rhat/ESS and NUTS energy BFMI.
+
+    Pure posterior diagnostic: no settled outcomes or original forecast lines.
+    Also invoked by the regular fit acceptance gate.
+    """
     import numpy as np
     import xarray as xr
     from arviz_stats import rhat, ess
     import joint_nhl_bayes as joint
-
-    if (manifest.get("version")!=joint.VERSION or
-        manifest.get("publication_eligible") is not False or
-        manifest.get("diagnostics",{}).get("posterior_sampling_ok") is not True):
-        raise ValueError("original_joint_fit_not_eligible_for_diagnostic_recheck")
 
     posterior=idata.posterior
     corr=np.asarray(posterior["player_chol_corr"],dtype=float)
@@ -30,11 +30,13 @@ def evaluate_posterior(idata, manifest):
     if not np.all(np.isfinite(rho)) or np.any(np.abs(rho)>1):
         raise ValueError("invalid_player_correlation")
     ds=xr.Dataset({"workload_shot_rate_corr":(("chain","draw"),rho)})
-    rhat_vals=joint._diagnostic_values(rhat(ds))
-    ess_vals=joint._diagnostic_values(ess(ds,method="bulk"))
-    if len(rhat_vals)!=1 or len(ess_vals)!=1:
+    rh=joint._diagnostic_values(rhat(ds))
+    es=joint._diagnostic_values(ess(ds,method="bulk"))
+    if len(rh)!=1 or len(es)!=1:
         raise ValueError("ambiguous_joint_correlation_diagnostics")
-    cr,ce=rhat_vals[0],ess_vals[0]
+    cr,ce=float(rh[0]),float(es[0])
+    if not math.isfinite(cr) or not math.isfinite(ce):
+        raise ValueError("nonfinite_joint_correlation_diagnostics")
     energy=np.asarray(idata.sample_stats["energy"],dtype=float)
     if energy.shape!=rho.shape or not np.all(np.isfinite(energy)):
         raise ValueError("invalid_nuts_energy")
@@ -44,26 +46,36 @@ def evaluate_posterior(idata, manifest):
     bfmi=np.mean(np.diff(energy,axis=1)**2,axis=1)/variance
     if not np.all(np.isfinite(bfmi)):
         raise ValueError("invalid_energy_bfmi")
-    extra_ok=(cr<=joint.MAX_RHAT and ce>=joint.MIN_ESS_BULK and
-              np.min(bfmi)>=.30)
+    passed=(cr<=joint.MAX_RHAT and ce>=joint.MIN_ESS_BULK and
+            float(np.min(bfmi))>=.30)
+    return {"correlation":"latent player log-workload versus log-shot-rate",
+        "posterior_correlation_mean":float(np.mean(rho)),
+        "posterior_correlation_quantiles_025_50_975":[
+            float(v) for v in np.quantile(rho,[.025,.5,.975])],
+        "correlation_rhat":cr,"correlation_bulk_ess":ce,
+        "nuts_bfmi_by_chain":[float(x) for x in bfmi],
+        "minimum_bfmi":float(np.min(bfmi)),
+        "chains":int(rho.shape[0]),"draws_per_chain":int(rho.shape[1]),
+        "correlation_and_energy_check_pass":bool(passed)}
+
+
+def evaluate_posterior(idata, manifest):
+    import joint_nhl_bayes as joint
+    if (manifest.get("version")!=joint.VERSION or
+        manifest.get("publication_eligible") is not False or
+        manifest.get("diagnostics",{}).get("posterior_sampling_ok") is not True):
+        raise ValueError("original_joint_fit_not_eligible_for_diagnostic_recheck")
+    geometry=geometry_stats(idata)
+    extra_ok=geometry["correlation_and_energy_check_pass"]
     return {"schema":"nhl_joint_posterior_geometry_v1",
         "model_version":joint.VERSION,
         "source_digest":manifest["source_digest"],
         "train_cutoff_exclusive":manifest["training_cutoff_exclusive"],
-        "chains":int(rho.shape[0]),"draws_per_chain":int(rho.shape[1]),
-        "correlation":"latent player log-workload versus log-shot-rate",
-        "posterior_correlation_mean":float(np.mean(rho)),
-        "posterior_correlation_quantiles_025_50_975":[
-            float(v) for v in np.quantile(rho,[.025,.5,.975])],
-        "correlation_rhat":float(cr),"correlation_bulk_ess":float(ce),
-        "nuts_bfmi_by_chain":[float(x) for x in bfmi],
-        "minimum_bfmi":float(np.min(bfmi)),
-        "correlation_and_energy_check_pass":bool(extra_ok),
+        **geometry,
         "overall_sampling_check_pass":bool(extra_ok),
         "status":"supplemental_diagnostics_pass" if extra_ok else "supplemental_diagnostics_fail",
         "publication_eligible":False,"calibrated_for_production":False,
         "models_or_weights_modified":False}
-
 
 def main(argv=None):
     p=argparse.ArgumentParser()
