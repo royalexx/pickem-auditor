@@ -24,6 +24,26 @@ MAX_RHAT = 1.01
 MIN_ESS_BULK = 400
 
 
+def subset_training_players(rows, *, max_per_position=0):
+    """Pre-cutoff-only deterministic representative cohort, for pilot runs.
+
+    A subset run cannot claim to validate all NHL player populations.
+    Selection uses *only* the training observations provided here.
+    """
+    if not isinstance(max_per_position,int) or isinstance(max_per_position,bool) or max_per_position<0:
+        raise ValueError("invalid_training_subset_size")
+    if max_per_position==0:
+        return rows
+    positions=default_player_positions(rows)
+    counts=Counter(r["player_id"] for r in rows)
+    allowed=set()
+    for pos in ("F","D"):
+        ranking=sorted((pid for pid in counts if positions[pid]==pos),
+                       key=lambda pid:(-counts[pid],pid))
+        allowed.update(ranking[:max_per_position])
+    return [r for r in rows if r["player_id"] in allowed]
+
+
 def prepare(rows, *, min_rows=MIN_TRAIN):
     if len(rows) < min_rows:
         raise ValueError("insufficient_joint_model_history")
@@ -286,6 +306,8 @@ def main(argv=None):
     p.add_argument("--as-of",required=True,help="Only completed games strictly before this date")
     p.add_argument("--max-seasons",type=int,default=8)
     p.add_argument("--min-rows",type=int,default=2000)
+    p.add_argument("--max-per-position",type=int,default=0,
+                   help="0=entire population; otherwise select top N historical F and D from train-only data")
     p.add_argument("--draws",type=int,default=1000)
     p.add_argument("--tune",type=int,default=1000)
     p.add_argument("--chains",type=int,default=4)
@@ -294,6 +316,8 @@ def main(argv=None):
     args=p.parse_args(argv)
     rows=warehouse.read_history(args.root,before=args.as_of,
                   max_seasons=args.max_seasons,min_games=args.min_rows)
+    source_unfiltered_rows=len(rows)
+    rows=subset_training_players(rows,max_per_position=args.max_per_position)
     data=prepare(rows,min_rows=args.min_rows)
     idata=fit(data,draws=args.draws,tune=args.tune,chains=args.chains,seed=args.seed)
     quality=diagnostics(idata)
@@ -305,6 +329,9 @@ def main(argv=None):
     manifest.update({"schema":"nhl_joint_bayesian_fit_v1","version":VERSION,
                      "training_cutoff_exclusive":args.as_of,
                      "draws":args.draws,"tune":args.tune,"chains":args.chains,
+                     "max_per_position":args.max_per_position,
+                     "unfiltered_source_rows":source_unfiltered_rows,
+                     "pilot_subset":bool(args.max_per_position),
                      "diagnostics":quality,"publication_eligible":False,
                      "status":"shadow_only"})
     (args.out/"manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n")
