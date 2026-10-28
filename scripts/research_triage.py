@@ -139,7 +139,16 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
             needs.append("scouting_dimensions:" + ",".join(missing))
         sport, player = str(row["sport"]), str(row["player"])
         cid = str(inputs.get("id") or "|".join((sport, player, str(row.get("stat")), str(row.get("side")))))
+        # A disagreement of 8 points or more has a hard Watchlist ceiling
+        # in pickem_math.grade(), regardless of subsequent active-roster or
+        # scouting verification. Select tier-capable research FIRST rather
+        # than expending the bounded live-source budget on impossible Tiers.
+        from pickem_math import GAP_WATCH_CAP, GAP_EPSILON
+        gap_watch_capped = abs(model-market) >= GAP_WATCH_CAP-GAP_EPSILON
         candidates.append({
+            "verification_priority_class": ("watchlist_gap_capped" if gap_watch_capped
+                                            else "tier_candidate"),
+            "watchlist_gap_cap_applies": gap_watch_capped,
             "candidate_id": cid, "sport": sport, "player": player,
             "player_id": row.get("player_id"), "team": str(row["team"]),
             "opponent": str(row.get("opponent") or ""),
@@ -157,8 +166,11 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
             "publication_eligible": False,
         })
     candidates.sort(key=lambda item: (
-        not item["both_engines_reliable"], -item["provisional_gap"],
-        -item["model_probability_diagnostic"], item["sport"], item["player"]))
+        not item["both_engines_reliable"],
+        item["watchlist_gap_cap_applies"],
+        -item["model_probability_diagnostic"],
+        -item["provisional_gap"],
+        item["sport"], item["player"]))
     queue, seen, per_game = [], set(), Counter()
     for item in candidates:
         identity = (item["sport"], str(item["player_id"] or item["player"]),
@@ -226,6 +238,9 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
         "reason_counts": dict(sorted(reasons.items())),
         "blocker_categories": dict(sorted(categories.items())),
         "qualified_before_caps": len(candidates), "review_queue_count": len(queue),
+        "tier_candidate_before_caps": sum(not x["watchlist_gap_cap_applies"] for x in candidates),
+        "tier_candidate_selected": sum(not x["watchlist_gap_cap_applies"] for x in queue),
+        "watchlist_gap_capped_selected": sum(x["watchlist_gap_cap_applies"] for x in queue),
         "qualified_by_sport": dict(sorted(Counter(c["sport"] for c in candidates).items())),
         "selected_by_sport": dict(sorted(Counter(c["sport"] for c in queue).items())),
         "review_queue_both_engines_reliable": sum(c["both_engines_reliable"] for c in queue),
