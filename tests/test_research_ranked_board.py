@@ -54,6 +54,29 @@ class ResearchRankedBoardTests(unittest.TestCase):
         self.assertEqual(candidate["forecast_sha256"], forecast_digest(rows[0]))
         self.assertEqual(rows, original)
 
+    def test_actual_collector_uses_input_books_and_undated_prices_are_not_fresh(self):
+        rows, queue = fixture()
+        original = rows[0]
+        original["books"] = [
+            {"book": "FanDuel", "line": 2.5, "over": -110, "under": -110,
+             "retrieved_at": None},
+            {"book": "DraftKings", "line": 2.5, "over": -112, "under": -108,
+             "retrieved_at": None},
+        ]
+        original["inputs"]["books"] = [
+            {"book": "FanDuel", "line": 2.5, "book_side": "over",
+             "target": -110, "other": -110},
+            {"book": "DraftKings", "line": 2.5, "book_side": "over",
+             "target": -112, "other": -108},
+        ]
+        original["market"]["retrieved_at"] = None
+        board = rb.build(rows, queue, DATE, now=NOW)
+        self.assertEqual(len(board["research_ranked"]), 1, board)
+        item = board["research_ranked"][0]
+        self.assertFalse(item["price_timestamp_verified"])
+        self.assertTrue(item["price_refresh_required"])
+        self.assertFalse(item["publication_eligible"])
+
     def test_stale_or_invalid_market_and_large_gap_cannot_rank(self):
         rows, queue = fixture()
         rows[0]["market"]["retrieved_at"] = "2026-10-27T19:00:00Z"
