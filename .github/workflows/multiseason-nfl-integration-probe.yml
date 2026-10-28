@@ -1,0 +1,77 @@
+name: One-time actual two-season NFL posterior and frozen chronological holdout
+on:
+  push:
+    branches: ['feature/recent-multiseason-populations-20261028']
+    paths: ['.github/workflows/multiseason-nfl-integration-probe.yml']
+permissions:
+  contents: read
+jobs:
+  two-season-nfl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 95
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-joint-bayes.txt
+      - run: bash scripts/history_warehouse_store.sh load
+      - name: Real historical continuity proof covering 2018 and partial 2019 NFL seasons
+        run: |
+          python scripts/population_window_check.py \
+            --sport NFL --stat targets --train-from 2018-09-01 \
+            --as-of 2019-10-15 --until 2020-03-01 \
+            --max-seasons 3 --min-training-seasons 2 --min-rows 500 \
+            --report reports/real_multiseason/window_preflight.json
+      - run: python -m pip install -r requirements-joint-bayes.txt
+      - name: Fit genuine joint hierarchical two-season NUTS posterior and save NetCDF
+        run: |
+          python scripts/joint_population_bayes.py \
+            --sport NFL --stat targets --train-from 2018-09-01 \
+            --as-of 2019-10-15 --max-seasons 3 \
+            --min-rows 500 --max-per-position 10 \
+            --draws 1000 --tune 1200 --chains 4 \
+            --out reports/real_multiseason
+      - name: Score later 2019 NFL targets against original Poisson baseline
+        run: |
+          python scripts/joint_population_holdout.py \
+            --sport NFL --stat targets --train-from 2018-09-01 \
+            --cutoff 2019-10-15 --until 2020-03-01 \
+            --max-seasons 3 --line 5.5 --draws 1200 \
+            --training-dir reports/real_multiseason
+      - name: Verify frozen split source digest and two training seasons
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=Path('reports/real_multiseason')
+          prior=json.loads((d/'window_preflight.json').read_text())
+          manifest=json.loads((d/'manifest.json').read_text())
+          scoring=json.loads((d/'stat_holdout.json').read_text())
+          assert prior['status']=='ready' and len(prior['training_seasons'])>=2,prior
+          assert len(manifest['seasons'])>=2,manifest['seasons']
+          assert prior['training_seasons']==manifest['seasons'],(prior['training_seasons'],manifest['seasons'])
+          assert scoring['training_digest']==manifest['source_digest']
+          assert scoring['scored_same_cohort_games']>=30
+          assert not manifest['publication_eligible'] and not scoring['publication_eligible']
+          print('MULTISEASON_REAL_NFL_2018_2019_PASS',manifest['seasons'],
+                scoring['scored_same_cohort_games'],
+                scoring['joint']['brier'],scoring['control']['brier'])
+          PY
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-owned-two-season-nfl-nuts-score
+          retention-days: 90
+          if-no-files-found: warn
+          path: |
+            reports/real_multiseason/window_preflight.json
+            reports/real_multiseason/manifest.json
+            reports/real_multiseason/posterior.nc
+            reports/real_multiseason/stat_holdout.json
