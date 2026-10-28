@@ -44,3 +44,13 @@ Expected development path: accumulate genuine multi-season history, benchmark ea
 ## Tests
 
 `test_population_multisport.py` checks provenance, immutability, dated resumption, NBA/NHL normalization, NFL snap matches, signed yardage and publication vetoes. `test_population_joint_pymc.py` fits real synthetic NBA and NFL PyMC multi-chain posteriors, tests diagnostics and predictive output. CI keeps legacy testing isolated from optional PyMC dependencies.
+ 
+## Live source verification on October 28, 2026
+
+An independent one-off GitHub Actions source probe successfully parsed dated completed official NHL games (October 3, 2018, 4 games, 441 multi-market player-stat rows), ESPN NBA regular-season summaries (October 17, 2018, 11 games, 2,340 multi-market rows) and nflverse 2018 full-season weekly player/snap/schedule sources (240 distinct matched games, 12,682 verified player-game rows and 92,546 per-market rows). The 2018 NFL source additionally excluded 28 unmatched snaps, 6 ambiguous player-name matches, and 1,270 otherwise invalid/ineligible player rows. These are verified SOURCE parser results, not evidence of backfill being persisted to GitHub's historical branch or of posterior predictive accuracy. Successful source probe: https://github.com/royalexx/pickem-auditor/actions/runs/40747941267. The one-off probe workflow was removed before release.
+
+## Experimental compute budget
+
+A fully joint NUTS model may require substantial memory/CPU for several seasons and thousands of players. Full population is the default (`max_per_position=0`). The optional **training-only** top-N appearances per position cohort is pre-selected exclusively from older data and requires >=300 verified selected player-games; the subsequent benchmark reconstructs exactly the same frozen cohort, source digest and control population. This pilot is not an unbiased full-league accuracy claim. Multi-season post-cutoff prediction draws an unseen season effect from its inferred hyperparameter distribution; a model trained in a single season rejects that extrapolation.
+
+Use only a noninteger fixed research threshold for binary testing, so a push cannot be misgraded as an under. The workflow deliberately cannot import bookmaker prices, backfill dated sportsbook lines, approve tier rankings or assert model superiority from source coverage alone.
