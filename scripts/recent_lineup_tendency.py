@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
-from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from shared_context import history_path, validate_history
 from usage_baseline import local_day, using_directory
@@ -44,7 +44,7 @@ def evaluate(candidate, now, *, root="data", packet=None):
         return result
     try:
         event = local_day(game_date)
-        if now.date() != event and abs((now.date() - event).days) > 1:
+        if now.astimezone(ZoneInfo('America/Toronto')).date() != event:
             result["reason"] = "WRONG_SLATE_DATE"
             return result
         with using_directory(root):
@@ -52,7 +52,8 @@ def evaluate(candidate, now, *, root="data", packet=None):
             history = json.loads(path.read_text(encoding="utf-8"))
         if history.get("sport") != sport or history.get("team") != team:
             raise ValueError("team identity does not match history")
-        if history.get("stat") != stat:
+        from usage_baseline import source_stat
+        if source_stat(history.get("stat")) != source_stat(stat):
             raise ValueError("stat identity does not match history")
         validate_history(history)
         stamp = datetime.fromisoformat(str(history["retrieved_at"]).replace("Z", "+00:00"))
