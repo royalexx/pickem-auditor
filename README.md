@@ -73,3 +73,7 @@ review. It runs automatically after the afternoon priority queue and
 during due-game pregame checks. It never calls PropLine or invents
 research attestation. See
 [autonomous investigator sources and limitations](references/autonomous_investigator.md).
+
+### Mechanism quality rather than event counts
+
+Verified picks now use [source-quality mechanism grading](references/mechanism_quality.md) instead of legacy event counts for Tier eligibility. A machine-corroborated workload change remains embedded in Engine B and is capped at Tier 3; higher evidence ceilings require genuinely independent, quantified and counterchecked causal research. The original statistical probabilities and thresholds are unchanged.

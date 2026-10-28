@@ -1,5 +1,7 @@
 # Ranking
 
+For verified published picks, see [mechanism-quality policy](mechanism_quality.md): audited source evidence imposes a Tier ceiling instead of the legacy count of named mechanisms. The numeric probability bands below are unchanged.
+
 Ranks, from strongest to weakest: Tier 1 (Unicorn), Tier 2, Tier 3, Watchlist, Reject, Unranked.
 
 The probability floors are fixed. Do not lower them to produce more names.

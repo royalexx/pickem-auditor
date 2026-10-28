@@ -101,6 +101,9 @@ Availability, lineup, weather, environment, and player-context facts must be ret
 
 Mechanism id matches prep: `sport|player|stat|side`.
 
+The per-row `mechanisms` count is a legacy diagnostic only. It cannot authorize publication. Verified decisions use [causal evidence-quality grading](mechanism_quality.md). Human-reported causal mechanisms can carry structured `causal_validation` with same-event before/after facts, sample sizes, independent sources and sourced counterevidence.
+
+
 ## Search query shapes (Stage C)
 
 Use these as plain query strings (substitute team, opponent, player, date, stadium, city):

@@ -68,6 +68,8 @@ cross-provider identity guess.
 
 ## Automated adjudication and ranking
 
+The separately introduced [mechanism-quality policy](mechanism_quality.md) now prevents the single observed workload-shift event from being treated as independent evidence beyond its Engine B history. It can support a Tier 3 evidence ceiling, never Tier 2 or Tier 1 by repetition or count alone. All existing numeric thresholds still apply.
+
 scripts/automated_scouting_review.py independently re-fetches the exact
 official game-log URL and re-computes its SHA-256, dated observations, wins and
 losses against the chosen side, sourced workload mechanism and collector

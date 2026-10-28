@@ -1,5 +1,7 @@
 # Pick verification: evidence, decisions, and pregame rechecks
 
+**Verified Tier publication is governed by [mechanism-quality policy](mechanism_quality.md), not event counts.** Machine-reviewed workload from Engine B can establish at most a Tier 3 source-quality ceiling; a real, quantified, non-overlapping, counterchecked human-reviewed effect can permit a higher ceiling. Older count-only receipts are excluded from the verified board. Other numeric, market and blend gates are preserved.
+
 ## Operational stages
 
 1. At approximately 16:13 America/Toronto, GitHub collects the complete
