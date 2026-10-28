@@ -38,7 +38,7 @@ def _metrics(rows):
             "brier":mean((p-y)**2 for p,y in rows)}
 
 
-def evaluate(idata, training, dataset, *, cutoff, until,
+def evaluate(idata, training, design, observed, *, cutoff, until,
              diagnostics, draws=1200, max_games=5000):
     date.fromisoformat(cutoff);date.fromisoformat(until)
     if not cutoff<until:
@@ -46,21 +46,23 @@ def evaluate(idata, training, dataset, *, cutoff, until,
     if diagnostics.get("posterior_sampling_ok") is not True:
         raise ValueError("posterior_diagnostics_failed")
     train_ids={(r["game_id"],r["player_id"]) for r in training}
-    candidate=[r for r in dataset if cutoff<=r["game_date"]<until]
+    candidate=[r for r in observed if cutoff<=r["game_date"]<until]
     if any((r["game_id"],r["player_id"]) in train_ids for r in candidate):
         raise ValueError("training_holdout_data_overlap")
     candidates=sorted(candidate,key=lambda r:(r["game_date"],r["game_id"],r["player_id"]))
     if len(candidates)>max_games:
         raise ValueError("holdout_game_budget_exceeded_use_smaller_dates")
     skipped=defaultdict(int);paired=[];bins=defaultdict(list)
+    allowed_players=dataset_player_ids(training)
+    allowed_opponents=dataset_model_opponents(training)
     for row in candidates:
-        if row["player_id"] not in dataset_player_ids(training):
+        if row["player_id"] not in allowed_players:
             skipped["unseen_player"]+=1;continue
-        if row["opponent"] not in dataset_model_opponents(training):
+        if row["opponent"] not in allowed_opponents:
             skipped["unseen_opponent"]+=1;continue
         seed=int.from_bytes(hashlib.sha256(
             (joint.VERSION+"|"+row["game_id"]+"|"+row["player_id"]).encode()).digest()[:8],"big")
-        result=joint.forecast(idata,dataset,player_id=row["player_id"],
+        result=joint.forecast(idata,design,player_id=row["player_id"],
             opponent=row["opponent"],season=row["season"],home=bool(row["home"]),
             line=2.5,draws=draws,seed=seed,fit_diagnostics=diagnostics)
         p=result["q_over"]
@@ -125,7 +127,7 @@ def main(argv=None):
         raise ValueError("training_manifest_history_changed")
     # Read only later observed games; they were unseen during NUTS fitting.
     future=wh.read_history(args.root,before=args.until)
-    report=evaluate(idata,training,future,cutoff=args.cutoff,until=args.until,
+    report=evaluate(idata,training,data,future,cutoff=args.cutoff,until=args.until,
                     diagnostics=meta["diagnostics"],draws=args.draws,
                     max_games=args.max_games)
     out=args.training_dir/"holdout_validation.json"
