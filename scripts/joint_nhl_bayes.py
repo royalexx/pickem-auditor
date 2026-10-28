@@ -188,7 +188,7 @@ def diagnostics(idata):
     try:
         from arviz_stats import rhat, ess
         selected=["population_log_toi","population_log_shot_rate",
-                  "player_chol_stds","toi_sigma","overdispersion",
+                  "player_chol_stds","toi_sigma","overdispersion","home_rate",
                   "season_toi_sd","season_rate_sd","opponent_rate_sd"]
         selected=[n for n in selected if n in idata.posterior]
         if not selected:raise ValueError("missing_population_diagnostic_parameters")
@@ -197,6 +197,8 @@ def diagnostics(idata):
         rh_values=_diagnostic_values(rh)
         ess_values=_diagnostic_values(ef)
         divergent=int(np.asarray(idata.sample_stats["diverging"]).sum())
+        import joint_nhl_posterior_audit as joint_geometry
+        extra=joint_geometry.geometry_stats(idata)
     except (ValueError,TypeError,AttributeError,KeyError,ImportError) as exc:
         return {"status":"diagnostics_unavailable","error":type(exc).__name__+':'+str(exc)[:160],
                 "posterior_sampling_ok":False,
@@ -204,10 +206,13 @@ def diagnostics(idata):
     finite=all(math.isfinite(v) for v in (rh_values+ess_values))
     max_r=max(rh_values) if finite else None
     min_e=min(ess_values) if finite else None
-    healthy=(finite and max_r<=MAX_RHAT and min_e>=MIN_ESS_BULK and divergent==0)
+    healthy=(finite and max_r<=MAX_RHAT and min_e>=MIN_ESS_BULK and
+             divergent==0 and extra["correlation_and_energy_check_pass"])
     return {"status":"sampling_diagnostics_pass" if healthy else "sampling_diagnostics_failed",
             "max_rhat":max_r,"min_bulk_ess":min_e,
-            "divergences":divergent,"posterior_sampling_ok":healthy,
+            "divergences":divergent,
+            "joint_geometry":extra,
+            "posterior_sampling_ok":bool(healthy),
             "publication_eligible":False,"validated":False}
 
 
