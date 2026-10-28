@@ -20,7 +20,8 @@ COUNT={
  "NHL":("shots on goal","hits","blocked shots","saves"),
  "NBA":("points","rebounds","assists","threes","steals","blocks","turnovers","pra","pr","pa","ra"),
  "NFL":("pass attempts","completions","targets","receptions","carries",
-        "passing touchdowns","rushing touchdowns","receiving touchdowns"),
+        "passing touchdowns","rushing touchdowns","receiving touchdowns",
+        "tackles + assists","solo tackles","tackle assists","qb hits","passes defended"),
 }
 CONTINUOUS={"NFL":("passing yards","receiving yards","rushing yards")}
 SPORTS=tuple(COUNT)
