@@ -172,7 +172,7 @@ class MultiSportSources(unittest.TestCase):
         self.assertEqual(design["family"],"count")
         self.assertEqual(len(design["players"]),16)
         selected=model.training_only_subset(rows,max_per_position=3)
-        expected={"0","2","4","1","3","5"}
+        expected={"0","10","12","1","11","13"}  # stable string-ID tie breaks
         self.assertTrue({r["player_id"] for r in selected}==expected)
         self.assertEqual(model.training_only_subset(rows),rows)
         with self.assertRaisesRegex(ValueError,"invalid_training_only_cohort_limit"):
