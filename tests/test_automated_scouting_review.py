@@ -172,7 +172,7 @@ class MachineReviewTests(unittest.TestCase):
                              "five_game_historical_tendency_only")
             # The original strict pick verifier must still reject the subject.
             receipt,_=pv.verify(rows,queue,updated,DATE,now=NOW,
-                                fetch=fetch_source,auto_review=True,data_root=root)
+                                fetch=None,auto_review=True,data_root=root)
             self.assertEqual(receipt["verified"],0)
 
     def test_changed_source_body_blocks_machine_grade(self):
