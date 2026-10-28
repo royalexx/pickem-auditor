@@ -65,5 +65,8 @@ jobs:
       - name: Verify Bayesian Engine B posterior and historical provenance
         run: python -m unittest discover -s tests -p test_bayesian_usage.py -q
 
+      - name: Verify posterior Monte Carlo reproducibility and snapshot integrity
+        run: python -m unittest discover -s tests -p test_posterior_mc.py -q
+
       - name: Execute full offline unit-test suite
         run: python -m unittest discover -s tests -q
