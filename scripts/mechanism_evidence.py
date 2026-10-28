@@ -114,7 +114,7 @@ def _human_chain(mech, item, now, model_inputs):
         strong = (len(owners) >= 3 and bn >= 10 and an >= 10 and
                   abs((a-b)/b) >= .20)
         output.update(status="independent_confirmed", source_owners=sorted(owners),
-                      canonical_event_id=event, "tier_ceiling": "Tier 1" if strong else "Tier 2")
+                      canonical_event_id=event, tier_ceiling="Tier 1" if strong else "Tier 2")
     return output
 
 def assess(packet, item, *, now=None, review_type=None, machine_provenance=None,
