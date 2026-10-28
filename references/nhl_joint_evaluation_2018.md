@@ -29,3 +29,17 @@ Holdout scoring fix: Earlier scorer repeatedly converted the entire posterior Da
 Only if diagnostics pass can strictly later skater games be scored, conditional on documented player appearance. No later actual shots, ice time, or team changes enter frozen model features. The Gamma–Poisson comparator must be scored on identical player-games. Proper Brier/log loss differences are descriptive because the original holdout spans only **eight** dates and the single-season sample is small. No parameter, research context, Tier ranking, production blend, odds or betting profitability claim can be promoted on this evidence.
 
 All failed sampler manifests remain as downloadable Actions artifacts, with explicit `publication_eligible=false`. The accepted reference for full predictive calibration must ultimately use the larger multi-season warehouse, a sealed future test period, verified source/odds provenance and properly clustered uncertainty estimates.
+
+## Third precommitted subset experiment: successful sampling, no score advantage
+
+Four NUTS chains, 1,000 warmup and **2,000 posterior draws per chain**, still using the same 855 training observations (90 games, source SHA-256 `535315f59417aff592b8114dadfe529f538ea3878a30895f48aaef9ba131fcba`) and identical Oct20–27 heldout dates. The recorded convergence diagnostics passed: **zero divergences, maximum R-hat 1.0049775, minimum bulk ESS 688.0612**. This is a numerical-inference result, not evidence of predictive calibration.
+
+Only 401 heldout skater-game observations belonged to the frozen train-only 120-player subset. On exactly those same 401 outcomes, the **joint Bayesian** Brier score was **0.1908917333**, log loss **0.5663639724**; the **Gamma–Poisson control** scored **Brier 0.1895215804**, log loss **0.5600943743**. Challenger-minus-control differences were +0.0013701529 Brier and +0.0062695981 log loss, so the more complex model was **slightly worse on this subset**. The holdout had only eight calendar dates; the report correctly marked it `underpowered_holdout` and `calibrated_for_production=false`. It was not a published pick or market-price evaluation.
+
+Successful fit and matched heldout run: https://github.com/royalexx/pickem-auditor/actions/runs/40730646174
+
+## Additional independent posterior checks
+
+A post-fit analysis loads the **same frozen** NetCDF artifact, computes the off-diagonal workload–shot-rate correlation's posterior distribution, R-hat and bulk ESS, and NUTS energy BFMI by chain. It also adds paired *date-cluster* bootstrap intervals and per-position same-cohort scores without refitting to any heldout outcome. Passing these checks does not change the descriptive underpowered status or authorize production. Keep the canonical posterior source digest constant; never treat retrospective threshold 2.5 as a contemporaneous sportsbook offer.
+
+**Decision:** retain the Gamma–Poisson control and existing production rankers. Continue chronological official NHL backfill before fitting a full multiseason model with proper longer-date holdouts. Do not tune priors, blend coefficients or thresholds to this eight-date holdout.
