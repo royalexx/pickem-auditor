@@ -200,14 +200,25 @@ def _source_rows(original, directories):
                 k:v for k,v in record.items() if not k.startswith('_')}:
             raise ValueError('conflicting_duplicate_pregame_forecast')
         else:counters['duplicate_later_pregame']+=1
+    # Original Bayesian sidecars do not encode an event ID. When two
+    # distinct actual events share their frozen sidecar identity, refuse to
+    # attach *any* derived shadow predictions; legacy baselines remain usable.
+    identities=defaultdict(set)
+    for key,row in eligible.items():
+        identities[(shadow.ashad._identity(row),shadow.identity(row))].add(key)
+    ambiguous={identity for identity,originals in identities.items() if len(originals)>1}
+    counters['ambiguous_shadow_forecast_identities']=len(ambiguous)
     # Train/evaluate only earliest qualifying snapshots; do not pick a
     # better-looking later model after knowing results.
     result=[]
     for row in eligible.values():
+        frozen=(shadow.ashad._identity(row),shadow.identity(row))
+        if frozen in ambiguous:
+            counters['shadow_join_ambiguous_events_excluded']+=1
         models=_snapshot_models(row,
-            a.get(shadow.ashad._identity(row)),
-            b.get(shadow.identity(row)),
-            mc.get(shadow.identity(row)))
+            None if frozen in ambiguous else a.get(frozen[0]),
+            None if frozen in ambiguous else b.get(frozen[1]),
+            None if frozen in ambiguous else mc.get(frozen[1]))
         result.append({'date':row['game_date'],'sport':row['sport'],
             'stat':row['stat'],'side':row['side'],
             'tier':str(row.get('final_rank') or 'Unknown'),
@@ -389,10 +400,16 @@ def validate(original,*,a_dir,b_dir,mc_dir):
         'last_day':test_dates[-1] if test_dates else None}
     # Strict sample thresholds allow diagnostics without making claims of
     # successful predictive validity or enabling production promotion.
-    qualified=(len(train)>=TRAIN_N and len(train_dates)>=TRAIN_DAYS and
-               len(test)>=HOLDOUT_N and len(test_dates)>=HOLDOUT_DAYS)
+    legacy_qualified=(len(train)>=TRAIN_N and len(train_dates)>=TRAIN_DAYS and
+                      len(test)>=HOLDOUT_N and len(test_dates)>=HOLDOUT_DAYS)
+    shadow_cohort=[r for r in test if r['model']['legacy_mix70'] is not None and
+                   r['model']['bayes_mix70'] is not None and
+                   r['model']['mc_mix70'] is not None]
+    shadow_dates=len({r['date'] for r in shadow_cohort})
+    shadow_qualified=(len(shadow_cohort)>=HOLDOUT_N and shadow_dates>=HOLDOUT_DAYS)
     return {'schema':'phase4_chronological_validation_v1','version':VERSION,
-        'status':'holdout_descriptive_only' if qualified else 'underpowered_or_no_prospective_shadow',
+        'status':'holdout_descriptive_only' if legacy_qualified and shadow_qualified
+                 else 'underpowered_or_no_prospective_shadow',
         'publication_eligible':False,'calibrated_for_production':False,
         'changes_model_weights':False,'changes_rankings':False,
         'diagnostic_blend_a':WEIGHT_A,
@@ -400,7 +417,10 @@ def validate(original,*,a_dir,b_dir,mc_dir):
         'historical_bayesian_backfill_allowed':False,
         'coverage':coverage,'split':{'method':'chronological_sealed_game_date_70_30',
             'train':training_summary,'holdout':holdout_summary,
-            'holdout_sample_threshold_met':qualified},
+            'holdout_sample_threshold_met':legacy_qualified,
+            'matched_legacy_bayesian_mc_holdout_n':len(shadow_cohort),
+            'matched_legacy_bayesian_mc_holdout_dates':shadow_dates,
+            'shadow_holdout_sample_threshold_met':shadow_qualified},
         'holdout_models':model_metrics,'paired_holdout':paired,
         'calibration_by_model':{m:_walk_forward(records,m,train_dates,test_dates)
                                 for m in ('legacy_a','legacy_b','legacy_mix70',
