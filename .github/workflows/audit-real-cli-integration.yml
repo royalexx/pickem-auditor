@@ -1,0 +1,68 @@
+name: One-off production-shaped multi-stat training and NetCDF holdout audit
+on:
+  push:
+    branches: ['audit/multisport-joint-vs-poisson-20261028']
+    paths: ['.github/workflows/audit-real-cli-integration.yml']
+permissions:
+  contents: read
+jobs:
+  original-manual-workflow-cli:
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-joint-bayes.txt
+      - run: bash scripts/history_warehouse_store.sh load
+      - run: python -m pip install -r requirements-joint-bayes.txt
+      - name: Run shipped manual posterior training CLI and serialize real NetCDF
+        run: |
+          python scripts/joint_population_bayes.py \
+             --sport NHL --stat hits --as-of 2018-10-18 \
+             --min-rows 300 --max-per-position 25 \
+             --draws 1000 --tune 1100 --chains 4 \
+             --out reports/integration_real_model
+      - name: Use serialized posterior and manifest through actual deployed heldout CLI
+        run: |
+          python scripts/joint_population_holdout.py \
+            --sport NHL --stat hits \
+            --cutoff 2018-10-18 --until 2018-10-26 \
+            --line 2.5 --draws 1200 \
+            --training-dir reports/integration_real_model
+      - name: Assert actual output is source-hashed and never published to production
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          folder=Path('reports/integration_real_model')
+          fit=json.loads((folder/'manifest.json').read_text())
+          scored=json.loads((folder/'stat_holdout.json').read_text())
+          assert (folder/'posterior.nc').is_file()
+          assert len(fit['source_digest'])==64
+          assert scored['training_digest']==fit['source_digest']
+          assert scored['scored_same_cohort_games']>50
+          assert scored['joint']['brier'] is not None
+          assert scored['control']['brier'] is not None
+          assert not scored['publication_eligible'] and not fit['publication_eligible']
+          print('ORIGINAL_MANUAL_WORKFLOW_END_TO_END_PASSED',
+                scored['scored_same_cohort_games'],scored['joint']['brier'],
+                scored['control']['brier'])
+          PY
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: actual-original-cli-model-netcdf-holdout
+          retention-days: 90
+          if-no-files-found: warn
+          path: |
+            reports/integration_real_model/manifest.json
+            reports/integration_real_model/stat_holdout.json
+            reports/integration_real_model/posterior.nc
