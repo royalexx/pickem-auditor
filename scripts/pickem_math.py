@@ -1165,6 +1165,7 @@ def grade(
         "q_gap": signed_gap,
         "gap_magnitude": magnitude,
         "current_role_n": current_role_n,
+        "prior_supported": prior_supported,
         "numerical_band": None,
         "unicorn_numeric": False,
     }
