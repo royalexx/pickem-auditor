@@ -1,0 +1,67 @@
+name: One-time 2023+ official NHL/NBA source validation
+on:
+  push:
+    branches: ['feature/recent-multiseason-populations-20261028']
+    paths: ['.github/workflows/recent-population-probe.yml']
+permissions:
+  contents: read
+jobs:
+  recent-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Seed separate isolated recent cursors on known completed-game days
+        run: |
+          PYTHONPATH=scripts python - <<'PY'
+          import population_backfill as b
+          from pathlib import Path
+          root=Path('/tmp/priority-season-population')
+          for sport,day in [('NHL','2023-10-11'),('NBA','2023-10-25')]:
+              state=b.read_state(root,sport,stream='recent')
+              state['cursor']=day
+              b.save_state(root,sport,state,stream='recent')
+          PY
+      - name: Verify NHL 2023 regular-season completed game identities
+        run: |
+          python scripts/population_backfill.py \
+            --root /tmp/priority-season-population --sport NHL \
+            --stream recent --max-days 1 --max-games 50 \
+            --stop-before 2023-10-11 --request-spacing 0.55
+      - name: Verify ESPN 2023 NBA regular-season player boxscore schema
+        run: |
+          python scripts/population_backfill.py \
+            --root /tmp/priority-season-population --sport NBA \
+            --stream recent --max-days 1 --max-games 50 \
+            --stop-before 2023-10-25 --request-spacing 0.55
+      - name: Verify recent per-market records and two separate persisted receipts
+        run: |
+          PYTHONPATH=scripts python - <<'PY'
+          import population_history as p
+          import population_backfill as b
+          from pathlib import Path
+          root=Path('/tmp/priority-season-population')
+          for sport,stat,day in [('NHL','hits','2023-10-12'),
+                                ('NHL','blocked shots','2023-10-12'),
+                                ('NHL','saves','2023-10-12'),
+                                ('NBA','points','2023-10-26'),
+                                ('NBA','assists','2023-10-26'),
+                                ('NBA','threes','2023-10-26')]:
+              rows=p.read(root,sport=sport,stat=stat,before=day)
+              print('RECENT_COMPLETED_GAME_VALID',sport,stat,len(rows))
+              assert rows, 'no real completed-game market '+sport+'/'+stat
+          assert b.read_state(root,'NHL')['cursor']=='2018-10-01'
+          assert b.read_state(root,'NBA')['cursor']=='2018-10-01'
+          assert b.read_state(root,'NHL',stream='recent')['cursor']=='2023-10-12'
+          assert b.read_state(root,'NBA',stream='recent')['cursor']=='2023-10-26'
+          PY
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: recent-nhl-nba-source-probe-receipts
+          retention-days: 30
+          if-no-files-found: warn
+          path: /tmp/priority-season-population/reports/*.json
