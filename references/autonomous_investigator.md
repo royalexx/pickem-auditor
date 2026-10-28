@@ -66,6 +66,30 @@ ESPN athlete IDs; without an identity-resolved official event history,
 NFL standalone player game-log research abstains rather than making a
 cross-provider identity guess.
 
+## Automated adjudication and ranking
+
+scripts/automated_scouting_review.py independently re-fetches the exact
+official game-log URL and re-computes its SHA-256, dated observations, wins and
+losses against the chosen side, sourced workload mechanism and collector
+overlap. It also requires a same-fixture official, explicit active-roster
+observation, no unresolved injury conflict, and no news articles requiring
+human interpretation. It requires at least 15 official games, at least three
+matching cached collector games and BOTH supporting and contrary historical
+outcomes. The workload mechanism is allowed only if recent five-game observed
+ice/minutes changes by at least 15% relative to the preceding ten and supports
+the selected side. No causal mechanism may be fabricated from a market price.
+
+When this deterministic **machine review** passes, the existing live market,
+probability, Engine A/B, uncertainty and Tier gates run unchanged. The result
+is an explicitly labelled machine reviewer, NOT a human source-reading
+attestation. Only the successful current original-forecast-linked decision
+can enter the verified board. Unsupported candidates stay Unranked. No Tier 1
+is enabled without separately validated chronological calibration.
+
+The CLI --auto-review is enabled after investigator in both afternoon and
+pregame workflows; PropLine recheck queries run only when there is a valid
+machine review or a genuine independently validated human review.
+
 The downstream Tier rules, historical forecast fields, original Engine A
 and B outputs, 70/30 diagnostic weights and calibration thresholds are
 unchanged. A real reviewer may use the dossier to complete the separate

@@ -74,7 +74,7 @@ jobs:
           VERIFY_DATE: ${{ steps.gate.outputs.date }}
         run: |
           args=(--date "$VERIFY_DATE"
-                --phase recheck --limit 30
+                --phase recheck --limit 30 --auto-review
                 --refresh-quotes
                 --queue "data/verification/$VERIFY_DATE/queue.json"
                 --packet "data/verification/$VERIFY_DATE/packet.json"

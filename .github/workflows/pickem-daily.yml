@@ -175,7 +175,7 @@ jobs:
                   # deliberately produce blocked decisions, not invented picks.
                   if Path('reports/research_triage.json').is_file() and Path(f'data/research_{triage_date}.json').is_file():
                       command=[sys.executable,'scripts/pick_verification.py','--date',triage_date,
-                               '--phase','initial','--limit','10',
+                               '--phase','initial','--limit','10','--auto-review',
                                '--queue','reports/research_triage.json',
                                '--packet',f'data/research_{triage_date}.json',
                                '--snapshots','data/prop_snapshots.jsonl',
