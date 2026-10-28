@@ -185,7 +185,7 @@ class VerificationTests(unittest.TestCase):
 
     def test_stale_market_quote_file_never_grants_grade(self):
         rows,_,_=build()
-        updated, issues=pv.quote_refresh(rows[0]["inputs"], [], NOW)
+        updated, issues=pv.quote_refresh(rows[0]["inputs"], [], NOW, identity=rows[0])
         self.assertIsNone(updated)
         self.assertIn("CURRENT_TWO_SIDED_SAME_LINE_MARKET_MISSING",issues)
 
