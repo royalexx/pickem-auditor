@@ -140,7 +140,8 @@ class ModelTests(unittest.TestCase):
                         player_id='0',forecast_at=datetime(2026,10,28,18,tzinfo=timezone.utc),
                         source_date=date(2026,10,28))
             self.assertEqual(len(second),6)
-            damaged=next(files.glob('*.json'))
+            damaged=next(path for path in files.glob('*.json')
+                         if json.loads(path.read_text())['player_id']=='1')
             damaged.write_text(damaged.read_text().replace('"workload": 19.0','"workload": 999.0'))
             bu._peer_index.cache_clear()
             third=bu.peers_from_cache(root,sport='NHL',stat='shots on goal',
