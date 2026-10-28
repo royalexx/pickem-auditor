@@ -44,6 +44,9 @@ class JointSamplingSmoke(unittest.TestCase):
         self.assertIn("player_effect",idata.posterior)
         self.assertIn("overdispersion",idata.posterior)
         self.assertIn("player_chol_corr",idata.posterior)
+        self.assertNotIn("season_toi_sd",idata.posterior)
+        self.assertNotIn("season_rate_sd",idata.posterior)
+        self.assertIn("season_toi",idata.posterior)
         diagnostic=mod.diagnostics(idata)
         self.assertFalse(diagnostic["publication_eligible"])
         self.assertFalse(diagnostic["validated"])
@@ -57,6 +60,10 @@ class JointSamplingSmoke(unittest.TestCase):
                                predicted["q_push"],1,places=9)
         self.assertFalse(predicted["publication_eligible"])
         self.assertFalse(predicted["ranking_allowed"])
+        with self.assertRaisesRegex(ValueError,"unseen_season_without_identified_multiseason_prior"):
+            mod.forecast(idata,data,player_id="2000",opponent="NYR",
+                season="2019",home=False,line=2.5,draws=250,
+                fit_diagnostics={"posterior_sampling_ok":True})
         fast=mod.forecast(idata,data,player_id="2000",opponent="NYR",
             season="2018",home=False,line=2.5,draws=250,
             fit_diagnostics={"posterior_sampling_ok":True},
