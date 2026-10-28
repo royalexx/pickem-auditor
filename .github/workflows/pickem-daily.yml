@@ -121,7 +121,24 @@ jobs:
                           receipt['structured_research']=json.loads(Path('reports/structured_research.json').read_text())
                       except (ValueError,OSError):
                           receipt['structured_research']={'error':'INVALID_RESEARCH_RECEIPT'}
-                  step('pregame_engines',[sys.executable,'scripts/jobs.py','snapshot','--reuse-collected'])
+                  pregame_ok=step('pregame_engines',[sys.executable,'scripts/jobs.py','snapshot','--reuse-collected'])
+                  # Prospective Bayesian Engine A is an independent shadow sidecar.
+                  # Never overwrite history-v5 or grant ranking eligibility.
+                  if pregame_ok and Path('data/prop_snapshots.jsonl').is_file():
+                      bayes_date=datetime.now(timezone.utc).astimezone(__import__('zoneinfo').ZoneInfo('America/Toronto')).date().isoformat()
+                      step('bayesian_a_shadow',[sys.executable,'scripts/bayesian_shadow.py',
+                           '--date',bayes_date,'--snapshots','data/prop_snapshots.jsonl',
+                           '--data-root','data','--out',f'data/bayesian_shadow/{bayes_date}.jsonl',
+                           '--receipt','reports/bayesian_a_shadow_receipt.json'])
+                      receipt_path=Path('reports/bayesian_a_shadow_receipt.json')
+                      if receipt_path.exists():
+                          try:
+                              b=json.loads(receipt_path.read_text())
+                              receipt['bayesian_a_shadow']={k:b.get(k) for k in
+                                  ('schema','date','model_version','previously_recorded','new_rows',
+                                   'forecast_count','unavailable_count','total_rows','reasons','publication_eligible')}
+                          except (OSError,ValueError):
+                              receipt['bayesian_a_shadow']={'status':'INVALID_BAYESIAN_SHADOW_RECEIPT'}
                   if Path('data/prop_snapshots.jsonl').is_file():
                       step('afternoon_rank_audit',[sys.executable,'scripts/audit_afternoon.py','--date',datetime.now(timezone.utc).astimezone(__import__('zoneinfo').ZoneInfo('America/Toronto')).date().isoformat()])
                   if Path('data/prop_snapshots.jsonl').is_file():
@@ -259,6 +276,8 @@ jobs:
             reports/history_bootstrap.json
             reports/forecast_invariants.json
             reports/afternoon_audit.json
+            reports/bayesian_a_shadow_receipt.json
+            data/bayesian_shadow/
             reports/structured_research.json
             reports/research_triage.json
             reports/pick_verification.json
