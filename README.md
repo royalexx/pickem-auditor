@@ -61,3 +61,14 @@ attested review.
 
 See [Evidence-gated pick verification](references/pick_verification.md) for
 the exact review submission format, workflow stages and failure policy.
+
+
+### Autonomous source investigation
+
+A machine-readable investigator now independently checks live official
+league game logs against collector history, preserves both supporting
+and contrary observations, and discovers named ESPN reporting for source
+review. It runs automatically after the afternoon priority queue and
+during due-game pregame checks. It never calls PropLine or invents
+research attestation. See
+[autonomous investigator sources and limitations](references/autonomous_investigator.md).
