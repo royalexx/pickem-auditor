@@ -15,7 +15,9 @@ BANDS = {"NUMERIC_TIER_1": "Research Tier 2",
          "NUMERIC_TIER_2": "Research Tier 2",
          "NUMERIC_TIER_3": "Research Tier 3"}
 NEGATIVE_STATUS = {"PLAYER_NOT_CONFIRMED_ACTIVE",
-                   "UNRESOLVED_CONTRADICTORY_STATUS_EVIDENCE"}
+                   "UNRESOLVED_CONTRADICTORY_STATUS_EVIDENCE",
+                   "MACHINE_PLAYER_NOT_CONFIRMED_ACTIVE",
+                   "MACHINE_UNRESOLVED_CONTRADICTORY_STATUS_EVIDENCE"}
 
 
 def matched_books(row):
@@ -61,7 +63,9 @@ def build(rows, queue, date, *, now=None, decisions=()):
             row = by_id.get(d.get("candidate_id"))
             if row and d.get("forecast_sha256") == forecast_digest(row):
                 checked = utc_time(d.get("checked_at"))
-                if checked and utc_time(row.get("forecast_at")) <= checked < utc_time(row.get("event_start")):
+                first = utc_time(row.get("forecast_at"))
+                start = utc_time(row.get("event_start"))
+                if checked and first and start and first <= checked < start:
                     key = d["candidate_id"]
                     if key not in blocked or checked > blocked[key][0]:
                         blocked[key] = (checked, d)
