@@ -38,6 +38,47 @@ class PrefetchTests(unittest.TestCase):
             with self.assertRaisesRegex(jobs.JobError,"PREFETCH_QUOTE_STALE"):
                 jobs.reuse_recent_collect("2026-10-27",s,q,now=now)
 
+    def test_mixed_fresh_and_stale_quotes_do_not_invalidate_fresh_markets(self):
+        with tempfile.TemporaryDirectory() as d:
+            now,slate,quotes=self.fixture(d,quote_age=4)
+            old=json.loads(quotes.read_text().splitlines()[0])
+            old["player"]="Old Market"
+            old["retrieved_at"]=(now-timedelta(minutes=75)).isoformat()
+            original=quotes.read_text()+json.dumps(old)+"\n"
+            quotes.write_text(original)
+            meta_file=Path(d)/"slate_fetch.meta.json"
+            receipt=json.loads(meta_file.read_text())
+            receipt["feeds"]["odds"]["rows"]=2
+            meta_file.write_text(json.dumps(receipt))
+            rows,meta=jobs.reuse_recent_collect("2026-10-27",slate,quotes,now=now)
+            self.assertEqual(meta["_excluded_stale_quotes"],1)
+            self.assertEqual(len(meta["_fresh_quotes"]),1)
+            self.assertEqual(meta["_fresh_quotes"][0]["player"],"Example")
+            self.assertEqual(quotes.read_text(),original)
+            self.assertEqual(json.loads(meta_file.read_text()),receipt)
+
+    def test_quote_date_mismatch_rejected_even_when_other_quote_fresh(self):
+        with tempfile.TemporaryDirectory() as d:
+            now,slate,quotes=self.fixture(d)
+            bad=json.loads(quotes.read_text())
+            bad["game_date"]="2026-10-26"
+            quotes.write_text(quotes.read_text()+json.dumps(bad)+"\n")
+            meta_file=Path(d)/"slate_fetch.meta.json"
+            receipt=json.loads(meta_file.read_text())
+            receipt["feeds"]["odds"]["rows"]=2
+            meta_file.write_text(json.dumps(receipt))
+            with self.assertRaisesRegex(jobs.JobError,"PREFETCH_QUOTE_DATE_MISMATCH"):
+                jobs.reuse_recent_collect("2026-10-27",slate,quotes,now=now)
+
+    def test_event_start_in_quote_is_usable_without_new_paid_event_fetch(self):
+        from datetime import datetime
+        quotes=[{"sport":"NHL","team":"BOS","opponent":"TOR",
+                 "event_id":"event","event_start":"2026-10-27T23:00:00Z"}]
+        indexed=jobs.commence_index_from_quotes(quotes,[])
+        self.assertEqual(indexed[("NHL","bos","tor")],"2026-10-27T23:00:00Z")
+        self.assertTrue(jobs.game_started(indexed[("NHL","bos","tor")],
+                                            datetime(2026,10,27,23,1,tzinfo=timezone.utc)))
+
     def test_cross_date_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             now,s,q=self.fixture(d)

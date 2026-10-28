@@ -253,6 +253,7 @@ jobs:
             data/odds_quotes.jsonl
             data/slate_fetch.jsonl
             logs/snapshot_*.log
+            reports/stages/*.log
             data/slate_fetch.meta.json
             data/slate_fetch.jsonl.meta.json
             data/slate_fetch.jsonl.failed.json
