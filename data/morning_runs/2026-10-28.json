@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-28",
+  "phase": "morning",
+  "status": "completed",
+  "run_id": "40700885909",
+  "settle_ok": true,
+  "identity_ok": true,
+  "receipt_sha256": "6e618a0fe07b9471b74aac56838bed5f4b38d6218ce886b286f1cda3e43246e7",
+  "started_at_utc": "2026-10-28T13:55:17.944816+00:00",
+  "verified_at_utc": "2026-10-28T13:57:47.304675+00:00"
+}
