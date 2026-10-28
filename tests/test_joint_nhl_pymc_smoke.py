@@ -46,6 +46,17 @@ class JointSamplingSmoke(unittest.TestCase):
         diagnostic=mod.diagnostics(idata)
         self.assertFalse(diagnostic["publication_eligible"])
         self.assertFalse(diagnostic["validated"])
+        self.assertNotEqual(diagnostic["status"],"diagnostics_unavailable")
+        # Smoke bypasses the *quality threshold* for interface testing only.
+        # Actual training and ranking never bypass the diagnostics gate.
+        predicted=mod.forecast(idata,data,player_id="2000",opponent="NYR",
+            season="2018",home=False,line=2.5,draws=250,
+            fit_diagnostics={"posterior_sampling_ok":True})
+        self.assertAlmostEqual(predicted["q_over"]+predicted["q_under"]+
+                               predicted["q_push"],1,places=9)
+        self.assertFalse(predicted["publication_eligible"])
+        self.assertFalse(predicted["ranking_allowed"])
+
 
 
 if __name__=="__main__":
