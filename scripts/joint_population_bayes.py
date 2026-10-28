@@ -289,7 +289,9 @@ def main(argv=None):
                       max_seasons=a.max_seasons,min_records=a.min_rows)
     full_population_size=len(rows)
     rows=training_only_subset(rows,max_per_position=a.max_per_position)
-    data=prepare(rows,min_rows=min(a.min_rows,len(rows)))
+    if a.max_per_position and len(rows)<300:
+        raise ValueError("insufficient_training_only_joint_cohort")
+    data=prepare(rows,min_rows=300 if a.max_per_position else a.min_rows)
     posterior=fit(data,draws=a.draws,tune=a.tune,chains=a.chains)
     checks=diagnostics(posterior)
     a.out.mkdir(parents=True,exist_ok=True)
