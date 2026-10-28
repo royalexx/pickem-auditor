@@ -234,10 +234,10 @@ def audited_workload_mechanism(item, observations, url, now, *, prior=None):
     minutes = [r["workload_minutes"] for r in observations[:15]]
     if any(not _finite(v) or v <= 0 for v in minutes):
         return None
-    recent, prior = sum(minutes[:5]) / 5, sum(minutes[5:15]) / 10
-    if prior <= 0:
+    recent_mean, preceding_mean = sum(minutes[:5]) / 5, sum(minutes[5:15]) / 10
+    if preceding_mean <= 0:
         return None
-    ratio = recent / prior
+    ratio = recent_mean / preceding_mean
     side = item["side"]
     if ((ratio < 1.15 if side == "over" else ratio > .85)
             or not (ratio <= .85 or ratio >= 1.15)):
@@ -249,8 +249,8 @@ def audited_workload_mechanism(item, observations, url, now, *, prior=None):
                             " than preceding ten official games; "
                             "historical opportunity only, no future role inferred"),
             "sources": [{"fact": "Observed minutes last 5 versus previous 10",
-                         "value": {"recent_minutes": round(recent, 4),
-                                   "prior_minutes": round(prior, 4),
+                         "value": {"recent_minutes": round(recent_mean, 4),
+                                   "prior_minutes": round(preceding_mean, 4),
                                    "ratio": round(ratio, 6),
                                    "game_ids": [x["game_id"] for x in observations[:15]]},
                          "confidence": "confirmed",
