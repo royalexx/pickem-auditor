@@ -1,0 +1,76 @@
+name: Temporary source-level NHL NBA screening audit
+on:
+  push:
+    branches: [audit/stat-screening-20261028]
+    paths: [.github/workflows/temporary-source-market-audit.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: pickem-daily-receipt
+          run-id: 40781071795
+          github-token: ${{ github.token }}
+          repository: royalexx/pickem-auditor
+          path: /tmp/live-artifact
+      - name: Read real source and pipeline data without consuming API quota
+        run: |
+          git fetch --depth=1 origin data/shadow-calibration
+          git show FETCH_HEAD:data/prop_snapshots.jsonl > /tmp/pickem_snapshot_audit.jsonl
+          python - <<'PY'
+          from pathlib import Path
+          from collections import Counter,defaultdict
+          import sys,json
+          sys.path.insert(0,"scripts")
+          import research_triage as tr
+          root=Path('/tmp/live-artifact')
+          def load(path):
+              file=root/path
+              if not file.is_file():
+                  print("MISSING_ARTIFACT_FILE",path)
+                  return []
+              return [json.loads(s) for s in file.read_text().splitlines() if s.strip()]
+          quotes=load('data/odds_quotes.jsonl')
+          slate=load('data/slate_fetch.jsonl')
+          snaps=[json.loads(s) for s in Path('/tmp/pickem_snapshot_audit.jsonl').read_text().splitlines() if s.strip()]
+          batch,run=tr.latest_batch(snaps,'2026-10-28')
+          print("ACTUAL_ARTIFACT_FILES",len(list(root.rglob('*'))))
+          for name,rows in (('RAW_QUOTES',quotes),('RAW_SLATE',slate),('FORECASTS',batch)):
+              print(name,"rows",len(rows),"by_stat",
+                    Counter((x.get('sport'),x.get('stat')) for x in rows).most_common(40))
+          from fetch_slate import prepare_pipeline
+          pipeline=prepare_pipeline(slate,quotes,now="2026-10-28T22:35:27+00:00")
+          print("JOINED_PIPELINE",len(pipeline),"by_sport_stat",
+                Counter((x.get('sport'),x.get('stat')) for x in pipeline).most_common(40))
+          print("SAMPLE_NHL_BLOCK_QUOTES",json.dumps([q for q in quotes if q.get("stat")=="blocked shots"][:2],default=str)[:1500])
+          for sport,stat in (('NBA','points'),('NBA','rebounds'),('NHL','goalie saves'),('NHL','shots on goal')):
+              rows=[x for x in batch if x.get('sport')==sport and x.get('stat')==stat]
+              chosen=next((x for x in rows if x.get("reason")=="CONTEXT_UNRESOLVED"),None) or next((x for x in rows if x.get("reason")=="SAMPLE_BLOCK"),None) or (rows[0] if rows else None)
+              if chosen:
+                  fields=("player","stat","side","reason","final_rank","current_role_n","q_grade",
+                          "q_market","q_market_comparable","availability_issue","role_issue",
+                          "data_veto","vetoes","hard_veto","soft_flags","q_push",
+                          "research_context_complete","researched","scouting")
+                  summarized={k:chosen.get(k) for k in fields}
+                  input_obj=chosen.get('inputs') or {}
+                  summarized['inputs_selected']={k:input_obj.get(k) for k in
+                       ("historical_usage","minutes_tonight","ice_time_tonight","goalie_confirmed",
+                        "expected_starting_qb","data_veto","availability_issue",
+                        "stat","season_n","baseline_n","recent_n","minutes","workload_tonight")}
+                  summarized['engine_a']=chosen.get("engine_a")
+                  summarized['engine_b']=chosen.get("engine_b")
+                  print("SAMPLE_FORECAST",sport,stat,json.dumps(summarized,default=str)[:4700])
+          # Parse common forecast diagnostic fields for NBA.
+          for sp in ("NBA","NHL"):
+              rs=[x for x in batch if x.get('sport')==sp]
+              print("CAUSE_DIAGNOSTIC",sp,
+                    "reason",Counter(str(x.get('reason')) for x in rs),
+                    "data_veto",Counter(str((x.get('inputs') or {}).get('data_veto')) for x in rs),
+                    "a_reason",Counter(str((x.get('engine_a') or {}).get('reason')) for x in rs).most_common(8),
+                    "b_reason",Counter(str((x.get('engine_b') or {}).get('reason')) for x in rs).most_common(8))
+          PY
