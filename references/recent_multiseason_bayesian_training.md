@@ -26,6 +26,11 @@ Suggested NFL after 2025 is fully collected: `train_from=2023-09-01`, `as_of=202
 
 **Old 2018 research remains reproducible:** direct command-line fitting without a lower bound still supports legacy windows; when testing 2018 explicitly change the new workflow's `train_from`, `min_training_seasons` and dates. Its default recent `train_from=2023-10-01` is intentionally not valid for the old 2018 case. The historical `max_seasons` cap is a *selection limit*, not a request to fabricate seasons that have not been collected.
 
+## Real multi-season NUTS proof
+
+The shipped training CLI, strict source-coverage preflight and manifest-matched holdout CLI were executed against **two genuine NFL seasons** in a separate one-off workflow (not merged into scheduled jobs). In a dated experiment on NFL targets: `train_from=2018-09-01`, `as_of=2019-10-15`, `until=2020-03-01`, `max_seasons=3` and a strictly pre-cutoff top-10-per-position pilot cohort. Historical coverage was verified across the original 2018 and 2019 NFL seasons (5,852 eligible pre-cutoff market rows). The actual fit used 647 player-game training records from those two years, 4 NUTS chains × 1,000 draws each with 1,200 warmups; max Rhat 1.00554, min bulk ESS 904.69, no divergences, minimum BFMI 0.7393. Frozen digest manifest and later scoring reconstruction agreed exactly.
+
+The evaluation used 246 same-cohort heldout player-games across 25 dates and the fixed synthetic research threshold 5.5 targets: joint Brier **0.15464** vs Gamma–Poisson 0.15581; joint log loss 0.48528 vs Gamma–Poisson **0.47709**. Date-clustered confidence intervals crossed zero. This establishes true **multi-season inference and leak-proof heldout scoring are working**, but not predictive superiority. The training-selected cohort is not an unbiased league-wide panel. Reproducible successful run: https://github.com/royalexx/pickem-auditor/actions/runs/40760822804
 ## What this does NOT prove
 
 - The joint model has NOT been promoted. Last benchmark mixed: Gamma–Poisson was better on several 2018 single-season markets; the joint model won some point estimates. Evidence remains underpowered and potentially date-/stat-dependent.
