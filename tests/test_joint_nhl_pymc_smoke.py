@@ -1,4 +1,5 @@
 """Real PyMC model-graph and two-chain NUTS smoke test (offline, synthetic)."""
+import importlib.util
 import sys
 import unittest
 from pathlib import Path
@@ -10,6 +11,8 @@ import historical_nhl_warehouse as wh
 
 class JointSamplingSmoke(unittest.TestCase):
     def test_joint_model_builds_and_samples_multiple_chains(self):
+        if importlib.util.find_spec('pymc') is None:
+            self.skipTest('PyMC installed only in the dedicated NUTS CI job')
         import pymc as pm
         rows=[]
         for game in range(3):
