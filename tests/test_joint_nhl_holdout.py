@@ -42,12 +42,31 @@ class FrozenHoldout(unittest.TestCase):
                 diagnostics={"status":"sampling_diagnostics_pass","posterior_sampling_ok":True},
                 draws=500)
         self.assertEqual(report["model_covered_rows"],16)
+        self.assertEqual(len(report["scored_observations"]),16)
+        self.assertEqual(report["paired_by_game_date"]["n_dates"],1)
+        self.assertEqual(report["paired_by_game_date"]["status"],"exploratory_insufficient_dates")
+        self.assertIn("F",report["by_position"])
+        self.assertIn("D",report["by_position"])
         self.assertEqual(len(visited),16)
         self.assertFalse(report["calibrated_for_production"])
         self.assertFalse(report["publication_eligible"])
         self.assertEqual(report["status"],"underpowered_holdout")
         self.assertIsNotNone(report["gamma_poisson_control"]["log_loss"])
         self.assertFalse(report["historical_sportsbook_line_claim"])
+
+    def test_date_cluster_resampling_deterministic_and_never_promotes(self):
+        pairs=[(.8,.6,1,"2018-10-02"),(.25,.45,0,"2018-10-02"),
+               (.3,.4,1,"2018-10-03"),(.55,.5,0,"2018-10-03")]
+        first=hold.paired_date_bootstrap(pairs,repeats=250,seed=22)
+        second=hold.paired_date_bootstrap(pairs,repeats=250,seed=22)
+        self.assertEqual(first,second)
+        self.assertEqual(first["n_dates"],2)
+        self.assertEqual(first["n_observations"],4)
+        self.assertFalse(first["approved_for_model_promotion"])
+        self.assertEqual(first["status"],"exploratory_insufficient_dates")
+        self.assertEqual(len(first["brier_delta_ci95"]),2)
+        with self.assertRaisesRegex(ValueError,"insufficient_cluster_bootstrap_replicates"):
+            hold.paired_date_bootstrap(pairs,repeats=5)
 
     def test_overlapping_duplicate_or_bad_dates_rejected(self):
         train=sample_rows("2018-10-01",2018020001)
