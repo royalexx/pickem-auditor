@@ -220,7 +220,9 @@ def commence_index_from_quotes(quotes: list[dict], events: list[dict]) -> dict[t
         team = str(quote.get("team") or "").strip()
         opponent = str(quote.get("opponent") or "").strip()
         event_id = str(quote.get("event_id") or "")
-        commence = by_event.get(event_id)
+        commence = quote.get("event_start") or by_event.get(event_id)
+        if commence and parse_iso_utc(commence) is None:
+            commence = None
         if sport and team and opponent and commence:
             index[(sport, team.casefold(), opponent.casefold())] = commence
     index.update(commence_index_from_events(events))
@@ -486,7 +488,11 @@ def run_snapshot(
     if not rows:
         raise JobError("fetch produced zero slate rows")
 
-    quotes = fs.read_jsonl(quotes_path) if quotes_path.exists() else []
+    # A verified source receipt includes all collected prices; the snapshot
+    # only consumes its independently timestamp-qualified subset.
+    prefetched = _summary.get("_fresh_quotes") if isinstance(_summary, dict) else None
+    quotes = prefetched if prefetched is not None else (
+        fs.read_jsonl(quotes_path) if quotes_path.exists() else [])
     pipeline_rows = fs.prepare_pipeline(rows, quotes, now=now.isoformat())
     if not quotes:
         raise JobError(f"NO_PRICED_QUOTES: {len(rows)} slate rows; odds feed absent or empty")
@@ -553,6 +559,9 @@ def run_snapshot(
         "preflight_feeds_ready": report.get("feeds_ready"),
         "preflight_partial": not bool(report.get("ok")),
         "run_id": run_id,
+        "fresh_prefetch_quotes": len(quotes),
+        "excluded_stale_prefetch_quotes": (
+            _summary.get("_excluded_stale_quotes", 0) if isinstance(_summary, dict) else 0),
     }
 
 
@@ -560,7 +569,8 @@ def reuse_recent_collect(game_date: str, slate_path: Path, quotes_path: Path, *,
                          now: datetime | None = None, max_age_minutes: int = 30):
     """Reuse already-fetched, source-timestamped slate and sportsbook quotes.
 
-    Reject mismatches or stale data instead of silently refetching the paid Odds API.
+    Reject mismatches and stale market rows without re-calling paid PropLine.
+    A partly stale provider response is not an entirely unusable slate.
     """
     meta_path = fs.meta_path_for(slate_path)
     if not slate_path.is_file() or not meta_path.is_file() or not quotes_path.is_file():
@@ -582,11 +592,24 @@ def reuse_recent_collect(game_date: str, slate_path: Path, quotes_path: Path, *,
         raise JobError('PREFETCH_UNPRICED: no verified, fetched sportsbook quotes')
     if not rows or meta.get('rows') != len(rows) or odds.get('rows') != len(quotes):
         raise JobError('PREFETCH_ROW_COUNT_MISMATCH: data and receipt disagree')
+    fresh = []
+    stale = 0
     for quote in quotes:
+        # The source receipt's count validates the entire ORIGINAL quote file.
+        # A malformed or different-date record must not be silently reassigned.
+        if quote.get('game_date') not in (None, game_date):
+            raise JobError('PREFETCH_QUOTE_DATE_MISMATCH')
         retrieved = parse_iso_utc(quote.get('retrieved_at'))
-        if retrieved is None or not 0 <= (clock.astimezone(timezone.utc) - retrieved).total_seconds() <= max_age_minutes * 60:
-            raise JobError('PREFETCH_QUOTE_STALE: quote was not freshly retrieved')
-    return rows, meta
+        age = ((clock.astimezone(timezone.utc) - retrieved).total_seconds()
+               if retrieved is not None else None)
+        if age is None or age < 0 or age > max_age_minutes * 60:
+            stale += 1
+        else:
+            fresh.append(quote)
+    if not fresh:
+        raise JobError('PREFETCH_QUOTE_STALE: zero fresh two-sided market rows')
+    # The raw quote file and immutable fetch receipt remain unchanged.
+    return rows, {**meta, '_fresh_quotes': fresh, '_excluded_stale_quotes': stale}
 
 
 def _default_collect(game_date: str, slate_path: Path, quotes_path: Path, fetch_json_fn=fs.fetch_json):
@@ -821,6 +844,7 @@ def main(argv: list[str] | None = None) -> int:
                     slate_path=slate_path,
                     quotes_path=quotes_path,
                     snapshot_path=Path(args.snapshots),
+                    events_loader=(lambda date: []) if args.reuse_collected else None,
                     collect_fn=(lambda date, slate_path, quotes_path, fetch_json_fn=None:
                                 reuse_recent_collect(date, slate_path, quotes_path))
                                if args.reuse_collected else None,
