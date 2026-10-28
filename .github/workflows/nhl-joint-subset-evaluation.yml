@@ -37,7 +37,7 @@ jobs:
         run: |
           python scripts/joint_nhl_bayes.py --root . \
             --as-of "$CUTOFF" --min-rows 400 \
-            --max-per-position 60 --draws 500 --tune 500 --chains 4 \
+            --max-per-position 60 --draws 800 --tune 1000 --chains 4 \
             --out reports/joint_nhl_subset
       - name: Score later games against same-cohort Gamma-Poisson
         id: test
