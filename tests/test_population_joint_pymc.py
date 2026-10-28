@@ -22,8 +22,9 @@ class BayesianPopulationNuts(unittest.TestCase):
                     for athlete in range(16):
                         rows.append(wh.make(
                             sport=sport,stat=stat,
-                            game_id=str(9000+game),game_date=f"2022-10-0{game+1}",
-                            season="2023",player_id=str(1000+athlete),
+                            game_id=str(9000+game),
+                            game_date=f"{2022 if game==0 else 2023}-10-0{game+1}",
+                            season=str(2022 if game==0 else 2023),player_id=str(1000+athlete),
                             position="G" if sport=="NBA" else "WR",
                             team="A" if athlete<8 else "B",
                             opponent="B" if athlete<8 else "A",home=athlete>=8,
@@ -62,6 +63,15 @@ class BayesianPopulationNuts(unittest.TestCase):
                     seed=1234,draws=150,diagnostic=diagnostic,
                     cache=model.posterior_cache(idata))
                 self.assertEqual(p,q)
+                # Previously unseen season is allowed only after the model has
+                # learned season-level dispersion from multiple prior seasons.
+                next_season=model.forecast(idata,data,player_id="1000",
+                    opponent="B",season="2024",home=False,
+                    line=15.5 if sport=="NBA" else 30.5,seed=456,
+                    draws=150,diagnostic=diagnostic,cache=model.posterior_cache(idata))
+                self.assertGreaterEqual(next_season["q_over"],0)
+                self.assertLessEqual(next_season["q_over"],1)
+                self.assertFalse(next_season["publication_eligible"])
                 base=score.simple_control(rows,player="1000",
                     position="G" if sport=="NBA" else "WR",
                     stat_family=data["family"],line=15.5 if sport=="NBA" else 30.5)
