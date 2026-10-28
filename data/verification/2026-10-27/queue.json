@@ -1,0 +1,1008 @@
+{
+  "date": "2026-10-27",
+  "generated_at": "2026-10-28T00:57:06.524157+00:00",
+  "run_id": "4c202ec5-f0d4-54b6-9ac6-f06a32f950da",
+  "status": "verification_queue_ready",
+  "forecasts_evaluated": 890,
+  "unverified_research": 890,
+  "numerically_gradeable": 322,
+  "reason_counts": {
+    "CONTEXT_UNRESOLVED": 124,
+    "INVALID_MARKET": 150,
+    "NORMAL_LEFT_TAIL": 32,
+    "RESEARCH_UNVERIFIED": 20,
+    "SAMPLE_BLOCK": 262,
+    "STATUS_NOT_VERIFIED": 272,
+    "STATUS_NOT_VERIFIED,VENUE_OR_FORECAST_UNVERIFIED": 30
+  },
+  "blocker_categories": {
+    "context": 124,
+    "distribution_caution": 32,
+    "market_consensus": 150,
+    "other": 20,
+    "pregame_identity_and_availability": 302,
+    "sample_or_distribution": 262
+  },
+  "qualified_before_caps": 11,
+  "review_queue_count": 11,
+  "qualified_by_sport": {
+    "NHL": 11
+  },
+  "selected_by_sport": {
+    "NHL": 11
+  },
+  "review_queue_both_engines_reliable": 11,
+  "queue_exclusions": {
+    "below_research_priority_floor": 83,
+    "game_started": 198,
+    "insufficient_independent_books": 10,
+    "other_primary_blocker": 588
+  },
+  "queue": [
+    {
+      "candidate_id": "NHL|Jackson LaCombe|shots on goal|under",
+      "sport": "NHL",
+      "player": "Jackson LaCombe",
+      "player_id": 8481605,
+      "team": "ANA",
+      "opponent": "VAN",
+      "game": "ANA @ VAN",
+      "stat": "shots on goal",
+      "side": "under",
+      "line": 1.5,
+      "model_probability_diagnostic": 0.66901,
+      "market_probability_diagnostic": 0.46501,
+      "provisional_gap": 0.204,
+      "independent_book_count": 3,
+      "both_engines_reliable": true,
+      "missing_evidence": [
+        "explicit_game_specific_player_status",
+        "source_read_scouting_and_adversarial_review",
+        "independent_line_and_model_verification",
+        "scouting_dimensions:matchup,opportunity,injuries,game_script"
+      ],
+      "source_tasks": [
+        "availability.Jackson LaCombe.primary_source",
+        "availability.Jackson LaCombe.status",
+        "environment.VAN@ANA.back_to_back",
+        "environment.VAN@ANA.rest_days",
+        "lineup.ANA.pp1",
+        "lineup.ANA.projected_lines",
+        "scouting.NHL|Jackson LaCombe|shots on goal|under.evidence.game_script",
+        "scouting.NHL|Jackson LaCombe|shots on goal|under.evidence.injuries",
+        "scouting.NHL|Jackson LaCombe|shots on goal|under.evidence.matchup",
+        "scouting.NHL|Jackson LaCombe|shots on goal|under.evidence.opportunity",
+        "scouting.NHL|Jackson LaCombe|shots on goal|under.supporting_stats.deployment_trends",
+        "scouting.NHL|Jackson LaCombe|shots on goal|under.supporting_stats.game_environment",
+        "scouting.NHL|Jackson LaCombe|shots on goal|under.supporting_stats.line_matching",
+        "scouting.NHL|Jackson LaCombe|shots on goal|under.supporting_stats.opponent_style",
+        "scouting.NHL|Jackson LaCombe|shots on goal|under.supporting_stats.shot_attempts_rates",
+        "scouting.NHL|Jackson LaCombe|shots on goal|under.supporting_stats.shot_suppression",
+        "scouting.NHL|Jackson LaCombe|shots on goal|under.supporting_stats.special_teams",
+        "scouting.NHL|Jackson LaCombe|shots on goal|under.supporting_stats.toi_lines"
+      ],
+      "source_guides": [
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "confirm_fixture_and_start",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_explicit_injury_designations",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+          "warning": "absence from injury report does not confirm active status"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_game_specific_active_roster",
+          "url": null,
+          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "verify_scouting_checklist",
+          "url": null,
+          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
+        }
+      ],
+      "source_guides_are_evidence": false,
+      "reason": "STATUS_NOT_VERIFIED",
+      "status": "verification_pending",
+      "publication_eligible": false,
+      "matched_packet_game": "VAN@ANA",
+      "priority": 1
+    },
+    {
+      "candidate_id": "NHL|Blake Coleman|shots on goal|over",
+      "sport": "NHL",
+      "player": "Blake Coleman",
+      "player_id": 8476399,
+      "team": "MIN",
+      "opponent": "UTA",
+      "game": "MIN @ UTA",
+      "stat": "shots on goal",
+      "side": "over",
+      "line": 1.5,
+      "model_probability_diagnostic": 0.71992,
+      "market_probability_diagnostic": 0.54473,
+      "provisional_gap": 0.1752,
+      "independent_book_count": 3,
+      "both_engines_reliable": true,
+      "missing_evidence": [
+        "explicit_game_specific_player_status",
+        "source_read_scouting_and_adversarial_review",
+        "independent_line_and_model_verification",
+        "scouting_dimensions:matchup,opportunity,injuries,game_script"
+      ],
+      "source_tasks": [
+        "availability.Blake Coleman.primary_source",
+        "availability.Blake Coleman.status",
+        "environment.MIN@UTA.back_to_back",
+        "environment.MIN@UTA.rest_days",
+        "lineup.MIN.pp1",
+        "lineup.MIN.projected_lines",
+        "scouting.NHL|Blake Coleman|shots on goal|over.evidence.game_script",
+        "scouting.NHL|Blake Coleman|shots on goal|over.evidence.injuries",
+        "scouting.NHL|Blake Coleman|shots on goal|over.evidence.matchup",
+        "scouting.NHL|Blake Coleman|shots on goal|over.evidence.opportunity",
+        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.deployment_trends",
+        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.game_environment",
+        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.line_matching",
+        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.opponent_style",
+        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.shot_attempts_rates",
+        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.shot_suppression",
+        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.special_teams",
+        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.toi_lines"
+      ],
+      "source_guides": [
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "confirm_fixture_and_start",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_explicit_injury_designations",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+          "warning": "absence from injury report does not confirm active status"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_game_specific_active_roster",
+          "url": null,
+          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "verify_scouting_checklist",
+          "url": null,
+          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
+        }
+      ],
+      "source_guides_are_evidence": false,
+      "reason": "STATUS_NOT_VERIFIED",
+      "status": "verification_pending",
+      "publication_eligible": false,
+      "matched_packet_game": "MIN@UTA",
+      "priority": 2
+    },
+    {
+      "candidate_id": "NHL|Noah Ostlund|shots on goal|over",
+      "sport": "NHL",
+      "player": "Noah Ostlund",
+      "player_id": 8483500,
+      "team": "BUF",
+      "opponent": "SJS",
+      "game": "BUF @ SJS",
+      "stat": "shots on goal",
+      "side": "over",
+      "line": 1.5,
+      "model_probability_diagnostic": 0.6283,
+      "market_probability_diagnostic": 0.49628,
+      "provisional_gap": 0.13201,
+      "independent_book_count": 3,
+      "both_engines_reliable": true,
+      "missing_evidence": [
+        "explicit_game_specific_player_status",
+        "source_read_scouting_and_adversarial_review",
+        "independent_line_and_model_verification",
+        "scouting_dimensions:matchup,opportunity,injuries,game_script"
+      ],
+      "source_tasks": [
+        "availability.Noah Ostlund.primary_source",
+        "availability.Noah Ostlund.status",
+        "environment.BUF@SJS.back_to_back",
+        "environment.BUF@SJS.rest_days",
+        "lineup.BUF.pp1",
+        "lineup.BUF.projected_lines",
+        "scouting.NHL|Noah Ostlund|shots on goal|over.evidence.game_script",
+        "scouting.NHL|Noah Ostlund|shots on goal|over.evidence.injuries",
+        "scouting.NHL|Noah Ostlund|shots on goal|over.evidence.matchup",
+        "scouting.NHL|Noah Ostlund|shots on goal|over.evidence.opportunity",
+        "scouting.NHL|Noah Ostlund|shots on goal|over.supporting_stats.deployment_trends",
+        "scouting.NHL|Noah Ostlund|shots on goal|over.supporting_stats.game_environment",
+        "scouting.NHL|Noah Ostlund|shots on goal|over.supporting_stats.line_matching",
+        "scouting.NHL|Noah Ostlund|shots on goal|over.supporting_stats.opponent_style",
+        "scouting.NHL|Noah Ostlund|shots on goal|over.supporting_stats.shot_attempts_rates",
+        "scouting.NHL|Noah Ostlund|shots on goal|over.supporting_stats.shot_suppression",
+        "scouting.NHL|Noah Ostlund|shots on goal|over.supporting_stats.special_teams",
+        "scouting.NHL|Noah Ostlund|shots on goal|over.supporting_stats.toi_lines"
+      ],
+      "source_guides": [
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "confirm_fixture_and_start",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_explicit_injury_designations",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+          "warning": "absence from injury report does not confirm active status"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_game_specific_active_roster",
+          "url": null,
+          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "verify_scouting_checklist",
+          "url": null,
+          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
+        }
+      ],
+      "source_guides_are_evidence": false,
+      "reason": "STATUS_NOT_VERIFIED",
+      "status": "verification_pending",
+      "publication_eligible": false,
+      "matched_packet_game": "BUF@SJS",
+      "priority": 3
+    },
+    {
+      "candidate_id": "NHL|Dylan Guenther|shots on goal|under",
+      "sport": "NHL",
+      "player": "Dylan Guenther",
+      "player_id": 8482699,
+      "team": "UTA",
+      "opponent": "MIN",
+      "game": "UTA @ MIN",
+      "stat": "shots on goal",
+      "side": "under",
+      "line": 3.5,
+      "model_probability_diagnostic": 0.7055,
+      "market_probability_diagnostic": 0.5915,
+      "provisional_gap": 0.114,
+      "independent_book_count": 2,
+      "both_engines_reliable": true,
+      "missing_evidence": [
+        "explicit_game_specific_player_status",
+        "source_read_scouting_and_adversarial_review",
+        "independent_line_and_model_verification",
+        "scouting_dimensions:matchup,opportunity,injuries,game_script"
+      ],
+      "source_tasks": [
+        "availability.Dylan Guenther.primary_source",
+        "availability.Dylan Guenther.status",
+        "environment.MIN@UTA.back_to_back",
+        "environment.MIN@UTA.rest_days",
+        "lineup.UTA.pp1",
+        "lineup.UTA.projected_lines",
+        "scouting.NHL|Dylan Guenther|shots on goal|under.evidence.game_script",
+        "scouting.NHL|Dylan Guenther|shots on goal|under.evidence.injuries",
+        "scouting.NHL|Dylan Guenther|shots on goal|under.evidence.matchup",
+        "scouting.NHL|Dylan Guenther|shots on goal|under.evidence.opportunity",
+        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.deployment_trends",
+        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.game_environment",
+        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.line_matching",
+        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.opponent_style",
+        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.shot_attempts_rates",
+        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.shot_suppression",
+        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.special_teams",
+        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.toi_lines"
+      ],
+      "source_guides": [
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "confirm_fixture_and_start",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_explicit_injury_designations",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+          "warning": "absence from injury report does not confirm active status"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_game_specific_active_roster",
+          "url": null,
+          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "verify_scouting_checklist",
+          "url": null,
+          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
+        }
+      ],
+      "source_guides_are_evidence": false,
+      "reason": "STATUS_NOT_VERIFIED",
+      "status": "verification_pending",
+      "publication_eligible": false,
+      "matched_packet_game": "MIN@UTA",
+      "priority": 4
+    },
+    {
+      "candidate_id": "NHL|Zach Benson|shots on goal|under",
+      "sport": "NHL",
+      "player": "Zach Benson",
+      "player_id": 8484145,
+      "team": "BUF",
+      "opponent": "SJS",
+      "game": "BUF @ SJS",
+      "stat": "shots on goal",
+      "side": "under",
+      "line": 2.5,
+      "model_probability_diagnostic": 0.7004,
+      "market_probability_diagnostic": 0.61316,
+      "provisional_gap": 0.08724,
+      "independent_book_count": 4,
+      "both_engines_reliable": true,
+      "missing_evidence": [
+        "explicit_game_specific_player_status",
+        "source_read_scouting_and_adversarial_review",
+        "independent_line_and_model_verification",
+        "scouting_dimensions:matchup,opportunity,injuries,game_script"
+      ],
+      "source_tasks": [
+        "availability.Zach Benson.primary_source",
+        "availability.Zach Benson.status",
+        "environment.BUF@SJS.back_to_back",
+        "environment.BUF@SJS.rest_days",
+        "lineup.BUF.pp1",
+        "lineup.BUF.projected_lines",
+        "scouting.NHL|Zach Benson|shots on goal|under.evidence.game_script",
+        "scouting.NHL|Zach Benson|shots on goal|under.evidence.injuries",
+        "scouting.NHL|Zach Benson|shots on goal|under.evidence.matchup",
+        "scouting.NHL|Zach Benson|shots on goal|under.evidence.opportunity",
+        "scouting.NHL|Zach Benson|shots on goal|under.supporting_stats.deployment_trends",
+        "scouting.NHL|Zach Benson|shots on goal|under.supporting_stats.game_environment",
+        "scouting.NHL|Zach Benson|shots on goal|under.supporting_stats.line_matching",
+        "scouting.NHL|Zach Benson|shots on goal|under.supporting_stats.opponent_style",
+        "scouting.NHL|Zach Benson|shots on goal|under.supporting_stats.shot_attempts_rates",
+        "scouting.NHL|Zach Benson|shots on goal|under.supporting_stats.shot_suppression",
+        "scouting.NHL|Zach Benson|shots on goal|under.supporting_stats.special_teams",
+        "scouting.NHL|Zach Benson|shots on goal|under.supporting_stats.toi_lines"
+      ],
+      "source_guides": [
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "confirm_fixture_and_start",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_explicit_injury_designations",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+          "warning": "absence from injury report does not confirm active status"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_game_specific_active_roster",
+          "url": null,
+          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "verify_scouting_checklist",
+          "url": null,
+          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
+        }
+      ],
+      "source_guides_are_evidence": false,
+      "reason": "STATUS_NOT_VERIFIED",
+      "status": "verification_pending",
+      "publication_eligible": false,
+      "matched_packet_game": "BUF@SJS",
+      "priority": 5
+    },
+    {
+      "candidate_id": "NHL|Tim Stützle|shots on goal|over",
+      "sport": "NHL",
+      "player": "Tim Stützle",
+      "player_id": 8482116,
+      "team": "OTT",
+      "opponent": "VGK",
+      "game": "OTT @ VGK",
+      "stat": "shots on goal",
+      "side": "over",
+      "line": 1.5,
+      "model_probability_diagnostic": 0.63789,
+      "market_probability_diagnostic": 0.55284,
+      "provisional_gap": 0.08504,
+      "independent_book_count": 2,
+      "both_engines_reliable": true,
+      "missing_evidence": [
+        "explicit_game_specific_player_status",
+        "source_read_scouting_and_adversarial_review",
+        "independent_line_and_model_verification",
+        "scouting_dimensions:matchup,opportunity,injuries,game_script"
+      ],
+      "source_tasks": [
+        "availability.Tim Stützle.primary_source",
+        "availability.Tim Stützle.status",
+        "environment.OTT@VGK.back_to_back",
+        "environment.OTT@VGK.rest_days",
+        "lineup.OTT.pp1",
+        "lineup.OTT.projected_lines",
+        "scouting.NHL|Tim Stützle|shots on goal|over.evidence.game_script",
+        "scouting.NHL|Tim Stützle|shots on goal|over.evidence.injuries",
+        "scouting.NHL|Tim Stützle|shots on goal|over.evidence.matchup",
+        "scouting.NHL|Tim Stützle|shots on goal|over.evidence.opportunity",
+        "scouting.NHL|Tim Stützle|shots on goal|over.supporting_stats.deployment_trends",
+        "scouting.NHL|Tim Stützle|shots on goal|over.supporting_stats.game_environment",
+        "scouting.NHL|Tim Stützle|shots on goal|over.supporting_stats.line_matching",
+        "scouting.NHL|Tim Stützle|shots on goal|over.supporting_stats.opponent_style",
+        "scouting.NHL|Tim Stützle|shots on goal|over.supporting_stats.shot_attempts_rates",
+        "scouting.NHL|Tim Stützle|shots on goal|over.supporting_stats.shot_suppression",
+        "scouting.NHL|Tim Stützle|shots on goal|over.supporting_stats.special_teams",
+        "scouting.NHL|Tim Stützle|shots on goal|over.supporting_stats.toi_lines"
+      ],
+      "source_guides": [
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "confirm_fixture_and_start",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_explicit_injury_designations",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+          "warning": "absence from injury report does not confirm active status"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_game_specific_active_roster",
+          "url": null,
+          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "verify_scouting_checklist",
+          "url": null,
+          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
+        }
+      ],
+      "source_guides_are_evidence": false,
+      "reason": "STATUS_NOT_VERIFIED",
+      "status": "verification_pending",
+      "publication_eligible": false,
+      "matched_packet_game": "OTT@VGK",
+      "priority": 6
+    },
+    {
+      "candidate_id": "NHL|Owen Power|shots on goal|under",
+      "sport": "NHL",
+      "player": "Owen Power",
+      "player_id": 8482671,
+      "team": "BUF",
+      "opponent": "SJS",
+      "game": "BUF @ SJS",
+      "stat": "shots on goal",
+      "side": "under",
+      "line": 1.5,
+      "model_probability_diagnostic": 0.61003,
+      "market_probability_diagnostic": 0.52919,
+      "provisional_gap": 0.08084,
+      "independent_book_count": 3,
+      "both_engines_reliable": true,
+      "missing_evidence": [
+        "explicit_game_specific_player_status",
+        "source_read_scouting_and_adversarial_review",
+        "independent_line_and_model_verification",
+        "scouting_dimensions:matchup,opportunity,injuries,game_script"
+      ],
+      "source_tasks": [
+        "availability.Owen Power.primary_source",
+        "availability.Owen Power.status",
+        "environment.BUF@SJS.back_to_back",
+        "environment.BUF@SJS.rest_days",
+        "lineup.BUF.pp1",
+        "lineup.BUF.projected_lines",
+        "scouting.NHL|Owen Power|shots on goal|under.evidence.game_script",
+        "scouting.NHL|Owen Power|shots on goal|under.evidence.injuries",
+        "scouting.NHL|Owen Power|shots on goal|under.evidence.matchup",
+        "scouting.NHL|Owen Power|shots on goal|under.evidence.opportunity",
+        "scouting.NHL|Owen Power|shots on goal|under.supporting_stats.deployment_trends",
+        "scouting.NHL|Owen Power|shots on goal|under.supporting_stats.game_environment",
+        "scouting.NHL|Owen Power|shots on goal|under.supporting_stats.line_matching",
+        "scouting.NHL|Owen Power|shots on goal|under.supporting_stats.opponent_style",
+        "scouting.NHL|Owen Power|shots on goal|under.supporting_stats.shot_attempts_rates",
+        "scouting.NHL|Owen Power|shots on goal|under.supporting_stats.shot_suppression",
+        "scouting.NHL|Owen Power|shots on goal|under.supporting_stats.special_teams",
+        "scouting.NHL|Owen Power|shots on goal|under.supporting_stats.toi_lines"
+      ],
+      "source_guides": [
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "confirm_fixture_and_start",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_explicit_injury_designations",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+          "warning": "absence from injury report does not confirm active status"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_game_specific_active_roster",
+          "url": null,
+          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "verify_scouting_checklist",
+          "url": null,
+          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
+        }
+      ],
+      "source_guides_are_evidence": false,
+      "reason": "STATUS_NOT_VERIFIED",
+      "status": "verification_pending",
+      "publication_eligible": false,
+      "matched_packet_game": "BUF@SJS",
+      "priority": 7
+    },
+    {
+      "candidate_id": "NHL|Tage Thompson|shots on goal|under",
+      "sport": "NHL",
+      "player": "Tage Thompson",
+      "player_id": 8479420,
+      "team": "BUF",
+      "opponent": "SJS",
+      "game": "BUF @ SJS",
+      "stat": "shots on goal",
+      "side": "under",
+      "line": 3.5,
+      "model_probability_diagnostic": 0.60267,
+      "market_probability_diagnostic": 0.54673,
+      "provisional_gap": 0.05595,
+      "independent_book_count": 4,
+      "both_engines_reliable": true,
+      "missing_evidence": [
+        "explicit_game_specific_player_status",
+        "source_read_scouting_and_adversarial_review",
+        "independent_line_and_model_verification",
+        "scouting_dimensions:matchup,opportunity,injuries,game_script"
+      ],
+      "source_tasks": [
+        "availability.Tage Thompson.primary_source",
+        "availability.Tage Thompson.status",
+        "environment.BUF@SJS.back_to_back",
+        "environment.BUF@SJS.rest_days",
+        "lineup.BUF.pp1",
+        "lineup.BUF.projected_lines",
+        "scouting.NHL|Tage Thompson|shots on goal|under.evidence.game_script",
+        "scouting.NHL|Tage Thompson|shots on goal|under.evidence.injuries",
+        "scouting.NHL|Tage Thompson|shots on goal|under.evidence.matchup",
+        "scouting.NHL|Tage Thompson|shots on goal|under.evidence.opportunity",
+        "scouting.NHL|Tage Thompson|shots on goal|under.supporting_stats.deployment_trends",
+        "scouting.NHL|Tage Thompson|shots on goal|under.supporting_stats.game_environment",
+        "scouting.NHL|Tage Thompson|shots on goal|under.supporting_stats.line_matching",
+        "scouting.NHL|Tage Thompson|shots on goal|under.supporting_stats.opponent_style",
+        "scouting.NHL|Tage Thompson|shots on goal|under.supporting_stats.shot_attempts_rates",
+        "scouting.NHL|Tage Thompson|shots on goal|under.supporting_stats.shot_suppression",
+        "scouting.NHL|Tage Thompson|shots on goal|under.supporting_stats.special_teams",
+        "scouting.NHL|Tage Thompson|shots on goal|under.supporting_stats.toi_lines"
+      ],
+      "source_guides": [
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "confirm_fixture_and_start",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_explicit_injury_designations",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+          "warning": "absence from injury report does not confirm active status"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_game_specific_active_roster",
+          "url": null,
+          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "verify_scouting_checklist",
+          "url": null,
+          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
+        }
+      ],
+      "source_guides_are_evidence": false,
+      "reason": "STATUS_NOT_VERIFIED",
+      "status": "verification_pending",
+      "publication_eligible": false,
+      "matched_packet_game": "BUF@SJS",
+      "priority": 8
+    },
+    {
+      "candidate_id": "NHL|Drake Batherson|shots on goal|under",
+      "sport": "NHL",
+      "player": "Drake Batherson",
+      "player_id": 8480208,
+      "team": "OTT",
+      "opponent": "VGK",
+      "game": "OTT @ VGK",
+      "stat": "shots on goal",
+      "side": "under",
+      "line": 2.5,
+      "model_probability_diagnostic": 0.66004,
+      "market_probability_diagnostic": 0.60521,
+      "provisional_gap": 0.05484,
+      "independent_book_count": 2,
+      "both_engines_reliable": true,
+      "missing_evidence": [
+        "explicit_game_specific_player_status",
+        "source_read_scouting_and_adversarial_review",
+        "independent_line_and_model_verification",
+        "scouting_dimensions:matchup,opportunity,injuries,game_script"
+      ],
+      "source_tasks": [
+        "availability.Drake Batherson.primary_source",
+        "availability.Drake Batherson.status",
+        "environment.OTT@VGK.back_to_back",
+        "environment.OTT@VGK.rest_days",
+        "lineup.OTT.pp1",
+        "lineup.OTT.projected_lines",
+        "scouting.NHL|Drake Batherson|shots on goal|under.evidence.game_script",
+        "scouting.NHL|Drake Batherson|shots on goal|under.evidence.injuries",
+        "scouting.NHL|Drake Batherson|shots on goal|under.evidence.matchup",
+        "scouting.NHL|Drake Batherson|shots on goal|under.evidence.opportunity",
+        "scouting.NHL|Drake Batherson|shots on goal|under.supporting_stats.deployment_trends",
+        "scouting.NHL|Drake Batherson|shots on goal|under.supporting_stats.game_environment",
+        "scouting.NHL|Drake Batherson|shots on goal|under.supporting_stats.line_matching",
+        "scouting.NHL|Drake Batherson|shots on goal|under.supporting_stats.opponent_style",
+        "scouting.NHL|Drake Batherson|shots on goal|under.supporting_stats.shot_attempts_rates",
+        "scouting.NHL|Drake Batherson|shots on goal|under.supporting_stats.shot_suppression",
+        "scouting.NHL|Drake Batherson|shots on goal|under.supporting_stats.special_teams",
+        "scouting.NHL|Drake Batherson|shots on goal|under.supporting_stats.toi_lines"
+      ],
+      "source_guides": [
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "confirm_fixture_and_start",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_explicit_injury_designations",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+          "warning": "absence from injury report does not confirm active status"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_game_specific_active_roster",
+          "url": null,
+          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "verify_scouting_checklist",
+          "url": null,
+          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
+        }
+      ],
+      "source_guides_are_evidence": false,
+      "reason": "STATUS_NOT_VERIFIED",
+      "status": "verification_pending",
+      "publication_eligible": false,
+      "matched_packet_game": "OTT@VGK",
+      "priority": 9
+    },
+    {
+      "candidate_id": "NHL|Will Smith|shots on goal|under",
+      "sport": "NHL",
+      "player": "Will Smith",
+      "player_id": 8484227,
+      "team": "SJS",
+      "opponent": "BUF",
+      "game": "SJS @ BUF",
+      "stat": "shots on goal",
+      "side": "under",
+      "line": 2.5,
+      "model_probability_diagnostic": 0.57655,
+      "market_probability_diagnostic": 0.52226,
+      "provisional_gap": 0.05429,
+      "independent_book_count": 4,
+      "both_engines_reliable": true,
+      "missing_evidence": [
+        "explicit_game_specific_player_status",
+        "source_read_scouting_and_adversarial_review",
+        "independent_line_and_model_verification",
+        "scouting_dimensions:matchup,opportunity,injuries,game_script"
+      ],
+      "source_tasks": [
+        "availability.Will Smith.primary_source",
+        "availability.Will Smith.status",
+        "environment.BUF@SJS.back_to_back",
+        "environment.BUF@SJS.rest_days",
+        "lineup.SJS.pp1",
+        "lineup.SJS.projected_lines",
+        "scouting.NHL|Will Smith|shots on goal|under.evidence.game_script",
+        "scouting.NHL|Will Smith|shots on goal|under.evidence.injuries",
+        "scouting.NHL|Will Smith|shots on goal|under.evidence.matchup",
+        "scouting.NHL|Will Smith|shots on goal|under.evidence.opportunity",
+        "scouting.NHL|Will Smith|shots on goal|under.supporting_stats.deployment_trends",
+        "scouting.NHL|Will Smith|shots on goal|under.supporting_stats.game_environment",
+        "scouting.NHL|Will Smith|shots on goal|under.supporting_stats.line_matching",
+        "scouting.NHL|Will Smith|shots on goal|under.supporting_stats.opponent_style",
+        "scouting.NHL|Will Smith|shots on goal|under.supporting_stats.shot_attempts_rates",
+        "scouting.NHL|Will Smith|shots on goal|under.supporting_stats.shot_suppression",
+        "scouting.NHL|Will Smith|shots on goal|under.supporting_stats.special_teams",
+        "scouting.NHL|Will Smith|shots on goal|under.supporting_stats.toi_lines"
+      ],
+      "source_guides": [
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "confirm_fixture_and_start",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_explicit_injury_designations",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+          "warning": "absence from injury report does not confirm active status"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_game_specific_active_roster",
+          "url": null,
+          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "verify_scouting_checklist",
+          "url": null,
+          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
+        }
+      ],
+      "source_guides_are_evidence": false,
+      "reason": "STATUS_NOT_VERIFIED",
+      "status": "verification_pending",
+      "publication_eligible": false,
+      "matched_packet_game": "BUF@SJS",
+      "priority": 10
+    },
+    {
+      "candidate_id": "NHL|Jack Eichel|shots on goal|over",
+      "sport": "NHL",
+      "player": "Jack Eichel",
+      "player_id": 8478403,
+      "team": "VGK",
+      "opponent": "OTT",
+      "game": "VGK @ OTT",
+      "stat": "shots on goal",
+      "side": "over",
+      "line": 2.5,
+      "model_probability_diagnostic": 0.57326,
+      "market_probability_diagnostic": 0.53023,
+      "provisional_gap": 0.04302,
+      "independent_book_count": 4,
+      "both_engines_reliable": true,
+      "missing_evidence": [
+        "explicit_game_specific_player_status",
+        "source_read_scouting_and_adversarial_review",
+        "independent_line_and_model_verification",
+        "scouting_dimensions:matchup,opportunity,injuries,game_script"
+      ],
+      "source_tasks": [
+        "availability.Jack Eichel.primary_source",
+        "availability.Jack Eichel.status",
+        "environment.OTT@VGK.back_to_back",
+        "environment.OTT@VGK.rest_days",
+        "lineup.VGK.pp1",
+        "lineup.VGK.projected_lines",
+        "scouting.NHL|Jack Eichel|shots on goal|over.evidence.game_script",
+        "scouting.NHL|Jack Eichel|shots on goal|over.evidence.injuries",
+        "scouting.NHL|Jack Eichel|shots on goal|over.evidence.matchup",
+        "scouting.NHL|Jack Eichel|shots on goal|over.evidence.opportunity",
+        "scouting.NHL|Jack Eichel|shots on goal|over.supporting_stats.deployment_trends",
+        "scouting.NHL|Jack Eichel|shots on goal|over.supporting_stats.game_environment",
+        "scouting.NHL|Jack Eichel|shots on goal|over.supporting_stats.line_matching",
+        "scouting.NHL|Jack Eichel|shots on goal|over.supporting_stats.opponent_style",
+        "scouting.NHL|Jack Eichel|shots on goal|over.supporting_stats.shot_attempts_rates",
+        "scouting.NHL|Jack Eichel|shots on goal|over.supporting_stats.shot_suppression",
+        "scouting.NHL|Jack Eichel|shots on goal|over.supporting_stats.special_teams",
+        "scouting.NHL|Jack Eichel|shots on goal|over.supporting_stats.toi_lines"
+      ],
+      "source_guides": [
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "confirm_fixture_and_start",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_explicit_injury_designations",
+          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+          "warning": "absence from injury report does not confirm active status"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "check_game_specific_active_roster",
+          "url": null,
+          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
+        },
+        {
+          "source_state": "not_checked",
+          "verified": false,
+          "identity_rule": "match date, both teams, player and stable ID where available",
+          "task": "verify_scouting_checklist",
+          "url": null,
+          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
+        }
+      ],
+      "source_guides_are_evidence": false,
+      "reason": "STATUS_NOT_VERIFIED",
+      "status": "verification_pending",
+      "publication_eligible": false,
+      "matched_packet_game": "OTT@VGK",
+      "priority": 11
+    }
+  ],
+  "source_checklist": [
+    {
+      "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
+      "task": "confirm_fixture_and_start",
+      "source_state": "not_checked",
+      "verified": false,
+      "candidates": [
+        "NHL|Blake Coleman|shots on goal|over",
+        "NHL|Drake Batherson|shots on goal|under",
+        "NHL|Dylan Guenther|shots on goal|under",
+        "NHL|Jack Eichel|shots on goal|over",
+        "NHL|Jackson LaCombe|shots on goal|under",
+        "NHL|Noah Ostlund|shots on goal|over",
+        "NHL|Owen Power|shots on goal|under",
+        "NHL|Tage Thompson|shots on goal|under",
+        "NHL|Tim Stützle|shots on goal|over",
+        "NHL|Will Smith|shots on goal|under",
+        "NHL|Zach Benson|shots on goal|under"
+      ],
+      "games": [
+        "ANA / VAN",
+        "BUF / SJS",
+        "MIN / UTA",
+        "OTT / VGK"
+      ]
+    },
+    {
+      "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+      "task": "check_explicit_injury_designations",
+      "source_state": "not_checked",
+      "verified": false,
+      "candidates": [
+        "NHL|Blake Coleman|shots on goal|over",
+        "NHL|Drake Batherson|shots on goal|under",
+        "NHL|Dylan Guenther|shots on goal|under",
+        "NHL|Jack Eichel|shots on goal|over",
+        "NHL|Jackson LaCombe|shots on goal|under",
+        "NHL|Noah Ostlund|shots on goal|over",
+        "NHL|Owen Power|shots on goal|under",
+        "NHL|Tage Thompson|shots on goal|under",
+        "NHL|Tim Stützle|shots on goal|over",
+        "NHL|Will Smith|shots on goal|under",
+        "NHL|Zach Benson|shots on goal|under"
+      ],
+      "games": [
+        "ANA / VAN",
+        "BUF / SJS",
+        "MIN / UTA",
+        "OTT / VGK"
+      ]
+    }
+  ],
+  "unique_public_source_urls_for_review": 2,
+  "subjects_with_packet_gaps": 11,
+  "source_urls_verified": 0,
+  "integrity": {
+    "publication_eligible": false,
+    "existing_forecasts_modified": false,
+    "model_weights_modified": false,
+    "infer_active_from_injury_absence": false,
+    "require_current_explicit_source_facts": true,
+    "probability_gap_is_not_proven_value": true
+  }
+}
