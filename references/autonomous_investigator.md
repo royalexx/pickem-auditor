@@ -22,6 +22,12 @@ after the afternoon research triage and again before eligible games, via
   candidate side and reference line; distinguishes pushes and stores actual
   source game IDs and the observed numeric values. These are descriptive
   past results **not estimated current win probabilities**.
+- When eight or more independently fetched official games include valid
+  player workload, a **single factual deployment_trends scouting statistic**
+  may be filled: recent-five observed minutes, current-season observed
+  minutes and exact game IDs. This never asserts a projected workload, lineup,
+  line/pair or opponent matchup, and never overwrites reviewer-owned facts.
+  All other unsourced stat-specific questions remain missing.
 - When the collector-owned history cache is available, validates its
   content hash and player/team/stat/date identity and independently compares
   individual game IDs/values to the separately requested league feed.
