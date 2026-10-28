@@ -30,6 +30,21 @@ jobs:
           print("REAL_RESEARCH_RANKED",len(r["research_ranked"]))
           print("RANKS",r["rank_counts"])
           print("EXCLUSIONS",r["excluded"])
+          all_rows=[json.loads(x) for x in Path("data/prop_snapshots.jsonl").read_text().splitlines() if x.strip()]
+          triage=json.loads(Path("reports/research_triage.json").read_text())
+          selected=triage["queue"][0]
+          row=next(x for x in all_rows if x.get("game_date")=="2026-10-28"
+                   and (x.get("inputs") or {}).get("id")==selected["candidate_id"])
+          print("REAL_SNAPSHOT_SHAPE", {"selected":selected["candidate_id"],
+                "books_type":type(row.get("books")).__name__,
+                "books":row.get("books"),
+                "inputs_books":(row.get("inputs") or {}).get("books"),
+                "market":row.get("market"),
+                "q_grade":row.get("q_grade"),"q_market":row.get("q_market"),
+                "q_market_comparable":row.get("q_market_comparable"),
+                "q_push":row.get("q_push"),"soft_flags":row.get("soft_flags"),
+                "current_role_n":row.get("current_role_n"),
+                "forecast_at":row.get("forecast_at")})
           print("CANDIDATES",[(x["player"],x["research_rank"],x["q_model"],
                 x["q_market_comparable"]) for x in r["research_ranked"]])
           assert r["status"] != "snapshot_queue_mismatch"
