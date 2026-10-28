@@ -11,6 +11,7 @@ class VerificationWorkflowTests(unittest.TestCase):
         self.assertLess(src.index("step('research_triage'"),src.index("step('pick_verification'"))
         self.assertIn("review_template.json",src)
         self.assertIn("verified_board.json",src)
+        self.assertIn("scripts/autonomous_investigator.py",src)
         self.assertIn("data/verification/",src)
         self.assertNotIn("research_checklist=True",src)
 
@@ -18,7 +19,10 @@ class VerificationWorkflowTests(unittest.TestCase):
         src=(ROOT/".github/workflows/pregame-verification.yml").read_text()
         self.assertIn("7,22,37,52 * * * *",src)
         self.assertIn("PICKEM_ODDS_QUOTA_GUARD: '1'",src)
-        self.assertIn("--refresh-sources --refresh-quotes",src)
+        self.assertIn("--refresh-quotes",src)
+        self.assertIn("scripts/autonomous_investigator.py",src)
+        self.assertLess(src.index("scripts/autonomous_investigator.py"),
+                        src.index("scripts/pick_verification.py"))
         self.assertIn("select(rows,queue,date,now,'recheck',30)",src)
         self.assertIn("bash scripts/shadow_store.sh save",src)
         self.assertIn("cancel-in-progress: false",src)

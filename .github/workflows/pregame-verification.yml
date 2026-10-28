@@ -55,6 +55,17 @@ jobs:
       - name: Install collector requirements for live verification
         if: steps.gate.outputs.due == 'true'
         run: python -m pip install -r requirements.txt
+      - name: Investigate due candidates against live official league sources
+        if: steps.gate.outputs.due == 'true'
+        env:
+          VERIFY_DATE: ${{ steps.gate.outputs.date }}
+        run: |
+          python scripts/autonomous_investigator.py \
+            --date "$VERIFY_DATE" --phase recheck --limit 30 \
+            --snapshots data/prop_snapshots.jsonl \
+            --queue "data/verification/$VERIFY_DATE/queue.json" \
+            --packet "data/verification/$VERIFY_DATE/packet.json" \
+            --data-root data --out reports/autonomous_investigation.json
       - name: Refresh official pregame statuses and PropLine prices; evaluate evidence
         if: steps.gate.outputs.due == 'true'
         env:
@@ -64,7 +75,7 @@ jobs:
         run: |
           args=(--date "$VERIFY_DATE"
                 --phase recheck --limit 30
-                --refresh-sources --refresh-quotes
+                --refresh-quotes
                 --queue "data/verification/$VERIFY_DATE/queue.json"
                 --packet "data/verification/$VERIFY_DATE/packet.json"
                 --snapshots data/prop_snapshots.jsonl
@@ -90,6 +101,7 @@ jobs:
           name: pregame-evidence-verification
           path: |
             reports/pick_verification.json
+            reports/autonomous_investigation.json
             reports/verified_board.json
             data/verification/${{ steps.gate.outputs.date }}/decisions/
           retention-days: 90

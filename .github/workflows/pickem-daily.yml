@@ -153,6 +153,23 @@ jobs:
                            '--date',triage_date,'--snapshots','data/prop_snapshots.jsonl',
                            '--queue','reports/research_triage.json',
                            '--limit','10','--out','reports/review_template.json'])
+                  if Path('reports/research_triage.json').is_file() and Path(f'data/research_{triage_date}.json').is_file():
+                      step('autonomous_investigator',[sys.executable,'scripts/autonomous_investigator.py',
+                           '--date',triage_date,'--phase','initial','--limit','10',
+                           '--snapshots','data/prop_snapshots.jsonl',
+                           '--queue','reports/research_triage.json',
+                           '--packet',f'data/research_{triage_date}.json',
+                           '--data-root','data',
+                           '--out','reports/autonomous_investigation.json'])
+                  if Path('reports/autonomous_investigation.json').is_file():
+                      try:
+                          auto=json.loads(Path('reports/autonomous_investigation.json').read_text())
+                          receipt['autonomous_investigation']={
+                              k:auto.get(k) for k in ('schema','date','selected_candidates',
+                                  'source_calls_attempted','confirmed_active_subjects',
+                                  'counts','research_complete','publication_eligible')}
+                      except (OSError,ValueError):
+                          receipt['autonomous_investigation']={'status':'INVALID_INVESTIGATOR_REPORT'}
                   # Initial verification is a new source-linked decision, never
                   # an edit to the 4 p.m. shadow forecast. Missing reviewer facts
                   # deliberately produce blocked decisions, not invented picks.
@@ -247,6 +264,7 @@ jobs:
             reports/research_triage.json
             reports/pick_verification.json
             reports/review_template.json
+            reports/autonomous_investigation.json
             reports/verified_board.json
             data/verification/
             data/research_*.json
