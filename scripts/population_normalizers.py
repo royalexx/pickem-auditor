@@ -17,7 +17,7 @@ NBA_LABELS={
  "points":("PTS","points"),
  "rebounds":("REB","totalRebounds"),
  "assists":("AST","assists"),
- "threes":("3PM","FG3M","3PTM","threePointFieldGoalsMade"),
+ "threes":("3PM","FG3M","3PTM","threePointFieldGoalsMade","3PT","3P","3FG"),
  "steals":("STL","steals"),
  "blocks":("BLK","blocks"),
  "turnovers":("TO","turnovers"),
@@ -50,6 +50,15 @@ def count(value):
     if isinstance(value,str) and re.fullmatch(r"\d+",value.strip()):
         v=int(value.strip());return v if v<=200 else None
     return None
+
+
+def made_from_attempt_pair(value):
+    """ESPN three-point field goal pair encodes makes-attempts, e.g. '3-8'."""
+    if not isinstance(value,str):return None
+    match=re.fullmatch(r"\s*(\d+)\s*-\s*(\d+)\s*",value)
+    if not match:return None
+    made,attempted=map(int,match.groups())
+    return made if 0<=made<=attempted<=60 else None
 
 
 def nhl_game(raw,day):
@@ -142,6 +151,8 @@ def nba_game(payload,day,expected_id):
                 for market,aliases in NBA_LABELS.items():
                     for label in aliases:
                         parsed=count(values.get(label))
+                        if parsed is None and market=="threes" and label in ("3PT","3P","3FG"):
+                            parsed=made_from_attempt_pair(values.get(label))
                         if parsed is not None:
                             player_stats[market]=parsed
                             break

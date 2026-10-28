@@ -49,6 +49,11 @@ jobs:
         run: |
           python scripts/population_backfill.py --sport NBA \
             --max-days "$MAX_DAYS" --max-games 220 --request-spacing 0.9
+      - name: Reconcile historic ESPN made-threes without rewriting other markets
+        id: nba_threes_replay
+        continue-on-error: true
+        run: |
+          python scripts/population_repair_nba_threes.py --max-days 35
       - name: NFL regular-season weekly stats joined to verified offensive snaps
         id: nfl
         continue-on-error: true
@@ -69,6 +74,7 @@ jobs:
             reports/population_nhl_receipt.json
             reports/population_nba_receipt.json
             reports/population_nfl_receipt.json
+            reports/nba_threes_replay.json
             data/bayesian_warehouse/states/*.json
       - name: Treat every blocked source as blocked and never claim complete coverage
         if: always()
@@ -76,8 +82,9 @@ jobs:
           NHL_RESULT: ${{ steps.nhl.outcome }}
           NBA_RESULT: ${{ steps.nba.outcome }}
           NFL_RESULT: ${{ steps.nfl.outcome }}
+          NBA_REPAIR_RESULT: ${{ steps.nba_threes_replay.outcome }}
         run: |
-          test "$NHL_RESULT" = success && test "$NBA_RESULT" = success && test "$NFL_RESULT" = success || {
-            echo "ONE_OR_MORE_POPULATION_SOURCES_BLOCKED NHL=$NHL_RESULT NBA=$NBA_RESULT NFL=$NFL_RESULT" >&2
+          test "$NHL_RESULT" = success && test "$NBA_RESULT" = success && test "$NFL_RESULT" = success && test "$NBA_REPAIR_RESULT" = success || {
+            echo "ONE_OR_MORE_POPULATION_SOURCES_BLOCKED NHL=$NHL_RESULT NBA=$NBA_RESULT NFL=$NFL_RESULT NBA3PM_REPAIR=$NBA_REPAIR_RESULT" >&2
             exit 2
           }
