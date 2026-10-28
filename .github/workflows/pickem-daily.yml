@@ -121,6 +121,22 @@ jobs:
                                    'matched_settled_forecasts','publication_eligible')}
                           except (OSError,ValueError):
                               receipt['posterior_mc_audit']={'status':'INVALID_MC_AUDIT_RECEIPT'}
+                      validation_ok=step('phase4_chronological_validation',[sys.executable,
+                           'scripts/phase4_validation.py','--original','data/prop_snapshots.jsonl',
+                           '--a-dir','data/bayesian_shadow','--b-dir','data/bayesian_b_shadow',
+                           '--mc-dir','data/posterior_mc','--out','reports/phase4_validation.json'])
+                      if validation_ok and Path('reports/phase4_validation.json').is_file():
+                          try:
+                              phase4=json.loads(Path('reports/phase4_validation.json').read_text())
+                              receipt['phase4_validation']={
+                                  'schema':phase4.get('schema'),
+                                  'status':phase4.get('status'),
+                                  'coverage':phase4.get('coverage'),
+                                  'split':phase4.get('split'),
+                                  'publication_eligible':phase4.get('publication_eligible'),
+                                  'changes_model_weights':phase4.get('changes_model_weights')}
+                          except (OSError,ValueError):
+                              receipt['phase4_validation']={'status':'INVALID_PHASE4_REPORT'}
               else:
                   receipt['stages']['settle_forecasts']={'ok':False,'error':'HISTORY_SNAPSHOT_MISSING'}
           elif phase=='afternoon':
@@ -324,6 +340,7 @@ jobs:
             reports/bayesian_b_shadow_receipt.json
             reports/posterior_mc_receipt.json
             reports/posterior_mc_audit.json
+            reports/phase4_validation.json
             data/posterior_mc/
             data/bayesian_b_shadow/
             data/bayesian_shadow/
