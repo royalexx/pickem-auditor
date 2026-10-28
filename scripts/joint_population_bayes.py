@@ -20,6 +20,26 @@ MAX_RHAT=1.01
 MIN_ESS=400
 
 
+def training_only_subset(rows, *, max_per_position=0):
+    """Optional tractable cohort selected solely from pre-cutoff training games.
+
+    Never select players by heldout appearance or results. A subset must be
+    compared to the baseline ONLY on identical heldout player-game records.
+    """
+    if max_per_position==0:
+        return rows
+    if not isinstance(max_per_position,int) or max_per_position<1:
+        raise ValueError("invalid_training_only_cohort_limit")
+    observed={}
+    for r in rows:
+        observed.setdefault(r["position"],Counter())[r["player_id"]]+=1
+    keep=set()
+    for pos,counts in sorted(observed.items()):
+        ranked=sorted(counts,key=lambda p:(-counts[p],p))
+        keep.update(ranked[:max_per_position])
+    return [r for r in rows if r["player_id"] in keep]
+
+
 def prepare(rows,*,min_rows=300):
     if len(rows)<min_rows:raise ValueError("insufficient_joint_population_sample")
     sport,stat=rows[0]["sport"],rows[0]["stat"]
@@ -257,6 +277,8 @@ def main(argv=None):
     p.add_argument("--stat",required=True)
     p.add_argument("--as-of",required=True)
     p.add_argument("--max-seasons",type=int,default=7)
+    p.add_argument("--max-per-position",type=int,default=0,
+        help="Optional train-only cohort size per position; 0 fits full population")
     p.add_argument("--min-rows",type=int,default=8000)
     p.add_argument("--draws",type=int,default=1000)
     p.add_argument("--tune",type=int,default=1200)
@@ -265,7 +287,9 @@ def main(argv=None):
     a=p.parse_args(argv)
     rows=history.read(a.root,sport=a.sport,stat=a.stat,before=a.as_of,
                       max_seasons=a.max_seasons,min_records=a.min_rows)
-    data=prepare(rows,min_rows=a.min_rows)
+    full_population_size=len(rows)
+    rows=training_only_subset(rows,max_per_position=a.max_per_position)
+    data=prepare(rows,min_rows=min(a.min_rows,len(rows)))
     posterior=fit(data,draws=a.draws,tune=a.tune,chains=a.chains)
     checks=diagnostics(posterior)
     a.out.mkdir(parents=True,exist_ok=True)
@@ -274,6 +298,8 @@ def main(argv=None):
              "opponents","player_position","source_digest","first_game","last_game",
              "rows","games","workload_unit")}
     manifest.update({"schema":"multisport_joint_fit_manifest_v1","model_version":VERSION,
+                     "unfiltered_train_rows":full_population_size,
+                     "max_per_position":a.max_per_position,
                      "training_cutoff_exclusive":a.as_of,"diagnostics":checks,
                      "publication_eligible":False,"calibrated":False})
     (a.out/"manifest.json").write_text(json.dumps(manifest,sort_keys=True,indent=2)+"\n")
