@@ -14,7 +14,16 @@
    feed omission, generic roster membership and projected lines NEVER count
    as confirmation. Later contradictory injury designations create an
    unresolved blocker.
-4. A reviewer/actual source-reading agent submits genuine supporting AND
+4. The autonomous investigator checks official history and news. A
+   separately named **deterministic machine reviewer** can approve only after
+   re-fetching the exact official game-log response, verifying its SHA-256
+   and game-level observations, confirming at least 15 dated observations
+   with both supporting and opposing results, matching at least three
+   games to the collector's independent history, reproducing a directly
+   observed workload mechanism, and verifying current explicit game-active
+   status without unresolved conflicting evidence. It never impersonates a
+   human or certifies speculative opponent tactics.
+   Alternatively, a reviewer/actual source-reading agent submits genuine supporting AND
    opposing evidence. The reviewer must read sources, match player/team/
    fixture, record exact URLs/quotes/time, and document source conflicts.
    The system cannot truthfully invent qualitative matchup or opportunity
@@ -30,7 +39,8 @@
    15 minutes and only checks games 25 to 55 minutes from kickoff. It
    refreshes official statuses and current prices when needed. It avoids
    using any additional PropLine credits when none of the due subjects
-   have a valid adversarial research attestation. API daily quota checks
+   have either an admissible live-rechecked machine case or a genuine
+   human adversarial research attestation. API daily quota checks
    remain enabled when a pull is actually required.
 7. scripts/verified_board.py publishes only currently verified decisions.
    It expires decisions at game start or after 60 minutes, retains the
@@ -53,10 +63,22 @@ weights. scripts/shadow_store.sh refuses conflicting writes to an existing
 verification decision. The immutable data/history-archive branch is read-only.
 
 GitHub Actions artifacts also include reports/research_triage.json,
-reports/review_template.json, reports/pick_verification.json,
-reports/verified_board.json and reports/daily_receipt.json.
+reports/review_template.json, reports/autonomous_investigation.json,
+reports/pick_verification.json, reports/verified_board.json and reports/daily_receipt.json.
 
 ## Actual source review is required
+
+The deterministic source-review route is enabled with `--auto-review`.
+Machine observations are a narrowly verifiable alternative to human narrative
+review, **not** a claim that a human read a story or that every matchup
+tactic is proven. The re-fetched official source must match a SHA-256 digest,
+source values, confirmed player and canonical fixture identity, fresh explicit
+active status and independently checked usage data. In addition, both
+favorable and unfavorable actual games and a reproducible workload mechanism
+are required. Engine A, Engine B, source conflicts, market validation and
+all Tier thresholds remain authoritative. The machine route may still
+correctly yield no ranked candidates, particularly early in a season or
+for NFL props without equivalent signed independent history.
 
 The generated reports/review_template.json is explicitly **unreviewed**.
 It is not an AI-generated source confirmation. A person or an actual
@@ -97,7 +119,8 @@ After the scheduled afternoon job has generated the required files:
     python scripts/pick_verification.py --date YYYY-MM-DD \
       --snapshots data/prop_snapshots.jsonl \
       --queue reports/research_triage.json \
-      --packet data/research_YYYY-MM-DD.json --phase initial --limit 10
+      --packet data/research_YYYY-MM-DD.json --phase initial --limit 10 \
+      --auto-review
 
 Review the JSON receipt and the full list of blockers; a successful process
 exit with verified=0 is **not** a successful pick approval. The scheduled
@@ -114,8 +137,9 @@ The latest active board can be rebuilt without an external API request:
 
 - GitHub cron execution may be delayed. Missed windows are skipped, not
   retrospectively backfilled with fictional pregame approvals.
-- Without an independently reviewed case, new source queries may improve
-  evidence gaps but cannot set researched=true on an old forecast.
+- Without independently re-fetched machine evidence or a genuinely
+  source-reviewed human case, new source queries may improve evidence gaps
+  but cannot promote an old forecast.
 - Any line change, missing paired sportsbook quotes, unauthorized/expired
   market, stale status, missing historical observation verification,
   unsuitable sample size or unsettled research conflict remains a blocker.

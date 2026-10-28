@@ -53,11 +53,12 @@ Older instructions referencing only the original NHL-only bootstrap are supersed
 The afternoon workflow now produces source research, a capped verification
 queue, reviewer-ready task templates, separate forecast-linked decision
 receipts and a verified-only board. A second GitHub Action checks approaching
-games 25–55 minutes before kickoff. Only actually reviewed, current,
-identity-matched evidence and reliable statistical/scouting engines can
-qualify. No original forecasts or calibration weights are rewritten.
-PropLine credits are conserved until a due candidate has a properly
-attested review.
+games 25–55 minutes before kickoff. Strict, current, identity-matched
+evidence and reliable statistical/scouting engines are required; qualifying
+subjects may now be examined by a **live, deterministic primary-source
+reviewer** (clearly labeled as machine review) or a human source reviewer.
+No original forecasts or calibration weights are rewritten.
+PropLine credits are conserved until a due candidate passes either review.
 
 See [Evidence-gated pick verification](references/pick_verification.md) for
 the exact review submission format, workflow stages and failure policy.
