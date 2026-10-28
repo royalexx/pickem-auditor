@@ -1,5 +1,10 @@
 name: Pickem morning and afternoon
 on:
+  # Temporary one-time recover trigger for the missed 2026-10-28 morning run.
+  # Gate below requires an exact commit message and Toronto date.
+  push:
+    branches: [main]
+    paths: ['.github/workflows/pickem-daily.yml']
   workflow_dispatch:
     inputs:
       phase:
@@ -49,6 +54,13 @@ jobs:
                   if timedelta(0)<=now-planned<timedelta(hours=12) and local.minute==13:
                       phase={6:'morning',16:'afternoon'}.get(local.hour,'skip')
                   print('Scheduled local slot:',local.isoformat())
+          if trigger=='push':
+              today=datetime.now(ZoneInfo('America/Toronto')).date().isoformat()
+              commit=(event.get('head_commit') or {}).get('message','')
+              phase=('morning' if today=='2026-10-28' and
+                     commit=='ops: one-shot missed morning settlement 2026-10-28'
+                     else 'skip')
+              print('Recovery trigger:',phase,'Toronto date:',today)
           if phase not in ('morning','afternoon'): phase='skip'
           with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('phase='+phase+'\n')
           print('Running:',phase)
