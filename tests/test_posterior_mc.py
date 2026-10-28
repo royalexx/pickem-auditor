@@ -82,7 +82,7 @@ class SimulationMathTests(unittest.TestCase):
 
     def test_a_normal_student_posterior_matches_analytic(self):
         result=ba.forecast([9.,11.,12.,9.,10.,8.,12.,11.],peer_values(),dist='normal',
-                           line=10.5,side='over')
+                           line=10.5,side='over',allow_negative=True)
         result.update(status='forecast',posterior_mean=result['mean'])
         simulated=mc.simulate(result,engine='A',identity=['a-normal'],line=10.5,
                               side='over',draws=1024,max_draws=4096,target=.009)
