@@ -36,6 +36,48 @@ def simple_control(training,*,player,position,stat_family,line):
                       scale=sigma*math.sqrt(1+1/(5+len(own)))))
 
 
+def control_cache(training):
+    """Historical source-owned summaries, never heldout values.
+
+    Avoid rescanning multi-season player-game histories for each forecast:
+    former naive O(training_rows * heldout_rows) becomes roughly linear.
+    """
+    players=defaultdict(lambda:[0,0.])
+    positions=defaultdict(lambda:[0,0.,0.])
+    for row in training:
+        player=players[row["player_id"]]
+        player[0]+=1
+        player[1]+=row["value"]
+        position=positions[row["position"]]
+        position[0]+=1
+        position[1]+=row["value"]
+        position[2]+=row["value"]**2
+    return {"players":dict(players),"positions":dict(positions)}
+
+
+def cached_control(cache, *, player, position, stat_family, line):
+    own_n,own_sum=cache["players"].get(player,(0,0.))
+    if position not in cache["positions"]:
+        raise ValueError("missing_position_control_population")
+    peer_n,peer_sum,peer_sum_squares=cache["positions"][position]
+    center=peer_sum/peer_n
+    if stat_family=="count":
+        from scipy.stats import nbinom
+        alpha=5*max(.02,center)+own_sum
+        beta=5+own_n
+        return float(nbinom.sf(math.floor(line),alpha,beta/(beta+1)))
+    if stat_family!="continuous":
+        raise ValueError("unsupported_baseline_stat_family")
+    import math as _math
+    from scipy.stats import t
+    location=(5*center+own_sum)/(5+own_n)
+    sample_var=((peer_sum_squares-peer_sum*peer_sum/peer_n)/(peer_n-1)
+                if peer_n>1 else 400.)
+    sigma=max(_math.sqrt(max(0.,sample_var)),5.)
+    return float(t.sf(line,df=4,loc=location,
+                      scale=sigma*_math.sqrt(1+1/(5+own_n))))
+
+
 def _scores(observations):
     if not observations:return {"n":0,"brier":None,"log_loss":None}
     return {"n":len(observations),
@@ -102,6 +144,7 @@ def compare(idata,train,design,future,*,cutoff,until,line,checks,draws=1500):
     allowed=set(design["players"])
     pairs=[];excluded=Counter();record=[]
     sampled_cache=joint.posterior_cache(idata)
+    simple_baseline=control_cache(train)
     for row in heldout:
         if row["player_id"] not in allowed:
             excluded["unseen_or_training_excluded_player"]+=1;continue
@@ -116,7 +159,7 @@ def compare(idata,train,design,future,*,cutoff,until,line,checks,draws=1500):
             opponent=row["opponent"],season=row["season"],home=row["home"],
             line=line,seed=seed,draws=draws,diagnostic=checks,cache=sampled_cache)
         p=q["q_over"]
-        base=simple_control(train,player=row["player_id"],position=row["position"],
+        base=cached_control(simple_baseline,player=row["player_id"],position=row["position"],
                   stat_family=design["family"],line=line)
         actual=int(row["value"]>line)
         pairs.append((p,base,actual,row["game_date"]))
