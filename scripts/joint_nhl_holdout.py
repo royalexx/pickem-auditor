@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import math
+import random
 from collections import defaultdict
 from datetime import date, timedelta
 from pathlib import Path
@@ -38,6 +39,44 @@ def _metrics(rows):
             "brier":mean((p-y)**2 for p,y in rows)}
 
 
+def paired_date_bootstrap(paired, *, repeats=2000, seed=1801):
+    """Date-clustered paired proper-score differences on matched observations.
+
+    Estimates from fewer than twenty dates are explicitly exploratory. Never
+    interpret this resampling as prospective calibration or model approval.
+    """
+    by_date=defaultdict(list)
+    for predicted,control,label,day in paired:
+        def logloss(p):
+            prob=p if label else 1-p
+            return -math.log(max(1e-12,min(1-1e-12,prob)))
+        by_date[day].append(((predicted-label)**2-(control-label)**2,
+                             logloss(predicted)-logloss(control)))
+    days=sorted(by_date)
+    if not days:
+        return {"n_dates":0,"n_observations":0,"status":"no_paired_evidence",
+                "brier_delta_ci95":None,"log_loss_delta_ci95":None}
+    if repeats<100:
+        raise ValueError("insufficient_cluster_bootstrap_replicates")
+    rng=random.Random(seed)
+    samples=[[],[]]
+    for _ in range(repeats):
+        pairs=[v for day in rng.choices(days,k=len(days)) for v in by_date[day]]
+        samples[0].append(mean(x[0] for x in pairs))
+        samples[1].append(mean(x[1] for x in pairs))
+    intervals=[]
+    for series in samples:
+        sorted_values=sorted(series)
+        intervals.append([sorted_values[int((repeats-1)*.025)],
+                          sorted_values[int((repeats-1)*.975)]])
+    return {"n_dates":len(days),
+            "n_observations":sum(map(len,by_date.values())),
+            "status":"exploratory_insufficient_dates" if len(days)<20 else "descriptive_date_cluster_bootstrap",
+            "brier_delta_ci95":intervals[0],"log_loss_delta_ci95":intervals[1],
+            "label":"challenger minus same-cohort control; negative favors challenger",
+            "approved_for_model_promotion":False}
+
+
 def evaluate(idata, training, design, observed, *, cutoff, until,
              diagnostics, draws=1200, max_games=5000):
     date.fromisoformat(cutoff);date.fromisoformat(until)
@@ -53,6 +92,7 @@ def evaluate(idata, training, design, observed, *, cutoff, until,
     if len(candidates)>max_games:
         raise ValueError("holdout_game_budget_exceeded_use_smaller_dates")
     skipped=defaultdict(int);paired=[];bins=defaultdict(list)
+    position_pairs=defaultdict(list);scored=[]
     allowed_players=dataset_player_ids(training)
     allowed_opponents=dataset_model_opponents(training)
     # Build the frozen posterior lookup once instead of converting every
@@ -73,6 +113,13 @@ def evaluate(idata, training, design, observed, *, cutoff, until,
         baseline=poisson_control(training,player=row["player_id"],position=row["position"])
         label=int(row["shots"]>=3)
         paired.append((p,baseline,label,row["game_date"]))
+        position_pairs[row["position"]].append((p,baseline,label,row["game_date"]))
+        scored.append({"game_date":row["game_date"],"game_id":row["game_id"],
+            "player_id":row["player_id"],"position":row["position"],
+            "source_sha256":row["source_sha256"],
+            "observed_shots":row["shots"],"actual_over_2_5":label,
+            "bayesian_q_over":p,"control_q_over":baseline,
+            "numerical_mc_se":result.get("mc_standard_error_q_over")})
         bins[int(p*10) if p<1 else 9].append((p,label))
     model=_metrics([(p,y) for p,b,y,d in paired])
     control=_metrics([(b,y) for p,b,y,d in paired])
@@ -94,6 +141,14 @@ def evaluate(idata, training, design, observed, *, cutoff, until,
         "gamma_poisson_control":control,
         "paired_mean_log_loss_delta":(model["log_loss"]-control["log_loss"]) if paired else None,
         "paired_mean_brier_delta":(model["brier"]-control["brier"]) if paired else None,
+        "paired_by_game_date":paired_date_bootstrap(paired),
+        "by_position":{
+            pos:{"n":len(rows),
+                 "sampled_posterior":_metrics([(p,y) for p,b,y,d in rows]),
+                 "gamma_poisson_control":_metrics([(b,y) for p,b,y,d in rows]),
+                 "paired_date_bootstrap":paired_date_bootstrap(rows,seed=1801+(pos=="D"))}
+            for pos,rows in sorted(position_pairs.items())},
+        "scored_observations":scored,
         "n_holdout_game_dates":day_count,
         "model_covered_rows":len(paired),"all_holdout_rows":len(candidates),
         "excluded":dict(skipped),
@@ -140,7 +195,8 @@ def main(argv=None):
                     max_games=args.max_games)
     out=args.training_dir/"holdout_validation.json"
     out.write_text(json.dumps(report,sort_keys=True,indent=2,allow_nan=False)+"\n")
-    print(json.dumps({k:v for k,v in report.items() if k!="reliability"},sort_keys=True))
+    print(json.dumps({k:v for k,v in report.items()
+                      if k not in ("reliability","scored_observations")},sort_keys=True))
     return 0
 
 
