@@ -102,7 +102,7 @@ def _load_one(path: Path, cutoff: datetime):
             if digest != hashlib.sha256(json.dumps(clone, sort_keys=True, allow_nan=False).encode()).hexdigest():
                 return None
         stamp = _stamp(record.get('retrieved_at'))
-        if stamp > cutoff:
+        if cutoff is not None and stamp > cutoff:
             return None
         return record, stamp
     except (OSError, ValueError, TypeError, ModelUnavailable):
@@ -110,12 +110,11 @@ def _load_one(path: Path, cutoff: datetime):
 
 
 @lru_cache(maxsize=128)
-def _peer_index(root, sport, stat, cutoff, source_date):
-    """Use one latest pregame historical snapshot PER OTHER PLAYER.
+def _peer_index(root, sport, stat, source_date):
+    """Cache checksum-verified peers once per sport/stat/day.
 
-    The cutoff protects replays from subsequently collected games; the source
-    date prevents game-day outcomes. Sport/stat isolation prevents pooling
-    incompatible units. Peer logs require IDs/digests, not researcher totals.
+    Retrieval timestamps remain in the index. Each forecast's exact cutoff
+    is enforced after caching, never rounded to a minute.
     """
     import usage_baseline as ub
     folder = Path(root) / 'usage'
@@ -124,7 +123,7 @@ def _peer_index(root, sport, stat, cutoff, source_date):
     selected = {}
     for pattern in (folder.glob('*.json'), (folder / 'snapshots').glob('*.json')):
         for path in pattern:
-            loaded = _load_one(path, cutoff)
+            loaded = _load_one(path, None)
             if loaded is None:
                 continue
             rec, stamp = loaded
@@ -137,16 +136,22 @@ def _peer_index(root, sport, stat, cutoff, source_date):
                     continue
                 key = str(rec['player_id'])
                 identity = (stamp, len(values), path.name)
-                if key not in selected or identity > selected[key][0]:
-                    selected[key] = (identity, values, ids)
+                selected.setdefault(key, []).append((identity, values, ids))
             except (ValueError, TypeError, ModelUnavailable):
                 continue
-    return tuple((key,item[1],item[2]) for key, item in sorted(selected.items()))
+    return tuple((key,tuple(sorted(items,reverse=True))) for key,items in sorted(selected.items()))
 
 
 def peers_from_cache(root, *, sport, stat, player_id, cutoff, source_date):
-    return [(values,ids) for key,values,ids in _peer_index(str(root),sport,stat,cutoff,source_date)
-            if key != str(player_id)]
+    """Exclude target player and any snapshot retrieved after this forecast."""
+    result=[]
+    for key,versions in _peer_index(str(root),sport,stat,source_date):
+        if key == str(player_id):continue
+        for (stamp, count, path),values,ids in versions:
+            if stamp <= cutoff:
+                result.append((values,ids))
+                break
+    return result
 
 
 def group_prior(peer_values, kind):
