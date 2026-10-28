@@ -42,8 +42,8 @@ def nhl_box():
 def nba_box():
     def athlete(pid):
         return {"athlete":{"id":str(pid),"position":{"abbreviation":"PG"}},
-                "stats":["30:00","25","7","6","3","1","2","4"]}
-    labels=["MIN","PTS","REB","AST","3PM","STL","BLK","TO"]
+                "stats":["30:00","25","7","6","3-8","1","2","4"]}
+    labels=["MIN","PTS","REB","AST","3PT","STL","BLK","TO"]
     return {"header":{"season":{"year":2023},"competitions":[{
         "id":"401","competitors":[
             {"homeAway":"home","team":{"abbreviation":"BOS"}},
@@ -104,6 +104,8 @@ class MultiSportSources(unittest.TestCase):
         self.assertEqual(metrics["pa"],31)
         self.assertEqual(metrics["ra"],13)
         self.assertEqual(metrics["turnovers"],4)
+        self.assertEqual(metrics["threes"],3)
+        self.assertIsNone(normal.made_from_attempt_pair("7-4"))
         self.assertEqual(representative[0]["workload"],30)
         with self.assertRaisesRegex(ValueError,"espn_game_id_mismatch"):
             normal.nba_game(nba_box(),"2022-10-21","402")
