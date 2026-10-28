@@ -171,6 +171,12 @@ class MultiSportSources(unittest.TestCase):
         design=model.prepare(rows,min_rows=20)
         self.assertEqual(design["family"],"count")
         self.assertEqual(len(design["players"]),16)
+        selected=model.training_only_subset(rows,max_per_position=3)
+        expected={"0","2","4","1","3","5"}
+        self.assertTrue({r["player_id"] for r in selected}==expected)
+        self.assertEqual(model.training_only_subset(rows),rows)
+        with self.assertRaisesRegex(ValueError,"invalid_training_only_cohort_limit"):
+            model.training_only_subset(rows,max_per_position=-2)
         self.assertEqual(design["source_digest"],model.prepare(rows,min_rows=20)["source_digest"])
         with self.assertRaisesRegex(ValueError,"unapproved_joint_posterior"):
             model.forecast(None,design,player_id="0",opponent="MIA",season="2023",
