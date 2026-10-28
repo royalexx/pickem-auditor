@@ -1,0 +1,46 @@
+name: Temporary real 2026-10-28 research-ranking replay
+on:
+  push:
+    branches:
+      - fix/research-ranked-props-20261028
+    paths:
+      - .github/workflows/research-ranking-replay-temporary.yml
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore exact immutable collected forecasts
+        run: |
+          git fetch origin data/shadow-calibration
+          git show FETCH_HEAD:data/prop_snapshots.jsonl > data/prop_snapshots.jsonl
+      - name: Replay numerical research ranking without source or paid odds calls
+        run: |
+          python scripts/research_triage.py --date 2026-10-28 --path data/prop_snapshots.jsonl --out reports/research_triage.json > /dev/null
+          python scripts/research_ranked_board.py --date 2026-10-28 --snapshots data/prop_snapshots.jsonl --queue reports/research_triage.json --out reports/research_ranked_board.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("reports/research_ranked_board.json").read_text())
+          print("REAL_RESEARCH_RANKED",len(r["research_ranked"]))
+          print("RANKS",r["rank_counts"])
+          print("EXCLUSIONS",r["excluded"])
+          print("CANDIDATES",[(x["player"],x["research_rank"],x["q_model"],
+                x["q_market_comparable"]) for x in r["research_ranked"]])
+          assert r["status"] != "snapshot_queue_mismatch"
+          assert not r["publication_eligible"]
+          assert all(not x["publication_eligible"] and not x["verified_pick"]
+                     for x in r["research_ranked"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: actual-research-ranked-20261028
+          path: |
+            reports/research_triage.json
+            reports/research_ranked_board.json
+          retention-days: 7
