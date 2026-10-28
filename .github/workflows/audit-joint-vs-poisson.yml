@@ -62,3 +62,5 @@ jobs:
             reports/multisport_audit/${{ matrix.id }}/audit_receipt.json
             reports/multisport_audit/${{ matrix.id }}/sampling_diagnostics.json
             reports/multisport_audit/${{ matrix.id }}/full_holdout.json
+
+# Retest after off-diagonal LKJ convergence fix and positional market eligibility correction.
