@@ -16,10 +16,19 @@ from shared_context import history_path, validate_history
 from usage_baseline import local_day, using_directory
 
 
+def roster_stat(sport, stat):
+    """Full-team roster observation shared safely across player-prop categories."""
+    if sport == "NHL" and stat not in ("goalie saves","saves"):
+        return "shots on goal"
+    if sport == "NBA":
+        return "points"
+    return stat
+
+
 def tendency_path(root, sport, team, stat, game_date):
     from usage_baseline import source_stat
     digest = hashlib.sha256(json.dumps(
-        [sport, team, source_stat(stat)], separators=(",", ":")).encode()).hexdigest()
+        [sport, team, source_stat(roster_stat(sport, stat))], separators=(",", ":")).encode()).hexdigest()
     return Path(root) / "verification" / game_date / "tendencies" / (digest + ".json")
 
 
@@ -58,12 +67,12 @@ def evaluate(candidate, now, *, root="data", packet=None):
         with using_directory(root):
             path = tendency_path(root, sport, team, stat, game_date)
             if not path.is_file():
-                path = history_path(sport, team, stat)
+                path = history_path(sport, team, roster_stat(sport, stat))
             history = json.loads(path.read_text(encoding="utf-8"))
         if history.get("sport") != sport or history.get("team") != team:
             raise ValueError("team identity does not match history")
         from usage_baseline import source_stat
-        if source_stat(history.get("stat")) != source_stat(stat):
+        if source_stat(history.get("stat")) != source_stat(roster_stat(sport,stat)):
             raise ValueError("stat identity does not match history")
         validate_history(history)
         stamp = datetime.fromisoformat(str(history["retrieved_at"]).replace("Z", "+00:00"))
