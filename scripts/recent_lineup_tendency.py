@@ -9,10 +9,18 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from shared_context import history_path, validate_history
 from usage_baseline import local_day, using_directory
+
+
+def tendency_path(root, sport, team, stat, game_date):
+    from usage_baseline import source_stat
+    digest = hashlib.sha256(json.dumps(
+        [sport, team, source_stat(stat)], separators=(",", ":")).encode()).hexdigest()
+    return Path(root) / "verification" / game_date / "tendencies" / (digest + ".json")
 
 
 VERSION = "participation-tendency-v1"
@@ -48,7 +56,9 @@ def evaluate(candidate, now, *, root="data", packet=None):
             result["reason"] = "WRONG_SLATE_DATE"
             return result
         with using_directory(root):
-            path = history_path(sport, team, stat)
+            path = tendency_path(root, sport, team, stat, game_date)
+            if not path.is_file():
+                path = history_path(sport, team, stat)
             history = json.loads(path.read_text(encoding="utf-8"))
         if history.get("sport") != sport or history.get("team") != team:
             raise ValueError("team identity does not match history")
