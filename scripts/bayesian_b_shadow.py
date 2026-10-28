@@ -73,9 +73,17 @@ def evaluate(row, *, root):
         pairs=bu.verified_pairs(source,before=source_day,sport=row['sport'],stat=row['stat'])
         peers=bu.peers_from_cache(root,sport=row['sport'],stat=row['stat'],
                     player_id=row['player_id'],forecast_at=at,source_date=source_day)
+        # Engine B has its own collector-derived distribution. Reusing A's
+        # source-verified distribution would misclassify stats such as saves.
+        # Missing B distribution abstains instead of silently substituting A.
+        terms=prior_b.get('terms') or {}
+        distribution=terms.get('distribution') or {}
+        if prior_b.get('baseline_origin')!='collector_observations' or (
+                distribution.get('dist') not in ('poisson','negbin','normal')):
+            raise be.ModelUnavailable('missing_collector_engine_b_distribution')
         probability=bu.forecast(pairs,peers,
-                    dist=raw['dist'],line=row['reference_line'],side=row['side'],
-                    var_ratio=raw.get('var_ratio'),stat=row['stat'],sport=row['sport'])
+                    dist=distribution['dist'],line=row['reference_line'],side=row['side'],
+                    var_ratio=distribution.get('var_ratio'),stat=row['stat'],sport=row['sport'])
         # For B, the source collector's production+workload path is the
         # only valid historical comparator (legacy narrative scenarios cannot qualify).
         baseline_q_win=prior_b.get('q_win') if prior_b.get('baseline_origin')=='collector_observations' else None
@@ -93,6 +101,7 @@ def evaluate(row, *, root):
                       source_digest=source['content_sha256'],
                       inputs_hash=_hash({'subject':pairs,
                         'peers':sorted([p for p in peers],key=lambda items:items[0][0])}),
+                      distribution=distribution['dist'],distribution_source='scouting_v7_collector',
                       method=probability['predictive_method'],approximation=probability['approximation'],
                       notes=['workload_and_conversion_source_only','no_market_features',
                              'no_context_reweighting','no_tier_authority','shadow_only'])
