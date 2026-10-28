@@ -1,0 +1,71 @@
+name: NHL Bayesian history warehouse backfill
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/nhl-bayesian-history.yml']
+  schedule:
+    - cron: '17 5,17 * * *'
+  workflow_dispatch:
+    inputs:
+      max_days:
+        description: 'Historical calendar days to process per run'
+        required: false
+        default: '90'
+      max_games:
+        description: 'Soft maximum game count per run'
+        required: false
+        default: '250'
+permissions:
+  contents: write
+concurrency:
+  group: independent-nhl-bayesian-history
+  cancel-in-progress: false
+jobs:
+  historical-nhl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore independent historical warehouse
+        run: bash scripts/history_warehouse_store.sh load
+      - name: Resume official NHL historical collection
+        id: collect
+        continue-on-error: true
+        env:
+          BACKFILL_MAX_DAYS: ${{ github.event_name == 'push' && '30' || (inputs.max_days || '90') }}
+          BACKFILL_MAX_GAMES: ${{ github.event_name == 'push' && '150' || (inputs.max_games || '250') }}
+        run: |
+          python scripts/nhl_bayesian_backfill.py \
+            --max-days "$BACKFILL_MAX_DAYS" --max-games "$BACKFILL_MAX_GAMES" \
+            --request-spacing 0.35
+      - name: Persist completed games and resumable cursor even on partial failure
+        if: always()
+        run: |
+          if [ -s data/bayesian_warehouse/backfill_state.json ]; then
+            bash scripts/history_warehouse_store.sh save
+          else
+            echo 'No verified checkpoint to persist' >&2
+            exit 2
+          fi
+      - name: Upload history coverage receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nhl-bayesian-history-receipt
+          path: |
+            reports/nhl_bayesian_history_receipt.json
+            data/bayesian_warehouse/backfill_state.json
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Expose source failures instead of declaring an empty backfill success
+        if: always()
+        env:
+          COLLECTION_OUTCOME: ${{ steps.collect.outcome }}
+        run: |
+          test "$COLLECTION_OUTCOME" = success || { echo 'NHL_HISTORICAL_BACKFILL_INCOMPLETE' >&2; exit 2; }
