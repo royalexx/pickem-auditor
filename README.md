@@ -218,3 +218,7 @@ and model holdouts before making any accuracy claims.
 ### Recent-season population acceleration
 
 The [multi-season population workflow](references/recent_multiseason_bayesian_training.md) now independently collects NHL and NBA 2023-forward completed regular-season games while preserving the old 2018-forward source archive, and advances up to three fully completed nflverse seasons per execution. Manual research evaluation accepts a fixed source-verified training start, a recent-season lookback cap and a strict holdout end; uncollected or discontinuous historical periods block sampling. This does **not** change production rankings or assume the joint model is better.
+
+### Verified pick ranking and research recovery
+
+[October 28 ranking-repair audit](references/evidence_ranking_repair_20261028.md): source verification prioritizes numerically Tier-capable candidates ahead of model–market disagreements that cannot exceed Watchlist, early-season scouting can corroborate game history from the **official prior season**, and final pregame verification rechecks official status reports in the last eight minutes before puck drop. No numerical Tier is published without fresh, game-specific active identity, validated research and independent market/evidence gates; original forecasts remain immutable.
