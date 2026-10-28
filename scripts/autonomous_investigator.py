@@ -179,6 +179,37 @@ def independently_verified_deployment(item, observations, url, sha, now):
             "quote":""}
 
 
+def audited_workload_mechanism(item, observations, url, now):
+    """A conservative, directly observed workload change, not a projected injury."""
+    if item["sport"] not in ("NHL", "NBA") or len(observations) < 15:
+        return None
+    minutes = [r["workload_minutes"] for r in observations[:15]]
+    if any(not _finite(v) or v <= 0 for v in minutes):
+        return None
+    recent, prior = sum(minutes[:5]) / 5, sum(minutes[5:15]) / 10
+    if prior <= 0:
+        return None
+    ratio = recent / prior
+    side = item["side"]
+    if ((ratio < 1.15 if side == "over" else ratio > .85)
+            or not (ratio <= .85 or ratio >= 1.15)):
+        return None
+    return {"type": "workload", "supports_side": side,
+            "event_id": "observed-15-game-workload-shift",
+            "description": ("Observed recent-five mean workload " +
+                            ("higher" if ratio > 1 else "lower") +
+                            " than preceding ten official games; "
+                            "historical opportunity only, no future role inferred"),
+            "sources": [{"fact": "Observed minutes last 5 versus previous 10",
+                         "value": {"recent_minutes": round(recent, 4),
+                                   "prior_minutes": round(prior, 4),
+                                   "ratio": round(ratio, 6),
+                                   "game_ids": [x["game_id"] for x in observations[:15]]},
+                         "confidence": "confirmed",
+                         "source_url": url, "retrieved_at": now.isoformat(),
+                         "source_kind": "verified_machine_observation"}]}
+
+
 def _historical_findings(item, observations, url, digest, now):
     """Explicit event-level support and opposition, not forecast probabilities."""
     recent = observations[:MAX_OBSERVATIONS]
@@ -377,6 +408,18 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
                                 counts["deployment_facts_filled"] += 1
                         if checked["status"] == "source_conflict":
                             reasons.append("COLLECTOR_VS_OFFICIAL_OBSERVATION_CONFLICT")
+                        if checked["status"] == "independently_correlated":
+                            mechanism = audited_workload_mechanism(
+                                item, observations, url, now)
+                            if mechanism:
+                                slot = updated.setdefault("mechanisms", {}).setdefault(
+                                    item["candidate_id"], [])
+                                if not any(x.get("event_id") == mechanism["event_id"]
+                                           for x in slot if isinstance(x, dict)):
+                                    slot.append(mechanism)
+                                    entry["sourced_opportunity_mechanism"] = (
+                                        mechanism["event_id"])
+                                    counts["workload_mechanisms_added"] += 1
                         if not observations:
                             reasons.append("NO_PRE_EVENT_GAME_OBSERVATIONS")
                         counts["primary_history_retrieved"] += 1
@@ -412,6 +455,15 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
         "candidate_summaries": {e["candidate_id"]: {
             "forecast_sha256": e["forecast_sha256"],
             "source": (e["observed_history"] or {}).get("source_url"),
+            "source_payload_sha256": (e["observed_history"] or {}).get("payload_sha256"),
+            "source_retrieved_at": (e["observed_history"] or {}).get("retrieved_at"),
+            "sampled_games": (e["observed_history"] or {}).get("observations"),
+            "sampled_count": (e["observed_history"] or {}).get("sampled_count"),
+            "side": e["side"], "line": e["line"], "player_id": e["player_id"],
+            "team": e["team"], "opponent": e["opponent"],
+            "collector_status": (e.get("collector_independent_check") or {}).get("status"),
+            "collector_overlap": (e.get("collector_independent_check") or {}).get("overlap", 0),
+            "sourced_opportunity_mechanism": e.get("sourced_opportunity_mechanism"),
             "supporting_game_count": len(e["supporting_evidence"]),
             "opposing_game_count": len(e["opposing_evidence"]),
             "news_mention_count": len(e["relevant_news_mentions"]),
