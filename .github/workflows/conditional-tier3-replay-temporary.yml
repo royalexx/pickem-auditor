@@ -1,0 +1,44 @@
+name: One-off immutable Conditional Tier3 replay
+on:
+  push:
+    branches: [feat/conditional-tier3-tendency-20261028]
+    paths: [.github/workflows/conditional-tier3-replay-temporary.yml]
+permissions:
+  contents: read
+jobs:
+  historical-replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore original forecast snapshots without changing any source
+        run: |
+          git fetch origin data/shadow-calibration
+          git show FETCH_HEAD:data/prop_snapshots.jsonl > data/prop_snapshots.jsonl
+      - name: Evaluate archived 2026-10-28 candidates at original research time
+        run: |
+          python - <<'PY'
+          import json,sys
+          from pathlib import Path
+          from datetime import datetime,timezone
+          sys.path.insert(0,'scripts')
+          import research_triage as rt
+          import research_packet as rp
+          import conditional_tier3_board as cb
+          now=datetime(2026,10,28,20,40,tzinfo=timezone.utc)
+          rows=[json.loads(x) for x in Path('data/prop_snapshots.jsonl').read_text().splitlines() if x.strip()]
+          q=rt.build(rows,'2026-10-28',now=now)
+          packet=rp.empty_template('2026-10-28')
+          c=cb.build(rows,q,packet,'2026-10-28',now=now,data_root='data')
+          selected=[x for x in rt.latest_batch(rows,'2026-10-28')[0]
+                    if x.get('q_grade') is not None and isinstance(x.get('q_grade'),(float,int))]
+          print('ACTUAL_RESEARCH_QUEUE',len(q['queue']))
+          print('ACTUAL_MAX_MODEL_PROBABILITY',max(x['q_grade'] for x in selected))
+          print('CONDITIONAL_TIER3',c['conditional_count'])
+          print('REJECTIONS',c['excluded'])
+          assert c['conditional_count']==0
+          assert c['publication_eligible'] is False
+          assert max(x['q_grade'] for x in selected) < .70
+          PY
