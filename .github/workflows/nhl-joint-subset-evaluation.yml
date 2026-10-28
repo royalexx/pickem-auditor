@@ -1,0 +1,72 @@
+name: NHL joint Bayesian finite-cohort experiment
+on:
+  push:
+    branches: ['feature/joint-nhl-subset-validation-20261028']
+    paths: ['.github/workflows/nhl-joint-subset-evaluation.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: nhl-joint-subset-independent
+  cancel-in-progress: false
+jobs:
+  historical-subset-experiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      CUTOFF: '2018-10-20'
+      UNTIL: '2018-10-28'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-joint-bayes.txt
+      - name: Restore completed NHL history
+        run: bash scripts/history_warehouse_store.sh load
+      - name: Install real Bayesian NUTS dependencies
+        run: python -m pip install -r requirements-joint-bayes.txt
+      - name: Fit train-only 60-forward and 60-defense player subset
+        id: fit
+        continue-on-error: true
+        run: |
+          python scripts/joint_nhl_bayes.py --root . \
+            --as-of "$CUTOFF" --min-rows 400 \
+            --max-per-position 60 --draws 500 --tune 500 --chains 4 \
+            --out reports/joint_nhl_subset
+      - name: Score later games against same-cohort Gamma-Poisson
+        id: test
+        if: steps.fit.outcome == 'success'
+        continue-on-error: true
+        run: |
+          python scripts/joint_nhl_holdout.py --root . \
+            --cutoff "$CUTOFF" --until "$UNTIL" \
+            --max-per-position 60 \
+            --training-dir reports/joint_nhl_subset \
+            --draws 1500 --max-games 5000
+      - name: Archive model fit and evaluated heldout scores
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nhl-joint-2018-small-population-pilot
+          path: |
+            reports/joint_nhl_subset/manifest.json
+            reports/joint_nhl_subset/posterior.nc
+            reports/joint_nhl_subset/holdout_validation.json
+          retention-days: 90
+          if-no-files-found: warn
+      - name: No false success for nonconverged or unscored model
+        if: always()
+        env:
+          FIT: ${{ steps.fit.outcome }}
+          TEST: ${{ steps.test.outcome }}
+        run: |
+          test "$FIT" = success && test "$TEST" = success || {
+            echo "SMALL_NUTS_COHORT_NOT_CALIBRATED_OR_UNSCORED fit=$FIT test=$TEST" >&2
+            exit 2
+          }
