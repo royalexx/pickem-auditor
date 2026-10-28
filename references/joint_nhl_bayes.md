@@ -45,3 +45,21 @@ Local source tests:
     python -m unittest discover -s tests -p test_joint_nhl_history.py -q
 
 The CI job `joint-bayes-nuts-smoke` installs requirements-joint-bayes.txt and validates the actual probabilistic graph and small synthetic multi-chain NUTS sampling. Full four-chain convergence requires substantial historical coverage and is not inferred from this smoke test.
+
+ 
+## New-model heldout scoring
+ 
+After a successful converged NUTS fit, the manual training workflow reads
+the next 28 calendar days of completed historical skater games **without
+passing those observations into the model's features**. Frozen posterior
+predictions are compared on the same player-games to a transparent
+pre-cutoff, position-shrunk Gamma–Poisson baseline, at a *fixed test
+threshold of 2.5 shots*. Proper binary log loss, Brier, reliability and
+coverage are saved as `reports/joint_nhl/holdout_validation.json`.
+The heldout period must not overlap training, and postgame exposure
+minutes are never used as an offset for future forecasts. This is a
+retrospective **player-stat model benchmark**, not a backtest of
+contemporaneous prop offerings or line availability.
+ 
+Tests: `test_joint_nhl_history.py`, `test_joint_nhl_holdout.py`, and a
+separate real NUTS sampling `test_joint_nhl_pymc_smoke.py`.
