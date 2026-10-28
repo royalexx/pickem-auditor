@@ -106,3 +106,5 @@ jobs:
         run: python -m unittest discover -s tests -p test_population_joint_pymc.py -q
       - name: Regression test LKJ correlation diagonal vs genuine posterior convergence
         run: python -m unittest discover -s tests -p test_population_diagnostic_corr.py -q
+      - name: Check vectorized baseline control agrees with original Poisson and Student-t
+        run: python -m unittest discover -s tests -p test_population_audit_guardrails.py -q
