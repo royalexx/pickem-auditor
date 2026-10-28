@@ -107,7 +107,7 @@ class SourceWarehouse(unittest.TestCase):
                 if "/score/" in url:
                     return {"games":[{"id":2018020001,"gameState":"FINAL","gameType":2},
                                      {"id":2018020002,"gameState":"FINAL","gameType":2}]}
-                return raw_game(gid=2018020002 if url.endswith("0002") else 2018020001)
+                return raw_game(gid=2018020002 if "/2018020002/" in url else 2018020001)
             again=backfill.collect(root,max_days=1,stop_before="2018-10-02",fetcher=fixed)
             self.assertEqual(again["skipped_games"],1)
             self.assertEqual(again["new_games"],1)
