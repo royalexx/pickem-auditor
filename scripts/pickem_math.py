@@ -195,7 +195,7 @@ DERIVED_SOFT_FLAGS = (
     "UNCONFIRMED_GOALIE",
 )
 NBA_STATS = frozenset({"points", "rebounds", "assists", "threes", "pra", "pr", "pa", "ra"})
-NHL_SKATER_STATS = frozenset({"shots on goal", "blocked shots"})
+NHL_SKATER_STATS = frozenset({"shots on goal", "blocked shots", "hits"})
 NHL_SAVE_STATS = frozenset({"saves"})
 NHL_STATS = NHL_SKATER_STATS | NHL_SAVE_STATS
 NFL_WEATHER_STATS = frozenset({
@@ -221,6 +221,8 @@ STAT_ALIASES = {
     "shots": "shots on goal",
     "sog": "shots on goal",
     "blocked shot": "blocked shots",
+    "hit": "hits",
+    "body checks": "hits",
     "blocks": "blocked shots",
     "save": "saves",
     "goalie saves": "saves",
