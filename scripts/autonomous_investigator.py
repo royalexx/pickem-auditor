@@ -89,6 +89,54 @@ def _series(item, payload):
     return None
 
 
+def previous_season_source(item, date):
+    """Canonical previous official player game log (never an active roster)."""
+    current=observation_source(item,date)
+    if current is None:return None
+    if item["sport"]=="NHL":
+        season=fs.season_id_from_date(date)
+        if len(season)!=8 or not season.isdecimal():return None
+        return fs.nhl_game_log_url(str(item["player_id"]),
+            str(int(season[:4])-1)+str(int(season[4:])-1))
+    if item["sport"]=="NBA":
+        return fs.espn_gamelog_url(str(item["player_id"]),
+            fs.nba_espn_season_year(date)-1)
+    return None
+
+
+def extend_verified_history(item,date,observations,fetch,*,expected=None):
+    """Append individually validated prior-season games to a short current sample.
+
+    Replayed validation checks SHA256, source ID, game IDs and chronology.
+    Old games never prove tonight's lineup or specific role.
+    """
+    if observations is None or len(observations)>=15:return observations,None,None
+    url=previous_season_source(item,date)
+    if url is None or not verified_source(url):
+        return observations,None,"PRIOR_SEASON_OFFICIAL_SOURCE_UNAVAILABLE"
+    try:
+        payload=fetch(url,timeout=15)
+        if not isinstance(payload,(dict,list)):raise ValueError("invalid_previous_season_json")
+        sha=source_hash(payload)
+        if expected is not None and (expected.get("source_url")!=url or
+                                    expected.get("payload_sha256")!=sha):
+            return observations,None,"PRIOR_SEASON_SOURCE_DIGEST_CHANGED"
+        old, issue=_validated_series(item,_series(item,payload),date)
+        if issue or old is None:return observations,None,"PRIOR_SEASON_SOURCE_INVALID_"+str(issue)
+        current_ids={x["game_id"] for x in observations}
+        if any(x["game_id"] in current_ids for x in old):
+            return observations,None,"CROSS_SEASON_GAME_ID_COLLISION"
+        if observations and any(x["game_date"]>=observations[0]["game_date"] for x in old):
+            return observations,None,"PRIOR_SEASON_CHRONOLOGY_INVALID"
+        proof={"source_url":url,"payload_sha256":sha,"additional_games":len(old)}
+        if expected is not None and expected.get("additional_games")!=len(old):
+            return observations,None,"PRIOR_SEASON_SAMPLE_MISMATCH"
+        return sorted(observations+old,key=lambda x:(x["game_date"],x["game_id"]),
+                      reverse=True),proof,None
+    except (OSError,ValueError,TypeError,KeyError,TimeoutError) as exc:
+        return observations,None,"PRIOR_SEASON_SOURCE_ERROR_"+type(exc).__name__
+
+
 def _validated_series(item, series, date):
     if series is None:
         return None, "STAT_NOT_AVAILABLE_IN_OFFICIAL_FEED"
@@ -382,6 +430,15 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
                 if issue:
                     reasons.append(issue)
                 else:
+                    extra_proof = None
+                    if len(observations)<15:
+                        observations,extra_proof,extra_issue=extend_verified_history(
+                            item,date,observations,fetch)
+                        if extra_issue:
+                            reasons.append(extra_issue)
+                        elif extra_proof:
+                            entry["prior_season_extension"]=extra_proof
+                            counts["historical_samples_extended"] += 1
                     history, issue = _historical_findings(item, observations, url, sha, now)
                     if issue:
                         reasons.append(issue)
@@ -459,6 +516,7 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
             "source_retrieved_at": (e["observed_history"] or {}).get("retrieved_at"),
             "sampled_games": (e["observed_history"] or {}).get("observations"),
             "sampled_count": (e["observed_history"] or {}).get("sampled_count"),
+            "prior_season_extension": e.get("prior_season_extension"),
             "side": e["side"], "line": e["line"], "player_id": e["player_id"],
             "team": e["team"], "opponent": e["opponent"],
             "collector_status": (e.get("collector_independent_check") or {}).get("status"),
