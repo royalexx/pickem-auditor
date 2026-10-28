@@ -158,7 +158,8 @@ class ShadowTests(unittest.TestCase):
             'reference_line':2.5,'run_id':'shadow-1',
             'inputs':{'dist':'poisson','scouting':{'historical_usage':'opaque'}},
             'engine_b':{'version':'scouting-v7','reliable':True,
-                         'baseline_origin':'collector_observations','q_win':.52,'q_push':0.},
+                         'baseline_origin':'collector_observations','q_win':.52,'q_push':0.,
+                         'terms':{'distribution':{'dist':'poisson','var_ratio':None}}},
             'engine_a':{'version':'history-v5'}}
 
     def test_good_shadow_stays_unpublished(self):
@@ -176,6 +177,31 @@ class ShadowTests(unittest.TestCase):
         self.assertFalse(ans['publication_eligible'])
         self.assertAlmostEqual(ans['q_win']+ans['q_push']+ans['q_loss'],1,places=8)
         self.assertTrue(ans['inputs_hash'])
+
+    def test_use_engine_b_distribution_even_if_a_differs(self):
+        # A may use Normal while B's source-only count distribution is NB.
+        row={**self.row,'stat':'saves','reference_line':3.5,
+             'inputs':{**self.row['inputs'],'dist':'normal','var_ratio':None},
+             'engine_b':{**self.row['engine_b'],
+                         'terms':{'distribution':{'dist':'negbin','var_ratio':1.8}}}}
+        with patch.object(shadow.ub,'verify_a',return_value=True),\
+             patch.object(shadow.ub,'load',return_value={'content_sha256':'source'}),\
+             patch.object(shadow.bu,'verified_pairs',return_value=observations('x',count=True)),\
+             patch.object(shadow.bu,'peers_from_cache',return_value=peers(count=True)):
+            result=shadow.evaluate(row,root=Path('/tmp/faux-collector'))
+        self.assertEqual(result['status'],'forecast')
+        self.assertEqual(result['distribution'],'negbin')
+        self.assertEqual(result['distribution_source'],'scouting_v7_collector')
+
+    def test_no_fabricated_b_distribution(self):
+        row={**self.row,'engine_b':{**self.row['engine_b'],'terms':{}}}
+        with patch.object(shadow.ub,'verify_a',return_value=True),\
+             patch.object(shadow.ub,'load',return_value={'content_sha256':'source'}),\
+             patch.object(shadow.bu,'verified_pairs',return_value=observations('x',count=True)),\
+             patch.object(shadow.bu,'peers_from_cache',return_value=peers(count=True)):
+            result=shadow.evaluate(row,root=Path('/tmp/faux-collector'))
+        self.assertEqual(result['status'],'unavailable')
+        self.assertEqual(result['reason'],'missing_collector_engine_b_distribution')
 
     def test_poststart_and_missing_data_abstain(self):
         row=dict(self.row,event_start='2026-10-28T18:00:00Z')
