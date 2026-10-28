@@ -43,3 +43,16 @@ Successful fit and matched heldout run: https://github.com/royalexx/pickem-audit
 A post-fit analysis loads the **same frozen** NetCDF artifact, computes the off-diagonal workload–shot-rate correlation's posterior distribution, R-hat and bulk ESS, and NUTS energy BFMI by chain. It also adds paired *date-cluster* bootstrap intervals and per-position same-cohort scores without refitting to any heldout outcome. Passing these checks does not change the descriptive underpowered status or authorize production. Keep the canonical posterior source digest constant; never treat retrospective threshold 2.5 as a contemporaneous sportsbook offer.
 
 **Decision:** retain the Gamma–Poisson control and existing production rankers. Continue chronological official NHL backfill before fitting a full multiseason model with proper longer-date holdouts. Do not tune priors, blend coefficients or thresholds to this eight-date holdout.
+## Independent joint-posterior and eight-date uncertainty audit
+
+The *saved* 4x2,000-draw frozen posterior from the third fit was loaded without any refitting. Direct off-diagonal player covariance correlation: posterior mean **+0.471111**, median **+0.477399**, 2.5%–97.5% posterior quantiles **[+0.166626,+0.747410]**. Correlation R-hat **1.000528**, bulk ESS **5,552.698**, and per-chain NUTS energy BFMI **[0.6847, 0.6483, 0.7128, 0.7153]**, all above the BFMI safety floor 0.30. Supplemental convergence check passed.
+
+Paired, fixed-401-record **calendar-date-cluster** bootstrap (2,000 deterministic resamples of eight distinct dates) for challenger minus Gamma–Poisson control: Brier 95% descriptive interval **[-0.006222,+0.006648]**; log-loss 95% descriptive interval **[-0.018513,+0.023665]**. Both cross zero. This method deliberately retains within-day dependence and does not warrant inference from only eight dates.
+
+Subgroup same-cohort scores: **D** 195 observations, Bayesian Brier 0.162256 vs control 0.161257; log loss 0.495264 vs 0.493935. **F** 206 observations, Bayesian Brier 0.217999 vs control 0.216277; log loss 0.633667 vs 0.622721. Both were modestly worse on this exploratory cohort, with date-cluster intervals spanning no difference.
+
+The posthoc audit also persists each evaluated game ID, player ID, game date, original completed-game source checksum, observed shots, model probability, control probability, and numerical Monte Carlo standard error in an append-only-style **evaluation artifact**. The original historical source shards and dated pregame forecast archives are not modified.
+
+Successful posterior geometry and same-date scoring audit: https://github.com/royalexx/pickem-auditor/actions/runs/40731837036
+
+**Code safeguard:** the required joint-correlation R-hat/ESS and energy BFMI checks are now part of the standard posterior acceptance decision, rather than being available only through a separate audit. All weights, research verification, published picks, and Tier policies remain unchanged.
