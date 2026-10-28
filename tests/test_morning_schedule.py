@@ -155,7 +155,7 @@ class MorningScheduleTests(unittest.TestCase):
                                         at("2026-10-28T13:57:48Z"))
             target=d/"2026-10-28.json"
             target.write_text(json.dumps(old))
-            with patch.object(scheduler,"datetime") as dt:
+            with patch.object(scheduler,"datetime",wraps=datetime) as dt:
                 dt.now.return_value=at("2026-10-28T14:05:00Z")
                 self.assertEqual(scheduler.main(["mark","--receipt",str(receipt),
                     "--run-id","40799999999","--output-dir",str(d)]),0)
