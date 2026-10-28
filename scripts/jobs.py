@@ -304,6 +304,7 @@ def pipeline_to_snapshot(
         "inputs": dict(candidate),
         "shrunk_mean": project.get("shrunk_mean"),
         "current_role_n": project.get("current_role_n"),
+        "prior_supported": bool(grade.get("prior_supported", False)),
         "q_model": grade.get("q_model") if grade else project.get("q_win"),
         "q_push": grade.get("q_push") if grade else project.get("q_push_robust"),
         "q_market": grade.get("q_market") if grade else market.get("q_market"),

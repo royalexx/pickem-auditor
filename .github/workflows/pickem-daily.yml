@@ -82,6 +82,16 @@ jobs:
           receipt['persisted_forecasts_loaded']=Path('data/prop_snapshots.jsonl').is_file()
           step('multisport_slate',[sys.executable,'scripts/fetch_slate.py','--out','data/slate_fetch.jsonl'])
           step('sport_coverage',[sys.executable,'scripts/verify_sports.py','--slot',phase])
+          step('market_coverage',[sys.executable,'scripts/market_coverage_audit.py',
+               '--quotes','data/odds_quotes.jsonl','--slate','data/slate_fetch.jsonl',
+               '--out','reports/market_coverage.json'] + (['--odds-disabled'] if phase=='morning' else []))
+          if Path('reports/market_coverage.json').is_file():
+              try:
+                  market_report=json.loads(Path('reports/market_coverage.json').read_text())
+                  receipt['market_coverage']={k:market_report.get(k) for k in
+                      ('schema','source_quote_rows','source_slate_rows','absent_supported')}
+              except (OSError,ValueError):
+                  receipt['market_coverage']={'status':'INVALID_MARKET_COVERAGE'}
           coverage=Path('reports/sport_coverage.json')
           if coverage.exists():
               try:
@@ -372,6 +382,7 @@ jobs:
             reports/daily_receipt.json
             reports/nhl_collection_receipt.json
             reports/sport_coverage.json
+            reports/market_coverage.json
             reports/history_bootstrap.json
             reports/forecast_invariants.json
             reports/afternoon_audit.json

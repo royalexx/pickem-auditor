@@ -74,6 +74,9 @@ def build(rows, queue, date, *, now=None, decisions=(), history_root="data", pac
                         blocked[key] = (checked, d)
     chosen, excluded, seen = [], Counter(), set()
     for item in queue.get("queue") or []:
+        if isinstance(item, dict) and item.get("recovery_only") is True:
+            excluded["source_recovery_requires_new_forecast"] += 1
+            continue
         ident = item.get("candidate_id") if isinstance(item, dict) else None
         row = by_id.get(ident)
         if not row or ident in duplicate or ident in seen:
@@ -111,7 +114,8 @@ def build(rows, queue, date, *, now=None, decisions=(), history_root="data", pac
             excluded["invalid_numeric_provenance"] += 1
             continue
         try:
-            score = pm.grade(p, m, flags, n, q_push=push)
+            score = pm.grade(p, m, flags, n, q_push=push,
+                             prior_supported=row.get("prior_supported") is True)
         except (pm.PickemError, ValueError, TypeError):
             excluded["numeric_regrade_failed"] += 1
             continue

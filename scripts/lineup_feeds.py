@@ -163,8 +163,9 @@ def nhl_game(payload,team,stat,event_id,source_url):
             if ident in values:raise ValueError('duplicate NHL participant')
             if stat in ('saves','goalie saves'):
                 value=number(player['saves']) if position=='goalies' else 0.
-            elif stat in ('shots on goal','blocked shots'):
-                value=number(player['sog' if stat=='shots on goal' else 'blockedShots']) if position!='goalies' else 0.
+            elif stat in ('shots on goal','blocked shots','hits'):
+                field={'shots on goal':'sog','blocked shots':'blockedShots','hits':'hits'}[stat]
+                value=number(player[field]) if position!='goalies' else 0.
             else:raise ValueError('unsupported NHL stat')
             values[ident]=value
             if player.get('toi'):

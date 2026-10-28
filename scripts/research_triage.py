@@ -93,9 +93,24 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
     reasons = Counter(str(row.get("reason") or "RESEARCH_UNVERIFIED") for row in batch)
     categories = Counter(category(reason) for reason, n in reasons.items() for _ in range(n))
     candidates, excluded = [], Counter()
+    recoverable = {"sample_or_distribution", "context", "market_consensus"}
     for row in batch:
         reason = str(row.get("reason") or "")
-        if category(reason) != "pregame_identity_and_availability":
+        reason_class = category(reason)
+        # Saves can have a numerical q_grade while BOTH independently audited
+        # engines are unreliable. That is a source-repair task, never a pick.
+        goalie_needs_repair = (
+            row.get("sport") == "NHL"
+            and row.get("stat") in ("goalie saves", "saves")
+            and probability(row.get("q_grade"))
+            and row["q_grade"] >= .65
+            and (not (row.get("engine_a") or {}).get("reliable")
+                 or not (row.get("engine_b") or {}).get("reliable")))
+        if goalie_needs_repair:
+            reason_class = "goalie_history_or_starter_repair"
+            reason = reason or "GOALIE_ENGINE_RELIABILITY_UNRESOLVED"
+        is_recovery = reason_class in recoverable or goalie_needs_repair
+        if reason_class != "pregame_identity_and_availability" and not is_recovery:
             excluded["other_primary_blocker"] += 1
             continue
         inputs = row.get("inputs") or {}
@@ -106,22 +121,54 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
         if start and start <= now:
             excluded["game_started"] += 1
             continue
+        # A missing production grade MUST NOT be substituted for ranking.
+        # The independent A-side estimate is only a diagnostic to prioritize
+        # collecting missing source facts; its provenance is recorded explicitly.
         model = row.get("q_grade")
+        diagnostic_source = ("graded_but_engine_unreliable_recovery_only"
+            if goalie_needs_repair else "verified_production_grade")
+        if not probability(model) and is_recovery:
+            a = row.get("engine_a") or {}
+            if a.get("observation_ids_verified") is True:
+                model = a.get("q_win_robust")
+                diagnostic_source = "engine_a_unverified_recovery_only"
+        if not probability(model):
+            excluded["missing_source_model_diagnostic"] += 1
+            continue
         market = row.get("q_market_comparable")
         if not probability(market):
             market = row.get("q_market")
-        if not probability(model) or not probability(market):
-            excluded["missing_comparable_probabilities"] += 1
-            continue
+        market_source = "source_grade"
+        if not probability(market) and is_recovery:
+            # The initial grade may stop before setting q_market. Reconstruct
+            # only from actual same-line, two-sided sportsbook odds.
+            from pickem_math import consensus, PickemError
+            books_raw = row.get("books") or []
+            try:
+                books_provenance = [(b["book"],float(b["line"]),float(b["target"]),float(b["other"]))
+                                    for b in books_raw if isinstance(b,dict)
+                                    and all(k in b for k in ("book","line","target","other"))]
+                value = consensus(books_provenance) if len(set(x[0] for x in books_provenance))>=2 else {}
+                if probability(value.get("q_market")):
+                    market = value["q_market"]
+                    market_source = "source_quote_diagnostic_only"
+            except (PickemError,ValueError,TypeError,KeyError):
+                pass
         books = len({str(b.get("book")).casefold() for b in (row.get("books") or [])
                      if isinstance(b, dict) and b.get("book")})
         if books < 2:
             excluded["insufficient_independent_books"] += 1
             continue
-        if not (row.get("engine_a") or {}).get("reliable"):
+        if not probability(market):
+            excluded["missing_comparable_probabilities"] += 1
+            continue
+        if not is_recovery and not (row.get("engine_a") or {}).get("reliable"):
             excluded["unreliable_engine_a"] += 1
             continue
-        if model < minimum_grade or model-market < minimum_gap:
+        if model < (max(minimum_grade, .65) if is_recovery else minimum_grade):
+            excluded["below_research_priority_floor"] += 1
+            continue
+        if not is_recovery and model-market < minimum_gap:
             excluded["below_research_priority_floor"] += 1
             continue
         reliable_b = bool((row.get("engine_b") or {}).get("reliable"))
@@ -131,6 +178,9 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
         needs = ["explicit_game_specific_player_status",
                  "source_read_scouting_and_adversarial_review",
                  "independent_line_and_model_verification"]
+        if is_recovery:
+            needs.extend(["RECOVERY_ONLY_NOT_NUMERICALLY_GRADED",
+                          "repair_primary_veto:" + reason])
         if "VENUE_OR_FORECAST_UNVERIFIED" in reason:
             needs.append("source_verified_venue_or_forecast")
         if not reliable_b:
@@ -139,15 +189,15 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
             needs.append("scouting_dimensions:" + ",".join(missing))
         sport, player = str(row["sport"]), str(row["player"])
         cid = str(inputs.get("id") or "|".join((sport, player, str(row.get("stat")), str(row.get("side")))))
-        # A disagreement of 8 points or more has a hard Watchlist ceiling
-        # in pickem_math.grade(), regardless of subsequent active-roster or
-        # scouting verification. Select tier-capable research FIRST rather
-        # than expending the bounded live-source budget on impossible Tiers.
         from pickem_math import GAP_WATCH_CAP, GAP_EPSILON
         gap_watch_capped = abs(model-market) >= GAP_WATCH_CAP-GAP_EPSILON
+        priority = ("recovery_"+reason_class if is_recovery else
+                    "watchlist_gap_capped" if gap_watch_capped else "tier_candidate")
         candidates.append({
-            "verification_priority_class": ("watchlist_gap_capped" if gap_watch_capped
-                                            else "tier_candidate"),
+            "verification_priority_class": priority,
+            "recovery_only": is_recovery,
+            "model_diagnostic_source": diagnostic_source,
+            "market_diagnostic_source": market_source,
             "watchlist_gap_cap_applies": gap_watch_capped,
             "candidate_id": cid, "sport": sport, "player": player,
             "player_id": row.get("player_id"), "team": str(row["team"]),
@@ -165,31 +215,56 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
             "reason": reason, "status": "verification_pending",
             "publication_eligible": False,
         })
+    # Tier-capable candidates lead, but reserve one-third of a full research
+    # budget for fixable source gaps when present. This never promotes them.
     candidates.sort(key=lambda item: (
+        item["recovery_only"],
         not item["both_engines_reliable"],
         item["watchlist_gap_cap_applies"],
         -item["model_probability_diagnostic"],
         -item["provisional_gap"],
         item["sport"], item["player"]))
-    queue, seen, per_game = [], set(), Counter()
-    for item in candidates:
-        identity = (item["sport"], str(item["player_id"] or item["player"]),
-                    item["team"], item["opponent"])
-        # Subject-first matchup labels reverse the same fixture for players on
-        # opposing teams. Rate-limit by the unordered team pair, not that label.
-        game = (item["sport"], tuple(sorted((item["team"], item["opponent"]))))
-        if identity in seen:
-            excluded["duplicate_player"] += 1
-            continue
-        if per_game[game] >= max_per_game:
-            excluded["game_cap"] += 1
-            continue
-        if len(queue) >= limit:
-            excluded["queue_cap"] += 1
-            continue
-        queue.append(item)
-        seen.add(identity)
-        per_game[game] += 1
+    primary = [item for item in candidates if not item["recovery_only"]]
+    recovery = [item for item in candidates if item["recovery_only"]]
+    queue, seen, attempted, per_game = [], set(), set(), Counter()
+    def select(pool, budget):
+        # Round-robin by sport AND statistic so the first priced market cannot
+        # monopolize the queue; choose one side per (player, stat, fixture).
+        buckets = defaultdict(list)
+        for item in pool:
+            buckets[(item["sport"],item["stat"])].append(item)
+        keys = sorted(buckets)
+        while keys and len(queue) < budget:
+            nxt=[]
+            for key in keys:
+                if len(queue)>=budget:break
+                while buckets[key]:
+                    item=buckets[key].pop(0)
+                    identity=(item["sport"],str(item["player_id"] or item["player"]),
+                              item["team"],item["opponent"],item["stat"])
+                    if item["candidate_id"] in attempted:
+                        continue
+                    attempted.add(item["candidate_id"])
+                    game=(item["sport"],tuple(sorted((item["team"],item["opponent"]))))
+                    if identity in seen:
+                        excluded["duplicate_player_stat"] += 1
+                        continue
+                    if per_game[game]>=max_per_game:
+                        excluded["game_cap"] += 1
+                        continue
+                    queue.append(item)
+                    seen.add(identity);per_game[game]+=1
+                    break
+                if buckets[key]:nxt.append(key)
+            keys=nxt
+    reserve=min(len(recovery),max(0,limit//3))
+    select(primary,max(0,limit-reserve))
+    # Recoveries are independently quarantined; they cannot enter rank boards
+    # until a new immutable forecast has been made with reliable engines.
+    select(recovery,limit)
+    select(primary,limit)
+    if len(queue)<len(candidates):
+        excluded["queue_or_identity_cap"] += len(candidates)-len(queue)
     if packet is not None and queue:
         if packet.get("date") != date:
             raise ValueError("research packet date mismatch")
@@ -238,9 +313,12 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
         "reason_counts": dict(sorted(reasons.items())),
         "blocker_categories": dict(sorted(categories.items())),
         "qualified_before_caps": len(candidates), "review_queue_count": len(queue),
-        "tier_candidate_before_caps": sum(not x["watchlist_gap_cap_applies"] for x in candidates),
-        "tier_candidate_selected": sum(not x["watchlist_gap_cap_applies"] for x in queue),
-        "watchlist_gap_capped_selected": sum(x["watchlist_gap_cap_applies"] for x in queue),
+        "tier_candidate_before_caps": sum(not x["watchlist_gap_cap_applies"] and not x["recovery_only"] for x in candidates),
+        "tier_candidate_selected": sum(not x["watchlist_gap_cap_applies"] and not x["recovery_only"] for x in queue),
+        "watchlist_gap_capped_selected": sum(x["watchlist_gap_cap_applies"] and not x["recovery_only"] for x in queue),
+        "recovery_only_selected": sum(x["recovery_only"] for x in queue),
+        "recovery_selected_by_sport_stat": dict(sorted(Counter(
+            str(x["sport"]) + "|" + str(x["stat"]) for x in queue if x["recovery_only"]).items())),
         "qualified_by_sport": dict(sorted(Counter(c["sport"] for c in candidates).items())),
         "selected_by_sport": dict(sorted(Counter(c["sport"] for c in queue).items())),
         "review_queue_both_engines_reliable": sum(c["both_engines_reliable"] for c in queue),

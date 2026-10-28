@@ -195,7 +195,7 @@ DERIVED_SOFT_FLAGS = (
     "UNCONFIRMED_GOALIE",
 )
 NBA_STATS = frozenset({"points", "rebounds", "assists", "threes", "pra", "pr", "pa", "ra"})
-NHL_SKATER_STATS = frozenset({"shots on goal", "blocked shots"})
+NHL_SKATER_STATS = frozenset({"shots on goal", "blocked shots", "hits"})
 NHL_SAVE_STATS = frozenset({"saves"})
 NHL_STATS = NHL_SKATER_STATS | NHL_SAVE_STATS
 NFL_WEATHER_STATS = frozenset({
@@ -221,6 +221,8 @@ STAT_ALIASES = {
     "shots": "shots on goal",
     "sog": "shots on goal",
     "blocked shot": "blocked shots",
+    "hit": "hits",
+    "body checks": "hits",
     "blocks": "blocked shots",
     "save": "saves",
     "goalie saves": "saves",
@@ -1125,6 +1127,7 @@ def grade(
     q_push: float = 0.0,
     workload_adjusted: bool = False,
     normal_left_tail: bool = False,
+    prior_supported: bool = False,
 ) -> dict:
     """Score unconditional P(win). The market benchmark is separate.
 
@@ -1162,10 +1165,15 @@ def grade(
         "q_gap": signed_gap,
         "gap_magnitude": magnitude,
         "current_role_n": current_role_n,
+        "prior_supported": prior_supported,
         "numerical_band": None,
         "unicorn_numeric": False,
     }
-    blocked = (not role_change and current_role_n < 5) or (
+    if not isinstance(prior_supported, bool):
+        raise PickemError("prior_supported must be a boolean")
+    # Only the caller's source-verified, same-role prior may activate this.
+    # A three-game current-season sample alone never satisfies the gate.
+    blocked = (not role_change and current_role_n < 5 and not prior_supported) or (
         role_change and current_role_n < 1 and not workload_adjusted
     )
     if normal_left_tail or blocked:
@@ -1191,6 +1199,9 @@ def grade(
     if current_role_n < 10:
         flags += 1
         notes.append("LOW_SAMPLE")
+    if prior_supported:
+        flags += 1  # Tier 3 ceiling until current-season history matures.
+        notes.append("SOURCE_VERIFIED_EARLY_SEASON_PRIOR")
     if role_change and current_role_n < 5:
         flags += 1
         notes.append("NEW_ROLE_THIN")
@@ -1324,10 +1335,11 @@ def decide(
     workload_adjusted: bool = False,
     normal_left_tail: bool = False,
     mechanism_quality=None,
+    prior_supported: bool = False,
 ) -> dict:
     scored = grade(
         q_model, q_market, soft_flags, current_role_n, role_change, q_push,
-        workload_adjusted, normal_left_tail,
+        workload_adjusted, normal_left_tail, prior_supported=prior_supported,
     )
     final = finalize(scored, mechanisms, hard_veto, data_veto, market_valid,
                      research_checklist, mechanism_quality=mechanism_quality)
@@ -2771,6 +2783,18 @@ def evaluate_candidate(raw: dict, *, now=None) -> dict:
     # Researcher totals cannot become either side of a validated live mixture.
     if not source_verified:
         projected['observation_ids_verified']=False
+    # The collector validates independent dates, source hashes, disjoint seasons,
+    # same-role workload (within 20%), and prior IDs before authorizing support.
+    # The strict current_role_n stays visible; never mislabel prior games as current.
+    prior_supported = bool(source_verified and not raw.get('role_change')
+        and projected.get('current_role_n', 0) >= 3
+        and projected.get('current_role_n', 0) < 5
+        and projected.get('sample_effective_n', 0) >= 10
+        and raw.get('prior_n', 0) >= 10
+        and len((raw.get('observation_ids') or {}).get('prior') or []) >= 10)
+    if prior_supported:
+        projected['sample_block'] = False
+        projected['early_season_prior_supported'] = True
     scope = sport + "|" + str(context.get("stat") or "UNKNOWN")
     blend = combine(projected, reads_result, config_path(SKILL_ROOT, scope), scope=scope,
                     as_of=now.date() if now else None)
@@ -2867,7 +2891,7 @@ def evaluate_candidate(raw: dict, *, now=None) -> dict:
         projected["current_role_n"],
         mechanisms, hard_veto, data_veto, market_valid, research, bool(raw.get("role_change")),
         q_push_grade, workload_adjusted, bool(projected["distribution_block"]),
-        mechanism_quality=mechanism_quality,
+        mechanism_quality=mechanism_quality, prior_supported=prior_supported,
     )
     decided["tier_basis"] = tier_basis
     if decided["final_rank"] == "Tier 1" and (not blend["validated"] or

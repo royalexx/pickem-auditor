@@ -256,6 +256,8 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
         identity = item["candidate_id"]
         forecast_hash = forecast_digest(original)
         reasons = []
+        if item.get("recovery_only") is True:
+            reasons.append("RECOVERY_ONLY_REQUIRES_NEW_SOURCE_VERIFIED_FORECAST")
         if packet_game_key(checked_packet, item) is None:
             reasons.append("PACKET_FIXTURE_IDENTITY_MISMATCH")
         ok, issue = status_verified(checked_packet, item, now)
