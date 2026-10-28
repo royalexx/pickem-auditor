@@ -42,5 +42,8 @@ jobs:
           assert all('RECOVERY_ONLY_NOT_NUMERICALLY_GRADED' in x['missing_evidence']
                      for x in result['queue'] if x['recovery_only'])
           assert result['review_queue_count']>0
+          assert result['selected_by_sport'].get('NBA',0)>0
+          assert any(x['stat'] in ('goalie saves','saves') and x['recovery_only']
+                     for x in result['queue']), "Goalie repair must enter research queue"
           print('=== END REPLAY ===')
           PY
