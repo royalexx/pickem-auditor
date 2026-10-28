@@ -98,6 +98,42 @@ class MachineReviewTests(unittest.TestCase):
             self.assertEqual(board["rank_counts"]["Tier 2"],1)
             self.assertEqual(board["verified_picks"][0]["candidate_id"],ID)
 
+    def test_real_engine_a_and_b_regrade_without_mocked_probabilities(self):
+        import fetch_slate as fs
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t);rows,q,p=backed_case(root)
+            games=[{"tie":r["gameId"],"when":r["gameDate"],
+                    "value":r["shots"],"workload":(10. if r["toi"]=="10:00" else 20.)}
+                   for r in official_games()]
+            summary=fs.summarize_log(games,"shots on goal")
+            candidate=rows[0]["inputs"]
+            candidate.update(dist=summary["suggested_dist"],
+                baseline_mean=summary["baseline_window_mean"],
+                baseline_n=summary["baseline_n"],
+                recent_mean=summary["recent_mean"],
+                recent_n=summary["recent_n"],
+                season_n=summary["season_n"],
+                observation_ids={**(summary.get("observation_ids") or {}),"prior":[]})
+            if candidate["dist"]=="negbin":
+                candidate["var_ratio"]=summary["var_ratio"]
+            if candidate["dist"]=="normal":
+                candidate["sd"]=summary["sd"]
+            _,updated=ai.investigate(rows,q,p,DATE,now=NOW,
+                                      fetch=fetch_source,data_root=root)
+            report,_=pv.verify(rows,q,updated,DATE,now=NOW,fetch=fetch_source,
+                                auto_review=True,data_root=root)
+            decision=report["decisions"][0]
+            self.assertTrue(decision["machine_review"]["independent_live_refetch"])
+            self.assertTrue(decision["engine_a_reliable"],decision["blockers"])
+            self.assertTrue(decision["engine_b_reliable"],decision["blockers"])
+            self.assertIsInstance(decision["verified_model_probability"],float)
+            self.assertTrue(0 <= decision["verified_model_probability"] <= 1)
+            # A genuinely non-qualifying numeric grade remains blocked; no
+            # synthetic probability or Tier label is injected into Engine A/B.
+            if not decision["publication_eligible"]:
+                self.assertEqual(decision["verified_rank"],"Unranked")
+                self.assertTrue(decision["blockers"])
+
     def test_changed_source_body_blocks_machine_grade(self):
         with tempfile.TemporaryDirectory() as t:
             root=Path(t);rows,q,p=backed_case(root)
