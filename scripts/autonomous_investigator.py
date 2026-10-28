@@ -146,6 +146,39 @@ def crosscheck_collector(item, original, observed, now, data_root):
     }
 
 
+def independently_verified_deployment(item, observations, url, sha, now):
+    """One precisely measurable scouting fact; never a projected role or lineup.
+
+    Mark a deployment *trend* only when >=8 official games include workload,
+    including five recent games. This cannot establish tonight's line, minutes
+    or opponent matchup and therefore never completes the scouting checklist.
+    """
+    if item["sport"] not in ("NBA","NHL"):
+        return None
+    valid = [r for r in observations if _finite(r.get("workload_minutes"))
+             and r["workload_minutes"] > 0]
+    if len(valid) < 8:
+        return None
+    recent = valid[:5]
+    full_avg = sum(x["workload_minutes"] for x in valid)/len(valid)
+    five_avg = sum(x["workload_minutes"] for x in recent)/5
+    value = {"metric":"observed_minutes_per_game",
+             "last_five_mean_minutes":round(five_avg,4),
+             "current_season_mean_minutes":round(full_avg,4),
+             "current_season_sample":len(valid),
+             "last_five_game_ids":[r["game_id"] for r in recent],
+             "projection_for_tonight":None,
+             "lineup_or_matchup_confirmed":False}
+    return {"fact":"Official observed workload / deployment trend (not a forecast)",
+            "value":value,"confidence":"confirmed","source_url":url,
+            "retrieved_at":now.isoformat(),
+            "source_field":("gameLog[].toi" if item["sport"]=="NHL"
+                            else "seasonTypes[].categories[].events[].stats.minutes"),
+            "source_payload_sha256":sha,
+            "source_kind":"machine_read_structured_statistical_observation",
+            "quote":""}
+
+
 def _historical_findings(item, observations, url, digest, now):
     """Explicit event-level support and opposition, not forecast probabilities."""
     recent = observations[:MAX_OBSERVATIONS]
@@ -328,6 +361,20 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
                         checked = crosscheck_collector(
                             item, original, observations, now, data_root or Path("data"))
                         entry["collector_independent_check"] = checked
+                        if checked["status"] != "source_conflict":
+                            deploy = independently_verified_deployment(
+                                item, observations, url, sha, now)
+                            slot = ((updated.get("scouting") or {})
+                                    .get(item["candidate_id"]) or {}).get("supporting_stats")
+                            if (deploy is not None and isinstance(slot, dict)
+                                    and slot.get("deployment_trends") is None):
+                                slot["deployment_trends"] = deploy
+                                entry["validated_stat_specific_facts"] = [
+                                    "deployment_trends"]
+                                entry["missing_scouting_checks"] = [
+                                    x for x in entry["missing_scouting_checks"]
+                                    if x != "deployment_trends"]
+                                counts["deployment_facts_filled"] += 1
                         if checked["status"] == "source_conflict":
                             reasons.append("COLLECTOR_VS_OFFICIAL_OBSERVATION_CONFLICT")
                         if not observations:
