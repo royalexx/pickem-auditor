@@ -172,12 +172,24 @@ def diagnostics(idata):
     try:
         from arviz_stats import rhat,ess
         keys=["population_workload","population_rate","player_chol_stds",
-              "player_chol_corr","workload_sigma","opponent_rate_sd","home_effect"]
+              "workload_sigma","opponent_rate_sd","home_effect"]
         if "count_dispersion" in idata.posterior:keys.append("count_dispersion")
         if "yardage_sigma" in idata.posterior:keys.append("yardage_sigma")
         if "season_rate_sd" in idata.posterior:keys.extend(["season_rate_sd","season_workload_sd"])
         all_r=_to_values(rhat(idata.posterior,var_names=keys))
         all_e=_to_values(ess(idata.posterior,var_names=keys,method="bulk"))
+        # LKJ correlation diagonals are IDENTICALLY 1 in every posterior
+        # draw. Including those constants in ArviZ R-hat/ESS returns NaN
+        # and silently vetoes an otherwise converged model. Diagnose only
+        # the uncertain off-diagonal correlation, never waive its Rhat/ESS.
+        corr=np.asarray(idata.posterior["player_chol_corr"])
+        if corr.ndim!=4 or corr.shape[-2:]!=(2,2):
+            raise ValueError("malformed_player_effect_correlation_posterior")
+        import xarray as xr
+        offdiag=xr.Dataset({"estimated_player_correlation":(
+            ("chain","draw"),corr[...,0,1])})
+        all_r.extend(_to_values(rhat(offdiag,var_names=["estimated_player_correlation"])))
+        all_e.extend(_to_values(ess(offdiag,var_names=["estimated_player_correlation"],method="bulk")))
         divergences=int(np.asarray(idata.sample_stats["diverging"]).sum())
         # BFMI from each chain; global minimum >= .30 required for approval.
         energy=np.asarray(idata.sample_stats["energy"],dtype=float)
