@@ -32,9 +32,11 @@ jobs:
           date=datetime.now(ZoneInfo('America/Toronto')).date().isoformat()
           player_id='8481605'  # Named NHL player in archived shortlist; no private data
           nhl_url=fs.nhl_game_log_url(player_id,fs.season_id_from_date(date))
+          nba_url=fs.espn_gamelog_url('3975',fs.nba_espn_season_year(date))
           news_url=NEWS_FEEDS['NHL']
           sources=[]
           for url,kind in ((nhl_url,'NHL player game log'),
+                           (nba_url,'NBA player game log'),
                            (news_url,'ESPN news discovery')):
               check={'kind':kind,'url':url,'approved_https_host':verified_source(url)}
               try:
@@ -46,6 +48,12 @@ jobs:
                       check['games']=len(games or [])
                       check['has_structured_values']=any(
                           isinstance(row,dict) and 'shots' in row for row in games or [])
+                  elif kind.startswith('NBA'):
+                      games=fs.parse_espn_gamelog(data)
+                      check['schema_ok']=games is not None
+                      check['games']=len(games or [])
+                      check['has_structured_values']=any(
+                          isinstance(row,dict) and row.get('points') is not None for row in games or [])
                   else:
                       check['schema_ok']=isinstance(data,dict) and isinstance(
                           data.get('articles'),list)
@@ -62,8 +70,8 @@ jobs:
                   'sources':sources}
           Path('reports/investigator_source_probe.json').write_text(
               json.dumps(result,indent=2)+'\n')
-          if not sources[0].get('schema_ok'):
-              raise SystemExit('Official NHL game log unavailable or schema changed')
+          if not all(x.get('schema_ok') for x in sources):
+              raise SystemExit('At least one official source returned unavailable or incompatible JSON')
           PY
       - name: Upload independent source connectivity receipt
         if: always()
