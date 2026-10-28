@@ -181,8 +181,28 @@ def diagnostics(idata):
             "publication_eligible":False,"validated":False}
 
 
+def predictive_cache(idata):
+    """Flatten posterior arrays once for a whole frozen chronological cohort."""
+    import numpy as np
+    posterior=idata.posterior
+    count=int(posterior.sizes["chain"])*int(posterior.sizes["draw"])
+    if count<20:
+        raise ValueError("insufficient_posterior_draws")
+    required=("population_log_toi","population_log_shot_rate",
+              "player_effect","season_toi","season_rate",
+              "season_toi_sd","season_rate_sd","opponent_rate",
+              "toi_sigma","home_rate","overdispersion")
+    arrays={}
+    for name in required:
+        raw=np.asarray(posterior[name],dtype=float)
+        arrays[name]=raw.reshape((count,)+raw.shape[2:])
+        if not np.all(np.isfinite(arrays[name])):
+            raise ValueError("nonfinite_posterior_"+name)
+    return {"count":count,"arrays":arrays}
+
+
 def forecast(idata,data,*,player_id,opponent,season,home,line,draws=5000,seed=1903,
-             fit_diagnostics=None):
+             fit_diagnostics=None,posterior_cache=None):
     """Posterior predictive count probability; conditional on appearing.
 
     Never enter the ranked production pipeline. Reject all missing/nonconverged
@@ -203,19 +223,17 @@ def forecast(idata,data,*,player_id,opponent,season,home,line,draws=5000,seed=19
         raise ValueError("invalid_home_flag")
     if opponent not in data["opponents"]:
         raise ValueError("unknown_opponent_code")
-    posterior=idata.posterior
+    cache=posterior_cache if posterior_cache is not None else predictive_cache(idata)
+    count=cache["count"]
     seed=int(seed)
     rng=np.random.default_rng(seed)
-    count=posterior.sizes["chain"]*posterior.sizes["draw"]
-    if count<20:raise ValueError("insufficient_posterior_draws")
     indices=rng.integers(0,count,size=draws)
     pi=data["players"].index(player)
     oi=data["opponents"].index(opponent)
     season_index=data["seasons"].index(season) if season in data["seasons"] else None
     pos=0 if position=="F" else 1
     def samples(name):
-        vals=np.asarray(posterior[name])
-        return vals.reshape((count,)+vals.shape[2:])[indices]
+        return cache["arrays"][name][indices]
     pop_toi=samples("population_log_toi")[:,pos]
     pop_rate=samples("population_log_shot_rate")[:,pos]
     person=samples("player_effect")[:,pi,:]
@@ -228,14 +246,34 @@ def forecast(idata,data,*,player_id,opponent,season,home,line,draws=5000,seed=19
     mu=toi*np.exp(pop_rate+person[:,1]+season_rate+opponent_rate+
                   (1 if home else 0)*samples("home_rate"))
     alpha=samples("overdispersion")
-    count_shots=rng.negative_binomial(alpha,alpha/(alpha+mu))
-    over=float(np.mean(count_shots>line))
-    push=float(np.mean(count_shots==line)) if float(line).is_integer() else 0.
-    under=float(np.mean(count_shots<line))
+    if np.any(~np.isfinite(mu)) or np.any(mu<=0) or np.any(alpha<=0):
+        raise ValueError("nonfinite_or_nonpositive_posterior_likelihood")
+    from scipy.stats import nbinom
+    p=alpha/(alpha+mu)
+    threshold=math.floor(line)
+    # Integrate the conditional count outcome rather than drawing an
+    # additional noisy observed game. This is Rao-Blackwellization,
+    # with smaller MC error and fewer draws per player/game.
+    over_each=nbinom.sf(threshold,alpha,p)
+    if float(line).is_integer():
+        under_each=nbinom.cdf(threshold-1,alpha,p)
+        push_each=nbinom.pmf(threshold,alpha,p)
+    else:
+        under_each=nbinom.cdf(threshold,alpha,p)
+        push_each=np.zeros(draws)
+    if not (np.all(np.isfinite(over_each)) and np.all(np.isfinite(under_each))
+            and np.all(np.isfinite(push_each))):
+        raise ValueError("invalid_conditional_predictive_probability")
+    over=float(np.mean(over_each))
+    under=float(np.mean(under_each))
+    push=float(np.mean(push_each))
+    mc_se=float(np.std(over_each,ddof=1)/math.sqrt(draws)) if draws>1 else None
     return {"schema":"nhl_joint_bayesian_forecast_v1","status":"shadow_only",
             "model_version":VERSION,"player_id":player,"opponent":opponent,"season":season,
             "home":home,"line":line,"q_over":over,"q_under":under,"q_push":push,
             "draws":draws,"posterior_samples":count,
+            "mc_standard_error_q_over":mc_se,
+            "predictive_method":"latent_posterior_mc_conditional_nb_integrated",
             "source_digest":data["source_digest"],
             "training_through":data["last_game"],
             "conditional_on_appearance":True,"publication_eligible":False,
