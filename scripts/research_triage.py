@@ -97,7 +97,19 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
     for row in batch:
         reason = str(row.get("reason") or "")
         reason_class = category(reason)
-        is_recovery = reason_class in recoverable
+        # Saves can have a numerical q_grade while BOTH independently audited
+        # engines are unreliable. That is a source-repair task, never a pick.
+        goalie_needs_repair = (
+            row.get("sport") == "NHL"
+            and row.get("stat") in ("goalie saves", "saves")
+            and probability(row.get("q_grade"))
+            and row["q_grade"] >= .65
+            and (not (row.get("engine_a") or {}).get("reliable")
+                 or not (row.get("engine_b") or {}).get("reliable")))
+        if goalie_needs_repair:
+            reason_class = "goalie_history_or_starter_repair"
+            reason = reason or "GOALIE_ENGINE_RELIABILITY_UNRESOLVED"
+        is_recovery = reason_class in recoverable or goalie_needs_repair
         if reason_class != "pregame_identity_and_availability" and not is_recovery:
             excluded["other_primary_blocker"] += 1
             continue
@@ -113,7 +125,8 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
         # The independent A-side estimate is only a diagnostic to prioritize
         # collecting missing source facts; its provenance is recorded explicitly.
         model = row.get("q_grade")
-        diagnostic_source = "verified_production_grade"
+        diagnostic_source = ("graded_but_engine_unreliable_recovery_only"
+            if goalie_needs_repair else "verified_production_grade")
         if not probability(model) and is_recovery:
             a = row.get("engine_a") or {}
             if a.get("observation_ids_verified") is True:
