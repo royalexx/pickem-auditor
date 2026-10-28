@@ -36,9 +36,13 @@ jobs:
                     if x.get('q_grade') is not None and isinstance(x.get('q_grade'),(float,int))]
           print('ACTUAL_RESEARCH_QUEUE',len(q['queue']))
           print('ACTUAL_MAX_MODEL_PROBABILITY',max(x['q_grade'] for x in selected))
+          from research_ranked_board import build as research_build
+          ranked=research_build(rows,q,'2026-10-28',now=now)
+          print('ELIGIBLE_RESEARCH_COUNT',len(ranked['research_ranked']))
+          print('ELIGIBLE_RESEARCH_MAX',max(x['q_model'] for x in ranked['research_ranked']))
           print('CONDITIONAL_TIER3',c['conditional_count'])
           print('REJECTIONS',c['excluded'])
           assert c['conditional_count']==0
           assert c['publication_eligible'] is False
-          assert max(x['q_grade'] for x in selected) < .70
+          assert max(x['q_model'] for x in ranked['research_ranked']) < .70
           PY
