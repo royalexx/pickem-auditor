@@ -108,6 +108,34 @@ class SourceSelectionTests(unittest.TestCase):
         self.assertEqual(result['reason'],'missing_or_poststart_forecast')
         self.assertFalse(result['publication_eligible'])
 
+
+    def test_successful_shadow_uses_only_verified_inputs(self):
+        from unittest.mock import patch
+        at='2026-10-28T19:00:00Z'
+        row={'forecast_at':at,'event_start':'2026-10-28T23:00:00Z',
+             'game_date':'2026-10-28','sport':'NHL','player':'Example','player_id':'88',
+             'team':'BOS','stat':'shots on goal','side':'over','reference_line':2.5,
+             'run_type':'shadow','inputs':{'dist':'poisson','scouting':{'historical_usage':'opaque'}},
+             'engine_a':{'version':'history-v5','q_win_robust':0.53}}
+        values=[1.,2.,3.,1.,2.,4.]
+        data={'content_sha256':'original-source','observations':[
+              {'id':str(i),'date':'2026-10-%02d'%(11+i),'value':int(v)}
+              for i,v in enumerate(values)]}
+        peers=[([1.,2.,3.,2.,4.,1.],['peer-%d-%d'%(i,j) for j in range(6)]) for i in range(6)]
+        with patch.object(bs.ub,'verify_a',return_value=True) as verified, \
+             patch.object(bs.ub,'load',return_value=data) as loaded, \
+             patch.object(bs.be,'peers_from_cache',return_value=peers) as peers_called:
+            pred=bs.evaluate(row,root=Path('/tmp/collector'))
+        self.assertEqual(pred['status'],'forecast')
+        self.assertEqual(pred['version'],'history-bayes-v1')
+        self.assertEqual(pred['baseline_q_win'],0.53)
+        self.assertEqual(pred['peer_count'],6)
+        self.assertFalse(pred['publication_eligible'])
+        self.assertAlmostEqual(pred['q_win']+pred['q_push']+pred['q_loss'],1)
+        self.assertEqual(peers_called.call_args.kwargs['cutoff'],datetime.fromisoformat(at.replace('Z','+00:00')))
+        self.assertEqual(verified.call_count,1)
+        self.assertEqual(loaded.call_count,1)
+
     def test_sidecar_append_only_and_production_history_unchanged(self):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder)
