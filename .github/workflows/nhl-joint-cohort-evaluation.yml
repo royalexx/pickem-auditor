@@ -28,7 +28,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: nhl-joint-evaluation
+  group: nhl-joint-evaluation-compiled
   cancel-in-progress: false
 jobs:
   retrospective-cohort:
@@ -41,7 +41,6 @@ jobs:
       TUNE: ${{ inputs.tune || '500' }}
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
-      PYTENSOR_FLAGS: 'cxx='
     steps:
       - uses: actions/checkout@v4
         with:
