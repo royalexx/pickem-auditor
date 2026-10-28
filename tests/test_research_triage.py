@@ -25,8 +25,10 @@ class ResearchTriageTests(unittest.TestCase):
         report=build([row("A Only",b=False),row("Both"),
                       row("Thin",reason="SAMPLE_BLOCK")],
                      "2026-10-27",now=NOW)
-        self.assertEqual(report["review_queue_count"],2)
+        self.assertEqual(report["review_queue_count"],3)
         self.assertEqual(report["queue"][0]["player"],"Both")
+        self.assertTrue(report["queue"][-1]["recovery_only"])
+        self.assertEqual(report["queue"][-1]["player"],"Thin")
         self.assertEqual(report["blocker_categories"]["sample_or_distribution"],1)
         self.assertTrue(all(not q["publication_eligible"] for q in report["queue"]))
         self.assertTrue(all("explicit_game_specific_player_status" in q["missing_evidence"]
