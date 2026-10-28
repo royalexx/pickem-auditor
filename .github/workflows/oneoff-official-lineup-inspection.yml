@@ -1,0 +1,42 @@
+name: One-off inspect genuine NHL official pregame lineup flags
+on:
+  push:
+    branches: ['fix/research-ranking-eligibility-20261028']
+    paths: ['.github/workflows/oneoff-official-lineup-inspection.yml']
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inspect only returned official 2026-10-28 pregame league attributes
+        run: |
+          python - <<'PY'
+          import json,urllib.request,datetime
+          base='https://api-web.nhle.com/v1'
+          def fetch(path):
+              r=urllib.request.Request(base+path,headers={'User-Agent':'pickem-auditor/1.0'})
+              with urllib.request.urlopen(r,timeout=15) as h:return json.load(h)
+          board=fetch('/score/2026-10-28')
+          print('SCOREBOARD_KEYS',list(board)[:20])
+          for game in (board.get('games') or [])[:8]:
+              gid=game.get('id')
+              if not gid:continue
+              b=fetch('/gamecenter/'+str(gid)+'/boxscore')
+              roster=b.get('playerByGameStats') or {}
+              away=(b.get('awayTeam') or {}).get('abbrev')
+              home=(b.get('homeTeam') or {}).get('abbrev')
+              print('PREGAME_OFFICIAL_ROSTER',gid,'state',b.get('gameState'),
+                    'date',b.get('gameDate'),'away',away,'home',home,
+                    'boxscore_keys',list(b.get('boxscore') or {}),
+                    'byGameStats', {side:{group:len(players) for group,players in
+                        (s or {}).items() if isinstance(players,list)}
+                        for side,s in roster.items() if isinstance(s,dict)},
+                    'scratches',[(side,len((b.get(side) or {}).get('scratches') or []))
+                        for side in ('awayTeam','homeTeam')])
+          PY
