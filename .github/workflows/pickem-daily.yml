@@ -271,6 +271,27 @@ jobs:
                            '--queue','reports/research_triage.json',
                            '--archive-root','data/verification',
                            '--out','reports/research_ranked_board.json'])
+                  if Path('reports/research_triage.json').is_file() and Path(f'data/verification/{triage_date}/packet.json').is_file():
+                      conditional=[sys.executable,'scripts/conditional_tier3_board.py',
+                           '--date',triage_date,'--snapshots','data/prop_snapshots.jsonl',
+                           '--queue','reports/research_triage.json',
+                           '--packet',f'data/verification/{triage_date}/packet.json',
+                           '--archive-root','data/verification',
+                           '--out','reports/conditional_tier3_board.json']
+                      quotes=Path('data/odds_quotes.jsonl')
+                      if quotes.is_file():
+                          conditional.extend(['--quotes-file',str(quotes)])
+                      reviewed=Path(f'data/review_submissions/{triage_date}.json')
+                      if reviewed.is_file():
+                          conditional.extend(['--reviews',str(reviewed)])
+                      step('conditional_tier3_board',conditional)
+                  if Path('reports/conditional_tier3_board.json').is_file():
+                      try:
+                          conditional_board=json.loads(Path('reports/conditional_tier3_board.json').read_text())
+                          receipt['conditional_tier3_board']={k:conditional_board.get(k) for k in
+                              ('schema','status','conditional_count','excluded','publication_eligible')}
+                      except (ValueError,OSError):
+                          receipt['conditional_tier3_board']={'status':'INVALID_CONDITIONAL_BOARD'}
                   if Path('reports/research_ranked_board.json').is_file():
                       try:
                           research_board=json.loads(Path('reports/research_ranked_board.json').read_text())
@@ -369,6 +390,7 @@ jobs:
             reports/autonomous_investigation.json
             reports/verified_board.json
             reports/research_ranked_board.json
+            reports/conditional_tier3_board.json
             reports/recent_lineup_collection.json
             data/verification/
             data/research_*.json

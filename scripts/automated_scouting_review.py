@@ -19,7 +19,8 @@ from research_triage import packet_game_key
 REVIEWER = "machine:deterministic-primary-source-v1"
 
 
-def evaluate(item, original, packet, *, now, fetch=None, data_root=None):
+def evaluate(item, original, packet, *, now, fetch=None, data_root=None,
+             conditional_tendency=None):
     """Return (eligible, machine-readable blocker, provenance). No assertions from URLs alone."""
     provenance = {"review_type": "structured_machine_verification",
                   "reviewer": REVIEWER, "source_read_by_human": False,
@@ -43,7 +44,25 @@ def evaluate(item, original, packet, *, now, fetch=None, data_root=None):
         return fail("MACHINE_FIXTURE_NOT_CONFIRMED")
     active, issue = status_verified(packet, item, now)
     if not active:
-        return fail("MACHINE_"+str(issue))
+        # Explicitly opt-in only from the *separate* Conditional Tier 3 board.
+        # Never update a verified roster fact or the strict verifier's status.
+        tolerated = {"GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+                     "STATUS_NOT_FROM_EXPLICIT_GAME_REPORT",
+                     "ACTIVE_STATUS_STALE_OR_INVALID"}
+        tendency = conditional_tendency
+        if (issue not in tolerated or not isinstance(tendency, dict)
+                or tendency.get("status") != "high_continuity"
+                or tendency.get("played_last_5") != 5
+                or tendency.get("likely_available") is not True
+                or tendency.get("confirmed_active") is not False
+                or tendency.get("usable_for_verified_tier") is not False
+                or not isinstance(tendency.get("source_snapshot_sha256"), str)
+                or len(tendency["source_snapshot_sha256"]) != 64):
+            return fail("MACHINE_"+str(issue))
+        # Only a research audit exception, NOT equivalent to active status.
+        provenance["availability_basis"] = "five_game_historical_tendency_only"
+        provenance["current_game_active_confirmed"] = False
+        provenance["tendency_history_sha256"] = tendency["source_snapshot_sha256"]
     if item["sport"] not in ("NHL", "NBA"):
         return fail("MACHINE_SPORT_SOURCE_NOT_SUPPORTED")
     # Any unresolved conflicting status evidence blocks the review.

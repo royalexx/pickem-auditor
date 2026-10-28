@@ -106,6 +106,24 @@ jobs:
             --queue "data/verification/$VERIFY_DATE/queue.json" \
             --archive-root data/verification \
             --out reports/research_ranked_board.json
+      - name: Evaluate Conditional Tier 3 with fresh matched prices
+        if: steps.gate.outputs.due == 'true'
+        env:
+          PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
+          PICKEM_ODDS_QUOTA_GUARD: '1'
+          VERIFY_DATE: ${{ steps.gate.outputs.date }}
+        run: |
+          args=(--date "$VERIFY_DATE"
+                --snapshots data/prop_snapshots.jsonl
+                --queue "data/verification/$VERIFY_DATE/queue.json"
+                --packet "data/verification/$VERIFY_DATE/packet.json"
+                --archive-root data/verification
+                --refresh-quotes
+                --out reports/conditional_tier3_board.json)
+          if [ -f "data/review_submissions/$VERIFY_DATE.json" ]; then
+            args+=(--reviews "data/review_submissions/$VERIFY_DATE.json")
+          fi
+          python scripts/conditional_tier3_board.py "${args[@]}"
       - name: Persist verification evidence independently from original predictions
         if: steps.gate.outputs.due == 'true'
         run: bash scripts/shadow_store.sh save
@@ -119,6 +137,8 @@ jobs:
             reports/autonomous_investigation.json
             reports/verified_board.json
             reports/research_ranked_board.json
+            reports/conditional_tier3_board.json
             data/verification/${{ steps.gate.outputs.date }}/decisions/
+            data/verification/${{ steps.gate.outputs.date }}/conditional/
           retention-days: 90
           if-no-files-found: error
