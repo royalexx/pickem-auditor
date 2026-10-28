@@ -89,6 +89,54 @@ def _series(item, payload):
     return None
 
 
+def previous_season_source(item, date):
+    """Canonical previous official player game log (never an active roster)."""
+    current=observation_source(item,date)
+    if current is None:return None
+    if item["sport"]=="NHL":
+        season=fs.season_id_from_date(date)
+        if len(season)!=8 or not season.isdecimal():return None
+        return fs.nhl_game_log_url(str(item["player_id"]),
+            str(int(season[:4])-1)+str(int(season[4:])-1))
+    if item["sport"]=="NBA":
+        return fs.espn_gamelog_url(str(item["player_id"]),
+            fs.nba_espn_season_year(date)-1)
+    return None
+
+
+def extend_verified_history(item,date,observations,fetch,*,expected=None):
+    """Append individually validated prior-season games to a short current sample.
+
+    Replayed validation checks SHA256, source ID, game IDs and chronology.
+    Old games never prove tonight's lineup or specific role.
+    """
+    if observations is None or len(observations)>=15:return observations,None,None
+    url=previous_season_source(item,date)
+    if url is None or not verified_source(url):
+        return observations,None,"PRIOR_SEASON_OFFICIAL_SOURCE_UNAVAILABLE"
+    try:
+        payload=fetch(url,timeout=15)
+        if not isinstance(payload,(dict,list)):raise ValueError("invalid_previous_season_json")
+        sha=source_hash(payload)
+        if expected is not None and (expected.get("source_url")!=url or
+                                    expected.get("payload_sha256")!=sha):
+            return observations,None,"PRIOR_SEASON_SOURCE_DIGEST_CHANGED"
+        old, issue=_validated_series(item,_series(item,payload),date)
+        if issue or old is None:return observations,None,"PRIOR_SEASON_SOURCE_INVALID_"+str(issue)
+        current_ids={x["game_id"] for x in observations}
+        if any(x["game_id"] in current_ids for x in old):
+            return observations,None,"CROSS_SEASON_GAME_ID_COLLISION"
+        if observations and any(x["game_date"]>=observations[0]["game_date"] for x in old):
+            return observations,None,"PRIOR_SEASON_CHRONOLOGY_INVALID"
+        proof={"source_url":url,"payload_sha256":sha,"additional_games":len(old)}
+        if expected is not None and expected.get("additional_games")!=len(old):
+            return observations,None,"PRIOR_SEASON_SAMPLE_MISMATCH"
+        return sorted(observations+old,key=lambda x:(x["game_date"],x["game_id"]),
+                      reverse=True),proof,None
+    except (OSError,ValueError,TypeError,KeyError,TimeoutError) as exc:
+        return observations,None,"PRIOR_SEASON_SOURCE_ERROR_"+type(exc).__name__
+
+
 def _validated_series(item, series, date):
     if series is None:
         return None, "STAT_NOT_AVAILABLE_IN_OFFICIAL_FEED"
@@ -179,17 +227,17 @@ def independently_verified_deployment(item, observations, url, sha, now):
             "quote":""}
 
 
-def audited_workload_mechanism(item, observations, url, now):
+def audited_workload_mechanism(item, observations, url, now, *, prior=None):
     """A conservative, directly observed workload change, not a projected injury."""
     if item["sport"] not in ("NHL", "NBA") or len(observations) < 15:
         return None
     minutes = [r["workload_minutes"] for r in observations[:15]]
     if any(not _finite(v) or v <= 0 for v in minutes):
         return None
-    recent, prior = sum(minutes[:5]) / 5, sum(minutes[5:15]) / 10
-    if prior <= 0:
+    recent, previous_mean = sum(minutes[:5]) / 5, sum(minutes[5:15]) / 10
+    if previous_mean <= 0:
         return None
-    ratio = recent / prior
+    ratio = recent / previous_mean
     side = item["side"]
     if ((ratio < 1.15 if side == "over" else ratio > .85)
             or not (ratio <= .85 or ratio >= 1.15)):
@@ -202,12 +250,18 @@ def audited_workload_mechanism(item, observations, url, now):
                             "historical opportunity only, no future role inferred"),
             "sources": [{"fact": "Observed minutes last 5 versus previous 10",
                          "value": {"recent_minutes": round(recent, 4),
-                                   "prior_minutes": round(prior, 4),
+                                   "prior_minutes": round(previous_mean, 4),
                                    "ratio": round(ratio, 6),
                                    "game_ids": [x["game_id"] for x in observations[:15]]},
                          "confidence": "confirmed",
                          "source_url": url, "retrieved_at": now.isoformat(),
-                         "source_kind": "verified_machine_observation"}]}
+                         "source_kind": "verified_machine_observation"}]
+            + ([{"fact":"Audited previous-season source in observed workload window",
+                 "value":prior["additional_games"],"confidence":"confirmed",
+                 "source_url":prior["source_url"],"retrieved_at":now.isoformat(),
+                 "source_kind":"verified_machine_observation",
+                 "source_payload_sha256":prior["payload_sha256"]}]
+               if prior is not None else [])}
 
 
 def _historical_findings(item, observations, url, digest, now):
@@ -326,6 +380,11 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
             attempt.update(status="source_failed", failure_type=type(exc).__name__)
         resolution.setdefault("attempts", []).append(attempt)
     entries, counts, cache = [], Counter(), {}
+    secondary_cache={}
+    def fetch_prior_once(url, **kwargs):
+        if url not in secondary_cache:
+            secondary_cache[url]=fetch(url,**kwargs)
+        return secondary_cache[url]
     for item, original in selected:
         entry = {"candidate_id": item["candidate_id"],
                  "forecast_sha256": forecast_digest(original),
@@ -382,6 +441,31 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
                 if issue:
                     reasons.append(issue)
                 else:
+                    # A previous-year observation must NOT be mislabeled as
+                    # part of the current-season deployment average.
+                    current_season_observations=observations
+                    extra_proof = None
+                    if len(observations)<15:
+                        observations,extra_proof,extra_issue=extend_verified_history(
+                            item,date,observations,fetch_prior_once)
+                        if extra_issue:
+                            reasons.append(extra_issue)
+                            entry["source_attempts"].append({
+                                "url":previous_season_source(item,date),
+                                "retrieved_at":now.isoformat(),
+                                "purpose":"independent previous-season pre-event game logs",
+                                "status":"unavailable_or_invalid",
+                                "reason":extra_issue})
+                        elif extra_proof:
+                            entry["prior_season_extension"]=extra_proof
+                            counts["historical_samples_extended"] += 1
+                            entry["source_attempts"].append({
+                                "url":extra_proof["source_url"],
+                                "retrieved_at":now.isoformat(),
+                                "purpose":"independent previous-season pre-event game logs",
+                                "status":"retrieved",
+                                "payload_sha256":extra_proof["payload_sha256"],
+                                "verified_game_rows":extra_proof["additional_games"]})
                     history, issue = _historical_findings(item, observations, url, sha, now)
                     if issue:
                         reasons.append(issue)
@@ -394,7 +478,7 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
                         entry["collector_independent_check"] = checked
                         if checked["status"] != "source_conflict":
                             deploy = independently_verified_deployment(
-                                item, observations, url, sha, now)
+                                item, current_season_observations, url, sha, now)
                             slot = ((updated.get("scouting") or {})
                                     .get(item["candidate_id"]) or {}).get("supporting_stats")
                             if (deploy is not None and isinstance(slot, dict)
@@ -410,7 +494,8 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
                             reasons.append("COLLECTOR_VS_OFFICIAL_OBSERVATION_CONFLICT")
                         if checked["status"] == "independently_correlated":
                             mechanism = audited_workload_mechanism(
-                                item, observations, url, now)
+                                item, observations, url, now,
+                                prior=extra_proof)
                             if mechanism:
                                 slot = updated.setdefault("mechanisms", {}).setdefault(
                                     item["candidate_id"], [])
@@ -459,6 +544,7 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
             "source_retrieved_at": (e["observed_history"] or {}).get("retrieved_at"),
             "sampled_games": (e["observed_history"] or {}).get("observations"),
             "sampled_count": (e["observed_history"] or {}).get("sampled_count"),
+            "prior_season_extension": e.get("prior_season_extension"),
             "side": e["side"], "line": e["line"], "player_id": e["player_id"],
             "team": e["team"], "opponent": e["opponent"],
             "collector_status": (e.get("collector_independent_check") or {}).get("status"),

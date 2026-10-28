@@ -151,6 +151,23 @@ class VerificationTests(unittest.TestCase):
         rows[0]["event_start"]="2026-10-27T21:15:00Z"
         self.assertIsNone(pv.eligible_window(rows[0],NOW,phase="recheck"))
 
+    def test_late_official_lineup_recheck_allowed_only_before_puck_drop(self):
+        rows,queue,packet=build()
+        original=rows[0]
+        original["event_start"]=(NOW+timedelta(minutes=3)).isoformat()
+        self.assertIsNone(pv.eligible_window(original,NOW,phase="recheck"))
+        selected,excluded,_,_=pv.select(rows,queue,DATE,NOW,"recheck")
+        self.assertEqual(len(selected),1)
+        self.assertEqual(dict(excluded),{})
+        original["event_start"]=(NOW+timedelta(minutes=12)).isoformat()
+        self.assertEqual(pv.eligible_window(original,NOW,phase="recheck"),
+                         "OUTSIDE_PREGAME_RECHECK_WINDOW")
+        original["event_start"]=(NOW+timedelta(minutes=45)).isoformat()
+        self.assertIsNone(pv.eligible_window(original,NOW,phase="recheck"))
+        original["event_start"]=(NOW-timedelta(seconds=1)).isoformat()
+        self.assertEqual(pv.eligible_window(original,NOW,phase="recheck"),
+                         "GAME_ALREADY_STARTED")
+
     def test_forecast_digests_bind_review_to_exact_input(self):
         rows,queue,packet=build()
         reviewer=attest(rows[0])["attestations"][0]

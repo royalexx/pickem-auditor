@@ -10,6 +10,7 @@ from datetime import date, datetime, timezone
 from autonomous_investigator import (
     observation_source, verified_source, _series, _validated_series,
     audited_workload_mechanism, crosscheck_collector, source_hash,
+    extend_verified_history,
 )
 from pick_verification import forecast_digest, status_verified, _report_timestamp
 from research_triage import packet_game_key
@@ -69,6 +70,14 @@ def evaluate(item, original, packet, *, now, fetch=None, data_root=None):
         observations, issue = _validated_series(item, series, original["game_date"])
         if issue:
             return fail("MACHINE_"+issue)
+        extra=record.get("prior_season_extension")
+        if extra is not None and (not isinstance(extra,dict) or len(observations)>=15):
+            return fail("MACHINE_PRIOR_SEASON_PROVENANCE_INVALID")
+        if observations is not None and len(observations)<15 and extra is not None:
+            observations,replayed,extra_issue=extend_verified_history(
+                item,original["game_date"],observations,fetch,expected=extra)
+            if extra_issue or replayed!=extra:
+                return fail("MACHINE_"+str(extra_issue or "PRIOR_SEASON_REPLAY_FAILED"))
         if not observations or len(observations) < 15:
             return fail("MACHINE_HISTORY_FEWER_THAN_15_GAMES")
         # A recent *trend* cannot be inferred from observations whose newest
@@ -96,13 +105,16 @@ def evaluate(item, original, packet, *, now, fetch=None, data_root=None):
             return fail("MACHINE_LIVE_COLLECTOR_MISMATCH")
         mechanism = audited_workload_mechanism(
             item, observations, url, datetime.fromisoformat(
-                record["source_retrieved_at"].replace("Z","+00:00")))
+                record["source_retrieved_at"].replace("Z","+00:00")),
+            prior=extra)
         if mechanism is None:
             return fail("MACHINE_SOURCE_BACKED_CAUSAL_WORKLOAD_UNPROVEN")
         existing = (packet.get("mechanisms") or {}).get(item["candidate_id"]) or []
         if not any(source_hash(x) == source_hash(mechanism) for x in existing
                    if isinstance(x, dict)):
             return fail("MACHINE_CAUSAL_MECHANISM_NOT_REPRODUCIBLE")
+        if extra is not None:
+            provenance["prior_season_extension"]=extra
         provenance.update(source=url, source_payload_sha256=sha,
                           supporting_game_count=wins, opposing_game_count=losses,
                           shared_collector_games=independent["overlap"],

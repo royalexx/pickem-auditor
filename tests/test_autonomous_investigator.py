@@ -179,7 +179,8 @@ class AutonomousInvestigationTests(unittest.TestCase):
             calls.append(url);return source(url,**kw)
         report,_=investigate(rows,q,p,DATE,now=NOW,fetch=fetch,limit=2)
         self.assertEqual(report["selected_candidates"],2)
-        self.assertEqual(sum("api-web.nhle.com" in url for url in calls),1)
+        self.assertEqual(sum("api-web.nhle.com" in url for url in calls),2)
+        self.assertEqual(len({url for url in calls if "api-web.nhle.com" in url}),2)
         self.assertEqual(sum("scoreboard?" in url for url in calls),1)
 
     def test_no_api_historical_post_game_rows_or_duplicates(self):
@@ -230,6 +231,78 @@ class AutonomousInvestigationTests(unittest.TestCase):
         _,issues=rp.validate_packet(updated,now=NOW)
         # Current test fixture intentionally has no qualified scouting packet.
         self.assertFalse(any(x.path.startswith("_autonomous_investigation") for x in issues))
+
+    def test_official_previous_season_extends_short_sample_without_relaxing_threshold(self):
+        from autonomous_investigator import (
+            extend_verified_history, previous_season_source, _validated_series,
+            source_hash,
+        )
+        item={"sport":"NHL","player_id":42,"stat":"shots on goal",
+              "side":"over","line":2.5}
+        current=[{"game_id":f"2026-g{i}","game_date":f"2026-10-{i+1:02d}",
+                  "stat_value":float(i%4),"workload_minutes":20.0}
+                 for i in range(10)]
+        current.sort(key=lambda x:x["game_date"],reverse=True)
+        old={"gameLog":[{"gameId":f"2025-g{i}",
+                         "gameDate":f"2025-11-{i+1:02d}",
+                         "shots":i%4,"toi":"20:00"} for i in range(12)]}
+        calls=[]
+        def fetch(url,**kwargs):
+            calls.append(url)
+            self.assertEqual(url,previous_season_source(item,DATE))
+            return old
+        merged,proof,issue=extend_verified_history(item,DATE,current,fetch)
+        self.assertIsNone(issue)
+        self.assertEqual(len(merged),22)
+        self.assertEqual(merged[0]["game_id"],current[0]["game_id"])
+        self.assertEqual(proof["additional_games"],12)
+        self.assertEqual(proof["payload_sha256"],source_hash(old))
+        replay,verified,issue=extend_verified_history(item,DATE,current,fetch,
+                                                      expected=proof)
+        self.assertEqual(replay,merged)
+        self.assertEqual(verified,proof)
+        self.assertIsNone(issue)
+        damaged={**proof,"payload_sha256":"0"*64}
+        smaller,p,issue=extend_verified_history(item,DATE,current,fetch,expected=damaged)
+        self.assertEqual(smaller,current)
+        self.assertIsNone(p)
+        self.assertEqual(issue,"PRIOR_SEASON_SOURCE_DIGEST_CHANGED")
+        self.assertEqual(len(calls),3)
+        invalid={"gameLog":[{"gameId":"2026-bad","gameDate":"2026-10-26",
+                             "shots":3,"toi":"19:00"}]}
+        values,proof,issue=extend_verified_history(item,DATE,current,
+                                                   lambda url,**k:invalid)
+        self.assertEqual(values,current)
+        self.assertEqual(issue,"PRIOR_SEASON_CHRONOLOGY_INVALID")
+        self.assertIsNone(proof)
+
+    def test_prior_season_provenance_remains_attached_to_workload_shift(self):
+        from autonomous_investigator import audited_workload_mechanism
+        observations = [
+            {"game_id": f"g{i}", "workload_minutes": 25.0 if i < 5 else 20.0}
+            for i in range(15)
+        ]
+        prior_proof = {
+            "additional_games": 12,
+            "source_url": "https://api-web.nhle.com/v1/player/42/game-log/20252026/2",
+            "payload_sha256": "a" * 64,
+        }
+        item = {"sport": "NHL", "side": "over"}
+        source = "https://api-web.nhle.com/v1/player/42/game-log/20262027/2"
+        mechanism = audited_workload_mechanism(
+            item, observations, source, NOW, prior=prior_proof)
+        self.assertIsNotNone(mechanism)
+        self.assertEqual(len(mechanism["sources"]), 2)
+        self.assertEqual(mechanism["sources"][0]["value"]["recent_minutes"], 25.0)
+        self.assertEqual(mechanism["sources"][0]["value"]["prior_minutes"], 20.0)
+        self.assertEqual(mechanism["sources"][1]["value"], 12)
+        self.assertEqual(mechanism["sources"][1]["source_url"], prior_proof["source_url"])
+        self.assertEqual(mechanism["sources"][1]["source_payload_sha256"],
+                         prior_proof["payload_sha256"])
+        current_only = audited_workload_mechanism(item, observations, source, NOW)
+        self.assertEqual(len(current_only["sources"]), 1)
+        self.assertIsNone(audited_workload_mechanism(
+            {**item, "side": "under"}, observations, source, NOW, prior=prior_proof))
 
     def test_nba_source_url_uses_espn_current_season(self):
         item={"sport":"NBA","player_id":1234}

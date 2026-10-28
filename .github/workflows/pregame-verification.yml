@@ -3,8 +3,12 @@ on:
   workflow_dispatch:
   schedule:
     # Every 15 minutes, offset to avoid top-of-hour GitHub congestion.
-    # A per-event 25–55 minute window prevents unrelated reruns.
+    # First scouting pass 25-55 minutes before each event, with a
+    # final source check in the last eight minutes if lineup reports arrive.
     - cron: '7,22,37,52 * * * *'
+    # Extra 3-minute-prestart opportunities for games at :00 and :30.
+    # EDT evening 22-05 UTC, EST evening 23-05 UTC.
+    - cron: '27,57 0-5,22-23 * * *'
 permissions:
   contents: write
 concurrency:

@@ -32,6 +32,27 @@ class ResearchTriageTests(unittest.TestCase):
         self.assertTrue(all("explicit_game_specific_player_status" in q["missing_evidence"]
                             for q in report["queue"]))
 
+    def test_review_budget_favors_tier_capable_gaps_over_guaranteed_watchlist(self):
+        # The numerical engine caps >=8-point discrepancies to Watchlist.
+        # A limited reviewer budget must not spend itself entirely on them.
+        wide=row("Wide",grade=.82,market=.56)
+        narrow=row("Narrow",grade=.61,market=.56)
+        report=build([wide,narrow],"2026-10-27",now=NOW,limit=1)
+        self.assertEqual(report["queue"][0]["player"],"Narrow")
+        self.assertEqual(report["queue"][0]["verification_priority_class"],"tier_candidate")
+        self.assertFalse(report["queue"][0]["watchlist_gap_cap_applies"])
+        self.assertEqual(report["tier_candidate_before_caps"],1)
+        self.assertEqual(report["tier_candidate_selected"],1)
+        self.assertEqual(report["watchlist_gap_capped_selected"],0)
+
+    def test_wide_gap_kept_as_watchlist_research_when_no_other_candidate(self):
+        report=build([row("Wide",grade=.72,market=.54)],
+                     "2026-10-27",now=NOW)
+        self.assertEqual(report["review_queue_count"],1)
+        self.assertTrue(report["queue"][0]["watchlist_gap_cap_applies"])
+        self.assertEqual(report["queue"][0]["verification_priority_class"],"watchlist_gap_capped")
+        self.assertFalse(report["queue"][0]["publication_eligible"])
+
     def test_skips_one_book_invalid_and_started(self):
         started=row("Started");started["event_start"]="2026-10-27T20:00:00Z"
         report=build([row("OneBook",books=1),row("NoGrade",grade=None),
