@@ -23,6 +23,7 @@ import unicodedata
 import urllib.parse
 import urllib.request
 from datetime import datetime
+from collections import Counter
 from zoneinfo import ZoneInfo
 from local_credentials import propline_api_key
 
@@ -1127,6 +1128,7 @@ class PropLineProvider(Provider):
     def fetch(self, game_date: str, sports: list[str] | None = None) -> list[dict]:
         self.note = None
         self.source_urls = []
+        self.market_diagnostics = {}
         secret = self.api_key.strip()
         if not secret:
             self.note = "odds: PROPLINE_API_KEY is not configured. No line or price was invented."
@@ -1156,6 +1158,12 @@ class PropLineProvider(Provider):
                      and not ev.get("is_outright")]
             if not dated:
                 notes.append(f"odds: PropLine {key} had no matching pregame events on {game_date}.")
+            raw_markets=Counter(
+                str(m.get("key") or "")
+                for ev in dated for book in (ev.get("bookmakers") or [])
+                if isinstance(book,dict)
+                for m in (book.get("markets") or []) if isinstance(m,dict))
+            before_count=len(quotes)
             public = self._url(f"/v1/sports/{key}/odds", {
                 "markets":",".join(m for m,_ in markets if m in PROPLINE_SUPPORTED_MARKETS),
                 "bookmakers":",".join(REQUEST_BOOKMAKERS),
@@ -1164,11 +1172,23 @@ class PropLineProvider(Provider):
                 quotes.extend(quotes_from_event(
                     event, sport=sport, retrieved_at=now, source_url=public
                 ))
+            normalized_counts=Counter(q.get("stat") for q in quotes[before_count:])
+            self.market_diagnostics[sport]={
+                "pregame_event_count":len(dated),
+                "raw_bookmaker_market_counts":dict(sorted(raw_markets.items())),
+                "normalized_two_sided_quote_counts":dict(sorted(normalized_counts.items())),
+            }
         quotes = dedupe_quotes(quotes)
         if notes:
             self.note = " ".join(notes)
         elif not quotes:
             self.note = "odds: PropLine returned no approved two-sided player props."
+        # Metadata only. No further API calls and no secret/player payloads.
+        # The collector persists this inventory in its official source receipt.
+        if self.market_diagnostics:
+            inventory="MARKET_SOURCE_INVENTORY_JSON="+json.dumps(
+                self.market_diagnostics,sort_keys=True,separators=(",",":"))
+            self.note=(self.note+" " if self.note else "")+inventory
         return quotes
 
 
