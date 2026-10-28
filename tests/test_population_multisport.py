@@ -66,6 +66,13 @@ class MultiSportSources(unittest.TestCase):
             self.assertEqual(pop.persist(d,rows)["inserted"],2)
             self.assertEqual(pop.persist(d,rows)["already_present"],2)
             self.assertEqual(len(pop.read(d,sport="NBA",stat="points",before="2022-10-22")),2)
+            # A future season shard cannot erase an earlier-as-of training
+            # window simply because max_seasons=1 is requested.
+            pop.persist(d,[row(gid="2025",day="2025-10-21",season="2026",
+                player="99",value=30)])
+            early=pop.read(d,sport="NBA",stat="points",
+                           before="2022-10-22",max_seasons=1)
+            self.assertEqual(len(early),2)
             self.assertEqual(pop.read(d,sport="NBA",stat="points",before="2022-10-21"),[])
             with self.assertRaisesRegex(ValueError,"IMMUTABLE_POPULATION"):
                 pop.persist(d,[dict(rows[0],value=21)])
