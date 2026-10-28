@@ -360,6 +360,23 @@ class ProviderTests(unittest.TestCase):
         self.assertIn("goalie_saves",urllib.parse.parse_qs(urllib.parse.urlsplit(calls[0][0]).query)["markets"][0])
         self.assertNotIn("underdog",calls[0][0].lower())
 
+    def test_existing_bulk_response_exposes_raw_blocked_market_diagnostic(self):
+        event=load_json("propline_events.json")[0]
+        event["commence_time"]="2026-10-23T00:00:00Z"
+        event.setdefault("bookmakers",[]).append({
+            "key":"fanduel",
+            "markets":[{"key":"player_blocked_shots",
+                        "outcomes":[{"name":"Over","description":"Jordan Eberle",
+                                     "point":1.5,"price":-110}]}]})
+        provider=op.PropLineProvider(
+            api_key="secret-key",fetch=lambda *a,**kw:[event],clock=lambda:NOW)
+        provider.fetch("2026-10-22",["NHL"])
+        inventory=provider.market_diagnostics["NHL"]
+        self.assertGreater(inventory["raw_bookmaker_market_counts"]["player_blocked_shots"],0)
+        self.assertEqual(inventory["normalized_two_sided_quote_counts"].get("blocked shots",0),0)
+        self.assertIn("MARKET_SOURCE_INVENTORY_JSON=",provider.note)
+        self.assertNotIn("secret-key",provider.note)
+
     def test_unapproved_books_and_unpaired_quotes_are_skipped(self):
         event={"id":"1","commence_time":"2026-10-23T00:00:00Z",
                "home_team":"Boston Bruins","away_team":"Nashville Predators",
