@@ -120,6 +120,18 @@ class MachineReviewTests(unittest.TestCase):
                 candidate["sd"]=summary["sd"]
             _,updated=ai.investigate(rows,q,p,DATE,now=NOW,
                                       fetch=fetch_source,data_root=root)
+            import research_packet as rp
+            import pickem_math as pm
+            scoped=rp.candidate_packet(updated,rows[0]["inputs"])
+            validated,issues=rp.validate_packet(scoped,now=NOW)
+            self.assertEqual(issues,[])
+            prepared=rp.merge_into_pipeline(validated,[rows[0]["inputs"]])[0]
+            prepared["research_checklist"]="yes"
+            with ub.using_directory(root):
+                try:
+                    pm.evaluate_candidate(prepared,now=NOW)
+                except pm.PickemError as exc:
+                    self.fail("Real Engine A/B integration: "+str(exc))
             report,_=pv.verify(rows,q,updated,DATE,now=NOW,fetch=fetch_source,
                                 auto_review=True,data_root=root)
             decision=report["decisions"][0]
