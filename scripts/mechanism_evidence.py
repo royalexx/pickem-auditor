@@ -25,7 +25,8 @@ def _num(v):
 
 def _domain(url):
     host = urlparse(str(url or "")).hostname or ""
-    if host.endswith(".nhl.com") or host == "nhl.com": return "nhl.com"
+    if (host.endswith(".nhl.com") or host == "nhl.com"
+            or host == "api-web.nhle.com"): return "nhl.com"
     if host.endswith(".nba.com") or host == "nba.com": return "nba.com"
     if host.endswith(".nfl.com") or host == "nfl.com": return "nfl.com"
     if host.endswith(".espn.com") or host == "espn.com": return "espn.com"
