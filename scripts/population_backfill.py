@@ -106,7 +106,9 @@ def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
     try:
         if sport=="NFL":
             year=int(state["cursor"])
-            if year<=boundary.year:
+            # A current NFL season is not a completed population. Require
+            # the following March to avoid sealing partially played weeks.
+            if date(year+1,3,1)<=boundary:
                 stats,snaps,schedule=nfl_loader(year)
                 rows,coverage=population_nfl.normalize_season(
                     stats,snaps,schedule,year,cutoff=(boundary+timedelta(days=1)).isoformat())
@@ -158,7 +160,7 @@ def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
         result["error"]=str(exc)
     result["cursor_after"]=state["cursor"]
     result["status"]="blocked" if result["error"] else (
-        "caught_up" if (int(state["cursor"])>boundary.year if sport=="NFL"
+        "caught_up" if (date(int(state["cursor"])+1,3,1)>boundary if sport=="NFL"
                         else date.fromisoformat(state["cursor"])>boundary)
         else "partial")
     receipt=Path(root)/"reports"/f"population_{sport.lower()}_receipt.json"
