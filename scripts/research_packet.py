@@ -46,6 +46,8 @@ AVAILABILITY_FIELDS = ("status", "primary_source")
 
 # Host patterns for primary-source confirmation on role changes.
 PRIMARY_DOMAIN_PATTERNS = (
+    # NHL's official modern stats API is nhle.com, not nhl.com.
+    re.compile(r"^api-web\.nhle\.com$", re.I),
     re.compile(r"(^|\.)nba\.com$", re.I),
     re.compile(r"(^|\.)nhl\.com$", re.I),
     re.compile(r"(^|\.)nfl\.com$", re.I),
