@@ -57,6 +57,14 @@ class JointSamplingSmoke(unittest.TestCase):
                                predicted["q_push"],1,places=9)
         self.assertFalse(predicted["publication_eligible"])
         self.assertFalse(predicted["ranking_allowed"])
+        fast=mod.forecast(idata,data,player_id="2000",opponent="NYR",
+            season="2018",home=False,line=2.5,draws=250,
+            fit_diagnostics={"posterior_sampling_ok":True},
+            posterior_cache=mod.predictive_cache(idata))
+        self.assertEqual(predicted,fast)
+        self.assertEqual(predicted["predictive_method"],
+                         "latent_posterior_mc_conditional_nb_integrated")
+        self.assertIsNotNone(predicted["mc_standard_error_q_over"])
         # Posterior artifacts must really survive a file roundtrip before
         # they are downloadable and used for the later heldout evaluation.
         import arviz as az
