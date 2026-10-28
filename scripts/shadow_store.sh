@@ -42,6 +42,11 @@ if [[ "$mode" == load ]]; then
       mkdir -p data/morning_runs
       cp -an "$tmpdir/data/morning_runs/." data/morning_runs/
     fi
+    # Restore immutable Bayesian Engine A shadow forecasts, never production grades.
+    if [[ -d "$tmpdir/data/bayesian_shadow" ]]; then
+      mkdir -p data/bayesian_shadow
+      cp -an "$tmpdir/data/bayesian_shadow/." data/bayesian_shadow/
+    fi
     # Verification sidecars are independent of original forecasts and may be
     # updated before game start. Old decision receipts must remain intact.
     if [[ -d "$tmpdir/data/verification" ]]; then
@@ -112,6 +117,25 @@ elif [[ "$mode" == save ]]; then
     done < <(find data/morning_runs -type f -name '*.json' -print0)
     cp -a data/morning_runs/. "$tmpdir/tree/data/morning_runs/"
   fi
+  # Persist the separate append-only posterior-predictive history.
+  if [[ -d data/bayesian_shadow ]]; then
+    while IFS= read -r -d '' forecast; do
+      relative="${forecast#data/bayesian_shadow/}"
+      target="$tmpdir/tree/data/bayesian_shadow/$relative"
+      if [[ -e "$target" ]]; then
+        python - "$target" "$forecast" <<'PY'
+import sys
+from pathlib import Path
+old=Path(sys.argv[1]).read_bytes()
+new=Path(sys.argv[2]).read_bytes()
+if not new.startswith(old):
+    raise SystemExit('IMMUTABLE_BAYESIAN_SHADOW_CONFLICT: '+sys.argv[2])
+PY
+      fi
+    done < <(find data/bayesian_shadow -type f -name '*.jsonl' -print0)
+    mkdir -p "$tmpdir/tree/data/bayesian_shadow"
+    cp -a data/bayesian_shadow/. "$tmpdir/tree/data/bayesian_shadow/"
+  fi
   for file in logs/*.log; do
     [[ ! -f "$file" ]] || cp -p "$file" "$tmpdir/tree/logs/"
   done
@@ -121,6 +145,9 @@ elif [[ "$mode" == save ]]; then
               "$tmpdir/tree"/data/blend_fit_*.json "$tmpdir/tree"/logs/*.log; do
     [[ ! -f "$file" ]] || git -C "$tmpdir/tree" add -f -- "${file#"$tmpdir/tree/"}"
   done
+  if [[ -d "$tmpdir/tree/data/bayesian_shadow" ]]; then
+    git -C "$tmpdir/tree" add -f data/bayesian_shadow/
+  fi
   if [[ -d "$tmpdir/tree/data/verification" ]]; then
     git -C "$tmpdir/tree" add -f data/verification/
   fi
