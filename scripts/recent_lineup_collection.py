@@ -11,7 +11,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from lineup_feeds import collect
-from recent_lineup_tendency import tendency_path
+from recent_lineup_tendency import tendency_path, roster_stat
 from pick_verification import write_atomic
 
 
@@ -33,11 +33,12 @@ def run(queue, date, *, root="data", now=None, fetch=None, max_scopes=30):
             continue  # game-starting goalie still requires explicit starter news
         if sport == "NFL" and not player_id.startswith("00-"):
             continue  # no silent ESPN -> GSIS ID assumption
-        key = (sport, team, stat)
+        observed_stat = roster_stat(sport, stat)
+        key = (sport, team, observed_stat)
         if key in seen or len(seen) >= max_scopes:
             continue
         seen.add(key)
-        archive = tendency_path(root, sport, team, stat, date)
+        archive = tendency_path(root, sport, team, observed_stat, date)
         attempt = {"sport": sport, "team": team, "stat": stat,
                    "archive": str(archive), "status": "unavailable"}
         try:
@@ -54,7 +55,7 @@ def run(queue, date, *, root="data", now=None, fetch=None, max_scopes=30):
                 options={"lookback_days": 105 if sport == "NFL" else 45,
                          "max_games": 5, "persist": False}
                 if fetch is not None:options["fetch"]=fetch
-                history=collect(sport,team,stat,date,**options)
+                history=collect(sport,team,observed_stat,date,**options)
             if history.get("collection",{}).get("errors"):
                 raise ValueError("partial source game collection")
             # A successfully collected source has already passed validated
