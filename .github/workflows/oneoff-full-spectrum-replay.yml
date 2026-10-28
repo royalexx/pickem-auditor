@@ -1,0 +1,46 @@
+name: One-off full-spectrum October 28 source-only replay
+on:
+  push:
+    branches: [fix/full-spectrum-screening-20261028]
+    paths: [.github/workflows/oneoff-full-spectrum-replay.yml]
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replay full October 28 research screening without requesting odds
+        run: |
+          git fetch --depth=1 origin data/shadow-calibration
+          git show FETCH_HEAD:data/prop_snapshots.jsonl > /tmp/forecasts.jsonl
+          python - <<'PY'
+          import json,sys,collections
+          from datetime import datetime,timezone
+          sys.path.insert(0,'scripts')
+          import research_triage as triage
+          rows=[json.loads(s) for s in open('/tmp/forecasts.jsonl') if s.strip()]
+          result=triage.build(rows,'2026-10-28',
+               now=datetime(2026,10,28,22,38,tzinfo=timezone.utc),limit=30)
+          print('=== HISTORICAL SOURCE-ONLY RESEARCH REPLAY ===')
+          print('archive_count',len(rows))
+          print('status',result['status'])
+          print('queue_count',result['review_queue_count'])
+          print('qualified_by_sport',result['qualified_by_sport'])
+          print('selected_by_sport',result['selected_by_sport'])
+          print('recoveries',result['recovery_only_selected'])
+          print('recovery_selected_by_sport_stat',result['recovery_selected_by_sport_stat'])
+          print('queue_exclusions',result['queue_exclusions'])
+          print('queue_by_sport_stat',dict(collections.Counter(
+                (x['sport']+'|'+str(x['stat'])) for x in result['queue'])))
+          for x in result['queue']:
+              print('CANDIDATE',x['sport'],x['stat'],x['player'],
+                    x['verification_priority_class'],x['model_probability_diagnostic'],
+                    x['market_probability_diagnostic'],'recovery',x['recovery_only'])
+          # No research-only recovery may assert either approval or rank.
+          assert all(not x['publication_eligible'] for x in result['queue'])
+          assert all('RECOVERY_ONLY_NOT_NUMERICALLY_GRADED' in x['missing_evidence']
+                     for x in result['queue'] if x['recovery_only'])
+          assert result['review_queue_count']>0
+          print('=== END REPLAY ===')
+          PY
