@@ -20,7 +20,7 @@ from test_pick_verification import build, DATE, ID, NOW
 def official_games():
     return [{"gameId":f"g{i}","gameDate":f"2026-10-{i:02}",
              "shots":(1 if i <= 10 else 4),
-             "toi":("10:00" if i <= 10 else "20:00"),"teamAbbrev":"BOS"}
+             "toi":("10:00" if i <= 10 else "11:45"),"teamAbbrev":"BOS"}
             for i in range(1,16)]
 
 
@@ -46,7 +46,7 @@ def backed_case(root):
     rows,queue,packet=build()
     entries=[{"id":f"g{i}","date":f"2026-10-{i:02}",
               "value":float(1 if i <= 10 else 4),
-              "workload":float(10 if i <= 10 else 20)}
+              "workload":float(10 if i <= 10 else 11.75)}
              for i in range(1,16)]
     ub.persist([{"sport":"NHL","player_id":"42","stat":"shots on goal",
                  "game_date":DATE,"team":"BOS",
@@ -103,7 +103,7 @@ class MachineReviewTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as t:
             root=Path(t);rows,q,p=backed_case(root)
             games=[{"tie":r["gameId"],"when":r["gameDate"],
-                    "value":r["shots"],"workload":(10. if r["toi"]=="10:00" else 20.)}
+                    "value":r["shots"],"workload":(10. if r["toi"]=="10:00" else 11.75)}
                    for r in official_games()]
             summary=fs.summarize_log(games,"shots on goal")
             candidate=rows[0]["inputs"]
