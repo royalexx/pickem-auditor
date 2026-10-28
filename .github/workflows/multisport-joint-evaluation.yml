@@ -18,6 +18,14 @@ on:
       research_line:
         description: 'Fixed historical test threshold (not a sportsbook line)'
         required: true
+      max_seasons:
+        description: 'Up to N completed/eligible historical season populations (e.g. 3-5)'
+        required: false
+        default: '4'
+      min_training_seasons:
+        description: 'Require this many historical seasons or block multi-season evaluation'
+        required: false
+        default: '2'
       min_rows:
         description: 'Minimum verified historical player-game rows'
         required: false
@@ -52,6 +60,8 @@ jobs:
       UNTIL: ${{ inputs.until }}
       LINE: ${{ inputs.research_line }}
       ROWS: ${{ inputs.min_rows }}
+      MAX_SEASONS: ${{ inputs.max_seasons }}
+      MIN_TRAINING_SEASONS: ${{ inputs.min_training_seasons }}
       MAX_PER_POSITION: ${{ inputs.max_per_position }}
       DRAWS: ${{ inputs.draws }}
       TUNE: ${{ inputs.tune }}
@@ -68,6 +78,13 @@ jobs:
         run: bash scripts/history_warehouse_store.sh load
       - name: Install isolated joint Bayesian inference environment
         run: python -m pip install -r requirements-joint-bayes.txt
+      - name: Check source continuity and real pre-cutoff historical seasons
+        run: |
+          python scripts/population_window_check.py \
+            --sport "$SPORT" --stat "$STAT" --as-of "$CUTOFF" \
+            --until "$UNTIL" --max-seasons "$MAX_SEASONS" \
+            --min-training-seasons "$MIN_TRAINING_SEASONS" \
+            --report reports/multisport_joint/window_preflight.json
       - name: Fit genuine joint NUTS population strictly before cutoff
         id: fit
         continue-on-error: true
@@ -75,7 +92,7 @@ jobs:
           python scripts/joint_population_bayes.py --sport "$SPORT" \
             --stat "$STAT" --as-of "$CUTOFF" --min-rows "$ROWS" \
             --draws "$DRAWS" --tune "$TUNE" --chains 4 \
-            --max-per-position "$MAX_PER_POSITION" \
+            --max-per-position "$MAX_PER_POSITION" --max-seasons "$MAX_SEASONS" \
             --out reports/multisport_joint
       - name: Paired same-cohort later-game score comparison with baseline
         id: score
@@ -84,7 +101,8 @@ jobs:
         run: |
           python scripts/joint_population_holdout.py --sport "$SPORT" \
             --stat "$STAT" --cutoff "$CUTOFF" --until "$UNTIL" \
-            --line "$LINE" --draws 1500 --training-dir reports/multisport_joint
+            --line "$LINE" --draws 1500 --max-seasons "$MAX_SEASONS" \
+            --training-dir reports/multisport_joint
       - name: Upload fit, diagnostics and paired heldout receipts
         if: always()
         uses: actions/upload-artifact@v4
@@ -93,6 +111,7 @@ jobs:
           retention-days: 90
           if-no-files-found: warn
           path: |
+            reports/multisport_joint/window_preflight.json
             reports/multisport_joint/manifest.json
             reports/multisport_joint/posterior.nc
             reports/multisport_joint/stat_holdout.json
