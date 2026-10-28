@@ -1,0 +1,56 @@
+name: One-off official NHL NBA atomic-date ingestion verification
+on:
+  push:
+    branches: ['audit/multisport-joint-vs-poisson-20261028']
+    paths: ['.github/workflows/audit-new-source-normalizers.yml']
+permissions:
+  contents: read
+jobs:
+  live-source-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Make independent current-date historical checkpoints
+        run: |
+          mkdir -p /tmp/audit-pop/data/bayesian_warehouse/states
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('/tmp/audit-pop/data/bayesian_warehouse/states')
+          for sport in ('NHL','NBA'):
+              state={'schema':'multi-sport-population-cursor-v1',
+                  'sport':sport,'cursor':'2018-11-01','dates_complete':0,
+                  'source_games':0,'market_rows_inserted':0}
+              root.joinpath(sport.lower()+'.json').write_text(json.dumps(state))
+          PY
+      - name: Verify NHL original boxscore game IDs, calendar dates, and atomic day writes
+        run: |
+          python scripts/population_backfill.py --root /tmp/audit-pop \
+            --sport NHL --max-days 1 --stop-before 2018-11-01 \
+            --request-spacing 0.5
+      - name: Verify NBA completed games and atomic shared-market day writes
+        run: |
+          python scripts/population_backfill.py --root /tmp/audit-pop \
+            --sport NBA --max-days 1 --stop-before 2018-11-01 \
+            --request-spacing 0.5
+      - name: Verify same-day source records and stable persisted date advancement
+        run: |
+          PYTHONPATH=scripts python - <<'PY'
+          import json
+          from pathlib import Path
+          import population_history as hist
+          import population_backfill as back
+          root=Path('/tmp/audit-pop')
+          for sport,stat in [('NHL','hits'),('NHL','blocked shots'),('NHL','saves'),
+                             ('NBA','points'),('NBA','assists'),('NBA','threes')]:
+              rows=hist.read(root,sport=sport,stat=stat,before='2018-11-02')
+              print('SOURCE_VERIFIED',sport,stat,len(rows),flush=True)
+              if not rows:raise SystemExit('MISSING_VERIFIED_MARKET: '+sport+'/'+stat)
+          for sport in ('NHL','NBA'):
+              if back.read_state(root,sport)['cursor']!='2018-11-02':
+                  raise SystemExit('INCOMPLETE_DATE_CURSOR: '+sport)
+          PY
