@@ -222,3 +222,8 @@ The [multi-season population workflow](references/recent_multiseason_bayesian_tr
 ### Verified pick ranking and research recovery
 
 [October 28 ranking-repair audit](references/evidence_ranking_repair_20261028.md): source verification prioritizes numerically Tier-capable candidates ahead of model–market disagreements that cannot exceed Watchlist, early-season scouting can corroborate game history from the **official prior season**, and final pregame verification rechecks official status reports in the last eight minutes before puck drop. No numerical Tier is published without fresh, game-specific active identity, validated research and independent market/evidence gates; original forecasts remain immutable.
+
+
+## Research-ranked candidates versus verified picks
+
+Each afternoon and applicable pregame recheck now builds a separate `reports/research_ranked_board.json`. Its **Research Tier 2 / Research Tier 3** entries are source-forecast-linked numeric rankings **pending availability, causal research and refreshed market verification**. They are not approved picks, are not actionable without those checks, and cannot replace or silently populate `reports/verified_board.json`. The verified board remains the sole final Tier 1–3 publication source. See [research ranking recovery and verification options](references/research_ranked_recovery_20261028.md).
