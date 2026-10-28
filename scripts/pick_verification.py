@@ -314,6 +314,11 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
         accepted = not reasons and rank in TIERS
         final_rank = rank if accepted else "Unranked"
         counts["verified" if accepted else "blocked"] += 1
+        machine = ((checked_packet.get("_autonomous_investigation") or {})
+                   .get("candidate_summaries") or {}).get(identity)
+        if (not isinstance(machine, dict)
+                or machine.get("forecast_sha256") != forecast_hash):
+            machine = None
         output.append({
             "candidate_id": identity, "snapshot_run_id": run,
             "forecast_sha256": forecast_hash,
@@ -335,6 +340,14 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
             "blend_validated": blend.get("validated") is True,
             "blockers": sorted(set(reasons)),
             "reviewer": matching[0].get("reviewer") if len(matching) == 1 else None,
+            "autonomous_investigation": ({
+                "source": machine.get("source"),
+                "supporting_game_count": machine.get("supporting_game_count", 0),
+                "opposing_game_count": machine.get("opposing_game_count", 0),
+                "news_mention_count": machine.get("news_mention_count", 0),
+                "research_complete": False,
+                "approval_authorized": False
+            } if machine else None),
             "research_packet_sha256": digest(scoped) if isinstance(candidate, dict) and
                                         refreshed is not None and 'scoped' in locals() else None,
         })

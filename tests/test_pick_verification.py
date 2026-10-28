@@ -78,6 +78,23 @@ class VerificationTests(unittest.TestCase):
         rows[0]["reference_line"]=3.5
         self.assertNotEqual(pv.forecast_digest(rows[0]),original)
 
+    def test_automated_dossier_attaches_provenance_without_false_review(self):
+        rows,queue,packet=build()
+        packet["_autonomous_investigation"]={
+            "candidate_summaries":{ID:{"forecast_sha256":pv.forecast_digest(rows[0]),
+                "source":"https://api-web.nhle.com/v1/player/42/game-log/20262027/2",
+                "supporting_game_count":4,"opposing_game_count":2,
+                "news_mention_count":1}},
+            "research_complete":False,"promotion_authorized":False}
+        result,_=pv.verify(rows,queue,packet,DATE,now=NOW)
+        machine=result["decisions"][0]["autonomous_investigation"]
+        self.assertEqual(machine["supporting_game_count"],4)
+        self.assertFalse(machine["approval_authorized"])
+        self.assertFalse(result["decisions"][0]["publication_eligible"])
+        packet["_autonomous_investigation"]["candidate_summaries"][ID]["forecast_sha256"]="tampered"
+        result,_=pv.verify(rows,queue,packet,DATE,now=NOW)
+        self.assertIsNone(result["decisions"][0]["autonomous_investigation"])
+
     def test_original_forecasts_are_never_modified(self):
         rows, queue, packet=build()
         before=deepcopy(rows)
