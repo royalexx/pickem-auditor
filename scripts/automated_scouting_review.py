@@ -5,7 +5,7 @@ event, explicitly active game roster, and both historical sides qualify.
 This supplements--not loosens--the existing numeric Tier/market vetoes.
 """
 from __future__ import annotations
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 from autonomous_investigator import (
     observation_source, verified_source, _series, _validated_series,
@@ -71,6 +71,13 @@ def evaluate(item, original, packet, *, now, fetch=None, data_root=None):
             return fail("MACHINE_"+issue)
         if not observations or len(observations) < 15:
             return fail("MACHINE_HISTORY_FEWER_THAN_15_GAMES")
+        # A recent *trend* cannot be inferred from observations whose newest
+        # game was weeks before the fixture. Treat long injury/roster gaps as
+        # unresolved even if old samples are numerous.
+        last_day = date.fromisoformat(observations[0]["game_date"])
+        slate_day = date.fromisoformat(original["game_date"])
+        if not 0 < (slate_day-last_day).days <= 14:
+            return fail("MACHINE_RECENT_WORKLOAD_EVIDENCE_STALE")
         if record.get("sampled_games") != observations[:20]:
             return fail("MACHINE_HISTORICAL_GAME_EVIDENCE_CHANGED")
         if record.get("sampled_count") != min(len(observations),20):
