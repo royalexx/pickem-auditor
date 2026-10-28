@@ -214,3 +214,7 @@ on dated later completed player-games against a simpler pooled control.
 **Experimental only:** no production picks, prices, rankings, engine weights,
 quota consumption or Tier authorization are altered. Confirm live fetch receipts
 and model holdouts before making any accuracy claims.
+
+### Recent-season population acceleration
+
+The [multi-season population workflow](references/recent_multiseason_bayesian_training.md) now independently collects NHL and NBA 2023-forward completed regular-season games while preserving the old 2018-forward source archive, and advances up to three fully completed nflverse seasons per execution. Manual research evaluation accepts a fixed source-verified training start, a recent-season lookback cap and a strict holdout end; uncollected or discontinuous historical periods block sampling. This does **not** change production rankings or assume the joint model is better.

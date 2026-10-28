@@ -210,6 +210,7 @@ def main(argv=None):
     p.add_argument("--cutoff",required=True)
     p.add_argument("--until",required=True)
     p.add_argument("--max-seasons",type=int,default=7)
+    p.add_argument("--train-from",help="Must equal the frozen model lower training cutoff")
     p.add_argument("--training-dir",type=Path,default=Path("reports/joint_population"))
     p.add_argument("--draws",type=int,default=1500)
     a=p.parse_args(argv)
@@ -219,10 +220,12 @@ def main(argv=None):
     manifest=json.loads((a.training_dir/"manifest.json").read_text())
     if (manifest["training_cutoff_exclusive"]!=a.cutoff or
         manifest["sport"]!=a.sport or manifest["stat"]!=a.stat or
-        manifest["model_version"]!=joint.VERSION):
+        manifest["model_version"]!=joint.VERSION or
+        manifest.get("training_from_inclusive")!=a.train_from or
+        manifest.get("max_training_seasons",7)!=a.max_seasons):
         raise ValueError("frozen_posterior_manifest_mismatch")
     training=history.read(a.root,sport=a.sport,stat=a.stat,before=a.cutoff,
-                          max_seasons=a.max_seasons,min_records=300)
+                          after=a.train_from,max_seasons=a.max_seasons,min_records=300)
     training=joint.training_only_subset(training,
         max_per_position=manifest.get("max_per_position",0))
     if not training:raise ValueError("frozen_training_cohort_empty")

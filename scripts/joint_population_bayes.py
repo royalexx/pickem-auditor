@@ -289,6 +289,7 @@ def main(argv=None):
     p.add_argument("--stat",required=True)
     p.add_argument("--as-of",required=True)
     p.add_argument("--max-seasons",type=int,default=7)
+    p.add_argument("--train-from",help="Inclusive historical lower date; excludes old disconnected seasons")
     p.add_argument("--max-per-position",type=int,default=0,
         help="Optional train-only cohort size per position; 0 fits full population")
     p.add_argument("--min-rows",type=int,default=8000)
@@ -298,7 +299,7 @@ def main(argv=None):
     p.add_argument("--out",type=Path,default=Path("reports/joint_population"))
     a=p.parse_args(argv)
     rows=history.read(a.root,sport=a.sport,stat=a.stat,before=a.as_of,
-                      max_seasons=a.max_seasons,min_records=a.min_rows)
+                      after=a.train_from,max_seasons=a.max_seasons,min_records=a.min_rows)
     full_population_size=len(rows)
     rows=training_only_subset(rows,max_per_position=a.max_per_position)
     if a.max_per_position and len(rows)<300:
@@ -314,6 +315,8 @@ def main(argv=None):
     manifest.update({"schema":"multisport_joint_fit_manifest_v1","model_version":VERSION,
                      "unfiltered_train_rows":full_population_size,
                      "max_per_position":a.max_per_position,
+                     "training_from_inclusive":a.train_from,
+                     "max_training_seasons":a.max_seasons,
                      "training_cutoff_exclusive":a.as_of,"diagnostics":checks,
                      "publication_eligible":False,"calibrated":False})
     (a.out/"manifest.json").write_text(json.dumps(manifest,sort_keys=True,indent=2)+"\n")
