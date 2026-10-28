@@ -261,6 +261,20 @@ jobs:
                            '--date',triage_date,'--snapshots','data/prop_snapshots.jsonl',
                            '--archive-root','data/verification',
                            '--out','reports/verified_board.json'])
+                  if Path('reports/research_triage.json').is_file() and Path('data/prop_snapshots.jsonl').is_file():
+                      step('research_ranked_board',[sys.executable,'scripts/research_ranked_board.py',
+                           '--date',triage_date,'--snapshots','data/prop_snapshots.jsonl',
+                           '--queue','reports/research_triage.json',
+                           '--archive-root','data/verification',
+                           '--out','reports/research_ranked_board.json'])
+                  if Path('reports/research_ranked_board.json').is_file():
+                      try:
+                          research_board=json.loads(Path('reports/research_ranked_board.json').read_text())
+                          receipt['research_ranked_board']={k:research_board.get(k) for k in
+                               ('schema','status','queue_size','rank_counts','excluded',
+                                'publication_eligible')}
+                      except (ValueError,OSError):
+                          receipt['research_ranked_board']={'status':'INVALID_RESEARCH_RANKING'}
                   if Path('reports/verified_board.json').is_file():
                       try:
                           board=json.loads(Path('reports/verified_board.json').read_text())
@@ -350,6 +364,7 @@ jobs:
             reports/review_template.json
             reports/autonomous_investigation.json
             reports/verified_board.json
+            reports/research_ranked_board.json
             data/verification/
             data/research_*.json
             data/odds_quotes.jsonl
