@@ -1,0 +1,737 @@
+{
+  "schema": "pick-verification-v1",
+  "phase": "initial",
+  "date": "2026-10-28",
+  "source_forecast_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+  "generated_at": "2026-10-28T20:29:34.238872+00:00",
+  "forecast_batch_count": 1248,
+  "queue_size": 22,
+  "checked": 10,
+  "verified": 0,
+  "blocked": 10,
+  "not_due": {
+    "VERIFICATION_CAP": 12
+  },
+  "research_source_attempts": [
+    {
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261028",
+      "retrieved_at": "2026-10-28T20:29:34.238872+00:00",
+      "purpose": "fixture venue and event identity",
+      "status": "retrieved",
+      "resolved_venues": 4
+    },
+    {
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892596",
+      "retrieved_at": "2026-10-28T20:29:34.238872+00:00",
+      "purpose": "explicit game-active roster",
+      "status": "retrieved",
+      "resolved_players": 0
+    },
+    {
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892597",
+      "retrieved_at": "2026-10-28T20:29:34.238872+00:00",
+      "purpose": "explicit game-active roster",
+      "status": "retrieved",
+      "resolved_players": 0
+    },
+    {
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892598",
+      "retrieved_at": "2026-10-28T20:29:34.238872+00:00",
+      "purpose": "explicit game-active roster",
+      "status": "retrieved",
+      "resolved_players": 0
+    },
+    {
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892599",
+      "retrieved_at": "2026-10-28T20:29:34.238872+00:00",
+      "purpose": "explicit game-active roster",
+      "status": "retrieved",
+      "resolved_players": 0
+    },
+    {
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
+      "retrieved_at": "2026-10-28T20:29:34.238872+00:00",
+      "purpose": "explicit NHL injury designations; no active inference",
+      "status": "retrieved",
+      "resolved_negative_statuses": 0
+    }
+  ],
+  "verified_pregame_games": [
+    "CGY@EDM",
+    "NJD@COL",
+    "PHI@WSH",
+    "TOR@SEA"
+  ],
+  "status": "verification_blocked",
+  "decisions": [
+    {
+      "candidate_id": "NHL|Porter Martone|shots on goal|under",
+      "snapshot_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+      "forecast_sha256": "f458c221c8f3c9a7e42acab180e8aa8863d93327c842e036fcdfdc47b31875da",
+      "forecast_at": "2026-10-28T20:28:59.147740+00:00",
+      "event_start": "2026-10-28T23:30:00Z",
+      "checked_at": "2026-10-28T20:29:34.238872+00:00",
+      "game": "PHI @ WSH",
+      "team": "PHI",
+      "sport": "NHL",
+      "player": "Porter Martone",
+      "stat": "shots on goal",
+      "side": "under",
+      "reference_line": 1.5,
+      "decision": "blocked",
+      "publication_eligible": false,
+      "verified_rank": "Unranked",
+      "mechanism_evidence": {
+        "version": "mechanism-evidence-v1",
+        "tier_ceiling": "Watchlist",
+        "quality": "insufficient",
+        "machine_overlap_detected": false,
+        "events_assessed": 0,
+        "evaluations": [
+          {
+            "status": "insufficient_machine_provenance",
+            "reasons": [
+              "REPLAYED_LIVE_SOURCE_PROOF_REQUIRED"
+            ]
+          }
+        ],
+        "no_probability_adjustment": true,
+        "legacy_count_not_authoritative": true
+      },
+      "diagnostic_regrade_rank": "Unranked",
+      "verified_model_probability": 0.6554490116165378,
+      "verified_market_probability": 0.44781278613939124,
+      "engine_a_reliable": true,
+      "engine_b_reliable": true,
+      "blend_validated": false,
+      "blockers": [
+        "ENGINE_RANK_NOT_ELIGIBLE_UNRANKED",
+        "GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING"
+      ],
+      "reviewer": null,
+      "review_type": "structured_machine_verification",
+      "source_read_by_human": false,
+      "machine_review": {
+        "review_type": "structured_machine_verification",
+        "reviewer": "machine:deterministic-primary-source-v1",
+        "source_read_by_human": false,
+        "independent_live_refetch": false,
+        "reviewed_at": "2026-10-28T20:29:34.238872+00:00",
+        "source": null
+      },
+      "autonomous_investigation": {
+        "source": "https://api-web.nhle.com/v1/player/8485406/game-log/20262027/2",
+        "supporting_game_count": 10,
+        "opposing_game_count": 4,
+        "news_mention_count": 0,
+        "research_complete": false,
+        "approval_authorized": false
+      },
+      "research_packet_sha256": "c5750f8729eb7f8c37127c70c2002e916d8edfa5ff8f2fcff2ba98005b617412"
+    },
+    {
+      "candidate_id": "NHL|Jakob Chychrun|shots on goal|under",
+      "snapshot_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+      "forecast_sha256": "689be549211a33f0881988e7e22eb2760ac73e30853016101ec30e1c6246190c",
+      "forecast_at": "2026-10-28T20:28:58.997549+00:00",
+      "event_start": "2026-10-28T23:30:00Z",
+      "checked_at": "2026-10-28T20:29:34.238872+00:00",
+      "game": "WSH @ PHI",
+      "team": "WSH",
+      "sport": "NHL",
+      "player": "Jakob Chychrun",
+      "stat": "shots on goal",
+      "side": "under",
+      "reference_line": 2.5,
+      "decision": "blocked",
+      "publication_eligible": false,
+      "verified_rank": "Unranked",
+      "mechanism_evidence": {
+        "version": "mechanism-evidence-v1",
+        "tier_ceiling": "Watchlist",
+        "quality": "insufficient",
+        "machine_overlap_detected": false,
+        "events_assessed": 0,
+        "evaluations": [
+          {
+            "status": "insufficient_machine_provenance",
+            "reasons": [
+              "REPLAYED_LIVE_SOURCE_PROOF_REQUIRED"
+            ]
+          }
+        ],
+        "no_probability_adjustment": true,
+        "legacy_count_not_authoritative": true
+      },
+      "diagnostic_regrade_rank": "Unranked",
+      "verified_model_probability": 0.6815838104797538,
+      "verified_market_probability": 0.5064818471002682,
+      "engine_a_reliable": true,
+      "engine_b_reliable": true,
+      "blend_validated": false,
+      "blockers": [
+        "ENGINE_RANK_NOT_ELIGIBLE_UNRANKED",
+        "GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING"
+      ],
+      "reviewer": null,
+      "review_type": "structured_machine_verification",
+      "source_read_by_human": false,
+      "machine_review": {
+        "review_type": "structured_machine_verification",
+        "reviewer": "machine:deterministic-primary-source-v1",
+        "source_read_by_human": false,
+        "independent_live_refetch": false,
+        "reviewed_at": "2026-10-28T20:29:34.238872+00:00",
+        "source": null
+      },
+      "autonomous_investigation": {
+        "source": "https://api-web.nhle.com/v1/player/8479345/game-log/20262027/2",
+        "supporting_game_count": 5,
+        "opposing_game_count": 5,
+        "news_mention_count": 0,
+        "research_complete": false,
+        "approval_authorized": false
+      },
+      "research_packet_sha256": "53539b5502d964858a596dd000f0e38a1adff4346d6e0e822ef2693f5c1f8010"
+    },
+    {
+      "candidate_id": "NHL|Kasperi Kapanen|shots on goal|under",
+      "snapshot_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+      "forecast_sha256": "cc885721b6cce260fe0e120caf2e32514c67bb7c97bfaaffbda5a1eed8c9d8c0",
+      "forecast_at": "2026-10-28T20:28:59.044257+00:00",
+      "event_start": "2026-10-29T00:30:00Z",
+      "checked_at": "2026-10-28T20:29:34.238872+00:00",
+      "game": "EDM @ CGY",
+      "team": "EDM",
+      "sport": "NHL",
+      "player": "Kasperi Kapanen",
+      "stat": "shots on goal",
+      "side": "under",
+      "reference_line": 1.5,
+      "decision": "blocked",
+      "publication_eligible": false,
+      "verified_rank": "Unranked",
+      "mechanism_evidence": {
+        "version": "mechanism-evidence-v1",
+        "tier_ceiling": "Watchlist",
+        "quality": "insufficient",
+        "machine_overlap_detected": false,
+        "events_assessed": 0,
+        "evaluations": [
+          {
+            "status": "insufficient_machine_provenance",
+            "reasons": [
+              "REPLAYED_LIVE_SOURCE_PROOF_REQUIRED"
+            ]
+          }
+        ],
+        "no_probability_adjustment": true,
+        "legacy_count_not_authoritative": true
+      },
+      "diagnostic_regrade_rank": "Unranked",
+      "verified_model_probability": 0.6350316607873354,
+      "verified_market_probability": 0.4770789748407976,
+      "engine_a_reliable": true,
+      "engine_b_reliable": true,
+      "blend_validated": false,
+      "blockers": [
+        "ENGINE_RANK_NOT_ELIGIBLE_UNRANKED",
+        "GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING"
+      ],
+      "reviewer": null,
+      "review_type": "structured_machine_verification",
+      "source_read_by_human": false,
+      "machine_review": {
+        "review_type": "structured_machine_verification",
+        "reviewer": "machine:deterministic-primary-source-v1",
+        "source_read_by_human": false,
+        "independent_live_refetch": false,
+        "reviewed_at": "2026-10-28T20:29:34.238872+00:00",
+        "source": null
+      },
+      "autonomous_investigation": {
+        "source": "https://api-web.nhle.com/v1/player/8477953/game-log/20262027/2",
+        "supporting_game_count": 8,
+        "opposing_game_count": 4,
+        "news_mention_count": 0,
+        "research_complete": false,
+        "approval_authorized": false
+      },
+      "research_packet_sha256": "4ccf944ec99627c6955fa9a8f10cb38c7d5f5814b264824c500f99626bbffaf4"
+    },
+    {
+      "candidate_id": "NHL|Jack Hughes|shots on goal|over",
+      "snapshot_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+      "forecast_sha256": "cc3affa7e4de8dce3ca9732871f74e8d4783e4c98a606c7b7e0a869c2df21dfa",
+      "forecast_at": "2026-10-28T20:28:58.979751+00:00",
+      "event_start": "2026-10-29T01:00:00Z",
+      "checked_at": "2026-10-28T20:29:34.238872+00:00",
+      "game": "NJD @ COL",
+      "team": "NJD",
+      "sport": "NHL",
+      "player": "Jack Hughes",
+      "stat": "shots on goal",
+      "side": "over",
+      "reference_line": 3.5,
+      "decision": "blocked",
+      "publication_eligible": false,
+      "verified_rank": "Unranked",
+      "mechanism_evidence": {
+        "version": "mechanism-evidence-v1",
+        "tier_ceiling": "Watchlist",
+        "quality": "insufficient",
+        "machine_overlap_detected": false,
+        "events_assessed": 0,
+        "evaluations": [
+          {
+            "status": "insufficient_machine_provenance",
+            "reasons": [
+              "REPLAYED_LIVE_SOURCE_PROOF_REQUIRED"
+            ]
+          }
+        ],
+        "no_probability_adjustment": true,
+        "legacy_count_not_authoritative": true
+      },
+      "diagnostic_regrade_rank": "Unranked",
+      "verified_model_probability": 0.5818912953529132,
+      "verified_market_probability": 0.43101634871755273,
+      "engine_a_reliable": true,
+      "engine_b_reliable": true,
+      "blend_validated": false,
+      "blockers": [
+        "ENGINE_RANK_NOT_ELIGIBLE_UNRANKED",
+        "GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING"
+      ],
+      "reviewer": null,
+      "review_type": "structured_machine_verification",
+      "source_read_by_human": false,
+      "machine_review": {
+        "review_type": "structured_machine_verification",
+        "reviewer": "machine:deterministic-primary-source-v1",
+        "source_read_by_human": false,
+        "independent_live_refetch": false,
+        "reviewed_at": "2026-10-28T20:29:34.238872+00:00",
+        "source": null
+      },
+      "autonomous_investigation": {
+        "source": "https://api-web.nhle.com/v1/player/8481559/game-log/20262027/2",
+        "supporting_game_count": 5,
+        "opposing_game_count": 7,
+        "news_mention_count": 0,
+        "research_complete": false,
+        "approval_authorized": false
+      },
+      "research_packet_sha256": "e88bb01756a912bff49f1fd1a077d574b4087d147f492ef96ae9adbe7ca5e7b6"
+    },
+    {
+      "candidate_id": "NHL|Matty Beniers|shots on goal|under",
+      "snapshot_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+      "forecast_sha256": "db6f3d7b7557f39c3da0ae2c4e1a26b3b15d59158bd24fd255e8562e6135e692",
+      "forecast_at": "2026-10-28T20:28:59.084080+00:00",
+      "event_start": "2026-10-29T02:00:00Z",
+      "checked_at": "2026-10-28T20:29:34.238872+00:00",
+      "game": "SEA @ TOR",
+      "team": "SEA",
+      "sport": "NHL",
+      "player": "Matty Beniers",
+      "stat": "shots on goal",
+      "side": "under",
+      "reference_line": 1.5,
+      "decision": "blocked",
+      "publication_eligible": false,
+      "verified_rank": "Unranked",
+      "mechanism_evidence": {
+        "version": "mechanism-evidence-v1",
+        "tier_ceiling": "Watchlist",
+        "quality": "insufficient",
+        "machine_overlap_detected": false,
+        "events_assessed": 0,
+        "evaluations": [
+          {
+            "status": "insufficient_machine_provenance",
+            "reasons": [
+              "REPLAYED_LIVE_SOURCE_PROOF_REQUIRED"
+            ]
+          }
+        ],
+        "no_probability_adjustment": true,
+        "legacy_count_not_authoritative": true
+      },
+      "diagnostic_regrade_rank": "Unranked",
+      "verified_model_probability": 0.6025075375944811,
+      "verified_market_probability": 0.4611202031394693,
+      "engine_a_reliable": true,
+      "engine_b_reliable": true,
+      "blend_validated": false,
+      "blockers": [
+        "ENGINE_RANK_NOT_ELIGIBLE_UNRANKED",
+        "GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING"
+      ],
+      "reviewer": null,
+      "review_type": "structured_machine_verification",
+      "source_read_by_human": false,
+      "machine_review": {
+        "review_type": "structured_machine_verification",
+        "reviewer": "machine:deterministic-primary-source-v1",
+        "source_read_by_human": false,
+        "independent_live_refetch": false,
+        "reviewed_at": "2026-10-28T20:29:34.238872+00:00",
+        "source": null
+      },
+      "autonomous_investigation": {
+        "source": "https://api-web.nhle.com/v1/player/8482665/game-log/20262027/2",
+        "supporting_game_count": 8,
+        "opposing_game_count": 4,
+        "news_mention_count": 0,
+        "research_complete": false,
+        "approval_authorized": false
+      },
+      "research_packet_sha256": "87f9fd43e359bae1db0b24654fb33aafe6087e5cf43f65b3dc471ec690ecad51"
+    },
+    {
+      "candidate_id": "NHL|Tyson Foerster|shots on goal|over",
+      "snapshot_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+      "forecast_sha256": "406c7a828b74a6a3ec099d83305ebe46306edb2febee797f4823e9a512578cf9",
+      "forecast_at": "2026-10-28T20:28:59.272935+00:00",
+      "event_start": "2026-10-28T23:30:00Z",
+      "checked_at": "2026-10-28T20:29:34.238872+00:00",
+      "game": "PHI @ WSH",
+      "team": "PHI",
+      "sport": "NHL",
+      "player": "Tyson Foerster",
+      "stat": "shots on goal",
+      "side": "over",
+      "reference_line": 1.5,
+      "decision": "blocked",
+      "publication_eligible": false,
+      "verified_rank": "Unranked",
+      "mechanism_evidence": {
+        "version": "mechanism-evidence-v1",
+        "tier_ceiling": "Watchlist",
+        "quality": "insufficient",
+        "machine_overlap_detected": false,
+        "events_assessed": 0,
+        "evaluations": [
+          {
+            "status": "insufficient_machine_provenance",
+            "reasons": [
+              "REPLAYED_LIVE_SOURCE_PROOF_REQUIRED"
+            ]
+          }
+        ],
+        "no_probability_adjustment": true,
+        "legacy_count_not_authoritative": true
+      },
+      "diagnostic_regrade_rank": "Unranked",
+      "verified_model_probability": 0.6653618091765192,
+      "verified_market_probability": 0.5313311937223755,
+      "engine_a_reliable": true,
+      "engine_b_reliable": true,
+      "blend_validated": false,
+      "blockers": [
+        "ENGINE_RANK_NOT_ELIGIBLE_UNRANKED",
+        "GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING"
+      ],
+      "reviewer": null,
+      "review_type": "structured_machine_verification",
+      "source_read_by_human": false,
+      "machine_review": {
+        "review_type": "structured_machine_verification",
+        "reviewer": "machine:deterministic-primary-source-v1",
+        "source_read_by_human": false,
+        "independent_live_refetch": false,
+        "reviewed_at": "2026-10-28T20:29:34.238872+00:00",
+        "source": null
+      },
+      "autonomous_investigation": {
+        "source": "https://api-web.nhle.com/v1/player/8482159/game-log/20262027/2",
+        "supporting_game_count": 10,
+        "opposing_game_count": 3,
+        "news_mention_count": 0,
+        "research_complete": false,
+        "approval_authorized": false
+      },
+      "research_packet_sha256": "02863b1718481b14d1d6edc52b2fbd2015014d1db28acce564f6d98aa5a5692c"
+    },
+    {
+      "candidate_id": "NHL|Mackie Samoskevich|shots on goal|under",
+      "snapshot_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+      "forecast_sha256": "8d4a0f96781e07d0082eeafab57a399a00f4331870b45514b1180967c5c104e8",
+      "forecast_at": "2026-10-28T20:28:59.064117+00:00",
+      "event_start": "2026-10-29T02:00:00Z",
+      "checked_at": "2026-10-28T20:29:34.238872+00:00",
+      "game": "SEA @ TOR",
+      "team": "SEA",
+      "sport": "NHL",
+      "player": "Mackie Samoskevich",
+      "stat": "shots on goal",
+      "side": "under",
+      "reference_line": 2.5,
+      "decision": "blocked",
+      "publication_eligible": false,
+      "verified_rank": "Unranked",
+      "mechanism_evidence": {
+        "version": "mechanism-evidence-v1",
+        "tier_ceiling": "Watchlist",
+        "quality": "insufficient",
+        "machine_overlap_detected": false,
+        "events_assessed": 0,
+        "evaluations": [
+          {
+            "status": "insufficient_machine_provenance",
+            "reasons": [
+              "REPLAYED_LIVE_SOURCE_PROOF_REQUIRED"
+            ]
+          }
+        ],
+        "no_probability_adjustment": true,
+        "legacy_count_not_authoritative": true
+      },
+      "diagnostic_regrade_rank": "Unranked",
+      "verified_model_probability": 0.7406226091159143,
+      "verified_market_probability": 0.6067229437229437,
+      "engine_a_reliable": true,
+      "engine_b_reliable": true,
+      "blend_validated": false,
+      "blockers": [
+        "ENGINE_RANK_NOT_ELIGIBLE_UNRANKED",
+        "GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING"
+      ],
+      "reviewer": null,
+      "review_type": "structured_machine_verification",
+      "source_read_by_human": false,
+      "machine_review": {
+        "review_type": "structured_machine_verification",
+        "reviewer": "machine:deterministic-primary-source-v1",
+        "source_read_by_human": false,
+        "independent_live_refetch": false,
+        "reviewed_at": "2026-10-28T20:29:34.238872+00:00",
+        "source": null
+      },
+      "autonomous_investigation": {
+        "source": "https://api-web.nhle.com/v1/player/8482713/game-log/20262027/2",
+        "supporting_game_count": 8,
+        "opposing_game_count": 3,
+        "news_mention_count": 0,
+        "research_complete": false,
+        "approval_authorized": false
+      },
+      "research_packet_sha256": "966ede8b02ac3b9e7b7f5bf1fe9eb03d37b896a6b72ec3209493ac764e5d400f"
+    },
+    {
+      "candidate_id": "NHL|Mattias Ekholm|shots on goal|under",
+      "snapshot_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+      "forecast_sha256": "77856bfb1c17e10683b02f650ea43e2ee7ccf3433381eafa8dd981b4d174768d",
+      "forecast_at": "2026-10-28T20:28:59.081606+00:00",
+      "event_start": "2026-10-29T00:30:00Z",
+      "checked_at": "2026-10-28T20:29:34.238872+00:00",
+      "game": "EDM @ CGY",
+      "team": "EDM",
+      "sport": "NHL",
+      "player": "Mattias Ekholm",
+      "stat": "shots on goal",
+      "side": "under",
+      "reference_line": 1.5,
+      "decision": "blocked",
+      "publication_eligible": false,
+      "verified_rank": "Unranked",
+      "mechanism_evidence": {
+        "version": "mechanism-evidence-v1",
+        "tier_ceiling": "Watchlist",
+        "quality": "insufficient",
+        "machine_overlap_detected": false,
+        "events_assessed": 0,
+        "evaluations": [
+          {
+            "status": "insufficient_machine_provenance",
+            "reasons": [
+              "REPLAYED_LIVE_SOURCE_PROOF_REQUIRED"
+            ]
+          }
+        ],
+        "no_probability_adjustment": true,
+        "legacy_count_not_authoritative": true
+      },
+      "diagnostic_regrade_rank": "Unranked",
+      "verified_model_probability": 0.6860437618078477,
+      "verified_market_probability": 0.5573459020143688,
+      "engine_a_reliable": true,
+      "engine_b_reliable": true,
+      "blend_validated": false,
+      "blockers": [
+        "ENGINE_RANK_NOT_ELIGIBLE_UNRANKED",
+        "GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING"
+      ],
+      "reviewer": null,
+      "review_type": "structured_machine_verification",
+      "source_read_by_human": false,
+      "machine_review": {
+        "review_type": "structured_machine_verification",
+        "reviewer": "machine:deterministic-primary-source-v1",
+        "source_read_by_human": false,
+        "independent_live_refetch": false,
+        "reviewed_at": "2026-10-28T20:29:34.238872+00:00",
+        "source": null
+      },
+      "autonomous_investigation": {
+        "source": "https://api-web.nhle.com/v1/player/8475218/game-log/20262027/2",
+        "supporting_game_count": 7,
+        "opposing_game_count": 3,
+        "news_mention_count": 0,
+        "research_complete": false,
+        "approval_authorized": false
+      },
+      "research_packet_sha256": "62c0f45453bc6702cef71ba765de79010bc58f9e2f631089f5dec9a8f6e176bf"
+    },
+    {
+      "candidate_id": "NHL|Dylan Strome|shots on goal|under",
+      "snapshot_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+      "forecast_sha256": "0281bf1dfae3fd90af59e25a2a938efbd6559a242a0896a670778f00603c9708",
+      "forecast_at": "2026-10-28T20:28:58.953975+00:00",
+      "event_start": "2026-10-28T23:30:00Z",
+      "checked_at": "2026-10-28T20:29:34.238872+00:00",
+      "game": "WSH @ PHI",
+      "team": "WSH",
+      "sport": "NHL",
+      "player": "Dylan Strome",
+      "stat": "shots on goal",
+      "side": "under",
+      "reference_line": 1.5,
+      "decision": "blocked",
+      "publication_eligible": false,
+      "verified_rank": "Unranked",
+      "mechanism_evidence": {
+        "version": "mechanism-evidence-v1",
+        "tier_ceiling": "Watchlist",
+        "quality": "insufficient",
+        "machine_overlap_detected": false,
+        "events_assessed": 0,
+        "evaluations": [
+          {
+            "status": "insufficient_machine_provenance",
+            "reasons": [
+              "REPLAYED_LIVE_SOURCE_PROOF_REQUIRED"
+            ]
+          }
+        ],
+        "no_probability_adjustment": true,
+        "legacy_count_not_authoritative": true
+      },
+      "diagnostic_regrade_rank": "Unranked",
+      "verified_model_probability": 0.5795607050864541,
+      "verified_market_probability": 0.45436098156540106,
+      "engine_a_reliable": true,
+      "engine_b_reliable": true,
+      "blend_validated": false,
+      "blockers": [
+        "ENGINE_RANK_NOT_ELIGIBLE_UNRANKED",
+        "GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING"
+      ],
+      "reviewer": null,
+      "review_type": "structured_machine_verification",
+      "source_read_by_human": false,
+      "machine_review": {
+        "review_type": "structured_machine_verification",
+        "reviewer": "machine:deterministic-primary-source-v1",
+        "source_read_by_human": false,
+        "independent_live_refetch": false,
+        "reviewed_at": "2026-10-28T20:29:34.238872+00:00",
+        "source": null
+      },
+      "autonomous_investigation": {
+        "source": "https://api-web.nhle.com/v1/player/8478440/game-log/20262027/2",
+        "supporting_game_count": 4,
+        "opposing_game_count": 6,
+        "news_mention_count": 0,
+        "research_complete": false,
+        "approval_authorized": false
+      },
+      "research_packet_sha256": "8701cd8aeea884494fc1400dd7c5fb69d693eeea34a1b91eb1e7ea630ba93185"
+    },
+    {
+      "candidate_id": "NHL|Ryan Leonard|shots on goal|over",
+      "snapshot_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+      "forecast_sha256": "3f847159d6f7b73f60360aee9d0301e1d262c4d201bd8b44165cf95e4ceaa5cf",
+      "forecast_at": "2026-10-28T20:28:59.152000+00:00",
+      "event_start": "2026-10-28T23:30:00Z",
+      "checked_at": "2026-10-28T20:29:34.238872+00:00",
+      "game": "WSH @ PHI",
+      "team": "WSH",
+      "sport": "NHL",
+      "player": "Ryan Leonard",
+      "stat": "shots on goal",
+      "side": "over",
+      "reference_line": 1.5,
+      "decision": "blocked",
+      "publication_eligible": false,
+      "verified_rank": "Unranked",
+      "mechanism_evidence": {
+        "version": "mechanism-evidence-v1",
+        "tier_ceiling": "Watchlist",
+        "quality": "insufficient",
+        "machine_overlap_detected": false,
+        "events_assessed": 0,
+        "evaluations": [
+          {
+            "status": "insufficient_machine_provenance",
+            "reasons": [
+              "REPLAYED_LIVE_SOURCE_PROOF_REQUIRED"
+            ]
+          }
+        ],
+        "no_probability_adjustment": true,
+        "legacy_count_not_authoritative": true
+      },
+      "diagnostic_regrade_rank": "Unranked",
+      "verified_model_probability": 0.674220827374314,
+      "verified_market_probability": 0.5633864475646053,
+      "engine_a_reliable": true,
+      "engine_b_reliable": true,
+      "blend_validated": false,
+      "blockers": [
+        "ENGINE_RANK_NOT_ELIGIBLE_UNRANKED",
+        "GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING"
+      ],
+      "reviewer": null,
+      "review_type": "structured_machine_verification",
+      "source_read_by_human": false,
+      "machine_review": {
+        "review_type": "structured_machine_verification",
+        "reviewer": "machine:deterministic-primary-source-v1",
+        "source_read_by_human": false,
+        "independent_live_refetch": false,
+        "reviewed_at": "2026-10-28T20:29:34.238872+00:00",
+        "source": null
+      },
+      "autonomous_investigation": {
+        "source": "https://api-web.nhle.com/v1/player/8484186/game-log/20262027/2",
+        "supporting_game_count": 10,
+        "opposing_game_count": 0,
+        "news_mention_count": 0,
+        "research_complete": false,
+        "approval_authorized": false
+      },
+      "research_packet_sha256": "791af500cdd4d123a1f7779bead6345a41bbf6ddcd7a4f8443e3265315fba943"
+    }
+  ],
+  "integrity": {
+    "original_forecasts_modified": false,
+    "original_forecast_hashes_recorded": true,
+    "review_required": true,
+    "machine_review_requires_live_source_recheck": true,
+    "no_backdated_approval": true,
+    "source_check_does_not_imply_attestation": true
+  },
+  "market_source_note": "quote_file"
+}
