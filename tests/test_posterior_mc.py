@@ -31,8 +31,10 @@ def workload_peers(*,count=False):
 
 def a_model(dist):
     data=[1.,2.,3.,4.,1.,3.,2.,4.,3.,2.,1.,4.]
-    return ba.forecast(data,peer_values(),dist=dist,line=2.5,side='over',
-                       var_ratio=1.6 if dist=='negbin' else None),data
+    model=ba.forecast(data,peer_values(),dist=dist,line=2.5,side='over',
+                       var_ratio=1.6 if dist=='negbin' else None)
+    model.update(status='forecast',posterior_mean=model['mean'])
+    return model,data
 
 
 def b_model(dist):
@@ -42,7 +44,7 @@ def b_model(dist):
                   side='over',var_ratio=1.6 if dist=='negbin' else None,
                   stat='shots on goal' if dist!='normal' else 'receiving yards',
                   sport='NHL' if dist!='normal' else 'NFL')
-    p.update(distribution=dist,workload_posterior=p['workload'],
+    p.update(status='forecast',distribution=dist,workload_posterior=p['workload'],
              conversion_posterior=p['conversion'])
     return p,pairs,peers
 
@@ -81,6 +83,7 @@ class SimulationMathTests(unittest.TestCase):
     def test_a_normal_student_posterior_matches_analytic(self):
         result=ba.forecast([9.,11.,12.,9.,10.,8.,12.,11.],peer_values(),dist='normal',
                            line=10.5,side='over')
+        result.update(status='forecast',posterior_mean=result['mean'])
         simulated=mc.simulate(result,engine='A',identity=['a-normal'],line=10.5,
                               side='over',draws=1024,max_draws=4096,target=.009)
         self.assertTrue(simulated['analytic_agreement'])
