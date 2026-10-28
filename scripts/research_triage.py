@@ -213,7 +213,7 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
         item["sport"], item["player"]))
     primary = [item for item in candidates if not item["recovery_only"]]
     recovery = [item for item in candidates if item["recovery_only"]]
-    queue, seen, per_game = [], set(), Counter()
+    queue, seen, attempted, per_game = [], set(), set(), Counter()
     def select(pool, budget):
         # Round-robin by sport AND statistic so the first priced market cannot
         # monopolize the queue; choose one side per (player, stat, fixture).
@@ -229,6 +229,9 @@ def build(rows, date, *, packet=None, now=None, limit=30, max_per_game=6,
                     item=buckets[key].pop(0)
                     identity=(item["sport"],str(item["player_id"] or item["player"]),
                               item["team"],item["opponent"],item["stat"])
+                    if item["candidate_id"] in attempted:
+                        continue
+                    attempted.add(item["candidate_id"])
                     game=(item["sport"],tuple(sorted((item["team"],item["opponent"]))))
                     if identity in seen:
                         excluded["duplicate_player_stat"] += 1
