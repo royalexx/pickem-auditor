@@ -148,6 +148,33 @@ class MachineReviewTests(unittest.TestCase):
                 self.assertEqual(decision["verified_rank"],"Unranked")
                 self.assertTrue(decision["blockers"])
 
+    def test_conditional_source_review_never_approves_missing_roster_in_strict_path(self):
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t); rows,queue,packet=backed_case(root)
+            _,updated=ai.investigate(rows,queue,packet,DATE,now=NOW,
+                                     fetch=fetch_source,data_root=root)
+            updated["availability"].pop("Example Player",None)
+            item=queue["queue"][0]
+            strict,issue,_=ar.evaluate(item,rows[0],updated,now=NOW,
+                                         fetch=fetch_source,data_root=root)
+            self.assertFalse(strict)
+            self.assertEqual(issue,"MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING")
+            tendency={"status":"high_continuity","played_last_5":5,
+                      "likely_available":True,"confirmed_active":False,
+                      "usable_for_verified_tier":False,
+                      "source_snapshot_sha256":"f"*64}
+            conditional,issue,proof=ar.evaluate(
+                item,rows[0],updated,now=NOW,fetch=fetch_source,
+                data_root=root,conditional_tendency=tendency)
+            self.assertTrue(conditional,issue)
+            self.assertFalse(proof["current_game_active_confirmed"])
+            self.assertEqual(proof["availability_basis"],
+                             "five_game_historical_tendency_only")
+            # The original strict pick verifier must still reject the subject.
+            receipt,_=pv.verify(rows,queue,updated,DATE,now=NOW,
+                                fetch=fetch_source,auto_review=True,data_root=root)
+            self.assertEqual(receipt["verified"],0)
+
     def test_changed_source_body_blocks_machine_grade(self):
         with tempfile.TemporaryDirectory() as t:
             root=Path(t);rows,q,p=backed_case(root)
