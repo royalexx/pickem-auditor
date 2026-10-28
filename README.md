@@ -84,3 +84,12 @@ Morning settlement now has backup Toronto-local cron slots and an immutable
 completion marker stored in the authoritative data branch. This handles
 missed scheduled events without repeating a successfully settled day.
 See [morning recovery and verification](references/morning_scheduler.md).
+
+
+## Phase 1: Bayesian Engine A shadow evaluation
+
+A historical-only, hierarchical **empirical-Bayes** model (`history-bayes-v1`) now runs in shadow after a successful afternoon snapshot. It learns conservative sport/stat peer priors from *other* verified player histories, uses Gamma–Poisson, negative-binomial quadrature and Student-t predictive distributions, and stores separate append-only pregame predictions in `data/bayesian_shadow/` on `data/shadow-calibration`.
+
+**Production remains history-v5.** No Bayesian output alters Engine A/B blending, Tier ranks, current research verification, historical forecasts or weights. Missing data are marked unavailable, not filled. Source timestamps, own source checksums and distinct peer identities are required. This is empirical Bayes conditional on fitted group hyperparameters, not full joint Bayesian inference and not an accuracy claim.
+
+See [the Bayesian Engine A design and validation boundary](references/bayesian_engine_a.md).
