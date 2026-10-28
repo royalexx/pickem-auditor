@@ -1,0 +1,8 @@
+{
+  "cursor": "2019",
+  "dates_complete": 1,
+  "market_rows_inserted": 92546,
+  "schema": "multi-sport-population-cursor-v1",
+  "source_games": 240,
+  "sport": "NFL"
+}
