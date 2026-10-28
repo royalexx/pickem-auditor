@@ -113,6 +113,18 @@ class SourceWarehouse(unittest.TestCase):
             self.assertEqual(again["new_games"],1)
             self.assertEqual(len(wh.read_history(root,before="2018-10-02")),32)
 
+    def test_subset_selection_uses_only_historical_training_games(self):
+        rows=wh.canonical_game(raw_game(),"2018-10-01")
+        selected=bayes.subset_training_players(rows,max_per_position=2)
+        self.assertLessEqual(len({r["player_id"] for r in selected}),4)
+        self.assertTrue(all(r in rows for r in selected))
+        updated=rows+[dict(rows[-1],game_id="2018020099",game_date="2018-10-20")]
+        # Caller supplies only training-date rows; changing heldout data
+        # cannot change the frozen cohort selection.
+        self.assertEqual(selected,bayes.subset_training_players(rows,max_per_position=2))
+        with self.assertRaisesRegex(ValueError,"invalid_training_subset_size"):
+            bayes.subset_training_players(rows,max_per_position=-1)
+
     def test_regression_guards_and_shadow_nonpublication(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);rows=wh.canonical_game(raw_game(),"2018-10-01")
