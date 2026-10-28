@@ -18,6 +18,10 @@ on:
       research_line:
         description: 'Fixed historical test threshold (not a sportsbook line)'
         required: true
+      train_from:
+        description: 'Inclusive earliest training day (NHL/NBA recent: 2023-10-01; NFL: 2023-09-01)'
+        required: false
+        default: '2023-10-01'
       max_seasons:
         description: 'Up to N completed/eligible historical season populations (e.g. 3-5)'
         required: false
@@ -60,6 +64,7 @@ jobs:
       UNTIL: ${{ inputs.until }}
       LINE: ${{ inputs.research_line }}
       ROWS: ${{ inputs.min_rows }}
+      TRAIN_FROM: ${{ inputs.train_from }}
       MAX_SEASONS: ${{ inputs.max_seasons }}
       MIN_TRAINING_SEASONS: ${{ inputs.min_training_seasons }}
       MAX_PER_POSITION: ${{ inputs.max_per_position }}
@@ -81,17 +86,17 @@ jobs:
       - name: Check source continuity and real pre-cutoff historical seasons
         run: |
           python scripts/population_window_check.py \
-            --sport "$SPORT" --stat "$STAT" --as-of "$CUTOFF" \
-            --until "$UNTIL" --max-seasons "$MAX_SEASONS" \
-            --min-training-seasons "$MIN_TRAINING_SEASONS" \
+            --sport "$SPORT" --stat "$STAT" --train-from "$TRAIN_FROM" \
+            --as-of "$CUTOFF" --until "$UNTIL" --max-seasons "$MAX_SEASONS" \
+            --min-training-seasons "$MIN_TRAINING_SEASONS" --min-rows "$ROWS" \
             --report reports/multisport_joint/window_preflight.json
       - name: Fit genuine joint NUTS population strictly before cutoff
         id: fit
         continue-on-error: true
         run: |
           python scripts/joint_population_bayes.py --sport "$SPORT" \
-            --stat "$STAT" --as-of "$CUTOFF" --min-rows "$ROWS" \
-            --draws "$DRAWS" --tune "$TUNE" --chains 4 \
+            --stat "$STAT" --as-of "$CUTOFF" --train-from "$TRAIN_FROM" \
+            --min-rows "$ROWS" --draws "$DRAWS" --tune "$TUNE" --chains 4 \
             --max-per-position "$MAX_PER_POSITION" --max-seasons "$MAX_SEASONS" \
             --out reports/multisport_joint
       - name: Paired same-cohort later-game score comparison with baseline
@@ -101,7 +106,7 @@ jobs:
         run: |
           python scripts/joint_population_holdout.py --sport "$SPORT" \
             --stat "$STAT" --cutoff "$CUTOFF" --until "$UNTIL" \
-            --line "$LINE" --draws 1500 --max-seasons "$MAX_SEASONS" \
+            --train-from "$TRAIN_FROM" --line "$LINE" --draws 1500 --max-seasons "$MAX_SEASONS" \
             --training-dir reports/multisport_joint
       - name: Upload fit, diagnostics and paired heldout receipts
         if: always()
