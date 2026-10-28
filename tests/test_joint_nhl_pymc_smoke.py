@@ -35,6 +35,14 @@ class JointSamplingSmoke(unittest.TestCase):
         model=mod.build(data)
         self.assertIn("player_chol",model.named_vars)
         self.assertIn("observed_shots",model.named_vars)
+        self.assertNotIn("season_toi_sd",model.named_vars)
+        later=[{**row,"season":"2019",
+                "game_id":str(2019020001+i//16),
+                "game_date":f"2019-10-0{1+i//16}"}
+               for i,row in enumerate(rows)]
+        two_season=mod.build(mod.prepare(rows+later,min_rows=20))
+        self.assertIn("season_toi_sd",two_season.named_vars)
+        self.assertIn("season_rate_sd",two_season.named_vars)
         with model:
             idata=pm.sample(draws=25,tune=25,chains=2,cores=1,
                             random_seed=847,progressbar=False,
