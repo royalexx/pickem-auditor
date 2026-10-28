@@ -374,6 +374,11 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
             attempt.update(status="source_failed", failure_type=type(exc).__name__)
         resolution.setdefault("attempts", []).append(attempt)
     entries, counts, cache = [], Counter(), {}
+    secondary_cache={}
+    def fetch_prior_once(url, **kwargs):
+        if url not in secondary_cache:
+            secondary_cache[url]=fetch(url,**kwargs)
+        return secondary_cache[url]
     for item, original in selected:
         entry = {"candidate_id": item["candidate_id"],
                  "forecast_sha256": forecast_digest(original),
@@ -430,10 +435,13 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
                 if issue:
                     reasons.append(issue)
                 else:
+                    # A previous-year observation must NOT be mislabeled as
+                    # part of the current-season deployment average.
+                    current_season_observations=observations
                     extra_proof = None
                     if len(observations)<15:
                         observations,extra_proof,extra_issue=extend_verified_history(
-                            item,date,observations,fetch)
+                            item,date,observations,fetch_prior_once)
                         if extra_issue:
                             reasons.append(extra_issue)
                         elif extra_proof:
@@ -451,7 +459,7 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
                         entry["collector_independent_check"] = checked
                         if checked["status"] != "source_conflict":
                             deploy = independently_verified_deployment(
-                                item, observations, url, sha, now)
+                                item, current_season_observations, url, sha, now)
                             slot = ((updated.get("scouting") or {})
                                     .get(item["candidate_id"]) or {}).get("supporting_stats")
                             if (deploy is not None and isinstance(slot, dict)
