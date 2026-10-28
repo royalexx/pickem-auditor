@@ -240,9 +240,19 @@ def _normal_predictive(values, prior, *, line):
     bn = b0+ss/2+(k0*n*(xbar-mu0)**2)/(2*kn)
     df = 2*an
     scale = math.sqrt(bn*(kn+1)/(an*kn))
-    under = student_t_cdf((line-mun)/scale,df)
-    # Continuous stat line has no push mass.
-    return dict(mean=mun, q_over=1-under, q_under=under, q_push=0.0,
+    # Integer-valued sports stats have genuine whole-line push probabilities.
+    if abs(line-round(line)) <= 1e-9:
+        under=student_t_cdf((line-0.5-mun)/scale,df)
+        upper=student_t_cdf((line+0.5-mun)/scale,df)
+        push=max(0.0,upper-under)
+        over=1-upper
+    else:
+        under=student_t_cdf((line-mun)/scale,df)
+        push=0.0
+        over=1-under
+    negative_mass=student_t_cdf((-0.5-mun)/scale,df)
+    return dict(mean=mun, q_over=over, q_under=under, q_push=push,
+                negative_tail_mass=negative_mass,
                 predictive_scale=scale, degrees_freedom=df,
                 posterior_mean_se=math.sqrt(bn/(kn*(an-1))),
                 posterior_parameters={'kappa':kn,'alpha':an,'beta':bn})
@@ -322,7 +332,7 @@ def _negative_binomial_predictive(values, prior, line, ratio):
                 uncertainty_method='log_rate_quadrature')
 
 
-def forecast(values, peers, *, dist, line, side, var_ratio=None):
+def forecast(values, peers, *, dist, line, side, var_ratio=None, allow_negative=False):
     """Output strictly unconditional win/push/loss, never Tier labels."""
     if side not in ('over','under'):
         raise ModelUnavailable('invalid_side')
@@ -338,6 +348,8 @@ def forecast(values, peers, *, dist, line, side, var_ratio=None):
         prediction=_gamma_poisson_predictive(values, prior, line)
     else:
         prediction=_negative_binomial_predictive(values, prior, line, _number(var_ratio,allow_zero=False))
+    if dist=='normal' and not allow_negative and prediction['negative_tail_mass']>0.02:
+        raise ModelUnavailable('normal_predictive_negative_mass')
     q_win=prediction['q_over'] if side=='over' else prediction['q_under']
     q_push=prediction['q_push']
     if not (0 <= q_win <= 1 and 0 <= q_push <= 1 and q_win+q_push <= 1+1e-9):
