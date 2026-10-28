@@ -78,6 +78,12 @@ def build(rows, queue, packet, date, *, now=None, decisions=(),
         if packet_game_key(packet,item) is None:
             rejected["game_specific_fixture_unverified"] += 1
             continue
+        raw_status = (((packet.get("availability") or {}).get(row["player"]) or {})
+                      .get("status") or {})
+        raw_value = raw_status.get("value") if isinstance(raw_status,dict) else None
+        if raw_value not in (None,"active"):
+            rejected["explicit_nonactive_status"] += 1
+            continue
         active, status_issue = status_verified(packet,item,now)
         if active:
             rejected["already_active_requires_strict_verified_board"] += 1
@@ -116,9 +122,13 @@ def build(rows, queue, packet, date, *, now=None, decisions=(),
             rejected["causal_source_quality_below_tier3"] += 1
             continue
         if fresh_quotes is None and quote_fetcher is not None:
-            fresh_quotes = quote_fetcher(date,sorted({
-                c["sport"] for c in research.get("research_ranked") or []
-                if c["q_model"] >= .70}))
+            try:
+                fresh_quotes = quote_fetcher(date,sorted({
+                    c["sport"] for c in research.get("research_ranked") or []
+                    if c["q_model"] >= .70}))
+            except (OSError,ValueError,RuntimeError,TimeoutError):
+                fresh_quotes = []
+                rejected["live_quote_provider_unavailable"] += 1
         refreshed, issues = quote_refresh(row.get("inputs") or {}, fresh_quotes,
                                           now,identity=row)
         if issues or refreshed is None:
