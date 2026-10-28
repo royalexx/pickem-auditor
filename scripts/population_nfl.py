@@ -145,6 +145,8 @@ def normalize_season(stats,snaps,schedule,season,*,cutoff):
             "schedule":{k:v for k,v in zip(("game_id","gameday","opponent","home"),(gid,day,opponent,home))}}
         digest=store.source_hash(source_rows)
         for stat,column in COLUMNS.items():
+            if not store.market_eligible({"sport":"NFL","stat":stat,"position":position}):
+                continue
             if position in DEFENSE and stat not in ("tackles + assists","solo tackles",
                     "tackle assists","qb hits","passes defended"):
                 continue
