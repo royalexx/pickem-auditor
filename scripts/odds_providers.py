@@ -125,9 +125,13 @@ SPORTS = (
 )
 STAT_BY_MARKET = {market: stat for _sport, _key, markets in SPORTS for market, stat in markets}
 STAT_BY_MARKET['player_total_saves'] = 'goalie saves'  # legacy historical fixtures only
+# Fixture/import support only. PropLine's published NHL market list does NOT
+# include player_hits; do not request an unsupported live market.
+STAT_BY_MARKET['player_hits'] = 'hits'
 PROPLINE_SUPPORTED_MARKETS = frozenset({
     'player_points', 'player_rebounds', 'player_assists', 'player_threes',
-    'player_points_rebounds_assists', 'player_shots_on_goal',
+    'player_points_rebounds_assists', 'player_points_rebounds',
+    'player_points_assists', 'player_rebounds_assists', 'player_shots_on_goal',
     'player_blocked_shots', 'goalie_saves', 'player_receptions',
     'player_reception_yds', 'player_rush_yds', 'player_pass_yds',
     'player_pass_attempts', 'player_pass_completions',
