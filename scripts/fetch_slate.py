@@ -226,6 +226,7 @@ SHORT_SEASON_GAMES = 20
 LOG_COUNT_STATS = {
     "shots on goal",
     "blocked shots",
+    "hits",
     "rebounds",
     "assists",
     "threes",
@@ -2426,6 +2427,8 @@ def nhl_stat_value(game: dict, stat: str):
             if key in game:
                 return _num(game.get(key))
         return None
+    if stat == "hits":
+        return _num(game["hits"]) if "hits" in game else None
     if stat == "goalie saves":
         if "saves" in game and game.get("saves") is not None:
             return _num(game.get("saves"))
@@ -2575,22 +2578,23 @@ def attach_nhl_game_logs(rows, current_logs, prior_logs=None, season: str | None
     templates = {str(row.get("player_id")): row for row in rows if row.get("stat") == "shots on goal"}
     extra = []
     for player_id, games in current_logs.items():
-        if not games or (player_id, "blocked shots") in existing or player_id not in templates:
+        if not games or player_id not in templates:
             continue
-        series = nhl_series(games, "blocked shots")
-        if not series:
-            continue
-        mixed = sum(item["value"] for item in series) / len(series)
         older = prior_logs.get(player_id)
-        built = _copy_context_row(
-            templates[player_id],
-            "blocked shots",
-            mixed,
-            len(series),
-            nhl_game_log_url(player_id, season),
-        )
-        apply_log_summary(built, series, nhl_series(older, "blocked shots") if older else None)
-        extra.append(built)
+        for stat in ("blocked shots", "hits"):
+            if (player_id, stat) in existing:
+                continue
+            series = nhl_series(games, stat)
+            if not series:
+                continue
+            mixed = sum(item["value"] for item in series) / len(series)
+            built = _copy_context_row(
+                templates[player_id], stat, mixed, len(series),
+                nhl_game_log_url(player_id, season),
+            )
+            apply_log_summary(built, series, nhl_series(older, stat) if older else None)
+            extra.append(built)
+            existing.add((player_id, stat))
     rows.extend(extra)
 
 
