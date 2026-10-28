@@ -1,0 +1,54 @@
+name: Experimental single-day multi-sport source verification
+on:
+  push:
+    branches: ['feature/multisport-joint-population-20261028']
+    paths: ['.github/workflows/population-source-probe.yml']
+permissions:
+  contents: read
+jobs:
+  source-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'nflreadpy==0.1.5'
+      - name: Test official NHL old-game hits blocks goalie saves
+        id: nhl
+        continue-on-error: true
+        run: |
+          python scripts/population_backfill.py --sport NHL \
+             --root /tmp/multi-probe --max-days 1 --max-games 20 \
+             --stop-before 2018-10-02 --request-spacing 0.5
+      - name: Test ESPN NBA historical summary format
+        id: nba
+        continue-on-error: true
+        run: |
+          python scripts/population_backfill.py --sport NBA \
+             --root /tmp/multi-probe --max-days 1 --max-games 20 \
+             --stop-before 2018-10-02 --request-spacing 0.8
+      - name: Test nflverse weekly and snap source
+        id: nfl
+        continue-on-error: true
+        run: |
+          python scripts/population_backfill.py --sport NFL \
+             --root /tmp/multi-probe --max-days 1 --max-games 400 \
+             --stop-before 2019-03-05
+      - name: Upload source error classifications and progress, not fake data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-probe-receipts
+          path: /tmp/multi-probe/reports/*.json
+          if-no-files-found: warn
+      - name: Flag incomplete live source adapters
+        if: always()
+        env:
+          NHL: ${{ steps.nhl.outcome }}
+          NBA: ${{ steps.nba.outcome }}
+          NFL: ${{ steps.nfl.outcome }}
+        run: |
+          test "$NHL" = success && test "$NBA" = success && test "$NFL" = success || {
+             echo "LIVE_SOURCE_ADAPTER_FAILURE NHL=$NHL NBA=$NBA NFL=$NFL" >&2; exit 2; }
