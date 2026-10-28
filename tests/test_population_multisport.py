@@ -122,6 +122,26 @@ class MultiSportSources(unittest.TestCase):
         self.assertFalse(no_rows)
         self.assertEqual(excluded["ambiguous_snap_rows"],1)
 
+    def test_nfl_verified_defensive_snaps_and_combined_tackles(self):
+        schedule=[{"game_id":"2018_01_BUF_BAL","season":2018,"week":1,"game_type":"REG",
+            "gameday":"2018-09-09","away_team":"BUF","home_team":"BAL"}]
+        weekly=[{"season":2018,"week":1,"season_type":"REG","team":"BUF",
+            "position":"LB","player_id":"defender-1",
+            "player_display_name":"A. Defender","opponent_team":"BAL",
+            "def_tackles_solo":4.,"def_tackles_with_assist":2.,
+            "def_tackle_assists":1.,"def_qb_hits":1.,"def_pass_defended":1.}]
+        snaps=[{"game_id":"2018_01_BUF_BAL","season":2018,"week":1,"game_type":"REG",
+            "team":"BUF","player":"Alex Defender",
+            "defense_snaps":67.,"offense_snaps":0.}]
+        rows,counts=nfl.normalize_season(weekly,snaps,schedule,2018,cutoff="2018-09-10")
+        self.assertEqual(counts["eligible_player_rows"],1)
+        expected={r["stat"]:r["value"] for r in rows}
+        self.assertEqual(expected["tackles + assists"],7)
+        self.assertEqual(expected["solo tackles"],4)
+        self.assertEqual(expected["tackle assists"],1)
+        self.assertEqual(expected["qb hits"],1)
+        self.assertEqual({r["workload"] for r in rows},{67.})
+
     def test_multisport_nhl_cursor_restart_after_partial_source_failure(self):
         with tempfile.TemporaryDirectory() as d:
             def fetch(url):
