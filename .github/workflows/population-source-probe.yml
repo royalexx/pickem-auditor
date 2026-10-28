@@ -15,20 +15,33 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install 'nflreadpy==0.1.5'
+      - name: Seed exact known regular-season game dates for live parser checks
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('/tmp/multi-probe/data/bayesian_warehouse/states')
+          root.mkdir(parents=True,exist_ok=True)
+          for sport,day in (('nhl','2018-10-03'),('nba','2018-10-17')):
+              payload={'schema':'multi-sport-population-cursor-v1',
+                       'sport':sport.upper(),'cursor':day,
+                       'dates_complete':0,'source_games':0,'market_rows_inserted':0}
+              root.joinpath(sport+'.json').write_text(json.dumps(payload))
+          PY
       - name: Test official NHL old-game hits blocks goalie saves
         id: nhl
         continue-on-error: true
         run: |
           python scripts/population_backfill.py --sport NHL \
              --root /tmp/multi-probe --max-days 1 --max-games 20 \
-             --stop-before 2018-10-02 --request-spacing 0.5
+             --stop-before 2018-10-03 --request-spacing 0.5
       - name: Test ESPN NBA historical summary format
         id: nba
         continue-on-error: true
         run: |
           python scripts/population_backfill.py --sport NBA \
              --root /tmp/multi-probe --max-days 1 --max-games 20 \
-             --stop-before 2018-10-02 --request-spacing 0.8
+             --stop-before 2018-10-17 --request-spacing 0.8
       - name: Test nflverse weekly and snap source
         id: nfl
         continue-on-error: true
