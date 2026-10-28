@@ -17,7 +17,7 @@ def decision(row, status="verified", at="2026-10-27T20:20:00Z", tier="Tier 2"):
       "reference_line":row["reference_line"],
       "decision":status,"publication_eligible":status=="verified",
       "verified_rank":tier,"engine_a_reliable":True,"engine_b_reliable":True,
-      "blend_validated":True,"verified_model_probability":.65,
+      "blend_validated":True,"verified_model_probability":.85,
       "verified_market_probability":.54,"reviewer":"Source reviewer",
       "review_type":"human_attestation",
       "mechanism_evidence":{"version":"mechanism-evidence-v1",
@@ -39,6 +39,18 @@ class BoardTests(unittest.TestCase):
         self.assertEqual(board["status"],"verified_picks_available")
         self.assertEqual(board["rank_counts"]["Tier 2"],1)
         self.assertEqual(board["verified_picks"][0]["candidate_id"],ID)
+
+    def test_old_numeric_57pct_tiers_are_no_longer_publishable(self):
+        rows,_,_=fixture()
+        low=receipt(rows[0],tier="Tier 2")
+        low["decisions"][0]["verified_model_probability"]=.61
+        board=build(rows,[low],DATE,now=NOW)
+        self.assertFalse(board["verified_picks"])
+        self.assertEqual(board["excluded"]["tier_quality_definition_not_met"],1)
+        low=receipt(rows[0],tier="Tier 3")
+        low["decisions"][0]["verified_model_probability"]=.62
+        board=build(rows,[low],DATE,now=NOW)
+        self.assertFalse(board["verified_picks"])
 
     def test_latest_negative_recheck_vetoes_prior_verification(self):
         rows,_,_=fixture()
