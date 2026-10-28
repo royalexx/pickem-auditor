@@ -191,3 +191,18 @@ population R-hat/ESS thresholds, but also convergence of the inferred
 workload–shot-rate correlation and acceptable NUTS energy BFMI. Historical
 source backfill remains independent and ongoing. See the
 [complete dated evaluation and troubleshooting log](references/nhl_joint_evaluation_2018.md).
+
+## Multi-sport joint Bayesian shadow research
+
+The NHL fully joint workload/scoring Bayesian pilot has been generalized into
+[NHL/NBA/NFL independently sourced stat-specific population training](references/multisport_joint_population.md).
+The new daily historical collector adds verified NHL hits, blocks and goalie saves,
+NBA points/rebounds/assists/three-pointers/defensive stats/combos, and eligible
+NFL passing, rushing and receiving volume plus signed yardage from actual
+game snap exposure. Histories are immutable and isolated on
+`data/bayesian-history`. A manual four-chain NUTS workflow compares each stat
+on dated later completed player-games against a simpler pooled control.
+
+**Experimental only:** no production picks, prices, rankings, engine weights,
+quota consumption or Tier authorization are altered. Confirm live fetch receipts
+and model holdouts before making any accuracy claims.
