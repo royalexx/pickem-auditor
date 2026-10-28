@@ -450,9 +450,22 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
                             item,date,observations,fetch_prior_once)
                         if extra_issue:
                             reasons.append(extra_issue)
+                            entry["source_attempts"].append({
+                                "url":previous_season_source(item,date),
+                                "retrieved_at":now.isoformat(),
+                                "purpose":"independent previous-season pre-event game logs",
+                                "status":"unavailable_or_invalid",
+                                "reason":extra_issue})
                         elif extra_proof:
                             entry["prior_season_extension"]=extra_proof
                             counts["historical_samples_extended"] += 1
+                            entry["source_attempts"].append({
+                                "url":extra_proof["source_url"],
+                                "retrieved_at":now.isoformat(),
+                                "purpose":"independent previous-season pre-event game logs",
+                                "status":"retrieved",
+                                "payload_sha256":extra_proof["payload_sha256"],
+                                "verified_game_rows":extra_proof["additional_games"]})
                     history, issue = _historical_findings(item, observations, url, sha, now)
                     if issue:
                         reasons.append(issue)
