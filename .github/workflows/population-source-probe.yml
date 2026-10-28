@@ -28,6 +28,21 @@ jobs:
                        'dates_complete':0,'source_games':0,'market_rows_inserted':0}
               root.joinpath(sport+'.json').write_text(json.dumps(payload))
           PY
+      - name: Inspect public nflverse production source schema without altering data
+        run: |
+          PYTHONPATH=scripts python - <<'PY'
+          import nflreadpy
+          from collections import Counter
+          stats=nflreadpy.load_player_stats(seasons=[2018],summary_level="week").to_dicts()
+          snaps=nflreadpy.load_snap_counts(seasons=[2018]).to_dicts()
+          schedules=nflreadpy.load_schedules(seasons=[2018]).to_dicts()
+          for name,rows in [('weekly',stats),('snap',snaps),('schedule',schedules)]:
+              print(name,'rows',len(rows),'columns',sorted(rows[0]) if rows else [])
+              print(name,'sample', [{k:r.get(k) for k in (('season_type','position','week','recent_team','player_display_name') if name=='weekly' else ('game_type','season','week','team','player','game_id') if name=='snap' else ('game_type','season','week','home_team','away_team','game_id'))} for r in rows[:3]])
+          print('weekly season type counts',Counter(r.get('season_type') for r in stats).most_common(10))
+          print('weekly position counts',Counter(r.get('position') for r in stats).most_common(12))
+          print('snap game type counts',Counter(r.get('game_type') for r in snaps).most_common(8))
+          PY
       - name: Test official NHL old-game hits blocks goalie saves
         id: nhl
         continue-on-error: true
