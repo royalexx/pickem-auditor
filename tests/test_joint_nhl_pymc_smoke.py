@@ -59,6 +59,16 @@ class JointSamplingSmoke(unittest.TestCase):
         self.assertFalse(diagnostic["publication_eligible"])
         self.assertFalse(diagnostic["validated"])
         self.assertNotEqual(diagnostic["status"],"diagnostics_unavailable",diagnostic)
+        import joint_nhl_posterior_audit as geometry
+        checked=geometry.evaluate_posterior(idata,{
+            "version":mod.VERSION,"publication_eligible":False,
+            "source_digest":data["source_digest"],
+            "training_cutoff_exclusive":"2018-10-04",
+            "diagnostics":{"posterior_sampling_ok":True}})
+        self.assertFalse(checked["publication_eligible"])
+        self.assertIn("posterior_correlation_mean",checked)
+        self.assertIn("minimum_bfmi",checked)
+        self.assertGreaterEqual(checked["minimum_bfmi"],0)
         # Smoke bypasses the *quality threshold* for interface testing only.
         # Actual training and ranking never bypass the diagnostics gate.
         predicted=mod.forecast(idata,data,player_id="2000",opponent="NYR",
