@@ -91,6 +91,16 @@ class SourceSelectionTests(unittest.TestCase):
             result=be.peers_from_cache(root,sport='NHL',stat='shots on goal',
                          player_id='0',cutoff=now,source_date=date(2026,10,28))
             self.assertEqual(len(result),5)
+            # Reuse the same cached index while enforcing the *exact* cutoff.
+            early=be.peers_from_cache(root,sport='NHL',stat='shots on goal',
+                         player_id='0',cutoff=datetime(2026,10,28,12,0,tzinfo=timezone.utc),
+                         source_date=date(2026,10,28))
+            self.assertEqual(len(early),0)
+            late=be.peers_from_cache(root,sport='NHL',stat='shots on goal',
+                         player_id='0',cutoff=datetime(2026,10,28,21,0,tzinfo=timezone.utc),
+                         source_date=date(2026,10,28))
+            self.assertEqual(len(late),6)
+            self.assertGreaterEqual(be._peer_index.cache_info().hits,2)
             be._peer_index.cache_clear()
             one=next((root/'usage'/'snapshots').glob('*.json'))
             one.write_text(one.read_text().replace('"value": 2','"value": 999'))
