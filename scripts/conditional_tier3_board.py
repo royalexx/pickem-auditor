@@ -29,6 +29,60 @@ ACCEPTABLE_UNKNOWN = frozenset((
 ))
 
 
+INJURY_PATH = {"NHL":"hockey/nhl", "NBA":"basketball/nba",
+               "NFL":"football/nfl"}
+INJURY_VETO = {"out", "doubtful", "questionable", "injured reserve",
+               "ir", "suspended", "day-to-day", "day to day", "inactive",
+               "long-term injured reserve"}
+
+
+def current_injury_screen(item, fetch, now, cache):
+    """Confirm a source *was checked*, not that injury omission proves health."""
+    sport = item.get("sport")
+    if sport not in INJURY_PATH or fetch is None:
+        return False, "LIVE_INJURY_SOURCE_UNAVAILABLE"
+    url = ("https://site.api.espn.com/apis/site/v2/sports/" +
+           INJURY_PATH[sport] + "/injuries")
+    if url not in cache:
+        try:
+            value = fetch(url, timeout=15)
+            if (not isinstance(value, dict) or
+                    not isinstance(value.get("injuries"), list) or
+                    not value["injuries"]):
+                cache[url] = None
+            else:
+                cache[url] = value
+        except (OSError, ValueError, TypeError, KeyError, TimeoutError):
+            cache[url] = None
+    feed = cache[url]
+    if feed is None:
+        return False, "LIVE_INJURY_SOURCE_UNAVAILABLE"
+    from research_resolver import team_code
+    for block in feed["injuries"]:
+        if not isinstance(block,dict):
+            return False,"MALFORMED_INJURY_SOURCE"
+        team = team_code((block.get("team") or {}).get("abbreviation",""),sport)
+        if team != item.get("team"):
+            continue
+        for entry in block.get("injuries") or []:
+            if not isinstance(entry,dict):
+                return False,"MALFORMED_INJURY_ENTRY"
+            player = entry.get("athlete") or {}
+            name = player.get("displayName") or player.get("fullName")
+            ident = player.get("id")
+            if (name != item.get("player") and
+                    (not ident or str(ident) != str(item.get("player_id")))):
+                continue
+            state = entry.get("status")
+            if isinstance(state,dict):
+                state = state.get("name") or state.get("type")
+            if str(state or "").lower().strip() in INJURY_VETO:
+                return False,"EXPLICIT_CURRENT_INJURY_DESIGNATION"
+            if not str(state or "").strip():
+                return False,"UNKNOWN_REPORTED_INJURY_STATUS"
+    return True, None
+
+
 def build(rows, queue, packet, date, *, now=None, decisions=(),
           data_root="data", fetch=None, quotes=None, quote_fetcher=None,
           reviews=None):
@@ -49,6 +103,7 @@ def build(rows, queue, packet, date, *, now=None, decisions=(),
              if isinstance(x, dict) and x.get("candidate_id")}
     rejected = Counter()
     candidates = []
+    injury_cache = {}
     reviewed = (reviews or {}).get("attestations") or []
     fresh_quotes = quotes
     for entry in research.get("research_ranked") or []:
@@ -77,6 +132,10 @@ def build(rows, queue, packet, date, *, now=None, decisions=(),
             continue
         if packet_game_key(packet,item) is None:
             rejected["game_specific_fixture_unverified"] += 1
+            continue
+        injury_ok, injury_issue = current_injury_screen(item,fetch,now,injury_cache)
+        if not injury_ok:
+            rejected[injury_issue] += 1
             continue
         raw_status = (((packet.get("availability") or {}).get(row["player"]) or {})
                       .get("status") or {})
@@ -169,6 +228,8 @@ def build(rows, queue, packet, date, *, now=None, decisions=(),
             "source_forecast_at":row.get("forecast_at"),
             "event_start":row.get("event_start"),
             "market_retrieved_at":refreshed["market_retrieved_at"],
+            "same_day_injury_source_checked":True,
+            "injury_list_absence_does_not_confirm_health":True,
             "historical_lineup_status":"high_continuity_not_confirmed_active",
             "lineup_tendency":tendency, "research_evidence":mechanisms,
             "source_review_type":reviewer_type, "source_review":provenance,
