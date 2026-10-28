@@ -19,9 +19,15 @@ COLUMNS={
  "receiving touchdowns":"receiving_tds",
  "passing yards":"passing_yards","rushing yards":"rushing_yards",
  "receiving yards":"receiving_yards",
+ "solo tackles":"def_tackles_solo",
+ "tackle assists":"def_tackle_assists",
+ "qb hits":"def_qb_hits","passes defended":"def_pass_defended",
+ "tackles + assists":None,
 }
 SOURCE="https://github.com/nflverse/nflverse-data/releases"
-POSITIONS={"QB","RB","WR","TE"}
+OFFENSE={"QB","RB","WR","TE"}
+DEFENSE={"LB","MLB","OLB","ILB","DE","DT","NT","CB","DB","S","FS","SS"}
+POSITIONS=OFFENSE|DEFENSE
 SNAP_MINIMUM=1
 
 def name_key(value):
@@ -31,6 +37,12 @@ def name_key(value):
     chars=re.sub(r"[^a-z ]","",ascii_name)
     tokens=chars.split()
     return " ".join(tokens) if len(tokens)>=2 else None
+
+def initials_key(value):
+    full=name_key(value)
+    if not full:return None
+    parts=full.split()
+    return (parts[0][0],parts[-1])
 
 def game_key(season,week,team):
     return (int(season),int(week),str(team))
@@ -65,6 +77,21 @@ def normalize_season(stats,snaps,schedule,season,*,cutoff):
         if name is None:continue
         ident=(key,name)
         snap_index.setdefault(ident,[]).append(row)
+    # Fallback matching by first initial plus surname is permitted ONLY
+    # when uniquely identifying one weekly player and one PFR snap player
+    # in this same game and team. Distinct source IDs never get conflated.
+    snap_initials={}
+    for (key,name),matches in snap_index.items():
+        short=initials_key(name)
+        if short:
+            snap_initials.setdefault((key,short),[]).extend(matches)
+    weekly_short_counts={}
+    for row in stats:
+        if row.get("season_type")=="REG" and row.get("position") in POSITIONS:
+            key=game_key(season,row.get("week",0),row.get("team") or row.get("recent_team") or "")
+            short=initials_key(row.get("player_display_name") or row.get("player_name"))
+            if key in games and short:
+                weekly_short_counts[(key,short)]=weekly_short_counts.get((key,short),0)+1
     output=[]
     coverage={"source":"nflreadpy.load_player_stats/load_snap_counts/load_schedules",
               "season":season,"n_schedule_team_weeks":len(games),
@@ -76,7 +103,7 @@ def normalize_season(stats,snaps,schedule,season,*,cutoff):
         if int(row.get("season",0))!=season or row.get("season_type")!="REG":continue
         position=row.get("position")
         if position not in POSITIONS:continue
-        key=game_key(season,row.get("week",0),row.get("recent_team",""))
+        key=game_key(season,row.get("week",0),row.get("team") or row.get("recent_team") or "")
         if key not in games:continue
         player_id=row.get("player_id")
         if not player_id or str(player_id) in ("nan","None"):continue
@@ -87,11 +114,15 @@ def normalize_season(stats,snaps,schedule,season,*,cutoff):
         person=name_key(row.get("player_display_name") or row.get("player_name"))
         matches=snap_index.get((key,person),[])
         if not matches:
+            short=initials_key(row.get("player_display_name") or row.get("player_name"))
+            if short and weekly_short_counts.get((key,short))==1:
+                matches=snap_initials.get((key,short),[])
+        if not matches:
             coverage["unmatched_snap_rows"]+=1;continue
         if len(matches)!=1:
             coverage["ambiguous_snap_rows"]+=1;continue
         matched=matches[0]
-        exposure=matched.get("offense_snaps")
+        exposure=matched.get("offense_snaps" if position in OFFENSE else "defense_snaps")
         if isinstance(exposure,bool) or not isinstance(exposure,(int,float)) or not SNAP_MINIMUM<=exposure<=160:
             coverage["invalid_player_rows"]+=1;continue
         dedup=(gid,str(player_id))
@@ -101,13 +132,28 @@ def normalize_season(stats,snaps,schedule,season,*,cutoff):
         coverage["eligible_player_rows"]+=1
         source_rows={
             "weekly":{k:row.get(k) for k in ("season","week","player_id","position",
-                "player_display_name","recent_team","opponent_team",*COLUMNS.values())},
+                "player_display_name","recent_team","team","opponent_team",
+                "def_tackles_with_assist",*tuple(c for c in COLUMNS.values() if c is not None))},
             "snap":{k:matched.get(k) for k in ("game_id","week","season","team",
-                "opponent","player","pfr_player_id","offense_snaps")},
+                "opponent","player","pfr_player_id","offense_snaps","defense_snaps")},
             "schedule":{k:v for k,v in zip(("game_id","gameday","opponent","home"),(gid,day,opponent,home))}}
         digest=store.source_hash(source_rows)
         for stat,column in COLUMNS.items():
-            v=row.get(column)
+            if position in DEFENSE and stat not in ("tackles + assists","solo tackles",
+                    "tackle assists","qb hits","passes defended"):
+                continue
+            if position in OFFENSE and stat in ("tackles + assists","solo tackles",
+                    "tackle assists","qb hits","passes defended"):
+                continue
+            if stat=="tackles + assists":
+                components=(row.get("def_tackles_solo"),row.get("def_tackles_with_assist"),
+                            row.get("def_tackle_assists"))
+                if any(v is None or isinstance(v,bool) or
+                       not isinstance(v,(float,int)) or not float(v).is_integer() for v in components):
+                    continue
+                v=sum(components)
+            else:
+                v=row.get(column)
             if isinstance(v,bool) or not isinstance(v,(int,float)) or v is None:
                 continue
             if store.family("NFL",stat)=="count":
