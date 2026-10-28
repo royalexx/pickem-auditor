@@ -101,6 +101,11 @@ and multiclass Brier** for (a) original history/usage baseline, (b)
 the parent Bayesian analytic model, and (c) the corresponding MC estimate.
 Only sport/stat scopes with at least 30 matched forecasts appear
 individually; an unqualified total summary is clearly descriptive.
+The audit also publishes **paired same-forecast score differences** for
+MC against the analytic Bayesian parent and original production engine,
+using only forecasts for which both predictions and the same settled
+outcome are valid. Negative deltas favor MC; positive deltas favor the
+comparator. Different coverage cohorts must not be compared directly.
 The audit never fits a coefficient, changes A/B mixture weights, authorizes
 tiers or backfills historical MC results after observing outcomes.
 
