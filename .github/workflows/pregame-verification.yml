@@ -95,6 +95,17 @@ jobs:
           VERIFY_DATE: ${{ steps.gate.outputs.date }}
         run: |
           python scripts/verified_board.py --date "$VERIFY_DATE"             --snapshots data/prop_snapshots.jsonl             --archive-root data/verification             --out reports/verified_board.json
+      - name: Refresh explicitly unverified research ranks
+        if: steps.gate.outputs.due == 'true'
+        env:
+          VERIFY_DATE: ${{ steps.gate.outputs.date }}
+        run: |
+          python scripts/research_ranked_board.py \
+            --date "$VERIFY_DATE" \
+            --snapshots data/prop_snapshots.jsonl \
+            --queue "data/verification/$VERIFY_DATE/queue.json" \
+            --archive-root data/verification \
+            --out reports/research_ranked_board.json
       - name: Persist verification evidence independently from original predictions
         if: steps.gate.outputs.due == 'true'
         run: bash scripts/shadow_store.sh save
@@ -107,6 +118,7 @@ jobs:
             reports/pick_verification.json
             reports/autonomous_investigation.json
             reports/verified_board.json
+            reports/research_ranked_board.json
             data/verification/${{ steps.gate.outputs.date }}/decisions/
           retention-days: 90
           if-no-files-found: error
