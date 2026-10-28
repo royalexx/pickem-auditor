@@ -206,7 +206,8 @@ def build(rows, queue, packet, date, *, now=None, decisions=(),
             p = entry["q_model"]
             push = row["q_push"]
             score = pm.grade(p,market["q_market"],row["soft_flags"],
-                             row["current_role_n"],q_push=push)
+                             row["current_role_n"],q_push=push,
+                             prior_supported=row.get("prior_supported") is True)
         except (pm.PickemError,TypeError,KeyError,ValueError,ZeroDivisionError):
             rejected["refreshed_market_grade_invalid"] += 1
             continue
