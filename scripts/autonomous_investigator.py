@@ -227,7 +227,7 @@ def independently_verified_deployment(item, observations, url, sha, now):
             "quote":""}
 
 
-def audited_workload_mechanism(item, observations, url, now):
+def audited_workload_mechanism(item, observations, url, now, *, prior=None):
     """A conservative, directly observed workload change, not a projected injury."""
     if item["sport"] not in ("NHL", "NBA") or len(observations) < 15:
         return None
@@ -255,7 +255,13 @@ def audited_workload_mechanism(item, observations, url, now):
                                    "game_ids": [x["game_id"] for x in observations[:15]]},
                          "confidence": "confirmed",
                          "source_url": url, "retrieved_at": now.isoformat(),
-                         "source_kind": "verified_machine_observation"}]}
+                         "source_kind": "verified_machine_observation"}]
+            + ([{"fact":"Audited previous-season source in observed workload window",
+                 "value":prior["additional_games"],"confidence":"confirmed",
+                 "source_url":prior["source_url"],"retrieved_at":now.isoformat(),
+                 "source_kind":"verified_machine_observation",
+                 "source_payload_sha256":prior["payload_sha256"]}]
+               if prior is not None else [])}
 
 
 def _historical_findings(item, observations, url, digest, now):
@@ -475,7 +481,8 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
                             reasons.append("COLLECTOR_VS_OFFICIAL_OBSERVATION_CONFLICT")
                         if checked["status"] == "independently_correlated":
                             mechanism = audited_workload_mechanism(
-                                item, observations, url, now)
+                                item, observations, url, now,
+                                prior=extra_proof)
                             if mechanism:
                                 slot = updated.setdefault("mechanisms", {}).setdefault(
                                     item["candidate_id"], [])
