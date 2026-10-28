@@ -109,8 +109,6 @@ def collect(root, *, max_days=90, max_games=250, stop_before=None, fetcher=fetch
         while day<=terminal and receipt["days_advanced"]<max_days:
             current=day.isoformat()
             games=_regular_games(fetcher(f"{wh.BASE}/score/{current}"),current)
-            new_today=0
-            players_today=0
             # Fail closed on partial dates. New games survive in shard but the
             # checkpoint advances only after every completed game on that date.
             for gid in games:
@@ -125,13 +123,12 @@ def collect(root, *, max_days=90, max_games=250, stop_before=None, fetcher=fetch
                 if wh.add_game(root,normalized):
                     receipt["new_games"]+=1
                     receipt["new_skater_games"]+=len(normalized)
-                    new_today+=1
-                    players_today+=len(normalized)
             day+=timedelta(days=1)
             state["next_date"]=day.isoformat()
             state["dates_complete"]+=1
-            state["games_ingested"]+=new_today
-            state["skater_games_ingested"]+=players_today
+            state["games_ingested"]+=len(games)
+            all_day=wh.read_shard(wh.shard_path(root,current))
+            state["skater_games_ingested"]+=sum(1 for row in all_day if row["game_id"] in {str(gid) for gid in games})
             receipt["days_advanced"]+=1
             save_state(root,state)
             if receipt["new_games"]>=max_games:
