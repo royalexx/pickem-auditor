@@ -77,6 +77,14 @@ def apply(packet,reports,*,now=None):
                 raise ValueError('mechanism requires source readings')
             normalized={'type':entry['type'],'supports_side':side,'event_id':entry['event_id'],
                         'description':entry['description'],'sources':[_fact(f,now) for f in sources]}
+            if 'causal_validation' in entry:
+                # Preserve numeric causal proof for the independent, fail-closed
+                # source-quality gate. A reviewer declaration alone is never
+                # an automatic Tier uplift.
+                proof=entry['causal_validation']
+                if not isinstance(proof,dict):
+                    raise ValueError('causal_validation must be a structured object')
+                normalized['causal_validation']=deepcopy(proof)
             existing=out.setdefault('mechanisms',{}).setdefault(candidate_id,[])
             if any(_mechanism_identity(m)==_mechanism_identity(normalized) for m in existing):
                 raise ValueError('duplicate mechanism event; sources do not add independent events')
