@@ -200,18 +200,28 @@ def forecast(idata,data,*,player_id,opponent,season,home,line,seed=193,
         raise ValueError("unseen_player_requires_hierarchical_new_player_model")
     if opponent not in data["opponents"]:
         raise ValueError("unseen_opponent_requires_explicit_prior")
-    if season not in data["seasons"]:
-        raise ValueError("unseen_season_requires_explicit_prior")
+    new_season=season not in data["seasons"]
+    if new_season and len(data["seasons"])<2:
+        raise ValueError("unseen_season_requires_identified_multiseason_prior")
     idx=data["players"].index(player);group=data["positions"].index(data["player_position"][player])
-    oid=data["opponents"].index(opponent);sid=data["seasons"].index(season)
+    oid=data["opponents"].index(opponent)
+    sid=data["seasons"].index(season) if not new_season else None
     frozen=cache if cache is not None else posterior_cache(idata)
     rng=np.random.default_rng(seed)
     picks=rng.integers(0,frozen["count"],size=draws)
     def sample(name):return frozen["arrays"][name][picks]
     person=sample("player_effect")[:,idx,:]
+    # New seasons require multi-season training to identify population
+    # season variance. Never look up their heldout realized offset.
+    if new_season:
+        season_workload=rng.normal(0,sample("season_workload_sd"))
+        season_rate=rng.normal(0,sample("season_rate_sd"))
+    else:
+        season_workload=sample("season_workload")[:,sid]
+        season_rate=sample("season_rate")[:,sid]
     exposure=np.exp(rng.normal(sample("population_workload")[:,group]+
-        person[:,0]+sample("season_workload")[:,sid],sample("workload_sigma")))
-    rate=sample("population_rate")[:,group]+person[:,1]+sample("season_rate")[:,sid]+(
+        person[:,0]+season_workload,sample("workload_sigma")))
+    rate=sample("population_rate")[:,group]+person[:,1]+season_rate+(
         sample("opponent_rate")[:,oid])+(1 if home else 0)*sample("home_effect")
     if data["family"]=="count":
         if line<0:raise ValueError("negative_count_line")
