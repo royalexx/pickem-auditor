@@ -1,6 +1,7 @@
 """No-network reliability, per-position proper-score and workload contracts."""
 import sys
 import unittest
+import importlib.util
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"))
 import joint_population_holdout as audit
@@ -31,6 +32,24 @@ class PopulationAuditGuards(unittest.TestCase):
         self.assertFalse("approved_for_model_promotion" in report)
         empty=audit.reliability([],probability_key="joint_over")
         self.assertIsNone(empty["ece"])
+
+    def test_cached_control_matches_original_poisson_and_student_t(self):
+        if importlib.util.find_spec("scipy") is None:
+            self.skipTest("SciPy is installed only in the statistical CI job")
+        for family,values,line in (
+            ("count",[0,2,3,5,1,7,2,0],2.5),
+            ("continuous",[-11.,3.,64.,87.,0.,18.,23.,-2.],49.5)
+        ):
+            training=[{"player_id":str(i%3),"position":"WR" if i%2 else "RB",
+                       "value":value} for i,value in enumerate(values)]
+            cache=audit.control_cache(training)
+            for player in ("0","1","2","unseen"):
+                for position in ("WR","RB"):
+                    slow=audit.simple_control(training,player=player,
+                        position=position,stat_family=family,line=line)
+                    fast=audit.cached_control(cache,player=player,
+                        position=position,stat_family=family,line=line)
+                    self.assertAlmostEqual(slow,fast,places=12)
 
     def test_source_workload_and_nhl_goaltending_separation(self):
         base=store.make(sport="NHL",stat="saves",
