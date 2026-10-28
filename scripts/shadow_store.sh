@@ -38,6 +38,10 @@ if [[ "$mode" == load ]]; then
       exit 2
     fi
     load_cached_sources "$tmpdir/data/source_cache.tar.zst"
+    if [[ -d "$tmpdir/data/morning_runs" ]]; then
+      mkdir -p data/morning_runs
+      cp -an "$tmpdir/data/morning_runs/." data/morning_runs/
+    fi
     # Verification sidecars are independent of original forecasts and may be
     # updated before game start. Old decision receipts must remain intact.
     if [[ -d "$tmpdir/data/verification" ]]; then
@@ -94,6 +98,20 @@ elif [[ "$mode" == save ]]; then
     mkdir -p "$tmpdir/tree/data/verification"
     cp -a data/verification/. "$tmpdir/tree/data/verification/"
   fi
+  # Morning completion receipts live next to the authoritative forecast
+  # history, never on main. Once written, a same-date receipt is immutable.
+  if [[ -d data/morning_runs ]]; then
+    mkdir -p "$tmpdir/tree/data/morning_runs"
+    while IFS= read -r -d '' marker; do
+      relative="${marker#data/morning_runs/}"
+      target="$tmpdir/tree/data/morning_runs/$relative"
+      if [[ -e "$target" ]] && ! cmp -s "$marker" "$target"; then
+        echo "IMMUTABLE_MORNING_SETTLEMENT_MARKER_CONFLICT: $relative" >&2
+        exit 2
+      fi
+    done < <(find data/morning_runs -type f -name '*.json' -print0)
+    cp -a data/morning_runs/. "$tmpdir/tree/data/morning_runs/"
+  fi
   for file in logs/*.log; do
     [[ ! -f "$file" ]] || cp -p "$file" "$tmpdir/tree/logs/"
   done
@@ -105,6 +123,9 @@ elif [[ "$mode" == save ]]; then
   done
   if [[ -d "$tmpdir/tree/data/verification" ]]; then
     git -C "$tmpdir/tree" add -f data/verification/
+  fi
+  if [[ -d "$tmpdir/tree/data/morning_runs" ]]; then
+    git -C "$tmpdir/tree" add -f data/morning_runs/
   fi
   if ! git -C "$tmpdir/tree" diff --cached --quiet; then
     git -C "$tmpdir/tree" commit -qm "persist verified source history ${GITHUB_RUN_ID:-local} ${GITHUB_RUN_ATTEMPT:-1}"
