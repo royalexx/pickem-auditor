@@ -1,0 +1,76 @@
+name: NHL joint posterior geometry and heldout date-cluster audit
+on:
+  push:
+    branches: ['feature/joint-nhl-subset-validation-20261028']
+    paths: ['.github/workflows/nhl-joint-posthoc-audit.yml']
+  workflow_dispatch:
+    inputs:
+      source_run:
+        description: 'NUTS artifact Actions run ID, already fit without holdout data'
+        required: true
+        default: '40730646174'
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: nhl-joint-posthoc-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-joint-bayes.txt
+      - name: Load verified 2018 NHL game histories
+        run: bash scripts/history_warehouse_store.sh load
+      - name: Restore frozen posterior from separate previous workflow
+        uses: actions/download-artifact@v4
+        with:
+          name: nhl-joint-2018-small-population-pilot
+          run-id: ${{ inputs.source_run || '40730646174' }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: reports/joint_nhl_subset
+      - name: Install independent posterior diagnostic dependencies
+        run: python -m pip install -r requirements-joint-bayes.txt
+      - name: Verify joint population correlation and NUTS geometry
+        id: posterior
+        continue-on-error: true
+        run: |
+          python scripts/joint_nhl_posterior_audit.py \
+            --model-dir reports/joint_nhl_subset
+      - name: Re-evaluate same frozen historical holdout with date-cluster uncertainty
+        if: steps.posterior.outcome == 'success'
+        id: score
+        continue-on-error: true
+        run: |
+          python scripts/joint_nhl_holdout.py --root . \
+            --cutoff 2018-10-20 --until 2018-10-28 \
+            --max-per-position 60 --draws 1500 \
+            --training-dir reports/joint_nhl_subset --max-games 5000
+      - name: Upload independent validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nhl-joint-geometry-and-paired-date-intervals
+          path: |
+            reports/joint_nhl_subset/posterior_geometry_audit.json
+            reports/joint_nhl_subset/holdout_validation.json
+          retention-days: 90
+          if-no-files-found: warn
+      - name: Never claim a complete audit when sampling geometry fails
+        if: always()
+        env:
+          POSTERIOR: ${{ steps.posterior.outcome }}
+          SCORE: ${{ steps.score.outcome }}
+        run: |
+          test "$POSTERIOR" = success && test "$SCORE" = success || {
+            echo "INCOMPLETE_CORRELATED_NUTS_GEOMETRY_AUDIT posterior=$POSTERIOR score=$SCORE" >&2
+            exit 2
+          }
