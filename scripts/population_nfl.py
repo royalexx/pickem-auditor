@@ -8,6 +8,7 @@ yards or defensive tackle exposure.
 """
 from __future__ import annotations
 import re
+import math
 import unicodedata
 from datetime import date, datetime, timezone
 import population_history as store
@@ -46,6 +47,11 @@ def initials_key(value):
 
 def game_key(season,week,team):
     return (int(season),int(week),str(team))
+
+def safe_field(value):
+    if isinstance(value,float) and not math.isfinite(value):
+        return None
+    return value
 
 def normalize_season(stats,snaps,schedule,season,*,cutoff):
     """Return (long_rows, coverage). All three inputs must be trusted bulk data."""
@@ -131,10 +137,10 @@ def normalize_season(stats,snaps,schedule,season,*,cutoff):
         seen.add(dedup)
         coverage["eligible_player_rows"]+=1
         source_rows={
-            "weekly":{k:row.get(k) for k in ("season","week","player_id","position",
+            "weekly":{k:safe_field(row.get(k)) for k in ("season","week","player_id","position",
                 "player_display_name","recent_team","team","opponent_team",
                 "def_tackles_with_assist",*tuple(c for c in COLUMNS.values() if c is not None))},
-            "snap":{k:matched.get(k) for k in ("game_id","week","season","team",
+            "snap":{k:safe_field(matched.get(k)) for k in ("game_id","week","season","team",
                 "opponent","player","pfr_player_id","offense_snaps","defense_snaps")},
             "schedule":{k:v for k,v in zip(("game_id","gameday","opponent","home"),(gid,day,opponent,home))}}
         digest=store.source_hash(source_rows)
