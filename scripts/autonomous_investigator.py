@@ -234,10 +234,10 @@ def audited_workload_mechanism(item, observations, url, now, *, prior=None):
     minutes = [r["workload_minutes"] for r in observations[:15]]
     if any(not _finite(v) or v <= 0 for v in minutes):
         return None
-    recent, prior = sum(minutes[:5]) / 5, sum(minutes[5:15]) / 10
-    if prior <= 0:
+    recent, previous_mean = sum(minutes[:5]) / 5, sum(minutes[5:15]) / 10
+    if previous_mean <= 0:
         return None
-    ratio = recent / prior
+    ratio = recent / previous_mean
     side = item["side"]
     if ((ratio < 1.15 if side == "over" else ratio > .85)
             or not (ratio <= .85 or ratio >= 1.15)):
