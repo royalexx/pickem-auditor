@@ -54,12 +54,14 @@ jobs:
                     "flags":r.get("soft_flags"),
                   },default=str))
               for r in rows:
-                  if r.get("stat") not in ("shots on goal",) and
-                          r.get("reason") in ("STATUS_NOT_VERIFIED","VENUE_OR_FORECAST_UNVERIFIED"):
+                  if (r.get("stat") not in ("shots on goal",) and
+                          r.get("reason") in ("STATUS_NOT_VERIFIED","VENUE_OR_FORECAST_UNVERIFIED")):
                       print("ELIGIBLE_NON_SOG",sp,str(r.get("stat")),str(r.get("player")))
                       break
           try:
-              q=json.load(open("data/verification/2026-10-28/queue.json"))
+              import subprocess
+              q=json.loads(subprocess.check_output(
+                ["git","show","FETCH_HEAD:data/verification/2026-10-28/queue.json"]).decode())
               print("ARCHIVE_QUEUE",len(q.get("queue",[])),collections.Counter((x.get("sport"),x.get("stat")) for x in q.get("queue",[])))
           except Exception as e:print("QUEUE_UNAVAILABLE",type(e).__name__)
           PY
