@@ -143,26 +143,64 @@ def verify_a(candidate,now):
     return True
 
 def project(candidate,now):
+    """Independent, uncertainty-aware scouting from validated usage histories.
+
+    A 3-4 game current-season sample may borrow <=20 verified same-role
+    prior-season games, at 40% observation weight. This is a constrained
+    early-season bridge, not invented current-season participation.
+    """
     import pickem_math as pm
     data=load(candidate,now)
-    clean=validate_rows(data['observations'],candidate,now,workload_required=True);n=len(clean)
+    clean=validate_rows(data['observations'],candidate,now,workload_required=True)
+    n=len(clean)
+    prior=[];early_prior=False
+    if n<5:
+        ids=((candidate.get('observation_ids') or {}).get('prior') or [])
+        history=validate_rows(data.get('prior_observations',[]),candidate,now,workload_required=True)
+        indexed={r[1]:r for r in history}
+        if (n<3 or not 10<=len(ids)<=20 or len(indexed)<len(ids)
+                or not all(ident in indexed for ident in ids)
+                or not verify_a(candidate,now)):
+            raise ValueError('early season needs 3 current and 10 verified same-role prior observations')
+        prior=[indexed[ident] for ident in ids]
+        if set(r[1] for r in clean).intersection(ids):
+            raise ValueError('prior and current observation IDs overlap')
+        early_prior=True
     positive=[r for r in clean if r[3]>0]
-    if n<5:raise ValueError('need at least five dated usage observations')
-    if len(positive)<5:raise ValueError('need at least five positive exposure games for conversion')
+    prior_positive=[r for r in prior if r[3]>0]
+    if len(positive)+len(prior_positive)<5:
+        raise ValueError('need five source-backed positive exposure games')
+    if not early_prior and n<5:
+        raise ValueError('need at least five dated usage observations')
     recent=clean[-5:]
-    conversion=sum(r[2] for r in clean)/sum(r[3] for r in clean)
-    if conversion<=0:raise ValueError('no observed production rate')
+    if not any(r[3]>0 for r in recent):
+        raise ValueError('no observed current-season workload')
+    prior_weight=0.4 if early_prior else 0.
+    effective_n=n+prior_weight*len(prior)
+    if early_prior and effective_n<10:
+        raise ValueError('prior support effective sample too small')
+    production=sum(r[2] for r in clean)+prior_weight*sum(r[2] for r in prior)
+    exposure=sum(r[3] for r in clean)+prior_weight*sum(r[3] for r in prior)
+    if exposure<=0:
+        raise ValueError('zero measured exposure')
+    conversion=production/exposure
+    if conversion<=0:
+        raise ValueError('no observed production rate')
     volume=mean(r[3] for r in recent)
-    if volume<=0:raise ValueError('no recent observed workload')
+    if volume<=0:
+        raise ValueError('no recent observed workload')
     mu=volume*conversion
-    # A source-only usage forecast: recent workload times pooled production rate.
-    # Pairwise game residuals retain dependence of workload and conversion.
-    rates=[r[2]/r[3] for r in positive]
-    volume_se=stdev(r[3] for r in recent)/math.sqrt(len(recent))
-    rate_se=stdev(rates)/math.sqrt(len(positive))
-    mean_se=max(mu/math.sqrt(n),conversion*volume_se+volume*rate_se)
-    values=[r[2] for r in clean];variance=stdev(values)**2
-    dist='normal' if candidate['stat'] in ('points','pra','pr','pa','ra','passing yards','receiving yards','rushing yards') else 'poisson'
+    rates=[r[2]/r[3] for r in positive+prior_positive]
+    volume_se=(stdev(r[3] for r in recent)/math.sqrt(len(recent))
+               if len(recent)>=2 else volume)
+    rate_se=(stdev(rates)/math.sqrt(len(rates)) if len(rates)>=2 else conversion)
+    mean_se=max(mu/math.sqrt(effective_n),conversion*volume_se+volume*rate_se)
+    if early_prior:mean_se*=1.25  # Added drift uncertainty; never claim extra games.
+    values=[r[2] for r in clean+prior]
+    if len(values)<2:raise ValueError('insufficient distribution observations')
+    variance=stdev(values)**2
+    dist='normal' if candidate['stat'] in ('points','pra','pr','pa','ra',
+        'passing yards','receiving yards','rushing yards','goalie saves','saves') else 'poisson'
     sd=max(math.sqrt(variance),1e-6) if dist=='normal' else None
     vr=None
     if dist=='poisson' and variance/max(mean(values),1e-9)>1.10:
@@ -171,17 +209,22 @@ def project(candidate,now):
     over=q if candidate['side']=='over' else 1-q-push
     under=q if candidate['side']=='under' else 1-q-push
     process_variance=sd**2 if dist=='normal' else mu*(vr or 1)
-    robust=pm._robust_win(dist,mu,candidate['line'],sd,vr,process_variance/mean_se**2,candidate['side'],over,under,push)
+    robust=pm._robust_win(dist,mu,candidate['line'],sd,vr,
+        process_variance/mean_se**2,candidate['side'],over,under,push)
     reasons=[]
-    if len(positive)<10:reasons.append('thin_usage_history')
+    if (not early_prior and len(positive)<10) or (early_prior and effective_n<10):
+        reasons.append('thin_usage_history')
     if dist=='normal' and pm.NormalDist(mu,math.hypot(sd,mean_se)).cdf(-.5)>pm.NORMAL_NEGATIVE_MASS:
         reasons.append('normal_predictive_negative_mass')
     return dict(mean_b=mu,q_win_b=robust['q_win_robust'],q_push_b=robust['q_push_robust'],se_b=mean_se,
         abstain=False,abstain_reason=None,reliable=not reasons,version='scouting-v7',calibrated=False,
         history_through=clean[-1][0].isoformat(),baseline_origin='collector_observations',
-        quality=dict(reasons=reasons,n=n,data_sufficient=not reasons,numeric_provenance_complete=True),
-        uncertainty='historical_usage_and_rate_sampling_approximation',
+        quality=dict(reasons=reasons,n=n,weighted_prior_n=prior_weight*len(prior),
+            effective_n=effective_n,early_season_prior_supported=early_prior,
+            data_sufficient=not reasons,numeric_provenance_complete=True),
+        uncertainty='source_verified_prior_drift_and_rate_sampling' if early_prior else 'historical_usage_and_rate_sampling_approximation',
         terms=dict(opportunities=volume,conversion=conversion,observation_ids=[r[1] for r in clean],
+            prior_observation_ids=[r[1] for r in prior],prior_weight=prior_weight,
             history_reference=candidate['scouting']['historical_usage'],
             history_digest=data.get('content_sha256'),
             recent_observation_ids=[r[1] for r in recent],
