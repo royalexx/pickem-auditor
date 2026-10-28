@@ -118,6 +118,7 @@ def main(argv=None):
     p.add_argument("--until",required=True)
     p.add_argument("--training-dir",type=Path,default=Path("reports/joint_nhl"))
     p.add_argument("--draws",type=int,default=1200)
+    p.add_argument("--max-per-position",type=int,default=0)
     p.add_argument("--max-games",type=int,default=5000)
     args=p.parse_args(argv)
     import arviz as az
@@ -126,6 +127,9 @@ def main(argv=None):
     if meta.get("training_cutoff_exclusive")!=args.cutoff:
         raise ValueError("training_manifest_cutoff_mismatch")
     training=wh.read_history(args.root,before=args.cutoff,max_seasons=8)
+    if args.max_per_position!=meta.get("max_per_position",0):
+        raise ValueError("heldout_player_subset_must_match_frozen_fit")
+    training=joint.subset_training_players(training,max_per_position=args.max_per_position)
     data=joint.prepare(training)
     if meta.get("source_digest")!=data["source_digest"]:
         raise ValueError("training_manifest_history_changed")
