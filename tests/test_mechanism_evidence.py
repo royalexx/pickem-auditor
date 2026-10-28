@@ -127,10 +127,15 @@ class CausalQualityTests(unittest.TestCase):
 
     def test_measured_three_owner_strong_chain_can_reach_tier1_ceiling(self):
         m=scheme()
-        m["sources"].append(fact(11,"https://www.nba.com/matchup"))
+        team_fact=fact(11,"https://bruins.com/matchup")
+        team_fact["primary_source_kind"]="team"
+        m["sources"].append(team_fact)
         a=assess(packet(m))
         self.assertEqual(a["tier_ceiling"],"Tier 1")
         self.assertEqual(decide(a,1)["final_rank"],"Tier 1")
+        unrelated=scheme()
+        unrelated["sources"].append(fact(11,"https://www.nba.com/matchup"))
+        self.assertEqual(assess(packet(unrelated))["tier_ceiling"],"Tier 2")
         q=deepcopy(a);q["tier_ceiling"]="garbage"
         self.assertEqual(decide(q,30)["final_rank"],"Watchlist")
 

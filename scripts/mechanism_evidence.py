@@ -38,8 +38,19 @@ def _fact_proven(fact, now, *, need_quote=True):
     errors = []
     vf = _validate_fact("mechanism", fact, errors, require_fresh=True, now=now)
     return (not errors and vf is not None and vf.confidence == "confirmed"
-            and _is_primary_domain(vf.source_url)
+            and _is_primary_domain(vf.source_url, source_kind=fact.get("primary_source_kind"))
             and (not need_quote or bool(str(fact.get("quote") or "").strip())))
+
+def _owner_relevant(fact, item):
+    if not isinstance(fact,dict):
+        return False
+    owner = _domain(fact.get("source_url"))
+    league = {"NHL":"nhl.com","NBA":"nba.com","NFL":"nfl.com"}.get(item.get("sport"))
+    return (owner in (league,"espn.com") or (
+        fact.get("primary_source_kind") == "team"
+        and _is_primary_domain(str(fact.get("source_url") or ""),
+                               source_kind="team")))
+
 
 def _human_chain(mech, item, now, model_inputs):
     """Full causal record, not a source count. A missing part means no promotion."""
@@ -56,7 +67,7 @@ def _human_chain(mech, item, now, model_inputs):
         reasons.append("WRONG_DIRECTION_OR_UNSUPPORTED_CAUSAL_PATHWAY")
     sources = mech.get("sources") or []
     owners = {_domain(f.get("source_url")) for f in sources
-              if _fact_proven(f, now)}
+              if _fact_proven(f, now) and _owner_relevant(f, item)}
     if len(owners) < 2:
         reasons.append("NEEDS_TWO_INDEPENDENT_PRIMARY_SOURCE_OWNERS")
     facts = mech.get("causal_validation")
@@ -87,7 +98,8 @@ def _human_chain(mech, item, now, model_inputs):
             or _num((before_fact or {}).get("value")) != b
             or _num((after_fact or {}).get("value")) != a):
         reasons.append("SOURCE_OBSERVATIONS_NOT_NUMERICALLY_CORROBORATED")
-    if (_domain((before_fact or {}).get("source_url")) not in owners
+    if (not _owner_relevant(before_fact,item) or not _owner_relevant(after_fact,item)
+            or _domain((before_fact or {}).get("source_url")) not in owners
             or _domain((after_fact or {}).get("source_url")) not in owners):
         reasons.append("CAUSAL_SOURCE_OWNERS_NOT_LINKED_TO_EVENT")
     counter = facts.get("counterevidence")
