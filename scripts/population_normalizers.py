@@ -61,10 +61,14 @@ def made_from_attempt_pair(value):
     return made if 0<=made<=attempted<=60 else None
 
 
-def nhl_game(raw,day):
+def nhl_game(raw,day,expected_id=None):
     gid=raw.get("id") if isinstance(raw,dict) else None
     if isinstance(gid,bool) or not isinstance(gid,int) or str(gid)[4:6]!="02":
         raise ValueError("invalid_nhl_regular_season_game")
+    if expected_id is not None and str(expected_id)!=str(gid):
+        raise ValueError("nhl_boxscore_game_id_mismatch")
+    if raw.get("gameDate") is not None and str(raw["gameDate"])!=str(day):
+        raise ValueError("nhl_boxscore_game_date_mismatch")
     if raw.get("gameState") not in ("FINAL","OFF"):
         raise ValueError("uncompleted_nhl_game")
     teams={side:(raw.get(side) or {}).get("abbrev") for side in ("awayTeam","homeTeam")}
