@@ -1,10 +1,5 @@
 name: Pickem morning and afternoon
 on:
-  # Temporary one-time recover trigger for the missed 2026-10-28 morning run.
-  # Gate below requires an exact commit message and Toronto date.
-  push:
-    branches: [main]
-    paths: ['.github/workflows/pickem-daily.yml']
   workflow_dispatch:
     inputs:
       phase:
@@ -12,11 +7,20 @@ on:
         required: true
         type: choice
         options: [morning, afternoon]
+      force_morning:
+        description: 'Explicitly rerun today even if a successful morning settlement marker exists'
+        required: false
+        type: boolean
+        default: false
   schedule:
     # Offset from the top of the hour to reduce GitHub cron congestion.
     # 06:13 and 16:13 Toronto (both DST and standard UTC hours).
     - cron: '13 10 * * *'
     - cron: '13 11 * * *'
+    # Backups: 07:41 and 08:41 EDT / 06:41 and 07:41 EST.
+    # A persisted marker stops a second completed settlement.
+    - cron: '41 11 * * *'
+    - cron: '41 12 * * *'
     - cron: '13 20 * * *'
     - cron: '13 21 * * *'
 permissions:
@@ -33,38 +37,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Select Toronto schedule window
+      - name: Select Toronto schedule window and avoid duplicate settlements
         id: gate
         run: |
-          python - <<'PY'
-          import json, os
-          from datetime import datetime, timezone, timedelta
-          from zoneinfo import ZoneInfo
-          with open(os.environ['GITHUB_EVENT_PATH']) as f: event=json.load(f)
-          trigger=os.environ['GITHUB_EVENT_NAME']
-          phase=event.get('inputs',{}).get('phase','skip')
-          if trigger=='schedule':
-              phase='skip'
-              fields=str(event.get('schedule','')).split()
-              if len(fields)==5:
-                  now=datetime.now(timezone.utc)
-                  planned=now.replace(hour=int(fields[1]),minute=int(fields[0]),second=0,microsecond=0)
-                  if planned>now+timedelta(minutes=2): planned-=timedelta(days=1)
-                  local=planned.astimezone(ZoneInfo('America/Toronto'))
-                  if timedelta(0)<=now-planned<timedelta(hours=12) and local.minute==13:
-                      phase={6:'morning',16:'afternoon'}.get(local.hour,'skip')
-                  print('Scheduled local slot:',local.isoformat())
-          if trigger=='push':
-              today=datetime.now(ZoneInfo('America/Toronto')).date().isoformat()
-              commit=(event.get('head_commit') or {}).get('message','')
-              phase=('morning' if today=='2026-10-28' and
-                     commit=='ops: one-shot missed morning settlement 2026-10-28'
-                     else 'skip')
-              print('Recovery trigger:',phase,'Toronto date:',today)
-          if phase not in ('morning','afternoon'): phase='skip'
-          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('phase='+phase+'\n')
-          print('Running:',phase)
-          PY
+          python scripts/morning_schedule.py gate \
+            --event-path "$GITHUB_EVENT_PATH" \
+            --trigger "$GITHUB_EVENT_NAME" \
+            --output "$GITHUB_OUTPUT"
       - name: Run feeds, preserve verified data and produce receipt
         if: steps.gate.outputs.phase != 'skip'
         id: pipeline
@@ -239,6 +218,14 @@ jobs:
                   receipt['nhl']={'error':'INVALID_NHL_RECEIPT'}
           receipt['finished_at_utc']=datetime.now(timezone.utc).isoformat()
           Path('reports/daily_receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          if (phase == 'morning' and all(v.get('ok') is True
+                for v in receipt['stages'].values()) and
+                receipt.get('sport_coverage',{}).get('status') == 'success'):
+              # Persist only after a genuinely completed settlement and
+              # verified historical forecast identities, not a no-op run.
+              subprocess.run([sys.executable,'scripts/morning_schedule.py','mark',
+                 '--receipt','reports/daily_receipt.json',
+                 '--run-id',os.environ['GITHUB_RUN_ID']],check=True)
           PY
       - name: Commit official NHL history
         if: always() && steps.gate.outputs.phase != 'skip'
