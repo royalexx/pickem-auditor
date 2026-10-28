@@ -250,7 +250,7 @@ def audited_workload_mechanism(item, observations, url, now, *, prior=None):
                             "historical opportunity only, no future role inferred"),
             "sources": [{"fact": "Observed minutes last 5 versus previous 10",
                          "value": {"recent_minutes": round(recent, 4),
-                                   "prior_minutes": round(prior, 4),
+                                   "prior_minutes": round(previous_mean, 4),
                                    "ratio": round(ratio, 6),
                                    "game_ids": [x["game_id"] for x in observations[:15]]},
                          "confidence": "confirmed",
