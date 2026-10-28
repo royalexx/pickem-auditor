@@ -1,4 +1,5 @@
 name: Temporary real 2026-10-28 research-ranking replay
+# Verify normalized production snapshot input-book schema and undated-price honesty
 on:
   push:
     branches:
