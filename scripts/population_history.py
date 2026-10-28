@@ -157,9 +157,8 @@ def read(root,*,sport,stat,before,after=None,max_seasons=None,min_records=0):
     start=date.fromisoformat(after) if after else None
     folder=path(root,sport,stat,"2000").parent
     files=sorted(folder.glob("????.jsonl.gz"))
-    if max_seasons is not None:
-        if not isinstance(max_seasons,int) or max_seasons<1:raise ValueError("invalid_season_limit")
-        files=files[-max_seasons:]
+    if max_seasons is not None and (not isinstance(max_seasons,int) or max_seasons<1):
+        raise ValueError("invalid_season_limit")
     rows=[]
     seen=set()
     for filename in files:
@@ -169,6 +168,12 @@ def read(root,*,sport,stat,before,after=None,max_seasons=None,min_records=0):
             key=(row["game_id"],row["player_id"])
             if key in seen:raise ValueError("cross_shard_duplicate_population_record")
             seen.add(key); rows.append(row)
+    # Select seasons only AFTER applying the as-of cutoff. Future season
+    # shards may exist in the archive; their presence must not determine
+    # which historical seasons a past model is allowed to train on.
+    if max_seasons is not None:
+        eligible=sorted({r["season"] for r in rows})[-max_seasons:]
+        rows=[r for r in rows if r["season"] in eligible]
     rows.sort(key=lambda r:(r["game_date"],r["game_id"],r["player_id"]))
     if len(rows)<min_records:raise ValueError("insufficient_verified_population_history")
     return rows
