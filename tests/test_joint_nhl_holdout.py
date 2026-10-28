@@ -35,7 +35,8 @@ class FrozenHoldout(unittest.TestCase):
             self.assertEqual(data["last_game"],"2018-10-01")
             visited.append(kw["player_id"])
             return {"q_over":.6}
-        with patch.object(hold.joint,"forecast",side_effect=forecast):
+        with patch.object(hold.joint,"predictive_cache",return_value={"count":100,"arrays":{}}), \
+             patch.object(hold.joint,"forecast",side_effect=forecast):
             report=hold.evaluate(None,train,frozen,train+later,
                 cutoff="2018-10-02",until="2018-10-03",
                 diagnostics={"status":"sampling_diagnostics_pass","posterior_sampling_ok":True},
