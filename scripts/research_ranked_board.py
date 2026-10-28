@@ -111,7 +111,8 @@ def build(rows, queue, date, *, now=None, decisions=(), history_root="data", pac
             excluded["invalid_numeric_provenance"] += 1
             continue
         try:
-            score = pm.grade(p, m, flags, n, q_push=push)
+            score = pm.grade(p, m, flags, n, q_push=push,
+                             prior_supported=row.get("prior_supported") is True)
         except (pm.PickemError, ValueError, TypeError):
             excluded["numeric_regrade_failed"] += 1
             continue
