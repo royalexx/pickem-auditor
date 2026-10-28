@@ -19,6 +19,10 @@ def decision(row, status="verified", at="2026-10-27T20:20:00Z", tier="Tier 2"):
       "verified_rank":tier,"engine_a_reliable":True,"engine_b_reliable":True,
       "blend_validated":True,"verified_model_probability":.65,
       "verified_market_probability":.54,"reviewer":"Source reviewer",
+      "review_type":"human_attestation",
+      "mechanism_evidence":{"version":"mechanism-evidence-v1",
+         "tier_ceiling":tier, "quality":"quantified_model_incremental_causal_chain",
+         "legacy_count_not_authoritative":True,"no_probability_adjustment":True},
       "blockers":[] if status=="verified" else ["NEW_STATUS_CONFLICT"]}
 
 
@@ -79,6 +83,34 @@ class BoardTests(unittest.TestCase):
         board=build(rows,[prior],DATE,now=NOW)
         self.assertEqual(board["verified_picks"],[])
         self.assertEqual(board["excluded"]["tier1_blend_unvalidated"],1)
+
+    def test_missing_legacy_quality_receipt_cannot_publish(self):
+        rows,_,_=fixture()
+        old=receipt(rows[0])
+        old["decisions"][0].pop("mechanism_evidence")
+        board=build(rows,[old],DATE,now=NOW)
+        self.assertEqual(board["verified_picks"],[])
+        self.assertEqual(board["excluded"]["quality_audit_receipt_missing_or_invalid"],1)
+
+    def test_count_claim_cannot_override_quality_ceiling(self):
+        rows,_,_=fixture()
+        fabricated=receipt(rows[0],tier="Tier 2")
+        fabricated["decisions"][0]["mechanism_evidence"]["tier_ceiling"]="Tier 3"
+        board=build(rows,[fabricated],DATE,now=NOW)
+        self.assertEqual(board["verified_picks"],[])
+        self.assertEqual(board["excluded"]["tier_exceeds_source_quality_ceiling"],1)
+
+    def test_machine_receipt_cannot_claim_tier2_from_embedded_workload(self):
+        rows,_,_=fixture()
+        fabricated=receipt(rows[0],tier="Tier 2")
+        d=fabricated["decisions"][0]
+        d["review_type"]="structured_machine_verification"
+        d["reviewer"]="machine:deterministic-primary-source-v1"
+        d["mechanism_evidence"]["machine_overlap_detected"]=True
+        d["mechanism_evidence"]["tier_ceiling"]="Tier 2"
+        board=build(rows,[fabricated],DATE,now=NOW)
+        self.assertEqual(board["verified_picks"],[])
+        self.assertEqual(board["excluded"]["machine_review_quality_identity_invalid"],1)
 
     def test_missing_reviewer_or_engine_approval_blocks(self):
         rows,_,_=fixture()

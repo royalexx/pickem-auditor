@@ -78,6 +78,24 @@ def build(rows, receipts, date, *, now=None, max_age_minutes=60):
                 or not str(decision.get("reviewer") or "").strip()):
             exclusions["latest_decision_not_approved"] += 1
             continue
+        quality=decision.get("mechanism_evidence")
+        allowed={"Watchlist":0,"Tier 3":1,"Tier 2":2,"Tier 1":3}
+        if (not isinstance(quality,dict)
+                or quality.get("version") != "mechanism-evidence-v1"
+                or quality.get("legacy_count_not_authoritative") is not True
+                or quality.get("no_probability_adjustment") is not True
+                or quality.get("tier_ceiling") not in allowed):
+            exclusions["quality_audit_receipt_missing_or_invalid"] += 1
+            continue
+        if allowed[decision["verified_rank"]] > allowed[quality["tier_ceiling"]]:
+            exclusions["tier_exceeds_source_quality_ceiling"] += 1
+            continue
+        if (decision.get("review_type") == "structured_machine_verification"
+                and (quality.get("machine_overlap_detected") is not True
+                     or quality.get("tier_ceiling") != "Tier 3"
+                     or not str(decision.get("reviewer") or "").startswith("machine:"))):
+            exclusions["machine_review_quality_identity_invalid"] += 1
+            continue
         if decision["verified_rank"] == "Tier 1" and decision.get("blend_validated") is not True:
             exclusions["tier1_blend_unvalidated"] += 1
             continue
@@ -96,6 +114,8 @@ def build(rows, receipts, date, *, now=None, max_age_minutes=60):
             "event_start": row.get("event_start"), "reviewer": decision["reviewer"],
             "forecast_sha256": decision["forecast_sha256"],
             "forecast_run_id": run,
+            "mechanism_quality": quality.get("quality"),
+            "mechanism_quality_ceiling": quality["tier_ceiling"],
         })
     priority = {"Tier 1": 0, "Tier 2": 1, "Tier 3": 2}
     candidates.sort(key=lambda p:(priority[p["tier"]], -(p["q_model"]-p["q_market"]), p["candidate_id"]))
