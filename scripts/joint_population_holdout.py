@@ -44,6 +44,48 @@ def _scores(observations):
                           (1-y)*math.log(max(1-p,1e-12))) for p,y in observations)}
 
 
+def reliability(observations, *, probability_key, buckets=10):
+    """Descriptive-only bin calibration; no postgame refitting."""
+    values=defaultdict(list)
+    for observation in observations:
+        prob=observation[probability_key]
+        observed=observation["actual_over"]
+        if not math.isfinite(prob) or not 0<=prob<=1 or observed not in (0,1):
+            raise ValueError("invalid_reliability_observation")
+        index=min(buckets-1,int(prob*buckets))
+        values[index].append((prob,observed))
+    count=sum(len(x) for x in values.values())
+    return {
+        "n":count,
+        "ece":(sum(len(items)/count*abs(mean(p for p,y in items)-
+                        mean(y for p,y in items))
+                   for items in values.values()) if count else None),
+        "bins":[{"range":[i/buckets,(i+1)/buckets],
+                 "n":len(items),"mean_probability":mean(p for p,y in items),
+                 "observed_frequency":mean(y for p,y in items)}
+                for i,items in sorted(values.items())],
+        "status":"descriptive_only_not_calibrated"
+    }
+
+
+def position_slices(observations):
+    groups=defaultdict(list)
+    for row in observations:
+        groups[row["position"]].append(row)
+    summary={}
+    for position,rows in sorted(groups.items()):
+        bayes=_scores([(r["joint_over"],r["actual_over"]) for r in rows])
+        baseline=_scores([(r["control_over"],r["actual_over"]) for r in rows])
+        summary[position]={
+            "n":len(rows),"days":len({r["game_date"] for r in rows}),
+            "joint":bayes,"control":baseline,
+            "joint_minus_control":{"brier":bayes["brier"]-baseline["brier"],
+                                   "log_loss":bayes["log_loss"]-baseline["log_loss"]},
+            "status":"descriptive_underpowered" if len(rows)<100 else "descriptive_only"
+        }
+    return summary
+
+
 def compare(idata,train,design,future,*,cutoff,until,line,checks,draws=1500):
     date.fromisoformat(cutoff);date.fromisoformat(until)
     if cutoff>=until:raise ValueError("invalid_chronological_holdout")
@@ -108,8 +150,9 @@ def compare(idata,train,design,future,*,cutoff,until,line,checks,draws=1500):
        "heldout_dates":dates,"excluded":dict(excluded),
        "joint":model,"control":control,"joint_minus_control":deltas,
        "paired_date_cluster":uncertainty,"comparative_result":comparison,
-       "by_position":{pos:{"n":len([r for r in record if r["position"]==pos])}
-                       for pos in sorted({r["position"] for r in record})},
+       "by_position":position_slices(record),
+       "reliability":{"joint":reliability(record,probability_key="joint_over"),
+                      "control":reliability(record,probability_key="control_over")},
        "observations":record,"model_version":joint.VERSION,
        "posterior_diagnostics":checks,
        "publication_eligible":False,"calibrated":False,"ranking_allowed":False}
