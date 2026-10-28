@@ -72,6 +72,12 @@ equal-mass integration grid are approximations, not calibrated guarantees.
   observed workloads**. Their within-game dependence is represented by
   the regression/conditional count likelihood, not by treating the two
   historical series as independent unconditional samples.
+- The conditional response distribution and, for overdispersed counts,
+  dispersion parameter are sourced from the **production Engine B
+  collector-owned distribution** saved with the original pregame snapshot.
+  They are not borrowed from Engine A: different engines legitimately use
+  different source-derived distribution assumptions. If this B distribution
+  is absent, the Phase 2 challenger abstains.
 - Hyperparameters are **empirically estimated** and held fixed. Full
   uncertainty over shared population parameters and omitted regime changes
   is not represented. Future Phase 3 can add correlated game-state simulation
