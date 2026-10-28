@@ -276,6 +276,34 @@ class AutonomousInvestigationTests(unittest.TestCase):
         self.assertEqual(issue,"PRIOR_SEASON_CHRONOLOGY_INVALID")
         self.assertIsNone(proof)
 
+    def test_prior_season_provenance_remains_attached_to_workload_shift(self):
+        from autonomous_investigator import audited_workload_mechanism
+        observations = [
+            {"game_id": f"g{i}", "workload_minutes": 25.0 if i < 5 else 20.0}
+            for i in range(15)
+        ]
+        prior_source = {
+            "additional_games": 12,
+            "source_url": "https://api-web.nhle.com/v1/player/42/game-log/20252026/2",
+            "payload_sha256": "a" * 64,
+        }
+        item = {"sport": "NHL", "side": "over"}
+        source = "https://api-web.nhle.com/v1/player/42/game-log/20262027/2"
+        mechanism = audited_workload_mechanism(
+            item, observations, source, NOW, prior=prior_source)
+        self.assertIsNotNone(mechanism)
+        self.assertEqual(len(mechanism["sources"]), 2)
+        self.assertEqual(mechanism["sources"][0]["value"]["recent_minutes"], 25.0)
+        self.assertEqual(mechanism["sources"][0]["value"]["prior_minutes"], 20.0)
+        self.assertEqual(mechanism["sources"][1]["value"], 12)
+        self.assertEqual(mechanism["sources"][1]["source_url"], prior_source["source_url"])
+        self.assertEqual(mechanism["sources"][1]["source_payload_sha256"],
+                         prior_source["payload_sha256"])
+        current_only = audited_workload_mechanism(item, observations, source, NOW)
+        self.assertEqual(len(current_only["sources"]), 1)
+        self.assertIsNone(audited_workload_mechanism(
+            {**item, "side": "under"}, observations, source, NOW, prior=prior_source))
+
     def test_nba_source_url_uses_espn_current_season(self):
         item={"sport":"NBA","player_id":1234}
         url=observation_source(item,DATE)
