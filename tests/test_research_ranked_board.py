@@ -47,12 +47,30 @@ class ResearchRankedBoardTests(unittest.TestCase):
         board = rb.build(rows, queue, DATE, now=NOW)
         self.assertEqual(len(board["research_ranked"]), 1, board)
         candidate = board["research_ranked"][0]
-        self.assertEqual(candidate["research_rank"], "Research Tier 2")
+        self.assertEqual(candidate["research_rank"], "Screened Research Candidate")
+        self.assertEqual(candidate["forecast_calibration"], "not_certified_for_tier_hit_rate")
+        self.assertEqual(candidate["lineup_status"], "unconfirmed")
+        self.assertFalse(candidate["lineup_tendency"]["confirmed_active"])
         self.assertFalse(candidate["publication_eligible"])
         self.assertFalse(candidate["verified_pick"])
         self.assertFalse(candidate["actionable_without_verification"])
         self.assertEqual(candidate["forecast_sha256"], forecast_digest(rows[0]))
         self.assertEqual(rows, original)
+
+    def test_remarkable_prospects_need_strong_probabilities_not_old_58pct_floor(self):
+        rows, queue = fixture()
+        rows[0].update(q_grade=.74, q_market=.70, q_market_comparable=.70)
+        candidate = rb.build(rows, queue, DATE, now=NOW)["research_ranked"][0]
+        self.assertEqual(candidate["research_rank"], "Tier 3 Research Prospect")
+        self.assertFalse(candidate["verified_pick"])
+        rows[0].update(q_grade=.82, q_market=.77, q_market_comparable=.77)
+        candidate = rb.build(rows, queue, DATE, now=NOW)["research_ranked"][0]
+        self.assertEqual(candidate["research_rank"], "Tier 2 Research Prospect")
+        self.assertEqual(candidate["forecast_calibration"], "not_certified_for_tier_hit_rate")
+        rows[0].update(q_grade=.91, q_market=.87, q_market_comparable=.87)
+        candidate = rb.build(rows, queue, DATE, now=NOW)["research_ranked"][0]
+        self.assertEqual(candidate["research_rank"], "Unicorn Research Prospect")
+        self.assertFalse(candidate["publication_eligible"])
 
     def test_actual_collector_uses_input_books_and_undated_prices_are_not_fresh(self):
         rows, queue = fixture()
