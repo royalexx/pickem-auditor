@@ -1,0 +1,32 @@
+name: NHL historical cohort source and baseline preflight
+on:
+  push:
+    branches: ['feature/joint-nhl-evaluation-20261028']
+    paths:
+      - '.github/workflows/nhl-cohort-preflight.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Load source-verified NHL warehouse
+        run: bash scripts/history_warehouse_store.sh load
+      - name: Verify frozen cohort and calculate historical control
+        run: python scripts/nhl_joint_preflight.py --root . --cutoff 2018-10-20 --until 2018-10-28
+      - name: Publish cohort preflight and proper-score baseline
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nhl-cohort-preflight-baseline
+          path: reports/nhl_cohort_preflight.json
+          retention-days: 90
+          if-no-files-found: error
