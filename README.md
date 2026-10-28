@@ -152,3 +152,23 @@ This feature **does not** update any deployed probability weights, ranking,
 research gate, or Tier rule. Numerical sample size / predictive validity
 are surfaced honestly; underpowered results do not authorize changes.
 See [Phase 4 statistical guardrails](references/phase4_validation.md).
+
+ 
+## Next generation: fully joint NHL Bayesian pilot (isolated shadow)
+ 
+The new `data/bayesian-history` branch stores source-verified, compressed official
+NHL game histories with complete player shots and ice-time observations,
+resumable by calendar day. A separate GitHub Actions backfill starts when
+the `nhl-bayesian-history.yml` workflow is merged and continues twice daily.
+It uses **zero PropLine/odds credits** and never replaces existing collector
+snapshots.
+ 
+The experimental `nhl-joint-bayes-v1` model jointly samples unknown population
+means, player-level correlated workload and shot-rate effects, season/opponent
+effects and negative-binomial dispersion. A manual offline four-chain NUTS
+workflow produces a posterior artifact, diagnostic manifest and strictly
+**post-cutoff** historical test against a Gamma–Poisson baseline using the
+fixed research line of **2.5 shots** (not a fabricated sportsbook line).
+No results are publication-eligible or permitted to enter Tier ranking.
+ 
+[Source, sampling, training and guardrails](references/joint_nhl_bayes.md).
