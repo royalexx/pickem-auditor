@@ -177,7 +177,7 @@ def nhl_game(payload,team,stat,event_id,source_url):
     validate_history(dict(sport='NHL',team=team,stat=stat,games=[result]))
     return result
 
-def collect(sport,team,stat,as_of,*,fetch=fetch_json,lookback_days=180,max_games=60,id_map=None,active_rosters=None):
+def collect(sport,team,stat,as_of,*,fetch=fetch_json,lookback_days=180,max_games=60,id_map=None,active_rosters=None,persist=True):
     team=team_code(team)
     day=datetime.fromisoformat(as_of).date();first=day-timedelta(days=lookback_days)
     if not 1<=lookback_days<=730 or not 1<=max_games<=100:raise ValueError('collection limits outside supported bounds')
@@ -255,7 +255,8 @@ def collect(sport,team,stat,as_of,*,fetch=fetch_json,lookback_days=180,max_games
               collection=dict(discovered=len(eligible),completed=len(games),errors=errors,source_url=url))
     if not eligible:raise ValueError('no completed games discovered')
     if errors:raise ValueError('incomplete lineup collection: '+json.dumps(errors))
-    import_history(data)
+    if persist:
+        import_history(data)
     return data
 
 def prepare(rows,*,fetch=fetch_json):

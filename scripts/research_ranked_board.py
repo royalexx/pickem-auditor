@@ -11,9 +11,12 @@ import pickem_math as pm
 from pick_verification import forecast_digest, utc_time, write_atomic
 from research_triage import latest_batch, probability
 
-BANDS = {"NUMERIC_TIER_1": "Research Tier 2",
-         "NUMERIC_TIER_2": "Research Tier 2",
-         "NUMERIC_TIER_3": "Research Tier 3"}
+# A 56-58% grade cannot legitimately be called Tier 2 (>80% realized target)
+# or a remarkable Tier 3. Keep it visible as a screened research candidate.
+# The stricter prospects are still UNVERIFIED until holdout calibration exists.
+PROSPECT_FLOORS = (("Unicorn Research Prospect", 0.90),
+                   ("Tier 2 Research Prospect", 0.81),
+                   ("Tier 3 Research Prospect", 0.70))
 NEGATIVE_STATUS = {"PLAYER_NOT_CONFIRMED_ACTIVE",
                    "UNRESOLVED_CONTRADICTORY_STATUS_EVIDENCE",
                    "MACHINE_PLAYER_NOT_CONFIRMED_ACTIVE",
@@ -38,7 +41,7 @@ def matched_books(row):
     return len(matched)
 
 
-def build(rows, queue, date, *, now=None, decisions=()):
+def build(rows, queue, date, *, now=None, decisions=(), history_root="data", packet=None):
     now = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
     batch, run = latest_batch(rows, date)
     if queue.get("date") != date or queue.get("run_id") != run or not run:
@@ -120,7 +123,12 @@ def build(rows, queue, date, *, now=None, decisions=()):
         if abs(p - comparable) >= pm.GAP_WATCH_CAP - pm.GAP_EPSILON:
             excluded["large_gap_watchlist_cap"] += 1
             continue
-        rank = BANDS.get(score.get("probability_rank"))
+        band = score.get("probability_rank")
+        if band not in ("NUMERIC_TIER_1","NUMERIC_TIER_2","NUMERIC_TIER_3"):
+            rank = None
+        else:
+            rank = next((name for name, floor in PROSPECT_FLOORS if p >= floor),
+                        "Screened Research Candidate")
         if rank is None:
             excluded["numeric_flag_or_sample_cap"] += 1
             continue
@@ -137,10 +145,19 @@ def build(rows, queue, date, *, now=None, decisions=()):
             if any(b in NEGATIVE_STATUS for b in d.get("blockers") or []):
                 excluded["explicit_negative_status"] += 1
                 continue
+        from recent_lineup_tendency import evaluate as estimate_lineup
+        tendency = estimate_lineup({
+            "sport": row["sport"], "stat": row["stat"], "team": row["team"],
+            "player_id": row.get("player_id"), "player": row["player"],
+            "game_date": date,
+        }, now, root=history_root, packet=packet)
         chosen.append({
             "candidate_id": ident, "sport": row["sport"], "player": row["player"],
             "team": row["team"], "opponent": row["opponent"], "stat": row["stat"],
             "side": row["side"], "line": row["reference_line"], "research_rank": rank,
+            "lineup_tendency": tendency, "lineup_status": (
+                "historically_likely" if tendency["likely_available"] else "unconfirmed"), 
+            "forecast_calibration": "not_certified_for_tier_hit_rate",
             "q_model": p, "q_market_comparable": comparable,
             "model_market_gap": round(p-comparable, 6),
             "forecast_at": row["forecast_at"], "event_start": row["event_start"],
@@ -151,7 +168,9 @@ def build(rows, queue, date, *, now=None, decisions=()):
             "publication_eligible": False, "verified_pick": False,
             "actionable_without_verification": False,
         })
-    chosen.sort(key=lambda r: (0 if r["research_rank"] == "Research Tier 2" else 1,
+    order = {"Unicorn Research Prospect":0,"Tier 2 Research Prospect":1,
+             "Tier 3 Research Prospect":2,"Screened Research Candidate":3}
+    chosen.sort(key=lambda r: (order[r["research_rank"]],
                                 -r["q_model"], -r["model_market_gap"], r["candidate_id"]))
     return {"schema": "research-ranked-v1", "date": date,
             "generated_at": now.isoformat(), "source_forecast_run_id": run,
@@ -173,7 +192,10 @@ def main():
     queue = json.loads(Path(args.queue).read_text())
     receipts = [json.loads(f.read_text()) for f in sorted(
         (Path(args.archive_root)/args.date/"decisions").glob("*.json"))]
-    report = build(rows, queue, args.date, decisions=receipts)
+    packet_path = Path(args.archive_root) / args.date / "packet.json"
+    packet = json.loads(packet_path.read_text()) if packet_path.exists() else None
+    report = build(rows, queue, args.date, decisions=receipts,
+                   history_root=Path(args.snapshots).parent, packet=packet)
     write_atomic(args.out, report)
     print(json.dumps({k: v for k, v in report.items() if k != "research_ranked"}, indent=2))
     return 0 if report["status"] != "snapshot_queue_mismatch" else 2

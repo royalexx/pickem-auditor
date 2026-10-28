@@ -104,6 +104,15 @@ def build(rows, receipts, date, *, now=None, max_age_minutes=60):
         if not probability(p) or not probability(m):
             exclusions["probabilities_missing_or_invalid"] += 1
             continue
+        # Authoritative defense-in-depth: legacy Tier 2 at 57% is never
+        # published as an >80% target, even if an old approval receipt says so.
+        from tier_quality import assess as assess_tier_quality
+        tier_quality = assess_tier_quality(
+            decision["verified_rank"], p,
+            blend_validated=decision.get("blend_validated") is True)
+        if not tier_quality["eligible"]:
+            exclusions["tier_quality_definition_not_met"] += 1
+            continue
         candidates.append({
             "candidate_id": decision["candidate_id"],
             "sport": row.get("sport"), "player": row.get("player"),
@@ -116,6 +125,7 @@ def build(rows, receipts, date, *, now=None, max_age_minutes=60):
             "forecast_run_id": run,
             "mechanism_quality": quality.get("quality"),
             "mechanism_quality_ceiling": quality["tier_ceiling"],
+            "tier_quality": tier_quality,
         })
     priority = {"Tier 1": 0, "Tier 2": 1, "Tier 3": 2}
     candidates.sort(key=lambda p:(priority[p["tier"]], -(p["q_model"]-p["q_market"]), p["candidate_id"]))

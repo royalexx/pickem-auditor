@@ -268,7 +268,7 @@ class VerificationTests(unittest.TestCase):
         with patch.object(pv.pm,"evaluate_candidate",return_value={
                 "final_rank":"Tier 2","engine_a":{"reliable":True},
                 "engine_b":{"reliable":True},"blend":{"validated":False},
-                "grade":{"q_model":.64,"q_market_comparable":.54}}):
+                "grade":{"q_model":.84,"q_market_comparable":.78}}):
             review=attest(rows[0])
             review["attestations"][0]["supporting"]=[prior,updated]
             review["attestations"][0]["opposing"]=[counter]

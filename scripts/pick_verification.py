@@ -347,6 +347,11 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
         if rank in TIERS and (not probability(grade.get("q_model"))
                               or not probability(grade.get("q_market_comparable"))):
             reasons.append("CURRENT_NUMERIC_GRADE_UNVERIFIED")
+        from tier_quality import assess as assess_tier_quality
+        tier_quality = assess_tier_quality(rank, grade.get("q_model"),
+                                           blend_validated=blend.get("validated") is True)
+        if rank in TIERS and not tier_quality["eligible"]:
+            reasons.append("TIER_QUALITY_" + tier_quality["reason"])
         accepted = not reasons and rank in TIERS
         final_rank = rank if accepted else "Unranked"
         counts["verified" if accepted else "blocked"] += 1
@@ -369,6 +374,7 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
             "publication_eligible": accepted,
             "verified_rank": final_rank,
             "mechanism_evidence": mechanism_quality,
+            "tier_quality": tier_quality,
             "diagnostic_regrade_rank": rank,
             "verified_model_probability": ((result or {}).get("grade") or {}).get("q_model"),
             "verified_market_probability": ((result or {}).get("grade") or {}).get("q_market_comparable"),

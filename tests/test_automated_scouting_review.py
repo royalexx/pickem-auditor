@@ -85,7 +85,7 @@ class MachineReviewTests(unittest.TestCase):
             with patch.object(pv.pm,"evaluate_candidate",return_value={
                     "final_rank":"Tier 2","engine_a":{"reliable":True},
                     "engine_b":{"reliable":True},"blend":{"validated":False},
-                    "grade":{"q_model":.58,"q_market_comparable":.56}}):
+                    "grade":{"q_model":.74,"q_market_comparable":.72}}):
                 result,_=pv.verify(rows,queue,updated,DATE,now=NOW,
                                    auto_review=True,fetch=fetch_source,data_root=root)
             self.assertEqual(result["verified"],1)

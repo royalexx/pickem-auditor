@@ -217,6 +217,10 @@ jobs:
                       except (ValueError,OSError):
                           receipt['research_triage']={'error':'INVALID_RESEARCH_TRIAGE'}
                   if Path('reports/research_triage.json').is_file():
+                      step('recent_lineup_tendencies',[sys.executable,'scripts/recent_lineup_collection.py',
+                           '--date',triage_date,'--queue','reports/research_triage.json',
+                           '--data-root','data','--out','reports/recent_lineup_collection.json'])
+                  if Path('reports/research_triage.json').is_file():
                       step('review_template',[sys.executable,'scripts/review_template.py',
                            '--date',triage_date,'--snapshots','data/prop_snapshots.jsonl',
                            '--queue','reports/research_triage.json',
@@ -365,6 +369,7 @@ jobs:
             reports/autonomous_investigation.json
             reports/verified_board.json
             reports/research_ranked_board.json
+            reports/recent_lineup_collection.json
             data/verification/
             data/research_*.json
             data/odds_quotes.jsonl
