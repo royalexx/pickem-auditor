@@ -135,7 +135,10 @@ def main(argv=None):
         raise ValueError("frozen_posterior_manifest_mismatch")
     training=history.read(a.root,sport=a.sport,stat=a.stat,before=a.cutoff,
                           max_seasons=a.max_seasons,min_records=300)
-    design=joint.prepare(training)
+    training=joint.training_only_subset(training,
+        max_per_position=manifest.get("max_per_position",0))
+    if not training:raise ValueError("frozen_training_cohort_empty")
+    design=joint.prepare(training,min_rows=min(300,len(training)))
     if design["source_digest"]!=manifest["source_digest"]:
         raise ValueError("retrospective_fit_source_digest_drift")
     future=history.read(a.root,sport=a.sport,stat=a.stat,
