@@ -212,7 +212,7 @@ def quote_refresh(candidate, quote_rows, now, *, identity=None):
 
 def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
            fetch=None, quotes=None, reviews=None, min_minutes=RECHECK_MIN,
-           max_minutes=RECHECK_MAX, data_root=None):
+           max_minutes=RECHECK_MAX, data_root=None, auto_review=False):
     now = now or datetime.now(timezone.utc)
     if now.tzinfo is None:
         raise ValueError("verification clock must be timezone aware")
@@ -264,13 +264,27 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
                 reasons.append("STARTING_GOALIE_NOT_EXPLICITLY_CONFIRMED")
         matching = [a for a in attestations if isinstance(a, dict)
                     and a.get("candidate_id") == identity]
-        if len(matching) != 1:
-            reasons.append("ADVERSARIAL_REVIEW_NOT_ATTESTED_OR_DUPLICATE")
-            attested = False
-        else:
+        review_type = "human_attestation"
+        machine_provenance = None
+        machine_issue = None
+        if len(matching) == 1:
             attested, issue = review_verified(matching[0], original, forecast_hash, now)
             if issue:
                 reasons.append(issue)
+        elif matching:
+            attested = False
+            reasons.append("ADVERSARIAL_REVIEW_NOT_ATTESTED_OR_DUPLICATE")
+        elif auto_review:
+            from automated_scouting_review import evaluate as machine_evaluate, REVIEWER
+            attested, machine_issue, machine_provenance = machine_evaluate(
+                item, original, checked_packet, now=now,
+                fetch=fetch, data_root=data_root or Path("data"))
+            review_type = "structured_machine_verification"
+            if machine_issue:
+                reasons.append(machine_issue)
+        else:
+            attested = False
+            reasons.append("ADVERSARIAL_REVIEW_NOT_ATTESTED_OR_DUPLICATE")
         candidate = original.get("inputs")
         result = None
         if not isinstance(candidate, dict) or candidate.get("id") != identity:
@@ -339,7 +353,12 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
             "engine_b_reliable": b.get("reliable") is True,
             "blend_validated": blend.get("validated") is True,
             "blockers": sorted(set(reasons)),
-            "reviewer": matching[0].get("reviewer") if len(matching) == 1 else None,
+            "reviewer": (matching[0].get("reviewer") if len(matching) == 1
+                         else "machine:deterministic-primary-source-v1"
+                         if auto_review and machine_provenance and attested else None),
+            "review_type": review_type,
+            "source_read_by_human": review_type == "human_attestation" and attested,
+            "machine_review": machine_provenance,
             "autonomous_investigation": ({
                 "source": machine.get("source"),
                 "supporting_game_count": machine.get("supporting_game_count", 0),
@@ -368,6 +387,7 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
         "integrity": {"original_forecasts_modified": False,
                       "original_forecast_hashes_recorded": True,
                       "review_required": True,
+                      "machine_review_requires_live_source_recheck": bool(auto_review),
                       "no_backdated_approval": True,
                       "source_check_does_not_imply_attestation": True},
     }, checked_packet
@@ -398,6 +418,8 @@ def main(argv=None):
     parser.add_argument("--phase", choices=("initial", "recheck"), default="initial")
     parser.add_argument("--limit", type=int, default=10)
     parser.add_argument("--refresh-sources", action="store_true")
+    parser.add_argument("--auto-review", action="store_true",
+                        help="Separate deterministic source review; never a human attestation")
     parser.add_argument("--refresh-quotes", action="store_true",
                         help="Explicitly consume PropLine quota for current same-line prices")
     parser.add_argument("--quotes-file", help="Current two-sided market quote JSONL")
@@ -418,11 +440,27 @@ def main(argv=None):
     reviews_payload = load_json(args.reviews, {})
     attestations = (reviews_payload or {}).get("attestations") or []
     verified_reviewed = set()
+    # One memoized public-source fetcher prevents duplicated verification HTTP
+    # calls in a single action run. No odds endpoint uses this cache.
+    cache = {}
+    def source_fetch(url, **kwargs):
+        if url not in cache:
+            from fetch_slate import fetch_json
+            cache[url] = fetch_json(url, **kwargs)
+        return cache[url]
     for item, original in selected:
         for assertion in attestations:
             if (isinstance(assertion, dict) and
                     assertion.get("candidate_id") == item["candidate_id"] and
                     review_verified(assertion, original, forecast_digest(original), now)[0]):
+                verified_reviewed.add(item["candidate_id"])
+        if args.auto_review and not any(
+                isinstance(a, dict) and a.get("candidate_id") == item["candidate_id"]
+                for a in attestations):
+            from automated_scouting_review import evaluate as machine_evaluate
+            good, _, _ = machine_evaluate(item, original, packet, now=now,
+                fetch=source_fetch, data_root=Path(args.snapshots).parent)
+            if good:
                 verified_reviewed.add(item["candidate_id"])
     quotes = None
     quote_note = "original_market_data_subject_to_freshness_gate"
@@ -439,16 +477,12 @@ def main(argv=None):
     elif args.quotes_file:
         quotes = [json.loads(s) for s in Path(args.quotes_file).read_text(encoding="utf-8").splitlines() if s.strip()]
         quote_note = "quote_file"
-    if args.refresh_sources and selected:
-        from fetch_slate import fetch_json
-        fetch = fetch_json
-    else:
-        fetch = None
+    fetch = source_fetch if selected and (args.refresh_sources or args.auto_review) else None
     report, checked_packet = verify(
         rows, queue, packet, args.date, now=now, phase=args.phase,
         limit=args.limit, fetch=fetch, quotes=quotes,
         reviews=reviews_payload,
-        data_root=Path(args.snapshots).parent)
+        data_root=Path(args.snapshots).parent, auto_review=args.auto_review)
     report["market_source_note"] = quote_note
     run_id = os.environ.get("GITHUB_RUN_ID") or now.strftime("%Y%m%dT%H%M%S%fZ")
     attempt = os.environ.get("GITHUB_RUN_ATTEMPT", "1")
