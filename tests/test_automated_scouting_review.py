@@ -1,0 +1,151 @@
+"""End-to-end automated source adjudication: source integrity before Tier ranking."""
+import copy
+import json
+import sys
+import tempfile
+import unittest
+from datetime import datetime, timezone
+from pathlib import Path
+from unittest.mock import patch
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"))
+
+import autonomous_investigator as ai
+import automated_scouting_review as ar
+import pick_verification as pv
+import verified_board
+import usage_baseline as ub
+from test_pick_verification import build, DATE, ID, NOW
+
+
+def official_games():
+    return [{"gameId":f"g{i}","gameDate":f"2026-10-{i:02}",
+             "shots":(1 if i <= 10 else 4),
+             "toi":("10:00" if i <= 10 else "20:00"),"teamAbbrev":"BOS"}
+            for i in range(1,16)]
+
+
+def fetch_source(url, **kwargs):
+    if "/scoreboard?" in url:
+        return {"events":[{"id":"pregame-01","date":"2026-10-27T23:00:00Z",
+            "status":{"type":{"state":"pre"}},
+            "competitions":[{"venue":{"indoor":True},
+              "competitors":[{"team":{"abbreviation":"BOS"}},
+                             {"team":{"abbreviation":"NSH"}}]}]}]}
+    if "/summary?" in url:
+        return {"header":{"id":"pregame-01","competitions":[{"status":{"type":{"state":"pre"}}}]},
+                "rosters":[{"team":{"abbreviation":"BOS"},
+                  "roster":[{"athlete":{"displayName":"Example Player"},
+                             "active":True}]}]}
+    if "/injuries" in url:return {"injuries":[]}
+    if "/news?" in url:return {"articles":[]}
+    if "api-web.nhle.com" in url:return {"gameLog":official_games()}
+    raise AssertionError("unexpected unapproved request: "+url)
+
+
+def backed_case(root):
+    rows,queue,packet=build()
+    entries=[{"id":f"g{i}","date":f"2026-10-{i:02}",
+              "value":float(1 if i <= 10 else 4),
+              "workload":float(10 if i <= 10 else 20)}
+             for i in range(1,16)]
+    ub.persist([{"sport":"NHL","player_id":"42","stat":"shots on goal",
+                 "game_date":DATE,"team":"BOS",
+                 "source_url":ai.observation_source(queue["queue"][0],DATE),
+                 "retrieved_at":NOW.isoformat(),
+                 "usage_observations":entries}],root)
+    key=ub.key("NHL","42","shots on goal",DATE)
+    packet["scouting"][ID]={"historical_usage":key,
+                           "evidence":{"matchup":None,"opportunity":None,
+                                       "injuries":None,"game_script":None},
+                           "supporting_stats":{"deployment_trends":None,
+                                               "line_matching":None},
+                           "scenarios":[]}
+    rows[0]["inputs"]["scouting"]={"historical_usage":key}
+    return rows,queue,packet
+
+
+class MachineReviewTests(unittest.TestCase):
+    def test_dossier_is_genuinely_rechecked_then_tier2_enters_board(self):
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t);rows,queue,packet=backed_case(root)
+            original=copy.deepcopy(rows)
+            dossier,updated=ai.investigate(rows,queue,packet,DATE,now=NOW,
+                                           fetch=fetch_source,data_root=root)
+            self.assertEqual(rows,original)
+            self.assertEqual(dossier["counts"]["workload_mechanisms_added"],1)
+            self.assertEqual(dossier["counts"]["collector_history_correlated"],1)
+            self.assertEqual(len(updated["mechanisms"][ID]),1)
+            valid,reason,proof=ar.evaluate(queue["queue"][0],rows[0],updated,
+                                           now=NOW,fetch=fetch_source,data_root=root)
+            self.assertTrue(valid,reason)
+            self.assertFalse(proof["source_read_by_human"])
+            self.assertTrue(proof["independent_live_refetch"])
+            self.assertEqual(proof["supporting_game_count"],5)
+            self.assertEqual(proof["opposing_game_count"],10)
+            with patch.object(pv.pm,"evaluate_candidate",return_value={
+                    "final_rank":"Tier 2","engine_a":{"reliable":True},
+                    "engine_b":{"reliable":True},"blend":{"validated":False},
+                    "grade":{"q_model":.58,"q_market_comparable":.56}}):
+                result,_=pv.verify(rows,queue,updated,DATE,now=NOW,
+                                   auto_review=True,fetch=fetch_source,data_root=root)
+            self.assertEqual(result["verified"],1)
+            decision=result["decisions"][0]
+            self.assertTrue(decision["publication_eligible"])
+            self.assertEqual(decision["review_type"],"structured_machine_verification")
+            self.assertFalse(decision["source_read_by_human"])
+            self.assertEqual(decision["verified_rank"],"Tier 2")
+            board=verified_board.build(rows,[result],DATE,now=NOW)
+            self.assertEqual(board["rank_counts"]["Tier 2"],1)
+            self.assertEqual(board["verified_picks"][0]["candidate_id"],ID)
+
+    def test_changed_source_body_blocks_machine_grade(self):
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t);rows,q,p=backed_case(root)
+            _,p=ai.investigate(rows,q,p,DATE,now=NOW,fetch=fetch_source,data_root=root)
+            def altered(url,**kw):
+                response=fetch_source(url,**kw)
+                if "api-web.nhle.com" in url:
+                    response["gameLog"][0]["shots"]=99
+                return response
+            ok,reason,_=ar.evaluate(q["queue"][0],rows[0],p,now=NOW,
+                                    fetch=altered,data_root=root)
+            self.assertFalse(ok)
+            self.assertEqual(reason,"MACHINE_OFFICIAL_SOURCE_HASH_CHANGED")
+
+    def test_no_source_or_news_conflict_or_tamper_fails_closed(self):
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t);rows,q,p=backed_case(root)
+            _,p=ai.investigate(rows,q,p,DATE,now=NOW,fetch=fetch_source,data_root=root)
+            for patcher,expected in [
+                (lambda z:z["_autonomous_investigation"]["candidate_summaries"][ID].update(
+                    forecast_sha256="tampered"),"MACHINE_FORECAST_DIGEST_MISMATCH"),
+                (lambda z:z["_autonomous_investigation"]["candidate_summaries"][ID].update(
+                    news_mention_count=1),"MACHINE_PLAYER_NEWS_REQUIRES_SOURCE_REVIEW"),
+                (lambda z:z["_autonomous_investigation"]["candidate_summaries"][ID].update(
+                    collector_overlap=0),"MACHINE_INDEPENDENT_COLLECTOR_CORROBORATION_MISSING"),
+                (lambda z:z["mechanisms"][ID].clear(),"MACHINE_CAUSAL_MECHANISM_NOT_REPRODUCIBLE"),
+                ]:
+                modified=copy.deepcopy(p);patcher(modified)
+                ok,reason,_=ar.evaluate(q["queue"][0],rows[0],modified,
+                                         now=NOW,fetch=fetch_source,data_root=root)
+                self.assertFalse(ok)
+                self.assertEqual(reason,expected)
+            refused,reason,_=ar.evaluate(q["queue"][0],rows[0],p,
+                                         now=NOW,fetch=None,data_root=root)
+            self.assertFalse(refused)
+            self.assertEqual(reason,"MACHINE_LIVE_OFFICIAL_SOURCE_REQUIRED")
+
+    def test_blocked_case_cannot_publish_even_with_mocked_good_probabilities(self):
+        rows,q,p=build()
+        with patch.object(pv.pm,"evaluate_candidate",return_value={
+                "final_rank":"Tier 2","engine_a":{"reliable":True},
+                "engine_b":{"reliable":True},"blend":{"validated":True},
+                "grade":{"q_model":.6,"q_market_comparable":.58}}):
+            outcome,_=pv.verify(rows,q,p,DATE,now=NOW,auto_review=True,
+                                fetch=lambda *a,**kw:{"events":[]})
+        self.assertEqual(outcome["verified"],0)
+        self.assertIn("MACHINE_DOSSIER_MISSING",outcome["decisions"][0]["blockers"])
+
+
+if __name__ == "__main__":
+    unittest.main()
