@@ -158,6 +158,31 @@ class VerificationTests(unittest.TestCase):
         self.assertIsNone(updated)
         self.assertIn("ORIGINAL_MARKET_TIMESTAMP_STALE_OR_MISSING",issues)
 
+    def test_live_propline_quote_join_uses_immutable_original_player_identity(self):
+        rows,_,_=build()
+        candidate=rows[0]["inputs"]
+        self.assertNotIn("player",candidate)
+        quotes=[
+            {"sport":"NHL","player":"Example Player","player_norm":"example player",
+             "team":"BOS","opponent":"NSH","event_teams":["BOS","NSH"],
+             "game_date":DATE,"stat":"shots on goal","line":2.5,
+             "book":book,"over_odds":-115,"under_odds":-105,
+             "retrieved_at":"2026-10-27T20:20:00Z"}
+            for book in ("DraftKings","Pinnacle")]
+        updated,issues=pv.quote_refresh(candidate,quotes,NOW,identity=rows[0])
+        self.assertEqual(issues,[])
+        self.assertEqual(len(updated["books"]),2)
+        self.assertEqual(updated["market_retrieved_at"],"2026-10-27T20:20:00+00:00")
+        self.assertNotIn("player",updated)
+        self.assertNotIn("sport",updated)
+
+    def test_market_join_refuses_conflicting_fixture(self):
+        rows,_,_=build()
+        candidate=dict(rows[0]["inputs"],opponent="MTL")
+        updated,issues=pv.quote_refresh(candidate,[],NOW,identity=rows[0])
+        self.assertIsNone(updated)
+        self.assertEqual(issues,["ORIGINAL_PIPELINE_IDENTITY_CONFLICT"])
+
     def test_stale_market_quote_file_never_grants_grade(self):
         rows,_,_=build()
         updated, issues=pv.quote_refresh(rows[0]["inputs"], [], NOW)

@@ -153,7 +153,7 @@ def status_verified(packet, item, now):
     return True, None
 
 
-def quote_refresh(candidate, quote_rows, now):
+def quote_refresh(candidate, quote_rows, now, *, identity=None):
     """Only same-identity, same-line fresh two-sided book quotes can be substituted."""
     if quote_rows is None:
         # Original afternoon quotes are usable only while truly current;
@@ -182,7 +182,21 @@ def quote_refresh(candidate, quote_rows, now):
             return None, ["ORIGINAL_MARKET_TIMESTAMP_STALE_OR_MISSING"]
         return dict(candidate), []
     from odds_providers import quotes_for_row, consensus_input
-    found = quotes_for_row(quote_rows, candidate)
+    # Collector-owned pipeline inputs use an id, not a separate player field.
+    # Restore identity ONLY from the immutable original snapshot; never guess a
+    # match from an alias, stale line or another provider's event namespace.
+    subject = dict(candidate)
+    if identity is not None:
+        for key in ("team", "opponent", "event_id", "event_id_namespace", "game_date"):
+            if (subject.get(key) not in (None, "", identity.get(key))
+                    and identity.get(key) not in (None, "")):
+                return None, ["ORIGINAL_PIPELINE_IDENTITY_CONFLICT"]
+        subject.update({k: identity.get(k) for k in
+                        ("player", "sport", "team", "opponent", "event_id",
+                         "event_id_namespace", "game_date")})
+    if not subject.get("player") or not subject.get("team"):
+        return None, ["MARKET_PLAYER_OR_TEAM_IDENTITY_MISSING"]
+    found = quotes_for_row(quote_rows, subject)
     exact = [q for q in found if q.get("line") == candidate.get("line")]
     sides = consensus_input(exact, now=now.isoformat(), side=candidate.get("side"))
     choice = next((r for r in sides if r.get("line") == candidate.get("line")), None)
@@ -262,7 +276,7 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
         if not isinstance(candidate, dict) or candidate.get("id") != identity:
             reasons.append("ORIGINAL_PIPELINE_INPUT_MISSING")
         else:
-            refreshed, market_issues = quote_refresh(candidate, quotes, now)
+            refreshed, market_issues = quote_refresh(candidate, quotes, now, identity=original)
             reasons.extend(market_issues)
             if refreshed is not None:
                 scoped = rp.candidate_packet(checked_packet, refreshed)
