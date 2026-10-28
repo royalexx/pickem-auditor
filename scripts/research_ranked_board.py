@@ -21,7 +21,7 @@ NEGATIVE_STATUS = {"PLAYER_NOT_CONFIRMED_ACTIVE",
 def matched_books(row):
     from pickem_math import canon_book, APPROVED_BOOKS
     matched = set()
-    for book in row.get("books") or []:
+    for book in (row.get("inputs") or {}).get("books") or []:
         if not isinstance(book, dict):
             continue
         name = book.get("book")
@@ -120,8 +120,8 @@ def build(rows, queue, date, *, now=None, decisions=()):
         if rank is None:
             excluded["numeric_flag_or_sample_cap"] += 1
             continue
-        price = utc_time((row.get("market") or {}).get("retrieved_at") or row.get("retrieved_at"))
-        if not price or price > forecast or (forecast-price).total_seconds() > 1800:
+        price = utc_time((row.get("inputs") or {}).get("market_retrieved_at") or (row.get("market") or {}).get("retrieved_at") or row.get("retrieved_at"))
+        if price and (price > forecast or (forecast-price).total_seconds() > 1800):
             excluded["stale_at_original_forecast"] += 1
             continue
         recent = blocked.get(ident)
@@ -140,7 +140,8 @@ def build(rows, queue, date, *, now=None, decisions=()):
             "q_model": p, "q_market_comparable": comparable,
             "model_market_gap": round(p-comparable, 6),
             "forecast_at": row["forecast_at"], "event_start": row["event_start"],
-            "price_refresh_required": (now-price).total_seconds() > 1800,
+            "price_timestamp_verified": price is not None,
+            "price_refresh_required": price is None or (now-price).total_seconds() > 1800,
             "forecast_sha256": forecast_digest(row), "source_forecast_run_id": run,
             "verification_status": "game_specific_evidence_pending",
             "publication_eligible": False, "verified_pick": False,
