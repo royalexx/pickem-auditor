@@ -38,3 +38,5 @@ jobs:
           if-no-files-found: warn
           retention-days: 90
           path: reports/multisport_audit/nhl_sog/*.json
+
+# Retest after off-diagonal LKJ convergence fix and positional market eligibility correction.
