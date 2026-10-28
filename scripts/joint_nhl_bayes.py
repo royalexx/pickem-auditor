@@ -142,13 +142,13 @@ def diagnostics(idata):
                   "player_chol_stds","toi_sigma","overdispersion",
                   "season_toi_sd","season_rate_sd","opponent_rate_sd"]
         selected=[n for n in selected if n in idata.posterior]
-        rh=rhat(idata,var_names=selected)
-        ef=ess(idata,var_names=selected,method="bulk")
+        rh=rhat(idata.posterior,var_names=selected)
+        ef=ess(idata.posterior,var_names=selected,method="bulk")
         max_r=float(np.asarray(rh.to_array()).max())
         min_e=float(np.asarray(ef.to_array()).min())
         divergent=int(np.asarray(idata.sample_stats["diverging"]).sum())
     except (ValueError,TypeError,AttributeError,KeyError,ImportError) as exc:
-        return {"status":"diagnostics_unavailable","error":type(exc).__name__,
+        return {"status":"diagnostics_unavailable","error":type(exc).__name__+':'+str(exc)[:160],
                 "publication_eligible":False,"validated":False}
     healthy=(max_r<=MAX_RHAT and min_e>=MIN_ESS_BULK and divergent==0)
     return {"status":"sampling_diagnostics_pass" if healthy else "sampling_diagnostics_failed",
