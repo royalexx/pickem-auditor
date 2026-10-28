@@ -94,6 +94,46 @@ class MultiSportSources(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"uncompleted"):
             normal.nhl_game(bad,"2018-10-01")
 
+    def test_nhl_scoreboard_identity_and_atomic_multigame_date(self):
+        with self.assertRaisesRegex(ValueError,"nhl_boxscore_game_id_mismatch"):
+            normal.nhl_game(nhl_box(),"2018-10-03",expected_id=2018020002)
+        changed=nhl_box()
+        changed["gameDate"]="2018-10-04"
+        with self.assertRaisesRegex(ValueError,"nhl_boxscore_game_date_mismatch"):
+            normal.nhl_game(changed,"2018-10-03",expected_id=2018020001)
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)
+            state=ingest.read_state(root,"NHL")
+            state["cursor"]="2018-10-03"
+            ingest.save_state(root,"NHL",state)
+            def interrupted(url):
+                if "/score/" in url:return {"games":[
+                    {"gameType":2,"gameState":"FINAL","id":2018020001},
+                    {"gameType":2,"gameState":"FINAL","id":2018020002}]}
+                if "/2018020002/" in url:raise RuntimeError("source_offline")
+                return nhl_box()
+            first=ingest.run(root,"NHL",max_days=1,
+                stop_before="2018-10-03",fetcher=interrupted)
+            self.assertEqual(first["status"],"blocked")
+            self.assertEqual(first["market_rows_added"],0)
+            self.assertEqual(ingest.read_state(root,"NHL")["cursor"],"2018-10-03")
+            self.assertEqual(pop.read(root,sport="NHL",stat="hits",
+                             before="2018-10-04"),[])
+            def corrected(url):
+                if "/score/" in url:return {"games":[
+                    {"gameType":2,"gameState":"FINAL","id":2018020001},
+                    {"gameType":2,"gameState":"FINAL","id":2018020002}]}
+                response=nhl_box()
+                if "/2018020002/" in url:response["id"]=2018020002
+                return response
+            result=ingest.run(root,"NHL",max_days=1,
+                stop_before="2018-10-03",fetcher=corrected)
+            self.assertNotEqual(result["status"],"blocked")
+            self.assertEqual(result["source_games"],2)
+            self.assertEqual(ingest.read_state(root,"NHL")["cursor"],"2018-10-04")
+            records=pop.read(root,sport="NHL",stat="hits",before="2018-10-04")
+            self.assertEqual(len(records),72)
+
     def test_nba_minutes_and_combinations(self):
         rows=normal.nba_game(nba_box(),"2022-10-21","401")
         self.assertEqual(len({r["player_id"] for r in rows}),16)
@@ -109,6 +149,29 @@ class MultiSportSources(unittest.TestCase):
         self.assertEqual(representative[0]["workload"],30)
         with self.assertRaisesRegex(ValueError,"espn_game_id_mismatch"):
             normal.nba_game(nba_box(),"2022-10-21","402")
+
+    def test_structural_zero_nfl_markets_removed_without_history_rewrite(self):
+        self.assertFalse(pop.market_eligible(
+            {"sport":"NFL","stat":"targets","position":"QB"}))
+        self.assertFalse(pop.market_eligible(
+            {"sport":"NFL","stat":"passing yards","position":"WR"}))
+        self.assertTrue(pop.market_eligible(
+            {"sport":"NFL","stat":"targets","position":"TE"}))
+        self.assertTrue(pop.market_eligible(
+            {"sport":"NFL","stat":"tackles + assists","position":"LB"}))
+        with tempfile.TemporaryDirectory() as directory:
+            qb=row(sport="NFL",stat="targets",gid="2022_01_A_B",
+                   day="2022-09-10",season="2022",
+                   player="qb1",position="QB",value=0,workload=50)
+            wr=row(sport="NFL",stat="targets",gid="2022_01_A_B",
+                   day="2022-09-10",season="2022",
+                   player="wr1",position="WR",value=7,workload=50)
+            pop.persist(directory,[qb,wr])
+            source=pop.read_shard(pop.path(directory,"NFL","targets","2022"))
+            self.assertEqual(len(source),2)  # original game evidence immutable
+            eligible=pop.read(directory,sport="NFL",stat="targets",
+                              before="2022-09-11")
+            self.assertEqual([r["player_id"] for r in eligible],["wr1"])
 
     def test_nfl_real_snaps_no_fabricated_workload(self):
         schedule=[{"game_id":"2022_01_BUF_LAR","season":2022,"week":1,"game_type":"REG",

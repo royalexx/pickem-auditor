@@ -133,7 +133,7 @@ def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
                     board=fetcher(f"{norm.NHL_BASE}/score/{current}")
                     game_ids=nhl_games(board)
                     get_game=lambda gid: fetcher(f"{norm.NHL_BASE}/gamecenter/{gid}/boxscore")
-                    normalize=lambda raw,gid: norm.nhl_game(raw,current)
+                    normalize=lambda raw,gid: norm.nhl_game(raw,current,expected_id=gid)
                 else:
                     board=fetcher(f"{norm.NBA_BASE}/scoreboard?dates={day.strftime('%Y%m%d')}&limit=100")
                     game_ids=norm.scoreboard_games(sport,board,current)
@@ -143,15 +143,22 @@ def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
                 # were nonmissing; a zero-row populated game fails below.
                 if result["source_games"]+len(game_ids)>max_games and result["advanced"]:
                     break
-                inserted_today=0
+                # Normalize *all* official completed games before mutating
+                # any shard. A malformed/failed game cannot leave half a
+                # date in the warehouse. Persist once per completed day to
+                # avoid O(games x season-history) repeated gzip rewrites.
+                daily=[]
                 totals=Counter(result["market_rows_verified_by_stat"])
                 for gid in game_ids:
                     rows=normalize(get_game(gid),gid)
                     if not rows:raise ValueError("completed_game_missing_population_rows")
                     totals.update(r["stat"] for r in rows)
-                    inserted=store.persist(root,rows)
-                    result["market_rows_added"]+=inserted["inserted"]
-                    inserted_today+=inserted["inserted"]
+                    daily.extend(rows)
+                inserted_today=0
+                if daily:
+                    saved=store.persist(root,daily)
+                    inserted_today=saved["inserted"]
+                    result["market_rows_added"]+=inserted_today
                 result["market_rows_verified_by_stat"]=dict(sorted(totals.items()))
                 result["source_games"]+=len(game_ids)
                 state["source_games"]+=len(game_ids)

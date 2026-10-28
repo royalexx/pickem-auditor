@@ -25,6 +25,30 @@ COUNT={
 }
 CONTINUOUS={"NFL":("passing yards","receiving yards","rushing yards")}
 SPORTS=tuple(COUNT)
+
+# Legacy NFL shards intentionally remain immutable: early 2018 source
+# ingestion included non-eligible player/market combinations (e.g. QB
+# receiving targets, WR passing attempts) whose structural zero counts
+# corrupt hierarchical position rates. Exclude those records *on read*
+# and also stop generating them in future collections.
+NFL_MARKET_POSITIONS={
+ "pass attempts":frozenset(("QB",)),
+ "completions":frozenset(("QB",)),
+ "passing yards":frozenset(("QB",)),
+ "passing touchdowns":frozenset(("QB",)),
+ "targets":frozenset(("WR","RB","TE")),
+ "receptions":frozenset(("WR","RB","TE")),
+ "receiving yards":frozenset(("WR","RB","TE")),
+ "receiving touchdowns":frozenset(("WR","RB","TE")),
+ "carries":frozenset(("QB","RB","WR")),
+ "rushing yards":frozenset(("QB","RB","WR")),
+ "rushing touchdowns":frozenset(("QB","RB","WR")),
+}
+def market_eligible(row):
+    if row["sport"]!="NFL":return True
+    positions=NFL_MARKET_POSITIONS.get(row["stat"])
+    return positions is None or row["position"] in positions
+
 FIELDS=("schema","sport","stat","family","game_id","game_date","season",
         "player_id","position","team","opponent","home","value",
         "workload","workload_unit","source_url","source_sha256")
@@ -65,6 +89,13 @@ def validate(row):
         raise ValueError("invalid_historical_source_digest")
     if not isinstance(row["workload_unit"],str) or row["workload_unit"] not in ("minutes","snaps"):
         raise ValueError("unsupported_workload_source")
+    if (row["sport"]=="NFL" and row["workload_unit"]!="snaps") or (
+        row["sport"] in ("NHL","NBA") and row["workload_unit"]!="minutes"):
+        raise ValueError("sport_workload_measurement_mismatch")
+    if row["sport"]=="NHL" and (
+        (row["stat"]=="saves" and row["position"]!="G") or
+        (row["stat"]!="saves" and row["position"]=="G")):
+        raise ValueError("goalie_skater_market_population_mismatch")
     workload=row["workload"]
     if isinstance(workload,bool) or not isinstance(workload,(float,int)) or not math.isfinite(workload) or not 0<workload<=300:
         raise ValueError("invalid_or_missing_observed_workload")
@@ -165,6 +196,7 @@ def read(root,*,sport,stat,before,after=None,max_seasons=None,min_records=0):
         for row in read_shard(filename):
             day=date.fromisoformat(row["game_date"])
             if day>=end or (start is not None and day<start):continue
+            if not market_eligible(row):continue
             key=(row["game_id"],row["player_id"])
             if key in seen:raise ValueError("cross_shard_duplicate_population_record")
             seen.add(key); rows.append(row)

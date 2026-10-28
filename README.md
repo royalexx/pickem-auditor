@@ -192,6 +192,14 @@ workload–shot-rate correlation and acceptable NUTS energy BFMI. Historical
 source backfill remains independent and ongoing. See the
 [complete dated evaluation and troubleshooting log](references/nhl_joint_evaluation_2018.md).
 
+### October 28, 2026 independent empirical audit
+
+[Real nine-market joint Bayesian versus Gamma–Poisson/Student-t holdouts](references/multisport_joint_audit_20261028.md)
+found that the elaborate model now samples and scores correctly but is **not**
+consistently better than the simple baseline. NHL goalie saves and NBA 3PM
+were also trained and evaluated after historical collection/replay. All
+research scores remain shadow-only; no tier or production model promotion.
+
 ## Multi-sport joint Bayesian shadow research
 
 The NHL fully joint workload/scoring Bayesian pilot has been generalized into
