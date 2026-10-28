@@ -22,21 +22,29 @@ import population_normalizers as norm
 import population_nfl
 
 DEFAULT_START={"NHL":"2018-10-01","NBA":"2018-10-01","NFL":"2018"}
+RECENT_START={"NHL":"2023-10-01","NBA":"2023-10-01"}
 STATE="multi-sport-population-cursor-v1"
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def state_file(root,sport):
-    return Path(root)/"data/bayesian_warehouse/states"/(sport.lower()+".json")
+def state_file(root,sport,*,stream="archive"):
+    if stream not in ("archive","recent") or (stream=="recent" and sport=="NFL"):
+        raise ValueError("invalid_population_stream")
+    name=sport.lower()+("_recent" if stream=="recent" else "")+".json"
+    return Path(root)/"data/bayesian_warehouse/states"/name
 
 
-def read_state(root,sport):
-    filename=state_file(root,sport)
+def read_state(root,sport,*,stream="archive"):
+    filename=state_file(root,sport,stream=stream)
     if not filename.exists():
-        return {"schema":STATE,"sport":sport,"cursor":DEFAULT_START[sport],
-                "dates_complete":0,"source_games":0,"market_rows_inserted":0}
+        state={"schema":STATE,"sport":sport,
+               "cursor":RECENT_START[sport] if stream=="recent" else DEFAULT_START[sport],
+               "dates_complete":0,"source_games":0,"market_rows_inserted":0}
+        if stream=="recent":state["stream"]="recent"
+        return state
     data=json.loads(filename.read_text())
-    if data.get("schema")!=STATE or data.get("sport")!=sport:
+    if data.get("schema")!=STATE or data.get("sport")!=sport or (
+            data.get("stream","archive")!=stream):
         raise ValueError("population_state_mismatch")
     if sport=="NFL":
         if not str(data["cursor"]).isdigit():raise ValueError("invalid_nfl_population_cursor")
@@ -46,8 +54,10 @@ def read_state(root,sport):
     return data
 
 
-def save_state(root,sport,state):
-    p=state_file(root,sport);p.parent.mkdir(parents=True,exist_ok=True)
+def save_state(root,sport,state,*,stream="archive"):
+    if state.get("stream","archive")!=stream:
+        raise ValueError("population_stream_checkpoint_mismatch")
+    p=state_file(root,sport,stream=stream);p.parent.mkdir(parents=True,exist_ok=True)
     temp=p.with_suffix(".tmp")
     temp.write_text(json.dumps(state,sort_keys=True,indent=2)+"\n")
     os.replace(temp,p)
@@ -93,38 +103,44 @@ def nhl_games(board):
 
 
 def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
+        stream="archive",max_nfl_seasons=1,
         fetcher=fetch_json,nfl_loader=population_nfl.fetch_season):
     if sport not in store.SPORTS:raise ValueError("unsupported_population_sport")
-    if not 1<=max_days<=366 or not 1<=max_games<=5000:
+    if not 1<=max_days<=366 or not 1<=max_games<=5000 or not 1<=max_nfl_seasons<=6:
         raise ValueError("invalid_population_fetch_budget")
+    if stream=="recent" and sport=="NFL":
+        raise ValueError("nfl_recent_stream_not_supported_use_season_backfill")
     boundary=min(date.fromisoformat(stop_before) if stop_before else date.today()-timedelta(days=1),
                  date.today()-timedelta(days=1))
-    state=read_state(root,sport)
-    result={"schema":"multi_population_backfill_receipt_v1","sport":sport,
+    state=read_state(root,sport,stream=stream)
+    result={"schema":"multi_population_backfill_receipt_v1","sport":sport,"stream":stream,
             "status":"running","cursor_before":state["cursor"],"advanced":0,
             "source_games":0,"market_rows_added":0,"market_rows_verified_by_stat":{},"source_exclusions":[],
             "error":None,"publication_eligible":False}
     try:
         if sport=="NFL":
-            year=int(state["cursor"])
-            # A current NFL season is not a completed population. Require
-            # the following March to avoid sealing partially played weeks.
-            if date(year+1,3,1)<=boundary:
+            while result["advanced"]<max_nfl_seasons:
+                year=int(state["cursor"])
+                # A current NFL season is not completed; require March of
+                # the following year so no partial 2026 data is sealed.
+                if date(year+1,3,1)>boundary:break
                 stats,snaps,schedule=nfl_loader(year)
                 rows,coverage=population_nfl.normalize_season(
                     stats,snaps,schedule,year,cutoff=(boundary+timedelta(days=1)).isoformat())
                 result["source_exclusions"].append(coverage)
-                result["market_rows_verified_by_stat"]=dict(sorted(Counter(r["stat"] for r in rows).items()))
                 if not rows:raise ValueError("nfl_season_has_no_matched_snaps")
                 counts=store.persist(root,rows)
                 result["market_rows_added"]+=counts["inserted"]
                 result["source_games"]+=len({r["game_id"] for r in rows})
+                totals=Counter(result["market_rows_verified_by_stat"])
+                totals.update(r["stat"] for r in rows)
+                result["market_rows_verified_by_stat"]=dict(sorted(totals.items()))
                 state["cursor"]=str(year+1)
                 state["dates_complete"]+=1
-                state["source_games"]+=result["source_games"]
+                state["source_games"]+=len({r["game_id"] for r in rows})
                 state["market_rows_inserted"]+=counts["inserted"]
                 result["advanced"]+=1
-                save_state(root,sport,state)
+                save_state(root,sport,state,stream=stream)
         else:
             day=date.fromisoformat(state["cursor"])
             while day<=boundary and result["advanced"]<max_days:
@@ -167,7 +183,7 @@ def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
                 day+=timedelta(days=1)
                 state["cursor"]=day.isoformat()
                 result["advanced"]+=1
-                save_state(root,sport,state)
+                save_state(root,sport,state,stream=stream)
     except (RuntimeError,ValueError,TypeError,KeyError,OSError) as exc:
         result["error"]=str(exc)
     result["cursor_after"]=state["cursor"]
@@ -175,7 +191,8 @@ def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
         "caught_up" if (date(int(state["cursor"])+1,3,1)>boundary if sport=="NFL"
                         else date.fromisoformat(state["cursor"])>boundary)
         else "partial")
-    receipt=Path(root)/"reports"/f"population_{sport.lower()}_receipt.json"
+    suffix="_recent" if stream=="recent" else ""
+    receipt=Path(root)/"reports"/f"population_{sport.lower()}{suffix}_receipt.json"
     receipt.parent.mkdir(parents=True,exist_ok=True)
     receipt.write_text(json.dumps(result,sort_keys=True,indent=2)+"\n")
     return result
@@ -185,6 +202,10 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--sport",choices=store.SPORTS,required=True)
     parser.add_argument("--root",type=Path,default=ROOT)
+    parser.add_argument("--stream",choices=("archive","recent"),default="archive",
+                        help="Separate recent NHL/NBA stream beginning 2023-10-01; immutable shared shard storage")
+    parser.add_argument("--max-nfl-seasons",type=int,default=1,
+                        help="Max fully completed nflverse seasons per invocation")
     parser.add_argument("--max-days",type=int,default=10)
     parser.add_argument("--max-games",type=int,default=100)
     parser.add_argument("--stop-before")
@@ -194,6 +215,7 @@ def main(argv=None):
         parser.error("request spacing must be between .1 and 5 seconds")
     result=run(args.root,args.sport,max_days=args.max_days,
         max_games=args.max_games,stop_before=args.stop_before,
+        stream=args.stream,max_nfl_seasons=args.max_nfl_seasons,
         fetcher=lambda url:fetch_json(url,spacing=args.request_spacing))
     print(json.dumps(result,sort_keys=True))
     return 2 if result["status"]=="blocked" else 0
