@@ -31,7 +31,8 @@ visible in reports.
   log-rate quadrature. This path does **not** estimate dispersion uncertainty.
 - Normal-valued stats use Normal-inverse-Gamma player-level posterior and an
   analytic Student-t predictive distribution, integrating both mean and
-  variance uncertainty. Signed NFL yards are supported. It remains a
+  variance uncertainty with continuity-corrected whole-line pushes. Nonnegative
+  Normal predictions with excessive negative-tail mass abstain. Signed NFL yards are supported. It remains a
   distributional approximation for nonnegative/count-like stat combinations.
 
 ## Operational lifecycle
