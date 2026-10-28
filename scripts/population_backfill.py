@@ -12,6 +12,7 @@ import json
 import os
 import random
 import time
+from collections import Counter
 from datetime import date,datetime,timedelta,timezone
 from pathlib import Path
 from urllib.error import HTTPError,URLError
@@ -101,7 +102,7 @@ def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
     state=read_state(root,sport)
     result={"schema":"multi_population_backfill_receipt_v1","sport":sport,
             "status":"running","cursor_before":state["cursor"],"advanced":0,
-            "source_games":0,"market_rows_added":0,"source_exclusions":[],
+            "source_games":0,"market_rows_added":0,"market_rows_verified_by_stat":{},"source_exclusions":[],
             "error":None,"publication_eligible":False}
     try:
         if sport=="NFL":
@@ -113,6 +114,7 @@ def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
                 rows,coverage=population_nfl.normalize_season(
                     stats,snaps,schedule,year,cutoff=(boundary+timedelta(days=1)).isoformat())
                 result["source_exclusions"].append(coverage)
+                result["market_rows_verified_by_stat"]=dict(sorted(Counter(r["stat"] for r in rows).items()))
                 if not rows:raise ValueError("nfl_season_has_no_matched_snaps")
                 counts=store.persist(root,rows)
                 result["market_rows_added"]+=counts["inserted"]
@@ -142,12 +144,15 @@ def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
                 if result["source_games"]+len(game_ids)>max_games and result["advanced"]:
                     break
                 inserted_today=0
+                totals=Counter(result["market_rows_verified_by_stat"])
                 for gid in game_ids:
                     rows=normalize(get_game(gid),gid)
                     if not rows:raise ValueError("completed_game_missing_population_rows")
+                    totals.update(r["stat"] for r in rows)
                     inserted=store.persist(root,rows)
                     result["market_rows_added"]+=inserted["inserted"]
                     inserted_today+=inserted["inserted"]
+                result["market_rows_verified_by_stat"]=dict(sorted(totals.items()))
                 result["source_games"]+=len(game_ids)
                 state["source_games"]+=len(game_ids)
                 state["market_rows_inserted"]+=inserted_today
