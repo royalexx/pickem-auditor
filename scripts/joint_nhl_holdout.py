@@ -55,6 +55,9 @@ def evaluate(idata, training, design, observed, *, cutoff, until,
     skipped=defaultdict(int);paired=[];bins=defaultdict(list)
     allowed_players=dataset_player_ids(training)
     allowed_opponents=dataset_model_opponents(training)
+    # Build the frozen posterior lookup once instead of converting every
+    # xarray variable for every held-out player-game.
+    frozen_cache=joint.predictive_cache(idata)
     for row in candidates:
         if row["player_id"] not in allowed_players:
             skipped["unseen_player"]+=1;continue
@@ -64,7 +67,8 @@ def evaluate(idata, training, design, observed, *, cutoff, until,
             (joint.VERSION+"|"+row["game_id"]+"|"+row["player_id"]).encode()).digest()[:8],"big")
         result=joint.forecast(idata,design,player_id=row["player_id"],
             opponent=row["opponent"],season=row["season"],home=bool(row["home"]),
-            line=2.5,draws=draws,seed=seed,fit_diagnostics=diagnostics)
+            line=2.5,draws=draws,seed=seed,fit_diagnostics=diagnostics,
+            posterior_cache=frozen_cache)
         p=result["q_over"]
         baseline=poisson_control(training,player=row["player_id"],position=row["position"])
         label=int(row["shots"]>=3)
