@@ -1,0 +1,40 @@
+name: One-off NHL shots-on-goal joint Bayesian versus Gamma-Poisson retest
+on:
+  push:
+    branches: ['audit/multisport-joint-vs-poisson-20261028']
+    paths: ['.github/workflows/audit-sog-retest.yml']
+permissions:
+  contents: read
+jobs:
+  retest-nhl-sog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 85
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-joint-bayes.txt
+      - run: bash scripts/history_warehouse_store.sh load
+      - run: python -m pip install -r requirements-joint-bayes.txt
+      - name: Refit joint NHL SOG and compare frozen original Poisson control
+        run: |
+          python scripts/audit_joint_population.py \
+            --sport NHL --stat 'shots on goal' \
+            --cutoff 2018-10-18 --until 2018-10-26 \
+            --max-per-position 25 --line 2.5 \
+            --draws 1000 --tune 1100 \
+            --out reports/multisport_audit/nhl_sog
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nhl-sog-joint-versus-gamma-poisson-retest
+          if-no-files-found: warn
+          retention-days: 90
+          path: reports/multisport_audit/nhl_sog/*.json
