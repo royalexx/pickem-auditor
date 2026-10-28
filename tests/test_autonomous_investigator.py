@@ -113,6 +113,58 @@ class AutonomousInvestigationTests(unittest.TestCase):
         self.assertIn("UNVERIFIED_CONTEXTUAL_MATCHUP_AND_ADVERSARIAL_REVIEW",c["blockers"])
         self.assertFalse((updated["scouting"].get(ID) or {}).get("evidence",{}).get("matchup"))
 
+    def test_independently_verified_workload_fills_only_factual_deployment(self):
+        rows,q,p=fixture()
+        p["scouting"][ID]={"supporting_stats":{"deployment_trends":None,
+                           "line_matching":None,"opponent_style":None},
+                           "evidence":{"opportunity":None,"injuries":None,
+                                       "matchup":None,"game_script":None},
+                           "scenarios":[]}
+        def rich(url,**kw):
+            if "api-web.nhle.com" in url:
+                data=gamelog()
+                data["gameLog"] += [
+                    {"gameId":f"older-{d}","gameDate":f"2026-10-{d:02}",
+                     "shots":2,"toi":"21:00","teamAbbrev":"BOS"}
+                    for d in (14,13,12,11)]
+                return data
+            return source(url,**kw)
+        report,updated=investigate(rows,q,p,DATE,now=NOW,fetch=rich)
+        evidence=updated["scouting"][ID]["supporting_stats"]["deployment_trends"]
+        self.assertEqual(evidence["confidence"],"confirmed")
+        self.assertEqual(evidence["value"]["current_season_sample"],10)
+        self.assertFalse(evidence["value"]["lineup_or_matchup_confirmed"])
+        self.assertEqual(evidence["source_kind"],
+                         "machine_read_structured_statistical_observation")
+        self.assertIsNone(updated["scouting"][ID]["supporting_stats"]["line_matching"])
+        self.assertIsNone(updated["scouting"][ID]["evidence"]["matchup"])
+        self.assertFalse(report["publication_eligible"])
+
+    def test_missing_workload_never_fills_deployment(self):
+        rows,q,p=fixture()
+        p["scouting"][ID]={"supporting_stats":{"deployment_trends":None},
+                           "evidence":{},"scenarios":[]}
+        def no_workload(url,**kw):
+            if "api-web.nhle.com" in url:
+                return {"gameLog":[{"gameId":f"g{i}","gameDate":f"2026-10-{i:02}",
+                                    "shots":i%3} for i in range(12,24)]}
+            return source(url,**kw)
+        _,updated=investigate(rows,q,p,DATE,now=NOW,fetch=no_workload)
+        self.assertIsNone(updated["scouting"][ID]["supporting_stats"]["deployment_trends"])
+
+    def test_existing_scouting_fact_is_not_overwritten_by_machine(self):
+        rows,q,p=fixture()
+        p["scouting"][ID]={"supporting_stats":{"deployment_trends":{"value":"reviewed"}},
+                           "evidence":{},"scenarios":[]}
+        def rich(url,**kw):
+            if "api-web.nhle.com" in url:
+                return {"gameLog":[{"gameId":f"g{i}","gameDate":f"2026-10-{i:02}",
+                                    "shots":i%3,"toi":"19:00"} for i in range(12,24)]}
+            return source(url,**kw)
+        _,updated=investigate(rows,q,p,DATE,now=NOW,fetch=rich)
+        self.assertEqual(updated["scouting"][ID]["supporting_stats"]["deployment_trends"],
+                         {"value":"reviewed"})
+
     def test_source_requests_are_shared_for_repeated_player_stat_sides(self):
         rows,q,p=fixture()
         second=copy.deepcopy(rows[0]); second["side"]="under"
