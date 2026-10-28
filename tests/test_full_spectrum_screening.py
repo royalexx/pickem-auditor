@@ -72,7 +72,7 @@ class FullSpectrumScreeningTests(unittest.TestCase):
 
     def test_one_player_can_have_multiple_independent_stats(self):
         a=subject("Multi","NHL","shots on goal","STATUS_NOT_VERIFIED",.72,grade=.72,market=.69)
-        b=subject("Multi","NHL","blocked shots","STATUS_NOT_VERIFIED",.71,grade=.71,market=.68)
+        b=subject("Multi","NHL","blocked shots","STATUS_NOT_VERIFIED",.71,grade=.71,market=.66)
         result=rt.build([a,b],DATE,now=NOW)
         self.assertEqual({r["stat"] for r in result["queue"]},
                          {"shots on goal","blocked shots"})
@@ -87,7 +87,7 @@ class FullSpectrumScreeningTests(unittest.TestCase):
         self.assertTrue(backed["prior_supported"])
         self.assertEqual(backed["probability_rank"],"NUMERIC_TIER_3")
         self.assertIn("SOURCE_VERIFIED_EARLY_SEASON_PRIOR",backed["notes"])
-        self.assertNotEqual(backed["numerical_band"],"NUMERIC_TIER_1")
+        self.assertFalse(backed["unicorn_numeric"])
 
     def test_early_season_scout_needs_verified_prior(self):
         from datetime import timedelta
