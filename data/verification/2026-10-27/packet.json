@@ -14,283 +14,19 @@
     "weather: BUF@SJS local venue hint is indoors; verify the actual game venue/roof from a public source"
   ],
   "availability": {
-    "Seth Jones": {
+    "Liam Ohgren": {
       "primary_source": null,
       "status": null
     },
-    "Jordan Binnington": {
+    "Alexander Romanov": {
       "primary_source": null,
       "status": null
     },
-    "Ty Dellandrea": {
+    "Aleksander Barkov": {
       "primary_source": null,
       "status": null
     },
-    "Jeremy Swayman": {
-      "primary_source": null,
-      "status": null
-    },
-    "Wyatt Kaiser": {
-      "primary_source": null,
-      "status": null
-    },
-    "Macklin Celebrini": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jacob Markstrom": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jake Sanderson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Noah Ostlund": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cole Smith": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dylan Peterson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cole Reinhardt": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dylan Cozens": {
-      "primary_source": null,
-      "status": null
-    },
-    "Connor McMichael": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brady Tkachuk": {
-      "primary_source": null,
-      "status": null
-    },
-    "Fraser Minten": {
-      "primary_source": null,
-      "status": null
-    },
-    "Keon Ellis": {
-      "primary_source": null,
-      "status": null
-    },
-    "Malik Monk": {
-      "primary_source": null,
-      "status": null
-    },
-    "Semyon Varlamov": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mike Reilly": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nikita Nesterenko": {
-      "primary_source": null,
-      "status": null
-    },
-    "De'Aaron Fox": {
-      "primary_source": null,
-      "status": null
-    },
-    "Lian Bichsel": {
-      "primary_source": null,
-      "status": null
-    },
-    "Aaron Ekblad": {
-      "primary_source": null,
-      "status": null
-    },
-    "Aleksanteri Kaskimaki": {
-      "primary_source": null,
-      "status": null
-    },
-    "Adam Lowry": {
-      "primary_source": null,
-      "status": null
-    },
-    "Rasmus Ristolainen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Roope Hintz": {
-      "primary_source": null,
-      "status": null
-    },
-    "Arseny Gritsyuk": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nils Lundkvist": {
-      "primary_source": null,
-      "status": null
-    },
-    "Justin Hryckowian": {
-      "primary_source": null,
-      "status": null
-    },
-    "Evan Rodrigues": {
-      "primary_source": null,
-      "status": null
-    },
-    "Zach Dean": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nicolas Hague": {
-      "primary_source": null,
-      "status": null
-    },
-    "Judd Caulfield": {
-      "primary_source": null,
-      "status": null
-    },
-    "Luka Garza": {
-      "primary_source": null,
-      "status": null
-    },
-    "Josh Norris": {
-      "primary_source": null,
-      "status": null
-    },
-    "Charlie McAvoy": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jake Allen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brett Pesce": {
-      "primary_source": null,
-      "status": null
-    },
-    "Kyle Connor": {
-      "primary_source": null,
-      "status": null
-    },
-    "Akira Schmid": {
-      "primary_source": null,
-      "status": null
-    },
-    "Charlie Coyle": {
-      "primary_source": null,
-      "status": null
-    },
-    "Conor Garland": {
-      "primary_source": null,
-      "status": null
-    },
-    "Tarris Reed Jr.": {
-      "primary_source": null,
-      "status": null
-    },
-    "Juuso Valimaki": {
-      "primary_source": null,
-      "status": null
-    },
-    "Danila Yurov": {
-      "primary_source": null,
-      "status": null
-    },
-    "Kevin Korchinski": {
-      "primary_source": null,
-      "status": null
-    },
-    "Emil Heineman": {
-      "primary_source": null,
-      "status": null
-    },
-    "Quentin Grimes": {
-      "primary_source": null,
-      "status": null
-    },
-    "Beckett Sennecke": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jonatan Berggren": {
-      "primary_source": null,
-      "status": null
-    },
-    "Andrei Svechnikov": {
-      "primary_source": null,
-      "status": null
-    },
-    "Zach Werenski": {
-      "primary_source": null,
-      "status": null
-    },
-    "Carson Soucy": {
-      "primary_source": null,
-      "status": null
-    },
-    "Teuvo Teravainen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Taylor Hall": {
-      "primary_source": null,
-      "status": null
-    },
-    "Tyrel Bauer": {
-      "primary_source": null,
-      "status": null
-    },
-    "Sam Carrick": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jack McBain": {
-      "primary_source": null,
-      "status": null
-    },
-    "Juraj Slafkovský": {
-      "primary_source": null,
-      "status": null
-    },
-    "Luke Schenn": {
-      "primary_source": null,
-      "status": null
-    },
-    "Sean Monahan": {
-      "primary_source": null,
-      "status": null
-    },
-    "Erik Gustafsson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Colin Blackwell": {
-      "primary_source": null,
-      "status": null
-    },
-    "MacKenzie Weegar": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nick Jensen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Matthew Schaefer": {
-      "primary_source": null,
-      "status": null
-    },
-    "Michael Bunting": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nico Sturm": {
+    "Zachary Bolduc": {
       "primary_source": null,
       "status": null
     },
@@ -298,171 +34,11 @@
       "primary_source": null,
       "status": null
     },
-    "Sandro Mamukelashvili": {
+    "Brett Howden": {
       "primary_source": null,
       "status": null
     },
-    "Jayden Struble": {
-      "primary_source": null,
-      "status": null
-    },
-    "Linus Ullmark": {
-      "primary_source": null,
-      "status": null
-    },
-    "Valeri Nichushkin": {
-      "primary_source": null,
-      "status": null
-    },
-    "Owen Beck": {
-      "primary_source": null,
-      "status": null
-    },
-    "Tolu Smith": {
-      "primary_source": null,
-      "status": null
-    },
-    "Alex Bump": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dillon Dube": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nique Clifford": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jacob Fowler": {
-      "primary_source": null,
-      "status": null
-    },
-    "Kailer Yamamoto": {
-      "primary_source": null,
-      "status": null
-    },
-    "Harrison Barnes": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mattias Samuelsson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jaccob Slavin": {
-      "primary_source": null,
-      "status": null
-    },
-    "Oliver Moore": {
-      "primary_source": null,
-      "status": null
-    },
-    "Anthony Duclair": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jack Quinn": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dmitry Orlov": {
-      "primary_source": null,
-      "status": null
-    },
-    "Chris Kreider": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ridly Greig": {
-      "primary_source": null,
-      "status": null
-    },
-    "Warren Foegele": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jack Ahcan": {
-      "primary_source": null,
-      "status": null
-    },
-    "Rieger Lorenz": {
-      "primary_source": null,
-      "status": null
-    },
-    "Pavel Buchnevich": {
-      "primary_source": null,
-      "status": null
-    },
-    "Scott Laughton": {
-      "primary_source": null,
-      "status": null
-    },
-    "Shane Pinto": {
-      "primary_source": null,
-      "status": null
-    },
-    "Olli Maatta": {
-      "primary_source": null,
-      "status": null
-    },
-    "Denver Barkey": {
-      "primary_source": null,
-      "status": null
-    },
-    "Oliver Bonk": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nolan Allan": {
-      "primary_source": null,
-      "status": null
-    },
-    "Theo Lindstein": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jack Hughes": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jordan Spence": {
-      "primary_source": null,
-      "status": null
-    },
-    "William Carrier": {
-      "primary_source": null,
-      "status": null
-    },
-    "Oliver Kapanen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Roger McQueen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Marc Gatcomb": {
-      "primary_source": null,
-      "status": null
-    },
-    "Felix Unger Sörum": {
-      "primary_source": null,
-      "status": null
-    },
-    "Niko Mikkola": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mitchell Chaffee": {
-      "primary_source": null,
-      "status": null
-    },
-    "Connor Clifton": {
-      "primary_source": null,
-      "status": null
-    },
-    "Michael Amadio": {
+    "Darnell Nurse": {
       "primary_source": null,
       "status": null
     },
@@ -470,211 +46,7 @@
       "primary_source": null,
       "status": null
     },
-    "Mavrik Bourque": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ziaire Williams": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jake LaRavia": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nolan Traore": {
-      "primary_source": null,
-      "status": null
-    },
-    "Aatu Räty": {
-      "primary_source": null,
-      "status": null
-    },
-    "Colten Ellis": {
-      "primary_source": null,
-      "status": null
-    },
-    "Tony DeAngelo": {
-      "primary_source": null,
-      "status": null
-    },
-    "Precious Achiuwa": {
-      "primary_source": null,
-      "status": null
-    },
-    "Zack Ostapchuk": {
-      "primary_source": null,
-      "status": null
-    },
-    "Andre Drummond": {
-      "primary_source": null,
-      "status": null
-    },
-    "Tyson Foerster": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dominic Toninato": {
-      "primary_source": null,
-      "status": null
-    },
-    "Arvid Soderblom": {
-      "primary_source": null,
-      "status": null
-    },
-    "Sam Steel": {
-      "primary_source": null,
-      "status": null
-    },
-    "Eetu Luostarinen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dylan Guenther": {
-      "primary_source": null,
-      "status": null
-    },
-    "JJ Peterka": {
-      "primary_source": null,
-      "status": null
-    },
-    "Casey DeSmith": {
-      "primary_source": null,
-      "status": null
-    },
-    "Sidy Cissoko": {
-      "primary_source": null,
-      "status": null
-    },
-    "Sam Lafferty": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nick DeSimone": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ryan McLeod": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mikael Granlund": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nicolas Deslauriers": {
-      "primary_source": null,
-      "status": null
-    },
-    "Matt Kiersted": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cam Talbot": {
-      "primary_source": null,
-      "status": null
-    },
-    "Zach Benson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jalen Brunson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Owen Tippett": {
-      "primary_source": null,
-      "status": null
-    },
-    "Adam Wilsby": {
-      "primary_source": null,
-      "status": null
-    },
-    "Sean Kuraly": {
-      "primary_source": null,
-      "status": null
-    },
-    "Simon Holmstrom": {
-      "primary_source": null,
-      "status": null
-    },
-    "Frederic Brunet": {
-      "primary_source": null,
-      "status": null
-    },
-    "Darcy Kuemper": {
-      "primary_source": null,
-      "status": null
-    },
-    "Oskar Bäck": {
-      "primary_source": null,
-      "status": null
-    },
-    "Logan Cooley": {
-      "primary_source": null,
-      "status": null
-    },
-    "Joel Hofer": {
-      "primary_source": null,
-      "status": null
-    },
-    "Travis Konecny": {
-      "primary_source": null,
-      "status": null
-    },
-    "Alexander Kerfoot": {
-      "primary_source": null,
-      "status": null
-    },
-    "Austin Reaves": {
-      "primary_source": null,
-      "status": null
-    },
-    "Guillaume Brisebois": {
-      "primary_source": null,
-      "status": null
-    },
-    "Josh Doan": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dylan Holloway": {
-      "primary_source": null,
-      "status": null
-    },
-    "Moritz Wagner": {
-      "primary_source": null,
-      "status": null
-    },
-    "Wyatt Johnston": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jackson Blake": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ross Johnston": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mikey Anderson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Payton Pritchard": {
-      "primary_source": null,
-      "status": null
-    },
-    "Tyler Bertuzzi": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ivan Barbashev": {
-      "primary_source": null,
-      "status": null
-    },
-    "Rasmus Dahlin": {
+    "Jalen Chatfield": {
       "primary_source": null,
       "status": null
     },
@@ -682,231 +54,127 @@
       "primary_source": null,
       "status": null
     },
-    "Jamie Benn": {
+    "Zach LaVine": {
       "primary_source": null,
       "status": null
     },
-    "Logan Stanley": {
+    "Josh Morrissey": {
       "primary_source": null,
       "status": null
     },
-    "Deni Avdija": {
+    "Dylan Samberg": {
       "primary_source": null,
       "status": null
     },
-    "Colton Parayko": {
+    "De'Andre Hunter": {
       "primary_source": null,
       "status": null
     },
-    "K'Andre Miller": {
+    "Dmitry Orlov": {
       "primary_source": null,
       "status": null
     },
-    "Erik Haula": {
+    "Jordan Martinook": {
       "primary_source": null,
       "status": null
     },
-    "Tyler Pitlick": {
+    "Sebastian Aho": {
       "primary_source": null,
       "status": null
     },
-    "Ja'Kobi Gillespie": {
+    "Victor Olofsson": {
       "primary_source": null,
       "status": null
     },
-    "Hayden Hodgson": {
+    "Zach Dean": {
       "primary_source": null,
       "status": null
     },
-    "Tyson Kozak": {
+    "Marat Khusnutdinov": {
       "primary_source": null,
       "status": null
     },
-    "Nils Hoglander": {
+    "Casey DeSmith": {
       "primary_source": null,
       "status": null
     },
-    "Lane Hutson": {
+    "Kevin Korchinski": {
       "primary_source": null,
       "status": null
     },
-    "Sam Dickinson": {
+    "Matthew Poitras": {
       "primary_source": null,
       "status": null
     },
-    "Dougie Hamilton": {
+    "Shea Theodore": {
       "primary_source": null,
       "status": null
     },
-    "Isaiah Joe": {
-      "primary_source": {
-        "confidence": "confirmed",
-        "fact": "primary_source",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "primary_source",
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-        "value": "league"
-      },
-      "status": {
-        "confidence": "confirmed",
-        "fact": "availability",
-        "quote": "out",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "league",
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-        "value": "out"
-      }
-    },
-    "Zeev Buium": {
+    "Taylor Hall": {
       "primary_source": null,
       "status": null
     },
-    "Frank Nazar": {
+    "Cole Smith": {
       "primary_source": null,
       "status": null
     },
-    "Dmitri Voronkov": {
+    "Pavel Mintyukov": {
       "primary_source": null,
       "status": null
     },
-    "Jonathan Mogbo": {
+    "Jacob Gaucher": {
       "primary_source": null,
       "status": null
     },
-    "Julian Champagnie": {
+    "Dylan Coghlan": {
       "primary_source": null,
       "status": null
     },
-    "Leevi Merilainen": {
+    "William Karlsson": {
       "primary_source": null,
       "status": null
     },
-    "Hoyt Stanley": {
+    "Philip Broberg": {
       "primary_source": null,
       "status": null
     },
-    "Noah Hanifin": {
+    "Devin Vassell": {
       "primary_source": null,
       "status": null
     },
-    "Scott Mayfield": {
+    "Precious Achiuwa": {
       "primary_source": null,
       "status": null
     },
-    "Jared Spurgeon": {
+    "Matthew Knies": {
       "primary_source": null,
       "status": null
     },
-    "Radko Gudas": {
+    "Ryan Ufko": {
       "primary_source": null,
       "status": null
     },
-    "Ausar Thompson": {
+    "Sam Carrick": {
       "primary_source": null,
       "status": null
     },
-    "Timo Meier": {
+    "Gustav Forsling": {
       "primary_source": null,
       "status": null
     },
-    "Drew Helleson": {
+    "Mikey Anderson": {
       "primary_source": null,
       "status": null
     },
-    "Tom Willander": {
+    "Jesper Boqvist": {
       "primary_source": null,
       "status": null
     },
-    "Collin Sexton": {
+    "Nick Lardis": {
       "primary_source": null,
       "status": null
     },
-    "A.J. Greer": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jake Christiansen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Konsta Helenius": {
-      "primary_source": null,
-      "status": null
-    },
-    "Roman Josi": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brad Lambert": {
-      "primary_source": null,
-      "status": null
-    },
-    "Drew O'Connor": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mikel Brown Jr.": {
-      "primary_source": null,
-      "status": null
-    },
-    "Uvis Balinskis": {
-      "primary_source": null,
-      "status": null
-    },
-    "Will Smith": {
-      "primary_source": null,
-      "status": null
-    },
-    "Casey Mittelstadt": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cameron Crotty": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ryan Hartman": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ryan Poehling": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cam Fowler": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jet Greaves": {
-      "primary_source": null,
-      "status": null
-    },
-    "Stuart Skinner": {
-      "primary_source": null,
-      "status": null
-    },
-    "Connor Bedard": {
-      "primary_source": null,
-      "status": null
-    },
-    "Neal Pionk": {
-      "primary_source": null,
-      "status": null
-    },
-    "Josh Anderson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Adam Jiricek": {
-      "primary_source": null,
-      "status": null
-    },
-    "Joel Armia": {
-      "primary_source": null,
-      "status": null
-    },
-    "Kyle Palmieri": {
+    "Kiefer Sherwood": {
       "primary_source": null,
       "status": null
     },
@@ -914,19 +182,227 @@
       "primary_source": null,
       "status": null
     },
-    "Landry Shamet": {
+    "Kyle Palmieri": {
       "primary_source": null,
       "status": null
     },
-    "Mark Stone": {
+    "Tyrel Bauer": {
       "primary_source": null,
       "status": null
     },
-    "Ja Morant": {
+    "Brayden Yager": {
       "primary_source": null,
       "status": null
     },
-    "Ross Colton": {
+    "Jakub Dobes": {
+      "primary_source": null,
+      "status": null
+    },
+    "Corey Perry": {
+      "primary_source": null,
+      "status": null
+    },
+    "Adrian Kempe": {
+      "primary_source": null,
+      "status": null
+    },
+    "Maxim Shabanov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Robert Williams III": {
+      "primary_source": null,
+      "status": null
+    },
+    "Roman Kantserov": {
+      "primary_source": null,
+      "status": null
+    },
+    "William Trudeau": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mark Jankowski": {
+      "primary_source": null,
+      "status": null
+    },
+    "Darius Acuff Jr.": {
+      "primary_source": null,
+      "status": null
+    },
+    "Gabriel Vilardi": {
+      "primary_source": null,
+      "status": null
+    },
+    "Victor Eklund": {
+      "primary_source": null,
+      "status": null
+    },
+    "Fabian Zetterlund": {
+      "primary_source": null,
+      "status": null
+    },
+    "Kent Johnson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Logan Stanley": {
+      "primary_source": null,
+      "status": null
+    },
+    "Alex Turcotte": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tyson Kozak": {
+      "primary_source": null,
+      "status": null
+    },
+    "Donovan Clingan": {
+      "primary_source": null,
+      "status": null
+    },
+    "Aaron Ekblad": {
+      "primary_source": null,
+      "status": null
+    },
+    "JJ Peterka": {
+      "primary_source": null,
+      "status": null
+    },
+    "Zach Benson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Olli Maatta": {
+      "primary_source": null,
+      "status": null
+    },
+    "Connor Brown": {
+      "primary_source": null,
+      "status": null
+    },
+    "Artyom Levshunov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ridly Greig": {
+      "primary_source": null,
+      "status": null
+    },
+    "Dmitri Voronkov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Logan Cooley": {
+      "primary_source": null,
+      "status": null
+    },
+    "Cade Cunningham": {
+      "primary_source": null,
+      "status": null
+    },
+    "Cam York": {
+      "primary_source": null,
+      "status": null
+    },
+    "Drew Helleson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Esa Lindell": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jordan Walsh": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tim Washe": {
+      "primary_source": null,
+      "status": null
+    },
+    "John Collins": {
+      "primary_source": null,
+      "status": null
+    },
+    "Emanuel Sharp": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tage Thompson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Seth Jones": {
+      "primary_source": null,
+      "status": null
+    },
+    "David Spacek": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jake Oettinger": {
+      "primary_source": null,
+      "status": null
+    },
+    "Stuart Skinner": {
+      "primary_source": null,
+      "status": null
+    },
+    "Austin Reaves": {
+      "primary_source": null,
+      "status": null
+    },
+    "Oliver Bonk": {
+      "primary_source": null,
+      "status": null
+    },
+    "Quentin Grimes": {
+      "primary_source": null,
+      "status": null
+    },
+    "Dawson Mercer": {
+      "primary_source": null,
+      "status": null
+    },
+    "Frank Nazar": {
+      "primary_source": null,
+      "status": null
+    },
+    "Filip Chytil": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tyler Bertuzzi": {
+      "primary_source": null,
+      "status": null
+    },
+    "Karel Vejmelka": {
+      "primary_source": null,
+      "status": null
+    },
+    "Karl-Anthony Towns": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mavrik Bourque": {
+      "primary_source": null,
+      "status": null
+    },
+    "Sam Colangelo": {
+      "primary_source": null,
+      "status": null
+    },
+    "Dalibor Dvorsky": {
+      "primary_source": null,
+      "status": null
+    },
+    "Walker Kessler": {
+      "primary_source": null,
+      "status": null
+    },
+    "Matt Boldy": {
       "primary_source": null,
       "status": null
     },
@@ -934,11 +410,187 @@
       "primary_source": null,
       "status": null
     },
-    "Travis Sanheim": {
+    "Scott Mayfield": {
       "primary_source": null,
       "status": null
     },
-    "Jamie Oleksiak": {
+    "Kevon Looney": {
+      "primary_source": null,
+      "status": null
+    },
+    "Rasmus Dahlin": {
+      "primary_source": null,
+      "status": null
+    },
+    "Charlie McAvoy": {
+      "primary_source": null,
+      "status": null
+    },
+    "Michael McCarron": {
+      "primary_source": null,
+      "status": null
+    },
+    "Roman Josi": {
+      "primary_source": null,
+      "status": null
+    },
+    "Dougie Hamilton": {
+      "primary_source": null,
+      "status": null
+    },
+    "Barclay Goodrow": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jalen Brunson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Charlie Coyle": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jake LaRavia": {
+      "primary_source": null,
+      "status": null
+    },
+    "Vladislav Namestnikov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Miro Heiskanen": {
+      "primary_source": null,
+      "status": null
+    },
+    "OG Anunoby": {
+      "primary_source": null,
+      "status": null
+    },
+    "Sam Hauser": {
+      "primary_source": null,
+      "status": null
+    },
+    "Scoot Henderson": {
+      "primary_source": {
+        "confidence": "confirmed",
+        "fact": "primary_source",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "primary_source",
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+        "value": "league"
+      },
+      "status": {
+        "confidence": "confirmed",
+        "fact": "availability",
+        "quote": "questionable",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "league",
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+        "value": "questionable"
+      }
+    },
+    "Konsta Helenius": {
+      "primary_source": null,
+      "status": null
+    },
+    "Bradly Nadeau": {
+      "primary_source": null,
+      "status": null
+    },
+    "Evan Rodrigues": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ty Dellandrea": {
+      "primary_source": null,
+      "status": null
+    },
+    "Wyatt Kaiser": {
+      "primary_source": null,
+      "status": null
+    },
+    "Andrei Svechnikov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Julius Randle": {
+      "primary_source": null,
+      "status": null
+    },
+    "Linus Ullmark": {
+      "primary_source": null,
+      "status": null
+    },
+    "Vincent Trocheck": {
+      "primary_source": null,
+      "status": null
+    },
+    "Oskar Bäck": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tanner Jeannot": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jack St. Ivany": {
+      "primary_source": null,
+      "status": null
+    },
+    "Colten Ellis": {
+      "primary_source": null,
+      "status": null
+    },
+    "Kirill Kaprizov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nico Hischier": {
+      "primary_source": null,
+      "status": null
+    },
+    "Malik Monk": {
+      "primary_source": null,
+      "status": null
+    },
+    "Sandro Mamukelashvili": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jared Wright": {
+      "primary_source": null,
+      "status": null
+    },
+    "Duncan Robinson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Matthew Kessel": {
+      "primary_source": null,
+      "status": null
+    },
+    "Baylor Scheierman": {
+      "primary_source": null,
+      "status": null
+    },
+    "Arseny Gritsyuk": {
+      "primary_source": null,
+      "status": null
+    },
+    "Brandon Carlo": {
+      "primary_source": null,
+      "status": null
+    },
+    "Matthew Tkachuk": {
+      "primary_source": null,
+      "status": null
+    },
+    "Matthew Wood": {
+      "primary_source": null,
+      "status": null
+    },
+    "Lane Hutson": {
       "primary_source": null,
       "status": null
     },
@@ -947,7 +599,7 @@
         "confidence": "confirmed",
         "fact": "primary_source",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "primary_source",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
         "value": "league"
@@ -956,33 +608,41 @@
         "confidence": "confirmed",
         "fact": "availability",
         "quote": "out",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "league",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
         "value": "out"
       }
     },
-    "Jamie Drysdale": {
+    "Mike Reilly": {
       "primary_source": null,
       "status": null
     },
-    "Louis Crevier": {
+    "Rasmus Andersson": {
       "primary_source": null,
       "status": null
     },
-    "Tim Washe": {
+    "Dominic Toninato": {
       "primary_source": null,
       "status": null
     },
-    "Vitali Pinchuk": {
+    "Cameron Crotty": {
       "primary_source": null,
       "status": null
     },
-    "Bowen Byram": {
+    "Ivan Demidov": {
       "primary_source": null,
       "status": null
     },
-    "Cutter Gauthier": {
+    "Adam Jiricek": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jrue Holiday": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nicolas Hague": {
       "primary_source": null,
       "status": null
     },
@@ -992,7 +652,7 @@
         "value": "beat",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "ESPN",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed"
       },
@@ -1001,200 +661,120 @@
         "value": "active",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "ESPN explicit confirmed starting goalie",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed",
         "report_type": "game_day_report",
-        "observed_at": "2026-10-28T00:57:02.858359+00:00",
+        "observed_at": "2026-10-28T01:04:23.927076+00:00",
         "source_field": "competitions.competitors.probables.status.type",
         "espn_player_id": "4588165"
       }
     },
-    "Marco Rossi": {
+    "Valeri Nichushkin": {
       "primary_source": null,
       "status": null
     },
-    "Hampus Lindholm": {
+    "Dmitri Simashev": {
       "primary_source": null,
       "status": null
     },
-    "Michael Kesselring": {
+    "Joel Armia": {
       "primary_source": null,
       "status": null
     },
-    "Patrick Kane": {
+    "Keon Ellis": {
       "primary_source": null,
       "status": null
     },
-    "Christian Dvorak": {
+    "Deni Avdija": {
       "primary_source": null,
       "status": null
     },
-    "Zachary Bolduc": {
+    "Ross Johnston": {
       "primary_source": null,
       "status": null
     },
-    "Clay Stevenson": {
+    "Denver Barkey": {
       "primary_source": null,
       "status": null
     },
-    "De'Andre Hunter": {
+    "Drew O'Connor": {
       "primary_source": null,
       "status": null
     },
-    "Jrue Holiday": {
+    "Jake Christiansen": {
       "primary_source": null,
       "status": null
     },
-    "Alexander Holtz": {
+    "Kyle Capobianco": {
       "primary_source": null,
       "status": null
     },
-    "Vladislav Namestnikov": {
+    "Brock Boeser": {
       "primary_source": null,
       "status": null
     },
-    "Hugo Gonzalez": {
+    "Carter Verhaeghe": {
       "primary_source": null,
       "status": null
     },
-    "Zach Bogosian": {
+    "Ivan Barbashev": {
       "primary_source": null,
       "status": null
     },
-    "Elias Salomonsson": {
+    "Anton Forsberg": {
       "primary_source": null,
       "status": null
     },
-    "Barclay Goodrow": {
+    "Sebastian Cossa": {
       "primary_source": null,
       "status": null
     },
-    "Cole Perfetti": {
+    "Zeev Buium": {
       "primary_source": null,
       "status": null
     },
-    "Ukko-Pekka Luukkonen": {
+    "Kyle Connor": {
       "primary_source": null,
       "status": null
     },
-    "Cole Sillinger": {
+    "Isaiah Joe": {
+      "primary_source": {
+        "confidence": "confirmed",
+        "fact": "primary_source",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "primary_source",
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+        "value": "league"
+      },
+      "status": {
+        "confidence": "confirmed",
+        "fact": "availability",
+        "quote": "out",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "league",
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+        "value": "out"
+      }
+    },
+    "Connor Bedard": {
       "primary_source": null,
       "status": null
     },
-    "John Marino": {
+    "Noah Clowney": {
       "primary_source": null,
       "status": null
     },
-    "Ondrej Palat": {
+    "Tyler Toffoli": {
       "primary_source": null,
       "status": null
     },
-    "Jason Robertson": {
+    "Neal Pionk": {
       "primary_source": null,
       "status": null
     },
-    "Braeden Bowman": {
-      "primary_source": null,
-      "status": null
-    },
-    "Alexander Romanov": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cade Cunningham": {
-      "primary_source": null,
-      "status": null
-    },
-    "Andrew Peeke": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dalibor Dvorsky": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ilya Sorokin": {
-      "primary_source": null,
-      "status": null
-    },
-    "Gabriel Vilardi": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mason McTavish": {
-      "primary_source": null,
-      "status": null
-    },
-    "Baylor Scheierman": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brendan Gallagher": {
-      "primary_source": null,
-      "status": null
-    },
-    "Matthew Wood": {
-      "primary_source": null,
-      "status": null
-    },
-    "Justin Barron": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dylan DeMelo": {
-      "primary_source": null,
-      "status": null
-    },
-    "Sandis Vilmanis": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brenden Dillon": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jake Oettinger": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jordan Clarkson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Alex Iafallo": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jimmy Snuggerud": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nic Dowd": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jorian Donovan": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jeremy Lauzon": {
-      "primary_source": null,
-      "status": null
-    },
-    "Daemon Hunt": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jacob Gaucher": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mario Ferraro": {
-      "primary_source": null,
-      "status": null
-    },
-    "Eric Robinson": {
+    "Juuso Valimaki": {
       "primary_source": null,
       "status": null
     },
@@ -1202,107 +782,331 @@
       "primary_source": null,
       "status": null
     },
-    "Trevor Moore": {
+    "John Marino": {
       "primary_source": null,
       "status": null
     },
-    "Elias Lindholm": {
+    "Justin Hryckowian": {
       "primary_source": null,
       "status": null
     },
-    "Garnet Hathaway": {
+    "Mikel Brown Jr.": {
       "primary_source": null,
       "status": null
     },
-    "David Reinbacher": {
+    "Aleksanteri Kaskimaki": {
       "primary_source": null,
       "status": null
     },
-    "Kiefer Sherwood": {
+    "Niko Mikkola": {
       "primary_source": null,
       "status": null
     },
-    "Matthew Knies": {
+    "Jaccob Slavin": {
       "primary_source": null,
       "status": null
     },
-    "Nick Suzuki": {
+    "Alex Iafallo": {
       "primary_source": null,
       "status": null
     },
-    "Julius Randle": {
+    "Kevin Lankinen": {
       "primary_source": null,
       "status": null
     },
-    "Filip Chytil": {
+    "Declan Chisholm": {
       "primary_source": null,
       "status": null
     },
-    "Sebastian Aho": {
+    "Kaiden Guhle": {
       "primary_source": null,
       "status": null
     },
-    "David Spacek": {
+    "Louis Crevier": {
       "primary_source": null,
       "status": null
     },
-    "Dylan Coghlan": {
+    "Beckett Sennecke": {
       "primary_source": null,
       "status": null
     },
-    "Walker Kessler": {
+    "Blake Coleman": {
       "primary_source": null,
       "status": null
     },
-    "Jordan Staal": {
+    "Bobby Brink": {
       "primary_source": null,
       "status": null
     },
-    "Juuse Saros": {
+    "Jayson Tatum": {
       "primary_source": null,
       "status": null
     },
-    "Logan Stankoven": {
+    "Joel Edmundson": {
       "primary_source": null,
       "status": null
     },
-    "William Karlsson": {
+    "Sean Couturier": {
       "primary_source": null,
       "status": null
     },
-    "Marat Khusnutdinov": {
+    "Damian Lillard": {
       "primary_source": null,
       "status": null
     },
-    "Jackson LaCombe": {
+    "Jack Eichel": {
       "primary_source": null,
       "status": null
     },
-    "Alex Killorn": {
+    "Daniil But": {
       "primary_source": null,
       "status": null
     },
-    "Justin Danforth": {
+    "Helge Grans": {
       "primary_source": null,
       "status": null
     },
-    "Sam Reinhart": {
+    "Ryan Donato": {
       "primary_source": null,
       "status": null
     },
-    "Shea Theodore": {
+    "Dylan Hryckowian": {
       "primary_source": null,
       "status": null
     },
-    "Linus Karlsson": {
+    "Joel Kiviranta": {
       "primary_source": null,
       "status": null
     },
-    "Mason Lohrei": {
+    "Erik Haula": {
       "primary_source": null,
       "status": null
     },
-    "Peyton Krebs": {
+    "Hugo Gonzalez": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ethan Del Mastro": {
+      "primary_source": null,
+      "status": null
+    },
+    "Emil Heineman": {
+      "primary_source": null,
+      "status": null
+    },
+    "Semyon Varlamov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Yakov Trenin": {
+      "primary_source": null,
+      "status": null
+    },
+    "Anthony Duclair": {
+      "primary_source": null,
+      "status": null
+    },
+    "Josh Norris": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jean-Gabriel Pageau": {
+      "primary_source": null,
+      "status": null
+    },
+    "Samuel Ersson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mason McTavish": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nikita Klepov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Sam Steel": {
+      "primary_source": null,
+      "status": null
+    },
+    "Teuvo Teravainen": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jonathan Lekkerimaki": {
+      "primary_source": null,
+      "status": null
+    },
+    "Pius Suter": {
+      "primary_source": null,
+      "status": null
+    },
+    "Darcy Kuemper": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mark Scheifele": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jake Evans": {
+      "primary_source": null,
+      "status": null
+    },
+    "Harrison Barnes": {
+      "primary_source": null,
+      "status": null
+    },
+    "Phillip Danault": {
+      "primary_source": null,
+      "status": null
+    },
+    "Alex Laferriere": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ja Morant": {
+      "primary_source": null,
+      "status": null
+    },
+    "Payton Pritchard": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ryan Pulock": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nic Dowd": {
+      "primary_source": null,
+      "status": null
+    },
+    "Michael Porter Jr.": {
+      "primary_source": null,
+      "status": null
+    },
+    "Michael Kesselring": {
+      "primary_source": null,
+      "status": null
+    },
+    "Sam Lafferty": {
+      "primary_source": null,
+      "status": null
+    },
+    "Dylan Guenther": {
+      "primary_source": null,
+      "status": null
+    },
+    "MacKenzie Weegar": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ziaire Williams": {
+      "primary_source": null,
+      "status": null
+    },
+    "Adam Wilsby": {
+      "primary_source": null,
+      "status": null
+    },
+    "Alexandre Carrier": {
+      "primary_source": null,
+      "status": null
+    },
+    "Andrew Peeke": {
+      "primary_source": null,
+      "status": null
+    },
+    "Hayden Hodgson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Andre Drummond": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jamie Drysdale": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jesper Wallstedt": {
+      "primary_source": null,
+      "status": null
+    },
+    "Frederic Brunet": {
+      "primary_source": null,
+      "status": null
+    },
+    "Justin Barron": {
+      "primary_source": null,
+      "status": null
+    },
+    "Brayden McNabb": {
+      "primary_source": null,
+      "status": null
+    },
+    "Morgan Barron": {
+      "primary_source": null,
+      "status": null
+    },
+    "Michael DiPietro": {
+      "primary_source": null,
+      "status": null
+    },
+    "Keegan Murray": {
+      "primary_source": {
+        "confidence": "confirmed",
+        "fact": "primary_source",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "primary_source",
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+        "value": "league"
+      },
+      "status": {
+        "confidence": "confirmed",
+        "fact": "availability",
+        "quote": "out",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "league",
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+        "value": "out"
+      }
+    },
+    "Neemias Queta": {
+      "primary_source": null,
+      "status": null
+    },
+    "Noah Hanifin": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nick DeSimone": {
+      "primary_source": null,
+      "status": null
+    },
+    "Adam Lowry": {
+      "primary_source": null,
+      "status": null
+    },
+    "Noah Ostlund": {
+      "primary_source": null,
+      "status": null
+    },
+    "Javonte Green": {
+      "primary_source": null,
+      "status": null
+    },
+    "Brad Lambert": {
+      "primary_source": null,
+      "status": null
+    },
+    "Cole Schwindt": {
+      "primary_source": null,
+      "status": null
+    },
+    "James Hagens": {
       "primary_source": null,
       "status": null
     },
@@ -1311,7 +1115,7 @@
         "confidence": "confirmed",
         "fact": "primary_source",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "primary_source",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
         "value": "league"
@@ -1320,57 +1124,217 @@
         "confidence": "confirmed",
         "fact": "availability",
         "quote": "questionable",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "league",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
         "value": "questionable"
       }
     },
-    "Tim Stützle": {
+    "Reid Schaefer": {
       "primary_source": null,
       "status": null
     },
-    "Nikita Zadorov": {
+    "Warren Foegele": {
       "primary_source": null,
       "status": null
     },
-    "Arshdeep Bains": {
+    "Andre Burakovsky": {
       "primary_source": null,
       "status": null
     },
-    "Andrew Mangiapane": {
+    "Luca Cagnoni": {
       "primary_source": null,
       "status": null
     },
-    "Jack Studnicka": {
+    "Owen Beck": {
       "primary_source": null,
       "status": null
     },
-    "Arttu Hyry": {
+    "Nico Daws": {
       "primary_source": null,
       "status": null
     },
-    "Kirill Kaprizov": {
+    "Roger McQueen": {
       "primary_source": null,
       "status": null
     },
-    "Alexey Toropchenko": {
+    "Braeden Bowman": {
       "primary_source": null,
       "status": null
     },
-    "Nick Schmaltz": {
+    "Josh Anderson": {
       "primary_source": null,
       "status": null
     },
-    "Michael Carcone": {
+    "Justus Annunen": {
       "primary_source": null,
       "status": null
     },
-    "Josh Morrissey": {
+    "Sam Bennett": {
       "primary_source": null,
       "status": null
     },
-    "Jonas Brodin": {
+    "Alex Newhook": {
+      "primary_source": null,
+      "status": null
+    },
+    "Fraser Minten": {
+      "primary_source": null,
+      "status": null
+    },
+    "Victor Mancini": {
+      "primary_source": null,
+      "status": null
+    },
+    "Anton Frondell": {
+      "primary_source": null,
+      "status": null
+    },
+    "James Wiseman": {
+      "primary_source": null,
+      "status": null
+    },
+    "Connor Clifton": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tarris Reed Jr.": {
+      "primary_source": null,
+      "status": null
+    },
+    "Juuse Saros": {
+      "primary_source": null,
+      "status": null
+    },
+    "Stephen Halliday": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jeff Malott": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mark Kastelic": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nikolaj Ehlers": {
+      "primary_source": null,
+      "status": null
+    },
+    "Carter Bryant": {
+      "primary_source": null,
+      "status": null
+    },
+    "Alex Nedeljkovic": {
+      "primary_source": null,
+      "status": null
+    },
+    "Josh Minott": {
+      "primary_source": null,
+      "status": null
+    },
+    "Igor Chernyshov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jonas Siegenthaler": {
+      "primary_source": null,
+      "status": null
+    },
+    "Danton Heinen": {
+      "primary_source": null,
+      "status": null
+    },
+    "Haydn Fleury": {
+      "primary_source": null,
+      "status": null
+    },
+    "Isak Rosén": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jacob Markstrom": {
+      "primary_source": null,
+      "status": null
+    },
+    "Alex Bump": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tom Willander": {
+      "primary_source": null,
+      "status": null
+    },
+    "Brandon Bussi": {
+      "primary_source": null,
+      "status": null
+    },
+    "Robert Thomas": {
+      "primary_source": null,
+      "status": null
+    },
+    "Radek Faksa": {
+      "primary_source": null,
+      "status": null
+    },
+    "Denton Mateychuk": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jonatan Berggren": {
+      "primary_source": null,
+      "status": null
+    },
+    "Brett Pesce": {
+      "primary_source": null,
+      "status": null
+    },
+    "Florian Xhekaj": {
+      "primary_source": null,
+      "status": null
+    },
+    "Matias Maccelli": {
+      "primary_source": null,
+      "status": null
+    },
+    "Marc Gatcomb": {
+      "primary_source": null,
+      "status": null
+    },
+    "Dylan Cozens": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jamie Benn": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mikal Bridges": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mason Lohrei": {
+      "primary_source": null,
+      "status": null
+    },
+    "Matisse Thybulle": {
+      "primary_source": null,
+      "status": null
+    },
+    "William Borgen": {
+      "primary_source": null,
+      "status": null
+    },
+    "Daeqwon Plowden": {
+      "primary_source": null,
+      "status": null
+    },
+    "Michael Amadio": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ondrej Palat": {
       "primary_source": null,
       "status": null
     },
@@ -1380,7 +1344,7 @@
         "value": "beat",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "ESPN",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed"
       },
@@ -1389,120 +1353,100 @@
         "value": "active",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "ESPN explicit confirmed starting goalie",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed",
         "report_type": "game_day_report",
-        "observed_at": "2026-10-28T00:57:02.858359+00:00",
+        "observed_at": "2026-10-28T01:04:23.927076+00:00",
         "source_field": "competitions.competitors.probables.status.type",
         "espn_player_id": "3939714"
       }
     },
-    "Clayton Keller": {
+    "Paul Cotter": {
       "primary_source": null,
       "status": null
     },
-    "Ville Husso": {
+    "K'Andre Miller": {
       "primary_source": null,
       "status": null
     },
-    "Sam Bennett": {
+    "Artemi Panarin": {
       "primary_source": null,
       "status": null
     },
-    "Dylan Hryckowian": {
+    "Luka Garza": {
       "primary_source": null,
       "status": null
     },
-    "Robert Thomas": {
+    "David Pastrnak": {
       "primary_source": null,
       "status": null
     },
-    "Mike Matheson": {
+    "Leo Carlsson": {
       "primary_source": null,
       "status": null
     },
-    "Joel Eriksson Ek": {
+    "Pyotr Kochetkov": {
       "primary_source": null,
       "status": null
     },
-    "Daniss Jenkins": {
+    "Trevor Connelly": {
       "primary_source": null,
       "status": null
     },
-    "Luke Hughes": {
+    "Jonathan Aspirot": {
       "primary_source": null,
       "status": null
     },
-    "Filip Hronek": {
+    "Taylor Ward": {
       "primary_source": null,
       "status": null
     },
-    "Anton Forsberg": {
+    "Quinn Hughes": {
       "primary_source": null,
       "status": null
     },
-    "Radek Faksa": {
+    "Andre Lee": {
       "primary_source": null,
       "status": null
     },
-    "Adam Engstrom": {
+    "Anton Lundell": {
       "primary_source": null,
       "status": null
     },
-    "Karl-Anthony Towns": {
+    "Thomas Harley": {
       "primary_source": null,
       "status": null
     },
-    "Keldon Johnson": {
+    "Tyler Pitlick": {
       "primary_source": null,
       "status": null
     },
-    "Sam Rinzel": {
+    "Adam Pelech": {
       "primary_source": null,
       "status": null
     },
-    "Beck Malenstyn": {
+    "Stefan Noesen": {
       "primary_source": null,
       "status": null
     },
-    "Dmitry Kulikov": {
+    "Will Smith": {
       "primary_source": null,
       "status": null
     },
-    "Emil Andrae": {
+    "Hunter McDonald": {
       "primary_source": null,
       "status": null
     },
-    "Dylan Harper": {
+    "Cam Fowler": {
       "primary_source": null,
       "status": null
     },
-    "Jesper Wallstedt": {
-      "primary_source": {
-        "fact": "source classification",
-        "value": "beat",
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
-        "source_name": "ESPN",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
-        "quote": "",
-        "confidence": "confirmed"
-      },
-      "status": {
-        "fact": "ESPN explicit confirmed starting goalie",
-        "value": "active",
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
-        "source_name": "ESPN explicit confirmed starting goalie",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
-        "quote": "",
-        "confidence": "confirmed",
-        "report_type": "game_day_report",
-        "observed_at": "2026-10-28T00:57:02.858359+00:00",
-        "source_field": "competitions.competitors.probables.status.type",
-        "espn_player_id": "4874737"
-      }
+    "Clay Stevenson": {
+      "primary_source": null,
+      "status": null
     },
-    "Zach LaVine": {
+    "Cole Reinhardt": {
       "primary_source": null,
       "status": null
     },
@@ -1510,20 +1454,140 @@
       "primary_source": null,
       "status": null
     },
-    "Igor Chernyshov": {
+    "Ja'Kobi Gillespie": {
       "primary_source": null,
       "status": null
     },
-    "Matthew Kessel": {
+    "Shayne Gostisbehere": {
       "primary_source": null,
       "status": null
     },
-    "Keegan Murray": {
+    "Guillaume Brisebois": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jorian Donovan": {
+      "primary_source": null,
+      "status": null
+    },
+    "Drew Doughty": {
+      "primary_source": null,
+      "status": null
+    },
+    "Connor McMichael": {
+      "primary_source": null,
+      "status": null
+    },
+    "Emil Andrae": {
+      "primary_source": null,
+      "status": null
+    },
+    "Dennis Gilbert": {
+      "primary_source": null,
+      "status": null
+    },
+    "Owen Power": {
+      "primary_source": null,
+      "status": null
+    },
+    "Sam Dickinson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Artem Zub": {
+      "primary_source": null,
+      "status": null
+    },
+    "Sandis Vilmanis": {
+      "primary_source": null,
+      "status": null
+    },
+    "Cooper Black": {
+      "primary_source": null,
+      "status": null
+    },
+    "Sean Monahan": {
+      "primary_source": null,
+      "status": null
+    },
+    "Elias Pettersson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Zach Bogosian": {
+      "primary_source": null,
+      "status": null
+    },
+    "Lian Bichsel": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jet Greaves": {
+      "primary_source": null,
+      "status": null
+    },
+    "Justin Danforth": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mikael Granlund": {
+      "primary_source": null,
+      "status": null
+    },
+    "Aatu Räty": {
+      "primary_source": null,
+      "status": null
+    },
+    "Vitali Pinchuk": {
+      "primary_source": null,
+      "status": null
+    },
+    "Garrett Wilson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nick Foligno": {
+      "primary_source": null,
+      "status": null
+    },
+    "Kevin Huerter": {
+      "primary_source": null,
+      "status": null
+    },
+    "Cole Knuble": {
+      "primary_source": null,
+      "status": null
+    },
+    "Danila Yurov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ukko-Pekka Luukkonen": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jeremy Swayman": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jack Quinn": {
+      "primary_source": null,
+      "status": null
+    },
+    "Carter Hart": {
+      "primary_source": null,
+      "status": null
+    },
+    "Andrew Mangiapane": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jose Alvarado": {
       "primary_source": {
         "confidence": "confirmed",
         "fact": "primary_source",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "primary_source",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
         "value": "league"
@@ -1532,149 +1596,61 @@
         "confidence": "confirmed",
         "fact": "availability",
         "quote": "out",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "league",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
         "value": "out"
       }
     },
-    "Derrick White": {
+    "Mike Matheson": {
       "primary_source": null,
       "status": null
     },
-    "David Jiricek": {
+    "Jeremy Lauzon": {
       "primary_source": null,
       "status": null
     },
-    "Filip Forsberg": {
+    "Moritz Wagner": {
       "primary_source": null,
       "status": null
     },
-    "Matthew Poitras": {
+    "Jordan Clarkson": {
       "primary_source": null,
       "status": null
     },
-    "Tyler Kleven": {
+    "Ivar Stenberg": {
       "primary_source": null,
       "status": null
     },
-    "Victor Mancini": {
+    "Jack Ahcan": {
       "primary_source": null,
       "status": null
     },
-    "William Borgen": {
+    "Nick Seeler": {
       "primary_source": null,
       "status": null
     },
-    "Adrian Kempe": {
+    "Timo Meier": {
       "primary_source": null,
       "status": null
     },
-    "Sebastian Cossa": {
+    "Roope Hintz": {
       "primary_source": null,
       "status": null
     },
-    "Josh Hart": {
+    "Landry Shamet": {
       "primary_source": null,
       "status": null
     },
-    "Carter Hart": {
+    "Michael Carcone": {
       "primary_source": null,
       "status": null
     },
-    "Nick Cousins": {
+    "Arvid Soderblom": {
       "primary_source": null,
       "status": null
     },
-    "Donovan Clingan": {
-      "primary_source": null,
-      "status": null
-    },
-    "Duncan Robinson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Isak Rosén": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brayden Yager": {
-      "primary_source": null,
-      "status": null
-    },
-    "Tage Thompson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Liam Ohgren": {
-      "primary_source": null,
-      "status": null
-    },
-    "Joseph Woll": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jalen Chatfield": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ryan Lomberg": {
-      "primary_source": null,
-      "status": null
-    },
-    "Yakov Trenin": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jonas Johansson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jonathan Aspirot": {
-      "primary_source": null,
-      "status": null
-    },
-    "Michael Porter Jr.": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nico Daws": {
-      "primary_source": null,
-      "status": null
-    },
-    "Vincent Trocheck": {
-      "primary_source": null,
-      "status": null
-    },
-    "Kyle Capobianco": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jake Neighbours": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jonas Siegenthaler": {
-      "primary_source": null,
-      "status": null
-    },
-    "Bobby Brink": {
-      "primary_source": null,
-      "status": null
-    },
-    "Shayne Gostisbehere": {
-      "primary_source": null,
-      "status": null
-    },
-    "OG Anunoby": {
-      "primary_source": null,
-      "status": null
-    },
-    "Chaney Johnson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Michael McCarron": {
+    "Zach Werenski": {
       "primary_source": null,
       "status": null
     },
@@ -1682,19 +1658,95 @@
       "primary_source": null,
       "status": null
     },
-    "Victor Olofsson": {
+    "Dan Vladar": {
       "primary_source": null,
       "status": null
     },
-    "Matthew Seminoff": {
+    "Joel Eriksson Ek": {
       "primary_source": null,
       "status": null
     },
-    "Paul George": {
+    "Tristan Luneau": {
       "primary_source": null,
       "status": null
     },
-    "Florian Xhekaj": {
+    "Matt Grzelcyk": {
+      "primary_source": null,
+      "status": null
+    },
+    "Alexander Wennberg": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jake Neighbours": {
+      "primary_source": null,
+      "status": null
+    },
+    "Trevor Moore": {
+      "primary_source": null,
+      "status": null
+    },
+    "Simon Holmstrom": {
+      "primary_source": null,
+      "status": null
+    },
+    "Kyle MacLean": {
+      "primary_source": null,
+      "status": null
+    },
+    "Juraj Slafkovský": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jack McBain": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nils Hoglander": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jake Allen": {
+      "primary_source": null,
+      "status": null
+    },
+    "Pavel Buchnevich": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ryan McLeod": {
+      "primary_source": null,
+      "status": null
+    },
+    "Theo Lindstein": {
+      "primary_source": null,
+      "status": null
+    },
+    "Noel Acciari": {
+      "primary_source": null,
+      "status": null
+    },
+    "Brad Marchand": {
+      "primary_source": null,
+      "status": null
+    },
+    "Travis Sanheim": {
+      "primary_source": null,
+      "status": null
+    },
+    "Kevin Stenlund": {
+      "primary_source": null,
+      "status": null
+    },
+    "Owen Tippett": {
+      "primary_source": null,
+      "status": null
+    },
+    "Eetu Luostarinen": {
+      "primary_source": null,
+      "status": null
+    },
+    "Rasmus Ristolainen": {
       "primary_source": null,
       "status": null
     },
@@ -1702,59 +1754,15 @@
       "primary_source": null,
       "status": null
     },
-    "David Pastrnak": {
+    "Viggo Björck": {
       "primary_source": null,
       "status": null
     },
-    "Tyler Seguin": {
+    "Christian Dvorak": {
       "primary_source": null,
       "status": null
     },
-    "Damon Severson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jayson Tatum": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jacob Trouba": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dan Vladar": {
-      "primary_source": null,
-      "status": null
-    },
-    "Zach Metsa": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nick Perbix": {
-      "primary_source": null,
-      "status": null
-    },
-    "Sean Couturier": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jiri Kulich": {
-      "primary_source": null,
-      "status": null
-    },
-    "Danton Heinen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jean-Gabriel Pageau": {
-      "primary_source": null,
-      "status": null
-    },
-    "Kevin Huerter": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nico Hischier": {
+    "Nils Lundkvist": {
       "primary_source": null,
       "status": null
     },
@@ -1762,87 +1770,127 @@
       "primary_source": null,
       "status": null
     },
+    "Raphael Lavoie": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nino Niederreiter": {
+      "primary_source": null,
+      "status": null
+    },
+    "Marco Rossi": {
+      "primary_source": null,
+      "status": null
+    },
+    "Brady Tkachuk": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nolan Allan": {
+      "primary_source": null,
+      "status": null
+    },
+    "Dmitry Kulikov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Akira Schmid": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mario Ferraro": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ryan Greene": {
+      "primary_source": null,
+      "status": null
+    },
+    "Alexander Holtz": {
+      "primary_source": null,
+      "status": null
+    },
+    "Bokondji Imama": {
+      "primary_source": null,
+      "status": null
+    },
+    "Alexander Kerfoot": {
+      "primary_source": null,
+      "status": null
+    },
+    "Sam Rinzel": {
+      "primary_source": null,
+      "status": null
+    },
+    "Dillon Dube": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nico Sturm": {
+      "primary_source": null,
+      "status": null
+    },
+    "Casey Cizikas": {
+      "primary_source": null,
+      "status": null
+    },
     "Sean Walker": {
       "primary_source": null,
       "status": null
     },
-    "Elias Pettersson": {
+    "Sidy Cissoko": {
       "primary_source": null,
       "status": null
     },
-    "Ryan Ufko": {
+    "Carter Yakemchuk": {
       "primary_source": null,
       "status": null
     },
-    "Brayden Schenn": {
+    "Cutter Gauthier": {
       "primary_source": null,
       "status": null
     },
-    "Kevon Looney": {
+    "Matthew Schaefer": {
       "primary_source": null,
       "status": null
     },
-    "Haydn Fleury": {
+    "Alex Vlasic": {
       "primary_source": null,
       "status": null
     },
-    "Kent Johnson": {
+    "Josh Doan": {
       "primary_source": null,
       "status": null
     },
-    "Josh Minott": {
+    "Ross Colton": {
       "primary_source": null,
       "status": null
     },
-    "Drake Batherson": {
+    "Dylan Peterson": {
       "primary_source": null,
       "status": null
     },
-    "Mitchell Robinson": {
+    "Mark Stone": {
       "primary_source": null,
       "status": null
     },
-    "Nikita Klepov": {
+    "Cam Talbot": {
       "primary_source": null,
       "status": null
     },
-    "Carter Verhaeghe": {
+    "Leevi Merilainen": {
       "primary_source": null,
       "status": null
     },
-    "Mikal Bridges": {
+    "Vit Krejci": {
       "primary_source": null,
       "status": null
     },
-    "Miles McBride": {
+    "Casey Mittelstadt": {
       "primary_source": null,
       "status": null
     },
-    "Stephon Castle": {
-      "primary_source": null,
-      "status": null
-    },
-    "Quinton Byfield": {
-      "primary_source": null,
-      "status": null
-    },
-    "Steven Stamkos": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jesperi Kotkaniemi": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jonathan Lekkerimaki": {
-      "primary_source": null,
-      "status": null
-    },
-    "Alex Newhook": {
-      "primary_source": null,
-      "status": null
-    },
-    "Noah Clowney": {
+    "Dylan Harper": {
       "primary_source": null,
       "status": null
     },
@@ -1850,43 +1898,55 @@
       "primary_source": null,
       "status": null
     },
-    "Calvin Pickard": {
+    "Filip Forsberg": {
       "primary_source": null,
       "status": null
     },
-    "Samuel Helenius": {
+    "Collin Graf": {
       "primary_source": null,
       "status": null
     },
-    "Gustav Forsling": {
+    "Nikolas Matinpalo": {
       "primary_source": null,
       "status": null
     },
-    "Frank Vatrano": {
+    "Zach Metsa": {
       "primary_source": null,
       "status": null
     },
-    "Spencer Knight": {
+    "Zack Ostapchuk": {
       "primary_source": null,
       "status": null
     },
-    "Darius Acuff Jr.": {
+    "Cole Sillinger": {
       "primary_source": null,
       "status": null
     },
-    "Matvei Michkov": {
+    "Nique Clifford": {
       "primary_source": null,
       "status": null
     },
-    "Brayden McNabb": {
+    "Max Sasson": {
       "primary_source": null,
       "status": null
     },
-    "Pyotr Kochetkov": {
+    "Beck Malenstyn": {
       "primary_source": null,
       "status": null
     },
-    "Jordan Martinook": {
+    "Jordan Staal": {
+      "primary_source": null,
+      "status": null
+    },
+    "Conor Garland": {
+      "primary_source": null,
+      "status": null
+    },
+    "Macklin Celebrini": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jack Hughes": {
       "primary_source": null,
       "status": null
     },
@@ -1896,7 +1956,7 @@
         "value": "beat",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "ESPN",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed"
       },
@@ -1905,536 +1965,24 @@
         "value": "active",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "ESPN explicit confirmed starting goalie",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed",
         "report_type": "game_day_report",
-        "observed_at": "2026-10-28T00:57:02.858359+00:00",
+        "observed_at": "2026-10-28T01:04:23.927076+00:00",
         "source_field": "competitions.competitors.probables.status.type",
         "espn_player_id": "4697394"
       }
     },
-    "Karel Vejmelka": {
-      "primary_source": {
-        "fact": "source classification",
-        "value": "beat",
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
-        "source_name": "ESPN",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
-        "quote": "",
-        "confidence": "confirmed"
-      },
-      "status": {
-        "fact": "ESPN explicit confirmed starting goalie",
-        "value": "active",
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
-        "source_name": "ESPN explicit confirmed starting goalie",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
-        "quote": "",
-        "confidence": "confirmed",
-        "report_type": "game_day_report",
-        "observed_at": "2026-10-28T00:57:02.858359+00:00",
-        "source_field": "competitions.competitors.probables.status.type",
-        "espn_player_id": "3942065"
-      }
-    },
-    "Ryan O'Reilly": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cole Knuble": {
-      "primary_source": null,
-      "status": null
-    },
-    "Johnathan Kovacevic": {
-      "primary_source": null,
-      "status": null
-    },
-    "Artyom Levshunov": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jordan Greenway": {
-      "primary_source": null,
-      "status": null
-    },
-    "Justus Annunen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cooper Black": {
-      "primary_source": null,
-      "status": null
-    },
-    "Kevin Lankinen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Darnell Nurse": {
-      "primary_source": null,
-      "status": null
-    },
-    "Luke Kornet": {
-      "primary_source": null,
-      "status": null
-    },
-    "Miro Heiskanen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Pavel Mintyukov": {
-      "primary_source": null,
-      "status": null
-    },
-    "Adam Edstrom": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ivar Stenberg": {
-      "primary_source": null,
-      "status": null
-    },
-    "Joel Kiviranta": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mathieu Olivier": {
-      "primary_source": null,
-      "status": null
-    },
-    "Morgan Barron": {
-      "primary_source": null,
-      "status": null
-    },
-    "Carl Grundstrom": {
-      "primary_source": null,
-      "status": null
-    },
-    "Matt Grzelcyk": {
-      "primary_source": null,
-      "status": null
-    },
-    "Javonte Green": {
-      "primary_source": null,
-      "status": null
-    },
-    "Viggo Björck": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mark Scheifele": {
-      "primary_source": null,
-      "status": null
-    },
-    "Neemias Queta": {
-      "primary_source": null,
-      "status": null
-    },
-    "Paul Cotter": {
-      "primary_source": null,
-      "status": null
-    },
-    "Alex Laferriere": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mason Marchment": {
-      "primary_source": null,
-      "status": null
-    },
-    "Lawson Crouse": {
-      "primary_source": null,
-      "status": null
-    },
-    "Vit Krejci": {
-      "primary_source": null,
-      "status": null
-    },
-    "Victor Wembanyama": {
-      "primary_source": null,
-      "status": null
-    },
-    "Matias Maccelli": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brett Howden": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dmitri Simashev": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brian Dumoulin": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nick Lardis": {
-      "primary_source": null,
-      "status": null
-    },
-    "Emanuel Sharp": {
-      "primary_source": null,
-      "status": null
-    },
-    "Bradly Nadeau": {
-      "primary_source": null,
-      "status": null
-    },
-    "Stephen Halliday": {
-      "primary_source": null,
-      "status": null
-    },
-    "Olen Zellweger": {
-      "primary_source": null,
-      "status": null
-    },
-    "Adam Gaudette": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dennis Gilbert": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jonathan Marchessault": {
-      "primary_source": null,
-      "status": null
-    },
-    "Michael DiPietro": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jack St. Ivany": {
-      "primary_source": null,
-      "status": null
-    },
-    "Alexandre Texier": {
-      "primary_source": null,
-      "status": null
-    },
-    "Phillip Danault": {
-      "primary_source": null,
-      "status": null
-    },
-    "Kirby Dach": {
-      "primary_source": null,
-      "status": null
-    },
-    "Daniil But": {
-      "primary_source": null,
-      "status": null
-    },
-    "Trevor Zegras": {
-      "primary_source": null,
-      "status": null
-    },
-    "Alexandre Carrier": {
-      "primary_source": null,
-      "status": null
-    },
-    "Barrett Hayton": {
-      "primary_source": null,
-      "status": null
-    },
-    "Fabian Zetterlund": {
-      "primary_source": null,
-      "status": null
-    },
-    "Travis Mitchell": {
-      "primary_source": null,
-      "status": null
-    },
-    "Matthew Tkachuk": {
-      "primary_source": null,
-      "status": null
-    },
-    "Skyler Brind'Amour": {
-      "primary_source": null,
-      "status": null
-    },
-    "Aleksander Barkov": {
-      "primary_source": null,
-      "status": null
-    },
-    "Anton Frondell": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jakub Dobes": {
-      "primary_source": null,
-      "status": null
-    },
-    "Pavel Zacha": {
-      "primary_source": null,
-      "status": null
-    },
-    "Daeqwon Plowden": {
-      "primary_source": null,
-      "status": null
-    },
-    "Simon Benoit": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jack Eichel": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brad Marchand": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cole Koepke": {
-      "primary_source": null,
-      "status": null
-    },
-    "Sam Hauser": {
-      "primary_source": null,
-      "status": null
-    },
-    "Drew Doughty": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jordan Walsh": {
-      "primary_source": null,
-      "status": null
-    },
-    "Artemi Panarin": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ryan Pulock": {
-      "primary_source": null,
-      "status": null
-    },
-    "Tanner Jeannot": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cam York": {
-      "primary_source": null,
-      "status": null
-    },
-    "Leo Carlsson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jose Alvarado": {
-      "primary_source": {
-        "confidence": "confirmed",
-        "fact": "primary_source",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "primary_source",
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-        "value": "league"
-      },
-      "status": {
-        "confidence": "confirmed",
-        "fact": "availability",
-        "quote": "out",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "league",
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-        "value": "out"
-      }
-    },
-    "Nikolas Matinpalo": {
-      "primary_source": null,
-      "status": null
-    },
-    "Alex Turcotte": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cody Glass": {
-      "primary_source": null,
-      "status": null
-    },
-    "Denton Mateychuk": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dawson Mercer": {
-      "primary_source": null,
-      "status": null
-    },
-    "Roman Kantserov": {
-      "primary_source": null,
-      "status": null
-    },
-    "Joel Edmundson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Sam Colangelo": {
-      "primary_source": null,
-      "status": null
-    },
-    "Noah Cates": {
-      "primary_source": null,
-      "status": null
-    },
-    "James Wiseman": {
-      "primary_source": null,
-      "status": null
-    },
-    "Blake Coleman": {
-      "primary_source": null,
-      "status": null
-    },
-    "Tomas Hertl": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jake Evans": {
-      "primary_source": null,
-      "status": null
-    },
-    "Helge Grans": {
-      "primary_source": null,
-      "status": null
-    },
-    "John Collins": {
-      "primary_source": null,
-      "status": null
-    },
-    "Luke Evangelista": {
-      "primary_source": null,
-      "status": null
-    },
-    "Max Sasson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Alex Nedeljkovic": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brady Skjei": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brandon Carlo": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mikko Rantanen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mikhail Sergachev": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ethan Del Mastro": {
-      "primary_source": null,
-      "status": null
-    },
-    "Kyle MacLean": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jeff Malott": {
-      "primary_source": null,
-      "status": null
-    },
-    "Declan Chisholm": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ronald Holland II": {
-      "primary_source": null,
-      "status": null
-    },
-    "Damian Lillard": {
-      "primary_source": null,
-      "status": null
-    },
-    "Connor Brown": {
-      "primary_source": null,
-      "status": null
-    },
-    "Alex Vlasic": {
-      "primary_source": null,
-      "status": null
-    },
-    "Michael Misa": {
-      "primary_source": null,
-      "status": null
-    },
-    "Anthony Mantha": {
-      "primary_source": null,
-      "status": null
-    },
-    "Kevin Stenlund": {
-      "primary_source": null,
-      "status": null
-    },
-    "Luca Cagnoni": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jack Drury": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mark Kastelic": {
-      "primary_source": null,
-      "status": null
-    },
-    "Matt Murray": {
-      "primary_source": null,
-      "status": null
-    },
-    "Tyler Toffoli": {
-      "primary_source": null,
-      "status": null
-    },
-    "Alexander Wennberg": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mitch Marner": {
-      "primary_source": null,
-      "status": null
-    },
-    "William Trudeau": {
-      "primary_source": null,
-      "status": null
-    },
-    "Toumani Camara": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jesper Bratt": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ryan Greene": {
-      "primary_source": null,
-      "status": null
-    },
-    "Carter Yakemchuk": {
-      "primary_source": null,
-      "status": null
-    },
-    "Andre Lee": {
-      "primary_source": null,
-      "status": null
-    },
-    "Owen Power": {
+    "Oliver Kapanen": {
       "primary_source": null,
       "status": null
     },
-    "Quinn Hughes": {
+    "Nick Suzuki": {
       "primary_source": null,
       "status": null
     },
-    "Taylor Ward": {
+    "Nicolas Deslauriers": {
       "primary_source": null,
       "status": null
     },
@@ -2442,287 +1990,19 @@
       "primary_source": null,
       "status": null
     },
-    "Casey Cizikas": {
+    "Brian Dumoulin": {
       "primary_source": null,
       "status": null
     },
-    "Jared Wright": {
+    "Mitchell Chaffee": {
       "primary_source": null,
       "status": null
     },
-    "Philip Broberg": {
+    "Steven Stamkos": {
       "primary_source": null,
       "status": null
     },
-    "Raphael Lavoie": {
-      "primary_source": null,
-      "status": null
-    },
-    "Calum Ritchie": {
-      "primary_source": null,
-      "status": null
-    },
-    "Noel Acciari": {
-      "primary_source": null,
-      "status": null
-    },
-    "Bo Horvat": {
-      "primary_source": null,
-      "status": null
-    },
-    "Luka Doncic": {
-      "primary_source": null,
-      "status": null
-    },
-    "Pius Suter": {
-      "primary_source": null,
-      "status": null
-    },
-    "Trevor Connelly": {
-      "primary_source": null,
-      "status": null
-    },
-    "Kaiden Guhle": {
-      "primary_source": null,
-      "status": null
-    },
-    "Erik Gudbranson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Anton Lundell": {
-      "primary_source": null,
-      "status": null
-    },
-    "Victor Eklund": {
-      "primary_source": null,
-      "status": null
-    },
-    "Hunter McDonald": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jake DeBrusk": {
-      "primary_source": null,
-      "status": null
-    },
-    "Adam Fantilli": {
-      "primary_source": null,
-      "status": null
-    },
-    "Stefan Noesen": {
-      "primary_source": null,
-      "status": null
-    },
-    "Bokondji Imama": {
-      "primary_source": null,
-      "status": null
-    },
-    "Garrett Wilson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cody Ceci": {
-      "primary_source": null,
-      "status": null
-    },
-    "Matisse Thybulle": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brock Boeser": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nikolaj Ehlers": {
-      "primary_source": null,
-      "status": null
-    },
-    "Day'Ron Sharpe": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nick Seeler": {
-      "primary_source": null,
-      "status": null
-    },
-    "Thomas Harley": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ian Cole": {
-      "primary_source": null,
-      "status": null
-    },
-    "Esa Lindell": {
-      "primary_source": null,
-      "status": null
-    },
-    "Devin Vassell": {
-      "primary_source": null,
-      "status": null
-    },
-    "Otto Stenberg": {
-      "primary_source": null,
-      "status": null
-    },
-    "Brandon Bussi": {
-      "primary_source": null,
-      "status": null
-    },
-    "Claude Giroux": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cole Schwindt": {
-      "primary_source": null,
-      "status": null
-    },
-    "Tyler Myers": {
-      "primary_source": null,
-      "status": null
-    },
-    "Corey Perry": {
-      "primary_source": null,
-      "status": null
-    },
-    "Dylan Samberg": {
-      "primary_source": null,
-      "status": null
-    },
-    "Seth Jarvis": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nino Niederreiter": {
-      "primary_source": null,
-      "status": null
-    },
-    "Carter Bryant": {
-      "primary_source": null,
-      "status": null
-    },
-    "Andre Burakovsky": {
-      "primary_source": null,
-      "status": null
-    },
-    "Charles Alexis Legault": {
-      "primary_source": null,
-      "status": null
-    },
-    "Collin Graf": {
-      "primary_source": null,
-      "status": null
-    },
-    "Scoot Henderson": {
-      "primary_source": {
-        "confidence": "confirmed",
-        "fact": "primary_source",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "primary_source",
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-        "value": "league"
-      },
-      "status": {
-        "confidence": "confirmed",
-        "fact": "availability",
-        "quote": "questionable",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "league",
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-        "value": "questionable"
-      }
-    },
-    "Ryan Donato": {
-      "primary_source": null,
-      "status": null
-    },
-    "Paul Reed": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mark Jankowski": {
-      "primary_source": null,
-      "status": null
-    },
-    "Ilya Lyubushkin": {
-      "primary_source": null,
-      "status": null
-    },
-    "Mats Zuccarello": {
-      "primary_source": null,
-      "status": null
-    },
-    "Noah Warren": {
-      "primary_source": null,
-      "status": null
-    },
-    "Cole Caufield": {
-      "primary_source": null,
-      "status": null
-    },
-    "Tristan Luneau": {
-      "primary_source": null,
-      "status": null
-    },
-    "Maxim Shabanov": {
-      "primary_source": null,
-      "status": null
-    },
-    "Nick Foligno": {
-      "primary_source": null,
-      "status": null
-    },
-    "Matt Boldy": {
-      "primary_source": null,
-      "status": null
-    },
-    "Rasmus Andersson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Marcus Foligno": {
-      "primary_source": null,
-      "status": null
-    },
-    "Porter Martone": {
-      "primary_source": null,
-      "status": null
-    },
-    "Reid Schaefer": {
-      "primary_source": null,
-      "status": null
-    },
-    "Artem Zub": {
-      "primary_source": null,
-      "status": null
-    },
-    "Domantas Sabonis": {
-      "primary_source": null,
-      "status": null
-    },
-    "Noah Dobson": {
-      "primary_source": null,
-      "status": null
-    },
-    "Adam Pelech": {
-      "primary_source": null,
-      "status": null
-    },
-    "James Hagens": {
-      "primary_source": null,
-      "status": null
-    },
-    "Jesper Boqvist": {
-      "primary_source": null,
-      "status": null
-    },
-    "Robert Williams III": {
-      "primary_source": null,
-      "status": null
-    },
-    "Samuel Ersson": {
+    "Adam Edstrom": {
       "primary_source": null,
       "status": null
     },
@@ -2730,7 +2010,687 @@
       "primary_source": null,
       "status": null
     },
-    "Ivan Demidov": {
+    "Spencer Knight": {
+      "primary_source": null,
+      "status": null
+    },
+    "Alexandre Texier": {
+      "primary_source": null,
+      "status": null
+    },
+    "Michael Misa": {
+      "primary_source": null,
+      "status": null
+    },
+    "Colton Parayko": {
+      "primary_source": null,
+      "status": null
+    },
+    "Olen Zellweger": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nolan Traore": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nikita Nesterenko": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mattias Samuelsson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ilya Sorokin": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tyler Kleven": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mikhail Sergachev": {
+      "primary_source": null,
+      "status": null
+    },
+    "Scott Laughton": {
+      "primary_source": null,
+      "status": null
+    },
+    "Eric Robinson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tyler Seguin": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nick Perbix": {
+      "primary_source": null,
+      "status": null
+    },
+    "Daemon Hunt": {
+      "primary_source": null,
+      "status": null
+    },
+    "Simon Benoit": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jonathan Mogbo": {
+      "primary_source": null,
+      "status": null
+    },
+    "Domantas Sabonis": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tomas Hertl": {
+      "primary_source": null,
+      "status": null
+    },
+    "Anthony Mantha": {
+      "primary_source": null,
+      "status": null
+    },
+    "Luke Kornet": {
+      "primary_source": null,
+      "status": null
+    },
+    "Hoyt Stanley": {
+      "primary_source": null,
+      "status": null
+    },
+    "Sean Kuraly": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mitchell Robinson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Luke Schenn": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jack Drury": {
+      "primary_source": null,
+      "status": null
+    },
+    "Day'Ron Sharpe": {
+      "primary_source": null,
+      "status": null
+    },
+    "David Reinbacher": {
+      "primary_source": null,
+      "status": null
+    },
+    "Luke Hughes": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ilya Lyubushkin": {
+      "primary_source": null,
+      "status": null
+    },
+    "Matt Murray": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nick Jensen": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ausar Thompson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Dylan Holloway": {
+      "primary_source": null,
+      "status": null
+    },
+    "Garnet Hathaway": {
+      "primary_source": null,
+      "status": null
+    },
+    "Charles Alexis Legault": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jonas Johansson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Hampus Lindholm": {
+      "primary_source": null,
+      "status": null
+    },
+    "Alex Killorn": {
+      "primary_source": null,
+      "status": null
+    },
+    "Radko Gudas": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jackson Blake": {
+      "primary_source": null,
+      "status": null
+    },
+    "Carson Soucy": {
+      "primary_source": null,
+      "status": null
+    },
+    "Pavel Zacha": {
+      "primary_source": null,
+      "status": null
+    },
+    "Miles McBride": {
+      "primary_source": null,
+      "status": null
+    },
+    "Rieger Lorenz": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ryan Hartman": {
+      "primary_source": null,
+      "status": null
+    },
+    "Calum Ritchie": {
+      "primary_source": null,
+      "status": null
+    },
+    "Brady Skjei": {
+      "primary_source": null,
+      "status": null
+    },
+    "Chaney Johnson": {
+      "primary_source": null,
+      "status": null
+    },
+    "De'Aaron Fox": {
+      "primary_source": null,
+      "status": null
+    },
+    "Noah Warren": {
+      "primary_source": null,
+      "status": null
+    },
+    "Victor Wembanyama": {
+      "primary_source": null,
+      "status": null
+    },
+    "Travis Konecny": {
+      "primary_source": null,
+      "status": null
+    },
+    "Skyler Brind'Amour": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jake DeBrusk": {
+      "primary_source": null,
+      "status": null
+    },
+    "Josh Hart": {
+      "primary_source": null,
+      "status": null
+    },
+    "Matthew Seminoff": {
+      "primary_source": null,
+      "status": null
+    },
+    "Carl Grundstrom": {
+      "primary_source": null,
+      "status": null
+    },
+    "Otto Stenberg": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jonas Brodin": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ronald Holland II": {
+      "primary_source": null,
+      "status": null
+    },
+    "Stephon Castle": {
+      "primary_source": null,
+      "status": null
+    },
+    "Calvin Pickard": {
+      "primary_source": null,
+      "status": null
+    },
+    "Filip Hronek": {
+      "primary_source": null,
+      "status": null
+    },
+    "Shane Pinto": {
+      "primary_source": null,
+      "status": null
+    },
+    "Johnathan Kovacevic": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jordan Binnington": {
+      "primary_source": null,
+      "status": null
+    },
+    "Kailer Yamamoto": {
+      "primary_source": null,
+      "status": null
+    },
+    "Noah Dobson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ryan O'Reilly": {
+      "primary_source": null,
+      "status": null
+    },
+    "Paul George": {
+      "primary_source": null,
+      "status": null
+    },
+    "Brendan Gallagher": {
+      "primary_source": null,
+      "status": null
+    },
+    "Arshdeep Bains": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ryan Poehling": {
+      "primary_source": null,
+      "status": null
+    },
+    "Elias Lindholm": {
+      "primary_source": null,
+      "status": null
+    },
+    "Sam Reinhart": {
+      "primary_source": null,
+      "status": null
+    },
+    "Bowen Byram": {
+      "primary_source": null,
+      "status": null
+    },
+    "Oliver Moore": {
+      "primary_source": null,
+      "status": null
+    },
+    "Peyton Krebs": {
+      "primary_source": null,
+      "status": null
+    },
+    "Cole Caufield": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tyson Foerster": {
+      "primary_source": null,
+      "status": null
+    },
+    "Adam Engstrom": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ian Cole": {
+      "primary_source": null,
+      "status": null
+    },
+    "Felix Unger Sörum": {
+      "primary_source": null,
+      "status": null
+    },
+    "Daniss Jenkins": {
+      "primary_source": null,
+      "status": null
+    },
+    "Paul Reed": {
+      "primary_source": null,
+      "status": null
+    },
+    "Logan Stankoven": {
+      "primary_source": null,
+      "status": null
+    },
+    "Bo Horvat": {
+      "primary_source": null,
+      "status": null
+    },
+    "Elias Salomonsson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nick Schmaltz": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jacob Fowler": {
+      "primary_source": null,
+      "status": null
+    },
+    "Keldon Johnson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jacob Trouba": {
+      "primary_source": null,
+      "status": null
+    },
+    "William Carrier": {
+      "primary_source": null,
+      "status": null
+    },
+    "Cody Glass": {
+      "primary_source": null,
+      "status": null
+    },
+    "Brayden Schenn": {
+      "primary_source": null,
+      "status": null
+    },
+    "Porter Martone": {
+      "primary_source": null,
+      "status": null
+    },
+    "Colin Blackwell": {
+      "primary_source": null,
+      "status": null
+    },
+    "Erik Gudbranson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jesperi Kotkaniemi": {
+      "primary_source": null,
+      "status": null
+    },
+    "Travis Mitchell": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jackson LaCombe": {
+      "primary_source": null,
+      "status": null
+    },
+    "Joseph Woll": {
+      "primary_source": null,
+      "status": null
+    },
+    "Chris Kreider": {
+      "primary_source": null,
+      "status": null
+    },
+    "Adam Gaudette": {
+      "primary_source": null,
+      "status": null
+    },
+    "Noah Cates": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jason Robertson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jayden Struble": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mathieu Olivier": {
+      "primary_source": null,
+      "status": null
+    },
+    "David Jiricek": {
+      "primary_source": null,
+      "status": null
+    },
+    "Michael Bunting": {
+      "primary_source": null,
+      "status": null
+    },
+    "Erik Gustafsson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jack Studnicka": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ville Husso": {
+      "primary_source": null,
+      "status": null
+    },
+    "Matt Kiersted": {
+      "primary_source": null,
+      "status": null
+    },
+    "Trevor Zegras": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tolu Smith": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jamie Oleksiak": {
+      "primary_source": null,
+      "status": null
+    },
+    "Claude Giroux": {
+      "primary_source": null,
+      "status": null
+    },
+    "Wyatt Johnston": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nick Cousins": {
+      "primary_source": null,
+      "status": null
+    },
+    "Uvis Balinskis": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jared Spurgeon": {
+      "primary_source": null,
+      "status": null
+    },
+    "Linus Karlsson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tim Stützle": {
+      "primary_source": null,
+      "status": null
+    },
+    "Luke Evangelista": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jiri Kulich": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jordan Spence": {
+      "primary_source": null,
+      "status": null
+    },
+    "Judd Caulfield": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mikko Rantanen": {
+      "primary_source": null,
+      "status": null
+    },
+    "Dylan DeMelo": {
+      "primary_source": null,
+      "status": null
+    },
+    "Patrick Kane": {
+      "primary_source": null,
+      "status": null
+    },
+    "Barrett Hayton": {
+      "primary_source": null,
+      "status": null
+    },
+    "Matvei Michkov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jordan Greenway": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mats Zuccarello": {
+      "primary_source": null,
+      "status": null
+    },
+    "Ryan Lomberg": {
+      "primary_source": null,
+      "status": null
+    },
+    "Quinton Byfield": {
+      "primary_source": null,
+      "status": null
+    },
+    "Cody Ceci": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tyler Myers": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mason Marchment": {
+      "primary_source": null,
+      "status": null
+    },
+    "Julian Champagnie": {
+      "primary_source": null,
+      "status": null
+    },
+    "Clayton Keller": {
+      "primary_source": null,
+      "status": null
+    },
+    "Toumani Camara": {
+      "primary_source": null,
+      "status": null
+    },
+    "Lawson Crouse": {
+      "primary_source": null,
+      "status": null
+    },
+    "Marcus Foligno": {
+      "primary_source": null,
+      "status": null
+    },
+    "Derrick White": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jake Sanderson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Damon Severson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jonathan Marchessault": {
+      "primary_source": null,
+      "status": null
+    },
+    "Alexey Toropchenko": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jimmy Snuggerud": {
+      "primary_source": null,
+      "status": null
+    },
+    "Luka Doncic": {
+      "primary_source": null,
+      "status": null
+    },
+    "Collin Sexton": {
+      "primary_source": null,
+      "status": null
+    },
+    "Cole Koepke": {
+      "primary_source": null,
+      "status": null
+    },
+    "Nikita Zadorov": {
+      "primary_source": null,
+      "status": null
+    },
+    "Mitch Marner": {
+      "primary_source": null,
+      "status": null
+    },
+    "Adam Fantilli": {
+      "primary_source": null,
+      "status": null
+    },
+    "Tony DeAngelo": {
+      "primary_source": null,
+      "status": null
+    },
+    "Cole Perfetti": {
+      "primary_source": null,
+      "status": null
+    },
+    "Kirby Dach": {
+      "primary_source": null,
+      "status": null
+    },
+    "A.J. Greer": {
+      "primary_source": null,
+      "status": null
+    },
+    "Arttu Hyry": {
+      "primary_source": null,
+      "status": null
+    },
+    "Brenden Dillon": {
+      "primary_source": null,
+      "status": null
+    },
+    "Samuel Helenius": {
+      "primary_source": null,
+      "status": null
+    },
+    "Joel Hofer": {
+      "primary_source": null,
+      "status": null
+    },
+    "Drake Batherson": {
+      "primary_source": null,
+      "status": null
+    },
+    "Frank Vatrano": {
+      "primary_source": null,
+      "status": null
+    },
+    "Jesper Bratt": {
+      "primary_source": null,
+      "status": null
+    },
+    "Seth Jarvis": {
       "primary_source": null,
       "status": null
     }
@@ -2744,117 +2704,37 @@
         "confidence": "confirmed",
         "fact": "spread",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread",
         "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -5.5
+        "value": -4.5
       },
       "spread_away": {
         "confidence": "confirmed",
         "fact": "spread_away",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_away",
         "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 5.5
+        "value": 4.5
       },
       "spread_home": {
         "confidence": "confirmed",
         "fact": "spread_home",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_home",
         "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -5.5
+        "value": -4.5
       },
       "total": {
         "confidence": "confirmed",
         "fact": "total",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "total",
         "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 226.5
-      }
-    },
-    "FLA@WPG": {
-      "back_to_back": null,
-      "rest_days": null,
-      "spread": {
-        "confidence": "confirmed",
-        "fact": "spread",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 3.0
-      },
-      "spread_away": {
-        "confidence": "confirmed",
-        "fact": "spread_away",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_away",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -3.0
-      },
-      "spread_home": {
-        "confidence": "confirmed",
-        "fact": "spread_home",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_home",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 3.0
-      },
-      "total": {
-        "confidence": "confirmed",
-        "fact": "total",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "total",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 7.5
-      }
-    },
-    "NJD@DAL": {
-      "back_to_back": null,
-      "rest_days": null,
-      "spread": {
-        "confidence": "confirmed",
-        "fact": "spread",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 1.5
-      },
-      "spread_away": {
-        "confidence": "confirmed",
-        "fact": "spread_away",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_away",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -1.5
-      },
-      "spread_home": {
-        "confidence": "confirmed",
-        "fact": "spread_home",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_home",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 1.5
-      },
-      "total": {
-        "confidence": "confirmed",
-        "fact": "total",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "total",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 5.0
+        "value": 229.0
       }
     },
     "OTT@VGK": {
@@ -2864,7 +2744,7 @@
         "confidence": "confirmed",
         "fact": "spread",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": -1.5
@@ -2873,7 +2753,7 @@
         "confidence": "confirmed",
         "fact": "spread_away",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_away",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 1.5
@@ -2882,7 +2762,7 @@
         "confidence": "confirmed",
         "fact": "spread_home",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_home",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": -1.5
@@ -2891,50 +2771,50 @@
         "confidence": "confirmed",
         "fact": "total",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "total",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 6.5
       }
     },
-    "DET@NYK": {
+    "NJD@DAL": {
       "back_to_back": null,
       "rest_days": null,
       "spread": {
         "confidence": "confirmed",
         "fact": "spread",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread",
-        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 5.5
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 1.5
       },
       "spread_away": {
         "confidence": "confirmed",
         "fact": "spread_away",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_away",
-        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -5.5
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -1.5
       },
       "spread_home": {
         "confidence": "confirmed",
         "fact": "spread_home",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_home",
-        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 5.5
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 1.5
       },
       "total": {
         "confidence": "confirmed",
         "fact": "total",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "total",
-        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 225.5
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 5.0
       }
     },
     "BOS@CAR": {
@@ -2944,7 +2824,7 @@
         "confidence": "confirmed",
         "fact": "spread",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": -1.5
@@ -2953,7 +2833,7 @@
         "confidence": "confirmed",
         "fact": "spread_away",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_away",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 1.5
@@ -2962,7 +2842,7 @@
         "confidence": "confirmed",
         "fact": "spread_home",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_home",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": -1.5
@@ -2971,167 +2851,7 @@
         "confidence": "confirmed",
         "fact": "total",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "total",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 6.5
-      }
-    },
-    "VAN@ANA": {
-      "back_to_back": null,
-      "rest_days": null,
-      "spread": {
-        "confidence": "confirmed",
-        "fact": "spread",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -1.5
-      },
-      "spread_away": {
-        "confidence": "confirmed",
-        "fact": "spread_away",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_away",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 1.5
-      },
-      "spread_home": {
-        "confidence": "confirmed",
-        "fact": "spread_home",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_home",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -1.5
-      },
-      "total": {
-        "confidence": "confirmed",
-        "fact": "total",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "total",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 6.5
-      }
-    },
-    "POR@LAL": {
-      "back_to_back": null,
-      "rest_days": null,
-      "spread": {
-        "confidence": "confirmed",
-        "fact": "spread",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread",
-        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -2.0
-      },
-      "spread_away": {
-        "confidence": "confirmed",
-        "fact": "spread_away",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_away",
-        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 2.0
-      },
-      "spread_home": {
-        "confidence": "confirmed",
-        "fact": "spread_home",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_home",
-        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -2.0
-      },
-      "total": {
-        "confidence": "confirmed",
-        "fact": "total",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "total",
-        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 233.5
-      }
-    },
-    "SAC@SAS": {
-      "back_to_back": null,
-      "rest_days": null,
-      "spread": {
-        "confidence": "confirmed",
-        "fact": "spread",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread",
-        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -21.0
-      },
-      "spread_away": {
-        "confidence": "confirmed",
-        "fact": "spread_away",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_away",
-        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 21.0
-      },
-      "spread_home": {
-        "confidence": "confirmed",
-        "fact": "spread_home",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_home",
-        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -21.0
-      },
-      "total": {
-        "confidence": "confirmed",
-        "fact": "total",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "total",
-        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 241.5
-      }
-    },
-    "NYI@NSH": {
-      "back_to_back": null,
-      "rest_days": null,
-      "spread": {
-        "confidence": "confirmed",
-        "fact": "spread",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 2.0
-      },
-      "spread_away": {
-        "confidence": "confirmed",
-        "fact": "spread_away",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_away",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -2.0
-      },
-      "spread_home": {
-        "confidence": "confirmed",
-        "fact": "spread_home",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_home",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 2.0
-      },
-      "total": {
-        "confidence": "confirmed",
-        "fact": "total",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "total",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 6.5
@@ -3144,7 +2864,7 @@
         "confidence": "confirmed",
         "fact": "spread",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 1.5
@@ -3153,7 +2873,7 @@
         "confidence": "confirmed",
         "fact": "spread_away",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_away",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": -1.5
@@ -3162,7 +2882,7 @@
         "confidence": "confirmed",
         "fact": "spread_home",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_home",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 1.5
@@ -3171,87 +2891,7 @@
         "confidence": "confirmed",
         "fact": "total",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "total",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 6.5
-      }
-    },
-    "LAK@CHI": {
-      "back_to_back": null,
-      "rest_days": null,
-      "spread": {
-        "confidence": "confirmed",
-        "fact": "spread",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 1.5
-      },
-      "spread_away": {
-        "confidence": "confirmed",
-        "fact": "spread_away",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_away",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -1.5
-      },
-      "spread_home": {
-        "confidence": "confirmed",
-        "fact": "spread_home",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_home",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 1.5
-      },
-      "total": {
-        "confidence": "confirmed",
-        "fact": "total",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "total",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 5.5
-      }
-    },
-    "MIN@UTA": {
-      "back_to_back": null,
-      "rest_days": null,
-      "spread": {
-        "confidence": "confirmed",
-        "fact": "spread",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -1.5
-      },
-      "spread_away": {
-        "confidence": "confirmed",
-        "fact": "spread_away",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_away",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": 1.5
-      },
-      "spread_home": {
-        "confidence": "confirmed",
-        "fact": "spread_home",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
-        "source_name": "spread_home",
-        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
-        "value": -1.5
-      },
-      "total": {
-        "confidence": "confirmed",
-        "fact": "total",
-        "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "total",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 6.5
@@ -3264,7 +2904,7 @@
         "confidence": "confirmed",
         "fact": "spread",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 2.5
@@ -3273,7 +2913,7 @@
         "confidence": "confirmed",
         "fact": "spread_away",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_away",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": -2.5
@@ -3282,7 +2922,7 @@
         "confidence": "confirmed",
         "fact": "spread_home",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_home",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 2.5
@@ -3291,10 +2931,50 @@
         "confidence": "confirmed",
         "fact": "total",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "total",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 6.5
+      }
+    },
+    "LAK@CHI": {
+      "back_to_back": null,
+      "rest_days": null,
+      "spread": {
+        "confidence": "confirmed",
+        "fact": "spread",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 1.5
+      },
+      "spread_away": {
+        "confidence": "confirmed",
+        "fact": "spread_away",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_away",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -1.5
+      },
+      "spread_home": {
+        "confidence": "confirmed",
+        "fact": "spread_home",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_home",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 1.5
+      },
+      "total": {
+        "confidence": "confirmed",
+        "fact": "total",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "total",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 5.0
       }
     },
     "MTL@STL": {
@@ -3304,7 +2984,7 @@
         "confidence": "confirmed",
         "fact": "spread",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 1.5
@@ -3313,7 +2993,7 @@
         "confidence": "confirmed",
         "fact": "spread_away",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_away",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": -1.5
@@ -3322,7 +3002,7 @@
         "confidence": "confirmed",
         "fact": "spread_home",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "spread_home",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 1.5
@@ -3331,10 +3011,290 @@
         "confidence": "confirmed",
         "fact": "total",
         "quote": "",
-        "retrieved_at": "2026-10-28T00:55:08Z",
+        "retrieved_at": "2026-10-28T01:02:44Z",
         "source_name": "total",
         "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
         "value": 4.5
+      }
+    },
+    "NYI@NSH": {
+      "back_to_back": null,
+      "rest_days": null,
+      "spread": {
+        "confidence": "confirmed",
+        "fact": "spread",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 2.0
+      },
+      "spread_away": {
+        "confidence": "confirmed",
+        "fact": "spread_away",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_away",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -2.0
+      },
+      "spread_home": {
+        "confidence": "confirmed",
+        "fact": "spread_home",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_home",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 2.0
+      },
+      "total": {
+        "confidence": "confirmed",
+        "fact": "total",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "total",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 6.0
+      }
+    },
+    "POR@LAL": {
+      "back_to_back": null,
+      "rest_days": null,
+      "spread": {
+        "confidence": "confirmed",
+        "fact": "spread",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread",
+        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -2.0
+      },
+      "spread_away": {
+        "confidence": "confirmed",
+        "fact": "spread_away",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_away",
+        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 2.0
+      },
+      "spread_home": {
+        "confidence": "confirmed",
+        "fact": "spread_home",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_home",
+        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -2.0
+      },
+      "total": {
+        "confidence": "confirmed",
+        "fact": "total",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "total",
+        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 233.5
+      }
+    },
+    "SAC@SAS": {
+      "back_to_back": null,
+      "rest_days": null,
+      "spread": {
+        "confidence": "confirmed",
+        "fact": "spread",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread",
+        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -27.5
+      },
+      "spread_away": {
+        "confidence": "confirmed",
+        "fact": "spread_away",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_away",
+        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 27.5
+      },
+      "spread_home": {
+        "confidence": "confirmed",
+        "fact": "spread_home",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_home",
+        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -27.5
+      },
+      "total": {
+        "confidence": "confirmed",
+        "fact": "total",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "total",
+        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 251.5
+      }
+    },
+    "VAN@ANA": {
+      "back_to_back": null,
+      "rest_days": null,
+      "spread": {
+        "confidence": "confirmed",
+        "fact": "spread",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -1.5
+      },
+      "spread_away": {
+        "confidence": "confirmed",
+        "fact": "spread_away",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_away",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 1.5
+      },
+      "spread_home": {
+        "confidence": "confirmed",
+        "fact": "spread_home",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_home",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -1.5
+      },
+      "total": {
+        "confidence": "confirmed",
+        "fact": "total",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "total",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 6.5
+      }
+    },
+    "DET@NYK": {
+      "back_to_back": null,
+      "rest_days": null,
+      "spread": {
+        "confidence": "confirmed",
+        "fact": "spread",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread",
+        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 4.0
+      },
+      "spread_away": {
+        "confidence": "confirmed",
+        "fact": "spread_away",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_away",
+        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -4.0
+      },
+      "spread_home": {
+        "confidence": "confirmed",
+        "fact": "spread_home",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_home",
+        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 4.0
+      },
+      "total": {
+        "confidence": "confirmed",
+        "fact": "total",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "total",
+        "source_url": "https://api.prop-line.com/v1/sports/basketball_nba/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 217.5
+      }
+    },
+    "FLA@WPG": {
+      "back_to_back": null,
+      "rest_days": null,
+      "spread": {
+        "confidence": "confirmed",
+        "fact": "spread",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 3.5
+      },
+      "spread_away": {
+        "confidence": "confirmed",
+        "fact": "spread_away",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_away",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -3.5
+      },
+      "spread_home": {
+        "confidence": "confirmed",
+        "fact": "spread_home",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_home",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 3.5
+      },
+      "total": {
+        "confidence": "confirmed",
+        "fact": "total",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "total",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 7.0
+      }
+    },
+    "MIN@UTA": {
+      "back_to_back": null,
+      "rest_days": null,
+      "spread": {
+        "confidence": "confirmed",
+        "fact": "spread",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -1.5
+      },
+      "spread_away": {
+        "confidence": "confirmed",
+        "fact": "spread_away",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_away",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 1.5
+      },
+      "spread_home": {
+        "confidence": "confirmed",
+        "fact": "spread_home",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "spread_home",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": -1.5
+      },
+      "total": {
+        "confidence": "confirmed",
+        "fact": "total",
+        "quote": "",
+        "retrieved_at": "2026-10-28T01:02:44Z",
+        "source_name": "total",
+        "source_url": "https://api.prop-line.com/v1/sports/icehockey_nhl/odds?markets=spreads,totals&bookmakers=pinnacle,fanduel,draftkings,betmgm",
+        "value": 6.5
       }
     }
   },
@@ -12186,121 +12146,13 @@
     }
   },
   "lineup": {
+    "BKN": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
     "CAR": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "STL": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "NYI": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "VGK": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "LAL": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "MIN": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "SAC": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "SJS": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "OTT": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "NJD": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "VAN": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "MTL": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "BOS": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "POR": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "NSH": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "SAS": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "ANA": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "UTA": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "FLA": {
-      "goalie_confirmed": null,
-      "pairs": null,
-      "pp1": null,
-      "projected_lines": null
-    },
-    "CBJ": {
       "goalie_confirmed": null,
       "pairs": null,
       "pp1": null,
@@ -12312,7 +12164,13 @@
       "pp1": null,
       "projected_lines": null
     },
-    "CHI": {
+    "NJD": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "POR": {
       "goalie_confirmed": null,
       "pairs": null,
       "pp1": null,
@@ -12324,7 +12182,85 @@
       "pp1": null,
       "projected_lines": null
     },
+    "CHI": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
     "LAK": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "MIN": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "SJS": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "CBJ": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "ANA": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "NSH": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "NYI": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "OTT": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "STL": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "SAC": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "LAL": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "SAS": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "WPG": {
       "goalie_confirmed": null,
       "pairs": null,
       "pp1": null,
@@ -12336,13 +12272,37 @@
       "pp1": null,
       "projected_lines": null
     },
+    "BOS": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "MTL": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "FLA": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
+    "VGK": {
+      "goalie_confirmed": null,
+      "pairs": null,
+      "pp1": null,
+      "projected_lines": null
+    },
     "DET": {
       "goalie_confirmed": null,
       "pairs": null,
       "pp1": null,
       "projected_lines": null
     },
-    "BKN": {
+    "UTA": {
       "goalie_confirmed": null,
       "pairs": null,
       "pp1": null,
@@ -12354,7 +12314,7 @@
       "pp1": null,
       "projected_lines": null
     },
-    "WPG": {
+    "VAN": {
       "goalie_confirmed": null,
       "pairs": null,
       "pp1": null,
@@ -12363,47 +12323,17 @@
   },
   "mechanisms": {},
   "player_context": {
-    "Karel Vejmelka": {
-      "goalie_confirmed": {
-        "fact": "named starting goalie confirmed",
-        "value": true,
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
-        "source_name": "ESPN explicit confirmed starting goalie",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
-        "quote": "",
-        "confidence": "confirmed",
-        "report_type": "game_day_report",
-        "observed_at": "2026-10-28T00:57:02.858359+00:00",
-        "source_field": "competitions.competitors.probables.status.type",
-        "espn_player_id": "3942065"
-      }
-    },
-    "Jesper Wallstedt": {
-      "goalie_confirmed": {
-        "fact": "named starting goalie confirmed",
-        "value": true,
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
-        "source_name": "ESPN explicit confirmed starting goalie",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
-        "quote": "",
-        "confidence": "confirmed",
-        "report_type": "game_day_report",
-        "observed_at": "2026-10-28T00:57:02.858359+00:00",
-        "source_field": "competitions.competitors.probables.status.type",
-        "espn_player_id": "4874737"
-      }
-    },
     "Adin Hill": {
       "goalie_confirmed": {
         "fact": "named starting goalie confirmed",
         "value": true,
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "ESPN explicit confirmed starting goalie",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed",
         "report_type": "game_day_report",
-        "observed_at": "2026-10-28T00:57:02.858359+00:00",
+        "observed_at": "2026-10-28T01:04:23.927076+00:00",
         "source_field": "competitions.competitors.probables.status.type",
         "espn_player_id": "3939714"
       }
@@ -12414,11 +12344,11 @@
         "value": true,
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "ESPN explicit confirmed starting goalie",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed",
         "report_type": "game_day_report",
-        "observed_at": "2026-10-28T00:57:02.858359+00:00",
+        "observed_at": "2026-10-28T01:04:23.927076+00:00",
         "source_field": "competitions.competitors.probables.status.type",
         "espn_player_id": "4588165"
       }
@@ -12429,11 +12359,11 @@
         "value": true,
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "ESPN explicit confirmed starting goalie",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed",
         "report_type": "game_day_report",
-        "observed_at": "2026-10-28T00:57:02.858359+00:00",
+        "observed_at": "2026-10-28T01:04:23.927076+00:00",
         "source_field": "competitions.competitors.probables.status.type",
         "espn_player_id": "4697394"
       }
@@ -106856,124 +106786,52 @@
   },
   "weather": {
     "BKN@BOS": {
+      "precip_intensity": null,
+      "sustained_wind_mph": null,
+      "window": null,
       "precip_prob": null,
+      "gust_mph": null,
       "indoor": {
         "fact": "actual scheduled venue indoor",
         "value": true,
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261027",
         "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed"
-      },
-      "precip_intensity": null,
-      "gust_mph": null,
-      "window": null,
-      "sustained_wind_mph": null
-    },
-    "FLA@WPG": {
-      "precip_prob": null,
-      "indoor": {
-        "fact": "actual scheduled venue indoor",
-        "value": true,
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
-        "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
-        "quote": "",
-        "confidence": "confirmed"
-      },
-      "precip_intensity": null,
-      "gust_mph": null,
-      "window": null,
-      "sustained_wind_mph": null
-    },
-    "NJD@DAL": {
-      "precip_prob": null,
-      "indoor": {
-        "fact": "actual scheduled venue indoor",
-        "value": true,
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
-        "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
-        "quote": "",
-        "confidence": "confirmed"
-      },
-      "precip_intensity": null,
-      "gust_mph": null,
-      "window": null,
-      "sustained_wind_mph": null
+      }
     },
     "OTT@VGK": {
-      "precip_prob": null,
-      "indoor": {
-        "fact": "actual scheduled venue indoor",
-        "value": true,
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
-        "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
-        "quote": "",
-        "confidence": "confirmed"
-      },
       "precip_intensity": null,
-      "gust_mph": null,
-      "window": null,
-      "sustained_wind_mph": null
-    },
-    "DET@NYK": {
-      "gust_mph": null,
-      "indoor": null,
-      "precip_intensity": null,
-      "precip_prob": null,
       "sustained_wind_mph": null,
-      "window": null
-    },
-    "VAN@ANA": {
+      "window": null,
       "precip_prob": null,
+      "gust_mph": null,
       "indoor": {
         "fact": "actual scheduled venue indoor",
         "value": true,
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed"
-      },
-      "precip_intensity": null,
-      "gust_mph": null,
-      "window": null,
-      "sustained_wind_mph": null
+      }
     },
-    "BOS@CAR": {
+    "NJD@DAL": {
+      "precip_intensity": null,
+      "sustained_wind_mph": null,
+      "window": null,
       "precip_prob": null,
+      "gust_mph": null,
       "indoor": {
         "fact": "actual scheduled venue indoor",
         "value": true,
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed"
-      },
-      "precip_intensity": null,
-      "gust_mph": null,
-      "window": null,
-      "sustained_wind_mph": null
-    },
-    "POR@LAL": {
-      "precip_prob": null,
-      "indoor": {
-        "fact": "actual scheduled venue indoor",
-        "value": true,
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261027",
-        "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
-        "quote": "",
-        "confidence": "confirmed"
-      },
-      "precip_intensity": null,
-      "gust_mph": null,
-      "window": null,
-      "sustained_wind_mph": null
+      }
     },
     "SAC@SAS": {
       "gust_mph": null,
@@ -106983,156 +106841,221 @@
       "sustained_wind_mph": null,
       "window": null
     },
-    "NYI@NSH": {
+    "BOS@CAR": {
+      "precip_intensity": null,
+      "sustained_wind_mph": null,
+      "window": null,
       "precip_prob": null,
+      "gust_mph": null,
       "indoor": {
         "fact": "actual scheduled venue indoor",
         "value": true,
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed"
-      },
-      "precip_intensity": null,
-      "gust_mph": null,
-      "window": null,
-      "sustained_wind_mph": null
+      }
     },
     "BUF@SJS": {
+      "precip_intensity": null,
+      "sustained_wind_mph": null,
+      "window": null,
       "precip_prob": null,
+      "gust_mph": null,
       "indoor": {
         "fact": "actual scheduled venue indoor",
         "value": true,
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed"
-      },
-      "precip_intensity": null,
-      "gust_mph": null,
-      "window": null,
-      "sustained_wind_mph": null
+      }
     },
     "LAK@CHI": {
+      "precip_intensity": null,
+      "sustained_wind_mph": null,
+      "window": null,
       "precip_prob": null,
+      "gust_mph": null,
       "indoor": {
         "fact": "actual scheduled venue indoor",
         "value": true,
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed"
-      },
-      "precip_intensity": null,
-      "gust_mph": null,
-      "window": null,
-      "sustained_wind_mph": null
-    },
-    "MIN@UTA": {
-      "precip_prob": null,
-      "indoor": {
-        "fact": "actual scheduled venue indoor",
-        "value": true,
-        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
-        "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
-        "quote": "",
-        "confidence": "confirmed"
-      },
-      "precip_intensity": null,
-      "gust_mph": null,
-      "window": null,
-      "sustained_wind_mph": null
+      }
     },
     "CBJ@PHI": {
+      "precip_intensity": null,
+      "sustained_wind_mph": null,
+      "window": null,
       "precip_prob": null,
+      "gust_mph": null,
       "indoor": {
         "fact": "actual scheduled venue indoor",
         "value": true,
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed"
-      },
-      "precip_intensity": null,
-      "gust_mph": null,
-      "window": null,
-      "sustained_wind_mph": null
+      }
     },
     "MTL@STL": {
+      "precip_intensity": null,
+      "sustained_wind_mph": null,
+      "window": null,
       "precip_prob": null,
+      "gust_mph": null,
       "indoor": {
         "fact": "actual scheduled venue indoor",
         "value": true,
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
         "source_name": "actual scheduled venue indoor",
-        "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
         "quote": "",
         "confidence": "confirmed"
-      },
+      }
+    },
+    "NYI@NSH": {
       "precip_intensity": null,
-      "gust_mph": null,
+      "sustained_wind_mph": null,
       "window": null,
-      "sustained_wind_mph": null
+      "precip_prob": null,
+      "gust_mph": null,
+      "indoor": {
+        "fact": "actual scheduled venue indoor",
+        "value": true,
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
+        "source_name": "actual scheduled venue indoor",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
+        "quote": "",
+        "confidence": "confirmed"
+      }
+    },
+    "POR@LAL": {
+      "precip_intensity": null,
+      "sustained_wind_mph": null,
+      "window": null,
+      "precip_prob": null,
+      "gust_mph": null,
+      "indoor": {
+        "fact": "actual scheduled venue indoor",
+        "value": true,
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261027",
+        "source_name": "actual scheduled venue indoor",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
+        "quote": "",
+        "confidence": "confirmed"
+      }
+    },
+    "FLA@WPG": {
+      "precip_intensity": null,
+      "sustained_wind_mph": null,
+      "window": null,
+      "precip_prob": null,
+      "gust_mph": null,
+      "indoor": {
+        "fact": "actual scheduled venue indoor",
+        "value": true,
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
+        "source_name": "actual scheduled venue indoor",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
+        "quote": "",
+        "confidence": "confirmed"
+      }
+    },
+    "VAN@ANA": {
+      "precip_intensity": null,
+      "sustained_wind_mph": null,
+      "window": null,
+      "precip_prob": null,
+      "gust_mph": null,
+      "indoor": {
+        "fact": "actual scheduled venue indoor",
+        "value": true,
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
+        "source_name": "actual scheduled venue indoor",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
+        "quote": "",
+        "confidence": "confirmed"
+      }
+    },
+    "DET@NYK": {
+      "gust_mph": null,
+      "indoor": null,
+      "precip_intensity": null,
+      "precip_prob": null,
+      "sustained_wind_mph": null,
+      "window": null
+    },
+    "MIN@UTA": {
+      "precip_intensity": null,
+      "sustained_wind_mph": null,
+      "window": null,
+      "precip_prob": null,
+      "gust_mph": null,
+      "indoor": {
+        "fact": "actual scheduled venue indoor",
+        "value": true,
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
+        "source_name": "actual scheduled venue indoor",
+        "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
+        "quote": "",
+        "confidence": "confirmed"
+      }
     }
   },
   "_research_attempts": [
     {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261027",
-      "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+      "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
       "purpose": "fixture venue and event identity",
       "status": "retrieved",
       "resolved_venues": 2
     },
     {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027",
-      "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+      "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
       "purpose": "fixture venue and event identity",
       "status": "retrieved",
       "resolved_venues": 11
     },
     {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909880",
-      "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
-      "purpose": "explicit game-active roster",
-      "status": "retrieved",
-      "resolved_players": 0
-    },
-    {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892592",
-      "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+      "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
       "purpose": "explicit game-active roster",
       "status": "retrieved",
       "resolved_players": 0
     },
     {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892593",
-      "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+      "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
       "purpose": "explicit game-active roster",
       "status": "retrieved",
       "resolved_players": 0
     },
     {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892594",
-      "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+      "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
       "purpose": "explicit game-active roster",
       "status": "retrieved",
       "resolved_players": 0
     },
     {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892595",
-      "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+      "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
       "purpose": "explicit game-active roster",
       "status": "retrieved",
       "resolved_players": 0
     },
     {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
-      "retrieved_at": "2026-10-28T00:57:02.858359+00:00",
+      "retrieved_at": "2026-10-28T01:04:23.927076+00:00",
       "purpose": "explicit NHL injury designations; no active inference",
       "status": "retrieved",
       "resolved_negative_statuses": 0

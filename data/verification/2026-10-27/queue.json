@@ -1,6 +1,6 @@
 {
   "date": "2026-10-27",
-  "generated_at": "2026-10-28T00:57:06.524157+00:00",
+  "generated_at": "2026-10-28T01:04:28.998187+00:00",
   "run_id": "4c202ec5-f0d4-54b6-9ac6-f06a32f950da",
   "status": "verification_queue_ready",
   "forecasts_evaluated": 890,
@@ -23,19 +23,19 @@
     "pregame_identity_and_availability": 302,
     "sample_or_distribution": 262
   },
-  "qualified_before_caps": 11,
-  "review_queue_count": 11,
+  "qualified_before_caps": 9,
+  "review_queue_count": 9,
   "qualified_by_sport": {
-    "NHL": 11
+    "NHL": 9
   },
   "selected_by_sport": {
-    "NHL": 11
+    "NHL": 9
   },
-  "review_queue_both_engines_reliable": 11,
+  "review_queue_both_engines_reliable": 9,
   "queue_exclusions": {
-    "below_research_priority_floor": 83,
-    "game_started": 198,
-    "insufficient_independent_books": 10,
+    "below_research_priority_floor": 63,
+    "game_started": 224,
+    "insufficient_independent_books": 6,
     "other_primary_blocker": 588
   },
   "queue": [
@@ -122,88 +122,6 @@
       "priority": 1
     },
     {
-      "candidate_id": "NHL|Blake Coleman|shots on goal|over",
-      "sport": "NHL",
-      "player": "Blake Coleman",
-      "player_id": 8476399,
-      "team": "MIN",
-      "opponent": "UTA",
-      "game": "MIN @ UTA",
-      "stat": "shots on goal",
-      "side": "over",
-      "line": 1.5,
-      "model_probability_diagnostic": 0.71992,
-      "market_probability_diagnostic": 0.54473,
-      "provisional_gap": 0.1752,
-      "independent_book_count": 3,
-      "both_engines_reliable": true,
-      "missing_evidence": [
-        "explicit_game_specific_player_status",
-        "source_read_scouting_and_adversarial_review",
-        "independent_line_and_model_verification",
-        "scouting_dimensions:matchup,opportunity,injuries,game_script"
-      ],
-      "source_tasks": [
-        "availability.Blake Coleman.primary_source",
-        "availability.Blake Coleman.status",
-        "environment.MIN@UTA.back_to_back",
-        "environment.MIN@UTA.rest_days",
-        "lineup.MIN.pp1",
-        "lineup.MIN.projected_lines",
-        "scouting.NHL|Blake Coleman|shots on goal|over.evidence.game_script",
-        "scouting.NHL|Blake Coleman|shots on goal|over.evidence.injuries",
-        "scouting.NHL|Blake Coleman|shots on goal|over.evidence.matchup",
-        "scouting.NHL|Blake Coleman|shots on goal|over.evidence.opportunity",
-        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.deployment_trends",
-        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.game_environment",
-        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.line_matching",
-        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.opponent_style",
-        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.shot_attempts_rates",
-        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.shot_suppression",
-        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.special_teams",
-        "scouting.NHL|Blake Coleman|shots on goal|over.supporting_stats.toi_lines"
-      ],
-      "source_guides": [
-        {
-          "source_state": "not_checked",
-          "verified": false,
-          "identity_rule": "match date, both teams, player and stable ID where available",
-          "task": "confirm_fixture_and_start",
-          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
-        },
-        {
-          "source_state": "not_checked",
-          "verified": false,
-          "identity_rule": "match date, both teams, player and stable ID where available",
-          "task": "check_explicit_injury_designations",
-          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
-          "warning": "absence from injury report does not confirm active status"
-        },
-        {
-          "source_state": "not_checked",
-          "verified": false,
-          "identity_rule": "match date, both teams, player and stable ID where available",
-          "task": "check_game_specific_active_roster",
-          "url": null,
-          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
-        },
-        {
-          "source_state": "not_checked",
-          "verified": false,
-          "identity_rule": "match date, both teams, player and stable ID where available",
-          "task": "verify_scouting_checklist",
-          "url": null,
-          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
-        }
-      ],
-      "source_guides_are_evidence": false,
-      "reason": "STATUS_NOT_VERIFIED",
-      "status": "verification_pending",
-      "publication_eligible": false,
-      "matched_packet_game": "MIN@UTA",
-      "priority": 2
-    },
-    {
       "candidate_id": "NHL|Noah Ostlund|shots on goal|over",
       "sport": "NHL",
       "player": "Noah Ostlund",
@@ -283,89 +201,7 @@
       "status": "verification_pending",
       "publication_eligible": false,
       "matched_packet_game": "BUF@SJS",
-      "priority": 3
-    },
-    {
-      "candidate_id": "NHL|Dylan Guenther|shots on goal|under",
-      "sport": "NHL",
-      "player": "Dylan Guenther",
-      "player_id": 8482699,
-      "team": "UTA",
-      "opponent": "MIN",
-      "game": "UTA @ MIN",
-      "stat": "shots on goal",
-      "side": "under",
-      "line": 3.5,
-      "model_probability_diagnostic": 0.7055,
-      "market_probability_diagnostic": 0.5915,
-      "provisional_gap": 0.114,
-      "independent_book_count": 2,
-      "both_engines_reliable": true,
-      "missing_evidence": [
-        "explicit_game_specific_player_status",
-        "source_read_scouting_and_adversarial_review",
-        "independent_line_and_model_verification",
-        "scouting_dimensions:matchup,opportunity,injuries,game_script"
-      ],
-      "source_tasks": [
-        "availability.Dylan Guenther.primary_source",
-        "availability.Dylan Guenther.status",
-        "environment.MIN@UTA.back_to_back",
-        "environment.MIN@UTA.rest_days",
-        "lineup.UTA.pp1",
-        "lineup.UTA.projected_lines",
-        "scouting.NHL|Dylan Guenther|shots on goal|under.evidence.game_script",
-        "scouting.NHL|Dylan Guenther|shots on goal|under.evidence.injuries",
-        "scouting.NHL|Dylan Guenther|shots on goal|under.evidence.matchup",
-        "scouting.NHL|Dylan Guenther|shots on goal|under.evidence.opportunity",
-        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.deployment_trends",
-        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.game_environment",
-        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.line_matching",
-        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.opponent_style",
-        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.shot_attempts_rates",
-        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.shot_suppression",
-        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.special_teams",
-        "scouting.NHL|Dylan Guenther|shots on goal|under.supporting_stats.toi_lines"
-      ],
-      "source_guides": [
-        {
-          "source_state": "not_checked",
-          "verified": false,
-          "identity_rule": "match date, both teams, player and stable ID where available",
-          "task": "confirm_fixture_and_start",
-          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261027"
-        },
-        {
-          "source_state": "not_checked",
-          "verified": false,
-          "identity_rule": "match date, both teams, player and stable ID where available",
-          "task": "check_explicit_injury_designations",
-          "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries",
-          "warning": "absence from injury report does not confirm active status"
-        },
-        {
-          "source_state": "not_checked",
-          "verified": false,
-          "identity_rule": "match date, both teams, player and stable ID where available",
-          "task": "check_game_specific_active_roster",
-          "url": null,
-          "instruction": "After matching an official scoreboard event ID, read its pregame summary/rosters; require an explicit game-active flag"
-        },
-        {
-          "source_state": "not_checked",
-          "verified": false,
-          "identity_rule": "match date, both teams, player and stable ID where available",
-          "task": "verify_scouting_checklist",
-          "url": null,
-          "instruction": "Read date-specific evidence for matchup, opportunities, injuries, game script and stat-specific scouting checks; document counterevidence"
-        }
-      ],
-      "source_guides_are_evidence": false,
-      "reason": "STATUS_NOT_VERIFIED",
-      "status": "verification_pending",
-      "publication_eligible": false,
-      "matched_packet_game": "MIN@UTA",
-      "priority": 4
+      "priority": 2
     },
     {
       "candidate_id": "NHL|Zach Benson|shots on goal|under",
@@ -447,7 +283,7 @@
       "status": "verification_pending",
       "publication_eligible": false,
       "matched_packet_game": "BUF@SJS",
-      "priority": 5
+      "priority": 3
     },
     {
       "candidate_id": "NHL|Tim Stützle|shots on goal|over",
@@ -529,7 +365,7 @@
       "status": "verification_pending",
       "publication_eligible": false,
       "matched_packet_game": "OTT@VGK",
-      "priority": 6
+      "priority": 4
     },
     {
       "candidate_id": "NHL|Owen Power|shots on goal|under",
@@ -611,7 +447,7 @@
       "status": "verification_pending",
       "publication_eligible": false,
       "matched_packet_game": "BUF@SJS",
-      "priority": 7
+      "priority": 5
     },
     {
       "candidate_id": "NHL|Tage Thompson|shots on goal|under",
@@ -693,7 +529,7 @@
       "status": "verification_pending",
       "publication_eligible": false,
       "matched_packet_game": "BUF@SJS",
-      "priority": 8
+      "priority": 6
     },
     {
       "candidate_id": "NHL|Drake Batherson|shots on goal|under",
@@ -775,7 +611,7 @@
       "status": "verification_pending",
       "publication_eligible": false,
       "matched_packet_game": "OTT@VGK",
-      "priority": 9
+      "priority": 7
     },
     {
       "candidate_id": "NHL|Will Smith|shots on goal|under",
@@ -857,7 +693,7 @@
       "status": "verification_pending",
       "publication_eligible": false,
       "matched_packet_game": "BUF@SJS",
-      "priority": 10
+      "priority": 8
     },
     {
       "candidate_id": "NHL|Jack Eichel|shots on goal|over",
@@ -939,7 +775,7 @@
       "status": "verification_pending",
       "publication_eligible": false,
       "matched_packet_game": "OTT@VGK",
-      "priority": 11
+      "priority": 9
     }
   ],
   "source_checklist": [
@@ -949,9 +785,7 @@
       "source_state": "not_checked",
       "verified": false,
       "candidates": [
-        "NHL|Blake Coleman|shots on goal|over",
         "NHL|Drake Batherson|shots on goal|under",
-        "NHL|Dylan Guenther|shots on goal|under",
         "NHL|Jack Eichel|shots on goal|over",
         "NHL|Jackson LaCombe|shots on goal|under",
         "NHL|Noah Ostlund|shots on goal|over",
@@ -964,7 +798,6 @@
       "games": [
         "ANA / VAN",
         "BUF / SJS",
-        "MIN / UTA",
         "OTT / VGK"
       ]
     },
@@ -974,9 +807,7 @@
       "source_state": "not_checked",
       "verified": false,
       "candidates": [
-        "NHL|Blake Coleman|shots on goal|over",
         "NHL|Drake Batherson|shots on goal|under",
-        "NHL|Dylan Guenther|shots on goal|under",
         "NHL|Jack Eichel|shots on goal|over",
         "NHL|Jackson LaCombe|shots on goal|under",
         "NHL|Noah Ostlund|shots on goal|over",
@@ -989,13 +820,12 @@
       "games": [
         "ANA / VAN",
         "BUF / SJS",
-        "MIN / UTA",
         "OTT / VGK"
       ]
     }
   ],
   "unique_public_source_urls_for_review": 2,
-  "subjects_with_packet_gaps": 11,
+  "subjects_with_packet_gaps": 9,
   "source_urls_verified": 0,
   "integrity": {
     "publication_eligible": false,

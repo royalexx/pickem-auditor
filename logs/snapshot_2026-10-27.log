@@ -1,3 +1,2 @@
-start snapshot at 2026-10-27 20:57 ET
-ERROR: PREFETCH_QUOTE_STALE: quote was not freshly retrieved
-{"error": "PREFETCH_QUOTE_STALE: quote was not freshly retrieved", "errors": 1, "job": "snapshot", "rows_written": 0, "skipped": 0}
+start snapshot at 2026-10-27 21:04 ET
+{"errors": 0, "excluded_stale_prefetch_quotes": 616, "fresh_prefetch_quotes": 618, "job": "snapshot", "lineup_collection": {}, "preflight_feeds_ready": {"nba": true, "nfl": true, "nhl": true, "odds": true}, "preflight_partial": false, "rows_written": 0, "run_id": "4c202ec5-f0d4-54b6-9ac6-f06a32f950da", "skipped": 564}
