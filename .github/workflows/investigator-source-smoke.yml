@@ -1,0 +1,75 @@
+name: Autonomous investigator official-source connectivity
+on:
+  push:
+    paths:
+      - '.github/workflows/investigator-source-smoke.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install source collector requirements
+        run: python -m pip install -r requirements.txt
+      - name: Probe public source schemas without forecasts or paid markets
+        run: |
+          mkdir -p reports
+          python - <<'PY'
+          from datetime import datetime
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+          import json
+          import sys
+          sys.path.insert(0,'scripts')
+          import fetch_slate as fs
+          from autonomous_investigator import NEWS_FEEDS, verified_source
+          date=datetime.now(ZoneInfo('America/Toronto')).date().isoformat()
+          player_id='8481605'  # Named NHL player in archived shortlist; no private data
+          nhl_url=fs.nhl_game_log_url(player_id,fs.season_id_from_date(date))
+          news_url=NEWS_FEEDS['NHL']
+          sources=[]
+          for url,kind in ((nhl_url,'NHL player game log'),
+                           (news_url,'ESPN news discovery')):
+              check={'kind':kind,'url':url,'approved_https_host':verified_source(url)}
+              try:
+                  data=fs.fetch_json(url,timeout=20)
+                  check['type']=type(data).__name__
+                  if kind.startswith('NHL'):
+                      games=fs.parse_nhl_game_log(data)
+                      check['schema_ok']=games is not None
+                      check['games']=len(games or [])
+                      check['has_structured_values']=any(
+                          isinstance(row,dict) and 'shots' in row for row in games or [])
+                  else:
+                      check['schema_ok']=isinstance(data,dict) and isinstance(
+                          data.get('articles'),list)
+                      check['articles']=len(data.get('articles') or []) if isinstance(data,dict) else 0
+                  check['status']='retrieved' if check['schema_ok'] else 'unsupported_schema'
+              except Exception as exc:
+                  check['status']='fetch_failed'
+                  check['error_type']=type(exc).__name__
+                  check['error_summary']=str(exc)[:100]
+              sources.append(check)
+              print(check)
+          result={'date':date,'type':'source_connectivity_only',
+                  'not_a_pregame_verification':True,'propline_requests':0,
+                  'sources':sources}
+          Path('reports/investigator_source_probe.json').write_text(
+              json.dumps(result,indent=2)+'\n')
+          if not sources[0].get('schema_ok'):
+              raise SystemExit('Official NHL game log unavailable or schema changed')
+          PY
+      - name: Upload independent source connectivity receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: autonomous-investigator-source-probe
+          path: reports/investigator_source_probe.json
+          retention-days: 30
+          if-no-files-found: warn
