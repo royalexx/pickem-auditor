@@ -56,7 +56,8 @@ def evaluate(row, *, root):
         peers=be.peers_from_cache(root,sport=row['sport'],stat=row['stat'],
                 player_id=row['player_id'],cutoff=forecast_at,source_date=day)
         prediction=be.forecast(values,[v for v,_ in peers],dist=inputs['dist'],
-                        line=row['reference_line'],side=row['side'],var_ratio=inputs.get('var_ratio'))
+                        line=row['reference_line'],side=row['side'],var_ratio=inputs.get('var_ratio'),
+                        allow_negative=allow_negative)
         if not row.get('engine_a') or row['engine_a'].get('version')!='history-v5':
             raise be.ModelUnavailable('baseline_engine_version_changed')
         # Historical-only shadow result; compare against unadjusted Engine A.
