@@ -154,18 +154,19 @@ def project(candidate,now):
     clean=validate_rows(data['observations'],candidate,now,workload_required=True)
     n=len(clean)
     prior=[];early_prior=False
-    if n<5:
+    if n<10:
         ids=((candidate.get('observation_ids') or {}).get('prior') or [])
         history=validate_rows(data.get('prior_observations',[]),candidate,now,workload_required=True)
         indexed={r[1]:r for r in history}
-        if (n<3 or not 10<=len(ids)<=20 or len(indexed)<len(ids)
-                or not all(ident in indexed for ident in ids)
-                or not verify_a(candidate,now)):
+        authorized=(n>=3 and 10<=len(ids)<=20 and all(ident in indexed for ident in ids)
+                    and verify_a(candidate,now))
+        if authorized:
+            prior=[indexed[ident] for ident in ids]
+            if set(r[1] for r in clean).intersection(ids):
+                raise ValueError('prior and current observation IDs overlap')
+            early_prior=True
+        elif n<5:
             raise ValueError('early season needs 3 current and 10 verified same-role prior observations')
-        prior=[indexed[ident] for ident in ids]
-        if set(r[1] for r in clean).intersection(ids):
-            raise ValueError('prior and current observation IDs overlap')
-        early_prior=True
     positive=[r for r in clean if r[3]>0]
     prior_positive=[r for r in prior if r[3]>0]
     if len(positive)+len(prior_positive)<5:
