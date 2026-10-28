@@ -220,10 +220,10 @@ jobs:
                       step('review_template',[sys.executable,'scripts/review_template.py',
                            '--date',triage_date,'--snapshots','data/prop_snapshots.jsonl',
                            '--queue','reports/research_triage.json',
-                           '--limit','10','--out','reports/review_template.json'])
+                           '--limit','30','--out','reports/review_template.json'])
                   if Path('reports/research_triage.json').is_file() and Path(f'data/research_{triage_date}.json').is_file():
                       step('autonomous_investigator',[sys.executable,'scripts/autonomous_investigator.py',
-                           '--date',triage_date,'--phase','initial','--limit','10',
+                           '--date',triage_date,'--phase','initial','--limit','30',
                            '--snapshots','data/prop_snapshots.jsonl',
                            '--queue','reports/research_triage.json',
                            '--packet',f'data/research_{triage_date}.json',
@@ -243,7 +243,7 @@ jobs:
                   # deliberately produce blocked decisions, not invented picks.
                   if Path('reports/research_triage.json').is_file() and Path(f'data/research_{triage_date}.json').is_file():
                       command=[sys.executable,'scripts/pick_verification.py','--date',triage_date,
-                               '--phase','initial','--limit','10','--auto-review',
+                               '--phase','initial','--limit','30','--auto-review',
                                '--queue','reports/research_triage.json',
                                '--packet',f'data/research_{triage_date}.json',
                                '--snapshots','data/prop_snapshots.jsonl',
