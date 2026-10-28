@@ -26,14 +26,16 @@ class PosteriorTests(unittest.TestCase):
     def test_over_under_and_push_partition(self):
         sample=[0.,1.,2.,4.,2.,3.,2.,1.]
         for dist in ('poisson','negbin','normal'):
-            for line in (2,2.5):
+            for line in ((10,10.5) if dist=='normal' else (2,2.5)):
                 kw={'var_ratio':1.8} if dist=='negbin' else {}
-                a=be.forecast(sample,self.peers,dist=dist,line=line,side='over',**kw)
-                b=be.forecast(sample,self.peers,dist=dist,line=line,side='under',**kw)
+                data=([9.,11.,8.,13.,9.,12.,10.,11.] if dist=='normal' else sample)
+                a=be.forecast(data,self.peers,dist=dist,line=line,side='over',**kw)
+                b=be.forecast(data,self.peers,dist=dist,line=line,side='under',**kw)
                 self.assertAlmostEqual(a['q_win']+b['q_win']+a['q_push'],1,places=8)
                 self.assertTrue(0<=a['q_win']<=1)
                 self.assertTrue(0<=b['q_win']<=1)
-                if dist=='normal' or line!=int(line):self.assertEqual(a['q_push'],0)
+                if line!=int(line):self.assertEqual(a['q_push'],0)
+                else:self.assertGreater(a['q_push'],0)
 
     def test_normal_t_heavy_tails_and_sample_precision(self):
         small=be.forecast([7.,11.,8.,13.,9.],self.peers,dist='normal',line=10.5,side='over')
@@ -53,7 +55,7 @@ class PosteriorTests(unittest.TestCase):
 
     def test_negative_football_yards_only_normal(self):
         data=[-2.,5.,9.,11.,7.,8.]
-        self.assertTrue(be.forecast(data,self.peers,dist='normal',line=6.5,side='over'))
+        self.assertTrue(be.forecast(data,self.peers,dist='normal',line=6.5,side='over',allow_negative=True))
         with self.assertRaisesRegex(be.ModelUnavailable,'noninteger|invalid_subject'):
             be.forecast(data,self.peers,dist='poisson',line=2.5,side='over')
 
