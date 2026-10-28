@@ -134,6 +134,25 @@ def fit(data, *, draws=1000, tune=1000, chains=4, seed=1729):
     return idata
 
 
+def _diagnostic_values(result):
+    """Support ArviZ Stats 1.x nested DataTree and older flat Dataset outputs."""
+    import numpy as np
+    if hasattr(result,"to_array"):
+        groups=[result]
+    elif hasattr(result,"subtree"):
+        groups=[node.to_dataset() for node in result.subtree]
+    else:
+        raise ValueError("unrecognized_arviz_diagnostic_result")
+    values=[]
+    for group in groups:
+        if not getattr(group,"data_vars",None):
+            continue
+        values.extend(np.asarray(group.to_array(),dtype=float).ravel().tolist())
+    if not values:
+        raise ValueError("empty_arviz_diagnostic_result")
+    return values
+
+
 def diagnostics(idata):
     import numpy as np
     try:
@@ -142,15 +161,20 @@ def diagnostics(idata):
                   "player_chol_stds","toi_sigma","overdispersion",
                   "season_toi_sd","season_rate_sd","opponent_rate_sd"]
         selected=[n for n in selected if n in idata.posterior]
+        if not selected:raise ValueError("missing_population_diagnostic_parameters")
         rh=rhat(idata.posterior,var_names=selected)
         ef=ess(idata.posterior,var_names=selected,method="bulk")
-        max_r=float(np.asarray(rh.to_array()).max())
-        min_e=float(np.asarray(ef.to_array()).min())
+        rh_values=_diagnostic_values(rh)
+        ess_values=_diagnostic_values(ef)
         divergent=int(np.asarray(idata.sample_stats["diverging"]).sum())
     except (ValueError,TypeError,AttributeError,KeyError,ImportError) as exc:
         return {"status":"diagnostics_unavailable","error":type(exc).__name__+':'+str(exc)[:160],
+                "posterior_sampling_ok":False,
                 "publication_eligible":False,"validated":False}
-    healthy=(max_r<=MAX_RHAT and min_e>=MIN_ESS_BULK and divergent==0)
+    finite=all(math.isfinite(v) for v in (rh_values+ess_values))
+    max_r=max(rh_values) if finite else None
+    min_e=min(ess_values) if finite else None
+    healthy=(finite and max_r<=MAX_RHAT and min_e>=MIN_ESS_BULK and divergent==0)
     return {"status":"sampling_diagnostics_pass" if healthy else "sampling_diagnostics_failed",
             "max_rhat":max_r,"min_bulk_ess":min_e,
             "divergences":divergent,"posterior_sampling_ok":healthy,
