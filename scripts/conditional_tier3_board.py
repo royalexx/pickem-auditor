@@ -290,6 +290,14 @@ def main(argv=None):
                  quotes=quotes,quote_fetcher=quote_fetcher if args.refresh_quotes else None,
                  reviews=reviews)
     write_atomic(args.out,report)
+    import os
+    run_id = os.environ.get("GITHUB_RUN_ID") or now.strftime("%Y%m%dT%H%M%S%fZ")
+    attempt = os.environ.get("GITHUB_RUN_ATTEMPT","1")
+    archive = (Path(args.archive_root)/args.date/"conditional" /
+               (run_id+"-"+attempt+".json"))
+    if archive.exists():
+        raise ValueError("immutable conditional evaluation receipt already exists")
+    write_atomic(archive,report)
     print(json.dumps({k:v for k,v in report.items() if k!="conditional_picks"},
                      indent=2))
     return 0 if report["status"]!="invalid_current_slate_context" else 2
