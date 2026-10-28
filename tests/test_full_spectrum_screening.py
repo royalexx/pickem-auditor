@@ -89,6 +89,38 @@ class FullSpectrumScreeningTests(unittest.TestCase):
         self.assertIn("SOURCE_VERIFIED_EARLY_SEASON_PRIOR",backed["notes"])
         self.assertFalse(backed["unicorn_numeric"])
 
+    def test_six_game_goalie_can_use_real_prior_with_source_check(self):
+        goalie=dict(sport="NHL",stat="goalie saves",player_id="37",team="BOS",
+                    game_date=DATE,line=26.5,side="under",
+                    scouting={"historical_usage":"goalie-receipt"})
+        current=[dict(id=f"G26-{i}",date=f"2026-10-{15+i:02d}",
+                      value=24+i%3,workload=60.) for i in range(6)]
+        prior=[dict(id=f"G25-{i}",date=f"2026-02-{(i%20)+1:02d}",
+                    value=25+i%3,workload=60.) for i in range(20)]
+        goalie["observation_ids"]={"prior":[x["id"] for x in prior]}
+        data=dict(observations=current,prior_observations=prior,source_url="https://api.nhle.com/stats/rest/en/goalie/summary",
+                  content_sha256="source-verified")
+        with patch.object(ub,"load",return_value=data),patch.object(ub,"verify_a",return_value=True):
+            result=ub.project(goalie,NOW)
+        self.assertEqual(result["quality"]["n"],6)
+        self.assertTrue(result["quality"]["early_season_prior_supported"])
+        self.assertTrue(result["reliable"])
+        with patch.object(ub,"load",return_value=data),patch.object(ub,"verify_a",return_value=False):
+            result=ub.project(goalie,NOW)
+        self.assertFalse(result["reliable"])
+
+    def test_market_coverage_exposes_blocked_shot_absence(self):
+        from market_coverage_audit import audit
+        board=audit([{"sport":"NHL","stat":"shots on goal"}],
+                    [{"sport":"NHL","stat":"blocked shots"}])
+        blocks=next(x for x in board["market_rows"] if x["market"]=="player_blocked_shots")
+        self.assertTrue(blocks["provider_supported"])
+        self.assertEqual(blocks["source_rows"],1)
+        self.assertEqual(blocks["quote_rows"],0)
+        self.assertEqual(blocks["status"],"no_two_sided_quotes_in_normalized_feed")
+        hits=next(x for x in board["market_rows"] if x["market"]=="player_hits")
+        self.assertFalse(hits["provider_supported"])
+
     def test_early_season_scout_needs_verified_prior(self):
         from datetime import timedelta
         current=[dict(id=f"2026-{i}",date=f"2026-10-{20+i:02d}",value=12+i,
