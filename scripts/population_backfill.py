@@ -139,16 +139,16 @@ def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
                 # were nonmissing; a zero-row populated game fails below.
                 if result["source_games"]+len(game_ids)>max_games and result["advanced"]:
                     break
+                inserted_today=0
                 for gid in game_ids:
                     rows=normalize(get_game(gid),gid)
                     if not rows:raise ValueError("completed_game_missing_population_rows")
                     inserted=store.persist(root,rows)
                     result["market_rows_added"]+=inserted["inserted"]
+                    inserted_today+=inserted["inserted"]
                 result["source_games"]+=len(game_ids)
                 state["source_games"]+=len(game_ids)
-                state["market_rows_inserted"]+=result["market_rows_added"]- (
-                    state["market_rows_inserted"] - result.get("_initial_inserted",state["market_rows_inserted"]))
-                # replace cumulative counter below with an explicit initial snapshot
+                state["market_rows_inserted"]+=inserted_today
                 state["dates_complete"]+=1
                 day+=timedelta(days=1)
                 state["cursor"]=day.isoformat()
@@ -156,7 +156,6 @@ def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
                 save_state(root,sport,state)
     except (RuntimeError,ValueError,TypeError,KeyError,OSError) as exc:
         result["error"]=str(exc)
-    result.pop("_initial_inserted",None)
     result["cursor_after"]=state["cursor"]
     result["status"]="blocked" if result["error"] else (
         "caught_up" if (int(state["cursor"])>boundary.year if sport=="NFL"
