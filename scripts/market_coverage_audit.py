@@ -21,7 +21,8 @@ def audit(quotes, slate, *, odds_disabled=False, raw_inventory=None):
             supported=market in PROPLINE_SUPPORTED_MARKETS
             n=by_quote.get((sport,stat),0)
             inventory=raw_inventory.get(sport) if isinstance(raw_inventory.get(sport),dict) else {}
-            raw_count=(inventory.get("raw_bookmaker_market_counts") or {}).get(market)
+            raw_count=((inventory.get("raw_bookmaker_market_counts") or {}).get(market,0)
+                       if inventory else None)
             events=inventory.get("pregame_event_count")
             status=("odds_disabled" if odds_disabled else
                     "provider_unsupported" if not supported else
