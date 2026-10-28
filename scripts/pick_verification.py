@@ -285,6 +285,10 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
         else:
             attested = False
             reasons.append("ADVERSARIAL_REVIEW_NOT_ATTESTED_OR_DUPLICATE")
+        from mechanism_evidence import assess as assess_mechanisms
+        mechanism_quality = assess_mechanisms(
+            checked_packet, item, now=now, review_type=review_type,
+            machine_provenance=machine_provenance, human_reviewed=attested)
         candidate = original.get("inputs")
         result = None
         if not isinstance(candidate, dict) or candidate.get("id") != identity:
@@ -303,6 +307,7 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
                         reasons.append("RESEARCH_MERGE_FAILED")
                     else:
                         prepared[0]["research_checklist"] = "yes" if attested else "no"
+                        prepared[0]["mechanism_quality"] = mechanism_quality
                         try:
                             from usage_baseline import using_directory
                             with using_directory(data_root or Path("data")):
@@ -310,6 +315,14 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
                         except (pm.PickemError, ValueError, KeyError, TypeError) as exc:
                             reasons.append("ENGINE_REEVALUATION_FAILED_" + type(exc).__name__)
         rank = (result or {}).get("final_rank", "Unranked")
+        # Defense in depth: even a stale/alternative model entrypoint that
+        # ignores mechanism_quality cannot publish above the evidence ceiling.
+        evidence_cap = mechanism_quality["tier_ceiling"]
+        from pickem_math import _lower_final
+        if rank in TIERS:
+            rank = _lower_final(rank, evidence_cap)
+        if (result or {}).get("final_rank") in TIERS and rank not in TIERS:
+            reasons.append("CAUSAL_EVIDENCE_QUALITY_BELOW_TIER_FLOOR")
         a = (result or {}).get("engine_a") or {}
         b = (result or {}).get("engine_b") or {}
         blend = (result or {}).get("blend") or {}
@@ -346,6 +359,7 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
             "decision": "verified" if accepted else "blocked",
             "publication_eligible": accepted,
             "verified_rank": final_rank,
+            "mechanism_evidence": mechanism_quality,
             "diagnostic_regrade_rank": rank,
             "verified_model_probability": ((result or {}).get("grade") or {}).get("q_model"),
             "verified_market_probability": ((result or {}).get("grade") or {}).get("q_market_comparable"),

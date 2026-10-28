@@ -1246,6 +1246,7 @@ def finalize(
     data_veto: bool,
     market_valid: bool,
     research_checklist: bool,
+    mechanism_quality=None,
 ) -> str:
     """Authoritative label. Research attestation cannot override a failed machine check."""
     if isinstance(mechanisms, bool) or not isinstance(mechanisms, int) or mechanisms < 0:
@@ -1267,10 +1268,23 @@ def finalize(
     if band not in labels:
         raise PickemError(f"unknown probability_rank '{band}'")
     final = labels[band]
-    if mechanisms < 1 and final in ("Tier 1", "Tier 2", "Tier 3"):
-        final = "Watchlist"
-    if mechanisms < 2 and final == "Tier 1":
-        final = "Tier 2"
+    quality_cap = None
+    if mechanism_quality is not None:
+        # Production verification supplies the SOURCE-AUDITED ceiling. Counts
+        # remain diagnostic; duplicate citations or embedded workload cannot
+        # raise a Tier. Invalid audit objects never authorize promotion.
+        quality_cap = (mechanism_quality.get("tier_ceiling")
+                       if isinstance(mechanism_quality, dict) else None)
+        if quality_cap not in ("Watchlist","Tier 3","Tier 2","Tier 1"):
+            quality_cap = "Watchlist"
+        final = _lower_final(final, quality_cap)
+    else:
+        # Legacy direct decide() callers and offline scans remain compatible.
+        # This path MUST NOT authorize a published verification receipt.
+        if mechanisms < 1 and final in ("Tier 1", "Tier 2", "Tier 3"):
+            final = "Watchlist"
+        if mechanisms < 2 and final == "Tier 1":
+            final = "Tier 2"
     machine_unicorn = (
         scored.get("q_grade") is not None
         and scored["q_grade"] >= TIER_1
@@ -1278,11 +1292,14 @@ def finalize(
         and scored["soft_flags"] == 0
         and scored["current_role_n"] >= 10
         and not _gap_caps(scored["gap_magnitude"])
-        and mechanisms >= 2
+        and (quality_cap == "Tier 1" if mechanism_quality is not None
+             else mechanisms >= 2)
         and research_checklist
     )
     if final == "Tier 1" and not machine_unicorn:
-        final = "Tier 2" if mechanisms >= 1 else "Watchlist"
+        final = ("Tier 2" if (quality_cap in ("Tier 2","Tier 1")
+                              if mechanism_quality is not None else mechanisms >= 1)
+                 else "Watchlist")
     ceiling = {0: "Tier 1", 1: "Tier 2", 2: "Tier 3"}.get(scored["soft_flags"], "Watchlist")
     final = _lower_final(final, ceiling)
     if _gap_caps(scored["gap_magnitude"]):
@@ -1306,14 +1323,18 @@ def decide(
     q_push: float = 0.0,
     workload_adjusted: bool = False,
     normal_left_tail: bool = False,
+    mechanism_quality=None,
 ) -> dict:
     scored = grade(
         q_model, q_market, soft_flags, current_role_n, role_change, q_push,
         workload_adjusted, normal_left_tail,
     )
-    final = finalize(scored, mechanisms, hard_veto, data_veto, market_valid, research_checklist)
+    final = finalize(scored, mechanisms, hard_veto, data_veto, market_valid,
+                     research_checklist, mechanism_quality=mechanism_quality)
     scored["final_rank"] = final
     scored["mechanisms"] = mechanisms
+    if mechanism_quality is not None:
+        scored["mechanism_quality"] = mechanism_quality
     scored["hard_veto"] = hard_veto
     scored["data_veto"] = data_veto
     scored["market_valid"] = market_valid
@@ -2664,6 +2685,7 @@ def evaluate_candidate(raw: dict, *, now=None) -> dict:
     raw = dict(raw)
     tier_basis = _tier_basis(raw.pop("tier_basis", None))
     scouting = raw.pop("scouting", None)
+    mechanism_quality = raw.pop("mechanism_quality", None)
     event_context = raw.pop('event_context',None)
     scouting_identity = {k:raw.get(k) for k in ("player_id", "team", "game_date")}
     ident = raw.pop("id", None)
@@ -2845,6 +2867,7 @@ def evaluate_candidate(raw: dict, *, now=None) -> dict:
         projected["current_role_n"],
         mechanisms, hard_veto, data_veto, market_valid, research, bool(raw.get("role_change")),
         q_push_grade, workload_adjusted, bool(projected["distribution_block"]),
+        mechanism_quality=mechanism_quality,
     )
     decided["tier_basis"] = tier_basis
     if decided["final_rank"] == "Tier 1" and (not blend["validated"] or
