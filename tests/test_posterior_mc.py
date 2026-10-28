@@ -191,6 +191,12 @@ class AuditTests(unittest.TestCase):
             self.assertEqual(report['matched_settled_forecasts'],1)
             self.assertEqual(report['comparators']['A_mc']['n'],1)
             self.assertAlmostEqual(report['comparators']['A_mc']['log_loss'],-math.log(.8))
+            paired=report['paired_comparisons']['A_mc_vs_bayes_analytic']
+            self.assertEqual(paired['n'],1)
+            self.assertAlmostEqual(paired['delta_log_loss_mc_minus_comparator'],
+                                   math.log(.6/.8))
+            self.assertAlmostEqual(report['paired_comparisons']['A_mc_vs_legacy']
+                                   ['delta_log_loss_mc_minus_comparator'],math.log(.6/.8))
             self.assertEqual(report['comparators']['B_mc']['n'],0) if 'B_mc' in report['comparators'] else None
             self.assertTrue(report['no_retraining'])
             original.write_text('')
