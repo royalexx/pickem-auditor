@@ -61,8 +61,10 @@ def compare(idata,train,design,future,*,cutoff,until,line,checks,draws=1500):
     for row in heldout:
         if row["player_id"] not in allowed:
             excluded["unseen_or_training_excluded_player"]+=1;continue
-        if row["opponent"] not in design["opponents"] or row["season"] not in design["seasons"]:
-            excluded["unseen_opponent_or_season"]+=1;continue
+        if row["opponent"] not in design["opponents"]:
+            excluded["unseen_opponent"]+=1;continue
+        if row["season"] not in design["seasons"] and len(design["seasons"])<2:
+            excluded["unidentified_next_season_effect"]+=1;continue
         seed=int.from_bytes(hashlib.sha256(
             (joint.VERSION+row["game_id"]+row["player_id"]+
              row["stat"]).encode()).digest()[:8],"big")
