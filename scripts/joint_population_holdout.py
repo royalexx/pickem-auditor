@@ -47,6 +47,8 @@ def _scores(observations):
 def compare(idata,train,design,future,*,cutoff,until,line,checks,draws=1500):
     date.fromisoformat(cutoff);date.fromisoformat(until)
     if cutoff>=until:raise ValueError("invalid_chronological_holdout")
+    if not math.isfinite(line) or float(line).is_integer():
+        raise ValueError("binary_research_threshold_must_avoid_exact_stat_pushes")
     if checks.get("posterior_sampling_ok") is not True:
         raise ValueError("posterior_not_accepted_for_validation")
     identities={(r["game_id"],r["player_id"]) for r in train}
