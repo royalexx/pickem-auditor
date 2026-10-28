@@ -118,16 +118,26 @@ def build(data):
             sd_dist=pm.HalfNormal.dist(.65,shape=2),compute_corr=True)
         latent=pm.Normal("player_z",mu=0.,sigma=1.,shape=(n_player,2))
         player_effect=pm.Deterministic("player_effect",pt.dot(latent,chol.T))
-        # Distinct season, opponent, home effects are inferred and shrunk.
-        season_toi_sd=pm.HalfNormal("season_toi_sd",.18)
-        season_rate_sd=pm.HalfNormal("season_rate_sd",.20)
+        # A single observed season cannot identify a *season-level*
+        # variance, and its offset is confounded with population means.
+        # Pin that offset to zero; infer centered nonzero effects only
+        # when observations span at least two independent seasons.
+        if n_season>1:
+            season_toi_sd=pm.HalfNormal("season_toi_sd",.18)
+            season_rate_sd=pm.HalfNormal("season_rate_sd",.20)
+            season_toi_z=pm.Normal("season_toi_z",0.,1.,shape=n_season)
+            season_rate_z=pm.Normal("season_rate_z",0.,1.,shape=n_season)
+            season_toi=pm.Deterministic("season_toi",
+                (season_toi_z-pt.mean(season_toi_z))*season_toi_sd)
+            season_rate=pm.Deterministic("season_rate",
+                (season_rate_z-pt.mean(season_rate_z))*season_rate_sd)
+        else:
+            season_toi=pm.Deterministic("season_toi",pt.zeros((n_season,)))
+            season_rate=pm.Deterministic("season_rate",pt.zeros((n_season,)))
         opponent_rate_sd=pm.HalfNormal("opponent_rate_sd",.20)
-        season_toi_z=pm.Normal("season_toi_z",0.,1.,shape=n_season)
-        season_rate_z=pm.Normal("season_rate_z",0.,1.,shape=n_season)
         opponent_z=pm.Normal("opponent_z",0.,1.,shape=n_opponent)
-        season_toi=pm.Deterministic("season_toi",season_toi_z*season_toi_sd)
-        season_rate=pm.Deterministic("season_rate",season_rate_z*season_rate_sd)
-        opponent_rate=pm.Deterministic("opponent_rate",opponent_z*opponent_rate_sd)
+        opponent_rate=pm.Deterministic("opponent_rate",
+                                      (opponent_z-pt.mean(opponent_z))*opponent_rate_sd)
         home_rate=pm.Normal("home_rate",0.,.15)
         toi_sigma=pm.HalfNormal("toi_sigma",.40)
         overdisp=pm.Gamma("overdispersion",alpha=3.,beta=.35)
@@ -148,7 +158,7 @@ def fit(data, *, draws=1000, tune=1000, chains=4, seed=1729):
     with model:
         idata=pm.sample(draws=draws,tune=tune,chains=chains,cores=min(chains,2),
                         random_seed=seed,progressbar=False,
-                        nuts={"target_accept":.95},
+                        nuts={"target_accept":.99},
                         compute_convergence_checks=True,
                         return_inferencedata=True)
     return idata
@@ -209,9 +219,12 @@ def predictive_cache(idata):
     if count<20:
         raise ValueError("insufficient_posterior_draws")
     required=("population_log_toi","population_log_shot_rate",
-              "player_effect","season_toi","season_rate",
-              "season_toi_sd","season_rate_sd","opponent_rate",
+              "player_effect","season_toi","season_rate","opponent_rate",
               "toi_sigma","home_rate","overdispersion")
+    if ("season_toi_sd" in posterior) != ("season_rate_sd" in posterior):
+        raise ValueError("inconsistent_season_hierarchy")
+    if "season_toi_sd" in posterior:
+        required+=("season_toi_sd","season_rate_sd")
     arrays={}
     for name in required:
         raw=np.asarray(posterior[name],dtype=float)
@@ -251,6 +264,8 @@ def forecast(idata,data,*,player_id,opponent,season,home,line,draws=5000,seed=19
     pi=data["players"].index(player)
     oi=data["opponents"].index(opponent)
     season_index=data["seasons"].index(season) if season in data["seasons"] else None
+    if season_index is None and "season_toi_sd" not in cache["arrays"]:
+        raise ValueError("unseen_season_without_identified_multiseason_prior")
     pos=0 if position=="F" else 1
     def samples(name):
         return cache["arrays"][name][indices]
