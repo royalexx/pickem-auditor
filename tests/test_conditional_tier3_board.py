@@ -30,6 +30,10 @@ def tendency():
             "source_snapshot_sha256":"f"*64,"sample":5}
 
 
+def injury_source(url,**kwargs):
+    return {"injuries":[{"team":{"abbreviation":"MTL"},"injuries":[]}]}
+
+
 def fresh():
     return {"market_retrieved_at":"2026-10-27T20:29:00Z",
             "books":[{"book":"FanDuel","line":2.5,"target":-250,"other":210,"book_side":"over"},
@@ -45,7 +49,7 @@ class ConditionalTests(unittest.TestCase):
               patch.object(cb,"assess_mechanism",return_value={
                   "tier_ceiling":"Tier 3","quality":"source_correlated_model_overlap"}),
               patch.object(cb,"quote_refresh",return_value=(fresh(),[]))):
-            return cb.build(rows,queue,packet,DATE,now=NOW,**kw)
+            return cb.build(rows,queue,packet,DATE,now=NOW,fetch=injury_source,**kw)
 
     def test_historical_5of5_and_live_market_produce_conditional_only(self):
         rows,queue,packet=setup()
@@ -91,7 +95,7 @@ class ConditionalTests(unittest.TestCase):
               patch.object(cb,"machine_review",return_value=(True,None,{})),
               patch.object(cb,"assess_mechanism",return_value={"tier_ceiling":"Tier 3"}),
               patch.object(cb,"quote_refresh",return_value=(None,["CURRENT_MARKET_TIMESTAMP_INVALID"]))):
-            out=cb.build(rows,queue,packet,DATE,now=NOW)
+            out=cb.build(rows,queue,packet,DATE,now=NOW,fetch=injury_source)
         self.assertEqual(out["conditional_count"],0)
         self.assertEqual(out["excluded"]["fresh_same_line_market_missing"],1)
 
@@ -99,7 +103,7 @@ class ConditionalTests(unittest.TestCase):
         rows,queue,packet=setup()
         with (patch.object(cb,"tendency_check",return_value=tendency()),
               patch.object(cb,"machine_review",return_value=(False,"MACHINE_DOSSIER_MISSING",{}))):
-            out=cb.build(rows,queue,packet,DATE,now=NOW)
+            out=cb.build(rows,queue,packet,DATE,now=NOW,fetch=injury_source)
         self.assertEqual(out["conditional_count"],0)
         self.assertEqual(out["excluded"]["MACHINE_DOSSIER_MISSING"],1)
 
@@ -107,7 +111,7 @@ class ConditionalTests(unittest.TestCase):
         rows,queue,packet=setup()
         with (patch.object(cb,"tendency_check",return_value=tendency()),
               patch.object(cb,"status_verified",return_value=(True,None))):
-            out=cb.build(rows,queue,packet,DATE,now=NOW)
+            out=cb.build(rows,queue,packet,DATE,now=NOW,fetch=injury_source)
         self.assertEqual(out["conditional_count"],0)
         self.assertEqual(out["excluded"]["already_active_requires_strict_verified_board"],1)
 
@@ -115,6 +119,25 @@ class ConditionalTests(unittest.TestCase):
         rows,queue,packet=setup()
         after=datetime(2026,10,28,0,0,tzinfo=timezone.utc)
         self.assertEqual(cb.build(rows,queue,packet,DATE,now=after)["conditional_count"],0)
+
+    def test_unreadable_injury_feed_blocks_all_conditional_publication(self):
+        rows,queue,packet=setup()
+        with patch.object(cb,"tendency_check",return_value=tendency()):
+            board=cb.build(rows,queue,packet,DATE,now=NOW,
+                           fetch=lambda *a,**k:{"injuries":[]})
+        self.assertEqual(board["conditional_count"],0)
+        self.assertEqual(board["excluded"]["LIVE_INJURY_SOURCE_UNAVAILABLE"],1)
+
+    def test_explicit_current_injury_report_vetoes_high_historical_continuity(self):
+        rows,queue,packet=setup()
+        def injured(*a,**kw):
+            return {"injuries":[{"team":{"abbreviation":"BOS"},
+                "injuries":[{"athlete":{"displayName":"Example Skater"},
+                            "status":"Questionable"}]}]}
+        with patch.object(cb,"tendency_check",return_value=tendency()):
+            board=cb.build(rows,queue,packet,DATE,now=NOW,fetch=injured)
+        self.assertEqual(board["conditional_count"],0)
+        self.assertEqual(board["excluded"]["EXPLICIT_CURRENT_INJURY_DESIGNATION"],1)
 
     def test_no_market_fetch_if_no_quality_qualified(self):
         rows,queue,packet=setup()
