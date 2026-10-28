@@ -22,6 +22,10 @@ on:
         description: 'Minimum verified historical player-game rows'
         required: false
         default: '2000'
+      max_per_position:
+        description: '0 = full population; positive selects train-only highest-appearance cohort per position'
+        required: false
+        default: '0'
       draws:
         description: 'Four-chain NUTS posterior draws per chain'
         required: false
@@ -48,6 +52,7 @@ jobs:
       UNTIL: ${{ inputs.until }}
       LINE: ${{ inputs.research_line }}
       ROWS: ${{ inputs.min_rows }}
+      MAX_PER_POSITION: ${{ inputs.max_per_position }}
       DRAWS: ${{ inputs.draws }}
       TUNE: ${{ inputs.tune }}
     steps:
@@ -70,6 +75,7 @@ jobs:
           python scripts/joint_population_bayes.py --sport "$SPORT" \
             --stat "$STAT" --as-of "$CUTOFF" --min-rows "$ROWS" \
             --draws "$DRAWS" --tune "$TUNE" --chains 4 \
+            --max-per-position "$MAX_PER_POSITION" \
             --out reports/multisport_joint
       - name: Paired same-cohort later-game score comparison with baseline
         id: score
