@@ -14,6 +14,7 @@ import hashlib
 import json
 import math
 import os
+import re
 from pathlib import Path
 from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
@@ -29,6 +30,11 @@ MAX_SUBJECTS = 30
 MAX_OBSERVATIONS = 20
 SPORTS = {"NHL", "NBA", "NFL"}
 ALLOWED_SOURCE_HOSTS = frozenset(("api-web.nhle.com", "site.api.espn.com", "site.web.api.espn.com"))
+NEWS_FEEDS = {
+    "NHL": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/news?limit=100",
+    "NBA": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/news?limit=100",
+    "NFL": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=100",
+}
 DATEZONE = ZoneInfo("America/Toronto")
 
 
@@ -174,6 +180,45 @@ def _historical_findings(item, observations, url, digest, now):
     return evidence, None
 
 
+def article_mentions(payload, item, now):
+    """Find literal athlete-name mentions. Do not interpret them as verified news."""
+    if not isinstance(payload, dict):
+        return []
+    articles = payload.get("articles") or []
+    if not isinstance(articles, list):
+        return []
+    name = str(item.get("player") or "").strip()
+    if len(name.split()) < 2:
+        return []
+    pattern = re.compile(r"(?<!\w)" + re.escape(name) + r"(?!\w)", re.I)
+    results = []
+    for article in articles[:100]:
+        if not isinstance(article, dict):
+            continue
+        published = utc_time(article.get("published") or article.get("publishedAt"))
+        if not published or not 0 <= (now-published).total_seconds() <= 48*3600:
+            continue
+        link = ((article.get("links") or {}).get("web") or {}).get("href")
+        host = urlparse(str(link or "")).hostname
+        if urlparse(str(link or "")).scheme != "https" or host not in ("www.espn.com","espn.com"):
+            continue
+        combined = " ".join(str(article.get(k) or "") for k in ("headline","description"))
+        hit = pattern.search(combined)
+        if not hit:
+            continue
+        begin = max(0,hit.start()-55)
+        excerpt = combined[begin:hit.end()+140].strip()
+        excerpt = " ".join(excerpt.split()[:25])
+        results.append({"url": link, "published_at": published.isoformat(),
+                        "headline": str(article.get("headline") or ""),
+                        "source_excerpt": excerpt,
+                        "source_field": "articles[].headline/description",
+                        "verification_status": "NAME_MENTION_ONLY_NOT_SCOUTING_OR_INJURY_PROOF"})
+        if len(results) >= 5:
+            break
+    return results
+
+
 def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial",
                 fetch=None, data_root=None):
     now = now or datetime.now(timezone.utc)
@@ -196,6 +241,26 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
     if selected:
         updated, resolution = resolve(
             updated, [item["candidate_id"] for item, _ in selected], fetch, now=now)
+    # An independent, bounded search for reports mentioning the athlete.
+    # Returned article summaries are leads; no active-status or role claim is
+    # inferred from a headline or snippet. One request per relevant sport.
+    news = {}
+    for sport in sorted({item["sport"] for item,_ in selected}):
+        url = NEWS_FEEDS.get(sport)
+        if not url:
+            continue
+        attempt = {"url": url, "retrieved_at": now.isoformat(),
+                   "purpose": "literal search for potentially conflicting team news"}
+        try:
+            response = fetch(url, timeout=15)
+            if not isinstance(response, dict):
+                raise ValueError("expected ESPN news object")
+            news[sport] = response
+            attempt.update(status="retrieved", payload_sha256=source_hash(response))
+        except (OSError, ValueError, TypeError, KeyError) as exc:
+            news[sport] = {}
+            attempt.update(status="source_failed", failure_type=type(exc).__name__)
+        resolution.setdefault("attempts", []).append(attempt)
     entries, counts, cache = [], Counter(), {}
     for item, original in selected:
         entry = {"candidate_id": item["candidate_id"],
@@ -207,11 +272,16 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
                  "event_start": original.get("event_start"),
                  "checked_at": now.isoformat(), "source_attempts": [],
                  "observed_history": None, "supporting_evidence": [],
-                 "opposing_evidence": [], "blockers": [],
+                 "opposing_evidence": [], "relevant_news_mentions": [],
+                 "blockers": [],
                  "missing_scouting_checks": list(required_checks(item["sport"], item["stat"])),
                  "source_read_by_human": False, "research_attested": False,
                  "publication_eligible": False}
         reasons = entry["blockers"]
+        entry["relevant_news_mentions"] = article_mentions(
+            news.get(item["sport"], {}), item, now)
+        if entry["relevant_news_mentions"]:
+            reasons.append("NEWS_MENTIONS_REQUIRE_SOURCE_READING_AND_CONTEXT")
         if packet_game_key(updated, item) is None:
             reasons.append("CANONICAL_FIXTURE_IDENTITY_NOT_CONFIRMED")
         ok, issue = status_verified(updated, item, now)
@@ -297,6 +367,7 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
             "source": (e["observed_history"] or {}).get("source_url"),
             "supporting_game_count": len(e["supporting_evidence"]),
             "opposing_game_count": len(e["opposing_evidence"]),
+            "news_mention_count": len(e["relevant_news_mentions"]),
             "blockers": e["blockers"]}
             for e in entries},
         "research_complete": False, "promotion_authorized": False}
