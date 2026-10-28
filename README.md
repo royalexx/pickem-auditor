@@ -130,3 +130,25 @@ multiclass Brier for legacy, Bayesian analytic and Monte Carlo predictions.
 No automatic calibration weights or model promotion are performed.
 
 See [the Phase 3 methodology, safeguards and testing instructions](references/posterior_mc.md).
+
+
+## Phase 4: predictive validation, not production promotion
+
+Phase 4 introduces `scripts/phase4_validation.py`, a **read-only** audit
+comparing original `history-v5`/ `scouting-v7` forecasts, Bayesian
+analytic shadow forecasts, posterior Monte Carlo shadow forecasts and
+a separately identified **diagnostic-only** 70/30 combination.
+
+The morning workflow runs the audit only after successful verified result
+settlement, and writes `reports/phase4_validation.json` to the GitHub
+Actions artifacts. It evaluates chronologically separated pregame holdouts,
+proper three-way Brier and log loss, matched-cohort date-cluster uncertainty,
+walk-forward *non-deployed* temperature calibration, confidence reliability,
+sport/stat/tier/side slices and same-line closing-market diagnostics.
+Original historical archive snapshots are scored as originally recorded;
+missing Bayesian/MC pregame forecasts are never backfilled from later games.
+
+This feature **does not** update any deployed probability weights, ranking,
+research gate, or Tier rule. Numerical sample size / predictive validity
+are surfaced honestly; underpowered results do not authorize changes.
+See [Phase 4 statistical guardrails](references/phase4_validation.md).
