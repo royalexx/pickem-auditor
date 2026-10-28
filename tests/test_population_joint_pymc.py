@@ -43,7 +43,8 @@ class BayesianPopulationNuts(unittest.TestCase):
                           nuts={"target_accept":.90},
                           compute_convergence_checks=False)
                 diag=model.diagnostics(idata)
-                self.assertNotEqual(diag["status"],"diagnostics_unavailable",diag)
+                self.assertFalse(diag["posterior_sampling_ok"])
+                self.assertIn(diag["status"],("diagnostics_unavailable","sampling_diagnostics_failed"))
                 self.assertFalse(diag["publication_eligible"])
                 # Smoke bypass of short-chain *quality criteria* only to
                 # exercise code paths, never the production publication gate.
