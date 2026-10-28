@@ -128,6 +128,22 @@ class Mechanics(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'invalid_phase4_source_sidecar'):
                 v.read_sidecars(d,version='history-bayes-v1',engine='A')
 
+    def test_doubleheader_or_same_time_event_identity_never_reuses_shadow(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);day=datetime(2026,10,26,tzinfo=timezone.utc).date()
+            one=scenario(day)
+            two={**one,'event_id':'game-2'}
+            original=root/'original.jsonl'
+            original.write_text(json.dumps(one)+'\n'+json.dumps(two)+'\n')
+            a=root/'a';a.mkdir()
+            (a/(day.isoformat()+'.jsonl')).write_text(json.dumps(parent(one,'A'))+'\n')
+            records,coverage=v._source_rows(original,{'a':a,'b':root/'none','mc':root/'none2'})
+            self.assertEqual(len(records),2)
+            self.assertEqual(coverage['ambiguous_shadow_forecast_identities'],1)
+            self.assertEqual(coverage['shadow_join_ambiguous_events_excluded'],2)
+            self.assertTrue(all(x['model']['bayes_a'] is None for x in records))
+            self.assertTrue(all(x['model']['legacy_a'] is not None for x in records))
+
     def test_calibration_never_uses_later_settlement_or_same_day(self):
         base=datetime(2026,5,1,tzinfo=timezone.utc)
         data=[]
@@ -190,6 +206,8 @@ class EndToEnd(unittest.TestCase):
             self.assertFalse(result['changes_model_weights'])
             self.assertEqual(result['split']['method'],'chronological_sealed_game_date_70_30')
             self.assertTrue(result['split']['train']['last_day']<result['split']['holdout']['first_day'])
+            self.assertEqual(result['split']['matched_legacy_bayesian_mc_holdout_n'],0)
+            self.assertFalse(result['split']['shadow_holdout_sample_threshold_met'])
             self.assertEqual(result['status'],'underpowered_or_no_prospective_shadow')
 
     def test_prospective_shadow_joins_and_tier_slices(self):
