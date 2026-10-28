@@ -70,6 +70,30 @@ class FullSpectrumScreeningTests(unittest.TestCase):
         self.assertEqual(result["tier_candidate_selected"],1)
         self.assertEqual(result["recovery_only_selected"],1)
 
+    def test_market_inventory_identifies_raw_provider_vs_pairing_gap(self):
+        import json, tempfile
+        from market_coverage_audit import audit, load_raw_inventory
+        raw={"NHL":{"pregame_event_count":2,
+             "raw_bookmaker_market_counts":{"player_blocked_shots":3},
+             "normalized_two_sided_quote_counts":{"shots on goal":4}}}
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/"slate.meta.json"
+            path.write_text(json.dumps({"feeds":{"odds":{"notes":[
+                "MARKET_SOURCE_INVENTORY_JSON="+json.dumps(raw)]}}}))
+            loaded=load_raw_inventory(path)
+        self.assertEqual(loaded,raw)
+        result=audit([],[],raw_inventory=loaded)
+        block=next(r for r in result["market_rows"]
+                   if r["market"]=="player_blocked_shots")
+        self.assertEqual(block["raw_market_occurrences"],3)
+        self.assertEqual(block["quote_rows"],0)
+        self.assertEqual(block["status"],"raw_market_present_but_unpaired_or_filtered")
+        raw["NHL"]["raw_bookmaker_market_counts"]={}
+        missing=audit([],[],raw_inventory=raw)
+        block=next(r for r in missing["market_rows"]
+                   if r["market"]=="player_blocked_shots")
+        self.assertEqual(block["status"],"raw_market_missing_from_provider_payload")
+
     def test_one_player_can_have_multiple_independent_stats(self):
         a=subject("Multi","NHL","shots on goal","STATUS_NOT_VERIFIED",.72,grade=.72,market=.69)
         b=subject("Multi","NHL","blocked shots","STATUS_NOT_VERIFIED",.71,grade=.71,market=.66)
