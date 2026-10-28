@@ -80,3 +80,5 @@ jobs:
         run: |
           test "$NHL" = success && test "$NBA" = success && test "$NFL" = success || {
              echo "LIVE_SOURCE_ADAPTER_FAILURE NHL=$NHL NBA=$NBA NFL=$NFL" >&2; exit 2; }
+
+# Recheck 2018 nflverse new team field and defense+offense uniquely matched snaps.
