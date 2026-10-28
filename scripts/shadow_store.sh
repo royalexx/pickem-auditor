@@ -52,6 +52,11 @@ if [[ "$mode" == load ]]; then
       mkdir -p data/bayesian_b_shadow
       cp -an "$tmpdir/data/bayesian_b_shadow/." data/bayesian_b_shadow/
     fi
+    # Phase 3 posterior MC predictions; independent append-only sidecars.
+    if [[ -d "$tmpdir/data/posterior_mc" ]]; then
+      mkdir -p data/posterior_mc
+      cp -an "$tmpdir/data/posterior_mc/." data/posterior_mc/
+    fi
     # Verification sidecars are independent of original forecasts and may be
     # updated before game start. Old decision receipts must remain intact.
     if [[ -d "$tmpdir/data/verification" ]]; then
@@ -159,6 +164,24 @@ PY
     mkdir -p "$tmpdir/tree/data/bayesian_b_shadow"
     cp -a data/bayesian_b_shadow/. "$tmpdir/tree/data/bayesian_b_shadow/"
   fi
+  if [[ -d data/posterior_mc ]]; then
+    while IFS= read -r -d '' forecast; do
+      relative="${forecast#data/posterior_mc/}"
+      target="$tmpdir/tree/data/posterior_mc/$relative"
+      if [[ -e "$target" ]]; then
+        python - "$target" "$forecast" <<'PY'
+import sys
+from pathlib import Path
+old=Path(sys.argv[1]).read_bytes()
+new=Path(sys.argv[2]).read_bytes()
+if not new.startswith(old):
+    raise SystemExit('IMMUTABLE_POSTERIOR_MC_CONFLICT: '+sys.argv[2])
+PY
+      fi
+    done < <(find data/posterior_mc -type f -name '*.jsonl' -print0)
+    mkdir -p "$tmpdir/tree/data/posterior_mc"
+    cp -a data/posterior_mc/. "$tmpdir/tree/data/posterior_mc/"
+  fi
   for file in logs/*.log; do
     [[ ! -f "$file" ]] || cp -p "$file" "$tmpdir/tree/logs/"
   done
@@ -173,6 +196,9 @@ PY
   fi
   if [[ -d "$tmpdir/tree/data/bayesian_b_shadow" ]]; then
     git -C "$tmpdir/tree" add -f data/bayesian_b_shadow/
+  fi
+  if [[ -d "$tmpdir/tree/data/posterior_mc" ]]; then
+    git -C "$tmpdir/tree" add -f data/posterior_mc/
   fi
   if [[ -d "$tmpdir/tree/data/verification" ]]; then
     git -C "$tmpdir/tree" add -f data/verification/

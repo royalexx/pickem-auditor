@@ -108,7 +108,19 @@ jobs:
           archive=Path('data/prop_snapshots.jsonl')
           if phase=='morning':
               if archive.is_file():
-                  step('settle_forecasts',[sys.executable,'scripts/jobs.py','settle'])
+                  settle_ok=step('settle_forecasts',[sys.executable,'scripts/jobs.py','settle'])
+                  if settle_ok:
+                      step('posterior_mc_settled_audit',[sys.executable,
+                           'scripts/posterior_mc_audit.py','--original','data/prop_snapshots.jsonl',
+                           '--mc-dir','data/posterior_mc','--out','reports/posterior_mc_audit.json'])
+                      if Path('reports/posterior_mc_audit.json').is_file():
+                          try:
+                              audit=json.loads(Path('reports/posterior_mc_audit.json').read_text())
+                              receipt['posterior_mc_audit']={k:audit.get(k) for k in
+                                  ('schema','status','examined_shadow_predictions',
+                                   'matched_settled_forecasts','publication_eligible')}
+                          except (OSError,ValueError):
+                              receipt['posterior_mc_audit']={'status':'INVALID_MC_AUDIT_RECEIPT'}
               else:
                   receipt['stages']['settle_forecasts']={'ok':False,'error':'HISTORY_SNAPSHOT_MISSING'}
           elif phase=='afternoon':
@@ -124,9 +136,11 @@ jobs:
                   pregame_ok=step('pregame_engines',[sys.executable,'scripts/jobs.py','snapshot','--reuse-collected'])
                   # Prospective Bayesian Engine A is an independent shadow sidecar.
                   # Never overwrite history-v5 or grant ranking eligibility.
+                  bayes_a_ok=False
+                  bayes_b_ok=False
                   if pregame_ok and Path('data/prop_snapshots.jsonl').is_file():
                       bayes_date=datetime.now(timezone.utc).astimezone(__import__('zoneinfo').ZoneInfo('America/Toronto')).date().isoformat()
-                      step('bayesian_a_shadow',[sys.executable,'scripts/bayesian_shadow.py',
+                      bayes_a_ok=step('bayesian_a_shadow',[sys.executable,'scripts/bayesian_shadow.py',
                            '--date',bayes_date,'--snapshots','data/prop_snapshots.jsonl',
                            '--data-root','data','--out',f'data/bayesian_shadow/{bayes_date}.jsonl',
                            '--receipt','reports/bayesian_a_shadow_receipt.json'])
@@ -140,7 +154,7 @@ jobs:
                           except (OSError,ValueError):
                               receipt['bayesian_a_shadow']={'status':'INVALID_BAYESIAN_SHADOW_RECEIPT'}
                   if pregame_ok and Path('data/prop_snapshots.jsonl').is_file():
-                      step('bayesian_b_shadow',[sys.executable,'scripts/bayesian_b_shadow.py',
+                      bayes_b_ok=step('bayesian_b_shadow',[sys.executable,'scripts/bayesian_b_shadow.py',
                            '--date',bayes_date,'--snapshots','data/prop_snapshots.jsonl',
                            '--data-root','data','--out',f'data/bayesian_b_shadow/{bayes_date}.jsonl',
                            '--receipt','reports/bayesian_b_shadow_receipt.json'])
@@ -153,6 +167,22 @@ jobs:
                                    'forecast_count','unavailable_count','total_rows','reasons','publication_eligible')}
                           except (OSError,ValueError):
                               receipt['bayesian_b_shadow']={'status':'INVALID_BAYESIAN_B_SHADOW_RECEIPT'}
+                  # Only consume pregame A/B shadow sidecars. Keep MC's
+                  # integration error distinct from posterior uncertainty.
+                  if pregame_ok and bayes_a_ok and bayes_b_ok and Path('data/prop_snapshots.jsonl').is_file():
+                      step('posterior_monte_carlo',[sys.executable,'scripts/posterior_mc_shadow.py',
+                           '--date',bayes_date,'--original','data/prop_snapshots.jsonl',
+                           '--data-root','data','--out',f'data/posterior_mc/{bayes_date}.jsonl',
+                           '--receipt','reports/posterior_mc_receipt.json'])
+                      mc_receipt=Path('reports/posterior_mc_receipt.json')
+                      if mc_receipt.is_file():
+                          try:
+                              mc_data=json.loads(mc_receipt.read_text())
+                              receipt['posterior_monte_carlo']={k:mc_data.get(k) for k in
+                                  ('schema','date','model_version','previously_recorded','new_rows',
+                                   'total_rows','engines','publication_eligible')}
+                          except (OSError,ValueError):
+                              receipt['posterior_monte_carlo']={'status':'INVALID_MONTE_CARLO_RECEIPT'}
                   if Path('data/prop_snapshots.jsonl').is_file():
                       step('afternoon_rank_audit',[sys.executable,'scripts/audit_afternoon.py','--date',datetime.now(timezone.utc).astimezone(__import__('zoneinfo').ZoneInfo('America/Toronto')).date().isoformat()])
                   if Path('data/prop_snapshots.jsonl').is_file():
@@ -292,6 +322,9 @@ jobs:
             reports/afternoon_audit.json
             reports/bayesian_a_shadow_receipt.json
             reports/bayesian_b_shadow_receipt.json
+            reports/posterior_mc_receipt.json
+            reports/posterior_mc_audit.json
+            data/posterior_mc/
             data/bayesian_b_shadow/
             data/bayesian_shadow/
             reports/structured_research.json
