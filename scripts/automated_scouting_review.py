@@ -105,7 +105,8 @@ def evaluate(item, original, packet, *, now, fetch=None, data_root=None):
             return fail("MACHINE_LIVE_COLLECTOR_MISMATCH")
         mechanism = audited_workload_mechanism(
             item, observations, url, datetime.fromisoformat(
-                record["source_retrieved_at"].replace("Z","+00:00")))
+                record["source_retrieved_at"].replace("Z","+00:00")),
+            prior=extra)
         if mechanism is None:
             return fail("MACHINE_SOURCE_BACKED_CAUSAL_WORKLOAD_UNPROVEN")
         existing = (packet.get("mechanisms") or {}).get(item["candidate_id"]) or []
