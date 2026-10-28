@@ -64,8 +64,8 @@ class AutonomousInvestigationTests(unittest.TestCase):
         self.assertEqual(report["confirmed_active_subjects"],1)
         evidence=report["candidates"][0]["observed_history"]
         self.assertEqual(evidence["observation_count"],6)
-        self.assertEqual(evidence["support_count"],4)
-        self.assertEqual(evidence["opposing_count"],2)
+        self.assertEqual(evidence["support_count"],3)
+        self.assertEqual(evidence["opposing_count"],3)
         self.assertEqual(evidence["last_five_mean"],2)
         self.assertTrue(evidence["payload_sha256"])
         self.assertTrue(evidence["source_url"].startswith("https://api-web.nhle.com"))

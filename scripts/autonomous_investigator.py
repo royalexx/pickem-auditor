@@ -28,7 +28,7 @@ VERSION = "autonomous-investigation-v1"
 MAX_SUBJECTS = 30
 MAX_OBSERVATIONS = 20
 SPORTS = {"NHL", "NBA", "NFL"}
-ALLOWED_SOURCE_HOSTS = frozenset(("api-web.nhle.com", "site.api.espn.com"))
+ALLOWED_SOURCE_HOSTS = frozenset(("api-web.nhle.com", "site.api.espn.com", "site.web.api.espn.com"))
 DATEZONE = ZoneInfo("America/Toronto")
 
 
