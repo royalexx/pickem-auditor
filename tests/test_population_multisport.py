@@ -110,6 +110,29 @@ class MultiSportSources(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"espn_game_id_mismatch"):
             normal.nba_game(nba_box(),"2022-10-21","402")
 
+    def test_structural_zero_nfl_markets_removed_without_history_rewrite(self):
+        self.assertFalse(pop.market_eligible(
+            {"sport":"NFL","stat":"targets","position":"QB"}))
+        self.assertFalse(pop.market_eligible(
+            {"sport":"NFL","stat":"passing yards","position":"WR"}))
+        self.assertTrue(pop.market_eligible(
+            {"sport":"NFL","stat":"targets","position":"TE"}))
+        self.assertTrue(pop.market_eligible(
+            {"sport":"NFL","stat":"tackles + assists","position":"LB"}))
+        with tempfile.TemporaryDirectory() as directory:
+            qb=row(sport="NFL",stat="targets",gid="2022_01_A_B",
+                   day="2022-09-10",season="2022",
+                   player="qb1",position="QB",value=0,workload=50)
+            wr=row(sport="NFL",stat="targets",gid="2022_01_A_B",
+                   day="2022-09-10",season="2022",
+                   player="wr1",position="WR",value=7,workload=50)
+            pop.persist(directory,[qb,wr])
+            source=pop.read_shard(pop.path(directory,"NFL","targets","2022"))
+            self.assertEqual(len(source),2)  # original game evidence immutable
+            eligible=pop.read(directory,sport="NFL",stat="targets",
+                              before="2022-09-11")
+            self.assertEqual([r["player_id"] for r in eligible],["wr1"])
+
     def test_nfl_real_snaps_no_fabricated_workload(self):
         schedule=[{"game_id":"2022_01_BUF_LAR","season":2022,"week":1,"game_type":"REG",
                    "gameday":"2022-09-08","away_team":"BUF","home_team":"LAR"}]
