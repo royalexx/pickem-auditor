@@ -1,0 +1,108 @@
+name: Multi-sport Bayesian stat-by-stat heldout evaluation
+on:
+  workflow_dispatch:
+    inputs:
+      sport:
+        type: choice
+        required: true
+        options: [NHL, NBA, NFL]
+      stat:
+        description: 'Exact verified market name e.g. hits, blocked shots, saves, assists, passing yards'
+        required: true
+      as_of:
+        description: 'Training cutoff exclusive, YYYY-MM-DD'
+        required: true
+      until:
+        description: 'Heldout end exclusive, YYYY-MM-DD'
+        required: true
+      research_line:
+        description: 'Fixed historical test threshold (not a sportsbook line)'
+        required: true
+      min_rows:
+        description: 'Minimum verified historical player-game rows'
+        required: false
+        default: '2000'
+      max_per_position:
+        description: '0 = full population; positive selects train-only highest-appearance cohort per position'
+        required: false
+        default: '0'
+      draws:
+        description: 'Four-chain NUTS posterior draws per chain'
+        required: false
+        default: '1000'
+      tune:
+        description: 'Warmup draws per chain'
+        required: false
+        default: '1200'
+permissions:
+  contents: read
+concurrency:
+  group: multi-stat-joint-bayesian-fit
+  cancel-in-progress: false
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      SPORT: ${{ inputs.sport }}
+      STAT: ${{ inputs.stat }}
+      CUTOFF: ${{ inputs.as_of }}
+      UNTIL: ${{ inputs.until }}
+      LINE: ${{ inputs.research_line }}
+      ROWS: ${{ inputs.min_rows }}
+      MAX_PER_POSITION: ${{ inputs.max_per_position }}
+      DRAWS: ${{ inputs.draws }}
+      TUNE: ${{ inputs.tune }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-joint-bayes.txt
+      - name: Restore authoritative historical population
+        run: bash scripts/history_warehouse_store.sh load
+      - name: Install isolated joint Bayesian inference environment
+        run: python -m pip install -r requirements-joint-bayes.txt
+      - name: Fit genuine joint NUTS population strictly before cutoff
+        id: fit
+        continue-on-error: true
+        run: |
+          python scripts/joint_population_bayes.py --sport "$SPORT" \
+            --stat "$STAT" --as-of "$CUTOFF" --min-rows "$ROWS" \
+            --draws "$DRAWS" --tune "$TUNE" --chains 4 \
+            --max-per-position "$MAX_PER_POSITION" \
+            --out reports/multisport_joint
+      - name: Paired same-cohort later-game score comparison with baseline
+        id: score
+        if: steps.fit.outcome == 'success'
+        continue-on-error: true
+        run: |
+          python scripts/joint_population_holdout.py --sport "$SPORT" \
+            --stat "$STAT" --cutoff "$CUTOFF" --until "$UNTIL" \
+            --line "$LINE" --draws 1500 --training-dir reports/multisport_joint
+      - name: Upload fit, diagnostics and paired heldout receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multi-sport-joint-bayesian-stat-evaluation
+          retention-days: 90
+          if-no-files-found: warn
+          path: |
+            reports/multisport_joint/manifest.json
+            reports/multisport_joint/posterior.nc
+            reports/multisport_joint/stat_holdout.json
+      - name: Fail closed on incomplete fit and incomplete holdout
+        if: always()
+        env:
+          FIT_STATUS: ${{ steps.fit.outcome }}
+          SCORE_STATUS: ${{ steps.score.outcome }}
+        run: |
+          test "$FIT_STATUS" = success && test "$SCORE_STATUS" = success || {
+            echo "STAT_SPECIFIC_JOINT_MODEL_NOT_VALIDATED fit=$FIT_STATUS score=$SCORE_STATUS" >&2
+            exit 2
+          }

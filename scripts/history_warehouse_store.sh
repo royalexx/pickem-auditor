@@ -40,6 +40,34 @@ for prior in sorted(old.glob('nhl_shots/*.jsonl.gz')):
     for key,value in previous.items():
         if current.get(key)!=value:
             raise SystemExit('IMMUTABLE_HISTORICAL_PLAYER_GAME_CONFLICT: '+str(key))
+
+# Enforce monotonic, immutable per-market seasonal shards and all sport cursors.
+for prior in sorted((old/'populations').glob('*/*/*.jsonl.gz')):
+    now=new/'populations'/prior.relative_to(old/'populations')
+    if not now.is_file():
+        raise SystemExit('POPULATION_SHARD_DISAPPEARED: '+str(prior))
+    def records(path):
+        with gzip.open(path,'rt',encoding='utf-8') as stream:
+            data=[json.loads(line) for line in stream if line.strip()]
+        keys={(r['game_id'],r['player_id']):r for r in data}
+        if len(keys)!=len(data):
+            raise SystemExit('POPULATION_DUPLICATE_ARCHIVE_KEY: '+str(path))
+        return keys
+    previous,updated=records(prior),records(now)
+    for key,value in previous.items():
+        if updated.get(key)!=value:
+            raise SystemExit('IMMUTABLE_POPULATION_RECORD_CONFLICT: '+str(prior)+' '+str(key))
+for old_state in sorted((old/'states').glob('*.json')):
+    new_state=new/'states'/old_state.name
+    if not new_state.is_file():
+        raise SystemExit('POPULATION_CURSOR_DISAPPEARED: '+str(old_state))
+    a=json.loads(old_state.read_text());b=json.loads(new_state.read_text())
+    if a['schema']!=b['schema'] or a['sport']!=b['sport'] or b['cursor']<a['cursor']:
+        raise SystemExit('POPULATION_CURSOR_REGRESSED')
+    for key in ('dates_complete','source_games','market_rows_inserted'):
+        if b[key]<a[key]:
+            raise SystemExit('POPULATION_COUNTER_REGRESSED: '+key)
+
 prior=old/'backfill_state.json'
 if prior.exists():
     o=json.loads(prior.read_text());n=json.loads((new/'backfill_state.json').read_text())
