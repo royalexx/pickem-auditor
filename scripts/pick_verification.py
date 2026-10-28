@@ -24,6 +24,9 @@ TIERS = {"Tier 1", "Tier 2", "Tier 3"}
 ACTIVE_REPORTS = {"game_day_report", "final_active_roster"}
 RECHECK_MIN = 25
 RECHECK_MAX = 55
+# Official NHL lineup reports can appear only a few minutes before puck drop.
+# A second final-window check is indispensable; it still rejects started games.
+RECHECK_FINAL_MAX = 8
 
 
 def digest(obj):
@@ -49,7 +52,9 @@ def eligible_window(row, now, phase="initial", min_minutes=RECHECK_MIN, max_minu
     remaining = (event - now).total_seconds() / 60
     if remaining <= 0:
         return "GAME_ALREADY_STARTED"
-    if phase == "recheck" and not min_minutes <= remaining <= max_minutes:
+    if phase == "recheck" and not (
+            min_minutes <= remaining <= max_minutes or
+            0 < remaining <= RECHECK_FINAL_MAX):
         return "OUTSIDE_PREGAME_RECHECK_WINDOW"
     return None
 
