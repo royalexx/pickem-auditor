@@ -1,0 +1,9 @@
+{
+  "cursor": "2024-01-09",
+  "dates_complete": 100,
+  "market_rows_inserted": 68705,
+  "schema": "multi-sport-population-cursor-v1",
+  "source_games": 624,
+  "sport": "NHL",
+  "stream": "recent"
+}

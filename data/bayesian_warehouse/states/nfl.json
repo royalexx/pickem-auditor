@@ -1,8 +1,8 @@
 {
-  "cursor": "2020",
-  "dates_complete": 2,
-  "market_rows_inserted": 184644,
+  "cursor": "2023",
+  "dates_complete": 5,
+  "market_rows_inserted": 416142,
   "schema": "multi-sport-population-cursor-v1",
-  "source_games": 480,
+  "source_games": 1279,
   "sport": "NFL"
 }

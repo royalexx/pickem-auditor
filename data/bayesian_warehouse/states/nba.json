@@ -1,8 +1,8 @@
 {
-  "cursor": "2018-11-20",
-  "dates_complete": 50,
-  "market_rows_inserted": 57204,
+  "cursor": "2018-12-15",
+  "dates_complete": 75,
+  "market_rows_inserted": 99081,
   "schema": "multi-sport-population-cursor-v1",
-  "source_games": 247,
+  "source_games": 428,
   "sport": "NBA"
 }
