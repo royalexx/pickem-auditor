@@ -77,3 +77,10 @@ research attestation. See
 ### Mechanism quality rather than event counts
 
 Verified picks now use [source-quality mechanism grading](references/mechanism_quality.md) instead of legacy event counts for Tier eligibility. A machine-corroborated workload change remains embedded in Engine B and is capped at Tier 3; higher evidence ceilings require genuinely independent, quantified and counterchecked causal research. The original statistical probabilities and thresholds are unchanged.
+
+### Morning schedule recovery
+
+Morning settlement now has backup Toronto-local cron slots and an immutable
+completion marker stored in the authoritative data branch. This handles
+missed scheduled events without repeating a successfully settled day.
+See [morning recovery and verification](references/morning_scheduler.md).
