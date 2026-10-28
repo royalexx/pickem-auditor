@@ -78,6 +78,20 @@ class FullSpectrumScreeningTests(unittest.TestCase):
                          {"shots on goal","blocked shots"})
         self.assertEqual(result["review_queue_count"],2)
 
+    def test_unreliable_goalie_is_researched_but_never_approved(self):
+        goalie=subject("Goalie","NHL","goalie saves",None,.81,
+                       grade=.81,market=.51)
+        goalie["engine_a"]["reliable"]=False
+        goalie["engine_b"]["reliable"]=False
+        report=rt.build([goalie],DATE,now=NOW)
+        self.assertEqual(report["recovery_only_selected"],1)
+        candidate=report["queue"][0]
+        self.assertTrue(candidate["recovery_only"])
+        self.assertTrue(candidate["watchlist_gap_cap_applies"])
+        self.assertEqual(candidate["model_diagnostic_source"],
+                         "graded_but_engine_unreliable_recovery_only")
+        self.assertFalse(candidate["publication_eligible"])
+
     def test_verified_prior_support_does_not_fake_current_games_or_unicorn(self):
         unbacked=pm.grade(.74,.72,0,3)
         backed=pm.grade(.74,.72,0,3,prior_supported=True)
