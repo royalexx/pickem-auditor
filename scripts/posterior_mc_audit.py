@@ -49,6 +49,17 @@ def _summary(scores):
             'multiclass_brier':sum(s['multiclass_brier'] for s in scores)/len(scores)}
 
 
+def _paired_summary(rows):
+    if not rows:
+        return {'n':0,'status':'insufficient_common_cohort',
+                'delta_log_loss_mc_minus_comparator':None,
+                'delta_brier_mc_minus_comparator':None}
+    return {'n':len(rows),'status':'descriptive_only_uncalibrated',
+        'delta_log_loss_mc_minus_comparator':sum(mc['log_loss']-cmp['log_loss'] for mc,cmp in rows)/len(rows),
+        'delta_brier_mc_minus_comparator':sum(mc['multiclass_brier']-cmp['multiclass_brier']
+                                              for mc,cmp in rows)/len(rows)}
+
+
 def audit(original, mc_directory):
     # Settled source is authoritative for actual outcomes; pregame forecast
     # timestamps and event-start times must be retained before joining.
@@ -68,6 +79,7 @@ def audit(original, mc_directory):
         settled[key]=row
     scores=defaultdict(list);by_sport=defaultdict(list)
     by_stat=defaultdict(list);reasons=defaultdict(int)
+    paired=defaultdict(list);paired_sport=defaultdict(list)
     matched=0; examined=0
     for path in sorted(Path(mc_directory).glob('*.jsonl')):
         for item in runner._read(path):
@@ -92,14 +104,24 @@ def audit(original, mc_directory):
                     f'{engine}_legacy':_vector(
                         original_engine.get('q_win_robust') if engine=='A' else original_engine.get('q_win'),
                         original_engine.get('q_push_robust') if engine=='A' else original_engine.get('q_push'))}
+                row_scores={}
                 for name,vector in competitors.items():
                     score=_score(vector,row['outcome'])
                     if score is None:
                         reasons[f'{name}:invalid_probability']+=1
                         continue
+                    row_scores[name]=score
                     scores[name].append(score)
                     by_sport[(name,row['sport'])].append(score)
                     by_stat[(name,row['sport'],row['stat'])].append(score)
+                # Pair *only* the same settled pregame forecast on both sides.
+                # Different source-coverage cohorts cannot establish gain.
+                for comparator in ('bayes_analytic','legacy'):
+                    name=f'{engine}_mc_vs_{comparator}'
+                    if f'{engine}_mc' in row_scores and f'{engine}_{comparator}' in row_scores:
+                        match=(row_scores[f'{engine}_mc'],row_scores[f'{engine}_{comparator}'])
+                        paired[name].append(match)
+                        paired_sport[(name,row['sport'])].append(match)
     return {
         'schema':'posterior_mc_audit_v1',
         'status':'descriptive_only' if matched else 'insufficient_settled_shadow_samples',
@@ -107,6 +129,9 @@ def audit(original, mc_directory):
         'model_version':'posterior-mc-v1',
         'no_retraining':True,'publication_eligible':False,
         'comparators':{k:_summary(v) for k,v in sorted(scores.items())},
+        'paired_comparisons':{k:_paired_summary(v) for k,v in sorted(paired.items())},
+        'paired_by_sport':{f'{k}|{sport}':_paired_summary(v)
+                           for (k,sport),v in sorted(paired_sport.items()) if len(v)>=MIN_SCOPE},
         'by_sport':{f'{a}|{b}':_summary(v) for (a,b),v in sorted(by_sport.items())
                     if len(v)>=MIN_SCOPE},
         'by_sport_stat':{f'{a}|{b}|{c}':_summary(v) for (a,b,c),v in sorted(by_stat.items())
