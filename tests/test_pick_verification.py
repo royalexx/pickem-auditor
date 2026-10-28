@@ -225,6 +225,29 @@ class VerificationTests(unittest.TestCase):
     def test_fully_attested_case_can_generate_separate_verified_tier2(self):
         rows,queue,packet=build()
         active(packet)
+        # Two independent primary owners, numerically linked causal impact,
+        # explicitly reviewed counterevidence and no opponent adjustment in
+        # the actual Engine A/B inputs. Source excerpts are fixture-only.
+        prior=confirmed_fact("opponent allowed position chances",10,
+            "https://www.nhl.com/stats/example",NOW.isoformat(),quote="Ten chances")
+        updated=confirmed_fact("opponent allowed position chances",12,
+            "https://site.api.espn.com/verified-example",NOW.isoformat(),
+            quote="Twelve chances")
+        counter=confirmed_fact("counterevidence",9,
+            "https://www.nhl.com/matchup/example",NOW.isoformat(),
+            quote="Previous line allowed nine")
+        packet["mechanisms"][ID]=[{
+            "event_id":"fixture-scheme-delta", "type":"scheme",
+            "supports_side":"over", "description":"fixture independent scheme delta",
+            "sources":[prior,updated], "causal_validation":{
+                "event_id":"fixture-scheme-delta",
+                "target_stat":"shots on goal", "opponent":"NSH",
+                "metric":"position_matchup_opportunity_rate",
+                "units":"chances per 60", "before":10,"after":12,
+                "before_n":10,"after_n":10,
+                "before_fact":prior,"after_fact":updated,
+                "counterevidence":counter
+            }}]
         with patch.object(pv.pm,"evaluate_candidate",return_value={
                 "final_rank":"Tier 2","engine_a":{"reliable":True},
                 "engine_b":{"reliable":True},"blend":{"validated":False},

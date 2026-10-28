@@ -65,7 +65,7 @@ def backed_case(root):
 
 
 class MachineReviewTests(unittest.TestCase):
-    def test_dossier_is_genuinely_rechecked_then_tier2_enters_board(self):
+    def test_machine_embedded_workload_yields_capped_tier3_board(self):
         with tempfile.TemporaryDirectory() as t:
             root=Path(t);rows,queue,packet=backed_case(root)
             original=copy.deepcopy(rows)
@@ -93,9 +93,11 @@ class MachineReviewTests(unittest.TestCase):
             self.assertTrue(decision["publication_eligible"])
             self.assertEqual(decision["review_type"],"structured_machine_verification")
             self.assertFalse(decision["source_read_by_human"])
-            self.assertEqual(decision["verified_rank"],"Tier 2")
+            self.assertEqual(decision["verified_rank"],"Tier 3")
+            self.assertEqual(decision["mechanism_evidence"]["tier_ceiling"],"Tier 3")
+            self.assertTrue(decision["mechanism_evidence"]["machine_overlap_detected"])
             board=verified_board.build(rows,[result],DATE,now=NOW)
-            self.assertEqual(board["rank_counts"]["Tier 2"],1)
+            self.assertEqual(board["rank_counts"]["Tier 3"],1)
             self.assertEqual(board["verified_picks"][0]["candidate_id"],ID)
 
     def test_real_engine_a_and_b_regrade_without_mocked_probabilities(self):

@@ -333,7 +333,7 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
             reasons.append("TWO_RELIABLE_ENGINES_REQUIRED")
         elif rank not in TIERS:
             reasons.append("ENGINE_RANK_NOT_ELIGIBLE_" + rank.upper().replace(" ", "_"))
-        if rank == "Tier 1" and not blend.get("validated"):
+        if (result or {}).get("final_rank") == "Tier 1" and not blend.get("validated"):
             reasons.append("TIER1_BLEND_NOT_VALIDATED")
         grade = (result or {}).get("grade") or {}
         if rank in TIERS and (not probability(grade.get("q_model"))
