@@ -164,12 +164,12 @@ def forecast(idata,data,*,player_id,opponent,season,home,line,draws=5000,seed=19
     Never enter the ranked production pipeline. Reject all missing/nonconverged
     training when attempting even a diagnostic forecast.
     """
-    import numpy as np
     if not isinstance(line,(int,float)) or isinstance(line,bool) or not math.isfinite(line) or line<0:
         raise ValueError("invalid_shot_line")
     if (fit_diagnostics or {}).get("posterior_sampling_ok") is not True:
         raise ValueError("joint_mcmc_diagnostics_not_approved")
     if not 1<=draws<=100000:raise ValueError("invalid_predictive_draws")
+    import numpy as np
     positions=data["player_position"]
     player=str(player_id)
     position=positions.get(player)
