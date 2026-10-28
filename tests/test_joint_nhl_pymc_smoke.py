@@ -1,6 +1,7 @@
 """Real PyMC model-graph and two-chain NUTS smoke test (offline, synthetic)."""
 import importlib.util
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -56,6 +57,18 @@ class JointSamplingSmoke(unittest.TestCase):
                                predicted["q_push"],1,places=9)
         self.assertFalse(predicted["publication_eligible"])
         self.assertFalse(predicted["ranking_allowed"])
+        # Posterior artifacts must really survive a file roundtrip before
+        # they are downloadable and used for the later heldout evaluation.
+        import arviz as az
+        with tempfile.TemporaryDirectory() as directory:
+            archive=Path(directory)/"posterior.nc"
+            idata.to_netcdf(archive)
+            restored=az.from_netcdf(archive)
+            replay=mod.forecast(restored,data,player_id="2000",
+                opponent="NYR",season="2018",home=False,line=2.5,draws=250,
+                fit_diagnostics={"posterior_sampling_ok":True})
+            self.assertEqual(predicted,replay)
+
 
 
 
