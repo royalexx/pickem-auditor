@@ -115,7 +115,7 @@ def evaluate(row, a, b, *, root, min_draws=mc.MIN_DRAWS, max_draws=mc.MAX_DRAWS,
             simulated=mc.simulate(shadow,engine=engine,identity=fields,
                 line=row['reference_line'],side=row['side'],
                 draws=min_draws,max_draws=max_draws,target=target,**extras)
-            result['engines'][engine]={'status':'forecast',**simulated,
+            result['engines'][engine]={**simulated,'status':'forecast',
                                       'source_digest':shadow['source_digest'],
                                       'bayesian_parent_version':shadow['version']}
         except (be.ModelUnavailable,ValueError,TypeError,KeyError,OverflowError,ZeroDivisionError,OSError) as exc:
