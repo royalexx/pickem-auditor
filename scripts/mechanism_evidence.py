@@ -52,7 +52,7 @@ def _owner_relevant(fact, item):
                                source_kind="team")))
 
 
-def _human_chain(mech, item, now, model_inputs):
+def _human_chain(mech, item, now, model_inputs, attestation):
     """Full causal record, not a source count. A missing part means no promotion."""
     output = {"event_id": mech.get("event_id"), "type": mech.get("type"),
               "status": "unsupported", "reasons": []}
@@ -105,6 +105,20 @@ def _human_chain(mech, item, now, model_inputs):
     counter = facts.get("counterevidence")
     if not _fact_proven(counter, now):
         reasons.append("COUNTEREVIDENCE_NOT_INDEPENDENTLY_READ")
+    def read_matches(fact, named):
+        if not isinstance(fact,dict) or not isinstance(named,list):
+            return False
+        return any(isinstance(r,dict)
+                   and r.get("source_url") == fact.get("source_url")
+                   and r.get("value") == fact.get("value")
+                   and r.get("quote") == fact.get("quote")
+                   and r.get("confidence") == "confirmed"
+                   for r in named)
+    if (not isinstance(attestation,dict)
+            or not read_matches(before_fact,attestation.get("supporting"))
+            or not read_matches(after_fact,attestation.get("supporting"))
+            or not read_matches(counter,attestation.get("opposing"))):
+        reasons.append("CAUSAL_FACTS_NOT_BOUND_TO_ADVERSARIAL_REVIEW")
     # Distinct source *owners* are not evidence of different causal events.
     # Require explicit same-event linkage, and model-incremental auditing.
     if facts.get("event_id") != mech.get("event_id"):
@@ -131,7 +145,7 @@ def _human_chain(mech, item, now, model_inputs):
     return output
 
 def assess(packet, item, *, now=None, review_type=None, machine_provenance=None,
-           human_reviewed=False, model_inputs=None):
+           human_reviewed=False, model_inputs=None, human_attestation=None):
     """Return a deterministic *tier ceiling*, not a probability or uplift.
 
     No event count, arbitrary headline or unvalidated URL promotes a Tier.
@@ -174,7 +188,8 @@ def assess(packet, item, *, now=None, review_type=None, machine_provenance=None,
         return result
     if review_type != "human_attestation" or not human_reviewed:
         return result
-    result["evaluations"]=[_human_chain(m,item,now,model_inputs or {})
+    result["evaluations"]=[_human_chain(m,item,now,model_inputs or {},
+                                     human_attestation)
                            for m in events if isinstance(m,dict)]
     independent = [x for x in result["evaluations"]
                    if x.get("status") == "independent_confirmed"]

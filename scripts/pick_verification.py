@@ -289,7 +289,10 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
         mechanism_quality = assess_mechanisms(
             checked_packet, item, now=now, review_type=review_type,
             machine_provenance=machine_provenance, human_reviewed=attested,
-            model_inputs=original.get("inputs") or {})
+            model_inputs=original.get("inputs") or {},
+            human_attestation=(matching[0] if len(matching) == 1 and
+                               review_type == "human_attestation" and attested
+                               else None))
         candidate = original.get("inputs")
         result = None
         if not isinstance(candidate, dict) or candidate.get("id") != identity:

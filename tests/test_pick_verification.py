@@ -252,7 +252,10 @@ class VerificationTests(unittest.TestCase):
                 "final_rank":"Tier 2","engine_a":{"reliable":True},
                 "engine_b":{"reliable":True},"blend":{"validated":False},
                 "grade":{"q_model":.64,"q_market_comparable":.54}}):
-            result,_=pv.verify(rows,queue,packet,DATE,now=NOW,reviews=attest(rows[0]))
+            review=attest(rows[0])
+            review["attestations"][0]["supporting"]=[prior,updated]
+            review["attestations"][0]["opposing"]=[counter]
+            result,_=pv.verify(rows,queue,packet,DATE,now=NOW,reviews=review)
         self.assertEqual(result["verified"],1)
         self.assertEqual(result["decisions"][0]["verified_rank"],"Tier 2")
         self.assertTrue(result["decisions"][0]["publication_eligible"])

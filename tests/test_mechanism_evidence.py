@@ -34,8 +34,18 @@ def scheme():
 def packet(*events):
     return {"mechanisms":{ID:list(events)}}
 def assess(p,**kw):
+    # Reviewer actually attests to the SAME causal before/after facts and
+    # counterevidence; unrelated positive/negative URLs cannot authorize.
+    mech=(p.get("mechanisms") or {}).get(ID) or []
+    good=next((x for x in mech if isinstance(x,dict) and
+               isinstance(x.get("causal_validation"),dict)),None)
+    facts=(good or {}).get("causal_validation") or {}
+    att={"supporting":[x for x in (facts.get("before_fact"),
+                                     facts.get("after_fact")) if x],
+         "opposing":[facts["counterevidence"]] if facts.get("counterevidence") else []}
     return me.assess(p,ITEM,now=NOW,review_type="human_attestation",
-                     human_reviewed=True,model_inputs={},**kw)
+                     human_reviewed=True,model_inputs={},
+                     human_attestation=att,**kw)
 def decide(quality,mechanisms):
     return pm.decide(.60,.59,0,30,mechanisms,market_valid=True,
                      research_checklist=True,mechanism_quality=quality)
@@ -90,9 +100,22 @@ class CausalQualityTests(unittest.TestCase):
     def test_computed_overlap_rejects_self_claimed_independence(self):
         a=me.assess(packet(scheme()),ITEM,now=NOW,
                     review_type="human_attestation",human_reviewed=True,
-                    model_inputs={"opponent_factor":1.15})
+                    model_inputs={"opponent_factor":1.15},
+                    human_attestation={"supporting": [
+                      scheme()["causal_validation"]["before_fact"],
+                      scheme()["causal_validation"]["after_fact"]],
+                      "opposing":[scheme()["causal_validation"]["counterevidence"]]})
         self.assertEqual(a["tier_ceiling"],"Watchlist")
         self.assertIn("SCHEME_ALREADY_MODELED",a["evaluations"][0]["reasons"])
+
+    def test_unrelated_attestation_cannot_sponsor_mechanism(self):
+        a=me.assess(packet(scheme()),ITEM,now=NOW,
+                    review_type="human_attestation",human_reviewed=True,
+                    human_attestation={"supporting":[fact(10,"https://www.nhl.com/other")],
+                                       "opposing":[fact(9,"https://www.nhl.com/other2")]})
+        self.assertEqual(a["tier_ceiling"],"Watchlist")
+        self.assertIn("CAUSAL_FACTS_NOT_BOUND_TO_ADVERSARIAL_REVIEW",
+                      a["evaluations"][0]["reasons"])
 
     def test_workload_model_overlap_is_not_incremental(self):
         m=scheme();m["type"]="workload"
