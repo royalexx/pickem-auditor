@@ -89,6 +89,13 @@ def validate(row):
         raise ValueError("invalid_historical_source_digest")
     if not isinstance(row["workload_unit"],str) or row["workload_unit"] not in ("minutes","snaps"):
         raise ValueError("unsupported_workload_source")
+    if (row["sport"]=="NFL" and row["workload_unit"]!="snaps") or (
+        row["sport"] in ("NHL","NBA") and row["workload_unit"]!="minutes"):
+        raise ValueError("sport_workload_measurement_mismatch")
+    if row["sport"]=="NHL" and (
+        (row["stat"]=="saves" and row["position"]!="G") or
+        (row["stat"]!="saves" and row["position"]=="G")):
+        raise ValueError("goalie_skater_market_population_mismatch")
     workload=row["workload"]
     if isinstance(workload,bool) or not isinstance(workload,(float,int)) or not math.isfinite(workload) or not 0<workload<=300:
         raise ValueError("invalid_or_missing_observed_workload")
