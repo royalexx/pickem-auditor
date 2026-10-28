@@ -47,6 +47,11 @@ if [[ "$mode" == load ]]; then
       mkdir -p data/bayesian_shadow
       cp -an "$tmpdir/data/bayesian_shadow/." data/bayesian_shadow/
     fi
+    # Separate immutable Bayesian Engine B shadow forecasts.
+    if [[ -d "$tmpdir/data/bayesian_b_shadow" ]]; then
+      mkdir -p data/bayesian_b_shadow
+      cp -an "$tmpdir/data/bayesian_b_shadow/." data/bayesian_b_shadow/
+    fi
     # Verification sidecars are independent of original forecasts and may be
     # updated before game start. Old decision receipts must remain intact.
     if [[ -d "$tmpdir/data/verification" ]]; then
@@ -136,6 +141,24 @@ PY
     mkdir -p "$tmpdir/tree/data/bayesian_shadow"
     cp -a data/bayesian_shadow/. "$tmpdir/tree/data/bayesian_shadow/"
   fi
+  if [[ -d data/bayesian_b_shadow ]]; then
+    while IFS= read -r -d '' forecast; do
+      relative="${forecast#data/bayesian_b_shadow/}"
+      target="$tmpdir/tree/data/bayesian_b_shadow/$relative"
+      if [[ -e "$target" ]]; then
+        python - "$target" "$forecast" <<'PY'
+import sys
+from pathlib import Path
+old=Path(sys.argv[1]).read_bytes()
+new=Path(sys.argv[2]).read_bytes()
+if not new.startswith(old):
+    raise SystemExit('IMMUTABLE_BAYESIAN_B_SHADOW_CONFLICT: '+sys.argv[2])
+PY
+      fi
+    done < <(find data/bayesian_b_shadow -type f -name '*.jsonl' -print0)
+    mkdir -p "$tmpdir/tree/data/bayesian_b_shadow"
+    cp -a data/bayesian_b_shadow/. "$tmpdir/tree/data/bayesian_b_shadow/"
+  fi
   for file in logs/*.log; do
     [[ ! -f "$file" ]] || cp -p "$file" "$tmpdir/tree/logs/"
   done
@@ -147,6 +170,9 @@ PY
   done
   if [[ -d "$tmpdir/tree/data/bayesian_shadow" ]]; then
     git -C "$tmpdir/tree" add -f data/bayesian_shadow/
+  fi
+  if [[ -d "$tmpdir/tree/data/bayesian_b_shadow" ]]; then
+    git -C "$tmpdir/tree" add -f data/bayesian_b_shadow/
   fi
   if [[ -d "$tmpdir/tree/data/verification" ]]; then
     git -C "$tmpdir/tree" add -f data/verification/

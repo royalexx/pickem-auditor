@@ -139,6 +139,20 @@ jobs:
                                    'forecast_count','unavailable_count','total_rows','reasons','publication_eligible')}
                           except (OSError,ValueError):
                               receipt['bayesian_a_shadow']={'status':'INVALID_BAYESIAN_SHADOW_RECEIPT'}
+                  if pregame_ok and Path('data/prop_snapshots.jsonl').is_file():
+                      step('bayesian_b_shadow',[sys.executable,'scripts/bayesian_b_shadow.py',
+                           '--date',bayes_date,'--snapshots','data/prop_snapshots.jsonl',
+                           '--data-root','data','--out',f'data/bayesian_b_shadow/{bayes_date}.jsonl',
+                           '--receipt','reports/bayesian_b_shadow_receipt.json'])
+                      receipt_path=Path('reports/bayesian_b_shadow_receipt.json')
+                      if receipt_path.exists():
+                          try:
+                              b=json.loads(receipt_path.read_text())
+                              receipt['bayesian_b_shadow']={k:b.get(k) for k in
+                                  ('schema','date','model_version','previously_recorded','new_rows',
+                                   'forecast_count','unavailable_count','total_rows','reasons','publication_eligible')}
+                          except (OSError,ValueError):
+                              receipt['bayesian_b_shadow']={'status':'INVALID_BAYESIAN_B_SHADOW_RECEIPT'}
                   if Path('data/prop_snapshots.jsonl').is_file():
                       step('afternoon_rank_audit',[sys.executable,'scripts/audit_afternoon.py','--date',datetime.now(timezone.utc).astimezone(__import__('zoneinfo').ZoneInfo('America/Toronto')).date().isoformat()])
                   if Path('data/prop_snapshots.jsonl').is_file():
@@ -277,6 +291,8 @@ jobs:
             reports/forecast_invariants.json
             reports/afternoon_audit.json
             reports/bayesian_a_shadow_receipt.json
+            reports/bayesian_b_shadow_receipt.json
+            data/bayesian_b_shadow/
             data/bayesian_shadow/
             reports/structured_research.json
             reports/research_triage.json

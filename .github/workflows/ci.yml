@@ -62,5 +62,8 @@ jobs:
       - name: Verify Bayesian Engine A shadow posterior and provenance safeguards
         run: python -m unittest discover -s tests -p test_bayesian_engine.py -q
 
+      - name: Verify Bayesian Engine B posterior and historical provenance
+        run: python -m unittest discover -s tests -p test_bayesian_usage.py -q
+
       - name: Execute full offline unit-test suite
         run: python -m unittest discover -s tests -q

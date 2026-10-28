@@ -93,3 +93,20 @@ A historical-only, hierarchical **empirical-Bayes** model (`history-bayes-v1`) n
 **Production remains history-v5.** No Bayesian output alters Engine A/B blending, Tier ranks, current research verification, historical forecasts or weights. Missing data are marked unavailable, not filled. Source timestamps, own source checksums and distinct peer identities are required. This is empirical Bayes conditional on fitted group hyperparameters, not full joint Bayesian inference and not an accuracy claim.
 
 See [the Bayesian Engine A design and validation boundary](references/bayesian_engine_a.md).
+
+
+## Phase 2: Bayesian workload and conversion shadow model
+
+Phase 2 adds `usage-bayes-v1`, an **empirical-Bayes** Engine B challenger that
+models positive-game workload (NBA minutes, NHL ice minutes, NFL snaps) with a
+log-workload Student-t predictive distribution and conditions observed
+production on workload with Bayesian rate/conversion posteriors. The model
+integrates workload uncertainty deterministically, preserves paired historical
+observations, and separates over/under/push. Results append to
+`data/bayesian_b_shadow/YYYY-MM-DD.jsonl` on the persistent calibration branch.
+
+It **does not replace** production `scouting-v7` or alter ranking, context,
+market retrieval, the 70/30 diagnostic or calibrated blend configurations.
+Missing source histories or small peer cohorts remain unavailable. Read
+[Phase 2 model notes](references/bayesian_engine_b.md) for approximations and
+validation requirements.
