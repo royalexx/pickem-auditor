@@ -173,12 +173,15 @@ def main(argv=None):
         folder=Path(args.output_dir);folder.mkdir(parents=True,exist_ok=True)
         target=folder/(marker["date"]+".json")
         if target.exists():
-            previous=json.loads(target.read_text())
-            if previous!=marker:
-                raise ValueError("refusing to replace existing settlement marker")
+            # A force_morning manual rerun may settle additional late-reported
+            # outcomes, but must preserve the earlier completed-day identity.
+            if not completed_marker_text(target.read_text(),marker["date"]):
+                raise ValueError("existing morning settlement marker is invalid")
+            status="completed_marker_preserved_after_explicit_rerun"
         else:
             target.write_text(json.dumps(marker,sort_keys=True,indent=2)+"\n")
-        print(json.dumps({"status":"completed_marker_written",
+            status="completed_marker_written"
+        print(json.dumps({"status":status,
                           "date":marker["date"],"run_id":marker["run_id"]}))
     return 0
 

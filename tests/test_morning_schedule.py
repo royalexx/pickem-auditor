@@ -141,6 +141,26 @@ class MorningScheduleTests(unittest.TestCase):
             verified_success_marker(invalid,"40700885909",
                                     at("2026-10-28T13:57:48Z"))
 
+    def test_manual_force_does_not_replace_prior_success_marker(self):
+        # 'mark' reuses the immutable original completion marker, even when
+        # force_morning recomputes already-settled historical outcomes.
+        import tempfile
+        from unittest.mock import patch
+        import morning_schedule as scheduler
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);d=root/"data/morning_runs";d.mkdir(parents=True)
+            receipt=root/"daily_receipt.json"
+            receipt.write_text(json.dumps(success_receipt()))
+            old=verified_success_marker(success_receipt(),"40700885909",
+                                        at("2026-10-28T13:57:48Z"))
+            target=d/"2026-10-28.json"
+            target.write_text(json.dumps(old))
+            with patch.object(scheduler,"datetime") as dt:
+                dt.now.return_value=at("2026-10-28T14:05:00Z")
+                self.assertEqual(scheduler.main(["mark","--receipt",str(receipt),
+                    "--run-id","40799999999","--output-dir",str(d)]),0)
+            self.assertEqual(json.loads(target.read_text())["run_id"],"40700885909")
+
     def test_scheduler_and_state_branch_wiring(self):
         root=Path(__file__).resolve().parents[1]
         workflow=(root/".github/workflows/pickem-daily.yml").read_text()
