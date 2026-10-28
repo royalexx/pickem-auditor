@@ -172,3 +172,22 @@ fixed research line of **2.5 shots** (not a fabricated sportsbook line).
 No results are publication-eligible or permitted to enter Tier ranking.
  
 [Source, sampling, training and guardrails](references/joint_nhl_bayes.md).
+
+
+### Joint NHL model evaluation — first honest retrospective result
+
+The source-verified 2018-10-20 historical cutoff benchmark scored **401**
+post-cutoff appearances from the train-only NHL pilot subset at the **fixed,
+non-sportsbook** 2.5-shots threshold. After correcting a single-season
+identifiability problem and verifying four-chain convergence, the fully joint
+Bayesian model scored Brier **0.190892** and log loss **0.566364**, versus a
+same-record Gamma–Poisson control of Brier **0.189522** and log loss **0.560094**.
+Both paired challenger-minus-control differences were slightly positive and
+exploratory calendar-day bootstrap intervals straddled zero. **Do not promote**
+the new model or change any Tier/weight based on eight holdout dates.
+
+The accepted fit now requires not only zero divergent transitions and
+population R-hat/ESS thresholds, but also convergence of the inferred
+workload–shot-rate correlation and acceptable NUTS energy BFMI. Historical
+source backfill remains independent and ongoing. See the
+[complete dated evaluation and troubleshooting log](references/nhl_joint_evaluation_2018.md).
