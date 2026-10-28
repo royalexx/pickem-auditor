@@ -4,12 +4,20 @@ on:
     branches: [main]
     paths: ['.github/workflows/multisport-population-history.yml']
   schedule:
-    - cron: '43 6 * * *'
+    - cron: '43 6,18 * * *'
   workflow_dispatch:
     inputs:
       max_days:
-        description: 'Daily NHL and NBA calendar days per sport'
+        description: '2018-forward archive calendar days per NHL and NBA sport'
         default: '25'
+        required: false
+      recent_days:
+        description: '2023-forward recent-season days per NHL and NBA sport'
+        default: '100'
+        required: false
+      nfl_seasons:
+        description: 'Fully completed NFL seasons per run'
+        default: '3'
         required: false
 permissions:
   contents: write
@@ -49,17 +57,35 @@ jobs:
         run: |
           python scripts/population_backfill.py --sport NBA \
             --max-days "$MAX_DAYS" --max-games 220 --request-spacing 0.9
+      - name: Prioritize verified NHL 2023-present multi-season population
+        id: nhl_recent
+        continue-on-error: true
+        env:
+          RECENT_DAYS: ${{ inputs.recent_days || '100' }}
+        run: |
+          python scripts/population_backfill.py --sport NHL --stream recent \
+            --max-days "$RECENT_DAYS" --max-games 700 --request-spacing 0.65
+      - name: Prioritize verified NBA 2023-present multi-season population
+        id: nba_recent
+        continue-on-error: true
+        env:
+          RECENT_DAYS: ${{ inputs.recent_days || '100' }}
+        run: |
+          python scripts/population_backfill.py --sport NBA --stream recent \
+            --max-days "$RECENT_DAYS" --max-games 700 --request-spacing 0.9
       - name: Reconcile historic ESPN made-threes without rewriting other markets
         id: nba_threes_replay
         continue-on-error: true
         run: |
           python scripts/population_repair_nba_threes.py --max-days 35
-      - name: NFL regular-season weekly stats joined to verified offensive snaps
+      - name: NFL complete yearly bulk history with verified offense and defense snaps
         id: nfl
         continue-on-error: true
+        env:
+          NFL_SEASONS: ${{ inputs.nfl_seasons || '3' }}
         run: |
           python scripts/population_backfill.py --sport NFL \
-            --max-days 1 --max-games 500
+            --max-nfl-seasons "$NFL_SEASONS" --max-games 500
       - name: Persist every complete date and season even if another sport blocks
         if: always()
         run: bash scripts/history_warehouse_store.sh save
@@ -73,6 +99,8 @@ jobs:
           path: |
             reports/population_nhl_receipt.json
             reports/population_nba_receipt.json
+            reports/population_nhl_recent_receipt.json
+            reports/population_nba_recent_receipt.json
             reports/population_nfl_receipt.json
             reports/nba_threes_replay.json
             data/bayesian_warehouse/states/*.json
@@ -83,8 +111,10 @@ jobs:
           NBA_RESULT: ${{ steps.nba.outcome }}
           NFL_RESULT: ${{ steps.nfl.outcome }}
           NBA_REPAIR_RESULT: ${{ steps.nba_threes_replay.outcome }}
+          NHL_RECENT_RESULT: ${{ steps.nhl_recent.outcome }}
+          NBA_RECENT_RESULT: ${{ steps.nba_recent.outcome }}
         run: |
-          test "$NHL_RESULT" = success && test "$NBA_RESULT" = success && test "$NFL_RESULT" = success && test "$NBA_REPAIR_RESULT" = success || {
-            echo "ONE_OR_MORE_POPULATION_SOURCES_BLOCKED NHL=$NHL_RESULT NBA=$NBA_RESULT NFL=$NFL_RESULT NBA3PM_REPAIR=$NBA_REPAIR_RESULT" >&2
+          test "$NHL_RESULT" = success && test "$NBA_RESULT" = success && test "$NFL_RESULT" = success && test "$NBA_REPAIR_RESULT" = success && test "$NHL_RECENT_RESULT" = success && test "$NBA_RECENT_RESULT" = success || {
+            echo "ONE_OR_MORE_POPULATION_SOURCES_BLOCKED NHL=$NHL_RESULT NBA=$NBA_RESULT NFL=$NFL_RESULT NBA3PM_REPAIR=$NBA_REPAIR_RESULT NHL_RECENT=$NHL_RECENT_RESULT NBA_RECENT=$NBA_RECENT_RESULT" >&2
             exit 2
           }
