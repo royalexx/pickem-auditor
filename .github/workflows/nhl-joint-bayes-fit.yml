@@ -55,6 +55,14 @@ jobs:
             --as-of "$CUTOFF" --min-rows "$MIN_ROWS" \
             --draws "$DRAWS" --tune "$TUNE" --chains 4 \
             --max-seasons 8 --out reports/joint_nhl
+      - name: Evaluate strictly later historical NHL games on frozen posterior
+        if: steps.sampling.outcome == 'success'
+        env:
+          CUTOFF: ${{ inputs.as_of }}
+        run: |
+          UNTIL="$(python -c 'import os;from datetime import date,timedelta;print((date.fromisoformat(os.environ["CUTOFF"])+timedelta(days=28)).isoformat())')"
+          python scripts/joint_nhl_holdout.py --cutoff "$CUTOFF" --until "$UNTIL" \
+            --root . --training-dir reports/joint_nhl --draws 1200 --max-games 10000
       - name: Preserve immutable diagnostic artifacts regardless of fit outcome
         if: always()
         uses: actions/upload-artifact@v4
@@ -63,6 +71,7 @@ jobs:
           path: |
             reports/joint_nhl/manifest.json
             reports/joint_nhl/posterior.nc
+            reports/joint_nhl/holdout_validation.json
           retention-days: 90
           if-no-files-found: warn
       - name: Do not approve incomplete or nonconverged inference
