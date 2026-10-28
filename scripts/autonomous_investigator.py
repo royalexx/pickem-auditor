@@ -464,8 +464,8 @@ def investigate(rows, queue, packet, date, *, now=None, limit=10, phase="initial
             "collector_status": (e.get("collector_independent_check") or {}).get("status"),
             "collector_overlap": (e.get("collector_independent_check") or {}).get("overlap", 0),
             "sourced_opportunity_mechanism": e.get("sourced_opportunity_mechanism"),
-            "supporting_game_count": len(e["supporting_evidence"]),
-            "opposing_game_count": len(e["opposing_evidence"]),
+            "supporting_game_count": (e["observed_history"] or {}).get("support_count", 0),
+            "opposing_game_count": (e["observed_history"] or {}).get("opposing_count", 0),
             "news_mention_count": len(e["relevant_news_mentions"]),
             "blockers": e["blockers"]}
             for e in entries},
