@@ -9,6 +9,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"))
 
 from autonomous_investigator import (
     investigate, observation_source, verified_source, _validated_series,
+    article_mentions,
 )
 from test_pick_verification import build as example, DATE, ID
 import research_packet as rp
@@ -50,11 +51,39 @@ def source(url,**kwargs):
     if "scoreboard?" in url:return scoreboard()
     if "summary?" in url:return summary()
     if "/injuries" in url:return {"injuries":[]}
+    if "/news?" in url:return {"articles":[]}
     if "api-web.nhle.com" in url:return gamelog()
     raise AssertionError("unexpected URL "+url)
 
 
 class AutonomousInvestigationTests(unittest.TestCase):
+    def test_news_matches_exact_named_player_without_inventing_review(self):
+        rows,q,p=fixture()
+        news={"articles":[
+            {"headline":"Example Player's deployment changing",
+             "description":"Coach may have a rotation adjustment",
+             "published":"2026-10-27T19:45:00Z",
+             "links":{"web":{"href":"https://www.espn.com/nhl/story/test"}}},
+            {"headline":"Example Playerlike unrelated mention",
+             "published":"2026-10-27T19:50:00Z",
+             "links":{"web":{"href":"https://www.espn.com/nhl/story/other"}}},
+            {"headline":"Example Player rumor at suspicious host",
+             "published":"2026-10-27T19:50:00Z",
+             "links":{"web":{"href":"https://evil.example.com/fake"}}}]}
+        matched=article_mentions(news,dict(player="Example Player"),NOW)
+        self.assertEqual(len(matched),1)
+        self.assertIn("Example Player",matched[0]["source_excerpt"])
+        self.assertEqual(matched[0]["verification_status"],
+                         "NAME_MENTION_ONLY_NOT_SCOUTING_OR_INJURY_PROOF")
+        def discover(url,**kw):
+            if "/news?" in url:return news
+            return source(url,**kw)
+        report,_=investigate(rows,q,p,DATE,now=NOW,fetch=discover)
+        cand=report["candidates"][0]
+        self.assertEqual(len(cand["relevant_news_mentions"]),1)
+        self.assertIn("NEWS_MENTIONS_REQUIRE_SOURCE_READING_AND_CONTEXT",cand["blockers"])
+        self.assertFalse(cand["publication_eligible"])
+
     def test_uses_actual_games_and_represents_both_sides(self):
         rows,q,p=fixture()
         original=copy.deepcopy(rows)
