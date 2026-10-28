@@ -16,10 +16,10 @@ import joint_population_holdout as audit
 
 
 def row(*,sport="NBA",stat="points",gid="401",day="2022-10-21",
-        player="1",position="PG",value=20,workload=30.,season="2023"):
+        player="1",position="PG",value=20,workload=30.,season="2023",opponent="MIA"):
     return pop.make(sport=sport,stat=stat,game_id=gid,game_date=day,
         season=season,player_id=player,position=position,
-        team="BOS",opponent="MIA",home=True,value=value,workload=workload,
+        team="BOS",opponent=opponent,home=True,value=value,workload=workload,
         workload_unit="minutes" if sport!="NFL" else "snaps",
         source_url="https://example.org/completed-boxscore",
         source_sha256="a"*64)
@@ -140,7 +140,7 @@ class MultiSportSources(unittest.TestCase):
 
     def test_generic_model_prep_and_publication_veto(self):
         rows=[row(gid=str(1000+i//16),player=str(i%16),position="C" if i%2 else "PG",
-                 value=i%12+1,workload=14+(i%8)) for i in range(48)]
+                 value=i%12+1,workload=14+(i%8),opponent="MIA" if i%2 else "NYR") for i in range(48)]
         design=model.prepare(rows,min_rows=20)
         self.assertEqual(design["family"],"count")
         self.assertEqual(len(design["players"]),16)
@@ -150,8 +150,9 @@ class MultiSportSources(unittest.TestCase):
                            home=True,line=20.5)
         with self.assertRaisesRegex(ValueError,"invalid_multisport_nuts_budget"):
             model.fit(design,draws=1,tune=1,chains=1)
-        p=audit.simple_control(rows,player="0",position="PG",stat_family="count",line=10.5)
-        self.assertTrue(0<p<1)
+        scores=audit._scores([(.7,1),(.2,0)])
+        self.assertEqual(scores["n"],2)
+        self.assertLess(scores["brier"],.1)
 
 
 if __name__=="__main__":
