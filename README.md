@@ -110,3 +110,23 @@ market retrieval, the 70/30 diagnostic or calibrated blend configurations.
 Missing source histories or small peer cohorts remain unavailable. Read
 [Phase 2 model notes](references/bayesian_engine_b.md) for approximations and
 validation requirements.
+
+
+## Phase 3: posterior predictive Monte Carlo (shadow-only)
+
+`posterior-mc-v1` adds reproducible, adaptive posterior predictive
+simulation **of** the two Bayesian challenger engines. Simulations draw
+posterior latent rates, workload and variances, while integrating next-game
+observation noise analytically to reduce numerical error. This produces
+separate Over/Under/Push probabilities, Monte Carlo precision intervals and
+comparisons to the original analytic Bayesian forecasts. It does **not**
+produce a third independent vote or authorize Tier ranking.
+
+The afternoon workflow stores immutable sidecars under
+`data/posterior_mc/` in the `data/shadow-calibration` branch, and the
+morning workflow generates `reports/posterior_mc_audit.json` from
+settled outcomes. This audit summarizes three-outcome log loss and
+multiclass Brier for legacy, Bayesian analytic and Monte Carlo predictions.
+No automatic calibration weights or model promotion are performed.
+
+See [the Phase 3 methodology, safeguards and testing instructions](references/posterior_mc.md).
