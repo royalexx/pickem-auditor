@@ -30,7 +30,7 @@ jobs:
         run: bash scripts/history_warehouse_store.sh load
       - name: Temporarily pause competing expensive Bayesian benchmark runs
         env:
-          GH_TOKEN: \${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           python - <<'PY'
           import json,os,subprocess
@@ -84,7 +84,7 @@ jobs:
       - name: Restore deferred research only when all four source streams complete
         if: always()
         env:
-          GH_TOKEN: \${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           python - <<'PY'
           import json,os,subprocess
