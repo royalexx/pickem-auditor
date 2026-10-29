@@ -1,0 +1,201 @@
+{
+  "schema": "pick-verification-v1",
+  "phase": "recheck",
+  "date": "2026-10-28",
+  "source_forecast_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+  "generated_at": "2026-10-29T00:46:06.024980+00:00",
+  "forecast_batch_count": 1552,
+  "queue_size": 30,
+  "checked": 2,
+  "verified": 0,
+  "blocked": 2,
+  "not_due": {
+    "GAME_ALREADY_STARTED": 5,
+    "OUTSIDE_PREGAME_RECHECK_WINDOW": 23
+  },
+  "research_source_attempts": [
+    {
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261028",
+      "retrieved_at": "2026-10-29T00:46:06.024980+00:00",
+      "purpose": "fixture venue and event identity",
+      "status": "retrieved",
+      "resolved_venues": 1
+    },
+    {
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909891",
+      "retrieved_at": "2026-10-29T00:46:06.024980+00:00",
+      "purpose": "explicit game-active roster",
+      "status": "retrieved",
+      "resolved_players": 0
+    }
+  ],
+  "verified_pregame_games": [
+    "OKC@DAL"
+  ],
+  "status": "verification_blocked",
+  "decisions": [
+    {
+      "candidate_id": "NBA|Shai Gilgeous-Alexander|pr|under",
+      "snapshot_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+      "forecast_sha256": "4fa57898b32d3b21b9a0607589e3f3159044cb04862c47a2d4c4089033b59433",
+      "forecast_at": "2026-10-29T00:02:23.119119+00:00",
+      "event_start": "2026-10-29T01:30:00Z",
+      "checked_at": "2026-10-29T00:46:06.024980+00:00",
+      "game": "OKC @ DAL",
+      "team": "OKC",
+      "sport": "NBA",
+      "player": "Shai Gilgeous-Alexander",
+      "stat": "pr",
+      "side": "under",
+      "reference_line": 36.5,
+      "decision": "blocked",
+      "publication_eligible": false,
+      "verified_rank": "Unranked",
+      "mechanism_evidence": {
+        "version": "mechanism-evidence-v1",
+        "tier_ceiling": "Watchlist",
+        "quality": "insufficient",
+        "machine_overlap_detected": false,
+        "events_assessed": 0,
+        "evaluations": [
+          {
+            "status": "insufficient_machine_provenance",
+            "reasons": [
+              "REPLAYED_LIVE_SOURCE_PROOF_REQUIRED"
+            ]
+          }
+        ],
+        "no_probability_adjustment": true,
+        "legacy_count_not_authoritative": true
+      },
+      "tier_quality": {
+        "version": "tier-quality-v2",
+        "tier": "Unranked",
+        "eligible": false,
+        "minimum_model_probability": null,
+        "target_is_observed": false,
+        "empirical_hit_rate_certified": false,
+        "quality_definition": "No approved tier",
+        "reason": "NO_APPROVED_TIER"
+      },
+      "diagnostic_regrade_rank": "Unranked",
+      "verified_model_probability": null,
+      "verified_market_probability": null,
+      "engine_a_reliable": false,
+      "engine_b_reliable": false,
+      "blend_validated": false,
+      "blockers": [
+        "CURRENT_TWO_SIDED_SAME_LINE_MARKET_MISSING",
+        "GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "NO_CURRENT_VERIFIED_ENGINE_GRADE"
+      ],
+      "reviewer": null,
+      "review_type": "structured_machine_verification",
+      "source_read_by_human": false,
+      "machine_review": {
+        "review_type": "structured_machine_verification",
+        "reviewer": "machine:deterministic-primary-source-v1",
+        "source_read_by_human": false,
+        "independent_live_refetch": false,
+        "reviewed_at": "2026-10-29T00:46:06.024980+00:00",
+        "source": null
+      },
+      "autonomous_investigation": {
+        "source": "https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/4278073/gamelog?season=2027",
+        "supporting_game_count": 13,
+        "opposing_game_count": 7,
+        "news_mention_count": 0,
+        "research_complete": false,
+        "approval_authorized": false
+      },
+      "research_packet_sha256": null
+    },
+    {
+      "candidate_id": "NBA|Shai Gilgeous-Alexander|pa|under",
+      "snapshot_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+      "forecast_sha256": "a353fa1c12f6e8231847d4462965124f2e9bf664075f2091091ced39662a0bcf",
+      "forecast_at": "2026-10-29T00:02:23.107986+00:00",
+      "event_start": "2026-10-29T01:30:00Z",
+      "checked_at": "2026-10-29T00:46:06.024980+00:00",
+      "game": "OKC @ DAL",
+      "team": "OKC",
+      "sport": "NBA",
+      "player": "Shai Gilgeous-Alexander",
+      "stat": "pa",
+      "side": "under",
+      "reference_line": 38.5,
+      "decision": "blocked",
+      "publication_eligible": false,
+      "verified_rank": "Unranked",
+      "mechanism_evidence": {
+        "version": "mechanism-evidence-v1",
+        "tier_ceiling": "Watchlist",
+        "quality": "insufficient",
+        "machine_overlap_detected": false,
+        "events_assessed": 0,
+        "evaluations": [
+          {
+            "status": "insufficient_machine_provenance",
+            "reasons": [
+              "REPLAYED_LIVE_SOURCE_PROOF_REQUIRED"
+            ]
+          }
+        ],
+        "no_probability_adjustment": true,
+        "legacy_count_not_authoritative": true
+      },
+      "tier_quality": {
+        "version": "tier-quality-v2",
+        "tier": "Unranked",
+        "eligible": false,
+        "minimum_model_probability": null,
+        "target_is_observed": false,
+        "empirical_hit_rate_certified": false,
+        "quality_definition": "No approved tier",
+        "reason": "NO_APPROVED_TIER"
+      },
+      "diagnostic_regrade_rank": "Unranked",
+      "verified_model_probability": null,
+      "verified_market_probability": null,
+      "engine_a_reliable": false,
+      "engine_b_reliable": false,
+      "blend_validated": false,
+      "blockers": [
+        "CURRENT_TWO_SIDED_SAME_LINE_MARKET_MISSING",
+        "GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "MACHINE_GAME_SPECIFIC_ACTIVE_STATUS_MISSING",
+        "NO_CURRENT_VERIFIED_ENGINE_GRADE"
+      ],
+      "reviewer": null,
+      "review_type": "structured_machine_verification",
+      "source_read_by_human": false,
+      "machine_review": {
+        "review_type": "structured_machine_verification",
+        "reviewer": "machine:deterministic-primary-source-v1",
+        "source_read_by_human": false,
+        "independent_live_refetch": false,
+        "reviewed_at": "2026-10-29T00:46:06.024980+00:00",
+        "source": null
+      },
+      "autonomous_investigation": {
+        "source": "https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/4278073/gamelog?season=2027",
+        "supporting_game_count": 13,
+        "opposing_game_count": 7,
+        "news_mention_count": 0,
+        "research_complete": false,
+        "approval_authorized": false
+      },
+      "research_packet_sha256": null
+    }
+  ],
+  "integrity": {
+    "original_forecasts_modified": false,
+    "original_forecast_hashes_recorded": true,
+    "review_required": true,
+    "machine_review_requires_live_source_recheck": true,
+    "no_backdated_approval": true,
+    "source_check_does_not_imply_attestation": true
+  },
+  "market_source_note": "propline_not_called_no_validated_adversarial_review"
+}
