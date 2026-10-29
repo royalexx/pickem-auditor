@@ -124,18 +124,60 @@ jobs:
             --max-seasons 4 --min-rows 2000 --max-per-position 15 \
             --draws 1000 --tune 1200 --chains 4 \
             --out reports/historical_training/fit
-      - name: Compare frozen posterior with same-source simple baseline on later games
-        if: steps.fit.outcome == 'success'
-        id: score
+      - name: Check failed-fit diagnostics for controlled convergence retry
+        if: steps.preflight.outcome == 'success' && steps.fit.outcome == 'failure'
+        id: retry_gate
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          target=Path('reports/historical_training/fit/manifest.json')
+          eligible=False
+          if target.is_file():
+              manifest=json.loads(target.read_text())
+              diagnostic=manifest.get('diagnostics') or {}
+              eligible=(manifest.get('sport')==os.environ['SPORT']
+                  and manifest.get('stat')==os.environ['STAT']
+                  and manifest.get('model_version')=='multisport-joint-bayes-v1'
+                  and diagnostic.get('status')=='sampling_diagnostics_failed'
+                  and diagnostic.get('divergences')==0
+                  and diagnostic.get('posterior_sampling_ok') is False
+                  and float(diagnostic.get('minimum_bfmi',0))>=.30)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
+              print('eligible='+('true' if eligible else 'false'),file=out)
+          print('CONVERGENCE_RETRY_ELIGIBLE='+str(eligible))
+          PY
+      - name: Retry failed nondivergent chains with larger fixed posterior budget
+        if: steps.retry_gate.outputs.eligible == 'true'
+        id: retry
         continue-on-error: true
         run: |
+          python scripts/joint_population_bayes.py \
+            --sport "$SPORT" --stat "$STAT" \
+            --as-of "${{ steps.window.outputs.as_of }}" \
+            --train-from "${{ steps.window.outputs.train_from }}" \
+            --max-seasons 4 --min-rows 2000 --max-per-position 15 \
+            --draws 2400 --tune 1800 --chains 4 \
+            --out reports/historical_training/retry
+      - name: Compare accepted frozen posterior with same-source simple baseline
+        if: steps.fit.outcome == 'success' || steps.retry.outcome == 'success'
+        id: score
+        continue-on-error: true
+        env:
+          INITIAL_FIT: ${{ steps.fit.outcome }}
+        run: |
+          if [ "$INITIAL_FIT" = success ]; then
+            FIT_DIR=reports/historical_training/fit
+          else
+            FIT_DIR=reports/historical_training/retry
+          fi
           python scripts/joint_population_holdout.py \
             --sport "$SPORT" --stat "$STAT" --line "$LINE" \
             --cutoff "${{ steps.window.outputs.as_of }}" \
             --until "${{ steps.window.outputs.until }}" \
             --train-from "${{ steps.window.outputs.train_from }}" \
             --max-seasons 4 --draws 1500 \
-            --training-dir reports/historical_training/fit
+            --training-dir "$FIT_DIR"
       - name: Preserve preflight, posterior, diagnostics and comparison
         if: always()
         uses: actions/upload-artifact@v4
@@ -149,20 +191,24 @@ jobs:
             reports/historical_training/fit/manifest.json
             reports/historical_training/fit/posterior.nc
             reports/historical_training/fit/stat_holdout.json
+            reports/historical_training/retry/manifest.json
+            reports/historical_training/retry/posterior.nc
+            reports/historical_training/retry/stat_holdout.json
       - name: Report unsupported windows separately from failed model fits
         if: always()
         env:
           WINDOW: ${{ steps.window.outputs.ready }}
           PREFLIGHT: ${{ steps.preflight.outcome }}
           FIT: ${{ steps.fit.outcome }}
+          RETRY: ${{ steps.retry.outcome }}
           SCORE: ${{ steps.score.outcome }}
         run: |
           if [ "$WINDOW" != true ] || [ "$PREFLIGHT" != success ]; then
             echo "HISTORICAL_TRAINING_NOT_STARTED_SOURCE_WINDOW_INSUFFICIENT sport=$SPORT stat=$STAT"
-          elif [ "$FIT" != success ] || [ "$SCORE" != success ]; then
-            echo "HISTORICAL_FIT_OR_HOLDOUT_FAILED sport=$SPORT stat=$STAT fit=$FIT score=$SCORE" >&2
+          elif { [ "$FIT" != success ] && [ "$RETRY" != success ]; } || [ "$SCORE" != success ]; then
+            echo "HISTORICAL_FIT_OR_HOLDOUT_FAILED sport=$SPORT stat=$STAT fit=$FIT retry=$RETRY score=$SCORE" >&2
             exit 2
           else
-            echo "HISTORICAL_RESEARCH_FIT_AND_HOLDOUT_COMPLETED sport=$SPORT stat=$STAT"
+            echo "HISTORICAL_RESEARCH_FIT_AND_HOLDOUT_COMPLETED sport=$SPORT stat=$STAT initial=$FIT retry=$RETRY"
             echo "Research only: does not update ranking, deployment, probability weights, or calibrated status."
           fi
