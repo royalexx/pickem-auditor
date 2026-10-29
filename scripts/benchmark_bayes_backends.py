@@ -142,10 +142,10 @@ def sample_backend(backend,data,*,draws,tune,chains,root):
                 arr=arr.reshape(-1)
             arrays[key]=arr
         frozen={'count':draws*chains,'arrays':arrays}
-        timing['stan_reported_warmup_sec']=float(sum(
-            fit.time_warmup.values())) if isinstance(fit.time_warmup,dict) else None
-        timing['stan_reported_sampling_sec']=float(sum(
-            fit.time_sampling.values())) if isinstance(fit.time_sampling,dict) else None
+        # CmdStanPy 1.3 does not expose per-phase timing as public attributes;
+        # include Stan compilation and all chains in measured wall time instead.
+        timing['stan_reported_warmup_sec']=None
+        timing['stan_reported_sampling_sec']=None
         versions={'cmdstanpy':__import__('cmdstanpy').__version__,
                   'cmdstan':str(cmdstan_version()),'scipy':scipy.__version__}
     timing['total_model_fit_wall_sec']=time.perf_counter()-start
