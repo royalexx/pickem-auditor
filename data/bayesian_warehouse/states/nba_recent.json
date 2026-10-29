@@ -1,9 +1,9 @@
 {
-  "cursor": "2024-01-17",
-  "dates_complete": 108,
-  "market_rows_inserted": 141449,
+  "cursor": "2024-04-26",
+  "dates_complete": 208,
+  "market_rows_inserted": 289663,
   "schema": "multi-sport-population-cursor-v1",
-  "source_games": 599,
+  "source_games": 1232,
   "sport": "NBA",
   "stream": "recent"
 }
