@@ -1,0 +1,92 @@
+name: Benchmark PyMC vs Nutpie vs CmdStan (research only)
+on:
+  push:
+    branches: ['bench/pymc-nutpie-cmdstan-20261029']
+    paths:
+      - 'scripts/benchmark_bayes_backends.py'
+      - 'benchmarks/stan/**'
+      - '.github/workflows/benchmark-bayes-backends.yml'
+  workflow_dispatch:
+    inputs:
+      fixture:
+        description: 'Frozen historical source-backed cohort'
+        type: choice
+        options: [nhl_hits, nba_points, nfl_rec_yards]
+        default: nhl_hits
+      draws:
+        type: string
+        default: '300'
+      tune:
+        type: string
+        default: '450'
+permissions:
+  contents: read
+concurrency:
+  group: independent-bayes-backend-benchmark
+  cancel-in-progress: true
+jobs:
+  benchmark:
+    name: ${{ matrix.backend }} - ${{ matrix.fixture }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 105
+    strategy:
+      fail-fast: false
+      matrix:
+        backend: [pymc, nutpie, cmdstanpy]
+        fixture: [nba_points, nfl_rec_yards]
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMBA_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-joint-bayes.txt
+      - name: Restore immutable official population archive (no odds requests)
+        run: bash scripts/history_warehouse_store.sh load
+      - name: Install identical frozen statistical dependencies
+        run: |
+          python -m pip install -r requirements-joint-bayes.txt
+          if [ "${{ matrix.backend }}" = nutpie ]; then
+            python -m pip install 'nutpie>=0.14,<1'
+          fi
+          if [ "${{ matrix.backend }}" = cmdstanpy ]; then
+            python -m pip install 'cmdstanpy>=1.2,<2'
+            python -c 'import cmdstanpy; ok=cmdstanpy.install_cmdstan(cores=2,progress=False); assert ok, "CMDSTAN_INSTALL_FAILED"'
+          fi
+      - name: Fit equivalent posterior and grade frozen later games
+        id: evaluation
+        continue-on-error: true
+        env:
+          FIXTURE: ${{ matrix.fixture }}
+          DRAWS: ${{ inputs.draws || '300' }}
+          TUNE: ${{ inputs.tune || '450' }}
+        run: |
+          python scripts/benchmark_bayes_backends.py \
+            --backend "${{ matrix.backend }}" --fixture "$FIXTURE" \
+            --draws "$DRAWS" --tune "$TUNE" --chains 4 \
+            --out "reports/backend_benchmark_${{ matrix.fixture }}_${{ matrix.backend }}.json"
+      - name: Save research-only diagnostic and explicit missing-source receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-benchmark-${{ matrix.fixture }}-${{ matrix.backend }}
+          path: reports/backend_benchmark_${{ matrix.fixture }}_${{ matrix.backend }}.json
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Fail visibly if backend could not complete
+        if: always()
+        env:
+          RESULT: ${{ steps.evaluation.outcome }}
+        run: |
+          test "$RESULT" = success || {
+            echo "BAYES_BACKEND_BENCHMARK_INCOMPLETE backend=${{ matrix.backend }} fixture=${{ matrix.fixture }}" >&2
+            exit 2
+          }
