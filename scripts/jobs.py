@@ -142,12 +142,15 @@ def slate_lookup(rows: list[dict]) -> dict[tuple, dict]:
     return index
 
 
-def matchup_label(team: str, opponent: str) -> str:
+def matchup_label(team: str, opponent: str, *, home_team=None, away_team=None) -> str:
+    """Show @ only when a verified bookmaker event supplies actual venue order."""
     team = str(team or "").strip()
     opponent = str(opponent or "").strip()
-    if team and opponent:
-        return f"{team} @ {opponent}"
-    return team or opponent or "unknown"
+    home = str(home_team or "").strip()
+    away = str(away_team or "").strip()
+    if home and away and {home, away} == {team, opponent} and home != away:
+        return f"{away} @ {home}"
+    return f"{team} vs {opponent}" if team and opponent else (team or opponent or "unknown")
 
 
 def team_bucket_throw_share(slate_row: dict) -> float | None:
@@ -229,6 +232,22 @@ def commence_index_from_quotes(quotes: list[dict], events: list[dict]) -> dict[t
     return index
 
 
+def venue_index_from_quotes(quotes: list[dict]) -> dict[tuple[str, str, str], tuple[str, str]]:
+    """Use provider-confirmed [home, away]; ambiguous sources abstain."""
+    from odds_providers import normalize_team
+    options: dict[tuple[str, str, str], set[tuple[str, str]]] = {}
+    for quote in quotes or []:
+        pair = quote.get("event_teams") if isinstance(quote, dict) else None
+        if not isinstance(pair, list) or len(pair) != 2:
+            continue
+        home, away = (normalize_team(t) for t in pair)
+        team, opponent = (normalize_team(quote.get(k)) for k in ("team", "opponent"))
+        sport = str(quote.get("sport") or "").strip()
+        if sport and home and away and {team, opponent} == {home, away} and home != away:
+            options.setdefault((sport, team.casefold(), opponent.casefold()), set()).add((home, away))
+    return {key: next(iter(choices)) for key, choices in options.items() if len(choices) == 1}
+
+
 def lookup_commence(
     slate_row: dict,
     commence_index: dict[tuple[str, str, str], str],
@@ -289,6 +308,9 @@ def pipeline_to_snapshot(
         "game_date": str(meta["game_date"]),
         "sport": str(meta["sport"]),
         "matchup": str(meta["matchup"]),
+        "home_team": meta.get("home_team"),
+        "away_team": meta.get("away_team"),
+        "matchup_orientation_verified": meta.get("matchup_orientation_verified") is True,
         "player": str(meta["player"]),
         **{key: candidate.get(key) or meta.get(key) for key in
            ("team", "opponent", "player_id", "event_id", "event_id_namespace")},
@@ -395,6 +417,7 @@ def attach_meta(
     run_at: str,
     forecast_at: str | None = None,
     commence_index: dict | None = None,
+    venue_index: dict | None = None,
 ) -> list[dict]:
     enriched = []
     for row in pipeline_rows:
@@ -406,6 +429,8 @@ def attach_meta(
         if slate_row is None:
             continue
         payload = enrich_pipeline_from_slate(row, slate_row)
+        venue = (venue_index or {}).get((sport, str(slate_row.get("team") or "").casefold(),
+                                        str(slate_row.get("opponent") or "").casefold()))
         payload["_meta"] = {
             "forecast_at": forecast_at,
             "event_start": lookup_commence(slate_row, commence_index or {}),
@@ -415,7 +440,12 @@ def attach_meta(
             **{key: slate_row.get(key) for key in
                ("team", "opponent", "player_id", "event_id", "event_id_namespace")},
             "stat": stat,
-            "matchup": matchup_label(slate_row.get("team"), slate_row.get("opponent")),
+            "matchup": matchup_label(slate_row.get("team"), slate_row.get("opponent"),
+                                     home_team=venue[0] if venue else None,
+                                     away_team=venue[1] if venue else None),
+            "home_team": venue[0] if venue else None,
+            "away_team": venue[1] if venue else None,
+            "matchup_orientation_verified": venue is not None,
         }
         payload["_run_id"] = run_id
         payload["_run_at"] = run_at
@@ -532,6 +562,7 @@ def run_snapshot(
     pipeline_rows = attach_meta(
         pipeline_rows, slate_by_key, game_date=game_date, run_id=run_id, run_at=run_at,
         forecast_at=now.isoformat(), commence_index=commence_index,
+        venue_index=venue_index_from_quotes(quotes),
     )
     snapshots, pipeline_errors = run_pipeline_batch(pipeline_rows,now=now,data_root=slate_path.parent,clock_fn=clock_fn)
     skipped_started+=max(0,len(pipeline_rows)-len(snapshots)-pipeline_errors)
