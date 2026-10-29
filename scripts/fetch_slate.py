@@ -3476,8 +3476,9 @@ def fetch_odds(game_date: str, fetch=fetch_json, source_urls=None, provider=None
             # Do not conflate event-id namespaces or silently replace prices.
             from odds_providers import dedupe_quotes
             quotes=dedupe_quotes(quotes)
-        note=(note+' ' if note else '')+'NHL_BLOCKS_FALLBACK_JSON='+json.dumps(
-            diag,sort_keys=True,separators=(',',':'))
+        if diag.get('status') != 'disabled':
+            note=(note+' ' if note else '')+'NHL_BLOCKS_FALLBACK_JSON='+json.dumps(
+                diag,sort_keys=True,separators=(',',':'))
     for url in getattr(provider, "source_urls", []) or []:
         _remember(source_urls, url)
     for quote in quotes:
