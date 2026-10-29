@@ -1,0 +1,85 @@
+name: Priority historical collection resource control
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/population-priority-control.yml']
+  workflow_run:
+    workflows: ['Complete 2018–2026 multisport Bayesian populations (priority)']
+    types: [completed]
+permissions:
+  contents: write
+  actions: write
+jobs:
+  defer-expensive-benchmarks:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pause only the two competing 31-market research runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for run_id in 40913173887 40913988348; do
+            status="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" --jq .status 2>/dev/null || true)"
+            if [[ "$status" = queued || "$status" = in_progress || "$status" = waiting ]]; then
+              echo "PRIORITY_PAUSE_REQUEST run=$run_id prior=$status"
+              gh api -X POST "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/cancel" || echo "PAUSE_REQUEST_REJECTED run=$run_id"
+            else
+              echo "NO_PAUSE_REQUIRED run=$run_id status=$status"
+            fi
+          done
+
+  resume-research-after-verified-completion:
+    if: github.event_name == 'workflow_run'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Read official immutable population checkpoint
+        run: bash scripts/history_warehouse_store.sh load
+      - name: Validate that both NHL and NBA archive plus recent are actually complete
+        id: ready
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path("data/bayesian_warehouse")
+          marker=root/"campaign_complete.json"
+          prior=root/"priority_research_resume.json"
+          ready=False
+          if marker.exists() and not prior.exists():
+              plan=json.loads(marker.read_text())
+              day=plan.get("completed_through")
+              if day and day[:4].isdigit():
+                  states={}
+                  for s in ("nhl","nba"):
+                      for stream in ("", "_recent"):
+                          states[s+stream]=json.loads((root/"states"/(s+stream+".json")).read_text())["cursor"]
+                  ready=all(states[s+"_recent"]>=day and states[s]>="2023-10-01"
+                            for s in ("nhl","nba"))
+          print("RESUME_ONLY_WHEN_SOURCE_COMPLETE",ready)
+          with open(os.environ["GITHUB_OUTPUT"],"a") as f:
+              f.write("ready="+str(ready).lower()+"\n")
+          PY
+      - name: Resume deferred full Bayesian diagnostic benchmarks once only
+        if: steps.ready.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          for run_id in 40913173887 40913988348; do
+            echo "RESUMING_DEFERRED_RESEARCH run=$run_id"
+            gh run rerun "$run_id" --repo "$GITHUB_REPOSITORY"
+          done
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("data/bayesian_warehouse")
+          marker=json.loads((root/"campaign_complete.json").read_text())
+          (root/"priority_research_resume.json").write_text(json.dumps(
+            {"schema":"research_resumed_after_verified_population_v1",
+             "resumed_run_ids":[40913173887,40913988348],
+             "completed_through":marker["completed_through"]},
+            indent=2,sort_keys=True)+"\n")
+          PY
+          bash scripts/history_warehouse_store.sh save
