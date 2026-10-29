@@ -94,7 +94,7 @@ def verified_repository_push_recovery(today, now, *, git_run=None):
     try:
         subject = git_run(["git","log","-1","--format=%s","HEAD"],
                           capture_output=True,text=True,timeout=15,check=False)
-        changed = git_run(["git","diff-tree","--no-commit-id","--name-only","-r","HEAD"],
+        changed = git_run(["git","show","--format=","--name-only","--root","HEAD"],
                           capture_output=True,text=True,timeout=15,check=False)
         return (subject.returncode == 0 and changed.returncode == 0
                 and subject.stdout.strip() == "ops: recover morning " + today
