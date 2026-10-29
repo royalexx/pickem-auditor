@@ -1,0 +1,160 @@
+name: Complete 2018–2026 multisport Bayesian populations (priority)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/population-campaign.yml'
+  schedule:
+    # Continue automatically every two hours until both historical streams
+    # are complete; repository-level concurrency prevents concurrent writes.
+    - cron: '11 */2 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: independent-nhl-bayesian-history
+  cancel-in-progress: false
+jobs:
+  four-stream-backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 345
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Load immutable NHL/NBA/NFL populations and cursors
+        run: bash scripts/history_warehouse_store.sh load
+      - name: Temporarily pause competing expensive Bayesian benchmark runs
+        env:
+          GH_TOKEN: \${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          p=Path("data/bayesian_warehouse/paused_research_runs.json")
+          resumed=Path("data/bayesian_warehouse/research_resumed.json")
+          if p.exists() or resumed.exists():
+              print("Previous research deferral found; not overwriting it.")
+          else:
+              found=subprocess.run(["gh","api","-X","GET",
+                    "repos/"+os.environ["GITHUB_REPOSITORY"]+"/actions/runs",
+                    "-f","per_page=100"],capture_output=True,text=True,check=False)
+              paused=[]
+              if found.returncode==0:
+                  data=json.loads(found.stdout)
+                  for run in data.get("workflow_runs",[]):
+                      name=run.get("name","")
+                      if ("Matched diagnostic convergence" not in name and
+                          "Full 31-market Bayesian sampler comparison" not in name and
+                          "Bayesian training and heldout evaluation" not in name and
+                          "Bayesian sampler" not in name):
+                          continue
+                      if run.get("status") not in ("queued","in_progress","waiting"):
+                          continue
+                      id=run["id"]
+                      cancel=subprocess.run(["gh","run","cancel",str(id),
+                            "--repo",os.environ["GITHUB_REPOSITORY"]],
+                            capture_output=True,text=True,check=False)
+                      print("DEFER_RESEARCH_RUN",id,name,
+                            "cancel_accepted="+str(cancel.returncode==0),flush=True)
+                      if cancel.returncode==0:
+                          paused.append({"id":id,"name":name,
+                                         "head_branch":run.get("head_branch")})
+              else:
+                  print("BENCHMARK_LIST_UNAVAILABLE",found.stderr[-350:],flush=True)
+              p.parent.mkdir(parents=True,exist_ok=True)
+              p.write_text(json.dumps({"schema":"population_priority_paused_research_v1",
+                          "paused":paused,"history_only":True},indent=2)+"\n")
+          PY
+      - name: Run four source streams in parallel and persist complete date chunks
+        id: campaign
+        continue-on-error: true
+        run: |
+          python scripts/population_campaign.py --max-minutes 315 \
+            --batch-days 120 --batch-timeout-minutes 40
+      - name: Always checkpoint campaign metadata and preserve partial verified data
+        if: always()
+        run: |
+          bash scripts/history_warehouse_store.sh save
+          python scripts/population_coverage_report.py --out reports/population_coverage.json
+      - name: Restore deferred research only when all four source streams complete
+        if: always()
+        env:
+          GH_TOKEN: \${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          report=Path("reports/population_campaign.json")
+          resumed=Path("data/bayesian_warehouse/research_resumed.json")
+          paused=Path("data/bayesian_warehouse/paused_research_runs.json")
+          if not report.exists():
+              print("NO_CAMPAIGN_RECEIPT",flush=True)
+          elif json.loads(report.read_text()).get("status")!="complete":
+              print("BACKFILL_STILL_INCOMPLETE: research remains deferred",flush=True)
+          elif resumed.exists():
+              print("Research previously resumed; no duplicate re-runs.",flush=True)
+          else:
+              pending=json.loads(paused.read_text()).get("paused",[]) if paused.exists() else []
+              errors=[]
+              for job in pending:
+                  run_id=str(job["id"])
+                  r=subprocess.run(["gh","run","rerun",run_id,
+                    "--repo",os.environ["GITHUB_REPOSITORY"]],
+                    text=True,capture_output=True,check=False)
+                  print("RESUME_RESEARCH_RUN",run_id,"accepted="+str(r.returncode==0),flush=True)
+                  if r.returncode!=0:
+                      errors.append({"id":run_id,"error":r.stderr[-400:]})
+              if not errors:
+                  resumed.write_text(json.dumps(
+                      {"schema":"population_research_resumption_v1",
+                       "resumed_run_ids":[j["id"] for j in pending],
+                       "completed_through":json.loads(report.read_text())["as_of_utc"]},
+                      indent=2)+"\n")
+                  subprocess.run(["bash","scripts/history_warehouse_store.sh","save"],
+                                 check=True,timeout=1200)
+              else:
+                  print("RESEARCH_RESUME_RETRY_NEEDED="+json.dumps(errors),flush=True)
+          PY
+      - name: Upload source coverage, checkpoint receipts and incomplete reasons
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verified-four-stream-population-campaign
+          retention-days: 90
+          if-no-files-found: warn
+          path: |
+            reports/population_campaign.json
+            reports/population_coverage.json
+            reports/population_nhl_recent_receipt.json
+            reports/population_nba_recent_receipt.json
+            reports/population_nhl_receipt.json
+            reports/population_nba_receipt.json
+            data/bayesian_warehouse/states/*.json
+            data/bayesian_warehouse/campaign_complete.json
+            data/bayesian_warehouse/paused_research_runs.json
+            data/bayesian_warehouse/research_resumed.json
+      - name: Distinguish completed warehouse from partial checkpoint
+        if: always()
+        run: |
+          python - <<'PY'
+          import json,sys
+          from pathlib import Path
+          p=Path("reports/population_campaign.json")
+          if not p.exists():
+              print("NO_COMPLETION_RECEIPT",flush=True)
+              sys.exit(2)
+          v=json.loads(p.read_text())
+          print("POPULATION_STATUS",v.get("status"),v.get("current"),flush=True)
+          if v.get("status")=="complete":
+              print("ALL_FOUR_SOURCE_STREAMS_COMPLETE",flush=True)
+          elif v.get("status")=="runner_budget_exhausted":
+              print("SOURCE_CHECKPOINTED_NOT_YET_COMPLETE: scheduled continuation active",flush=True)
+          else:
+              print("SOURCE_BACKFILL_NEEDS_ATTENTION",v.get("error",""),flush=True)
+              sys.exit(2)
+          PY
