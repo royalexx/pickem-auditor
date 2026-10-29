@@ -71,7 +71,7 @@ def stan_data(d):
                 home_prior_sd=.18 if is_count else 1.,
                 season_rate_prior_sd=.2 if is_count else 1.)
 
-def sample_backend(backend,data,*,draws,tune,chains,root):
+def sample_backend(backend,data,*,draws,tune,chains,root,seed=19031):
     import scipy
     import numpy as np
     timing={}
@@ -84,7 +84,7 @@ def sample_backend(backend,data,*,draws,tune,chains,root):
         begin=time.perf_counter()
         with model:
             posterior=pm.sample(draws=draws,tune=tune,chains=chains,
-                                cores=min(2,chains),random_seed=19031,
+                                cores=min(2,chains),random_seed=seed,
                                 progressbar=False,nuts_sampler=backend,
                                 nuts={'target_accept':.95},
                                 compute_convergence_checks=True,
@@ -107,7 +107,7 @@ def sample_backend(backend,data,*,draws,tune,chains,root):
         fit=model.sample(data=stan_data(data),chains=chains,
                         parallel_chains=min(chains,2),
                         iter_sampling=draws,iter_warmup=tune,
-                        seed=19031,adapt_delta=.95,show_progress=False)
+                        seed=seed,adapt_delta=.95,show_progress=False)
         timing['compile_and_sampling_sec']=time.perf_counter()-begin
         summary=fit.summary()
         variables=[i for i in summary.index if not i.startswith('lp__')
