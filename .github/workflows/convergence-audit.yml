@@ -1,0 +1,56 @@
+name: Consolidate matched NUTS convergence receipts
+on:
+  workflow_run:
+    workflows: ['Matched diagnostic convergence - Bayesian 31-market research']
+    types: [completed]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download every matched convergence artifact from completed run
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+          pattern: convergence-*
+          merge-multiple: true
+          path: reports/inputs
+      - name: Audit comparable convergence receipts and publish analysis
+        id: summary
+        continue-on-error: true
+        env:
+          SOURCE_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          if [ "$SOURCE_BRANCH" = 'bench/matched-convergence-full-20261029' ]; then
+            EXPECTED=93
+          elif [ "$SOURCE_BRANCH" = 'bench/matched-nuts-convergence-20261029' ]; then
+            EXPECTED=12
+          else
+            echo "UNEXPECTED_CONVERGENCE_RESEARCH_SOURCE_BRANCH" >&2
+            exit 2
+          fi
+          python scripts/summarize_convergence_backends.py \
+            --root reports/inputs --expected "$EXPECTED" \
+            --out-json reports/matched_convergence_audit.json \
+            --out-md reports/matched_convergence_audit.md
+      - name: Preserve all results including nonconverged posterior diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: matched-convergence-audit-${{ github.event.workflow_run.id }}
+          path: |
+            reports/matched_convergence_audit.json
+            reports/matched_convergence_audit.md
+          retention-days: 90
+          if-no-files-found: warn
+      - name: Fail closed on incomplete source or result matrix
+        if: always()
+        env:
+          OUTCOME: ${{ steps.summary.outcome }}
+        run: |
+          test "$OUTCOME" = success
