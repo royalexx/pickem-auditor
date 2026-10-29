@@ -1,0 +1,18 @@
+{
+  "schema": "conditional-tier3-v1",
+  "date": "2026-10-28",
+  "generated_at": "2026-10-29T00:02:45.514210+00:00",
+  "source_forecast_run_id": "f1744cb2-20a2-5dc9-b574-a61928beee14",
+  "tier": "Conditional Tier 3",
+  "verified_picks": [],
+  "strict_verified_board_unmodified": true,
+  "unconfirmed_lineup_policy": "five_complete_team_games_no_negative_status",
+  "conditional_picks": [],
+  "publication_eligible": false,
+  "status": "no_conditional_tier3_qualified",
+  "conditional_count": 0,
+  "excluded": {
+    "below_remarkable_70pct_floor": 9
+  },
+  "research_candidates_evaluated": 9
+}
