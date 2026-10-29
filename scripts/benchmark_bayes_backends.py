@@ -14,7 +14,6 @@ import os
 from pathlib import Path
 import time
 import traceback
-import numpy as np
 import population_history as warehouse
 import joint_population_bayes as joint
 
@@ -62,7 +61,7 @@ def stan_data(d):
                 season=[v+1 for v in d['season_idx']],
                 opponent=[v+1 for v in d['opponent_idx']],
                 home=d['home'],workload=d['workload'],
-                log_workload=np.log(d['workload']).tolist(),
+                log_workload=[math.log(v) for v in d['workload']],
                 y_value=d['value'],
                 y_count=[int(v) if is_count else 0 for v in d['value']],
                 base_work={'NHL':2.9,'NBA':3.1,'NFL':3.7}[d['sport']],
@@ -74,6 +73,7 @@ def stan_data(d):
 
 def sample_backend(backend,data,*,draws,tune,chains,root):
     import scipy
+    import numpy as np
     timing={}
     start=time.perf_counter()
     if backend in ('pymc','nutpie'):
