@@ -127,26 +127,13 @@ jobs:
       - name: Check failed-fit diagnostics for controlled convergence retry
         if: steps.preflight.outcome == 'success' && steps.fit.outcome == 'failure'
         id: retry_gate
+        env:
+          TRAINING_CUTOFF: ${{ steps.window.outputs.as_of }}
         run: |
-          python - <<'PY'
-          import json,os
-          from pathlib import Path
-          target=Path('reports/historical_training/fit/manifest.json')
-          eligible=False
-          if target.is_file():
-              manifest=json.loads(target.read_text())
-              diagnostic=manifest.get('diagnostics') or {}
-              eligible=(manifest.get('sport')==os.environ['SPORT']
-                  and manifest.get('stat')==os.environ['STAT']
-                  and manifest.get('model_version')=='multisport-joint-bayes-v1'
-                  and diagnostic.get('status')=='sampling_diagnostics_failed'
-                  and diagnostic.get('divergences')==0
-                  and diagnostic.get('posterior_sampling_ok') is False
-                  and float(diagnostic.get('minimum_bfmi',0))>=.30)
-          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
-              print('eligible='+('true' if eligible else 'false'),file=out)
-          print('CONVERGENCE_RETRY_ELIGIBLE='+str(eligible))
-          PY
+          python scripts/training_retry_gate.py \
+            --manifest reports/historical_training/fit/manifest.json \
+            --sport "$SPORT" --stat "$STAT" --as-of "$TRAINING_CUTOFF" \
+            --github-output "$GITHUB_OUTPUT"
       - name: Retry failed nondivergent chains with larger fixed posterior budget
         if: steps.retry_gate.outputs.eligible == 'true'
         id: retry
