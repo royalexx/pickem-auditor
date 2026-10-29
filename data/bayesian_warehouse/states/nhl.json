@@ -1,8 +1,8 @@
 {
-  "cursor": "2019-10-26",
-  "dates_complete": 390,
-  "market_rows_inserted": 157600,
+  "cursor": "2020-02-23",
+  "dates_complete": 510,
+  "market_rows_inserted": 245380,
   "schema": "multi-sport-population-cursor-v1",
-  "source_games": 1431,
+  "source_games": 2228,
   "sport": "NHL"
 }
