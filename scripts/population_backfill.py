@@ -16,6 +16,7 @@ from collections import Counter
 from datetime import date,datetime,timedelta,timezone
 from pathlib import Path
 from urllib.error import HTTPError,URLError
+from http.client import HTTPException
 from urllib.request import Request,urlopen
 import population_history as store
 import population_normalizers as norm
@@ -76,7 +77,7 @@ def fetch_json(url,*,spacing=.5,attempts=4,sleeper=time.sleep):
             if not isinstance(result,dict):raise ValueError("invalid_history_json")
             sleeper(spacing)
             return result
-        except (HTTPError,URLError,TimeoutError,OSError,ValueError) as exc:
+        except (HTTPError,URLError,HTTPException,TimeoutError,OSError,ValueError) as exc:
             if attempt+1==attempts:
                 raise RuntimeError(f"HISTORICAL_SOURCE_UNAVAILABLE {url}: {type(exc).__name__}: {exc}") from exc
             pause=min(90,2**attempt)
