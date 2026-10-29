@@ -1,7 +1,7 @@
 name: Matched diagnostic convergence - Bayesian 31-market research
 on:
   push:
-    branches: ['bench/matched-nuts-convergence-20261029']
+    branches: ['bench/matched-convergence-full-20261029']
     paths:
       - 'scripts/convergence_backend_eval.py'
       - '.github/workflows/convergence-rebenchmark.yml'
@@ -42,7 +42,7 @@ jobs:
       - name: Verify immutable 31-market source and publish matrix
         id: plan
         env:
-          BENCHMARK_SCOPE: ${{ inputs.scope || 'pilot' }}
+          BENCHMARK_SCOPE: ${{ inputs.scope || 'all' }}
         run: |
           python - <<'PY'
           import json,os,sys
