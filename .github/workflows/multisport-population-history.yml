@@ -2,7 +2,10 @@ name: Multi-sport Bayesian population backfill
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/multisport-population-history.yml']
+    paths:
+      - '.github/workflows/multisport-population-history.yml'
+      - 'scripts/population_normalizers.py'
+      - 'scripts/population_backfill.py'
   schedule:
     - cron: '43 6,18 * * *'
   workflow_dispatch:
