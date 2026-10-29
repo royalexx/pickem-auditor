@@ -1,9 +1,9 @@
 {
-  "cursor": "2026-02-27",
-  "dates_complete": 880,
-  "market_rows_inserted": 391072,
+  "cursor": "2026-06-27",
+  "dates_complete": 1000,
+  "market_rows_inserted": 433354,
   "schema": "multi-sport-population-cursor-v1",
-  "source_games": 3552,
+  "source_games": 3936,
   "sport": "NHL",
   "stream": "recent"
 }
