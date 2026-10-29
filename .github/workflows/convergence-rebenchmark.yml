@@ -1,0 +1,142 @@
+name: Matched diagnostic convergence - Bayesian 31-market research
+on:
+  push:
+    branches: ['bench/matched-nuts-convergence-20261029']
+    paths:
+      - 'scripts/convergence_backend_eval.py'
+      - '.github/workflows/convergence-rebenchmark.yml'
+  workflow_dispatch:
+    inputs:
+      scope:
+        type: choice
+        description: Pilot or all 31 source-verified markets
+        options: [pilot, all]
+        default: pilot
+      max_stages:
+        type: choice
+        options: ['1','2','3']
+        default: '3'
+permissions:
+  contents: read
+concurrency:
+  group: matched-convergence-benchmark-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      source_sha: ${{ steps.plan.outputs.history_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore EXACT original 93-fit historical commit
+        env:
+          SOURCE_SHA: cb3e26d8c251160dfecb2cb8cee312deeb3b5ed1
+        run: |
+          git fetch --quiet origin refs/heads/data/bayesian-history:refs/remotes/origin/data/bayesian-history
+          git cat-file -e "$SOURCE_SHA^{commit}"
+          git archive "$SOURCE_SHA" data/bayesian_warehouse | tar -x
+      - name: Verify immutable 31-market source and publish matrix
+        id: plan
+        env:
+          BENCHMARK_SCOPE: ${{ inputs.scope || 'pilot' }}
+        run: |
+          python - <<'PY'
+          import json,os,sys
+          from pathlib import Path
+          sys.path.insert(0,'scripts')
+          from full_backend_eval import build_plan
+          sha='cb3e26d8c251160dfecb2cb8cee312deeb3b5ed1'
+          plan=build_plan(Path('.'),archive_sha=sha)
+          if plan['ready_count']!=31 or plan['blocked_count']!=0:
+              raise SystemExit('SOURCE_PRECHECK_FAILED: cannot claim all 31 markets')
+          Path('reports').mkdir(exist_ok=True)
+          Path('reports/convergence_frozen_preflight.json').write_text(
+              json.dumps(plan,sort_keys=True,indent=2)+'\n')
+          markets=(['nhl_hits','nba_assists','nfl_pass_attempts','nfl_receiving_yards']
+                  if os.getenv('BENCHMARK_SCOPE')=='pilot' else plan['ready_matrix'])
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('matrix='+json.dumps(markets,separators=(',',':'))+'\n')
+              f.write('history_sha='+sha+'\n')
+          print(json.dumps({'source_eligible_markets':31,'scope':os.getenv('BENCHMARK_SCOPE'),
+                            'selected_markets':markets}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: convergence-frozen-31-market-preflight
+          path: reports/convergence_frozen_preflight.json
+          retention-days: 90
+  fit:
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        backend: [pymc, nutpie, cmdstanpy]
+        market: ${{ fromJSON(needs.preflight.outputs.matrix) }}
+    name: ${{ matrix.market }} / ${{ matrix.backend }} matched diagnostics
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMBA_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore exactly the frozen source snapshot
+        env:
+          FROZEN_WAREHOUSE_SHA: ${{ needs.preflight.outputs.source_sha }}
+        run: |
+          git fetch --quiet origin refs/heads/data/bayesian-history:refs/remotes/origin/data/bayesian-history
+          git cat-file -e "$FROZEN_WAREHOUSE_SHA^{commit}"
+          git archive "$FROZEN_WAREHOUSE_SHA" data/bayesian_warehouse | tar -x
+      - uses: actions/download-artifact@v4
+        with:
+          name: convergence-frozen-31-market-preflight
+          path: reports
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-joint-bayes.txt
+      - name: Install frozen inference dependencies
+        run: |
+          python -m pip install -r requirements-joint-bayes.txt
+          if [ "${{ matrix.backend }}" = nutpie ]; then
+            python -m pip install 'nutpie==0.16.11'
+          elif [ "${{ matrix.backend }}" = cmdstanpy ]; then
+            python -m pip install 'cmdstanpy==1.3.0'
+            python -c 'import cmdstanpy; assert cmdstanpy.install_cmdstan(version="2.40.0",cores=2,progress=False)'
+          fi
+      - name: Run common rank-Rhat ESS-bulk ESS-tail BFMI and divergence gates
+        id: evaluation
+        continue-on-error: true
+        env:
+          FROZEN_WAREHOUSE_SHA: ${{ needs.preflight.outputs.source_sha }}
+          MAX_STAGES: ${{ inputs.max_stages || '3' }}
+        run: |
+          python scripts/convergence_backend_eval.py \
+            --plan-file reports/convergence_frozen_preflight.json \
+            --market "${{ matrix.market }}" --backend "${{ matrix.backend }}" \
+            --max-stages "$MAX_STAGES" \
+            --out "reports/matched_${{ matrix.market }}_${{ matrix.backend }}.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: convergence-${{ matrix.market }}-${{ matrix.backend }}
+          path: reports/matched_${{ matrix.market }}_${{ matrix.backend }}.json
+          retention-days: 90
+          if-no-files-found: warn
+      - name: Surface operational errors without hiding nonconvergence
+        if: always()
+        env:
+          OUTCOME: ${{ steps.evaluation.outcome }}
+        run: |
+          test "$OUTCOME" = success

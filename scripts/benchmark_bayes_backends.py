@@ -71,7 +71,7 @@ def stan_data(d):
                 home_prior_sd=.18 if is_count else 1.,
                 season_rate_prior_sd=.2 if is_count else 1.)
 
-def sample_backend(backend,data,*,draws,tune,chains,root,seed=19031):
+def sample_backend(backend,data,*,draws,tune,chains,root,seed=19031,target_accept=.95):
     import scipy
     import numpy as np
     timing={}
@@ -86,12 +86,14 @@ def sample_backend(backend,data,*,draws,tune,chains,root,seed=19031):
             posterior=pm.sample(draws=draws,tune=tune,chains=chains,
                                 cores=min(2,chains),random_seed=seed,
                                 progressbar=False,nuts_sampler=backend,
-                                nuts={'target_accept':.95},
+                                nuts={'target_accept':target_accept},
                                 compute_convergence_checks=True,
                                 return_inferencedata=True)
         timing['compile_and_sampling_sec']=time.perf_counter()-begin
         diag=joint.diagnostics(posterior)
         frozen=joint.posterior_cache(posterior)
+        corr=np.asarray(posterior.posterior['player_chol_corr'])
+        frozen['arrays']['player_correlation']=corr.reshape((-1,2,2))[:,0,1]
         import pymc
         versions={'pymc':pymc.__version__,'scipy':scipy.__version__}
         if backend=='nutpie':
@@ -107,7 +109,7 @@ def sample_backend(backend,data,*,draws,tune,chains,root,seed=19031):
         fit=model.sample(data=stan_data(data),chains=chains,
                         parallel_chains=min(chains,2),
                         iter_sampling=draws,iter_warmup=tune,
-                        seed=seed,adapt_delta=.95,show_progress=False)
+                        seed=seed,adapt_delta=target_accept,show_progress=False)
         timing['compile_and_sampling_sec']=time.perf_counter()-begin
         summary=fit.summary()
         variables=[i for i in summary.index if not i.startswith('lp__')
@@ -141,6 +143,14 @@ def sample_backend(backend,data,*,draws,tune,chains,root,seed=19031):
             if key in ('count_dispersion','yardage_sigma'):
                 arr=arr.reshape(-1)
             arrays[key]=arr
+        # Exact same diagnostic variables as the PyMC/Nutpie posterior.
+        # CmdStanPy stan_variable returns draws concatenated in CHAIN order.
+        arrays['player_chol_stds']=np.asarray(fit.stan_variable('player_sd'))
+        arrays['player_correlation']=np.asarray(fit.stan_variable('player_L_corr'))[:,1,0]
+        arrays['opponent_rate_sd']=np.asarray(fit.stan_variable('opponent_rate_sd'))
+        if len(data['seasons'])>1:
+            arrays['season_rate_sd']=np.asarray(fit.stan_variable('season_rate_sd')).reshape(-1)
+            arrays['season_workload_sd']=np.asarray(fit.stan_variable('season_workload_sd')).reshape(-1)
         frozen={'count':draws*chains,'arrays':arrays}
         # CmdStanPy 1.3 does not expose per-phase timing as public attributes;
         # include Stan compilation and all chains in measured wall time instead.
