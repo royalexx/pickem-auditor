@@ -35,11 +35,13 @@ def _read(path):
             if line.strip()]
 
 
-def _indexed(path, version):
+def _indexed(path, versions):
+    """Recognize both legacy and audited NBA power-likelihood sidecar versions."""
+    permitted={versions} if isinstance(versions,str) else set(versions)
     result={}
     for row in _read(path):
         key=identity(row)
-        if row.get('version')!=version or row.get('publication_eligible') is not False or key in result:
+        if row.get('version') not in permitted or row.get('publication_eligible') is not False or key in result:
             raise ValueError('INVALID_INPUT_BAYESIAN_SHADOW_SIDECAR')
         result[key]=row
     return result
@@ -93,6 +95,13 @@ def evaluate(row, a, b, *, root, min_draws=mc.MIN_DRAWS, max_draws=mc.MAX_DRAWS,
     for engine,shadow in [('A',a),('B',b)]:
         try:
             _scope_ok(row,shadow,engine)
+            if shadow.get('version')==mc.NBA_PRIOR_VERSION:
+                if row.get('sport')!='NBA':
+                    raise be.ModelUnavailable('prior_power_shadow_not_nba')
+                if shadow.get('distribution')=='negbin':
+                    # Legacy reconstructors use unweighted histories and would
+                    # silently produce the wrong latent rate distribution.
+                    raise be.ModelUnavailable('weighted_prior_negbin_mc_requires_source_reconstruction')
             extras={}
             if shadow.get('distribution')=='negbin':
                 source,at=_valid_source(row,shadow,root)
@@ -139,8 +148,8 @@ def run(*, date, original, a_sidecar, b_sidecar, root, output, receipt,
             raise ValueError('INVALID_MONTE_CARLO_SIDECAR')
         recorded[key]=True
     count_before=len(recorded)
-    a=_indexed(a_sidecar,be.VERSION)
-    b=_indexed(b_sidecar,bu.VERSION)
+    a=_indexed(a_sidecar,mc.SUPPORTED_POSTERIOR_VERSIONS_A)
+    b=_indexed(b_sidecar,mc.SUPPORTED_POSTERIOR_VERSIONS_B)
     created=[]
     for row in _read(original):
         if row.get('game_date')!=date or row.get('run_type')!='shadow':

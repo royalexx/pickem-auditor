@@ -17,6 +17,9 @@ from statistics import NormalDist
 import bayesian_engine as be
 
 VERSION = 'posterior-mc-v1'
+NBA_PRIOR_VERSION = 'nba-source-prior-power-v1'
+SUPPORTED_POSTERIOR_VERSIONS_A = frozenset((be.VERSION, NBA_PRIOR_VERSION))
+SUPPORTED_POSTERIOR_VERSIONS_B = frozenset(('usage-bayes-v1', NBA_PRIOR_VERSION))
 MIN_DRAWS = 1024
 MAX_DRAWS = 8192
 TARGET_HALF_WIDTH = 0.008
@@ -144,9 +147,12 @@ def _discrete_sampler(nodes):
 
 def sampler_a(posterior, *, values=None):
     """Build conditional predictive sampler from immutable Phase 1 output."""
-    if posterior.get('status')!='forecast' or posterior.get('version')!=be.VERSION:
+    if (posterior.get('status')!='forecast' or
+            posterior.get('version') not in SUPPORTED_POSTERIOR_VERSIONS_A):
         raise be.ModelUnavailable('invalid_bayesian_a_forecast')
     dist=posterior.get('distribution')
+    if posterior.get('version')==NBA_PRIOR_VERSION and dist=='negbin':
+        raise be.ModelUnavailable('weighted_prior_negbin_mc_requires_source_reconstruction')
     p=posterior.get('posterior_parameters') or {}
     if dist=='poisson':
         alpha=_rate(p.get('alpha'),'alpha');beta=_rate(p.get('beta'),'beta')
@@ -169,9 +175,12 @@ def sampler_a(posterior, *, values=None):
 
 def sampler_b(posterior, *, pairs=None, peers=None):
     """Sample shared latent future workload, and conditional conversion rate."""
-    if posterior.get('status')!='forecast' or posterior.get('version')!='usage-bayes-v1':
+    if (posterior.get('status')!='forecast' or
+            posterior.get('version') not in SUPPORTED_POSTERIOR_VERSIONS_B):
         raise be.ModelUnavailable('invalid_bayesian_b_forecast')
     dist=posterior.get('distribution')
+    if posterior.get('version')==NBA_PRIOR_VERSION and dist=='negbin':
+        raise be.ModelUnavailable('weighted_prior_negbin_mc_requires_source_reconstruction')
     wp=(posterior.get('workload_posterior') or {}).get('posterior') or {}
     wm=float(wp['mu'])
     ws=_rate(wp.get('predictive_scale'),'workload_scale')
