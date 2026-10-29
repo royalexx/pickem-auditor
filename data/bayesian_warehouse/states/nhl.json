@@ -1,8 +1,8 @@
 {
-  "cursor": "2022-10-10",
-  "dates_complete": 1470,
-  "market_rows_inserted": 499330,
+  "cursor": "2023-02-07",
+  "dates_complete": 1590,
+  "market_rows_inserted": 588171,
   "schema": "multi-sport-population-cursor-v1",
-  "source_games": 4535,
+  "source_games": 5342,
   "sport": "NHL"
 }
