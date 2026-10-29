@@ -26,13 +26,14 @@ concurrency:
   cancel-in-progress: true
 jobs:
   benchmark:
-    name: ${{ matrix.backend }} - frozen NHL hits
+    name: ${{ matrix.backend }} - ${{ matrix.fixture }}
     runs-on: ubuntu-latest
     timeout-minutes: 105
     strategy:
       fail-fast: false
       matrix:
         backend: [pymc, nutpie, cmdstanpy]
+        fixture: [nba_points, nfl_rec_yards]
     env:
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
@@ -64,20 +65,20 @@ jobs:
         id: evaluation
         continue-on-error: true
         env:
-          FIXTURE: ${{ inputs.fixture || 'nhl_hits' }}
+          FIXTURE: ${{ matrix.fixture }}
           DRAWS: ${{ inputs.draws || '300' }}
           TUNE: ${{ inputs.tune || '450' }}
         run: |
           python scripts/benchmark_bayes_backends.py \
             --backend "${{ matrix.backend }}" --fixture "$FIXTURE" \
             --draws "$DRAWS" --tune "$TUNE" --chains 4 \
-            --out "reports/backend_benchmark_${{ matrix.backend }}.json"
+            --out "reports/backend_benchmark_${{ matrix.fixture }}_${{ matrix.backend }}.json"
       - name: Save research-only diagnostic and explicit missing-source receipt
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: backend-benchmark-${{ matrix.backend }}
-          path: reports/backend_benchmark_${{ matrix.backend }}.json
+          name: backend-benchmark-${{ matrix.fixture }}-${{ matrix.backend }}
+          path: reports/backend_benchmark_${{ matrix.fixture }}_${{ matrix.backend }}.json
           if-no-files-found: warn
           retention-days: 90
       - name: Fail visibly if backend could not complete
@@ -86,6 +87,6 @@ jobs:
           RESULT: ${{ steps.evaluation.outcome }}
         run: |
           test "$RESULT" = success || {
-            echo "BAYES_BACKEND_BENCHMARK_INCOMPLETE backend=${{ matrix.backend }}" >&2
+            echo "BAYES_BACKEND_BENCHMARK_INCOMPLETE backend=${{ matrix.backend }} fixture=${{ matrix.fixture }}" >&2
             exit 2
           }

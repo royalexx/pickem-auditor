@@ -26,7 +26,7 @@ FIXTURES={
  'nba_points':dict(sport='NBA',stat='points',train_from='2023-10-01',
                  cutoff='2023-11-25',until='2023-12-12',line=22.5,
                  max_per_position=7,min_rows=120),
- 'nfl_rec_yards':dict(sport='NFL',stat='receiving yards',train_from='2021-09-01',
+ 'nfl_rec_yards':dict(sport='NFL',stat='receiving yards',train_from='2020-09-01',
                  cutoff='2021-11-25',until='2022-01-01',line=49.5,
                  max_per_position=6,min_rows=90),
 }
