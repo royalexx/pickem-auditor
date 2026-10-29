@@ -2,5 +2,7 @@
   "date": "2026-10-29",
   "intent": "recover_missing_morning_settlement",
   "context": "Observed no scheduled morning workflow or completed marker; persist only after verified source outcomes",
-  "requested_by": "pickem_auditor_operational_audit"
+  "requested_by": "pickem_auditor_operational_audit",
+  "attempt": 2,
+  "recovery_gate": "validate_checked_out_commit"
 }
