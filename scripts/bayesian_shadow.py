@@ -52,17 +52,30 @@ def evaluate(row, *, root):
                 raise be.ModelUnavailable('engine_a_source_verification_failed')
             data=ub.load(candidate,forecast_at)
         allow_negative=row['stat'] in ('passing yards','rushing yards','receiving yards')
-        values,ids=be.validated_values(data, before=day, allow_negative=allow_negative)
-        peers=be.peers_from_cache(root,sport=row['sport'],stat=row['stat'],
-                player_id=row['player_id'],cutoff=forecast_at,source_date=day)
-        prediction=be.forecast(values,[v for v,_ in peers],dist=inputs['dist'],
-                        line=row['reference_line'],side=row['side'],var_ratio=inputs.get('var_ratio'),
-                        allow_negative=allow_negative)
+        try:
+            values,ids=be.validated_values(data, before=day, allow_negative=allow_negative)
+            peers=be.peers_from_cache(root,sport=row['sport'],stat=row['stat'],
+                    player_id=row['player_id'],cutoff=forecast_at,source_date=day)
+            prediction=be.forecast(values,[v for v,_ in peers],dist=inputs['dist'],
+                            line=row['reference_line'],side=row['side'],var_ratio=inputs.get('var_ratio'),
+                            allow_negative=allow_negative)
+            fingerprint=_fingerprint({'subject':list(zip(ids,values)),
+                 'peers':sorted([(ids,values) for values,ids in peers],key=lambda it:it[0])})
+        except be.ModelUnavailable as exc:
+            if row['sport']!='NBA' or str(exc)!='short_player_history':
+                raise
+            from nba_prior_bridge import model_a
+            prediction=model_a(data,root=root,stat=row['stat'],
+                    player_id=row['player_id'],cutoff=forecast_at,before=day,
+                    dist=inputs['dist'],line=row['reference_line'],side=row['side'],
+                    var_ratio=inputs.get('var_ratio'))
+            fingerprint=prediction['input_fingerprint']
         if not row.get('engine_a') or row['engine_a'].get('version')!='history-v5':
             raise be.ModelUnavailable('baseline_engine_version_changed')
         # Historical-only shadow result; compare against unadjusted Engine A.
         baseline_probability=row['engine_a']['q_win_robust']
-        output.update(status='forecast',q_win=prediction['q_win'],q_push=prediction['q_push'],
+        output.update(status='forecast',version=prediction.get('version',be.VERSION),
+                      q_win=prediction['q_win'],q_push=prediction['q_push'],
                       q_loss=prediction['q_loss'],posterior_mean=prediction['mean'],
                       posterior_mean_se=prediction['posterior_mean_se'],
                       baseline_q_win=baseline_probability,baseline_version='history-v5',
@@ -73,9 +86,12 @@ def evaluate(row, *, root):
                       hyperparameter_method='empirical_bayes_peer_pooling',
                       calibrated=False,
                       source_digest=data['content_sha256'],
-                      input_fingerprint=_fingerprint({'subject':list(zip(ids,values)),
-                        'peers':sorted([(ids,values) for values,ids in peers],key=lambda it:it[0])}),
-                      notes=['no_market_features','no_context_features','shadow_only'])
+                      input_fingerprint=fingerprint,
+                      effective_observation_count=prediction.get('effective_observation_count'),
+                      source_only_prior_power=prediction.get('source_only_prior_power'),
+                      notes=['no_market_features','no_context_features','shadow_only']+
+                        (['source_verified_prior_season_power_likelihood']
+                         if prediction.get('source_only_prior_power') else []))
     except (KeyError, ValueError, TypeError, OSError, OverflowError, be.ModelUnavailable) as exc:
         output.update(status='unavailable',reason=str(exc) if isinstance(exc,be.ModelUnavailable) else type(exc).__name__)
     return output
