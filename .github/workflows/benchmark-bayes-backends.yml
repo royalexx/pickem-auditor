@@ -23,7 +23,7 @@ permissions:
   contents: read
 concurrency:
   group: independent-bayes-backend-benchmark
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   benchmark:
     name: ${{ matrix.backend }} - frozen NHL hits
