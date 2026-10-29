@@ -70,9 +70,16 @@ def evaluate(row, *, root):
         if existing_digest and existing_digest!=source.get('content_sha256'):
             raise be.ModelUnavailable('engine_b_source_digest_mismatch')
         source_day=at.astimezone(TZ).date()
-        pairs=bu.verified_pairs(source,before=source_day,sport=row['sport'],stat=row['stat'])
-        peers=bu.peers_from_cache(root,sport=row['sport'],stat=row['stat'],
-                    player_id=row['player_id'],forecast_at=at,source_date=source_day)
+        early_bridge=False
+        try:
+            pairs=bu.verified_pairs(source,before=source_day,sport=row['sport'],stat=row['stat'])
+            peers=bu.peers_from_cache(root,sport=row['sport'],stat=row['stat'],
+                        player_id=row['player_id'],forecast_at=at,source_date=source_day)
+        except be.ModelUnavailable as exc:
+            if row['sport']!='NBA' or str(exc)!='insufficient_positive_exposure_games':
+                raise
+            early_bridge=True
+            pairs=[];peers=[]
         # Engine B has its own collector-derived distribution. Reusing A's
         # source-verified distribution would misclassify stats such as saves.
         # Missing B distribution abstains instead of silently substituting A.
@@ -81,30 +88,44 @@ def evaluate(row, *, root):
         if prior_b.get('baseline_origin')!='collector_observations' or (
                 distribution.get('dist') not in ('poisson','negbin','normal')):
             raise be.ModelUnavailable('missing_collector_engine_b_distribution')
-        probability=bu.forecast(pairs,peers,
-                    dist=distribution['dist'],line=row['reference_line'],side=row['side'],
-                    var_ratio=distribution.get('var_ratio'),stat=row['stat'],sport=row['sport'])
+        if early_bridge:
+            from nba_prior_bridge import model_b
+            probability=model_b(source,root=root,stat=row['stat'],
+                 player_id=row['player_id'],cutoff=at,before=source_day,
+                 dist=distribution['dist'],line=row['reference_line'],side=row['side'],
+                 var_ratio=distribution.get('var_ratio'))
+        else:
+            probability=bu.forecast(pairs,peers,
+                        dist=distribution['dist'],line=row['reference_line'],side=row['side'],
+                        var_ratio=distribution.get('var_ratio'),stat=row['stat'],sport=row['sport'])
         # For B, the source collector's production+workload path is the
         # only valid historical comparator (legacy narrative scenarios cannot qualify).
         baseline_q_win=prior_b.get('q_win') if prior_b.get('baseline_origin')=='collector_observations' else None
         baseline_q_push=prior_b.get('q_push') if baseline_q_win is not None else None
-        result.update(status='forecast',q_win=probability['q_win'],q_push=probability['q_push'],
+        result.update(status='forecast',version=probability.get('version',bu.VERSION),
+                      q_win=probability['q_win'],q_push=probability['q_push'],
                       q_loss=probability['q_loss'],q_over=probability['q_over'],q_under=probability['q_under'],
                       mean=probability['mean'],workload_mean=probability['workload_mean'],
                       workload_sd=probability['workload_sd'],
                       conversion_mean=probability['conversion_mean'],conversion_se=probability['conversion_se'],
                       workload_posterior=probability['workload'],conversion_posterior=probability['conversion'],
                       negative_tail_mass=probability['negative_tail_mass'],
-                      n_exposure_games=len(pairs),peer_count=len(peers),
+                      n_exposure_games=probability.get('n_exposure_games',len(pairs)),
+                      peer_count=probability.get('peer_count',len(peers)),
+                      effective_exposure_games=probability.get('effective_exposure_games'),
+                      source_only_prior_power=probability.get('source_only_prior_power'),
                       baseline_version='scouting-v7',baseline_q_win=baseline_q_win,
                       baseline_q_push=baseline_q_push,baseline_reliable=prior_b.get('reliable') is True,
                       source_digest=source['content_sha256'],
-                      inputs_hash=_hash({'subject':pairs,
-                        'peers':sorted([p for p in peers],key=lambda items:items[0][0])}),
+                      inputs_hash=(probability.get('input_fingerprint') if early_bridge else
+                           _hash({'subject':pairs,
+                              'peers':sorted([p for p in peers],key=lambda items:items[0][0])})),
                       distribution=distribution['dist'],distribution_source='scouting_v7_collector',
                       method=probability['predictive_method'],approximation=probability['approximation'],
                       notes=['workload_and_conversion_source_only','no_market_features',
-                             'no_context_reweighting','no_tier_authority','shadow_only'])
+                             'no_context_reweighting','no_tier_authority','shadow_only']+
+                            (['source_verified_prior_season_power_likelihood']
+                             if early_bridge else []))
     except (be.ModelUnavailable,KeyError,ValueError,TypeError,OSError,OverflowError,ZeroDivisionError) as exc:
         result.update(status='unavailable',reason=str(exc) if isinstance(exc,be.ModelUnavailable) else type(exc).__name__)
     return result
