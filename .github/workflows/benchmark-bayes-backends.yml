@@ -1,11 +1,5 @@
 name: Benchmark PyMC vs Nutpie vs CmdStan (research only)
 on:
-  push:
-    branches: ['bench/pymc-nutpie-cmdstan-20261029']
-    paths:
-      - 'scripts/benchmark_bayes_backends.py'
-      - 'benchmarks/stan/**'
-      - '.github/workflows/benchmark-bayes-backends.yml'
   workflow_dispatch:
     inputs:
       fixture:
@@ -23,7 +17,7 @@ permissions:
   contents: read
 concurrency:
   group: independent-bayes-backend-benchmark
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   benchmark:
     name: ${{ matrix.backend }} - ${{ matrix.fixture }}
@@ -33,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         backend: [pymc, nutpie, cmdstanpy]
-        fixture: [nba_points, nfl_rec_yards]
+        fixture: ${{ fromJSON(format('["{0}"]', inputs.fixture || 'nhl_hits')) }}
     env:
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
