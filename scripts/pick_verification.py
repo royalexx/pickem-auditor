@@ -415,6 +415,7 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
         "research_source_attempts": resolver_report.get("attempts") or [],
         "verified_pregame_games": resolver_report.get("verified_pregame_games") or [],
         "status": status, "decisions": output,
+        "source_coverage": verification_coverage(output,resolver_report.get("attempts") or []),
         "integrity": {"original_forecasts_modified": False,
                       "original_forecast_hashes_recorded": True,
                       "review_required": True,
@@ -422,6 +423,46 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
                       "no_backdated_approval": True,
                       "source_check_does_not_imply_attestation": True},
     }, checked_packet
+
+
+def verification_coverage(decisions, source_attempts):
+    """Audit missing evidence by sport and source, never infer a verified status."""
+    blockers=Counter()
+    by_sport={}
+    for decision in decisions:
+        sport=str(decision.get("sport") or "UNKNOWN")
+        group=by_sport.setdefault(sport,{"checked":0,"verified":0,"blocked":0,
+                                          "missing_game_active_status":0,
+                                          "not_numerically_eligible":0})
+        group["checked"]+=1
+        accepted=decision.get("decision")=="verified"
+        group["verified" if accepted else "blocked"]+=1
+        reasons=set(decision.get("blockers") or [])
+        blockers.update(reasons)
+        group["missing_game_active_status"]+=int(
+            any("GAME_SPECIFIC_ACTIVE_STATUS_MISSING" in reason for reason in reasons))
+        group["not_numerically_eligible"]+=int(
+            any(reason.startswith("ENGINE_RANK_NOT_ELIGIBLE_") for reason in reasons))
+    sources={}
+    for attempt in source_attempts:
+        if not isinstance(attempt,dict):continue
+        kind=str(attempt.get("purpose") or "unknown")
+        counts=sources.setdefault(kind,{"attempts":0,"retrieved":0,
+                                        "source_failed":0,"explicit_players":0,
+                                        "zero_active_roster_events":0})
+        counts["attempts"]+=1
+        status=attempt.get("status")
+        if status in ("retrieved","source_failed"):counts[status]+=1
+        if kind=="explicit game-active roster" and status=="retrieved":
+            found=attempt.get("resolved_players")
+            if isinstance(found,int) and not isinstance(found,bool):
+                counts["explicit_players"]+=found
+                counts["zero_active_roster_events"]+=int(found==0)
+    return {"schema":"verification-source-coverage-v1",
+            "blocker_counts":dict(sorted(blockers.items())),
+            "by_sport":dict(sorted(by_sport.items())),
+            "source_attempts":sources,
+            "warning":"A retrieved roster with zero explicit active flags is not proof a player is active. Never override game-specific availability, starter, or role checks."}
 
 
 def load_json(path, default=None):
