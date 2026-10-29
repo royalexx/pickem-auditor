@@ -152,7 +152,8 @@ def run(root,sport,*,max_days=10,max_games=100,stop_before=None,
                     normalize=lambda raw,gid: norm.nhl_game(raw,current,expected_id=gid)
                 else:
                     board=fetcher(f"{norm.NBA_BASE}/scoreboard?dates={day.strftime('%Y%m%d')}&limit=100")
-                    game_ids=norm.scoreboard_games(sport,board,current)
+                    game_ids=norm.scoreboard_games(sport,board,current,
+                        exclusions=result["source_exclusions"])
                     get_game=lambda gid: fetcher(f"{norm.NBA_BASE}/summary?event={gid}")
                     normalize=lambda raw,gid: norm.nba_game(raw,current,gid)
                 # Count verified completed game IDs, not how many market rows
