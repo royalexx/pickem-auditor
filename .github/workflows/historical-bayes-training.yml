@@ -1,0 +1,168 @@
+name: Historical Bayesian training and heldout evaluation
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/historical-bayes-training.yml'
+  schedule:
+    # Monthly offline research refresh; never changes production weights.
+    - cron: '31 7 1 * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: bayesian-historical-training
+  cancel-in-progress: false
+jobs:
+  fit-and-score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        include:
+          - sport: NHL
+            stat: shots on goal
+            line: '2.5'
+          - sport: NBA
+            stat: assists
+            line: '4.5'
+          - sport: NFL
+            stat: tackles + assists
+            line: '5.5'
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      SPORT: ${{ matrix.sport }}
+      STAT: ${{ matrix.stat }}
+      LINE: ${{ matrix.line }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-joint-bayes.txt
+      - name: Restore immutable historical source warehouse
+        run: bash scripts/history_warehouse_store.sh load
+      - name: Choose newest source-complete chronological train and holdout windows
+        id: window
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          sport=os.environ['SPORT']
+          base=Path('data/bayesian_warehouse/states')
+          selection=None
+          if sport in ('NHL','NBA'):
+              filename=base/(sport.lower()+'_recent.json')
+              cursor=json.loads(filename.read_text())['cursor'] if filename.is_file() else '2023-10-01'
+              if cursor>='2026-05-01':
+                  selection=('2023-10-01','2026-03-01','2026-05-01',2)
+              elif cursor>='2025-12-01':
+                  selection=('2023-10-01','2025-10-01','2025-12-01',2)
+              elif cursor>='2024-01-09':
+                  # Single-season exploratory fit, never claimed multi-season.
+                  selection=('2023-10-01','2023-12-10','2024-01-07',1)
+          else:
+              filename=base/'nfl.json'
+              cursor=int(json.loads(filename.read_text())['cursor']) if filename.is_file() else 2018
+              if cursor>=2026:
+                  selection=('2023-09-01','2025-09-01','2026-03-01',2)
+              elif cursor>=2025:
+                  selection=('2022-09-01','2024-09-01','2025-03-01',2)
+              elif cursor>=2024:
+                  selection=('2021-09-01','2023-09-01','2024-03-01',2)
+              elif cursor>=2023:
+                  selection=('2019-09-01','2022-09-01','2023-03-01',2)
+          outcome={'schema':'historical_bayesian_refresh_plan_v1',
+                   'sport':sport,'stat':os.environ['STAT'],
+                   'status':'source_ready_to_preflight' if selection else 'waiting_for_source_continuity',
+                   'cursor':cursor,'publication_eligible':False,
+                   'changes_production_weights':False}
+          with open(os.environ['GITHUB_OUTPUT'],'a') as handle:
+              print('ready='+('true' if selection else 'false'),file=handle)
+              if selection:
+                  start,cutoff,until,min_seasons=selection
+                  outcome.update(train_from=start,as_of=cutoff,until=until,
+                                 min_training_seasons=min_seasons)
+                  for k,v in (('train_from',start),('as_of',cutoff),('until',until),
+                              ('min_seasons',min_seasons)):
+                      print(f'{k}={v}',file=handle)
+          destination=Path('reports/historical_training/plan.json')
+          destination.parent.mkdir(parents=True,exist_ok=True)
+          destination.write_text(json.dumps(outcome,sort_keys=True,indent=2)+'\n')
+          print(json.dumps(outcome,sort_keys=True))
+          PY
+      - name: Verify source completeness, season continuity and pre-cutoff population
+        if: steps.window.outputs.ready == 'true'
+        id: preflight
+        continue-on-error: true
+        run: |
+          python scripts/population_window_check.py \
+            --sport "$SPORT" --stat "$STAT" \
+            --train-from "${{ steps.window.outputs.train_from }}" \
+            --as-of "${{ steps.window.outputs.as_of }}" \
+            --until "${{ steps.window.outputs.until }}" \
+            --max-seasons 4 --min-training-seasons "${{ steps.window.outputs.min_seasons }}" \
+            --min-rows 2000 --report reports/historical_training/window_preflight.json
+      - name: Install isolated NUTS fit environment
+        if: steps.preflight.outcome == 'success'
+        run: python -m pip install -r requirements-joint-bayes.txt
+      - name: Resume four-chain joint Bayesian historical training
+        if: steps.preflight.outcome == 'success'
+        id: fit
+        continue-on-error: true
+        run: |
+          python scripts/joint_population_bayes.py \
+            --sport "$SPORT" --stat "$STAT" \
+            --as-of "${{ steps.window.outputs.as_of }}" \
+            --train-from "${{ steps.window.outputs.train_from }}" \
+            --max-seasons 4 --min-rows 2000 --max-per-position 15 \
+            --draws 1000 --tune 1200 --chains 4 \
+            --out reports/historical_training/fit
+      - name: Compare frozen posterior with same-source simple baseline on later games
+        if: steps.fit.outcome == 'success'
+        id: score
+        continue-on-error: true
+        run: |
+          python scripts/joint_population_holdout.py \
+            --sport "$SPORT" --stat "$STAT" --line "$LINE" \
+            --cutoff "${{ steps.window.outputs.as_of }}" \
+            --until "${{ steps.window.outputs.until }}" \
+            --train-from "${{ steps.window.outputs.train_from }}" \
+            --max-seasons 4 --draws 1500 \
+            --training-dir reports/historical_training/fit
+      - name: Preserve preflight, posterior, diagnostics and comparison
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: historical-bayesian-${{ matrix.sport }}
+          retention-days: 90
+          if-no-files-found: warn
+          path: |
+            reports/historical_training/plan.json
+            reports/historical_training/window_preflight.json
+            reports/historical_training/fit/manifest.json
+            reports/historical_training/fit/posterior.nc
+            reports/historical_training/fit/stat_holdout.json
+      - name: Report unsupported windows separately from failed model fits
+        if: always()
+        env:
+          WINDOW: ${{ steps.window.outputs.ready }}
+          PREFLIGHT: ${{ steps.preflight.outcome }}
+          FIT: ${{ steps.fit.outcome }}
+          SCORE: ${{ steps.score.outcome }}
+        run: |
+          if [ "$WINDOW" != true ] || [ "$PREFLIGHT" != success ]; then
+            echo "HISTORICAL_TRAINING_NOT_STARTED_SOURCE_WINDOW_INSUFFICIENT sport=$SPORT stat=$STAT"
+          elif [ "$FIT" != success ] || [ "$SCORE" != success ]; then
+            echo "HISTORICAL_FIT_OR_HOLDOUT_FAILED sport=$SPORT stat=$STAT fit=$FIT score=$SCORE" >&2
+            exit 2
+          else
+            echo "HISTORICAL_RESEARCH_FIT_AND_HOLDOUT_COMPLETED sport=$SPORT stat=$STAT"
+            echo "Research only: does not update ranking, deployment, probability weights, or calibrated status."
+          fi
