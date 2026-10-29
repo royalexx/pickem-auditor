@@ -70,7 +70,7 @@ class HistoricalPostponement(unittest.TestCase):
             outcome=ingest.run(folder,"NBA",stream="recent",
                 max_days=1,stop_before="2024-01-17",fetcher=fetch)
             self.assertEqual(outcome["advanced"],1)
-            self.assertEqual(outcome["status"],"partial")
+            self.assertEqual(outcome["status"],"caught_up")
             self.assertEqual(outcome["cursor_after"],"2024-01-18")
             self.assertEqual(outcome["source_games"],1)
             self.assertEqual(outcome["source_exclusions"][0]["game_id"],"402")
