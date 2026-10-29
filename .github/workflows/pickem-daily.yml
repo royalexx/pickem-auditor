@@ -332,7 +332,7 @@ jobs:
                           verified=json.loads(Path('reports/pick_verification.json').read_text())
                           receipt['pick_verification']={k:verified.get(k) for k in
                               ('schema','status','date','checked','verified','blocked','queue_size',
-                               'source_forecast_run_id','market_source_note')}
+                               'source_forecast_run_id','market_source_note','source_coverage')}
                       except (ValueError,OSError):
                           receipt['pick_verification']={'status':'INVALID_VERIFICATION_RECEIPT'}
                   if Path('reports/afternoon_audit.json').exists():
