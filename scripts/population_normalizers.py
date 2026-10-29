@@ -178,16 +178,39 @@ def nba_game(payload,day,expected_id):
     return output
 
 
-def scoreboard_games(sport,board,day):
+def scoreboard_games(sport,board,day,*,exclusions=None):
+    """Select games actually played, never treating postponed games as stat zeros.
+
+    ESPN retains original-date schedule events when the NBA postpones a game.
+    Only explicitly source-labeled POSTPONED/CANCELED statuses are omitted;
+    unknown, live, or malformed past-game statuses fail closed.
+    """
     if not isinstance(board,dict) or not isinstance(board.get("events"),list):
         raise ValueError("missing_espn_events")
     results=[]
     for event in board["events"]:
+        if not isinstance(event,dict):
+            raise ValueError("invalid_espn_scoreboard_event")
         season=event.get("season") or {}
+        if not isinstance(season,dict):
+            raise ValueError("invalid_espn_event_season")
         if season.get("type")!=2:continue
         status=(event.get("status") or {}).get("type") or {}
+        if not isinstance(status,dict):
+            raise ValueError("invalid_espn_event_status")
         if status.get("completed") is not True:
-            raise ValueError("nba_past_game_not_final")
+            event_id=event.get("id")
+            label=status.get("name")
+            if (status.get("completed") is False and
+                label in ("STATUS_POSTPONED","STATUS_CANCELED") and
+                event_id is not None and str(event_id).isdigit()):
+                if exclusions is not None:
+                    exclusions.append({"sport":sport,"day":day,
+                                       "game_id":str(event_id),
+                                       "reason":"source_confirmed_unplayed_game",
+                                       "source_status":label})
+                continue
+            raise ValueError("nba_past_game_not_final:"+str(event_id))
         game_id=event.get("id")
         if not game_id or not str(game_id).isdigit():
             raise ValueError("missing_espn_event_id")
