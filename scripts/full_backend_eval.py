@@ -103,8 +103,22 @@ def run_market(root,market,backend,plan,*,draws,tune,chains,replicates):
         record=plan['markets'][market]
         if record['status']!='ready':
             raise ValueError('market_preflight_blocked:'+record.get('reason','unknown'))
-        if plan['archive_sha'] and _archive_sha()!=plan['archive_sha']:
-            raise ValueError('history_warehouse_snapshot_sha_changed')
+        # The history branch keeps advancing during a long matrix run. Never
+        # compare its moving HEAD to the original preflight snapshot: every
+        # job loads that exact immutable commit and proves source row hashes.
+        # Instead require explicit acknowledgement of the pinned commit.
+        expected_archive=plan.get('archive_sha')
+        if not expected_archive or len(expected_archive)!=40:
+            raise ValueError('missing_preflight_pinned_history_sha')
+        if os.environ.get('FROZEN_WAREHOUSE_SHA')!=expected_archive:
+            raise ValueError('frozen_warehouse_sha_not_equal_preflight')
+        try:
+            subprocess.run(['git','cat-file','-e',
+                            expected_archive+'^{commit}'],cwd=root,
+                           check=True,stdout=subprocess.DEVNULL,
+                           stderr=subprocess.DEVNULL)
+        except (subprocess.CalledProcessError,OSError) as exc:
+            raise ValueError('frozen_warehouse_commit_not_available') from exc
         config=config_for_market(root,market)
         if _digest(config)!=record['configuration_sha256']:
             raise ValueError('market_training_configuration_drift')

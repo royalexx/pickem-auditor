@@ -1,0 +1,161 @@
+name: Recover failed Stan full-market benchmark jobs (pinned source)
+on:
+  push:
+    branches: ['fix/all-market-bayes-pinned-recovery-20261029']
+    paths:
+      - 'scripts/full_backend_eval.py'
+      - 'scripts/recover_full_backend_eval.py'
+      - '.github/workflows/recover-full-backend-coverage.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: recover-original-all-bayes-40894977636
+  cancel-in-progress: false
+jobs:
+  recovery-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      count: ${{ steps.plan.outputs.count }}
+      history_sha: ${{ steps.plan.outputs.history_sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 40894977636
+          name: full-bayes-31-market-source-preflight
+          github-token: ${{ github.token }}
+          path: reports
+      - name: Read original 93 job conclusions, recover only failures
+        id: plan
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/recover_full_backend_eval.py --plan \
+            --preflight reports/full_backend_preflight.json \
+            --out-plan reports/recovery_plan.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-bayes-stan-recovery-plan
+          path: reports/recovery_plan.json
+          retention-days: 90
+  recover:
+    needs: recovery-plan
+    if: needs.recovery-plan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        market: ${{ fromJSON(needs.recovery-plan.outputs.matrix) }}
+    name: ${{ matrix.market }} / cmdstanpy recovery
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMBA_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore original frozen warehouse, NOT latest branch state
+        env:
+          FROZEN_SHA: ${{ needs.recovery-plan.outputs.history_sha }}
+        run: |
+          test -n "$FROZEN_SHA"
+          git fetch --quiet origin refs/heads/data/bayesian-history:refs/remotes/origin/data/bayesian-history
+          git cat-file -e "$FROZEN_SHA^{commit}"
+          git archive "$FROZEN_SHA" data/bayesian_warehouse | tar -x
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 40894977636
+          name: full-bayes-31-market-source-preflight
+          github-token: ${{ github.token }}
+          path: reports
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-joint-bayes.txt
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cmdstan
+          key: cmdstan-2-40-0-${{ runner.os }}-${{ runner.arch }}
+      - name: Install original matching Stan statistical stack
+        run: |
+          python -m pip install -r requirements-joint-bayes.txt
+          python -m pip install 'cmdstanpy==1.3.0'
+          python -c 'import cmdstanpy; assert cmdstanpy.install_cmdstan(version="2.40.0",cores=2,progress=False)'
+      - name: Fit 2 independent seeds and verify identical history digests
+        id: evaluation
+        continue-on-error: true
+        env:
+          FROZEN_WAREHOUSE_SHA: ${{ needs.recovery-plan.outputs.history_sha }}
+        run: |
+          python scripts/full_backend_eval.py \
+            --market "${{ matrix.market }}" --backend cmdstanpy \
+            --draws 500 --tune 700 --chains 4 --replicates 2 \
+            --plan-file reports/full_backend_preflight.json \
+            --out "reports/fit_${{ matrix.market }}_cmdstanpy.json"
+      - name: Save recovery receipt, including posterior convergence failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-bayes-recovery-${{ matrix.market }}-cmdstanpy
+          path: reports/fit_${{ matrix.market }}_cmdstanpy.json
+          retention-days: 90
+          if-no-files-found: warn
+      - name: Do not accept a blocked result as completed
+        if: always()
+        env:
+          OUTCOME: ${{ steps.evaluation.outcome }}
+        run: |
+          test "$OUTCOME" = success || exit 2
+  aggregate:
+    needs: [recovery-plan, recover]
+    if: always() && needs.recovery-plan.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 40894977636
+          github-token: ${{ github.token }}
+          pattern: full-bayes-*
+          merge-multiple: true
+          path: reports/original
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: full-bayes-recovery-*
+          merge-multiple: true
+          path: reports/recovery
+      - name: Reconcile every one of 93 source-verified backend results
+        id: reconcile
+        continue-on-error: true
+        run: |
+          python scripts/recover_full_backend_eval.py \
+            --preflight reports/original/full_backend_preflight.json \
+            --original reports/original --recovered reports/recovery \
+            --out-json reports/full_backend_reconciled.json \
+            --out-md reports/full_backend_reconciled.md
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: all-31-backend-comparison-final-audit
+          path: |
+            reports/full_backend_reconciled.json
+            reports/full_backend_reconciled.md
+          retention-days: 90
+      - name: Missing original or recovery models must remain visible
+        if: always()
+        env:
+          OUTCOME: ${{ steps.reconcile.outcome }}
+        run: |
+          test "$OUTCOME" = success || exit 2

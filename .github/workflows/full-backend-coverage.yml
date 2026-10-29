@@ -1,11 +1,5 @@
 name: Full 31-market Bayesian sampler comparison (shadow only)
 on:
-  push:
-    branches: ['bench/all-31-backends-20261029']
-    paths:
-      - 'scripts/full_backend_eval.py'
-      - 'scripts/benchmark_bayes_backends.py'
-      - '.github/workflows/full-backend-coverage.yml'
   workflow_dispatch:
     inputs:
       draws:
@@ -24,7 +18,7 @@ permissions:
   contents: read
 concurrency:
   group: full-bayes-backend-coverage
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   preflight:
     runs-on: ubuntu-latest
@@ -103,6 +97,7 @@ jobs:
         id: evaluation
         continue-on-error: true
         env:
+          FROZEN_WAREHOUSE_SHA: ${{ needs.preflight.outputs.history_sha }}
           DRAWS: ${{ inputs.draws || '500' }}
           TUNE: ${{ inputs.tune || '700' }}
           REPLICATES: ${{ inputs.replicates || '2' }}
