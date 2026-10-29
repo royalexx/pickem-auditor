@@ -12,6 +12,12 @@ on:
         required: false
         type: boolean
         default: false
+  push:
+    branches: [main]
+    paths: ['.github/morning-recovery/*.json']
+  workflow_run:
+    workflows: ['NHL Bayesian history warehouse backfill']
+    types: [completed]
   schedule:
     # Offset from the top of the hour to reduce GitHub cron congestion.
     # 06:13 and 16:13 Toronto (both DST and standard UTC hours).
@@ -21,6 +27,9 @@ on:
     # A persisted marker stops a second completed settlement.
     - cron: '41 11 * * *'
     - cron: '41 12 * * *'
+    # Independent 09:37 local watchdog window.
+    - cron: '37 13 * * *'
+    - cron: '37 14 * * *'
     - cron: '13 20 * * *'
     - cron: '13 21 * * *'
 permissions:
