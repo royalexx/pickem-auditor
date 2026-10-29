@@ -1,9 +1,9 @@
 {
-  "cursor": "2024-04-18",
-  "dates_complete": 200,
-  "market_rows_inserted": 143801,
+  "cursor": "2024-07-27",
+  "dates_complete": 300,
+  "market_rows_inserted": 144460,
   "schema": "multi-sport-population-cursor-v1",
-  "source_games": 1306,
+  "source_games": 1312,
   "sport": "NHL",
   "stream": "recent"
 }
