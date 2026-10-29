@@ -23,7 +23,7 @@ VERSION='joint-backend-benchmark-v1'
 FIXTURES={
  'nhl_hits':dict(sport='NHL',stat='hits',train_from='2023-10-01',
                  cutoff='2023-11-25',until='2023-12-12',line=2.5,
-                 max_per_position=5,min_rows=180),
+                 max_per_position=9,min_rows=180),
  'nba_points':dict(sport='NBA',stat='points',train_from='2023-10-01',
                  cutoff='2023-11-25',until='2023-12-12',line=22.5,
                  max_per_position=7,min_rows=120),
