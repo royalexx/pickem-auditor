@@ -1,0 +1,103 @@
+name: Oct 29 pregame A/B Bayesian Monte Carlo comparison (research only)
+on:
+  push:
+    branches: [research/preview-2026-10-29]
+    paths: ['.github/workflows/oct29-live-preview.yml']
+permissions:
+  contents: read
+jobs:
+  pregame-shadow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    env:
+      PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
+      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      PICKEM_ENABLE_ODDS_API_NHL_BLOCKS: '1'
+      PICKEM_ODDS_QUOTA_GUARD: '1'
+      PICKEM_DISABLE_ODDS: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact normal live pipeline dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Fetch verified historical sources and restore previous forecasts
+        run: bash scripts/shadow_store.sh load
+      - name: Run live slate including original Engine A and scouting Engine B
+        run: |
+          python - <<'PY'
+          import json,subprocess,sys
+          from pathlib import Path
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          d=datetime.now(ZoneInfo("America/Toronto")).date().isoformat()
+          if d!="2026-10-29":
+              raise SystemExit("REFUSE_LATE_OR_DIFFERENT_DAY_PREVIEW")
+          results={}
+          Path("reports/stages").mkdir(parents=True,exist_ok=True)
+          def step(name,command,optional=False):
+              path=Path("reports/stages")/(name+".log")
+              with path.open("w") as out:
+                  try: status=subprocess.run(command,stdout=out,stderr=subprocess.STDOUT,timeout=2700,check=False).returncode
+                  except subprocess.TimeoutExpired: status=124
+                  except OSError: status=125
+              results[name]={"returncode":status,"optional":optional,"ok":status==0}
+              print("PREVIEW_STAGE "+name+" "+("OK" if status==0 else "FAILED")+" rc="+str(status),flush=True)
+              for line in path.read_text(errors="replace").splitlines()[-6:]:
+                  print(name+": "+line[:650],flush=True)
+              return status==0
+          py=sys.executable
+          step("nhl_boxscores",[py,"scripts/nhl_collect.py","--days","3"],optional=True)
+          fetched=step("multisport_slate",[py,"scripts/fetch_slate.py","--out","data/slate_fetch.jsonl"])
+          if fetched:
+              step("sport_coverage",[py,"scripts/verify_sports.py","--slot","afternoon"],optional=True)
+              step("source_research",[py,"scripts/auto_research.py"],optional=True)
+              snap=step("simple_engine_a_and_scouting_b",[py,"scripts/jobs.py","snapshot",
+                  "--date",d,"--reuse-collected"])
+              if snap:
+                  a=step("bayesian_a_shadow",[py,"scripts/bayesian_shadow.py","--date",d,
+                      "--snapshots","data/prop_snapshots.jsonl","--data-root","data",
+                      "--out","data/bayesian_shadow/"+d+".jsonl","--receipt","reports/bayesian_a_shadow_receipt.json"])
+                  b=step("bayesian_b_shadow",[py,"scripts/bayesian_b_shadow.py","--date",d,
+                      "--snapshots","data/prop_snapshots.jsonl","--data-root","data",
+                      "--out","data/bayesian_b_shadow/"+d+".jsonl","--receipt","reports/bayesian_b_shadow_receipt.json"])
+                  if a and b:
+                      step("posterior_mc",[py,"scripts/posterior_mc_shadow.py","--date",d,
+                          "--original","data/prop_snapshots.jsonl","--data-root","data",
+                          "--out","data/posterior_mc/"+d+".jsonl","--receipt","reports/posterior_mc_receipt.json"])
+          step("comparison",[py,"scripts/preview_oct29.py","--date",d,
+              "--snapshots","data/prop_snapshots.jsonl","--out","reports/preview_oct29.json"])
+          Path("reports/preview_stages.json").write_text(json.dumps(results,sort_keys=True,indent=2)+"\n")
+          required=("multisport_slate","simple_engine_a_and_scouting_b","bayesian_a_shadow","bayesian_b_shadow","posterior_mc","comparison")
+          if any(not results.get(k,{}).get("ok") for k in required):
+              print("PREVIEW_INCOMPLETE="+json.dumps(results,sort_keys=True))
+              sys.exit(2)
+          PY
+      - name: Upload independent read-only forecast comparisons and all receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oct29-pregame-simple-bayesian-mc-preview
+          if-no-files-found: warn
+          retention-days: 60
+          path: |
+            reports/preview_oct29.json
+            reports/preview_stages.json
+            reports/bayesian_a_shadow_receipt.json
+            reports/bayesian_b_shadow_receipt.json
+            reports/posterior_mc_receipt.json
+            reports/sport_coverage.json
+            reports/structured_research.json
+            reports/stages/*.log
+            data/slate_fetch.meta.json
+            data/slate_fetch.jsonl
+            data/odds_quotes.jsonl
+            data/bayesian_shadow/2026-10-29.jsonl
+            data/bayesian_b_shadow/2026-10-29.jsonl
+            data/posterior_mc/2026-10-29.jsonl
+            logs/snapshot_2026-10-29.log
