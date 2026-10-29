@@ -30,6 +30,25 @@ def phase_for_event(event, trigger, now):
         phase = (event.get("inputs") or {}).get("phase")
         return (phase, None, "manual_dispatch") if phase in ("morning", "afternoon") else (
             "skip", None, "invalid_manual_phase")
+    local_now = now.astimezone(TORONTO)
+    if trigger == "workflow_run":
+        source = event.get("workflow_run") or {}
+        if (source.get("name") == "NHL Bayesian history warehouse backfill"
+                and source.get("conclusion") == "success"
+                and source.get("head_branch") == "main"
+                and 6 <= local_now.hour < 12):
+            return "morning", local_now.isoformat(), "completed_history_workflow_recovery"
+        return "skip", None, "workflow_run_not_safe_for_morning"
+    if trigger == "push":
+        # Only a deliberately dated main-branch recovery commit can settle.
+        head = event.get("head_commit") or {}
+        expected = ".github/morning-recovery/" + today.isoformat() + ".json"
+        changed = list(head.get("added") or []) + list(head.get("modified") or [])
+        if (event.get("ref") == "refs/heads/main"
+                and head.get("message") == "ops: recover morning " + today.isoformat()
+                and expected in changed and 6 <= local_now.hour < 12):
+            return "morning", local_now.isoformat(), "authorized_dated_push_recovery"
+        return "skip", None, "not_authorized_morning_recovery_push"
     if trigger != "schedule":
         return "skip", None, "unsupported_event"
     fields = str(event.get("schedule") or "").split()
@@ -52,6 +71,8 @@ def phase_for_event(event, trigger, now):
     if ((local.hour == 6 and local.minute == 13) or
             (local.hour in (6, 7, 8) and local.minute == 41)):
         return "morning", local.isoformat(), "morning_primary_or_recovery"
+    if local.hour == 9 and local.minute == 37:
+        return "morning", local.isoformat(), "late_morning_watchdog_schedule"
     if local.hour == 16 and local.minute == 13:
         return "afternoon", local.isoformat(), "afternoon_primary"
     return "skip", local.isoformat(), "inactive_timezone_offset"

@@ -37,7 +37,8 @@ def audit(quotes, slate, *, odds_disabled=False, raw_inventory=None):
     listed.append(dict(sport="NHL",market="player_hits",stat="hits",
         provider_supported=False,quote_rows=by_quote.get(("NHL","hits"),0),
         source_rows=by_slate.get(("NHL","hits"),0),
-        status="provider_unsupported_no_live_hits_in_propline"))
+        status="provider_unsupported_no_live_hits_in_propline",
+        action="independent_verified_two_sided_source_required;never_invent_market"))
     return dict(schema="market-coverage-v1",
         retrieved_at=datetime.now(timezone.utc).isoformat(),
         source_quote_rows=len(quotes),source_slate_rows=len(slate),
@@ -45,7 +46,10 @@ def audit(quotes, slate, *, odds_disabled=False, raw_inventory=None):
         market_rows=listed,
         absent_supported=[dict(sport=r['sport'],market=r['market'],stat=r['stat'])
                           for r in listed if r['provider_supported'] and r['quote_rows']==0
-                          and not odds_disabled],
+                          and not odds_disabled and r.get("provider_pregame_events",0)],
+        nhl_missing_market_diagnosis=[dict(market=r["market"],stat=r["stat"],
+                              status=r["status"],raw_market_occurrences=r.get("raw_market_occurrences"))
+                   for r in listed if r["sport"]=="NHL" and not r["quote_rows"]],
         limitation="Missing normalized quotes do not distinguish provider omission from one-sided book markets, parser drops, or absence of a scheduled game.",
         publication_eligible=False)
 
