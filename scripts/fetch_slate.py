@@ -3461,11 +3461,28 @@ def fetch_odds(game_date: str, fetch=fetch_json, source_urls=None, provider=None
     except Exception as exc:
         secret = getattr(provider, "api_key", "")
         return [], f"odds: {type(exc).__name__}: {redact(exc, secret)}. No prices were invented."
+    # Optional, quota-capped NHL blocked-shot fallback: only when the primary
+    # bookmaker payload genuinely contains no blocked-shot markets.
+    # The Odds API event-odds endpoint is chargeable, so bound requests.
+    note = provider.note
+    if (sports is None or any(str(s).upper() in ('NHL','ICEHOCKEY_NHL') for s in sports)):
+        from nhl_blocks_fallback import fetch_nhl_blocked_shots
+        fallback, diag = fetch_nhl_blocked_shots(
+            game_date, quotes, fetch=fetch,
+            api_key=os.environ.get('ODDS_API_KEY') or '',
+            enabled=os.environ.get('PICKEM_ENABLE_ODDS_API_NHL_BLOCKS') == '1')
+        if fallback:
+            quotes=list(quotes)+fallback
+            # Do not conflate event-id namespaces or silently replace prices.
+            from odds_providers import dedupe_quotes
+            quotes=dedupe_quotes(quotes)
+        note=(note+' ' if note else '')+'NHL_BLOCKS_FALLBACK_JSON='+json.dumps(
+            diag,sort_keys=True,separators=(',',':'))
     for url in getattr(provider, "source_urls", []) or []:
         _remember(source_urls, url)
     for quote in quotes:
         _remember(source_urls, quote.get("source_url"))
-    return list(quotes), provider.note
+    return list(quotes), note
 
 
 def _as_notes(notes) -> list[str]:
