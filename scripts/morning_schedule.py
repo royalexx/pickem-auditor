@@ -78,6 +78,31 @@ def phase_for_event(event, trigger, now):
     return "skip", local.isoformat(), "inactive_timezone_offset"
 
 
+def verified_repository_push_recovery(today, now, *, git_run=None):
+    """Validate the checked-out commit, not potentially abbreviated push JSON.
+
+    GitHub's contents-API push payload may omit head_commit.added.
+    Inspect the checked-out commit and its actual changed paths instead.
+    """
+    if os.environ.get("GITHUB_REF") != "refs/heads/main":
+        return False
+    local = now.astimezone(TORONTO)
+    if not 6 <= local.hour < 12:
+        return False
+    git_run = git_run or subprocess.run
+    expected = ".github/morning-recovery/" + today + ".json"
+    try:
+        subject = git_run(["git","log","-1","--format=%s","HEAD"],
+                          capture_output=True,text=True,timeout=15,check=False)
+        changed = git_run(["git","diff-tree","--no-commit-id","--name-only","-r","HEAD"],
+                          capture_output=True,text=True,timeout=15,check=False)
+        return (subject.returncode == 0 and changed.returncode == 0
+                and subject.stdout.strip() == "ops: recover morning " + today
+                and expected in changed.stdout.splitlines())
+    except (OSError, subprocess.TimeoutExpired):
+        return False
+
+
 def completed_marker_text(text, expected_date):
     """Do not accept anything except a correctly dated persisted success receipt."""
     try:
@@ -119,6 +144,9 @@ def marker_status(today, *, git_run=None):
 def choose(event, trigger, now, *, git_run=None):
     phase,slot,reason=phase_for_event(event,trigger,now)
     today=now.astimezone(TORONTO).date().isoformat()
+    if (trigger == "push" and phase == "skip"
+            and verified_repository_push_recovery(today, now, git_run=git_run)):
+        phase,slot,reason="morning",now.astimezone(TORONTO).isoformat(),"validated_repository_recovery_commit"
     result={"phase":phase,"slot":slot,"reason":reason,"toronto_date":today}
     force = (event.get("inputs") or {}).get("force_morning")
     manual_override = trigger=="workflow_dispatch" and force in (True, "true", "True")
