@@ -177,7 +177,10 @@ def _diagnostic_values(result):
     for group in groups:
         if not getattr(group,"data_vars",None):
             continue
-        values.extend(np.asarray(group.to_array(),dtype=float).ravel().tolist())
+        # Avoid broadcasting independent player/opponent dimensions merely
+        # to calculate the diagnostic extrema.
+        for variable in group.data_vars.values():
+            values.extend(np.asarray(variable,dtype=float).ravel().tolist())
     if not values:
         raise ValueError("empty_arviz_diagnostic_result")
     return values
@@ -361,3 +364,4 @@ def main(argv=None):
 
 if __name__=="__main__":
     raise SystemExit(main())
+
