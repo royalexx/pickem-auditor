@@ -1,0 +1,19 @@
+{
+  "schema": "nhl-context-campaign-v1",
+  "train_from": "2023-10-01T00:00:00Z",
+  "cutoff": "2026-09-01T00:00:00Z",
+  "until": "2026-10-30T12:00:00Z",
+  "pilot_games": 200,
+  "history_window": 20,
+  "draws": 1500,
+  "tune": 1500,
+  "chains": 4,
+  "cores": 2,
+  "predictive_draws": 4000,
+  "line": 25.5,
+  "market": "saves",
+  "feature_set": "context",
+  "policy": "retrospective_next_day",
+  "with_attempts": false,
+  "restore_history": true
+}

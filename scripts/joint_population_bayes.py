@@ -177,7 +177,10 @@ def _to_values(result):
     values=[]
     for group in groups:
         if getattr(group,"data_vars",None):
-            values.extend(np.asarray(group.to_array(),dtype=float).ravel().tolist())
+            # Dataset.to_array broadcasts unrelated player/team/coefficient
+            # dimensions. Extrema require each variable only once.
+            for variable in group.data_vars.values():
+                values.extend(np.asarray(variable,dtype=float).ravel().tolist())
     if not values or not all(math.isfinite(v) for v in values):
         raise ValueError("missing_or_invalid_posterior_diagnostic")
     return values
@@ -363,3 +366,4 @@ def main(argv=None):
 
 if __name__=="__main__":
     raise SystemExit(main())
+
