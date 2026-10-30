@@ -366,6 +366,62 @@ jobs:
                  '--receipt','reports/daily_receipt.json',
                  '--run-id',os.environ['GITHUB_RUN_ID']],check=True)
           PY
+      - name: Retrieve pinned converged NHL saves posterior (shadow-only)
+        id: saves_model
+        if: steps.gate.outputs.phase == 'afternoon'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          model_dir="data/private_models/nhl_saves"
+          mkdir -p "$model_dir"
+          gh release download "research-nhl-saves-20261029-run40993538888" \
+            --repo "royalexx/pickem-auditor" \
+            --dir "$model_dir" \
+            --pattern "manifest.json" \
+            --pattern "model_receipt.json" \
+            --pattern "posterior.nc"
+          (
+            cd "$model_dir"
+            echo "434f63a56ddecc1de316da62d58cc677cf74ed3412870ee96934e7989464db9b  manifest.json"
+            echo "0b0c9998a4c521439721302d0da49f269f07ac0f2201f67149c9690c27442a75  model_receipt.json"
+            echo "d64c87f8c48b735545aee291525b6f041e5320b1da931d724c4ecbbd7283adc9  posterior.nc"
+          ) | (cd "$model_dir" && sha256sum --check --status)
+          echo "SAVES_PINNED_RELEASE_VERIFIED"
+      - name: Score NHL saves with frozen Bayesian posterior (shadow-only)
+        if: steps.gate.outputs.phase == 'afternoon'
+        continue-on-error: true
+        env:
+          MODEL_AVAILABLE: ${{ steps.saves_model.outcome }}
+        run: |
+          set -euo pipefail
+          day="$(TZ=America/Toronto date +%F)"
+          mkdir -p reports data/nhl_joint_saves_shadow
+          if [ "$MODEL_AVAILABLE" != 'success' ]; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          Path('reports/nhl_joint_saves_shadow_receipt.json').write_text(
+              json.dumps({'schema':'nhl_saves_joint_posterior_daily_shadow_v1',
+                          'status':'unavailable','reason':'MODEL_RELEASE_NOT_VERIFIED',
+                          'publication_eligible':False,'ranking_allowed':False,
+                          'production_snapshot_unchanged':True})+'\n')
+          PY
+            echo "NHL_SAVES_SHADOW_UNAVAILABLE release download or SHA-256 verification failed"
+            exit 0
+          fi
+          if [ ! -s data/prop_snapshots.jsonl ]; then
+            echo '{"status":"unavailable","reason":"SNAPSHOTS_NOT_AVAILABLE","publication_eligible":false,"ranking_allowed":false}' > reports/nhl_joint_saves_shadow_receipt.json
+            exit 0
+          fi
+          python -m pip install -r requirements-joint-bayes.txt
+          python scripts/nhl_saves_posterior_shadow.py \
+            --snapshots data/prop_snapshots.jsonl \
+            --model-dir data/private_models/nhl_saves \
+            --date "$day" \
+            --out "data/nhl_joint_saves_shadow/$day.jsonl" \
+            --receipt reports/nhl_joint_saves_shadow_receipt.json
       - name: Commit official NHL history
         if: always() && steps.gate.outputs.phase != 'skip'
         id: persist
@@ -403,6 +459,8 @@ jobs:
             reports/bayesian_b_shadow_receipt.json
             reports/posterior_mc_receipt.json
             reports/posterior_mc_audit.json
+            reports/nhl_joint_saves_shadow_receipt.json
+            data/nhl_joint_saves_shadow/
             reports/phase4_validation.json
             data/posterior_mc/
             data/bayesian_b_shadow/
