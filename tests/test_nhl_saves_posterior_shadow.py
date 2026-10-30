@@ -23,7 +23,7 @@ def manifest():
         "sampler_chains":4,"sampler_retained_draws_per_chain":2000,
         "training_cutoff_exclusive":"2026-10-29",
         "last_game":"2026-10-28","source_digest":"sha-verified-source",
-        "players":["123"],"player_position":{"123":"G"},
+        "players":["123"]+[str(n) for n in range(200,211)],"player_position":{"123":"G"},
         "positions":["G"],"seasons":["2024","2025","2026"],
         "opponents":["MTL","BOS"],
         "diagnostics":{"posterior_sampling_ok":True,
