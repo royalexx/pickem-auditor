@@ -1,11 +1,6 @@
 name: NHL Bayesian sampler benchmark (GitHub-hosted only)
 run-name: NHL benchmark • ${{ github.event_name }} • ${{ github.sha }}
 on:
-  pull_request:
-    paths:
-      - 'scripts/precision_sampler_benchmark.py'
-      - 'tests/test_precision_sampler_benchmark.py'
-      - '.github/workflows/precision-nhl-sampler-benchmark.yml'
   workflow_dispatch:
     inputs:
       stat:
