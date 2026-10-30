@@ -226,7 +226,8 @@ def run(*, snapshots, model_dir, game_date, out, receipt, now=None):
     report={
         "schema":"nhl_saves_joint_posterior_daily_shadow_v1",
         "date":game_date,"release_tag":TAG,"source_digest":manifest["source_digest"],
-        "snapshot_candidates":len(rows),"previously_recorded":len(retained),\n        "new_rows":len(added),"total_rows":len(results),
+        "snapshot_candidates":len(rows),"previously_recorded":len(retained),
+        "new_rows":len(added),"total_rows":len(results),
         "forecast_count":sum(r["status"]=="forecast" for r in results),
         "unavailable_count":len(reasons) and sum(reasons.values()) or 0,
         "reasons":dict(reasons),"publication_eligible":False,
