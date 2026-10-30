@@ -1,0 +1,137 @@
+name: NHL Bayesian sampler benchmark - Windows fallback
+run-name: NHL sampler benchmark on Precision 5490 (AFTER full training)
+on:
+  workflow_dispatch:
+    inputs:
+      stat:
+        description: NHL stat to benchmark
+        required: true
+        type: choice
+        options: ['hits', 'shots on goal', 'blocked shots', 'saves']
+        default: hits
+      max_per_position:
+        description: Training-only maximum players per position; never full-population
+        required: true
+        type: choice
+        options: ['12', '24', '48']
+        default: '12'
+  workflow_run:
+    workflows:
+      - 'Precision Windows - NHL full-population four-market Bayesian training'
+    types: [completed]
+permissions:
+  contents: read
+# The same group as the ongoing 4-market training. NEVER cancel the old run.
+concurrency:
+  group: precision-windows-nhl-complete-history
+  cancel-in-progress: false
+jobs:
+  benchmark:
+    # Autostart ONLY after original run #40993538888, never after arbitrary
+    # future collection jobs or later training campaigns. Manual dispatch is
+    # allowed once this workflow exists on main.
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.id == 40993538888) }}
+    runs-on: [self-hosted, Windows, X64, pickem-trainer]
+    timeout-minutes: 360
+    env:
+      CUTOFF: '2026-10-29'
+      JAX_PLATFORMS: cpu
+      JAX_PLATFORM_NAME: cpu
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONUNBUFFERED: '1'
+      PYTHONUTF8: '1'
+      BENCHMARK_STAT: ${{ inputs.stat || 'hits' }}
+      BENCHMARK_COHORT: ${{ inputs.max_per_position || '12' }}
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Check out immutable research model source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Prepare Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run offline research and convergence tests
+        run: |
+          python -m unittest discover -s tests -p "test_precision_sampler_benchmark.py" -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p "test_precision_nhl_convergence.py" -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Restore immutable historical NHL warehouse
+        run: |
+          python scripts/history_warehouse_load.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Prepare isolated numerical environment
+        run: |
+          $venv = Join-Path $env:RUNNER_TEMP "precision-benchmark-venv-$env:GITHUB_RUN_ID"
+          python -m venv $venv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $python = Join-Path $venv 'Scripts\python.exe'
+          & $python -m pip install -r requirements-joint-bayes.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $python -m pip check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          "BENCHMARK_PYTHON=$python" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          $compilerBin='C:\msys64\ucrt64\bin'
+          $gcc=Join-Path $compilerBin 'g++.exe'
+          if (-not (Test-Path $gcc)) { throw 'MSYS2_GXX_REQUIRED_FOR_WINDOWS_BENCHMARK' }
+          Add-Content -Path $env:GITHUB_PATH -Value $compilerBin
+      - name: Sample standard PyMC, Nutpie and NumPyro sequentially
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          New-Item -ItemType Directory -Force -Path reports/sampler_benchmark | Out-Null
+          $python=$env:BENCHMARK_PYTHON
+          $failed=0
+          foreach ($backend in @('pymc','nutpie','numpyro')) {
+            Write-Host "BENCHMARK_BEGIN backend=$backend stat=$env:BENCHMARK_STAT"
+            if ($backend -eq 'nutpie') {
+              & $python -m pip install "nutpie[pymc]"
+              if ($LASTEXITCODE -ne 0) {
+                Write-Warning 'Nutpie unavailable; proceeding to next backend'
+                $failed++
+                continue
+              }
+            }
+            if ($backend -eq 'numpyro') {
+              & $python -m pip install "numpyro[cpu]"
+              if ($LASTEXITCODE -ne 0) {
+                Write-Warning 'NumPyro unavailable; proceeding to next backend'
+                $failed++
+                continue
+              }
+            }
+            & $python -m pip check
+            if ($LASTEXITCODE -ne 0) {
+              Write-Warning "Broken environment for backend $backend"
+              $failed++
+              continue
+            }
+            & $python scripts/precision_sampler_benchmark.py `
+              --sampler $backend --stat "$env:BENCHMARK_STAT" `
+              --max-per-position $env:BENCHMARK_COHORT `
+              --as-of $env:CUTOFF --draws 400 --tune 400 `
+              --chains 4 --cores 2 --target-accept 0.99 `
+              --out "reports/sampler_benchmark/$backend.json"
+            if ($LASTEXITCODE -ne 0) {
+              Write-Warning "Sampler $backend did not complete or failed diagnostics"
+              $failed++
+            }
+          }
+          if ($failed -gt 0) { Write-Warning "BENCHMARK_BACKEND_FAILURES $failed" }
+          # A failed sampler must not hide reports from successful backends.
+      - name: Upload independent sampler reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: precision-nhl-windows-benchmarks-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: reports/sampler_benchmark/
