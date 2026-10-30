@@ -21,6 +21,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/"scripts"))
 TORONTO=ZoneInfo("America/Toronto")
 VERSION="nhl-full-saves-posterior-shadow-v1"
+# Slate and sportsbook canon: "goalie saves"; population posterior canon: "saves".
 EXPECTED_SHA={
     "posterior.nc":"d64c87f8c48b735545aee291525b6f041e5320b1da931d724c4ecbbd7283adc9",
     "manifest.json":"434f63a56ddecc1de316da62d58cc677cf74ed3412870ee96934e7989464db9b",
@@ -93,7 +94,7 @@ def identity(row):
 
 
 def validate_candidate(row, manifest, now):
-    if row.get("run_type")!="shadow" or row.get("sport")!="NHL" or row.get("stat")!="saves":
+    if row.get("run_type")!="shadow" or row.get("sport")!="NHL" or row.get("stat") not in ("goalie saves","saves"):
         raise ModelUnavailable("not_an_nhl_saves_shadow_snapshot")
     at=stamp(row.get("forecast_at"))
     start=stamp(row.get("event_start"))
@@ -182,7 +183,7 @@ def run(*, snapshots, model_dir, game_date, out, receipt, now=None):
     for line in source.read_text(encoding="utf-8").splitlines():
         if not line.strip(): continue
         x=json.loads(line)
-        if x.get("game_date")==game_date and x.get("sport")=="NHL" and x.get("stat")=="saves" and x.get("run_type")=="shadow":
+        if x.get("game_date")==game_date and x.get("sport")=="NHL" and x.get("stat") in ("goalie saves","saves") and x.get("run_type")=="shadow":
             rows.append(x)
     # Preserve earlier prospective results on an afternoon retry. We never
     # recompute or rewrite an already stamped model forecast for the same slate.

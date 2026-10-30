@@ -52,6 +52,34 @@ def receipt():
             "stat":"saves","as_of_exclusive":"2026-10-29"}
 
 class NHLShadowSafety(unittest.TestCase):
+    def test_live_slate_goalie_saves_alias_is_accepted(self):
+        official=row(stat="goalie saves")
+        result=sh.validate_candidate(official,manifest(),NOW)
+        self.assertEqual(result["player_id"],"123")
+
+    def test_live_alias_is_selected_and_scored_by_run(self):
+        from types import SimpleNamespace
+        with tempfile.TemporaryDirectory() as d:
+            folder=Path(d)
+            snapshots=folder/"snapshots.jsonl"
+            snapshots.write_text(json.dumps(row(stat="goalie saves"))+"\n",encoding="utf-8")
+            model=SimpleNamespace(posterior=SimpleNamespace(sizes={"chain":4,"draw":2000}))
+            projected={**row(stat="goalie saves"),"version":sh.VERSION,
+                       "release_tag":sh.TAG,"status":"forecast",
+                       "publication_eligible":False,"ranking_allowed":False,
+                       "q_over":0.5,"q_under":0.5,"q_win":0.5}
+            with (
+                patch.object(sh,"load_model",return_value=manifest()),
+                patch.dict(sys.modules,{"arviz":SimpleNamespace(from_netcdf=lambda p:model)}),
+                patch("joint_population_bayes.posterior_cache",return_value={}),
+                patch.object(sh,"evaluate",return_value=projected) as evaluate,
+            ):
+                receipt=sh.run(snapshots=snapshots,model_dir=folder,game_date="2026-10-30",
+                               out=folder/"out.jsonl",receipt=folder/"receipt.json",now=NOW)
+            self.assertEqual(evaluate.call_count,1)
+            self.assertEqual(receipt["forecast_count"],1)
+            self.assertEqual(json.loads((folder/"out.jsonl").read_text())["stat"],"goalie saves")
+
     def test_valid_prospective_context(self):
         x=sh.validate_candidate(row(),manifest(),NOW)
         self.assertEqual(x["player_id"],"123")
