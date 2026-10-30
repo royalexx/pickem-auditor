@@ -1,0 +1,180 @@
+name: Precision laptop - joint Bayesian training (research only)
+on:
+  workflow_dispatch:
+    inputs:
+      sport:
+        description: Sport with source-owned historical population
+        required: true
+        type: choice
+        options: [NHL, NBA, NFL]
+      stat:
+        description: Exact warehouse stat (e.g. shots on goal, rebounds, tackles + assists)
+        required: true
+        type: string
+      mode:
+        description: Evaluate chronological holdout, or freeze full pregame posterior
+        required: true
+        default: holdout
+        type: choice
+        options: [holdout, pregame_fit]
+      train_from:
+        description: Inclusive first training date (NFL typically 2023-09-01)
+        required: true
+        default: '2023-10-01'
+        type: string
+      cutoff:
+        description: Exclusive training cutoff, YYYY-MM-DD
+        required: true
+        default: '2026-09-01'
+        type: string
+      holdout_until:
+        description: Exclusive heldout end, ignored for pregame_fit
+        required: true
+        default: '2026-10-29'
+        type: string
+      line:
+        description: Fixed research line for holdout (not a bookmaker quote)
+        required: true
+        default: '2.5'
+        type: string
+      max_per_position:
+        description: Training-only players per position (15 pilot; 0 all players)
+        required: true
+        default: '15'
+        type: string
+
+permissions:
+  contents: read
+concurrency:
+  group: precision-joint-bayes-one-at-a-time
+  cancel-in-progress: false
+
+jobs:
+  fit-and-evaluate:
+    # Labels are applied to the Linux runner installed INSIDE WSL2, not Windows.
+    # This job NEVER runs on a billable GitHub-hosted training machine.
+    runs-on: [self-hosted, Linux, X64, pickem-trainer]
+    timeout-minutes: 2880
+    env:
+      SPORT: ${{ inputs.sport }}
+      STAT: ${{ inputs.stat }}
+      MODE: ${{ inputs.mode }}
+      TRAIN_FROM: ${{ inputs.train_from }}
+      CUTOFF: ${{ inputs.cutoff }}
+      HOLDOUT_UNTIL: ${{ inputs.holdout_until }}
+      LINE: ${{ inputs.line }}
+      MAX_PER_POSITION: ${{ inputs.max_per_position }}
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONUNBUFFERED: '1'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Inspect laptop resources (no secrets)
+        run: |
+          set -euo pipefail
+          uname -a
+          python3 --version
+          lscpu | grep -E 'CPU\(s\)|Model name' || true
+          free -h
+          df -h .
+          command -v nvidia-smi >/dev/null && nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true
+          echo 'Sampler uses CPU; optional NVIDIA GPU is not used by this workflow.'
+      - name: Restore remote historical population snapshot
+        run: |
+          set -euo pipefail
+          bash scripts/history_warehouse_store.sh load
+          echo "SOURCE_HEAD=$(git rev-parse refs/remotes/origin/data/bayesian-history)" >> "$GITHUB_ENV"
+      - name: Create isolated Python environment
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/pickem-joint-env"
+          "$RUNNER_TEMP/pickem-joint-env/bin/python" -m pip install --upgrade pip
+          "$RUNNER_TEMP/pickem-joint-env/bin/python" -m pip install -r requirements-joint-bayes.txt
+      - name: Validate date window, sport/stat, and cohort limits
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/pickem-joint-env/bin/python" - <<'PY'
+          import math,os,sys
+          from datetime import date
+          sys.path.insert(0,"scripts")
+          import population_history as history
+          sport=os.environ["SPORT"];stat=os.environ["STAT"]
+          history.family(sport,stat)
+          start=date.fromisoformat(os.environ["TRAIN_FROM"])
+          cutoff=date.fromisoformat(os.environ["CUTOFF"])
+          today=date.today()
+          if not start<cutoff<=today:
+              raise SystemExit("INVALID_TRAINING_WINDOW: future training data or empty window")
+          n=int(os.environ["MAX_PER_POSITION"])
+          if not 0<=n<=10000:
+              raise SystemExit("INVALID_TRAINING_COHORT_LIMIT")
+          if os.environ["MODE"]=="holdout":
+              end=date.fromisoformat(os.environ["HOLDOUT_UNTIL"])
+              if not cutoff<end<=today:
+                  raise SystemExit("INVALID_HELDOUT_WINDOW: cannot include unfinished current-day games")
+              line=float(os.environ["LINE"])
+              if not math.isfinite(line) or line<0 or line.is_integer():
+                  raise SystemExit("INVALID_FIXED_RESEARCH_LINE")
+          print("SOURCE_WINDOW_VALIDATED",sport,stat,start,cutoff,os.environ["MODE"])
+          PY
+      - name: Verify historical source continuity before heldout research
+        if: inputs.mode == 'holdout'
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/pickem-joint-env/bin/python" scripts/population_window_check.py \
+            --sport "$SPORT" --stat "$STAT" \
+            --train-from "$TRAIN_FROM" --as-of "$CUTOFF" --until "$HOLDOUT_UNTIL" \
+            --max-seasons 4 --min-training-seasons 2 --min-rows 2000 \
+            --report "reports/precision_training/$GITHUB_RUN_ID/window_preflight.json"
+      - name: Fit 4-chain hierarchical posterior (2 concurrent CPU chains)
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/pickem-joint-env/bin/python" scripts/joint_population_bayes.py \
+            --sport "$SPORT" --stat "$STAT" \
+            --train-from "$TRAIN_FROM" --as-of "$CUTOFF" \
+            --max-seasons 4 --min-rows 2000 \
+            --max-per-position "$MAX_PER_POSITION" \
+            --draws 1000 --tune 1200 --chains 4 \
+            --out "reports/precision_training/$GITHUB_RUN_ID"
+      - name: Compare frozen posterior with identical-cohort historical control
+        if: inputs.mode == 'holdout'
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/pickem-joint-env/bin/python" scripts/joint_population_holdout.py \
+            --sport "$SPORT" --stat "$STAT" \
+            --train-from "$TRAIN_FROM" --cutoff "$CUTOFF" --until "$HOLDOUT_UNTIL" \
+            --line "$LINE" --max-seasons 4 --draws 1500 \
+            --training-dir "reports/precision_training/$GITHUB_RUN_ID"
+      - name: Record immutable code and data pointers for cloud audit
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          out=Path("reports/precision_training")/os.environ["GITHUB_RUN_ID"]
+          out.mkdir(parents=True,exist_ok=True)
+          fields=["SPORT","STAT","MODE","TRAIN_FROM","CUTOFF","HOLDOUT_UNTIL",
+                  "LINE","MAX_PER_POSITION","SOURCE_HEAD","GITHUB_RUN_ID"]
+          receipt={key.lower():os.environ.get(key) for key in fields}
+          receipt["code_sha"]=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+          receipt["runner_execution"]="local_wsl2_self_hosted"
+          receipt["sampler"]="pymc_cpu_nuts_4_chains_2_parallel"
+          receipt["ranking_allowed"]=False
+          receipt["publication_eligible"]=False
+          (out/"cloud_provenance.json").write_text(json.dumps(receipt,sort_keys=True,indent=2)+"\n")
+          PY
+      - name: Preserve posterior, convergence, heldout score and source provenance in GitHub
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: precision-joint-bayes-${{ inputs.sport }}-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 90
+          path: reports/precision_training/${{ github.run_id }}/
