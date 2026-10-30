@@ -184,8 +184,27 @@ def run(*, snapshots, model_dir, game_date, out, receipt, now=None):
         x=json.loads(line)
         if x.get("game_date")==game_date and x.get("sport")=="NHL" and x.get("stat")=="saves" and x.get("run_type")=="shadow":
             rows.append(x)
+    # Preserve earlier prospective results on an afternoon retry. We never
+    # recompute or rewrite an already stamped model forecast for the same slate.
     if len({identity(x) for x in rows})!=len(rows):
         raise ModelUnavailable("duplicate_saves_shadow_snapshot_identity")
+    op=Path(out)
+    retained=[]
+    seen=set()
+    if op.is_file():
+        for line in op.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                raise ModelUnavailable("invalid_existing_saves_shadow_sidecar")
+            r=json.loads(line)
+            key=identity(r)
+            if (r.get("version")!=VERSION or r.get("release_tag")!=TAG
+                or r.get("game_date")!=game_date
+                or r.get("publication_eligible") is not False
+                or r.get("ranking_allowed") is not False
+                or key in seen):
+                raise ModelUnavailable("invalid_or_mutated_saves_shadow_sidecar")
+            seen.add(key)
+            retained.append(r)
     manifest=load_model(model_dir)
     import arviz as az
     from joint_population_bayes import posterior_cache
@@ -193,17 +212,21 @@ def run(*, snapshots, model_dir, game_date, out, receipt, now=None):
     if posterior.posterior.sizes.get("chain")!=4 or posterior.posterior.sizes.get("draw")!=2000:
         raise ModelUnavailable("wrong_posterior_chain_or_draw_count")
     cache=posterior_cache(posterior)
-    results=[evaluate(x,manifest=manifest,posterior=posterior,cache=cache,now=now) for x in rows]
-    results.sort(key=lambda x:identity(x))
-    rp=Path(receipt);op=Path(out)
+    added=[evaluate(x,manifest=manifest,posterior=posterior,cache=cache,now=now)
+           for x in rows if identity(x) not in seen]
+    results=sorted(retained+added,key=lambda x:identity(x))
+    rp=Path(receipt)
     op.parent.mkdir(parents=True,exist_ok=True);rp.parent.mkdir(parents=True,exist_ok=True)
+    # Keep exact previously recorded JSON values, with an atomic replacement.
     output="".join(json.dumps(r,sort_keys=True,allow_nan=False)+"\n" for r in results)
-    op.write_text(output,encoding="utf-8")
+    tmp=op.with_suffix(".tmp")
+    tmp.write_text(output,encoding="utf-8")
+    tmp.replace(op)
     reasons=Counter(r.get("reason") for r in results if r["status"]!="forecast")
     report={
         "schema":"nhl_saves_joint_posterior_daily_shadow_v1",
         "date":game_date,"release_tag":TAG,"source_digest":manifest["source_digest"],
-        "snapshot_candidates":len(rows),
+        "snapshot_candidates":len(rows),"previously_recorded":len(retained),\n        "new_rows":len(added),"total_rows":len(results),
         "forecast_count":sum(r["status"]=="forecast" for r in results),
         "unavailable_count":len(reasons) and sum(reasons.values()) or 0,
         "reasons":dict(reasons),"publication_eligible":False,
