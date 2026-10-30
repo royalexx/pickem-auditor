@@ -53,11 +53,11 @@ def digest(path):
     return h.hexdigest()
 
 
-def load_model(folder, *, verify_posterior=True):
+def load_model(folder):
     folder=Path(folder)
     for name,sha in EXPECTED_SHA.items():
         path=folder/name
-        if not path.is_file() or (verify_posterior or name!="posterior.nc") and digest(path)!=sha:
+        if not path.is_file() or digest(path)!=sha:
             raise ModelUnavailable("unverified_release_asset:"+name)
     m=json.loads((folder/"manifest.json").read_text(encoding="utf-8"))
     r=json.loads((folder/"model_receipt.json").read_text(encoding="utf-8"))
