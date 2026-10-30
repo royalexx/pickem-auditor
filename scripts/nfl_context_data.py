@@ -21,13 +21,39 @@ VERSION="nfl-context-data-v1"
 MARKETS={"targets":5.5,"receptions":3.5,"carries":10.5,"pass attempts":30.5,"tackles + assists":5.5}
 PBP_FIELDS=("game_id","play_id","season_type","posteam","defteam","no_play","two_point_attempt",
             "pass_attempt","rush_attempt","sack","qb_dropback","receiver_player_id","complete_pass",
-            "rusher_player_id","passer_player_id")
+            "rusher_player_id","passer_player_id","play_type")
 NAMES=["home","rest_difference","recent_player_snaps","own_team_plays","opponent_plays",
        "own_opportunity_environment","opponent_opportunity_environment"]
 
 
 def one(value):
     return value is True or (not isinstance(value,bool) and value==1)
+
+
+def no_play(row):
+    """nflfastR encodes nullified plays in play_type; older inputs may flag them.
+
+    Neither representation is manufactured when absent. A void marker in
+    either source field excludes the event, even if the other field is zero.
+    """
+    flag=row.get("no_play")
+    if one(flag) or row.get("play_type")=="no_play":return True
+    if flag is False or (not isinstance(flag,bool) and flag==0):return False
+    if isinstance(row.get("play_type"),str):return False
+    # Administrative rows may have null play_type and no offensive event.
+    if "play_type" in row and not any(one(row.get(k)) for k in
+                                     ("pass_attempt","rush_attempt","sack","qb_dropback")):
+        return True
+    raise ValueError("missing_pbp_no_play_classification")
+
+
+def pbp_records(frame):
+    columns=set(frame.columns)
+    absent=(set(PBP_FIELDS)-{"no_play","play_type"})-columns
+    if absent:raise ValueError("missing_pbp_columns:"+",".join(sorted(absent)))
+    if not columns&{"no_play","play_type"}:
+        raise ValueError("missing_pbp_no_play_or_play_type_column")
+    return frame.select([k for k in PBP_FIELDS if k in columns]).to_dicts()
 
 
 def kickoff(game):
@@ -67,7 +93,7 @@ def normalize(raw, *, season, until):
     for p in raw["pbp"]:
         gid=str(p.get("game_id"));team=p.get("posteam")
         if gid not in games or p.get("season_type")!="REG" or (gid,team) not in teams:continue
-        if one(p.get("no_play")) or one(p.get("two_point_attempt")):continue
+        if no_play(p) or one(p.get("two_point_attempt")):continue
         passing=one(p.get("pass_attempt")) and not one(p.get("sack"))
         rushing=one(p.get("rush_attempt"))
         if not (passing or rushing or one(p.get("sack")) or one(p.get("qb_dropback"))):continue
@@ -119,12 +145,11 @@ def fetch(season):
     print(f"FETCH_SEASON {season} player_stats snaps schedule pbp",flush=True)
     # Retain only used PBP columns before materializing Python objects.
     frame=nfl.load_pbp(seasons=[season])
-    absent=set(PBP_FIELDS)-set(frame.columns)
-    if absent:raise ValueError("missing_pbp_columns:"+",".join(sorted(absent)))
+    pbp=pbp_records(frame)
     return clean({"stats":nfl.load_player_stats(seasons=[season],summary_level="week").to_dicts(),
                   "snaps":nfl.load_snap_counts(seasons=[season]).to_dicts(),
                   "schedule":nfl.load_schedules(seasons=[season]).to_dicts(),
-                  "pbp":frame.select(list(PBP_FIELDS)).to_dicts()})
+                  "pbp":pbp})
 
 
 def collect(folder, seasons, until, fetcher=fetch):

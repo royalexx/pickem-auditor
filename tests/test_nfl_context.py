@@ -1,4 +1,5 @@
 import copy
+import importlib.util
 import os
 import sys
 import tempfile
@@ -31,6 +32,38 @@ class DataTests(unittest.TestCase):
         p=[r for r in b["players"] if r["stat"]=="targets" and r["game_id"]==t["game_id"] and r["team"]==t["team"]]
         self.assertEqual(sum(r["value"] for r in p),t["targets"])
         self.assertNotEqual(sum(r["workload"] for r in p),t["plays"])
+
+    def test_play_type_schema_excludes_nullified_plays_without_no_play_column(self):
+        raw=copy.deepcopy(self.raw)
+        for p in raw["pbp"]:
+            p.pop("no_play")
+            p["play_type"]="pass" if p["qb_dropback"] else "run"
+        void=copy.deepcopy(raw["pbp"][0]);void.update(play_id=999999,play_type="no_play")
+        raw["pbp"].append(void)
+        b=data.normalize(raw,season=2023,until=config()["until"])
+        self.assertEqual(b["teams"],self.bundle["teams"])
+        self.assertEqual(b["players"],self.bundle["players"])
+
+    def test_missing_classification_never_becomes_zero(self):
+        raw=copy.deepcopy(self.raw);raw["pbp"][0].pop("no_play")
+        with self.assertRaisesRegex(ValueError,"no_play_classification"):
+            data.normalize(raw,season=2023,until=config()["until"])
+        self.assertTrue(data.no_play({"no_play":0,"play_type":"no_play","pass_attempt":1}))
+        self.assertTrue(data.no_play({"play_type":None,"pass_attempt":None}))
+
+    @unittest.skipUnless(importlib.util.find_spec("polars") is not None,"optional Polars schema check")
+    def test_actual_polars_adapter_accepts_play_type_schema(self):
+        import polars as pl
+        rows=copy.deepcopy(self.raw["pbp"])
+        for r in rows:
+            r.pop("no_play");r["play_type"]="pass" if r["qb_dropback"] else "run"
+        frame=pl.DataFrame(rows)
+        selected=data.pbp_records(frame)
+        self.assertEqual(len(selected),len(rows))
+        self.assertNotIn("no_play",selected[0])
+        self.assertIn("play_type",selected[0])
+        with self.assertRaisesRegex(ValueError,"no_play_or_play_type"):
+            data.pbp_records(frame.drop("play_type"))
 
     def test_weekly_pbp_discrepancy_is_explicit_and_excluded(self):
         raw=copy.deepcopy(self.raw);raw["stats"][0]["targets"]+=1

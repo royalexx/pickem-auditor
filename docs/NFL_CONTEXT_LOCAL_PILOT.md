@@ -66,6 +66,12 @@ and cache size. Source snapshots are compressed and hashed per season under
 the run's `source_cache`. Original fetched evidence remains available if
 normalization fails. No odds API credits are used.
 
+The PBP adapter accepts both an explicit `no_play` indicator and nflfastR's
+`play_type == "no_play"` classification. Either void marker excludes a play.
+An offensive event with neither a usable indicator nor a play classification
+fails closed; a missing column is never silently replaced by zeros. Source
+columns are retained as provided for later replay.
+
 ## Three models and a fair comparison
 
 The command freezes normalized team/player bundles, design matrices, training
