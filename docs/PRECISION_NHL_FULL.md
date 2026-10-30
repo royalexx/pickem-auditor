@@ -1,5 +1,41 @@
 # Precision 5490: NHL-only, full historical Bayesian fitting
 
+## One-time compiler setup before restarting NHL training
+
+The original native Windows job was accidentally deployed without the
+PyTensor C++ compiler. Native MSYS2 UCRT64 GCC/G++ is required by the
+current workflow. It is NOT Ubuntu, WSL2, Visual Studio Code or Cursor.
+
+In regular PowerShell 7, install MSYS2 once:
+
+    winget install --id MSYS2.MSYS2 --exact --source winget --accept-package-agreements --accept-source-agreements
+
+From the Windows Start menu open **MSYS2 UCRT64** (not "MSYS").
+Inside the MSYS2 UCRT64 terminal run:
+
+    pacman -Syu
+
+If the updater asks you to close the terminal, reopen MSYS2 UCRT64 and
+repeat "pacman -Syu" until the upgrade finishes. Then run:
+
+    pacman -S --needed mingw-w64-ucrt-x86_64-gcc
+
+Return to ordinary Windows PowerShell 7 and verify:
+
+    & "C:\msys64\ucrt64\bin\g++.exe" --version
+
+If that reports a GCC version, the compiler is installed. The workflow
+then automatically puts C:\msys64\ucrt64\bin on its step PATH and runs
+a real PyTensor compiled-function test. It refuses to start a four-model
+fit if C++ compilation fails instead of silently training without it.
+
+The already-cancelled workflow cannot pick up the compiler retroactively.
+Start a fresh run only after PowerShell shows the compiler version.
+Note: Compiler availability improves the ability to compile optimized
+kernels but does not guarantee a specific CPU speedup, convergence or
+full CPU utilization.
+
+
 This manually dispatched job trains FOUR independent NHL count models on your
 Windows self-hosted runner, leaving NBA and NFL untouched:
 
@@ -100,7 +136,6 @@ The job's time budget is 48 hours; it could take much longer than one
 night, or fail due to memory, compilation or non-convergence. No code
 here can make a training run that has not happened count as converged.
 
-Native Windows can warn "g++ not available" while PyTensor compiles.
-This setup does not silently install an unknown system compiler or
-change numerical backends while running a long fit. A measured and
-validated compiler/JAX benchmark is a separate improvement.
+The workflow requires and smoke-tests an existing MSYS2 UCRT64 G++.
+If it is missing, PyMC sampling will not start. No automatic system
+compiler installation is attempted within the self-hosted runner.
