@@ -1,0 +1,91 @@
+name: Precision Windows - NHL full-population four-market Bayesian training
+run-name: NHL 4-market full history • high CPU • progress
+on:
+  workflow_dispatch:
+    inputs:
+      as_of:
+        type: string
+        required: true
+        default: '2026-10-29'
+        description: Exclusive training cutoff; excludes Oct 29 games
+      max_parallel_models:
+        type: choice
+        required: true
+        default: '4'
+        options: ['2', '3', '4']
+        description: Up to four NHL models concurrently; RAM guard may defer launches
+      min_free_ram_mb:
+        type: choice
+        required: true
+        default: '8192'
+        options: ['8192', '10240', '12288']
+        description: Free RAM guard before launching additional full-player fits
+permissions:
+  contents: read
+concurrency:
+  group: precision-windows-nhl-complete-history
+  cancel-in-progress: false
+jobs:
+  full-nhl-training:
+    runs-on: [self-hosted, Windows, X64, pickem-trainer]
+    timeout-minutes: 2880
+    env:
+      CUTOFF: ${{ inputs.as_of }}
+      MODE: pregame_fit
+      MAX_PER_POSITION: '0'
+      MAX_SEASONS: '12'
+      PICKEM_NUTS_CHAINS: '4'
+      PICKEM_NUTS_CORES: '4'
+      PICKEM_NUTS_DRAWS: '2000'
+      PICKEM_NUTS_TUNE: '1800'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONUNBUFFERED: '1'
+      PYTHONUTF8: '1'
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Check out frozen model source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Install known working Windows Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore immutable NHL history from GitHub
+        run: |
+          python scripts/history_warehouse_load.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Verify completed 2018-2026 NHL training history and snapshot
+        run: |
+          $ErrorActionPreference='Stop'
+          python -c "import json,os,pathlib; from datetime import date; root=pathlib.Path('data/bayesian_warehouse/states'); a=json.loads((root/'nhl.json').read_text()); b=json.loads((root/'nhl_recent.json').read_text()); cutoff=os.environ['CUTOFF']; assert a['cursor'] >= '2023-10-01', 'NHL_ARCHIVE_INCOMPLETE'; assert b['cursor'] >= cutoff, 'NHL_RECENT_HISTORY_INCOMPLETE'; assert '2018-10-01' < cutoff <= date.today().isoformat(), 'FUTURE_OR_EMPTY_CUTOFF'; print('VERIFIED_NHL_FULL_SOURCE_HISTORY',a['cursor'],b['cursor'],'cutoff',cutoff)"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Install isolated PyMC and ArviZ numerical dependencies once
+        run: |
+          $venv=Join-Path $env:RUNNER_TEMP 'pickem-nhl-full-venv'
+          python -m venv $venv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $python=Join-Path $venv 'Scripts\python.exe'
+          & $python -m pip install -r requirements-joint-bayes.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $python -c "import pymc,arviz; print('NHL_FIT_ENV_READY',pymc.__version__)"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Train four independent NHL models with per-chain progress bars
+        id: train
+        run: |
+          $python=Join-Path $env:RUNNER_TEMP 'pickem-nhl-full-venv\Scripts\python.exe'
+          & $python scripts/precision_nhl_campaign.py run --max-parallel ${{ inputs.max_parallel_models }} --min-free-mb ${{ inputs.min_free_ram_mb }} --stagger-seconds 105
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Upload NHL model progress, per-market posteriors and converged fit checks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: precision-nhl-full-history-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: reports/precision_training/${{ github.run_id }}/
