@@ -111,3 +111,10 @@ jobs:
         run: python -m unittest discover -s tests -p test_population_diagnostic_corr.py -q
       - name: Check vectorized baseline control agrees with original Poisson and Student-t
         run: python -m unittest discover -s tests -p test_population_audit_guardrails.py -q
+      - name: Validate separated NHL context graphs and saves posterior roundtrip
+        env:
+          RUN_CONTEXT_NUTS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: python -m unittest discover -s tests -p test_nhl_context_nuts.py -q
+
