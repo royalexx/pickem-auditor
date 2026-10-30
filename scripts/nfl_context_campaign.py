@@ -24,7 +24,15 @@ ROOT=Path(__file__).resolve().parents[1]
 def validate(c):
     required={"schema","seasons","train_from","cutoff","until","pilot_games","market","line",
               "draws","tune","chains","cores","predictive_draws"}
-    if set(c)!=required or c["schema"]!="nfl-context-campaign-v1":raise ValueError("invalid_nfl_configuration")
+    optional={"read_features","compare_models","charting_lag_days","min_read_feature_fraction"}
+    if not required<=set(c) or set(c)-required-optional or c["schema"]!="nfl-context-campaign-v1":raise ValueError("invalid_nfl_configuration")
+    for key in ("read_features","compare_models"):
+        if key in c and not isinstance(c[key],bool):raise ValueError("invalid_nfl_boolean:"+key)
+    if c.get("read_features",False):
+        if c["market"] not in ("targets","receptions"):raise ValueError("reads_require_receiving_market")
+        lag=c.get("charting_lag_days",7);fraction=c.get("min_read_feature_fraction",.5)
+        if isinstance(lag,bool) or not isinstance(lag,int) or not 0<=lag<=30:raise ValueError("invalid_charting_lag")
+        if isinstance(fraction,bool) or not isinstance(fraction,(float,int)) or not 0<fraction<=1:raise ValueError("invalid_read_coverage_gate")
     if not common.instant(c["train_from"])<common.instant(c["cutoff"])<common.instant(c["until"])<=datetime.now(timezone.utc):
         raise ValueError("invalid_nfl_campaign_dates")
     if c["market"] not in data.MARKETS:raise ValueError("unsupported_nfl_count_market")
@@ -42,9 +50,24 @@ def validate(c):
     return c
 
 
+def model_kinds(c):
+    return ("context","base","incumbent") if c.get("compare_models",True) else ("context",)
+
+
+def read_coverage(rows):
+    n=len(rows)
+    offense=sum(bool(r.get("read_context",{}).get("offense_read_available")) for r in rows)
+    defense=sum(bool(r.get("read_context",{}).get("defense_read_available")) for r in rows)
+    both=sum(bool(r.get("read_context",{}).get("offense_read_available")) and bool(r.get("read_context",{}).get("defense_read_available")) for r in rows)
+    adjusted=sum(r.get("read_context",{}).get("defense_comparable_targets",0)>0 for r in rows)
+    return {"rows":n,"offense_available":offense,"defense_available":defense,"both_available":both,
+            "both_fraction":both/n if n else 0.,"defense_qb_comparison_available":adjusted}
+
+
 def freeze(folder,c,bundles):
     folder=Path(folder)
-    context=data.examples(bundles,c["market"],context=True)
+    context=data.examples(bundles,c["market"],context=True,read_features=c.get("read_features",False),
+                          charting_lag_days=c.get("charting_lag_days",7))
     base=data.examples(bundles,c["market"],context=False)
     start,end=(common.instant(c[k]) for k in ("train_from","cutoff"))
     training=[r for r in context if start<=common.instant(r["start_time"])<end and common.instant(r["available_at"])<end]
@@ -65,6 +88,9 @@ def freeze(folder,c,bundles):
             excluded.append({"game_id":r["game_id"],"player_id":r["player_id"],"reason":"position_changed"})
         else:scored.append(r)
     if len(scored)<30:raise ValueError("insufficient_nfl_common_holdout_rows")
+    coverage={"training":read_coverage(training),"holdout":read_coverage(scored)}
+    if c.get("read_features",False) and any(v["both_fraction"]<c.get("min_read_feature_fraction",.5) for v in coverage.values()):
+        raise ValueError("insufficient_offensive_defensive_read_coverage:"+json.dumps(coverage))
     holdkeys={(r["game_id"],r["player_id"]) for r in scored}
     basehold=[r for r in base if (r["game_id"],r["player_id"]) in holdkeys]
     report={"schema":"nfl-context-preflight-v1","market":c["market"],"training_rows":len(training),
@@ -76,6 +102,11 @@ def freeze(folder,c,bundles):
             "availability_policy":"retrospective_start_plus_18h","line_type":"fixed_research_threshold",
             "frozen_digest":common.digest(bundles),"design_digest":common.digest(design),
             "base_design_digest":common.digest(basedesign),"ranking_allowed":False}
+    report.update(read_features=c.get("read_features",False),read_coverage=coverage,
+                  models_to_fit=list(model_kinds(c)),full_available_training_history=c["pilot_games"]==0,
+                  charting_lag_days=c.get("charting_lag_days",7),
+                  historical_charting_publication_time_verified=False,
+                  read_source=[b.get("read_source") for b in bundles])
     for name,value in (("context_design",design),("base_design",basedesign),("training_rows",training),
                        ("base_training_rows",basetrain),("holdout_rows",scored),("base_holdout_rows",basehold),
                        ("frozen_bundles",bundles),("preflight",report)):
@@ -113,10 +144,12 @@ def fit(folder,kind,c):
     diagnostic=model.diagnostics(trace)
     out.mkdir(parents=True);trace.to_netcdf(out/"posterior.nc");io.write_json(out/"design.json",d)
     manifest={"schema":"nfl-context-fit-v1","kind":kind,"elapsed_seconds":time.monotonic()-began,
+              "read_features":d.get("read_features",False),
               "diagnostics":diagnostic,"posterior_sha256":io.file_hash(out/"posterior.nc"),
               "design_sha256":io.file_hash(out/"design.json"),"frozen_hashes_sha256":io.file_hash(folder/"frozen_hashes.json"),
               "code_provenance":io.code_provenance(),
               "nfl_script_sha256":{p.name:io.file_hash(p) for p in sorted((ROOT/"scripts").glob("nfl_context_*.py"))},
+              "read_workflow_sha256":{n:io.file_hash(ROOT/"scripts"/n) for n in ("nfl_read_features.py","nfl_season_store.py","nfl_opportunity.py")},
               "ranking_allowed":False}
     io.write_json(out/"manifest.json",manifest)
     if not diagnostic["posterior_sampling_ok"]:raise ValueError("nfl_fit_failed_strict_diagnostics:"+kind)
@@ -130,7 +163,7 @@ def evaluate(folder,c):
     from nhl_context_evaluate import paired_comparison,metrics
     folder=Path(folder);verify_frozen(folder);predictions={}
     rows=io.load_json(folder/"holdout_rows.json")
-    for kind in ("context","base","incumbent"):
+    for kind in model_kinds(c):
         out=folder.parent/kind;manifest=io.load_json(out/"manifest.json")
         if (manifest["posterior_sha256"]!=io.file_hash(out/"posterior.nc") or
             manifest["design_sha256"]!=io.file_hash(out/"design.json") or
@@ -152,9 +185,12 @@ def evaluate(folder,c):
             else:p=model.forecast(cache,d,row,line=c["line"],draws=c["predictive_draws"],diagnostic=diagnostic)
             result.append(p)
         predictions[kind]=result;io.write_json(out/"holdout_predictions.json",result)
-    report={"schema":"nfl-context-comparison-v1","context_vs_incumbent":paired_comparison(predictions["context"],predictions["incumbent"]),
-            "context_vs_base":paired_comparison(predictions["context"],predictions["base"]),
+    report={"schema":"nfl-context-comparison-v1","models_trained":list(model_kinds(c)),
+            "read_features":c.get("read_features",False),
             "metrics":{k:metrics(v) for k,v in predictions.items()},"ranking_allowed":False,"automatic_promotion":False}
+    if c.get("compare_models",True):
+        report.update(context_vs_incumbent=paired_comparison(predictions["context"],predictions["incumbent"]),
+                      context_vs_base=paired_comparison(predictions["context"],predictions["base"]))
     io.write_json(folder.parent/"comparison.json",report)
     return report
 
@@ -163,7 +199,8 @@ class Runner(Campaign):
     def __init__(self,folder,c):
         self.root=ROOT;self.run=Path(folder).resolve();self.config=validate(c)
         self.run.mkdir(parents=True,exist_ok=True);self.status_path=self.run/"status.json"
-        names=["nfl_context_campaign.py","nfl_context_data.py","nfl_context_model.py","population_nfl.py",
+        names=["nfl_context_campaign.py","nfl_context_data.py","nfl_context_model.py","nfl_read_features.py",
+               "nfl_season_store.py","nfl_opportunity.py","population_nfl.py",
                "population_history.py","joint_population_bayes.py","nhl_context_campaign.py",
                "nhl_context_model.py","nhl_context_train.py","nhl_context_data.py","nhl_context_features.py",
                "nhl_context_evaluate.py"]
@@ -185,6 +222,9 @@ class Runner(Campaign):
         frozen=self.run/"frozen";c=self.config
         if not frozen.exists():
             bundles=data.collect(self.run/"source_cache",c["seasons"],c["until"])
+            if c.get("read_features",False):
+                from nfl_read_features import attach
+                bundles=attach(self.run/"source_cache",bundles)
         else:bundles=None
         outputs=[frozen/n for n in ("frozen_hashes.json","context_design.json","base_design.json","training_rows.json",
                  "base_training_rows.json","holdout_rows.json","base_holdout_rows.json","frozen_bundles.json","preflight.json")]
@@ -195,10 +235,10 @@ class Runner(Campaign):
                                          "training_seasons","holdout_rows","eligible_holdout_rows")}
         compact["excluded_holdout_rows"]=len(preflight["excluded_holdout"])
         print("NFL_PREFLIGHT "+json.dumps(compact,sort_keys=True),flush=True)
-        for kind in ("context","base","incumbent"):
+        for kind in model_kinds(c):
             self.step("fit_"+kind,lambda k=kind:self.command("fit_"+k,"scripts/nfl_context_campaign.py","fit",
                       "--run-dir",self.run,"--kind",k),[self.run/kind/"manifest.json",self.run/kind/"posterior.nc",self.run/kind/"design.json"])
-        predictions=[self.run/k/"holdout_predictions.json" for k in ("context","base","incumbent")]
+        predictions=[self.run/k/"holdout_predictions.json" for k in model_kinds(c)]
         self.step("evaluate",lambda:self.command("evaluate","scripts/nfl_context_campaign.py","evaluate","--run-dir",self.run),
                   [self.run/"comparison.json",*predictions])
         # Includes frozen designs, rows, source/coverage receipts and predictions.

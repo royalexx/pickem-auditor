@@ -1,0 +1,109 @@
+{
+  "schema": "nfl-reads-full-verification-v1",
+  "real_nfl_training_performed_here": false,
+  "real_source_preflight": {
+    "training_rows": 10082,
+    "training_games": 544,
+    "players": 637,
+    "teams": 32,
+    "training_seasons": [
+      "2024",
+      "2025"
+    ],
+    "eligible_holdout_rows": 2027,
+    "holdout_rows": 1738,
+    "models_to_fit": [
+      "context"
+    ],
+    "read_coverage": {
+      "holdout": {
+        "both_available": 1230,
+        "both_fraction": 0.7077100115074798,
+        "defense_available": 1252,
+        "defense_qb_comparison_available": 995,
+        "offense_available": 1258,
+        "rows": 1738
+      },
+      "training": {
+        "both_available": 8993,
+        "both_fraction": 0.8919857171196192,
+        "defense_available": 9032,
+        "defense_qb_comparison_available": 8429,
+        "offense_available": 9032,
+        "rows": 10082
+      }
+    },
+    "full_available_training_history": true,
+    "charting_lag_days": 7,
+    "historical_charting_publication_time_verified": false
+  },
+  "real_source_seasons": [
+    {
+      "season": 2024,
+      "schedule_games": 272
+    },
+    {
+      "season": 2025,
+      "schedule_games": 272
+    },
+    {
+      "season": 2026,
+      "schedule_games": 107
+    }
+  ],
+  "holdout_exclusions": {
+    "unseen_entity": 287,
+    "position_changed": 2
+  },
+  "synthetic_check": {
+    "synthetic_only": true,
+    "models_fitted": [
+      "context"
+    ],
+    "training_rows": 512,
+    "training_games": 64,
+    "heldout_rows": 256,
+    "heldout_games": 32,
+    "draws_per_chain": 1000,
+    "warmup_per_chain": 1000,
+    "chains": 4,
+    "cores": 2,
+    "diagnostics": {
+      "all_stochastic_effects": true,
+      "chains": 4,
+      "checked_variables": [
+        "population_workload",
+        "population_log_rate",
+        "player_chol",
+        "player_z",
+        "team_sd",
+        "team_z",
+        "season_sd",
+        "season_z",
+        "beta_workload",
+        "beta_rate",
+        "workload_sigma",
+        "count_dispersion",
+        "player_effect",
+        "team_effect",
+        "player_chol_stds",
+        "season_effect",
+        "estimated_player_correlation"
+      ],
+      "divergences": 0,
+      "max_rhat": 1.0048023368246173,
+      "max_treedepth_hits": 0,
+      "min_bulk_ess": 1388.664145764335,
+      "min_tail_ess": 1755.0964645903096,
+      "minimum_bfmi": 0.8819604434506988,
+      "posterior_sampling_ok": true,
+      "ranking_allowed": false,
+      "status": "sampling_diagnostics_pass"
+    },
+    "elapsed_seconds": 278.0039443629994,
+    "predictive_superiority_established": false,
+    "predictive_interval_90_coverage": 1.0
+  },
+  "ranking_allowed": false,
+  "attribution": "FTN Data via nflverse, CC BY-SA 4.0"
+}

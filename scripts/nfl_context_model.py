@@ -8,7 +8,7 @@ import math
 import nhl_context_data as common
 from nhl_context_model import diagnostics
 
-VERSION="nfl-context-count-v1"
+VERSION="nfl-context-count-v2"
 
 
 def build(d):
@@ -33,10 +33,13 @@ def build(d):
         ss=pm.HalfNormal("season_sd",.2,shape=2)
         sz=pm.Normal("season_z",0,1,shape=(len(d["seasons"]),2))
         season=pm.Deterministic("season_effect",(sz-pt.mean(sz,axis=0))*ss)
-        bw=pm.Normal("beta_workload",0,.2,shape=x.shape[1])
+        # Read allocation describes target production; core workload predictors
+        # drive snaps. Do not duplicate dozens of read coefficients in both stages.
+        nw=min(7,x.shape[1])
+        bw=pm.Normal("beta_workload",0,.2,shape=nw)
         br=pm.Normal("beta_rate",0,.2,shape=x.shape[1])
         sigma=pm.HalfNormal("workload_sigma",.7)
-        pm.Normal("observed_logit_snaps",pw[pi]+player[ix,0]+season[si,0]+pt.dot(x,bw),sigma,
+        pm.Normal("observed_logit_snaps",pw[pi]+player[ix,0]+season[si,0]+pt.dot(x[:,:nw],bw),sigma,
                   observed=np.log(snaps/(160-snaps)))
         eta=pr[pi]+player[ix,1]+team[ti,0]+team[oi,1]+season[si,1]+pt.dot(x,br)
         alpha=pm.Gamma("count_dispersion",3,.2)
@@ -92,9 +95,11 @@ def forecast(c,d,row, *, line,draws=4000,diagnostic):
     pi=d["positions"].index(row["position"])
     s=(a["season_effect"][:,d["seasons"].index(row["season"])] if row["season"] in d["seasons"]
        else rng.normal(0,a["season_sd"]))
-    x=(np.asarray(row["x"])-d["center"])/d["scale"]
+    raw=np.asarray(row["x"],dtype=float)
+    if np.isnan(raw[:7] if d.get("read_features") else raw).any():raise ValueError("missing_core_nfl_forecast_feature")
+    x=(np.where(np.isnan(raw),d["center"],raw)-d["center"])/d["scale"]
     if not np.isfinite(x).all():raise ValueError("nonfinite_nfl_forecast_features")
-    work=a["population_workload"][:,pi]+a["player_effect"][:,ix,0]+s[:,0]+(a["beta_workload"]*x).sum(1)
+    work=a["population_workload"][:,pi]+a["player_effect"][:,ix,0]+s[:,0]+(a["beta_workload"]*x[:a["beta_workload"].shape[1]]).sum(1)
     snaps=160*expit(rng.normal(work,a["workload_sigma"]))
     rate=a["population_log_rate"][:,pi]+a["player_effect"][:,ix,1]+a["team_effect"][:,ti,0]+a["team_effect"][:,oi,1]+s[:,1]+(a["beta_rate"]*x).sum(1)
     mu=snaps*np.exp(rate);alpha=a["count_dispersion"];p=alpha/(alpha+mu);floor=math.floor(line)

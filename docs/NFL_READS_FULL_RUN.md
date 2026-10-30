@@ -1,0 +1,123 @@
+# One full NFL read-aware training run
+
+This configuration trains **one targets model** on all eligible 2024 and 2025
+regular-season training games, with 2026 held out until 2026-10-30 12:00 UTC.
+There is no 80-game limit, preliminary baseline fit or three-model comparison.
+The model retains separate player, own-team, opponent and season effects and
+now includes both offensive and defensive read covariates.
+
+Run in the existing VS Code PowerShell terminal:
+
+```powershell
+git pull --ff-only origin codex/nfl-context-local-pilot
+python scripts/nfl_context_campaign.py run --config config/nfl_context_reads_full.json --run-dir reports/nfl_reads_full_v1
+```
+
+Use the existing numerical environment that completed NHL training. No new
+dependency is required beyond `requirements-nfl-context.txt`. UTF-8 and quiet
+sampling are automatic. Four chains run with two workers and one BLAS thread
+per process. Collection uses public nflverse data, not an odds API or Actions.
+Full training can be much slower than the small NHL/synthetic pilots; heartbeat
+logs report each running stage. Repeating the same command verifies and resumes
+completed stages. Keep the earlier pilot directories intact.
+
+## Reused read workflow
+
+The implementation imports `READ_MAP`, `BUCKETS`, `bucket()` and
+`build_profiles()` from `nfl_season_store.py` rather than creating a different
+classification. The existing mapping is:
+
+| FTN code | Bucket |
+| --- | --- |
+| 0 | First read |
+| 1 | Second read |
+| 2 | Later read |
+| CHK | Checkdown |
+| DES | Designed |
+| SD | Scramble drill |
+| Missing/unrecognized | Unknown |
+
+Designed plays remain separate from first reads. Labels describe the read
+actually targeted, not the intended receiver on every route or a complete QB
+progression. Sacks do not count as throws; nullified plays and two-point attempts
+are excluded. Game/play IDs join FTN observations exactly. Conflicting duplicate
+charting fails validation. FTN snapshots are archived separately with hashes and
+attribution; no synthetic charting fills a source gap.
+
+Offense covariates include QB bucket distributions, receiver shares within each
+bucket and targetable share per throw. The upcoming defense is removed from
+these offensive baselines. Defense covariates reuse the existing comparison of
+each QB's throws against that defense with the same QB's other opponents, using
+matching comparison populations. Unknown read mass is preserved in the matched
+mixture. Opponent-adjusted ratios and the resulting receiver opportunity share
+enter the fitted regression as covariates. No extra read multiplier is applied
+to the posterior forecast or elsewhere in production.
+
+Historical starter announcements were not archived, so the batch model does not
+fabricate confirmed-QB facts or call a live scenario with false confirmations.
+It uses a disclosed mixture of passers from the offense's three preceding
+available games. Tonight's actual QB is never looked up to construct a historical
+pregame feature. This is a pregame proxy, not a proven starter projection. Live
+integration still needs verified passer/lineup evidence and a consistent feature
+contract. Passer changes, feature measurement uncertainty and role shifts remain
+important model risks; feature values are not sampled as a full causal scenario.
+
+## Historical availability and missingness
+
+Every profile is rebuilt from earlier, available games in that season. No
+current/future play, outcome or chart label is eligible. Historical FTN publication
+times are not available in these snapshots: the declared retrospective assumption
+is each game's statistical availability (kickoff +18h), plus a configurable
+seven-day charting delay. This conservative delay does **not** certify publication
+time or eliminate annotation revision bias. Actual retrieval times are recorded.
+
+Missing read covariates remain explicit `None` with per-feature observed masks.
+Only training observations determine imputation centers and scales. A missing
+read is never interpreted as zero first reads, zero checkdowns or an average
+defense. The configured preflight requires offensive and defensive read history
+for at least 50% of training and holdout observations; it stops before sampling
+if this coverage is unavailable rather than silently fitting the old model.
+Rows with partial history remain in the cohort, with masks and reliability flags.
+
+The previous descriptive reliability flags are retained: thin independent
+passer/receiver history, fewer than three passer games, read coverage below 80%,
+thin defensive comparisons and sparse bucket counts. These are disclosed research
+limitations, not an automatic live Tier or an unsupported defensive quality grade.
+
+## Outputs
+
+- `frozen/preflight.json`: full cohort sizes, offensive/defensive read coverage,
+  joined-source diagnostics and the single model selected for fitting.
+- `context/posterior.nc` and `context/manifest.json`: one fitted model and strict
+  four-chain, all-effect R-hat/ESS/energy/divergence/tree-depth diagnostics.
+- `context/holdout_predictions.json` and `comparison.json`: holdout scores for
+  this one model. The name `comparison.json` is retained for packet compatibility;
+  this configuration fits no comparison model.
+- `review_packet.zip`: designs, frozen team/player/read data, training/holdout
+  rows, coverage, code/source receipts, diagnostics and predictions. Large raw
+  sources/posteriors stay local with hashes.
+
+The 5.5-target threshold is for research; historical sportsbook quotes are not
+included. Source joins, unseen entities and excluded records are reported.
+Convergence does not establish calibration, predictive superiority or a market
+edge, and this run does not change rankings or Engine A/B weights. The stored
+posterior is frozen before the holdout; earlier completed holdout games may
+update later pregame features without retraining it.
+
+## Delivery verification
+
+Live source collection and exact FTN/PBP joins were checked for 2024, 2025 and
+2026. The full preflight produced 10,082 training observations, 544 games, 637
+players and 32 teams. Both offensive and defensive read history were available
+for 89.2% of training rows and 70.8% of scored holdout rows under the declared
+seven-day lag. It scheduled only `context` for fitting. No real full-history fit
+was run in the workspace; that is the local job above.
+
+A synthetic single-model end-to-end check used 512 training observations over
+two seasons and 256 held-out observations. Four chains with 1,000 warmup and
+1,000 retained draws passed all stochastic/derived-effect gates: maximum R-hat
+1.00481, minimum bulk ESS 1,388.66, minimum tail ESS 1,755.10, no divergences or
+max-depth hits, and minimum BFMI 0.8819. The count intervals over-covered in that
+small simulation; it is execution/convergence evidence, not real NFL calibration.
+The machine-readable receipt is
+`validation/nfl_reads_full_verification_2026-10-30.json`.

@@ -175,7 +175,7 @@ def collect(folder, seasons, until, fetcher=fetch):
     return bundles
 
 
-def examples(bundles, market, *, context=True):
+def examples(bundles, market, *, context=True, read_features=False, charting_lag_days=7):
     if market not in MARKETS:raise ValueError("unsupported_nfl_context_market")
     teams=[r for b in bundles for r in b["teams"]]
     players=[r for b in bundles for r in b["players"] if r["stat"]==market]
@@ -213,7 +213,12 @@ def examples(bundles, market, *, context=True):
             x += [rate(own,"plays",65.),rate(opp,"plays",65.),*environment]
         rows.append({**p,"target":p["value"],"x":x,"feature_names":NAMES if context else NAMES[:3],
                      "feature_time":p["start_time"],"prior_player_games":len(past)})
-    return sorted(rows,key=lambda r:(r["start_time"],r["game_id"],r["player_id"]))
+    rows=sorted(rows,key=lambda r:(r["start_time"],r["game_id"],r["player_id"]))
+    if read_features:
+        if not context or market not in ("targets","receptions"):raise ValueError("read_features_require_receiving_context")
+        from nfl_read_features import augment
+        rows=augment(bundles,rows,lag_days=charting_lag_days)
+    return rows
 
 
 def prepare(rows, cutoff, *, minimum=200):
@@ -233,12 +238,20 @@ def prepare(rows, cutoff, *, minimum=200):
         if not 0<r["workload"]<160 or r["feature_time"]!=r["start_time"]:
             raise ValueError("invalid_nfl_workload_or_feature_time")
     x=np.asarray([r["x"] for r in rows],dtype=float)
-    if not np.isfinite(x).all():raise ValueError("nonfinite_nfl_features")
-    center=x.mean(0);scale=np.maximum(x.std(0),.05)
+    read=any("read_context" in r for r in rows)
+    if np.isnan(x[:,:len(NAMES)] if read else x).any():raise ValueError("missing_core_nfl_feature")
+    if np.isinf(x).any():raise ValueError("nonfinite_nfl_features")
+    # Explicit None plus observation masks: centers use training observations
+    # only. A missing classification is never a fabricated zero read count.
+    count=np.isfinite(x).sum(0)
+    center=np.divide(np.nansum(x,axis=0),count,out=np.zeros(x.shape[1]),where=count>0)
+    x=np.where(np.isnan(x),center,x);scale=np.maximum(x.std(0),.05)
     result={"schema":"nfl-context-design-v1","market":rows[0]["stat"],"players":players,"teams":teams,
             "positions":positions,"seasons":seasons,"player_position":pmap,"cutoff":cutoff,
             "feature_names":rows[0]["feature_names"],"center":center.tolist(),"scale":scale.tolist(),
             "x":((x-center)/scale).tolist(),"snaps":[r["workload"] for r in rows],
+            "read_features":any("read_context" in r for r in rows),
+            "missing_features":"training_mean_with_observed_masks","feature_observed_counts":count.tolist(),
             "target":[r["target"] for r in rows],"source_digest":common.digest(rows)}
     for name,items,key in (("player",players,"player_id"),("team",teams,"team"),("opponent",teams,"opponent"),
                            ("season",seasons,"season"),("position",positions,"position")):

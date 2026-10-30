@@ -3,11 +3,12 @@ from datetime import date,timedelta
 import random
 
 
-def season(year,weeks=16):
+def season(year,weeks=16,rotate=False):
     rng=random.Random(year);raw={"schedule":[],"stats":[],"snaps":[],"pbp":[]}
     for week in range(1,weeks+1):
         day=(date(year,9,1)+timedelta(days=7*(week-1))).isoformat()
-        for away,home in (("AAA","BBB"),("CCC","DDD")):
+        pairs=((("AAA","BBB"),("CCC","DDD")),(("AAA","CCC"),("BBB","DDD")),(("AAA","DDD"),("BBB","CCC")))
+        for away,home in (pairs[(week-1)%3] if rotate else pairs[0]):
             gid=f"{year}_{week:02d}_{away}_{home}"
             raw["schedule"].append(dict(season=year,week=week,game_id=gid,game_type="REG",gameday=day,
                                         gametime="13:00",home_team=home,away_team=away,home_score=24,away_score=17))
