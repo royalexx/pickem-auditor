@@ -34,6 +34,15 @@ market probabilities, ranking tiers, approved picks or settlement calculations
 are changed. The frozen posterior is **not** an independent scouting model B.
 A converged fit does **not** prove out-of-sample calibration or market edge.
 
+## Stat naming across feeds
+
+The official daily PropLine/NHL market is named `goalie saves`, while the
+source-owned population model calls the same market `saves`. The shadow
+adapter accepts both aliases for **candidate selection only**, preserves the
+original market label in each forecast, and continues to require the fitted
+model manifest to state exactly `stat="saves"`. It does not broaden scoring
+to unrelated NHL markets.
+
 ## Important abstentions
 
 The runner records an *unavailable* sidecar row (rather than guessing) when:
