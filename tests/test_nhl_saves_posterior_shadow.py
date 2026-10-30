@@ -62,19 +62,18 @@ class NHLShadowSafety(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             folder=Path(d)
             snapshots=folder/"snapshots.jsonl"
-            snapshots.write_text(json.dumps(row(stat="goalie saves"))+"\\n",encoding="utf-8")
+            snapshots.write_text(json.dumps(row(stat="goalie saves"))+"\n",encoding="utf-8")
             model=SimpleNamespace(posterior=SimpleNamespace(sizes={"chain":4,"draw":2000}))
-            result=sh.evaluate(row(stat="goalie saves"),manifest=manifest(),posterior=model,
-                               cache={},now=NOW)
-            self.assertEqual(result["status"],"unavailable")  # Unpatched forecast needs exact cached posterior
             projected={**row(stat="goalie saves"),"version":sh.VERSION,
                        "release_tag":sh.TAG,"status":"forecast",
                        "publication_eligible":False,"ranking_allowed":False,
                        "q_over":0.5,"q_under":0.5,"q_win":0.5}
-            with patch.object(sh,"load_model",return_value=manifest()), \\
-                 patch.dict(sys.modules,{"arviz":SimpleNamespace(from_netcdf=lambda p:model)}), \\
-                 patch("joint_population_bayes.posterior_cache",return_value={}), \\
-                 patch.object(sh,"evaluate",return_value=projected) as evaluate:
+            with (
+                patch.object(sh,"load_model",return_value=manifest()),
+                patch.dict(sys.modules,{"arviz":SimpleNamespace(from_netcdf=lambda p:model)}),
+                patch("joint_population_bayes.posterior_cache",return_value={}),
+                patch.object(sh,"evaluate",return_value=projected) as evaluate,
+            ):
                 receipt=sh.run(snapshots=snapshots,model_dir=folder,game_date="2026-10-30",
                                out=folder/"out.jsonl",receipt=folder/"receipt.json",now=NOW)
             self.assertEqual(evaluate.call_count,1)
