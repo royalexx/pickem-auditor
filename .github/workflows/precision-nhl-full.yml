@@ -79,6 +79,23 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           & $python -c "import pymc,arviz; print('NHL_FIT_ENV_READY',pymc.__version__)"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Require Windows-native G++ for compiled PyTensor
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $compilerBin = 'C:\msys64\ucrt64\bin'
+          $gcc = Join-Path $compilerBin 'g++.exe'
+          if (-not (Test-Path $gcc)) {
+            throw 'MSYS2 UCRT64 g++ is not installed. Install MSYS2, then run pacman -S --needed mingw-w64-ucrt-x86_64-gcc. See docs/PRECISION_NHL_FULL.md'
+          }
+          # The self-hosted runner can be started before GCC was installed.
+          # Make the path visible both now and to the following training step.
+          $env:Path = "$compilerBin;$env:Path"
+          Add-Content -Path $env:GITHUB_PATH -Value $compilerBin
+          & $gcc --version
+          if ($LASTEXITCODE -ne 0) { throw 'The installed Windows G++ executable did not start' }
+          $python = Join-Path $env:RUNNER_TEMP 'pickem-nhl-full-venv\Scripts\python.exe'
+          & $python -c "import pytensor, pytensor.tensor as pt; assert pytensor.config.cxx, 'PYTENSOR_CXX_MISSING'; x=pt.scalar('x'); fn=pytensor.function([x],x*x+1); print('PYTENSOR_CXX_VERIFIED',pytensor.config.cxx,'COMPILED_SMOKE_TEST',fn(2.0))"
+          if ($LASTEXITCODE -ne 0) { throw 'PyTensor could not use the installed G++ compiler' }
       - name: Train four independent NHL models with per-chain progress bars
         id: train
         run: |
