@@ -152,6 +152,7 @@ def campaign(root: Path, *, max_parallel: int =4,
     pending=list(STATS)
     last_start=-float("inf")
     last_report=-float("inf")
+    critical_memory_since=None
     # If Windows doesn't have sufficient free RAM at startup, fail closed.
     start_memory=memory_free_mb()
     if start_memory<min_free_mb+2048:
@@ -167,6 +168,27 @@ def campaign(root: Path, *, max_parallel: int =4,
             except OSError:
                 available=0
                 print("MEMORY_MONITOR_ERROR: no new model will be started",flush=True)
+            # Protect the laptop if four large PyMC models outgrow RAM.
+            # Only the most recently started job is sacrificed; existing
+            # completed or surviving models retain their separate receipts.
+            if active and available>0 and available<4096:
+                if critical_memory_since is None:
+                    critical_memory_since=now
+                    print(f"NHL_CRITICAL_RAM_WARNING available_mb={available} "
+                          "stopping launch and waiting 45 seconds",flush=True)
+                elif now-critical_memory_since>=45 and len(active)>1:
+                    victim=max(active,key=lambda stat:active[stat][2])
+                    victim_proc=active[victim][0]
+                    print(f"NHL_RAM_SAFETY_STOP stat={victim} pid={victim_proc.pid} "
+                          f"available_mb={available}",flush=True)
+                    if sys.platform=="win32":
+                        subprocess.run(["taskkill","/PID",str(victim_proc.pid),
+                                        "/T","/F"],check=False,capture_output=True)
+                    else:
+                        victim_proc.terminate()
+                    critical_memory_since=now
+            else:
+                critical_memory_since=None
             if (pending and len(active)<max_parallel and available>=min_free_mb+2048
                     and now-last_start>=stagger_seconds):
                 stat=pending.pop(0)
