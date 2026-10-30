@@ -1,0 +1,143 @@
+name: Precision Windows - full 31-market Bayesian overnight campaign
+run-name: Precision overnight full populations • ${{ inputs.sport }}
+on:
+  workflow_dispatch:
+    inputs:
+      sport:
+        type: choice
+        description: Process all three sports, or a single sport.
+        required: true
+        default: all
+        options: [all, NHL, NBA, NFL]
+      max_per_position:
+        type: choice
+        description: "0 = full historical player populations; 15 = small pilot"
+        required: true
+        default: '0'
+        options: ['0', '15']
+      as_of:
+        type: string
+        description: Exclusive training cutoff (2026-10-29 means games through Oct 28)
+        required: true
+        default: '2026-10-29'
+
+permissions:
+  contents: read
+concurrency:
+  group: precision-windows-overnight-training-campaign
+  cancel-in-progress: false
+
+jobs:
+  fit-one-market:
+    if: inputs.sport == 'all' || inputs.sport == matrix.sport
+    name: ${{ matrix.sport }} - ${{ matrix.stat }}
+    runs-on: [self-hosted, Windows, X64, pickem-trainer]
+    timeout-minutes: 600
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        include:
+          - {sport: NHL, stat: 'shots on goal', slug: nhl-sog, train_from: '2018-10-01'}
+          - {sport: NHL, stat: 'hits', slug: nhl-hits, train_from: '2018-10-01'}
+          - {sport: NHL, stat: 'blocked shots', slug: nhl-blocks, train_from: '2018-10-01'}
+          - {sport: NHL, stat: 'saves', slug: nhl-saves, train_from: '2018-10-01'}
+          - {sport: NBA, stat: 'points', slug: nba-points, train_from: '2023-10-01'}
+          - {sport: NBA, stat: 'rebounds', slug: nba-rebounds, train_from: '2023-10-01'}
+          - {sport: NBA, stat: 'assists', slug: nba-assists, train_from: '2023-10-01'}
+          - {sport: NBA, stat: 'threes', slug: nba-threes, train_from: '2023-10-01'}
+          - {sport: NBA, stat: 'steals', slug: nba-steals, train_from: '2023-10-01'}
+          - {sport: NBA, stat: 'blocks', slug: nba-blocks, train_from: '2023-10-01'}
+          - {sport: NBA, stat: 'turnovers', slug: nba-turnovers, train_from: '2023-10-01'}
+          - {sport: NBA, stat: 'pra', slug: nba-pra, train_from: '2023-10-01'}
+          - {sport: NBA, stat: 'pr', slug: nba-pr, train_from: '2023-10-01'}
+          - {sport: NBA, stat: 'pa', slug: nba-pa, train_from: '2023-10-01'}
+          - {sport: NBA, stat: 'ra', slug: nba-ra, train_from: '2023-10-01'}
+          - {sport: NFL, stat: 'pass attempts', slug: nfl-pass-attempts, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'completions', slug: nfl-completions, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'targets', slug: nfl-targets, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'receptions', slug: nfl-receptions, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'carries', slug: nfl-carries, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'passing touchdowns', slug: nfl-passing-touchdowns, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'rushing touchdowns', slug: nfl-rushing-touchdowns, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'receiving touchdowns', slug: nfl-receiving-touchdowns, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'tackles + assists', slug: nfl-tackles-assists, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'solo tackles', slug: nfl-solo-tackles, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'tackle assists', slug: nfl-tackle-assists, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'qb hits', slug: nfl-qb-hits, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'passes defended', slug: nfl-passes-defended, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'passing yards', slug: nfl-passing-yards, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'receiving yards', slug: nfl-receiving-yards, train_from: '2018-09-01'}
+          - {sport: NFL, stat: 'rushing yards', slug: nfl-rushing-yards, train_from: '2018-09-01'}
+    env:
+      SPORT: ${{ matrix.sport }}
+      STAT: ${{ matrix.stat }}
+      FIT_ID: ${{ matrix.slug }}
+      MODE: pregame_fit
+      TRAIN_FROM: ${{ matrix.train_from }}
+      CUTOFF: ${{ inputs.as_of }}
+      HOLDOUT_UNTIL: ${{ inputs.as_of }}
+      LINE: '2.5'
+      MAX_PER_POSITION: ${{ inputs.max_per_position }}
+      MAX_SEASONS: '12'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONUNBUFFERED: '1'
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Check out immutable training code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Install Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Load verified immutable historical warehouse
+        run: |
+          python scripts/history_warehouse_load.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Prepare isolated scientific environment
+        run: |
+          $python = 'python'
+          $venv = Join-Path $env:RUNNER_TEMP 'pickem-joint-env'
+          & $python -m venv $venv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $python = Join-Path $venv 'Scripts\python.exe'
+          & $python -m pip install -r requirements-joint-bayes.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $python -c "import pymc, arviz; print('WINDOWS_PYMC_READY',pymc.__version__)"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Validate complete eligible history prior to training
+        id: preflight
+        run: |
+          $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
+          & $python scripts/precision_training_driver.py validate
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Fit entire eligible player population with four NUTS chains
+        id: fit
+        run: |
+          $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
+          & $python scripts/precision_training_driver.py fit
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Save code, source and sampling status into cloud provenance
+        if: always()
+        env:
+          VALIDATE_RESULT: ${{ steps.preflight.outcome }}
+          FIT_RESULT: ${{ steps.fit.outcome }}
+        run: |
+          python scripts/precision_training_driver.py provenance
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Write-Output "VALIDATE_RESULT=$env:VALIDATE_RESULT FIT_RESULT=$env:FIT_RESULT"
+      - name: Upload per-market result immediately, even if fit failed
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: precision-full-${{ matrix.sport }}-${{ matrix.slug }}-${{ github.run_id }}
+          retention-days: 90
+          if-no-files-found: warn
+          path: reports/precision_training/${{ github.run_id }}/
