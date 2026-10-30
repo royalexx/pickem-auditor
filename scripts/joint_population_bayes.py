@@ -183,12 +183,19 @@ def _to_values(result):
     return values
 
 
-def diagnostics(idata):
+def diagnostics(idata,*,all_effects=False):
     import numpy as np
     try:
         from arviz_stats import rhat,ess
         keys=["population_workload","population_rate","player_chol_stds",
               "workload_sigma","opponent_rate_sd","home_effect"]
+        if all_effects:
+            # Full NHL training cannot be declared converged on global
+            # hyperparameters alone; verify each player's and opponent's
+            # posterior effect along with seasonal effects.
+            keys.extend(k for k in ("player_effect","opponent_rate",
+                        "season_workload","season_rate")
+                        if k in idata.posterior)
         if "count_dispersion" in idata.posterior:keys.append("count_dispersion")
         if "yardage_sigma" in idata.posterior:keys.append("yardage_sigma")
         if "season_rate_sd" in idata.posterior:keys.extend(["season_rate_sd","season_workload_sd"])
@@ -317,6 +324,8 @@ def main(argv=None):
     p.add_argument("--progress-file",type=Path,
         help="Emit GitHub-friendly per-chain progress as JSON and periodic log bars")
     p.add_argument("--progress-interval",type=int,default=45)
+    p.add_argument("--strict-all-effects",action="store_true",
+        help="Also assess convergence for every player, opponent and season effect")
     p.add_argument("--out",type=Path,default=Path("reports/joint_population"))
     a=p.parse_args(argv)
     rows=history.read(a.root,sport=a.sport,stat=a.stat,before=a.as_of,
@@ -329,7 +338,7 @@ def main(argv=None):
     posterior=fit(data,draws=a.draws,tune=a.tune,chains=a.chains,
                   cores=a.cores,progress_file=a.progress_file,
                   progress_interval=a.progress_interval)
-    checks=diagnostics(posterior)
+    checks=diagnostics(posterior,all_effects=a.strict_all_effects)
     a.out.mkdir(parents=True,exist_ok=True)
     posterior.to_netcdf(a.out/"posterior.nc")
     manifest={k:data[k] for k in ("sport","stat","family","players","positions","seasons",
@@ -344,6 +353,7 @@ def main(argv=None):
                      "sampler_chains":a.chains,"parallel_chains":a.cores,
                      "sampler_retained_draws_per_chain":a.draws,
                      "sampler_tuning_iterations_per_chain":a.tune,
+                     "diagnosed_all_player_and_opponent_effects":a.strict_all_effects,
                      "publication_eligible":False,"calibrated":False})
     (a.out/"manifest.json").write_text(json.dumps(manifest,sort_keys=True,indent=2)+"\n")
     print(json.dumps({k:v for k,v in manifest.items() if k not in
