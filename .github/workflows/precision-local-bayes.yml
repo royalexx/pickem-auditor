@@ -1,4 +1,4 @@
-name: Precision laptop - joint Bayesian training (research only)
+name: Precision Windows laptop - joint Bayesian training (research only)
 on:
   workflow_dispatch:
     inputs:
@@ -51,9 +51,9 @@ concurrency:
 
 jobs:
   fit-and-evaluate:
-    # Labels are applied to the Linux runner installed INSIDE WSL2, not Windows.
-    # This job NEVER runs on a billable GitHub-hosted training machine.
-    runs-on: [self-hosted, Linux, X64, pickem-trainer]
+    # Native Windows 11: NO Ubuntu, WSL2 or Linux runner required.
+    # This job only executes on the user's explicitly registered laptop.
+    runs-on: [self-hosted, Windows, X64, pickem-trainer]
     timeout-minutes: 2880
     env:
       SPORT: ${{ inputs.sport }}
@@ -70,111 +70,68 @@ jobs:
       PYTHONUNBUFFERED: '1'
     defaults:
       run:
-        shell: bash
+        shell: pwsh
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # Needed only for authenticated read-only fetch from private history branch.
           persist-credentials: true
-      - name: Inspect laptop resources (no secrets)
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inspect Windows CPU and RAM
         run: |
-          set -euo pipefail
-          uname -a
-          python3 --version
-          lscpu | grep -E 'CPU\(s\)|Model name' || true
-          free -h
-          df -h .
-          command -v nvidia-smi >/dev/null && nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true
-          echo 'Sampler uses CPU; optional NVIDIA GPU is not used by this workflow.'
-      - name: Restore remote historical population snapshot
+          $ErrorActionPreference = 'Stop'
+          Get-CimInstance Win32_Processor | Select-Object Name,NumberOfCores,NumberOfLogicalProcessors | Format-Table
+          Get-CimInstance Win32_OperatingSystem | Select-Object Caption,FreePhysicalMemory,TotalVisibleMemorySize | Format-List
+          python --version
+          git --version
+          Write-Host 'PyMC CPU sampler: NVIDIA GPU not used by the current research fit.'
+      - name: Pull source-owned historical database from private GitHub
         run: |
-          set -euo pipefail
-          bash scripts/history_warehouse_store.sh load
-          echo "SOURCE_HEAD=$(git rev-parse refs/remotes/origin/data/bayesian-history)" >> "$GITHUB_ENV"
-      - name: Create isolated Python environment
+          $ErrorActionPreference = 'Stop'
+          python scripts/history_warehouse_load.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Install pinned joint Bayesian dependencies into isolated Windows venv
         run: |
-          set -euo pipefail
-          python3 -m venv "$RUNNER_TEMP/pickem-joint-env"
-          "$RUNNER_TEMP/pickem-joint-env/bin/python" -m pip install --upgrade pip
-          "$RUNNER_TEMP/pickem-joint-env/bin/python" -m pip install -r requirements-joint-bayes.txt
-      - name: Validate date window, sport/stat, and cohort limits
+          $ErrorActionPreference = 'Stop'
+          $venv = Join-Path $env:RUNNER_TEMP 'pickem-joint-env'
+          python -m venv $venv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $python = Join-Path $venv 'Scripts\python.exe'
+          & $python -m pip install --upgrade pip
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $python -m pip install -r requirements-joint-bayes.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $python -c "import pymc, arviz, scipy; print('NATIVE_WINDOWS_PYMC_OK',pymc.__version__)"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Validate source completeness, chronological window, exact market
         run: |
-          set -euo pipefail
-          "$RUNNER_TEMP/pickem-joint-env/bin/python" - <<'PY'
-          import math,os,sys
-          from datetime import date
-          sys.path.insert(0,"scripts")
-          import population_history as history
-          sport=os.environ["SPORT"];stat=os.environ["STAT"]
-          history.family(sport,stat)
-          start=date.fromisoformat(os.environ["TRAIN_FROM"])
-          cutoff=date.fromisoformat(os.environ["CUTOFF"])
-          today=date.today()
-          if not start<cutoff<=today:
-              raise SystemExit("INVALID_TRAINING_WINDOW: future training data or empty window")
-          n=int(os.environ["MAX_PER_POSITION"])
-          if not 0<=n<=10000:
-              raise SystemExit("INVALID_TRAINING_COHORT_LIMIT")
-          if os.environ["MODE"]=="holdout":
-              end=date.fromisoformat(os.environ["HOLDOUT_UNTIL"])
-              if not cutoff<end<=today:
-                  raise SystemExit("INVALID_HELDOUT_WINDOW: cannot include unfinished current-day games")
-              line=float(os.environ["LINE"])
-              if not math.isfinite(line) or line<0 or line.is_integer():
-                  raise SystemExit("INVALID_FIXED_RESEARCH_LINE")
-          print("SOURCE_WINDOW_VALIDATED",sport,stat,start,cutoff,os.environ["MODE"])
-          PY
-      - name: Verify historical source continuity before heldout research
+          $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
+          & $python scripts/precision_training_driver.py validate
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Run four-chain CPU hierarchical Bayesian training
+        run: |
+          $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
+          & $python scripts/precision_training_driver.py fit
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Compare fitted Bayesian posterior with same-cohort simple holdout
         if: inputs.mode == 'holdout'
         run: |
-          set -euo pipefail
-          "$RUNNER_TEMP/pickem-joint-env/bin/python" scripts/population_window_check.py \
-            --sport "$SPORT" --stat "$STAT" \
-            --train-from "$TRAIN_FROM" --as-of "$CUTOFF" --until "$HOLDOUT_UNTIL" \
-            --max-seasons 4 --min-training-seasons 2 --min-rows 2000 \
-            --report "reports/precision_training/$GITHUB_RUN_ID/window_preflight.json"
-      - name: Fit 4-chain hierarchical posterior (2 concurrent CPU chains)
-        run: |
-          set -euo pipefail
-          "$RUNNER_TEMP/pickem-joint-env/bin/python" scripts/joint_population_bayes.py \
-            --sport "$SPORT" --stat "$STAT" \
-            --train-from "$TRAIN_FROM" --as-of "$CUTOFF" \
-            --max-seasons 4 --min-rows 2000 \
-            --max-per-position "$MAX_PER_POSITION" \
-            --draws 1000 --tune 1200 --chains 4 \
-            --out "reports/precision_training/$GITHUB_RUN_ID"
-      - name: Compare frozen posterior with identical-cohort historical control
-        if: inputs.mode == 'holdout'
-        run: |
-          set -euo pipefail
-          "$RUNNER_TEMP/pickem-joint-env/bin/python" scripts/joint_population_holdout.py \
-            --sport "$SPORT" --stat "$STAT" \
-            --train-from "$TRAIN_FROM" --cutoff "$CUTOFF" --until "$HOLDOUT_UNTIL" \
-            --line "$LINE" --max-seasons 4 --draws 1500 \
-            --training-dir "reports/precision_training/$GITHUB_RUN_ID"
-      - name: Record immutable code and data pointers for cloud audit
+          $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
+          & $python scripts/precision_training_driver.py holdout
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Record immutable code and source SHA for cloud audit
         if: always()
         run: |
-          python3 - <<'PY'
-          import json,os,subprocess
-          from pathlib import Path
-          out=Path("reports/precision_training")/os.environ["GITHUB_RUN_ID"]
-          out.mkdir(parents=True,exist_ok=True)
-          fields=["SPORT","STAT","MODE","TRAIN_FROM","CUTOFF","HOLDOUT_UNTIL",
-                  "LINE","MAX_PER_POSITION","SOURCE_HEAD","GITHUB_RUN_ID"]
-          receipt={key.lower():os.environ.get(key) for key in fields}
-          receipt["code_sha"]=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
-          receipt["runner_execution"]="local_wsl2_self_hosted"
-          receipt["sampler"]="pymc_cpu_nuts_4_chains_2_parallel"
-          receipt["ranking_allowed"]=False
-          receipt["publication_eligible"]=False
-          (out/"cloud_provenance.json").write_text(json.dumps(receipt,sort_keys=True,indent=2)+"\n")
-          PY
-      - name: Preserve posterior, convergence, heldout score and source provenance in GitHub
+          python scripts/precision_training_driver.py provenance
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Upload posterior, convergence, holdout and provenance to GitHub
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: precision-joint-bayes-${{ inputs.sport }}-${{ github.run_id }}
-          if-no-files-found: error
+          name: precision-windows-bayes-${{ inputs.sport }}-${{ github.run_id }}
+          if-no-files-found: warn
           retention-days: 90
           path: reports/precision_training/${{ github.run_id }}/
