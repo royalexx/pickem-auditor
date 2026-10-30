@@ -127,10 +127,12 @@ def provenance(*, root: Path = ROOT, env=None) -> dict:
                "github_run_id": run_id,
                "fit_id": fit_id or None,
                "runner_execution": "windows_native_self_hosted",
+               "validation_stage": env.get("VALIDATE_RESULT"),
+               "fit_stage": env.get("FIT_RESULT"),
                "sampler": "pymc_cpu_nuts_four_chains_two_parallel",
                "inputs": {name.lower(): env.get(name) for name in
                           ("SPORT","STAT","MODE","TRAIN_FROM","CUTOFF",
-                           "HOLDOUT_UNTIL","LINE","MAX_PER_POSITION")},
+                           "HOLDOUT_UNTIL","LINE","MAX_PER_POSITION","MAX_SEASONS")},
                "ranking_allowed": False, "calibrated": False,
                "publication_eligible": False}
     (dest/"cloud_provenance.json").write_text(
