@@ -366,6 +366,26 @@ jobs:
                  '--receipt','reports/daily_receipt.json',
                  '--run-id',os.environ['GITHUB_RUN_ID']],check=True)
           PY
+      - name: Commit official NHL history
+        if: always() && steps.gate.outputs.phase != 'skip'
+        id: persist
+        continue-on-error: true
+        run: |
+          git config user.name pickem-auditor-bot
+          git config user.email pickem-auditor-bot@users.noreply.github.com
+          git add data/nhl/games/ data/history_slate/ || true
+          if ! git diff --cached --quiet; then
+            git commit -m 'data: completed NHL histories'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          else
+            echo 'No new completed NHL games'
+          fi
+          if [ -f data/prop_snapshots.jsonl ]; then
+            bash scripts/shadow_store.sh save
+          else
+            echo 'No timestamped forecasts to persist'
+          fi
       - name: Retrieve pinned converged NHL saves posterior (shadow-only)
         id: saves_model
         if: steps.gate.outputs.phase == 'afternoon'
@@ -422,26 +442,6 @@ jobs:
             --date "$day" \
             --out "data/nhl_joint_saves_shadow/$day.jsonl" \
             --receipt reports/nhl_joint_saves_shadow_receipt.json
-      - name: Commit official NHL history
-        if: always() && steps.gate.outputs.phase != 'skip'
-        id: persist
-        continue-on-error: true
-        run: |
-          git config user.name pickem-auditor-bot
-          git config user.email pickem-auditor-bot@users.noreply.github.com
-          git add data/nhl/games/ data/history_slate/ || true
-          if ! git diff --cached --quiet; then
-            git commit -m 'data: completed NHL histories'
-            git pull --rebase origin main
-            git push origin HEAD:main
-          else
-            echo 'No new completed NHL games'
-          fi
-          if [ -f data/prop_snapshots.jsonl ]; then
-            bash scripts/shadow_store.sh save
-          else
-            echo 'No timestamped forecasts to persist'
-          fi
       - name: Upload collection receipt
         if: always() && steps.gate.outputs.phase != 'skip'
         uses: actions/upload-artifact@v4
