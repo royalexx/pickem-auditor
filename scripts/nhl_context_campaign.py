@@ -29,6 +29,63 @@ REQUIRED={"schema","train_from","cutoff","until","pilot_games","history_window",
           "feature_set","policy","with_attempts","restore_history"}
 
 
+def source_receipt(root):
+    scripts=Path(root)/"scripts"
+    source={p.name:life.file_hash(p) for p in sorted(scripts.glob("nhl_context_*.py"))}
+    for name in ("joint_population_bayes.py","population_history.py","population_normalizers.py",
+                 "historical_nhl_warehouse.py","history_warehouse_load.py"):
+        source[name]=life.file_hash(scripts/name)
+    return source
+
+
+def rebind_before_sampling(root, run_dir, config):
+    """Explicit dependency migration of an intact frozen, unsampled experiment.
+
+    Only the orchestration script may differ; data/model/feature code must match.
+    Keeps the frozen design, verifies all completed outputs, archives identities.
+    Call while holding campaign_lock.
+    """
+    run=Path(run_dir).resolve();path=run/"status.json"
+    old=life.load_json(path)
+    if old.get("root")!=str(Path(root).resolve()) or old.get("config_digest")!=store.digest(config):
+        raise ValueError("runtime_migration_requires_same_root_and_configuration")
+    steps=old["steps"]
+    if (steps.get("freeze",{}).get("status")!="completed" or
+            set(steps)-{"restore_history","plan","freeze","fit_challenger"} or
+            steps.get("fit_challenger",{}).get("status") not in (None,"failed","running")):
+        raise ValueError("runtime_migration_requires_frozen_unsampled_experiment")
+    for folder in (run/"challenger",run/"incumbent"):
+        if folder.exists() and (list(folder.rglob("*.nc")) or list(folder.rglob("manifest.json"))):
+            raise ValueError("runtime_migration_forbidden_with_sampling_outputs")
+    previous_source=life.load_json(run/"code_receipt.json")
+    current_source=source_receipt(root)
+    if store.digest(previous_source)!=old["code_digest"]:
+        raise ValueError("runtime_migration_code_receipt_tampered")
+    changed={name for name in set(previous_source)|set(current_source)
+             if previous_source.get(name)!=current_source.get(name)}
+    if changed-{"nhl_context_campaign.py"}:
+        raise ValueError("runtime_migration_model_or_data_code_changed")
+    for step in steps.values():
+        if step.get("status")=="completed":
+            for output,checksum in step["outputs"].items():
+                if not Path(output).is_file() or life.file_hash(output)!=checksum:
+                    raise ValueError("runtime_migration_frozen_output_changed")
+    provenance=life.code_provenance()
+    archive=run/"runtime_migrations"/datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    archive.mkdir(parents=True)
+    for name in ("status.json","code_receipt.json","fit_challenger.log"):
+        if (run/name).is_file():shutil.copy2(run/name,archive/name)
+    life.write_json(archive/"migration_receipt.json",{
+        "reason":"explicit_dependency_install_before_first_saved_posterior",
+        "previous_runtime_digest":old["runtime_digest"],"new_runtime":provenance,
+        "changed_scripts":sorted(changed),"frozen_outputs_verified":True})
+    updated={**old,"code_digest":store.digest(current_source),
+             "runtime_digest":store.digest([provenance["python"],provenance["package_versions"]])}
+    life.write_json(run/"code_receipt.json",current_source)
+    life.write_json(path,updated)
+    print("RUNTIME_MIGRATION_ARCHIVED "+str(archive),flush=True)
+
+
 def restart_before_fit(root, run_dir, config):
     """Archive pre-fit receipts and re-plan after a code fix, preserving data.
 
@@ -172,10 +229,7 @@ class Campaign:
         self.config=validate_config(config)
         self.run.mkdir(parents=True,exist_ok=True)
         self.status_path=self.run/"status.json"
-        source={p.name:life.file_hash(p) for p in sorted((self.root/"scripts").glob("nhl_context_*.py"))}
-        for name in ("joint_population_bayes.py","population_history.py","population_normalizers.py",
-                     "historical_nhl_warehouse.py","history_warehouse_load.py"):
-            source[name]=life.file_hash(self.root/"scripts"/name)
+        source=source_receipt(self.root)
         runtime=life.code_provenance()
         identity={"config_digest":store.digest(config),"code_digest":store.digest(source),"root":str(self.root),
                   "runtime_digest":store.digest([runtime["python"],runtime["package_versions"]])}
@@ -256,6 +310,8 @@ class Campaign:
 
     def execute(self):
         config=self.config
+        self.command("check_environment","-c",
+                     "import pymc, arviz, arviz_stats, h5netcdf, h5py; print('NUMERICAL_ENVIRONMENT_OK', pymc.__version__)")
         plan=self.prepare()
         print("COLLECTION_GAMES="+str(plan["games_to_collect"]),flush=True)
         dataset=self.run/"dataset"
@@ -316,7 +372,11 @@ def main(argv=None):
     p.add_argument("--root",type=Path,default=store.ROOT)
     p.add_argument("--restart-before-fit",action="store_true",
                    help="Archive pre-fit receipts and recompute the plan after code updates; preserve collected data")
+    p.add_argument("--rebind-before-sampling",action="store_true",
+                   help="Adopt installed dependencies for a hash-verified frozen experiment without any posterior")
     a=p.parse_args(argv)
+    if a.rebind_before_sampling and (a.restart_before_fit or a.stage!="run"):
+        p.error("--rebind-before-sampling requires run and cannot be combined with --restart-before-fit")
     # Configure BLAS before the subprocesses import any numerical libraries.
     for key in ("OPENBLAS_NUM_THREADS","OMP_NUM_THREADS","MKL_NUM_THREADS"):
         os.environ[key]="1"
@@ -327,6 +387,8 @@ def main(argv=None):
         result=life.load_json(a.run_dir/"status.json")
     else:
         with campaign_lock(a.run_dir):
+            if a.rebind_before_sampling:
+                rebind_before_sampling(a.root,a.run_dir,life.load_json(a.config))
             if a.restart_before_fit:
                 restart_before_fit(a.root,a.run_dir,life.load_json(a.config))
             campaign=Campaign(a.root,a.run_dir,life.load_json(a.config))

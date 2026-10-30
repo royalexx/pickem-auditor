@@ -224,6 +224,24 @@ existing challenger/incumbent directory or post-planning stage. A frozen or
 sampled experiment still requires a separate run. Subprocess failures now include
 the last 40 log lines directly in the terminal traceback.
 
+If freezing completed but the first fit failed because PyMC was missing, install
+`requirements-joint-bayes.txt`, then explicitly adopt that runtime without
+discarding frozen data:
+
+```powershell
+python scripts/nhl_context_campaign.py run --run-dir reports/nhl_context_pilot_shotfix --rebind-before-sampling
+```
+
+The migration verifies hashes of all completed outputs and preserves the frozen
+cohort/design. It archives previous identities and the failed fit log under
+`runtime_migrations`, records the new numerical environment, and permits only an
+orchestration-script change. Changed model/data/feature code, a new configuration,
+any saved posterior/fit manifest, or a completed fit/evaluation prevents this
+migration. Subsequent runs use the ordinary command without the flag. This is
+distinct from `--restart-before-fit`, which cannot reset a frozen experiment.
+The campaign also imports its numerical dependencies in a separate process
+before collection, so a missing training stack now fails early.
+
 Use the existing Windows Python/G++ setup in `PRECISION_NHL_FULL.md` and
 `PRECISION_LOCAL_BAYES.md`. Keep each experiment in a new output folder. Run one
 new challenger model at a time initially; the existing four-market campaign can

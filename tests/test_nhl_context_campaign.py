@@ -115,6 +115,59 @@ class RawSource(unittest.TestCase):
 
 
 class Resuming(unittest.TestCase):
+    def frozen_campaign(self, root):
+        c=campaign.Campaign(ROOT,root,config())
+        files=[Path(root)/"challenger"/name for name in
+               ("design.json","preflight.json","training_rows.json","frozen_bundles.json","frozen_xg.json")]
+        c.step("freeze",lambda:[life.write_json(p,{"frozen":True}) for p in files],files)
+        state=life.load_json(c.status_path)
+        state["steps"]["fit_challenger"]={"status":"failed","error":"ModuleNotFoundError: pymc"}
+        state["runtime_digest"]="before_dependency_install"
+        source=life.load_json(Path(root)/"code_receipt.json")
+        source["nhl_context_campaign.py"]="previous_runner"
+        state["code_digest"]=data.digest(source)
+        life.write_json(Path(root)/"code_receipt.json",source)
+        life.write_json(c.status_path,state)
+        return c,files
+
+    def test_runtime_migration_preserves_verified_frozen_design(self):
+        with tempfile.TemporaryDirectory() as root:
+            c,files=self.frozen_campaign(root)
+            before=[life.file_hash(p) for p in files]
+            campaign.rebind_before_sampling(ROOT,root,config())
+            campaign.Campaign(ROOT,root,config())
+            self.assertEqual(before,[life.file_hash(p) for p in files])
+            self.assertEqual(len(list((Path(root)/"runtime_migrations").glob("*/status.json"))),1)
+            self.assertEqual(life.load_json(c.status_path)["steps"]["freeze"]["status"],"completed")
+
+    def test_runtime_migration_rejects_existing_posterior(self):
+        with tempfile.TemporaryDirectory() as root:
+            c,files=self.frozen_campaign(root)
+            posterior=Path(root)/"challenger"/"posterior.nc";posterior.write_bytes(b"saved-posterior")
+            with self.assertRaisesRegex(ValueError,"forbidden_with_sampling_outputs"):
+                campaign.rebind_before_sampling(ROOT,root,config())
+            self.assertEqual(posterior.read_bytes(),b"saved-posterior")
+
+    def test_runtime_migration_rejects_tampered_frozen_data(self):
+        with tempfile.TemporaryDirectory() as root:
+            c,files=self.frozen_campaign(root)
+            life.write_json(files[0],{"changed":True})
+            with self.assertRaisesRegex(ValueError,"frozen_output_changed"):
+                campaign.rebind_before_sampling(ROOT,root,config())
+
+    def test_runtime_migration_rejects_model_changes_and_new_config(self):
+        with tempfile.TemporaryDirectory() as root:
+            c,files=self.frozen_campaign(root)
+            changed=config();changed["draws"]+=1
+            with self.assertRaisesRegex(ValueError,"same_root_and_configuration"):
+                campaign.rebind_before_sampling(ROOT,root,changed)
+            source=life.load_json(Path(root)/"code_receipt.json")
+            source["nhl_context_model.py"]="different_model"
+            state=life.load_json(c.status_path);state["code_digest"]=data.digest(source)
+            life.write_json(Path(root)/"code_receipt.json",source);life.write_json(c.status_path,state)
+            with self.assertRaisesRegex(ValueError,"model_or_data_code_changed"):
+                campaign.rebind_before_sampling(ROOT,root,config())
+
     def test_subprocess_failure_reports_actual_source_error(self):
         with tempfile.TemporaryDirectory() as root:
             c=campaign.Campaign(ROOT,root,config())
