@@ -89,10 +89,19 @@ def execute(stage: str, *, root: Path = ROOT, env=None) -> dict:
                  "rows": len(rows), "seasons": len({r["season"] for r in rows})}),
                 flush=True)
     elif stage == "fit":
+        runtime_env = os.environ if env is None else env
+        cores = int(runtime_env.get("PICKEM_NUTS_CORES", "2"))
+        draws = int(runtime_env.get("PICKEM_NUTS_DRAWS", "1000"))
+        tune = int(runtime_env.get("PICKEM_NUTS_TUNE", "1200"))
+        chains = int(runtime_env.get("PICKEM_NUTS_CHAINS", "4"))
+        if not 1 <= cores <= chains <= 8 or not 100 <= draws <= 10000 or not 100 <= tune <= 10000:
+            raise ValueError("unsafe_sampling_parallelism_or_budget")
         run("scripts/joint_population_bayes.py", *base, "--as-of", conf["cutoff"],
             "--max-seasons", str(conf["max_seasons"]), "--min-rows", "2000",
             "--max-per-position", str(conf["max_per_position"]),
-            "--draws", "1000", "--tune", "1200", "--chains", "4",
+            "--draws", str(draws), "--tune", str(tune), "--chains", str(chains),
+            "--cores", str(cores), "--progress-file", str(target / "progress.json"),
+            "--progress-interval", "45",
             "--out", str(target), root=root)
     elif stage == "holdout":
         if conf["mode"] != "holdout":
@@ -129,7 +138,11 @@ def provenance(*, root: Path = ROOT, env=None) -> dict:
                "runner_execution": "windows_native_self_hosted",
                "validation_stage": env.get("VALIDATE_RESULT"),
                "fit_stage": env.get("FIT_RESULT"),
-               "sampler": "pymc_cpu_nuts_four_chains_two_parallel",
+               "sampler": "pymc_cpu_nuts",
+               "sampler_chains": env.get("PICKEM_NUTS_CHAINS", "4"),
+               "sampler_parallel_chains": env.get("PICKEM_NUTS_CORES", "2"),
+               "sampler_draws": env.get("PICKEM_NUTS_DRAWS", "1000"),
+               "sampler_tune": env.get("PICKEM_NUTS_TUNE", "1200"),
                "inputs": {name.lower(): env.get(name) for name in
                           ("SPORT","STAT","MODE","TRAIN_FROM","CUTOFF",
                            "HOLDOUT_UNTIL","LINE","MAX_PER_POSITION","MAX_SEASONS")},
