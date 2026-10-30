@@ -56,6 +56,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Test progress bars, NHL market contract and RAM guard offline
+        run: |
+          python -m unittest discover -s tests -p "test_precision_nhl_campaign.py" -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Restore immutable NHL history from GitHub
         run: |
           python scripts/history_warehouse_load.py
@@ -79,7 +83,7 @@ jobs:
         id: train
         run: |
           $python=Join-Path $env:RUNNER_TEMP 'pickem-nhl-full-venv\Scripts\python.exe'
-          & $python scripts/precision_nhl_campaign.py run --max-parallel ${{ inputs.max_parallel_models }} --min-free-mb ${{ inputs.min_free_ram_mb }} --stagger-seconds 105
+          & $python scripts/precision_nhl_campaign.py run --max-parallel ${{ inputs.max_parallel_models }} --min-free-mb ${{ inputs.min_free_ram_mb }} --stagger-seconds 240
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Upload NHL model progress, per-market posteriors and converged fit checks
         if: always()
