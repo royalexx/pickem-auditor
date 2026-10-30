@@ -162,8 +162,7 @@ def normalize(box, *, observed_at, pbp=None, include_attempts=True):
             raise ValueError("invalid_goalie_start_or_team_exposure")
         result["goalies"].extend(side_goalies)
         sf, against = count(box[side]["sog"]), count(box[other]["sog"])
-        if sum(p["shots"] for p in team_skaters) != sf:
-            raise ValueError("team_skater_shots_do_not_reconcile")
+        shot_difference = sf - sum(p["shots"] for p in team_skaters)
         faced = sum(p["shots_against"] for p in side_goalies)
         if faced > against:
             raise ValueError("goalie_shots_exceed_opponent_shots")
@@ -175,6 +174,12 @@ def normalize(box, *, observed_at, pbp=None, include_attempts=True):
                                 "attempts_for": None, "attempts_against": None,
                                 "xgf": None, "xga": None, "xg_source": None,
                                 "strength_splits": None})
+        if shot_difference:
+            # Team SOG and the sum of skater SOG are separate source fields.
+            # A goalie shot, an unassigned credit or a source discrepancy can
+            # produce a difference. Preserve it without guessing the cause or
+            # modifying any individual count. Omit zero for legacy roundtrips.
+            result["teams"][-1]["team_minus_skater_shots"] = shot_difference
     if pbp is not None:
         if str(pbp.get("id")) != str(gid):
             raise ValueError("play_by_play_game_identity_mismatch")
@@ -282,10 +287,13 @@ def validate_bundle(bundle):
         opposite=teams[team["opponent"]]
         goalies=[r for r in bundle["goalies"] if r["team"]==team["team"]]
         skaters=[r for r in bundle["skaters"] if r["team"]==team["team"]]
+        difference=team.get("team_minus_skater_shots",0)
+        if isinstance(difference,bool) or not isinstance(difference,int) or abs(difference)>200:
+            raise ValueError("invalid_team_skater_shot_difference")
         if (team["shots_for"]!=opposite["shots_against"]
                 or sum(g["shots_against"] for g in goalies)!=team["goalie_shots_against"]
                 or team["goalie_shots_against"]+team["unassigned_shots_against"]!=team["shots_against"]
-                or sum(s["shots"] for s in skaters)!=team["shots_for"]
+                or sum(s["shots"] for s in skaters)+difference!=team["shots_for"]
                 or sum(s["hits"] for s in skaters)!=team["hits"]
                 or sum(s["blocks"] for s in skaters)!=team["blocks"]
                 or sum(int(g["starter"]) for g in goalies)!=1
@@ -475,14 +483,16 @@ def collect(root, *, game_ids, fetcher=None, with_attempts=False):
         pbp = None
         if with_attempts or box.get("periodDescriptor", {}).get("number") != 3:
             pbp = fetcher(f"{BASE}/gamecenter/{gid}/play-by-play")
+        # Retain fetched evidence even if a later schema/reconciliation check
+        # rejects this game, so its actual payload can be inspected offline.
+        archive_source(root,box)
+        if pbp is not None:
+            archive_source(root,pbp)
         try:
             bundle = normalize(box, observed_at=datetime.now(timezone.utc).isoformat(), pbp=pbp,
                                include_attempts=with_attempts)
         except (ValueError,KeyError) as exc:
             raise ValueError(f"collection_game={gid}: {exc}") from exc
-        archive_source(root,box)
-        if pbp is not None:
-            archive_source(root,pbp)
         inserted += int(save_bundle(root, bundle))
     return {"inserted_games": inserted, "requested_games": len(game_ids)}
 

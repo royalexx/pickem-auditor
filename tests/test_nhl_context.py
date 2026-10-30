@@ -30,6 +30,40 @@ class ContextData(unittest.TestCase):
         b=box();del b["playerByGameStats"]["homeTeam"]["forwards"][0]["hits"]
         with self.assertRaises(KeyError):self.normalized(b)
 
+    def test_team_skater_shot_difference_preserves_source_counts_and_audit(self):
+        for shots,difference in ((3,1),(5,-1)):
+            with self.subTest(difference=difference),tempfile.TemporaryDirectory() as root:
+                b=box();b["playerByGameStats"]["homeTeam"]["forwards"][0]["sog"]=shots
+                data.collect(root,game_ids=[b["id"]],fetcher=lambda url:b)
+                bundle=data.read_bundles(root)[0]
+                team=next(r for r in bundle["teams"] if r["home"])
+                skater=next(r for r in bundle["skaters"] if r["home"])
+                self.assertEqual(team["shots_for"],4)
+                self.assertEqual(skater["shots"],shots)
+                self.assertEqual(team["team_minus_skater_shots"],difference)
+                self.assertTrue(data.verify_bundle_source(root,bundle))
+                ids=Path(root)/"ids.json";ids.write_text(json.dumps([str(b["id"])]))
+                audit=train.audit_collection(root,expected_ids=ids,output=Path(root)/"audit.json",verify_raw=True)
+                self.assertEqual(audit["team_skater_shot_differences"][0]["team_minus_skater_shots"],difference)
+                altered=copy.deepcopy(bundle)
+                altered["teams"][0]["team_minus_skater_shots"]+=1
+                with self.assertRaisesRegex(ValueError,"counts_do_not_reconcile"):
+                    data.validate_bundle(altered)
+                altered=copy.deepcopy(bundle)
+                altered["skaters"][0]["shots"]+=1
+                altered["teams"][0]["team_minus_skater_shots"]-=1
+                data.validate_bundle(altered)
+                with self.assertRaisesRegex(ValueError,"archived_source"):
+                    data.verify_bundle_source(root,altered)
+
+    def test_failed_collection_keeps_raw_evidence(self):
+        b=box();b["playerByGameStats"]["homeTeam"]["goalies"][0]["saves"]=99
+        with tempfile.TemporaryDirectory() as root:
+            with self.assertRaisesRegex(ValueError,"collection_game"):
+                data.collect(root,game_ids=[b["id"]],fetcher=lambda url:b)
+            data.check_source_archive(root,{"sha256":data.digest(b)})
+            self.assertEqual(data.read_bundles(root),[])
+
     def test_goalie_counts_reconcile(self):
         for field,value in (("saves",4),("goalsAgainst",2),("starter",None),("shotsAgainst",7)):
             b=box();b["playerByGameStats"]["homeTeam"]["goalies"][0][field]=value

@@ -87,6 +87,7 @@ def audit_collection(root, *, expected_ids, output, verify_raw=False):
     present={b["game_id"] for b in bundles}
     missing=sorted(set(map(str,expected))-present)
     by_season={}
+    shot_differences=[]
     for b in bundles:
         if verify_raw:
             store.verify_bundle_source(root,b)
@@ -95,10 +96,14 @@ def audit_collection(root, *, expected_ids, output, verify_raw=False):
         season["with_attempts"]+=int(all(r["attempts_for"] is not None for r in b["teams"]))
         for row in b["teams"]:
             season["teams"][row["team"]]=season["teams"].get(row["team"],0)+1
+            if row.get("team_minus_skater_shots",0):
+                shot_differences.append({"game_id":b["game_id"],"team":row["team"],
+                    "team_shots":row["shots_for"],"team_minus_skater_shots":row["team_minus_skater_shots"]})
     report={"schema":"nhl-context-collection-audit-v1","expected_games":len(expected),
             "present_games":len(present),"missing_game_ids":missing,"by_season":by_season,
             "complete_against_provided_ids":not missing,"schedule_source_independently_verified":False,
             "raw_sources_reconciled":bool(verify_raw),
+            "team_skater_shot_differences":shot_differences,
             "ranking_allowed":False}
     write_json(output,report)
     return report

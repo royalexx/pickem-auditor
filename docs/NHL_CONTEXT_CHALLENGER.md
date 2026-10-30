@@ -194,6 +194,14 @@ successfully archived games are verified and reused without refetching. Keep the
 original run receipts for inspection. Do not edit `status.json` or code hashes
 to bypass the provenance check.
 
+Team SOG and individual skater SOG are retained as distinct source observations.
+If their sum differs, `team_minus_skater_shots` records the signed residual;
+the collector does not assign it to a skater, label its cause, or alter a goalie
+count. The collection audit lists every such game/team for review. A goalie
+shot or unassigned credit is possible, but the difference alone does not prove
+the explanation. Archived-source replay must reproduce the residual and all
+original counts exactly. Old zero-residual bundles remain compatible.
+
 Use the existing Windows Python/G++ setup in `PRECISION_NHL_FULL.md` and
 `PRECISION_LOCAL_BAYES.md`. Keep each experiment in a new output folder. Run one
 new challenger model at a time initially; the existing four-market campaign can
