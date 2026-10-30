@@ -57,7 +57,7 @@ class ContextData(unittest.TestCase):
                     data.verify_bundle_source(root,altered)
 
     def test_failed_collection_keeps_raw_evidence(self):
-        b=box();b["playerByGameStats"]["homeTeam"]["goalies"][0]["saves"]=99
+        b=box();b["playerByGameStats"]["homeTeam"]["goalies"][0]["starter"]=None
         with tempfile.TemporaryDirectory() as root:
             with self.assertRaisesRegex(ValueError,"collection_game"):
                 data.collect(root,game_ids=[b["id"]],fetcher=lambda url:b)
@@ -65,9 +65,32 @@ class ContextData(unittest.TestCase):
             self.assertEqual(data.read_bundles(root),[])
 
     def test_goalie_counts_reconcile(self):
-        for field,value in (("saves",4),("goalsAgainst",2),("starter",None),("shotsAgainst",7)):
+        for field,value in (("saves",True),("goalsAgainst",-1),("starter",None),("shotsAgainst",7)):
             b=box();b["playerByGameStats"]["homeTeam"]["goalies"][0][field]=value
             with self.subTest(field=field),self.assertRaises(ValueError):self.normalized(b)
+
+    def test_inconsistent_goalie_is_preserved_but_excluded_from_model_and_history(self):
+        raw=box()
+        raw["playerByGameStats"]["homeTeam"]["goalies"][0].update(playerId=8479292,saves=27,goalsAgainst=2,shotsAgainst=28)
+        raw["awayTeam"]["sog"]=28
+        raw["playerByGameStats"]["awayTeam"]["forwards"][0]["sog"]=28
+        with tempfile.TemporaryDirectory() as root:
+            data.collect(root,game_ids=[raw["id"]],fetcher=lambda url:raw)
+            bundle=data.read_bundles(root)[0];bad=bundle["goalies"][0]
+            self.assertEqual((bad["saves"],bad["goals_against"],bad["shots_against"]),(27,2,28))
+            self.assertEqual(bad["source_count_discrepancy"]["saves_plus_goals_minus_shots_against"],1)
+            self.assertTrue(data.verify_bundle_source(root,bundle))
+            rows,omitted=features.examples([bundle],market="saves",min_team_games=0)
+            self.assertEqual([r["player_id"] for r in rows],[bundle["goalies"][1]["player_id"]])
+            self.assertEqual(omitted[0]["reason"],"source_goalie_counts_do_not_reconcile")
+            index=data.HistoryIndex([bundle])
+            self.assertEqual(index.before("goalies",bad["player_id"],"2023-10-03T00:00:00Z"),[])
+            ids=Path(root)/"ids.json";ids.write_text(json.dumps([str(raw["id"])]))
+            audit=train.audit_collection(root,expected_ids=ids,output=Path(root)/"audit.json",verify_raw=True)
+            self.assertEqual(audit["goalie_records_excluded_from_saves_model"][0]["player_id"],bad["player_id"])
+            bad.pop("source_count_discrepancy")
+            with self.assertRaisesRegex(ValueError,"invalid_persisted_goalie_counts"):
+                data.validate_bundle(bundle)
 
     def test_save_string_checks_denominator(self):
         b=box();b["playerByGameStats"]["homeTeam"]["goalies"][0]["saves"]="3/4"

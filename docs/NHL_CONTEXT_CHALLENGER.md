@@ -202,6 +202,28 @@ shot or unassigned credit is possible, but the difference alone does not prove
 the explanation. Archived-source replay must reproduce the residual and all
 original counts exactly. Old zero-residual bundles remain compatible.
 
+If the source reports inconsistent goalie counts, the original row is archived
+unchanged with `source_count_discrepancy`. It is excluded from saves training,
+holdout outcomes and rolling goalie history; the collection audit lists the
+game/player and all reported counts. No count is selected as correct by arithmetic
+alone. Exposure, identity and count-type validation remain strict. If exclusions
+leave a planned training game with no usable goalie rows, preflight fails rather
+than silently changing the planned game cohort. Comparators use the same eligible
+observations. Source repair needs independent evidence and a new dataset version.
+
+After a code update during collection, reuse the current directory explicitly:
+
+```powershell
+python scripts/nhl_context_campaign.py run --run-dir reports/nhl_context_pilot_shotfix --restart-before-fit
+```
+
+This archives the old control receipts and logs under `collection_restarts`,
+verifies completed planning outputs, re-plans with the same configuration and
+preserves the downloaded dataset. It refuses a changed configuration/root or any
+existing challenger/incumbent directory or post-planning stage. A frozen or
+sampled experiment still requires a separate run. Subprocess failures now include
+the last 40 log lines directly in the terminal traceback.
+
 Use the existing Windows Python/G++ setup in `PRECISION_NHL_FULL.md` and
 `PRECISION_LOCAL_BAYES.md`. Keep each experiment in a new output folder. Run one
 new challenger model at a time initially; the existing four-market campaign can

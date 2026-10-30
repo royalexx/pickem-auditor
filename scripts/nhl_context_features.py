@@ -189,6 +189,10 @@ def examples(bundles, *, market, policy="retrospective_next_day", feature_set="c
     for bundle in bundles:
         table = bundle["goalies"] if market == "saves" else bundle["skaters"]
         for row in table:
+            if market=="saves" and row.get("source_count_discrepancy"):
+                omitted.append({"game_id":row["game_id"],"player_id":row["player_id"],
+                                "reason":"source_goalie_counts_do_not_reconcile"})
+                continue
             if market == "saves" and not row["starter"]:
                 continue  # Model is explicitly conditional on starting.
             try:
@@ -210,6 +214,9 @@ def examples(bundles, *, market, policy="retrospective_next_day", feature_set="c
 def prepare(rows, *, cutoff, feature_set="context", min_rows=200):
     """Training-only identities, standardization, and manifest digest."""
     import numpy as np
+    if any(r["market"]=="saves" and (r.get("source_count_discrepancy") or
+            r["saves"]+r["goals_against"]!=r["shots_against"]) for r in rows):
+        raise ValueError("inconsistent_goalie_source_cannot_enter_training")
     end = store.instant(cutoff)
     if not rows or any(store.instant(r["start_time"]) >= end or store.instant(r["target_available_at"]) >= end for r in rows):
         raise ValueError("training_contains_cutoff_or_future_game")

@@ -10,6 +10,7 @@ import argparse
 import bisect
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -26,6 +27,36 @@ import nhl_context_train as life
 REQUIRED={"schema","train_from","cutoff","until","pilot_games","history_window",
           "draws","tune","chains","cores","predictive_draws","line","market",
           "feature_set","policy","with_attempts","restore_history"}
+
+
+def restart_before_fit(root, run_dir, config):
+    """Archive pre-fit receipts and re-plan after a code fix, preserving data.
+
+    Never reuses a frozen design or a sampled posterior under different code.
+    Call only while holding campaign_lock.
+    """
+    run=Path(run_dir).resolve();status=run/"status.json"
+    if not status.exists():
+        return
+    old=life.load_json(status)
+    if old.get("root")!=str(Path(root).resolve()) or old.get("config_digest")!=store.digest(config):
+        raise ValueError("collection_restart_requires_same_root_and_configuration")
+    if any((run/name).exists() for name in ("challenger","incumbent")) or set(old["steps"])-{"restore_history","plan"}:
+        raise ValueError("collection_restart_forbidden_after_freeze_or_fit")
+    for step in old["steps"].values():
+        if step.get("status")=="completed":
+            for path,checksum in step["outputs"].items():
+                if not Path(path).is_file() or life.file_hash(path)!=checksum:
+                    raise ValueError("collection_restart_output_changed")
+    archive=run/"collection_restarts"/datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    archive.mkdir(parents=True)
+    for name in ("status.json","code_receipt.json","config.json","history_restore.json","collection_plan.json",
+                 "game_ids.json","training_game_ids.json","collect.log","audit_collection.log","collection_audit.json"):
+        if (run/name).is_file():shutil.copy2(run/name,archive/name)
+    life.write_json(archive/"restart_receipt.json",{"reason":"explicit_pre_fit_restart_after_source_update",
+                    "dataset_preserved":True,"new_code_provenance":life.code_provenance()})
+    status.unlink()
+    print("COLLECTION_RESTART_ARCHIVED "+str(archive),flush=True)
 
 
 @contextmanager
@@ -200,7 +231,8 @@ class Campaign:
                     except subprocess.TimeoutExpired:process.kill()
                     raise
         if code:
-            raise RuntimeError(f"stage_{name}_exit_{code}: inspect {log}; failed diagnostics are never waived")
+            tail="\n".join(log.read_text(encoding="utf-8",errors="replace").splitlines()[-40:])
+            raise RuntimeError(f"stage_{name}_exit_{code}: inspect {log}\n{tail}")
 
     def prepare(self):
         if self.config["restore_history"]:
@@ -282,6 +314,8 @@ def main(argv=None):
     p.add_argument("--config",type=Path,default=store.ROOT/"config/nhl_context_pilot.json")
     p.add_argument("--run-dir",type=Path,default=store.ROOT/"reports/nhl_context_pilot_v2")
     p.add_argument("--root",type=Path,default=store.ROOT)
+    p.add_argument("--restart-before-fit",action="store_true",
+                   help="Archive pre-fit receipts and recompute the plan after code updates; preserve collected data")
     a=p.parse_args(argv)
     # Configure BLAS before the subprocesses import any numerical libraries.
     for key in ("OPENBLAS_NUM_THREADS","OMP_NUM_THREADS","MKL_NUM_THREADS"):
@@ -293,6 +327,8 @@ def main(argv=None):
         result=life.load_json(a.run_dir/"status.json")
     else:
         with campaign_lock(a.run_dir):
+            if a.restart_before_fit:
+                restart_before_fit(a.root,a.run_dir,life.load_json(a.config))
             campaign=Campaign(a.root,a.run_dir,life.load_json(a.config))
             result=campaign.prepare() if a.stage=="plan" else campaign.execute()
     print(json.dumps(result,sort_keys=True,allow_nan=False),flush=True)

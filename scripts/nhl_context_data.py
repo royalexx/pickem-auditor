@@ -79,7 +79,8 @@ def game_duration(box, pbp):
 def normalize(box, *, observed_at, pbp=None, include_attempts=True):
     """Strict official boxscore adapter; absence is never a zero.
 
-    Save counts must reconcile to goalie shots and goals. Team SOG need not
+    Unreconciled goalie counts are preserved and flagged for model exclusion.
+    Team SOG need not
     equal goalie shots faced because of empty nets. Bench goalies are omitted.
     Advanced/situation metrics remain null until independently sourced.
     """
@@ -149,8 +150,8 @@ def normalize(box, *, observed_at, pbp=None, include_attempts=True):
                     raise ValueError("ambiguous_goalie_saves")
                 saves = int(left)
             saves = count(saves)
-            if saves + ga != sa or toi > duration + .02:
-                raise ValueError("goalie_exposure_or_count_inconsistency")
+            if toi > duration + .02:
+                raise ValueError(f"goalie_exposure_exceeds_duration:player={pid}:minutes={toi}:duration={duration}")
             starter = player.get("starter")
             if not isinstance(starter, bool):
                 raise ValueError("missing_verified_goalie_start")
@@ -158,6 +159,10 @@ def normalize(box, *, observed_at, pbp=None, include_attempts=True):
             side_goalies.append({**shared, "player_id": pid, "position": "G", "minutes": toi,
                                  "starter": starter, "shots_against": sa, "goals_against": ga,
                                  "saves": saves})
+            if saves + ga != sa:
+                side_goalies[-1]["source_count_discrepancy"] = {
+                    "reason":"saves_plus_goals_differs_from_shots_against",
+                    "saves_plus_goals_minus_shots_against":saves+ga-sa}
         if starters != 1 or sum(g["minutes"] for g in side_goalies) > duration + .05:
             raise ValueError("invalid_goalie_start_or_team_exposure")
         result["goalies"].extend(side_goalies)
@@ -268,7 +273,10 @@ def validate_bundle(bundle):
             if table == "goalies":
                 for field in ("saves","shots_against","goals_against"):
                     count(row[field])
-                if row["saves"]+row["goals_against"] != row["shots_against"] or not isinstance(row["starter"],bool):
+                difference=row["saves"]+row["goals_against"]-row["shots_against"]
+                expected=({"reason":"saves_plus_goals_differs_from_shots_against",
+                           "saves_plus_goals_minus_shots_against":difference} if difference else None)
+                if row.get("source_count_discrepancy")!=expected or not isinstance(row["starter"],bool):
                     raise ValueError("invalid_persisted_goalie_counts")
             elif table == "skaters":
                 if row["position"] not in ("F","D"):
@@ -392,6 +400,8 @@ class HistoryIndex:
                 available = start + timedelta(hours=12)
             for table in ("teams", "skaters", "goalies"):
                 for row in bundle[table]:
+                    if table=="goalies" and row.get("source_count_discrepancy"):
+                        continue
                     key = (table, row["team"] if table == "teams" else row["player_id"])
                     self.rows[key].append((available, start, row))
         self.times = {}

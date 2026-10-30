@@ -88,12 +88,17 @@ def audit_collection(root, *, expected_ids, output, verify_raw=False):
     missing=sorted(set(map(str,expected))-present)
     by_season={}
     shot_differences=[]
+    excluded_goalies=[]
     for b in bundles:
         if verify_raw:
             store.verify_bundle_source(root,b)
         season=by_season.setdefault(b["season"],{"games":0,"teams":{},"with_attempts":0})
         season["games"]+=1
         season["with_attempts"]+=int(all(r["attempts_for"] is not None for r in b["teams"]))
+        for row in b["goalies"]:
+            if row.get("source_count_discrepancy"):
+                excluded_goalies.append({k:row[k] for k in ("game_id","player_id","team","saves",
+                                         "goals_against","shots_against","source_count_discrepancy")})
         for row in b["teams"]:
             season["teams"][row["team"]]=season["teams"].get(row["team"],0)+1
             if row.get("team_minus_skater_shots",0):
@@ -104,6 +109,7 @@ def audit_collection(root, *, expected_ids, output, verify_raw=False):
             "complete_against_provided_ids":not missing,"schedule_source_independently_verified":False,
             "raw_sources_reconciled":bool(verify_raw),
             "team_skater_shot_differences":shot_differences,
+            "goalie_records_excluded_from_saves_model":excluded_goalies,
             "ranking_allowed":False}
     write_json(output,report)
     return report

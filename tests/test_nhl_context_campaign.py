@@ -115,6 +115,42 @@ class RawSource(unittest.TestCase):
 
 
 class Resuming(unittest.TestCase):
+    def test_subprocess_failure_reports_actual_source_error(self):
+        with tempfile.TemporaryDirectory() as root:
+            c=campaign.Campaign(ROOT,root,config())
+            with self.assertRaisesRegex(RuntimeError,"specific_source_problem"):
+                c.command("collect","-c","raise ValueError('specific_source_problem')")
+
+    def test_prefit_restart_rejects_changed_planning_output(self):
+        with tempfile.TemporaryDirectory() as root:
+            c=campaign.Campaign(ROOT,root,config());out=Path(root)/"plan.json"
+            c.step("plan",lambda:life.write_json(out,{"games":1}),[out])
+            life.write_json(out,{"games":2})
+            with self.assertRaisesRegex(ValueError,"restart_output_changed"):
+                campaign.restart_before_fit(ROOT,root,config())
+            self.assertTrue(c.status_path.exists())
+
+    def test_explicit_prefit_restart_archives_receipts_and_preserves_dataset(self):
+        with tempfile.TemporaryDirectory() as root:
+            c=campaign.Campaign(ROOT,root,config())
+            raw=Path(root)/"dataset"/"cache.json";life.write_json(raw,{"cached":True})
+            campaign.restart_before_fit(ROOT,root,config())
+            self.assertFalse(c.status_path.exists())
+            self.assertTrue(raw.exists())
+            self.assertEqual(len(list((Path(root)/"collection_restarts").glob("*/status.json"))),1)
+            campaign.Campaign(ROOT,root,config())
+
+    def test_prefit_restart_cannot_bypass_frozen_experiment_or_configuration(self):
+        with tempfile.TemporaryDirectory() as root:
+            campaign.Campaign(ROOT,root,config())
+            changed=config();changed["draws"]+=1
+            with self.assertRaisesRegex(ValueError,"same_root_and_configuration"):
+                campaign.restart_before_fit(ROOT,root,changed)
+            (Path(root)/"challenger").mkdir()
+            with self.assertRaisesRegex(ValueError,"forbidden_after_freeze"):
+                campaign.restart_before_fit(ROOT,root,config())
+            self.assertTrue((Path(root)/"status.json").exists())
+
     def test_completed_step_is_verified_not_reexecuted(self):
         with tempfile.TemporaryDirectory() as root:
             c=campaign.Campaign(ROOT,root,config());out=Path(root)/"output.json";called=[]
