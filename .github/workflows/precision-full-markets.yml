@@ -71,6 +71,10 @@ jobs:
         run: |
           python scripts/precision_campaign_catalog.py --index $env:INDEX --github-env $env:GITHUB_ENV
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Validate exact 31-market taxonomy and sequential recovery
+        run: |
+          python -m unittest discover -s tests -p "test_precision_campaign_catalog.py" -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Retrieve source-owned population history from private GitHub
         run: |
           python scripts/history_warehouse_load.py
