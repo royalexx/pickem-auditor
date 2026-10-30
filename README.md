@@ -227,3 +227,13 @@ The [multi-season population workflow](references/recent_multiseason_bayesian_tr
 ## Research-ranked candidates versus verified picks
 
 Each afternoon and applicable pregame recheck now builds a separate `reports/research_ranked_board.json`. Its **Research Tier 2 / Research Tier 3** entries are source-forecast-linked numeric rankings **pending availability, causal research and refreshed market verification**. They are not approved picks, are not actionable without those checks, and cannot replace or silently populate `reports/verified_board.json`. The verified board remains the sole final Tier 1–3 publication source. See [research ranking recovery and verification options](references/research_ranked_recovery_20261028.md).
+
+## NHL context challenger and local training
+
+The [context-model architecture and local runbook](docs/NHL_CONTEXT_CHALLENGER.md)
+separate team, skater, goalie and pregame matchup data; model saves through shots
+faced and save conversion; and freeze inputs for chronological comparisons.
+The [implementation audit](docs/NHL_CONTEXT_AUDIT_2026-10-30.md) distinguishes
+synthetic sampling checks from real NHL validation. The existing converged saves
+posterior remains the baseline; the new challenger cannot rank picks.
+

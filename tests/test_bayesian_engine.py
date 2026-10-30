@@ -102,7 +102,10 @@ class SourceSelectionTests(unittest.TestCase):
             self.assertEqual(len(late),6)
             self.assertGreaterEqual(be._peer_index.cache_info().hits,2)
             be._peer_index.cache_clear()
-            one=next((root/'usage'/'snapshots').glob('*.json'))
+            # Filesystem iteration may select the already-ineligible 20:00
+            # snapshot, making this integrity assertion nondeterministic.
+            one=next(p for p in sorted((root/'usage'/'snapshots').glob('*.json'))
+                     if json.loads(p.read_text())['retrieved_at']=='2026-10-28T12:01:00Z')
             one.write_text(one.read_text().replace('"value": 2','"value": 999'))
             result=be.peers_from_cache(root,sport='NHL',stat='shots on goal',
                          player_id='99',cutoff=now,source_date=date(2026,10,28))
@@ -166,3 +169,4 @@ class SourceSelectionTests(unittest.TestCase):
 
 if __name__=='__main__':
     unittest.main()
+
