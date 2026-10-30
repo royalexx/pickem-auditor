@@ -1,0 +1,87 @@
+name: NHL Bayesian sampler benchmark (GitHub-hosted only)
+run-name: NHL benchmark • ${{ github.event_name }} • ${{ github.sha }}
+on:
+  pull_request:
+    paths:
+      - 'scripts/precision_sampler_benchmark.py'
+      - 'tests/test_precision_sampler_benchmark.py'
+      - '.github/workflows/precision-nhl-sampler-benchmark.yml'
+  workflow_dispatch:
+    inputs:
+      stat:
+        description: NHL market (same fixed cohort for every backend)
+        type: choice
+        options: ['hits', 'shots on goal', 'blocked shots', 'saves']
+        default: hits
+      max_per_position:
+        description: Training-only fixed player cohort per position, NOT full-population
+        type: choice
+        options: ['12', '24', '48']
+        default: '12'
+permissions:
+  contents: read
+concurrency:
+  group: nhl-sampler-benchmark-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  research-benchmark:
+    name: "${{ matrix.backend }} - NHL sampler (hosted CPU)"
+    # This MUST NOT run on the self-hosted pickem laptop while full fits are active.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        backend: [pymc, nutpie, numpyro]
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_PLATFORM_NAME: cpu
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Checkout research-only branch and historical metadata
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate independent benchmark contract
+        run: python -m unittest discover -s tests -p test_precision_sampler_benchmark.py -v
+      - name: Restore immutable NHL historical snapshot
+        run: python scripts/history_warehouse_load.py
+      - name: Install pinned model stack and chosen research sampler
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-joint-bayes.txt
+          if [ "${{ matrix.backend }}" = 'nutpie' ]; then
+            python -m pip install nutpie
+          elif [ "${{ matrix.backend }}" = 'numpyro' ]; then
+            python -m pip install 'numpyro[cpu]'
+          fi
+          python -c 'import pymc; print("PYMC_VERSION",pymc.__version__)'
+      - name: Execute equal-cohort, equal-budget NHL sampler benchmark
+        shell: bash
+        run: |
+          mkdir -p reports/sampler_benchmark
+          python scripts/precision_sampler_benchmark.py \
+            --sampler "${{ matrix.backend }}" \
+            --stat "${{ github.event.inputs.stat || 'hits' }}" \
+            --max-per-position "${{ github.event.inputs.max_per_position || '12' }}" \
+            --as-of 2026-10-29 \
+            --draws 400 --tune 400 --chains 4 --cores 2 \
+            --target-accept 0.99 \
+            --out "reports/sampler_benchmark/${{ matrix.backend }}.json"
+      - name: Upload benchmark reports (success or failure)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nhl-sampler-benchmark-${{ matrix.backend }}-${{ github.run_id }}
+          retention-days: 30
+          if-no-files-found: warn
+          path: reports/sampler_benchmark/
