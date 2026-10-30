@@ -131,3 +131,17 @@ budget and the worker receipt. For a secondary, independent recomputation
 of diagnostics from the saved NetCDF posterior use
 `--independent` only when there is sufficient RAM and the proper
 research environment; it may be expensive while hits is still sampling.
+
+
+## Automatic second-opinion goalie convergence audit
+
+After original run 40993538888 completes and uploads its artifact, the
+deferred Windows benchmark tries to download
+`precision-nhl-full-history-40993538888` using the job's read-only
+GitHub Actions permissions. It then calls
+`precision_nhl_convergence.py --market saves --independent`, which opens
+the saved NetCDF posterior and recomputes the **entire** strict
+all-player/all-opponent/all-season convergence diagnostic set. A
+`reports/nhl_saved_fit_audit/saves.jsonl` receipt is uploaded even
+when the model fails or its original artifact is unavailable. In those
+cases the workflow must NOT report saves as converged.

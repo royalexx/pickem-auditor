@@ -21,6 +21,7 @@ on:
     types: [completed]
 permissions:
   contents: read
+  actions: read
 # The same group as the ongoing 4-market training. NEVER cancel the old run.
 concurrency:
   group: precision-windows-nhl-complete-history
@@ -83,6 +84,31 @@ jobs:
           $gcc=Join-Path $compilerBin 'g++.exe'
           if (-not (Test-Path $gcc)) { throw 'MSYS2_GXX_REQUIRED_FOR_WINDOWS_BENCHMARK' }
           Add-Content -Path $env:GITHUB_PATH -Value $compilerBin
+      - name: Recover completed training posteriors for independent audit
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: precision-nhl-full-history-40993538888
+          run-id: 40993538888
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: reports/precision_training/40993538888
+      - name: Independently recheck saved goalie-saves posterior
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path reports/nhl_saved_fit_audit | Out-Null
+          $python=$env:BENCHMARK_PYTHON
+          $saved='reports/precision_training/40993538888/saves/posterior.nc'
+          if (Test-Path $saved) {
+            & $python scripts/precision_nhl_convergence.py --run-id 40993538888 --market saves --independent 2>&1 |
+              Tee-Object -FilePath reports/nhl_saved_fit_audit/saves.jsonl
+            if ($LASTEXITCODE -ne 0) {
+              Write-Warning 'Saves did not pass independent strict convergence, or its saved posterior could not be read'
+            }
+          } else {
+            '{"status":"unavailable","reason":"SAVES_POSTERIOR_NOT_IN_GITHUB_ARTIFACT"}' |
+              Out-File -Encoding utf8 reports/nhl_saved_fit_audit/saves.jsonl
+            Write-Warning 'Saves artifact missing; not declaring convergence'
+          }
       - name: Sample standard PyMC, Nutpie and NumPyro sequentially
         shell: pwsh
         run: |
@@ -134,4 +160,6 @@ jobs:
           name: precision-nhl-windows-benchmarks-${{ github.run_id }}
           if-no-files-found: warn
           retention-days: 90
-          path: reports/sampler_benchmark/
+          path: |
+            reports/sampler_benchmark/
+            reports/nhl_saved_fit_audit/
