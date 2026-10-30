@@ -83,7 +83,7 @@ def execute(opts):
         "chains": opts.chains, "cores": opts.cores,
         "target_accept": opts.target_accept, "seed": 19031,
         "production_use": False, "publication_eligible": False,
-        "backend_approved": False, "host": platform.platform(),
+        "backend_approved": False, "pilot_diagnostics_pass": False, "host": platform.platform(),
         "started_utc": datetime.now(timezone.utc).isoformat(),
         "status": "failed",
     }
@@ -94,6 +94,8 @@ def execute(opts):
                       players=len(data["players"]), seasons=len(data["seasons"]),
                       opponents=len(data["opponents"]), positions=len(data["positions"]))
         build_seconds = time.perf_counter() - begin
+        import pymc as pm
+        report["pymc_version"] = pm.__version__
         fit_start = time.perf_counter()
         result = sample(data, opts)
         elapsed = time.perf_counter() - fit_start
@@ -109,7 +111,8 @@ def execute(opts):
         report["status"] = "completed"
         # A pilot may not meet stringent ESS>=400 even with correct sampling;
         # do not mistake a completed benchmark for a converged production fit.
-        report["backend_approved"] = bool(diag.get("posterior_sampling_ok"))
+        report["pilot_diagnostics_pass"] = bool(diag.get("posterior_sampling_ok"))
+        report["backend_approved"] = False  # Pilot never qualifies production
         report["production_use"] = False
         return 0
     except Exception as exc:
@@ -123,7 +126,7 @@ def execute(opts):
         temp.replace(target)
         print("NHL_BENCHMARK_RESULT " + json.dumps({k: report.get(k) for k in
               ("backend", "stat", "status", "training_rows", "players", "total_seconds",
-               "minimum_bulk_ess_per_second", "backend_approved", "error")}, sort_keys=True),
+               "minimum_bulk_ess_per_second", "pilot_diagnostics_pass", "backend_approved", "error")}, sort_keys=True),
               flush=True)
 
 
