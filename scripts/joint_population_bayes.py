@@ -142,15 +142,31 @@ def build(data):
     return model
 
 
-def fit(data,*,draws=1000,tune=1200,chains=4,seed=19031):
-    if draws<20 or tune<20 or chains<2:
+def fit(data,*,draws=1000,tune=1200,chains=4,seed=19031,
+        cores=2,progress_file=None,progress_interval=45):
+    if draws<20 or tune<20 or chains<2 or not 1<=cores<=chains:
         raise ValueError("invalid_multisport_nuts_budget")
     import pymc as pm
-    with build(data):
-        return pm.sample(draws=draws,tune=tune,chains=chains,cores=min(chains,2),
-                        random_seed=seed,progressbar=False,
-                        nuts={"target_accept":.99},compute_convergence_checks=True,
-                        return_inferencedata=True)
+    reporter=None
+    if progress_file is not None:
+        from precision_sampling_progress import NUTSProgress
+        reporter=NUTSProgress(draws=draws,tune=tune,chains=chains,
+            output=progress_file,sport=data["sport"],stat=data["stat"],
+            interval_seconds=progress_interval)
+    try:
+        with build(data):
+            result=pm.sample(draws=draws,tune=tune,chains=chains,cores=cores,
+                            random_seed=seed,progressbar=False,
+                            callback=reporter,
+                            nuts={"target_accept":.99},compute_convergence_checks=True,
+                            return_inferencedata=True)
+    except BaseException:
+        if reporter is not None:
+            reporter.close("failed")
+        raise
+    if reporter is not None:
+        reporter.close("completed")
+    return result
 
 
 def _to_values(result):
@@ -296,6 +312,11 @@ def main(argv=None):
     p.add_argument("--draws",type=int,default=1000)
     p.add_argument("--tune",type=int,default=1200)
     p.add_argument("--chains",type=int,default=4)
+    p.add_argument("--cores",type=int,default=2,
+        help="Number of simultaneous NUTS chains; default preserves existing workflows")
+    p.add_argument("--progress-file",type=Path,
+        help="Emit GitHub-friendly per-chain progress as JSON and periodic log bars")
+    p.add_argument("--progress-interval",type=int,default=45)
     p.add_argument("--out",type=Path,default=Path("reports/joint_population"))
     a=p.parse_args(argv)
     rows=history.read(a.root,sport=a.sport,stat=a.stat,before=a.as_of,
@@ -305,7 +326,9 @@ def main(argv=None):
     if a.max_per_position and len(rows)<300:
         raise ValueError("insufficient_training_only_joint_cohort")
     data=prepare(rows,min_rows=300 if a.max_per_position else a.min_rows)
-    posterior=fit(data,draws=a.draws,tune=a.tune,chains=a.chains)
+    posterior=fit(data,draws=a.draws,tune=a.tune,chains=a.chains,
+                  cores=a.cores,progress_file=a.progress_file,
+                  progress_interval=a.progress_interval)
     checks=diagnostics(posterior)
     a.out.mkdir(parents=True,exist_ok=True)
     posterior.to_netcdf(a.out/"posterior.nc")
@@ -318,6 +341,9 @@ def main(argv=None):
                      "training_from_inclusive":a.train_from,
                      "max_training_seasons":a.max_seasons,
                      "training_cutoff_exclusive":a.as_of,"diagnostics":checks,
+                     "sampler_chains":a.chains,"parallel_chains":a.cores,
+                     "sampler_retained_draws_per_chain":a.draws,
+                     "sampler_tuning_iterations_per_chain":a.tune,
                      "publication_eligible":False,"calibrated":False})
     (a.out/"manifest.json").write_text(json.dumps(manifest,sort_keys=True,indent=2)+"\n")
     print(json.dumps({k:v for k,v in manifest.items() if k not in
