@@ -68,3 +68,66 @@ The existing workflow has no exact mid-NUTS resume/checkpoint support. Logs
 and progress JSON can be archived but unfinished NUTS trajectories cannot
 continue from the last displayed percentage. Completed posteriors should be
 preserved intact for later comparisons.
+
+
+## 2026-10-30 runner availability fallback
+
+The GitHub-hosted Ubuntu matrix attempt #41066586701 failed in all three
+matrix jobs **before GitHub recorded even one execution step**. Offline
+checks showed the same symptom. No sampler comparisons ran; this is not
+evidence that Nutpie or NumPyro is incorrect or slow. An account billing,
+runner allocation, organization policy or platform access issue must be
+verified in the GitHub Actions run UI before hosted jobs can run.
+
+A second workflow,
+`.github/workflows/precision-nhl-sampler-windows.yml`, provides a
+**self-hosted Windows fallback**, sequentially running PyMC, Nutpie and
+NumPyro on the SAME Dell Precision laptop. It uses the exact same
+`precision-windows-nhl-complete-history` concurrency group as the
+original training workflow, with `cancel-in-progress: false`.
+Its automatic `workflow_run` trigger is guarded by the exact original
+run ID **40993538888**; it will not start on unrelated training campaigns.
+The fallback begins **only after that full run completes**, preserving
+the active hits and saves chains. It also supports explicit manual
+dispatch for later repeat trials.
+
+The benchmark records source digest, cohort size, compilation + sampling
+wall time, strict diagnostic values, and ESS/sec. It never marks its
+short pilot as an approved production backend even if diagnostics pass.
+Production approval additionally requires a longer, representative
+full-population and heldout predictive comparison.
+
+## Read-only saves convergence check
+
+When the full NHL saves fit completes, it writes
+`reports/precision_training/40993538888/saves/manifest.json`,
+`posterior.nc`, and `model_receipt.json`. The manifest already checks
+all global, player, opponent and season effects; max R-hat <=1.01, min
+bulk ESS >=400, zero divergences, min BFMI >=.30.
+
+From the ORIGINAL runner checkout, a quick safe manifest inspection
+without installing anything is:
+
+```powershell
+$folder = "$HOME\actions-runner\_work\pickem-auditor\pickem-auditor\reports\precision_training\40993538888\saves"
+if (!(Test-Path "$folder\model_receipt.json")) {
+  Write-Host 'Saves still fitting or finalizing. Do not infer convergence from progress.'
+} else {
+  $m = Get-Content "$folder\manifest.json" -Raw | ConvertFrom-Json
+  $r = Get-Content "$folder\model_receipt.json" -Raw | ConvertFrom-Json
+  [pscustomobject]@{
+    Status=$r.status; AllEffects=$m.diagnosed_all_player_and_opponent_effects
+    Rhat=$m.diagnostics.max_rhat; MinESS=$m.diagnostics.min_bulk_ess
+    Divergences=$m.diagnostics.divergences; MinBFMI=$m.diagnostics.minimum_bfmi
+    Passed=$m.diagnostics.posterior_sampling_ok
+    PosteriorPresent=(Test-Path "$folder\posterior.nc")
+  } | Format-List
+}
+```
+
+The new read-only script `scripts/precision_nhl_convergence.py` also
+enforces provenance, all-player effects, posterior existence, sampler
+budget and the worker receipt. For a secondary, independent recomputation
+of diagnostics from the saved NetCDF posterior use
+`--independent` only when there is sufficient RAM and the proper
+research environment; it may be expensive while hits is still sampling.
