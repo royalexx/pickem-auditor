@@ -98,6 +98,45 @@ class ContextData(unittest.TestCase):
             self.assertEqual(result["missing_game_ids"],["2023020002"])
             self.assertFalse(result["complete_against_provided_ids"])
 
+    def test_saves_collection_ot_pbp_does_not_require_attempt_identities(self):
+        b=box();b["periodDescriptor"]={"number":4,"periodType":"OT"}
+        p={"id":b["id"],"plays":[
+            {"typeDescKey":"goal","periodDescriptor":{"number":4},"timeInPeriod":"02:30",
+             "details":{"eventOwnerTeamId":b["homeTeam"]["id"]}},
+            {"eventId":17,"typeDescKey":"blocked-shot","details":{}}]}
+        with tempfile.TemporaryDirectory() as root:
+            called=[]
+            def fetch(url):
+                called.append(url)
+                return p if url.endswith("play-by-play") else b
+            self.assertEqual(data.collect(root,game_ids=[b["id"]],fetcher=fetch)["inserted_games"],1)
+            bundle=data.read_bundles(root)[0]
+            self.assertEqual(bundle["game_minutes"],62.5)
+            self.assertEqual(bundle["play_by_play_source"]["usage"],"game_duration_only")
+            self.assertTrue(all(t["attempts_for"] is None and t["attempts_against"] is None
+                                for t in bundle["teams"]))
+            self.assertTrue(data.verify_bundle_source(root,bundle))
+            self.assertEqual(data.collect(root,game_ids=[b["id"]],fetcher=fetch)["inserted_games"],0)
+            self.assertEqual(len(called),2)
+            with self.assertRaisesRegex(ValueError,"existing_bundle_missing_attempts"):
+                data.collect(root,game_ids=[b["id"]],fetcher=fetch,with_attempts=True)
+        with tempfile.TemporaryDirectory() as root:
+            with self.assertRaisesRegex(ValueError,"collection_game=.*unresolved_blocked_attempt_identity"):
+                data.collect(root,game_ids=[b["id"]],fetcher=fetch,with_attempts=True)
+
+    def test_duration_only_mode_still_requires_verified_ot_winning_goal(self):
+        b=box();b["periodDescriptor"]={"number":4,"periodType":"OT"}
+        with self.assertRaisesRegex(ValueError,"missing_overtime_winning_goal_clock"):
+            data.normalize(b,observed_at="2023-10-02T04:00:00Z",pbp={"id":b["id"],"plays":[]},
+                           include_attempts=False)
+
+    def test_saves_collection_shootout_keeps_attempts_unknown(self):
+        b=box();b["periodDescriptor"]={"number":5,"periodType":"SO"}
+        p={"id":b["id"],"plays":[{"typeDescKey":"blocked-shot","details":{}}]}
+        bundle=data.normalize(b,observed_at="2023-10-02T04:00:00Z",pbp=p,include_attempts=False)
+        self.assertEqual(bundle["game_minutes"],65)
+        self.assertTrue(all(t["attempts_for"] is None for t in bundle["teams"]))
+
     def test_boolean_counts_rejected(self):
         with self.assertRaises(ValueError):data.count(True)
 

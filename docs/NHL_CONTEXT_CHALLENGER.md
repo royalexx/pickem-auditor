@@ -181,6 +181,19 @@ interpreting the exact paired incumbent comparison. The review packet contains
 receipts and predictions, not large posterior or raw-source files. No campaign
 automatically promotes a model or changes production rankings.
 
+If an older saves campaign stopped with `unresolved_blocked_attempt_identity`,
+update the branch: the collector previously interpreted duration-only OT/SO PBP
+as an attempts request. Saves collection now reads that PBP only for duration,
+archives its usage, and leaves attempts null. Explicit attempts collection stays
+strict and still rejects unresolved blocked-shot participants. Raw replay handles
+both older full-attempt bundles and newer duration-only bundles.
+
+Because source code is pinned, use a new run directory after this update. Copy
+the previous `dataset` directory into the new run directory before running;
+successfully archived games are verified and reused without refetching. Keep the
+original run receipts for inspection. Do not edit `status.json` or code hashes
+to bypass the provenance check.
+
 Use the existing Windows Python/G++ setup in `PRECISION_NHL_FULL.md` and
 `PRECISION_LOCAL_BAYES.md`. Keep each experiment in a new output folder. Run one
 new challenger model at a time initially; the existing four-market campaign can

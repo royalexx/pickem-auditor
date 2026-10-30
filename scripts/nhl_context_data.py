@@ -76,13 +76,15 @@ def game_duration(box, pbp):
     return 60.0 + minutes(goals[0]["timeInPeriod"])
 
 
-def normalize(box, *, observed_at, pbp=None):
+def normalize(box, *, observed_at, pbp=None, include_attempts=True):
     """Strict official boxscore adapter; absence is never a zero.
 
     Save counts must reconcile to goalie shots and goals. Team SOG need not
     equal goalie shots faced because of empty nets. Bench goalies are omitted.
     Advanced/situation metrics remain null until independently sourced.
     """
+    if not isinstance(include_attempts, bool):
+        raise ValueError("invalid_attempt_collection_mode")
     gid = box.get("id")
     if isinstance(gid, bool) or not isinstance(gid, int) or str(gid)[4:6] != "02":
         raise ValueError("requires_nhl_regular_season_game")
@@ -178,6 +180,12 @@ def normalize(box, *, observed_at, pbp=None):
             raise ValueError("play_by_play_game_identity_mismatch")
         result["play_by_play_source"] = {"url": f"{BASE}/gamecenter/{gid}/play-by-play",
                                          "sha256": digest(pbp)}
+        # An OT/SO boxscore needs PBP to establish game duration even when
+        # attempts were not requested. Do not turn that timing dependency into
+        # a requirement to resolve every blocked-shot participant.
+        if not include_attempts:
+            result["play_by_play_source"]["usage"] = "game_duration_only"
+            return validate_bundle(result)
         # The blocked-shot event owner can be ambiguous across source versions.
         # Resolve the shooter from the verified game roster, then cross-check
         # blocker identity. Never equate blocked shots with shots on goal.
@@ -195,7 +203,7 @@ def normalize(box, *, observed_at, pbp=None):
                 code = roster.get(str(details.get("shootingPlayerId")))
                 blocker = roster.get(str(details.get("blockingPlayerId")))
                 if code is None or blocker is None or blocker == code:
-                    raise ValueError("unresolved_blocked_attempt_identity")
+                    raise ValueError(f"unresolved_blocked_attempt_identity:game={gid}:event={event.get('eventId')}")
             else:
                 code = team_ids.get(details.get("eventOwnerTeamId"))
                 if code is None:
@@ -338,7 +346,12 @@ def verify_bundle_source(root,bundle):
             return json.load(handle)
     box=read(bundle["source"])
     pbp=read(bundle["play_by_play_source"]) if "play_by_play_source" in bundle else None
-    rebuilt=normalize(box,observed_at=bundle["source"]["observed_at"],pbp=pbp)
+    source=bundle.get("play_by_play_source",{})
+    usage=source.get("usage")
+    if usage not in (None,"game_duration_only"):
+        raise ValueError("unknown_play_by_play_source_usage")
+    rebuilt=normalize(box,observed_at=bundle["source"]["observed_at"],pbp=pbp,
+                      include_attempts=usage!="game_duration_only")
     if rebuilt!=bundle:
         raise ValueError("normalized_bundle_disagrees_with_archived_source")
     return True
@@ -462,7 +475,11 @@ def collect(root, *, game_ids, fetcher=None, with_attempts=False):
         pbp = None
         if with_attempts or box.get("periodDescriptor", {}).get("number") != 3:
             pbp = fetcher(f"{BASE}/gamecenter/{gid}/play-by-play")
-        bundle = normalize(box, observed_at=datetime.now(timezone.utc).isoformat(), pbp=pbp)
+        try:
+            bundle = normalize(box, observed_at=datetime.now(timezone.utc).isoformat(), pbp=pbp,
+                               include_attempts=with_attempts)
+        except (ValueError,KeyError) as exc:
+            raise ValueError(f"collection_game={gid}: {exc}") from exc
         archive_source(root,box)
         if pbp is not None:
             archive_source(root,pbp)
