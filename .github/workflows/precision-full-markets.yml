@@ -1,80 +1,48 @@
 name: Precision Windows - full 31-market Bayesian overnight campaign
-run-name: Precision overnight full populations • ${{ inputs.sport }}
+run-name: Full joint Bayes market ${{ inputs.index }} of 31 (${{ inputs.max_per_position == '0' && 'all-players' || 'pilot' }})
 on:
   workflow_dispatch:
     inputs:
-      sport:
-        type: choice
-        description: Process all three sports, or a single sport.
+      index:
+        type: string
+        description: Market index 0 through 30; start at zero for all 31
         required: true
-        default: all
-        options: [all, NHL, NBA, NFL]
+        default: '0'
       max_per_position:
         type: choice
-        description: "0 = full historical player populations; 15 = small pilot"
+        description: "0 = ALL eligible historical players; 15 = limited pilot"
         required: true
         default: '0'
         options: ['0', '15']
       as_of:
         type: string
-        description: Exclusive training cutoff (2026-10-29 means games through Oct 28)
+        description: Exclusive training cutoff; 2026-10-29 excludes Oct 29 games
         required: true
         default: '2026-10-29'
+      code_sha:
+        type: string
+        description: Keep a fixed first-run code SHA for reproducible continuation
+        required: false
+        default: ''
 
 permissions:
   contents: read
+  actions: write
+
+# The continuation is dispatched by the preceding run, never all 31 at once.
 concurrency:
-  group: precision-windows-overnight-training-campaign
+  group: precision-windows-full-campaign
   cancel-in-progress: false
 
 jobs:
-  fit-one-market:
-    if: inputs.sport == 'all' || inputs.sport == matrix.sport
-    name: ${{ matrix.sport }} - ${{ matrix.stat }}
+  train-one-market:
+    name: Full-population Bayesian market ${{ inputs.index }}
     runs-on: [self-hosted, Windows, X64, pickem-trainer]
     timeout-minutes: 600
-    strategy:
-      fail-fast: false
-      max-parallel: 1
-      matrix:
-        include:
-          - {sport: NHL, stat: 'shots on goal', slug: nhl-sog, train_from: '2018-10-01'}
-          - {sport: NHL, stat: 'hits', slug: nhl-hits, train_from: '2018-10-01'}
-          - {sport: NHL, stat: 'blocked shots', slug: nhl-blocks, train_from: '2018-10-01'}
-          - {sport: NHL, stat: 'saves', slug: nhl-saves, train_from: '2018-10-01'}
-          - {sport: NBA, stat: 'points', slug: nba-points, train_from: '2023-10-01'}
-          - {sport: NBA, stat: 'rebounds', slug: nba-rebounds, train_from: '2023-10-01'}
-          - {sport: NBA, stat: 'assists', slug: nba-assists, train_from: '2023-10-01'}
-          - {sport: NBA, stat: 'threes', slug: nba-threes, train_from: '2023-10-01'}
-          - {sport: NBA, stat: 'steals', slug: nba-steals, train_from: '2023-10-01'}
-          - {sport: NBA, stat: 'blocks', slug: nba-blocks, train_from: '2023-10-01'}
-          - {sport: NBA, stat: 'turnovers', slug: nba-turnovers, train_from: '2023-10-01'}
-          - {sport: NBA, stat: 'pra', slug: nba-pra, train_from: '2023-10-01'}
-          - {sport: NBA, stat: 'pr', slug: nba-pr, train_from: '2023-10-01'}
-          - {sport: NBA, stat: 'pa', slug: nba-pa, train_from: '2023-10-01'}
-          - {sport: NBA, stat: 'ra', slug: nba-ra, train_from: '2023-10-01'}
-          - {sport: NFL, stat: 'pass attempts', slug: nfl-pass-attempts, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'completions', slug: nfl-completions, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'targets', slug: nfl-targets, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'receptions', slug: nfl-receptions, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'carries', slug: nfl-carries, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'passing touchdowns', slug: nfl-passing-touchdowns, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'rushing touchdowns', slug: nfl-rushing-touchdowns, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'receiving touchdowns', slug: nfl-receiving-touchdowns, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'tackles + assists', slug: nfl-tackles-assists, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'solo tackles', slug: nfl-solo-tackles, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'tackle assists', slug: nfl-tackle-assists, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'qb hits', slug: nfl-qb-hits, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'passes defended', slug: nfl-passes-defended, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'passing yards', slug: nfl-passing-yards, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'receiving yards', slug: nfl-receiving-yards, train_from: '2018-09-01'}
-          - {sport: NFL, stat: 'rushing yards', slug: nfl-rushing-yards, train_from: '2018-09-01'}
     env:
-      SPORT: ${{ matrix.sport }}
-      STAT: ${{ matrix.stat }}
-      FIT_ID: ${{ matrix.slug }}
+      INDEX: ${{ inputs.index }}
+      CODE_HEAD: ${{ inputs.code_sha || github.sha }}
       MODE: pregame_fit
-      TRAIN_FROM: ${{ matrix.train_from }}
       CUTOFF: ${{ inputs.as_of }}
       HOLDOUT_UNTIL: ${{ inputs.as_of }}
       LINE: '2.5'
@@ -88,43 +56,48 @@ jobs:
       run:
         shell: pwsh
     steps:
-      - name: Check out immutable training code
+      - name: Check out frozen first-run model code
         uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.code_sha || github.sha }}
           fetch-depth: 0
           persist-credentials: true
-      - name: Install Python 3.12
+      - name: Set up isolated Windows Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Load verified immutable historical warehouse
+      - name: Select exactly one NHL, NBA or NFL statistical market
+        id: market
+        run: |
+          python scripts/precision_campaign_catalog.py --index $env:INDEX --github-env $env:GITHUB_ENV
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Retrieve source-owned population history from private GitHub
         run: |
           python scripts/history_warehouse_load.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Prepare isolated scientific environment
+      - name: Prepare local PyMC training environment
         run: |
-          $python = 'python'
           $venv = Join-Path $env:RUNNER_TEMP 'pickem-joint-env'
-          & $python -m venv $venv
+          python -m venv $venv
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           $python = Join-Path $venv 'Scripts\python.exe'
           & $python -m pip install -r requirements-joint-bayes.txt
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          & $python -c "import pymc, arviz; print('WINDOWS_PYMC_READY',pymc.__version__)"
+          & $python -c "import pymc,arviz; print('WINDOWS_PYMC_READY',pymc.__version__)"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Validate complete eligible history prior to training
+      - name: Verify multi-season full-player source population
         id: preflight
         run: |
           $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
           & $python scripts/precision_training_driver.py validate
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Fit entire eligible player population with four NUTS chains
+      - name: Sample hierarchical NUTS model with four chains
         id: fit
         run: |
           $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
           & $python scripts/precision_training_driver.py fit
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Save code, source and sampling status into cloud provenance
+      - name: Write source, code and training result receipt
         if: always()
         env:
           VALIDATE_RESULT: ${{ steps.preflight.outcome }}
@@ -132,12 +105,37 @@ jobs:
         run: |
           python scripts/precision_training_driver.py provenance
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          Write-Output "VALIDATE_RESULT=$env:VALIDATE_RESULT FIT_RESULT=$env:FIT_RESULT"
-      - name: Upload per-market result immediately, even if fit failed
+          Write-Host "PRECHECK=$env:VALIDATE_RESULT FIT=$env:FIT_RESULT"
+      - name: Upload market posterior and diagnostic receipts immediately
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: precision-full-${{ matrix.sport }}-${{ matrix.slug }}-${{ github.run_id }}
+          name: precision-full-market-${{ github.run_id }}-${{ inputs.index }}
           retention-days: 90
           if-no-files-found: warn
           path: reports/precision_training/${{ github.run_id }}/
+      - name: Queue the next statistical market even if this one fails
+        if: always() && !cancelled()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if (-not $env:NEXT_INDEX) {
+            Write-Host 'FULL_31_MARKET_CAMPAIGN_COMPLETE: reached last market or catalog unavailable'
+            exit 0
+          }
+          $data = @{
+            ref = 'main'
+            inputs = @{
+              index = [string]$env:NEXT_INDEX
+              max_per_position = [string]$env:MAX_PER_POSITION
+              as_of = [string]$env:CUTOFF
+              code_sha = [string]$env:CODE_HEAD
+            }
+          } | ConvertTo-Json -Depth 5 -Compress
+          $headers = @{
+            Authorization = "Bearer $env:GH_TOKEN"
+            Accept = 'application/vnd.github+json'
+            'X-GitHub-Api-Version' = '2022-11-28'
+          }
+          Invoke-RestMethod -Uri 'https://api.github.com/repos/royalexx/pickem-auditor/actions/workflows/precision-full-markets.yml/dispatches' -Method Post -Headers $headers -ContentType 'application/json' -Body $data
+          Write-Host "NEXT_MARKET_QUEUED index=$env:NEXT_INDEX current=$env:INDEX code_sha=$env:CODE_HEAD"
