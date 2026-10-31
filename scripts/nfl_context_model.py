@@ -8,7 +8,37 @@ import math
 import nhl_context_data as common
 from nhl_context_model import diagnostics
 
-VERSION="nfl-context-count-v2"
+VERSION="nfl-context-count-v3"
+
+
+def workload_layout(d):
+    """Training-only choice: center players with >=5 workload observations."""
+    import numpy as np
+    positions=np.asarray([d["positions"].index(d["player_position"][p]) for p in d["players"]])
+    counts=np.bincount(d["player_idx"],minlength=len(d["players"]))
+    if not np.array_equal(positions[np.asarray(d["player_idx"])],d["position_idx"]):
+        raise ValueError("nfl_player_position_indices_inconsistent")
+    return positions,counts>=5
+
+
+def workload_coordinates(raw,rate_z,population,chol,centered):
+    """Exact mixed parameterization of the original correlated player prior.
+
+    Centered raw values are total player workload intercepts N(population, L00).
+    Sparse players keep standard-normal workload coordinates. Production remains
+    conditionally noncentered, preserving the complete bivariate LKJ prior.
+    """
+    import pytensor.tensor as pt
+    z0=pt.where(centered,(raw-population)/chol[0,0],raw)
+    z=pt.stack([z0,rate_z],axis=1)
+    return z,pt.dot(z,chol.T)
+
+
+def sampling_progress(trace,draw):
+    """ASCII-only progress in campaign logs, including on Windows terminals."""
+    if (draw.draw_idx+1)%250==0 or draw.is_last:
+        phase="warmup" if draw.tuning else "posterior"
+        print(f"NUTS_PROGRESS chain={draw.chain} iteration={draw.draw_idx+1} phase={phase}",flush=True)
 
 
 def build(d):
@@ -17,6 +47,7 @@ def build(d):
     import pytensor.tensor as pt
     ix,ti,oi,si,pi=(np.asarray(d[k+"_idx"]) for k in ("player","team","opponent","season","position"))
     x=np.asarray(d["x"]);snaps=np.asarray(d["snaps"])
+    player_positions,centered=workload_layout(d)
     with pm.Model() as graph:
         work_prior=[math.log(v/(160-v)) for v in
                     [{"QB":60.,"RB":30.,"WR":45.,"TE":40.}.get(p,45.) for p in d["positions"]]]
@@ -25,8 +56,13 @@ def build(d):
         pr=pm.Normal("population_log_rate",math.log(rate),.7,shape=len(d["positions"]))
         chol,_,_=pm.LKJCholeskyCov("player_chol",n=2,eta=3,
                                   sd_dist=pm.HalfNormal.dist(.4,shape=2),compute_corr=True)
-        z=pm.Normal("player_z",0,1,shape=(len(d["players"]),2))
-        player=pm.Deterministic("player_effect",pt.dot(z,chol.T))
+        population=pw[player_positions]
+        raw=pm.Normal("player_workload_raw",mu=pt.where(centered,population,0.),
+                      sigma=pt.where(centered,chol[0,0],1.),shape=len(d["players"]))
+        rate_z=pm.Normal("player_rate_z",0,1,shape=len(d["players"]))
+        z,effect=workload_coordinates(raw,rate_z,population,chol,centered)
+        pm.Deterministic("player_z",z)
+        player=pm.Deterministic("player_effect",effect)
         ts=pm.HalfNormal("team_sd",.2,shape=2)
         tz=pm.Normal("team_z",0,1,shape=(len(d["teams"]),2))
         team=pm.Deterministic("team_effect",(tz-pt.mean(tz,axis=0))*ts)
@@ -54,7 +90,8 @@ def fit(d, *, draws=1500,tune=1500,chains=4,cores=2,seed=20261030):
     graph=build(d)
     with graph:
         trace=pm.sample(draws=draws,tune=tune,chains=chains,cores=cores,random_seed=seed,
-                        progressbar=False,nuts={"target_accept":.97,"max_treedepth":12},return_inferencedata=True)
+                        progressbar=False,callback=sampling_progress,
+                        nuts={"target_accept":.97,"max_treedepth":12},return_inferencedata=True)
     trace.posterior.attrs.update(model_version=VERSION,source_digest=d["source_digest"],
                                 stochastic_variables=common.encode([v.name for v in graph.free_RVs]))
     return trace

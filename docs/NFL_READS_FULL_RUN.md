@@ -21,6 +21,54 @@ Full training can be much slower than the small NHL/synthetic pilots; heartbeat
 logs report each running stage. Repeating the same command verifies and resumes
 completed stages. Keep the earlier pilot directories intact.
 
+## Retry after the v1 workload convergence failure
+
+The first real fit completed but failed the unchanged R-hat/bulk-ESS gates only
+for position-level workload means (max R-hat 1.01494, min bulk ESS 317.45).
+The full diagnostic packet shows all read coefficients passing; duplicate
+observed-mask columns are retained to preserve the original regression prior.
+
+Model v3 changes sampling coordinates, not the probability model. For players
+with at least five training observations, sample the total workload intercept
+as Normal(position mean, player workload SD). Recover its standardized workload
+coordinate and combine it with the independent production coordinate through the
+same LKJ Cholesky factor. Sparse players retain the original noncentered form.
+This preserves the joint correlated player prior, position priors, likelihood,
+all read features and forecasting equations. The training-only threshold affects
+computation, not the prior distribution. It reduces the dependency between the
+workload position mean and well-observed player deviations.
+
+A four-chain check on the exact 10,082-row/637-player frozen design used 500
+tuning and 500 retained draws per chain. Workload position means improved to
+max R-hat 1.00432 and min bulk ESS 1,439.53, versus 1.01494/317.45 in the original
+1,500-draw fit. However, the shorter fit **does not pass overall diagnostics**:
+max R-hat 1.01877 (team scale), min bulk ESS 330.30, zero divergences/depth hits,
+min BFMI 0.8469. It is evidence for the targeted workload change, not a fully
+converged replacement posterior. The full-budget v3 run still needs verification.
+The receipt is `validation/nfl_workload_reparameterization_2026-10-31.json`.
+
+Use a new run identity and reuse verified frozen inputs; do not delete v1:
+
+```powershell
+git pull --ff-only origin codex/nfl-context-local-pilot
+python scripts/nfl_context_campaign.py run --config config/nfl_context_reads_full.json --run-dir reports/nfl_reads_full_v2 --reuse-frozen-from reports/nfl_reads_full_v1
+```
+
+This requires the same configuration, verifies every original frozen input,
+copies and rechecks those files, and records their origin. It does not recollect
+data or copy the failed posterior/status. A new fit and holdout scoring run under
+the new code identity. The original 1,500 tuning/1,500 retained draws, four chains,
+two workers and strict diagnostics remain in force. Convergence is still checked
+on the actual new fit. An existing project-local PyTensor cache environment
+setting can remain in the terminal.
+
+ASCII `NUTS_PROGRESS` lines identify each chain's warmup/posterior phase every
+250 iterations and on completion, in `fit_context.log`. In another terminal:
+
+```powershell
+Get-Content reports/nfl_reads_full_v2/fit_context.log -Tail 15 -Wait
+```
+
 ## Reused read workflow
 
 The implementation imports `READ_MAP`, `BUCKETS`, `bucket()` and

@@ -6,7 +6,9 @@ import hashlib
 import json
 import os
 import platform
+import shutil
 import sys
+import tempfile
 import time
 import zipfile
 from datetime import datetime,timezone
@@ -122,6 +124,31 @@ def verify_frozen(folder):
         if io.file_hash(folder/name)!=h:raise ValueError("nfl_frozen_input_changed:"+name)
 
 
+def reuse_frozen(source,destination,c):
+    """Copy verified inputs into a new run; never copy a fit or its status."""
+    source=Path(source).resolve();destination=Path(destination)
+    if common.digest(io.load_json(source/"config.json"))!=common.digest(c):
+        raise ValueError("nfl_reuse_requires_identical_configuration")
+    if destination.exists():raise ValueError("nfl_reuse_destination_exists")
+    expected={n+".json" for n in ("context_design","base_design","training_rows","base_training_rows",
+                                "holdout_rows","base_holdout_rows","frozen_bundles","preflight")}
+    hashes=io.load_json(source/"frozen/frozen_hashes.json")
+    if set(hashes)!=expected:raise ValueError("nfl_reuse_incomplete_frozen_inputs")
+    verify_frozen(source/"frozen")
+    destination.parent.mkdir(parents=True,exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="nfl-frozen-",dir=destination.parent) as temp:
+        staging=Path(temp)/"frozen"
+        staging.mkdir()
+        for name in sorted(expected|{"frozen_hashes.json"}):shutil.copyfile(source/"frozen"/name,staging/name)
+        verify_frozen(staging)
+        staging.rename(destination)
+    io.write_json(destination.parent/"frozen_origin.json",{
+        "source_run":str(source),"frozen_hashes_sha256":io.file_hash(destination/"frozen_hashes.json"),
+        "configuration_digest":common.digest(c),"posterior_reused":False,
+        "source_code_receipt":io.load_json(source/"code_receipt.json") if (source/"code_receipt.json").exists() else None,
+        "source_runtime_receipt":io.load_json(source/"runtime_receipt.json") if (source/"runtime_receipt.json").exists() else None})
+
+
 def fit(folder,kind,c):
     import nfl_context_model as model
     import joint_population_bayes as legacy
@@ -196,8 +223,9 @@ def evaluate(folder,c):
 
 
 class Runner(Campaign):
-    def __init__(self,folder,c):
+    def __init__(self,folder,c,*,reuse_from=None):
         self.root=ROOT;self.run=Path(folder).resolve();self.config=validate(c)
+        self.reuse_from=reuse_from
         self.run.mkdir(parents=True,exist_ok=True);self.status_path=self.run/"status.json"
         names=["nfl_context_campaign.py","nfl_context_data.py","nfl_context_model.py","nfl_read_features.py",
                "nfl_season_store.py","nfl_opportunity.py","population_nfl.py",
@@ -220,6 +248,9 @@ class Runner(Campaign):
 
     def execute(self):
         frozen=self.run/"frozen";c=self.config
+        if self.reuse_from is not None and not frozen.exists():
+            reuse_frozen(self.reuse_from,frozen,c)
+            print("REUSED_VERIFIED_FROZEN "+str(self.reuse_from),flush=True)
         if not frozen.exists():
             bundles=data.collect(self.run/"source_cache",c["seasons"],c["until"])
             if c.get("read_features",False):
@@ -228,7 +259,7 @@ class Runner(Campaign):
         else:bundles=None
         outputs=[frozen/n for n in ("frozen_hashes.json","context_design.json","base_design.json","training_rows.json",
                  "base_training_rows.json","holdout_rows.json","base_holdout_rows.json","frozen_bundles.json","preflight.json")]
-        self.step("freeze",lambda:freeze(frozen,c,bundles),outputs)
+        self.step("freeze",lambda:verify_frozen(frozen) if bundles is None else freeze(frozen,c,bundles),outputs)
         verify_frozen(frozen)
         preflight=io.load_json(frozen/"preflight.json")
         compact={k:preflight[k] for k in ("market","training_rows","training_games","players","teams",
@@ -256,7 +287,9 @@ def main(argv=None):
     p.add_argument("--config",type=Path,default=ROOT/"config/nfl_context_targets_pilot.json")
     p.add_argument("--run-dir",type=Path,default=ROOT/"reports/nfl_context_targets_pilot_v1")
     p.add_argument("--kind",choices=("context","base","incumbent"))
+    p.add_argument("--reuse-frozen-from",type=Path,help="Reuse verified inputs from an identical-config earlier run")
     a=p.parse_args(argv)
+    if a.reuse_frozen_from is not None and a.stage!="run":p.error("--reuse-frozen-from requires run")
     for k in ("OMP_NUM_THREADS","OPENBLAS_NUM_THREADS","MKL_NUM_THREADS"):os.environ[k]="1"
     os.environ["PYTHONUTF8"]="1";os.environ["PYTHONIOENCODING"]="utf-8"
     compiler=Path(r"C:\msys64\ucrt64\bin")
@@ -265,7 +298,7 @@ def main(argv=None):
     elif a.stage=="run":
         # Validate imports before creating runtime-pinned receipts or downloading.
         import pymc,arviz,arviz_stats,h5netcdf,h5py,nflreadpy,tzdata
-        with campaign_lock(a.run_dir):result=Runner(a.run_dir,io.load_json(a.config)).execute()
+        with campaign_lock(a.run_dir):result=Runner(a.run_dir,io.load_json(a.config),reuse_from=a.reuse_frozen_from).execute()
     else:
         c=validate(io.load_json(a.run_dir/"config.json"))
         if a.stage=="fit":

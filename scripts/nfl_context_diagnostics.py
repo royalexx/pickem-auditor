@@ -49,6 +49,9 @@ def coordinate(name,index,shape,design):
         result["position"]=design["positions"][indices[0]]
     elif name in ("player_effect","player_z") and len(indices)==2:
         result.update(player_id=design["players"][indices[0]],effect=("workload","production")[indices[1]])
+    elif name in ("player_workload_raw","player_rate_z") and indices:
+        result.update(player_id=design["players"][indices[0]],
+                      effect="workload_sampling_coordinate" if name=="player_workload_raw" else "conditional_production")
     elif name in ("team_effect","team_z") and len(indices)==2:
         result.update(team=design["teams"][indices[0]],effect=("own_team","opponent_allowance")[indices[1]])
     elif name in ("season_effect","season_z") and len(indices)==2:

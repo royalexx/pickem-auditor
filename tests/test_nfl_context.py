@@ -4,6 +4,7 @@ import os
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"))
@@ -148,6 +149,40 @@ class LifecycleTests(unittest.TestCase):
     def test_invalid_config_rejected(self):
         c=config();c["cores"]=True
         with self.assertRaises(ValueError):campaign.validate(c)
+
+    def test_reuse_preserves_verified_inputs_without_copying_fit(self):
+        with tempfile.TemporaryDirectory() as temp:
+            source=Path(temp)/"old";destination=Path(temp)/"new/frozen"
+            source.mkdir();io.write_json(source/"config.json",config())
+            campaign.freeze(source/"frozen",config(),self.bundles)
+            (source/"context").mkdir();(source/"context/posterior.nc").write_bytes(b"original")
+            campaign.reuse_frozen(source,destination,config())
+            campaign.verify_frozen(destination)
+            self.assertEqual(io.file_hash(source/"frozen/context_design.json"),io.file_hash(destination/"context_design.json"))
+            self.assertFalse((destination.parent/"context").exists())
+            self.assertEqual((source/"context/posterior.nc").read_bytes(),b"original")
+            changed=config();changed["cutoff"]="2025-08-31T00:00:00Z"
+            with self.assertRaisesRegex(ValueError,"identical_configuration"):
+                campaign.reuse_frozen(source,Path(temp)/"wrong/frozen",changed)
+            io.write_json(source/"frozen/holdout_rows.json",[])
+            with self.assertRaisesRegex(ValueError,"frozen_input_changed"):
+                campaign.reuse_frozen(source,Path(temp)/"corrupt/frozen",config())
+
+    def test_reused_campaign_starts_at_fit_without_collection_or_refreeze(self):
+        with tempfile.TemporaryDirectory() as temp:
+            source=Path(temp)/"old";source.mkdir()
+            io.write_json(source/"config.json",config())
+            campaign.freeze(source/"frozen",config(),self.bundles)
+            runner=campaign.Runner.__new__(campaign.Runner)
+            runner.run=Path(temp)/"new";runner.run.mkdir()
+            runner.root=campaign.ROOT;runner.config=config();runner.reuse_from=source
+            runner.status_path=runner.run/"status.json";runner.status={"steps":{}}
+            with patch.object(data,"collect",side_effect=AssertionError("collection must not run")), \
+                 patch.object(campaign,"freeze",side_effect=AssertionError("features must not rebuild")), \
+                 patch.object(runner,"command",side_effect=RuntimeError("reached-fit")) as command:
+                with self.assertRaisesRegex(RuntimeError,"reached-fit"):runner.execute()
+            self.assertEqual(command.call_args.args[0],"fit_context")
+            self.assertEqual(runner.status["steps"]["freeze"]["status"],"completed")
 
 
 @unittest.skipUnless(os.environ.get("RUN_NFL_CONTEXT_NUTS")=="1","opt-in numerical NFL smoke")
