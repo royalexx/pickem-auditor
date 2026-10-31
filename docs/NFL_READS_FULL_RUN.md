@@ -121,3 +121,17 @@ max-depth hits, and minimum BFMI 0.8819. The count intervals over-covered in tha
 small simulation; it is execution/convergence evidence, not real NFL calibration.
 The machine-readable receipt is
 `validation/nfl_reads_full_verification_2026-10-30.json`.
+
+If a completed fit fails strict diagnostics, retain the saved posterior and run
+the read-only audit before spending another full fit:
+
+```powershell
+python scripts/nfl_context_diagnostics.py --run-dir reports/nfl_reads_full_v1
+```
+
+This rechecks the existing posterior and identifies worst features/player effects,
+chain differences, energy behavior and design redundancy. It writes
+`convergence_audit.json` and `convergence_diagnostics.zip` beside the saved fit;
+it does not sample, modify the model/status, waive a gate or change frozen inputs.
+The ZIP includes the design and receipts, not the large posterior. It can be
+uploaded for diagnosis. No campaign restart or data recollection is required.
