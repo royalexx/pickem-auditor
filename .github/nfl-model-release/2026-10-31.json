@@ -1,0 +1,5 @@
+{
+  "purpose": "Package the existing convergence-verified NFL targets posterior; no training",
+  "posterior_sha256": "7694c59f367eeee716fe2046540c3c3e96c6de43581c9bf4447a0f0ee3af9646",
+  "release_tag": "research-nfl-targets-20261031-v3"
+}

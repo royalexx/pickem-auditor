@@ -1,0 +1,22 @@
+{
+  "array_hashes": {
+    "beta_rate": "e9d7df3609031bee2bd37129853c7d6ebc58760c3a6796a01b2a27358e7c62f5",
+    "beta_workload": "61d915f3bc6122f1608881918bbe5b7db5ab7b113ce663ffeed403fd4108749d",
+    "count_dispersion": "740fb328cb6df652498e00081ac1c95d0f2a972038fcd9b4bc81040d971936a8",
+    "player_effect": "493390a081a0266caf7ecbee4e49aa3c7f6029cf74ce593c8942f793c4a3c79e",
+    "population_log_rate": "4d26a04c05dec6300d06885e96984c0dfc10c4e6a03fc008f5ab0198a205639f",
+    "population_workload": "5cdffd64b01d121889fad13c70d28bf64a7d5cdfc34fdad916ca8a574b36009b",
+    "season_effect": "b54e6885b46b0e78e2d0df63249d0b4e6bfbd45102994a564c54f6e7232bed57",
+    "season_sd": "10f6bf5bb7b9d55c593067f59c30a2fdbd49a0a180fbef7987a95b8a9fe1e78f",
+    "team_effect": "7ae9fd7a682ee3d3deec0c5b25c630f8e394d412c1cdff3fce0b52d6e9bb859f",
+    "workload_sigma": "0c94341c19f3db93659ead60d7b0940aa3834369d0d9a0810cbe1b2aaabec6c3"
+  },
+  "design_digest": "796473e306ff6da38270c3e842ef256c047f47b239c3033dec79473ce4924cb8",
+  "history_seed_digest": "976fae3cb36ddbd9551eaeddba6d5aab67b583feb0f087890bef7ccc5471c209",
+  "posterior_sha256": "7694c59f367eeee716fe2046540c3c3e96c6de43581c9bf4447a0f0ee3af9646",
+  "repository": "royalexx/pickem-auditor",
+  "research_line": 5.5,
+  "source_design_sha256": "31756afeb60448da28e2a9e785891b4146a2c711e8d93d659499f50bdba24352",
+  "supported_season": 2026,
+  "tag": "research-nfl-targets-20261031-v3"
+}
