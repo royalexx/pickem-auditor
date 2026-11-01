@@ -1,0 +1,448 @@
+{
+  "schema": "espn_collection_recovery_v1",
+  "started_at_utc": "2026-11-01T02:03:28.485935+00:00",
+  "requested_slots": [
+    "2026-10-30 morning (Oct29 results)",
+    "2026-10-30 afternoon",
+    "2026-10-31 morning (Oct30 results)",
+    "2026-10-31 afternoon"
+  ],
+  "status": "partial",
+  "pregame_forecasts_recreated": false,
+  "settlement_performed": false,
+  "odds_quote_rows": 0,
+  "boards": [
+    {
+      "date": "2026-10-30",
+      "sport": "NFL",
+      "event_count": 0,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=20261030&limit=1000"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NHL",
+      "event_count": 3,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261030&limit=1000"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NBA",
+      "event_count": 3,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261029&limit=1000"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NBA",
+      "event_count": 10,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261030&limit=1000"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NHL",
+      "event_count": 11,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261029&limit=1000"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NFL",
+      "event_count": 1,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=20261029&limit=1000"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NFL",
+      "event_count": 0,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=20261031&limit=1000"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NBA",
+      "event_count": 7,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261031&limit=1000"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NHL",
+      "event_count": 10,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20261031&limit=1000"
+    }
+  ],
+  "errors": [],
+  "games": [
+    {
+      "date": "2026-10-29",
+      "sport": "NBA",
+      "event_id": "401909894",
+      "completed": true,
+      "player_stat_rows": 25,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909894"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NBA",
+      "event_id": "401909893",
+      "completed": true,
+      "player_stat_rows": 26,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909893"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NHL",
+      "event_id": "401892611",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892611"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NHL",
+      "event_id": "401892613",
+      "completed": true,
+      "player_stat_rows": 39,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892613"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NHL",
+      "event_id": "401892612",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892612"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NBA",
+      "event_id": "401909895",
+      "completed": true,
+      "player_stat_rows": 28,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909895"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NBA",
+      "event_id": "401909282",
+      "completed": true,
+      "player_stat_rows": 27,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909282"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NBA",
+      "event_id": "401909281",
+      "completed": true,
+      "player_stat_rows": 25,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909281"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NBA",
+      "event_id": "401909279",
+      "completed": true,
+      "player_stat_rows": 28,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909279"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NBA",
+      "event_id": "401909278",
+      "completed": true,
+      "player_stat_rows": 29,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909278"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NBA",
+      "event_id": "401909280",
+      "completed": true,
+      "player_stat_rows": 26,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909280"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NBA",
+      "event_id": "401909277",
+      "completed": true,
+      "player_stat_rows": 26,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909277"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NBA",
+      "event_id": "401909286",
+      "completed": true,
+      "player_stat_rows": 27,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909286"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NBA",
+      "event_id": "401909284",
+      "completed": true,
+      "player_stat_rows": 27,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909284"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NHL",
+      "event_id": "401892602",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892602"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NBA",
+      "event_id": "401909283",
+      "completed": true,
+      "player_stat_rows": 28,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909283"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NHL",
+      "event_id": "401892601",
+      "completed": true,
+      "player_stat_rows": 39,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892601"
+    },
+    {
+      "date": "2026-10-30",
+      "sport": "NBA",
+      "event_id": "401909285",
+      "completed": true,
+      "player_stat_rows": 28,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909285"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NHL",
+      "event_id": "401892600",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892600"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NHL",
+      "event_id": "401892607",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892607"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NHL",
+      "event_id": "401892604",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892604"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NHL",
+      "event_id": "401892606",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892606"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NHL",
+      "event_id": "401892603",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892603"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NHL",
+      "event_id": "401892605",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892605"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NBA",
+      "event_id": "401909897",
+      "completed": true,
+      "player_stat_rows": 26,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909897"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NFL",
+      "event_id": "401873023",
+      "completed": true,
+      "player_stat_rows": 89,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event=401873023"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NHL",
+      "event_id": "401892609",
+      "completed": true,
+      "player_stat_rows": 39,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892609"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NBA",
+      "event_id": "401909896",
+      "completed": true,
+      "player_stat_rows": 26,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909896"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NHL",
+      "event_id": "401892610",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892610"
+    },
+    {
+      "date": "2026-10-29",
+      "sport": "NHL",
+      "event_id": "401892608",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892608"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NHL",
+      "event_id": "401892614",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892614"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NBA",
+      "event_id": "401909902",
+      "completed": false,
+      "player_stat_rows": 28,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909902"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NBA",
+      "event_id": "401909900",
+      "completed": false,
+      "player_stat_rows": 29,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909900"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NBA",
+      "event_id": "401909901",
+      "completed": false,
+      "player_stat_rows": 25,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909901"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NBA",
+      "event_id": "401909899",
+      "completed": false,
+      "player_stat_rows": 30,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909899"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NBA",
+      "event_id": "401909898",
+      "completed": true,
+      "player_stat_rows": 25,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909898"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NHL",
+      "event_id": "401892618",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892618"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NHL",
+      "event_id": "401892619",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892619"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NHL",
+      "event_id": "401892620",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892620"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NHL",
+      "event_id": "401892617",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892617"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NHL",
+      "event_id": "401892616",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892616"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NHL",
+      "event_id": "401892615",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892615"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NHL",
+      "event_id": "401892622",
+      "completed": false,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892622"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NHL",
+      "event_id": "401892623",
+      "completed": false,
+      "player_stat_rows": 0,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892623"
+    },
+    {
+      "date": "2026-10-31",
+      "sport": "NHL",
+      "event_id": "401892621",
+      "completed": true,
+      "player_stat_rows": 38,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/summary?event=401892621"
+    }
+  ],
+  "finished_at_utc": "2026-11-01T02:04:00.807397+00:00",
+  "total_boxscores": 45,
+  "total_player_stat_rows": 1505,
+  "limitations": [
+    "Raw ESPN observations only; player IDs are ESPN IDs and have not been remapped to NHL IDs.",
+    "No historical pregame forecasts or sportsbook quotes recreated.",
+    "Full settlement blocked: authoritative forecast archive could not be restored through the available GitHub file interface.",
+    "PropLine key is not available in this runtime."
+  ],
+  "official_nhl_backfill": {
+    "status": "success",
+    "completed_games": 14,
+    "player_rows": 560,
+    "errors": 0
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "checked_at": "2026-11-01T02:03:08.976Z",
+  "toronto_dates": [
+    "2026-10-30",
+    "2026-10-31"
+  ],
+  "runs": [
+    {
+      "id": 41255069399,
+      "created_at": "2026-11-01T00:03:40Z",
+      "conclusion": "success",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41255069399",
+      "check_suite_id": 111822173273
+    },
+    {
+      "id": 41252088949,
+      "created_at": "2026-10-31T23:20:07Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41252088949",
+      "check_suite_id": 111814536288
+    },
+    {
+      "id": 41238979135,
+      "created_at": "2026-10-31T20:27:19Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41238979135",
+      "check_suite_id": 111781048249
+    },
+    {
+      "id": 41230643929,
+      "created_at": "2026-10-31T18:41:34Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41230643929",
+      "check_suite_id": 111759534267
+    },
+    {
+      "id": 41226756601,
+      "created_at": "2026-10-31T17:54:05Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41226756601",
+      "check_suite_id": 111749454291
+    },
+    {
+      "id": 41224159508,
+      "created_at": "2026-10-31T17:21:44Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41224159508",
+      "check_suite_id": 111742731877
+    },
+    {
+      "id": 41219113428,
+      "created_at": "2026-10-31T16:19:20Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41219113428",
+      "check_suite_id": 111729444469
+    },
+    {
+      "id": 41217716871,
+      "created_at": "2026-10-31T16:02:31Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41217716871",
+      "check_suite_id": 111725789836
+    },
+    {
+      "id": 41216119226,
+      "created_at": "2026-10-31T15:42:20Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41216119226",
+      "check_suite_id": 111721562455
+    },
+    {
+      "id": 41194718240,
+      "created_at": "2026-10-31T10:55:36Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41194718240",
+      "check_suite_id": 111665577591
+    },
+    {
+      "id": 41151639632,
+      "created_at": "2026-10-31T00:42:44Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41151639632",
+      "check_suite_id": 111553911442
+    },
+    {
+      "id": 41146055942,
+      "created_at": "2026-10-30T23:42:34Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41146055942",
+      "check_suite_id": 111539427722
+    },
+    {
+      "id": 41131427390,
+      "created_at": "2026-10-30T21:29:32Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41131427390",
+      "check_suite_id": 111501016642
+    },
+    {
+      "id": 41116767754,
+      "created_at": "2026-10-30T19:37:30Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41116767754",
+      "check_suite_id": 111460926056
+    },
+    {
+      "id": 41110086182,
+      "created_at": "2026-10-30T18:48:51Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41110086182",
+      "check_suite_id": 111442325444
+    },
+    {
+      "id": 41104986640,
+      "created_at": "2026-10-30T18:13:09Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41104986640",
+      "check_suite_id": 111428242494
+    },
+    {
+      "id": 41096565117,
+      "created_at": "2026-10-30T17:11:01Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41096565117",
+      "check_suite_id": 111404364414
+    },
+    {
+      "id": 41094830808,
+      "created_at": "2026-10-30T16:59:33Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41094830808",
+      "check_suite_id": 111399519921
+    },
+    {
+      "id": 41092059591,
+      "created_at": "2026-10-30T16:40:44Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41092059591",
+      "check_suite_id": 111391863600
+    },
+    {
+      "id": 41047774363,
+      "created_at": "2026-10-30T11:23:45Z",
+      "conclusion": "failure",
+      "url": "https://github.com/royalexx/pickem-auditor/actions/runs/41047774363",
+      "check_suite_id": 111268091577
+    }
+  ],
+  "latest_green_run": "41255069399: collection stages skipped",
+  "latest_persisted_morning_marker": "2026-10-29",
+  "history_restore_error": {
+    "content": [
+      {
+        "type": "text",
+        "text": "HTTPError: 400: GitHub Fetch could not read file contents; the file may be too large or unsupported (Response: None)"
+      }
+    ],
+    "structuredContent": {
+      "error": "HTTPError: 400: GitHub Fetch could not read file contents; the file may be too large or unsupported (Response: None)",
+      "error_code": "INVALID_ARGUMENT"
+    },
+    "isError": true
+  }
+}

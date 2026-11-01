@@ -1,0 +1,30 @@
+{
+  "started_at_utc": "2026-11-01T02:03:29.706675+00:00",
+  "dates": [
+    "2026-10-29",
+    "2026-10-30"
+  ],
+  "status": "success",
+  "games_seen": 14,
+  "completed_games": 14,
+  "player_rows": 560,
+  "written_games": 14,
+  "errors": [],
+  "files": [
+    "data/nhl/games/2026-10-29/2026020204.json",
+    "data/nhl/games/2026-10-29/2026020205.json",
+    "data/nhl/games/2026-10-29/2026020206.json",
+    "data/nhl/games/2026-10-29/2026020203.json",
+    "data/nhl/games/2026-10-29/2026020207.json",
+    "data/nhl/games/2026-10-29/2026020208.json",
+    "data/nhl/games/2026-10-29/2026020209.json",
+    "data/nhl/games/2026-10-29/2026020210.json",
+    "data/nhl/games/2026-10-29/2026020211.json",
+    "data/nhl/games/2026-10-29/2026020212.json",
+    "data/nhl/games/2026-10-29/2026020213.json",
+    "data/nhl/games/2026-10-30/2026020214.json",
+    "data/nhl/games/2026-10-30/2026020215.json",
+    "data/nhl/games/2026-10-30/2026020216.json"
+  ],
+  "finished_at_utc": "2026-11-01T02:04:12.929169+00:00"
+}
