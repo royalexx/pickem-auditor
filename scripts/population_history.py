@@ -12,6 +12,7 @@ import json
 import math
 import os
 import re
+import time
 from datetime import date
 from pathlib import Path
 
@@ -127,21 +128,34 @@ def path(root,sport,stat,season):
     return Path(root)/"data/bayesian_warehouse/populations"/sport.lower()/slug(stat)/(str(season)+".jsonl.gz")
 
 
-def read_shard(filename):
+def read_shard(filename, *, progress=None):
+    """Stream and verify a complete immutable shard; preserve row order.
+
+    Progress is optional. Every row is validated, including records outside
+    a later date filter; invalid history must never be silently skipped.
+    """
     filename=Path(filename)
     if not filename.exists(): return []
-    with gzip.open(filename,"rt",encoding="utf-8") as handle:
-        items=[json.loads(line) for line in handle if line.strip()]
+    items=[]
     identities=set()
-    for item in items:
-        validate(item)
-        expected=path(filename.parents[4],item["sport"],item["stat"],item["season"])
-        # Only compare basename/parent segment to avoid depending on root layout.
-        if expected.name!=filename.name or expected.parent.name!=filename.parent.name or expected.parent.parent.name!=filename.parent.parent.name:
-            raise ValueError("shard_stat_or_season_mismatch")
-        key=(item["game_id"],item["player_id"])
-        if key in identities:raise ValueError("duplicate_player_market_game")
-        identities.add(key)
+    expected_season=filename.name.removesuffix(".jsonl.gz")
+    expected_stat=filename.parent.name
+    expected_sport=filename.parent.parent.name
+    with gzip.open(filename,"rt",encoding="utf-8") as handle:
+        for line in handle:
+            if not line.strip():continue
+            item=json.loads(line)
+            validate(item)
+            if (item["season"]!=expected_season or
+                slug(item["stat"])!=expected_stat or
+                item["sport"].lower()!=expected_sport):
+                raise ValueError("shard_stat_or_season_mismatch")
+            key=(item["game_id"],item["player_id"])
+            if key in identities:raise ValueError("duplicate_player_market_game")
+            identities.add(key)
+            items.append(item)
+            if progress is not None and len(items)%10000==0:
+                progress(len(items))
     return items
 
 
@@ -182,7 +196,8 @@ def persist(root,rows):
     return changes
 
 
-def read(root,*,sport,stat,before,after=None,max_seasons=None,min_records=0):
+def read(root,*,sport,stat,before,after=None,max_seasons=None,min_records=0,
+         progress=None):
     family(sport,stat)
     end=date.fromisoformat(before)
     start=date.fromisoformat(after) if after else None
@@ -193,13 +208,26 @@ def read(root,*,sport,stat,before,after=None,max_seasons=None,min_records=0):
     rows=[]
     seen=set()
     for filename in files:
-        for row in read_shard(filename):
+        if progress is not None:
+            progress({"event":"shard_start","shard":filename.name})
+        start_time=time.perf_counter()
+        def on_shard_progress(count):
+            if progress is not None:
+                progress({"event":"shard_progress","shard":filename.name,"validated_rows":count})
+        shard_rows=read_shard(filename, progress=on_shard_progress if progress is not None else None)
+        selected=0
+        for row in shard_rows:
             day=date.fromisoformat(row["game_date"])
             if day>=end or (start is not None and day<start):continue
             if not market_eligible(row):continue
             key=(row["game_id"],row["player_id"])
             if key in seen:raise ValueError("cross_shard_duplicate_population_record")
             seen.add(key); rows.append(row)
+            selected+=1
+        if progress is not None:
+            progress({"event":"shard_done","shard":filename.name,
+                      "validated_rows":len(shard_rows),"selected_rows":selected,
+                      "seconds":round(time.perf_counter()-start_time,2)})
     # Select seasons only AFTER applying the as-of cutoff. Future season
     # shards may exist in the archive; their presence must not determine
     # which historical seasons a past model is allowed to train on.
