@@ -142,6 +142,18 @@ class DailyTests(unittest.TestCase):
         self.assertEqual(forecast['forecast_kind'],'target_opportunity_projection')
         self.assertFalse(forecast['ranking_allowed'])
 
+    def test_stale_market_snapshot_does_not_suppress_fresh_projection(self):
+        (self.root/'slate_fetch.jsonl').write_text(json.dumps({**self.row,'stat':'receptions'})+'\n')
+        snapshots=self.root/'snapshots.jsonl'
+        snapshots.write_text(json.dumps({**self.row,'retrieved_at':(self.now-timedelta(hours=2)).isoformat()})+'\n')
+        out=self.root/'nfl_context/day.jsonl'
+        with patch.object(rel,'load',return_value=(self.meta,self.cache)):
+            result=daily.run(snapshots=snapshots,data_root=self.root,model_dir=self.root/'model',out=out,
+                receipt=self.root/'receipt.json',game_date=self.row['game_date'],now=self.now)
+        self.assertEqual(result['forecast_count'],1);self.assertEqual(result['unavailable_count'],1)
+        prediction=next(r for r in daily.read_rows(out) if r['status']=='forecast')
+        self.assertEqual(prediction['line_origin'],'research_threshold')
+
     def test_missing_charting_stays_missing_with_observation_masks(self):
         payload=live.write(self.path,self.raw,None,self.raw['stats'],season=2026,
                            retrieved_at=(self.now-timedelta(minutes=1)).isoformat())

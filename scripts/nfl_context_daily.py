@@ -97,12 +97,11 @@ def run(*,snapshots,data_root,model_dir,out,receipt,game_date,now=None,download=
     source=read_rows(snapshots)
     candidates=[r for r in source if r.get("game_date")==game_date and r.get("sport")=="NFL" and
                 r.get("stat")=="targets" and r.get("run_type")=="shadow"]
-    quoted={(r.get("player_id"),r.get("team"),r.get("opponent")) for r in candidates}
     projections=set()
     for r in read_rows(Path(data_root)/"slate_fetch.jsonl"):
         key=(r.get("player_id"),r.get("team"),r.get("opponent"))
         if (r.get("game_date")!=game_date or r.get("sport")!="NFL" or
-            r.get("stat") not in ("receptions","receiving yards") or key in quoted or key in projections):continue
+            r.get("stat") not in ("receptions","receiving yards") or key in projections):continue
         projections.add(key)
         candidates.append({**{k:r.get(k) for k in ("game_date","sport","player","player_id","team","opponent","retrieved_at")},
             "source_stat":r["stat"],"stat":"targets","side":"over","line_origin":"research_threshold",
