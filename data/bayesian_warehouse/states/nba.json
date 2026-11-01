@@ -1,8 +1,8 @@
 {
-  "cursor": "2019-11-03",
-  "dates_complete": 398,
-  "market_rows_inserted": 305177,
+  "cursor": "2020-03-02",
+  "dates_complete": 518,
+  "market_rows_inserted": 494773,
   "schema": "multi-sport-population-cursor-v1",
-  "source_games": 1316,
+  "source_games": 2134,
   "sport": "NBA"
 }
