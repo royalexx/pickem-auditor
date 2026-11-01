@@ -1639,6 +1639,7 @@ def nfl_rows_from_tables(
     week_rows: list[dict] | None = None,
     read_table: dict | None = None,
     prior_week_rows: list[dict] | None = None,
+    prior_snap_rows: list[dict] | None = None,
 ) -> list[dict]:
     games = nfl_games_on(game_rows, game_date)
     slate = nfl_matchups(games)
@@ -1655,6 +1656,7 @@ def nfl_rows_from_tables(
     log = index_game_log(week_rows)
     prior_log = index_game_log(prior_week_rows) if prior_week_rows else None
     snap_index = index_player_snaps(snap_rows)
+    prior_snap_index = index_player_snaps(prior_snap_rows)
     routes_from_season = numeric_column(stat_rows, "routes")
     share_from_season = numeric_column(stat_rows, "route_share")
     routes_from_week = log is not None and numeric_column(week_rows, "routes")
@@ -1777,7 +1779,7 @@ def nfl_rows_from_tables(
                 built["player_id"] = player_id
             current = nfl_series_from_log(log, snap_index, team, name, player_id, stat, column)
             older = (
-                nfl_series_from_log(prior_log, {}, team, name, player_id, stat, column)
+                nfl_series_from_log(prior_log, prior_snap_index, team, name, player_id, stat, column)
                 if prior_log is not None
                 else None
             )
@@ -3265,6 +3267,17 @@ def fetch_nfl(game_date: str, retrieved_at: str, loader=None, source_urls=None, 
     if snap_note:
         notes.append(snap_note)
         snaps = []
+    prior_snaps = []
+    if prior_weeks:
+        prior_snaps, prior_snap_note = call(
+            "load_snap_counts prior", lambda: loader.load_snap_counts(seasons=[prior_season]))
+        if prior_snap_note:
+            notes.append(prior_snap_note)
+            prior_snaps = []
+        # Separate indexes prevent a same-week current-season snap count from
+        # being attached to a prior-year production observation.
+        prior_snaps = [r for r in prior_snaps or []
+                       if str(r.get('season') or '') == str(prior_season)]
     team_stats, team_note = call(
         "load_team_stats",
         lambda: loader.load_team_stats(seasons=[season], summary_level="reg"),
@@ -3313,6 +3326,7 @@ def fetch_nfl(game_date: str, retrieved_at: str, loader=None, source_urls=None, 
         week_rows=weeks,
         read_table=read_table,
         prior_week_rows=prior_weeks or None,
+        prior_snap_rows=prior_snaps,
     )
     if persist_season and pbp is not None:
         try:

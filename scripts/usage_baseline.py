@@ -145,7 +145,7 @@ def verify_a(candidate,now):
 def project(candidate,now):
     """Independent, uncertainty-aware scouting from validated usage histories.
 
-    A 3-4 game current-season sample may borrow <=20 verified same-role
+    A 3-9 game current-season sample may borrow <=20 verified same-role
     prior-season games, at 40% observation weight. This is a constrained
     early-season bridge, not invented current-season participation.
     """
@@ -156,14 +156,19 @@ def project(candidate,now):
     prior=[];early_prior=False
     if n<10:
         ids=((candidate.get('observation_ids') or {}).get('prior') or [])
-        history=validate_rows(data.get('prior_observations',[]),candidate,now,workload_required=True)
+        # Missing unused prior workload must not invalidate current exposures.
+        # Selected prior support still requires measured exposure on every row.
+        history=validate_rows(data.get('prior_observations',[]),candidate,now)
         indexed={r[1]:r for r in history}
-        authorized=(n>=3 and 10<=len(ids)<=20 and all(ident in indexed for ident in ids)
+        authorized=(n>=3 and 10<=len(ids)<=20
+                    and all(ident in indexed and indexed[ident][3] is not None for ident in ids)
                     and verify_a(candidate,now))
         if authorized:
             prior=[indexed[ident] for ident in ids]
             if set(r[1] for r in clean).intersection(ids):
                 raise ValueError('prior and current observation IDs overlap')
+            if max(r[0] for r in prior)>=min(r[0] for r in clean):
+                raise ValueError('prior observations must precede current-season observations')
             early_prior=True
         elif n<5:
             raise ValueError('early season needs 3 current and 10 verified same-role prior observations')

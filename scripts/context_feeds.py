@@ -236,6 +236,8 @@ def fetch_nfl_injuries(
     retrieved_at: str,
     *,
     source_url: str = "https://github.com/nflverse/nflverse-data/releases/tag/injuries",
+    game_date: str | None = None,
+    schedule: list[dict] | None = None,
 ) -> tuple[list[dict], list[str]]:
     notes: list[str] = []
     rows_out: list[dict] = []
@@ -245,13 +247,47 @@ def fetch_nfl_injuries(
         notes.append(f"nfl injuries: load_injuries failed ({type(exc).__name__}: {exc})")
         return rows_out, notes
     records = frame.to_dicts() if hasattr(frame, "to_dicts") else list(frame or [])
+    if game_date is not None:
+        # This endpoint returns the entire season, not tonight's status list.
+        # Retrieval time cannot make an earlier week's Out report current.
+        weeks = {}
+        for game in schedule or []:
+            if str(game.get('gameday') or '')[:10] != game_date:
+                continue
+            for team in (game.get('home_team'), game.get('away_team')):
+                weeks[str(team)] = str(game.get('week'))
+        selected = {}
+        for row in records:
+            team = str(row.get('team') or '')
+            if (team not in weeks or str(row.get('week')) != weeks[team]
+                    or str(row.get('season')) != str(season)):
+                continue
+            # Practice participation alone never establishes game availability.
+            if not (row.get('report_status') or row.get('status')):
+                continue
+            stamp = str(row.get('date_modified') or row.get('report_date') or '')
+            if stamp and stamp[:10] > str(retrieved_at)[:10]:
+                continue
+            key = (str(row.get('gsis_id') or row.get('full_name') or row.get('player_name')),team)
+            old = selected.get(key)
+            if old is None or stamp > old[0]:
+                selected[key] = (stamp,row)
+            elif stamp == old[0] and normalize_status(row.get('report_status') or row.get('status')) != normalize_status(old[1].get('report_status') or old[1].get('status')):
+                # Conflicting undated reports do not establish a subject status.
+                selected[key] = (stamp,{**row,'report_status':None,'status':None,'practice_status':None})
+        records = [value[1] for value in selected.values()]
+        if not records:
+            notes.append('nfl injuries: no game-week status report matched the current slate')
     for row in records:
         name = " ".join(
             str(row.get("full_name") or row.get("player_name") or row.get("gsis_id") or "").split()
         )
         if not name or name not in slate_players:
             continue
-        status = normalize_status(row.get("report_status") or row.get("practice_status") or row.get("status"))
+        raw_status = row.get("report_status") or row.get("status")
+        if game_date is None:
+            raw_status = raw_status or row.get("practice_status")
+        status = normalize_status(raw_status)
         if status is None:
             continue
         rows_out.append(
@@ -965,7 +1001,8 @@ def collect_context(
 
     if nfl_loader is not None:
         season = int(game_date[:4]) if game_date[5:7] >= "09" else int(game_date[:4]) - 1
-        nfl_rows, nfl_notes = fetch_nfl_injuries(nfl_loader, season, slate_players, retrieved_at)
+        nfl_rows, nfl_notes = fetch_nfl_injuries(nfl_loader, season, slate_players, retrieved_at,
+                                               game_date=game_date,schedule=nfl_schedule)
         availability.extend(nfl_rows)
         notes.extend(nfl_notes)
 
