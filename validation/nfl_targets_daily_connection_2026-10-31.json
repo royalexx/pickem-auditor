@@ -1,0 +1,74 @@
+{
+  "schema": "nfl-targets-daily-connection-validation-v1",
+  "date_toronto": "2026-10-31",
+  "posterior_sha256": "7694c59f367eeee716fe2046540c3c3e96c6de43581c9bf4447a0f0ee3af9646",
+  "release_tag": "research-nfl-targets-20261031-v3",
+  "parameters": {
+    "draws": 6000,
+    "transport": "pinned non-pickle NPZ and JSON",
+    "quantized": false,
+    "retrained": false
+  },
+  "historical_feature_parity": {
+    "rows": 1738,
+    "identical_vectors": true
+  },
+  "historical_forecast_replay": {
+    "rows": 1738,
+    "max_difference": 7.105427357601002e-15,
+    "interval_mismatches": 0,
+    "seconds": 8.58048583200025,
+    "all_6000_draws_retained": true
+  },
+  "live_public_source_test": {
+    "date": "2026-11-01",
+    "source_retrieved_at": "2026-11-01T03:06:11.799690+00:00",
+    "source_sha256": "ac6b9af39b033054689c5a7161dc1af43b04da6e7072ed9f8f09d709efe5998e",
+    "slate_rows": 1872,
+    "target_receivers": 295,
+    "forecasts": 242,
+    "unseen_players_excluded": 53,
+    "odds_requests": 0,
+    "line_origin": "research_threshold",
+    "line": 5.5,
+    "note": "Source currently exposes reception/yardage candidates. Output is a target opportunity projection, not reception/yardage win probabilities."
+  },
+  "tests": {
+    "feature_branch": {
+      "run": 916,
+      "skipped": 10,
+      "status": "pass"
+    },
+    "main_integration": {
+      "run": 824,
+      "skipped": 5,
+      "status": "pass"
+    },
+    "coverage": [
+      "input timing and freshness",
+      "GSIS/team/position/schedule identity",
+      "missing charting masks",
+      "release metadata and parameter tampering",
+      "append-only retry idempotence",
+      "original snapshots unchanged",
+      "correct target-count settlement",
+      "research line vs market line separation",
+      "no duplicate Engine B/read multiplier"
+    ]
+  },
+  "deployment": {
+    "default_branch": "main",
+    "publication_runner": [
+      "self-hosted",
+      "Windows",
+      "X64",
+      "pickem-trainer"
+    ],
+    "publication_performs_training": false,
+    "afternoon": "forecast from current raw slate and actual target snapshots",
+    "morning": "refresh target actuals with public weekly stats and schedules, then audit",
+    "hosted_daily_capacity_still_required": true
+  },
+  "ranking_allowed": false,
+  "automatic_promotion": false
+}

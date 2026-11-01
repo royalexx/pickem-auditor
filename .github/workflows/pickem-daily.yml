@@ -63,6 +63,7 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           PICKEM_ENABLE_ODDS_API_NHL_BLOCKS: '1'
           PHASE: ${{ steps.gate.outputs.phase }}
+          GH_TOKEN: ${{ github.token }}
           PICKEM_ODDS_QUOTA_GUARD: '1'
           PICKEM_DISABLE_ODDS: ${{ steps.gate.outputs.phase == 'morning' && '1' || '0' }}
         run: |
@@ -130,6 +131,7 @@ jobs:
                   receipt['odds_coverage']={'error':'INVALID_SOURCE_META'}
           archive=Path('data/prop_snapshots.jsonl')
           if phase=='morning':
+              step('nfl_context_settled_audit',[sys.executable,'scripts/nfl_context_daily.py','audit','--refresh-actuals'])
               if archive.is_file():
                   settle_ok=step('settle_forecasts',[sys.executable,'scripts/jobs.py','settle'])
                   if settle_ok:
@@ -344,6 +346,13 @@ jobs:
                           receipt['afternoon_audit']=json.loads(Path('reports/afternoon_audit.json').read_text())
                       except (ValueError,OSError):
                           receipt['afternoon_audit']={'status':'invalid_audit_receipt'}
+          # Targets opportunity projections also work when quote collection is unavailable.
+          if phase=='afternoon' and Path('data/slate_fetch.jsonl').is_file():
+              step('install_nfl_inference',[sys.executable,'-m','pip','install','-r','requirements-nfl-inference.txt'])
+              step('nfl_context_forecast',[sys.executable,'scripts/nfl_context_daily.py','run','--download'])
+              context_receipt=Path('reports/nfl_context_daily.json')
+              if context_receipt.is_file():
+                  receipt['nfl_context']=json.loads(context_receipt.read_text())
           if archive.is_file():
               step('verify_forecast_identity',[sys.executable,'scripts/verify_history_invariants.py'])
           else:
@@ -462,6 +471,9 @@ jobs:
             reports/nhl_joint_saves_shadow_receipt.json
             data/nhl_joint_saves_shadow/
             reports/phase4_validation.json
+            data/nfl_context/
+            reports/nfl_context_daily.json
+            reports/nfl_context_settled.json
             data/posterior_mc/
             data/bayesian_b_shadow/
             data/bayesian_shadow/

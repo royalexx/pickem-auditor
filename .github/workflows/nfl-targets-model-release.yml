@@ -1,0 +1,41 @@
+name: Publish verified NFL targets model from Precision
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/nfl-model-release/*.json']
+permissions:
+  contents: write
+concurrency:
+  group: publish-nfl-targets-model
+  cancel-in-progress: false
+jobs:
+  publish:
+    # Packaging only: uses the existing trained environment and no hosted minutes.
+    runs-on: [self-hosted, Windows, X64, pickem-trainer]
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Export and publish only the verified trained posterior
+        run: |
+          $modelRun = 'C:\Users\alexi\Music\pickem-auditor\reports\nfl_reads_full_v2'
+          $projectRoot = Split-Path (Split-Path $modelRun)
+          $trainedPython = Join-Path $projectRoot '.venv\Scripts\python.exe'
+          if (!(Test-Path $trainedPython)) { throw "Trained numerical environment missing: $trainedPython" }
+          if (!(Test-Path (Join-Path $modelRun 'context\posterior.nc'))) { throw "Verified posterior missing: $modelRun" }
+          if (!(Get-Command gh -ErrorAction SilentlyContinue)) {
+            $ghFolder = 'C:\Program Files\GitHub CLI'
+            if (Test-Path (Join-Path $ghFolder 'gh.exe')) { $env:PATH = "$ghFolder;$env:PATH" }
+          }
+          & $trainedPython scripts/nfl_context_release.py --run-dir $modelRun --out-dir reports/nfl_targets_release --publish
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

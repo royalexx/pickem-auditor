@@ -57,6 +57,10 @@ if [[ "$mode" == load ]]; then
       mkdir -p data/posterior_mc
       cp -an "$tmpdir/data/posterior_mc/." data/posterior_mc/
     fi
+    if [[ -d "$tmpdir/data/nfl_context" ]]; then
+      mkdir -p data/nfl_context
+      cp -an "$tmpdir/data/nfl_context/." data/nfl_context/
+    fi
     # Verification sidecars are independent of original forecasts and may be
     # updated before game start. Old decision receipts must remain intact.
     if [[ -d "$tmpdir/data/verification" ]]; then
@@ -181,6 +185,23 @@ PY
     done < <(find data/posterior_mc -type f -name '*.jsonl' -print0)
     mkdir -p "$tmpdir/tree/data/posterior_mc"
     cp -a data/posterior_mc/. "$tmpdir/tree/data/posterior_mc/"
+  fi
+  if [[ -d data/nfl_context ]]; then
+    while IFS= read -r -d '' forecast; do
+      relative="${forecast#data/nfl_context/}"
+      target="$tmpdir/tree/data/nfl_context/$relative"
+      if [[ -e "$target" ]]; then
+        python - "$target" "$forecast" <<'PY_CHECK'
+import sys
+from pathlib import Path
+if not Path(sys.argv[2]).read_bytes().startswith(Path(sys.argv[1]).read_bytes()):
+    raise SystemExit('IMMUTABLE_NFL_CONTEXT_FORECAST_CONFLICT')
+PY_CHECK
+      fi
+    done < <(find data/nfl_context -type f -name '*.jsonl' -print0)
+    mkdir -p "$tmpdir/tree/data/nfl_context"
+    cp -a data/nfl_context/. "$tmpdir/tree/data/nfl_context/"
+    git -C "$tmpdir/tree" add -f data/nfl_context/
   fi
   for file in logs/*.log; do
     [[ ! -f "$file" ]] || cp -p "$file" "$tmpdir/tree/logs/"

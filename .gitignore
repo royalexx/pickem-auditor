@@ -8,3 +8,5 @@ config/credentials.local.json
 *.db
 reports/
 .DS_Store
+
+data/models/
