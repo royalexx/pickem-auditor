@@ -1,8 +1,8 @@
 {
-  "cursor": "2021-10-23",
-  "dates_complete": 1118,
-  "market_rows_inserted": 790783,
+  "cursor": "2022-02-20",
+  "dates_complete": 1238,
+  "market_rows_inserted": 990730,
   "schema": "multi-sport-population-cursor-v1",
-  "source_games": 3400,
+  "source_games": 4257,
   "sport": "NBA"
 }
