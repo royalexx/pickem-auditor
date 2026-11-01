@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-01",
+  "identity_ok": true,
+  "phase": "morning",
+  "receipt_sha256": "87c443342f06f0263309402b5beb64f2fecc1c25c506dcbb433bb435409e3636",
+  "run_id": "41303982495",
+  "settle_ok": true,
+  "started_at_utc": "2026-11-01T11:55:02.717496+00:00",
+  "status": "completed",
+  "verified_at_utc": "2026-11-01T11:56:45.211386+00:00"
+}
