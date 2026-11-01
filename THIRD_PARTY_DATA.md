@@ -1,6 +1,6 @@
 # NFL data attribution
 
-The optional current-season store contains selected/transformed fields from
+The current-season store and optional read-aware Bayesian training snapshots contain selected/transformed fields from
 nflverse play-by-play and **FTN Data via nflverse** charting.
 
 - Play-by-play source: https://github.com/nflverse/nflverse-data/releases/tag/pbp
@@ -15,3 +15,4 @@ joining game/play IDs, deduplicating source records and calculating descriptive
 profiles. Preserve attribution and applicable share-alike requirements when sharing
 these data or adapted datasets. No endorsement by the data providers is implied.
 The database metadata records its retrieval time, cutoff, source URLs and mapping.
+

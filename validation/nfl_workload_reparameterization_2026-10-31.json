@@ -1,0 +1,1760 @@
+{
+  "schema": "nfl-workload-reparameterization-verification-v1",
+  "date": "2026-10-31",
+  "model_version": "nfl-context-count-v3",
+  "source_packet_sha256": "54c98f5eac6296c54090ce417d927285b3e793fb2f80373300e218283799ee08",
+  "original_full_fit": {
+    "draws_per_chain": 1500,
+    "tune_per_chain": 1500,
+    "diagnostics": {
+      "all_stochastic_effects": true,
+      "chains": 4,
+      "checked_variables": [
+        "population_workload",
+        "population_log_rate",
+        "player_chol",
+        "player_z",
+        "team_sd",
+        "team_z",
+        "season_sd",
+        "season_z",
+        "beta_workload",
+        "beta_rate",
+        "workload_sigma",
+        "count_dispersion",
+        "player_effect",
+        "team_effect",
+        "player_chol_stds",
+        "season_effect",
+        "estimated_player_correlation"
+      ],
+      "divergences": 0,
+      "max_rhat": 1.0149425317930043,
+      "max_treedepth_hits": 0,
+      "min_bulk_ess": 317.4548873210447,
+      "min_tail_ess": 519.6905163005564,
+      "minimum_bfmi": 0.6266307699878749,
+      "posterior_sampling_ok": false,
+      "ranking_allowed": false,
+      "status": "sampling_diagnostics_failed"
+    },
+    "population_workload": {
+      "bulk_ess_failures": 3,
+      "lowest_bulk_coordinate": {
+        "flat_index": 2,
+        "indices": [
+          2
+        ],
+        "position": "WR"
+      },
+      "lowest_tail_coordinate": {
+        "flat_index": 2,
+        "indices": [
+          2
+        ],
+        "position": "WR"
+      },
+      "max_rhat": 1.0149425317930043,
+      "min_bulk_ess": 317.4548873210447,
+      "min_tail_ess": 519.6905163005564,
+      "rhat_failures": 1,
+      "tail_ess_failures": 0,
+      "variable": "population_workload",
+      "worst_coordinate_chain_means": [
+        -1.7916720248201323,
+        -1.7723138411877184,
+        -1.7926266857018902,
+        -1.8026344214116685
+      ],
+      "worst_coordinate_chain_sd": [
+        0.06424225517736595,
+        0.06678525013654331,
+        0.06943948701832325,
+        0.07038646219425386
+      ],
+      "worst_rhat_coordinate": {
+        "flat_index": 1,
+        "indices": [
+          1
+        ],
+        "position": "TE"
+      }
+    }
+  },
+  "shorter_real_design_fit": {
+    "centered_players": 504,
+    "chains": 4,
+    "cores": 2,
+    "diagnostics": {
+      "all_stochastic_effects": true,
+      "chains": 4,
+      "checked_variables": [
+        "population_workload",
+        "population_log_rate",
+        "player_chol",
+        "player_workload_raw",
+        "player_rate_z",
+        "team_sd",
+        "team_z",
+        "season_sd",
+        "season_z",
+        "beta_workload",
+        "beta_rate",
+        "workload_sigma",
+        "count_dispersion",
+        "player_effect",
+        "team_effect",
+        "player_chol_stds",
+        "season_effect",
+        "estimated_player_correlation"
+      ],
+      "divergences": 0,
+      "max_rhat": 1.0187680819094045,
+      "max_treedepth_hits": 0,
+      "min_bulk_ess": 330.29687712038213,
+      "min_tail_ess": 448.02025492532084,
+      "minimum_bfmi": 0.8469147381198219,
+      "posterior_sampling_ok": false,
+      "ranking_allowed": false,
+      "status": "sampling_diagnostics_failed"
+    },
+    "draws_per_chain": 500,
+    "elapsed_seconds": 1920.5110477059998,
+    "features": 55,
+    "model_version": "nfl-context-count-v3",
+    "players": 637,
+    "ranking_allowed": false,
+    "schema": "nfl-mixed-workload-check-v1",
+    "source_digest": "1dc0492e92213e52e1e5223eb1d2111f059be7d0587eff25db96548ec1460032",
+    "training_rows": 10082,
+    "tune_per_chain": 500
+  },
+  "shorter_fit_parameter_report": {
+    "by_rhat": [
+      {
+        "variable": "team_sd",
+        "max_rhat": 1.0187680819094045,
+        "min_bulk_ess": 330.29687712038213,
+        "min_tail_ess": 448.02025492532084,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 1,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ]
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ]
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ]
+        },
+        "worst_coordinate_chain_means": [
+          0.070792627223168,
+          0.06903180709073478,
+          0.0701929123253772,
+          0.06765795276922952
+        ],
+        "worst_coordinate_chain_sd": [
+          0.019497363616900593,
+          0.022225986550443284,
+          0.021049946819179075,
+          0.022135436857614668
+        ]
+      },
+      {
+        "variable": "player_workload_raw",
+        "max_rhat": 1.0174261669764608,
+        "min_bulk_ess": 2094.549942072125,
+        "min_tail_ess": 1137.8525006107263,
+        "rhat_failures": 6,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 20,
+          "indices": [
+            20
+          ],
+          "player_id": "00-0031687",
+          "effect": "workload_sampling_coordinate"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 162,
+          "indices": [
+            162
+          ],
+          "player_id": "00-0035676",
+          "effect": "workload_sampling_coordinate"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 514,
+          "indices": [
+            514
+          ],
+          "player_id": "00-0039747",
+          "effect": "workload_sampling_coordinate"
+        },
+        "worst_coordinate_chain_means": [
+          -2.2632057125004845,
+          -2.269137654238304,
+          -2.258856649153886,
+          -2.256280486497829
+        ],
+        "worst_coordinate_chain_sd": [
+          0.13569747741848692,
+          0.1300556285950284,
+          0.11159319227051408,
+          0.12566074037598743
+        ]
+      },
+      {
+        "variable": "beta_workload",
+        "max_rhat": 1.0135713583121082,
+        "min_bulk_ess": 439.0949805917537,
+        "min_tail_ess": 726.327447224072,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ],
+          "feature": "recent_player_snaps"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ],
+          "feature": "recent_player_snaps"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ],
+          "feature": "recent_player_snaps"
+        },
+        "worst_coordinate_chain_means": [
+          0.15810502519735364,
+          0.15503997923882532,
+          0.15619559253256943,
+          0.1596016772756364
+        ],
+        "worst_coordinate_chain_sd": [
+          0.014911444995422442,
+          0.015220515182427095,
+          0.014923374662760497,
+          0.015481374432298637
+        ]
+      },
+      {
+        "variable": "player_rate_z",
+        "max_rhat": 1.0127468090764775,
+        "min_bulk_ess": 783.3273876130017,
+        "min_tail_ess": 975.1625674162226,
+        "rhat_failures": 4,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 635,
+          "indices": [
+            635
+          ],
+          "player_id": "00-0040782",
+          "effect": "conditional_production"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 162,
+          "indices": [
+            162
+          ],
+          "player_id": "00-0035676",
+          "effect": "conditional_production"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 532,
+          "indices": [
+            532
+          ],
+          "player_id": "00-0039868",
+          "effect": "conditional_production"
+        },
+        "worst_coordinate_chain_means": [
+          -0.2626671132213922,
+          -0.3192154466245945,
+          -0.3411101543765832,
+          -0.28381190335556455
+        ],
+        "worst_coordinate_chain_sd": [
+          0.4847205827755924,
+          0.45688310468225973,
+          0.5092167309027229,
+          0.4850992711955205
+        ]
+      },
+      {
+        "variable": "season_sd",
+        "max_rhat": 1.0126137093709713,
+        "min_bulk_ess": 662.8035489066841,
+        "min_tail_ess": 863.4847107083224,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ]
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ]
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ]
+        },
+        "worst_coordinate_chain_means": [
+          0.07391939292538018,
+          0.06082868313173231,
+          0.07491824056329423,
+          0.07347999995697421
+        ],
+        "worst_coordinate_chain_sd": [
+          0.07889855256748005,
+          0.07691471617053436,
+          0.07869996047688357,
+          0.08170590213753626
+        ]
+      },
+      {
+        "variable": "player_effect",
+        "max_rhat": 1.0120795542737562,
+        "min_bulk_ess": 881.979059820717,
+        "min_tail_ess": 1006.4532796799783,
+        "rhat_failures": 10,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 198,
+          "indices": [
+            99,
+            0
+          ],
+          "player_id": "00-0034367",
+          "effect": "workload"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 517,
+          "indices": [
+            258,
+            1
+          ],
+          "player_id": "00-0036912",
+          "effect": "production"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 1137,
+          "indices": [
+            568,
+            1
+          ],
+          "player_id": "00-0040164",
+          "effect": "production"
+        },
+        "worst_coordinate_chain_means": [
+          -1.482323579734426,
+          -1.4869947551449658,
+          -1.4570950894436725,
+          -1.5000345951833591
+        ],
+        "worst_coordinate_chain_sd": [
+          0.4057486995514888,
+          0.36272249722343064,
+          0.44806436037894115,
+          0.429841858689097
+        ]
+      },
+      {
+        "variable": "beta_rate",
+        "max_rhat": 1.0114257271328353,
+        "min_bulk_ess": 1381.4409396365102,
+        "min_tail_ess": 1107.7073527006567,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 33,
+          "indices": [
+            33
+          ],
+          "feature": "qb_mix_later_read_observed"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ],
+          "feature": "recent_player_snaps"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 51,
+          "indices": [
+            51
+          ],
+          "feature": "offense_target_share_per_throw_observed"
+        },
+        "worst_coordinate_chain_means": [
+          -0.007156752123507001,
+          -0.0028142462718312427,
+          0.009477165740881383,
+          -0.0021200038814811
+        ],
+        "worst_coordinate_chain_sd": [
+          0.17889980094301042,
+          0.17771371966784288,
+          0.1880442125259262,
+          0.17980574180791004
+        ]
+      },
+      {
+        "variable": "population_log_rate",
+        "max_rhat": 1.0110276621541052,
+        "min_bulk_ess": 536.7147553322134,
+        "min_tail_ess": 792.6238469182043,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ],
+          "position": "TE"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ],
+          "position": "WR"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ],
+          "position": "TE"
+        },
+        "worst_coordinate_chain_means": [
+          -2.5803808620420283,
+          -2.579817972768059,
+          -2.580082858286355,
+          -2.5804853994874475
+        ],
+        "worst_coordinate_chain_sd": [
+          0.03512383520471052,
+          0.03482130626762197,
+          0.03517640476747738,
+          0.030541091638558854
+        ]
+      },
+      {
+        "variable": "team_effect",
+        "max_rhat": 1.0109600215187806,
+        "min_bulk_ess": 491.3245491638966,
+        "min_tail_ess": 822.4032910785523,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 18,
+          "indices": [
+            9,
+            0
+          ],
+          "team": "DEN",
+          "effect": "own_team"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 50,
+          "indices": [
+            25,
+            0
+          ],
+          "team": "PHI",
+          "effect": "own_team"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 54,
+          "indices": [
+            27,
+            0
+          ],
+          "team": "SEA",
+          "effect": "own_team"
+        },
+        "worst_coordinate_chain_means": [
+          0.09375810701087517,
+          0.09089863258184028,
+          0.08330640786612366,
+          0.0904889774651989
+        ],
+        "worst_coordinate_chain_sd": [
+          0.05248792744911444,
+          0.053390950322401494,
+          0.05302396390877296,
+          0.055409301957908545
+        ]
+      },
+      {
+        "variable": "team_z",
+        "max_rhat": 1.0105837312851595,
+        "min_bulk_ess": 1037.4387228970777,
+        "min_tail_ess": 1024.996048680369,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 53,
+          "indices": [
+            26,
+            1
+          ],
+          "team": "PIT",
+          "effect": "opponent_allowance"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 58,
+          "indices": [
+            29,
+            0
+          ],
+          "team": "TB",
+          "effect": "own_team"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 26,
+          "indices": [
+            13,
+            0
+          ],
+          "team": "IND",
+          "effect": "own_team"
+        },
+        "worst_coordinate_chain_means": [
+          0.24559535992124298,
+          0.21847429676943106,
+          0.2941902492856332,
+          0.31724530474556
+        ],
+        "worst_coordinate_chain_sd": [
+          1.0492267009512728,
+          1.086180908192897,
+          0.959021892237837,
+          0.8893035244424183
+        ]
+      },
+      {
+        "variable": "player_chol",
+        "max_rhat": 1.0075937039352696,
+        "min_bulk_ess": 648.4909658340241,
+        "min_tail_ess": 1024.6401224579004,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ]
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ]
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ]
+        },
+        "worst_coordinate_chain_means": [
+          0.8458187992561376,
+          0.8498560373677221,
+          0.8455187281225035,
+          0.841843626240767
+        ],
+        "worst_coordinate_chain_sd": [
+          0.02714239736054071,
+          0.02674547610681532,
+          0.028662639916494044,
+          0.028628713508736536
+        ]
+      },
+      {
+        "variable": "player_chol_stds",
+        "max_rhat": 1.0075937039352696,
+        "min_bulk_ess": 671.3543117483979,
+        "min_tail_ess": 1118.187894764197,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ]
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ]
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ]
+        },
+        "worst_coordinate_chain_means": [
+          0.8458187992561376,
+          0.8498560373677221,
+          0.8455187281225035,
+          0.841843626240767
+        ],
+        "worst_coordinate_chain_sd": [
+          0.02714239736054071,
+          0.02674547610681532,
+          0.028662639916494044,
+          0.028628713508736536
+        ]
+      },
+      {
+        "variable": "season_z",
+        "max_rhat": 1.0054050560672707,
+        "min_bulk_ess": 1789.9374278565786,
+        "min_tail_ess": 1264.8671336217528,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 3,
+          "indices": [
+            1,
+            1
+          ],
+          "season": "2025",
+          "effect": "production"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0,
+            0
+          ],
+          "season": "2024",
+          "effect": "workload"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0,
+            0
+          ],
+          "season": "2024",
+          "effect": "workload"
+        },
+        "worst_coordinate_chain_means": [
+          -0.1497206055652462,
+          -0.1545421305845396,
+          -0.21046441178273756,
+          -0.1908687782800721
+        ],
+        "worst_coordinate_chain_sd": [
+          0.7687907982292456,
+          0.8442306016139863,
+          0.8227963297428219,
+          0.772811946159591
+        ]
+      },
+      {
+        "variable": "population_workload",
+        "max_rhat": 1.0043192828346335,
+        "min_bulk_ess": 1439.5274985409676,
+        "min_tail_ess": 1396.4593098327862,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ],
+          "position": "RB"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ],
+          "position": "RB"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ],
+          "position": "RB"
+        },
+        "worst_coordinate_chain_means": [
+          -2.246323710334862,
+          -2.2402619999285296,
+          -2.2475108199772014,
+          -2.2359970165458862
+        ],
+        "worst_coordinate_chain_sd": [
+          0.06545409193962573,
+          0.0646638024696282,
+          0.06576161786729418,
+          0.0642018517286388
+        ]
+      },
+      {
+        "variable": "estimated_player_correlation",
+        "max_rhat": 1.0038462988001347,
+        "min_bulk_ess": 638.1214185519314,
+        "min_tail_ess": 976.0361774311257,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "worst_coordinate_chain_means": [
+          0.4252349723968442,
+          0.43012277869286925,
+          0.43330618482871275,
+          0.41737691929713183
+        ],
+        "worst_coordinate_chain_sd": [
+          0.0634954449996562,
+          0.0644100893841322,
+          0.06360607855822446,
+          0.06446429688334121
+        ]
+      },
+      {
+        "variable": "workload_sigma",
+        "max_rhat": 1.0036638743189221,
+        "min_bulk_ess": 3191.864775637876,
+        "min_tail_ess": 1625.443555752675,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "worst_coordinate_chain_means": [
+          0.653104944101841,
+          0.6526161060961222,
+          0.6531003196762087,
+          0.6533642217339476
+        ],
+        "worst_coordinate_chain_sd": [
+          0.00488286084596258,
+          0.005353261378907407,
+          0.004476455702323409,
+          0.0047819250210473785
+        ]
+      },
+      {
+        "variable": "season_effect",
+        "max_rhat": 1.001796554000671,
+        "min_bulk_ess": 1529.4971922818365,
+        "min_tail_ess": 1363.0772261300135,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            0,
+            1
+          ],
+          "season": "2024",
+          "effect": "production"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            0,
+            1
+          ],
+          "season": "2024",
+          "effect": "production"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0,
+            0
+          ],
+          "season": "2024",
+          "effect": "workload"
+        },
+        "worst_coordinate_chain_means": [
+          0.006680432445440168,
+          0.005804683409535137,
+          0.006934259587367265,
+          0.006424813347402242
+        ],
+        "worst_coordinate_chain_sd": [
+          0.007016899770646318,
+          0.007133634982518201,
+          0.006895058320748432,
+          0.006595590180543935
+        ]
+      },
+      {
+        "variable": "count_dispersion",
+        "max_rhat": 0.999967821428359,
+        "min_bulk_ess": 3862.4671188943166,
+        "min_tail_ess": 1530.7883994368085,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "worst_coordinate_chain_means": [
+          79.29078934328471,
+          79.77576632629079,
+          79.48941348333398,
+          79.68559329245035
+        ],
+        "worst_coordinate_chain_sd": [
+          12.755368975074006,
+          13.89751275538832,
+          13.590936470851856,
+          13.152492485624409
+        ]
+      }
+    ],
+    "by_bulk_ess": [
+      {
+        "variable": "team_sd",
+        "max_rhat": 1.0187680819094045,
+        "min_bulk_ess": 330.29687712038213,
+        "min_tail_ess": 448.02025492532084,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 1,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ]
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ]
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ]
+        },
+        "worst_coordinate_chain_means": [
+          0.070792627223168,
+          0.06903180709073478,
+          0.0701929123253772,
+          0.06765795276922952
+        ],
+        "worst_coordinate_chain_sd": [
+          0.019497363616900593,
+          0.022225986550443284,
+          0.021049946819179075,
+          0.022135436857614668
+        ]
+      },
+      {
+        "variable": "beta_workload",
+        "max_rhat": 1.0135713583121082,
+        "min_bulk_ess": 439.0949805917537,
+        "min_tail_ess": 726.327447224072,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ],
+          "feature": "recent_player_snaps"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ],
+          "feature": "recent_player_snaps"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ],
+          "feature": "recent_player_snaps"
+        },
+        "worst_coordinate_chain_means": [
+          0.15810502519735364,
+          0.15503997923882532,
+          0.15619559253256943,
+          0.1596016772756364
+        ],
+        "worst_coordinate_chain_sd": [
+          0.014911444995422442,
+          0.015220515182427095,
+          0.014923374662760497,
+          0.015481374432298637
+        ]
+      },
+      {
+        "variable": "team_effect",
+        "max_rhat": 1.0109600215187806,
+        "min_bulk_ess": 491.3245491638966,
+        "min_tail_ess": 822.4032910785523,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 18,
+          "indices": [
+            9,
+            0
+          ],
+          "team": "DEN",
+          "effect": "own_team"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 50,
+          "indices": [
+            25,
+            0
+          ],
+          "team": "PHI",
+          "effect": "own_team"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 54,
+          "indices": [
+            27,
+            0
+          ],
+          "team": "SEA",
+          "effect": "own_team"
+        },
+        "worst_coordinate_chain_means": [
+          0.09375810701087517,
+          0.09089863258184028,
+          0.08330640786612366,
+          0.0904889774651989
+        ],
+        "worst_coordinate_chain_sd": [
+          0.05248792744911444,
+          0.053390950322401494,
+          0.05302396390877296,
+          0.055409301957908545
+        ]
+      },
+      {
+        "variable": "population_log_rate",
+        "max_rhat": 1.0110276621541052,
+        "min_bulk_ess": 536.7147553322134,
+        "min_tail_ess": 792.6238469182043,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ],
+          "position": "TE"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ],
+          "position": "WR"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ],
+          "position": "TE"
+        },
+        "worst_coordinate_chain_means": [
+          -2.5803808620420283,
+          -2.579817972768059,
+          -2.580082858286355,
+          -2.5804853994874475
+        ],
+        "worst_coordinate_chain_sd": [
+          0.03512383520471052,
+          0.03482130626762197,
+          0.03517640476747738,
+          0.030541091638558854
+        ]
+      },
+      {
+        "variable": "estimated_player_correlation",
+        "max_rhat": 1.0038462988001347,
+        "min_bulk_ess": 638.1214185519314,
+        "min_tail_ess": 976.0361774311257,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "worst_coordinate_chain_means": [
+          0.4252349723968442,
+          0.43012277869286925,
+          0.43330618482871275,
+          0.41737691929713183
+        ],
+        "worst_coordinate_chain_sd": [
+          0.0634954449996562,
+          0.0644100893841322,
+          0.06360607855822446,
+          0.06446429688334121
+        ]
+      },
+      {
+        "variable": "player_chol",
+        "max_rhat": 1.0075937039352696,
+        "min_bulk_ess": 648.4909658340241,
+        "min_tail_ess": 1024.6401224579004,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ]
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ]
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ]
+        },
+        "worst_coordinate_chain_means": [
+          0.8458187992561376,
+          0.8498560373677221,
+          0.8455187281225035,
+          0.841843626240767
+        ],
+        "worst_coordinate_chain_sd": [
+          0.02714239736054071,
+          0.02674547610681532,
+          0.028662639916494044,
+          0.028628713508736536
+        ]
+      },
+      {
+        "variable": "season_sd",
+        "max_rhat": 1.0126137093709713,
+        "min_bulk_ess": 662.8035489066841,
+        "min_tail_ess": 863.4847107083224,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ]
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ]
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ]
+        },
+        "worst_coordinate_chain_means": [
+          0.07391939292538018,
+          0.06082868313173231,
+          0.07491824056329423,
+          0.07347999995697421
+        ],
+        "worst_coordinate_chain_sd": [
+          0.07889855256748005,
+          0.07691471617053436,
+          0.07869996047688357,
+          0.08170590213753626
+        ]
+      },
+      {
+        "variable": "player_chol_stds",
+        "max_rhat": 1.0075937039352696,
+        "min_bulk_ess": 671.3543117483979,
+        "min_tail_ess": 1118.187894764197,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ]
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ]
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            1
+          ]
+        },
+        "worst_coordinate_chain_means": [
+          0.8458187992561376,
+          0.8498560373677221,
+          0.8455187281225035,
+          0.841843626240767
+        ],
+        "worst_coordinate_chain_sd": [
+          0.02714239736054071,
+          0.02674547610681532,
+          0.028662639916494044,
+          0.028628713508736536
+        ]
+      },
+      {
+        "variable": "player_rate_z",
+        "max_rhat": 1.0127468090764775,
+        "min_bulk_ess": 783.3273876130017,
+        "min_tail_ess": 975.1625674162226,
+        "rhat_failures": 4,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 635,
+          "indices": [
+            635
+          ],
+          "player_id": "00-0040782",
+          "effect": "conditional_production"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 162,
+          "indices": [
+            162
+          ],
+          "player_id": "00-0035676",
+          "effect": "conditional_production"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 532,
+          "indices": [
+            532
+          ],
+          "player_id": "00-0039868",
+          "effect": "conditional_production"
+        },
+        "worst_coordinate_chain_means": [
+          -0.2626671132213922,
+          -0.3192154466245945,
+          -0.3411101543765832,
+          -0.28381190335556455
+        ],
+        "worst_coordinate_chain_sd": [
+          0.4847205827755924,
+          0.45688310468225973,
+          0.5092167309027229,
+          0.4850992711955205
+        ]
+      },
+      {
+        "variable": "player_effect",
+        "max_rhat": 1.0120795542737562,
+        "min_bulk_ess": 881.979059820717,
+        "min_tail_ess": 1006.4532796799783,
+        "rhat_failures": 10,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 198,
+          "indices": [
+            99,
+            0
+          ],
+          "player_id": "00-0034367",
+          "effect": "workload"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 517,
+          "indices": [
+            258,
+            1
+          ],
+          "player_id": "00-0036912",
+          "effect": "production"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 1137,
+          "indices": [
+            568,
+            1
+          ],
+          "player_id": "00-0040164",
+          "effect": "production"
+        },
+        "worst_coordinate_chain_means": [
+          -1.482323579734426,
+          -1.4869947551449658,
+          -1.4570950894436725,
+          -1.5000345951833591
+        ],
+        "worst_coordinate_chain_sd": [
+          0.4057486995514888,
+          0.36272249722343064,
+          0.44806436037894115,
+          0.429841858689097
+        ]
+      },
+      {
+        "variable": "team_z",
+        "max_rhat": 1.0105837312851595,
+        "min_bulk_ess": 1037.4387228970777,
+        "min_tail_ess": 1024.996048680369,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 53,
+          "indices": [
+            26,
+            1
+          ],
+          "team": "PIT",
+          "effect": "opponent_allowance"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 58,
+          "indices": [
+            29,
+            0
+          ],
+          "team": "TB",
+          "effect": "own_team"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 26,
+          "indices": [
+            13,
+            0
+          ],
+          "team": "IND",
+          "effect": "own_team"
+        },
+        "worst_coordinate_chain_means": [
+          0.24559535992124298,
+          0.21847429676943106,
+          0.2941902492856332,
+          0.31724530474556
+        ],
+        "worst_coordinate_chain_sd": [
+          1.0492267009512728,
+          1.086180908192897,
+          0.959021892237837,
+          0.8893035244424183
+        ]
+      },
+      {
+        "variable": "beta_rate",
+        "max_rhat": 1.0114257271328353,
+        "min_bulk_ess": 1381.4409396365102,
+        "min_tail_ess": 1107.7073527006567,
+        "rhat_failures": 1,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 33,
+          "indices": [
+            33
+          ],
+          "feature": "qb_mix_later_read_observed"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 2,
+          "indices": [
+            2
+          ],
+          "feature": "recent_player_snaps"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 51,
+          "indices": [
+            51
+          ],
+          "feature": "offense_target_share_per_throw_observed"
+        },
+        "worst_coordinate_chain_means": [
+          -0.007156752123507001,
+          -0.0028142462718312427,
+          0.009477165740881383,
+          -0.0021200038814811
+        ],
+        "worst_coordinate_chain_sd": [
+          0.17889980094301042,
+          0.17771371966784288,
+          0.1880442125259262,
+          0.17980574180791004
+        ]
+      },
+      {
+        "variable": "population_workload",
+        "max_rhat": 1.0043192828346335,
+        "min_bulk_ess": 1439.5274985409676,
+        "min_tail_ess": 1396.4593098327862,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ],
+          "position": "RB"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ],
+          "position": "RB"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0
+          ],
+          "position": "RB"
+        },
+        "worst_coordinate_chain_means": [
+          -2.246323710334862,
+          -2.2402619999285296,
+          -2.2475108199772014,
+          -2.2359970165458862
+        ],
+        "worst_coordinate_chain_sd": [
+          0.06545409193962573,
+          0.0646638024696282,
+          0.06576161786729418,
+          0.0642018517286388
+        ]
+      },
+      {
+        "variable": "season_effect",
+        "max_rhat": 1.001796554000671,
+        "min_bulk_ess": 1529.4971922818365,
+        "min_tail_ess": 1363.0772261300135,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            0,
+            1
+          ],
+          "season": "2024",
+          "effect": "production"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 1,
+          "indices": [
+            0,
+            1
+          ],
+          "season": "2024",
+          "effect": "production"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0,
+            0
+          ],
+          "season": "2024",
+          "effect": "workload"
+        },
+        "worst_coordinate_chain_means": [
+          0.006680432445440168,
+          0.005804683409535137,
+          0.006934259587367265,
+          0.006424813347402242
+        ],
+        "worst_coordinate_chain_sd": [
+          0.007016899770646318,
+          0.007133634982518201,
+          0.006895058320748432,
+          0.006595590180543935
+        ]
+      },
+      {
+        "variable": "season_z",
+        "max_rhat": 1.0054050560672707,
+        "min_bulk_ess": 1789.9374278565786,
+        "min_tail_ess": 1264.8671336217528,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 3,
+          "indices": [
+            1,
+            1
+          ],
+          "season": "2025",
+          "effect": "production"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0,
+            0
+          ],
+          "season": "2024",
+          "effect": "workload"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": [
+            0,
+            0
+          ],
+          "season": "2024",
+          "effect": "workload"
+        },
+        "worst_coordinate_chain_means": [
+          -0.1497206055652462,
+          -0.1545421305845396,
+          -0.21046441178273756,
+          -0.1908687782800721
+        ],
+        "worst_coordinate_chain_sd": [
+          0.7687907982292456,
+          0.8442306016139863,
+          0.8227963297428219,
+          0.772811946159591
+        ]
+      },
+      {
+        "variable": "player_workload_raw",
+        "max_rhat": 1.0174261669764608,
+        "min_bulk_ess": 2094.549942072125,
+        "min_tail_ess": 1137.8525006107263,
+        "rhat_failures": 6,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 20,
+          "indices": [
+            20
+          ],
+          "player_id": "00-0031687",
+          "effect": "workload_sampling_coordinate"
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 162,
+          "indices": [
+            162
+          ],
+          "player_id": "00-0035676",
+          "effect": "workload_sampling_coordinate"
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 514,
+          "indices": [
+            514
+          ],
+          "player_id": "00-0039747",
+          "effect": "workload_sampling_coordinate"
+        },
+        "worst_coordinate_chain_means": [
+          -2.2632057125004845,
+          -2.269137654238304,
+          -2.258856649153886,
+          -2.256280486497829
+        ],
+        "worst_coordinate_chain_sd": [
+          0.13569747741848692,
+          0.1300556285950284,
+          0.11159319227051408,
+          0.12566074037598743
+        ]
+      },
+      {
+        "variable": "workload_sigma",
+        "max_rhat": 1.0036638743189221,
+        "min_bulk_ess": 3191.864775637876,
+        "min_tail_ess": 1625.443555752675,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "worst_coordinate_chain_means": [
+          0.653104944101841,
+          0.6526161060961222,
+          0.6531003196762087,
+          0.6533642217339476
+        ],
+        "worst_coordinate_chain_sd": [
+          0.00488286084596258,
+          0.005353261378907407,
+          0.004476455702323409,
+          0.0047819250210473785
+        ]
+      },
+      {
+        "variable": "count_dispersion",
+        "max_rhat": 0.999967821428359,
+        "min_bulk_ess": 3862.4671188943166,
+        "min_tail_ess": 1530.7883994368085,
+        "rhat_failures": 0,
+        "bulk_ess_failures": 0,
+        "tail_ess_failures": 0,
+        "worst_rhat_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "lowest_bulk_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "lowest_tail_coordinate": {
+          "flat_index": 0,
+          "indices": []
+        },
+        "worst_coordinate_chain_means": [
+          79.29078934328471,
+          79.77576632629079,
+          79.48941348333398,
+          79.68559329245035
+        ],
+        "worst_coordinate_chain_sd": [
+          12.755368975074006,
+          13.89751275538832,
+          13.590936470851856,
+          13.152492485624409
+        ]
+      }
+    ],
+    "errors": []
+  },
+  "population_workload_comparison": {
+    "before": {
+      "bulk_ess_failures": 3,
+      "lowest_bulk_coordinate": {
+        "flat_index": 2,
+        "indices": [
+          2
+        ],
+        "position": "WR"
+      },
+      "lowest_tail_coordinate": {
+        "flat_index": 2,
+        "indices": [
+          2
+        ],
+        "position": "WR"
+      },
+      "max_rhat": 1.0149425317930043,
+      "min_bulk_ess": 317.4548873210447,
+      "min_tail_ess": 519.6905163005564,
+      "rhat_failures": 1,
+      "tail_ess_failures": 0,
+      "variable": "population_workload",
+      "worst_coordinate_chain_means": [
+        -1.7916720248201323,
+        -1.7723138411877184,
+        -1.7926266857018902,
+        -1.8026344214116685
+      ],
+      "worst_coordinate_chain_sd": [
+        0.06424225517736595,
+        0.06678525013654331,
+        0.06943948701832325,
+        0.07038646219425386
+      ],
+      "worst_rhat_coordinate": {
+        "flat_index": 1,
+        "indices": [
+          1
+        ],
+        "position": "TE"
+      }
+    },
+    "after": {
+      "variable": "population_workload",
+      "max_rhat": 1.0043192828346335,
+      "min_bulk_ess": 1439.5274985409676,
+      "min_tail_ess": 1396.4593098327862,
+      "rhat_failures": 0,
+      "bulk_ess_failures": 0,
+      "tail_ess_failures": 0,
+      "worst_rhat_coordinate": {
+        "flat_index": 0,
+        "indices": [
+          0
+        ],
+        "position": "RB"
+      },
+      "lowest_bulk_coordinate": {
+        "flat_index": 0,
+        "indices": [
+          0
+        ],
+        "position": "RB"
+      },
+      "lowest_tail_coordinate": {
+        "flat_index": 0,
+        "indices": [
+          0
+        ],
+        "position": "RB"
+      },
+      "worst_coordinate_chain_means": [
+        -2.246323710334862,
+        -2.2402619999285296,
+        -2.2475108199772014,
+        -2.2359970165458862
+      ],
+      "worst_coordinate_chain_sd": [
+        0.06545409193962573,
+        0.0646638024696282,
+        0.06576161786729418,
+        0.0642018517286388
+      ]
+    }
+  },
+  "tests": {
+    "repository": {
+      "run": 903,
+      "skipped": 10,
+      "status": "pass"
+    },
+    "prior_density_and_predictor_equivalence": "pass",
+    "all_count_market_graphs_and_netcdf_forecast_roundtrip": "pass",
+    "read_features_and_netcdf_forecast_roundtrip": "pass",
+    "verified_frozen_reuse_and_no_recollection": "pass",
+    "windows_ascii_progress": "pass"
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "pymc": "6.3.2",
+    "pytensor": "3.3.6",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "arviz": "1.3.0",
+    "arviz-stats": "1.3.3"
+  },
+  "limitations": [
+    "The 500/500-draw check does not pass overall strict diagnostics and must not be promoted or ranked.",
+    "The original workload failure is improved; full 1500/1500-budget convergence under v3 remains to be verified locally.",
+    "Sampling graph uses the exact original prior and likelihood; real-data check ran before the ASCII progress callback was added. Callback tested separately.",
+    "No real holdout evaluation is performed by this diagnostic fit."
+  ],
+  "ranking_allowed": false,
+  "automatic_promotion": false
+}

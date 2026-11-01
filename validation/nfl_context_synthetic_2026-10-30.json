@@ -1,0 +1,135 @@
+{
+  "schema": "nfl-context-synthetic-verification-v1",
+  "synthetic_only": true,
+  "real_nfl_training_performed": false,
+  "predictive_superiority_established": false,
+  "ranking_allowed": false,
+  "training_rows": 256,
+  "training_games": 32,
+  "holdout_rows": 256,
+  "training_seasons": [
+    "2023",
+    "2024"
+  ],
+  "models": {
+    "context": {
+      "diagnostics": {
+        "all_stochastic_effects": true,
+        "chains": 4,
+        "checked_variables": [
+          "population_workload",
+          "population_log_rate",
+          "player_chol",
+          "player_z",
+          "team_sd",
+          "team_z",
+          "season_sd",
+          "season_z",
+          "beta_workload",
+          "beta_rate",
+          "workload_sigma",
+          "count_dispersion",
+          "player_effect",
+          "team_effect",
+          "player_chol_stds",
+          "season_effect",
+          "estimated_player_correlation"
+        ],
+        "divergences": 0,
+        "max_rhat": 1.0062727620298326,
+        "max_treedepth_hits": 0,
+        "min_bulk_ess": 823.1003284742545,
+        "min_tail_ess": 1021.8873453632771,
+        "minimum_bfmi": 0.690350579896277,
+        "posterior_sampling_ok": true,
+        "ranking_allowed": false,
+        "status": "sampling_diagnostics_pass"
+      },
+      "elapsed_seconds": 57.23429349599974,
+      "kind": "context",
+      "posterior_sha256": "8fe27ad2f22111f1c499769c2bfe08912ffd0c3ee441502587d28db37b7719e4"
+    },
+    "base": {
+      "diagnostics": {
+        "all_stochastic_effects": true,
+        "chains": 4,
+        "checked_variables": [
+          "population_workload",
+          "population_log_rate",
+          "player_chol",
+          "player_z",
+          "team_sd",
+          "team_z",
+          "season_sd",
+          "season_z",
+          "beta_workload",
+          "beta_rate",
+          "workload_sigma",
+          "count_dispersion",
+          "player_effect",
+          "team_effect",
+          "player_chol_stds",
+          "season_effect",
+          "estimated_player_correlation"
+        ],
+        "divergences": 0,
+        "max_rhat": 1.0037833452699827,
+        "max_treedepth_hits": 0,
+        "min_bulk_ess": 862.4436613469854,
+        "min_tail_ess": 1267.2302804291942,
+        "minimum_bfmi": 0.7862807401750529,
+        "posterior_sampling_ok": true,
+        "ranking_allowed": false,
+        "status": "sampling_diagnostics_pass"
+      },
+      "elapsed_seconds": 94.19769339799996,
+      "kind": "base",
+      "posterior_sha256": "9cdf72b4c2f7c3a161162c8869621bb52eb05e53d55362e55ce534f64d65eea0"
+    },
+    "incumbent": {
+      "diagnostics": {
+        "all_stochastic_effects": true,
+        "chains": 4,
+        "checked_variables": [
+          "population_workload",
+          "population_rate",
+          "player_chol",
+          "player_z",
+          "season_workload_sd",
+          "season_rate_sd",
+          "season_workload_z",
+          "season_rate_z",
+          "opponent_rate_sd",
+          "opponent_rate_z",
+          "home_effect",
+          "workload_sigma",
+          "count_dispersion",
+          "player_effect",
+          "opponent_rate",
+          "player_chol_stds",
+          "season_workload",
+          "season_rate",
+          "estimated_player_correlation"
+        ],
+        "divergences": 0,
+        "max_rhat": 1.0049919019634532,
+        "max_treedepth_hits": 0,
+        "min_bulk_ess": 758.8436726035567,
+        "min_tail_ess": 726.8221748827717,
+        "minimum_bfmi": 0.7792044319407461,
+        "posterior_sampling_ok": true,
+        "ranking_allowed": false,
+        "status": "sampling_diagnostics_pass"
+      },
+      "elapsed_seconds": 67.27027729500014,
+      "kind": "incumbent",
+      "posterior_sha256": "951fdd50a6817c4437b5dc820eb98b6003c3d0bdac06e75e843d4ccfb0ef6e4a"
+    }
+  },
+  "paired_rows": 256,
+  "limitations": [
+    "Synthetic data only; no real NFL prediction claim.",
+    "Nominal count interval coverage was 100% in this small synthetic holdout.",
+    "Fixed research threshold, not archived sportsbook odds."
+  ]
+}

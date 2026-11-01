@@ -1,0 +1,19 @@
+{
+  "schema": "nfl-context-campaign-v1",
+  "seasons": [
+    2024,
+    2025,
+    2026
+  ],
+  "train_from": "2024-08-01T00:00:00Z",
+  "cutoff": "2026-09-01T00:00:00Z",
+  "until": "2026-10-30T12:00:00Z",
+  "pilot_games": 80,
+  "market": "receptions",
+  "line": 3.5,
+  "draws": 1500,
+  "tune": 1500,
+  "chains": 4,
+  "cores": 2,
+  "predictive_draws": 4000
+}
