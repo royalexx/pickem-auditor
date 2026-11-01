@@ -1,7 +1,7 @@
 {
-  "dates_complete": 100,
-  "games_ingested": 667,
-  "next_date": "2019-01-09",
-  "skater_games_ingested": 24012,
+  "dates_complete": 142,
+  "games_ingested": 924,
+  "next_date": "2019-02-20",
+  "skater_games_ingested": 33264,
   "version": "nhl-warehouse-cursor-v1"
 }
