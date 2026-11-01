@@ -110,6 +110,7 @@ def cache(trace,d):
 
 
 def forecast(c,d,row, *, line,draws=4000,diagnostic):
+    """Forecast a pregame row; observed target is optional and only used to score."""
     import numpy as np
     from scipy.special import expit,logsumexp
     from scipy.stats import nbinom
@@ -119,6 +120,10 @@ def forecast(c,d,row, *, line,draws=4000,diagnostic):
         raise ValueError("invalid_nfl_line")
     if isinstance(draws,bool) or not isinstance(draws,int) or not 100<=draws<=100000:
         raise ValueError("invalid_nfl_predictive_budget")
+    target=row.get("target")
+    if target is not None and (isinstance(target,bool) or not isinstance(target,(int,float)) or
+                               not math.isfinite(target) or target<0 or not float(target).is_integer()):
+        raise ValueError("invalid_nfl_observed_count")
     if common.instant(row["start_time"])<common.instant(d["cutoff"]) or row["feature_time"]!=row["start_time"]:
         raise ValueError("nfl_forecast_time_mismatch")
     if row["stat"]!=d["market"] or row["feature_names"]!=d["feature_names"]:
@@ -145,9 +150,10 @@ def forecast(c,d,row, *, line,draws=4000,diagnostic):
     if not np.isfinite(np.concatenate([over,under,push])).all():raise ValueError("nonfinite_nfl_forecast")
     outcome=nbinom.rvs(alpha,p,random_state=rng)
     return {"game_id":row["game_id"],"player_id":row["player_id"],"market":d["market"],"line":line,
-            "start_time":row["start_time"],"training_cutoff_exclusive":d["cutoff"],"target":row["target"],
+            "start_time":row["start_time"],"training_cutoff_exclusive":d["cutoff"],"target":target,
             "q_over":float(over.mean()),"q_under":float(under.mean()),"q_push":float(push.mean()),
             "expected_snaps":float(snaps.mean()),"expected_value":float(mu.mean()),
             "predictive_interval_90":np.quantile(outcome,[.05,.95]).tolist(),
-            "log_predictive_density":float(logsumexp(nbinom.logpmf(row["target"],alpha,p))-math.log(draws)),
+            "log_predictive_density":(None if target is None else
+                float(logsumexp(nbinom.logpmf(target,alpha,p))-math.log(draws))),
             "model_version":VERSION,"conditional_on":"appearance","ranking_allowed":False}

@@ -183,3 +183,35 @@ chain differences, energy behavior and design redundancy. It writes
 it does not sample, modify the model/status, waive a gate or change frozen inputs.
 The ZIP includes the design and receipts, not the large posterior. It can be
 uploaded for diagnosis. No campaign restart or data recollection is required.
+
+## Completed full posterior verification
+
+The full v2 run's uploaded posterior was independently verified, including its
+SHA-256, four chains/6,000 retained draws, and every strict sampling diagnostic.
+Maximum R-hat is 1.00549, minimum bulk/tail ESS 631.23/771.41, BFMI 0.7568,
+with zero divergences or maximum-depth hits. All 1,738 stored holdout forecasts
+replay to floating-point precision and all predictive intervals match.
+The receipt is `validation/nfl_targets_posterior_acceptance_2026-10-31.json`.
+
+Pregame inference now accepts a missing or null `target`. It returns `target`
+and `log_predictive_density` as null until an outcome is observed. Probabilities,
+expected counts/snaps and predictive intervals are independent of that outcome.
+Invalid observed counts are rejected. The training graph, fitted priors,
+likelihood, cache and model version are unchanged; the existing posterior works
+without retraining. Historical scoring with observed counts is unchanged.
+
+On the same 1,738 rows/107 games at 5.5 targets, Brier scores are 0.12939 for
+the context model, 0.13980 for a frozen player-mean Poisson control and 0.13599
+for a frozen position-shrunk Gamma-Poisson control. Paired game-bootstrap 95%
+intervals for the context-minus-control Brier differences are
+[-0.01396, -0.00694] and [-0.00966, -0.00361], respectively. These are simple
+training-only controls, not the previous hierarchical model or a read ablation.
+The controls retain their frozen training histories; the context model's pregame
+covariates can use earlier available holdout games. This comparison does not
+separate read effects from the value of updated recent-game context.
+
+The verified posterior is ready for prospective adapter testing. Live feature,
+identity, roster and QB checks remain required; this acceptance does not activate
+live rankings or modify the A/B blend. The fixed research threshold does not
+establish accuracy at actual market lines, and the historical charting lag
+assumption remains a limitation.
