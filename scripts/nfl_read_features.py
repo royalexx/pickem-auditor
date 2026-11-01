@@ -125,8 +125,8 @@ class ReadHistory:
         self.cache.clear();self.cache[key]=(profiles,weights)
         return self.cache[key]
 
-    def features(self,row):
-        profiles,weights=self.snapshot(row["season"],row["start_time"])
+    def features(self,row,*,as_of=None):
+        profiles,weights=self.snapshot(row["season"],as_of or row["start_time"])
         d=profiles["defenses"].get(row["opponent"],{})
         values={n:None for n in VALUE_NAMES};components=[];thin=[]
         known_n=receiver_n=target_n=0

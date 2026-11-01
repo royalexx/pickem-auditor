@@ -7,4 +7,6 @@ config/credentials.local.json
 *.sqlite3
 *.db
 reports/
+data/models/
 .DS_Store
+

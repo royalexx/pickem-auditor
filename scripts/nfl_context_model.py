@@ -131,9 +131,14 @@ def forecast(c,d,row, *, line,draws=4000,diagnostic):
     if row["player_id"] not in d["players"] or row["team"] not in d["teams"] or row["opponent"] not in d["teams"]:
         raise ValueError("unseen_nfl_entity_requires_population_mapping")
     if d["player_position"][row["player_id"]]!=row["position"]:raise ValueError("nfl_position_mismatch")
-    rng=np.random.default_rng(int(common.digest([row["game_id"],row["player_id"]])[:8],16))
-    pick=rng.integers(0,c["n"],draws);a={k:v[pick] for k,v in c["arrays"].items()}
     ix=d["players"].index(row["player_id"]);ti=d["teams"].index(row["team"]);oi=d["teams"].index(row["opponent"])
+    rng=np.random.default_rng(int(common.digest([row["game_id"],row["player_id"]])[:8],16))
+    pick=rng.integers(0,c["n"],draws)
+    # Select only this player's/team's effects, rather than copying the entire
+    # population for each forecast. Random draws and probabilities are unchanged.
+    a={k:v[pick] for k,v in c["arrays"].items() if k not in ("player_effect","team_effect")}
+    player=c["arrays"]["player_effect"][pick,ix,:]
+    team_own=c["arrays"]["team_effect"][pick,ti,0];team_opponent=c["arrays"]["team_effect"][pick,oi,1]
     pi=d["positions"].index(row["position"])
     s=(a["season_effect"][:,d["seasons"].index(row["season"])] if row["season"] in d["seasons"]
        else rng.normal(0,a["season_sd"]))
@@ -141,9 +146,9 @@ def forecast(c,d,row, *, line,draws=4000,diagnostic):
     if np.isnan(raw[:7] if d.get("read_features") else raw).any():raise ValueError("missing_core_nfl_forecast_feature")
     x=(np.where(np.isnan(raw),d["center"],raw)-d["center"])/d["scale"]
     if not np.isfinite(x).all():raise ValueError("nonfinite_nfl_forecast_features")
-    work=a["population_workload"][:,pi]+a["player_effect"][:,ix,0]+s[:,0]+(a["beta_workload"]*x[:a["beta_workload"].shape[1]]).sum(1)
+    work=a["population_workload"][:,pi]+player[:,0]+s[:,0]+(a["beta_workload"]*x[:a["beta_workload"].shape[1]]).sum(1)
     snaps=160*expit(rng.normal(work,a["workload_sigma"]))
-    rate=a["population_log_rate"][:,pi]+a["player_effect"][:,ix,1]+a["team_effect"][:,ti,0]+a["team_effect"][:,oi,1]+s[:,1]+(a["beta_rate"]*x).sum(1)
+    rate=a["population_log_rate"][:,pi]+player[:,1]+team_own+team_opponent+s[:,1]+(a["beta_rate"]*x).sum(1)
     mu=snaps*np.exp(rate);alpha=a["count_dispersion"];p=alpha/(alpha+mu);floor=math.floor(line)
     over=nbinom.sf(floor,alpha,p);under=nbinom.cdf(floor-1 if float(line).is_integer() else floor,alpha,p)
     push=nbinom.pmf(floor,alpha,p) if float(line).is_integer() else np.zeros(draws)

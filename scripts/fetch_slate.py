@@ -3273,6 +3273,7 @@ def fetch_nfl(game_date: str, retrieved_at: str, loader=None, source_urls=None, 
         notes.append(team_note)
         team_stats = []
     from nfl_season_store import FTN_FIELDS, PBP_FIELDS, SeasonStore, candidate_context
+    from nfl_context_data import PBP_FIELDS as CONTEXT_PBP_FIELDS
     charting, chart_note = call(
         "load_ftn_charting",
         lambda: loader.load_ftn_charting(seasons=[season]),
@@ -3284,7 +3285,7 @@ def fetch_nfl(game_date: str, retrieved_at: str, loader=None, source_urls=None, 
     pbp, pbp_note = call(
         "load_pbp",
         lambda: loader.load_pbp(seasons=[season]),
-        tuple(dict.fromkeys(PBP_READ_COLUMNS + PBP_FIELDS)),
+        tuple(dict.fromkeys(PBP_READ_COLUMNS + PBP_FIELDS + CONTEXT_PBP_FIELDS)),
     )
     if pbp_note:
         notes.append(pbp_note)
@@ -3314,6 +3315,14 @@ def fetch_nfl(game_date: str, retrieved_at: str, loader=None, source_urls=None, 
         prior_week_rows=prior_weeks or None,
     )
     if persist_season and pbp is not None:
+        try:
+            from nfl_context_live import write as save_context, cache_path
+            context_store=Path(season_store_path) if season_store_path else SKILL_ROOT/'data'/'season'/f'nfl_{season}.sqlite3'
+            save_context(cache_path(context_store,season),
+                {"stats":weeks or [],"snaps":snaps or [],"schedule":games or [],"pbp":pbp},
+                charting,stats,season=season,retrieved_at=retrieved_at)
+        except Exception as exc:
+            notes.append(f'nfl: joint context snapshot unavailable ({type(exc).__name__}: {exc})')
         try:
             path=Path(season_store_path) if season_store_path else SKILL_ROOT/'data'/'season'/f'nfl_{season}.sqlite3'
             store=SeasonStore(path)
@@ -4054,3 +4063,4 @@ if __name__ == "__main__":
         main()
     except urllib.error.URLError as exc:
         raise SystemExit(f"ERROR: {exc}")
+

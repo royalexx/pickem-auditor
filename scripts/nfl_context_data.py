@@ -175,24 +175,28 @@ def collect(folder, seasons, until, fetcher=fetch):
     return bundles
 
 
-def examples(bundles, market, *, context=True, read_features=False, charting_lag_days=7):
-    if market not in MARKETS:raise ValueError("unsupported_nfl_context_market")
-    teams=[r for b in bundles for r in b["teams"]]
-    players=[r for b in bundles for r in b["players"] if r["stat"]==market]
-    ids=[(r["game_id"],r["player_id"]) for r in players]
-    if len(ids)!=len(set(ids)):raise ValueError("duplicate_nfl_player_game")
-    histories=defaultdict(list);personal=defaultdict(list);lookup={}
-    for t in teams:
-        key=(t["game_id"],t["team"])
-        if key in lookup:raise ValueError("duplicate_nfl_team_game")
-        lookup[key]=t;histories[t["team"]].append(t)
-    for p in players:personal[p["player_id"]].append(p)
-    rows=[]
-    for p in players:
-        at=common.instant(p["start_time"])
+class ContextHistory:
+    """Shared historical/pregame core feature calculation; no outcome required."""
+    def __init__(self,bundles,market):
+        if market not in MARKETS:raise ValueError("unsupported_nfl_context_market")
+        self.teams=[r for b in bundles for r in b["teams"]]
+        self.players=[r for b in bundles for r in b["players"] if r["stat"]==market]
+        ids=[(r["game_id"],r["player_id"]) for r in self.players]
+        if len(ids)!=len(set(ids)):raise ValueError("duplicate_nfl_player_game")
+        histories=defaultdict(list);personal=defaultdict(list);lookup={}
+        for t in self.teams:
+            key=(t["game_id"],t["team"])
+            if key in lookup:raise ValueError("duplicate_nfl_team_game")
+            lookup[key]=t;histories[t["team"]].append(t)
+        for p in self.players:personal[p["player_id"]].append(p)
+        self.market=market;self.histories=histories;self.personal=personal;self.lookup=lookup
+
+    def features(self,p,*,context=True,as_of=None):
+        market=self.market;histories=self.histories;personal=self.personal;lookup=self.lookup
+        at=common.instant(p["start_time"]);boundary=common.instant(as_of) if as_of else at
         def before(history):
             return sorted((r for r in history if common.instant(r["start_time"])<at and
-                           common.instant(r["available_at"])<at and r["game_id"]!=p["game_id"]),
+                           common.instant(r["available_at"])<boundary and r["game_id"]!=p["game_id"]),
                           key=lambda r:r["start_time"])[-8:]
         own=before(histories[p["team"]]);opp=before(histories[p["opponent"]]);past=before(personal[p["player_id"]])
         def rate(history, field, prior, allowed=False):
@@ -211,8 +215,13 @@ def examples(bundles, market, *, context=True, read_features=False, charting_lag
             environment=([rate(own,field,prior,allowed=True),rate(opp,field,prior)] if market=="tackles + assists"
                          else [rate(own,field,prior),rate(opp,field,prior,allowed=True)])
             x += [rate(own,"plays",65.),rate(opp,"plays",65.),*environment]
-        rows.append({**p,"target":p["value"],"x":x,"feature_names":NAMES if context else NAMES[:3],
-                     "feature_time":p["start_time"],"prior_player_games":len(past)})
+        return {"x":x,"feature_names":NAMES if context else NAMES[:3],
+                "feature_time":p["start_time"],"prior_player_games":len(past)}
+
+
+def examples(bundles, market, *, context=True, read_features=False, charting_lag_days=7):
+    history=ContextHistory(bundles,market)
+    rows=[{**p,"target":p["value"],**history.features(p,context=context)} for p in history.players]
     rows=sorted(rows,key=lambda r:(r["start_time"],r["game_id"],r["player_id"]))
     if read_features:
         if not context or market not in ("targets","receptions"):raise ValueError("read_features_require_receiving_context")
