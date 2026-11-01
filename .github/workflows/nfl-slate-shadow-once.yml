@@ -1,0 +1,49 @@
+name: NFL slate and previous production shadow 2026-11-01
+on:
+  push:
+    branches: [codex/nfl-slate-shadow-20261101]
+    paths: ['scripts/nfl_slate_shadow_once.py', '.github/workflows/nfl-slate-shadow-once.yml']
+permissions:
+  contents: read
+concurrency:
+  group: nfl-slate-shadow-20261101
+  cancel-in-progress: false
+jobs:
+  shadow:
+    runs-on: [self-hosted, Windows, X64, pickem-trainer]
+    timeout-minutes: 35
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
+      PICKEM_ODDS_QUOTA_GUARD: '1'
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fresh NFL sources, pinned targets posterior and old production shadow
+        run: |
+          $trainedPython = 'C:\Users\alexi\Music\pickem-auditor\.venv\Scripts\python.exe'
+          $ghFolder = 'C:\Program Files\GitHub CLI'
+          if (Test-Path (Join-Path $ghFolder 'gh.exe')) { $env:PATH = "$ghFolder;$env:PATH" }
+          & $trainedPython -m pip install -r requirements.txt -r requirements-nfl-inference.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $trainedPython scripts/nfl_slate_shadow_once.py
+          exit $LASTEXITCODE
+      - name: Preserve immutable forecasts, sources, quote timestamps and comparison
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nfl-slate-shadow-20261101-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            reports/nfl_slate_shadow/2026-11-01/receipt.json
+            reports/nfl_slate_shadow/2026-11-01/*receipt.json
+            reports/nfl_slate_shadow/2026-11-01/matched_comparison.json
+            reports/nfl_slate_shadow/2026-11-01/data/
+          retention-days: 90
+          if-no-files-found: error
