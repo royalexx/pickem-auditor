@@ -1,0 +1,27 @@
+{
+  "schema": "local_daily_recovery_status_v1",
+  "reported_at_utc": "2026-11-01T02:12:40.160807+00:00",
+  "dates": [
+    "2026-10-30",
+    "2026-10-31"
+  ],
+  "overall_status": "partial",
+  "source_boxscore_recovery": "completed",
+  "official_nhl_completed_games": 22,
+  "official_nhl_player_records": 880,
+  "espn_summaries": 45,
+  "espn_scoreboards": 9,
+  "original_forecast_archive_restored": false,
+  "settlement": "blocked",
+  "settlement_reason": "AUTHORITATIVE_FORECAST_ARCHIVE_UNAVAILABLE_THROUGH_AVAILABLE_FILE_INTERFACE",
+  "afternoon_pricing": "blocked",
+  "afternoon_reason": "PROPLINE_API_KEY_NOT_AVAILABLE_IN_THIS_RUNTIME",
+  "historical_pregame_forecasts_recreated": false,
+  "morning_completion_markers_created": false,
+  "canonical_full_slate_attempts": "not_completed_at_report",
+  "ranked_forecasts_produced": 0,
+  "github_commits": [
+    "3742228bdeb23b1172931806a55507fc60fa6a2b",
+    "630a52200f1cc511667261b119b358603e2ea8e8"
+  ]
+}
