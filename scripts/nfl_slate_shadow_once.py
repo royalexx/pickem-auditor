@@ -52,6 +52,11 @@ def main():
             fs.write_json(packet,DATA/f'research_{DATE}.json')
             fs.write_jsonl(availability,DATA/'availability.jsonl')
             report['research_notes']=notes
+            # Match the normal afternoon workflow: investigate current official
+            # sources before evaluating B/shared context. No fabricated evidence.
+            from auto_research import refresh
+            report['stages']['source_research']=refresh(slate=DATA/'slate_fetch.jsonl',quotes=DATA/'quotes.jsonl',
+                packet_path=DATA/f'research_{DATE}.json',out=ROOT/'structured_research.json')
             print('RUN_UNCHANGED_PRODUCTION_SHADOW',flush=True)
             report['stages']['old_production']=jobs.run_snapshot(game_date=DATE,slate_path=DATA/'slate_fetch.jsonl',
                 quotes_path=DATA/'quotes.jsonl',snapshot_path=DATA/'prop_snapshots.jsonl',
@@ -71,8 +76,18 @@ def main():
         'reason':None if pairs else 'New model predicts targets; legacy production supports different stats. No cross-stat probability or accuracy comparison is valid.',
         'settlement_status':'pending','old_rows':len(old),'new_rows':len(new)})
     report['comparison']={'legacy_rows':len(old),'new_target_rows':len(new),'same_market_pairs':len(pairs),'settlement_status':'pending'}
+    report['engine_health']={
+        'a_reliable_sides':sum(bool((r.get('engine_a') or {}).get('reliable')) for r in old),
+        'b_forecast_sides':sum((r.get('engine_b') or {}).get('mean') is not None for r in old),
+        'b_reliable_sides':sum(bool((r.get('engine_b') or {}).get('reliable')) for r in old),
+        'b_abstentions':dict(Counter(str((r.get('engine_b') or {}).get('abstain_reason')) for r in old)),
+        'b_quality_reasons':dict(Counter(reason for r in old for reason in ((r.get('engine_b') or {}).get('quality') or {}).get('reasons',[]))),
+        'ranks':dict(Counter(r.get('final_rank') for r in old)),
+        'rank_blockers':dict(Counter(r.get('reason') for r in old))}
     save('receipt.json',report)
     print('NFL_SHADOW_RECEIPT',json.dumps(report,allow_nan=False),flush=True)
     if not new:raise RuntimeError('NO_NEW_TARGET_FORECASTS')
+    if not report['engine_health']['b_forecast_sides']:
+        raise RuntimeError('ENGINE_B_NO_FORECASTS: inspect engine_health and source histories')
 
 if __name__=='__main__':main()
