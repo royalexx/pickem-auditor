@@ -272,7 +272,7 @@ def fetch_nfl_injuries(
             old = selected.get(key)
             if old is None or stamp > old[0]:
                 selected[key] = (stamp,row)
-            elif stamp == old[0] and row.get('report_status') != old[1].get('report_status'):
+            elif stamp == old[0] and normalize_status(row.get('report_status') or row.get('status')) != normalize_status(old[1].get('report_status') or old[1].get('status')):
                 # Conflicting undated reports do not establish a subject status.
                 selected[key] = (stamp,{**row,'report_status':None,'status':None,'practice_status':None})
         records = [value[1] for value in selected.values()]

@@ -101,4 +101,13 @@ class EngineBWorkflowTests(unittest.TestCase):
             schedule=[dict(gameday='2026-11-01',home_team='ATL',away_team='TB',week=8)])
         self.assertEqual([(r['player'],r['status']) for r in rows],[('Player','questionable')])
 
+    def test_conflicting_undated_alternate_status_reports_are_not_emitted(self):
+        class Loader:
+            def load_injuries(self,seasons):return [
+                dict(full_name='Player',gsis_id='P',team='ATL',season=2026,week=8,status=status)
+                for status in ['Out','Questionable','Out']]
+        rows,notes=cf.fetch_nfl_injuries(Loader(),2026,{'Player'},NOW.isoformat(),game_date='2026-11-01',
+            schedule=[dict(gameday='2026-11-01',home_team='ATL',away_team='TB',week=8)])
+        self.assertEqual(rows,[])
+
 if __name__=='__main__':unittest.main()
