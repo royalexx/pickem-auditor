@@ -233,7 +233,7 @@ def diagnostics(idata,*,all_effects=False):
             # PyMC's standard NUTS backend exposes tree_depth, while other
             # samplers expose reached_max_treedepth. The fallback is valid
             # only for the documented default max_treedepth=10.
-            depth_hits=int(np.asarray(idata.sample_stats["tree_depth"]) >= 10).sum()
+            depth_hits=int(np.sum(np.asarray(idata.sample_stats["tree_depth"]) >= 10))
             depth_source="tree_depth_default_max10"
         else:
             depth_hits=None
