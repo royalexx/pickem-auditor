@@ -137,16 +137,33 @@ class ConsensusDesignTests(unittest.TestCase):
         self.assertTrue(any(flag.startswith("DISAGREE") for flag in shorter["flags"]))
         self.assertFalse(any(flag.startswith("PLUS-MONEY") for flag in shorter["flags"]))
 
-    def test_retail_only_disagreement_uses_the_lower_value(self):
+    def test_retail_only_disagreement_uses_one_low_vig_matched_quote(self):
         result = pm.consensus([
             ("FanDuel", 3.5, -130, 110),
             ("DraftKings", 3.5, -105, -115),
         ], 5)
         quotes = [pm.devig(-130, 110)["q_market"], pm.devig(-105, -115)["q_market"]]
         self.assertGreater(max(quotes) - min(quotes), 0.03)
-        self.assertAlmostEqual(result["q_market"], min(quotes), places=6)
+        self.assertAlmostEqual(result["q_market"], pm.devig(-130,110)["q_market"], places=6)
+        self.assertEqual(result["anchor_book"], "FanDuel")
         self.assertTrue(any(flag.startswith("DISAGREE") for flag in result["flags"]))
         self.assertTrue(any(flag.startswith("RETAIL_ONLY_TWO_BOOKS") for flag in result["flags"]))
+
+    def test_consensus_is_reciprocal_when_over_and_under_are_scored_separately(self):
+        examples = [
+            [("Pinnacle", 3.5, -130, 110), ("Circa", 3.5, -140, 112)],
+            [("FanDuel", 3.5, -130, 110), ("DraftKings", 3.5, -105, -115)],
+            [("FanDuel", 3.5, -115, -105), ("DraftKings", 3.5, -112, -108)],
+        ]
+        for books in examples:
+            flipped=[(book,line,other,target) for book,line,target,other in books]
+            over=pm.consensus(books,5)
+            under=pm.consensus(flipped,5)
+            self.assertTrue(over["market_valid"])
+            self.assertTrue(under["market_valid"])
+            self.assertAlmostEqual(over["q_market"]+under["q_market"],1.0,places=12)
+            self.assertAlmostEqual(over["q_market_other"],under["q_market"],places=12)
+            self.assertEqual(over.get("anchor_book"),under.get("anchor_book"))
 
     def test_two_retail_books_flag_and_three_do_not(self):
         two = pm.consensus([
