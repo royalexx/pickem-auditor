@@ -137,7 +137,7 @@ class SourceSelectionTests(unittest.TestCase):
              patch.object(bs.be,'peers_from_cache',return_value=peers) as peers_called:
             pred=bs.evaluate(row,root=Path('/tmp/collector'))
         self.assertEqual(pred['status'],'forecast')
-        self.assertEqual(pred['version'],'history-bayes-v1')
+        self.assertEqual(pred['version'],'history-bayes-v2-cdf-fixed')
         self.assertEqual(pred['baseline_q_win'],0.53)
         self.assertEqual(pred['peer_count'],6)
         self.assertFalse(pred['publication_eligible'])
