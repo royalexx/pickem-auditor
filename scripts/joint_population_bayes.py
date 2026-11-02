@@ -226,7 +226,18 @@ def diagnostics(idata,*,all_effects=False):
         # If a strict campaign cannot establish depth behavior, reject rather
         # than treating missing evidence as proof of no saturation.
         depth=idata.sample_stats.get("reached_max_treedepth")
-        depth_hits=(int(np.asarray(depth).sum()) if depth is not None else None)
+        if depth is not None:
+            depth_hits=int(np.asarray(depth).sum())
+            depth_source="reached_max_treedepth"
+        elif "tree_depth" in idata.sample_stats:
+            # PyMC's standard NUTS backend exposes tree_depth, while other
+            # samplers expose reached_max_treedepth. The fallback is valid
+            # only for the documented default max_treedepth=10.
+            depth_hits=int(np.asarray(idata.sample_stats["tree_depth"]) >= 10).sum()
+            depth_source="tree_depth_default_max10"
+        else:
+            depth_hits=None
+            depth_source="unavailable"
         # BFMI from each chain; global minimum >= .30 required for approval.
         energy=np.asarray(idata.sample_stats["energy"],dtype=float)
         bfmi=np.mean(np.diff(energy,axis=-1)**2,axis=-1)/np.var(energy,axis=-1)
@@ -243,7 +254,7 @@ def diagnostics(idata,*,all_effects=False):
             (not all_effects or (depth_hits is not None and depth_hits==0)))
     return {"status":"sampling_diagnostics_pass" if passed else "sampling_diagnostics_failed",
         "max_rhat":r_max,"min_bulk_ess":ess_min,"min_tail_ess":tail_min,
-        "divergences":divergences,"max_treedepth_hits":depth_hits,
+        "divergences":divergences,"max_treedepth_hits":depth_hits,"treedepth_diagnostic_source":depth_source,
         "diagnosed_all_effects":bool(all_effects),
         "sampler_chains":int(idata.posterior.sizes.get("chain",0)),
         "minimum_bfmi":energy_min,
