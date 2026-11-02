@@ -42,8 +42,9 @@ jobs:
           PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
           # One-region, one-market, max eight event odds requests; no effect
           # unless the independent secret has been configured.
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          PICKEM_ENABLE_ODDS_API_NHL_BLOCKS: '1'
+          # Legacy Odds API fallback remains disabled; do not spend credits
+          # merely to fill missing NHL blocks in a manual recovery run.
+          PICKEM_ENABLE_ODDS_API_NHL_BLOCKS: '0'
           PHASE: ${{ steps.gate.outputs.phase }}
           GH_TOKEN: ${{ github.token }}
           PICKEM_ODDS_QUOTA_GUARD: '1'
