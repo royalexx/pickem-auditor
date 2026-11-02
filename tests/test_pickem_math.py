@@ -40,12 +40,25 @@ class DevigTests(unittest.TestCase):
         p_other = 105 / 205
         total = p_target + p_other
         q_mult = p_target / total
-        q_market = q_mult - 0.15 * (total - 1 - 0.045)
+        q_market = q_mult
         self.assertAlmostEqual(row["p_target"], p_target, places=6)
         self.assertAlmostEqual(row["hold"], total - 1, places=6)
         self.assertAlmostEqual(row["q_mult"], q_mult, places=6)
         self.assertAlmostEqual(row["q_market"], q_market, places=6)
+        self.assertAlmostEqual(row["q_market"] + row["q_market_other"], 1.0, places=12)
+        self.assertEqual(row["market_probability_method"], "proportional_no_vig_v2")
+        self.assertGreater(row["hold_risk_penalty"], 0)
         self.assertFalse(row["reject_hold"])
+
+    def test_market_two_sided_mass_conservation(self):
+        for target, other in [(-120, -110), (-110, -120), (-110, -110),
+                              (-150, 140), (120, -145)]:
+            row = pm.devig(target, other)
+            flipped = pm.devig(other, target)
+            self.assertAlmostEqual(row["q_market"] + row["q_market_other"], 1, places=12)
+            self.assertAlmostEqual(row["q_market"], flipped["q_market_other"], places=12)
+        consensus = pm.consensus([("Pinnacle", 3.5, -120, -110)], 5)
+        self.assertAlmostEqual(consensus["q_market"] + consensus["q_market_other"], 1, places=12)
 
     def test_high_hold_is_flagged(self):
         row = pm.devig(-150, -150)
