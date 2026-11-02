@@ -1328,6 +1328,16 @@ def finalize(
         final = _lower_final(final, "Watchlist")
     if scored["current_role_n"] < 10:
         final = _lower_final(final, "Tier 2")
+    # Legacy NUMERIC_TIER_* bands (56-58%) are research screening labels only.
+    # Every final label, including direct CLI and batch paths, must satisfy
+    # the same high-conviction policy as the verified publication board.
+    if final in ("Tier 1", "Tier 2", "Tier 3"):
+        from tier_quality import assess as assess_tier
+        decision = assess_tier(final, scored["q_grade"],
+            blend_validated=scored.get("blend_validated") is True,
+            q_market=scored.get("q_market_comparable"), require_edge=True)
+        if not decision["eligible"]:
+            return "Watchlist"
     return final
 
 
@@ -1347,11 +1357,13 @@ def decide(
     normal_left_tail: bool = False,
     mechanism_quality=None,
     prior_supported: bool = False,
+    blend_validated: bool = False,
 ) -> dict:
     scored = grade(
         q_model, q_market, soft_flags, current_role_n, role_change, q_push,
         workload_adjusted, normal_left_tail, prior_supported=prior_supported,
     )
+    scored["blend_validated"] = blend_validated is True
     final = finalize(scored, mechanisms, hard_veto, data_veto, market_valid,
                      research_checklist, mechanism_quality=mechanism_quality)
     scored["final_rank"] = final
@@ -2903,6 +2915,7 @@ def evaluate_candidate(raw: dict, *, now=None) -> dict:
         mechanisms, hard_veto, data_veto, market_valid, research, bool(raw.get("role_change")),
         q_push_grade, workload_adjusted, bool(projected["distribution_block"]),
         mechanism_quality=mechanism_quality, prior_supported=prior_supported,
+        blend_validated=blend.get("validated") is True,
     )
     decided["tier_basis"] = tier_basis
     # Do not promote an unvalidated lineup-allocation operator into ANY
