@@ -18,7 +18,8 @@ import bayesian_engine as be
 
 VERSION = 'posterior-mc-v1'
 NBA_PRIOR_VERSION = 'nba-source-prior-power-v1'
-SUPPORTED_POSTERIOR_VERSIONS_A = frozenset((be.VERSION, NBA_PRIOR_VERSION))
+SUPPORTED_POSTERIOR_VERSIONS_A = frozenset((
+    'history-bayes-v1', be.VERSION, NBA_PRIOR_VERSION))
 SUPPORTED_POSTERIOR_VERSIONS_B = frozenset((
     'usage-bayes-v1', 'usage-bayes-v2-bounded-exposure', NBA_PRIOR_VERSION))
 MIN_DRAWS = 1024
