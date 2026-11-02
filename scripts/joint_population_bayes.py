@@ -174,10 +174,13 @@ def _to_values(result):
     if hasattr(result,"to_array"):groups=[result]
     elif hasattr(result,"subtree"):groups=[node.to_dataset() for node in result.subtree]
     else:raise ValueError("unsupported_arviz_results")
+    # Flatten each variable independently: Dataset.to_array() broadcasts unrelated
+    # player, season and opponent coordinates into a Cartesian product.
     values=[]
     for group in groups:
         if getattr(group,"data_vars",None):
-            values.extend(np.asarray(group.to_array(),dtype=float).ravel().tolist())
+            for variable in group.data_vars.values():
+                values.extend(np.asarray(variable,dtype=float).ravel().tolist())
     if not values or not all(math.isfinite(v) for v in values):
         raise ValueError("missing_or_invalid_posterior_diagnostic")
     return values
