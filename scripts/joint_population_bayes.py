@@ -194,17 +194,20 @@ def diagnostics(idata,*,all_effects=False):
         keys=["population_workload","population_rate","player_chol_stds",
               "workload_sigma","opponent_rate_sd","home_effect"]
         if all_effects:
-            # Full NHL training cannot be declared converged on global
-            # hyperparameters alone; verify each player's and opponent's
-            # posterior effect along with seasonal effects.
-            keys.extend(k for k in ("player_effect","opponent_rate",
-                        "season_workload","season_rate")
-                        if k in idata.posterior)
+            # Every player, opponent and season effect must be observed, not
+            # silently omitted from a fit receiving strict approval.
+            required=("player_effect","opponent_rate","season_workload","season_rate")
+            if any(k not in idata.posterior for k in required):
+                raise ValueError("missing_required_population_effects")
+            if idata.posterior.sizes.get("chain") != 4:
+                raise ValueError("strict_convergence_requires_four_chains")
+            keys.extend(required)
         if "count_dispersion" in idata.posterior:keys.append("count_dispersion")
         if "yardage_sigma" in idata.posterior:keys.append("yardage_sigma")
         if "season_rate_sd" in idata.posterior:keys.extend(["season_rate_sd","season_workload_sd"])
         all_r=_to_values(rhat(idata.posterior,var_names=keys))
         all_e=_to_values(ess(idata.posterior,var_names=keys,method="bulk"))
+        tail_e=_to_values(ess(idata.posterior,var_names=keys,method="tail"))
         # LKJ correlation diagonals are IDENTICALLY 1 in every posterior
         # draw. Including those constants in ArviZ R-hat/ESS returns NaN
         # and silently vetoes an otherwise converged model. Diagnose only
@@ -217,7 +220,13 @@ def diagnostics(idata,*,all_effects=False):
             ("chain","draw"),corr[...,0,1])})
         all_r.extend(_to_values(rhat(offdiag,var_names=["estimated_player_correlation"])))
         all_e.extend(_to_values(ess(offdiag,var_names=["estimated_player_correlation"],method="bulk")))
+        tail_e.extend(_to_values(ess(offdiag,var_names=["estimated_player_correlation"],method="tail")))
         divergences=int(np.asarray(idata.sample_stats["diverging"]).sum())
+        # PyMC reports reached_max_treedepth for its modern NUTS backend.
+        # If a strict campaign cannot establish depth behavior, reject rather
+        # than treating missing evidence as proof of no saturation.
+        depth=idata.sample_stats.get("reached_max_treedepth")
+        depth_hits=(int(np.asarray(depth).sum()) if depth is not None else None)
         # BFMI from each chain; global minimum >= .30 required for approval.
         energy=np.asarray(idata.sample_stats["energy"],dtype=float)
         bfmi=np.mean(np.diff(energy,axis=-1)**2,axis=-1)/np.var(energy,axis=-1)
@@ -226,12 +235,18 @@ def diagnostics(idata,*,all_effects=False):
     except (ImportError,AttributeError,KeyError,TypeError,ValueError) as exc:
         return {"status":"diagnostics_unavailable","error":str(exc)[:180],
                 "posterior_sampling_ok":False,"publication_eligible":False}
-    r_max=max(all_r);ess_min=min(all_e);energy_min=float(min(bfmi))
-    passed=(r_max<=MAX_RHAT and ess_min>=MIN_ESS and
-            divergences==0 and energy_min>=.30)
+    r_max=max(all_r);ess_min=min(all_e);tail_min=min(tail_e)
+    energy_min=float(min(bfmi))
+    # This is a diagnostic eligibility check, not predictive calibration.
+    passed=(r_max<=MAX_RHAT and ess_min>=MIN_ESS and tail_min>=MIN_ESS
+            and divergences==0 and energy_min>=.30 and
+            (not all_effects or (depth_hits is not None and depth_hits==0)))
     return {"status":"sampling_diagnostics_pass" if passed else "sampling_diagnostics_failed",
-        "max_rhat":r_max,"min_bulk_ess":ess_min,
-        "divergences":divergences,"minimum_bfmi":energy_min,
+        "max_rhat":r_max,"min_bulk_ess":ess_min,"min_tail_ess":tail_min,
+        "divergences":divergences,"max_treedepth_hits":depth_hits,
+        "diagnosed_all_effects":bool(all_effects),
+        "sampler_chains":int(idata.posterior.sizes.get("chain",0)),
+        "minimum_bfmi":energy_min,
         "posterior_sampling_ok":passed,"publication_eligible":False}
 
 
@@ -338,8 +353,10 @@ def main(argv=None):
     p.add_argument("--progress-file",type=Path,
         help="Emit GitHub-friendly per-chain progress as JSON and periodic log bars")
     p.add_argument("--progress-interval",type=int,default=45)
-    p.add_argument("--strict-all-effects",action="store_true",
-        help="Also assess convergence for every player, opponent and season effect")
+    p.add_argument("--strict-all-effects",dest="strict_all_effects",action="store_true",
+        default=True, help="Default: diagnose every player/opponent/season effect")
+    p.add_argument("--exploratory-partial-diagnostics",dest="strict_all_effects",
+        action="store_false",help="Research diagnostics only; never approves a production model")
     p.add_argument("--out",type=Path,default=Path("reports/joint_population"))
     a=p.parse_args(argv)
     rows=history.read(a.root,sport=a.sport,stat=a.stat,before=a.as_of,
