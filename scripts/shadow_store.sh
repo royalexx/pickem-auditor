@@ -106,6 +106,12 @@ elif [[ "$mode" == save ]]; then
     git worktree add --quiet --detach "$tmpdir/tree" HEAD
   fi
   mkdir -p "$tmpdir/tree/data" "$tmpdir/tree/logs"
+  # Prevent any forecast mutation, disappearance, or retrospective
+  # rewrite of already-settled outcomes. New settlement fields are allowed.
+  if [[ -s "$tmpdir/tree/data/prop_snapshots.jsonl" ]]; then
+    python scripts/verify_forecast_history_transition.py \
+      "$tmpdir/tree/data/prop_snapshots.jsonl" data/prop_snapshots.jsonl
+  fi
   cp -p data/prop_snapshots.jsonl "$tmpdir/tree/data/"
   # Store historical source observations alongside predictions for subsequent
   # collection windows. These data are NOT calibration weights or forecasts.
