@@ -15,7 +15,7 @@ from collections import Counter
 from pathlib import Path
 import population_history as history
 
-VERSION="multisport-joint-bayes-v1"
+VERSION="multisport-joint-bayes-v2-integer-yardage"
 MAX_RHAT=1.01
 MIN_ESS=400
 
@@ -290,9 +290,19 @@ def forecast(idata,data,*,player_id,opponent,season,home,line,seed=193,
         over_events=nbinom.sf(threshold,alpha,p)
         push_events=nbinom.pmf(threshold,alpha,p) if float(line).is_integer() else np.zeros(draws)
     else:
+        # Yardage is settled as an integer, including negative yards.
+        # The Student-t latent outcome is rounded to the nearest integer.
+        # At whole-number lines, the [L-.5, L+.5] cell is a real push;
+        # at fractional lines it is never a push. This preserves mass.
         scale=sample("yardage_sigma")
-        over_events=t.sf(line,df=4,loc=exposure*rate,scale=scale)
-        push_events=np.zeros(draws)
+        threshold=math.floor(line)+0.5
+        location=exposure*rate
+        over_events=t.sf(threshold,df=4,loc=location,scale=scale)
+        if float(line).is_integer():
+            push_events=t.cdf(line+0.5,df=4,loc=location,scale=scale)-t.cdf(
+                line-0.5,df=4,loc=location,scale=scale)
+        else:
+            push_events=np.zeros(draws)
     if not np.all(np.isfinite(over_events)) or not np.all(np.isfinite(push_events)):
         raise ValueError("invalid_predictive_probabilities")
     over=float(np.mean(over_events));push=float(np.mean(push_events))
