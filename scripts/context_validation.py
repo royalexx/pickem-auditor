@@ -8,7 +8,7 @@ import random
 import probability_blend as pb
 from shared_context import VERSION
 
-METHOD=VERSION+'|'+pb.VERSION
+METHOD=VERSION+'|'+pb.VERSION+'|'+pb.TRAINING_UNIT
 
 def path(root,scope):return pb.config_path(root,scope).parent.parent/'context_validation'/pb.config_path(root,scope).name
 
