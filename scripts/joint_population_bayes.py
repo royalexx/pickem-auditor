@@ -15,7 +15,8 @@ from collections import Counter
 from pathlib import Path
 import population_history as history
 
-VERSION="multisport-joint-bayes-v2-integer-yardage"
+VERSION="multisport-joint-bayes-v1"  # frozen count releases retain original identity
+YARDAGE_FORECAST_VERSION="multisport-joint-bayes-v2-integer-yardage"
 MAX_RHAT=1.01
 MIN_ESS=400
 
@@ -308,7 +309,7 @@ def forecast(idata,data,*,player_id,opponent,season,home,line,seed=193,
     over=float(np.mean(over_events));push=float(np.mean(push_events))
     return {"schema":"multi_sport_joint_shadow_forecast_v1",
             "sport":data["sport"],"stat":data["stat"],"family":data["family"],
-            "model_version":VERSION,"player_id":player,"opponent":opponent,
+            "model_version":(YARDAGE_FORECAST_VERSION if data["family"]=="yardage" else VERSION),"player_id":player,"opponent":opponent,
             "season":season,"home":home,"line":float(line),
             "q_over":over,"q_push":push,"q_under":max(0,1-over-push),
             "draws":draws,
