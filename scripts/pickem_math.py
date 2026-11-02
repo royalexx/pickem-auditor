@@ -430,30 +430,37 @@ def consensus(books: list[tuple[str, float, float, float]], retrieved_minutes_ag
     # DISAGREE on a sharp market means the sharp books disagree with each other,
     # or a retail book is shorter than the anchor by more than 3 points.
     if sharp:
-        base = min(row["q_market"] for row in sharp)
-        rule = "sharp anchor (lowest sharp value; retail does not undercut it)"
-        sharp_spread = max(row["q_market"] for row in sharp) - base
-        retail_above = any(_exceeds(row["q_market"] - base, DISAGREE) for row in retail)
-        if _exceeds(sharp_spread, DISAGREE) or retail_above:
-            rule = "sharp anchor (disagreement above the anchor; lowest sharp value kept)"
+        # A reference two-way probability must use a single matched quote
+        # for both orientations. Picking the minimum side separately makes
+        # over+under disagree. Choose the lowest-vig sharp quote by a stable
+        # orientation-independent rule instead.
+        anchor = min(sharp, key=lambda row: (abs(row["hold"]),row["key"]))
+        base = anchor["q_market"]
+        rule = "single matched lowest-vig sharp quote"
+        sharp_spread = max(row["q_market"] for row in sharp) - min(
+            row["q_market"] for row in sharp)
+        retail_disagreement = any(
+            _exceeds(abs(row["q_market"] - base), DISAGREE) for row in retail)
+        if _exceeds(sharp_spread, DISAGREE) or retail_disagreement:
             out["flags"].append(
-                "DISAGREE: sharp books differ by more than 3 points, or a retail book is "
-                "more than 3 points above the sharp anchor"
+                "DISAGREE: sharp/retail matched quotes differ materially; "
+                "source uncertainty is separate from reference probability"
             )
-        plus = _anchor_plus_money(
-            [row for row in sharp if abs(row["q_market"] - base) <= 1e-9]
-        )
+        out["anchor_book"] = anchor["book"]
+        plus = _anchor_plus_money([anchor])
     else:
         quotes = [row["q_market"] for row in retail]
         base = sum(quotes) / len(quotes)
         rule = "mean of retail books"
         if _exceeds(max(quotes) - min(quotes), DISAGREE):
-            base = min(quotes)
-            rule = "lowest value (books disagree by more than 3 points)"
-            out["flags"].append("DISAGREE: books differ by more than 3 points; conservative value used")
-            plus = _anchor_plus_money(
-                [row for row in retail if abs(row["q_market"] - base) <= 1e-9]
-            )
+            # Use one reproducible retail book for both sides; do not take a
+            # separate over-minimum and under-minimum across different books.
+            anchor = min(retail,key=lambda row:(abs(row["hold"]),row["key"]))
+            base = anchor["q_market"]
+            rule = "single matched lowest-vig retail quote (books disagree)"
+            out["anchor_book"] = anchor["book"]
+            out["flags"].append("DISAGREE: books differ by more than 3 points; review quote dispersion")
+            plus = _anchor_plus_money([anchor])
         else:
             mean_mult = sum(row["q_mult"] for row in retail) / len(retail)
             plus = _anchor_plus_money(retail, mean_mult)
