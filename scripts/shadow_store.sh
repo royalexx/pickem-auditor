@@ -74,6 +74,18 @@ if [[ "$mode" == load ]]; then
       done < <(find "$tmpdir/data/nhl_joint_saves_shadow" -type f -name '*.jsonl' -print0)
       cp -an "$tmpdir/data/nhl_joint_saves_shadow/." data/nhl_joint_saves_shadow/
     fi
+    # Immutable postgame settlement receipts for frozen saves forecasts.
+    if [[ -d "$tmpdir/data/nhl_joint_saves_settlements" ]]; then
+      mkdir -p data/nhl_joint_saves_settlements
+      while IFS= read -r -d '' file; do
+        relative="${file#"$tmpdir/"}"
+        if [[ -f "$relative" ]] && ! cmp -s "$file" "$relative"; then
+          echo "NHL_SAVES_SETTLEMENT_RESTORE_CONFLICT: $relative" >&2
+          exit 2
+        fi
+      done < <(find "$tmpdir/data/nhl_joint_saves_settlements" -type f -name '*.jsonl' -print0)
+      cp -an "$tmpdir/data/nhl_joint_saves_settlements/." data/nhl_joint_saves_settlements/
+    fi
     # Deployment certificates are read-only on restore. A manual, reviewed
     # registration is required to replace a committed certificate.
     for registry in probability_blend context_validation; do
@@ -244,6 +256,25 @@ PY_SAVES
       [[ ! -f "$forecast" ]] || cp -p "$forecast" "$tmpdir/tree/$forecast"
     done
     git -C "$tmpdir/tree" add -f data/nhl_joint_saves_shadow/
+  fi
+  if [[ -d data/nhl_joint_saves_settlements ]]; then
+    while IFS= read -r -d '' receipt; do
+      relative="${receipt#data/nhl_joint_saves_settlements/}"
+      target="$tmpdir/tree/data/nhl_joint_saves_settlements/$relative"
+      if [[ -e "$target" ]]; then
+        python - "$target" "$receipt" <<'PY_SAVES_SETTLED'
+import sys
+from pathlib import Path
+if not Path(sys.argv[2]).read_bytes().startswith(Path(sys.argv[1]).read_bytes()):
+    raise SystemExit('IMMUTABLE_NHL_SAVES_SETTLEMENT_CONFLICT: '+sys.argv[2])
+PY_SAVES_SETTLED
+      fi
+    done < <(find data/nhl_joint_saves_settlements -type f -name '*.jsonl' -print0)
+    mkdir -p "$tmpdir/tree/data/nhl_joint_saves_settlements"
+    for receipt in data/nhl_joint_saves_settlements/*.jsonl; do
+      [[ ! -f "$receipt" ]] || cp -p "$receipt" "$tmpdir/tree/$receipt"
+    done
+    git -C "$tmpdir/tree" add -f data/nhl_joint_saves_settlements/
   fi
   # Persist reviewed calibration certificates to the same immutable data branch.
   # Never allow a new weekly fit to silently replace an active deployment.
