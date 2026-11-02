@@ -65,6 +65,13 @@ if [[ "$mode" == load ]]; then
     # Restore prospectively stamped sidecars before any afternoon retry.
     if [[ -d "$tmpdir/data/nhl_joint_saves_shadow" ]]; then
       mkdir -p data/nhl_joint_saves_shadow
+      while IFS= read -r -d '' file; do
+        relative="${file#"$tmpdir/"}"
+        if [[ -f "$relative" ]] && ! cmp -s "$file" "$relative"; then
+          echo "NHL_SAVES_RESTORE_CONFLICT: $relative" >&2
+          exit 2
+        fi
+      done < <(find "$tmpdir/data/nhl_joint_saves_shadow" -type f -name '*.jsonl' -print0)
       cp -an "$tmpdir/data/nhl_joint_saves_shadow/." data/nhl_joint_saves_shadow/
     fi
     # Deployment certificates are read-only on restore. A manual, reviewed
@@ -72,6 +79,13 @@ if [[ "$mode" == load ]]; then
     for registry in probability_blend context_validation; do
       if [[ -d "$tmpdir/config/$registry" ]]; then
         mkdir -p "config/$registry"
+        while IFS= read -r -d '' certificate; do
+          relative="${certificate#"$tmpdir/"}"
+          if [[ -f "$relative" ]] && ! cmp -s "$certificate" "$relative"; then
+            echo "REGISTERED_CERTIFICATE_RESTORE_CONFLICT: $relative" >&2
+            exit 2
+          fi
+        done < <(find "$tmpdir/config/$registry" -type f -name '*.json' -print0)
         cp -an "$tmpdir/config/$registry/." "config/$registry/"
       fi
     done
