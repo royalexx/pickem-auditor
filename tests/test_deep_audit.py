@@ -63,7 +63,7 @@ class CertificateTests(unittest.TestCase):
         b=dict(reliable=True,abstain=False,q_win_b=.7,q_push_b=0)
         ev=dict(score_rule=pb.SCORE_RULE,train_n=300,holdout_n=100,holdout_dates=25,train_end='2025-01-01',
                 holdout_start='2025-02-01',holdout_end='2025-03-01',a_log_loss=.7,blend_log_loss=.6,improvement_ci_low=.01)
-        cfg=dict(scope='x',engine_version=pb.VERSION,weight_a=.5,underpowered=False,validation=ev)
+        cfg=dict(scope='x',engine_version=pb.VERSION,training_unit=pb.TRAINING_UNIT,weight_a=.5,underpowered=False,validation=ev)
         with tempfile.TemporaryDirectory() as d:
             path=Path(d)/'config.json'
             for invalid in ([],False,{'validation':[]}, {**cfg,'validation':{**ev,'train_n':float('inf')}},
