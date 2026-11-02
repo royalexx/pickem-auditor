@@ -148,6 +148,10 @@ def fit(rows):
     lower = sorted(improvements)[24] if len(days) >= 20 else 0.0
     return dict(scope=next(iter(scopes)), engine_version=VERSION, weight_a=w, underpowered=False,
                 validation=dict(score_rule=SCORE_RULE,train_n=len(train), holdout_n=len(holdout),
+                                train_unique_events=len(set(r.get('event_key',r['id']) for r in train)),
+                                holdout_unique_events=len(set(r.get('event_key',r['id']) for r in holdout)),
+                                train_unique_player_games=len(set(r.get('player_game_id',r['id']) for r in train)),
+                                holdout_unique_player_games=len(set(r.get('player_game_id',r['id']) for r in holdout)),
                                 train_pushes=sum(r['outcome']=='push' for r in train),
                                 holdout_pushes=sum(r['outcome']=='push' for r in holdout),
                                 train_end=train[-1]['date'], holdout_start=holdout[0]['date'],
@@ -183,11 +187,37 @@ def from_snapshots(rows, scope):
             if start.astimezone(ZoneInfo('America/Toronto')).date().isoformat()!=row.get('game_date'):continue
         except (KeyError,ValueError,TypeError,AttributeError):
             continue
-        ident = '|'.join(str(row.get(k) or '') for k in
-                         ('game_date','sport','player','stat','side','reference_line'))
-        selected.setdefault(ident, dict(id=ident, scope=scope, date=row['game_date'],
+        # A display name and calendar date do not identify a unique game.
+        # Require collector-owned event/player IDs (same-name players and
+        # doubleheaders exist) and a settlement timestamp after game start.
+        inputs=row.get("inputs") if isinstance(row.get("inputs"),dict) else {}
+        namespace=str(row.get("event_id_namespace") or inputs.get("event_id_namespace") or "").strip()
+        event_id=str(row.get("event_id") or inputs.get("event_id") or "").strip()
+        player_id=str(row.get("player_id") or inputs.get("player_id") or "").strip()
+        if not namespace or not event_id or not player_id:
+            continue
+        try:
+            settled=datetime.fromisoformat(str(row["settled_at"]).replace('Z','+00:00'))
+            if settled.tzinfo is None or settled<=start:continue
+        except (KeyError,ValueError,TypeError,AttributeError):continue
+        # One player-game-stat contributes at most one supervised training
+        # observation. Extra sides/lines cannot inflate confidence/ESS.
+        player_game=json.dumps([row['sport'],namespace,event_id,player_id,row['stat']],
+                               separators=(",",":"),ensure_ascii=False)
+        ident=player_game
+        if ident in selected:
+            if selected[ident]['outcome'] != row['outcome']:
+                # Different lines can legitimately have different outcomes;
+                # they cannot be treated as independent observations here.
+                # The earliest pregame side/line remains the frozen selection.
+                continue
+            continue
+        selected[ident]=dict(id=ident, scope=scope, date=row['game_date'],
             a_win=a['q_win_robust'], a_push=a['q_push_robust'],
-            b_win=b['q_win'], b_push=b['q_push'], outcome=row['outcome'],forecast_at=row['forecast_at']))
+            b_win=b['q_win'], b_push=b['q_push'], outcome=row['outcome'],
+            forecast_at=row['forecast_at'], event_key=namespace+":"+event_id,
+            player_game_id=player_game, selected_side=row.get('side'),
+            selected_line=row.get('reference_line'))
     return list(selected.values())
 
 
