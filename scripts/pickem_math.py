@@ -345,7 +345,11 @@ def devig(target: float, other: float) -> dict:
         raise PickemError("implied-probability sum is invalid")
     hold = total - 1
     q_mult = _clip01(p_t / total, "q_mult")
-    q_market = _clip01(q_mult - HOLD_SLOPE * max(0.0, hold - HOLD_FREE), "q_market")
+    # A two-way, no-vig probability MUST preserve probability mass.
+    # Keep the old hold haircut as separate risk metadata, never as a
+    # probability benchmark or a quantity scored against observed results.
+    q_market = q_mult
+    hold_risk_penalty = HOLD_SLOPE * max(0.0, hold - HOLD_FREE)
     target_odds = _finite("odds", target)
     return {
         "p_target": p_t,
@@ -353,6 +357,9 @@ def devig(target: float, other: float) -> dict:
         "hold": hold,
         "q_mult": q_mult,
         "q_market": q_market,
+        "q_market_other": 1.0 - q_market,
+        "market_probability_method": "proportional_no_vig_v2",
+        "hold_risk_penalty": hold_risk_penalty,
         "reject_hold": hold > HOLD_REJECT,
         "target_odds": target_odds,
         "target_plus_money": target_odds > 0 or q_mult < 0.5,
@@ -458,6 +465,10 @@ def consensus(books: list[tuple[str, float, float, float]], retrieved_minutes_ag
             "probability is below 50%; audit note, not a soft flag. Rank does not use it"
         )
     out["q_market"] = _clip01(base, "consensus q_market")
+    # This complement belongs to the same selected consensus orientation;
+    # do not construct two sides from independent side-wise minimum books.
+    out["q_market_other"] = 1.0 - out["q_market"]
+    out["market_probability_method"] = "proportional_no_vig_v2"
     out["rule"] = rule
     _stamp_market(out, retrieved_minutes_ago)
     return out
