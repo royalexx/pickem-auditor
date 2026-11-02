@@ -193,26 +193,41 @@ def diagnostics(idata):
         selected=["population_log_toi","population_log_shot_rate",
                   "player_chol_stds","toi_sigma","overdispersion","home_rate",
                   "season_toi_sd","season_rate_sd","opponent_rate_sd"]
-        selected=[n for n in selected if n in idata.posterior]
+        # A posterior with healthy population hyperparameters but stuck local
+        # effects is not an approved converged posterior.
+        local=("player_effect","season_toi","season_rate","opponent_rate")
+        if any(name not in idata.posterior for name in local):
+            raise ValueError("missing_local_nhl_posterior_effects")
+        if idata.posterior.sizes.get("chain") != 4:
+            raise ValueError("strict_nhl_diagnostics_require_four_chains")
+        selected=[n for n in selected if n in idata.posterior] + list(local)
         if not selected:raise ValueError("missing_population_diagnostic_parameters")
         rh=rhat(idata.posterior,var_names=selected)
         ef=ess(idata.posterior,var_names=selected,method="bulk")
+        tail=ess(idata.posterior,var_names=selected,method="tail")
         rh_values=_diagnostic_values(rh)
         ess_values=_diagnostic_values(ef)
+        tail_values=_diagnostic_values(tail)
         divergent=int(np.asarray(idata.sample_stats["diverging"]).sum())
+        depth=idata.sample_stats.get("reached_max_treedepth")
+        depth_hits=(int(np.asarray(depth).sum()) if depth is not None else None)
         import joint_nhl_posterior_audit as joint_geometry
         extra=joint_geometry.geometry_stats(idata)
     except (ValueError,TypeError,AttributeError,KeyError,ImportError) as exc:
         return {"status":"diagnostics_unavailable","error":type(exc).__name__+':'+str(exc)[:160],
                 "posterior_sampling_ok":False,
                 "publication_eligible":False,"validated":False}
-    finite=all(math.isfinite(v) for v in (rh_values+ess_values))
+    finite=all(math.isfinite(v) for v in (rh_values+ess_values+tail_values))
     max_r=max(rh_values) if finite else None
     min_e=min(ess_values) if finite else None
-    healthy=(finite and max_r<=MAX_RHAT and min_e>=MIN_ESS_BULK and
-             divergent==0 and extra["correlation_and_energy_check_pass"])
+    min_tail=min(tail_values) if finite else None
+    healthy=(finite and max_r<=MAX_RHAT and min_e>=MIN_ESS_BULK
+             and min_tail>=MIN_ESS_BULK and divergent==0
+             and depth_hits==0 and extra["correlation_and_energy_check_pass"])
     return {"status":"sampling_diagnostics_pass" if healthy else "sampling_diagnostics_failed",
-            "max_rhat":max_r,"min_bulk_ess":min_e,
+            "max_rhat":max_r,"min_bulk_ess":min_e,"min_tail_ess":min_tail,
+            "max_treedepth_hits":depth_hits,
+            "diagnosed_all_effects":True,"sampler_chains":4,
             "divergences":divergent,
             "joint_geometry":extra,
             "posterior_sampling_ok":bool(healthy),
