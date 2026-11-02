@@ -171,12 +171,15 @@ class OperationalCalibrationTests(unittest.TestCase):
             fit.assert_called_once_with([],Path(d))
             self.assertEqual(result['calibration_status'],'underpowered_or_unvalidated')
 
-    def test_stale_configs_retired_when_no_current_forecasts_qualify(self):
+    def test_stale_configs_remain_archived_but_never_auto_promote(self):
         with tempfile.TemporaryDirectory() as d:
             path=pb.config_path(d,'NFL|receptions');path.parent.mkdir(parents=True)
-            path.write_text(json.dumps(dict(scope='NFL|receptions',engine_version='old')))
+            original=json.dumps(dict(scope='NFL|receptions',engine_version='old'))
+            path.write_text(original)
             status=pb.fit_scopes([],d)
-            self.assertFalse(path.exists());self.assertEqual(status['NFL|receptions']['status'],'underpowered_or_unvalidated')
+            self.assertEqual(path.read_text(),original)
+            self.assertEqual(status['NFL|receptions']['status'],'underpowered_or_unvalidated')
+            self.assertTrue(status['NFL|receptions']['production_unchanged'])
 
     def test_gaps_calls_engine_validation_for_incompatible_packet(self):
         c=receiving();c['scouting']['scenarios'][0]['conversion']=2
