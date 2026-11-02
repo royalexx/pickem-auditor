@@ -9,6 +9,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 VERSION = 'history-v5+scouting-v7'
 SCORE_RULE = 'joint_win_push_loss_log_loss_v1'
+TRAINING_UNIT = 'unique_player_game_stat_v2'
 
 
 def valid_evidence(ev, baseline_key, improved_key, as_of):
@@ -46,7 +47,9 @@ def combine(a, b, config_path=None, *, scope="global", as_of=None):
         w = cfg['weight_a']
         ev = cfg['validation']
         if not valid_evidence(ev,'a_log_loss','blend_log_loss',as_of or date.today()):return out
-        if (cfg.get('scope') != scope or cfg['engine_version'] != VERSION or cfg.get('underpowered') is not False
+        if (cfg.get('scope') != scope or cfg['engine_version'] != VERSION or
+                cfg.get('training_unit') != TRAINING_UNIT or
+                cfg.get('underpowered') is not False
                 or ev.get('score_rule') != SCORE_RULE
                 or isinstance(w, bool) or not isinstance(w, (int, float)) or not 0 < w < 1
                 or ev['train_n'] < 300 or ev['holdout_n'] < 100
@@ -146,7 +149,8 @@ def fit(rows):
         sample = [r for day in rng.choices(days, k=len(days)) for r in groups[day]]
         improvements.append(loss(sample, 1)-loss(sample, w))
     lower = sorted(improvements)[24] if len(days) >= 20 else 0.0
-    return dict(scope=next(iter(scopes)), engine_version=VERSION, weight_a=w, underpowered=False,
+    return dict(scope=next(iter(scopes)), engine_version=VERSION,
+                training_unit=TRAINING_UNIT, weight_a=w, underpowered=False,
                 validation=dict(score_rule=SCORE_RULE,train_n=len(train), holdout_n=len(holdout),
                                 train_unique_events=len(set(r.get('event_key',r['id']) for r in train)),
                                 holdout_unique_events=len(set(r.get('event_key',r['id']) for r in holdout)),
