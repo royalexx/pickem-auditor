@@ -1,5 +1,7 @@
 name: NHL Bayesian sampler benchmark - Windows fallback
 run-name: NHL sampler benchmark on Precision 5490 (AFTER full training)
+# Automatic runs paused 2026-11-02 after compute allowance exhaustion.
+# Manual dispatch remains available; no scheduled or downstream auto-launch.
 on:
   workflow_dispatch:
     inputs:
@@ -15,10 +17,6 @@ on:
         type: choice
         options: ['12', '24', '48']
         default: '12'
-  workflow_run:
-    workflows:
-      - 'Precision Windows - NHL full-population four-market Bayesian training'
-    types: [completed]
 permissions:
   contents: read
   actions: read

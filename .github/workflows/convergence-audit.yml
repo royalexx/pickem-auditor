@@ -1,8 +1,8 @@
 name: Consolidate matched NUTS convergence receipts
+# Automatic runs paused 2026-11-02 after compute allowance exhaustion.
+# Manual dispatch remains available; no scheduled or downstream auto-launch.
 on:
-  workflow_run:
-    workflows: ['Matched diagnostic convergence - Bayesian 31-market research']
-    types: [completed]
+  workflow_dispatch:
 permissions:
   contents: read
   actions: read

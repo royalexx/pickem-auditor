@@ -1,11 +1,8 @@
 name: Priority historical collection resource control
+# Automatic runs paused 2026-11-02 after compute allowance exhaustion.
+# Manual dispatch remains available; no scheduled or downstream auto-launch.
 on:
-  push:
-    branches: [main]
-    paths: ['.github/workflows/population-priority-control.yml']
-  workflow_run:
-    workflows: ['Complete 2018–2026 multisport Bayesian populations (priority)']
-    types: [completed]
+  workflow_dispatch:
 permissions:
   contents: write
   actions: write

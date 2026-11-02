@@ -1,15 +1,7 @@
 name: Complete 2018–2026 multisport Bayesian populations (priority)
+# Automatic runs paused 2026-11-02 after compute allowance exhaustion.
+# Manual dispatch remains available; no scheduled or downstream auto-launch.
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/population-campaign.yml'
-      - 'scripts/population_backfill.py'
-      - 'scripts/population_campaign.py'
-  schedule:
-    # Continue automatically every two hours until both historical streams
-    # are complete; repository-level concurrency prevents concurrent writes.
-    - cron: '11 */2 * * *'
   workflow_dispatch:
 permissions:
   contents: write

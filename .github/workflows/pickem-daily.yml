@@ -1,4 +1,6 @@
 name: Pickem morning and afternoon
+# Automatic runs paused 2026-11-02 after compute allowance exhaustion.
+# Manual dispatch remains available; no scheduled or downstream auto-launch.
 on:
   workflow_dispatch:
     inputs:
@@ -12,26 +14,6 @@ on:
         required: false
         type: boolean
         default: false
-  push:
-    branches: [main]
-    paths: ['.github/morning-recovery/*.json']
-  workflow_run:
-    workflows: ['NHL Bayesian history warehouse backfill']
-    types: [completed]
-  schedule:
-    # Offset from the top of the hour to reduce GitHub cron congestion.
-    # 06:13 and 16:13 Toronto (both DST and standard UTC hours).
-    - cron: '13 10 * * *'
-    - cron: '13 11 * * *'
-    # Backups: 07:41 and 08:41 EDT / 06:41 and 07:41 EST.
-    # A persisted marker stops a second completed settlement.
-    - cron: '41 11 * * *'
-    - cron: '41 12 * * *'
-    # Independent 09:37 local watchdog window.
-    - cron: '37 13 * * *'
-    - cron: '37 14 * * *'
-    - cron: '13 20 * * *'
-    - cron: '13 21 * * *'
 permissions:
   contents: write
 concurrency:

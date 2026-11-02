@@ -1,10 +1,7 @@
 name: NHL Bayesian history warehouse backfill
+# Automatic runs paused 2026-11-02 after compute allowance exhaustion.
+# Manual dispatch remains available; no scheduled or downstream auto-launch.
 on:
-  push:
-    branches: [main]
-    paths: ['.github/workflows/nhl-bayesian-history.yml']
-  schedule:
-    - cron: '17 5,17 * * *'
   workflow_dispatch:
     inputs:
       max_days:

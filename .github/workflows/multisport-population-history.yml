@@ -1,13 +1,7 @@
 name: Multi-sport Bayesian population backfill
+# Automatic runs paused 2026-11-02 after compute allowance exhaustion.
+# Manual dispatch remains available; no scheduled or downstream auto-launch.
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/multisport-population-history.yml'
-      - 'scripts/population_normalizers.py'
-      - 'scripts/population_backfill.py'
-  schedule:
-    - cron: '43 6,18 * * *'
   workflow_dispatch:
     inputs:
       max_days:

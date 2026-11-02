@@ -1,12 +1,7 @@
 name: Historical Bayesian training and heldout evaluation
+# Automatic runs paused 2026-11-02 after compute allowance exhaustion.
+# Manual dispatch remains available; no scheduled or downstream auto-launch.
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/historical-bayes-training.yml'
-  schedule:
-    # Monthly offline research refresh; never changes production weights.
-    - cron: '31 7 1 * *'
   workflow_dispatch:
 permissions:
   contents: read
