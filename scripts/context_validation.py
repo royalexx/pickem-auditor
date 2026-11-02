@@ -29,8 +29,9 @@ def rows_from_snapshots(rows,scope):
     eligible=pb.from_snapshots(transformed,scope)
     allowed={(r['id'],r['forecast_at']) for r in eligible}
     for r in sorted(transformed,key=lambda r:r['forecast_at']):
-        ident='|'.join(str(r.get(k) or '') for k in ('game_date','sport','player','stat','side','reference_line'))
-        if (ident,r.get('forecast_at')) not in allowed or ident in groups:continue
+        ident=pb.canonical_player_game(r)
+        if ident is None or (ident,r.get('forecast_at')) not in allowed or ident in groups:
+            continue
         c=r['_original_context'];blend=r.get('blend') or {}
         try:
             baseline=probabilities(blend['q_win'],blend['q_push'])
