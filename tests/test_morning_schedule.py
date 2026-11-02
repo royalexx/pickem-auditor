@@ -165,8 +165,11 @@ class MorningScheduleTests(unittest.TestCase):
         root=Path(__file__).resolve().parents[1]
         workflow=(root/".github/workflows/pickem-daily.yml").read_text()
         store=(root/"scripts/shadow_store.sh").read_text()
-        self.assertIn("cron: '41 11 * * *'",workflow)
-        self.assertIn("cron: '41 12 * * *'",workflow)
+        # Historical schedule parsing still works, but the live workflow is
+        # deliberately manual-only until the Actions allowance is reviewed.
+        self.assertIn("  workflow_dispatch:",workflow)
+        self.assertNotIn("  schedule:",workflow)
+        self.assertNotIn("cron:",workflow)
         self.assertIn("scripts/morning_schedule.py gate",workflow)
         self.assertIn("scripts/morning_schedule.py','mark'",workflow)
         self.assertIn("data/morning_runs",store)
