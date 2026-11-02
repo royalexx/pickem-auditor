@@ -159,10 +159,38 @@ class OperationalCalibrationTests(unittest.TestCase):
                  outcome='win',engine_a=dict(version='history-v5',reliable=True,observation_ids_verified=True,q_win_robust=.6,q_push_robust=.1),
                  engine_b=dict(version='scouting-v7',baseline_origin='collector_observations',reliable=True,abstain=False,q_win=.7,q_push=.1))
         self.assertEqual(pb.from_snapshots([row],'NFL|receptions'),[])
-        row.update(forecast_at='2025-01-01T12:00:00Z',event_start='2025-01-01T18:00:00Z')
+        row.update(forecast_at='2025-01-01T12:00:00Z',
+                   event_start='2025-01-01T18:00:00Z',
+                   settled_at='2025-01-02T09:00:00Z',
+                   event_id_namespace='espn_nfl',event_id='401234567',
+                   player_id='9001')
         self.assertEqual(len(pb.from_snapshots([row],'NFL|receptions')),1)
         row['forecast_at']=row['event_start']
         self.assertEqual(pb.from_snapshots([row],'NFL|receptions'),[])
+
+    def test_blend_calibration_dedupes_player_game_and_rejects_weak_identity(self):
+        r=dict(run_at='anything',game_date='2025-01-01',sport='NFL',
+               player='Same Name',player_id='9001',event_id_namespace='espn_nfl',
+               event_id='401234567',stat='receptions',side='over',
+               reference_line=3.5,outcome='win',
+               forecast_at='2025-01-01T12:00:00Z',
+               event_start='2025-01-01T18:00:00Z',
+               settled_at='2025-01-02T09:00:00Z',
+               engine_a=dict(version='history-v5',reliable=True,
+                   observation_ids_verified=True,q_win_robust=.6,q_push_robust=0),
+               engine_b=dict(version='scouting-v7',
+                   baseline_origin='collector_observations',reliable=True,
+                   abstain=False,q_win=.7,q_push=0))
+        other=dict(r,side='under',reference_line=4.5,outcome='loss')
+        samples=pb.from_snapshots([r,other],'NFL|receptions')
+        self.assertEqual(len(samples),1)
+        self.assertEqual(samples[0]['selected_line'],3.5)
+        doubleheader=dict(r,event_id='401234568')
+        self.assertEqual(len(pb.from_snapshots([r,doubleheader],'NFL|receptions')),2)
+        missing=dict(r);missing.pop('event_id')
+        self.assertEqual(pb.from_snapshots([missing],'NFL|receptions'),[])
+        premature=dict(r,settled_at='2025-01-01T12:30:00Z')
+        self.assertEqual(pb.from_snapshots([premature],'NFL|receptions'),[])
 
     def test_weekly_uses_current_fitter_and_never_reports_legacy_weights(self):
         with tempfile.TemporaryDirectory() as d,patch.object(jobs.calibration_report,'main',return_value=0),patch.object(pb,'fit_scopes',return_value={}) as fit:
