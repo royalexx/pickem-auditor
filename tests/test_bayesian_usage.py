@@ -40,7 +40,9 @@ class ModelTests(unittest.TestCase):
         self.assertGreater(a['q_push'],0)
         self.assertEqual(a['q_push'],b['q_push'])
         self.assertEqual(a['conversion']['kind'],'gamma_poisson_exact')
-        self.assertEqual(a['version'],'usage-bayes-v1')
+        self.assertEqual(a['version'],'usage-bayes-v2-bounded-exposure')
+        self.assertEqual(a['workload']['physical_workload_bounds'],[.05,250.0])
+        self.assertGreater(a['workload']['truncation_probability_mass'],.5)
         self.assertFalse(a['publication_eligible'])
 
     def test_half_line_has_no_push(self):
