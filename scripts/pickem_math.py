@@ -2905,6 +2905,13 @@ def evaluate_candidate(raw: dict, *, now=None) -> dict:
         mechanism_quality=mechanism_quality, prior_supported=prior_supported,
     )
     decided["tier_basis"] = tier_basis
+    # Do not promote an unvalidated lineup-allocation operator into ANY
+    # approved tier. Preserve its output in shared_context for shadow review.
+    # The prior behavior only guarded Tier 1 and permitted Tier 2/3.
+    if (shared_context.get("applied") and not shared_context.get("validated")
+            and not baseline_only):
+        decided["final_rank"] = _lower_final(decided["final_rank"], "Watchlist")
+        decided["reason"] = "UNVALIDATED_CONTEXT_ADJUSTMENT"
     if decided["final_rank"] == "Tier 1" and (not blend["validated"] or
             not reads_result.get("reliable") or not engine_a['reliable'] or
             (shared_context['applied'] and not shared_context['validated'])):
