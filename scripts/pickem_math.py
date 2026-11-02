@@ -439,8 +439,10 @@ def consensus(books: list[tuple[str, float, float, float]], retrieved_minutes_ag
         rule = "single matched lowest-vig sharp quote"
         sharp_spread = max(row["q_market"] for row in sharp) - min(
             row["q_market"] for row in sharp)
+        # A retail price shorter than the sharp benchmark is a review flag;
+        # a longer retail quote does not displace the sharp benchmark.
         retail_disagreement = any(
-            _exceeds(abs(row["q_market"] - base), DISAGREE) for row in retail)
+            _exceeds(row["q_market"] - base, DISAGREE) for row in retail)
         if _exceeds(sharp_spread, DISAGREE) or retail_disagreement:
             out["flags"].append(
                 "DISAGREE: sharp/retail matched quotes differ materially; "
