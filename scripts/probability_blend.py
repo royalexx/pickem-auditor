@@ -160,6 +160,18 @@ def fit(rows):
                                 holdout_dates=len(days), improvement_ci_low=lower))
 
 
+def canonical_player_game(row):
+    """Stable game/player/stat training unit; no name/date inference."""
+    inputs=row.get("inputs") if isinstance(row.get("inputs"),dict) else {}
+    namespace=str(row.get("event_id_namespace") or inputs.get("event_id_namespace") or "").strip()
+    event_id=str(row.get("event_id") or inputs.get("event_id") or "").strip()
+    player_id=str(row.get("player_id") or inputs.get("player_id") or "").strip()
+    if not namespace or not event_id or not player_id:
+        return None
+    return json.dumps([row.get("sport"),namespace,event_id,player_id,row.get("stat")],
+                      separators=(",",":"),ensure_ascii=False)
+
+
 def from_snapshots(rows, scope):
     """Only forecasts from current engines qualify; keep earliest per prop."""
     selected = {}
@@ -190,11 +202,8 @@ def from_snapshots(rows, scope):
         # A display name and calendar date do not identify a unique game.
         # Require collector-owned event/player IDs (same-name players and
         # doubleheaders exist) and a settlement timestamp after game start.
-        inputs=row.get("inputs") if isinstance(row.get("inputs"),dict) else {}
-        namespace=str(row.get("event_id_namespace") or inputs.get("event_id_namespace") or "").strip()
-        event_id=str(row.get("event_id") or inputs.get("event_id") or "").strip()
-        player_id=str(row.get("player_id") or inputs.get("player_id") or "").strip()
-        if not namespace or not event_id or not player_id:
+        ident=canonical_player_game(row)
+        if ident is None:
             continue
         try:
             settled=datetime.fromisoformat(str(row["settled_at"]).replace('Z','+00:00'))
@@ -202,9 +211,9 @@ def from_snapshots(rows, scope):
         except (KeyError,ValueError,TypeError,AttributeError):continue
         # One player-game-stat contributes at most one supervised training
         # observation. Extra sides/lines cannot inflate confidence/ESS.
-        player_game=json.dumps([row['sport'],namespace,event_id,player_id,row['stat']],
-                               separators=(",",":"),ensure_ascii=False)
-        ident=player_game
+        player_game=ident
+        parts=json.loads(ident)
+        namespace,event_id=parts[1],parts[2]
         if ident in selected:
             if selected[ident]['outcome'] != row['outcome']:
                 # Different lines can legitimately have different outcomes;
