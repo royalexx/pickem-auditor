@@ -97,12 +97,21 @@ def fit_scopes(rows,root,as_of=None):
                 {'q_win_b':.5,'q_push_b':0,'reliable':True,'abstain':False},pb.config_path(root,scope),scope=scope,as_of=as_of)
             cfg=fit(rows,scope,fingerprint=deployed.get('config_version') or 'A_ONLY')
             if eligible(cfg,scope,cfg['blend_fingerprint'],as_of):
-                target.parent.mkdir(parents=True,exist_ok=True);tmp=target.with_suffix('.tmp')
-                tmp.write_text(json.dumps(cfg,indent=2)+'\n');tmp.replace(target)
-                result[scope]={'status':'validated','validation':cfg['validation']};continue
+                # Candidate evaluation is not authorization for deployment.
+                # Never overwrite the registered context certificate here.
+                proposal=(Path(root)/'reports'/'calibration_candidates'/
+                          'context_validation'/target.name)
+                proposal.parent.mkdir(parents=True,exist_ok=True)
+                tmp=proposal.with_suffix('.tmp')
+                tmp.write_text(json.dumps(cfg,indent=2,sort_keys=True)+'\n')
+                tmp.replace(proposal)
+                result[scope]={'status':'candidate_pending_registration',
+                    'path':str(proposal),'validation':cfg['validation'],
+                    'production_unchanged':True};continue
             reason='holdout_improvement_not_established'
         except (ValueError,KeyError,TypeError) as exc:reason=str(exc)
-        target.unlink(missing_ok=True);result[scope]={'status':'underpowered_or_unvalidated','reason':reason}
+        result[scope]={'status':'underpowered_or_unvalidated','reason':reason,
+                       'production_unchanged':True}
     return result
 
 if __name__=='__main__':
