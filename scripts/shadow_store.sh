@@ -61,6 +61,20 @@ if [[ "$mode" == load ]]; then
       mkdir -p data/nfl_context
       cp -an "$tmpdir/data/nfl_context/." data/nfl_context/
     fi
+    # Full Bayesian NHL goalie saves forecasts were previously artifact-only.
+    # Restore prospectively stamped sidecars before any afternoon retry.
+    if [[ -d "$tmpdir/data/nhl_joint_saves_shadow" ]]; then
+      mkdir -p data/nhl_joint_saves_shadow
+      cp -an "$tmpdir/data/nhl_joint_saves_shadow/." data/nhl_joint_saves_shadow/
+    fi
+    # Deployment certificates are read-only on restore. A manual, reviewed
+    # registration is required to replace a committed certificate.
+    for registry in probability_blend context_validation; do
+      if [[ -d "$tmpdir/config/$registry" ]]; then
+        mkdir -p "config/$registry"
+        cp -an "$tmpdir/config/$registry/." "config/$registry/"
+      fi
+    done
     # Verification sidecars are independent of original forecasts and may be
     # updated before game start. Old decision receipts must remain intact.
     if [[ -d "$tmpdir/data/verification" ]]; then
@@ -186,6 +200,47 @@ PY
     mkdir -p "$tmpdir/tree/data/posterior_mc"
     cp -a data/posterior_mc/. "$tmpdir/tree/data/posterior_mc/"
   fi
+  if [[ -d data/nhl_joint_saves_shadow ]]; then
+    # Keep original bytes on retry; only appended prospective records are valid.
+    while IFS= read -r -d '' forecast; do
+      relative="${forecast#data/nhl_joint_saves_shadow/}"
+      target="$tmpdir/tree/data/nhl_joint_saves_shadow/$relative"
+      if [[ -e "$target" ]]; then
+        python - "$target" "$forecast" <<'PY_SAVES'
+import sys
+from pathlib import Path
+old=Path(sys.argv[1]).read_bytes()
+new=Path(sys.argv[2]).read_bytes()
+if not new.startswith(old):
+    raise SystemExit('IMMUTABLE_NHL_SAVES_SHADOW_CONFLICT: '+sys.argv[2])
+PY_SAVES
+      fi
+    done < <(find data/nhl_joint_saves_shadow -type f -name '*.jsonl' -print0)
+    mkdir -p "$tmpdir/tree/data/nhl_joint_saves_shadow"
+    cp -an data/nhl_joint_saves_shadow/. "$tmpdir/tree/data/nhl_joint_saves_shadow/"
+    # Files extending historical prefixes must be copied over the old file,
+    # after the immutable-prefix test above.
+    for forecast in data/nhl_joint_saves_shadow/*.jsonl; do
+      [[ ! -f "$forecast" ]] || cp -p "$forecast" "$tmpdir/tree/$forecast"
+    done
+    git -C "$tmpdir/tree" add -f data/nhl_joint_saves_shadow/
+  fi
+  # Persist reviewed calibration certificates to the same immutable data branch.
+  # Never allow a new weekly fit to silently replace an active deployment.
+  for registry in probability_blend context_validation; do
+    if [[ -d "config/$registry" ]]; then
+      while IFS= read -r -d '' certificate; do
+        target="$tmpdir/tree/$certificate"
+        if [[ -e "$target" ]] && ! cmp -s "$certificate" "$target"; then
+          echo "IMMUTABLE_REGISTERED_CERTIFICATE_CONFLICT: $certificate" >&2
+          exit 2
+        fi
+      done < <(find "config/$registry" -type f -name '*.json' -print0)
+      mkdir -p "$tmpdir/tree/config/$registry"
+      cp -an "config/$registry/." "$tmpdir/tree/config/$registry/"
+      git -C "$tmpdir/tree" add -f "config/$registry/"
+    fi
+  done
   if [[ -d data/nfl_context ]]; then
     while IFS= read -r -d '' forecast; do
       relative="${forecast#data/nfl_context/}"
