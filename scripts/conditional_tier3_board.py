@@ -212,7 +212,12 @@ def build(rows, queue, packet, date, *, now=None, decisions=(),
             rejected["refreshed_market_grade_invalid"] += 1
             continue
         gap = score["q_gap"]
-        if (score["status"] != "GRADED" or
+        # Conditional research candidates must have a supported positive
+        # reference edge; large disagreements remain for separate review.
+        quality = assess_tier("Tier 3", p,
+                              q_market=score["q_market_comparable"],
+                              require_edge=True)
+        if (score["status"] != "GRADED" or not quality["eligible"] or
                 score["probability_rank"] not in
                 ("NUMERIC_TIER_1","NUMERIC_TIER_2","NUMERIC_TIER_3") or
                 gap < .03 or abs(gap) >= pm.GAP_WATCH_CAP-pm.GAP_EPSILON):
