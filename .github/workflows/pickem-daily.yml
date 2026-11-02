@@ -117,6 +117,13 @@ jobs:
               if archive.is_file():
                   settle_ok=step('settle_forecasts',[sys.executable,'scripts/jobs.py','settle'])
                   if settle_ok:
+                      if Path('data/nhl_joint_saves_shadow').is_dir():
+                          step('nhl_saves_shadow_settlements',[sys.executable,
+                               'scripts/nhl_saves_shadow_settle.py',
+                               '--snapshots','data/prop_snapshots.jsonl',
+                               '--forecasts-dir','data/nhl_joint_saves_shadow',
+                               '--out-dir','data/nhl_joint_saves_settlements',
+                               '--receipt','reports/nhl_saves_shadow_settlement_receipt.json'])
                       step('posterior_mc_settled_audit',[sys.executable,
                            'scripts/posterior_mc_audit.py','--original','data/prop_snapshots.jsonl',
                            '--mc-dir','data/posterior_mc','--out','reports/posterior_mc_audit.json'])
@@ -462,7 +469,9 @@ jobs:
             reports/posterior_mc_receipt.json
             reports/posterior_mc_audit.json
             reports/nhl_joint_saves_shadow_receipt.json
+            reports/nhl_saves_shadow_settlement_receipt.json
             data/nhl_joint_saves_shadow/
+            data/nhl_joint_saves_settlements/
             reports/phase4_validation.json
             data/nfl_context/
             reports/nfl_context_daily.json
