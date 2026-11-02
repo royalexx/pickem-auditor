@@ -143,7 +143,7 @@ def _snapshot_models(row,a,b,mc):
         models['legacy_mix70']=blend(models['legacy_a'],models['legacy_b'])
     else:models['legacy_mix70']=None
     models['production']=probability(row.get('q_win'),row.get('q_push'))
-    models['bayes_a']=_sidecar_model(a,expected='history-bayes-v1')
+    models['bayes_a']=_sidecar_model(a,expected=('history-bayes-v1','history-bayes-v2-cdf-fixed'))
     models['bayes_b']=_sidecar_model(b,expected=('usage-bayes-v1','usage-bayes-v2-bounded-exposure'))
     models['bayes_mix70']=blend(models['bayes_a'],models['bayes_b'])
     for engine in ('A','B'):
@@ -168,7 +168,7 @@ def _snapshot_models(row,a,b,mc):
 
 
 def _source_rows(original, directories):
-    a=read_sidecars(directories['a'],version='history-bayes-v1',engine='A')
+    a=read_sidecars(directories['a'],version=('history-bayes-v1','history-bayes-v2-cdf-fixed'),engine='A')
     b=read_sidecars(directories['b'],version=('usage-bayes-v1','usage-bayes-v2-bounded-exposure'),engine='B')
     mc=read_sidecars(directories['mc'],version='posterior-mc-v1')
     counters=Counter()
