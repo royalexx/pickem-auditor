@@ -198,8 +198,7 @@ def diagnostics(idata):
         local=("player_effect","season_toi","season_rate","opponent_rate")
         if any(name not in idata.posterior for name in local):
             raise ValueError("missing_local_nhl_posterior_effects")
-        if idata.posterior.sizes.get("chain") != 4:
-            raise ValueError("strict_nhl_diagnostics_require_four_chains")
+        chains=int(idata.posterior.sizes.get("chain",0))
         selected=[n for n in selected if n in idata.posterior] + list(local)
         if not selected:raise ValueError("missing_population_diagnostic_parameters")
         rh=rhat(idata.posterior,var_names=selected)
@@ -221,13 +220,13 @@ def diagnostics(idata):
     max_r=max(rh_values) if finite else None
     min_e=min(ess_values) if finite else None
     min_tail=min(tail_values) if finite else None
-    healthy=(finite and max_r<=MAX_RHAT and min_e>=MIN_ESS_BULK
+    healthy=(finite and chains==4 and max_r<=MAX_RHAT and min_e>=MIN_ESS_BULK
              and min_tail>=MIN_ESS_BULK and divergent==0
              and depth_hits==0 and extra["correlation_and_energy_check_pass"])
     return {"status":"sampling_diagnostics_pass" if healthy else "sampling_diagnostics_failed",
             "max_rhat":max_r,"min_bulk_ess":min_e,"min_tail_ess":min_tail,
             "max_treedepth_hits":depth_hits,
-            "diagnosed_all_effects":True,"sampler_chains":4,
+            "diagnosed_all_effects":True,"sampler_chains":chains,
             "divergences":divergent,
             "joint_geometry":extra,
             "posterior_sampling_ok":bool(healthy),
