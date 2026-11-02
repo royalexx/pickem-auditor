@@ -92,12 +92,13 @@ def original_key(row):
 def read_sidecars(directory, *, version, engine=None):
     """Reject source corruption and identity clashes instead of silent wins."""
     records={}
+    versions=(version,) if isinstance(version,str) else tuple(version)
     folder=Path(directory)
     for file in sorted(folder.glob('*.jsonl')) if folder.is_dir() else ():
         if file.stem!=file.stem[:10] or not _date_str(file.stem):
             raise ValueError('unexpected_sidecar_filename')
         for item in shadow._read(file):
-            if (item.get('version')!=version or item.get('publication_eligible') is not False
+            if (item.get('version') not in versions or item.get('publication_eligible') is not False
                     or item.get('game_date')!=file.stem):
                 raise ValueError('invalid_phase4_source_sidecar')
             key=(shadow.ashad._identity(item) if engine=='A' else shadow.identity(item))
@@ -116,7 +117,8 @@ def _date_str(x):
 def _sidecar_model(item, *, expected, parent=None):
     if not isinstance(item,dict) or item.get('status')!='forecast':
         return None
-    if item.get('version')!=expected or item.get('publication_eligible') is not False:
+    versions=(expected,) if isinstance(expected,str) else tuple(expected)
+    if item.get('version') not in versions or item.get('publication_eligible') is not False:
         return None
     if not item.get('source_digest'):
         return None
@@ -142,7 +144,7 @@ def _snapshot_models(row,a,b,mc):
     else:models['legacy_mix70']=None
     models['production']=probability(row.get('q_win'),row.get('q_push'))
     models['bayes_a']=_sidecar_model(a,expected='history-bayes-v1')
-    models['bayes_b']=_sidecar_model(b,expected='usage-bayes-v1')
+    models['bayes_b']=_sidecar_model(b,expected=('usage-bayes-v1','usage-bayes-v2-bounded-exposure'))
     models['bayes_mix70']=blend(models['bayes_a'],models['bayes_b'])
     for engine in ('A','B'):
         name='mc_'+engine.lower()
@@ -152,8 +154,7 @@ def _snapshot_models(row,a,b,mc):
         if (isinstance(data,dict) and data.get('status')=='forecast'
                 and data.get('version')=='posterior-mc-v1'
                 and data.get('publication_eligible') is False and
-                data.get('bayesian_parent_version')==('history-bayes-v1' if engine=='A' else 'usage-bayes-v1')
-                and parent is not None and data.get('source_digest')==parent.get('source_digest')):
+                parent is not None and data.get('bayesian_parent_version')==parent.get('version') and data.get('source_digest')==parent.get('source_digest')):
             analytic=_sidecar_model(parent,expected=data['bayesian_parent_version'])
             if analytic is not None:
                 try:
@@ -168,7 +169,7 @@ def _snapshot_models(row,a,b,mc):
 
 def _source_rows(original, directories):
     a=read_sidecars(directories['a'],version='history-bayes-v1',engine='A')
-    b=read_sidecars(directories['b'],version='usage-bayes-v1',engine='B')
+    b=read_sidecars(directories['b'],version=('usage-bayes-v1','usage-bayes-v2-bounded-exposure'),engine='B')
     mc=read_sidecars(directories['mc'],version='posterior-mc-v1')
     counters=Counter()
     eligible={}
