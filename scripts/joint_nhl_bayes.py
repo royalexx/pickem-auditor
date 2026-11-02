@@ -209,7 +209,15 @@ def diagnostics(idata):
         tail_values=_diagnostic_values(tail)
         divergent=int(np.asarray(idata.sample_stats["diverging"]).sum())
         depth=idata.sample_stats.get("reached_max_treedepth")
-        depth_hits=(int(np.asarray(depth).sum()) if depth is not None else None)
+        if depth is not None:
+            depth_hits=int(np.asarray(depth).sum())
+            depth_source="reached_max_treedepth"
+        elif "tree_depth" in idata.sample_stats:
+            depth_hits=int(np.sum(np.asarray(idata.sample_stats["tree_depth"]) >= 10))
+            depth_source="tree_depth_default_max10"
+        else:
+            depth_hits=None
+            depth_source="unavailable"
         import joint_nhl_posterior_audit as joint_geometry
         extra=joint_geometry.geometry_stats(idata)
     except (ValueError,TypeError,AttributeError,KeyError,ImportError) as exc:
@@ -225,7 +233,7 @@ def diagnostics(idata):
              and depth_hits==0 and extra["correlation_and_energy_check_pass"])
     return {"status":"sampling_diagnostics_pass" if healthy else "sampling_diagnostics_failed",
             "max_rhat":max_r,"min_bulk_ess":min_e,"min_tail_ess":min_tail,
-            "max_treedepth_hits":depth_hits,
+            "max_treedepth_hits":depth_hits,"treedepth_diagnostic_source":depth_source,
             "diagnosed_all_effects":True,"sampler_chains":chains,
             "divergences":divergent,
             "joint_geometry":extra,
