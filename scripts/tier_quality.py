@@ -30,6 +30,7 @@ def assess(tier, q_win, *, blend_validated=False, q_market=None, require_edge=Fa
               "minimum_model_probability": PREDICTIVE_FLOORS.get(tier),
               "target_is_observed": False, "empirical_hit_rate_certified": False,
               "quality_definition": DESCRIPTION.get(tier, "No approved tier"),
+              "reference_edge_evaluated": False,
               "value_evaluated": False, "market_reference_edge": None,
               "expected_value_evaluated": False}
     floor = PREDICTIVE_FLOORS.get(tier)
@@ -52,7 +53,7 @@ def assess(tier, q_win, *, blend_validated=False, q_market=None, require_edge=Fa
             result["reason"] = "COMPARABLE_MARKET_INVALID"
             return result
         result["market_reference_edge"] = q_win - q_market
-        result["value_evaluated"] = True
+        result["reference_edge_evaluated"] = True
         if q_win + 1e-12 < q_market:
             result["reason"] = "NEGATIVE_MARKET_REFERENCE_EDGE"
             return result
