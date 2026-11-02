@@ -220,12 +220,16 @@ def _source_rows(original, directories):
             None if frozen in ambiguous else a.get(frozen[0]),
             None if frozen in ambiguous else b.get(frozen[1]),
             None if frozen in ambiguous else mc.get(frozen[1]))
+        a_parent=None if frozen in ambiguous else a.get(frozen[0])
+        b_parent=None if frozen in ambiguous else b.get(frozen[1])
         result.append({'date':row['game_date'],'sport':row['sport'],
             'stat':row['stat'],'side':row['side'],
             'tier':str(row.get('final_rank') or 'Unknown'),
             'game':str(row.get('event_id') or row.get('matchup') or ''),
             'outcome':row['outcome'],'at':row['_forecast'],'settled_at':row['_settled'],
             'model':models,
+            'bayesian_a_version':a_parent.get('version') if a_parent else None,
+            'bayesian_b_version':b_parent.get('version') if b_parent else None,
             'context_applied':(row.get('shared_context') or {}).get('applied') is True,
             'role_change':(row.get('inputs') or {}).get('role_change') is True,
             'closing_q':row.get('closing_q_market'),
@@ -407,7 +411,12 @@ def validate(original,*,a_dir,b_dir,mc_dir):
                    r['model']['bayes_mix70'] is not None and
                    r['model']['mc_mix70'] is not None]
     shadow_dates=len({r['date'] for r in shadow_cohort})
-    shadow_qualified=(len(shadow_cohort)>=HOLDOUT_N and shadow_dates>=HOLDOUT_DAYS)
+    shadow_versions=sorted({(r['bayesian_a_version'],r['bayesian_b_version'])
+                             for r in shadow_cohort})
+    # Do not certify a pooled cohort containing different likelihood/CDF laws.
+    version_consistent=len(shadow_versions)==1
+    shadow_qualified=(len(shadow_cohort)>=HOLDOUT_N and shadow_dates>=HOLDOUT_DAYS
+                      and version_consistent)
     return {'schema':'phase4_chronological_validation_v1','version':VERSION,
         'status':'holdout_descriptive_only' if legacy_qualified and shadow_qualified
                  else 'underpowered_or_no_prospective_shadow',
@@ -421,7 +430,9 @@ def validate(original,*,a_dir,b_dir,mc_dir):
             'holdout_sample_threshold_met':legacy_qualified,
             'matched_legacy_bayesian_mc_holdout_n':len(shadow_cohort),
             'matched_legacy_bayesian_mc_holdout_dates':shadow_dates,
-            'shadow_holdout_sample_threshold_met':shadow_qualified},
+            'shadow_holdout_sample_threshold_met':shadow_qualified,
+            'shadow_posterior_version_pairs':shadow_versions,
+            'shadow_version_lineage_consistent':version_consistent},
         'holdout_models':model_metrics,'paired_holdout':paired,
         'calibration_by_model':{m:_walk_forward(records,m,train_dates,test_dates)
                                 for m in ('legacy_a','legacy_b','legacy_mix70',
@@ -430,6 +441,7 @@ def validate(original,*,a_dir,b_dir,mc_dir):
         'closing_market':_market(test),
         'limitations':[
            'Historical Bayesian and MC predictions are never backfilled after outcomes',
+           'Pooled shadow scores spanning legacy/new posterior versions are descriptive only; version-pair cohort consistency is required for confirmation',
            'A/B share historical evidence; the diagnostic 70/30 blends are not independent votes',
            'Selection and sample limitations remain; no automatic tier or weight changes',
            'Small sport/stat/tier or reliability bins are explicitly descriptive',
