@@ -52,6 +52,14 @@ class BoardTests(unittest.TestCase):
         board=build(rows,[low],DATE,now=NOW)
         self.assertFalse(board["verified_picks"])
 
+    def test_high_confidence_but_negative_market_reference_edge_is_rejected(self):
+        rows, _, _ = fixture()
+        high_market = receipt(rows[0], tier="Tier 2")
+        high_market["decisions"][0]["verified_market_probability"] = .90
+        board = build(rows, [high_market], DATE, now=NOW)
+        self.assertEqual(board["verified_picks"], [])
+        self.assertEqual(board["excluded"]["tier_quality_definition_not_met"], 1)
+
     def test_latest_negative_recheck_vetoes_prior_verification(self):
         rows,_,_=fixture()
         board=build(rows,[receipt(rows[0]),receipt(rows[0],"blocked",
