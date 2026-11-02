@@ -109,7 +109,8 @@ def build(rows, receipts, date, *, now=None, max_age_minutes=60):
         from tier_quality import assess as assess_tier_quality
         tier_quality = assess_tier_quality(
             decision["verified_rank"], p,
-            blend_validated=decision.get("blend_validated") is True)
+            blend_validated=decision.get("blend_validated") is True,
+            q_market=m, require_edge=True)
         if not tier_quality["eligible"]:
             exclusions["tier_quality_definition_not_met"] += 1
             continue
