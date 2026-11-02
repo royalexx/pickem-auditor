@@ -433,6 +433,17 @@ jobs:
             --date "$day" \
             --out "data/nhl_joint_saves_shadow/$day.jsonl" \
             --receipt reports/nhl_joint_saves_shadow_receipt.json
+      - name: Persist immutable NHL saves shadows after scoring
+        if: steps.gate.outputs.phase == 'afternoon'
+        run: |
+          # Saves scoring is optional and never changes the ranked board.
+          # A successful shadow output must outlive the current Actions artifact.
+          day="$(TZ=America/Toronto date +%F)"
+          if [[ -s "data/nhl_joint_saves_shadow/$day.jsonl" ]]; then
+            bash scripts/shadow_store.sh save
+          else
+            echo "No NHL saves shadow forecast to persist."
+          fi
       - name: Upload collection receipt
         if: always() && steps.gate.outputs.phase != 'skip'
         uses: actions/upload-artifact@v4
