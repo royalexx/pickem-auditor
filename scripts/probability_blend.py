@@ -192,7 +192,12 @@ def from_snapshots(rows, scope):
 
 
 def fit_scopes(rows, root, *, as_of=None):
-    """Fit each current runtime scope; retire stale weights if evidence fails."""
+    """Fit candidates without silently registering or deleting live certificates.
+
+    Existing valid deployments are retained. New candidates are written under
+    reports/ for explicit offline review; activation must be a separate
+    controlled operation after provenance and prospective policy validation.
+    """
     scopes={f"{r.get('sport')}|{r.get('stat')}" for r in rows if r.get('sport') and r.get('stat')}
     directory=Path(root)/'config'/'probability_blend'
     # Existing scopes must be re-evaluated even if their qualifying rows vanish.
@@ -200,7 +205,9 @@ def fit_scopes(rows, root, *, as_of=None):
         for path in directory.glob('*.json'):
             try:scopes.add(json.loads(path.read_text())['scope'])
             except (ValueError,KeyError):
-                path.unlink()
+                # Unknown/invalid files are never promoted by combine().
+                # Retain bytes for investigation and rollback, not auto-delete.
+                continue
     results={}
     for scope in sorted(scopes):
         path=config_path(root,scope)
@@ -219,17 +226,21 @@ def fit_scopes(rows, root, *, as_of=None):
                       ev['blend_log_loss']<ev['a_log_loss'] and
                       date.fromisoformat(ev['holdout_end'])<(as_of or date.today()))
             if eligible:
-                path.parent.mkdir(parents=True,exist_ok=True)
-                temporary=path.with_suffix('.tmp')
-                temporary.write_text(json.dumps(cfg,indent=2)+'\n')
-                temporary.replace(path)
-                results[scope]={'status':'validated','path':str(path),'validation':ev}
+                proposal=(Path(root)/'reports'/'calibration_candidates'/
+                          'probability_blend'/path.name)
+                proposal.parent.mkdir(parents=True,exist_ok=True)
+                temporary=proposal.with_suffix('.tmp')
+                temporary.write_text(json.dumps(cfg,sort_keys=True,indent=2)+'\n')
+                temporary.replace(proposal)
+                results[scope]={'status':'candidate_pending_registration',
+                                'path':str(proposal),'validation':ev,
+                                'production_unchanged':True}
                 continue
             reason='holdout_improvement_not_established'
         except (ValueError,KeyError,TypeError) as exc:
             reason=str(exc)
-        path.unlink(missing_ok=True)
-        results[scope]={'status':'underpowered_or_unvalidated','reason':reason}
+        results[scope]={'status':'underpowered_or_unvalidated','reason':reason,
+                        'production_unchanged':True}
     return results
 
 
