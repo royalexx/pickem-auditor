@@ -44,6 +44,26 @@ class ReportTests(unittest.TestCase):
         self.assertEqual(bins["0.60+"]["status"], "insufficient")
         self.assertEqual(bins["0.50-0.52"]["n"], 1)
 
+    def test_matched_market_comparison_requires_same_pregame_cohort(self):
+        rows = [
+            _settled_row(player="A", q_grade=.8, q_market_comparable=.6,
+                         forecast_at="2026-10-01T18:00:00Z",
+                         event_start="2026-10-01T23:00:00Z"),
+            _settled_row(player="B", q_grade=.1, q_market_comparable=None,
+                         outcome="loss", actual_stat=1,
+                         forecast_at="2026-10-01T18:00:00Z",
+                         event_start="2026-10-01T23:00:00Z"),
+            _settled_row(player="C", q_grade=.9, q_market_comparable=.1),
+        ]
+        report = rp.build_report(rows)
+        self.assertEqual(report["n_scored"], 3)
+        self.assertEqual(report["n_matched_pregame"], 1)
+        self.assertEqual(report["n_scored_with_unknown_clock"], 1)
+        self.assertAlmostEqual(report["brier_model_matched"], .04)
+        self.assertAlmostEqual(report["brier_market_matched"], .16)
+        self.assertGreater(report["brier_market_comparable"], .16)
+        self.assertIn("n_matched_pregame=1", rp.format_report(report))
+
     def test_dedupes_duplicate_side_rows(self):
         rows = [
             _settled_row(settled_at="2026-10-02T00:00:00+00:00"),
