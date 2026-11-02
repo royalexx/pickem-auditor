@@ -350,8 +350,10 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
                               or not probability(grade.get("q_market_comparable"))):
             reasons.append("CURRENT_NUMERIC_GRADE_UNVERIFIED")
         from tier_quality import assess as assess_tier_quality
-        tier_quality = assess_tier_quality(rank, grade.get("q_model"),
-                                           blend_validated=blend.get("validated") is True)
+        tier_quality = assess_tier_quality(
+            rank, grade.get("q_model"),
+            blend_validated=blend.get("validated") is True,
+            q_market=grade.get("q_market_comparable"), require_edge=True)
         if rank in TIERS and not tier_quality["eligible"]:
             reasons.append("TIER_QUALITY_" + tier_quality["reason"])
         accepted = not reasons and rank in TIERS
