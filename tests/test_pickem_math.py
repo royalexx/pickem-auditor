@@ -542,7 +542,7 @@ class GapBoundaryTests(unittest.TestCase):
         self.assertEqual(graded["probability_rank"], "NUMERIC_TIER_1")
         self.assertTrue(graded["unicorn_numeric"])
         decided = pm.decide(0.61, 0.58, 0, 30, mechanisms=2, research_checklist=True)
-        self.assertEqual(decided["final_rank"], "Tier 1")
+        self.assertEqual(decided["final_rank"], "Watchlist")
 
     def test_market_below_58_caps_the_numeric_band(self):
         graded = pm.grade(0.60, 0.57, 0, 30)
@@ -616,14 +616,31 @@ class ReconciliationTests(unittest.TestCase):
 
     def test_final_rank_blocks_a_numeric_unicorn(self):
         perfect = dict(q_model=0.61, q_market=0.60, soft_flags=0, current_role_n=20, q_push=0)
-        self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=True)["final_rank"], "Tier 1")
-        self.assertEqual(pm.decide(**perfect, mechanisms=1, research_checklist=True)["final_rank"], "Tier 2")
+        self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=True)["final_rank"], "Watchlist")
+        self.assertEqual(pm.decide(**perfect, mechanisms=1, research_checklist=True)["final_rank"], "Watchlist")
         self.assertEqual(pm.decide(**perfect, mechanisms=0, research_checklist=True)["final_rank"], "Watchlist")
-        self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=False)["final_rank"], "Tier 2")
+        self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=False)["final_rank"], "Watchlist")
         self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=True, hard_veto=True)["final_rank"], "Reject")
         self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=True, data_veto=True)["final_rank"], "Unranked")
         self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=True, market_valid=False)["final_rank"], "Unranked")
 
+
+    def test_core_finalizer_does_not_publish_legacy_screening_bands(self):
+        for forecast in (0.57, 0.58, 0.61, 0.69):
+            value = pm.decide(forecast, forecast-0.01, 0, 30,
+                              mechanisms=2, research_checklist=True)
+            self.assertEqual(value["final_rank"], "Watchlist")
+            self.assertIn(value["probability_rank"],
+                          {"NUMERIC_TIER_1", "NUMERIC_TIER_2",
+                           "NUMERIC_TIER_3", "WATCHLIST"})
+        good = pm.decide(.82, .79, 1, 30, mechanisms=2, research_checklist=True)
+        self.assertEqual(good["final_rank"], "Tier 2")
+        negative = pm.decide(.82, .85, 1, 30,
+                             mechanisms=2, research_checklist=True)
+        self.assertEqual(negative["final_rank"], "Watchlist")
+        unicorn = pm.decide(.92,.91,0,30,mechanisms=2,
+                            research_checklist=True,blend_validated=True)
+        self.assertEqual(unicorn["final_rank"], "Tier 1")
 
 class EnforcementTests(unittest.TestCase):
     def _rank(self, q_model, q_market, flags, role_n, mechanisms, **extra):
@@ -636,8 +653,8 @@ class EnforcementTests(unittest.TestCase):
         )
 
     def test_soft_flag_ceilings(self):
-        self.assertEqual(self._rank(0.60, 0.60, 1, 20, 2)["final_rank"], "Tier 2")
-        self.assertEqual(self._rank(0.60, 0.60, 2, 20, 2)["final_rank"], "Tier 3")
+        self.assertEqual(self._rank(0.60, 0.60, 1, 20, 2)["final_rank"], "Watchlist")
+        self.assertEqual(self._rank(0.60, 0.60, 2, 20, 2)["final_rank"], "Watchlist")
         self.assertEqual(self._rank(0.60, 0.60, 3, 20, 2)["final_rank"], "Watchlist")
         self.assertNotEqual(self._rank(0.575, 0.59, 0, 20, 2)["final_rank"], "Tier 1")
         self.assertEqual(self._rank(0.55, 0.55, 0, 20, 2)["final_rank"], "Watchlist")
@@ -696,7 +713,7 @@ class EnforcementTests(unittest.TestCase):
         )
         self.assertNotIn("ROLE_EB", hot["notes"])
         thin = self._rank(0.70, 0.70, 0, 7, 2, role_change=True)
-        self.assertEqual(thin["final_rank"], "Tier 2")
+        self.assertEqual(thin["final_rank"], "Watchlist")
         self.assertIn("LOW_SAMPLE", thin["notes"])
 
     def test_context_weight_is_not_a_prior_toward_the_baseline(self):
@@ -717,7 +734,7 @@ class EnforcementTests(unittest.TestCase):
         decided = pm.decide(0.60, 0.60, 1, 20, mechanisms=2, research_checklist=True)
         self.assertEqual(scored["probability_rank"], decided["probability_rank"])
         self.assertEqual(scored["soft_flags"], decided["soft_flags"])
-        self.assertEqual(decided["final_rank"], "Tier 2")
+        self.assertEqual(decided["final_rank"], "Watchlist")
 
 
 class PipelineTests(unittest.TestCase):
