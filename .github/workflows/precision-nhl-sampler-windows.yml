@@ -31,7 +31,8 @@ jobs:
     # allowed once this workflow exists on main.
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.id == 40993538888) }}
     runs-on: [self-hosted, Windows, X64, pickem-trainer]
-    timeout-minutes: 360
+    # GitHub self-hosted job execution limit is five days; no shorter repo-specific timeout.
+    timeout-minutes: 7200
     env:
       CUTOFF: '2026-10-29'
       JAX_PLATFORMS: cpu

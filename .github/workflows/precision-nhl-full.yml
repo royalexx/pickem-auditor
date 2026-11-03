@@ -28,7 +28,8 @@ concurrency:
 jobs:
   full-nhl-training:
     runs-on: [self-hosted, Windows, X64, pickem-trainer]
-    timeout-minutes: 2880
+    # GitHub self-hosted job execution limit is five days; no shorter repo-specific timeout.
+    timeout-minutes: 7200
     env:
       CUTOFF: ${{ inputs.as_of }}
       MODE: pregame_fit

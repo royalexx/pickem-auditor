@@ -54,7 +54,8 @@ jobs:
     # Native Windows 11: NO Ubuntu, WSL2 or Linux runner required.
     # This job only executes on the user's explicitly registered laptop.
     runs-on: [self-hosted, Windows, X64, pickem-trainer]
-    timeout-minutes: 2880
+    # GitHub self-hosted job execution limit is five days; no shorter repo-specific timeout.
+    timeout-minutes: 7200
     env:
       SPORT: ${{ inputs.sport }}
       STAT: ${{ inputs.stat }}
