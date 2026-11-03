@@ -227,3 +227,48 @@ The [multi-season population workflow](references/recent_multiseason_bayesian_tr
 ## Research-ranked candidates versus verified picks
 
 Each afternoon and applicable pregame recheck now builds a separate `reports/research_ranked_board.json`. Its **Research Tier 2 / Research Tier 3** entries are source-forecast-linked numeric rankings **pending availability, causal research and refreshed market verification**. They are not approved picks, are not actionable without those checks, and cannot replace or silently populate `reports/verified_board.json`. The verified board remains the sole final Tier 1–3 publication source. See [research ranking recovery and verification options](references/research_ranked_recovery_20261028.md).
+
+## Daily odds history and calibration (no PuckAPI)
+
+The new `scripts/market_odds_archive.py` archives **only already-fetched**,
+approved two-sided player-prop prices. It does not scrape websites or make
+additional sportsbook/API requests. It stores immutable per-run market snapshots
+on the private `data/shadow-calibration` branch alongside forecast history.
+
+| Stage | Trigger | Output |
+|---|---|---|
+| Morning | Manual `pickem-daily.yml` / `morning` | Initial source receipt, optionally real odds |
+| Afternoon | Manual `pickem-daily.yml` / `afternoon` | Exact bookmaker prices observed before forecasts, plus model-vs-market comparisons |
+| Pregame | Manual `pregame-verification.yml` | Refreshed due-candidate prices and later line movement; reuse in Conditional Tier 3 |
+| Next morning | Morning settlement | Read-only Brier calibration against settled player results |
+
+**Morning costs:** the morning collector keeps `PICKEM_DISABLE_ODDS=1` by
+default. An explicit `morning_odds=true` manual-dispatch input requests new
+quota-guarded morning player-prop prices. Without that opt-in, morning writes
+a `no_eligible_market_quotes` receipt, never fabricated lines.
+
+**Evening limitations:** pregame observations are captured only for candidates
+actually selected by the existing verification workflow, not necessarily every
+player on the slate. The second pregame model check reuses the verified
+refreshed quote batch rather than consuming another provider request.
+
+**Immutability:** each capture uses
+`data/market_odds_history/YYYY-MM-DD/{morning,afternoon,pregame}/<run-id>-<attempt>.json`.
+An existing capture with different content is rejected. Full source metadata,
+event/player identity, bookmaker, line, paired prices, quote-update time,
+collector-observation time, and a SHA-256 digest are preserved. No snapshot
+after a prediction can be used as that prediction's original market price.
+Later pregame line movements are reported separately from model calibration.
+
+Run an offline audit (requires restored forecast and market history):
+
+```bash
+python scripts/market_odds_archive.py evaluate --archive-root data/market_odds_history --forecasts data/prop_snapshots.jsonl --out reports/market_odds_evaluation.json
+python -m unittest discover -s tests -p 'test_market_odds_archive.py' -v
+```
+
+The output is **research-only**: no automatic model weighting, tier assignment
+or posterior promotion. Historical prices from unrecorded games cannot be
+reconstructed. Missing/unpriced markets remain explicit. GitHub Actions cron
+remains paused due to usage limits; these workflows currently require manual
+dispatch (or an independently configured authorized runner).
