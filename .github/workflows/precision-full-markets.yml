@@ -142,6 +142,13 @@ jobs:
           }
           $freeze | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 (Join-Path $folder 'freeze_receipt.json')
           Write-Host "FROZEN_CAMPAIGN_STAMP $($freeze | ConvertTo-Json -Compress)"
+      - name: Cache immutable history and prepared market freeze on Dell
+        env:
+          VALIDATE_RESULT: pending
+          FIT_RESULT: pending
+        run: |
+          python scripts/precision_frozen_cache.py snapshot --phase prepared
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Prepare local PyMC training environment
         run: |
           $venv = Join-Path $env:RUNNER_TEMP 'pickem-joint-env'
@@ -173,6 +180,14 @@ jobs:
           python scripts/precision_training_driver.py provenance
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           Write-Host "PRECHECK=$env:VALIDATE_RESULT FIT=$env:FIT_RESULT"
+      - name: Persist final market state and diagnostics outside Actions workspace
+        if: always()
+        env:
+          VALIDATE_RESULT: ${{ steps.preflight.outcome }}
+          FIT_RESULT: ${{ steps.fit.outcome }}
+        run: |
+          python scripts/precision_frozen_cache.py snapshot --phase final
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Upload market posterior and diagnostic receipts immediately
         if: always()
         uses: actions/upload-artifact@v4
