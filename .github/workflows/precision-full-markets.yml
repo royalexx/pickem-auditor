@@ -1,5 +1,5 @@
 name: Precision Windows - full 31-market Bayesian overnight campaign
-run-name: Full joint Bayes market ${{ inputs.index }} of 31 (${{ inputs.max_per_position == '0' && 'all-players' || 'pilot' }})
+run-name: Precision 31-market research campaign (self-hosted)
 on:
   workflow_dispatch:
     inputs:
@@ -24,6 +24,21 @@ on:
         description: Keep a fixed first-run code SHA for reproducible continuation
         required: false
         default: ''
+      source_sha:
+        type: string
+        description: Pin history-warehouse branch commit for recovery
+        required: false
+        default: ''
+      campaign_id:
+        type: string
+        description: Keep same campaign identifier across resumed jobs
+        required: false
+        default: ''
+  # One-time user/ChatGPT launch request. NO scheduled cron jobs.
+  # A change to any other path does NOT start this expensive campaign.
+  push:
+    paths:
+      - '.training-control/start.json'
 
 permissions:
   contents: read
@@ -40,14 +55,21 @@ jobs:
     runs-on: [self-hosted, Windows, X64, pickem-trainer]
     timeout-minutes: 600
     env:
-      INDEX: ${{ inputs.index }}
+      INDEX: ${{ inputs.index || '0' }}
       CODE_HEAD: ${{ inputs.code_sha || github.sha }}
+      SOURCE_FREEZE_SHA: ${{ inputs.source_sha || '' }}
+      CAMPAIGN_ID: ${{ inputs.campaign_id || '' }}
       MODE: pregame_fit
-      CUTOFF: ${{ inputs.as_of }}
-      HOLDOUT_UNTIL: ${{ inputs.as_of }}
+      CUTOFF: ${{ inputs.as_of || '2026-10-29' }}
+      HOLDOUT_UNTIL: ${{ inputs.as_of || '2026-10-29' }}
       LINE: '2.5'
-      MAX_PER_POSITION: ${{ inputs.max_per_position }}
+      MAX_PER_POSITION: ${{ inputs.max_per_position || '0' }}
       MAX_SEASONS: '12'
+      PICKEM_NUTS_CHAINS: '4'
+      PICKEM_NUTS_CORES: '2'
+      PICKEM_NUTS_DRAWS: '2000'
+      PICKEM_NUTS_TUNE: '1800'
+      PICKEM_STRICT_ALL_EFFECTS: '1'
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
       MKL_NUM_THREADS: '1'
@@ -56,12 +78,299 @@ jobs:
       run:
         shell: pwsh
     steps:
-      - name: Check out frozen first-run model code
+      - name: Check out triggering commit to read one-time launch request
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.code_sha || github.sha }}
           fetch-depth: 0
           persist-credentials: true
+      - name: Verify one-time launch and recovery request
+        if: github.event_name == 'push'
+        run: |
+          python -m unittest discover -s tests -p "test_precision_launch_guard.py" -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/precision_launch_guard.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Restore exact immutable code revision
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:CODE_HEAD -notmatch '^[0-9a-f]{40}
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Select exactly one NHL, NBA or NFL statistical market
+        id: market
+        run: |
+          python scripts/precision_campaign_catalog.py --index $env:INDEX --github-env $env:GITHUB_ENV
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Validate exact 31-market taxonomy and sequential recovery
+        run: |
+          python -m unittest discover -s tests -p "test_precision_campaign_catalog.py" -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Retrieve frozen source-owned population history from private GitHub
+        run: |
+          python scripts/history_warehouse_load.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Record immutable code, history and date freeze stamp
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:SOURCE_HEAD -notmatch '^[0-9a-f]{40}
+        run: |
+          $venv = Join-Path $env:RUNNER_TEMP 'pickem-joint-env'
+          python -m venv $venv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $python = Join-Path $venv 'Scripts\python.exe'
+          & $python -m pip install -r requirements-joint-bayes.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $python -c "import pymc,arviz; print('WINDOWS_PYMC_READY',pymc.__version__)"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Verify multi-season full-player source population
+        id: preflight
+        run: |
+          $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
+          & $python scripts/precision_training_driver.py validate
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Sample hierarchical NUTS model with four chains
+        id: fit
+        run: |
+          $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
+          & $python scripts/precision_training_driver.py fit
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Write source, code and training result receipt
+        if: always()
+        env:
+          VALIDATE_RESULT: ${{ steps.preflight.outcome }}
+          FIT_RESULT: ${{ steps.fit.outcome }}
+        run: |
+          python scripts/precision_training_driver.py provenance
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Write-Host "PRECHECK=$env:VALIDATE_RESULT FIT=$env:FIT_RESULT"
+      - name: Upload market posterior and diagnostic receipts immediately
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: precision-full-market-${{ github.run_id }}-${{ inputs.index }}
+          retention-days: 90
+          if-no-files-found: warn
+          path: reports/precision_training/${{ github.run_id }}/
+      # Only advance when preflight, four-chain fit, convergence checks,
+      # provenance and artifact upload all succeeded. A failed/nonconverged
+      # market must be audited before any further expensive training.
+      - name: Queue the next statistical market after verified success
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if (-not $env:NEXT_INDEX) {
+            Write-Host 'FULL_31_MARKET_CAMPAIGN_COMPLETE: reached last market or catalog unavailable'
+            exit 0
+          }
+          $data = @{
+            ref = 'main'
+            inputs = @{
+              index = [string]$env:NEXT_INDEX
+              max_per_position = [string]$env:MAX_PER_POSITION
+              as_of = [string]$env:CUTOFF
+              code_sha = [string]$env:CODE_HEAD
+              source_sha = [string]$env:SOURCE_HEAD
+              campaign_id = [string]$env:CAMPAIGN_ID
+            }
+          } | ConvertTo-Json -Depth 5 -Compress
+          $headers = @{
+            Authorization = "Bearer $env:GH_TOKEN"
+            Accept = 'application/vnd.github+json'
+            'X-GitHub-Api-Version' = '2022-11-28'
+          }
+          Invoke-RestMethod -Uri 'https://api.github.com/repos/royalexx/pickem-auditor/actions/workflows/precision-full-markets.yml/dispatches' -Method Post -Headers $headers -ContentType 'application/json' -Body $data
+          Write-Host "NEXT_MARKET_QUEUED index=$env:NEXT_INDEX current=$env:INDEX code_sha=$env:CODE_HEAD"
+) { throw 'INVALID_FROZEN_CODE_SHA' }
+          git cat-file -e "$($env:CODE_HEAD)^{commit}"
+          if ($LASTEXITCODE -ne 0) { throw 'FROZEN_MODEL_CODE_COMMIT_NOT_FOUND' }
+          git checkout --force --detach $env:CODE_HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'FROZEN_CODE_CHECKOUT_FAILED' }
+          $actual = (git rev-parse HEAD).Trim()
+          if ($actual -ne $env:CODE_HEAD) { throw 'FROZEN_CODE_REVISION_MISMATCH' }
+          Write-Host "VERIFIED_FROZEN_CODE_SHA $actual"
+      - name: Set up isolated Windows Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Select exactly one NHL, NBA or NFL statistical market
+        id: market
+        run: |
+          python scripts/precision_campaign_catalog.py --index $env:INDEX --github-env $env:GITHUB_ENV
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Validate exact 31-market taxonomy and sequential recovery
+        run: |
+          python -m unittest discover -s tests -p "test_precision_campaign_catalog.py" -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Retrieve source-owned population history from private GitHub
+        run: |
+          python scripts/history_warehouse_load.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Prepare local PyMC training environment
+        run: |
+          $venv = Join-Path $env:RUNNER_TEMP 'pickem-joint-env'
+          python -m venv $venv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $python = Join-Path $venv 'Scripts\python.exe'
+          & $python -m pip install -r requirements-joint-bayes.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $python -c "import pymc,arviz; print('WINDOWS_PYMC_READY',pymc.__version__)"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Verify multi-season full-player source population
+        id: preflight
+        run: |
+          $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
+          & $python scripts/precision_training_driver.py validate
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Sample hierarchical NUTS model with four chains
+        id: fit
+        run: |
+          $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
+          & $python scripts/precision_training_driver.py fit
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Write source, code and training result receipt
+        if: always()
+        env:
+          VALIDATE_RESULT: ${{ steps.preflight.outcome }}
+          FIT_RESULT: ${{ steps.fit.outcome }}
+        run: |
+          python scripts/precision_training_driver.py provenance
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Write-Host "PRECHECK=$env:VALIDATE_RESULT FIT=$env:FIT_RESULT"
+      - name: Upload market posterior and diagnostic receipts immediately
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: precision-full-market-${{ github.run_id }}-${{ inputs.index }}
+          retention-days: 90
+          if-no-files-found: warn
+          path: reports/precision_training/${{ github.run_id }}/
+      # Only advance when preflight, four-chain fit, convergence checks,
+      # provenance and artifact upload all succeeded. A failed/nonconverged
+      # market must be audited before any further expensive training.
+      - name: Queue the next statistical market after verified success
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if (-not $env:NEXT_INDEX) {
+            Write-Host 'FULL_31_MARKET_CAMPAIGN_COMPLETE: reached last market or catalog unavailable'
+            exit 0
+          }
+          $data = @{
+            ref = 'main'
+            inputs = @{
+              index = [string]$env:NEXT_INDEX
+              max_per_position = [string]$env:MAX_PER_POSITION
+              as_of = [string]$env:CUTOFF
+              code_sha = [string]$env:CODE_HEAD
+            }
+          } | ConvertTo-Json -Depth 5 -Compress
+          $headers = @{
+            Authorization = "Bearer $env:GH_TOKEN"
+            Accept = 'application/vnd.github+json'
+            'X-GitHub-Api-Version' = '2022-11-28'
+          }
+          Invoke-RestMethod -Uri 'https://api.github.com/repos/royalexx/pickem-auditor/actions/workflows/precision-full-markets.yml/dispatches' -Method Post -Headers $headers -ContentType 'application/json' -Body $data
+          Write-Host "NEXT_MARKET_QUEUED index=$env:NEXT_INDEX current=$env:INDEX code_sha=$env:CODE_HEAD"
+) { throw 'MISSING_HISTORY_SOURCE_SHA' }
+          if ($env:SOURCE_FREEZE_SHA -and $env:SOURCE_HEAD -ne $env:SOURCE_FREEZE_SHA) {
+            throw 'HISTORY_SOURCE_FREEZE_MISMATCH'
+          }
+          $folder = Join-Path 'reports/precision_training' $env:GITHUB_RUN_ID
+          New-Item -ItemType Directory -Force -Path $folder | Out-Null
+          $freeze = [ordered]@{
+            schema = 'precision_campaign_freeze_v1'
+            campaign_id = $env:CAMPAIGN_ID
+            run_id = $env:GITHUB_RUN_ID
+            index = $env:INDEX
+            code_sha = $env:CODE_HEAD
+            source_sha = $env:SOURCE_HEAD
+            as_of_exclusive = $env:CUTOFF
+            max_per_position = $env:MAX_PER_POSITION
+            strict_all_effects = $env:PICKEM_STRICT_ALL_EFFECTS
+            chains = $env:PICKEM_NUTS_CHAINS
+            draws = $env:PICKEM_NUTS_DRAWS
+            tune = $env:PICKEM_NUTS_TUNE
+          }
+          $freeze | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 (Join-Path $folder 'freeze_receipt.json')
+          Write-Host "FROZEN_CAMPAIGN_STAMP $($freeze | ConvertTo-Json -Compress)"
+      - name: Prepare local PyMC training environment
+        run: |
+          $venv = Join-Path $env:RUNNER_TEMP 'pickem-joint-env'
+          python -m venv $venv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $python = Join-Path $venv 'Scripts\python.exe'
+          & $python -m pip install -r requirements-joint-bayes.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $python -c "import pymc,arviz; print('WINDOWS_PYMC_READY',pymc.__version__)"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Verify multi-season full-player source population
+        id: preflight
+        run: |
+          $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
+          & $python scripts/precision_training_driver.py validate
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Sample hierarchical NUTS model with four chains
+        id: fit
+        run: |
+          $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
+          & $python scripts/precision_training_driver.py fit
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Write source, code and training result receipt
+        if: always()
+        env:
+          VALIDATE_RESULT: ${{ steps.preflight.outcome }}
+          FIT_RESULT: ${{ steps.fit.outcome }}
+        run: |
+          python scripts/precision_training_driver.py provenance
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Write-Host "PRECHECK=$env:VALIDATE_RESULT FIT=$env:FIT_RESULT"
+      - name: Upload market posterior and diagnostic receipts immediately
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: precision-full-market-${{ github.run_id }}-${{ inputs.index }}
+          retention-days: 90
+          if-no-files-found: warn
+          path: reports/precision_training/${{ github.run_id }}/
+      # Only advance when preflight, four-chain fit, convergence checks,
+      # provenance and artifact upload all succeeded. A failed/nonconverged
+      # market must be audited before any further expensive training.
+      - name: Queue the next statistical market after verified success
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if (-not $env:NEXT_INDEX) {
+            Write-Host 'FULL_31_MARKET_CAMPAIGN_COMPLETE: reached last market or catalog unavailable'
+            exit 0
+          }
+          $data = @{
+            ref = 'main'
+            inputs = @{
+              index = [string]$env:NEXT_INDEX
+              max_per_position = [string]$env:MAX_PER_POSITION
+              as_of = [string]$env:CUTOFF
+              code_sha = [string]$env:CODE_HEAD
+            }
+          } | ConvertTo-Json -Depth 5 -Compress
+          $headers = @{
+            Authorization = "Bearer $env:GH_TOKEN"
+            Accept = 'application/vnd.github+json'
+            'X-GitHub-Api-Version' = '2022-11-28'
+          }
+          Invoke-RestMethod -Uri 'https://api.github.com/repos/royalexx/pickem-auditor/actions/workflows/precision-full-markets.yml/dispatches' -Method Post -Headers $headers -ContentType 'application/json' -Body $data
+          Write-Host "NEXT_MARKET_QUEUED index=$env:NEXT_INDEX current=$env:INDEX code_sha=$env:CODE_HEAD"
+) { throw 'INVALID_FROZEN_CODE_SHA' }
+          git cat-file -e "$($env:CODE_HEAD)^{commit}"
+          if ($LASTEXITCODE -ne 0) { throw 'FROZEN_MODEL_CODE_COMMIT_NOT_FOUND' }
+          git checkout --force --detach $env:CODE_HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'FROZEN_CODE_CHECKOUT_FAILED' }
+          $actual = (git rev-parse HEAD).Trim()
+          if ($actual -ne $env:CODE_HEAD) { throw 'FROZEN_CODE_REVISION_MISMATCH' }
+          Write-Host "VERIFIED_FROZEN_CODE_SHA $actual"
       - name: Set up isolated Windows Python 3.12
         uses: actions/setup-python@v5
         with:
