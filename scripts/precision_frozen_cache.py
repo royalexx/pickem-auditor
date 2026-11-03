@@ -175,7 +175,9 @@ def snapshot(root: Path, cache: Path, phase: str) -> dict:
     outputs.mkdir(parents=True, exist_ok=True)
     inventory = {}
     for file in source_dir.rglob("*"):
-        if not file.is_file() or file.is_symlink() or file.name.endswith(".pending"):
+        if (not file.is_file() or file.is_symlink()
+                or file.name in ("freeze_cache.json",)
+                or file.name.endswith(".pending")):
             continue
         rel = file.relative_to(source_dir)
         target = outputs / rel

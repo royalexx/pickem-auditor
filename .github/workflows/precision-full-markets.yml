@@ -93,6 +93,10 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python scripts/precision_launch_guard.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Test frozen-history integrity and resumable market receipt cache
+        run: |
+          python -m unittest discover -s tests -p "test_precision_frozen_cache.py" -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Preserve campaign freeze helper across pinned-code checkout
         run: |
           Copy-Item scripts/precision_frozen_cache.py (Join-Path $env:RUNNER_TEMP 'precision_frozen_cache.py') -Force

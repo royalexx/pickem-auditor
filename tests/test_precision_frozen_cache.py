@@ -9,7 +9,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from precision_frozen_cache import archive_is_verified, history_paths, restore_history, sha256, write_json
+from precision_frozen_cache import archive_is_verified, history_paths, restore_history, sha256, snapshot, write_json
 
 SHA = "a" * 40
 STATES = ("nhl.json", "nhl_recent.json", "nba.json", "nba_recent.json", "nfl.json")
@@ -60,6 +60,41 @@ class FreezeCacheTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             base = Path(td)
             self.assertEqual(restore_history(base, base / "cache", SHA), 3)
+
+
+    def test_skipped_market_can_replay_frozen_receipts_and_source(self):
+        with tempfile.TemporaryDirectory() as td:
+            base = Path(td)
+            cache, root = base / "cache", base / "checkout"
+            root.mkdir()
+            self.make_archive(cache)
+            runid = "41571885953"
+            reports = root / "reports" / "precision_training" / runid
+            reports.mkdir(parents=True)
+            (reports / "freeze_receipt.json").write_text(
+                '{"schema":"precision_campaign_freeze_v1"}\n', encoding="utf-8")
+            (reports / "nhl-shots-on-goal").mkdir()
+            (reports / "nhl-shots-on-goal" / "progress.json").write_text(
+                '{"percent":70,"stage":"sampling"}\n', encoding="utf-8")
+            env = {
+                "GITHUB_RUN_ID": runid, "INDEX": "0",
+                "CAMPAIGN_ID": "week-20261102", "CODE_HEAD": SHA,
+                "SOURCE_FREEZE_SHA": SHA, "CUTOFF": "2026-10-29",
+                "SPORT": "NHL", "STAT": "shots on goal",
+                "VALIDATE_RESULT": "success", "FIT_RESULT": "failure",
+            }
+            with patch.dict("os.environ", env, clear=False):
+                state = snapshot(root, cache, "final")
+            self.assertEqual(state["resume_mode"], "restart_market_from_frozen_inputs")
+            self.assertFalse(state["nuts_iteration_checkpoint"])
+            self.assertEqual(state["fit_outcome"], "failure")
+            self.assertTrue(Path(state["local_state_file"]).exists())
+            self.assertIn("nhl-shots-on-goal/progress.json", state["output_inventory"])
+            self.assertNotIn("freeze_cache.json", state["output_inventory"])
+            restored = json.loads((reports / "freeze_cache.json").read_text())
+            self.assertEqual(restored["history_archive_sha256"],
+                             sha256(cache / "history" / (SHA + ".tar")))
+
 
 
 if __name__ == "__main__":
