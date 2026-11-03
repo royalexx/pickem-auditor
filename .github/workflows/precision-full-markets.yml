@@ -127,8 +127,13 @@ jobs:
           $code = $LASTEXITCODE
           if ($code -eq 0) {
             'FROZEN_HISTORY_CACHE_HIT=1' | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+            Write-Host 'FROZEN_HISTORY_CACHE_HIT: immutable warehouse restored from verified archive'
+            exit 0
           } elseif ($code -eq 3) {
+            # The Python cache-miss sentinel is expected. PowerShell Actions
+            # propagates LASTEXITCODE unless explicitly reset/terminated.
             Write-Host 'FROZEN_HISTORY_CACHE_MISS: retrieving immutable source commit'
+            exit 0
           } else {
             throw "FROZEN_HISTORY_CACHE_RESTORE_FAILED_$code"
           }
