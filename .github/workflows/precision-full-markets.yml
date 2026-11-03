@@ -93,6 +93,9 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python scripts/precision_launch_guard.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Preserve campaign freeze helper across pinned-code checkout
+        run: |
+          Copy-Item scripts/precision_frozen_cache.py (Join-Path $env:RUNNER_TEMP 'precision_frozen_cache.py') -Force
       - name: Check out exact frozen code
         run: |
           $ErrorActionPreference = 'Stop'
@@ -147,7 +150,7 @@ jobs:
           VALIDATE_RESULT: pending
           FIT_RESULT: pending
         run: |
-          python scripts/precision_frozen_cache.py snapshot --phase prepared
+          python (Join-Path $env:RUNNER_TEMP 'precision_frozen_cache.py') snapshot --phase prepared
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Prepare local PyMC training environment
         run: |
@@ -186,7 +189,7 @@ jobs:
           VALIDATE_RESULT: ${{ steps.preflight.outcome }}
           FIT_RESULT: ${{ steps.fit.outcome }}
         run: |
-          python scripts/precision_frozen_cache.py snapshot --phase final
+          python (Join-Path $env:RUNNER_TEMP 'precision_frozen_cache.py') snapshot --phase final
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Upload market posterior and diagnostic receipts immediately
         if: always()
