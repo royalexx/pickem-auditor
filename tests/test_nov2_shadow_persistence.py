@@ -37,18 +37,26 @@ class DurableShadowStore(unittest.TestCase):
             git(work, "remote", "add", "origin", str(remote))
             (work / "scripts").mkdir()
             shutil.copy2(SCRIPT, work / "scripts" / "shadow_store.sh")
+            # Isolated saves invoke this guard when an archived history exists.
+            # Bundle the real guard, not an untracked stub.
+            shutil.copy2(ROOT / "scripts" / "verify_forecast_history_transition.py",
+                         work / "scripts" / "verify_forecast_history_transition.py")
             snapshots = work / "data" / "prop_snapshots.jsonl"
             snapshots.parent.mkdir()
-            snapshots.write_text('{"original":"forecast"}\\n')
+            snapshots.write_text('{"original":"forecast"}\n')
             saves = work / "data" / "nhl_joint_saves_shadow" / "2026-11-02.jsonl"
             saves.parent.mkdir(parents=True)
-            first = '{"id":"first","q_win":0.8}\\n'
-            second = '{"id":"second","q_win":0.7}\\n'
+            first = '{"id":"first","q_win":0.8}\n'
+            second = '{"id":"second","q_win":0.7}\n'
             saves.write_text(first)
             cert = work / "config" / "probability_blend" / "NHL_saves.json"
             cert.parent.mkdir(parents=True)
-            cert.write_text('{"version":"registered-v1"}\\n')
-            git(work, "add", ".")
+            cert.write_text('{"version":"registered-v1"}\n')
+            # Only implementation code belongs on main in this fixture.
+            # Forecasts and certificates must first be saved to a *new*
+            # data/shadow-calibration branch. Tracking them on main would
+            # make the first save look like a no-op and never create the branch.
+            git(work, "add", "scripts")
             git(work, "commit", "-m", "base")
             git(work, "push", "-u", "origin", "main")
 
@@ -79,15 +87,17 @@ class DurableShadowStore(unittest.TestCase):
             self.assertIn("IMMUTABLE_NHL_SAVES_SHADOW_CONFLICT", changed.stderr)
 
             saves.write_text(first + second)
-            cert.write_text('{"version":"unauthorized-replacement"}\\n')
+            cert.write_text('{"version":"unauthorized-replacement"}\n')
             changed_cert = save()
             self.assertNotEqual(changed_cert.returncode, 0)
             self.assertIn("IMMUTABLE_REGISTERED_CERTIFICATE_CONFLICT", changed_cert.stderr)
 
             # A fresh checkout restores both sidecar and registered certificate.
             git(root, "clone", "--branch", "main", str(remote), str(clean))
-            (clean / "data" / "nhl_joint_saves_shadow" / "2026-11-02.jsonl").unlink()
-            (clean / "config" / "probability_blend" / "NHL_saves.json").unlink()
+            # Main has no forecast/certificate state; this is a real clean
+            # checkout that must restore both assets from the data branch.
+            self.assertFalse((clean / "data" / "nhl_joint_saves_shadow").exists())
+            self.assertFalse((clean / "config" / "probability_blend").exists())
             loaded = subprocess.run(["bash", "scripts/shadow_store.sh", "load"],
                 cwd=clean, text=True, capture_output=True)
             self.assertEqual(loaded.returncode, 0, loaded.stderr)
@@ -96,7 +106,7 @@ class DurableShadowStore(unittest.TestCase):
                 first + second)
             self.assertEqual(
                 (clean / "config" / "probability_blend" / "NHL_saves.json").read_text(),
-                '{"version":"registered-v1"}\\n')
+                '{"version":"registered-v1"}\n')
 
 
 if __name__ == "__main__":
