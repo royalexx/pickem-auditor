@@ -63,6 +63,11 @@ if [[ "$mode" == load ]]; then
     fi
     # Verification sidecars are independent of original forecasts and may be
     # updated before game start. Old decision receipts must remain intact.
+    # Restore independent immutable odds observations.
+    if [[ -d "$tmpdir/data/market_odds_history" ]]; then
+      mkdir -p data/market_odds_history
+      cp -an "$tmpdir/data/market_odds_history/." data/market_odds_history/
+    fi
     if [[ -d "$tmpdir/data/verification" ]]; then
       mkdir -p data/verification
       cp -a "$tmpdir/data/verification/." data/verification/
@@ -104,6 +109,19 @@ elif [[ "$mode" == save ]]; then
   for file in data/blend_fit_*.json; do
     [[ ! -f "$file" ]] || cp -p "$file" "$tmpdir/tree/data/"
   done
+  # Every price capture is immutable. Never mutate an earlier source observation.
+  if [[ -d data/market_odds_history ]]; then
+    while IFS= read -r -d '' observation; do
+      relative="${observation#data/market_odds_history/}"
+      target="$tmpdir/tree/data/market_odds_history/$relative"
+      if [[ -e "$target" ]] && ! cmp -s "$observation" "$target"; then
+        echo "IMMUTABLE_MARKET_ODDS_SNAPSHOT_CONFLICT: $relative" >&2
+        exit 2
+      fi
+    done < <(find data/market_odds_history -type f -name '*.json' -print0)
+    mkdir -p "$tmpdir/tree/data/market_odds_history"
+    cp -an data/market_odds_history/. "$tmpdir/tree/data/market_odds_history/"
+  fi
   # Worktree keeps every prior decision. A decision identity may not be rewritten.
   if [[ -d data/verification ]]; then
     while IFS= read -r -d '' evidence; do
@@ -223,6 +241,9 @@ PY_CHECK
   fi
   if [[ -d "$tmpdir/tree/data/verification" ]]; then
     git -C "$tmpdir/tree" add -f data/verification/
+  fi
+  if [[ -d "$tmpdir/tree/data/market_odds_history" ]]; then
+    git -C "$tmpdir/tree" add -f data/market_odds_history/
   fi
   if [[ -d "$tmpdir/tree/data/morning_runs" ]]; then
     git -C "$tmpdir/tree" add -f data/morning_runs/

@@ -379,11 +379,15 @@ def main(argv=None) -> int:
         attempt = os.environ.get("GITHUB_RUN_ATTEMPT", "1")
         identifier = f"{run_id}-{attempt}"
         quotes = read_jsonl(Path(args.quotes))
+        # A disabled/failed collector must not promote a leftover local quote file.
+        source_state = str(((meta.get("feeds") or {}).get("odds") or {}).get("status") or "missing")
+        if source_state != "ok" and not args.observed_at:
+            quotes = []
         receipt = capture_records(
             quotes, phase=args.phase, slate_date=args.date,
             observed_at=observed, archive_root=Path(args.archive_root),
             capture_id=identifier,
-            source_status=str(((meta.get("feeds") or {}).get("odds") or {}).get("status") or "provided"),
+            source_status=source_state if not args.observed_at else "explicit_observation",
             receipt_out=Path(args.out))
         print(json.dumps(receipt, sort_keys=True))
     else:
