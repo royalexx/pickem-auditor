@@ -74,6 +74,7 @@ jobs:
           args=(--date "$VERIFY_DATE"
                 --phase recheck --limit 30 --auto-review
                 --refresh-quotes
+                --quote-export data/pregame_refreshed_quotes.jsonl
                 --queue "data/verification/$VERIFY_DATE/queue.json"
                 --packet "data/verification/$VERIFY_DATE/packet.json"
                 --snapshots data/prop_snapshots.jsonl
@@ -112,7 +113,7 @@ jobs:
                 --queue "data/verification/$VERIFY_DATE/queue.json"
                 --packet "data/verification/$VERIFY_DATE/packet.json"
                 --archive-root data/verification
-                --refresh-quotes
+                --quotes-file data/pregame_refreshed_quotes.jsonl
                 --out reports/conditional_tier3_board.json)
           if [ -f "data/review_submissions/$VERIFY_DATE.json" ]; then
             args+=(--reviews "data/review_submissions/$VERIFY_DATE.json")
@@ -128,6 +129,8 @@ jobs:
           name: pregame-evidence-verification
           path: |
             reports/pick_verification.json
+            reports/market_odds_pregame_capture.json
+            data/pregame_refreshed_quotes.jsonl
             reports/autonomous_investigation.json
             reports/verified_board.json
             reports/research_ranked_board.json
