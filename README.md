@@ -1,6 +1,6 @@
 # Pick'em Auditor — GitHub is the authoritative project
 
-Private code, original research and history, collection jobs and diagnostics live in this repository. The historical ChatGPT Tasks were disabled; GitHub Actions owns the daily schedules.
+Private code, original research, history, collection jobs and diagnostics live in this repository. Daily GitHub cron was paused on November 2, 2026 due to hosted usage limits; morning/afternoon and pregame workflows currently support manual dispatch.
 
 ## Architecture
 
@@ -13,13 +13,13 @@ Private code, original research and history, collection jobs and diagnostics liv
 | `data/history_slate` on `main` | Daily timestamped, validated NBA/NHL/NFL source-observation snapshots, per sport and collection window |
 | Actions artifacts | Per-run source coverage and execution receipts (temporary logs, **not** sole history storage) |
 
-## Daily schedule (America/Toronto)
+## Intended daily schedule (America/Toronto; cron currently paused)
 
 **6:00 a.m. — Morning history and settlement.** Collect yesterday's completed-game evidence; refresh the source observations; restore the authoritative prior forecasts; settle past pregame forecasts using verified actual stats; persist updated history. **Do not automatically modify engine weights, distributions, coefficients, blend-fit files or tier thresholds.**
 
 **4:00 p.m. — Pregame shadow evaluation.** Refresh the current pregame sports slate and public sportsbook quotes; run the existing engines and research checks where evidence permits; retain immutable forecast timestamps and append current projections. Incomplete lineups, scouting research or market data remain unranked and cannot be promoted to official Tier 1/2/3.
 
-GitHub schedule: `.github/workflows/pickem-daily.yml`. The four UTC cron expressions are de-duplicated using local Toronto time across DST. For diagnostics, choose Actions > Pickem morning and afternoon > Run workflow and select morning or afternoon.
+Manual collection entrypoint: `.github/workflows/pickem-daily.yml`. Automatic GitHub Actions cron is currently disabled. Choose Actions > Pickem morning and afternoon > Run workflow and select morning or afternoon. Pregame rechecks are separately manually dispatched in `.github/workflows/pregame-verification.yml`.
 
 ## Original history integrity
 
