@@ -14,6 +14,11 @@ on:
         required: false
         type: boolean
         default: false
+      morning_odds:
+        description: 'Opt in to additional quota-guarded morning player-odds requests (default off)'
+        required: false
+        type: boolean
+        default: false
 permissions:
   contents: write
 concurrency:
@@ -47,7 +52,7 @@ jobs:
           PHASE: ${{ steps.gate.outputs.phase }}
           GH_TOKEN: ${{ github.token }}
           PICKEM_ODDS_QUOTA_GUARD: '1'
-          PICKEM_DISABLE_ODDS: ${{ steps.gate.outputs.phase == 'morning' && '1' || '0' }}
+          PICKEM_DISABLE_ODDS: ${{ steps.gate.outputs.phase == 'morning' && inputs.morning_odds != true && '1' || '0' }}
         run: |
           python - <<'PY'
           import json,os,subprocess,sys
@@ -111,12 +116,36 @@ jobs:
                   }
               except (OSError,ValueError,TypeError):
                   receipt['odds_coverage']={'error':'INVALID_SOURCE_META'}
+          # No additional API calls: archive precisely the prices already fetched.
+          archive_day=datetime.now(timezone.utc).astimezone(
+              __import__('zoneinfo').ZoneInfo('America/Toronto')).date().isoformat()
+          step('market_odds_capture',[sys.executable,'scripts/market_odds_archive.py',
+               'capture','--date',archive_day,'--phase',phase,
+               '--quotes','data/odds_quotes.jsonl',
+               '--source-meta','data/slate_fetch.meta.json',
+               '--archive-root','data/market_odds_history',
+               '--out','reports/market_odds_capture.json'])
+          capture_receipt=Path('reports/market_odds_capture.json')
+          if capture_receipt.is_file():
+              try:
+                  odds_archive=json.loads(capture_receipt.read_text())
+                  receipt['market_odds_archive']={k:odds_archive.get(k) for k in
+                      ('date','phase','status','quote_count','input_quote_count',
+                       'source_status','snapshot_sha256','archive_path','api_requests_added')}
+              except (ValueError,OSError):
+                  receipt['market_odds_archive']={'status':'INVALID_ARCHIVE_RECEIPT'}
           archive=Path('data/prop_snapshots.jsonl')
           if phase=='morning':
               step('nfl_context_settled_audit',[sys.executable,'scripts/nfl_context_daily.py','audit','--refresh-actuals'])
               if archive.is_file():
                   settle_ok=step('settle_forecasts',[sys.executable,'scripts/jobs.py','settle'])
                   if settle_ok:
+                      # Score already-settled predictions against pre-forecast odds.
+                      step('market_odds_settled_calibration',[sys.executable,
+                           'scripts/market_odds_archive.py','evaluate',
+                           '--archive-root','data/market_odds_history',
+                           '--forecasts','data/prop_snapshots.jsonl',
+                           '--out','reports/market_odds_evaluation.json'])
                       step('posterior_mc_settled_audit',[sys.executable,
                            'scripts/posterior_mc_audit.py','--original','data/prop_snapshots.jsonl',
                            '--mc-dir','data/posterior_mc','--out','reports/posterior_mc_audit.json'])
@@ -157,6 +186,14 @@ jobs:
                       except (ValueError,OSError):
                           receipt['structured_research']={'error':'INVALID_RESEARCH_RECEIPT'}
                   pregame_ok=step('pregame_engines',[sys.executable,'scripts/jobs.py','snapshot','--reuse-collected'])
+                  if pregame_ok:
+                      # Strictly pre-forecast market snapshots; no hindsight matching.
+                      step('market_odds_at_forecast',[sys.executable,
+                           'scripts/market_odds_archive.py','evaluate',
+                           '--date',archive_day,
+                           '--archive-root','data/market_odds_history',
+                           '--forecasts','data/prop_snapshots.jsonl',
+                           '--out','reports/market_odds_evaluation.json'])
                   # Prospective Bayesian Engine A is an independent shadow sidecar.
                   # Never overwrite history-v5 or grant ranking eligibility.
                   bayes_a_ok=False
@@ -443,6 +480,9 @@ jobs:
             reports/nhl_collection_receipt.json
             reports/sport_coverage.json
             reports/market_coverage.json
+            reports/market_odds_capture.json
+            reports/market_odds_evaluation.json
+            data/market_odds_history/
             reports/history_bootstrap.json
             reports/forecast_invariants.json
             reports/afternoon_audit.json
