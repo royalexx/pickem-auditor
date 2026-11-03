@@ -56,15 +56,28 @@ def extract_verified_archive(archive: Path, root: Path) -> int:
     return count
 
 
-def restore(root: Path, *, fetch: bool = True) -> dict:
+def restore(root: Path, *, fetch: bool = True, source_commit: str | None = None) -> dict:
+    """Load an exact historical commit when SOURCE_FREEZE_SHA is supplied.
+
+    Re-running a failed fit must not silently substitute a newer history
+    branch revision. Without a pin, the first job freezes the branch head
+    and the workflow passes that SHA to every subsequent job.
+    """
     root = root.resolve()
     if fetch:
         git(root, "fetch", "--quiet", "--no-tags", "origin",
             f"+{SOURCE_BRANCH}:{SOURCE_REF}")
-    commit = git(root, "rev-parse", "--verify", SOURCE_REF)
+    requested = source_commit if source_commit is not None else os.environ.get("SOURCE_FREEZE_SHA", "")
+    if requested and not re.fullmatch(r"[0-9a-f]{40}", requested):
+        raise ValueError("invalid_frozen_historical_source_sha")
+    commit = requested or git(root, "rev-parse", "--verify", SOURCE_REF)
     if not re.fullmatch(r"[0-9a-f]{40}", commit):
         raise ValueError("invalid_historical_source_commit")
-    location = git(root, "ls-tree", "-d", "--name-only", SOURCE_REF,
+    if requested:
+        git(root, "cat-file", "-e", f"{commit}^{{commit}}")
+        # A frozen history must still belong to the current source history.
+        git(root, "merge-base", "--is-ancestor", commit, SOURCE_REF)
+    location = git(root, "ls-tree", "-d", "--name-only", commit,
                    str(PREFIX))
     if str(PREFIX) not in location.splitlines():
         raise ValueError("missing_historical_warehouse_on_source_branch")
@@ -72,7 +85,7 @@ def restore(root: Path, *, fetch: bool = True) -> dict:
     with tempfile.TemporaryDirectory(prefix="pickem-history-") as tmp:
         archive = Path(tmp) / "warehouse.tar"
         git(root, "archive", "--format=tar", f"--output={archive}",
-            SOURCE_REF, str(PREFIX))
+            commit, str(PREFIX))
         files = extract_verified_archive(archive, root)
 
     state_dir = root / Path(*PREFIX.parts) / "states"
@@ -89,7 +102,8 @@ def restore(root: Path, *, fetch: bool = True) -> dict:
     report = {"schema": "windows_warehouse_snapshot_v1",
               "source_commit": commit, "source_branch": "data/bayesian-history",
               "files_restored": files, "source_cursors": cursors,
-              "read_only": True, "fit_source_pinned": True}
+              "read_only": True, "fit_source_pinned": True,
+              "source_freeze_enforced": bool(requested)}
     return report
 
 
