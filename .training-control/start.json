@@ -6,7 +6,7 @@
   "as_of": "2026-10-29",
   "code_sha": "bca3c5f1198009d5254a8dbe81aa73fc75c34e9d",
   "source_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
-  "requested_reason": "Recover NHL shots-on-goal market 0 after run 41571885953 was cancelled at former 600-minute job limit. Current workflow permits GitHub's 7200-minute self-hosted maximum; preserve original frozen model code and historical inputs. No NUTS mid-draw checkpoint; restart market.",
-  "recovery_of_run_id": 41571885953,
-  "recovery_kind": "job_timeout_maximized"
+  "requested_reason": "One bounded retry of NHL shots-on-goal market zero after run 41646238977 was blocked before sampling by PowerShell propagation of expected frozen cache miss (Python exit 3). Workflow fixed in commit 449b4439a0e164c60c6d4d6997b952eb9919da32 with explicit successful exit, source loader fallback and 7200-minute job window. Preserve originally frozen model code, source history and cutoff.",
+  "recovery_of_run_id": 41646238977,
+  "recovery_kind": "powershell_frozen_cache_miss_exit_propagation"
 }
