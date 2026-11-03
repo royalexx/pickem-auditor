@@ -17,7 +17,13 @@ class VerificationWorkflowTests(unittest.TestCase):
 
     def test_recheck_is_bounded_and_requires_live_source_queries(self):
         src=(ROOT/".github/workflows/pregame-verification.yml").read_text()
-        self.assertIn("7,22,37,52 * * * *",src)
+        # GitHub cron was intentionally paused after the hosted usage limit.
+        # This remains an explicit, bounded manual recheck.
+        self.assertIn("workflow_dispatch:",src)
+        self.assertNotIn("  schedule:",src)
+        self.assertEqual(src.count("--refresh-quotes"),1)
+        self.assertIn("--quote-export data/pregame_refreshed_quotes.jsonl",src)
+        self.assertIn("--quotes-file data/pregame_refreshed_quotes.jsonl",src)
         self.assertIn("PICKEM_ODDS_QUOTA_GUARD: '1'",src)
         self.assertIn("--refresh-quotes",src)
         self.assertIn("scripts/autonomous_investigator.py",src)
