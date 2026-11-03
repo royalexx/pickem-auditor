@@ -19,9 +19,9 @@ class CandidateRegistrationBoundary(unittest.TestCase):
                "validation": {"holdout_dates": 23, "improvement_ci_low": .005,
                               "blend_log_loss": .50, "a_log_loss": .55,
                               "holdout_end": "2026-10-31"}}
-        with tempfile.TemporaryDirectory() as td, (
-                patch.object(pb, "from_snapshots", return_value=[]),
-                patch.object(pb, "fit", return_value=cfg)):
+        with (tempfile.TemporaryDirectory() as td,
+              patch.object(pb, "from_snapshots", return_value=[]),
+              patch.object(pb, "fit", return_value=cfg)):
             result = pb.fit_scopes([{"sport": "NHL", "stat": "saves"}], td,
                                    as_of=date(2026,11,2))
             active = pb.config_path(td, "NHL|saves")
@@ -34,9 +34,9 @@ class CandidateRegistrationBoundary(unittest.TestCase):
     def test_context_fit_only_writes_candidate(self):
         cfg = {"scope": "NHL|saves", "blend_fingerprint": "A_ONLY",
                "validation": {"holdout_dates": 24}}
-        with tempfile.TemporaryDirectory() as td, (
-                patch.object(cv, "fit", return_value=cfg),
-                patch.object(cv, "eligible", return_value=True)):
+        with (tempfile.TemporaryDirectory() as td,
+              patch.object(cv, "fit", return_value=cfg),
+              patch.object(cv, "eligible", return_value=True)):
             result = cv.fit_scopes([{"sport": "NHL", "stat": "saves"}], td,
                                    as_of=date(2026,11,2))
             self.assertFalse(cv.path(td,"NHL|saves").exists())
