@@ -495,6 +495,7 @@ def main(argv=None):
     parser.add_argument("--refresh-quotes", action="store_true",
                         help="Explicitly consume PropLine quota for current same-line prices")
     parser.add_argument("--quotes-file", help="Current two-sided market quote JSONL")
+    parser.add_argument("--quote-export", help="Export already-refreshed prices for reuse, never refetch")
     parser.add_argument("--out", default="reports/pick_verification.json")
     parser.add_argument("--archive-root", default="data/verification")
     parser.add_argument("--now", help="Test-only frozen evaluation time")
@@ -549,6 +550,10 @@ def main(argv=None):
     elif args.quotes_file:
         quotes = [json.loads(s) for s in Path(args.quotes_file).read_text(encoding="utf-8").splitlines() if s.strip()]
         quote_note = "quote_file"
+    if args.quote_export:
+        # Avoid a second paid call by sharing this exact refreshed batch.
+        from fetch_slate import write_jsonl
+        write_jsonl(quotes if isinstance(quotes, list) else [], Path(args.quote_export))
     fetch = source_fetch if selected and (args.refresh_sources or args.auto_review) else None
     report, checked_packet = verify(
         rows, queue, packet, args.date, now=now, phase=args.phase,
@@ -562,6 +567,19 @@ def main(argv=None):
                      (run_id + "-" + attempt + "-" + args.phase + ".json"))
     if decision_path.exists():
         raise ValueError("immutable verification decision already exists")
+    if args.phase == "recheck" and args.refresh_quotes:
+        # Archive verification-time prices separately from original predictions.
+        from market_odds_archive import capture_records
+        new_receipt = capture_records(
+            quotes if isinstance(quotes, list) else [],
+            phase="pregame", slate_date=args.date,
+            observed_at=datetime.now(timezone.utc).isoformat(),
+            archive_root=Path(args.snapshots).parent / "market_odds_history",
+            capture_id=run_id + "-" + attempt + "-recheck",
+            source_status=quote_note,
+            receipt_out=Path("reports/market_odds_pregame_capture.json"))
+        report["odds_archive"] = {key: new_receipt.get(key) for key in
+            ("status", "quote_count", "snapshot_sha256", "archive_path", "api_requests_added")}
     write_atomic(args.out, report)
     write_atomic(decision_path, report)
     # This is the CURRENT research state; historical decisions are separate.
