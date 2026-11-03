@@ -381,12 +381,25 @@ def evaluate(*, archives: Path, forecasts: Path, slate_date: str | None = None) 
             by_market[(row["sport"], row["stat"])].append(row)
     scores = {}
     for (sport, stat), batch in sorted(by_market.items()):
+        hit_rate = statistics.mean(x["outcome"] == "win" for x in batch)
+        mean_model = statistics.mean(x["model_probability"] for x in batch)
+        mean_market = statistics.mean(x["market_no_vig_probability"] for x in batch)
+        strong = [x for x in batch if x["model_probability"] >= 0.8]
         scores[f"{sport}:{stat}"] = {
             "settled_nonpush_count": len(batch),
+            "hit_rate": round(hit_rate, 6),
+            "mean_model_probability": round(mean_model, 6),
+            "mean_market_probability": round(mean_market, 6),
+            "model_calibration_gap": round(mean_model - hit_rate, 6),
+            "market_calibration_gap": round(mean_market - hit_rate, 6),
             "model_brier": round(statistics.mean(x["model_brier"] for x in batch), 6),
             "market_brier": round(statistics.mean(x["market_brier"] for x in batch), 6),
             "model_beats_market_brier": (statistics.mean(x["model_brier"] for x in batch)
                                          < statistics.mean(x["market_brier"] for x in batch)),
+            "model_ge_80pct_count": len(strong),
+            "model_ge_80pct_hit_rate": (round(statistics.mean(
+                x["outcome"] == "win" for x in strong), 6) if strong else None),
+            "minimum_sample_for_confident_inference": "not established; descriptive only",
         }
     return {
         "schema": "pickem_market_odds_evaluation_v1",
