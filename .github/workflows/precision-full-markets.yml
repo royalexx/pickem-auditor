@@ -83,6 +83,10 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: true
+      - name: Set up isolated Windows Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: Verify one-time launch and recovery request
         if: github.event_name == 'push'
         run: |
@@ -190,10 +194,6 @@ jobs:
           $actual = (git rev-parse HEAD).Trim()
           if ($actual -ne $env:CODE_HEAD) { throw 'FROZEN_CODE_REVISION_MISMATCH' }
           Write-Host "VERIFIED_FROZEN_CODE_SHA $actual"
-      - name: Set up isolated Windows Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
       - name: Select exactly one NHL, NBA or NFL statistical market
         id: market
         run: |
