@@ -82,6 +82,20 @@ class WindowsTrainingContractTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             driver.settings(self._env(STAT="made up counting stat"))
 
+    def test_history_cache_miss_does_not_abort_pinned_source_fallback(self):
+        workflow = (Path(__file__).resolve().parents[1] /
+                    ".github/workflows/precision-full-markets.yml").read_text()
+        start = workflow.index("      - name: Restore verified frozen history cache if available")
+        finish = workflow.index("      - name: Retrieve frozen population history from private GitHub")
+        code = workflow[start:finish]
+        # Native process exit 3 is an expected cache miss. Windows Actions
+        # PowerShell would otherwise propagate the last failed native exit.
+        self.assertIn("elseif ($code -eq 3)", code)
+        self.assertIn("FROZEN_HISTORY_CACHE_MISS: retrieving immutable source commit'\n            exit 0", code)
+        self.assertIn("FROZEN_HISTORY_CACHE_HIT: immutable warehouse restored from verified archive'\n            exit 0", code)
+        self.assertIn("if: env.FROZEN_HISTORY_CACHE_HIT != '1'", workflow)
+        self.assertIn("timeout-minutes: 7200", workflow)
+
 
 if __name__=="__main__":
     unittest.main()
