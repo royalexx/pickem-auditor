@@ -64,7 +64,8 @@ class DurableShadowStore(unittest.TestCase):
                 return subprocess.run(["bash", "scripts/shadow_store.sh", "save"],
                     cwd=work, text=True, capture_output=True)
             initial = save()
-            self.assertEqual(initial.returncode, 0, initial.stderr)
+            self.assertEqual(initial.returncode, 0,
+                f"initial save exit={initial.returncode}\nstdout:\n{initial.stdout}\nstderr:\n{initial.stderr}")
             git(work, "fetch", "origin", "data/shadow-calibration")
             archived = git(work, "show",
                 "origin/data/shadow-calibration:data/nhl_joint_saves_shadow/2026-11-02.jsonl")
@@ -75,7 +76,8 @@ class DurableShadowStore(unittest.TestCase):
 
             saves.write_text(first + second)
             extension = save()
-            self.assertEqual(extension.returncode, 0, extension.stderr)
+            self.assertEqual(extension.returncode, 0,
+                f"append save exit={extension.returncode}\nstdout:\n{extension.stdout}\nstderr:\n{extension.stderr}")
             git(work, "fetch", "origin", "data/shadow-calibration")
             archived = git(work, "show",
                 "origin/data/shadow-calibration:data/nhl_joint_saves_shadow/2026-11-02.jsonl")
@@ -100,7 +102,8 @@ class DurableShadowStore(unittest.TestCase):
             self.assertFalse((clean / "config" / "probability_blend").exists())
             loaded = subprocess.run(["bash", "scripts/shadow_store.sh", "load"],
                 cwd=clean, text=True, capture_output=True)
-            self.assertEqual(loaded.returncode, 0, loaded.stderr)
+            self.assertEqual(loaded.returncode, 0,
+                f"fresh restore exit={loaded.returncode}\nstdout:\n{loaded.stdout}\nstderr:\n{loaded.stderr}")
             self.assertEqual(
                 (clean / "data" / "nhl_joint_saves_shadow" / "2026-11-02.jsonl").read_text(),
                 first + second)
