@@ -139,5 +139,35 @@ class MarketOddsArchiveTest(unittest.TestCase):
         self.assertNotIn("source_url",row)
 
 
+    def test_line_movement_is_separate_from_forecast_market_price(self):
+        self.capture()
+        self.capture(
+            [quote(line=3.5, over_odds=120, under_odds=-140,
+                   retrieved_at="2026-11-03T21:55:00Z")],
+            phase="pregame", observed="2026-11-03T22:00:00Z",
+            capture_id="verification-456")
+        self.write_forecasts(forecast())
+        report = evaluate(archives=self.root, forecasts=self.forecasts)
+        row = report["matches"][0]
+        self.assertEqual(row["market_no_vig_probability"], .5)
+        self.assertEqual(row["later_pregame_movement"]["median_line_change"], 1.0)
+        self.assertTrue(row["later_pregame_movement"]["not_certified_as_true_closing_price"])
+
+    def test_mismatched_provider_event_namespace_is_not_cross_joined(self):
+        self.capture([quote(event_id_namespace="the-odds-api")])
+        self.write_forecasts(forecast())
+        report = evaluate(archives=self.root,forecasts=self.forecasts)
+        self.assertEqual(report["same_line_market_matches"], 0)
+
+    def test_after_prediction_observation_never_replaces_forecast_time_market(self):
+        self.capture([quote(retrieved_at="2026-11-03T17:55:00Z")],
+                     phase="afternoon", observed="2026-11-03T18:00:00Z",
+                     capture_id="later-in-day")
+        self.write_forecasts(forecast())
+        result = evaluate(archives=self.root, forecasts=self.forecasts)
+        self.assertEqual(result["same_line_market_matches"], 0)
+
+
+
 if __name__ == "__main__":
     unittest.main()
