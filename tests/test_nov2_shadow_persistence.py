@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -63,9 +64,13 @@ class DurableShadowStore(unittest.TestCase):
             git(work, "commit", "-m", "base")
             git(work, "push", "-u", "origin", "main")
 
+            # The Bash helper must invoke the same Python interpreter as
+            # unittest, even when Git Bash otherwise finds Windows Store Python.
+            env = dict(os.environ)
+            env["PATH"] = str(Path(sys.executable).parent) + os.pathsep + env.get("PATH", "")
             def save():
                 return subprocess.run(["bash", "scripts/shadow_store.sh", "save"],
-                    cwd=work, text=True, capture_output=True)
+                    cwd=work, env=env, text=True, capture_output=True)
             initial = save()
             self.assertEqual(initial.returncode, 0,
                 f"initial save exit={initial.returncode}\nstdout:\n{initial.stdout}\nstderr:\n{initial.stderr}")
@@ -104,7 +109,7 @@ class DurableShadowStore(unittest.TestCase):
             self.assertFalse((clean / "data" / "nhl_joint_saves_shadow").exists())
             self.assertFalse((clean / "config" / "probability_blend").exists())
             loaded = subprocess.run(["bash", "scripts/shadow_store.sh", "load"],
-                cwd=clean, text=True, capture_output=True)
+                cwd=clean, env=env, text=True, capture_output=True)
             self.assertEqual(loaded.returncode, 0,
                 f"fresh restore exit={loaded.returncode}\nstdout:\n{loaded.stdout}\nstderr:\n{loaded.stderr}")
             self.assertEqual(
