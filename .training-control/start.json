@@ -1,0 +1,10 @@
+{
+  "schema": "pickem_precision_campaign_launch_v1",
+  "campaign_id": "week-20261102",
+  "index": 0,
+  "max_per_position": "0",
+  "as_of": "2026-10-29",
+  "code_sha": "",
+  "source_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
+  "requested_reason": "Begin one-time user-authorized sequential 31-market research campaign on Windows self-hosted runner; no cron."
+}
