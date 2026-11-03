@@ -118,8 +118,11 @@ jobs:
           retention-days: 90
           if-no-files-found: warn
           path: reports/precision_training/${{ github.run_id }}/
-      - name: Queue the next statistical market even if this one fails
-        if: always() && !cancelled()
+      # Only advance when preflight, four-chain fit, convergence checks,
+      # provenance and artifact upload all succeeded. A failed/nonconverged
+      # market must be audited before any further expensive training.
+      - name: Queue the next statistical market after verified success
+        if: success()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
