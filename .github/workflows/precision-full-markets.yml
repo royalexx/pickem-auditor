@@ -116,7 +116,19 @@ jobs:
         run: |
           python -m unittest discover -s tests -p "test_precision_campaign_catalog.py" -v
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Restore verified frozen history cache if available
+        run: |
+          python (Join-Path $env:RUNNER_TEMP 'precision_frozen_cache.py') restore-history
+          $code = $LASTEXITCODE
+          if ($code -eq 0) {
+            'FROZEN_HISTORY_CACHE_HIT=1' | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          } elseif ($code -eq 3) {
+            Write-Host 'FROZEN_HISTORY_CACHE_MISS: retrieving immutable source commit'
+          } else {
+            throw "FROZEN_HISTORY_CACHE_RESTORE_FAILED_$code"
+          }
       - name: Retrieve frozen population history from private GitHub
+        if: env.FROZEN_HISTORY_CACHE_HIT != '1'
         run: |
           python scripts/history_warehouse_load.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
