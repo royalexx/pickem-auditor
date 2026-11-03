@@ -24,7 +24,7 @@ The supplied Windows log (Python 3.13 from WindowsApps) reported 14 tests:
 ## On the Dell (PowerShell)
 
 ```powershell
-cd C:\Users\alexi\Music\pickem-auditor
+# Run from the root of your existing pickem-auditor checkout
 git switch review/nov2
 git pull --ff-only
 py -0p
