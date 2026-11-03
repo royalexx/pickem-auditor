@@ -243,6 +243,57 @@ def candidates_for_forecast(forecast: dict, documents: list[dict], *,
     return match
 
 
+def pregame_movement(forecast: dict, documents: list[dict], *,
+                     after: datetime, books: set[str]) -> dict | None:
+    """Descriptive *later* market changes. Never use them as original forecast prices."""
+    last_by_book = {}
+    event_start = utc(forecast.get("event_start"))
+    if not event_start:
+        return None
+    for doc in documents:
+        if doc.get("schema") != SCHEMA or doc.get("phase") != "pregame":
+            continue
+        observed = utc(doc.get("observed_at"))
+        if not observed or observed <= after or observed >= event_start:
+            continue
+        for q in doc.get("quotes") or []:
+            if (q.get("sport") != forecast.get("sport")
+                    or q.get("game_date") != forecast.get("game_date")
+                    or q.get("event_id") != str(forecast.get("event_id") or "")
+                    or q.get("player_norm") != normalize_player(forecast.get("player"))
+                    or q.get("stat") != forecast.get("stat")
+                    or q.get("book") not in books):
+                continue
+            if (forecast.get("event_id_namespace") and q.get("event_id_namespace")
+                    and forecast["event_id_namespace"] != q["event_id_namespace"]):
+                continue
+            if (forecast.get("team") and q.get("team")
+                    and normalize_team(forecast["team"]) != q["team"]):
+                continue
+            previous = last_by_book.get(q["book"])
+            if previous is None or observed > previous[0]:
+                last_by_book[q["book"]] = (observed, q)
+    if not last_by_book:
+        return None
+    ref_line = float(forecast["reference_line"])
+    details = [
+        {"book": book, "line": q["line"],
+         "line_change_from_forecast": round(q["line"] - ref_line, 6),
+         "over_odds": q["over_odds"], "under_odds": q["under_odds"],
+         "observed_at": stamp(when)}
+        for book, (when, q) in sorted(last_by_book.items())
+    ]
+    return {
+        "scope": "later_pregame_observations_only_not_used_for_prediction",
+        "source": "existing_pregame_verification",
+        "books": details,
+        "median_pregame_line": statistics.median(q["line"] for _, q in last_by_book.values()),
+        "median_line_change": round(statistics.median(
+            q["line"] - ref_line for _, q in last_by_book.values()), 6),
+        "not_certified_as_true_closing_price": True,
+    }
+
+
 def evaluate(*, archives: Path, forecasts: Path, slate_date: str | None = None) -> dict:
     documents = []
     for path in sorted(Path(archives).glob("*/*/*.json")):
@@ -316,6 +367,10 @@ def evaluate(*, archives: Path, forecasts: Path, slate_date: str | None = None) 
             "score_eligible": bool(settled and y is not None and valid_model),
             "model_market_gap_at_forecast": round(model - market_q, 6) if valid_model else None,
         }
+        later = pregame_movement(f, documents, after=forecast_at,
+                                 books=set(selected))
+        if later is not None:
+            record["later_pregame_movement"] = later
         if record["score_eligible"]:
             record["model_brier"] = round((model - y) ** 2, 9)
             record["market_brier"] = round((market_q - y) ** 2, 9)
