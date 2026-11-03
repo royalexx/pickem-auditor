@@ -52,7 +52,7 @@ jobs:
   train-one-market:
     name: Full-population Bayesian market ${{ inputs.index }}
     runs-on: [self-hosted, Windows, X64, pickem-trainer]
-    timeout-minutes: 600
+    timeout-minutes: 2880
     env:
       INDEX: ${{ inputs.index || '0' }}
       CODE_HEAD: ${{ inputs.code_sha || github.sha }}
