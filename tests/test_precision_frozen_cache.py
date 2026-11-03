@@ -1,0 +1,66 @@
+"""Offline integrity and replay tests for durable precision frozen-state cache."""
+import hashlib
+import json
+import sys
+import tarfile
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+from precision_frozen_cache import archive_is_verified, history_paths, restore_history, sha256, write_json
+
+SHA = "a" * 40
+STATES = ("nhl.json", "nhl_recent.json", "nba.json", "nba_recent.json", "nfl.json")
+
+
+class FreezeCacheTests(unittest.TestCase):
+    def make_archive(self, cache, source=SHA):
+        archive, manifest = history_paths(cache, source)
+        archive.parent.mkdir(parents=True)
+        with tempfile.TemporaryDirectory() as td:
+            stage = Path(td)
+            for name in STATES:
+                file = stage / "data" / "bayesian_warehouse" / "states" / name
+                file.parent.mkdir(parents=True, exist_ok=True)
+                file.write_text(json.dumps({"schema": "multi-sport-population-cursor-v1",
+                                            "cursor": 1}), encoding="utf-8")
+            with tarfile.open(archive, "w") as stream:
+                stream.add(stage / "data" / "bayesian_warehouse",
+                           arcname="data/bayesian_warehouse")
+        write_json(manifest, {"schema": "precision_history_cache_v1",
+                              "source_sha": source, "size": archive.stat().st_size,
+                              "sha256": sha256(archive)})
+        return archive
+
+    def test_verified_cache_restores_all_sports_without_git(self):
+        with tempfile.TemporaryDirectory() as td:
+            base = Path(td)
+            cache, root = base / "cache", base / "checkout"
+            root.mkdir()
+            self.make_archive(cache)
+            self.assertEqual(archive_is_verified(cache, SHA), (True, "verified"))
+            with patch.dict("os.environ", {"GITHUB_ENV": str(base / "env")}, clear=False):
+                self.assertEqual(restore_history(root, cache, SHA), 0)
+            for name in STATES:
+                self.assertTrue((root / "data" / "bayesian_warehouse" / "states" / name).exists())
+            self.assertIn("SOURCE_HEAD=" + SHA, (base / "env").read_text())
+
+    def test_corrupted_archive_is_not_reused(self):
+        with tempfile.TemporaryDirectory() as td:
+            base = Path(td)
+            archive = self.make_archive(base / "cache")
+            with archive.open("ab") as out:
+                out.write(b"tampered")
+            self.assertEqual(archive_is_verified(base / "cache", SHA)[0], False)
+            self.assertEqual(restore_history(base, base / "cache", SHA), 3)
+
+    def test_missing_cache_falls_back_to_source_loader(self):
+        with tempfile.TemporaryDirectory() as td:
+            base = Path(td)
+            self.assertEqual(restore_history(base, base / "cache", SHA), 3)
+
+
+if __name__ == "__main__":
+    unittest.main()
