@@ -42,8 +42,9 @@ jobs:
           PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
           # One-region, one-market, max eight event odds requests; no effect
           # unless the independent secret has been configured.
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          PICKEM_ENABLE_ODDS_API_NHL_BLOCKS: '1'
+          # Legacy Odds API fallback remains disabled; do not spend credits
+          # merely to fill missing NHL blocks in a manual recovery run.
+          PICKEM_ENABLE_ODDS_API_NHL_BLOCKS: '0'
           PHASE: ${{ steps.gate.outputs.phase }}
           GH_TOKEN: ${{ github.token }}
           PICKEM_ODDS_QUOTA_GUARD: '1'
@@ -117,6 +118,13 @@ jobs:
               if archive.is_file():
                   settle_ok=step('settle_forecasts',[sys.executable,'scripts/jobs.py','settle'])
                   if settle_ok:
+                      if Path('data/nhl_joint_saves_shadow').is_dir():
+                          step('nhl_saves_shadow_settlements',[sys.executable,
+                               'scripts/nhl_saves_shadow_settle.py',
+                               '--snapshots','data/prop_snapshots.jsonl',
+                               '--forecasts-dir','data/nhl_joint_saves_shadow',
+                               '--out-dir','data/nhl_joint_saves_settlements',
+                               '--receipt','reports/nhl_saves_shadow_settlement_receipt.json'])
                       step('posterior_mc_settled_audit',[sys.executable,
                            'scripts/posterior_mc_audit.py','--original','data/prop_snapshots.jsonl',
                            '--mc-dir','data/posterior_mc','--out','reports/posterior_mc_audit.json'])
@@ -433,6 +441,17 @@ jobs:
             --date "$day" \
             --out "data/nhl_joint_saves_shadow/$day.jsonl" \
             --receipt reports/nhl_joint_saves_shadow_receipt.json
+      - name: Persist immutable NHL saves shadows after scoring
+        if: steps.gate.outputs.phase == 'afternoon'
+        run: |
+          # Saves scoring is optional and never changes the ranked board.
+          # A successful shadow output must outlive the current Actions artifact.
+          day="$(TZ=America/Toronto date +%F)"
+          if [[ -s "data/nhl_joint_saves_shadow/$day.jsonl" ]]; then
+            bash scripts/shadow_store.sh save
+          else
+            echo "No NHL saves shadow forecast to persist."
+          fi
       - name: Upload collection receipt
         if: always() && steps.gate.outputs.phase != 'skip'
         uses: actions/upload-artifact@v4
@@ -451,7 +470,9 @@ jobs:
             reports/posterior_mc_receipt.json
             reports/posterior_mc_audit.json
             reports/nhl_joint_saves_shadow_receipt.json
+            reports/nhl_saves_shadow_settlement_receipt.json
             data/nhl_joint_saves_shadow/
+            data/nhl_joint_saves_settlements/
             reports/phase4_validation.json
             data/nfl_context/
             reports/nfl_context_daily.json

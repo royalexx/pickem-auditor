@@ -18,7 +18,7 @@ from pathlib import Path
 from statistics import mean, median, variance
 from functools import lru_cache
 
-VERSION = 'history-bayes-v1'
+VERSION = 'history-bayes-v2-cdf-fixed'
 MIN_PLAYER_GAMES = 5
 MIN_PEERS = 5
 EPS = 1e-9
@@ -209,7 +209,8 @@ def _betacf(a, b, x):
         c = 1+aa/c
         if abs(c) < tiny: c = tiny
         d = 1/d
-        h *= d*c
+        # Numerical Recipes: multiply the second continued-fraction factor
+        # exactly once. Double-multiplication corrupted Student-t CDF tails.
         delta = d*c
         h *= delta
         if abs(delta-1) < 2e-13:

@@ -182,17 +182,34 @@ def build_report(rows: list[dict], *, include_shadow: bool = False) -> dict:
     settled = dedupe_props(graded_rows(rows))
     model_pairs = []
     market_pairs = []
+    # Fair market comparisons require the exact same settled identity, label,
+    # and pregame timestamp-verified cohort. Descriptive all-available metrics
+    # below remain available for historical continuity.
+    matched_model_pairs = []
+    matched_market_pairs = []
+    timestamp_unknown = 0
+    timestamp_verified = 0
     gap_large = 0
     for row in settled:
         label = outcome_win(row)
         if label is None:
             continue
+        forecast = _timestamp(row.get("forecast_at"))
+        start = _timestamp(row.get("event_start"))
+        prospective = bool(forecast and start and forecast < start)
+        if prospective:
+            timestamp_verified += 1
+        else:
+            timestamp_unknown += 1
         pred = prediction_probability(row)
         if pred is not None:
             model_pairs.append((pred, label))
         market = market_probability(row)
         if market is not None:
             market_pairs.append((market, label))
+        if prospective and pred is not None and market is not None:
+            matched_model_pairs.append((pred, label))
+            matched_market_pairs.append((market, label))
         gap = row.get("q_gap")
         if gap is not None:
             try:
@@ -241,6 +258,17 @@ def build_report(rows: list[dict], *, include_shadow: bool = False) -> dict:
         "brier_model": brier_score(model_pairs),
         "log_loss_model": log_loss(model_pairs),
         "brier_market_comparable": brier_score(market_pairs),
+        "comparison_cohort": "timestamp_verified_same_settled_props_v1",
+        "n_matched_pregame": len(matched_model_pairs),
+        "n_scored_with_unknown_clock": timestamp_unknown,
+        "n_scored_with_verified_pregame_clock": timestamp_verified,
+        "n_model_only_or_market_only": (
+            len(model_pairs) + len(market_pairs) -
+            2 * len(matched_model_pairs)),
+        "brier_model_matched": brier_score(matched_model_pairs),
+        "brier_market_matched": brier_score(matched_market_pairs),
+        "log_loss_model_matched": log_loss(matched_model_pairs),
+        "log_loss_market_matched": log_loss(matched_market_pairs),
         "gap_abs_ge_8pts_share": (gap_large / scored_n) if scored_n else None,
         "reliability_by_q_grade": reliability,
         "hit_rate_by_final_rank": {
@@ -258,7 +286,12 @@ def format_report(report: dict) -> str:
         f"n_settled_graded={report['n_settled_graded']}",
         f"n_scored={report['n_scored']}",
     ]
-    for key in ("brier_model", "log_loss_model", "brier_market_comparable", "gap_abs_ge_8pts_share"):
+    lines.append(f"n_matched_pregame={report.get('n_matched_pregame', 0)}")
+    lines.append(f"n_scored_with_unknown_clock={report.get('n_scored_with_unknown_clock', 0)}")
+    for key in ("brier_model", "log_loss_model", "brier_market_comparable",
+                "brier_model_matched", "brier_market_matched",
+                "log_loss_model_matched", "log_loss_market_matched",
+                "gap_abs_ge_8pts_share"):
         value = report.get(key)
         lines.append(f"{key}=" + ("na" if value is None else f"{value:.6f}"))
     lines.append("reliability_by_q_grade:")

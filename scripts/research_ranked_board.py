@@ -124,11 +124,15 @@ def build(rows, queue, date, *, now=None, decisions=(), history_root="data", pac
                 p < .57 or p - comparable < .03):
             excluded["below_research_quality_floor"] += 1
             continue
-        if abs(p - comparable) >= pm.GAP_WATCH_CAP - pm.GAP_EPSILON:
-            excluded["large_gap_watchlist_cap"] += 1
-            continue
+        # Exception for INVESTIGATION only. A high model probability and a
+        # large positive market gap must be researched, not automatically
+        # treated as either a sure bet or an approved tier.
+        large_positive_gap = (p >= .70 and
+            p - comparable >= pm.GAP_WATCH_CAP - pm.GAP_EPSILON)
         band = score.get("probability_rank")
-        if band not in ("NUMERIC_TIER_1","NUMERIC_TIER_2","NUMERIC_TIER_3"):
+        if large_positive_gap:
+            rank = "Large Positive Edge - Review Required"
+        elif band not in ("NUMERIC_TIER_1","NUMERIC_TIER_2","NUMERIC_TIER_3"):
             rank = None
         else:
             rank = next((name for name, floor in PROSPECT_FLOORS if p >= floor),
@@ -164,6 +168,12 @@ def build(rows, queue, date, *, now=None, decisions=(), history_root="data", pac
             "forecast_calibration": "not_certified_for_tier_hit_rate",
             "q_model": p, "q_market_comparable": comparable,
             "model_market_gap": round(p-comparable, 6),
+            "discrepancy_review_required": bool(large_positive_gap),
+            "discrepancy_review_checks": (
+                ["same_event_player_stat_side_line", "quote_freshness",
+                 "independent_opportunity_and_role_evidence",
+                 "out_of_sample_calibration", "distribution_fit"]
+                if large_positive_gap else []),
             "forecast_at": row["forecast_at"], "event_start": row["event_start"],
             "price_timestamp_verified": price is not None,
             "price_refresh_required": price is None or (now-price).total_seconds() > 1800,
@@ -173,7 +183,8 @@ def build(rows, queue, date, *, now=None, decisions=(), history_root="data", pac
             "actionable_without_verification": False,
         })
     order = {"Unicorn Research Prospect":0,"Tier 2 Research Prospect":1,
-             "Tier 3 Research Prospect":2,"Screened Research Candidate":3}
+             "Tier 3 Research Prospect":2,"Large Positive Edge - Review Required":3,
+             "Screened Research Candidate":4}
     chosen.sort(key=lambda r: (order[r["research_rank"]],
                                 -r["q_model"], -r["model_market_gap"], r["candidate_id"]))
     return {"schema": "research-ranked-v1", "date": date,

@@ -94,7 +94,7 @@ class BlendTests(unittest.TestCase):
         a=pm.project('poisson','over',3,4,20,observation_ids={'baseline':[str(i) for i in range(20)]})
         b={**se.project_scout(controlled_candidate()),'reliable':True,'baseline_origin':'collector_observations'}
         self.assertFalse(pb.combine(a,b)['validated'])
-        cfg=dict(scope="global",engine_version=pb.VERSION,weight_a=.7,underpowered=False,
+        cfg=dict(scope="global",engine_version=pb.VERSION,training_unit=pb.TRAINING_UNIT,weight_a=.7,underpowered=False,
                  validation=dict(score_rule=pb.SCORE_RULE,train_n=300,holdout_n=100,holdout_dates=25,train_end='2025-01-01',
                                  holdout_start='2025-01-02',holdout_end='2025-03-01',
                                  blend_log_loss=.60,a_log_loss=.62,improvement_ci_low=.001))
@@ -174,7 +174,7 @@ class PacketIntegrationTests(unittest.TestCase):
                  baseline_mean=3.5,baseline_n=30,observation_ids={'baseline':[str(i) for i in range(30)]},soft_flags=0,mechanisms=2,
                  hard_veto=False,data_veto=False,research_checklist=True,
                  q_market=.65,retrieved_minutes_ago=1,scouting={**c['scouting'],'historical_usage':'trusted-test-reference'})
-        cfg=dict(scope='NBA|points',engine_version=pb.VERSION,weight_a=.7,underpowered=False,
+        cfg=dict(scope='NBA|points',engine_version=pb.VERSION,training_unit=pb.TRAINING_UNIT,weight_a=.7,underpowered=False,
                  validation=dict(score_rule=pb.SCORE_RULE,train_n=300,holdout_n=100,holdout_dates=25,train_end='2025-01-01',
                      holdout_start='2025-01-02',holdout_end='2025-03-01',
                      blend_log_loss=.60,a_log_loss=.62,improvement_ci_low=.001))

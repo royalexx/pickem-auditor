@@ -26,6 +26,24 @@ class TierQualityTests(unittest.TestCase):
         self.assertFalse(q.assess("Tier 1",.91,blend_validated=False)["eligible"])
         self.assertTrue(q.assess("Tier 1",.91,blend_validated=True)["eligible"])
 
+    def test_negative_reference_edge_never_qualifies_and_price_is_not_ev(self):
+        negative = q.assess("Tier 2", .82, q_market=.86, require_edge=True)
+        self.assertFalse(negative["eligible"])
+        self.assertEqual(negative["reason"], "NEGATIVE_MARKET_REFERENCE_EDGE")
+        self.assertAlmostEqual(negative["market_reference_edge"], -.04)
+        self.assertTrue(negative["reference_edge_evaluated"])
+        self.assertFalse(negative["value_evaluated"])
+        self.assertFalse(negative["expected_value_evaluated"])
+        positive = q.assess("Tier 2", .82, q_market=.50, require_edge=True)
+        self.assertTrue(positive["eligible"])
+        self.assertAlmostEqual(positive["market_reference_edge"], .32)
+        self.assertFalse(q.assess("Tier 2", .82, require_edge=True)["eligible"])
+        self.assertEqual(q.assess("Tier 2", .82, require_edge=True)["reason"],
+                         "COMPARABLE_MARKET_MISSING")
+        for market in (True, float("nan"), -1., 1.01):
+            self.assertFalse(q.assess("Tier 2", .82, q_market=market,
+                                      require_edge=True)["eligible"])
+
     def test_unknown_or_nonfinite_probability_never_passes(self):
         for p in (None,float("nan"),float("inf"),True,-1,1.1):
             self.assertFalse(q.assess("Tier 2",p)["eligible"])

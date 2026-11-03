@@ -18,8 +18,10 @@ import bayesian_engine as be
 
 VERSION = 'posterior-mc-v1'
 NBA_PRIOR_VERSION = 'nba-source-prior-power-v1'
-SUPPORTED_POSTERIOR_VERSIONS_A = frozenset((be.VERSION, NBA_PRIOR_VERSION))
-SUPPORTED_POSTERIOR_VERSIONS_B = frozenset(('usage-bayes-v1', NBA_PRIOR_VERSION))
+SUPPORTED_POSTERIOR_VERSIONS_A = frozenset((
+    'history-bayes-v1', be.VERSION, NBA_PRIOR_VERSION))
+SUPPORTED_POSTERIOR_VERSIONS_B = frozenset((
+    'usage-bayes-v1', 'usage-bayes-v2-bounded-exposure', NBA_PRIOR_VERSION))
 MIN_DRAWS = 1024
 MAX_DRAWS = 8192
 TARGET_HALF_WIDTH = 0.008
@@ -212,9 +214,28 @@ def sampler_b(posterior, *, pairs=None, peers=None):
     else:
         raise be.ModelUnavailable('unsupported_b_distribution')
     def sample(rng):
-        logw=wm+ws*t_draw(rng,df)
-        if not -25<logw<25:
-            raise be.ModelUnavailable('implausible_simulated_workload')
+        if posterior.get('version')=='usage-bayes-v2-bounded-exposure':
+            details=posterior.get('workload_posterior') or {}
+            bounds=details.get('physical_workload_bounds')
+            if (not isinstance(bounds,(list,tuple)) or len(bounds)!=2 or
+                    not all(isinstance(x,(int,float)) and not isinstance(x,bool)
+                            and math.isfinite(x) and x>0 for x in bounds)
+                    or bounds[0]>=bounds[1]):
+                raise be.ModelUnavailable('missing_bounded_workload_provenance')
+            lo,hi=math.log(bounds[0]),math.log(bounds[1])
+            # Rejection draws exactly sample the normalized truncated Student-t
+            # conditional distribution. No clipping: clipping creates boundary
+            # atoms and a different posterior predictive law.
+            for _ in range(256):
+                logw=wm+ws*t_draw(rng,df)
+                if lo<=logw<=hi:
+                    break
+            else:
+                raise be.ModelUnavailable('bounded_workload_mc_rejection_exhausted')
+        else:
+            logw=wm+ws*t_draw(rng,df)
+            if not -25<logw<25:
+                raise be.ModelUnavailable('implausible_simulated_workload')
         workload=math.exp(logw)
         r,uncertainty,ratio=rate(rng)
         if uncertainty is None:

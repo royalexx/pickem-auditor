@@ -19,7 +19,13 @@ from statistics import mean, median, variance, NormalDist
 import bayesian_engine as base
 import usage_baseline as ub
 
-VERSION = 'usage-bayes-v1'
+VERSION = 'usage-bayes-v2-bounded-exposure'
+# Maximum positive-game measured workload by declared collector unit.
+# Conservative upper limits cover overtime and other rare extended games.
+# These are registered support assumptions, NOT empirical posterior estimates.
+WORKLOAD_BOUNDS = {'NBA': (0.05, 100.0),
+                   'NHL': (0.05, 250.0),
+                   'NFL': (0.05, 200.0)}
 GRID_WORKLOAD = 17
 GRID_RATE = 121
 MIN_POSITIVE = 5
@@ -143,21 +149,49 @@ def _t_quantiles(df, count=GRID_WORKLOAD):
     return tuple(result)
 
 
-def workload_posterior(pairs, peers):
-    """Model positive-game exposure; do not turn nonappearances into unders."""
+def workload_posterior(pairs, peers, *, sport):
+    """Truncated Student-t log workload with finite, declared exposure support.
+
+    This is a NEW versioned shadow law, not a silent clamp of extreme draws:
+    conditional probabilities are renormalized within physical workload bounds
+    before deterministic integration. Nonappearances remain excluded.
+    """
+    if sport not in WORKLOAD_BOUNDS:
+        raise base.ModelUnavailable('unsupported_workload_unit')
+    low,high=WORKLOAD_BOUNDS[sport]
+    if any(not low<=w<=high for _,_,w in pairs):
+        raise base.ModelUnavailable('observed_workload_outside_physical_support')
+    if any(not low<=w<=high for peer in peers for _,_,w in peer):
+        raise base.ModelUnavailable('peer_workload_outside_physical_support')
     prior=_nig_prior([[math.log(w) for _,_,w in peer] for peer in peers])
     posterior=_nig_update([math.log(w) for _,_,w in pairs],prior)
-    # Clamp log only to avoid overflow for extreme but formally finite inputs.
+    mu=posterior['mu']
+    scale=posterior['predictive_scale']
+    df=posterior['df']
+    lo=(math.log(low)-mu)/scale
+    hi=(math.log(high)-mu)/scale
+    left=base.student_t_cdf(lo,df)
+    right=base.student_t_cdf(hi,df)
+    mass=right-left
+    if not math.isfinite(mass) or mass < .50:
+        raise base.ModelUnavailable('unsupported_workload_posterior_truncation')
     levels=[]
-    for t in _t_quantiles(posterior['df']):
-        x=posterior['mu']+posterior['predictive_scale']*t
-        if abs(x)>25:
-            raise base.ModelUnavailable('implausible_exposure_posterior')
-        levels.append(math.exp(x))
+    for i in range(GRID_WORKLOAD):
+        q=left+mass*(i+.5)/GRID_WORKLOAD
+        a,b=lo,hi
+        for _ in range(54):
+            mid=(a+b)/2
+            if base.student_t_cdf(mid,df)<q:
+                a=mid
+            else:
+                b=mid
+        levels.append(math.exp(mu+scale*(a+b)/2))
     return {'prior':prior,'posterior':posterior,'future_exposures':levels,
             'expected_exposure':mean(levels),
             'exposure_sd':math.sqrt(variance(levels)),
-            'integration_method':'equal_mass_student_t_log_workload_v1'}
+            'physical_workload_bounds':[low,high],
+            'truncation_probability_mass':mass,
+            'integration_method':'truncated_student_t_log_workload_equal_mass_v2'}
 
 
 def _conversion_prior(peers,kind):
@@ -289,7 +323,7 @@ def forecast(pairs,peers,*,dist,line,side,var_ratio=None,stat,sport):
     for observations in [pairs,*peers]:
         if len(observations)<MIN_POSITIVE:
             raise base.ModelUnavailable('thin_player_or_peer_history')
-    exposure=workload_posterior(pairs,peers)
+    exposure=workload_posterior(pairs,peers,sport=sport)
     wgrid=exposure['future_exposures']
     if dist=='normal':
         conversion=_normal_conversion(pairs,peers)
@@ -344,7 +378,9 @@ def forecast(pairs,peers,*,dist,line,side,var_ratio=None,stat,sport):
                 workload_mean=exposure['expected_exposure'],workload_sd=exposure['exposure_sd'],
                 conversion_mean=rate_mean,conversion_se=rate_se,
                 workload={'prior':exposure['prior'],'posterior':exposure['posterior'],
-                          'integration_method':exposure['integration_method']},
+                          'integration_method':exposure['integration_method'],
+                          'physical_workload_bounds':exposure['physical_workload_bounds'],
+                          'truncation_probability_mass':exposure['truncation_probability_mass']},
                 conversion=conversion_summary,
                 predictive_method='paired_likelihood_and_deterministic_workload_quadrature',
                 approximation='empirical_group_hyperparameters_and_equal_mass_workload_quadrature',

@@ -107,6 +107,19 @@ class ResearchRankedBoardTests(unittest.TestCase):
         rows[0]["books"] = rows[0]["books"][:1]
         self.assertEqual(rb.build(rows, queue, DATE, now=NOW)["research_ranked"], [])
 
+    def test_large_positive_gap_enters_research_only_not_verified_board(self):
+        rows, queue = fixture()
+        rows[0].update(q_grade=.811, q_market=.509, q_market_comparable=.509)
+        board = rb.build(rows, queue, DATE, now=NOW)
+        self.assertEqual(len(board["research_ranked"]), 1, board)
+        item = board["research_ranked"][0]
+        self.assertEqual(item["research_rank"], "Large Positive Edge - Review Required")
+        self.assertTrue(item["discrepancy_review_required"])
+        self.assertIn("quote_freshness", item["discrepancy_review_checks"])
+        self.assertFalse(item["publication_eligible"])
+        self.assertFalse(item["verified_pick"])
+        self.assertFalse(item["actionable_without_verification"])
+
     def test_missing_engine_or_started_event_never_ranks(self):
         rows, queue = fixture()
         rows[0]["engine_b"]["reliable"] = False

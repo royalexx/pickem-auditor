@@ -9,6 +9,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 VERSION = 'history-v5+scouting-v7'
 SCORE_RULE = 'joint_win_push_loss_log_loss_v1'
+TRAINING_UNIT = 'unique_player_game_stat_v2'
 
 
 def valid_evidence(ev, baseline_key, improved_key, as_of):
@@ -46,7 +47,9 @@ def combine(a, b, config_path=None, *, scope="global", as_of=None):
         w = cfg['weight_a']
         ev = cfg['validation']
         if not valid_evidence(ev,'a_log_loss','blend_log_loss',as_of or date.today()):return out
-        if (cfg.get('scope') != scope or cfg['engine_version'] != VERSION or cfg.get('underpowered') is not False
+        if (cfg.get('scope') != scope or cfg['engine_version'] != VERSION or
+                cfg.get('training_unit') != TRAINING_UNIT or
+                cfg.get('underpowered') is not False
                 or ev.get('score_rule') != SCORE_RULE
                 or isinstance(w, bool) or not isinstance(w, (int, float)) or not 0 < w < 1
                 or ev['train_n'] < 300 or ev['holdout_n'] < 100
@@ -146,14 +149,31 @@ def fit(rows):
         sample = [r for day in rng.choices(days, k=len(days)) for r in groups[day]]
         improvements.append(loss(sample, 1)-loss(sample, w))
     lower = sorted(improvements)[24] if len(days) >= 20 else 0.0
-    return dict(scope=next(iter(scopes)), engine_version=VERSION, weight_a=w, underpowered=False,
+    return dict(scope=next(iter(scopes)), engine_version=VERSION,
+                training_unit=TRAINING_UNIT, weight_a=w, underpowered=False,
                 validation=dict(score_rule=SCORE_RULE,train_n=len(train), holdout_n=len(holdout),
+                                train_unique_events=len(set(r.get('event_key',r['id']) for r in train)),
+                                holdout_unique_events=len(set(r.get('event_key',r['id']) for r in holdout)),
+                                train_unique_player_games=len(set(r.get('player_game_id',r['id']) for r in train)),
+                                holdout_unique_player_games=len(set(r.get('player_game_id',r['id']) for r in holdout)),
                                 train_pushes=sum(r['outcome']=='push' for r in train),
                                 holdout_pushes=sum(r['outcome']=='push' for r in holdout),
                                 train_end=train[-1]['date'], holdout_start=holdout[0]['date'],
                                 holdout_end=holdout[-1]['date'],
                                 blend_log_loss=loss(holdout,w), a_log_loss=loss(holdout,1),
                                 holdout_dates=len(days), improvement_ci_low=lower))
+
+
+def canonical_player_game(row):
+    """Stable game/player/stat training unit; no name/date inference."""
+    inputs=row.get("inputs") if isinstance(row.get("inputs"),dict) else {}
+    namespace=str(row.get("event_id_namespace") or inputs.get("event_id_namespace") or "").strip()
+    event_id=str(row.get("event_id") or inputs.get("event_id") or "").strip()
+    player_id=str(row.get("player_id") or inputs.get("player_id") or "").strip()
+    if not namespace or not event_id or not player_id:
+        return None
+    return json.dumps([row.get("sport"),namespace,event_id,player_id,row.get("stat")],
+                      separators=(",",":"),ensure_ascii=False)
 
 
 def from_snapshots(rows, scope):
@@ -183,16 +203,44 @@ def from_snapshots(rows, scope):
             if start.astimezone(ZoneInfo('America/Toronto')).date().isoformat()!=row.get('game_date'):continue
         except (KeyError,ValueError,TypeError,AttributeError):
             continue
-        ident = '|'.join(str(row.get(k) or '') for k in
-                         ('game_date','sport','player','stat','side','reference_line'))
-        selected.setdefault(ident, dict(id=ident, scope=scope, date=row['game_date'],
+        # A display name and calendar date do not identify a unique game.
+        # Require collector-owned event/player IDs (same-name players and
+        # doubleheaders exist) and a settlement timestamp after game start.
+        ident=canonical_player_game(row)
+        if ident is None:
+            continue
+        try:
+            settled=datetime.fromisoformat(str(row["settled_at"]).replace('Z','+00:00'))
+            if settled.tzinfo is None or settled<=start:continue
+        except (KeyError,ValueError,TypeError,AttributeError):continue
+        # One player-game-stat contributes at most one supervised training
+        # observation. Extra sides/lines cannot inflate confidence/ESS.
+        player_game=ident
+        parts=json.loads(ident)
+        namespace,event_id=parts[1],parts[2]
+        if ident in selected:
+            if selected[ident]['outcome'] != row['outcome']:
+                # Different lines can legitimately have different outcomes;
+                # they cannot be treated as independent observations here.
+                # The earliest pregame side/line remains the frozen selection.
+                continue
+            continue
+        selected[ident]=dict(id=ident, scope=scope, date=row['game_date'],
             a_win=a['q_win_robust'], a_push=a['q_push_robust'],
-            b_win=b['q_win'], b_push=b['q_push'], outcome=row['outcome'],forecast_at=row['forecast_at']))
+            b_win=b['q_win'], b_push=b['q_push'], outcome=row['outcome'],
+            forecast_at=row['forecast_at'], event_key=namespace+":"+event_id,
+            player_game_id=player_game, selected_side=row.get('side'),
+            selected_line=row.get('reference_line'))
     return list(selected.values())
 
 
 def fit_scopes(rows, root, *, as_of=None):
-    """Fit each current runtime scope; retire stale weights if evidence fails."""
+    """Fit candidates without silently registering or deleting live certificates.
+
+    Existing valid deployments are retained. New candidates are written under
+    reports/ for explicit offline review; activation must be a separate
+    controlled operation after provenance and prospective policy validation.
+    """
     scopes={f"{r.get('sport')}|{r.get('stat')}" for r in rows if r.get('sport') and r.get('stat')}
     directory=Path(root)/'config'/'probability_blend'
     # Existing scopes must be re-evaluated even if their qualifying rows vanish.
@@ -200,7 +248,9 @@ def fit_scopes(rows, root, *, as_of=None):
         for path in directory.glob('*.json'):
             try:scopes.add(json.loads(path.read_text())['scope'])
             except (ValueError,KeyError):
-                path.unlink()
+                # Unknown/invalid files are never promoted by combine().
+                # Retain bytes for investigation and rollback, not auto-delete.
+                continue
     results={}
     for scope in sorted(scopes):
         path=config_path(root,scope)
@@ -219,17 +269,21 @@ def fit_scopes(rows, root, *, as_of=None):
                       ev['blend_log_loss']<ev['a_log_loss'] and
                       date.fromisoformat(ev['holdout_end'])<(as_of or date.today()))
             if eligible:
-                path.parent.mkdir(parents=True,exist_ok=True)
-                temporary=path.with_suffix('.tmp')
-                temporary.write_text(json.dumps(cfg,indent=2)+'\n')
-                temporary.replace(path)
-                results[scope]={'status':'validated','path':str(path),'validation':ev}
+                proposal=(Path(root)/'reports'/'calibration_candidates'/
+                          'probability_blend'/path.name)
+                proposal.parent.mkdir(parents=True,exist_ok=True)
+                temporary=proposal.with_suffix('.tmp')
+                temporary.write_text(json.dumps(cfg,sort_keys=True,indent=2)+'\n')
+                temporary.replace(proposal)
+                results[scope]={'status':'candidate_pending_registration',
+                                'path':str(proposal),'validation':ev,
+                                'production_unchanged':True}
                 continue
             reason='holdout_improvement_not_established'
         except (ValueError,KeyError,TypeError) as exc:
             reason=str(exc)
-        path.unlink(missing_ok=True)
-        results[scope]={'status':'underpowered_or_unvalidated','reason':reason}
+        results[scope]={'status':'underpowered_or_unvalidated','reason':reason,
+                        'production_unchanged':True}
     return results
 
 

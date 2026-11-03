@@ -8,7 +8,7 @@ import random
 import probability_blend as pb
 from shared_context import VERSION
 
-METHOD=VERSION+'|'+pb.VERSION
+METHOD=VERSION+'|'+pb.VERSION+'|'+pb.TRAINING_UNIT
 
 def path(root,scope):return pb.config_path(root,scope).parent.parent/'context_validation'/pb.config_path(root,scope).name
 
@@ -29,8 +29,9 @@ def rows_from_snapshots(rows,scope):
     eligible=pb.from_snapshots(transformed,scope)
     allowed={(r['id'],r['forecast_at']) for r in eligible}
     for r in sorted(transformed,key=lambda r:r['forecast_at']):
-        ident='|'.join(str(r.get(k) or '') for k in ('game_date','sport','player','stat','side','reference_line'))
-        if (ident,r.get('forecast_at')) not in allowed or ident in groups:continue
+        ident=pb.canonical_player_game(r)
+        if ident is None or (ident,r.get('forecast_at')) not in allowed or ident in groups:
+            continue
         c=r['_original_context'];blend=r.get('blend') or {}
         try:
             baseline=probabilities(blend['q_win'],blend['q_push'])
@@ -97,12 +98,21 @@ def fit_scopes(rows,root,as_of=None):
                 {'q_win_b':.5,'q_push_b':0,'reliable':True,'abstain':False},pb.config_path(root,scope),scope=scope,as_of=as_of)
             cfg=fit(rows,scope,fingerprint=deployed.get('config_version') or 'A_ONLY')
             if eligible(cfg,scope,cfg['blend_fingerprint'],as_of):
-                target.parent.mkdir(parents=True,exist_ok=True);tmp=target.with_suffix('.tmp')
-                tmp.write_text(json.dumps(cfg,indent=2)+'\n');tmp.replace(target)
-                result[scope]={'status':'validated','validation':cfg['validation']};continue
+                # Candidate evaluation is not authorization for deployment.
+                # Never overwrite the registered context certificate here.
+                proposal=(Path(root)/'reports'/'calibration_candidates'/
+                          'context_validation'/target.name)
+                proposal.parent.mkdir(parents=True,exist_ok=True)
+                tmp=proposal.with_suffix('.tmp')
+                tmp.write_text(json.dumps(cfg,indent=2,sort_keys=True)+'\n')
+                tmp.replace(proposal)
+                result[scope]={'status':'candidate_pending_registration',
+                    'path':str(proposal),'validation':cfg['validation'],
+                    'production_unchanged':True};continue
             reason='holdout_improvement_not_established'
         except (ValueError,KeyError,TypeError) as exc:reason=str(exc)
-        target.unlink(missing_ok=True);result[scope]={'status':'underpowered_or_unvalidated','reason':reason}
+        result[scope]={'status':'underpowered_or_unvalidated','reason':reason,
+                       'production_unchanged':True}
     return result
 
 if __name__=='__main__':

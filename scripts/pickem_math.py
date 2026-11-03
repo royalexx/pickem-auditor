@@ -345,7 +345,11 @@ def devig(target: float, other: float) -> dict:
         raise PickemError("implied-probability sum is invalid")
     hold = total - 1
     q_mult = _clip01(p_t / total, "q_mult")
-    q_market = _clip01(q_mult - HOLD_SLOPE * max(0.0, hold - HOLD_FREE), "q_market")
+    # A two-way, no-vig probability MUST preserve probability mass.
+    # Keep the old hold haircut as separate risk metadata, never as a
+    # probability benchmark or a quantity scored against observed results.
+    q_market = q_mult
+    hold_risk_penalty = HOLD_SLOPE * max(0.0, hold - HOLD_FREE)
     target_odds = _finite("odds", target)
     return {
         "p_target": p_t,
@@ -353,6 +357,9 @@ def devig(target: float, other: float) -> dict:
         "hold": hold,
         "q_mult": q_mult,
         "q_market": q_market,
+        "q_market_other": 1.0 - q_market,
+        "market_probability_method": "proportional_no_vig_v2",
+        "hold_risk_penalty": hold_risk_penalty,
         "reject_hold": hold > HOLD_REJECT,
         "target_odds": target_odds,
         "target_plus_money": target_odds > 0 or q_mult < 0.5,
@@ -423,30 +430,39 @@ def consensus(books: list[tuple[str, float, float, float]], retrieved_minutes_ag
     # DISAGREE on a sharp market means the sharp books disagree with each other,
     # or a retail book is shorter than the anchor by more than 3 points.
     if sharp:
-        base = min(row["q_market"] for row in sharp)
-        rule = "sharp anchor (lowest sharp value; retail does not undercut it)"
-        sharp_spread = max(row["q_market"] for row in sharp) - base
-        retail_above = any(_exceeds(row["q_market"] - base, DISAGREE) for row in retail)
-        if _exceeds(sharp_spread, DISAGREE) or retail_above:
-            rule = "sharp anchor (disagreement above the anchor; lowest sharp value kept)"
+        # A reference two-way probability must use a single matched quote
+        # for both orientations. Picking the minimum side separately makes
+        # over+under disagree. Choose the lowest-vig sharp quote by a stable
+        # orientation-independent rule instead.
+        anchor = min(sharp, key=lambda row: (abs(row["hold"]),row["key"]))
+        base = anchor["q_market"]
+        rule = "single matched lowest-vig sharp quote"
+        sharp_spread = max(row["q_market"] for row in sharp) - min(
+            row["q_market"] for row in sharp)
+        # A retail price shorter than the sharp benchmark is a review flag;
+        # a longer retail quote does not displace the sharp benchmark.
+        retail_disagreement = any(
+            _exceeds(row["q_market"] - base, DISAGREE) for row in retail)
+        if _exceeds(sharp_spread, DISAGREE) or retail_disagreement:
             out["flags"].append(
-                "DISAGREE: sharp books differ by more than 3 points, or a retail book is "
-                "more than 3 points above the sharp anchor"
+                "DISAGREE: sharp/retail matched quotes differ materially; "
+                "source uncertainty is separate from reference probability"
             )
-        plus = _anchor_plus_money(
-            [row for row in sharp if abs(row["q_market"] - base) <= 1e-9]
-        )
+        out["anchor_book"] = anchor["book"]
+        plus = _anchor_plus_money([anchor])
     else:
         quotes = [row["q_market"] for row in retail]
         base = sum(quotes) / len(quotes)
         rule = "mean of retail books"
         if _exceeds(max(quotes) - min(quotes), DISAGREE):
-            base = min(quotes)
-            rule = "lowest value (books disagree by more than 3 points)"
-            out["flags"].append("DISAGREE: books differ by more than 3 points; conservative value used")
-            plus = _anchor_plus_money(
-                [row for row in retail if abs(row["q_market"] - base) <= 1e-9]
-            )
+            # Use one reproducible retail book for both sides; do not take a
+            # separate over-minimum and under-minimum across different books.
+            anchor = min(retail,key=lambda row:(abs(row["hold"]),row["key"]))
+            base = anchor["q_market"]
+            rule = "single matched lowest-vig retail quote (books disagree)"
+            out["anchor_book"] = anchor["book"]
+            out["flags"].append("DISAGREE: books differ by more than 3 points; review quote dispersion")
+            plus = _anchor_plus_money([anchor])
         else:
             mean_mult = sum(row["q_mult"] for row in retail) / len(retail)
             plus = _anchor_plus_money(retail, mean_mult)
@@ -458,6 +474,10 @@ def consensus(books: list[tuple[str, float, float, float]], retrieved_minutes_ag
             "probability is below 50%; audit note, not a soft flag. Rank does not use it"
         )
     out["q_market"] = _clip01(base, "consensus q_market")
+    # This complement belongs to the same selected consensus orientation;
+    # do not construct two sides from independent side-wise minimum books.
+    out["q_market_other"] = 1.0 - out["q_market"]
+    out["market_probability_method"] = "proportional_no_vig_v2"
     out["rule"] = rule
     _stamp_market(out, retrieved_minutes_ago)
     return out
@@ -1317,6 +1337,16 @@ def finalize(
         final = _lower_final(final, "Watchlist")
     if scored["current_role_n"] < 10:
         final = _lower_final(final, "Tier 2")
+    # Legacy NUMERIC_TIER_* bands (56-58%) are research screening labels only.
+    # Every final label, including direct CLI and batch paths, must satisfy
+    # the same high-conviction policy as the verified publication board.
+    if final in ("Tier 1", "Tier 2", "Tier 3"):
+        from tier_quality import assess as assess_tier
+        decision = assess_tier(final, scored["q_grade"],
+            blend_validated=scored.get("blend_validated") is True,
+            q_market=scored.get("q_market_comparable"), require_edge=True)
+        if not decision["eligible"]:
+            return "Watchlist"
     return final
 
 
@@ -1336,11 +1366,13 @@ def decide(
     normal_left_tail: bool = False,
     mechanism_quality=None,
     prior_supported: bool = False,
+    blend_validated: bool = False,
 ) -> dict:
     scored = grade(
         q_model, q_market, soft_flags, current_role_n, role_change, q_push,
         workload_adjusted, normal_left_tail, prior_supported=prior_supported,
     )
+    scored["blend_validated"] = blend_validated is True
     final = finalize(scored, mechanisms, hard_veto, data_veto, market_valid,
                      research_checklist, mechanism_quality=mechanism_quality)
     scored["final_rank"] = final
@@ -2892,8 +2924,16 @@ def evaluate_candidate(raw: dict, *, now=None) -> dict:
         mechanisms, hard_veto, data_veto, market_valid, research, bool(raw.get("role_change")),
         q_push_grade, workload_adjusted, bool(projected["distribution_block"]),
         mechanism_quality=mechanism_quality, prior_supported=prior_supported,
+        blend_validated=blend.get("validated") is True,
     )
     decided["tier_basis"] = tier_basis
+    # Do not promote an unvalidated lineup-allocation operator into ANY
+    # approved tier. Preserve its output in shared_context for shadow review.
+    # The prior behavior only guarded Tier 1 and permitted Tier 2/3.
+    if (shared_context.get("applied") and not shared_context.get("validated")
+            and not baseline_only):
+        decided["final_rank"] = _lower_final(decided["final_rank"], "Watchlist")
+        decided["reason"] = "UNVALIDATED_CONTEXT_ADJUSTMENT"
     if decided["final_rank"] == "Tier 1" and (not blend["validated"] or
             not reads_result.get("reliable") or not engine_a['reliable'] or
             (shared_context['applied'] and not shared_context['validated'])):

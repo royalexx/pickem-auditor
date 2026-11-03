@@ -133,7 +133,7 @@ def reconcile(items,*,expected):
 def markdown(result):
     lines=['# Matched Bayesian sampler convergence audit','',
            '**Research-only; no production picks or model-weight changes.**','',
-           f'**Frozen source history:** \`{result["frozen_history_source_sha"]}\`','',
+           f'**Frozen source history:** `{result["frozen_history_source_sha"]}`','',
            f'**Artifact status:** {result["status"]}; '+
            f'{result["accepted_backend_market_evaluations"]}/'+
            f'{result["expected_backend_market_evaluations"]} matched backend evaluations.',

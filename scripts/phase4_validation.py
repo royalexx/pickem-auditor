@@ -92,12 +92,13 @@ def original_key(row):
 def read_sidecars(directory, *, version, engine=None):
     """Reject source corruption and identity clashes instead of silent wins."""
     records={}
+    versions=(version,) if isinstance(version,str) else tuple(version)
     folder=Path(directory)
     for file in sorted(folder.glob('*.jsonl')) if folder.is_dir() else ():
         if file.stem!=file.stem[:10] or not _date_str(file.stem):
             raise ValueError('unexpected_sidecar_filename')
         for item in shadow._read(file):
-            if (item.get('version')!=version or item.get('publication_eligible') is not False
+            if (item.get('version') not in versions or item.get('publication_eligible') is not False
                     or item.get('game_date')!=file.stem):
                 raise ValueError('invalid_phase4_source_sidecar')
             key=(shadow.ashad._identity(item) if engine=='A' else shadow.identity(item))
@@ -116,7 +117,8 @@ def _date_str(x):
 def _sidecar_model(item, *, expected, parent=None):
     if not isinstance(item,dict) or item.get('status')!='forecast':
         return None
-    if item.get('version')!=expected or item.get('publication_eligible') is not False:
+    versions=(expected,) if isinstance(expected,str) else tuple(expected)
+    if item.get('version') not in versions or item.get('publication_eligible') is not False:
         return None
     if not item.get('source_digest'):
         return None
@@ -141,8 +143,8 @@ def _snapshot_models(row,a,b,mc):
         models['legacy_mix70']=blend(models['legacy_a'],models['legacy_b'])
     else:models['legacy_mix70']=None
     models['production']=probability(row.get('q_win'),row.get('q_push'))
-    models['bayes_a']=_sidecar_model(a,expected='history-bayes-v1')
-    models['bayes_b']=_sidecar_model(b,expected='usage-bayes-v1')
+    models['bayes_a']=_sidecar_model(a,expected=('history-bayes-v1','history-bayes-v2-cdf-fixed'))
+    models['bayes_b']=_sidecar_model(b,expected=('usage-bayes-v1','usage-bayes-v2-bounded-exposure'))
     models['bayes_mix70']=blend(models['bayes_a'],models['bayes_b'])
     for engine in ('A','B'):
         name='mc_'+engine.lower()
@@ -152,8 +154,7 @@ def _snapshot_models(row,a,b,mc):
         if (isinstance(data,dict) and data.get('status')=='forecast'
                 and data.get('version')=='posterior-mc-v1'
                 and data.get('publication_eligible') is False and
-                data.get('bayesian_parent_version')==('history-bayes-v1' if engine=='A' else 'usage-bayes-v1')
-                and parent is not None and data.get('source_digest')==parent.get('source_digest')):
+                parent is not None and data.get('bayesian_parent_version')==parent.get('version') and data.get('source_digest')==parent.get('source_digest')):
             analytic=_sidecar_model(parent,expected=data['bayesian_parent_version'])
             if analytic is not None:
                 try:
@@ -167,8 +168,8 @@ def _snapshot_models(row,a,b,mc):
 
 
 def _source_rows(original, directories):
-    a=read_sidecars(directories['a'],version='history-bayes-v1',engine='A')
-    b=read_sidecars(directories['b'],version='usage-bayes-v1',engine='B')
+    a=read_sidecars(directories['a'],version=('history-bayes-v1','history-bayes-v2-cdf-fixed'),engine='A')
+    b=read_sidecars(directories['b'],version=('usage-bayes-v1','usage-bayes-v2-bounded-exposure'),engine='B')
     mc=read_sidecars(directories['mc'],version='posterior-mc-v1')
     counters=Counter()
     eligible={}
@@ -219,12 +220,16 @@ def _source_rows(original, directories):
             None if frozen in ambiguous else a.get(frozen[0]),
             None if frozen in ambiguous else b.get(frozen[1]),
             None if frozen in ambiguous else mc.get(frozen[1]))
+        a_parent=None if frozen in ambiguous else a.get(frozen[0])
+        b_parent=None if frozen in ambiguous else b.get(frozen[1])
         result.append({'date':row['game_date'],'sport':row['sport'],
             'stat':row['stat'],'side':row['side'],
             'tier':str(row.get('final_rank') or 'Unknown'),
             'game':str(row.get('event_id') or row.get('matchup') or ''),
             'outcome':row['outcome'],'at':row['_forecast'],'settled_at':row['_settled'],
             'model':models,
+            'bayesian_a_version':a_parent.get('version') if a_parent else None,
+            'bayesian_b_version':b_parent.get('version') if b_parent else None,
             'context_applied':(row.get('shared_context') or {}).get('applied') is True,
             'role_change':(row.get('inputs') or {}).get('role_change') is True,
             'closing_q':row.get('closing_q_market'),
@@ -406,7 +411,12 @@ def validate(original,*,a_dir,b_dir,mc_dir):
                    r['model']['bayes_mix70'] is not None and
                    r['model']['mc_mix70'] is not None]
     shadow_dates=len({r['date'] for r in shadow_cohort})
-    shadow_qualified=(len(shadow_cohort)>=HOLDOUT_N and shadow_dates>=HOLDOUT_DAYS)
+    shadow_versions=sorted({(r['bayesian_a_version'],r['bayesian_b_version'])
+                             for r in shadow_cohort})
+    # Do not certify a pooled cohort containing different likelihood/CDF laws.
+    version_consistent=len(shadow_versions)==1
+    shadow_qualified=(len(shadow_cohort)>=HOLDOUT_N and shadow_dates>=HOLDOUT_DAYS
+                      and version_consistent)
     return {'schema':'phase4_chronological_validation_v1','version':VERSION,
         'status':'holdout_descriptive_only' if legacy_qualified and shadow_qualified
                  else 'underpowered_or_no_prospective_shadow',
@@ -420,7 +430,9 @@ def validate(original,*,a_dir,b_dir,mc_dir):
             'holdout_sample_threshold_met':legacy_qualified,
             'matched_legacy_bayesian_mc_holdout_n':len(shadow_cohort),
             'matched_legacy_bayesian_mc_holdout_dates':shadow_dates,
-            'shadow_holdout_sample_threshold_met':shadow_qualified},
+            'shadow_holdout_sample_threshold_met':shadow_qualified,
+            'shadow_posterior_version_pairs':shadow_versions,
+            'shadow_version_lineage_consistent':version_consistent},
         'holdout_models':model_metrics,'paired_holdout':paired,
         'calibration_by_model':{m:_walk_forward(records,m,train_dates,test_dates)
                                 for m in ('legacy_a','legacy_b','legacy_mix70',
@@ -429,6 +441,7 @@ def validate(original,*,a_dir,b_dir,mc_dir):
         'closing_market':_market(test),
         'limitations':[
            'Historical Bayesian and MC predictions are never backfilled after outcomes',
+           'Pooled shadow scores spanning legacy/new posterior versions are descriptive only; version-pair cohort consistency is required for confirmation',
            'A/B share historical evidence; the diagnostic 70/30 blends are not independent votes',
            'Selection and sample limitations remain; no automatic tier or weight changes',
            'Small sport/stat/tier or reliability bins are explicitly descriptive',

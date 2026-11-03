@@ -15,7 +15,8 @@ from collections import Counter
 from pathlib import Path
 import population_history as history
 
-VERSION="multisport-joint-bayes-v1"
+VERSION="multisport-joint-bayes-v1"  # frozen count releases retain original identity
+YARDAGE_FORECAST_VERSION="multisport-joint-bayes-v2-integer-yardage"
 MAX_RHAT=1.01
 MIN_ESS=400
 
@@ -174,10 +175,13 @@ def _to_values(result):
     if hasattr(result,"to_array"):groups=[result]
     elif hasattr(result,"subtree"):groups=[node.to_dataset() for node in result.subtree]
     else:raise ValueError("unsupported_arviz_results")
+    # Flatten each variable independently: Dataset.to_array() broadcasts unrelated
+    # player, season and opponent coordinates into a Cartesian product.
     values=[]
     for group in groups:
         if getattr(group,"data_vars",None):
-            values.extend(np.asarray(group.to_array(),dtype=float).ravel().tolist())
+            for variable in group.data_vars.values():
+                values.extend(np.asarray(variable,dtype=float).ravel().tolist())
     if not values or not all(math.isfinite(v) for v in values):
         raise ValueError("missing_or_invalid_posterior_diagnostic")
     return values
@@ -190,17 +194,20 @@ def diagnostics(idata,*,all_effects=False):
         keys=["population_workload","population_rate","player_chol_stds",
               "workload_sigma","opponent_rate_sd","home_effect"]
         if all_effects:
-            # Full NHL training cannot be declared converged on global
-            # hyperparameters alone; verify each player's and opponent's
-            # posterior effect along with seasonal effects.
-            keys.extend(k for k in ("player_effect","opponent_rate",
-                        "season_workload","season_rate")
-                        if k in idata.posterior)
+            # Every player, opponent and season effect must be observed, not
+            # silently omitted from a fit receiving strict approval.
+            required=("player_effect","opponent_rate","season_workload","season_rate")
+            if any(k not in idata.posterior for k in required):
+                raise ValueError("missing_required_population_effects")
+            if idata.posterior.sizes.get("chain") != 4:
+                raise ValueError("strict_convergence_requires_four_chains")
+            keys.extend(required)
         if "count_dispersion" in idata.posterior:keys.append("count_dispersion")
         if "yardage_sigma" in idata.posterior:keys.append("yardage_sigma")
         if "season_rate_sd" in idata.posterior:keys.extend(["season_rate_sd","season_workload_sd"])
         all_r=_to_values(rhat(idata.posterior,var_names=keys))
         all_e=_to_values(ess(idata.posterior,var_names=keys,method="bulk"))
+        tail_e=_to_values(ess(idata.posterior,var_names=keys,method="tail"))
         # LKJ correlation diagonals are IDENTICALLY 1 in every posterior
         # draw. Including those constants in ArviZ R-hat/ESS returns NaN
         # and silently vetoes an otherwise converged model. Diagnose only
@@ -213,7 +220,24 @@ def diagnostics(idata,*,all_effects=False):
             ("chain","draw"),corr[...,0,1])})
         all_r.extend(_to_values(rhat(offdiag,var_names=["estimated_player_correlation"])))
         all_e.extend(_to_values(ess(offdiag,var_names=["estimated_player_correlation"],method="bulk")))
+        tail_e.extend(_to_values(ess(offdiag,var_names=["estimated_player_correlation"],method="tail")))
         divergences=int(np.asarray(idata.sample_stats["diverging"]).sum())
+        # PyMC reports reached_max_treedepth for its modern NUTS backend.
+        # If a strict campaign cannot establish depth behavior, reject rather
+        # than treating missing evidence as proof of no saturation.
+        depth=idata.sample_stats.get("reached_max_treedepth")
+        if depth is not None:
+            depth_hits=int(np.asarray(depth).sum())
+            depth_source="reached_max_treedepth"
+        elif "tree_depth" in idata.sample_stats:
+            # PyMC's standard NUTS backend exposes tree_depth, while other
+            # samplers expose reached_max_treedepth. The fallback is valid
+            # only for the documented default max_treedepth=10.
+            depth_hits=int(np.sum(np.asarray(idata.sample_stats["tree_depth"]) >= 10))
+            depth_source="tree_depth_default_max10"
+        else:
+            depth_hits=None
+            depth_source="unavailable"
         # BFMI from each chain; global minimum >= .30 required for approval.
         energy=np.asarray(idata.sample_stats["energy"],dtype=float)
         bfmi=np.mean(np.diff(energy,axis=-1)**2,axis=-1)/np.var(energy,axis=-1)
@@ -222,12 +246,18 @@ def diagnostics(idata,*,all_effects=False):
     except (ImportError,AttributeError,KeyError,TypeError,ValueError) as exc:
         return {"status":"diagnostics_unavailable","error":str(exc)[:180],
                 "posterior_sampling_ok":False,"publication_eligible":False}
-    r_max=max(all_r);ess_min=min(all_e);energy_min=float(min(bfmi))
-    passed=(r_max<=MAX_RHAT and ess_min>=MIN_ESS and
-            divergences==0 and energy_min>=.30)
+    r_max=max(all_r);ess_min=min(all_e);tail_min=min(tail_e)
+    energy_min=float(min(bfmi))
+    # This is a diagnostic eligibility check, not predictive calibration.
+    passed=(r_max<=MAX_RHAT and ess_min>=MIN_ESS and tail_min>=MIN_ESS
+            and divergences==0 and energy_min>=.30 and
+            (not all_effects or (depth_hits is not None and depth_hits==0)))
     return {"status":"sampling_diagnostics_pass" if passed else "sampling_diagnostics_failed",
-        "max_rhat":r_max,"min_bulk_ess":ess_min,
-        "divergences":divergences,"minimum_bfmi":energy_min,
+        "max_rhat":r_max,"min_bulk_ess":ess_min,"min_tail_ess":tail_min,
+        "divergences":divergences,"max_treedepth_hits":depth_hits,"treedepth_diagnostic_source":depth_source,
+        "diagnosed_all_effects":bool(all_effects),
+        "sampler_chains":int(idata.posterior.sizes.get("chain",0)),
+        "minimum_bfmi":energy_min,
         "posterior_sampling_ok":passed,"publication_eligible":False}
 
 
@@ -287,15 +317,25 @@ def forecast(idata,data,*,player_id,opponent,season,home,line,seed=193,
         over_events=nbinom.sf(threshold,alpha,p)
         push_events=nbinom.pmf(threshold,alpha,p) if float(line).is_integer() else np.zeros(draws)
     else:
+        # Yardage is settled as an integer, including negative yards.
+        # The Student-t latent outcome is rounded to the nearest integer.
+        # At whole-number lines, the [L-.5, L+.5] cell is a real push;
+        # at fractional lines it is never a push. This preserves mass.
         scale=sample("yardage_sigma")
-        over_events=t.sf(line,df=4,loc=exposure*rate,scale=scale)
-        push_events=np.zeros(draws)
+        threshold=math.floor(line)+0.5
+        location=exposure*rate
+        over_events=t.sf(threshold,df=4,loc=location,scale=scale)
+        if float(line).is_integer():
+            push_events=t.cdf(line+0.5,df=4,loc=location,scale=scale)-t.cdf(
+                line-0.5,df=4,loc=location,scale=scale)
+        else:
+            push_events=np.zeros(draws)
     if not np.all(np.isfinite(over_events)) or not np.all(np.isfinite(push_events)):
         raise ValueError("invalid_predictive_probabilities")
     over=float(np.mean(over_events));push=float(np.mean(push_events))
     return {"schema":"multi_sport_joint_shadow_forecast_v1",
             "sport":data["sport"],"stat":data["stat"],"family":data["family"],
-            "model_version":VERSION,"player_id":player,"opponent":opponent,
+            "model_version":(YARDAGE_FORECAST_VERSION if data["family"]=="yardage" else VERSION),"player_id":player,"opponent":opponent,
             "season":season,"home":home,"line":float(line),
             "q_over":over,"q_push":push,"q_under":max(0,1-over-push),
             "draws":draws,
@@ -324,8 +364,10 @@ def main(argv=None):
     p.add_argument("--progress-file",type=Path,
         help="Emit GitHub-friendly per-chain progress as JSON and periodic log bars")
     p.add_argument("--progress-interval",type=int,default=45)
-    p.add_argument("--strict-all-effects",action="store_true",
-        help="Also assess convergence for every player, opponent and season effect")
+    p.add_argument("--strict-all-effects",dest="strict_all_effects",action="store_true",
+        default=True, help="Default: diagnose every player/opponent/season effect")
+    p.add_argument("--exploratory-partial-diagnostics",dest="strict_all_effects",
+        action="store_false",help="Research diagnostics only; never approves a production model")
     p.add_argument("--out",type=Path,default=Path("reports/joint_population"))
     a=p.parse_args(argv)
     rows=history.read(a.root,sport=a.sport,stat=a.stat,before=a.as_of,

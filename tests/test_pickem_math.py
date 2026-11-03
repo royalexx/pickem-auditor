@@ -40,12 +40,25 @@ class DevigTests(unittest.TestCase):
         p_other = 105 / 205
         total = p_target + p_other
         q_mult = p_target / total
-        q_market = q_mult - 0.15 * (total - 1 - 0.045)
+        q_market = q_mult
         self.assertAlmostEqual(row["p_target"], p_target, places=6)
         self.assertAlmostEqual(row["hold"], total - 1, places=6)
         self.assertAlmostEqual(row["q_mult"], q_mult, places=6)
         self.assertAlmostEqual(row["q_market"], q_market, places=6)
+        self.assertAlmostEqual(row["q_market"] + row["q_market_other"], 1.0, places=12)
+        self.assertEqual(row["market_probability_method"], "proportional_no_vig_v2")
+        self.assertGreater(row["hold_risk_penalty"], 0)
         self.assertFalse(row["reject_hold"])
+
+    def test_market_two_sided_mass_conservation(self):
+        for target, other in [(-120, -110), (-110, -120), (-110, -110),
+                              (-150, 140), (120, -145)]:
+            row = pm.devig(target, other)
+            flipped = pm.devig(other, target)
+            self.assertAlmostEqual(row["q_market"] + row["q_market_other"], 1, places=12)
+            self.assertAlmostEqual(row["q_market"], flipped["q_market_other"], places=12)
+        consensus = pm.consensus([("Pinnacle", 3.5, -120, -110)], 5)
+        self.assertAlmostEqual(consensus["q_market"] + consensus["q_market_other"], 1, places=12)
 
     def test_high_hold_is_flagged(self):
         row = pm.devig(-150, -150)
@@ -124,16 +137,33 @@ class ConsensusDesignTests(unittest.TestCase):
         self.assertTrue(any(flag.startswith("DISAGREE") for flag in shorter["flags"]))
         self.assertFalse(any(flag.startswith("PLUS-MONEY") for flag in shorter["flags"]))
 
-    def test_retail_only_disagreement_uses_the_lower_value(self):
+    def test_retail_only_disagreement_uses_one_low_vig_matched_quote(self):
         result = pm.consensus([
             ("FanDuel", 3.5, -130, 110),
             ("DraftKings", 3.5, -105, -115),
         ], 5)
         quotes = [pm.devig(-130, 110)["q_market"], pm.devig(-105, -115)["q_market"]]
         self.assertGreater(max(quotes) - min(quotes), 0.03)
-        self.assertAlmostEqual(result["q_market"], min(quotes), places=6)
+        self.assertAlmostEqual(result["q_market"], pm.devig(-130,110)["q_market"], places=6)
+        self.assertEqual(result["anchor_book"], "FanDuel")
         self.assertTrue(any(flag.startswith("DISAGREE") for flag in result["flags"]))
         self.assertTrue(any(flag.startswith("RETAIL_ONLY_TWO_BOOKS") for flag in result["flags"]))
+
+    def test_consensus_is_reciprocal_when_over_and_under_are_scored_separately(self):
+        examples = [
+            [("Pinnacle", 3.5, -130, 110), ("Circa", 3.5, -140, 112)],
+            [("FanDuel", 3.5, -130, 110), ("DraftKings", 3.5, -105, -115)],
+            [("FanDuel", 3.5, -115, -105), ("DraftKings", 3.5, -112, -108)],
+        ]
+        for books in examples:
+            flipped=[(book,line,other,target) for book,line,target,other in books]
+            over=pm.consensus(books,5)
+            under=pm.consensus(flipped,5)
+            self.assertTrue(over["market_valid"])
+            self.assertTrue(under["market_valid"])
+            self.assertAlmostEqual(over["q_market"]+under["q_market"],1.0,places=12)
+            self.assertAlmostEqual(over["q_market_other"],under["q_market"],places=12)
+            self.assertEqual(over.get("anchor_book"),under.get("anchor_book"))
 
     def test_two_retail_books_flag_and_three_do_not(self):
         two = pm.consensus([
@@ -529,7 +559,7 @@ class GapBoundaryTests(unittest.TestCase):
         self.assertEqual(graded["probability_rank"], "NUMERIC_TIER_1")
         self.assertTrue(graded["unicorn_numeric"])
         decided = pm.decide(0.61, 0.58, 0, 30, mechanisms=2, research_checklist=True)
-        self.assertEqual(decided["final_rank"], "Tier 1")
+        self.assertEqual(decided["final_rank"], "Watchlist")
 
     def test_market_below_58_caps_the_numeric_band(self):
         graded = pm.grade(0.60, 0.57, 0, 30)
@@ -603,14 +633,31 @@ class ReconciliationTests(unittest.TestCase):
 
     def test_final_rank_blocks_a_numeric_unicorn(self):
         perfect = dict(q_model=0.61, q_market=0.60, soft_flags=0, current_role_n=20, q_push=0)
-        self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=True)["final_rank"], "Tier 1")
-        self.assertEqual(pm.decide(**perfect, mechanisms=1, research_checklist=True)["final_rank"], "Tier 2")
+        self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=True)["final_rank"], "Watchlist")
+        self.assertEqual(pm.decide(**perfect, mechanisms=1, research_checklist=True)["final_rank"], "Watchlist")
         self.assertEqual(pm.decide(**perfect, mechanisms=0, research_checklist=True)["final_rank"], "Watchlist")
-        self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=False)["final_rank"], "Tier 2")
+        self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=False)["final_rank"], "Watchlist")
         self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=True, hard_veto=True)["final_rank"], "Reject")
         self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=True, data_veto=True)["final_rank"], "Unranked")
         self.assertEqual(pm.decide(**perfect, mechanisms=2, research_checklist=True, market_valid=False)["final_rank"], "Unranked")
 
+
+    def test_core_finalizer_does_not_publish_legacy_screening_bands(self):
+        for forecast in (0.57, 0.58, 0.61, 0.69):
+            value = pm.decide(forecast, forecast-0.01, 0, 30,
+                              mechanisms=2, research_checklist=True)
+            self.assertEqual(value["final_rank"], "Watchlist")
+            self.assertIn(value["probability_rank"],
+                          {"NUMERIC_TIER_1", "NUMERIC_TIER_2",
+                           "NUMERIC_TIER_3", "WATCHLIST"})
+        good = pm.decide(.82, .79, 1, 30, mechanisms=2, research_checklist=True)
+        self.assertEqual(good["final_rank"], "Tier 2")
+        negative = pm.decide(.82, .85, 1, 30,
+                             mechanisms=2, research_checklist=True)
+        self.assertEqual(negative["final_rank"], "Watchlist")
+        unicorn = pm.decide(.92,.91,0,30,mechanisms=2,
+                            research_checklist=True,blend_validated=True)
+        self.assertEqual(unicorn["final_rank"], "Tier 1")
 
 class EnforcementTests(unittest.TestCase):
     def _rank(self, q_model, q_market, flags, role_n, mechanisms, **extra):
@@ -623,8 +670,8 @@ class EnforcementTests(unittest.TestCase):
         )
 
     def test_soft_flag_ceilings(self):
-        self.assertEqual(self._rank(0.60, 0.60, 1, 20, 2)["final_rank"], "Tier 2")
-        self.assertEqual(self._rank(0.60, 0.60, 2, 20, 2)["final_rank"], "Tier 3")
+        self.assertEqual(self._rank(0.60, 0.60, 1, 20, 2)["final_rank"], "Watchlist")
+        self.assertEqual(self._rank(0.60, 0.60, 2, 20, 2)["final_rank"], "Watchlist")
         self.assertEqual(self._rank(0.60, 0.60, 3, 20, 2)["final_rank"], "Watchlist")
         self.assertNotEqual(self._rank(0.575, 0.59, 0, 20, 2)["final_rank"], "Tier 1")
         self.assertEqual(self._rank(0.55, 0.55, 0, 20, 2)["final_rank"], "Watchlist")
@@ -683,7 +730,7 @@ class EnforcementTests(unittest.TestCase):
         )
         self.assertNotIn("ROLE_EB", hot["notes"])
         thin = self._rank(0.70, 0.70, 0, 7, 2, role_change=True)
-        self.assertEqual(thin["final_rank"], "Tier 2")
+        self.assertEqual(thin["final_rank"], "Watchlist")
         self.assertIn("LOW_SAMPLE", thin["notes"])
 
     def test_context_weight_is_not_a_prior_toward_the_baseline(self):
@@ -704,7 +751,7 @@ class EnforcementTests(unittest.TestCase):
         decided = pm.decide(0.60, 0.60, 1, 20, mechanisms=2, research_checklist=True)
         self.assertEqual(scored["probability_rank"], decided["probability_rank"])
         self.assertEqual(scored["soft_flags"], decided["soft_flags"])
-        self.assertEqual(decided["final_rank"], "Tier 2")
+        self.assertEqual(decided["final_rank"], "Watchlist")
 
 
 class PipelineTests(unittest.TestCase):
