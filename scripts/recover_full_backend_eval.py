@@ -86,7 +86,7 @@ def consolidate(plan,original,recovered):
     n_ok=0;n_diag_pass=0
     lines=['# Full 31-market / 3-backend Bayesian shadow benchmark',
            '',
-           f'Original frozen source warehouse commit: \`{plan["archive_sha"]}\`.',
+           f'Original frozen source warehouse commit: `{plan["archive_sha"]}`.',
            '',
            'These are training-derived fixed research thresholds, NOT observed sports-'
            'book odds or calibrated betting recommendations. **No production switch**.',
