@@ -1,6 +1,6 @@
 # Live NUTS health monitoring — Pick'em Auditor
 
-**Scope:** New training runs that use the current main branch's PyMC progress reporter. Not retroactive to running market fits: campaign `week-20261102` is frozen to the original model-code commit. No runtime sampler parameters or gate thresholds are changed.
+**Scope:** Training runs *after market 0 (SOG)* in the frozen `week-20261102` campaign, starting with market 1, will load the independently pinned monitor overlay. The current SOG run is unchanged. The model code, historical inputs, priors, four-chain NUTS settings and convergence gates remain frozen.
 
 This reporter augments the existing `NUTS_PROGRESS` line and `progress.json` with a `NUTS_HEALTH` JSON log every reporting interval (typically 45 seconds). It records **per chain**:
 
@@ -38,6 +38,8 @@ Offline tests:
 python -m unittest discover -s tests -p 'test_precision_sampling_progress.py' -v
 ```
 
-**Deployment note:** Training launch workflows check out an immutable `CODE_HEAD` before sampling. A change on `main` will affect **future campaigns that explicitly select this newer code SHA**, not the active 31-market frozen campaign and not the current SOG job. To add monitoring without changing model code mid-campaign would require a separately reviewed out-of-tree reporter override with an integrity contract; this patch does not attempt that.
+**Deployment now enabled for successor markets:** `.github/workflows/precision-full-markets.yml` stages and tests an exact, Git-blob-pinned `precision_sampling_progress.py` from the workflow's `main` checkout, **before** checking out the campaign's frozen `CODE_HEAD`. After frozen-code verification, it replaces only the progress reporter module for **indices 1–30**, not the model itself, and writes a `monitor_receipt.json` documenting both frozen model SHA and monitor blob SHA. The existing market-zero SOG run was launched before this workflow change and cannot be modified by it.
+
+**Warnings are advisory only.** The reporter never intentionally raises or cancels based on health readings. If the telemetry or output file fails during sampling, the monitor disables itself, reports `NUTS_MONITOR_UNAVAILABLE` if possible, and sampling continues unchanged. Before a future run starts, an unexpected monitor digest or failed self-test blocks startup to avoid silently deploying unintended code; that is a deployment integrity failure, not a sampler-health-triggered cancellation. The next market is still queued **only if the previous fit succeeds** under the campaign's existing convergence gates. No automatic restart is added.
 
 See PyMC's NUTS diagnostics: https://www.pymc.io/projects/docs/en/latest/api/generated/pymc.NUTS.html
