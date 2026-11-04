@@ -87,7 +87,7 @@ class WindowsTrainingContractTests(unittest.TestCase):
         root = Path(__file__).resolve().parents[1]
         workflow = (root / ".github/workflows/precision-full-markets.yml").read_text()
         monitor = (root / "scripts/precision_sampling_progress.py").read_bytes()
-        blob = hashlib.sha1(b"blob " + str(len(monitor)).encode() + b"\\x00" + monitor).hexdigest()
+        blob = hashlib.sha1(b"blob " + str(len(monitor)).encode() + bytes([0]) + monitor).hexdigest()
         self.assertIn(blob, workflow, "monitor digest must match exact staged source")
         self.assertEqual(workflow.count("if: env.INDEX != '0'"), 2)
         self.assertLess(workflow.index("NUTS_MONITOR_STAGED"), workflow.index(
