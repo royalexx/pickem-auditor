@@ -1,0 +1,113 @@
+"""No-network, no-PyMC tests for online NUTS diagnostic logging."""
+from __future__ import annotations
+
+import io
+import json
+import sys
+import tempfile
+import unittest
+from contextlib import redirect_stdout
+from pathlib import Path
+from types import SimpleNamespace
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+from precision_sampling_progress import NUTSProgress, _ChainHealth
+
+
+def stats(**changes):
+    base = {"diverging": False, "reached_max_treedepth": False,
+            "mean_tree_accept": .99, "step_size": .05,
+            "depth": 7, "tree_size": 60, "energy": 10.0,
+            "max_energy_error": .01}
+    base.update(changes)
+    return base
+
+
+class OnlineStatsTest(unittest.TestCase):
+    def test_warmup_problems_not_counted_as_posterior_divergences(self):
+        chain = _ChainHealth()
+        chain.observe(tuning=True, stats=stats(diverging=True,
+                      reached_max_treedepth=True), now=10)
+        chain.observe(tuning=False, stats=stats(diverging=True,
+                      reached_max_treedepth=True), now=20)
+        item = chain.snapshot(now=21, complete=False, target_accept=.99,
+                              stall_seconds=900)
+        self.assertEqual(item["warmup_divergences"], 1)
+        self.assertEqual(item["posterior_divergences"], 1)
+        self.assertEqual(item["posterior_max_treedepth_hits"], 1)
+        self.assertIn("posterior_divergence_detected", item["warnings"])
+        self.assertIn("posterior_treedepth_saturated", item["warnings"])
+
+    def test_rolling_acceptance_warning_requires_enough_posterior_draws(self):
+        chain = _ChainHealth()
+        for i in range(99):
+            chain.observe(tuning=False, stats=stats(mean_tree_accept=.5), now=i)
+        self.assertNotIn("recent_acceptance_below_target", chain.snapshot(
+            now=99, complete=False, target_accept=.99, stall_seconds=900)["warnings"])
+        chain.observe(tuning=False, stats=stats(mean_tree_accept=.5), now=100)
+        self.assertIn("recent_acceptance_below_target", chain.snapshot(
+            now=100, complete=False, target_accept=.99, stall_seconds=900)["warnings"])
+        self.assertAlmostEqual(chain.snapshot(now=100, complete=False,
+            target_accept=.99, stall_seconds=900)["recent_100_posterior_acceptance_mean"], .5)
+
+    def test_ebfmi_provisional_low_energy_movement(self):
+        chain = _ChainHealth()
+        for i in range(250):
+            chain.observe(tuning=False, stats=stats(energy=100.0 + .03 * i), now=i)
+        item = chain.snapshot(now=250, complete=False, target_accept=.99,
+                              stall_seconds=900)
+        self.assertIsNotNone(item["provisional_ebfmi"])
+        self.assertLess(item["provisional_ebfmi"], .3)
+        self.assertIn("provisional_low_ebfmi", item["warnings"])
+
+    def test_unstarted_chain_not_falsely_stalled(self):
+        chain = _ChainHealth()
+        item = chain.snapshot(now=999999, complete=False, target_accept=.99,
+                              stall_seconds=900)
+        self.assertEqual(item["activity"], "not_started")
+        self.assertNotIn("active_chain_no_recent_draw", item["warnings"])
+        chain.observe(tuning=True, stats=stats(), now=100)
+        item = chain.snapshot(now=1100, complete=False, target_accept=.99,
+                              stall_seconds=900)
+        self.assertIn("active_chain_no_recent_draw", item["warnings"])
+        self.assertNotIn("active_chain_no_recent_draw", chain.snapshot(
+            now=1100, complete=True, target_accept=.99, stall_seconds=900)["warnings"])
+
+    def test_missing_sampler_stats_and_nonfinite_energy(self):
+        chain = _ChainHealth()
+        for i in range(50):
+            chain.observe(tuning=True, stats=None, now=i)
+        item = chain.snapshot(now=50, complete=False, target_accept=.99,
+                              stall_seconds=900)
+        self.assertIn("nuts_callback_stats_missing", item["warnings"])
+        chain.observe(tuning=False, stats=stats(energy=float("nan")), now=51)
+        item = chain.snapshot(now=52, complete=False, target_accept=.99,
+                              stall_seconds=900)
+        self.assertIn("nonfinite_posterior_energy", item["warnings"])
+        json.dumps(item, allow_nan=False)
+
+
+class ProgressIntegrationTest(unittest.TestCase):
+    def test_log_lines_and_json_keep_old_schema_and_new_health(self):
+        with tempfile.TemporaryDirectory() as td, redirect_stdout(io.StringIO()) as stdout:
+            output = Path(td) / "progress.json"
+            reporter = NUTSProgress(draws=4, tune=3, chains=4, output=output,
+                                    sport="NHL", stat="shots on goal", interval_seconds=3600)
+            for i in range(7):
+                reporter(trace=None, draw=SimpleNamespace(
+                    chain=0, draw_idx=i, tuning=i < 3,
+                    stats=[stats(diverging=(i == 4))]))
+            reporter.close()
+            record = json.loads(output.read_text())
+            self.assertEqual(record["schema"], "pymc_chain_progress_v1")
+            self.assertEqual(record["per_chain_iterations"], {"0": 7, "1": 0, "2": 0, "3": 0})
+            self.assertEqual(record["health"]["chains"]["0"]["posterior_divergences"], 1)
+            self.assertEqual(record["health"]["chains"]["1"]["activity"], "not_started")
+            self.assertEqual(record["health"]["diagnostic_status"], "provisional_not_convergence_certification")
+            self.assertTrue(record["health"]["final_rhat_ess_bfmi_required"])
+            self.assertIn("NUTS_HEALTH", stdout.getvalue())
+            self.assertIn("NUTS_PROGRESS", stdout.getvalue())
+
+
+if __name__ == "__main__":
+    unittest.main()
