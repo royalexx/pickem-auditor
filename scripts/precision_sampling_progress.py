@@ -182,10 +182,15 @@ class NUTSProgress:
         self.stage = "initializing_and_compiling"
         self.lock = threading.Lock()
         self.shutdown = threading.Event()
-        self.output.parent.mkdir(parents=True, exist_ok=True)
-        self._emit("init")
-        self.heartbeat = threading.Thread(target=self._heartbeat, daemon=True)
-        self.heartbeat.start()
+        self._disabled = False
+        self.heartbeat = None
+        try:
+            self.output.parent.mkdir(parents=True, exist_ok=True)
+            self._emit("init")
+            self.heartbeat = threading.Thread(target=self._heartbeat, daemon=True)
+            self.heartbeat.start()
+        except Exception as exc:
+            self._disable(exc)
 
     def _state(self, status):
         completed = sum(self.counts.values())
@@ -254,41 +259,70 @@ class NUTSProgress:
             "alerts": item["health"]["warnings"], "status": "provisional",
         }, sort_keys=True, separators=(",", ":")), flush=True)
 
+    def _disable(self, error):
+        # Observability must NEVER become a reason to interrupt NUTS.
+        if self._disabled:
+            return
+        self._disabled = True
+        self.shutdown.set()
+        try:
+            print("NUTS_MONITOR_UNAVAILABLE " + type(error).__name__ +
+                  " (sampling continues; telemetry disabled)", flush=True)
+        except Exception:
+            pass
+
     def _heartbeat(self):
         while not self.shutdown.wait(self.interval):
             with self.lock:
+                if self._disabled:
+                    return
                 if time.monotonic() - self.last_print >= self.interval:
-                    self._emit("running")
-                    self.last_print = time.monotonic()
+                    try:
+                        self._emit("running")
+                        self.last_print = time.monotonic()
+                    except Exception as exc:
+                        self._disable(exc)
+                        return
 
     def __call__(self, *, trace, draw):
-        chain = str(int(draw.chain))
-        if chain not in self.counts:
-            raise ValueError("unexpected_sampling_chain_index")
-        with self.lock:
-            self.first_draw = True
-            tuning = bool(draw.tuning)
-            self.stage = "warmup" if tuning else "posterior_sampling"
-            self.counts[chain] = max(self.counts[chain], int(draw.draw_idx) + 1)
-            stats = None
-            raw_stats = getattr(draw, "stats", None)
-            if isinstance(raw_stats, (list, tuple)):
-                for entry in raw_stats:
-                    if isinstance(entry, dict) and any(
-                            key in entry for key in ("diverging", "depth", "mean_tree_accept")):
-                        stats = entry
-                        break
-            elif isinstance(raw_stats, dict):
-                stats = raw_stats
-            now = time.monotonic()
-            self.health[chain].observe(tuning=tuning, stats=stats, now=now)
-            if now - self.last_print >= self.interval or self.counts[chain] == self.total:
-                self._emit("running")
-                self.last_print = now
+        if self._disabled:
+            return
+        try:
+            chain = str(int(draw.chain))
+            if chain not in self.counts:
+                raise ValueError("unexpected_sampling_chain_index")
+            with self.lock:
+                self.first_draw = True
+                tuning = bool(draw.tuning)
+                self.stage = "warmup" if tuning else "posterior_sampling"
+                self.counts[chain] = max(self.counts[chain], int(draw.draw_idx) + 1)
+                stats = None
+                raw_stats = getattr(draw, "stats", None)
+                if isinstance(raw_stats, (list, tuple)):
+                    for entry in raw_stats:
+                        if isinstance(entry, dict) and any(
+                                key in entry for key in ("diverging", "depth", "mean_tree_accept")):
+                            stats = entry
+                            break
+                elif isinstance(raw_stats, dict):
+                    stats = raw_stats
+                now = time.monotonic()
+                self.health[chain].observe(tuning=tuning, stats=stats, now=now)
+                if now - self.last_print >= self.interval or self.counts[chain] == self.total:
+                    self._emit("running")
+                    self.last_print = now
+        except Exception as exc:
+            self._disable(exc)
 
     def close(self, status="completed"):
         self.shutdown.set()
-        self.heartbeat.join(timeout=2)
-        with self.lock:
-            self.stage = "done" if status == "completed" else "interrupted"
-            self._emit(status)
+        if self.heartbeat is not None:
+            self.heartbeat.join(timeout=2)
+        if self._disabled:
+            return
+        try:
+            with self.lock:
+                self.stage = "done" if status == "completed" else "interrupted"
+                self._emit(status)
+        except Exception as exc:
+            self._disable(exc)
