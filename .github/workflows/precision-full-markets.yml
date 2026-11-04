@@ -101,6 +101,23 @@ jobs:
       - name: Preserve campaign freeze helper across pinned-code checkout
         run: |
           Copy-Item scripts/precision_frozen_cache.py (Join-Path $env:RUNNER_TEMP 'precision_frozen_cache.py') -Force
+      # A lightweight observation-only overlay is staged from the workflow
+      # trigger commit BEFORE replacing the worktree with frozen model code.
+      # Market 0 is excluded: never modify or relaunch the active SOG fit.
+      - name: Stage tested NUTS health monitor for successor markets
+        if: env.INDEX != '0'
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $expected = '04cfb540723cd5b10ed670ffddb900d2e6a7625b'
+          $blob = (git hash-object -- scripts/precision_sampling_progress.py).Trim()
+          if ($LASTEXITCODE -ne 0 -or $blob -ne $expected) { throw 'NUTS_MONITOR_SOURCE_DIGEST_MISMATCH' }
+          python -m unittest discover -s tests -p 'test_precision_sampling_progress.py' -v
+          if ($LASTEXITCODE -ne 0) { throw 'NUTS_MONITOR_SELF_TEST_FAILED' }
+          $staged = Join-Path $env:RUNNER_TEMP 'consultative_nuts_monitor.py'
+          Copy-Item scripts/precision_sampling_progress.py $staged -Force
+          $copy = (git hash-object -- $staged).Trim()
+          if ($LASTEXITCODE -ne 0 -or $copy -ne $expected) { throw 'NUTS_MONITOR_STAGING_DIGEST_MISMATCH' }
+          Write-Host "NUTS_MONITOR_STAGED sha=$copy advisory_only=true"
       - name: Check out exact frozen code
         run: |
           $ErrorActionPreference = 'Stop'
@@ -190,6 +207,36 @@ jobs:
           $python = Join-Path $env:RUNNER_TEMP 'pickem-joint-env\Scripts\python.exe'
           & $python scripts/precision_training_driver.py validate
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Install observational monitor without changing the frozen model
+        if: env.INDEX != '0'
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ((git rev-parse HEAD).Trim() -ne $env:CODE_HEAD) { throw 'FROZEN_MODEL_CODE_MISMATCH_BEFORE_MONITOR' }
+          $source = Join-Path $env:RUNNER_TEMP 'consultative_nuts_monitor.py'
+          if (-not (Test-Path -PathType Leaf $source)) { throw 'STAGED_NUTS_MONITOR_NOT_FOUND' }
+          $expected = '04cfb540723cd5b10ed670ffddb900d2e6a7625b'
+          Copy-Item $source 'scripts/precision_sampling_progress.py' -Force
+          $actual = (git hash-object -- scripts/precision_sampling_progress.py).Trim()
+          if ($LASTEXITCODE -ne 0 -or $actual -ne $expected) { throw 'NUTS_MONITOR_INSTALL_DIGEST_MISMATCH' }
+          $changedScripts = @(git diff --name-only -- scripts)
+          if (@($changedScripts | Where-Object { $_ -ne 'scripts/precision_sampling_progress.py' }).Count -ne 0) {
+            throw 'FROZEN_MODEL_SOURCE_CHANGED_OUTSIDE_MONITOR'
+          }
+          $folder = Join-Path 'reports/precision_training' $env:GITHUB_RUN_ID
+          New-Item -ItemType Directory -Force -Path $folder | Out-Null
+          $record = [ordered]@{
+            schema = 'precision_observational_monitor_overlay_v1'
+            market_index = $env:INDEX
+            frozen_model_code_sha = $env:CODE_HEAD
+            frozen_history_sha = $env:SOURCE_HEAD
+            monitor_blob_sha = $actual
+            overlay_only = 'scripts/precision_sampling_progress.py'
+            changes_priors_sampler_settings_or_training_data = $false
+            automatic_cancellation_or_restart_enabled = $false
+            monitoring_failure_nonfatal = $true
+          }
+          $record | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 (Join-Path $folder 'monitor_receipt.json')
+          Write-Host "NUTS_MONITOR_INSTALLED market=$env:INDEX frozen_code=$env:CODE_HEAD monitor=$actual advisory_only=true"
       - name: Sample hierarchical NUTS model with four chains
         id: fit
         run: |
