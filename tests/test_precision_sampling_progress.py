@@ -88,6 +88,32 @@ class OnlineStatsTest(unittest.TestCase):
 
 
 class ProgressIntegrationTest(unittest.TestCase):
+    def test_monitor_failure_never_propagates_to_sampling_callback(self):
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as td, redirect_stdout(io.StringIO()) as output:
+            monitor = NUTSProgress(draws=4, tune=3, chains=2,
+                                   output=Path(td) / "progress.json",
+                                   sport="NHL", stat="shots on goal", interval_seconds=3600)
+            with patch.object(monitor, "_emit", side_effect=OSError("simulated_disk_failure")):
+                monitor(trace=None, draw=SimpleNamespace(
+                    chain=0, draw_idx=0, tuning=True, stats=[stats()]))
+            self.assertTrue(monitor._disabled)
+            # A monitor exception does not throw, cancel, or restart NUTS.
+            monitor(trace=None, draw=SimpleNamespace(
+                chain=0, draw_idx=1, tuning=True, stats=[stats()]))
+            monitor.close()
+            self.assertIn("sampling continues; telemetry disabled", output.getvalue())
+
+    def test_unexpected_draw_chain_disables_monitor_without_raising(self):
+        with tempfile.TemporaryDirectory() as td, redirect_stdout(io.StringIO()):
+            monitor = NUTSProgress(draws=4, tune=3, chains=2,
+                                   output=Path(td) / "progress.json",
+                                   sport="NHL", stat="shots on goal", interval_seconds=3600)
+            monitor(trace=None, draw=SimpleNamespace(
+                chain=99, draw_idx=0, tuning=True, stats=None))
+            self.assertTrue(monitor._disabled)
+            monitor.close()
+
     def test_log_lines_and_json_keep_old_schema_and_new_health(self):
         with tempfile.TemporaryDirectory() as td, redirect_stdout(io.StringIO()) as stdout:
             output = Path(td) / "progress.json"
