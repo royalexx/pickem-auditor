@@ -82,6 +82,41 @@ class WindowsTrainingContractTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             driver.settings(self._env(STAT="made up counting stat"))
 
+    def test_next_market_gets_separate_pinned_monitor_after_frozen_checkout(self):
+        import hashlib
+        root = Path(__file__).resolve().parents[1]
+        workflow = (root / ".github/workflows/precision-full-markets.yml").read_text()
+        monitor = (root / "scripts/precision_sampling_progress.py").read_bytes()
+        blob = hashlib.sha1(b"blob " + str(len(monitor)).encode() + b"\\x00" + monitor).hexdigest()
+        self.assertIn(blob, workflow, "monitor digest must match exact staged source")
+        self.assertEqual(workflow.count("if: env.INDEX != '0'"), 2)
+        self.assertLess(workflow.index("NUTS_MONITOR_STAGED"), workflow.index(
+            "      - name: Check out exact frozen code"))
+        self.assertLess(workflow.index("      - name: Check out exact frozen code"),
+                        workflow.index("NUTS_MONITOR_INSTALLED"))
+        self.assertLess(workflow.index("NUTS_MONITOR_INSTALLED"),
+                        workflow.index("      - name: Sample hierarchical NUTS model with four chains"))
+        self.assertIn("git rev-parse HEAD", workflow)
+        self.assertIn("FROZEN_MODEL_SOURCE_CHANGED_OUTSIDE_MONITOR", workflow)
+        self.assertIn("code_sha = [string]$env:CODE_HEAD", workflow)
+        self.assertIn("index = [string]$env:NEXT_INDEX", workflow)
+        self.assertIn("monitor_receipt.json", workflow)
+        self.assertIn("monitoring_failure_nonfatal = $true", workflow)
+
+    def test_monitored_successor_does_not_change_sampling_or_restart_behavior(self):
+        root = Path(__file__).resolve().parents[1]
+        workflow = (root / ".github/workflows/precision-full-markets.yml").read_text()
+        module = (root / "scripts/precision_sampling_progress.py").read_text()
+        self.assertIn("PICKEM_NUTS_CHAINS: '4'", workflow)
+        self.assertIn("PICKEM_NUTS_DRAWS: '2000'", workflow)
+        self.assertIn("PICKEM_NUTS_TUNE: '1800'", workflow)
+        self.assertIn("PICKEM_STRICT_ALL_EFFECTS: '1'", workflow)
+        self.assertIn("timeout-minutes: 7200", workflow)
+        self.assertIn("sampling continues; telemetry disabled", module)
+        self.assertIn("except Exception as exc:", module)
+        self.assertNotIn("sys.exit(", module)
+        self.assertNotIn("raise SystemExit", module)
+
     def test_history_cache_miss_does_not_abort_pinned_source_fallback(self):
         workflow = (Path(__file__).resolve().parents[1] /
                     ".github/workflows/precision-full-markets.yml").read_text()
