@@ -235,8 +235,15 @@ def settled_matches(afternoon,morning,day):
         if doc.get("game_date")!=day:raise ValueError("MIXED_SETTLEMENT_DATES")
         for row in doc.get("settlements",[]):
             key=identity(row)
-            if key in settles and canonical(settles[key])!=canonical(row):
-                raise ValueError("CONFLICTING_OFFICIAL_SETTLEMENT")
+            if key in settles:
+                prior=settles[key]
+                if (prior.get("actual_stat"),prior.get("outcome"))!=(
+                     row.get("actual_stat"),row.get("outcome")):
+                    raise ValueError("CONFLICTING_OFFICIAL_SETTLEMENT")
+                # Repeated morning settlement is idempotent; retain the
+                # earlier timestamp without rewriting the original forecast.
+                if str(row.get("settled_at") or "") >= str(prior.get("settled_at") or ""):
+                    continue
             settles[key]=row
     candidates=[]
     for key,final in settles.items():
@@ -576,27 +583,19 @@ def forecast_sidecar(*,root,date_text,state,out):
         bsrc=indices["bayesian_b"].get(key) or {}
         exposure=bsrc.get("workload_mean")
         prediction={"status":"unavailable","reason":"unseen_player_or_missing_exposure"}
-        if rate and rate["games"]>=MIN_PLAYER_GAMES and prob(exposure) is None:
+        if rate and rate["games"]>=MIN_PLAYER_GAMES:
+            # Future exposure is a pregame Engine B estimate. Never infer it
+            # from the target game's postgame workload.
             try:
                 ex=float(exposure)
-                line=float(row["reference_line"])
-                q,push=count_probability(rate,exposure=ex,line=line,side=row["side"])
+                q,push=count_probability(rate,exposure=ex,
+                                         line=float(row["reference_line"]),side=row["side"])
                 prediction={"status":"research_shadow","q_win":round(q,10),
                             "q_push":round(push,10),"posterior_games":rate["games"],
+                            "historical_seed_games":rate.get("historical_seed_games",0),
+                            "live_games":rate.get("live_games",0),
                             "posterior_mean_rate":rate["alpha"]/rate["beta"],
                             "estimated_future_exposure":ex,
-                            "approved_for_production":False}
-            except (ValueError,TypeError,OverflowError):pass
-        elif rate and rate["games"]>=MIN_PLAYER_GAMES:
-            # exposure is typically greater than one, but valid values
-            # <1 should still be supported if independently verified.
-            try:
-                q,push=count_probability(rate,exposure=float(exposure),
-                                         line=float(row["reference_line"]),side=row["side"])
-                prediction={"status":"research_shadow","q_win":round(q,10),"q_push":round(push,10),
-                            "posterior_games":rate["games"],
-                            "posterior_mean_rate":rate["alpha"]/rate["beta"],
-                            "estimated_future_exposure":float(exposure),
                             "approved_for_production":False}
             except (ValueError,TypeError,OverflowError):pass
         result["models"]["player_rate_gamma_poisson"]=prediction
