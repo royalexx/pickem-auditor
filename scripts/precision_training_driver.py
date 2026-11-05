@@ -71,6 +71,15 @@ def execute(stage: str, *, root: Path = ROOT, env=None) -> dict:
     target.mkdir(parents=True, exist_ok=True)
     base = ["--sport", conf["sport"], "--stat", conf["stat"],
             "--train-from", conf["train_from"]]
+    if stage == "validate" and (os.environ if env is None else env).get("PICKEM_IMPORT_LIVE_POOL") == "1":
+        # For NEW, explicitly opted-in campaigns only. Frozen runs remain
+        # isolated by their pinned code and source commits.
+        import live_pool_exchange as pool
+        live_token = (os.environ if env is None else env).get("GITHUB_TOKEN")
+        if not live_token:
+            raise ValueError("LIVE_POOL_OPT_IN_REQUIRES_GITHUB_TOKEN")
+        receipt = pool.import_population(root, token=live_token, before=conf["cutoff"])
+        print("NEW_CAMPAIGN_LIVE_SOURCE_IMPORT " + json.dumps(receipt, sort_keys=True), flush=True)
     if stage == "validate":
         if conf["mode"] == "holdout":
             run("scripts/population_window_check.py", *base, "--as-of", conf["cutoff"],
