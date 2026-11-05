@@ -1,0 +1,85 @@
+name: One-time cloud slate inference 2026-11-05 (no Dell)
+on:
+  push:
+    branches: [cloud/20261105-slate]
+    paths:
+      - '.github/workflows/cloud-slate-20261105.yml'
+permissions:
+  contents: read
+jobs:
+  pregame:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PROPLINE_API_KEY: ${{ secrets.PROPLINE_API_KEY }}
+      PICKEM_ODDS_QUOTA_GUARD: '1'
+      PICKEM_DISABLE_ODDS: '0'
+      PICKEM_ENABLE_ODDS_API_NHL_BLOCKS: '0'
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Confirm isolated cloud and target date
+        run: |
+          test "$RUNNER_OS" = Linux
+          test "$(TZ=America/Toronto date +%F)" = 2026-11-05
+          echo "CLOUD_EXECUTION_GITHUB_HOSTED_UNBUNTU"
+      - name: Install lightweight daily inference dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Restore historical observations and original forecasts (read-only)
+        run: bash scripts/shadow_store.sh load
+      - name: Collect NHL completed-game observations
+        run: python scripts/nhl_collect.py --days 3
+      - name: Fetch today's actual slate, player logs and bulk market quotes
+        run: python scripts/fetch_slate.py --out data/slate_fetch.jsonl
+      - name: Collect primary source scouting
+        run: python scripts/auto_research.py
+      - name: Run production Engine A, Engine B, and guarded blend
+        run: python scripts/jobs.py snapshot --reuse-collected
+      - name: Run Bayesian A and B comparison sidecars
+        if: always()
+        run: |
+          if [ -f data/prop_snapshots.jsonl ]; then
+            python scripts/bayesian_shadow.py --date 2026-11-05 --snapshots data/prop_snapshots.jsonl --data-root data --out data/bayesian_shadow/2026-11-05.jsonl --receipt reports/bayesian_a_shadow_receipt.json || true
+            python scripts/bayesian_b_shadow.py --date 2026-11-05 --snapshots data/prop_snapshots.jsonl --data-root data --out data/bayesian_b_shadow/2026-11-05.jsonl --receipt reports/bayesian_b_shadow_receipt.json || true
+            python scripts/posterior_mc_shadow.py --date 2026-11-05 --original data/prop_snapshots.jsonl --data-root data --out data/posterior_mc/2026-11-05.jsonl --receipt reports/posterior_mc_receipt.json || true
+          fi
+      - name: Export immutable same-day comparisons and diagnostic receipt
+        if: always()
+        run: |
+          mkdir -p reports/cloud_20261105
+          python - <<'PY'
+          import json,os
+          from datetime import datetime,timezone
+          from pathlib import Path
+          d=Path('reports/cloud_20261105')
+          r={'date':'2026-11-05','environment':'github_hosted_ubuntu','generated_at':datetime.now(timezone.utc).isoformat(),'credentials_present':bool(os.getenv('PROPLINE_API_KEY'))}
+          for name in ('data/slate_fetch.meta.json','reports/bayesian_a_shadow_receipt.json','reports/bayesian_b_shadow_receipt.json','reports/posterior_mc_receipt.json'):
+              p=Path(name)
+              if p.exists():
+                  try:r[name]=json.loads(p.read_text())
+                  except Exception as e:r[name]={'error':str(e)}
+          for filename in ('data/prop_snapshots.jsonl','data/odds_quotes.jsonl','data/slate_fetch.jsonl','data/bayesian_shadow/2026-11-05.jsonl','data/bayesian_b_shadow/2026-11-05.jsonl','data/posterior_mc/2026-11-05.jsonl'):
+              p=Path(filename);out=d/(p.stem.replace('.jsonl','')+'_today.jsonl')
+              n=0
+              if p.exists():
+                  with p.open(errors='replace') as src,out.open('w') as dst:
+                      for line in src:
+                          try:
+                              obj=json.loads(line)
+                              if '2026-11-05' not in (str(obj.get('date'))+' '+str(obj.get('game_date'))+' '+str(obj.get('forecast_at'))+' '+str(obj.get('commence_time'))):continue
+                          except Exception:continue
+                          dst.write(line);n+=1
+              r[filename+'_rows']=n
+          (d/'receipt.json').write_text(json.dumps(r,indent=2,default=str))
+          print('CLOUD_DAILY_RECEIPT',json.dumps({k:v for k,v in r.items() if isinstance(v,(str,int,bool))},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cloud-slate-20261105
+          path: reports/cloud_20261105/
+          if-no-files-found: warn
+          retention-days: 2
