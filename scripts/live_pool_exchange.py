@@ -153,6 +153,9 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
         shadow[key]=[r for r in rows if r.get("run_id")==selected_run]
     meta=source/"slate_fetch.meta.json"
     source_meta=json.loads(meta.read_text()) if phase=="afternoon" and meta.is_file() else None
+    raw_source_path=root/"data/live_pool_staging/raw"/(game_date+".json")
+    raw_collected_sources=(json.loads(raw_source_path.read_text())
+                           if phase=="morning" and raw_source_path.is_file() else {})
     observations=[]
     for row in population:
         if any(key not in row for key in REQUIRED_POPULATION):
@@ -174,7 +177,7 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
          "source":"Deepnote cloud inference / completed-game independent verification",
          "predictions_are_frozen":True,"run_id":selected_run,
          "forecasts":forecasts,"settlements":settlements,
-         "population":observations,"population_collection_receipt":collection_receipt,"nhl_completed_boxscores":raw_nhl,
+         "population":observations,"population_collection_receipt":collection_receipt,"raw_completed_game_sources":raw_collected_sources,"nhl_completed_boxscores":raw_nhl,
          "source_slate":source_slate,"source_quotes":source_quotes,
          "source_meta":source_meta,"shadow":shadow,
          "verification_state":"research_only; no retrospective model upgrades"}
@@ -248,10 +251,12 @@ def collect_population(root: Path, *, day, sports=("NHL","NBA","NFL")):
     import population_normalizers as norm
     import population_history as hist
     all_rows=[]
+    raw_sources={}
     result={"schema":"live_population_collect_v1","game_date":day,"sports":{},
             "completed_games":{},"per_stat":{},"errors":{}}
     for sport in sports:
         rows=[]
+        source_games=[]
         try:
             if sport=="NHL":
                 board=fetch.fetch_json(norm.NHL_BASE+"/score/"+day,spacing=.1)
@@ -259,12 +264,14 @@ def collect_population(root: Path, *, day, sports=("NHL","NBA","NFL")):
                 for gid in game_ids:
                     raw=fetch.fetch_json(norm.NHL_BASE+"/gamecenter/"+str(gid)+"/boxscore",spacing=.1)
                     rows.extend(norm.nhl_game(raw,day,expected_id=gid))
+                    source_games.append(raw)
             elif sport=="NBA":
                 board=fetch.fetch_json(norm.NBA_BASE+"/scoreboard?dates="+day.replace("-","")+"&limit=100",spacing=.1)
                 game_ids=norm.scoreboard_games("NBA",board,day)
                 for gid in game_ids:
                     raw=fetch.fetch_json(norm.NBA_BASE+"/summary?event="+str(gid),spacing=.1)
                     rows.extend(norm.nba_game(raw,day,gid))
+                    source_games.append(raw)
             elif sport=="NFL":
                 season=int(day[:4])
                 if int(day[5:7])<=3:season-=1
@@ -274,6 +281,16 @@ def collect_population(root: Path, *, day, sports=("NHL","NBA","NFL")):
                 rows=[r for r in cohort if r["game_date"]==day]
                 game_ids=sorted({r["game_id"] for r in rows})
                 result["sports"]["NFL_source_coverage"]=coverage
+                chosen_games=[g for g in schedule if str(g.get("gameday") or "")[:10]==day
+                              and str(g.get("season") or "")==str(season)
+                              and g.get("game_type")=="REG"]
+                teams_by_week={(g.get("week"),team) for g in chosen_games
+                               for team in (g.get("home_team"),g.get("away_team"))}
+                selected_ids={str(g.get("game_id")) for g in chosen_games}
+                source_games=[{"schedule":chosen_games,
+                    "player_stats":[r for r in stats if (r.get("week"),r.get("team") or r.get("recent_team")) in teams_by_week
+                                    and r.get("season_type")=="REG"],
+                    "snap_counts":[r for r in snaps if str(r.get("game_id")) in selected_ids]}]
             else:
                 raise ValueError("unrecognized_sport")
             for row in rows:
@@ -283,10 +300,14 @@ def collect_population(root: Path, *, day, sports=("NHL","NBA","NFL")):
             result["completed_games"][sport]=len(game_ids)
             result["per_stat"][sport]=dict(sorted(Counter(r["stat"] for r in rows).items()))
             all_rows.extend(rows)
+            raw_sources[sport]=source_games
         except Exception as exc:
             # A sport's unavailable source cannot be mislabeled as complete.
             result["errors"][sport]=type(exc).__name__+":"+str(exc)[:300]
     result["status"]="complete" if not result["errors"] else "partial_source_failure"
+    raw_path=root/"data/live_pool_staging/raw"/(day+".json")
+    raw_path.parent.mkdir(parents=True,exist_ok=True)
+    raw_path.write_text(canonical(raw_sources)+"\n")
     receipt=root/"reports"/("live_population_collect_"+day+".json")
     receipt.parent.mkdir(parents=True,exist_ok=True)
     receipt.write_text(json.dumps(result,sort_keys=True,indent=2)+"\n")
