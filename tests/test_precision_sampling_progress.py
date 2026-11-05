@@ -11,7 +11,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from precision_sampling_progress import NUTSProgress, _ChainHealth
+from precision_sampling_progress import NUTSProgress, _ChainHealth, _preview_values
 
 
 def stats(**changes):
@@ -113,6 +113,61 @@ class ProgressIntegrationTest(unittest.TestCase):
                 chain=99, draw_idx=0, tuning=True, stats=None))
             self.assertTrue(monitor._disabled)
             monitor.close()
+
+    def test_pair_preview_after_first_two_chains_only(self):
+        with tempfile.TemporaryDirectory() as td, redirect_stdout(io.StringIO()) as output:
+            root = Path(td)
+            monitor = NUTSProgress(draws=8, tune=3, chains=4,
+                                   output=root / "progress.json",
+                                   sport="NHL", stat="shots on goal", interval_seconds=3600)
+            for chain in (0, 1):
+                for iteration in range(11):
+                    monitor(trace=None, draw=SimpleNamespace(
+                        chain=chain, draw_idx=iteration, tuning=iteration < 3,
+                        point={"population_workload": [2.0 + .01 * iteration],
+                               "population_rate": [-1.1 + .01 * iteration],
+                               "home_effect": .05 + .01 * iteration,
+                               "player_z": [[99, 88]]},
+                        stats=[stats(energy=10 + .1 * iteration)]))
+                if chain == 0:
+                    self.assertFalse((root / "two_chain_preview.json").exists())
+            monitor.close()
+            receipt = json.loads((root / "two_chain_preview.json").read_text())
+            self.assertEqual(receipt["schema"], "nuts_two_chain_preview_v1")
+            self.assertEqual(receipt["chains"], [0, 1])
+            self.assertEqual(receipt["draws_per_chain"], 8)
+            self.assertIsNone(receipt["model_converged"])
+            self.assertFalse(receipt["publication_eligible"])
+            self.assertTrue(receipt["advisory_only"])
+            self.assertTrue(receipt["all_four_chains_required"])
+            self.assertNotIn("player_z", json.dumps(receipt))
+            self.assertIn("NUTS_PAIR_PREVIEW", output.getvalue())
+
+    def test_pair_preview_not_created_during_warmup_or_after_one_chain(self):
+        with tempfile.TemporaryDirectory() as td, redirect_stdout(io.StringIO()):
+            root = Path(td)
+            monitor = NUTSProgress(draws=8, tune=3, chains=4,
+                                   output=root / "progress.json",
+                                   sport="NHL", stat="shots on goal", interval_seconds=3600)
+            for i in range(11):
+                monitor(trace=None, draw=SimpleNamespace(
+                    chain=0, draw_idx=i, tuning=i < 3,
+                    point={"home_effect": .2}, stats=[stats()]))
+            for i in range(3):
+                monitor(trace=None, draw=SimpleNamespace(
+                    chain=1, draw_idx=i, tuning=True,
+                    point={"home_effect": .2}, stats=[stats()]))
+            monitor.close()
+            self.assertFalse((root / "two_chain_preview.json").exists())
+
+    def test_preview_has_bounded_parameters_and_ignores_missing_point(self):
+        sample = {"population_rate": list(range(100)),
+                  "population_workload": list(range(40)),
+                  "home_effect": .1, "player_z": [[1] * 200] * 200}
+        values = _preview_values(sample)
+        self.assertEqual(len(values), 9)
+        self.assertNotIn("player_z", str(values))
+        self.assertEqual(_preview_values(None), {})
 
     def test_log_lines_and_json_keep_old_schema_and_new_health(self):
         with tempfile.TemporaryDirectory() as td, redirect_stdout(io.StringIO()) as stdout:
