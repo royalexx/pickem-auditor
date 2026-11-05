@@ -81,4 +81,34 @@ class LivePoolTests(unittest.TestCase):
         read.assert_not_called()
         self.assertTrue(called)
 
+    def test_import_merges_one_verified_game_and_keeps_other_sources_single_count(self):
+        import population_history as hist
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            row=hist.make(sport="NHL",stat="shots on goal",game_id=2026020501,
+                          game_date="2026-11-04",season="2026",player_id=8480001,
+                          position="F",team="BOS",opponent="MTL",home=True,
+                          value=3,workload=18.5,workload_unit="minutes",
+                          source_url="https://api-web.nhle.com/v1/gamecenter/2026020501/boxscore",
+                          source_sha256="a"*64)
+            doc={"schema":live.SCHEMA,"phase":"morning","game_date":"2026-11-04",
+                 "population":[row]}
+            with patch.object(live,"iter_remote_docs",return_value=[(doc,"record")]):
+                result=live.import_population(root,token="test",before="2026-11-05")
+            self.assertEqual(result["records_imported"],1)
+            p=hist.read(root,sport="NHL",stat="shots on goal",before="2026-11-05")
+            self.assertEqual(len(p),1)
+            copy=dict(row,source_sha256="b"*64,
+                      source_url="https://other.example/source")
+            with patch.object(live,"iter_remote_docs",
+                              return_value=[({"game_date":"2026-11-04","population":[copy]},"other")]):
+                duplicate=live.import_population(root,token="test",before="2026-11-05")
+            self.assertEqual(duplicate["records_imported"],0)
+            self.assertEqual(duplicate["redundant"]["same_player_game_stat"],1)
+            conflict=dict(copy,value=4)
+            with patch.object(live,"iter_remote_docs",
+                              return_value=[({"game_date":"2026-11-04","population":[conflict]},"bad")]):
+                with self.assertRaisesRegex(ValueError,"LIVE_SOURCE_OBSERVATION_CONFLICT"):
+                    live.import_population(root,token="test",before="2026-11-05")
+
 if __name__=="__main__":unittest.main()
