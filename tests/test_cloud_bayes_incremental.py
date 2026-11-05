@@ -143,5 +143,26 @@ class OnlineBayesianTests(unittest.TestCase):
         self.assertEqual(records[0][1]["method"],"PUT")
         self.assertEqual(records[0][1]["payload"]["branch"],cb.BRANCH)
 
+    def test_historical_bootstrap_reads_pinned_verified_source_and_filters_future(self):
+        import gzip
+        row=observation(day="2026-11-04")
+        later=observation(day="2026-11-06",count=20)
+        payload=gzip.compress((json.dumps(row)+"\n"+json.dumps(later)+"\n").encode())
+        def fake_api(route,**kw):
+            if route=="/git/ref/heads/data/bayesian-history":
+                return {"object":{"sha":"a"*40}}
+            if route=="/git/trees/"+"a"*40+"?recursive=1":
+                return {"tree":[{"type":"blob","sha":"b"*40,
+                    "path":"data/bayesian_warehouse/populations/nhl/shots_on_goal/2026.jsonl.gz"}]}
+            raise AssertionError(route)
+        with patch.object(cb.pool,"api",side_effect=fake_api), \
+             patch.object(cb.pool,"read_blob",return_value=payload):
+            state=cb.bootstrap_history("test",before=DAY)
+        self.assertEqual(state["counts"]["historical_seed_events"],1)
+        self.assertEqual(state["rate"]["NHL|shots on goal|2026|8480001"]["games"],1)
+        self.assertEqual(state["rate"]["NHL|shots on goal|2026|8480001"]["alpha"],5.)
+        self.assertEqual(state["bootstrap_source"]["cutoff_exclusive"],DAY)
+        self.assertEqual(state["bootstrap_source"]["historical_commit"],"a"*40)
+
 if __name__=="__main__":
     unittest.main()
