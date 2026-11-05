@@ -92,6 +92,15 @@ jobs:
           destination.write_text(json.dumps(outcome,sort_keys=True,indent=2)+'\n')
           print(json.dumps(outcome,sort_keys=True))
           PY
+      - name: Merge verified multi-source live observations (future training only)
+        if: steps.window.outputs.ready == 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          # Never modify the existing frozen precision campaign.
+          # The importer de-duplicates event/player/stat and rejects source conflicts.
+          python scripts/live_pool_exchange.py import \
+            --root . --before "${{ steps.window.outputs.as_of }}"
       - name: Verify source completeness, season continuity and pre-cutoff population
         if: steps.window.outputs.ready == 'true'
         id: preflight
