@@ -108,7 +108,7 @@ jobs:
         if: env.INDEX != '0'
         run: |
           $ErrorActionPreference = 'Stop'
-          $expected = '04cfb540723cd5b10ed670ffddb900d2e6a7625b'
+          $expected = 'a0ecbfdd35ee6889758fb5dea0afc44f3b9aa3db'
           $blob = (git hash-object -- scripts/precision_sampling_progress.py).Trim()
           if ($LASTEXITCODE -ne 0 -or $blob -ne $expected) { throw 'NUTS_MONITOR_SOURCE_DIGEST_MISMATCH' }
           python -m unittest discover -s tests -p 'test_precision_sampling_progress.py' -v
@@ -118,6 +118,21 @@ jobs:
           $copy = (git hash-object -- $staged).Trim()
           if ($LASTEXITCODE -ne 0 -or $copy -ne $expected) { throw 'NUTS_MONITOR_STAGING_DIGEST_MISMATCH' }
           Write-Host "NUTS_MONITOR_STAGED sha=$copy advisory_only=true"
+      - name: Stage verified NFL-first market route for successor markets
+        if: env.INDEX != '0'
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $expected = '37dc8703b095d0a484b30c637fc010e4adb41bc3'
+          $actual = (git hash-object -- scripts/precision_campaign_route.py).Trim()
+          if ($LASTEXITCODE -ne 0 -or $actual -ne $expected) { throw 'NFL_ROUTE_SOURCE_DIGEST_MISMATCH' }
+          python -m unittest discover -s tests -p 'test_precision_campaign_route.py' -v
+          if ($LASTEXITCODE -ne 0) { throw 'NFL_ROUTE_SELF_TEST_FAILED' }
+          $target = Join-Path $env:RUNNER_TEMP 'precision_campaign_route.py'
+          Copy-Item scripts/precision_campaign_route.py $target -Force
+          $copied = (git hash-object -- $target).Trim()
+          if ($LASTEXITCODE -ne 0 -or $copied -ne $expected) { throw 'NFL_ROUTE_STAGING_DIGEST_MISMATCH' }
+          Write-Host "NFL_ROUTE_STAGED sha=$copied scheme=sog_then_nfl_then_remaining"
+
       - name: Check out exact frozen code
         run: |
           $ErrorActionPreference = 'Stop'
@@ -132,7 +147,21 @@ jobs:
       - name: Select exactly one NHL, NBA or NFL statistical market
         id: market
         run: |
-          python scripts/precision_campaign_catalog.py --index $env:INDEX --github-env $env:GITHUB_ENV
+          if ($env:INDEX -eq '0') {
+            # Preserve the original SOG catalog entry and frozen behavior.
+            python scripts/precision_campaign_catalog.py --index $env:INDEX --github-env $env:GITHUB_ENV
+          } else {
+            # Routing changes the order only. Identity, code and source data
+            # still come from the originally frozen 31-market catalog.
+            $router = Join-Path $env:RUNNER_TEMP 'precision_campaign_route.py'
+            if (-not (Test-Path -PathType Leaf $router)) { throw 'NFL_ROUTE_NOT_STAGED' }
+            $expected = '37dc8703b095d0a484b30c637fc010e4adb41bc3'
+            $actual = (git hash-object -- $router).Trim()
+            if ($LASTEXITCODE -ne 0 -or $actual -ne $expected) { throw 'NFL_ROUTE_INSTALL_DIGEST_MISMATCH' }
+            $folder = Join-Path 'reports/precision_training' $env:GITHUB_RUN_ID
+            New-Item -ItemType Directory -Force -Path $folder | Out-Null
+            python $router --index $env:INDEX --github-env $env:GITHUB_ENV --receipt (Join-Path $folder 'routing_receipt.json')
+          }
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Validate exact 31-market taxonomy and sequential recovery
         run: |
@@ -214,7 +243,7 @@ jobs:
           if ((git rev-parse HEAD).Trim() -ne $env:CODE_HEAD) { throw 'FROZEN_MODEL_CODE_MISMATCH_BEFORE_MONITOR' }
           $source = Join-Path $env:RUNNER_TEMP 'consultative_nuts_monitor.py'
           if (-not (Test-Path -PathType Leaf $source)) { throw 'STAGED_NUTS_MONITOR_NOT_FOUND' }
-          $expected = '04cfb540723cd5b10ed670ffddb900d2e6a7625b'
+          $expected = 'a0ecbfdd35ee6889758fb5dea0afc44f3b9aa3db'
           Copy-Item $source 'scripts/precision_sampling_progress.py' -Force
           $actual = (git hash-object -- scripts/precision_sampling_progress.py).Trim()
           if ($LASTEXITCODE -ne 0 -or $actual -ne $expected) { throw 'NUTS_MONITOR_INSTALL_DIGEST_MISMATCH' }
