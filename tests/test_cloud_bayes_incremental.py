@@ -164,5 +164,54 @@ class OnlineBayesianTests(unittest.TestCase):
         self.assertEqual(state["bootstrap_source"]["cutoff_exclusive"],DAY)
         self.assertEqual(state["bootstrap_source"]["historical_commit"],"a"*40)
 
+    def test_weekly_cloud_replay_uses_same_seed_and_prospective_rows(self):
+        fixtures=[(af_doc(),"afternoon"),(mo_doc(),"morning")]
+        with patch.object(cb,"current_state",return_value=(cb.initial_state(),None)), \
+             patch.object(cb,"bootstrap_history",return_value=cb.initial_state()), \
+             patch.object(cb.pool,"iter_remote_docs",side_effect=[fixtures,fixtures]), \
+             patch.object(cb,"save_state",return_value={"status":"published","path":"test"}):
+            receipt=cb.run_update(token="test",as_of=DATE,weekly_rebuild=True)
+        self.assertTrue(receipt["weekly_full_replay_checked"])
+        self.assertEqual(receipt["through"],DAY)
+        self.assertEqual(receipt["population_events"],1)
+        self.assertFalse(receipt["approved_for_production"])
+
+    def test_afternoon_shadow_uses_only_prior_state_and_keeps_origins_untouched(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            original_forecast=original()
+            data=root/"data"
+            data.mkdir()
+            (data/"prop_snapshots.jsonl").write_text(json.dumps(original_forecast)+"\n")
+            for subdir,q in (("bayesian_shadow",.55),("bayesian_b_shadow",.6)):
+                folder=data/subdir
+                folder.mkdir()
+                sidecar={k:original_forecast[k] for k in (
+                    "game_date","run_id","sport","stat","player_id","side",
+                    "reference_line","forecast_at")}
+                sidecar.update(status="forecast",q_win=q,q_push=0.,workload_mean=19.0)
+                (folder/(DAY+".jsonl")).write_text(json.dumps(sidecar)+"\n")
+            state=cb.initial_state()
+            state["through"]="2026-11-04"
+            state["rate"]["NHL|shots on goal|2026|8480001"]={
+                "alpha":10.,"beta":70.,"games":7,"historical_seed_games":6,
+                "live_games":1}
+            cal=cb.start_calibrator()
+            cal["events"]=101
+            cal["days"]=16
+            state["calibration"]["NHL|shots on goal|bayesian_a"]=copy.deepcopy(cal)
+            report=cb.forecast_sidecar(root=root,date_text=DAY,state=state,
+                                       out=root/"online.jsonl")
+            rows=cb.read_jsonl(root/"online.jsonl")
+            self.assertEqual(report["rows"],1)
+            self.assertEqual(rows[0]["training_data_through"],"2026-11-04")
+            self.assertEqual(rows[0]["models"]["bayesian_a_online_calibrated"]["status"],
+                             "research_shadow")
+            self.assertEqual(rows[0]["models"]["player_rate_gamma_poisson"]["status"],
+                             "research_shadow")
+            self.assertFalse(rows[0]["publication_eligible"])
+            self.assertEqual(json.loads((data/"prop_snapshots.jsonl").read_text()),
+                             original_forecast)
+
 if __name__=="__main__":
     unittest.main()
