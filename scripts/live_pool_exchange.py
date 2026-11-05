@@ -166,12 +166,15 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
             if content.get("game_date")!=game_date or content.get("state") not in ("FINAL","OFF"):
                 raise ValueError("invalid_official_NHL_game_summary")
             raw_nhl.append(content)
+    receipt_path=root/"reports"/("live_population_collect_"+game_date+".json")
+    collection_receipt=(json.loads(receipt_path.read_text())
+                        if phase=="morning" and receipt_path.is_file() else None)
     doc={"schema":SCHEMA,"game_date":game_date,"phase":phase,
          "captured_at_utc":datetime.now(timezone.utc).isoformat(),
          "source":"Deepnote cloud inference / completed-game independent verification",
          "predictions_are_frozen":True,"run_id":selected_run,
          "forecasts":forecasts,"settlements":settlements,
-         "population":observations,"nhl_completed_boxscores":raw_nhl,
+         "population":observations,"population_collection_receipt":collection_receipt,"nhl_completed_boxscores":raw_nhl,
          "source_slate":source_slate,"source_quotes":source_quotes,
          "source_meta":source_meta,"shadow":shadow,
          "verification_state":"research_only; no retrospective model upgrades"}
@@ -213,7 +216,7 @@ def read_blob(blob_sha,*,token):
 def iter_remote_docs(*,token,before,after=None,phase=None):
     cutoff=date.fromisoformat(before)
     begin=date.fromisoformat(after) if after else None
-    tree=api("/git/trees/"+urllib.parse.quote(BRANCH,safe="")+
+    tree=api("/git/trees/"+BRANCH+
              "?recursive=1",token=token)
     if tree.get("truncated"):raise RuntimeError("GITHUB_TREE_TRUNCATED")
     entries=[]
@@ -284,6 +287,9 @@ def collect_population(root: Path, *, day, sports=("NHL","NBA","NFL")):
             # A sport's unavailable source cannot be mislabeled as complete.
             result["errors"][sport]=type(exc).__name__+":"+str(exc)[:300]
     result["status"]="complete" if not result["errors"] else "partial_source_failure"
+    receipt=root/"reports"/("live_population_collect_"+day+".json")
+    receipt.parent.mkdir(parents=True,exist_ok=True)
+    receipt.write_text(json.dumps(result,sort_keys=True,indent=2)+"\n")
     out=root/"data/live_pool_staging/populations"/(day+".jsonl")
     dump_jsonl(out,all_rows)
     return result,out
