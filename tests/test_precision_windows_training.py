@@ -89,7 +89,7 @@ class WindowsTrainingContractTests(unittest.TestCase):
         monitor = (root / "scripts/precision_sampling_progress.py").read_bytes()
         blob = hashlib.sha1(b"blob " + str(len(monitor)).encode() + bytes([0]) + monitor).hexdigest()
         self.assertIn(blob, workflow, "monitor digest must match exact staged source")
-        self.assertEqual(workflow.count("if: env.INDEX != '0'"), 2)
+        self.assertEqual(workflow.count("if: env.INDEX != '0'"), 3)
         self.assertLess(workflow.index("NUTS_MONITOR_STAGED"), workflow.index(
             "      - name: Check out exact frozen code"))
         self.assertLess(workflow.index("      - name: Check out exact frozen code"),
@@ -102,6 +102,39 @@ class WindowsTrainingContractTests(unittest.TestCase):
         self.assertIn("index = [string]$env:NEXT_INDEX", workflow)
         self.assertIn("monitor_receipt.json", workflow)
         self.assertIn("monitoring_failure_nonfatal = $true", workflow)
+
+    def test_frozen_safe_nfl_first_router_installed_for_post_sog_only(self):
+        import hashlib
+        root = Path(__file__).resolve().parents[1]
+        workflow = (root / ".github/workflows/precision-full-markets.yml").read_text()
+        helper = (root / "scripts/precision_campaign_route.py").read_bytes()
+        sha = hashlib.sha1(b"blob " + str(len(helper)).encode() + bytes([0]) + helper).hexdigest()
+        self.assertEqual(workflow.count(sha), 2)
+        self.assertIn("NFL_ROUTE_STAGED", workflow)
+        self.assertLess(workflow.index("NFL_ROUTE_STAGED"),
+                        workflow.index("      - name: Check out exact frozen code"))
+        self.assertLess(workflow.index("      - name: Check out exact frozen code"),
+                        workflow.index("NFL_ROUTE_INSTALL_DIGEST_MISMATCH"))
+        self.assertIn("if ($env:INDEX -eq '0')", workflow)
+        self.assertIn("python scripts/precision_campaign_catalog.py", workflow)
+        self.assertIn("python $router --index $env:INDEX", workflow)
+        self.assertIn("routing_receipt.json", workflow)
+        self.assertIn("NEXT_INDEX", workflow)
+
+    def test_two_chain_report_is_advisory_not_convergence_gate(self):
+        root = Path(__file__).resolve().parents[1]
+        module = (root / "scripts/precision_sampling_progress.py").read_text()
+        workflow = (root / ".github/workflows/precision-full-markets.yml").read_text()
+        self.assertIn("nuts_two_chain_preview_v1", module)
+        self.assertIn("NUTS_PAIR_PREVIEW ", module)
+        self.assertIn('self.preview_file = self.output.parent / "two_chain_preview.json"', module)
+        self.assertIn('"all_four_chains_required": True', module)
+        self.assertIn('"model_converged": None', module)
+        self.assertIn('"advisory_only": True', module)
+        self.assertIn('self.preview_thread = threading.Thread(', module)
+        self.assertNotIn("NUTS_PAIR_PREVIEW", workflow,
+                         "preliminary diagnostics must not drive workflow gating")
+        self.assertIn("if: success()", workflow)
 
     def test_monitored_successor_does_not_change_sampling_or_restart_behavior(self):
         root = Path(__file__).resolve().parents[1]
