@@ -11,7 +11,7 @@ class NotebookEngineBMappingTests(unittest.TestCase):
         text="\n".join("".join(c.get("source",[])) for c in notebook.get("cells",[]) if c.get("cell_type")=="code")
         self.assertIn('B.get("q_win")',text)
         self.assertNotIn('B.get("q_win_b")',text)
-        self.assertIn('all(x is not None for x in estimates)',text)
+        self.assertIn('all(p is not None for p in estimates)',text)
         self.assertIn('production_engines_reliable',text)
 
 if __name__=="__main__":
