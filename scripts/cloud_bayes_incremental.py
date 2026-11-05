@@ -21,6 +21,7 @@ import hashlib
 import json
 import math
 import re
+import random
 from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -618,23 +619,45 @@ def monitoring(state, *,window_days=30):
     start=today_date-timedelta(days=window_days-1) if today_date else None
     totals=defaultdict(lambda:{"n":0,"brier_base":0.0,"brier_online":0.0,
                                "logloss_base":0.0,"logloss_online":0.0,"days":0})
+    differences=defaultdict(list)
     for day,groups in state["daily_metrics"].items():
         if start and date.fromisoformat(day)<start:continue
         for key,values in groups.items():
             t=totals[key]
+            differences[key].append((day,values["n"],
+                 values["brier_base"]-values["brier_online"]))
             t["days"]+=1
             for col in ("n","brier_base","brier_online","logloss_base","logloss_online"):
                 t[col]+=values[col]
     report={}
     for key,t in sorted(totals.items()):
         n=t["n"]
+        # Resample whole game DATES, never pretend each overlapping player
+        # prop is an independent outcome. This is a diagnostic uncertainty
+        # interval, not permission to deploy model probabilities.
+        lower=None
+        day_values=differences[key]
+        if n>=80 and len(day_values)>=10:
+            rng=random.Random(31027)
+            changes=[]
+            for _ in range(400):
+                sample=[day_values[rng.randrange(len(day_values))]
+                        for _ in range(len(day_values))]
+                denominator=sum(v[1] for v in sample)
+                if denominator:
+                    changes.append(sum(v[2] for v in sample)/denominator)
+            if changes:
+                changes.sort()
+                lower=changes[int(.05*(len(changes)-1))]
         report[key]={"paired_events":n,"game_dates":t["days"],
+                     "date_cluster_bootstrap_lower90":lower,
                      "baseline_brier":t["brier_base"]/n if n else None,
                      "online_brier":t["brier_online"]/n if n else None,
                      "baseline_logloss":t["logloss_base"]/n if n else None,
                      "online_logloss":t["logloss_online"]/n if n else None,
                      "preliminary_brier_improvement":t["brier_base"]/n-t["brier_online"]/n if n else None,
-                     "research_qualified":n>=100 and t["days"]>=15 and
+                     "research_qualified":n>=200 and t["days"]>=20 and
+                         lower is not None and lower>0 and
                          t["brier_online"]<t["brier_base"] and t["logloss_online"]<t["logloss_base"],
                      "automatic_production_approval":False}
     return {"schema":"pickem_online_bayes_monitor_v1","as_of":state["through"],
