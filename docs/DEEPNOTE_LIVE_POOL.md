@@ -40,7 +40,11 @@ The cutoff is EXCLUSIVE. If the model was frozen Nov 5 it cannot use observation
 
 Normalized accepted observations merge into existing per-sport/stat/season population shards via the shared population_history.persist routine. Deduplication identity is (sport, stat, game_id, player_id). Repeated measurements from multiple providers count as ONE game. Conflicts in stats/workload/context are rejected for human review rather than averaged or counted twice. Source URL and digest remain attached to training rows. Missing/incomplete data is never treated as observed zero.
 
-The existing manual historical Bayesian workflow imports this shared data before window preflight. The currently running frozen 31-market NUTS campaign is NOT changed. Future precision training must explicitly import and freeze the shared data as part of its new campaign; it does not retroactively alter an existing fit.
+The existing manual historical Bayesian workflow imports this shared data before window preflight. The currently running frozen 31-market NUTS campaign is NOT changed. For a NEW unfrozen precision training campaign, run the validate stage with
+PICKEM_IMPORT_LIVE_POOL=1 and GITHUB_TOKEN (read-only repository permission).
+The precision training driver imports the shared observations strictly before
+its configured CUTOFF before validation. The running frozen 31-market campaign
+remains unchanged and does not retroactively change its historical inputs.
 
 The daily collector supplements the historical population, not a full substitute for NFL reads or richer game schemes. New providers must pass source-specific validators. A successful training import does not authorize model promotion without convergence and chronological holdout checks.
 
