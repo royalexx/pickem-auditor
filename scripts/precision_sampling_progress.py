@@ -160,6 +160,114 @@ class _ChainHealth:
         return result
 
 
+def _preview_values(point):
+    """Read a tiny, bounded subset of *untransformed* global model positions.
+
+    Do not retain player or opponent effects: the joint posterior is large.
+    PyMC's callback point contains internal variable names, so ignore missing
+    and transformed-only parameters rather than guess at transformations.
+    """
+    if not isinstance(point, dict):
+        return {}
+    values = {}
+    for name in ("population_workload", "population_rate", "home_effect"):
+        if name not in point:
+            continue
+        raw = point[name]
+        if hasattr(raw, "flat"):
+            items = [raw.flat[k] for k in range(min(len(raw.flat), 4))]
+        elif isinstance(raw, (tuple, list)):
+            items = raw[:4]
+        else:
+            items = [raw]
+        for k, element in enumerate(items):
+            value = _ChainHealth._number(element)
+            if value is not None:
+                label = name if name == "home_effect" else f"{name}[{k}]"
+                values[label] = value
+    return values
+
+
+def _pair_diagnostic_report(rows, *, first_pair, metadata):
+    """Approximate early diagnostics for two COMPLETE chains only.
+
+    Rank-normalized R-hat and bulk ESS use installed arviz_stats. Never claim
+    full-model convergence: high-dimensional player effects are NOT sampled
+    into this small observer.
+    """
+    first, second = first_pair
+    report = {
+        "schema": "nuts_two_chain_preview_v1",
+        "status": "unavailable",
+        "model_converged": None,
+        "publication_eligible": False,
+        "advisory_only": True,
+        "all_four_chains_required": True,
+        "chains": [int(first), int(second)],
+        "draws_per_chain": len(rows[first]),
+        "sampled_parameter_scope": "untransformed_global_coordinates_only",
+        "pair_health": metadata,
+        "parameter_diagnostics": {},
+    }
+    if not rows[first] or len(rows[first]) != len(rows[second]):
+        report["reason"] = "pair_draw_counts_mismatch"
+        return report
+    shared = set(rows[first][0][1]) & set(rows[second][0][1])
+    shared = {key for key in shared if all(key in data for _, data in rows[first])
+              and all(key in data for _, data in rows[second])}
+    # Also verify callbacks contain a contiguous series of posterior indices.
+    n = len(rows[first])
+    if any([idx for idx, _ in rows[c]] != list(range(n)) for c in first_pair):
+        report["reason"] = "noncontiguous_posterior_draw_indices"
+        return report
+    if not shared:
+        report["reason"] = "callback_global_parameter_values_unavailable"
+        return report
+    try:
+        import numpy as np
+        import xarray as xr
+        from arviz_stats import rhat, ess
+        for i, key in enumerate(sorted(shared)):
+            tag = f"coordinate_{i}"
+            draw_array = np.array([[data[key] for _, data in rows[c]]
+                                   for c in first_pair], dtype=float)
+            if not np.all(np.isfinite(draw_array)):
+                continue
+            means = draw_array.mean(axis=1)
+            result = {
+                "chain_means": [round(float(v), 6) for v in means],
+                "chain_mean_difference": round(float(abs(means[0] - means[1])), 6),
+                "provisional_rhat": None,
+                "provisional_bulk_ess": None,
+            }
+            try:
+                ds = xr.Dataset({tag: (("chain", "draw"), draw_array)})
+                r = float(np.asarray(rhat(ds, var_names=[tag])[tag]).item())
+                e = float(np.asarray(ess(ds, var_names=[tag], method="bulk")[tag]).item())
+                if math.isfinite(r):
+                    result["provisional_rhat"] = round(r, 5)
+                if math.isfinite(e):
+                    result["provisional_bulk_ess"] = round(e, 1)
+            except Exception:
+                # A problematic coordinate must not poison other reporting.
+                pass
+            report["parameter_diagnostics"][key] = result
+        if not report["parameter_diagnostics"]:
+            report["reason"] = "no_finite_global_parameters"
+            return report
+        available_r = [x["provisional_rhat"] for x in report["parameter_diagnostics"].values()
+                       if x["provisional_rhat"] is not None]
+        available_e = [x["provisional_bulk_ess"] for x in report["parameter_diagnostics"].values()
+                       if x["provisional_bulk_ess"] is not None]
+        report["worst_provisional_rhat"] = max(available_r) if available_r else None
+        report["minimum_provisional_bulk_ess"] = min(available_e) if available_e else None
+        report["status"] = "two_chain_global_preview"
+        return report
+    except Exception as exc:
+        report["reason"] = "diagnostic_dependency_unavailable_" + type(exc).__name__
+        return report
+
+
 class NUTSProgress:
     def __init__(self, *, draws: int, tune: int, chains: int, output: Path,
                  sport: str, stat: str, interval_seconds: int = 45,
@@ -176,6 +284,10 @@ class NUTSProgress:
         self.stall_seconds = max(30, stall_seconds)
         self.counts = {str(i): 0 for i in range(chains)}
         self.health = {str(i): _ChainHealth() for i in range(chains)}
+        self.preview_rows = {str(i): [] for i in range(chains)}
+        self.preview_thread = None
+        self.preview_file = self.output.parent / "two_chain_preview.json"
+        self.preview_status = "waiting_for_two_complete_chains"
         self.started_at = time.monotonic()
         self.last_print = self.started_at
         self.first_draw = False
@@ -227,6 +339,11 @@ class NUTSProgress:
                 "warnings": alerts,
                 "final_rhat_ess_bfmi_required": True,
             },
+            "two_chain_preview": {
+                "status": self.preview_status,
+                "file": str(self.preview_file),
+                "advisory_only": True,
+            },
         }
 
     def _emit(self, status):
@@ -258,6 +375,54 @@ class NUTSProgress:
             "sport": self.sport, "stat": self.stat, "chains": telemetry,
             "alerts": item["health"]["warnings"], "status": "provisional",
         }, sort_keys=True, separators=(",", ":")), flush=True)
+
+    def _write_two_chain_preview(self, pair, rows, health):
+        try:
+            report = _pair_diagnostic_report(rows, first_pair=pair, metadata=health)
+            report["sport"] = self.sport
+            report["stat"] = self.stat
+            report["checked_at_utc"] = datetime.now(timezone.utc).isoformat()
+            target = self.preview_file
+            pending = target.with_suffix(".pending")
+            pending.write_text(json.dumps(report, sort_keys=True, indent=2,
+                                          allow_nan=False) + "\n", encoding="utf-8")
+            os.replace(pending, target)
+            print("NUTS_PAIR_PREVIEW " + json.dumps({
+                "status": report["status"], "chains": report["chains"],
+                "draws_per_chain": report["draws_per_chain"],
+                "parameter_count": len(report["parameter_diagnostics"]),
+                "worst_provisional_rhat": report.get("worst_provisional_rhat"),
+                "minimum_provisional_bulk_ess": report.get("minimum_provisional_bulk_ess"),
+                "reason": report.get("reason"), "file": str(target),
+                "advisory_only": True, "all_four_chains_required": True,
+            }, sort_keys=True), flush=True)
+            self.preview_status = report["status"]
+        except Exception as exc:
+            self.preview_status = "diagnostic_snapshot_unavailable"
+            try:
+                print("NUTS_PAIR_PREVIEW_UNAVAILABLE " + type(exc).__name__ +
+                      " (sampling continues)", flush=True)
+            except Exception:
+                pass
+
+    def _maybe_launch_preview(self):
+        if self.preview_thread is not None:
+            return
+        finished = sorted(k for k in self.counts if self.counts[k] >= self.total)
+        if len(finished) < 2:
+            return
+        pair = tuple(finished[:2])
+        # Take bounded, immutable copies under callback lock; offline work
+        # runs on a background thread and never delays the NUTS transition.
+        rows = {c: list(self.preview_rows[c]) for c in pair}
+        health = {c: self.health[c].snapshot(time.monotonic(), complete=True,
+            target_accept=self.target_accept, stall_seconds=self.stall_seconds)
+            for c in pair}
+        self.preview_status = "computing"
+        self.preview_thread = threading.Thread(
+            target=self._write_two_chain_preview,
+            args=(pair, rows, health), daemon=True)
+        self.preview_thread.start()
 
     def _disable(self, error):
         # Observability must NEVER become a reason to interrupt NUTS.
@@ -308,6 +473,12 @@ class NUTSProgress:
                     stats = raw_stats
                 now = time.monotonic()
                 self.health[chain].observe(tuning=tuning, stats=stats, now=now)
+                if not tuning and len(self.preview_rows[chain]) < self.draws:
+                    index = int(draw.draw_idx) - self.tune
+                    if index >= 0:
+                        self.preview_rows[chain].append(
+                            (index, _preview_values(getattr(draw, "point", None))))
+                self._maybe_launch_preview()
                 if now - self.last_print >= self.interval or self.counts[chain] == self.total:
                     self._emit("running")
                     self.last_print = now
@@ -318,6 +489,8 @@ class NUTSProgress:
         self.shutdown.set()
         if self.heartbeat is not None:
             self.heartbeat.join(timeout=2)
+        if self.preview_thread is not None:
+            self.preview_thread.join(timeout=5)
         if self._disabled:
             return
         try:
