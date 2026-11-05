@@ -69,8 +69,10 @@ def yesterday(day):
 
 def initial_state():
     return {"schema":SCHEMA,"through":None,"source_days":{},
-            "rate":{},"calibration":{},"daily_metrics":{},
-            "counts":{"population_events":0,"verified_binary_forecasts":0},
+            "rate":{},"calibration":{},"daily_metrics":{},"bootstrap_rates":{},
+            "bootstrap_source":None,
+            "counts":{"population_events":0,"verified_binary_forecasts":0,
+                      "historical_seed_events":0},
             "publication_eligible":False,"changes_production_model":False,
             "nuts_posterior_updated":False}
 
@@ -80,7 +82,7 @@ def assert_state(s):
     if s.get("through") is not None:date.fromisoformat(s["through"])
     if s.get("publication_eligible") is not False or s.get("nuts_posterior_updated") is not False:
         raise ValueError("UNAUTHORIZED_MODEL_PROMOTION")
-    for name in ("source_days","rate","calibration","daily_metrics","counts"):
+    for name in ("source_days","rate","calibration","daily_metrics","counts","bootstrap_rates"):
         if not isinstance(s.get(name),dict):raise ValueError("CORRUPT_STATE_"+name)
     return s
 
@@ -277,6 +279,88 @@ def population_rows(morning,day):
             seen[key]=row
     return [seen[k] for k in sorted(seen)]
 
+def bootstrap_history(token, *,before,lookback_days=520):
+    """Read verified 2024+ population shards from a PINNED historical Git commit.
+
+    Only completed games strictly BEFORE the first day of new cloud evidence.
+    Old player exposures get a discounted 0.15 likelihood power after 120 days;
+    this is a conservative power-prior model, not the joint NUTS posterior.
+    Population states remain frozen, and these source observations are NOT
+    written back to the frozen historical branch.
+    """
+    cutoff=date.fromisoformat(before)
+    oldest=cutoff-timedelta(days=lookback_days)
+    ref=pool.api("/git/ref/heads/data/bayesian-history",token=token)
+    commit=(ref.get("object") or {}).get("sha")
+    if not isinstance(commit,str) or not re.fullmatch("[0-9a-f]{40}",commit):
+        raise ValueError("UNPINNED_HISTORICAL_SOURCE_COMMIT")
+    payload=pool.api("/git/trees/"+commit+"?recursive=1",token=token)
+    if payload.get("truncated"):raise ValueError("TRUNCATED_HISTORICAL_SOURCE_TREE")
+    rate={}
+    processed=set()
+    source_hashes=[]
+    accepted=0
+    for entry in sorted(payload.get("tree",[]),key=lambda e:e.get("path","")):
+        filename=entry.get("path","")
+        if entry.get("type")!="blob" or not filename.startswith("data/bayesian_warehouse/populations/") or not filename.endswith(".jsonl.gz"):
+            continue
+        try:
+            season=int(Path(filename).stem.split(".")[0])
+        except ValueError:
+            continue
+        if season < oldest.year-1 or season > cutoff.year+1:
+            continue
+        sport,slug=filename.split("/")[3:5]
+        if sport.upper() not in BASE_RATE:
+            continue
+        # Do not ingest an unsupported market just because a shard exists.
+        if slug not in {history.slug(k) for k in BASE_RATE[sport.upper()]}:
+            continue
+        archive=pool.read_blob(entry["sha"],token=token)
+        source_hashes.append((filename,digest(archive)))
+        for line in gzip.decompress(archive).decode("utf-8").splitlines():
+            if not line.strip():continue
+            row=json.loads(line)
+            history.validate(row)
+            game=date.fromisoformat(row["game_date"])
+            if not oldest<=game<cutoff or row["family"]!="count":
+                continue
+            if not history.market_eligible(row):
+                continue
+            key=(row["sport"],row["stat"],str(row["game_id"]),str(row["player_id"]))
+            if key in processed:raise ValueError("DUPLICATE_HISTORICAL_SOURCE_OBSERVATION")
+            processed.add(key)
+            rateid="|".join((row["sport"],row["stat"],str(row["season"]),str(row["player_id"])))
+            current=rate.get(rateid)
+            if current is None:
+                mean=BASE_RATE[row["sport"]][row["stat"]]
+                current={"alpha":ALPHA0,"beta":ALPHA0/mean,"games":0,
+                         "sport":row["sport"],"stat":row["stat"],
+                         "season":str(row["season"]),"player_id":str(row["player_id"]),
+                         "position":row["position"],"last_game":None,
+                         "historical_seed_games":0,"live_games":0}
+            power=1.0 if (cutoff-game).days<=120 else .15
+            current["alpha"]+=power*int(row["value"])
+            current["beta"]+=power*float(row["workload"])
+            current["games"]+=1
+            current["historical_seed_games"]+=1
+            if current["last_game"] is None or row["game_date"]>current["last_game"]:
+                current["last_game"]=row["game_date"]
+            rate[rateid]=current
+            accepted+=1
+    state=initial_state()
+    state["rate"]=rate
+    state["bootstrap_rates"]=copy.deepcopy(rate)
+    state["bootstrap_source"]={"historical_commit":commit,
+         "cutoff_exclusive":before,"lookback_days":lookback_days,
+         "verified_population_rows":accepted,
+         "archive_shard_count":len(source_hashes),
+         "source_digest":digest(canonical(source_hashes).encode()),
+         "posterior_note":"Gamma-Poisson discounted historical power-prior shadow only; no NUTS posterior update"}
+    state["counts"]["historical_seed_events"]=accepted
+    return state
+
+
 def rate_key(row):
     return "|".join(map(str,(row["sport"],row["stat"],row["season"],row["player_id"])))
 
@@ -305,6 +389,7 @@ def update_one_day(state,day,afternoon,morning):
         current["alpha"]+=int(row["value"])
         current["beta"]+=float(row["workload"])
         current["games"]+=1
+        current["live_games"]=int(current.get("live_games",0))+1
         current["last_game"]=day
         state["rate"][key]=current
     matches=settled_matches(afternoon,morning,day)
@@ -341,8 +426,8 @@ def update_one_day(state,day,afternoon,morning):
             "calibration_model_observations":model_count,
             "active_player_rates":len(state["rate"])}
 
-def rebuild(docs,*,through):
-    state=initial_state()
+def rebuild(docs,*,through,seed=None):
+    state=copy.deepcopy(seed) if seed is not None else initial_state()
     grouped=defaultdict(lambda:{"afternoon":[],"morning":[]})
     for document,path in docs:
         day=document["game_date"]
@@ -366,6 +451,11 @@ def run_update(*,token,as_of,weekly_rebuild=False):
     docs=list(pool.iter_remote_docs(token=token,before=as_of,after=after))
     grouped=defaultdict(lambda:{"afternoon":[],"morning":[]})
     for doc,path in docs:grouped[doc["game_date"]][doc["phase"]].append(doc)
+    if previous["through"] is None:
+        start_dates=sorted(day for day,groups in grouped.items() if groups["morning"])
+        if not start_dates:
+            raise ValueError("NO_MORNING_BUNDLE_TO_SEED_BAYES")
+        previous=bootstrap_history(token,before=start_dates[0])
     revised=copy.deepcopy(previous)
     results=[]
     for day in sorted(grouped):
@@ -380,7 +470,12 @@ def run_update(*,token,as_of,weekly_rebuild=False):
         # Exact replay from the immutable cloud archive, not a new scrape
         # or a costly PyMC/NUTS fit. This catches silent state drift.
         full_docs=list(pool.iter_remote_docs(token=token,before=as_of))
-        check,_=rebuild(full_docs,through=target)
+        seed=initial_state()
+        seed["rate"]=copy.deepcopy(revised["bootstrap_rates"])
+        seed["bootstrap_rates"]=copy.deepcopy(revised["bootstrap_rates"])
+        seed["bootstrap_source"]=copy.deepcopy(revised["bootstrap_source"])
+        seed["counts"]["historical_seed_events"]=revised["counts"]["historical_seed_events"]
+        check,_=rebuild(full_docs,through=target,seed=seed)
         if canonical(revised)!=canonical(check):
             raise ValueError("WEEKLY_FULL_REPLAY_DIFFERED_FROM_DAILY_POSTERIOR")
     receipt=save_state(revised,token=token)
@@ -389,6 +484,7 @@ def run_update(*,token,as_of,weekly_rebuild=False):
             "population_events":revised["counts"]["population_events"],
             "calibration_events":revised["counts"]["verified_binary_forecasts"],
             "active_player_rates":len(revised["rate"]),
+            "historical_seed_events":revised["counts"]["historical_seed_events"],
             "approved_for_production":False}
 
 def _negbin_pmf(alpha,beta,exposure,k):
