@@ -148,7 +148,7 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
     source_slate=[r for r in source_slate if r.get("game_date")==game_date]
     shadow={}
     for key,folder in (("bayesian_a","bayesian_shadow"),("bayesian_b","bayesian_b_shadow"),
-                       ("monte_carlo","posterior_mc")):
+                       ("monte_carlo","posterior_mc"),("online_bayes","online_bayes_shadow")):
         rows=jsonl(source/folder/(game_date+".jsonl")) if phase=="afternoon" else []
         shadow[key]=[r for r in rows if r.get("run_id")==selected_run]
     meta=source/"slate_fetch.meta.json"
