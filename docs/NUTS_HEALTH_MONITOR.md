@@ -30,6 +30,14 @@ Each `progress.json` keeps its existing `pymc_chain_progress_v1` schema and adds
 }
 ```
 
+## First completed pair of chains
+
+Starting with logical market 1, a lightweight read-only preview becomes available after **any two chains** complete 1,800 warmup iterations and all 2,000 posterior draws. Look for the **`NUTS_PAIR_PREVIEW`** log. The separate `two_chain_preview.json` is saved in the same per-market training output folder as `progress.json`.
+
+The preview attempts provisional rank-normalized R-hat and bulk ESS for **a few untransformed global coordinates only** (`population_workload`, `population_rate` and `home_effect`). The reporter collects at most four coordinates per population vector and does not store the high-dimensional player effects. It also reports chain means, divergences, acceptance and energy warnings. The diagnostics are computed on a background thread and cannot alter sampling or convergence decisions. The existing artifact upload occurs only after the full workflow step finishes; live visibility is through `NUTS_PAIR_PREVIEW` in logs.
+
+If PyMC omits callback point values, or the diagnostic libraries cannot compute these values, the report records `unavailable` with a reason rather than pretending it has full-chain diagnostics. **Two chains are not enough for production certification**, especially because uninspected player/opponent effects may still fail four-chain convergence checks.
+
 The example above omits other chain fields. Real reports include all four chains. Online monitoring is **read-only** and retains O(1) summary memory per chain. It does not inspect posterior parameters, replace final R-hat/ESS, trigger retraining, or automatically cancel a sampler. Warnings should be investigated and corroborated with complete-sample diagnostics.
 
 Offline tests:
