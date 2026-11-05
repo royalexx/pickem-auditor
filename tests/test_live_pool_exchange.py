@@ -111,4 +111,22 @@ class LivePoolTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,"LIVE_SOURCE_OBSERVATION_CONFLICT"):
                     live.import_population(root,token="test",before="2026-11-05")
 
+    def test_afternoon_freezes_online_bayesian_shadow_for_next_morning(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            original={"game_date":"2026-11-05","run_id":"cloud-123","run_type":"shadow",
+                      "forecast_at":"2026-11-05T18:00:00Z","sport":"NHL",
+                      "player":"Skater","stat":"shots on goal",
+                      "reference_line":1.5,"side":"over"}
+            online={"game_date":"2026-11-05","run_id":"cloud-123",
+                    "sport":"NHL","player":"Skater","models":{
+                    "player_rate_gamma_poisson":{"status":"research_shadow","q_win":.6,
+                                                  "publication_eligible":False}}}
+            live.dump_jsonl(root/"data/prop_snapshots.jsonl",[original])
+            live.dump_jsonl(root/"data/online_bayes_shadow/2026-11-05.jsonl",[online])
+            doc=live.bundle(root,phase="afternoon",game_date="2026-11-05")
+            self.assertEqual(doc["shadow"]["online_bayes"],[online])
+            self.assertEqual(doc["forecasts"],[original])
+            self.assertEqual(doc["settlements"],[])
+
 if __name__=="__main__":unittest.main()
