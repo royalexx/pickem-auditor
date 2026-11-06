@@ -76,13 +76,13 @@ class OfficialNHLSettlementTests(unittest.TestCase):
             root=Path(tmp)
             self.make_pool(root,[observation(pid="8480002",stat="saves",value=0)])
             fetchers=st.default_fetchers(fetch=lambda *a,**kw: None,root=root)
-            r=snapshot(player_id="8480002",stat="saves",side="under",
+            r=snapshot(player_id="8480002",stat="goalie saves",side="under",
                        reference_line=0.5)
             output,count=st.settle_rows([r],as_of="2026-11-06",fetchers=fetchers)
             self.assertEqual(count,1)
             self.assertEqual(output[0]["actual_stat"],0.)
             self.assertEqual(output[0]["outcome"],"win")
-            self.assertIsNone(fetchers.lookup_record(snapshot(player_id="8480003",stat="saves")))
+            self.assertIsNone(fetchers.lookup_record(snapshot(player_id="8480003",stat="goalie saves")))
 
     def test_local_incomplete_source_refused(self):
         with tempfile.TemporaryDirectory() as tmp:
