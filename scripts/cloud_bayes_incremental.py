@@ -216,9 +216,12 @@ def timestamp(value):
     except (ValueError,TypeError):return None
 
 def settled_matches(afternoon,morning,day):
+    # Match against the same first archived batch selected by morning restore.
+    # Mixing reruns would create contradictory original forecasts/sidecars.
+    canonical_days=pool.canonical_afternoon_docs(afternoon)
     forecasts={}
     shadows={"bayesian_a":{},"bayesian_b":{}}
-    for doc in afternoon:
+    for doc in ([canonical_days[day]] if day in canonical_days else []):
         if doc.get("game_date")!=day:raise ValueError("MIXED_FORECAST_DATES")
         for row in doc.get("forecasts",[]):
             key=identity(row)
