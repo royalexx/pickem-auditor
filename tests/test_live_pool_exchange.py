@@ -111,6 +111,41 @@ class LivePoolTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,"LIVE_SOURCE_OBSERVATION_CONFLICT"):
                     live.import_population(root,token="test",before="2026-11-05")
 
+    def test_rerun_conflicts_restore_first_immutable_batch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            original={"game_date":"2026-11-05","run_id":"same-run-id",
+                      "forecast_at":"2026-11-05T23:18:00Z",
+                      "sport":"NHL","player_id":"8480001","stat":"shots on goal",
+                      "side":"over","reference_line":1.5,"q_win_robust":.6}
+            revised=dict(original,forecast_at="2026-11-06T00:18:00Z",
+                         q_win_robust=.4)
+            first={"phase":"afternoon","game_date":"2026-11-05",
+                   "captured_at_utc":"2026-11-05T23:29:00Z",
+                   "forecasts":[original],"shadow":{}}
+            second={"phase":"afternoon","game_date":"2026-11-05",
+                    "captured_at_utc":"2026-11-06T00:21:00Z",
+                    "forecasts":[revised],"shadow":{}}
+            dest=root/"morning-restored.jsonl"
+            with patch.object(live,"iter_remote_docs",
+                              return_value=[(second,"later"),(first,"first")]):
+                result=live.restore_forecasts(token="fixture",before="2026-11-06",
+                                               after="2026-11-05",dest=dest)
+            self.assertEqual(live.jsonl(dest),[original])
+            self.assertEqual(result["restored_forecasts"],1)
+            self.assertEqual(result["later_immutable_reruns_excluded"],1)
+            self.assertEqual(result["canonical_dates"],1)
+
+    def test_same_capture_incompatible_archives_are_ambiguous(self):
+        base={"phase":"afternoon","game_date":"2026-11-05",
+              "captured_at_utc":"2026-11-05T23:29:00Z",
+              "forecasts":[{"game_date":"2026-11-05","run_id":"r1",
+                            "forecast_at":"2026-11-05T23:18:00Z"}]}
+        revised=json.loads(json.dumps(base))
+        revised["forecasts"][0]["run_id"]="r2"
+        with self.assertRaisesRegex(ValueError,"AMBIGUOUS_SAME_INSTANT"):
+            live.canonical_afternoon_docs([base,revised])
+
     def test_afternoon_freezes_online_bayesian_shadow_for_next_morning(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
