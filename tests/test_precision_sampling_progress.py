@@ -94,6 +94,8 @@ class ProgressIntegrationTest(unittest.TestCase):
             monitor = NUTSProgress(draws=4, tune=3, chains=2,
                                    output=Path(td) / "progress.json",
                                    sport="NHL", stat="shots on goal", interval_seconds=3600)
+            # Force the first callback to exercise the periodic emission path.
+            monitor.last_print -= monitor.interval
             with patch.object(monitor, "_emit", side_effect=OSError("simulated_disk_failure")):
                 monitor(trace=None, draw=SimpleNamespace(
                     chain=0, draw_idx=0, tuning=True, stats=[stats()]))
