@@ -33,7 +33,7 @@ class OfficialNHLSettlementTests(unittest.TestCase):
     def make_pool(self,root,records):
         local=root/"data/live_pool_staging/populations"/(DATE+".jsonl")
         local.parent.mkdir(parents=True)
-        local.write_text("".join(json.dumps(record)+"\\n" for record in records),
+        local.write_text("".join(json.dumps(record)+"\n" for record in records),
                          encoding="utf-8")
         receipt=root/"reports"/("live_population_collect_"+DATE+".json")
         receipt.parent.mkdir(parents=True)
