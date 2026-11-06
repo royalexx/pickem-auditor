@@ -28,11 +28,12 @@ def original(day=DAY,side="over",line=1.5,at="2026-11-05T18:00:00Z"):
             "player":"Skater","side":side,"reference_line":line,
             "forecast_at":at,"event_start":"2026-11-05T23:00:00Z"}
 
-def af_doc(forecast=None,model_q=.55):
+def af_doc(forecast=None,model_q=.55,captured_at="2026-11-05T18:05:00Z"):
     orig=original() if forecast is None else forecast
     bayes={k:orig[k] for k in ("game_date","run_id","sport","stat","player_id",
                                "side","reference_line","forecast_at")}
-    return {"phase":"afternoon","game_date":DAY,"forecasts":[orig],
+    return {"phase":"afternoon","game_date":DAY,
+            "captured_at_utc":captured_at,"forecasts":[orig],
             "shadow":{"bayesian_a":[dict(bayes,status="forecast",q_win=model_q,q_push=0,
                      publication_eligible=False)],
                       "bayesian_b":[dict(bayes,status="forecast",q_win=.6,q_push=0,
@@ -72,8 +73,18 @@ class OnlineBayesianTests(unittest.TestCase):
                                    settled_at="2026-11-06T12:00:00Z"),
                               dict(original_2,actual_stat=3,outcome="loss",
                                    settled_at="2026-11-06T12:00:00Z")],pop=[])
-        matches=cb.settled_matches([af_doc(original_1),af_doc(original_2)], [morning],DAY)
+        archived_batch=af_doc(original_1)
+        archived_batch["forecasts"].append(original_2)
+        matches=cb.settled_matches([archived_batch], [morning],DAY)
         self.assertEqual(len(matches),1)
+
+    def test_later_archived_rerun_cannot_change_original_calibration(self):
+        first=af_doc(model_q=.55,captured_at="2026-11-05T18:05:00Z")
+        later=af_doc(model_q=.95,captured_at="2026-11-05T20:05:00Z")
+        later["forecasts"][0]["forecast_at"]="2026-11-05T19:55:00Z"
+        matches=cb.settled_matches([later,first],[mo_doc(pop=[])],DAY)
+        self.assertEqual(len(matches),1)
+        self.assertAlmostEqual(matches[0][1][3]["bayesian_a"],.55)
 
     def test_logit_grid_update_uses_slate_level_prequential_prediction(self):
         a=cb.initial_state()
