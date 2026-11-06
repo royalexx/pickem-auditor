@@ -161,6 +161,10 @@ def run(*,snapshots,data_root,model_dir,out,receipt,game_date,now=None,download=
         "previously_forecast":len(candidates)-len(pending),"new_rows":len(added),
         "available_forecasts":len(recorded),
         "forecast_count":sum(r["status"]=="forecast" for r in added),
+        "market_target_forecasts":sum(r["status"]=="forecast" and r.get("line_origin")=="market"
+                                      for r in added),
+        "research_threshold_forecasts":sum(r["status"]=="forecast" and r.get("line_origin")=="research_threshold"
+                                            for r in added),
         "unavailable_count":sum(r["status"]=="unavailable" for r in added),
         "reasons":dict(Counter(r["reason"] for r in added if r["status"]=="unavailable")),
         "status":"source_or_release_unavailable" if error else "completed","global_error":error,
