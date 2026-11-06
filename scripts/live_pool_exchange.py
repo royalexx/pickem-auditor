@@ -242,6 +242,60 @@ def iter_remote_docs(*,token,before,after=None,phase=None):
             raise ValueError("LIVE_POOL_PATH_METADATA_MISMATCH:"+path)
         yield doc,path
 
+def canonical_afternoon_docs(documents):
+    """Deterministically use the first archived frozen batch for each game date.
+
+    Later same-day reruns are independent immutable evidence, but never replace
+    or merge into the original prospective evaluation cohort. Each selected
+    batch keeps its original associated Bayesian/Monte Carlo sidecars.
+    """
+    selected={}
+    for doc in documents:
+        if doc.get("phase")!="afternoon":
+            raise ValueError("CANONICAL_SELECTION_REQUIRES_AFTERNOON_BUNDLE")
+        day=doc.get("game_date")
+        date.fromisoformat(day)
+        raw_stamp=doc.get("captured_at_utc")
+        try:
+            stamp=datetime.fromisoformat(str(raw_stamp).replace("Z","+00:00"))
+        except (ValueError,TypeError) as exc:
+            raise ValueError("AFTERNOON_CAPTURE_TIMESTAMP_MISSING_OR_INVALID") from exc
+        if stamp.tzinfo is None:
+            raise ValueError("AFTERNOON_CAPTURE_TIMESTAMP_UNZONED")
+        stamp=stamp.astimezone(timezone.utc)
+        forecasts=doc.get("forecasts")
+        if not isinstance(forecasts,list) or not forecasts:
+            raise ValueError("AFTERNOON_FROZEN_FORECASTS_EMPTY")
+        if any(r.get("game_date")!=day or r.get("actual_stat") is not None
+               or not r.get("forecast_at") for r in forecasts):
+            raise ValueError("INVALID_FROZEN_PREGAME_BATCH")
+        prev=selected.get(day)
+        if prev is not None and prev[0]==stamp and prev[1]!=doc:
+            raise ValueError("AMBIGUOUS_SAME_INSTANT_FORECAST_ARCHIVES")
+        if prev is None or stamp<prev[0]:
+            selected[day]=(stamp,doc)
+    return {day:pair[1] for day,pair in selected.items()}
+
+def restore_forecasts(*, token, before, after, dest):
+    """Restore one immutable first-published afternoon batch per game date."""
+    docs=list(iter_remote_docs(token=token,before=before,after=after,phase="afternoon"))
+    canonical_days=canonical_afternoon_docs(doc for doc,_ in docs)
+    rows={}
+    for day,doc in sorted(canonical_days.items()):
+        for r in doc["forecasts"]:
+            ident=(r.get("game_date"),r.get("run_id"),r.get("sport"),
+                   r.get("player_id") or r.get("player"),r.get("stat"),
+                   r.get("side"),r.get("reference_line"))
+            if ident in rows and rows[ident]!=r:
+                raise ValueError("CONFLICT_WITHIN_CANONICAL_AFTERNOON_ARCHIVE")
+            rows[ident]=r
+    dump_jsonl(dest,list(rows.values()))
+    return {"restored_forecasts":len(rows),"bundles":len(docs),
+            "canonical_dates":len(canonical_days),
+            "later_immutable_reruns_excluded":len(docs)-len(canonical_days),
+            "selection_policy":"first_archived_pregame_batch_per_date",
+            "path":str(dest)}
+
 def collect_population(root: Path, *, day, sports=("NHL","NBA","NFL")):
     # Only previous finalized games, never a pregame snapshot.
     if date.fromisoformat(day)>=datetime.now(TORONTO).date():
@@ -393,25 +447,10 @@ def main(argv=None):
         result=import_population(args.root,token=os.environ.get("GITHUB_TOKEN"),
                                  before=args.before,after=args.after)
     else:
-        # Restore immutable pregame forecasts; settled revisions are used ONLY
-        # for validation. A new morning run never recomputes old probabilities.
-        rows={}
-        seen_paths=[]
-        for doc,path in iter_remote_docs(token=os.environ.get("GITHUB_TOKEN"),
-                                         before=args.before,after=args.after):
-            seen_paths.append(path)
-            for r in (doc.get("forecasts",[]) if doc["phase"]=="afternoon" else []):
-                if r.get("actual_stat") is not None:
-                    raise ValueError("unfrozen_pregame_source")
-                ident=(r.get("game_date"),r.get("run_id"),r.get("sport"),
-                       r.get("player_id") or r.get("player"),r.get("stat"),
-                       r.get("side"),r.get("reference_line"))
-                if ident in rows and rows[ident]!=r:
-                    raise ValueError("immutable_forecast_conflict")
-                rows[ident]=r
-        dump_jsonl(args.dest,list(rows.values()))
-        result={"restored_forecasts":len(rows),"bundles":len(seen_paths),
-                "path":str(args.dest)}
+        # Later archived reruns remain untouched but are never mixed into
+        # the first published prospective cohort for the same game date.
+        result=restore_forecasts(token=os.environ.get("GITHUB_TOKEN"),
+                                 before=args.before,after=args.after,dest=args.dest)
     print(json.dumps(result,sort_keys=True))
     return 0 if result.get("status") not in ("partial_source_failure",) else 2
 
