@@ -52,9 +52,13 @@ def fetch(model,out,*,token,opener=urllib.request.urlopen):
    result[name]={"status":"existing","bytes":target.stat().st_size,"sha256":checksum(target)}
    continue
   asset=assets[name]
-  url=asset.get("browser_download_url")
-  if not url or not url.startswith(f"https://github.com/{REPO}/releases/download/{tag}/"):
-   raise ValueError("untrusted_release_asset_link")
+  # Browser-style release URLs return 404 for private repositories even
+  # with a valid token. Use authenticated REST release-asset endpoint.
+  url=asset.get("url")
+  asset_id=asset.get("id")
+  if (not isinstance(asset_id,int) or
+      url!=f"https://api.github.com/repos/{REPO}/releases/assets/{asset_id}"):
+   raise ValueError("untrusted_private_release_asset_api")
   temp=target.with_suffix(target.suffix+".download")
   try:
    with opener(request(url,token,accept="application/octet-stream"),timeout=180) as stream, temp.open("wb") as dst:
