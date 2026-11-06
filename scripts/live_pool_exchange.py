@@ -148,9 +148,19 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
     source_slate=[r for r in source_slate if r.get("game_date")==game_date]
     shadow={}
     for key,folder in (("bayesian_a","bayesian_shadow"),("bayesian_b","bayesian_b_shadow"),
-                       ("monte_carlo","posterior_mc"),("online_bayes","online_bayes_shadow")):
+                       ("monte_carlo","posterior_mc"),("online_bayes","online_bayes_shadow"),
+                       ("nhl_saves_nuts","nhl_joint_saves_shadow"),
+                       ("nfl_targets_nuts","nfl_context")):
         rows=jsonl(source/folder/(game_date+".jsonl")) if phase=="afternoon" else []
-        shadow[key]=[r for r in rows if r.get("run_id")==selected_run]
+        if key=="nfl_targets_nuts":
+            # Independent targets projections have their own immutable run id;
+            # genuine sportsbook target lines remain linked to the selected run.
+            shadow[key]=[r for r in rows if (
+                r.get("run_id")==selected_run or (
+                  r.get("line_origin")=="research_threshold"
+                  and r.get("run_id","").startswith("targets-projection:")))]
+        else:
+            shadow[key]=[r for r in rows if r.get("run_id")==selected_run]
     meta=source/"slate_fetch.meta.json"
     source_meta=json.loads(meta.read_text()) if phase=="afternoon" and meta.is_file() else None
     raw_source_path=root/"data/live_pool_staging/raw"/(game_date+".json")
