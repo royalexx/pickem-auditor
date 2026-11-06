@@ -10,7 +10,7 @@
     "from_index": 0,
     "failed_run_id": 41657940394,
     "report_path": ".training-control/skips/market-00.json",
-    "reason": "NHL shots on goal index 0 completed four-chain NUTS but failed strict convergence (max Rhat 1.0993; min bulk ESS 40.77); no safe autonomous parameter change.",
+    "reason": "Full four-chain NUTS fit finished 1,800 tune + 2,000 posterior draws per chain but strict convergence failed: max Rhat 1.0992845935089879 and min bulk ESS 40.772235110281734. Zero divergences, minimum BFMI 0.6184708219558258. A prior bounded recovery repaired a Windows cache-miss propagation error; further autonomous retuning or another 76-hour fit is not scientifically justified. Posterior is not publication eligible.",
     "failure_class": "model_nonconvergence",
     "repair_status": "no_safe_repair",
     "source_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
