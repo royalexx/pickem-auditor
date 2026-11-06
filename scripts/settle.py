@@ -217,6 +217,10 @@ class _CompletedNHLBoxscores:
         team = str(snapshot.get("team") or "").strip().upper()
         opponent = str(snapshot.get("opponent") or "").strip().upper()
         stat = str(snapshot.get("stat") or "").strip().lower()
+        # Forecast market label differs from the official count statistic.
+        # Keep the snapshot label untouched; translate only at source lookup.
+        if stat == "goalie saves":
+            stat = "saves"
         if not player_id or not team or not opponent or team == opponent:
             return None
         records = self._by_day.get(day)
