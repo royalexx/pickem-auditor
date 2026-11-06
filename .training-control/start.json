@@ -1,12 +1,20 @@
 {
   "schema": "pickem_precision_campaign_launch_v1",
   "campaign_id": "week-20261102",
-  "index": 0,
+  "index": 1,
   "max_per_position": "0",
   "as_of": "2026-10-29",
-  "code_sha": "bca3c5f1198009d5254a8dbe81aa73fc75c34e9d",
   "source_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
-  "requested_reason": "One bounded retry of NHL shots-on-goal market zero after run 41646238977 was blocked before sampling by PowerShell propagation of expected frozen cache miss (Python exit 3). Workflow fixed in commit 449b4439a0e164c60c6d4d6997b952eb9919da32 with explicit successful exit, source loader fallback and 7200-minute job window. Preserve originally frozen model code, source history and cutoff.",
-  "recovery_of_run_id": 41646238977,
-  "recovery_kind": "powershell_frozen_cache_miss_exit_propagation"
+  "code_sha": "bca3c5f1198009d5254a8dbe81aa73fc75c34e9d",
+  "skip": {
+    "from_index": 0,
+    "failed_run_id": 41657940394,
+    "report_path": ".training-control/skips/market-00.json",
+    "reason": "NHL shots on goal index 0 completed four-chain NUTS but failed strict convergence (max Rhat 1.0993; min bulk ESS 40.77); no safe autonomous parameter change.",
+    "failure_class": "model_nonconvergence",
+    "repair_status": "no_safe_repair",
+    "source_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
+    "code_sha": "bca3c5f1198009d5254a8dbe81aa73fc75c34e9d",
+    "as_of": "2026-10-29"
+  }
 }
