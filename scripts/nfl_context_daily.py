@@ -100,8 +100,19 @@ def run(*,snapshots,data_root,model_dir,out,receipt,game_date,now=None,download=
     # Real posted targets markets take precedence over synthetic projections.
     # Source target lines may come from a separately approved verified provider;
     # never reinterpret reception or yardage pricing as target pricing.
+    def current_market_target(r):
+        try:
+            when=common.instant(r.get("retrieved_at") or
+                                (r.get("market") or {}).get("retrieved_at") or "")
+            start=common.instant(r.get("event_start") or "")
+            frozen=common.instant(r.get("forecast_at") or "")
+            return (bool(r.get("player_id")) and
+                    0 <= (now-when).total_seconds() <= 3600 and
+                    frozen <= now < start)
+        except (KeyError,ValueError,TypeError,OverflowError):
+            return False
     real_targets={(r.get("player_id"),r.get("team"),r.get("opponent"))
-                  for r in candidates if r.get("player_id")}
+                  for r in candidates if current_market_target(r)}
     projections=set()
     for r in read_rows(Path(data_root)/"slate_fetch.jsonl"):
         key=(r.get("player_id"),r.get("team"),r.get("opponent"))
