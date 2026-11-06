@@ -144,9 +144,9 @@ class DailyTests(unittest.TestCase):
 
     def test_fresh_real_target_market_suppresses_synthetic_projection(self):
         slate={**self.row,"stat":"receptions"}
-        (self.root/'slate_fetch.jsonl').write_text(json.dumps(slate)+'\\n')
+        (self.root/'slate_fetch.jsonl').write_text(json.dumps(slate)+'\n')
         snapshots=self.root/'snapshots.jsonl'
-        snapshots.write_text(json.dumps(self.row)+'\\n')
+        snapshots.write_text(json.dumps(self.row)+'\n')
         out=self.root/'nfl_context/day.jsonl'
         with patch.object(rel,"load",return_value=(self.meta,self.cache)):
             result=daily.run(snapshots=snapshots,data_root=self.root,model_dir=self.root/'model',
