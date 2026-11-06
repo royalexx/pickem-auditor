@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 import urllib.parse
 from dataclasses import dataclass
@@ -22,9 +23,10 @@ LookupFn = Callable[[str, str, str, str], float | None]
 
 @dataclass
 class Fetchers:
-    """Injectable stat lookup: (sport, player, stat, game_date) -> actual stat."""
+    """Injectable lookup; NHL requires full player/game identity for settlement."""
 
     lookup: LookupFn
+    lookup_record: Callable[[dict], float | None] | None = None
 
     @classmethod
     def from_tables(cls, tables: dict) -> "Fetchers":
@@ -141,6 +143,102 @@ def _nhl_item_name(item: dict) -> str:
     return f"{first or ''} {last or ''}".strip()
 
 
+class _CompletedNHLBoxscores:
+    """Official final player-game stats, keyed by stable identity, never search names.
+
+    Read the date-scoped, source-validated population snapshot already collected
+    by the morning pipeline. When it is absent (for standalone CLI settlement),
+    read the completed official NHL scoreboard and gamecenter boxscores directly.
+    No guessed zero is recorded for absent, scratched or unverified players.
+    """
+    def __init__(self, fetch, root: Path | None = None):
+        self.fetch = fetch
+        self.root = Path(root) if root else SCRIPT_DIR.parent
+        self._by_day = {}
+
+    def _load(self, day: str):
+        import population_history as hist
+        import population_normalizers as norm
+        import population_backfill as backfill
+
+        local = self.root / "data/live_pool_staging/populations" / (day + ".jsonl")
+        receipt_path = self.root / "reports" / ("live_population_collect_" + day + ".json")
+        records = []
+        if local.exists() or receipt_path.exists():
+            if not (local.is_file() and receipt_path.is_file()):
+                raise ValueError("NHL_LOCAL_POPULATION_OR_RECEIPT_MISSING")
+            receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+            nhl = (receipt.get("sports") or {}).get("NHL") or {}
+            completed = (receipt.get("completed_games") or {}).get("NHL")
+            if (receipt.get("game_date") != day
+                    or "NHL" in (receipt.get("errors") or {})
+                    or not isinstance(completed,int) or completed < 1
+                    or nhl.get("games") != completed):
+                raise ValueError("NHL_LOCAL_COMPLETED_SOURCE_NOT_VERIFIED")
+            with local.open("rt",encoding="utf-8") as stream:
+                for line in stream:
+                    if not line.strip():
+                        continue
+                    record = json.loads(line)
+                    if record.get("sport") != "NHL":
+                        continue
+                    hist.validate(record)
+                    if record["game_date"] != day:
+                        raise ValueError("NHL_LOCAL_GAME_DATE_MISMATCH")
+                    records.append(record)
+            if len({r["game_id"] for r in records}) != completed:
+                raise ValueError("NHL_LOCAL_COMPLETED_GAME_COVERAGE_MISMATCH")
+        else:
+            # Standalone fallback uses the same official endpoints and strict
+            # completed-game normalizer as the source-verified collector.
+            board = self.fetch(norm.NHL_BASE + "/score/" + day, timeout=fs.ESPN_TIMEOUT)
+            ids = backfill.nhl_games(board)
+            for gid in ids:
+                raw = self.fetch(norm.NHL_BASE + "/gamecenter/" + str(gid) + "/boxscore",
+                                 timeout=fs.ESPN_TIMEOUT)
+                records.extend(norm.nhl_game(raw,day,expected_id=gid))
+            if not ids:
+                raise ValueError("NHL_NO_FINAL_REGULAR_SEASON_GAMES_ON_DATE")
+        indexed = {}
+        for record in records:
+            key = (record["game_id"],record["player_id"],record["stat"])
+            if key in indexed and indexed[key] != record:
+                raise ValueError("NHL_CONFLICTING_OFFICIAL_PLAYER_GAME_STAT")
+            indexed[key] = record
+        self._by_day[day] = list(indexed.values())
+        return self._by_day[day]
+
+    def lookup(self, snapshot: dict):
+        if str(snapshot.get("sport") or "").upper() != "NHL":
+            raise ValueError("NHL_IDENTITY_LOOKUP_SPORT_MISMATCH")
+        day = str(snapshot.get("game_date") or "")
+        # A missing ID cannot be guessed via ambiguous name searches.
+        player_id = str(snapshot.get("player_id") or "").strip()
+        team = str(snapshot.get("team") or "").strip().upper()
+        opponent = str(snapshot.get("opponent") or "").strip().upper()
+        stat = str(snapshot.get("stat") or "").strip().lower()
+        if not player_id or not team or not opponent or team == opponent:
+            return None
+        records = self._by_day.get(day)
+        if records is None:
+            records = self._load(day)
+        # Only an explicit official NHL event identity is compared to the
+        # gamecenter ID. Provider odds-event IDs are not NHL game IDs.
+        namespace = str(snapshot.get("event_id_namespace") or "").lower()
+        eid = str(snapshot.get("event_id") or "").strip()
+        official_eid = eid if namespace in ("nhl","nhl_game","nhl_gamecenter") and (
+            eid.isdigit() and len(eid) == 10) else None
+        matches = [r for r in records
+                   if r["player_id"] == player_id and r["stat"] == stat
+                   and r["team"].upper() == team and r["opponent"].upper() == opponent
+                   and (official_eid is None or r["game_id"] == official_eid)]
+        if len(matches) > 1:
+            raise ValueError("NHL_AMBIGUOUS_OFFICIAL_PLAYER_GAME_MATCH")
+        if not matches:
+            return None
+        return float(matches[0]["value"])
+
+
 class _LiveCache:
     def __init__(self, fetch):
         self.fetch = fetch
@@ -232,21 +330,23 @@ class _LiveCache:
         return _nfl_value(week_rows, sched_rows, player, stat, game_date)
 
 
-def default_fetchers(fetch=None) -> Fetchers:
+def default_fetchers(fetch=None, *, root: Path | None = None) -> Fetchers:
     fetch = fetch or fs.fetch_json
     cache = _LiveCache(fetch)
+    nhl_final = _CompletedNHLBoxscores(fetch,root=root)
 
     def lookup(sport: str, player: str, stat: str, game_date: str) -> float | None:
         sport = sport.strip().upper()
         if sport == "NBA":
             return cache.nba(player, stat, game_date)
         if sport == "NHL":
-            return cache.nhl(player, stat, game_date)
+            # Never fall back to an unverified player-name season gamelog.
+            raise ValueError("NHL_SETTLEMENT_REQUIRES_IDENTITY_ROW")
         if sport == "NFL":
             return cache.nfl(player, stat, game_date)
         return None
 
-    return Fetchers(lookup=lookup)
+    return Fetchers(lookup=lookup, lookup_record=nhl_final.lookup)
 
 
 def settle_row(row: dict, actual: float | None, *, settled_at: str | None = None) -> tuple[dict, bool]:
@@ -281,12 +381,15 @@ def settle_rows(
         if not is_past_game(game_date, as_of):
             out.append(row)
             continue
-        actual = fetchers.lookup(
-            str(row.get("sport") or ""),
-            str(row.get("player") or ""),
-            str(row.get("stat") or ""),
-            game_date,
-        )
+        if str(row.get("sport") or "").upper() == "NHL" and fetchers.lookup_record:
+            actual = fetchers.lookup_record(row)
+        else:
+            actual = fetchers.lookup(
+                str(row.get("sport") or ""),
+                str(row.get("player") or ""),
+                str(row.get("stat") or ""),
+                game_date,
+            )
         updated, changed = settle_row(row, actual, settled_at=stamp)
         if changed:
             settled += 1
