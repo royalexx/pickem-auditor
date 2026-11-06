@@ -142,6 +142,22 @@ class DailyTests(unittest.TestCase):
         self.assertEqual(forecast['forecast_kind'],'target_opportunity_projection')
         self.assertFalse(forecast['ranking_allowed'])
 
+    def test_fresh_real_target_market_suppresses_synthetic_projection(self):
+        slate={**self.row,"stat":"receptions"}
+        (self.root/'slate_fetch.jsonl').write_text(json.dumps(slate)+'\n')
+        snapshots=self.root/'snapshots.jsonl'
+        snapshots.write_text(json.dumps(self.row)+'\n')
+        out=self.root/'nfl_context/day.jsonl'
+        with patch.object(rel,"load",return_value=(self.meta,self.cache)):
+            result=daily.run(snapshots=snapshots,data_root=self.root,model_dir=self.root/'model',
+                out=out,receipt=self.root/'receipt.json',game_date=self.row['game_date'],now=self.now)
+        self.assertEqual(result['forecast_count'],1)
+        self.assertEqual(result['market_target_forecasts'],1)
+        self.assertEqual(result['research_threshold_forecasts'],0)
+        record=daily.read_rows(out)[0]
+        self.assertEqual(record['line_origin'],'market')
+        self.assertEqual(record['forecast_kind'],'target_market_forecast')
+
     def test_stale_market_snapshot_does_not_suppress_fresh_projection(self):
         (self.root/'slate_fetch.jsonl').write_text(json.dumps({**self.row,'stat':'receptions'})+'\n')
         snapshots=self.root/'snapshots.jsonl'

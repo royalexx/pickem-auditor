@@ -146,6 +146,33 @@ class LivePoolTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"AMBIGUOUS_SAME_INSTANT"):
             live.canonical_afternoon_docs([base,revised])
 
+    def test_afternoon_archives_nuts_saves_and_targets_without_fabricating_market_line(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            forecast={"game_date":"2026-11-05","run_id":"frozen-r1",
+                      "run_type":"shadow","forecast_at":"2026-11-05T20:00:00Z",
+                      "sport":"NHL","stat":"goalie saves","player_id":"848101",
+                      "reference_line":22.5,"side":"over","actual_stat":None}
+            live.dump_jsonl(root/"data/prop_snapshots.jsonl",[forecast])
+            saves={"game_date":"2026-11-05","run_id":"frozen-r1",
+                   "player_id":"848101","stat":"goalie saves","side":"over",
+                   "reference_line":22.5,"forecast_at":"2026-11-05T20:00:00Z",
+                   "generated_at":"2026-11-05T20:05:00Z","status":"forecast",
+                   "q_win":0.71,"ranking_allowed":False,"shadow_only":True}
+            targets={"game_date":"2026-11-05","run_id":"targets-projection:abc",
+                     "stat":"targets","player_id":"00-0123","side":"over",
+                     "line_origin":"research_threshold","reference_line":5.5,
+                     "forecast_at":"2026-11-05T20:06:00Z","status":"forecast",
+                     "q_win":0.63,"ranking_allowed":False,"shadow_only":True}
+            live.dump_jsonl(root/"data/nhl_joint_saves_shadow/2026-11-05.jsonl",[saves])
+            live.dump_jsonl(root/"data/nfl_context/2026-11-05.jsonl",[targets])
+            doc=live.bundle(root,phase="afternoon",game_date="2026-11-05")
+            self.assertEqual(doc["forecasts"],[forecast])
+            self.assertEqual(doc["shadow"]["nhl_saves_nuts"],[saves])
+            self.assertEqual(doc["shadow"]["nfl_targets_nuts"],[targets])
+            self.assertEqual(doc["settlements"],[])
+            self.assertNotIn("targets", [r["stat"] for r in doc["forecasts"]])
+
     def test_afternoon_freezes_online_bayesian_shadow_for_next_morning(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)

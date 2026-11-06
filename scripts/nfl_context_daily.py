@@ -97,11 +97,28 @@ def run(*,snapshots,data_root,model_dir,out,receipt,game_date,now=None,download=
     source=read_rows(snapshots)
     candidates=[r for r in source if r.get("game_date")==game_date and r.get("sport")=="NFL" and
                 r.get("stat")=="targets" and r.get("run_type")=="shadow"]
+    # Real posted targets markets take precedence over synthetic projections.
+    # Source target lines may come from a separately approved verified provider;
+    # never reinterpret reception or yardage pricing as target pricing.
+    def current_market_target(r):
+        try:
+            when=common.instant(r.get("retrieved_at") or
+                                (r.get("market") or {}).get("retrieved_at") or "")
+            start=common.instant(r.get("event_start") or "")
+            frozen=common.instant(r.get("forecast_at") or "")
+            return (bool(r.get("player_id")) and
+                    0 <= (now-when).total_seconds() <= 3600 and
+                    frozen <= now < start)
+        except (KeyError,ValueError,TypeError,OverflowError):
+            return False
+    real_targets={(r.get("player_id"),r.get("team"),r.get("opponent"))
+                  for r in candidates if current_market_target(r)}
     projections=set()
     for r in read_rows(Path(data_root)/"slate_fetch.jsonl"):
         key=(r.get("player_id"),r.get("team"),r.get("opponent"))
         if (r.get("game_date")!=game_date or r.get("sport")!="NFL" or
-            r.get("stat") not in ("receptions","receiving yards") or key in projections):continue
+            r.get("stat") not in ("receptions","receiving yards") or
+            not all(key) or key in real_targets or key in projections):continue
         projections.add(key)
         candidates.append({**{k:r.get(k) for k in ("game_date","sport","player","player_id","team","opponent","retrieved_at")},
             "source_stat":r["stat"],"stat":"targets","side":"over","line_origin":"research_threshold",
@@ -144,6 +161,10 @@ def run(*,snapshots,data_root,model_dir,out,receipt,game_date,now=None,download=
         "previously_forecast":len(candidates)-len(pending),"new_rows":len(added),
         "available_forecasts":len(recorded),
         "forecast_count":sum(r["status"]=="forecast" for r in added),
+        "market_target_forecasts":sum(r["status"]=="forecast" and r.get("line_origin")=="market"
+                                      for r in added),
+        "research_threshold_forecasts":sum(r["status"]=="forecast" and r.get("line_origin")=="research_threshold"
+                                            for r in added),
         "unavailable_count":sum(r["status"]=="unavailable" for r in added),
         "reasons":dict(Counter(r["reason"] for r in added if r["status"]=="unavailable")),
         "status":"source_or_release_unavailable" if error else "completed","global_error":error,

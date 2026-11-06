@@ -129,6 +129,9 @@ STAT_BY_MARKET['player_total_saves'] = 'goalie saves'  # legacy historical fixtu
 # Fixture/import support only. PropLine's published NHL market list does NOT
 # include player_hits; do not request an unsupported live market.
 STAT_BY_MARKET['player_hits'] = 'hits'
+# Accept this as an explicitly labeled inbound target market if an approved
+# source supplies it. Do NOT request an undocumented PropLine market key.
+STAT_BY_MARKET['player_targets'] = 'targets'
 PROPLINE_SUPPORTED_MARKETS = frozenset({
     'player_points', 'player_rebounds', 'player_assists', 'player_threes',
     'player_points_rebounds_assists', 'player_points_rebounds',
