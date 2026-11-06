@@ -103,8 +103,8 @@ class ReleaseTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as tmp:
    tag="synthetic-test-tag"
    assets={"parameters.npz":digest}
-   listing={"tag_name":tag,"assets":[{"name":"parameters.npz","size":len(payload),
-         "browser_download_url":f"https://github.com/{release.REPO}/releases/download/{tag}/parameters.npz"}]}
+   listing={"tag_name":tag,"assets":[{"name":"parameters.npz","size":len(payload),"id":9123,
+         "url":f"https://api.github.com/repos/{release.REPO}/releases/assets/9123"}]}
    calls=[]
    def opener(req,timeout):
     calls.append(req.full_url)
