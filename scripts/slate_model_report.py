@@ -23,9 +23,10 @@ from nuts_slate_shadow import instant, identity
 VERSION='slate-model-comparison-v1'
 FOLDERS={'Bayesian_A':'bayesian_shadow','Bayesian_B':'bayesian_b_shadow',
          'NUTS_saves':'nhl_joint_saves_shadow','NUTS_targets':'nfl_context',
-         'NUTS_population':'population_nuts_shadow'}
+         'NUTS_population':'population_nuts_shadow',
+         'NUTS_provisional':'provisional_nuts_shadow'}
 COLUMNS=('sport','player','stat','side','line','Engine_A','Engine_B','Consensus',
-         'Bayesian_A','Bayesian_B','Market','NUTS','NUTS_model','NUTS_status',
+         'Bayesian_A','Bayesian_B','Market','NUTS','NUTS_provisional','NUTS_model','NUTS_status',
          'Consensus_gap_pp','production_consensus_available','original_rank','block_reason')
 
 
@@ -112,6 +113,10 @@ def linked_probability(row,item,*,nfl_targets=False):
     result['trained_through']=item.get('trained_through')
     result['training_source_digest']=item.get('training_source_digest') or item.get('model_source_digest')
     result['sampler_diagnostics']=item.get('sampler_diagnostics')
+    if item.get('provisional') is True:
+        result.update(provisional=True,ranking_allowed=False,publication_eligible=False,
+                      model_run_id=item.get('model_run_id'),
+                      strict_convergence_passed=False)
     return result
 
 
@@ -140,11 +145,20 @@ def build(row,indices,quotes):
                     'reason':next((x.get('reason') for x in nuts.values() if x.get('reason')),
                                   'no_verified_trained_model_for_this_pick')}
     models['NUTS']=chosen
+    # Explicit side-by-side research-only probability. NEVER used as a
+    # fallback for the strict NUTS column or the production consensus.
+    research=indices.get('NUTS_provisional',{}).get(key)
+    provisional=linked_probability(row,research) if research else {
+        'probability':None,'status':'unavailable',
+        'reason':'no_eligible_provisional_nuts_artifact_for_exact_contract'}
+    models['NUTS_provisional']=provisional
     record={k:row.get(k) for k in ('game_date','run_id','forecast_at','event_start','sport','player','player_id','team','opponent','stat','side')}
     record.update(line=row.get('reference_line'),reference_line=row.get('reference_line'),original_rank=row.get('final_rank'),block_reason=row.get('reason'),
                   probability_scale='P(exact_side_wins | no_push)',models=models,nuts_models=nuts,
                   NUTS_model=selected,NUTS_status=chosen['status'],NUTS_reason=chosen.get('reason'),
                   production_consensus_available=models['Consensus']['probability'] is not None,
+                  provisional_nuts_status=provisional['status'],
+                  provisional_nuts_reason=provisional.get('reason'),
                   production_policy_version=blend.get('version'),
                   context_adjustment_applied=(row.get('shared_context') or {}).get('applied',False))
     for name,value in models.items():record[name]=value['probability']
@@ -163,7 +177,7 @@ def run(root,day,out_dir):
             # The targets adapter stores its source timestamp separately.
             items=[{**r,'forecast_at':r.get('parent_forecast_at',r.get('forecast_at')),
                     'generated_at':r.get('generated_at') or r.get('forecast_at')} for r in items if r.get('line_origin')=='market']
-        if name in ('NUTS_population','NUTS_targets'):
+        if name in ('NUTS_population','NUTS_targets','NUTS_provisional'):
             # Failed retries are audit records, not conflicting forecasts. Keep
             # the earliest successful inference; conflicting probabilities fail.
             grouped={}
