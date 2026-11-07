@@ -131,7 +131,7 @@ def _extract_exact(archive, folder, asset, config):
         return manifest,target
 
 
-def provisional_forecast(posterior, manifest, context, *, seed, draws=1500):
+def provisional_forecast(posterior, manifest, context, *, seed, draws=1500, cache=None):
     """Separate explicit researcher-only numerical adapter; never fakes approval.
 
     Reproduces count likelihood integration of frozen joint_population_bayes
@@ -160,7 +160,7 @@ def provisional_forecast(posterior, manifest, context, *, seed, draws=1500):
     is_new=s not in manifest["seasons"]
     if is_new and len(manifest["seasons"])<2:
         raise ValueError("unidentified_future_season")
-    d=posterior_cache(posterior)
+    d=cache if cache is not None else posterior_cache(posterior)
     rng=np.random.default_rng(seed)
     picks=rng.integers(0,d["count"],size=draws)
     def sample(name):return d["arrays"][name][picks]
@@ -192,7 +192,7 @@ def provisional_forecast(posterior, manifest, context, *, seed, draws=1500):
             "conditional_on_appearance":True,"draws":draws}
 
 
-def forecast_one(row,manifest,posterior,now,asset):
+def forecast_one(row,manifest,posterior,now,asset,*,cache=None):
     result={k:row.get(k) for k in parent.KEYS+("player","team","opponent","event_start")}
     result.update(version=VERSION,model_id="artifact:"+str(asset["artifact_id"]),
                   generated_at=now.isoformat(),status="unavailable",
@@ -207,7 +207,7 @@ def forecast_one(row,manifest,posterior,now,asset):
         context=parent.candidate_context(row,manifest,now)
         contract={k:row.get(k) for k in parent.KEYS if k!="side"}
         seed=int.from_bytes(hashlib.sha256(json.dumps(contract,sort_keys=True).encode()).digest()[:8],"big")
-        q=provisional_forecast(posterior,manifest,context,seed=seed)
+        q=provisional_forecast(posterior,manifest,context,seed=seed,cache=cache)
         completed=datetime.now(timezone.utc)
         if completed>=parent.instant(row["event_start"]):
             raise ValueError("model_inference_finished_after_kickoff")
@@ -246,11 +246,15 @@ def run(root,day,*,token,config_path=CONFIG,now=None):
             if (posterior.posterior.sizes.get("chain")!=4 or
                     posterior.posterior.sizes.get("draw")!=2000):
                 raise ValueError("provisional_posterior_chain_count_mismatch")
+            from joint_population_bayes import posterior_cache
+            cache=posterior_cache(posterior)
             for row in candidates:
-                pred=forecast_one(row,manifest,posterior,now,asset)
+                pred=forecast_one(row,manifest,posterior,now,asset,cache=cache)
                 predictions.append(pred)
                 if pred["status"]!="forecast":errors[pred.get("reason","unknown")]+=1
-            del posterior
+            del cache,posterior
+            import gc
+            gc.collect()
             receipts.append({"stat":asset["stat"],"artifact_id":asset["artifact_id"],
                             "run_id":asset["run_id"],"artifact_sha256":asset["sha256"],
                             "diagnostics":manifest["diagnostics"],
