@@ -65,3 +65,9 @@ The daily Deepnote notebook resolves code/history refs to immutable commits per
 run and saves those IDs with its output. The deployment updates the saved daily
 notebook; it does not rerun a historical slate or change its schedule. Existing
 self-hosted training checkouts and frozen campaign controls are untouched.
+
+The first comparison for a parent snapshot is frozen, including missing generic
+NUTS output. Stage newly completed models before the next source run; recovery
+never overwrites an earlier displayed or archived evaluation cohort. Historical
+adapter timestamps retain their legacy semantics; new saves/targets CLI outputs
+stamp actual inference completion and reject completion at/after kickoff.
