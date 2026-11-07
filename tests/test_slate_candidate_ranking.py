@@ -80,7 +80,7 @@ class PrioritizedSlateTests(unittest.TestCase):
             self.assertEqual(picked["history"]["last_5"]["games"], 5)
             self.assertAlmostEqual(picked["model_spread_pp"], 21.45, places=2)
             self.assertIn("material_model_disagreement_review_role_and_sample", picked["warnings"])
-            self.assertEqual(len(picked["explanations"]), 5)
+            self.assertEqual(len(picked["explanations"]), 6)
             self.assertIn("Exact under 3.5 hit history", " ".join(picked["explanations"]))
             self.assertEqual(picked["history"]["opportunity"]["change_pct"], 25.0)
             self.assertFalse(picked["publication_eligible"])
