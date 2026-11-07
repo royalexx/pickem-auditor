@@ -18,6 +18,23 @@ class NotebookEngineBMappingTests(unittest.TestCase):
         from slate_model_report import masses
         self.assertAlmostEqual(masses({'q_win':.6,'q_push':.2,'q_win_b':None})['probability'],.75)
 
+    def test_original_comparison_chart_and_new_evidence_top10_coexist(self):
+        notebook=json.loads((ROOT/"notebooks/deepnote_daily_cloud_inference.ipynb").read_text(encoding="utf-8"))
+        cells=["".join(c.get("source",[])) for c in notebook.get("cells",[])
+               if c.get("cell_type")=="code"]
+        display_cell=next(c for c in cells if 'stage("slate_model_comparison"' in c)
+        # Original top ten remains available, ordered as before by consensus
+        # availability, market gap, then probability, without replacement.
+        self.assertIn('["production_consensus_available","Consensus_gap_pp","Consensus"]',display_cell)
+        self.assertIn('display(selection[columns].round(4))',display_cell)
+        self.assertIn('production consensus candidates',display_cell)
+        # Second independent table has the new priority score and explanations.
+        self.assertIn('slate_top10_evidence.json',display_cell)
+        self.assertIn('["Priority_score"]+columns',display_cell)
+        self.assertIn('for evidence in ranked["explanations"]',display_cell)
+        self.assertLess(display_cell.index('display(selection[columns].round(4))'),
+                        display_cell.index('top=json.loads((OUT/"slate_top10_evidence.json")'))
+
     def test_morning_audit_uses_canonical_first_frozen_batch(self):
         notebook=json.loads((ROOT/"notebooks/deepnote_daily_cloud_inference.ipynb").read_text(encoding="utf-8"))
         text="\n".join("".join(c.get("source",[])) for c in notebook.get("cells",[]) if c.get("cell_type")=="code")
