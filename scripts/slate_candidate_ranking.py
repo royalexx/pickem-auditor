@@ -162,7 +162,7 @@ def candidate(row, comparison, *, data_root):
     market_meta = (comparison.get("models") or {}).get("Market") or {}
     if market_meta.get("status") != "forecast" or len(market_meta.get("books") or []) < 2:
         return None, "fewer_than_two_matched_frozen_books"
-    if (any(row.get(k) != comparison.get(k) for k in ("sport", "player", "player_id", "stat", "side"))
+    if (any(row.get(k) != comparison.get(k) for k in ("sport", "player", "player_id", "team", "opponent", "stat", "side"))
             or row.get("reference_line") != comparison.get("line")
             or row.get("run_id") != comparison.get("run_id")
             or row.get("forecast_at") != comparison.get("forecast_at")):
