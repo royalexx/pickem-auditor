@@ -26,7 +26,8 @@ class FrozenScheduleTests(unittest.TestCase):
         self.assertEqual({x["fit_id"] for x in routing},
                          {original.get_market(i)["fit_id"] for i in range(31)})
         self.assertEqual(routing[30]["next_index"], None)
-        self.assertEqual({x["routing_sha256"] for x in routing}, {routing[0]["routing_sha256"]})
+        self.assertEqual({x["routing_schema"] for x in routing}, {routed.SCHEMA})
+        self.assertEqual(len({x["source_index"] for x in routing}), 31)
 
     def test_source_index_preserves_frozen_market(self):
         for i in range(31):
