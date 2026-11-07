@@ -165,8 +165,10 @@ class MorningScheduleTests(unittest.TestCase):
         root=Path(__file__).resolve().parents[1]
         workflow=(root/".github/workflows/pickem-daily.yml").read_text()
         store=(root/"scripts/shadow_store.sh").read_text()
-        self.assertIn("cron: '41 11 * * *'",workflow)
-        self.assertIn("cron: '41 12 * * *'",workflow)
+        # Hosted schedules are deliberately paused; keep recovery logic
+        # available for manual dispatch without re-enabling compute use.
+        self.assertIn("workflow_dispatch:",workflow)
+        self.assertNotIn("\n  schedule:",workflow)
         self.assertIn("scripts/morning_schedule.py gate",workflow)
         self.assertIn("scripts/morning_schedule.py','mark'",workflow)
         self.assertIn("data/morning_runs",store)

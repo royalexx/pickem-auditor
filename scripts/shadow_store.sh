@@ -97,6 +97,11 @@ elif [[ "$mode" == save ]]; then
     git worktree add --quiet --detach "$tmpdir/tree" HEAD
   fi
   mkdir -p "$tmpdir/tree/data" "$tmpdir/tree/logs"
+  # Preserve every frozen forecast, including nightly rows added after the
+  # original archive. Only additive settlement/closing enrichment is allowed.
+  python scripts/forecast_store_guard.py \
+    --previous "$tmpdir/tree/data/prop_snapshots.jsonl" \
+    --current data/prop_snapshots.jsonl
   cp -p data/prop_snapshots.jsonl "$tmpdir/tree/data/"
   # Store historical source observations alongside predictions for subsequent
   # collection windows. These data are NOT calibration weights or forecasts.

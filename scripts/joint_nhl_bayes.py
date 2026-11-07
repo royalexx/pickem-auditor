@@ -177,9 +177,12 @@ def _diagnostic_values(result):
     for group in groups:
         if not getattr(group,"data_vars",None):
             continue
-        values.extend(np.asarray(group.to_array(),dtype=float).ravel().tolist())
+        for variable in group.data_vars.values():
+            values.extend(np.asarray(variable,dtype=float).ravel().tolist())
     if not values:
         raise ValueError("empty_arviz_diagnostic_result")
+    if not all(math.isfinite(value) for value in values):
+        raise ValueError("nonfinite_arviz_diagnostic_result")
     return values
 
 

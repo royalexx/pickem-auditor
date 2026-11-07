@@ -21,6 +21,7 @@ from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
 from odds_providers import approved_book_name, canon_stat, normalize_player, normalize_team
+from prediction_scoring import conditional_win
 
 EASTERN = ZoneInfo("America/Toronto")
 PHASES = ("morning", "afternoon", "pregame")
@@ -348,9 +349,26 @@ def evaluate(*, archives: Path, forecasts: Path, slate_date: str | None = None) 
         settled = (status in ("win", "loss", "push") and
                    isinstance(actual, (int, float)) and not isinstance(actual, bool) and
                    math.isfinite(actual))
-        model = f.get("q_model")
-        valid_model = (isinstance(model, (int, float)) and not isinstance(model, bool)
-                       and math.isfinite(model) and 0 <= model <= 1)
+        raw_model = f.get("q_model")
+        push = f.get("q_push")
+        def valid_probability(value):
+            return (isinstance(value, (int, float)) and not isinstance(value, bool)
+                    and math.isfinite(value) and 0 <= value <= 1)
+        # Two-sided price normalization is conditional on no push. Compare
+        # the model on that same event without rewriting its frozen masses.
+        if push is None:
+            line = f.get("reference_line")
+            if (isinstance(line, (int, float)) and not isinstance(line, bool)
+                    and math.isfinite(line) and not float(line).is_integer()):
+                push = 0.0
+        try:
+            if not valid_probability(raw_model) or not valid_probability(push):
+                raise ValueError("invalid_model_probability_type_or_range")
+            model = conditional_win(raw_model, push)
+        except (TypeError, ValueError):
+            model = None
+            excluded["invalid_or_missing_model_win_push_mass"] += 1
+        valid_model = model is not None
         y = 1 if status == "win" else 0 if status == "loss" else None
         market_q = statistics.median(probs)
         record = {
@@ -361,6 +379,9 @@ def evaluate(*, archives: Path, forecasts: Path, slate_date: str | None = None) 
             "forecast_at": stamp(forecast_at), "odds_observed_at": stamp(newest),
             "book_count": len(selected), "bookmakers": sorted(selected),
             "market_no_vig_probability": round(market_q, 6),
+            "model_unconditional_win_probability": raw_model if valid_probability(raw_model) else None,
+            "model_push_probability": push if valid_probability(push) else None,
+            "probability_scale": "conditional_on_nonpush",
             "model_probability": float(model) if valid_model else None,
             "outcome": status if settled else "pending",
             "actual_stat": actual if settled else None,

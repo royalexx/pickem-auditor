@@ -170,6 +170,7 @@ def fit(data,*,draws=1000,tune=1200,chains=4,seed=19031,
 
 
 def _to_values(result):
+    """Flatten each diagnostic variable without broadcasting unrelated dimensions."""
     import numpy as np
     if hasattr(result,"to_array"):groups=[result]
     elif hasattr(result,"subtree"):groups=[node.to_dataset() for node in result.subtree]
@@ -177,7 +178,8 @@ def _to_values(result):
     values=[]
     for group in groups:
         if getattr(group,"data_vars",None):
-            values.extend(np.asarray(group.to_array(),dtype=float).ravel().tolist())
+            for variable in group.data_vars.values():
+                values.extend(np.asarray(variable,dtype=float).ravel().tolist())
     if not values or not all(math.isfinite(v) for v in values):
         raise ValueError("missing_or_invalid_posterior_diagnostic")
     return values

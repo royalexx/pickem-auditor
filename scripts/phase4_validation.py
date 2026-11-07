@@ -20,7 +20,12 @@ from zoneinfo import ZoneInfo
 import posterior_mc_shadow as shadow
 import posterior_mc_audit as old_audit
 
-VERSION = 'chronological-validation-v1'
+VERSION = 'chronological-validation-v2'
+NBA_PRIOR_VERSION = 'nba-source-prior-power-v1'
+MODEL_NAMES = ('production','legacy_a','legacy_b','legacy_mix70',
+               'bayes_a','bayes_b','bayes_mix70','mc_a','mc_b','mc_mix70',
+               'nba_prior_a','nba_prior_b','nba_prior_mix70',
+               'mc_prior_a','mc_prior_b','mc_prior_mix70')
 TORONTO = ZoneInfo('America/Toronto')
 OUTCOMES = ('win','push','loss')
 WEIGHT_A = .70                   # diagnostic only; never a deployed weight
@@ -37,6 +42,10 @@ PAIR_DEFINITIONS = (
     ('legacy_mix70','bayes_mix70'),('bayes_a','mc_a'),
     ('bayes_b','mc_b'),('bayes_mix70','mc_mix70'),
     ('legacy_mix70','mc_mix70'),
+    ('legacy_a','nba_prior_a'),('legacy_b','nba_prior_b'),
+    ('legacy_mix70','nba_prior_mix70'),
+    ('nba_prior_a','mc_prior_a'),('nba_prior_b','mc_prior_b'),
+    ('nba_prior_mix70','mc_prior_mix70'),
 )
 
 
@@ -89,6 +98,14 @@ def original_key(row):
         str(row.get('reference_line')))
 
 
+def _bridge_contract(item, engine):
+    """Recognize the frozen NBA power-likelihood family without relabeling it."""
+    return (item.get('sport')=='NBA' and
+            item.get('engine')==('bayesian_a' if engine=='A' else 'bayesian_b') and
+            item.get('source_only_prior_power')==.4 and
+            item.get('distribution') in ('normal','poisson','negbin'))
+
+
 def read_sidecars(directory, *, version, engine=None):
     """Reject source corruption and identity clashes instead of silent wins."""
     records={}
@@ -97,7 +114,12 @@ def read_sidecars(directory, *, version, engine=None):
         if file.stem!=file.stem[:10] or not _date_str(file.stem):
             raise ValueError('unexpected_sidecar_filename')
         for item in shadow._read(file):
-            if (item.get('version')!=version or item.get('publication_eligible') is not False
+            is_bridge=(item.get('version')==NBA_PRIOR_VERSION and
+                       version in ('history-bayes-v1','usage-bayes-v1'))
+            family='A' if version=='history-bayes-v1' else 'B'
+            if ((item.get('version')!=version and not is_bridge) or
+                    (is_bridge and not _bridge_contract(item,family)) or
+                    item.get('publication_eligible') is not False
                     or item.get('game_date')!=file.stem):
                 raise ValueError('invalid_phase4_source_sidecar')
             key=(shadow.ashad._identity(item) if engine=='A' else shadow.identity(item))
@@ -126,6 +148,22 @@ def _sidecar_model(item, *, expected, parent=None):
     return probability(item.get('q_win'),item.get('q_push'))
 
 
+def _mc_model(data, parent, *, parent_version):
+    if not (isinstance(data,dict) and data.get('status')=='forecast' and
+            data.get('version')=='posterior-mc-v1' and
+            data.get('publication_eligible') is False and
+            data.get('bayesian_parent_version')==parent_version and
+            parent is not None and data.get('source_digest')==parent.get('source_digest')):
+        return None
+    analytic=_sidecar_model(parent,expected=parent_version)
+    if analytic is None:return None
+    try:
+        matches=(abs(float(data['analytic_q_win'])-analytic[0])<1e-9 and
+                 abs(float(data['analytic_q_push'])-analytic[1])<1e-9)
+    except (KeyError,TypeError,ValueError):return None
+    return probability(data.get('q_win'),data.get('q_push')) if matches else None
+
+
 def _snapshot_models(row,a,b,mc):
     ea=row.get('engine_a') or {}
     eb=row.get('engine_b') or {}
@@ -144,25 +182,22 @@ def _snapshot_models(row,a,b,mc):
     models['bayes_a']=_sidecar_model(a,expected='history-bayes-v1')
     models['bayes_b']=_sidecar_model(b,expected='usage-bayes-v1')
     models['bayes_mix70']=blend(models['bayes_a'],models['bayes_b'])
+    for engine,parent in (('A',a),('B',b)):
+        models['nba_prior_'+engine.lower()]=(
+            _sidecar_model(parent,expected=NBA_PRIOR_VERSION)
+            if isinstance(parent,dict) and _bridge_contract(parent,engine) else None)
+    models['nba_prior_mix70']=blend(models['nba_prior_a'],models['nba_prior_b'])
     for engine in ('A','B'):
         name='mc_'+engine.lower()
         data=(mc.get('engines') or {}).get(engine) if isinstance(mc,dict) else None
         parent=(a if engine=='A' else b)
-        value=None
-        if (isinstance(data,dict) and data.get('status')=='forecast'
-                and data.get('version')=='posterior-mc-v1'
-                and data.get('publication_eligible') is False and
-                data.get('bayesian_parent_version')==('history-bayes-v1' if engine=='A' else 'usage-bayes-v1')
-                and parent is not None and data.get('source_digest')==parent.get('source_digest')):
-            analytic=_sidecar_model(parent,expected=data['bayesian_parent_version'])
-            if analytic is not None:
-                try:
-                    matches=(abs(float(data['analytic_q_win'])-analytic[0])<1e-9 and
-                             abs(float(data['analytic_q_push'])-analytic[1])<1e-9)
-                except (TypeError,ValueError):matches=False
-                if matches:value=probability(data.get('q_win'),data.get('q_push'))
-        models[name]=value
+        models[name]=_mc_model(data,parent,
+            parent_version='history-bayes-v1' if engine=='A' else 'usage-bayes-v1')
+        models['mc_prior_'+engine.lower()]=(
+            _mc_model(data,parent,parent_version=NBA_PRIOR_VERSION)
+            if isinstance(parent,dict) and _bridge_contract(parent,engine) else None)
     models['mc_mix70']=blend(models['mc_a'],models['mc_b'])
+    models['mc_prior_mix70']=blend(models['mc_prior_a'],models['mc_prior_b'])
     return models
 
 
@@ -235,6 +270,8 @@ def _source_rows(original, directories):
     counters['bayesian_a_covered']=sum(r['model']['bayes_a'] is not None for r in result)
     counters['bayesian_b_covered']=sum(r['model']['bayes_b'] is not None for r in result)
     counters['monte_carlo_both_covered']=sum(r['model']['mc_mix70'] is not None for r in result)
+    counters['nba_prior_a_covered']=sum(r['model']['nba_prior_a'] is not None for r in result)
+    counters['nba_prior_b_covered']=sum(r['model']['nba_prior_b'] is not None for r in result)
     return result,dict(sorted(counters.items()))
 
 
@@ -374,8 +411,7 @@ def validate(original,*,a_dir,b_dir,mc_dir):
     test_dates=days[cutoff:]
     train=[r for r in records if r['date'] in train_dates]
     test=[r for r in records if r['date'] in test_dates]
-    names=('production','legacy_a','legacy_b','legacy_mix70','bayes_a','bayes_b',
-           'bayes_mix70','mc_a','mc_b','mc_mix70')
+    names=MODEL_NAMES
     model_metrics={name:_metrics(test,name) for name in names}
     paired={f'{l}_vs_{r}':_paired(test,l,r) for l,r in PAIR_DEFINITIONS}
     slices={}
@@ -388,6 +424,8 @@ def validate(original,*,a_dir,b_dir,mc_dir):
             'status':'descriptive' if len(rows)<MIN_SCOPE else 'reportable',
             'bayes_mix70':_metrics(rows,'bayes_mix70'),
             'mc_mix70':_metrics(rows,'mc_mix70'),
+            'nba_prior_mix70':_metrics(rows,'nba_prior_mix70'),
+            'mc_prior_mix70':_metrics(rows,'mc_prior_mix70'),
             'legacy_mix70':_metrics(rows,'legacy_mix70'),
             'pair_bayesian_vs_legacy':_paired(rows,'legacy_mix70','bayes_mix70'),
             'pair_mc_vs_bayesian':_paired(rows,'bayes_mix70','mc_mix70')}
@@ -407,7 +445,9 @@ def validate(original,*,a_dir,b_dir,mc_dir):
                    r['model']['mc_mix70'] is not None]
     shadow_dates=len({r['date'] for r in shadow_cohort})
     shadow_qualified=(len(shadow_cohort)>=HOLDOUT_N and shadow_dates>=HOLDOUT_DAYS)
-    return {'schema':'phase4_chronological_validation_v1','version':VERSION,
+    return {'schema':'phase4_chronological_validation_v2','version':VERSION,
+        'model_versions':{'bayes_a':'history-bayes-v1','bayes_b':'usage-bayes-v1',
+                          'nba_prior_a':NBA_PRIOR_VERSION,'nba_prior_b':NBA_PRIOR_VERSION},
         'status':'holdout_descriptive_only' if legacy_qualified and shadow_qualified
                  else 'underpowered_or_no_prospective_shadow',
         'publication_eligible':False,'calibrated_for_production':False,
@@ -423,8 +463,7 @@ def validate(original,*,a_dir,b_dir,mc_dir):
             'shadow_holdout_sample_threshold_met':shadow_qualified},
         'holdout_models':model_metrics,'paired_holdout':paired,
         'calibration_by_model':{m:_walk_forward(records,m,train_dates,test_dates)
-                                for m in ('legacy_a','legacy_b','legacy_mix70',
-                                          'bayes_a','bayes_b','bayes_mix70','mc_a','mc_b','mc_mix70')},
+                                for m in names if m!='production'},
         'holdout_slices':slices,
         'closing_market':_market(test),
         'limitations':[

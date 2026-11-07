@@ -209,7 +209,6 @@ def _betacf(a, b, x):
         c = 1+aa/c
         if abs(c) < tiny: c = tiny
         d = 1/d
-        h *= d*c
         delta = d*c
         h *= delta
         if abs(delta-1) < 2e-13:
