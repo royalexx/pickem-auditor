@@ -204,6 +204,11 @@ def candidate(row, comparison, *, data_root):
         messages.append(f"Exact {row['side']} {row['reference_line']} hit history: "
                         f"{sample['wins']}/{sample['games']} over last five current-season games "
                         f"({sample['pushes']} pushes); descriptive only and overlaps Engine A inputs.")
+        if hist["last_10"] is not None:
+            past = hist["last_10"]
+            messages.append(f"At the same line across last ten current-season games: "
+                            f"{past['wins']}/{past['games']} wins, {past['pushes']} pushes; "
+                            "small samples are descriptive, not independently calibrated.")
         opp = hist["opportunity"]
         if opp["last_5_mean"] is not None:
             text = (f"Observed workload {opp['last_5_mean']:.1f} {opp['units']} over last "
