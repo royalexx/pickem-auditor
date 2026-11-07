@@ -10,7 +10,7 @@
     "from_index": 7,
     "failed_run_id": 42376841453,
     "report_path": ".training-control/skips/market-07.json",
-    "reason": "NFL rushing touchdowns index 7 completed all four NUTS chains but minimum bulk ESS 370.51739490735315 failed strict threshold 400 (max R-hat 1.0095075352565703, zero divergences, minimum BFMI 0.6729180306735091). No safe autonomous repair without changing frozen model or gates; no retry.",
+    "reason": "NFL rushing touchdowns (market index 7, route source index 21) completed four NUTS chains with 1,800 tuning and 2,000 retained draws each on 34,059 observations across 2,095 games. Strict posterior diagnostics failed because minimum bulk ESS 370.51739490735315 was below 400, despite maximum R-hat 1.0095075352565703 <= 1.01, zero divergences, and minimum BFMI 0.6729180306735091. No source/Windows/dependency failure; no safe autonomous repair without changing frozen model or convergence requirements. No retry performed.",
     "failure_class": "model_nonconvergence",
     "repair_status": "no_safe_repair",
     "source_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
