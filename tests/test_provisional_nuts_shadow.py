@@ -52,6 +52,56 @@ class ProvisionalSafetyTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"not_eligible"):
             shadow.verify_manifest(tampered,asset,cfg)
 
+    def test_latest_completed_tackles_artifact_can_join_original_four(self):
+        cfg=shadow.load_policy()
+        extra={"index":9,"sport":"NFL","stat":"tackles + assists",
+               "run_id":123456789,"artifact_id":987654321,
+               "size_bytes":50000000,"sha256":"a"*64,
+               "max_rhat":1.013,"min_bulk_ess":355.,
+               "minimum_bfmi":.55,"divergences":0,
+               "strict_accepted":False}
+        with tempfile.TemporaryDirectory() as t:
+            p=Path(t)/"dynamic.json"
+            cfg["models"].append(extra)
+            p.write_text(json.dumps(cfg),encoding="utf-8")
+            updated=shadow.load_policy(p)
+            self.assertEqual(updated["models"][-1]["stat"],"tackles + assists")
+            self.assertEqual(len(updated["models"]),5)
+            # The original 4 pins must remain byte-for-byte identical.
+            updated["models"][0]["sha256"]="f"*64
+            p.write_text(json.dumps(updated),encoding="utf-8")
+            with self.assertRaisesRegex(ValueError,"original_four"):
+                shadow.load_policy(p)
+
+    def test_unfinished_or_unqualified_tackles_is_never_accepted(self):
+        cfg=shadow.load_policy()
+        extra={"index":9,"sport":"NFL","stat":"tackles + assists",
+               "run_id":123456789,"artifact_id":987654321,
+               "size_bytes":50000000,"sha256":"a"*64,
+               "max_rhat":1.03,"min_bulk_ess":200.,
+               "minimum_bfmi":.20,"divergences":2}
+        self.assertFalse(shadow.provisional_diagnostics({
+            "posterior_sampling_ok":False,"max_rhat":extra["max_rhat"],
+            "min_bulk_ess":extra["min_bulk_ess"],
+            "minimum_bfmi":extra["minimum_bfmi"],
+            "divergences":extra["divergences"]},cfg["policy"]))
+        with tempfile.TemporaryDirectory() as t:
+            p=Path(t)/"extended.json"
+            cfg["models"].append(extra)
+            p.write_text(json.dumps(cfg),encoding="utf-8")
+            loaded=shadow.load_policy(p)
+            # Extended policy does not approve diagnostics on its own.
+            self.assertEqual(len(loaded["models"]),5)
+
+    def test_strictly_accepted_successor_stays_research_only(self):
+        cfg=shadow.load_policy()
+        strict={"posterior_sampling_ok":True,"max_rhat":1.006,
+                "min_bulk_ess":450.,"minimum_bfmi":.5,"divergences":0}
+        self.assertTrue(shadow.provisional_diagnostics(
+            strict,cfg["policy"],strict_accepted=True))
+        self.assertFalse(shadow.provisional_diagnostics(
+            strict,cfg["policy"],strict_accepted=False))
+
     def test_prediction_preserves_research_only_status_and_provenance(self):
         cfg=shadow.load_policy()
         asset=cfg["models"][0]
