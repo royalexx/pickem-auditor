@@ -26,34 +26,59 @@ CONFIG=ROOT/"config/provisional_nuts_artifacts.json"
 VERSION="nfl-provisional-nuts-shadow-v1"
 
 
-def load_policy(path=CONFIG):
-    config=json.loads(Path(path).read_text(encoding="utf-8"))
+def load_policy(path=None):
+    # Opt-in extended manifest can be created only before game-time
+    # from completed, digest-pinned GitHub training artifacts.
+    chosen=Path(path or os.getenv("PICKEM_PROVISIONAL_POLICY_PATH") or CONFIG)
+    config=json.loads(chosen.read_text(encoding="utf-8"))
+    baseline=json.loads(CONFIG.read_text(encoding="utf-8"))
     if config.get("schema")!="pickem_provisional_nuts_asset_manifest_v1":
         raise ValueError("unknown_provisional_model_policy")
-    if config.get("scope")!="shadow_only_no_production_ranking":
-        raise ValueError("unsafe_provisional_production_scope")
+    if (config.get("scope")!="shadow_only_no_production_ranking"
+            or config.get("frozen_model_sha")!=baseline["frozen_model_sha"]
+            or config.get("frozen_history_sha")!=baseline["frozen_history_sha"]
+            or config.get("training_cutoff_exclusive")!=baseline["training_cutoff_exclusive"]):
+        raise ValueError("provisional_model_provenance_mismatch")
     p=config["policy"]
-    if (p!={"max_rhat":1.02,"min_bulk_ess":300,"max_divergences":0,
+    if p!=baseline["policy"] or (
+        p!={"max_rhat":1.02,"min_bulk_ess":300,"max_divergences":0,
              "min_bfmi":0.30,"require_original_strict_failure":True}):
         raise ValueError("unreviewed_provisional_thresholds")
+    models=config.get("models")
+    if (not isinstance(models,list) or not 4<=len(models)<=16
+            or models[:4]!=baseline["models"]):
+        raise ValueError("original_four_pinned_models_must_be_preserved")
+    from population_history import COUNT
     expected={"pass attempts","targets","rushing touchdowns","receiving touchdowns"}
-    if {x["stat"] for x in config["models"]}!=expected or len(config["models"])!=4:
-        raise ValueError("invalid_provisional_market_whitelist")
-    for m in config["models"]:
-        if m["sport"]!="NFL" or not isinstance(m["run_id"],int) or not isinstance(m["artifact_id"],int):
+    if {x["stat"] for x in models[:4]}!=expected:
+        raise ValueError("invalid_original_provisional_markets")
+    seen=set()
+    for i,m in enumerate(models):
+        if (m.get("sport")!="NFL" or m.get("stat") not in COUNT["NFL"]
+                or m["stat"] in seen
+                or type(m.get("run_id")) is not int
+                or type(m.get("artifact_id")) is not int
+                or type(m.get("size_bytes")) is not int or m["size_bytes"]<10000
+                or type(m.get("index")) is not int):
             raise ValueError("invalid_provisional_frozen_asset")
-        if len(m["sha256"])!=64 or any(c not in "0123456789abcdef" for c in m["sha256"]):
+        seen.add(m["stat"])
+        if i>=4 and (m["index"]<9 or m["index"]>16):
+            raise ValueError("additional_model_not_a_post_tackles_completed_market")
+        if (type(m.get("sha256")) is not str or len(m["sha256"])!=64
+                or any(c not in "0123456789abcdef" for c in m["sha256"])):
             raise ValueError("missing_pinned_artifact_sha256")
+        if m.get("strict_accepted",False) not in (True,False):
+            raise ValueError("invalid_research_model_strict_status")
     return config
 
 
-def provisional_diagnostics(d, p):
+def provisional_diagnostics(d, p, *, strict_accepted=False):
     def finite_num(name):
         v=d.get(name)
         if type(v) not in (int,float) or not math.isfinite(v):
             raise ValueError("missing_or_nonfinite_posterior_diagnostics_"+name)
         return float(v)
-    return (d.get("posterior_sampling_ok") is False
+    return (d.get("posterior_sampling_ok") is (True if strict_accepted else False)
             and finite_num("max_rhat")<=p["max_rhat"]
             and finite_num("min_bulk_ess")>=p["min_bulk_ess"]
             and d.get("divergences")==0
@@ -75,7 +100,11 @@ def verify_manifest(manifest, asset, config):
         or manifest.get("training_cutoff_exclusive")!=config["training_cutoff_exclusive"]
         or not isinstance(manifest.get("source_digest"),str)
         or not manifest.get("players") or not manifest.get("opponents")
-        or not provisional_diagnostics(d,config["policy"])
+        or not provisional_diagnostics(d,config["policy"],
+                     strict_accepted=asset.get("strict_accepted",False))
+        or (asset.get("strict_accepted",False) and not (
+            d["max_rhat"]<=1.01 and d["min_bulk_ess"]>=400 and
+            d["divergences"]==0 and d["minimum_bfmi"]>=.30))
         or any(not math.isclose(d.get(k,float("nan")),asset[k],rel_tol=1e-9,abs_tol=1e-9)
                for k in keys)):
         raise ValueError("provisional_artifact_not_eligible")
@@ -212,7 +241,8 @@ def forecast_one(row,manifest,posterior,now,asset,*,cache=None):
                   trained_through=manifest["last_game"],
                   training_source_digest=manifest["source_digest"],
                   sampler_diagnostics=manifest["diagnostics"],
-                  original_strict_convergence_failed=True,
+                  original_strict_convergence_failed=not asset.get("strict_accepted",False),
+                  original_strict_convergence_passed=bool(asset.get("strict_accepted",False)),
                   model_run_id=asset["run_id"])
     try:
         context=parent.candidate_context(row,manifest,now)
@@ -299,7 +329,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root",type=Path,default=ROOT)
     parser.add_argument("--date",required=True)
-    parser.add_argument("--policy",type=Path,default=CONFIG)
+    parser.add_argument("--policy",type=Path,default=None)
     args=parser.parse_args()
     result=run(args.root,args.date,token=os.getenv("GITHUB_TOKEN"),config_path=args.policy)
     print("PROVISIONAL_NUTS_SHADOW "+json.dumps(result,sort_keys=True),flush=True)
