@@ -71,3 +71,26 @@ NUTS output. Stage newly completed models before the next source run; recovery
 never overwrites an earlier displayed or archived evaluation cohort. Historical
 adapter timestamps retain their legacy semantics; new saves/targets CLI outputs
 stamp actual inference completion and reject completion at/after kickoff.
+
+
+## Full-slate evidence-based research priority (November 7, 2026)
+
+Every scripts/slate_model_report.py run also writes:
+- slate_top10_evidence.json — up to ten **worthwhile research candidates per sport**, with the same frozen model probabilities, provenance, explicit missing evidence, and a per-candidate narrative;
+- slate_top10_evidence.md — human-readable explanation for every candidate.
+
+The selector processes the **whole latest immutable forecast batch**, not the capped 30-item research-triage queue. Neither Bayesian A/B nor NUTS changes production weights. Eligible candidates must have both independently reliable production engines, a valid production consensus of at least 58%, a model-market edge of at least +3 percentage points, matching identities and before-game snapshots, plus at least two independently matched archived market books. Primary numerical or availability vetoes stay in force; missing game-specific active status remains a research blocker.
+
+The transparent research score (not a hit probability) is
+
+    40 * production_consensus
+    + 25 * min(available Engine A/B/Bayesian A/B probabilities)
+    + 25 * clip(market_edge_percentage_points / 25, 0, 1)
+    +  5 * (1 - clip(model_spread_probability / 0.30, 0, 1))
+    +  5 * verified_historical_workload_available
+
+The spread penalty is capped at five points, so Bayesian disagreement can trigger further research without vetoing a potential high-edge opportunity. NUTS probability appears separately and does **not** influence the selection until its calibration is validated. Candidates can have large market gaps in the **research** report, flagged for independent inspection; they do not bypass the separate hard market-gap cap on approved picks.
+
+Every ranking entry includes: all available probabilities and absent-model status, conservative floor, point gap, spread, a line-specific last-five and last-ten **current-season** hit/push count only when the collector's subject identity, checksum, public source URL, timestamp, observation dates, and exact market match are valid; recorded recent workload/exposure and the preceding-five comparison when available; context and availability caveats; source digest and warnings. No cache means no invented history, current-season hit percentage, opportunity, causal matchup claim, or "confirmed active" tag. Historical win rates and role observations overlap Engine A source data and therefore provide descriptive context, not independent extra evidence added to the numerical probability. When available, an exact line rate is *not* a promise of future results or a calibration certificate.
+
+To prevent an artificially diversified top ten from becoming ten correlated markets on one player or fixture, the shortlist includes at most two distinct markets per player and four candidate props per fixture. Unselected rows remain in the complete probability archive. All top-ten entries remain **research-only and not publication eligible** until the existing verified board independently clears current status, causal scouting, markets, uncertainty, and empirical calibration gates. The immutable forecasts, morning settlement, and training runs are unchanged.
