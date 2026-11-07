@@ -273,7 +273,10 @@ def run(root,day,*,token,config_path=CONFIG,now=None):
     if output.exists():raise ValueError("provisional_predictions_already_frozen_for_date")
     output.parent.mkdir(parents=True,exist_ok=True)
     receipts=[];predictions=[];errors=Counter()
-    for asset in cfg["models"]:
+    # Evaluate the newest completed model first. In early-Sunday pregame
+    # inference, additional models (especially tackles + assists) should
+    # never wait behind the older four large research posteriors.
+    for asset in sorted(cfg["models"],key=lambda item:item["index"],reverse=True):
         candidates=[r for r in frozen if r.get("sport")=="NFL"
                     and parent.canon_stat(r.get("stat"))==asset["stat"]]
         if not candidates:continue
