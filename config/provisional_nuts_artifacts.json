@@ -1,0 +1,68 @@
+{
+  "schema": "pickem_provisional_nuts_asset_manifest_v1",
+  "scope": "shadow_only_no_production_ranking",
+  "frozen_model_sha": "bca3c5f1198009d5254a8dbe81aa73fc75c34e9d",
+  "frozen_history_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
+  "training_cutoff_exclusive": "2026-10-29",
+  "policy": {
+    "max_rhat": 1.02,
+    "min_bulk_ess": 300,
+    "max_divergences": 0,
+    "min_bfmi": 0.3,
+    "require_original_strict_failure": true
+  },
+  "models": [
+    {
+      "index": 1,
+      "sport": "NFL",
+      "stat": "pass attempts",
+      "run_id": 42316167923,
+      "artifact_id": 13550829180,
+      "size_bytes": 49099731,
+      "sha256": "202e38e2ce25104cfccff62eddc1260a4d0706285255277d054fc37b50898d38",
+      "max_rhat": 1.0109777179566264,
+      "min_bulk_ess": 356.66040267081894,
+      "minimum_bfmi": 0.6184427722909339,
+      "divergences": 0
+    },
+    {
+      "index": 3,
+      "sport": "NFL",
+      "stat": "targets",
+      "run_id": 42324673573,
+      "artifact_id": 13558879606,
+      "size_bytes": 320306085,
+      "sha256": "10ce40f9748efbc4d9b02e6054ed788882a6756b29a5c5f200345ec73ef3d02d",
+      "max_rhat": 1.0062180178351672,
+      "min_bulk_ess": 389.4149061455231,
+      "minimum_bfmi": 0.6145295416893578,
+      "divergences": 0
+    },
+    {
+      "index": 7,
+      "sport": "NFL",
+      "stat": "rushing touchdowns",
+      "run_id": 42376841453,
+      "artifact_id": 13580174587,
+      "size_bytes": 285653778,
+      "sha256": "dd186cffaa16d29f04b9386e4911ef765d6094991221c3c9256aca8ccedd5463",
+      "max_rhat": 1.0095075352565703,
+      "min_bulk_ess": 370.51739490735315,
+      "minimum_bfmi": 0.6729180306735091,
+      "divergences": 0
+    },
+    {
+      "index": 8,
+      "sport": "NFL",
+      "stat": "receiving touchdowns",
+      "run_id": 42395673312,
+      "artifact_id": 13589657450,
+      "size_bytes": 320266523,
+      "sha256": "3138707bbc5dd54ad7811223660348af02e3ce5327378f273d648e231de51156",
+      "max_rhat": 1.0160683144367122,
+      "min_bulk_ess": 426.7388725673434,
+      "minimum_bfmi": 0.6658064972043027,
+      "divergences": 0
+    }
+  ]
+}
