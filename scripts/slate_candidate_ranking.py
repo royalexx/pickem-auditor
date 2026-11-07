@@ -8,7 +8,7 @@ rate, or change to any production forecast. Full-slate selection prevents the
 from __future__ import annotations
 import argparse
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import date as calendar_date, datetime, timezone
 import hashlib
 import json
 import math
@@ -92,8 +92,14 @@ def historical_evidence(row, data_root):
         c = {"sport": sport, "stat": stat, "game_date": day}
         clean = validate_rows(payload.get("observations"), c, cutoff)
         # No prior-season padding: descriptive hits must be current-season only.
+        # Only observations in the subject's current sports season qualify for
+        # displayed "current-season" rates. Prior-season borrowing belongs
+        # exclusively to the original forecasting engine, not this narrative.
+        season_day = local_day(day)
+        season_start_year = season_day.year if season_day.month >= 7 else season_day.year-1
+        season_start = calendar_date(season_start_year, 7, 1)
         games = [{"day": d, "id": ident, "value": value, "workload": volume}
-                 for d, ident, value, volume in clean]
+                 for d, ident, value, volume in clean if d >= season_start]
         if not games:
             return {**absent, "reason": "no_current_season_observations"}
         recent = games[-5:]
@@ -107,7 +113,10 @@ def historical_evidence(row, data_root):
         units = {"NBA": "minutes", "NHL": "ice-time units", "NFL": "collector workload units"}.get(sport)
         trend = round(100*(last5/previous5-1), 1) if (
             last5 is not None and previous5 and previous5 > 0) else None
-        return {"status": "verified_historical", "source_url": _safe_source(payload.get("source_url")),
+        url = _safe_source(payload.get("source_url"))
+        if url is None:
+            raise ValueError("usage_public_source_missing")
+        return {"status": "verified_historical", "source_url": url,
                 "source_digest": digest, "history_collected_at": captured.isoformat(),
                 "history_through": games[-1]["day"].isoformat(), "current_season_games": len(games),
                 "last_5": _window(recent, row["reference_line"], row["side"]),
