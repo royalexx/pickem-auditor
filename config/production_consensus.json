@@ -1,0 +1,13 @@
+{
+  "schema": "pickem_production_consensus_policy_v1",
+  "version": "production-consensus-70-30-20261107-v1",
+  "model": "engine_a_engine_b_consensus",
+  "weight_a": 0.7,
+  "weight_b": 0.3,
+  "requires_reliable_components": true,
+  "missing_component_action": "abstain",
+  "empirically_calibrated": false,
+  "authorized_on": "2026-11-07",
+  "numerical_revision": "student-t-cdf-correction-20261107",
+  "ranking_gates": "existing_research_market_and_tier_gates"
+}

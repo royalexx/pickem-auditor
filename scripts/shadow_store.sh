@@ -61,6 +61,12 @@ if [[ "$mode" == load ]]; then
       mkdir -p data/nfl_context
       cp -an "$tmpdir/data/nfl_context/." data/nfl_context/
     fi
+    for extra in nhl_joint_saves_shadow population_nuts_shadow model_comparisons; do
+      if [[ -d "$tmpdir/data/$extra" ]]; then
+        mkdir -p "data/$extra"
+        cp -an "$tmpdir/data/$extra/." "data/$extra/"
+      fi
+    done
     # Verification sidecars are independent of original forecasts and may be
     # updated before game start. Old decision receipts must remain intact.
     # Restore independent immutable odds observations.
@@ -226,6 +232,37 @@ PY_CHECK
     cp -a data/nfl_context/. "$tmpdir/tree/data/nfl_context/"
     git -C "$tmpdir/tree" add -f data/nfl_context/
   fi
+  for extra in nhl_joint_saves_shadow population_nuts_shadow model_comparisons; do
+    [[ -d "data/$extra" ]] || continue
+    while IFS= read -r -d '' forecast; do
+      relative="${forecast#data/$extra/}"
+      target="$tmpdir/tree/data/$extra/$relative"
+      if [[ -e "$target" ]]; then
+        python - "$target" "$forecast" <<'PY_EXTRA'
+import json,sys
+from pathlib import Path
+from collections import Counter
+def unique(pairs):
+    d={}
+    for k,v in pairs:
+        if k in d:raise ValueError('duplicate_json_field')
+        d[k]=v
+    return d
+def reject(value):raise ValueError('nonfinite_json_value')
+def records(path):
+    return Counter(json.dumps(json.loads(s,object_pairs_hook=unique,parse_constant=reject),
+                    sort_keys=True,separators=(',',':'),allow_nan=False)
+                   for s in Path(path).read_text().splitlines() if s.strip())
+old,new=records(sys.argv[1]),records(sys.argv[2])
+if old-new:
+    raise SystemExit('IMMUTABLE_VALIDATION_SIDECAR_CONFLICT')
+PY_EXTRA
+      fi
+    done < <(find "data/$extra" -type f -name '*.jsonl' -print0)
+    mkdir -p "$tmpdir/tree/data/$extra"
+    cp -a "data/$extra/." "$tmpdir/tree/data/$extra/"
+    git -C "$tmpdir/tree" add -f "data/$extra/"
+  done
   for file in logs/*.log; do
     [[ ! -f "$file" ]] || cp -p "$file" "$tmpdir/tree/logs/"
   done

@@ -4,11 +4,79 @@ import hashlib
 import math
 import random
 import re
+import os
+from contextlib import contextmanager
+from contextvars import ContextVar
 from datetime import date, datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 VERSION = 'history-v5+scouting-v7'
 SCORE_RULE = 'joint_win_push_loss_log_loss_v1'
+_production_root = ContextVar('pickem_production_root', default=None)
+
+
+@contextmanager
+def using_production(root):
+    token = _production_root.set(Path(root))
+    try:
+        yield
+    finally:
+        _production_root.reset(token)
+
+
+def active_production_policy(root):
+    """Slate jobs opt in; legacy/offline callers retain their frozen baseline."""
+    chosen = _production_root.get()
+    if chosen is None and os.environ.get('PICKEM_PRODUCTION_CONSENSUS') != '1':
+        return None
+    return production_policy(chosen or root)
+
+
+def production_policy(root):
+    """Explicit deployment policy; an absent file preserves legacy behavior."""
+    path = Path(root) / 'config' / 'production_consensus.json'
+    if not path.is_file():
+        return None
+    text = path.read_text()
+    cfg = json.loads(text)
+    if (cfg.get('schema') != 'pickem_production_consensus_policy_v1'
+            or cfg.get('model') != 'engine_a_engine_b_consensus'
+            or type(cfg.get('weight_a')) not in (int, float)
+            or type(cfg.get('weight_b')) not in (int, float)
+            or not math.isclose(cfg['weight_a'] + cfg['weight_b'], 1., abs_tol=1e-12)
+            or not 0 < cfg['weight_a'] < 1
+            or cfg.get('requires_reliable_components') is not True
+            or cfg.get('missing_component_action') != 'abstain'
+            or cfg.get('empirically_calibrated') is not False
+            or not isinstance(cfg.get('version'), str) or not cfg['version']):
+        raise ValueError('invalid_production_consensus_policy')
+    return {**cfg, 'config_version': hashlib.sha256(text.encode()).hexdigest()}
+
+
+def production_combine(a, b, policy):
+    """User-authorized production mixture, without claiming fitted calibration.
+
+    Unavailable components retain A only as an explicitly blocked diagnostic
+    inside the pipeline; serialized production probabilities are unavailable.
+    Mix the complete win/push/loss distribution before any nonpush conversion.
+    """
+    out = dict(q_win=a['q_win_robust'], q_push=a['q_push_robust'],
+               weights={'a': policy['weight_a'], 'b': policy['weight_b']},
+               version=policy['version'], config_version=policy['config_version'],
+               production_policy=True, available=False, validated=False,
+               empirically_calibrated=False, ranking_allowed=False,
+               numerical_revision=policy.get('numerical_revision'),
+               reason='production_consensus_components_unavailable')
+    preview = preview_70_30(a, b)
+    if preview is None:
+        return out
+    aw, ap, bw, bp = a['q_win_robust'], a['q_push_robust'], b['q_win_b'], b['q_push_b']
+    w = policy['weight_a']
+    win, push = w * aw + (1-w) * bw, w * ap + (1-w) * bp
+    out.update(q_win=win, q_push=push, q_loss=max(0., 1-win-push),
+               available=True, ranking_allowed=True,
+               reason='user_authorized_production_consensus_under_validation')
+    return out
 
 
 def valid_evidence(ev, baseline_key, improved_key, as_of):

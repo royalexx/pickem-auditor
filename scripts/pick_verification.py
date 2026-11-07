@@ -321,7 +321,8 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
                         prepared[0]["mechanism_quality"] = mechanism_quality
                         try:
                             from usage_baseline import using_directory
-                            with using_directory(data_root or Path("data")):
+                            from probability_blend import using_production
+                            with using_directory(data_root or Path("data")), using_production(pm.SKILL_ROOT):
                                 result = pm.evaluate_candidate(prepared[0], now=now)
                         except (pm.PickemError, ValueError, KeyError, TypeError) as exc:
                             reasons.append("ENGINE_REEVALUATION_FAILED_" + type(exc).__name__)

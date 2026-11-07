@@ -118,6 +118,15 @@ class NHLShadowSafety(unittest.TestCase):
         self.assertFalse(r["publication_eligible"])
         self.assertFalse(r["calibrated"])
 
+    def test_completion_after_start_is_unavailable(self):
+        q={"q_over":.21,"q_under":.79,"q_push":0.,"numerical_mc_se":.004}
+        with patch("joint_population_bayes.forecast",return_value=q):
+            result=sh.evaluate(row(),manifest=manifest(),posterior=object(),cache={},now=NOW,
+                clock=lambda:sh.stamp(row()["event_start"]))
+        self.assertEqual(result["status"],"unavailable")
+        self.assertEqual(result["reason"],"model_not_completed_before_event")
+        self.assertNotIn("q_win",result)
+
     def test_rejects_modified_release_assets(self):
         with tempfile.TemporaryDirectory() as d:
             folder=Path(d)

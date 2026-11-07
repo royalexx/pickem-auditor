@@ -128,6 +128,9 @@ def evaluate(row, *, root):
                              if early_bridge else []))
     except (be.ModelUnavailable,KeyError,ValueError,TypeError,OSError,OverflowError,ZeroDivisionError) as exc:
         result.update(status='unavailable',reason=str(exc) if isinstance(exc,be.ModelUnavailable) else type(exc).__name__)
+    result['generated_at']=datetime.now(timezone.utc).isoformat()
+    result['numerical_revision']='student-t-cdf-correction-20261107'
+    result['model_build']=result['version']+'@'+result['numerical_revision']
     return result
 
 

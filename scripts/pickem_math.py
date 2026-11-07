@@ -2769,7 +2769,7 @@ def evaluate_candidate(raw: dict, *, now=None) -> dict:
 
     projected = project(**raw)
     from scouting_engine import project_scout
-    from probability_blend import combine, config_path, preview_70_30
+    from probability_blend import combine, config_path, preview_70_30, active_production_policy, production_combine
     sport = str(ident).split("|", 1)[0] if ident else str(reads_bits.get("sport") or "UNKNOWN")
     reads_result = project_scout({**raw, **scouting_identity, "sport": sport, "stat": context.get("stat"), "scouting": scouting}, now=now)
     source_candidate={**raw,**scouting_identity,'sport':sport,'stat':context.get('stat'),'scouting':scouting}
@@ -2796,8 +2796,10 @@ def evaluate_candidate(raw: dict, *, now=None) -> dict:
         projected['sample_block'] = False
         projected['early_season_prior_supported'] = True
     scope = sport + "|" + str(context.get("stat") or "UNKNOWN")
-    blend = combine(projected, reads_result, config_path(SKILL_ROOT, scope), scope=scope,
-                    as_of=now.date() if now else None)
+    policy = active_production_policy(SKILL_ROOT)
+    blend = (production_combine(projected, reads_result, policy) if policy else
+             combine(projected, reads_result, config_path(SKILL_ROOT, scope), scope=scope,
+                     as_of=now.date() if now else None))
     blend['preview_70_30'] = preview_70_30(projected, reads_result)
     engine_a = _engine_a_block(projected)
     engine_b = _engine_b_block(reads_result)
@@ -2861,6 +2863,10 @@ def evaluate_candidate(raw: dict, *, now=None) -> dict:
         "blend": blend,
         "shared_context":shared_context,
     }
+    if blend.get('production_policy') and not blend.get('available'):
+        out.update(final_rank='Unranked', reason='PRODUCTION_CONSENSUS_UNAVAILABLE',
+                   grade=None, market=cross_market)
+        return out
     if books and "q_market" not in consensus_result:
         out["final_rank"] = "Unranked"
         out["reason"] = "INVALID_MARKET"

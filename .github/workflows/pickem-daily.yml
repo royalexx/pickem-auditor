@@ -21,6 +21,7 @@ on:
         default: false
 permissions:
   contents: write
+  actions: read
 concurrency:
   group: pickem-daily
   cancel-in-progress: false
@@ -470,12 +471,28 @@ jobs:
             --date "$day" \
             --out "data/nhl_joint_saves_shadow/$day.jsonl" \
             --receipt reports/nhl_joint_saves_shadow_receipt.json
+      - name: Freeze consensus and per-model validation reports
+        if: steps.gate.outputs.phase == 'afternoon'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PICKEM_PRODUCTION_CONSENSUS: '1'
+        run: |
+          set -euo pipefail
+          day="$(TZ=America/Toronto date +%F)"
+          python scripts/nuts_slate_shadow.py --date "$day" --cache-dir data/private_models/population
+          python scripts/slate_model_report.py --date "$day" --out-dir reports
+          # Persist after precision inference, so its new sidecars are retained.
+          bash scripts/shadow_store.sh save
       - name: Upload collection receipt
         if: always() && steps.gate.outputs.phase != 'skip'
         uses: actions/upload-artifact@v4
         with:
           name: pickem-daily-receipt
           path: |
+            reports/slate_model_comparisons.*
+            reports/population_nuts_shadow_receipt.json
+            data/population_nuts_shadow/
+            data/model_comparisons/
             reports/daily_receipt.json
             reports/nhl_collection_receipt.json
             reports/sport_coverage.json

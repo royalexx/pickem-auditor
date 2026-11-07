@@ -127,7 +127,10 @@ def game_started(commence, now: datetime) -> bool:
 
 def shadow_run_id(game_date: str, slot: str = "default") -> str:
     """Idempotent per game date AND scheduled snapshot slot (09:00 / 14:00 ET)."""
-    return str(uuid.uuid5(uuid.NAMESPACE_URL, f"pickem-auditor-shadow/{game_date}/{slot}"))
+    from probability_blend import production_policy
+    policy = production_policy(SKILL_ROOT)
+    regime = '/' + policy['config_version'] if policy else ''
+    return str(uuid.uuid5(uuid.NAMESPACE_URL, f"pickem-auditor-shadow/{game_date}/{slot}{regime}"))
 
 
 def slate_lookup(rows: list[dict]) -> dict[tuple, dict]:
@@ -349,6 +352,16 @@ def pipeline_to_snapshot(
         "shared_context":result.get('shared_context'),
         "market": market,
     }
+    blend = result.get('blend') or {}
+    if blend.get('production_policy'):
+        # A is still visible as a component when consensus must abstain.
+        # It must never be serialized as if it were the production consensus.
+        available = blend.get('available') is True
+        win = grade.get('q_model') if grade else blend.get('q_win')
+        push = grade.get('q_push') if grade else blend.get('q_push')
+        record.update(q_model=win if available else None,
+                      q_win=win if available else None,
+                      q_push=push if available else None)
     return record
 
 
@@ -383,7 +396,8 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
         candidate = _pipeline_input(row)
         try:
             from usage_baseline import using_directory
-            with using_directory(data_root or SKILL_ROOT / "data"):
+            from probability_blend import using_production
+            with using_directory(data_root or SKILL_ROOT / "data"), using_production(SKILL_ROOT):
                 result = pm.evaluate_candidate(candidate,now=evaluation_now)
         except pm.PickemError:
             errors += 1

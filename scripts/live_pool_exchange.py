@@ -150,7 +150,9 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
     for key,folder in (("bayesian_a","bayesian_shadow"),("bayesian_b","bayesian_b_shadow"),
                        ("monte_carlo","posterior_mc"),("online_bayes","online_bayes_shadow"),
                        ("nhl_saves_nuts","nhl_joint_saves_shadow"),
-                       ("nfl_targets_nuts","nfl_context")):
+                       ("nfl_targets_nuts","nfl_context"),
+                       ("population_nuts","population_nuts_shadow"),
+                       ("model_comparisons","model_comparisons")):
         rows=jsonl(source/folder/(game_date+".jsonl")) if phase=="afternoon" else []
         if key=="nfl_targets_nuts":
             # Independent targets projections have their own immutable run id;

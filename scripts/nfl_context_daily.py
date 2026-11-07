@@ -91,8 +91,9 @@ class Adapter:
                 "context_application":"joint_model_only_no_extra_B_or_read_multiplier"}
 
 
-def run(*,snapshots,data_root,model_dir,out,receipt,game_date,now=None,download=False):
-    now=now or datetime.now(timezone.utc)
+def run(*,snapshots,data_root,model_dir,out,receipt,game_date,now=None,download=False,clock=None):
+    clock=clock or ((lambda: now) if now is not None else (lambda: datetime.now(timezone.utc)))
+    now=now or clock()
     if now.tzinfo is None:raise ValueError("timezone_required")
     source=read_rows(snapshots)
     candidates=[r for r in source if r.get("game_date")==game_date and r.get("sport")=="NFL" and
@@ -145,7 +146,12 @@ def run(*,snapshots,data_root,model_dir,out,receipt,game_date,now=None,download=
             publication_eligible=False,ranking_allowed=False,calibrated=False,shadow_only=True)
         try:
             if error:raise ValueError(error)
-            prediction=adapter.evaluate(row);base.update(prediction)
+            prediction=adapter.evaluate(row)
+            completed=clock()
+            base.update(generated_at=completed.isoformat(),generation_semantics="inference_completed")
+            if not common.instant(row["forecast_at"])<=completed<common.instant(prediction["event_start"]):
+                raise ValueError("model_not_completed_before_event")
+            base.update(prediction)
             # Keep the snapshot's quote identity separate from the nflverse game ID.
             base["source_key"]=source_key(row)
         except (ValueError,KeyError,TypeError,OverflowError) as exc:

@@ -141,7 +141,7 @@ def validate_candidate(row, manifest, now):
                 home=team.casefold()==home_team.casefold(),line=float(line),side=side)
 
 
-def evaluate(row, *, manifest, posterior, cache, now):
+def evaluate(row, *, manifest, posterior, cache, now, clock=None):
     meta={k:row.get(k) for k in (
         "game_date","forecast_at","event_start","sport","player","player_id",
         "stat","side","reference_line","run_id","team","opponent")}
@@ -162,6 +162,10 @@ def evaluate(row, *, manifest, posterior, cache, now):
             player_id=args["player_id"],opponent=args["opponent"],
             season=args["season"],home=args["home"],line=args["line"],
             seed=seed,draws=1500,diagnostic=manifest["diagnostics"],cache=cache)
+        completed=clock() if clock else now
+        out.update(generated_at=completed.isoformat(),generation_semantics="inference_completed")
+        if not stamp(row["forecast_at"])<=completed<stamp(row["event_start"]):
+            raise ModelUnavailable("model_not_completed_before_event")
         qwin=q["q_over"] if args["side"] in ("over","higher") else q["q_under"]
         out.update(status="forecast",q_over=q["q_over"],q_under=q["q_under"],
                    q_push=q["q_push"],q_win=qwin,
@@ -174,8 +178,9 @@ def evaluate(row, *, manifest, posterior, cache, now):
     return out
 
 
-def run(*, snapshots, model_dir, game_date, out, receipt, now=None):
-    now=now or datetime.now(timezone.utc)
+def run(*, snapshots, model_dir, game_date, out, receipt, now=None, clock=None):
+    clock=clock or ((lambda: now) if now is not None else (lambda: datetime.now(timezone.utc)))
+    now=now or clock()
     if now.tzinfo is None: raise ValueError("timezone required")
     source=Path(snapshots)
     if not source.is_file(): raise ModelUnavailable("missing_daily_slate_snapshots")
@@ -213,7 +218,7 @@ def run(*, snapshots, model_dir, game_date, out, receipt, now=None):
     if posterior.posterior.sizes.get("chain")!=4 or posterior.posterior.sizes.get("draw")!=2000:
         raise ModelUnavailable("wrong_posterior_chain_or_draw_count")
     cache=posterior_cache(posterior)
-    added=[evaluate(x,manifest=manifest,posterior=posterior,cache=cache,now=now)
+    added=[evaluate(x,manifest=manifest,posterior=posterior,cache=cache,now=now,clock=clock)
            for x in rows if identity(x) not in seen]
     results=sorted(retained+added,key=lambda x:identity(x))
     rp=Path(receipt)

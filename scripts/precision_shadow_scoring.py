@@ -97,7 +97,7 @@ def audit(day,afternoon,settled,population):
     if row.get("line_origin") not in ("market","research_threshold"):
      raise ValueError("invalid_targets_line_provenance")
     start=instant(row.get("event_start"))
-    generated_at=instant(row.get("forecast_at"))
+    generated_at=instant(row.get("generated_at") or row.get("forecast_at"))
     source_at=instant(row.get("parent_forecast_at"))
     cutoff=instant(row.get("training_cutoff_exclusive"))
     if not cutoff<source_at<=generated_at<start:

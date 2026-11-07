@@ -188,6 +188,25 @@ class ForecastStoreGitIntegrationTests(unittest.TestCase):
         self.assertNotEqual(self.save().returncode, 0)
         self.assertEqual(self.head(), saved_head)
 
+    def test_new_validation_sidecars_persist_then_reject_rewrite(self):
+        folders=('nhl_joint_saves_shadow','population_nuts_shadow','model_comparisons')
+        for folder in folders:
+            p=self.repo/'data'/folder/'2026-11-06.jsonl';p.parent.mkdir()
+            write_rows(p,[{'run_id':'frozen-run','q_win':.7}])
+        result=self.save()
+        self.assertEqual(result.returncode,0,result.stderr)
+        head=self.head()
+        for folder in folders:
+            saved=self.git('--git-dir',str(self.remote),'show',
+                'refs/heads/data/shadow-calibration:data/'+folder+'/2026-11-06.jsonl').stdout
+            self.assertEqual(json.loads(saved)['q_win'],.7)
+        path=self.repo/'data/model_comparisons/2026-11-06.jsonl'
+        write_rows(path,[{'run_id':'frozen-run','q_win':.9}])
+        rejected=self.save()
+        self.assertNotEqual(rejected.returncode,0)
+        self.assertIn('IMMUTABLE_VALIDATION_SIDECAR_CONFLICT',rejected.stderr)
+        self.assertEqual(self.head(),head)
+
 
 if __name__ == "__main__":
     unittest.main()

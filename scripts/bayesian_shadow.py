@@ -94,6 +94,9 @@ def evaluate(row, *, root):
                          if prediction.get('source_only_prior_power') else []))
     except (KeyError, ValueError, TypeError, OSError, OverflowError, be.ModelUnavailable) as exc:
         output.update(status='unavailable',reason=str(exc) if isinstance(exc,be.ModelUnavailable) else type(exc).__name__)
+    output['generated_at']=datetime.now(timezone.utc).isoformat()
+    output['numerical_revision']='student-t-cdf-correction-20261107'
+    output['model_build']=output['version']+'@'+output['numerical_revision']
     return output
 
 
