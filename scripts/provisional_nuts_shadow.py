@@ -83,6 +83,17 @@ def verify_manifest(manifest, asset, config):
 
 
 def _download_asset(asset, folder, *, token):
+    # The connected GitHub app may stage artifact ZIPs in Deepnote before the
+    # pregame slate begins. This avoids requiring Actions permission on the
+    # existing Deepnote Contents-only GitHub token. No signed URLs are saved.
+    prestaged=os.environ.get("PICKEM_PROVISIONAL_PRESTAGED_DIR")
+    if prestaged:
+        existing=Path(prestaged)/(str(asset["artifact_id"])+".zip")
+        if (not existing.is_file() or
+                existing.stat().st_size!=asset["size_bytes"] or
+                parent.checksum(existing)!=asset["sha256"]):
+            raise ValueError("pre_staged_artifact_integrity_failure")
+        return existing
     if not token:raise ValueError("GITHUB_TOKEN_required")
     # Pin artifact ID, run identity, the GitHub ZIP sha256 and its declared size.
     req=parent.request("/actions/runs/"+str(asset["run_id"])+"/artifacts",token)
@@ -239,6 +250,10 @@ def run(root,day,*,token,config_path=CONFIG,now=None):
         with tempfile.TemporaryDirectory(prefix="provisional_nuts_asset_") as temp:
             archive=_download_asset(asset,temp,token=token)
             manifest,pfile=_extract_exact(archive,temp,asset,cfg)
+            # Downloads from a trusted temporary project cache are erased
+            # after this model finishes, never retained in Git or reports.
+            staged_archive=(Path(os.environ["PICKEM_PROVISIONAL_PRESTAGED_DIR"])/(str(asset["artifact_id"])+".zip")
+                             if os.environ.get("PICKEM_PROVISIONAL_PRESTAGED_DIR") else None)
             del archive
             # Discard the 50–320MB ZIP before loading the full posterior.
             (Path(temp)/"receipt.zip").unlink(missing_ok=True)
@@ -255,6 +270,8 @@ def run(root,day,*,token,config_path=CONFIG,now=None):
             del cache,posterior
             import gc
             gc.collect()
+            if staged_archive is not None:
+                staged_archive.unlink(missing_ok=True)
             receipts.append({"stat":asset["stat"],"artifact_id":asset["artifact_id"],
                             "run_id":asset["run_id"],"artifact_sha256":asset["sha256"],
                             "diagnostics":manifest["diagnostics"],
