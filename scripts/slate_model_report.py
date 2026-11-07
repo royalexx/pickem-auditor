@@ -199,6 +199,11 @@ def run(root,day,out_dir):
         vals=[pct(r.get(k)) for k in ('Engine_A','Engine_B','Consensus','Bayesian_A','Bayesian_B','Market','NUTS')]
         lines.append('| '+str(r['player']).replace('|','/')+' | '+str(r['stat'])+' | '+str(r['side'])+' '+str(r['line'])+' | '+' | '.join(vals)+' | '+('N/A' if r['Consensus_gap_pp'] is None else f"{r['Consensus_gap_pp']:+.1f}")+' |')
     paths['markdown'].write_text('\n'.join(lines)+'\n')
+    # Produce evidence-backed top ten per sport from the SAME immutable comparison
+    # and complete original batch, independent of the capped triage queue.
+    from slate_candidate_ranking import build as rank_candidates, write as write_candidates
+    ranked = rank_candidates(snapshots, records, day, data_root=root/'data')
+    write_candidates(ranked, out_dir)
     # Archive every displayed model probability alongside its source forecast.
     # Same-run retries preserve earlier reports rather than rewriting history.
     sidecar=root/'data/model_comparisons'/(day+'.jsonl')
