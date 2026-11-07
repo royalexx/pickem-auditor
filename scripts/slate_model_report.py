@@ -140,7 +140,7 @@ def build(row,indices,quotes):
                     'reason':next((x.get('reason') for x in nuts.values() if x.get('reason')),
                                   'no_verified_trained_model_for_this_pick')}
     models['NUTS']=chosen
-    record={k:row.get(k) for k in ('game_date','run_id','forecast_at','event_start','sport','player','player_id','stat','side')}
+    record={k:row.get(k) for k in ('game_date','run_id','forecast_at','event_start','sport','player','player_id','team','opponent','stat','side')}
     record.update(line=row.get('reference_line'),reference_line=row.get('reference_line'),original_rank=row.get('final_rank'),block_reason=row.get('reason'),
                   probability_scale='P(exact_side_wins | no_push)',models=models,nuts_models=nuts,
                   NUTS_model=selected,NUTS_status=chosen['status'],NUTS_reason=chosen.get('reason'),
