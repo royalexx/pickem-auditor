@@ -29,7 +29,7 @@ def pair(player="Scoot Henderson", *, side="under", line=3.5, stat="assists",
            "engine_a": {"reliable": True}, "engine_b": {"reliable": True},
            "market": {"market_valid": True}}
     comparison = {k: row[k] for k in ("game_date", "run_id", "forecast_at",
-                                      "sport", "player", "player_id", "side", "stat")}
+                                      "sport", "player", "player_id", "team", "opponent", "side", "stat")}
     comparison.update(line=line, Engine_A=a, Engine_B=b, Bayesian_A=ba,
                       Bayesian_B=bb, Consensus=cons, Market=market,
                       NUTS=None, NUTS_status="unavailable",
@@ -142,9 +142,9 @@ class PrioritizedSlateTests(unittest.TestCase):
         pairs = [pair(f"Other Player {i}", player_id=f"id-{i}",
                       cons=.70+(i/1000), a=.75, b=.72, ba=.70, bb=.73, market=.50)
                  for i in range(16)]
-        for i, (row, _) in enumerate(pairs):
-            row["team"] = f"T{i%6}"
-            row["opponent"] = f"O{i%6}"
+        for i, (row, comp) in enumerate(pairs):
+            row["team"] = comp["team"] = f"T{i%6}"
+            row["opponent"] = comp["opponent"] = f"O{i%6}"
         with tempfile.TemporaryDirectory() as d:
             result = ranks.build([p[0] for p in pairs], [p[1] for p in pairs],
                                  DAY, data_root=d)
