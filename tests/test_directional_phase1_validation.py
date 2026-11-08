@@ -323,5 +323,88 @@ class DirectionalPhase1Tests(unittest.TestCase):
             self.assertFalse((p / "must_not_exist.json").exists())
 
 
+    def test_sequential_sides_within_capture_window_allowed(self):
+        c, s = fixture()
+        c["picks"][1]["forecast_at"] = "2026-11-08T12:00:02+00:00"
+        r = audit.run(c, settlement=s)
+        self.assertEqual(r["scorecard"]["models"]["Consensus"]["own_coverage"]["n"], 1)
+
+    def test_side_snapshots_more_than_five_minutes_apart_rejected(self):
+        c, _ = fixture()
+        c["picks"][1]["forecast_at"] = "2026-11-08T12:08:00+00:00"
+        for name in ("Bayesian_A", "Bayesian_B"):
+            c["picks"][1]["models"][name]["generated_at"] = \
+                "2026-11-08T12:09:00+00:00"
+        self.check_block(c, reason="paired_side_snapshots_more_than_5min_apart")
+
+    def test_explained_frozen_nuts_sidecar_drift_is_warning_only(self):
+        c, _ = fixture()
+        for row in c["picks"]:
+            nuts = .52 if row["side"] == "over" else .47
+            row["NUTS"] = nuts
+            row["models"]["NUTS"] = {
+                "status": "forecast", "probability": nuts,
+                "generated_at": "2026-11-08T12:07:00Z",
+                "trained_through": "2026-01-04"
+            }
+            row["production_ensemble"]["historical_families"].append("NUTS")
+            p = .4 * row["Engine_B"] + .6 * sum(
+                row[name] for name in ("Engine_A", "Bayesian_A", "Bayesian_B", "NUTS")) / 4
+            row["Consensus"] = p
+            row["models"]["Consensus"]["probability"] = p
+        receipt = audit.run(c)
+        warnings = receipt["scope"]["nonunit_sidecar_warnings"]
+        self.assertEqual({w["model"] for w in warnings}, {"NUTS", "Consensus"})
+        self.assertFalse(receipt["ranking_allowed"])
+
+    def test_non_nuts_consensus_drift_rejected(self):
+        c, _ = fixture()
+        c["picks"][1]["Consensus"] -= .01
+        c["picks"][1]["models"]["Consensus"]["probability"] -= .01
+        self.check_block(c, reason="side_probabilities_not_complementary:Consensus")
+
+    def test_full_archive_can_be_scoped_to_one_event_without_mutation(self):
+        c, s = fixture(n_games=2)
+        for row in c["picks"][2:]:
+            row["event_start"] = "2026-11-08T22:00:00Z"
+        s["contracts"] = s["contracts"][:1]
+        untouched = json.dumps(c, sort_keys=True)
+        result = audit.run(c, settlement=s, sport="NFL",
+                           event_start="2026-11-08T18:00:00Z")
+        self.assertEqual(result["scope"]["contracts"], 1)
+        self.assertEqual(result["scope_filter"]["original_frozen_side_rows"], 4)
+        self.assertEqual(result["scope_filter"]["evaluated_side_rows"], 2)
+        self.assertEqual(result["settlement"]["verified_contracts"], 1)
+        self.assertEqual(json.dumps(c, sort_keys=True), untouched)
+
+    def test_cli_receipt_is_repeatable_but_cannot_be_rewritten(self):
+        c, s = fixture()
+        with tempfile.TemporaryDirectory() as root:
+            root = Path(root)
+            p = root / "frozen.json"
+            q = root / "official.json"
+            out = root / "receipt.json"
+            p.write_text(json.dumps(c), encoding="utf-8")
+            q.write_text(json.dumps(s), encoding="utf-8")
+            args = ["--comparison", str(p), "--settlement", str(q),
+                    "--sport", "NFL", "--event-start", "2026-11-08T18:00:00Z",
+                    "--output", str(out)]
+            self.assertEqual(audit.main(args), 0)
+            baseline = out.read_bytes()
+            self.assertEqual(audit.main(args), 0)
+            self.assertEqual(out.read_bytes(), baseline)
+            s["contracts"][0]["actual"] = 1.0
+            s["contracts"][0]["winning_side"] = "under"
+            q.write_text(json.dumps(s), encoding="utf-8")
+            self.assertEqual(audit.main(args), 2)
+            self.assertEqual(out.read_bytes(), baseline)
+
+    def test_agents_policy_links_approved_research(self):
+        agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("DIRECTIONAL_ACCURACY_RESEARCH_BASELINE_20261108.md", agents)
+        self.assertIn("config/directional_research_baseline_20261108.json", agents)
+        self.assertIn("No production promotion or Tier changes", agents)
+
+
 if __name__ == "__main__":
     unittest.main()
