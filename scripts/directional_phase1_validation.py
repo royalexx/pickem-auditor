@@ -92,18 +92,25 @@ def probability(value, *, field: str) -> float | None:
 
 
 def key_from_row(row: dict) -> tuple:
-    required = ("run_id", "sport", "player", "player_id", "team",
+    required = ("run_id", "sport", "player", "team",
                 "opponent", "stat", "event_start")
     for field in required:
         if not isinstance(row.get(field), str) or not row[field].strip():
             raise AuditError("missing_contract_field:" + field)
+    # Original frozen NBA/NHL source IDs can be ESPN integers; NFL GSIS IDs
+    # are strings. Normalize numeric identity without changing source rows.
+    player_id = row.get("player_id")
+    if (isinstance(player_id, bool) or
+            not isinstance(player_id, (str, int)) or
+            not str(player_id).strip()):
+        raise AuditError("missing_contract_field:player_id")
     if row["sport"] not in ("NFL", "NBA", "NHL"):
         raise AuditError("unknown_sport")
     line = num(row.get("line"), field="line")
     if line < 0:
         raise AuditError("negative_line")
     return (row["run_id"], row["sport"], row["event_start"], row["team"],
-            row["opponent"], row["player_id"], row["player"], row["stat"], line)
+            row["opponent"], str(player_id), row["player"], row["stat"], line)
 
 
 def key_from_settlement(row: dict, *, run_id: str, event_start: str,
