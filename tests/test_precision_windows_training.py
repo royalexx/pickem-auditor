@@ -89,7 +89,7 @@ class WindowsTrainingContractTests(unittest.TestCase):
         monitor = (root / "scripts/precision_sampling_progress.py").read_bytes()
         blob = hashlib.sha1(b"blob " + str(len(monitor)).encode() + bytes([0]) + monitor).hexdigest()
         self.assertIn(blob, workflow, "monitor digest must match exact staged source")
-        self.assertEqual(workflow.count("if: env.INDEX != '0'"), 3)
+        self.assertEqual(workflow.count("if: env.INDEX != '0'"), 5)
         self.assertLess(workflow.index("NUTS_MONITOR_STAGED"), workflow.index(
             "      - name: Check out exact frozen code"))
         self.assertLess(workflow.index("      - name: Check out exact frozen code"),
@@ -120,6 +120,27 @@ class WindowsTrainingContractTests(unittest.TestCase):
         self.assertIn("python $router --index $env:INDEX", workflow)
         self.assertIn("routing_receipt.json", workflow)
         self.assertIn("NEXT_INDEX", workflow)
+
+    def test_frozen_posterior_safety_is_checksum_pinned_before_sampling(self):
+        import hashlib
+        root=Path(__file__).resolve().parents[1]
+        workflow=(root/".github/workflows/precision-full-markets.yml").read_text()
+        src=(root/"scripts/precision_posterior_safety_patch.py").read_bytes()
+        digest=hashlib.sha1(b"blob "+str(len(src)).encode()+bytes([0])+src).hexdigest()
+        self.assertEqual(workflow.count(digest),2)
+        self.assertIn("POSTERIOR_SAFETY_STAGED",workflow)
+        self.assertIn("POSTERIOR_SAFETY_INSTALLED",workflow)
+        self.assertIn("posterior_safety_receipt.json",workflow)
+        self.assertLess(workflow.index("POSTERIOR_SAFETY_STAGED"),
+                        workflow.index("      - name: Check out exact frozen code"))
+        self.assertLess(workflow.index("      - name: Check out exact frozen code"),
+                        workflow.index("POSTERIOR_SAFETY_INSTALLED"))
+        self.assertLess(workflow.index("POSTERIOR_SAFETY_INSTALLED"),
+                        workflow.index("      - name: Sample hierarchical NUTS model with four chains"))
+        self.assertIn("FROZEN_SOURCE_CHANGED_OUTSIDE_APPROVED_OUTPUT_OVERLAYS",workflow)
+        self.assertIn("PICKEM_STRICT_ALL_EFFECTS: '1'",workflow)
+        self.assertIn("if: success()",workflow)
+        self.assertNotIn("automatically_retry_failed_training",workflow)
 
     def test_two_chain_report_is_advisory_not_convergence_gate(self):
         root = Path(__file__).resolve().parents[1]
