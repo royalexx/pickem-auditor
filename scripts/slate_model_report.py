@@ -18,6 +18,8 @@ import statistics
 
 from odds_providers import approved_book_name, normalize_player, normalize_team
 from prediction_scoring import conditional_win
+from probability_blend import production_policy
+from historical_ensemble import calculate as calculate_historical_ensemble
 from nuts_slate_shadow import instant, identity
 
 VERSION='slate-model-comparison-v1'
@@ -120,7 +122,7 @@ def linked_probability(row,item,*,nfl_targets=False):
     return result
 
 
-def build(row,indices,quotes):
+def build(row,indices,quotes,policy=None):
     key=identity(row);a=row.get('engine_a') or {};b=row.get('engine_b') or {};blend=row.get('blend') or {}
     models={'Engine_A':masses(a,win='q_win_robust',push='q_push_robust'),
             'Engine_B':masses(b)}
@@ -145,6 +147,37 @@ def build(row,indices,quotes):
                     'reason':next((x.get('reason') for x in nuts.values() if x.get('reason')),
                                   'no_verified_trained_model_for_this_pick')}
     models['NUTS']=chosen
+    historical_ensemble = None
+    if policy and policy.get('model') == 'historical_consensus_engine_b':
+        # Only same-contract, pre-event sidecars can enter the final historical
+        # production pool. The earlier parent A/B preview is never promoted.
+        if (a.get('reliable') is True and a.get('observation_ids_verified') is True
+                and b.get('reliable') is True and not b.get('abstain')
+                and b.get('baseline_origin') == 'collector_observations'):
+            historical_ensemble=calculate_historical_ensemble(
+                models, weight_historical=policy['weight_a'],
+                weight_b=policy['weight_b'],
+                required=tuple(policy['historical_required']),
+                min_historical=policy['historical_min_coverage'])
+        else:
+            historical_ensemble={
+                'status':'unavailable','reason':'source_engine_reliability_gate',
+                'probability':None,'q_win':None,'q_push':None,
+                'historical_families':[],'historical_unavailable':{},
+                'historical_family_weights':{},'weight_historical':policy['weight_a'],
+                'weight_b':policy['weight_b'],'publication_eligible':False,
+                'empirically_calibrated':False}
+        models['Consensus']={
+            'probability':historical_ensemble['probability'],
+            'q_win':historical_ensemble['q_win'],
+            'q_push':historical_ensemble['q_push'],
+            'status':historical_ensemble['status'],
+            'reason':historical_ensemble.get('reason'),
+            'version':policy['version'],
+            'historical_families':historical_ensemble['historical_families'],
+            'historical_family_weights':historical_ensemble['historical_family_weights'],
+            'empirically_calibrated':False,
+            'finalized_post_shadow':True}
     # Explicit side-by-side research-only probability. NEVER used as a
     # fallback for the strict NUTS column or the production consensus.
     research=indices.get('NUTS_provisional',{}).get(key)
@@ -159,7 +192,9 @@ def build(row,indices,quotes):
                   production_consensus_available=models['Consensus']['probability'] is not None,
                   provisional_nuts_status=provisional['status'],
                   provisional_nuts_reason=provisional.get('reason'),
-                  production_policy_version=blend.get('version'),
+                  production_policy_version=(policy['version'] if historical_ensemble is not None else blend.get('version')),
+                  production_ensemble=historical_ensemble,
+                  source_snapshot_preliminary=bool(blend.get('preliminary')),
                   context_adjustment_applied=(row.get('shared_context') or {}).get('applied',False))
     for name,value in models.items():record[name]=value['probability']
     record['Consensus_gap_pp']=100*(record['Consensus']-record['Market']) if record['Consensus'] is not None and record['Market'] is not None else None
@@ -192,11 +227,19 @@ def run(root,day,out_dir):
             items=list(grouped.values())
         indices[name]=index_sidecars(items)
     quotes=rows(root/'data/odds_quotes.jsonl')
-    records=[build(r,indices,quotes) for r in snapshots]
+    policy=production_policy(root)
+    records=[build(r,indices,quotes,policy=policy) for r in snapshots]
     inputs={'snapshots_sha256':hashlib.sha256((root/'data/prop_snapshots.jsonl').read_bytes()).hexdigest(),
             'code_sha':os.environ.get('PICKEM_CODE_SHA'),
             'comparison_schema':VERSION,'day':day,'run_id':run_id,'rows':len(records),
-            'production':'engine_a_engine_b_consensus','forecast_weights':{'a':.7,'b':.3},
+            'production':policy['model'] if policy else 'legacy_unconfigured',
+            'production_policy_version':policy['version'] if policy else None,
+            'forecast_weights':(
+                {'historical_ensemble':policy['weight_a'],'engine_b':policy['weight_b'],
+                 'historical_models':policy['historical_models']}
+                if policy and policy.get('model')=='historical_consensus_engine_b'
+                else {'a':policy['weight_a'],'b':policy['weight_b']}
+                if policy else None),
             'probability_scale':'conditional_on_nonpush','training_started':False}
     payload={'schema':VERSION,'metadata':inputs,'picks':records}
     paths={'json':out_dir/'slate_model_comparisons.json','csv':out_dir/'slate_model_comparisons.csv',
