@@ -188,6 +188,31 @@ class LivePoolTests(unittest.TestCase):
                 self.assertEqual(len(list(live.iter_remote_docs(
                     token="token",before="2026-11-06",phase="morning"))),1)
 
+    def test_recovery_copy_preserves_original_pregame_bytes(self):
+        doc={"schema":live.SCHEMA,"phase":"afternoon",
+             "game_date":"2026-11-05","predictions_are_frozen":True,
+             "forecasts":[{"game_date":"2026-11-05",
+                           "forecast_at":"2026-11-05T17:00:00Z",
+                           "event_start":"2026-11-05T19:00:00Z",
+                           "actual_stat":None,"run_id":"r1",
+                           "side":"over","reference_line":2.5}],
+             "shadow":{"model_comparisons":[{"q_win":.65,"q_push":0.0}]}}
+        with tempfile.TemporaryDirectory() as tmp:
+            p=live.write_recovery_copy(doc,tmp)
+            self.assertTrue(p.is_file())
+            self.assertEqual(live.load_recovery_copy(p),doc)
+            self.assertEqual(live.write_recovery_copy(doc,tmp),p)
+            original=p.read_bytes()
+            p.write_bytes(original[:-1]+bytes([original[-1]^1]))
+            with self.assertRaisesRegex(ValueError,"RECOVERY_COPY_DIGEST_MISMATCH"):
+                live.load_recovery_copy(p)
+        invalid=json.loads(json.dumps(doc))
+        invalid["forecasts"][0]["forecast_at"]="2026-11-05T20:00:00Z"
+        with tempfile.TemporaryDirectory() as tmp:
+            p=live.write_recovery_copy(invalid,tmp)
+            with self.assertRaisesRegex(ValueError,"RECOVERY_COPY_FORECAST_NOT_PREGAME"):
+                live.load_recovery_copy(p)
+
     def test_remote_import_never_accepts_future_records(self):
         # Strictly exclusive cutoff is enforced before reading any remote blob.
         called=[]
