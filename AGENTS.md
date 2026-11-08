@@ -1,5 +1,34 @@
 # Pick'em Auditor operating instructions
 
+## User-approved directional-accuracy research baseline (mandatory)
+
+**Before making ANY future forecasting, data, lineup, Bayesian training, ranking,
+probability, calibration, settlement, or validation changes, read and apply
+docs/research/DIRECTIONAL_ACCURACY_RESEARCH_BASELINE_20261108.md and its
+frozen source manifest config/directional_research_baseline_20261108.json.**
+These encode the November 8, 2026 user-approved Deep Research study comparing
+Pick'em Auditor against relevant statistical papers and LosingLoonies.
+Treat the report as the design and acceptance baseline, not optional advice.
+
+Implement in sequence: (1) immutable 60/40 baseline and strict timestamp/
+leakage/source receipts; (2) independently modeled exposure/opportunity and
+current role/lineups/injuries; (3) role/position/season-specific hierarchical
+priors; (4) temporally cross-fitted correlation-aware stacking; (5) separate
+held-out calibration; (6) adversarial chronological validation, shuffled-feature
+controls and independent game/slate cluster uncertainty. At every phase,
+compare on EXACT pregame contracts against the frozen 60/40 and timestamped
+market baseline, with separate directional accuracy, Brier/log-loss, side bias,
+coverage, missingness and abstentions. Never present a single slate as proof.
+**No production promotion or Tier changes without a separate decision.**
+Retain the full source report in the research conversation; the repository
+methodology document is its implementable research contract. Deviations require
+explicit reasoning and new authorization, not a silent implementation shortcut.
+
+The Phase 1 read-only validator is scripts/directional_phase1_validation.py.
+It must not overwrite historical rows, change the trained model or dispatch
+Dell jobs. Consult docs/PHASE1_DIRECTIONAL_VALIDATION.md for use and limits.
+
+
 The production slate policy is `config/production_consensus.json`:
 60% consensus of available, same-contract, pregame historical engines
 (Engine A, Bayesian A, Bayesian B and strictly eligible NUTS) plus 40%

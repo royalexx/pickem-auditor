@@ -2,6 +2,18 @@
 
 Private code, original research, history, collection jobs and diagnostics live in this repository. Daily GitHub cron was paused on November 2, 2026 due to hosted usage limits; morning/afternoon and pregame workflows currently support manual dispatch.
 
+## User-approved directional research baseline (November 8, 2026)
+
+All changes to forecasting, source feeds, Bayesian training, opportunity,
+consensus weighting, calibration, ranking and settlement must follow
+[the canonical directional-accuracy research contract](docs/research/DIRECTIONAL_ACCURACY_RESEARCH_BASELINE_20261108.md).
+The existing 60/40 model is the frozen validation control, not a calibrated
+champion. [Phase 1](docs/PHASE1_DIRECTIONAL_VALIDATION.md) implements a
+read-only, source-time and leak-aware scorecard; no model/Tier/deployment
+change is authorized by it. The full original Deep Research report remains
+in the November 8 research conversation. Future pull requests must use
+[the research compliance checklist](.github/PULL_REQUEST_TEMPLATE.md).
+
 ## Architecture
 
 | Location | Purpose |
