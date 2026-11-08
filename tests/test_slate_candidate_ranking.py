@@ -76,6 +76,8 @@ class PrioritizedSlateTests(unittest.TestCase):
             self.assertEqual(board["top_counts"]["NBA"], 2)
             picked = next(x for x in board["top_10_by_sport"]["NBA"]
                           if x["player"] == "Scoot Henderson")
+            self.assertEqual(picked["game_date"], DAY)
+            self.assertEqual(picked["run_id"], "frozen")
             self.assertEqual(picked["history"]["last_5"]["wins"], 5)
             self.assertEqual(picked["history"]["last_5"]["games"], 5)
             self.assertAlmostEqual(picked["model_spread_pp"], 21.45, places=2)
