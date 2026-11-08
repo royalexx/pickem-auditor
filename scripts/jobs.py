@@ -362,6 +362,14 @@ def pipeline_to_snapshot(
         record.update(q_model=win if available else None,
                       q_win=win if available else None,
                       q_push=push if available else None)
+        if blend.get('preliminary'):
+            # Historical Bayesian/NUTS sidecars have not run yet.
+            # Never put the preliminary A/B forecast in a production field.
+            record.update(q_model=None, q_win=None, q_push=None,
+                          production_preview={'q_win':blend.get('q_win'),
+                                              'q_push':blend.get('q_push'),
+                                              'version':blend.get('version'),
+                                              'purpose':'nonproduction_intermediate'})
     return record
 
 
