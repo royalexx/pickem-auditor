@@ -40,7 +40,7 @@ def production_policy(root):
     text = path.read_text()
     cfg = json.loads(text)
     if (cfg.get('schema') != 'pickem_production_consensus_policy_v1'
-            or cfg.get('model') != 'engine_a_engine_b_consensus'
+            or cfg.get('model') not in ('engine_a_engine_b_consensus', 'historical_consensus_engine_b')
             or type(cfg.get('weight_a')) not in (int, float)
             or type(cfg.get('weight_b')) not in (int, float)
             or not math.isclose(cfg['weight_a'] + cfg['weight_b'], 1., abs_tol=1e-12)
@@ -50,6 +50,16 @@ def production_policy(root):
             or cfg.get('empirically_calibrated') is not False
             or not isinstance(cfg.get('version'), str) or not cfg['version']):
         raise ValueError('invalid_production_consensus_policy')
+    if cfg.get('model') == 'historical_consensus_engine_b':
+        if (cfg.get('historical_models') !=
+                ['Engine_A', 'Bayesian_A', 'Bayesian_B', 'NUTS']
+                or cfg.get('historical_required') != ['Engine_A']
+                or type(cfg.get('historical_min_coverage')) is not int
+                or not 2 <= cfg['historical_min_coverage'] <= 4
+                or cfg.get('post_shadow_finalization') is not True
+                or cfg.get('preliminary_snapshot_is_production') is not False
+                or cfg.get('provisional_nuts_allowed') is not False):
+            raise ValueError('invalid_post_shadow_historical_consensus_policy')
     return {**cfg, 'config_version': hashlib.sha256(text.encode()).hexdigest()}
 
 
@@ -76,6 +86,13 @@ def production_combine(a, b, policy):
     out.update(q_win=win, q_push=push, q_loss=max(0., 1-win-push),
                available=True, ranking_allowed=True,
                reason='user_authorized_production_consensus_under_validation')
+    if policy.get('model') == 'historical_consensus_engine_b':
+        # Bayesian and NUTS posteriors are evaluated AFTER parent snapshots.
+        # This A+B intermediate is not the deployed historical-ensemble blend.
+        # The post-shadow report is authoritative; never tier this preview.
+        out.update(preliminary=True, post_shadow_finalization_pending=True,
+                   ranking_allowed=False,
+                   reason='post_shadow_historical_ensemble_pending')
     return out
 
 
