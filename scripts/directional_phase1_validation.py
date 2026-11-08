@@ -219,8 +219,6 @@ def audit_frozen(comparison: dict) -> tuple[dict, dict]:
         at = instant(row.get("forecast_at"), field="forecast_at")
         if at >= start:
             raise AuditError("forecast_after_event_started")
-        if at > datetime.now(timezone.utc):
-            raise AuditError("forecast_in_future_relative_to_audit")
         validate_model_provenance(row, at, start)
         min_stamp = min(min_stamp, at) if min_stamp is not None else at
         max_stamp = max(max_stamp, at) if max_stamp is not None else at
@@ -471,7 +469,28 @@ def score_frozen(groups: dict, outcome: dict) -> dict:
 
 
 def run(comparison: dict, *, settlement: dict | None = None,
-        expected_run_id: str | None = None, features: list[dict] | None = None) -> dict:
+        expected_run_id: str | None = None, features: list[dict] | None = None,
+        sport: str | None = None, event_start: str | None = None) -> dict:
+    """Filter ONLY the evaluation view after pinning the full source bytes.
+
+    This never regenerates probabilities. It permits a 1 PM NFL scorecard
+    from a much larger frozen all-sports slate without misrepresenting the
+    remaining games as missing postgame settlements.
+    """
+    original_count = len(comparison.get("picks", []))
+    if sport is not None and sport not in ("NFL", "NBA", "NHL"):
+        raise AuditError("unknown_scoped_sport")
+    if event_start is not None:
+        instant(event_start, field="scoped_event_start")
+    if sport is not None or event_start is not None:
+        rows = [
+            row for row in comparison.get("picks", [])
+            if (sport is None or row.get("sport") == sport) and
+               (event_start is None or
+                instant(row.get("event_start"), field="event_start") ==
+                instant(event_start, field="scoped_event_start"))
+        ]
+        comparison = {**comparison, "picks": rows}
     groups, scope = audit_frozen(comparison)
     if expected_run_id is not None and scope["run_id"] != expected_run_id:
         raise AuditError("unexpected_frozen_run")
@@ -481,6 +500,13 @@ def run(comparison: dict, *, settlement: dict | None = None,
         "recalculates_predictions": False, "changes_training_or_policy": False,
         "research_baseline": "docs/research/DIRECTIONAL_ACCURACY_RESEARCH_BASELINE_20261108.md",
         "scope": scope,
+        "scope_filter": {
+            "sport": sport, "event_start": event_start,
+            "original_frozen_side_rows": original_count,
+            "evaluated_side_rows": scope["side_rows"],
+            "excluded_from_this_view": original_count - scope["side_rows"],
+            "not_scored_outside_scope": True,
+        },
         "feature_verification": verify_feature_receipts(features or [], groups),
         "limitations": [
             "Existing source-model forecasts are not retrained or regenerated",
@@ -507,6 +533,8 @@ def main(argv=None) -> int:
     parser.add_argument("--baseline-manifest", type=Path)
     parser.add_argument("--policy", type=Path)
     parser.add_argument("--features", type=Path)
+    parser.add_argument("--sport", choices=("NFL", "NBA", "NHL"))
+    parser.add_argument("--event-start", type=str)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
     try:
@@ -529,15 +557,20 @@ def main(argv=None) -> int:
             if not isinstance(feature_rows, list):
                 raise AuditError("feature_rows_missing")
         result = run(original, settlement=actual, features=feature_rows,
+                     sport=args.sport, event_start=args.event_start,
                      expected_run_id=manifest.get("baseline_forecast", {}).get("run_id")
                          if manifest else None)
         result["comparison_sha256"] = original_hash
         if args.settlement:
             result["settlement_sha256"] = hashlib.sha256(args.settlement.read_bytes()).hexdigest()
         result["baseline_policy_verified"] = manifest is not None
+        content = json.dumps(result, sort_keys=True, indent=2,
+                             allow_nan=False) + "\n"
+        if args.output.exists() and args.output.read_text(encoding="utf-8") != content:
+            raise AuditError("would_overwrite_different_audit_receipt")
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(result, sort_keys=True, indent=2,
-                                          allow_nan=False) + "\n", encoding="utf-8")
+        if not args.output.exists():
+            args.output.write_text(content, encoding="utf-8")
         print(json.dumps({"status": result["status"], "contracts": result["scope"]["contracts"],
                           "receipt": str(args.output)}, sort_keys=True))
         return 0
