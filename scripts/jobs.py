@@ -385,13 +385,30 @@ def _pipeline_input(row: dict) -> dict:
     }
 
 
-def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=None) -> tuple[list[dict], int]:
+def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=None,
+                       attempt_receipts: list[dict] | None = None) -> tuple[list[dict], int]:
+    """Evaluate the COMPLETE prepared slate, not the triage queue or top-10.
+
+    A caller may record every input and its result without changing either
+    the probability algorithm or the return contract. Rejected evaluations
+    are explicitly visible in that optional receipt.
+    """
     snapshots: list[dict] = []
     errors = 0
     for row in rows:
         evaluation_now=clock_fn() if clock_fn else now
         meta=dict(row.get('_meta') or {})
-        if evaluation_now and meta.get('event_start') and game_started(meta['event_start'],evaluation_now):continue
+        audit={"id":row.get("id"),"sport":meta.get("sport"),
+               "player_id":meta.get("player_id"),"stat":meta.get("stat"),
+               "side":row.get("side"),"line":row.get("line"),
+               "event_start":meta.get("event_start"),
+               "attempted_at":evaluation_now.isoformat() if evaluation_now else None}
+        def mark(status,reason=None):
+            if attempt_receipts is not None:
+                attempt_receipts.append({**audit,"status":status,"reason":reason})
+        if evaluation_now and meta.get('event_start') and game_started(meta['event_start'],evaluation_now):
+            mark("unavailable","event_started_before_evaluation")
+            continue
         if evaluation_now:meta['forecast_at']=evaluation_now.isoformat()
         candidate = _pipeline_input(row)
         try:
@@ -399,15 +416,18 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
             from probability_blend import using_production
             with using_directory(data_root or SKILL_ROOT / "data"), using_production(SKILL_ROOT):
                 result = pm.evaluate_candidate(candidate,now=evaluation_now)
-        except pm.PickemError:
+        except pm.PickemError as exc:
             errors += 1
+            mark("unavailable","pipeline_exception:"+str(exc)[:160])
             continue
         if not result.get("ok"):
             errors += 1
+            mark("unavailable","pipeline_not_ok:"+str(result.get("error") or result.get("reason") or "unknown")[:160])
             continue
         parsed = parse_pipeline_id(result.get("id") or row.get("id"))
         if not parsed:
             errors += 1
+            mark("unavailable","invalid_pipeline_candidate_id")
             continue
         sport, player, stat, _side = parsed
         snapshots.append(
@@ -419,6 +439,7 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                 candidate=candidate,
             )
         )
+        mark("forecast")
     return snapshots, errors
 
 
@@ -578,7 +599,14 @@ def run_snapshot(
         forecast_at=now.isoformat(), commence_index=commence_index,
         venue_index=venue_index_from_quotes(quotes),
     )
-    snapshots, pipeline_errors = run_pipeline_batch(pipeline_rows,now=now,data_root=slate_path.parent,clock_fn=clock_fn)
+    # The complete prepared candidate universe is evaluated before ranking.
+    # Retain one receipt per input, including inputs that cannot be predicted.
+    evaluated_contracts=[]
+    snapshots, pipeline_errors = run_pipeline_batch(
+        pipeline_rows,now=now,data_root=slate_path.parent,
+        clock_fn=clock_fn,attempt_receipts=evaluated_contracts)
+    if len(evaluated_contracts)!=len(pipeline_rows):
+        raise JobError("PIPELINE_UNIVERSE_AUDIT_INCOMPLETE")
     skipped_started+=max(0,len(pipeline_rows)-len(snapshots)-pipeline_errors)
 
     seen = existing_snapshot_keys(snapshot_path, run_id)
@@ -596,8 +624,38 @@ def run_snapshot(
     if to_write:
         _path, written = pm.append_snapshots(to_write, snapshot_path)
 
+    # Auditable all-market coverage, even when only the highest-ranked ten
+    # are shown in the user-facing probability comparison.
+    from collections import Counter
+    outcomes=Counter(item["status"] for item in evaluated_contracts)
+    by_stat=Counter(str(item.get("sport"))+"|"+str(item.get("stat")) for item in evaluated_contracts)
+    scope_receipt={
+        "schema":"all_prepared_props_attempts_v1","date":game_date,"run_id":run_id,
+        "source_player_stat_rows":len(rows),
+        "normalized_two_sided_quote_rows":len(quotes),
+        "prepared_contracts":len(evaluated_contracts),
+        "forecast_contracts":outcomes["forecast"],
+        "unavailable_contracts":outcomes["unavailable"],
+        "by_stat":dict(sorted(by_stat.items())),
+        "unavailable_reasons":dict(Counter(item.get("reason") or "unknown" for item in
+            evaluated_contracts if item["status"]=="unavailable")),
+        "all_prepared_contracts_attempted":True,
+        "no_top10_or_triage_pre_filter":True,
+        "scope":"primary_comparable_two_sided_line_per_player_stat",
+        "attempts":evaluated_contracts}
+    report_path=SKILL_ROOT/"reports"/"all_prepared_props_attempts.json"
+    report_path.parent.mkdir(parents=True,exist_ok=True)
+    pending=report_path.with_suffix(".tmp")
+    pending.write_text(json.dumps(scope_receipt,sort_keys=True,indent=2,allow_nan=False)+"\n",
+                       encoding="utf-8")
+    os.replace(pending,report_path)
+
     return {
         "job": "snapshot",
+        "universe_receipt":"reports/all_prepared_props_attempts.json",
+        "prepared_contracts":len(evaluated_contracts),
+        "forecast_contracts":outcomes["forecast"],
+        "unavailable_contracts":outcomes["unavailable"],
         "rows_written": written,
         "skipped": skipped_started + skipped_dup,
         "errors": pipeline_errors,
