@@ -91,12 +91,8 @@ class SafetyOverlayTests(unittest.TestCase):
                              "--expected-code-sha","0"*40])
 
     def test_atomic_checkpoint_logic_compiles_as_main_source(self):
-        # NEW_SAVE code is valid Python when inserted under frozen main().
-        src='''def run(a,posterior,diagnostics):
-    import json
-    '''+repair.NEW_SAVE.replace("\n","\n    ")+'''
-    return checks
-'''
+        # NEW_SAVE is valid in a function with the actual frozen indentation.
+        src="def run(a, posterior, diagnostics):\n"+repair.NEW_SAVE+"\n    return checks\n"
         ast.parse(src)
 
     def test_known_blob_git_sha(self):
