@@ -22,7 +22,8 @@ VERSION = "slate-evidence-priority-v1"
 SPORTS = ("NBA", "NHL", "NFL")
 MODEL_NAMES = ("Engine_A", "Engine_B", "Bayesian_A", "Bayesian_B")
 RESEARCH_REASONS = {"STATUS_NOT_VERIFIED", "VENUE_OR_FORECAST_UNVERIFIED",
-                    "CONTEXT_UNRESOLVED", "RESEARCH_UNVERIFIED"}
+                    "CONTEXT_UNRESOLVED", "RESEARCH_UNVERIFIED",
+                    "POST_SHADOW_PRODUCTION_PENDING"}
 MIN_CONSENSUS = 0.58
 MIN_EDGE_PP = 3.0
 
@@ -225,7 +226,8 @@ def candidate(row, comparison, *, data_root):
         messages.append("Source-owned lineup redistribution applied to the frozen forecast; "
                         "not independently verified here.")
     messages.append("Pregame lineup, injury, opportunity and market refresh checks remain required.")
-    return {"sport": row["sport"], "player": row["player"], "player_id": row.get("player_id"),
+    return {"game_date": row["game_date"], "sport": row["sport"],
+            "player": row["player"], "player_id": row.get("player_id"),
             "team": row.get("team"), "opponent": row.get("opponent"), "stat": row["stat"],
             "side": row["side"], "line": row["reference_line"], "run_id": row["run_id"],
             "forecast_at": row["forecast_at"], "event_start": row.get("event_start"),
@@ -281,6 +283,8 @@ def build(snapshots, comparisons, date, *, data_root):
                               "+ 5*verified_historical_workload_available"),
             "candidate_pool_count": len(pool), "excluded": dict(excluded),
             "top_10_by_sport": top, "top_counts": {s: len(top[s]) for s in SPORTS},
+            "full_universe_evaluated": len(snapshots),
+            "full_universe_before_top10": True,
             "publication_eligible": False, "original_forecasts_unchanged": True}
 
 
