@@ -58,6 +58,49 @@ class FullUniverseTests(unittest.TestCase):
         self.assertEqual(result["model_coverage"]["NUTS_provisional"]["unavailable"],24)
         self.assertEqual(result["source"]["counts"]["historical_distribution_or_sample_unavailable"],1)
 
+    def test_full_prepared_pipeline_receipt_reconciles(self):
+        slate,report,top,sources=fixture()
+        receipt={
+            "schema":"all_prepared_props_attempts_v1","date":"2026-11-08",
+            "run_id":"SUNDAY","all_prepared_contracts_attempted":True,
+            "no_top10_or_triage_pre_filter":True,"prepared_contracts":25,
+            "forecast_contracts":24,"unavailable_contracts":1,
+            "unavailable_reasons":{"insufficient_source_data":1},
+            "attempts":[{"status":"forecast"} for _ in range(24)]
+                      +[{"status":"unavailable","reason":"insufficient_source_data"}]}
+        result=audit(day="2026-11-08",source_rows=sources,quotes=[],
+                     frozen_rows=slate,comparison=report,top10=top,
+                     attempt_receipt=receipt)
+        self.assertEqual(result["pipeline_attempts"]["prepared_contracts"],25)
+        self.assertEqual(result["pipeline_attempts"]["forecast"],24)
+        self.assertEqual(result["pipeline_attempts"]["unavailable"],1)
+
+    def test_partial_attempt_receipt_rejected(self):
+        slate,report,top,sources=fixture()
+        receipt={
+            "schema":"all_prepared_props_attempts_v1","date":"2026-11-08",
+            "run_id":"SUNDAY","all_prepared_contracts_attempted":True,
+            "no_top10_or_triage_pre_filter":True,"prepared_contracts":25,
+            "forecast_contracts":24,"unavailable_contracts":1,
+            "attempts":[{"status":"forecast"} for _ in range(24)]}
+        with self.assertRaisesRegex(ValueError,"prepared_prop_attempt_receipt_incomplete"):
+            audit(day="2026-11-08",source_rows=sources,quotes=[],
+                  frozen_rows=slate,comparison=report,top10=top,
+                  attempt_receipt=receipt)
+
+    def test_receipt_must_match_forecast_run(self):
+        slate,report,top,sources=fixture()
+        receipt={
+            "schema":"all_prepared_props_attempts_v1","date":"2026-11-08",
+            "run_id":"ANOTHER","all_prepared_contracts_attempted":True,
+            "no_top10_or_triage_pre_filter":True,"prepared_contracts":0,
+            "forecast_contracts":0,"unavailable_contracts":0,
+            "attempts":[]}
+        with self.assertRaisesRegex(ValueError,"prepared_prop_attempt_receipt_not_matching_frozen_run"):
+            audit(day="2026-11-08",source_rows=sources,quotes=[],
+                  frozen_rows=slate,comparison=report,top10=top,
+                  attempt_receipt=receipt)
+
     def test_missing_contract_blocks_publication(self):
         slate,report,top,sources=fixture()
         report["picks"].pop()
