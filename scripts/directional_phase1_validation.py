@@ -248,12 +248,30 @@ def audit_frozen(comparison: dict) -> tuple[dict, dict]:
                 continue
             total = p + q
             if abs(total - 1) > 1e-8:
-                # Existing NUTS sidecars have small normalization discrepancies.
-                # Audit and warn, never silently normalize or change picks.
-                if model != "NUTS" or abs(total - 1) > .05:
+                # Existing NUTS sidecars have small normalization discrepancies
+                # that propagate into the 60/40 baseline. Keep them visible,
+                # do not silently recompute, replace, or alter past selections.
+                # Any other inconsistency must fail closed.
+                if model == "NUTS" and abs(total - 1) <= .05:
+                    pass
+                elif model == "Consensus":
+                    over_family = (over.get("production_ensemble") or {}).get(
+                        "historical_families") or []
+                    under_family = (under.get("production_ensemble") or {}).get(
+                        "historical_families") or []
+                    nsum = ((over.get("NUTS") or 0) +
+                            (under.get("NUTS") or 0))
+                    expected_nonunit = (.6 / len(over_family)) * (nsum - 1) \
+                        if "NUTS" in over_family and over_family == under_family \
+                        else None
+                    if (expected_nonunit is None or
+                            abs(total - 1 - expected_nonunit) > 1e-7):
+                        raise AuditError("side_probabilities_not_complementary:" + model)
+                else:
                     raise AuditError("side_probabilities_not_complementary:" + model)
                 unit_sum_warnings.append({"model": model, "contract": list(key),
-                                          "side_sum": total})
+                                          "side_sum": total,
+                                          "root_cause": "NUTS_paired_side_discrepancy"})
         if (over.get("production_consensus_available") !=
                 under.get("production_consensus_available")):
             raise AuditError("asymmetric_production_consensus")
