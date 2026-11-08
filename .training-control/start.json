@@ -16,5 +16,17 @@
     "source_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
     "code_sha": "bca3c5f1198009d5254a8dbe81aa73fc75c34e9d",
     "as_of": "2026-10-29"
+  },
+  "recovery_attempt": {
+    "schema": "pickem_precision_post_sampling_recovery_v1",
+    "replaces_failed_run": 42413378410,
+    "failure": "numpy_xarray_diagnostics_dimension_broadcast_requested_197_GiB",
+    "trigger": "restart_market_09_after_verified_posterior_checkpoint_patch",
+    "safety_helper_blob_sha": "15271955731ac87b7bcb2ed5bf81a39e98f1b6de",
+    "frozen_model_sha_unchanged": true,
+    "frozen_history_sha_unchanged": true,
+    "sampler_budget_unchanged": true,
+    "expected_posterior_save_order": "checkpoint_then_diagnostics",
+    "authorized_by_user": true
   }
 }
