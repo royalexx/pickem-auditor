@@ -1,18 +1,28 @@
 # Production consensus and slate reporting
 
-Effective policy: `production-consensus-70-30-20261107-v1`, explicitly authorized
-by the user on November 7, 2026. Production slate jobs use 70% historical
-Engine A and 30% source-owned Engine B. Complete win/push/loss masses are mixed
-before converting any displayed number to P(win | no push).
+Effective policy: `production-historical-ensemble-60-40-20261108-v1`,
+authorized November 8, 2026. After sidecar inference the daily report
+combines 60% historical-model consensus (Engine A, Bayesian A, Bayesian B
+and any strictly eligible same-contract trained NUTS) and 40% opportunity-
+focused Engine B. Among historical models, available eligible families
+receive equal weight, with a minimum of two and Engine A mandatory.
+Missing models and constituent weights are recorded explicitly. Market and
+provisional NUTS are independent benchmarks only. Mix complete win/push/loss
+masses before displaying P(win | no push).
 
 `config/production_consensus.json` freezes the weights and the numerical build.
 The policy is authorized for production while empirical calibration remains
 unestablished. It never sets a learned-blend certificate to true. Existing
 research, market, availability, sample and Tier 1 validation gates remain.
-Missing/unreliable components cause an explicit production abstention, with
-individual component estimates retained for validation. Offline legacy math
+Missing/unreliable components cause explicit production abstention.
+The initial Engine A/B calculation occurs BEFORE Bayesian and NUTS inference
+and is a nonproduction preview; it cannot rank, set a Tier, or masquerade as
+the 60/40 percentage. The finalized ensemble is calculated and frozen in
+`slate_model_comparisons.json` only AFTER those sidecars, with version,
+included family weights, raw probability masses and exact source identity.
+Any missing historical family has an unavailable reason. Offline legacy math
 callers preserve their baseline unless run inside `using_production` or with
-`PICKEM_PRODUCTION_CONSENSUS=1`. Production jobs and pregame verification opt in.
+`PICKEM_PRODUCTION_CONSENSUS=1`.
 
 Future run UUIDs incorporate the policy digest. Existing forecasts/outcomes
 are never reclassified or overwritten. Corrected empirical Bayesian sidecars
@@ -38,7 +48,9 @@ checks are required. The adapter only supports its audited count likelihood;
 continuous-yardage fits remain unavailable until their observation/push model
 has a separately validated adapter. Posterior bytes are cached with artifact,
 ZIP, manifest and posterior hashes. No training runs are dispatched, canceled,
-restarted or edited. Bayesian/NUTS columns never enter the 70/30 production blend.
+restarted or edited. Independently frozen, eligible Bayesian/NUTS outputs
+enter only the historical 60% component AFTER pregame sidecar validation,
+never the source-owned Engine B 40% component.
 
 The current Deepnote token cannot read Actions artifacts (verified HTTP403).
 Already staged hash-verified models therefore load independently of discovery;
@@ -73,13 +85,18 @@ adapter timestamps retain their legacy semantics; new saves/targets CLI outputs
 stamp actual inference completion and reject completion at/after kickoff.
 
 
-## Full-slate evidence-based research priority (November 7, 2026)
+## Full-universe player/opponent scouting and research priority (November 8, 2026)
 
 Every scripts/slate_model_report.py run also writes:
+- slate_full_universe_research.json — exhaustive source-constrained evaluation
+  of every same-run archived contract, including verified same-line player
+  history, workload context, the available opponent-linked collector hints
+  and explicit missing player/opponent/venue/weather checks. Unverified
+  opponent fields are not described as established causal tendencies.
 - slate_top10_evidence.json — up to ten **worthwhile research candidates per sport**, with the same frozen model probabilities, provenance, explicit missing evidence, and a per-candidate narrative;
 - slate_top10_evidence.md — human-readable explanation for every candidate.
 
-The selector processes the **whole latest immutable forecast batch**, not the capped 30-item research-triage queue. Neither Bayesian A/B nor NUTS changes production weights. Eligible candidates must have both independently reliable production engines, a valid production consensus of at least 58%, a model-market edge of at least +3 percentage points, matching identities and before-game snapshots, plus at least two independently matched archived market books. Primary numerical or availability vetoes stay in force; missing game-specific active status remains a research blocker.
+The selector processes the **whole latest immutable forecast batch**, not the capped 30-item research-triage queue. Bayesian A/B and eligible NUTS affect the new historical 60% component only after their immutable post-shadow evaluations. Eligible candidates must have both independently reliable production engines, a valid production consensus of at least 58%, a model-market edge of at least +3 percentage points, matching identities and before-game snapshots, plus at least two independently matched archived market books. Primary numerical or availability vetoes stay in force; missing game-specific active status remains a research blocker.
 
 The transparent research score (not a hit probability) is
 
@@ -94,3 +111,13 @@ The spread penalty is capped at five points, so Bayesian disagreement can trigge
 Every ranking entry includes: all available probabilities and absent-model status, conservative floor, point gap, spread, a line-specific last-five and last-ten **current-season** hit/push count only when the collector's subject identity, checksum, public source URL, timestamp, observation dates, and exact market match are valid; recorded recent workload/exposure and the preceding-five comparison when available; context and availability caveats; source digest and warnings. No cache means no invented history, current-season hit percentage, opportunity, causal matchup claim, or "confirmed active" tag. Historical win rates and role observations overlap Engine A source data and therefore provide descriptive context, not independent extra evidence added to the numerical probability. When available, an exact line rate is *not* a promise of future results or a calibration certificate.
 
 To prevent an artificially diversified top ten from becoming ten correlated markets on one player or fixture, the shortlist includes at most two distinct markets per player and four candidate props per fixture. Unselected rows remain in the complete probability archive. All top-ten entries remain **research-only and not publication eligible** until the existing verified board independently clears current status, causal scouting, markets, uncertainty, and empirical calibration gates. The immutable forecasts, morning settlement, and training runs are unchanged.
+
+### Production versus approvals
+
+The final 60/40 output is authorized as the numerical production forecast,
+**not** an empirical calibration certificate. Existing verified-board, hard
+market-gap, lineup and Tier gates remain independent. The preliminary parent
+snapshot cannot grant a Tier. Morning settlement reads the original immutable
+post-shadow comparison's consensus (when present) rather than rebuilding it
+from updated posterior states or the preliminary parent snapshot. Existing
+70/30 cohorts remain labeled with their historical policy.

@@ -22,7 +22,8 @@ VERSION = "slate-evidence-priority-v1"
 SPORTS = ("NBA", "NHL", "NFL")
 MODEL_NAMES = ("Engine_A", "Engine_B", "Bayesian_A", "Bayesian_B")
 RESEARCH_REASONS = {"STATUS_NOT_VERIFIED", "VENUE_OR_FORECAST_UNVERIFIED",
-                    "CONTEXT_UNRESOLVED", "RESEARCH_UNVERIFIED"}
+                    "CONTEXT_UNRESOLVED", "RESEARCH_UNVERIFIED",
+                    "POST_SHADOW_PRODUCTION_PENDING"}
 MIN_CONSENSUS = 0.58
 MIN_EDGE_PP = 3.0
 
@@ -225,7 +226,8 @@ def candidate(row, comparison, *, data_root):
         messages.append("Source-owned lineup redistribution applied to the frozen forecast; "
                         "not independently verified here.")
     messages.append("Pregame lineup, injury, opportunity and market refresh checks remain required.")
-    return {"sport": row["sport"], "player": row["player"], "player_id": row.get("player_id"),
+    return {"game_date": row["game_date"], "sport": row["sport"],
+            "player": row["player"], "player_id": row.get("player_id"),
             "team": row.get("team"), "opponent": row.get("opponent"), "stat": row["stat"],
             "side": row["side"], "line": row["reference_line"], "run_id": row["run_id"],
             "forecast_at": row["forecast_at"], "event_start": row.get("event_start"),
@@ -240,14 +242,75 @@ def candidate(row, comparison, *, data_root):
             "research_only": True, "tier": None}, None
 
 
+def full_universe_review(row, comparison, *, data_root):
+    """One descriptive evidence check per frozen contract, including rejects.
+
+    This record NEVER changes the forecast or converts an unverified matchup
+    observation into an Engine B adjustment. It explicitly reports missing
+    player/opponent/weather evidence across the whole slate, not just top ten.
+    """
+    inputs = row.get("inputs") if isinstance(row.get("inputs"), dict) else {}
+    history = historical_evidence(row, data_root)
+    numeric_keys = {
+        "NFL": ("def_matchup_factor", "def_matchup_ratio",
+                "def_forced_checkdown_rate", "def_first_read_suppression_rate",
+                "def_rb_target_funnel_share"),
+        "NHL": ("shots_against_per_game", "shots_against_ratio"),
+        "NBA": (),
+    }
+    observed = {
+        key: inputs[key] for key in numeric_keys.get(row.get("sport"), ())
+        if type(inputs.get(key)) in (int, float)
+        and math.isfinite(inputs[key])
+    }
+    player_observed = {
+        key: inputs[key] for key in
+        ("snap_share", "target_share", "routes_per_game", "route_share",
+         "offense_snaps_per_game", "defense_snaps_per_game",
+         "pace_per_game", "pace_ratio", "ice_time_per_game",
+         "minutes", "possessions")
+        if type(inputs.get(key)) in (int, float)
+        and math.isfinite(inputs[key])
+    }
+    # No unobserved opponent tendency, injury, role, or weather is inferred.
+    # Collector input values are descriptions and require independent source
+    # checks before they become verified contextual facts.
+    return {
+        "game_date": row.get("game_date"), "run_id": row.get("run_id"),
+        "sport": row.get("sport"), "player": row.get("player"),
+        "player_id": row.get("player_id"), "team": row.get("team"),
+        "opponent": row.get("opponent"), "stat": row.get("stat"),
+        "side": row.get("side"), "line": row.get("reference_line"),
+        "forecast_at": row.get("forecast_at"),
+        "original_block_reason": row.get("reason"),
+        "model_consensus": comparison.get("Consensus"),
+        "model_columns": {name: comparison.get(name) for name in
+                          ("Engine_A", "Engine_B", "Bayesian_A", "Bayesian_B",
+                           "Market", "NUTS")},
+        "player_tendency": history,
+        "player_context_inputs": player_observed,
+        "opponent_tendency": {
+            "status": ("collector_hints_require_independent_verification"
+                       if observed else "not_source_supported"),
+            "source_fields": observed,
+            "missing_opponent_causal_evidence": not bool(observed)},
+        "availability": "game_specific_status_not_verified",
+        "weather": "venue_aware_weather_verification_required",
+        "scenario_validation": "pending_source_verified_matchup_and_role_scenarios",
+        "rank_eligibility": "research_only_not_betting_approval",
+    }
+
+
 def build(snapshots, comparisons, date, *, data_root):
     """Rank the entire frozen batch, not only queued research subjects."""
     if len(snapshots) != len(comparisons):
         raise ValueError("comparison_count_mismatch")
     pool, excluded = [], Counter()
+    full_reviews = []
     for row, comp in zip(snapshots, comparisons):
         if row.get("game_date") != date or comp.get("game_date") != date:
             raise ValueError("cross_date_comparison")
+        full_reviews.append(full_universe_review(row, comp, data_root=data_root))
         x, reason = candidate(row, comp, data_root=data_root)
         if x:
             pool.append(x)
@@ -281,6 +344,10 @@ def build(snapshots, comparisons, date, *, data_root):
                               "+ 5*verified_historical_workload_available"),
             "candidate_pool_count": len(pool), "excluded": dict(excluded),
             "top_10_by_sport": top, "top_counts": {s: len(top[s]) for s in SPORTS},
+            "full_universe_evaluated": len(snapshots),
+            "full_universe_before_top10": True,
+            "full_universe_reviews": full_reviews,
+            "full_universe_review_count": len(full_reviews),
             "publication_eligible": False, "original_forecasts_unchanged": True}
 
 
@@ -315,9 +382,24 @@ def render_markdown(report):
 def write(report, out_dir):
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
+    # The compact top-ten remains compatible with existing review consumers.
+    # The complete matching-contract review is a separate exhaustive artifact.
+    compact = {k: v for k, v in report.items() if k != "full_universe_reviews"}
     (out/"slate_top10_evidence.json").write_text(
-        json.dumps(report, indent=2, allow_nan=False, ensure_ascii=False)+"\n", encoding="utf-8")
-    (out/"slate_top10_evidence.md").write_text(render_markdown(report), encoding="utf-8")
+        json.dumps(compact, indent=2, allow_nan=False, ensure_ascii=False)+"\n", encoding="utf-8")
+    (out/"slate_top10_evidence.md").write_text(render_markdown(compact), encoding="utf-8")
+    (out/"slate_full_universe_research.json").write_text(
+        json.dumps({
+            "schema":"slate-full-universe-player-opponent-review-v1",
+            "date":report["date"],
+            "run_id":report["full_universe_reviews"][0]["run_id"]
+                     if report["full_universe_reviews"] else None,
+            "contracts_reviewed":report["full_universe_review_count"],
+            "top10_is_only_a_display_limit":True,
+            "requires_external_source_checks":True,
+            "reviews":report["full_universe_reviews"]},
+            ensure_ascii=False, allow_nan=False, separators=(",",":"))+"\n",
+        encoding="utf-8")
 
 
 def main():

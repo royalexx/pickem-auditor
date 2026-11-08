@@ -1,7 +1,13 @@
 # Pick'em Auditor operating instructions
 
-The production slate policy is `config/production_consensus.json`: 70% Engine A
-and 30% Engine B, with explicit abstention when reliable components are missing.
+The production slate policy is `config/production_consensus.json`:
+60% consensus of available, same-contract, pregame historical engines
+(Engine A, Bayesian A, Bayesian B and strictly eligible NUTS) plus 40%
+source-verified opportunity/situational Engine B. Missing historical models
+are individually reported; the historical pool requires Engine A plus at least
+one other valid family. Market and provisional NUTS are NEVER included in the
+blend. Final production probabilities are computed after Bayesian/NUTS sidecars;
+preliminary A/B-only snapshots are unranked and not publication-authorized.
 Preserve existing research, availability, market and Tier 1 validation gates.
 Do not interpret production authorization as demonstrated probability calibration.
 
@@ -34,3 +40,16 @@ required source checks. Never infer lineup status from prior appearances.
 Use the transparent priority score for research ORDER ONLY, not as a win
 probability, Tier certificate or permission to bet. Preserve the separate
 fully verified board.
+
+For every slate, evaluate EVERY source-supported, archived NFL/NBA/NHL player/stat/side
+contract before narrowing the display to ten per sport. Read
+`slate_full_universe_research.json` and `slate_forecast_scope_audit.json`:
+report the player trend and the opponent tendency or explicitly name missing
+context. Verify current lineup, snaps/usage, opponent scheme, opportunity,
+game script, injuries, rest and stadium-specific weather before claiming that
+the matchup favors a candidate. No unsourced trend, venue assumption or weather
+multiplier can substitute for actual opponent evidence. Retain the existing
+all-model comparison chart. In NFL research prioritize credible volume overs
+(targets, pass attempts, rush attempts) and outcome-dependent unders as a
+screening preference, NOT a probability bonus or a reason to ignore other
+stronger opportunities. Never skip an available market solely due to type.

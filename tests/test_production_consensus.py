@@ -21,10 +21,12 @@ class ProductionConsensusTests(unittest.TestCase):
     def test_full_outcome_mixture_not_average_of_conditional_values(self):
         a,b=copy.deepcopy(self.a),copy.deepcopy(self.b)
         result=blend.production_combine(a,b,self.policy)
-        self.assertAlmostEqual(result['q_win'],.68)
-        self.assertAlmostEqual(result['q_push'],.13)
+        self.assertAlmostEqual(result['q_win'],.64)
+        self.assertAlmostEqual(result['q_push'],.14)
         self.assertAlmostEqual(result['q_win']+result['q_push']+result['q_loss'],1)
         self.assertTrue(result['available'])
+        self.assertTrue(result['preliminary'])
+        self.assertFalse(result['ranking_allowed'])
         self.assertFalse(result['validated'])
         self.assertFalse(result['empirically_calibrated'])
         self.assertEqual(a,self.a);self.assertEqual(b,self.b)
@@ -39,7 +41,7 @@ class ProductionConsensusTests(unittest.TestCase):
         with patch.dict('os.environ',{},clear=True):
             self.assertIsNone(blend.active_production_policy(ROOT))
             with blend.using_production(ROOT):
-                self.assertEqual(blend.active_production_policy(ROOT)['weight_a'],.7)
+                self.assertEqual(blend.active_production_policy(ROOT)['weight_a'],.6)
             self.assertIsNone(blend.active_production_policy(ROOT))
 
     def test_unavailable_consensus_never_serializes_a_as_production(self):
@@ -49,6 +51,8 @@ class ProductionConsensusTests(unittest.TestCase):
             'matchup':'A @ B','player':'Player','stat':'receptions'},run_id='test',run_at='now',
             candidate={'side':'over','line':2.5})
         self.assertIsNone(record['q_model']);self.assertIsNone(record['q_win']);self.assertIsNone(record['q_push'])
+        self.assertEqual(self.policy['historical_models'],
+                         ['Engine_A','Bayesian_A','Bayesian_B','NUTS'])
 
     def test_policy_version_changes_future_run_identity(self):
         old=jobs.shadow_run_id('2026-11-08')
@@ -69,8 +73,10 @@ class ProductionConsensusTests(unittest.TestCase):
         with blend.using_production(ROOT),patch('usage_baseline.verify_a',return_value=True),patch('scouting_engine.project_scout',return_value=b):
             out=pm.evaluate_candidate(row)
         self.assertTrue(out['blend']['production_policy']);self.assertTrue(out['blend']['available'])
-        self.assertAlmostEqual(out['grade']['q_model'],.7*out['engine_a']['q_win_robust']+.3*out['engine_b']['q_win'])
-        self.assertNotEqual(out['final_rank'],'Tier 1')
+        self.assertIsNone(out['grade'])
+        self.assertTrue(out['blend']['preliminary'])
+        self.assertEqual(out['reason'],'POST_SHADOW_PRODUCTION_PENDING')
+        self.assertEqual(out['final_rank'],'Unranked')
 
 
 if __name__=='__main__':unittest.main()
