@@ -2863,6 +2863,12 @@ def evaluate_candidate(raw: dict, *, now=None) -> dict:
         "blend": blend,
         "shared_context":shared_context,
     }
+    if blend.get('production_policy') and blend.get('preliminary'):
+        # Independent historical models are not available until sidecars run.
+        # Never grade or promote a preliminary A+B-only approximation.
+        out.update(final_rank='Unranked', reason='POST_SHADOW_PRODUCTION_PENDING',
+                   grade=None, market=cross_market)
+        return out
     if blend.get('production_policy') and not blend.get('available'):
         out.update(final_rank='Unranked', reason='PRODUCTION_CONSENSUS_UNAVAILABLE',
                    grade=None, market=cross_market)
