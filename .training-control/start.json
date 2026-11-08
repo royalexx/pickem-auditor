@@ -1,32 +1,20 @@
 {
   "schema": "pickem_precision_campaign_launch_v1",
   "campaign_id": "week-20261102",
-  "index": 9,
+  "index": 10,
   "max_per_position": "0",
   "as_of": "2026-10-29",
   "source_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
   "code_sha": "bca3c5f1198009d5254a8dbe81aa73fc75c34e9d",
   "skip": {
-    "from_index": 8,
-    "failed_run_id": 42395673312,
-    "report_path": ".training-control/skips/market-08.json",
-    "reason": "NFL receiving touchdowns (market index 8, route source index 22) completed four NUTS chains with 1,800 tuning and 2,000 retained draws each on 38,341 observations across 2,095 games. Strict posterior diagnostics failed: maximum R-hat 1.0160683144367122 exceeded 1.01, although minimum bulk ESS 426.7388725673434 exceeded 400, divergences were zero and minimum BFMI was 0.6658064972043027. Population precheck, frozen history restoration and Windows runner succeeded. No safe autonomous repair without changing the frozen model or convergence requirements; no sampling retry performed.",
+    "from_index": 9,
+    "failed_run_id": 42437339999,
+    "report_path": ".training-control/skips/market-09.json",
+    "reason": "NFL tackles + assists index 9 repeat run completed four NUTS chains but strict convergence failed (R-hat 1.0188768956478036 > 1.01; minimum bulk ESS 297.4217267119367 < 400). Prior diagnostics memory repair succeeded; no further safe autonomous repair. Preserved posterior and frozen Dell state; not published.",
     "failure_class": "model_nonconvergence",
-    "repair_status": "no_safe_repair",
+    "repair_status": "attempt_failed",
     "source_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
     "code_sha": "bca3c5f1198009d5254a8dbe81aa73fc75c34e9d",
     "as_of": "2026-10-29"
-  },
-  "recovery_attempt": {
-    "schema": "pickem_precision_post_sampling_recovery_v1",
-    "replaces_failed_run": 42413378410,
-    "failure": "numpy_xarray_diagnostics_dimension_broadcast_requested_197_GiB",
-    "trigger": "restart_market_09_after_verified_posterior_checkpoint_patch",
-    "safety_helper_blob_sha": "15271955731ac87b7bcb2ed5bf81a39e98f1b6de",
-    "frozen_model_sha_unchanged": true,
-    "frozen_history_sha_unchanged": true,
-    "sampler_budget_unchanged": true,
-    "expected_posterior_save_order": "checkpoint_then_diagnostics",
-    "authorized_by_user": true
   }
 }
