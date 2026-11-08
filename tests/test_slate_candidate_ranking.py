@@ -151,6 +151,13 @@ class PrioritizedSlateTests(unittest.TestCase):
             result = ranks.build([p[0] for p in pairs], [p[1] for p in pairs],
                                  DAY, data_root=d)
             self.assertEqual(result["candidate_pool_count"], 16)
+            self.assertEqual(result["full_universe_review_count"],16)
+            self.assertEqual(len(result["full_universe_reviews"]),16)
+            ranks.write(result,d)
+            full=json.loads((Path(d)/"slate_full_universe_research.json").read_text())
+            self.assertEqual(full["contracts_reviewed"],16)
+            self.assertEqual(len(full["reviews"]),16)
+            self.assertTrue(full["top10_is_only_a_display_limit"])
             self.assertEqual(len(result["top_10_by_sport"]["NBA"]), 10)
             for item in result["top_10_by_sport"]["NBA"]:
                 self.assertGreaterEqual(len(item["explanations"]), 4)
