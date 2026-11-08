@@ -15,6 +15,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -29,6 +30,11 @@ BRANCH = "data/live-observations"
 ROOT = Path(__file__).resolve().parents[1]
 TORONTO = ZoneInfo("America/Toronto")
 MAX_COMPRESSED = 8_000_000
+# GitHub contents API accepts immutable 5 MB binary part blobs; the manifest
+# is published LAST, so interrupted uploads do not expose partial cohorts.
+ARCHIVE_PART_BYTES = 5_000_000
+MAX_ARCHIVE_PARTS = 64
+CHUNK_SCHEMA = "pickem_shared_live_pool_chunk_manifest_v1"
 ALLOWED_PHASES = ("afternoon", "morning")
 REQUIRED_POPULATION = (
     "schema","sport","stat","family","game_id","game_date","season","player_id",
@@ -91,6 +97,131 @@ def archive_path(day,phase,digest):
     if phase not in ALLOWED_PHASES or not re.fullmatch(r"[0-9a-f]{64}",digest):
         raise ValueError("invalid_shared_pool_identity")
     return "data/live_pool/"+day+"/"+phase+"/"+digest+".json.gz"
+
+
+def part_path(day, phase, compressed_sha, index):
+    date.fromisoformat(day)
+    if (phase not in ALLOWED_PHASES
+            or not re.fullmatch(r"[0-9a-f]{64}", compressed_sha)
+            or type(index) is not int or not 0 <= index < MAX_ARCHIVE_PARTS):
+        raise ValueError("invalid_shared_pool_part_identity")
+    return ("data/live_pool/" + day + "/" + phase + "/parts/" +
+            compressed_sha + "." + f"{index:03}" + ".part")
+
+
+def manifest_path(day, phase, digest):
+    date.fromisoformat(day)
+    if phase not in ALLOWED_PHASES or not re.fullmatch(r"[0-9a-f]{64}", digest):
+        raise ValueError("invalid_shared_pool_manifest_identity")
+    return "data/live_pool/" + day + "/" + phase + "/" + digest + ".manifest.json"
+
+
+def _put_immutable(path, payload, *, token):
+    """Write a content-addressed file, verifying bytes on repeated/concurrent PUTs."""
+    encoded=base64.b64encode(payload).decode("ascii")
+    for attempt in range(4):
+        try:
+            result=api("/contents/"+path, token=token, method="PUT",
+                       payload={"message":"Archive immutable Pickem chunk "+path.rsplit("/",1)[-1],
+                                "content":encoded,"branch":BRANCH})
+            return {"status":"published","commit_sha":result.get("commit",{}).get("sha")}
+        except RuntimeError as exc:
+            if "GITHUB_API_409_" not in str(exc) and "GITHUB_API_422_" not in str(exc):
+                raise
+            try:
+                blob=api("/contents/"+path+"?ref="+urllib.parse.quote(BRANCH,safe=""),
+                         token=token)
+                if blob.get("sha") and read_blob(blob["sha"],token=token)==payload:
+                    return {"status":"already_present"}
+                if blob.get("sha"):
+                    raise ValueError("IMMUTABLE_REMOTE_BUNDLE_CONFLICT:"+path)
+            except RuntimeError as get_error:
+                if "GITHUB_API_404_" not in str(get_error):
+                    raise
+            if attempt==3:
+                raise
+            time.sleep(.15 * (attempt+1))
+    raise AssertionError("unreachable_immutable_put")
+
+
+def publish_sharded(doc, *, token):
+    """Split the ORIGINAL deterministic compressed bytes, never model forecasts.
+
+    Supports oversized source-slate/quotes, sidecars and morning populations.
+    Hash-verified parts are written before an atomic content-addressed manifest.
+    Original pregame timestamps and raw win/push masses remain untouched.
+    """
+    payload=gzip.compress(canonical(doc).encode("utf-8"),compresslevel=6,mtime=0)
+    if len(payload)<=MAX_COMPRESSED:
+        raise ValueError("unnecessary_chunked_archive")
+    size=ARCHIVE_PART_BYTES
+    n=(len(payload)+size-1)//size
+    if n>MAX_ARCHIVE_PARTS:
+        raise ValueError("LIVE_POOL_TOO_MANY_ARCHIVE_PARTS")
+    digest=sha256(payload)
+    day,phase=doc["game_date"],doc["phase"]
+    parts=[]
+    count_published=0
+    for idx in range(n):
+        chunk=payload[idx*size:(idx+1)*size]
+        path=part_path(day,phase,digest,idx)
+        state=_put_immutable(path,chunk,token=token)
+        count_published+=int(state["status"]=="published")
+        parts.append({"path":path,"sha256":sha256(chunk),"bytes":len(chunk)})
+    manifest={"schema":CHUNK_SCHEMA,"game_date":day,"phase":phase,
+              "payload_sha256":digest,"payload_bytes":len(payload),
+              "part_bytes":size,"parts":parts}
+    raw=canonical(manifest).encode("utf-8")
+    target=manifest_path(day,phase,sha256(raw))
+    state=_put_immutable(target,raw,token=token)
+    return {"status":state["status"],"path":target,"sha256":digest,
+            "manifest_sha256":sha256(raw),"archive_format":"manifest_parts_v1",
+            "part_count":n,"parts_published":count_published,
+            "commit_sha":state.get("commit_sha")}
+
+
+def _restore_manifest(raw, path, *, index, token):
+    """Fail closed on missing, malformed or substituted immutable shard bytes."""
+    try:
+        manifest=json.loads(raw)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("LIVE_POOL_MANIFEST_INVALID_JSON") from exc
+    if not isinstance(manifest,dict) or manifest.get("schema")!=CHUNK_SCHEMA:
+        raise ValueError("LIVE_POOL_MANIFEST_SCHEMA_INVALID")
+    day,phase=manifest.get("game_date"),manifest.get("phase")
+    digest=manifest.get("payload_sha256")
+    if path!=manifest_path(day,phase,sha256(raw)):
+        raise ValueError("LIVE_POOL_MANIFEST_PATH_MISMATCH")
+    if not re.fullmatch(r"[0-9a-f]{64}",str(digest)):
+        raise ValueError("LIVE_POOL_MANIFEST_PAYLOAD_DIGEST_INVALID")
+    parts=manifest.get("parts")
+    total=manifest.get("payload_bytes")
+    if (not isinstance(parts,list) or not 2<=len(parts)<=MAX_ARCHIVE_PARTS
+            or type(total) is not int or total<=MAX_COMPRESSED
+            or total>MAX_ARCHIVE_PARTS*ARCHIVE_PART_BYTES
+            or manifest.get("part_bytes")!=ARCHIVE_PART_BYTES):
+        raise ValueError("LIVE_POOL_MANIFEST_PARTS_INVALID")
+    payload=[]
+    for i, part in enumerate(parts):
+        expected=part_path(day,phase,digest,i)
+        if not isinstance(part,dict) or part.get("path")!=expected:
+            raise ValueError("LIVE_POOL_SHARD_PATH_MISMATCH")
+        stored=index.get(expected)
+        if not stored:
+            raise ValueError("LIVE_POOL_SHARD_MISSING:"+expected)
+        chunk=read_blob(stored,token=token)
+        if (sha256(chunk)!=part.get("sha256") or len(chunk)!=part.get("bytes")
+                or not 0<len(chunk)<=ARCHIVE_PART_BYTES):
+            raise ValueError("LIVE_POOL_SHARD_DIGEST_MISMATCH:"+expected)
+        payload.append(chunk)
+    content=b"".join(payload)
+    if len(content)!=total or sha256(content)!=digest:
+        raise ValueError("LIVE_POOL_SHARDED_PAYLOAD_DIGEST_MISMATCH")
+    doc=unpack(content)
+    if doc.get("game_date")!=day or doc.get("phase")!=phase:
+        raise ValueError("LIVE_POOL_MANIFEST_METADATA_MISMATCH")
+    return doc
+
 
 def pack(doc):
     raw=canonical(doc).encode("utf-8")
@@ -200,7 +331,14 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
     return doc
 
 def publish(doc, *,token):
-    payload=pack(doc)
+    # Retain the compact legacy format for old/small datasets. Fall back to
+    # independent immutable chunks for a larger archive; do not truncate.
+    try:
+        payload=pack(doc)
+    except ValueError as exc:
+        if str(exc).startswith("LIVE_POOL_BUNDLE_TOO_LARGE"):
+            return publish_sharded(doc,token=token)
+        raise
     digest=sha256(payload)
     path=archive_path(doc["game_date"],doc["phase"],digest)
     encoded=base64.b64encode(payload).decode("ascii")
@@ -236,10 +374,15 @@ def iter_remote_docs(*,token,before,after=None,phase=None):
              "?recursive=1",token=token)
     if tree.get("truncated"):raise RuntimeError("GITHUB_TREE_TRUNCATED")
     entries=[]
+    index={item.get("path"):item.get("sha") for item in tree.get("tree",[])
+           if item.get("type","blob")=="blob"}
     for item in tree.get("tree",[]):
         path=item.get("path","")
         parts=path.split("/")
-        if len(parts)!=5 or parts[:2]!=["data","live_pool"] or parts[3] not in ALLOWED_PHASES or not parts[4].endswith(".json.gz"):
+        if (len(parts)!=5 or parts[:2]!=["data","live_pool"]
+                or parts[3] not in ALLOWED_PHASES
+                or not (parts[4].endswith(".json.gz")
+                        or parts[4].endswith(".manifest.json"))):
             continue
         try:day=date.fromisoformat(parts[2])
         except ValueError:continue
@@ -248,11 +391,14 @@ def iter_remote_docs(*,token,before,after=None,phase=None):
         entries.append((path,item["sha"]))
     for path,sha in sorted(entries):
         payload=read_blob(sha,token=token)
-        if sha256(payload)!=Path(path).name[:-len(".json.gz")]:
-            raise ValueError("LIVE_POOL_HASH_MISMATCH:"+path)
-        doc=unpack(payload)
-        if path!=archive_path(doc["game_date"],doc["phase"],sha256(payload)):
-            raise ValueError("LIVE_POOL_PATH_METADATA_MISMATCH:"+path)
+        if path.endswith(".manifest.json"):
+            doc=_restore_manifest(payload,path,index=index,token=token)
+        else:
+            if sha256(payload)!=Path(path).name[:-len(".json.gz")]:
+                raise ValueError("LIVE_POOL_HASH_MISMATCH:"+path)
+            doc=unpack(payload)
+            if path!=archive_path(doc["game_date"],doc["phase"],sha256(payload)):
+                raise ValueError("LIVE_POOL_PATH_METADATA_MISMATCH:"+path)
         yield doc,path
 
 def canonical_afternoon_docs(documents):
