@@ -44,5 +44,8 @@
   "retrospective_baseline_is_training_data": false,
   "independent_events_assumed": false,
   "research_maturity": "directions_and_risks_identified_not_model_proven",
-  "user_approved_changes_require_explicit_new_evidence": true
+  "user_approved_changes_require_explicit_new_evidence": true,
+  "official_settlement_sha256": "5838b4854763f078c150829708ed6440da71ef3b62cbfd56bb4645a21f617f99",
+  "official_settlement_source": "Deepnote project 9cc31536-93be-44db-bdeb-06fba3f61410 / pickem_runs/2026-11-08/20261108T135631Z/slate_1pm_nfl_settlement_20261108.json",
+  "official_settlement_role": "retrospective_verified_gamebook_not_pregame_feature"
 }
