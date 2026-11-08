@@ -330,6 +330,60 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
         raise ValueError("source_date_mismatch")
     return doc
 
+
+def write_recovery_copy(doc, directory):
+    """Keep the complete original immutable bundle if GitHub publication fails.
+
+    This is private Deepnote project storage, not a regenerated postgame model.
+    It stores no credentials. The name pins the bytes and the capture cohort.
+    """
+    if not directory:
+        return None
+    payload=gzip.compress(canonical(doc).encode("utf-8"),compresslevel=6,mtime=0)
+    digest=sha256(payload)
+    day,phase=doc["game_date"],doc["phase"]
+    date.fromisoformat(day)
+    if phase not in ALLOWED_PHASES:
+        raise ValueError("recovery_invalid_phase")
+    dest=Path(directory)
+    dest.mkdir(parents=True,exist_ok=True)
+    path=dest/("live_pool_"+day+"_"+phase+"_"+digest+".json.gz")
+    if path.exists():
+        if path.read_bytes()!=payload:
+            raise ValueError("IMMUTABLE_RECOVERY_COPY_CONFLICT")
+        return path
+    temp=path.with_name(path.name+".tmp")
+    temp.write_bytes(payload)
+    os.replace(temp,path)
+    return path
+
+
+def load_recovery_copy(file):
+    path=Path(file)
+    match=re.fullmatch(r"live_pool_(\d{4}-\d{2}-\d{2})_(afternoon|morning)_([0-9a-f]{64})\.json\.gz",path.name)
+    if match is None:
+        raise ValueError("RECOVERY_COPY_IDENTITY_INVALID")
+    payload=path.read_bytes()
+    if sha256(payload)!=match.group(3):
+        raise ValueError("RECOVERY_COPY_DIGEST_MISMATCH")
+    doc=unpack(payload)
+    if doc.get("game_date")!=match.group(1) or doc.get("phase")!=match.group(2):
+        raise ValueError("RECOVERY_COPY_METADATA_MISMATCH")
+    for row in doc.get("forecasts") or []:
+        if (row.get("game_date")!=doc["game_date"]
+                or row.get("actual_stat") is not None
+                or not row.get("forecast_at")):
+            raise ValueError("RECOVERY_COPY_NOT_FROZEN_PREGAME")
+        try:
+            forecast=datetime.fromisoformat(row["forecast_at"].replace("Z","+00:00"))
+            start=datetime.fromisoformat(row["event_start"].replace("Z","+00:00"))
+            if forecast.tzinfo is None or start.tzinfo is None or forecast>=start:
+                raise ValueError("RECOVERY_COPY_FORECAST_NOT_PREGAME")
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError("RECOVERY_COPY_FORECAST_NOT_PREGAME") from exc
+    return doc
+
+
 def publish(doc, *,token):
     # Retain the compact legacy format for old/small datasets. Fall back to
     # independent immutable chunks for a larger archive; do not truncate.
@@ -572,12 +626,14 @@ def import_population(root, *,token,before,after=None):
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     sub=p.add_subparsers(dest="cmd",required=True)
-    for command in ("collect","publish","import","restore-forecasts"):
+    for command in ("collect","publish","publish-frozen","import","restore-forecasts"):
         subp=sub.add_parser(command)
         subp.add_argument("--root",type=Path,default=ROOT)
         subp.add_argument("--day")
         if command=="collect":
             subp.add_argument("--sports",default="NHL,NBA,NFL")
+        if command=="publish-frozen":
+            subp.add_argument("--frozen",type=Path,required=True)
         if command=="publish":
             subp.add_argument("--phase",choices=ALLOWED_PHASES,required=True)
             subp.add_argument("--snapshots",type=Path)
@@ -598,10 +654,22 @@ def main(argv=None):
         doc=bundle(args.root,phase=args.phase,game_date=day,
                    snapshot_path=args.snapshots,population_path=args.population,
                    run_id=args.run_id)
+        # Persistent, checksum-addressed local copy is written BEFORE network.
+        # This makes future repair possible without another model invocation.
+        recovery=write_recovery_copy(
+            doc,os.environ.get("PICKEM_LIVE_ARCHIVE_RECOVERY_DIR"))
         result=publish(doc,token=os.environ.get("GITHUB_TOKEN"))
+        if recovery:result["recovery_copy"]=str(recovery)
         result["forecasts"]=len(doc["forecasts"])
         result["settlements"]=len(doc["settlements"])
         result["population"]=len(doc["population"])
+    elif args.cmd=="publish-frozen":
+        # Reads and verifies bytes captured before the game. No new model
+        # computation or source fetch occurs at any point in recovery.
+        doc=load_recovery_copy(args.frozen)
+        result=publish(doc,token=os.environ.get("GITHUB_TOKEN"))
+        result["restored_from_frozen_bytes"]=True
+        result["original_forecasts"]=len(doc.get("forecasts") or [])
     elif args.cmd=="import":
         result=import_population(args.root,token=os.environ.get("GITHUB_TOKEN"),
                                  before=args.before,after=args.after)
