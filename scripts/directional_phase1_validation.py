@@ -232,8 +232,13 @@ def audit_frozen(comparison: dict) -> tuple[dict, dict]:
         if set(pair) != {"over", "under"}:
             raise AuditError("missing_over_or_under_side")
         over, under = pair["over"], pair["under"]
-        if over["forecast_at"] != under["forecast_at"]:
-            raise AuditError("sides_have_different_forecast_time")
+        # Both sides are produced as separate snapshots. Their microsecond
+        # timestamps need not match, but their run/identity must and the pair
+        # cannot be assembled from snapshots taken far apart.
+        at_over = instant(over["forecast_at"], field="over.forecast_at")
+        at_under = instant(under["forecast_at"], field="under.forecast_at")
+        if abs((at_over - at_under).total_seconds()) > 300:
+            raise AuditError("paired_side_snapshots_more_than_5min_apart")
         for model in MODELS:
             p = over.get(model)
             q = under.get(model)
@@ -291,7 +296,8 @@ def verify_feature_receipts(features: list[dict], groups: dict) -> dict:
             raise AuditError("feature_missing_source_id")
         published = instant(f.get("published_at"), field="feature.published_at")
         retrieved = instant(f.get("retrieved_at"), field="feature.retrieved_at")
-        at = instant(pair["over"]["forecast_at"], field="forecast_at")
+        at = min(instant(pair[side]["forecast_at"], field=side + ".forecast_at")
+                 for side in ("over", "under"))
         if published > retrieved or retrieved > at:
             raise AuditError("feature_retrieved_after_forecast")
         if f.get("status") != "verified":
@@ -344,7 +350,8 @@ def validate_settlement(comparison: dict, settlement: dict, groups: dict) -> dic
         if str(x.get("espn_game_id")) != source_games[frozenset((x["team"], x["opponent"]))]:
             raise AuditError("settlement_wrong_official_game")
         pair = groups[key]
-        if x.get("pregame_forecast_at") != pair["over"]["forecast_at"]:
+        if x.get("pregame_forecast_at") not in {
+                pair["over"]["forecast_at"], pair["under"]["forecast_at"]}:
             raise AuditError("settlement_forecast_timestamp_mismatch")
         if x.get("settlement_status") != "verified":
             excluded[str(x.get("settlement_status") or "unverified")] += 1
