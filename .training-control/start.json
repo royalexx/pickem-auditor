@@ -10,7 +10,7 @@
     "from_index": 9,
     "failed_run_id": 42437339999,
     "report_path": ".training-control/skips/market-09.json",
-    "reason": "NFL tackles + assists index 9 repeat run completed four NUTS chains but strict convergence failed (R-hat 1.0188768956478036 > 1.01; minimum bulk ESS 297.4217267119367 < 400). Prior diagnostics memory repair succeeded; no further safe autonomous repair. Preserved posterior and frozen Dell state; not published.",
+    "reason": "NFL tackles + assists market 9 completed four NUTS chains (1,800 tune + 2,000 retained draws each) on 65,186 rows/2,095 games. The bounded repair of prior 197 GiB diagnostic broadcasting succeeded in saving the posterior and computing strict diagnostics, but repeat sampling failed scientific convergence: max R-hat 1.0188768956478036 > 1.01 and minimum bulk ESS 297.4217267119367 < 400; divergences 0 and minimum BFMI 0.6664957190698171. No further safe autonomous repair without altering frozen model or diagnostics. Posterior preserved but not eligible for publication.",
     "failure_class": "model_nonconvergence",
     "repair_status": "attempt_failed",
     "source_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
