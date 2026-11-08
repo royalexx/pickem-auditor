@@ -24,6 +24,7 @@ import math
 from pathlib import Path
 import random
 import sys
+from urllib.parse import urlparse, parse_qs
 
 VERSION = "directional-phase1-frozen-prospective-audit-v1"
 MODELS = ("Engine_A", "Engine_B", "Bayesian_A", "Bayesian_B",
@@ -325,6 +326,8 @@ def verify_feature_receipts(features: list[dict], groups: dict) -> dict:
 def validate_settlement(comparison: dict, settlement: dict, groups: dict) -> dict:
     """Settlement is postgame evidence only; never used to change a forecast."""
     info = comparison["metadata"]
+    if settlement.get("schema") != "pickem_1pm_full_frozen_model_settlement_v1":
+        raise AuditError("unsupported_official_settlement_schema")
     if (settlement.get("pregame_run") != info["run_id"] or
             settlement.get("code_sha") != info.get("code_sha")):
         raise AuditError("settlement_wrong_frozen_forecast")
@@ -338,8 +341,13 @@ def validate_settlement(comparison: dict, settlement: dict, groups: dict) -> dic
     for g in events:
         if not isinstance(g, dict) or not g.get("espn_event_id") or not g.get("source"):
             raise AuditError("invalid_official_game_source")
-        if "espn" not in str(g["source"]).lower():
+        uri = urlparse(str(g["source"]))
+        if (uri.scheme != "https" or uri.hostname != "site.api.espn.com" or
+                not uri.path.endswith("/summary") or
+                parse_qs(uri.query).get("event") != [str(g["espn_event_id"])]):
             raise AuditError("unrecognized_game_source")
+        if g.get("status") != "final":
+            raise AuditError("official_game_not_final")
         teams = frozenset(g.get("teams") or [])
         if len(teams) != 2 or teams in source_games:
             raise AuditError("invalid_game_source_teams")
@@ -549,7 +557,10 @@ def main(argv=None) -> int:
                 raise AuditError("baseline_policy_path_required")
             if git_blob_sha(args.policy) != manifest.get("production_policy_git_blob_sha"):
                 raise AuditError("baseline_production_policy_modified")
-        actual = exact_json(args.settlement)[0] if args.settlement else None
+        actual, settlement_hash = exact_json(args.settlement) if args.settlement else (None, None)
+        if (manifest is not None and args.settlement is not None and
+                settlement_hash != manifest.get("official_settlement_sha256")):
+            raise AuditError("official_settlement_sha256_mismatch")
         feature_rows = None
         if args.features:
             payload, _ = exact_json(args.features)
@@ -562,7 +573,7 @@ def main(argv=None) -> int:
                          if manifest else None)
         result["comparison_sha256"] = original_hash
         if args.settlement:
-            result["settlement_sha256"] = hashlib.sha256(args.settlement.read_bytes()).hexdigest()
+            result["settlement_sha256"] = settlement_hash
         result["baseline_policy_verified"] = manifest is not None
         content = json.dumps(result, sort_keys=True, indent=2,
                              allow_nan=False) + "\n"
