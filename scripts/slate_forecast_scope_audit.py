@@ -72,7 +72,8 @@ def _sources(rows, quotes, date):
             nonprimary_lines)
 
 
-def audit(*, day, source_rows, quotes, frozen_rows, comparison, top10=None):
+def audit(*, day, source_rows, quotes, frozen_rows, comparison, top10=None,
+          attempt_receipt=None):
     selected, run_id = pick_latest(frozen_rows, day)
     if not selected or not run_id:
         raise ValueError("no_frozen_slate_forecast_universe")
@@ -138,6 +139,29 @@ def audit(*, day, source_rows, quotes, frozen_rows, comparison, top10=None):
                 if contract(pick) not in current:
                     raise ValueError("top10_contains_non_frozen_contract")
     source_summary, source_stats, other_lines = _sources(source_rows, quotes, day)
+    attempted = None
+    if attempt_receipt is not None:
+        if (attempt_receipt.get("schema")!="all_prepared_props_attempts_v1"
+                or attempt_receipt.get("date")!=day
+                or attempt_receipt.get("run_id")!=run_id
+                or attempt_receipt.get("all_prepared_contracts_attempted") is not True
+                or attempt_receipt.get("no_top10_or_triage_pre_filter") is not True):
+            raise ValueError("prepared_prop_attempt_receipt_not_matching_frozen_run")
+        attempts=attempt_receipt.get("attempts")
+        if (not isinstance(attempts,list)
+                or len(attempts)!=attempt_receipt.get("prepared_contracts")
+                or any(x.get("status") not in ("forecast","unavailable") for x in attempts)):
+            raise ValueError("prepared_prop_attempt_receipt_incomplete")
+        attempted={
+            "prepared_contracts":len(attempts),
+            "forecast":sum(x["status"]=="forecast" for x in attempts),
+            "unavailable":sum(x["status"]=="unavailable" for x in attempts),
+            "reasons":attempt_receipt.get("unavailable_reasons",{}),
+            "all_prepared_contracts_attempted":True,
+            "no_candidate_preselection":True}
+        if (attempted["forecast"]!=attempt_receipt.get("forecast_contracts")
+                or attempted["unavailable"]!=attempt_receipt.get("unavailable_contracts")):
+            raise ValueError("prepared_prop_attempt_count_mismatch")
     return {
         "schema": VERSION, "game_date": day, "frozen_run_id": run_id,
         "checked_at_utc": datetime.now(timezone.utc).isoformat(),
@@ -148,6 +172,7 @@ def audit(*, day, source_rows, quotes, frozen_rows, comparison, top10=None):
         "comparison_contract_count": len(rows),
         "full_contract_coverage": True,
         "no_probability_substitution": True,
+        "pipeline_attempts": attempted,
         "by_sport": dict(sorted(by_sport.items())),
         "by_stat": dict(sorted(by_stat.items())),
         "model_coverage": {
@@ -181,24 +206,31 @@ def main(argv=None):
     p.add_argument("--comparison", type=Path)
     p.add_argument("--top10", type=Path)
     p.add_argument("--out", type=Path)
+    p.add_argument("--require-attempt-receipt", action="store_true")
     args = p.parse_args(argv)
     root=args.root
     path=args.comparison or (root/"reports/slate_model_comparisons.json")
     top=args.top10 or (path.parent/"slate_top10_evidence.json")
     out=args.out or (root/"reports/slate_forecast_scope_audit.json")
+    attempts_path=root/"reports/all_prepared_props_attempts.json"
+    if args.require_attempt_receipt and not attempts_path.is_file():
+        raise ValueError("no_production_universe_attempt_receipt")
     result=audit(
         day=args.date,
         source_rows=read_jsonl(root/"data/slate_fetch.jsonl"),
         quotes=read_jsonl(root/"data/odds_quotes.jsonl"),
         frozen_rows=read_jsonl(root/"data/prop_snapshots.jsonl"),
         comparison=json.loads(path.read_text(encoding="utf-8")),
-        top10=json.loads(top.read_text(encoding="utf-8")) if top.is_file() else None)
+        top10=json.loads(top.read_text(encoding="utf-8")) if top.is_file() else None,
+        attempt_receipt=(json.loads(attempts_path.read_text(encoding="utf-8"))
+                         if attempts_path.is_file() else None))
     out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(result,sort_keys=True,indent=2,allow_nan=False)+"\n",
                    encoding="utf-8")
     print("SLATE_FORECAST_SCOPE_AUDIT "+json.dumps({
         "status":"complete","date":args.date,
         "frozen_contracts":result["frozen_contract_count"],
+        "prepared_contracts_attempted": (result["pipeline_attempts"] or {}).get("prepared_contracts"),
         "model_coverage":{k:{"forecast":v["forecast"],"unavailable":v["unavailable"]}
                           for k,v in result["model_coverage"].items()},
         "by_sport":result["by_sport"],
