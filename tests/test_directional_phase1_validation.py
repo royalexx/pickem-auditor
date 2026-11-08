@@ -21,6 +21,7 @@ def fixture(*, line=4.5, actual=7.0, n_games=1):
         player = "Player " + str(i)
         player_id = "00-0000" + str(i).zfill(3)
         games.append({"teams": [team, opp], "espn_event_id": str(i + 4000000),
+                      "status": "final",
                       "source": "https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event="
                                 + str(i + 4000000)})
         for side in ("over", "under"):
@@ -70,6 +71,7 @@ def fixture(*, line=4.5, actual=7.0, n_games=1):
                   "metadata": {"run_id": run, "code_sha": "frozen-fixture"},
                   "picks": picks}
     settlement = {
+        "schema": "pickem_1pm_full_frozen_model_settlement_v1",
         "pregame_run": run, "code_sha": "frozen-fixture",
         "start_window_utc": kickoff, "sport": "NFL",
         "games": games, "contracts": contracts
@@ -302,6 +304,28 @@ class DirectionalPhase1Tests(unittest.TestCase):
         self.assertEqual(value["weight_a"], .6)
         self.assertEqual(value["weight_b"], .4)
         self.assertFalse(value["empirically_calibrated"])
+
+    def test_spoofed_espn_host_rejected(self):
+        c, s = fixture()
+        s["games"][0]["source"] = \
+            "https://site.api.espn.com.attacker.example/summary?event=4000000"
+        self.check_block(c, s, reason="unrecognized_game_source")
+
+    def test_reported_game_not_final_rejected(self):
+        c, s = fixture()
+        s["games"][0]["status"] = "in_progress"
+        self.check_block(c, s, reason="official_game_not_final")
+
+    def test_official_gamebook_event_query_must_match_id(self):
+        c, s = fixture()
+        s["games"][0]["source"] = \
+            "https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event=123"
+        self.check_block(c, s, reason="unrecognized_game_source")
+
+    def test_invalid_settlement_schema_rejected(self):
+        c, s = fixture()
+        s["schema"] = "unverified_fixture"
+        self.check_block(c, s, reason="unsupported_official_settlement_schema")
 
     def test_cli_requires_exact_comparison_sha_and_policy(self):
         c, s = fixture()
