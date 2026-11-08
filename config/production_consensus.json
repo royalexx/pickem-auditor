@@ -1,13 +1,26 @@
 {
   "schema": "pickem_production_consensus_policy_v1",
-  "version": "production-consensus-70-30-20261107-v1",
-  "model": "engine_a_engine_b_consensus",
-  "weight_a": 0.7,
-  "weight_b": 0.3,
+  "version": "production-historical-ensemble-60-40-20261108-v1",
+  "model": "historical_consensus_engine_b",
+  "weight_a": 0.6,
+  "weight_b": 0.4,
   "requires_reliable_components": true,
   "missing_component_action": "abstain",
   "empirically_calibrated": false,
-  "authorized_on": "2026-11-07",
+  "authorized_on": "2026-11-08",
   "numerical_revision": "student-t-cdf-correction-20261107",
-  "ranking_gates": "existing_research_market_and_tier_gates"
+  "ranking_gates": "existing_research_market_and_tier_gates",
+  "historical_models": [
+    "Engine_A",
+    "Bayesian_A",
+    "Bayesian_B",
+    "NUTS"
+  ],
+  "historical_min_coverage": 2,
+  "historical_required": [
+    "Engine_A"
+  ],
+  "provisional_nuts_allowed": false,
+  "post_shadow_finalization": true,
+  "preliminary_snapshot_is_production": false
 }
