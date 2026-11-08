@@ -133,6 +133,21 @@ jobs:
           if ($LASTEXITCODE -ne 0 -or $copied -ne $expected) { throw 'NFL_ROUTE_STAGING_DIGEST_MISMATCH' }
           Write-Host "NFL_ROUTE_STAGED sha=$copied scheme=sog_then_nfl_then_remaining"
 
+      - name: Stage tested, pinned posterior checkpoint and diagnostic repair
+        if: env.INDEX != '0'
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $expected = '15271955731ac87b7bcb2ed5bf81a39e98f1b6de'
+          $actual = (git hash-object -- scripts/precision_posterior_safety_patch.py).Trim()
+          if ($LASTEXITCODE -ne 0 -or $actual -ne $expected) { throw 'POSTERIOR_SAFETY_SOURCE_BLOB_MISMATCH' }
+          python -m unittest discover -s tests -p 'test_precision_posterior_safety_patch.py' -v
+          if ($LASTEXITCODE -ne 0) { throw 'POSTERIOR_SAFETY_TESTS_FAILED' }
+          $target = Join-Path $env:RUNNER_TEMP 'precision_posterior_safety_patch.py'
+          Copy-Item scripts/precision_posterior_safety_patch.py $target -Force
+          $copy = (git hash-object -- $target).Trim()
+          if ($LASTEXITCODE -ne 0 -or $copy -ne $expected) { throw 'POSTERIOR_SAFETY_STAGING_BLOB_MISMATCH' }
+          Write-Host "POSTERIOR_SAFETY_STAGED sha=$copy original_frozen_commit=$env:CODE_HEAD"
+
       - name: Check out exact frozen code
         run: |
           $ErrorActionPreference = 'Stop'
@@ -266,6 +281,30 @@ jobs:
           }
           $record | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 (Join-Path $folder 'monitor_receipt.json')
           Write-Host "NUTS_MONITOR_INSTALLED market=$env:INDEX frozen_code=$env:CODE_HEAD monitor=$actual advisory_only=true"
+      - name: Install verified output-only posterior checkpoint after frozen checkout
+        if: env.INDEX != '0'
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ((git rev-parse HEAD).Trim() -ne $env:CODE_HEAD) { throw 'FROZEN_CODE_DRIFT_BEFORE_POSTERIOR_SAFETY' }
+          $patch = Join-Path $env:RUNNER_TEMP 'precision_posterior_safety_patch.py'
+          if (-not (Test-Path -PathType Leaf $patch)) { throw 'POSTERIOR_SAFETY_HELPER_MISSING' }
+          $expected = '15271955731ac87b7bcb2ed5bf81a39e98f1b6de'
+          $actual = (git hash-object -- $patch).Trim()
+          if ($LASTEXITCODE -ne 0 -or $actual -ne $expected) { throw 'POSTERIOR_SAFETY_INSTALL_BLOB_MISMATCH' }
+          $folder = Join-Path 'reports/precision_training' $env:GITHUB_RUN_ID
+          New-Item -ItemType Directory -Force -Path $folder | Out-Null
+          python $patch --source 'scripts/joint_population_bayes.py' --receipt (Join-Path $folder 'posterior_safety_receipt.json') --expected-code-sha $env:CODE_HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'POSTERIOR_SAFETY_PATCH_FAILED' }
+          $changed = @(git diff --name-only -- scripts | Where-Object { $_ })
+          $allowed = @('scripts/joint_population_bayes.py','scripts/precision_sampling_progress.py')
+          if (@($changed | Where-Object { $allowed -notcontains $_ }).Count -ne 0) {
+            throw 'FROZEN_SOURCE_CHANGED_OUTSIDE_APPROVED_OUTPUT_OVERLAYS'
+          }
+          if (@($changed | Where-Object { $_ -eq 'scripts/joint_population_bayes.py' }).Count -ne 1) {
+            throw 'FROZEN_OUTPUT_REPAIR_NOT_INSTALLED'
+          }
+          Write-Host "POSTERIOR_SAFETY_INSTALLED frozen_model=$env:CODE_HEAD validation=checksum-pinned checkpoint_before_diagnostics=true"
+
       - name: Sample hierarchical NUTS model with four chains
         id: fit
         run: |
