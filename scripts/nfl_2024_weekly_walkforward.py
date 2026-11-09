@@ -518,6 +518,9 @@ def forecast_one_week(state,static_state,context,index,base_index,
             q["forecast_week"]=int(fixture["week"])
             q["training_last_revealed_week"]=int(fixture["week"])-1
             q["training_data_from_2024"]=int(fixture["week"])>1
+            # Explicit provenance, so downstream tier gates can suspend
+            # this specific research challenger, not the production consensus.
+            q["model_provenance"]=SCHEMA
             q["roster_2024_verified"]=False
             q["bookmaker_quote_verified"]=False
             q["team_xgb_pass_mean"]=means[q["team"]]["pass_attempts"]
