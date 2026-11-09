@@ -136,7 +136,7 @@ def parse_injury_history(rows,schedule):
         out[(pid,season,week)].append({"gameday":gameday,
           "date_modified":stamp,"status":status,
           "injury":str(r.get("report_primary_injury") or "").lower(),
-          "source":"nflreadpy.load_injuries",
+          "source":"nflreadpy.load_injuries","team":team,
           "active_for_game_verified":False})
     return {k:sorted(v,key=lambda r:r["date_modified"])[-1]
             for k,v in out.items()}
