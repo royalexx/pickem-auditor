@@ -54,7 +54,7 @@ def assess(tier, q_win, *, blend_validated=False, model_provenance=None):
               "target_is_observed": False, "empirical_hit_rate_certified": False,
               "quality_definition": DESCRIPTION.get(tier, "No approved tier")}
     floor = PREDICTIVE_FLOORS.get(tier)
-    if model_provenance in SUSPENDED_CHALLENGER_IDS:
+    if isinstance(model_provenance, str) and model_provenance in SUSPENDED_CHALLENGER_IDS:
         result["model_provenance"] = model_provenance
         result["production_authorized"] = False
         result["suspension_scope"] = "NFL_2024_ACTIVE_ZERO_XGB_BAYES_CHALLENGER_ONLY"
