@@ -215,6 +215,13 @@ def online_roster(state, teams):
 
 def assert_player_state_past(state):
     boundary = hybrid.CUTOFF
+    # The identity cache used to gate eligibility must obey the SAME clock
+    # as player and team features. Otherwise future appearances can overwrite
+    # a valid earlier player/team mapping even if numerical features are safe.
+    # Fail closed rather than silently changing a past week's roster.
+    for pid,row in state["latest_by_player"].items():
+        if day(row["gameday"]) >= boundary:
+            raise RuntimeError("future_player_identity_cache_in_model_state")
     for key in ("player","role","team_offense","opponent_allowed",
                 "league_offense","ngs"):
         for bucket in state[key].values():
