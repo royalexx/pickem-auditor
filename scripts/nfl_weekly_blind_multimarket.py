@@ -94,7 +94,7 @@ def group_games(seasons):
     records={}
     fixtures={}
     for year,source in seasons.items():
-        if int(year)<2021 or int(year)>2024:
+        if int(year)<2021 or int(year)>2025:
             raise WeeklyReplayError("season_outside_declared_experiment")
         schedule=source["schedule"]
         game_map={}
@@ -529,7 +529,7 @@ def replay(source,root,*,min_year=2021,eval_year=2024,
          "year":eval_year,"weeks":receipts,
          "market_registry":list(MARKETS),
          "final_model_training_count_by_market":state["trained_n"],
-         "initial_training_period":"2021_to_2023_only",
+         "initial_training_period":f"{min_year}_to_{eval_year-1}_only",
          "each_week_all_16_before_reveal":True,
          "unobserved_candidates_are_not_auto_losses":True,
          "original_bookmaker_lines_available":False,
