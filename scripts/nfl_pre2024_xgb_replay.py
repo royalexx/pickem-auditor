@@ -94,8 +94,11 @@ def pre2024_sources():
     if not source or not schedule:
         raise RuntimeError("no_pre2024_training_source")
     pbp_games=[];coverage_by_season={}
-    position={str(r["player_id"]):r["position"] for r in source
-                if r["stat"]=="targets"}
+    # Game-local postgame identity is permissible for constructing that
+    # completed game's training aggregate. A player identity learned from
+    # later games is NOT permissible for older chronological training data.
+    position={(str(r["game_id"]),str(r["player_id"])):r["position"]
+              for r in source if r["stat"]=="targets"}
     for year in TRAINING_SEASONS:
         pbp=nflreadpy.load_pbp(seasons=[year])
         import polars as pl
