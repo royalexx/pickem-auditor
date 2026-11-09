@@ -7,6 +7,7 @@ import json
 import math
 from pathlib import Path
 
+from nfl_volume_market_policy import nfl_volume_market_allowed
 import pickem_math as pm
 from pick_verification import forecast_digest, utc_time, write_atomic
 from research_triage import latest_batch, probability
@@ -83,6 +84,9 @@ def build(rows, queue, date, *, now=None, decisions=(), history_root="data", pac
             excluded["missing_or_duplicate"] += 1
             continue
         seen.add(ident)
+        if not nfl_volume_market_allowed(row.get("sport"),row.get("stat")):
+            excluded["nfl_market_excluded_volume_only_policy"] += 1
+            continue
         keys = ("sport", "player", "player_id", "team", "opponent", "stat", "side")
         if (any(str(item.get(k)) != str(row.get(k)) for k in keys) or
                 item.get("line") != row.get("reference_line")):
