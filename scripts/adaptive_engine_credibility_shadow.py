@@ -28,6 +28,9 @@ def _clip_probability(x):
     return max(EPS,min(1-EPS,float(x)))
 
 def _bounded_softmax(values):
+    # Two-engine shadow studies cannot use a 45% maximum for BOTH engines.
+    # Widen only for a two-engine comparison; the six-engine cap stays 45%.
+    maximum=MAX_ENGINE_WEIGHT if len(values)>=3 else 1.-MIN_ENGINE_WEIGHT
     mx=max(values)
     raw=[math.exp(v-mx) for v in values]
     w=[x/sum(raw) for x in raw]
@@ -35,9 +38,9 @@ def _bounded_softmax(values):
     # This is not optimized to betting returns; caps prevent weight collapse
     # on sparse and correlated historical evidence.
     for _ in range(40):
-        clipped=[min(MAX_ENGINE_WEIGHT,max(MIN_ENGINE_WEIGHT,x)) for x in w]
+        clipped=[min(maximum,max(MIN_ENGINE_WEIGHT,x)) for x in w]
         rem=1.-sum(clipped)
-        active=[i for i,x in enumerate(clipped) if MIN_ENGINE_WEIGHT+1e-9 < x < MAX_ENGINE_WEIGHT-1e-9]
+        active=[i for i,x in enumerate(clipped) if MIN_ENGINE_WEIGHT+1e-9 < x < maximum-1e-9]
         if abs(rem)<1e-12:return clipped
         if not active:break
         increment=rem/len(active)
@@ -54,7 +57,8 @@ class ShadowCredibility:
     def __post_init__(self):
         if not self.engines or len(self.engines)!=len(set(self.engines)):
             raise ValueError("duplicate_or_missing_engine_names")
-        if len(self.engines)*MIN_ENGINE_WEIGHT>1. or len(self.engines)*MAX_ENGINE_WEIGHT<1.:
+        if len(self.engines)*MIN_ENGINE_WEIGHT>1. or len(self.engines)*(
+                MAX_ENGINE_WEIGHT if len(self.engines)>=3 else 1.-MIN_ENGINE_WEIGHT)<1.:
             raise ValueError("impossible_weight_constraints")
         for e in self.engines:self.wealth_log.setdefault(e,0.)
 
