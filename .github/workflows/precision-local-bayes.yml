@@ -78,6 +78,12 @@ jobs:
           fetch-depth: 0
           # Needed only for authenticated read-only fetch from private history branch.
           persist-credentials: true
+      - name: Enforce user-directed NUTS training pause before costly work
+        shell: pwsh
+        run: |
+          if (Test-Path '.training-control/PAUSED.json') {
+            throw 'TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED'
+          }
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
