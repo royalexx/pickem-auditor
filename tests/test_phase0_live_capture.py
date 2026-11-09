@@ -82,6 +82,7 @@ class LiveCaptureTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             data, candidate = self.setup_inputs(Path(tmp))
             candidate.pop("sport")
+            candidate["id"] = "NFL|Example|receptions|over"
             result = {"engine_b": {"abstain": True},
                       "market": {"market_valid": True, "line": 4.5}}
             when = datetime(2026, 11, 9, 15, 0, tzinfo=timezone.utc)
