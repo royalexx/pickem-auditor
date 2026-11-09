@@ -350,11 +350,16 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
         if rank in TIERS and (not probability(grade.get("q_model"))
                               or not probability(grade.get("q_market_comparable"))):
             reasons.append("CURRENT_NUMERIC_GRADE_UNVERIFIED")
-        from tier_quality import assess as assess_tier_quality
+        from tier_quality import assess as assess_tier_quality, identify_model_provenance
         tier_quality = assess_tier_quality(rank, grade.get("q_model"),
-                                           blend_validated=blend.get("validated") is True)
+                                           blend_validated=blend.get("validated") is True,
+                                           model_provenance=identify_model_provenance(original))
         if rank in TIERS and not tier_quality["eligible"]:
             reasons.append("TIER_QUALITY_" + tier_quality["reason"])
+        # Separate from the tier name: an explicitly flagged challenger
+        # is research-only even when a legacy path returns "Tier 3".
+        if identify_model_provenance(original) is not None:
+            reasons.append("NFL_2024_ACTIVE_ZERO_CHALLENGER_PRODUCTION_SUSPENDED")
         accepted = not reasons and rank in TIERS
         final_rank = rank if accepted else "Unranked"
         counts["verified" if accepted else "blocked"] += 1
