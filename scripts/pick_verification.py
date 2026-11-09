@@ -351,8 +351,11 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
                               or not probability(grade.get("q_market_comparable"))):
             reasons.append("CURRENT_NUMERIC_GRADE_UNVERIFIED")
         from tier_quality import assess as assess_tier_quality
+        from nfl_challenger_policy import model_family as challenger_family
+        family = challenger_family(original) or challenger_family(result or {})
         tier_quality = assess_tier_quality(rank, grade.get("q_model"),
-                                           blend_validated=blend.get("validated") is True)
+                                           blend_validated=blend.get("validated") is True,
+                                           model_family=family)
         if rank in TIERS and not tier_quality["eligible"]:
             reasons.append("TIER_QUALITY_" + tier_quality["reason"])
         accepted = not reasons and rank in TIERS
