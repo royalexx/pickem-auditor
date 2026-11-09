@@ -25,11 +25,13 @@ except ImportError:
     np = None  # type: ignore
     _HAS_NUMPY = False
 
-CODE_VERSION = "pickem-auditor-fit_blend/2"
+CODE_VERSION = "pickem-auditor-fit_blend/3"
 MIN_SETTLED = 300
 MIN_STAT_SPLIT = 100
 BOOTSTRAP_SAMPLES = 500
 MIN_BOOTSTRAP_DATES = 20
+MIN_TRAIN_DATES = 20
+MIN_OOF_ROWS = 100
 RELIABILITY_BINS = 10
 PROB_EPS = 1e-6
 DEFAULT_L2 = 1.0
@@ -518,11 +520,12 @@ def walk_forward(
     oof: dict[str, list[tuple[float, int]]] = {model: [] for model in models}
     last_weights: dict[str, dict[str, float] | None] = {model: None for model in models}
     for index, test_date in enumerate(dates):
-        if index == 0:
+        # Early folds with only a few prior games cannot certify a blend.
+        if index < MIN_TRAIN_DATES:
             continue
         train = [row for row in rows if row["game_date"] < test_date]
         test = [row for row in rows if row["game_date"] == test_date]
-        if not train or not test:
+        if len(train) < MIN_SETTLED or not test:
             continue
         for model_id in models:
             if model_id == "M0":
@@ -574,11 +577,15 @@ def bootstrap_ci(
     if len(pairs_a) != len(pairs_b) or not pairs_a or samples < 100:
         return None
     groups: dict[str, list[int]] = defaultdict(list)
+    seen_contracts: set[tuple] = set()
     for i, (a, b) in enumerate(zip(pairs_a, pairs_b)):
         if (len(a) != 4 or len(b) != 4 or a[1:] != b[1:]
                 or not isinstance(a[2], str) or not a[2]
                 or not isinstance(a[3], tuple) or not any(a[3])):
             return None
+        if a[3] in seen_contracts:
+            return None
+        seen_contracts.add(a[3])
         groups[a[2]].append(i)
     days = sorted(groups)
     if len(days) < MIN_BOOTSTRAP_DATES:
@@ -697,17 +704,19 @@ def should_emit_config(report: dict, oof: dict[str, list[tuple[float, int]]]) ->
         return False, f"n_settled={report.get('n_settled')} < {MIN_SETTLED}"
     if len(m3) != len(m0) or len(m3) != len(m2):
         return False, "M3/M0/M2 out-of-fold rows are not aligned"
-    if len(m3) < 100 or len({p[2] for p in m3 if len(p) == 4}) < MIN_BOOTSTRAP_DATES:
+    if len(m3) < MIN_OOF_ROWS or len({p[2] for p in m3 if len(p) == 4}) < MIN_BOOTSTRAP_DATES:
         return False, "insufficient independent chronological out-of-fold dates"
+    if report.get("point_in_time_verified", 0) != report.get("n_settled", 0):
+        return False, "historical_source_timing_not_fully_verified"
     for base, label in ((m0, "M0"), (m2, "M2")):
-        ci = bootstrap_ci(base, m3, "log_loss")
-        if ci is None:
-            return False, f"log_loss CI vs {label} unavailable"
-        if ci["low"] <= 0 <= ci["high"]:
-            return False, f"log_loss improvement vs {label} CI includes 0 ({ci['low']:.4f}, {ci['high']:.4f})"
-        if ci["mean"] <= 0:
-            return False, f"M3 does not beat {label} on mean log_loss diff"
-    return True, "M3 beats M0 and M2 on log_loss with 95% CI excluding 0"
+        for metric in ("log_loss", "brier"):
+            ci = bootstrap_ci(base, m3, metric)
+            if ci is None:
+                return False, f"{metric} CI vs {label} unavailable or contract mismatch"
+            if ci["low"] <= 0 or ci["mean"] <= 0:
+                return False, (f"{metric} improvement vs {label} not established "
+                               f"by paired date-block CI ({ci['low']:.4f}, {ci['high']:.4f})")
+    return True, "M3 beats M0 and M2 on both proper scores with paired day-block CIs"
 
 
 def build_fit_report(rows_raw: list[dict], l2: float, force: bool) -> dict:
