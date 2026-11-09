@@ -42,7 +42,7 @@ SCHEMA = "nfl_2024_weekly_expanding_training_after_results_v1"
 TRAIN_END = "2024-01-01"
 EXTENDED_BOUNDARY = date(2025, 2, 1)
 BASE = "pickem_runs/2024_hybrid_activezero_pre2024_numpy2_clean_v3"
-MARKETS = ("p_over", "p_over_hurdle", "p_over_player_prior", "p_over_static_player")
+MARKETS = ("p_over", "p_over_hurdle", "p_over_no_refit", "p_over_player_prior", "p_over_static_player")
 MODEL_FILES = {
     "pass_attempts": "pass_attempts.ubj",
     "rush_attempts": "rush_attempts.ubj",
@@ -385,15 +385,26 @@ def forecast_one_week(state,static_state,context,index,base_index,
     set_forecast_asof(week_start)
     for fixture in fixtures:
         home,away=fixture["home_team"],fixture["away_team"]
-        means={t:teamxgb.project(fitted,index,t,opp,home=(t==home),week=int(fixture["week"]))
+        # The old teamxgb.project hardcodes the original cutoff as its
+        # feature clock. A weekly replay MUST use the pre-slate date.
+        def projection(models,idx,t,opp):
+            x=teamxgb.features(idx,t,opp,asof=week_start,
+                    home=(t==home),week=int(fixture["week"]))
+            return {m:max(.5,float(models[m].predict(x.reshape(1,-1))[0]))
+                    for m in teamxgb.TARGETS}
+        means={t:projection(fitted,index,t,opp)
                for t,opp in ((home,away),(away,home))}
-        frozen_means={t:teamxgb.project(frozen_fitted,base_index,t,opp,
-                 home=(t==home),week=int(fixture["week"]))
+        frozen_means={t:projection(frozen_fitted,base_index,t,opp)
                for t,opp in ((home,away),(away,home))}
         k={t:dispersions for t in (home,away)}
         pure,_=hybrid.summarize_game(state,fixture,means,k,draws=draws)
         h,_=hybrid.summarize_game(state,fixture,means,k,draws=draws,
                  active_zero_model=zhurdle,hurdle_context=context)
+        frozen_parameters,_=hybrid.summarize_game(
+                 state,fixture,frozen_means,k,draws=draws,
+                 active_zero_model=static_hurdle,hurdle_context=context)
+        by_frozen={(r["player_id"],r["market"]):r
+                   for r in frozen_parameters}
         by={(r["player_id"],r["market"]):r for r in h}
         if len(by)!=len(pure):
             raise RuntimeError("weekly_hurdle_candidate_universe_mismatch")
@@ -401,7 +412,10 @@ def forecast_one_week(state,static_state,context,index,base_index,
             ident=(q["player_id"],q["market"])
             if ident not in by:
                 raise RuntimeError("weekly_hurdle_prop_mismatch")
+            if ident not in by_frozen:
+                raise RuntimeError("frozen_parameter_counterfactual_universe_mismatch")
             q["p_over_hurdle"]=by[ident]["p_over"]
+            q["p_over_no_refit"]=by_frozen[ident]["p_over"]
             q["p_zero_active_hurdle_simulated"]=by[ident]["p_zero_active_simulated"]
             # Non-updating 2023 player prior on exactly the SAME week's
             # synthetic line. Missing static player means abstention.
