@@ -97,6 +97,23 @@ class JobsHelperTests(unittest.TestCase):
         )
         self.assertEqual(row["player_id"], "8470001")
 
+    def test_original_book_times_from_matching_market_quote_only(self):
+        books = [{"book": "Pinnacle", "line": 2.5, "target": -115,
+                  "other": -105, "book_side": "over"}]
+        source = [{"book": "Pinnacle", "line": 2.5,
+                   "over_odds": -115, "under_odds": -105,
+                   "event_id": "evt-1",
+                   "retrieved_at": "2026-10-22T15:50:00Z"}]
+        receipt = jobs.original_book_receipts(books, source, event_id="evt-1")
+        self.assertEqual(receipt[0]["retrieved_at"], "2026-10-22T15:50:00Z")
+        self.assertEqual(receipt[0]["over"], -115)
+        self.assertEqual(jobs.original_book_receipts(
+            books, source, event_id="evt-2")[0]["retrieved_at"], None)
+        mixed = source + [{**source[0],
+                           "retrieved_at": "2026-10-22T15:55:00Z"}]
+        self.assertIsNone(jobs.original_book_receipts(
+            books, mixed, event_id="evt-1")[0]["retrieved_at"])
+
     def test_preliminary_production_retains_original_verified_book_prices(self):
         books = [{"book": "Pinnacle", "line": 2.5,
                   "over": -110, "under": -110,
