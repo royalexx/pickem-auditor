@@ -1,0 +1,8 @@
+{
+  "schema": "pickem_training_pause_v1",
+  "paused": true,
+  "requested_date": "2026-11-08",
+  "reason": "User-directed pause of Bayesian/NUTS training during model reform",
+  "resume_requires_explicit_user_approval": true,
+  "preserve_existing_posteriors_and_checkpoints": true
+}
