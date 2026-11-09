@@ -7,8 +7,8 @@ import json
 import math
 import random
 import sys
-from collections import defaultdict
-from datetime import date
+from collections import Counter, defaultdict
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -16,6 +16,7 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 import pickem_math as pm
+import point_in_time_provenance as pit
 
 try:
     import numpy as np  # type: ignore
@@ -25,10 +26,13 @@ except ImportError:
     np = None  # type: ignore
     _HAS_NUMPY = False
 
-CODE_VERSION = "pickem-auditor-fit_blend/1"
+CODE_VERSION = "pickem-auditor-fit_blend/4"
 MIN_SETTLED = 300
 MIN_STAT_SPLIT = 100
 BOOTSTRAP_SAMPLES = 500
+MIN_BOOTSTRAP_DATES = 20
+MIN_TRAIN_DATES = 20
+MIN_OOF_ROWS = 100
 RELIABILITY_BINS = 10
 PROB_EPS = 1e-6
 DEFAULT_L2 = 1.0
@@ -63,14 +67,15 @@ def clip_prob(p: float) -> float:
 def brier_score(pairs: list[tuple[float, int]]) -> float | None:
     if not pairs:
         return None
-    return sum((p - y) ** 2 for p, y in pairs) / len(pairs)
+    return sum((pair[0] - pair[1]) ** 2 for pair in pairs) / len(pairs)
 
 
 def log_loss(pairs: list[tuple[float, int]]) -> float | None:
     if not pairs:
         return None
     total = 0.0
-    for prob, label in pairs:
+    for pair in pairs:
+        prob, label = pair[:2]
         p = clip_prob(prob)
         total += -(label * math.log(p) + (1 - label) * math.log(1.0 - p))
     return total / len(pairs)
@@ -93,7 +98,8 @@ def pearson(xs: list[float], ys: list[float]) -> float | None:
 def reliability_bins(pairs: list[tuple[float, int]], n_bins: int = RELIABILITY_BINS) -> list[dict]:
     width = 1.0 / n_bins
     buckets: list[list[tuple[float, int]]] = [[] for _ in range(n_bins)]
-    for prob, label in pairs:
+    for pair in pairs:
+        prob, label = pair[:2]
         idx = min(n_bins - 1, int(prob / width))
         if prob >= 1.0:
             idx = n_bins - 1
@@ -357,19 +363,54 @@ def outcome_label(row: dict) -> int | None:
     return None
 
 
+def contract_key(row: dict) -> tuple[str, ...]:
+    """Exact contract; normalize numeric line formatting without losing zero."""
+    event = row.get("event_id") or row.get("matchup")
+    player = row.get("player_id") or row.get("player")
+    line = row.get("reference_line")
+    if line is not None and not isinstance(line, bool):
+        try:
+            numeric = float(line)
+            if math.isfinite(numeric):
+                line = format(numeric, ".15g")
+        except (TypeError, ValueError, OverflowError):
+            pass
+    return tuple("" if value is None else str(value) for value in (
+        row.get("sport"), row.get("game_date"),
+        row.get("event_id_namespace"), event, player,
+        row.get("team"), row.get("opponent"),
+        row.get("stat"), row.get("side"), line))
+
+
+def _pregame_stamp(row: dict):
+    """Comparable ISO timestamp or None. Unverifiable rows remain diagnostic."""
+    try:
+        value = row.get("forecast_at")
+        if not isinstance(value, str):
+            return None
+        stamp = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        return stamp.astimezone(timezone.utc) if stamp.tzinfo else None
+    except (ValueError, TypeError, OverflowError):
+        return None
+
+
 def dedupe_settled(rows: list[dict]) -> list[dict]:
+    """Earliest archived forecast per exact line, never best later outcome.
+
+    Without a verifiable timestamp the first archived version is retained;
+    such rows cannot certify a new market blend.
+    """
     by_side: dict[tuple, dict] = {}
     for row in rows:
         if outcome_label(row) is None:
             continue
-        key = (
-            str(row.get("game_date") or ""),
-            str(row.get("player") or "").casefold(),
-            str(row.get("stat") or "").casefold(),
-            str(row.get("side") or "").casefold(),
-        )
+        key = contract_key(row)
         prev = by_side.get(key)
-        if prev is None or str(row.get("settled_at") or "") > str(prev.get("settled_at") or ""):
+        if prev is None:
+            by_side[key] = row
+            continue
+        previous_at, current_at = _pregame_stamp(prev), _pregame_stamp(row)
+        if current_at is not None and (previous_at is None or current_at < previous_at):
             by_side[key] = row
     return list(by_side.values())
 
@@ -401,6 +442,7 @@ def enrich_row(row: dict) -> dict | None:
         features["logit_qB"] = logit(q_b)
     out = {
         "game_date": str(row.get("game_date") or ""),
+        "contract_id": contract_key(row),
         "stat": str(row.get("stat") or ""),
         "label": label,
         "qA": q_a,
@@ -513,11 +555,12 @@ def walk_forward(
     oof: dict[str, list[tuple[float, int]]] = {model: [] for model in models}
     last_weights: dict[str, dict[str, float] | None] = {model: None for model in models}
     for index, test_date in enumerate(dates):
-        if index == 0:
+        # Early folds with only a few prior games cannot certify a blend.
+        if index < MIN_TRAIN_DATES:
             continue
         train = [row for row in rows if row["game_date"] < test_date]
         test = [row for row in rows if row["game_date"] == test_date]
-        if not train or not test:
+        if len(train) < MIN_SETTLED or not test:
             continue
         for model_id in models:
             if model_id == "M0":
@@ -549,44 +592,57 @@ def walk_forward(
                 prob = predict_model(model_id, row, fitted)
                 if prob is None:
                     continue
-                oof[model_id].append((prob, row["label"]))
+                oof[model_id].append((prob, row["label"], row["game_date"], row["contract_id"]))
     return oof, last_weights
 
 
 def bootstrap_ci(
-    pairs_a: list[tuple[float, int]],
-    pairs_b: list[tuple[float, int]],
+    pairs_a: list[tuple],
+    pairs_b: list[tuple],
     metric: str,
     samples: int = BOOTSTRAP_SAMPLES,
     seed: int = 42,
 ) -> dict | None:
-    if len(pairs_a) != len(pairs_b) or not pairs_a:
+    """Paired day-block bootstrap; never treat correlated prop rows as IID.
+
+    Each prediction must carry (probability, outcome, game_date, contract_id).
+    We require matched contract identities and >=20 independent dates before
+    a 95% interval may authorize a blend. Missing provenance fails closed.
+    """
+    if len(pairs_a) != len(pairs_b) or not pairs_a or samples < 100:
         return None
+    groups: dict[str, list[int]] = defaultdict(list)
+    seen_contracts: set[tuple] = set()
+    for i, (a, b) in enumerate(zip(pairs_a, pairs_b)):
+        if (len(a) != 4 or len(b) != 4 or a[1:] != b[1:]
+                or not isinstance(a[2], str) or not a[2]
+                or not isinstance(a[3], tuple) or not any(a[3])):
+            return None
+        if a[3] in seen_contracts:
+            return None
+        seen_contracts.add(a[3])
+        groups[a[2]].append(i)
+    days = sorted(groups)
+    if len(days) < MIN_BOOTSTRAP_DATES:
+        return None
+    scorer = brier_score if metric == "brier" else log_loss if metric == "log_loss" else None
+    if scorer is None:
+        raise ValueError("unknown_bootstrap_metric")
     rng = random.Random(seed)
-    n = len(pairs_a)
     diffs = []
     for _ in range(samples):
-        idxs = [rng.randrange(n) for _ in range(n)]
-        sample_a = [pairs_a[i] for i in idxs]
-        sample_b = [pairs_b[i] for i in idxs]
-        if metric == "brier":
-            va = brier_score(sample_a)
-            vb = brier_score(sample_b)
-            if va is None or vb is None:
-                continue
-            diffs.append(va - vb)
-        else:
-            va = log_loss(sample_a)
-            vb = log_loss(sample_b)
-            if va is None or vb is None:
-                continue
-            diffs.append(va - vb)
-    if not diffs:
-        return None
+        selected = [i for day in rng.choices(days, k=len(days)) for i in groups[day]]
+        va = scorer([pairs_a[i] for i in selected])
+        vb = scorer([pairs_b[i] for i in selected])
+        if va is None or vb is None:
+            return None
+        diffs.append(va - vb)
     diffs.sort()
-    lo = diffs[int(0.025 * len(diffs))]
-    hi = diffs[int(0.975 * len(diffs))]
-    return {"low": lo, "high": hi, "mean": sum(diffs) / len(diffs)}
+    return {"low": diffs[int(.025 * samples)],
+            "high": diffs[int(.975 * samples)],
+            "mean": sum(diffs) / samples,
+            "independent_dates": len(days),
+            "method": "paired_date_block_bootstrap_v1"}
 
 
 def summarize_model(pairs: list[tuple[float, int]]) -> dict:
@@ -683,19 +739,28 @@ def should_emit_config(report: dict, oof: dict[str, list[tuple[float, int]]]) ->
         return False, f"n_settled={report.get('n_settled')} < {MIN_SETTLED}"
     if len(m3) != len(m0) or len(m3) != len(m2):
         return False, "M3/M0/M2 out-of-fold rows are not aligned"
+    if len(m3) < MIN_OOF_ROWS or len({p[2] for p in m3 if len(p) == 4}) < MIN_BOOTSTRAP_DATES:
+        return False, "insufficient independent chronological out-of-fold dates"
+    if report.get("point_in_time_verified", 0) != report.get("n_settled", 0):
+        return False, "historical_source_timing_not_fully_verified"
     for base, label in ((m0, "M0"), (m2, "M2")):
-        ci = bootstrap_ci(base, m3, "log_loss")
-        if ci is None:
-            return False, f"log_loss CI vs {label} unavailable"
-        if ci["low"] <= 0 <= ci["high"]:
-            return False, f"log_loss improvement vs {label} CI includes 0 ({ci['low']:.4f}, {ci['high']:.4f})"
-        if ci["mean"] <= 0:
-            return False, f"M3 does not beat {label} on mean log_loss diff"
-    return True, "M3 beats M0 and M2 on log_loss with 95% CI excluding 0"
+        for metric in ("log_loss", "brier"):
+            ci = bootstrap_ci(base, m3, metric)
+            if ci is None:
+                return False, f"{metric} CI vs {label} unavailable or contract mismatch"
+            if ci["low"] <= 0 or ci["mean"] <= 0:
+                return False, (f"{metric} improvement vs {label} not established "
+                               f"by paired date-block CI ({ci['low']:.4f}, {ci['high']:.4f})")
+    return True, "M3 beats M0 and M2 on both proper scores with paired day-block CIs"
 
 
-def build_fit_report(rows_raw: list[dict], l2: float, force: bool) -> dict:
+def build_fit_report(rows_raw: list[dict], l2: float, force: bool,
+                     archive_root: Path | None = None) -> dict:
     enriched = [row for row in (enrich_row(row) for row in rows_raw) if row is not None]
+    provenance = [pit.blend_snapshot_status(row["raw"], archive_root=archive_root)
+                  for row in enriched]
+    verified = sum(ok for ok, _reason in provenance)
+    reasons = dict(Counter(reason for ok, reason in provenance if not ok))
     with_b = [row for row in enriched if not row["abstain_b"] and "logit_qB" in row["features"]]
     abstain = [row for row in enriched if row["abstain_b"]]
 
@@ -707,7 +772,8 @@ def build_fit_report(rows_raw: list[dict], l2: float, force: bool) -> dict:
 
     n_settled = len(enriched)
     underpowered = n_settled < MIN_SETTLED
-    include_weights = (not underpowered) or force
+    source_verified = n_settled > 0 and verified == n_settled
+    include_weights = (not underpowered and source_verified) or force
 
     def cohort_block(rows: list[dict], models: tuple[str, ...], oof: dict) -> dict:
         model_reports = {}
@@ -720,6 +786,8 @@ def build_fit_report(rows_raw: list[dict], l2: float, force: bool) -> dict:
         weights = fit_final_weights(rows, models, l2) if include_weights else None
         if underpowered and force and weights is not None:
             stamp = "UNDERPOWERED"
+        elif not source_verified and force and weights is not None:
+            stamp = "UNVERIFIED_PREGAME_SOURCE_NOT_DEPLOYABLE"
         else:
             stamp = None
         return {
@@ -736,6 +804,11 @@ def build_fit_report(rows_raw: list[dict], l2: float, force: bool) -> dict:
         "n_settled": n_settled,
         "underpowered": underpowered,
         "weights_included": include_weights,
+        "point_in_time_verified": verified,
+        "point_in_time_missing_or_invalid": n_settled - verified,
+        "point_in_time_rejection_reasons": reasons,
+        "source_archive_root_present": archive_root is not None,
+        "source_provenance_requirement": "actual_source_bytes_sha256_and_pregame_timestamps",
         "ab_diagnostics": ab_diagnostics(with_b),
         "cohorts": {
             "with_b": cohort_block(with_b, cohort_with_b_models, oof_with_b),
@@ -784,6 +857,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--force", action="store_true", help="Emit weights when n < 300 (UNDERPOWERED)")
     parser.add_argument("--emit-config", action="store_true", help="Write config/blend_weights.json when M3 wins")
     parser.add_argument("--config-path", default=str(DEFAULT_BLEND_WEIGHTS_PATH))
+    parser.add_argument("--archive-root", type=Path, help="Root containing immutable source receipts' relative archive files")
     args = parser.parse_args(argv)
 
     try:
@@ -802,12 +876,13 @@ def main(argv: list[str] | None = None) -> int:
         print(f"UNDERPOWERED: no settled outcomes; diagnostic written {out}")
         return 2
 
-    report, oof_with_b = build_fit_report(rows, l2=args.l2, force=args.force)
+    report, oof_with_b = build_fit_report(
+        rows, l2=args.l2, force=args.force, archive_root=args.archive_root)
 
     if not report["weights_included"]:
         print(
-            f"ERROR: n_settled={report['n_settled']} < {MIN_SETTLED}; "
-            "refusing weights (use --force to stamp UNDERPOWERED)",
+            f"ERROR: settled={report['n_settled']} source_verified={report['point_in_time_verified']}; "
+            "refusing unverified/underpowered weights (use --force for research only)",
             file=sys.stderr,
         )
 

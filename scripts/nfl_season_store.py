@@ -76,13 +76,26 @@ def distribution(counts):
     return {k:ratio(counts.get(k,0),total) for k in BUCKETS}
 
 
+def utc_stamp(value, label):
+    """Reject local/naive timestamps; never silently assume a timezone."""
+    if not isinstance(value, str):
+        raise ValueError('missing_'+label+'_timestamp')
+    try:
+        stamp = datetime.fromisoformat(value.replace('Z', '+00:00'))
+    except ValueError as exc:
+        raise ValueError('invalid_'+label+'_timestamp') from exc
+    if stamp.tzinfo is None or stamp.utcoffset() is None:
+        raise ValueError('naive_'+label+'_timestamp')
+    return stamp.astimezone(timezone.utc)
+
+
 def completed_catalog(games, season, as_of):
     """Only earlier-day completed regular-season games. Same-day games wait.
 
     Avoid treating a partial game feed as completed history. The slate date is a
     hard exclusion even if the schedule has a postgame score in a replay fixture.
     """
-    cutoff=datetime.fromisoformat(as_of.replace('Z','+00:00')).astimezone(ZoneInfo('America/Toronto')).date().isoformat()
+    cutoff=utc_stamp(as_of,'catalog').astimezone(ZoneInfo('America/Toronto')).date().isoformat()
     found={}
     for g in games:
         day=str(g.get('gameday') or g.get('game_date') or '')[:10]
@@ -133,6 +146,7 @@ class SeasonStore:
                 seen_chart_payloads[(gid,pid)]=row
                 db.execute('INSERT OR REPLACE INTO charting VALUES (?,?,?,?)',(season,gid,pid,json.dumps(row,allow_nan=False)))
             meta=dict(version=VERSION,season=season,as_of=as_of,retrieved_at=retrieved_at or as_of,
+                      retrieval_provenance='observed_capture' if retrieved_at is not None else 'assumed_as_of_unverified',
                       source_urls=[PBP_SOURCE,FTN_SOURCE],read_dictionary=DICTIONARY,
                       read_mapping=READ_MAP,charting_available=charting is not None,
                       games=len(catalog),plays=len(seen),charted_plays=len(seen_chart),
@@ -147,7 +161,15 @@ class SeasonStore:
             meta=db.execute('SELECT payload FROM metadata WHERE season=?',(season,)).fetchone()
             if meta is None:raise ValueError('season not stored')
             meta=json.loads(meta[0])
-            if datetime.fromisoformat(meta['as_of'].replace('Z','+00:00'))>datetime.fromisoformat(as_of.replace('Z','+00:00')):raise ValueError('store snapshot is newer than evaluation; use an as-of snapshot')
+            evaluation=utc_stamp(as_of,'evaluation')
+            snapshot_asof=utc_stamp(meta.get('as_of'),'snapshot')
+            source_retrieved=utc_stamp(meta.get('retrieved_at'),'retrieval')
+            if snapshot_asof>evaluation:
+                raise ValueError('store snapshot is newer than evaluation; use an as-of snapshot')
+            # A post-hoc source refresh must never be silently presented as
+            # a true pregame archive even if older game rows were filtered.
+            if source_retrieved>evaluation:
+                raise ValueError('source_retrieved_after_evaluation')
             plays=[json.loads(x[0]) for x in db.execute('SELECT payload FROM plays WHERE season=? ORDER BY game_id,play_id',(season,))]
             chart={(x[0],x[1]):json.loads(x[2]) for x in db.execute('SELECT game_id,play_id,payload FROM charting WHERE season=?',(season,))}
         return build_profiles(plays,chart,meta)
@@ -279,7 +301,11 @@ def refresh_live(path,season,as_of,loader=None):
     error=None
     try:charting=rows('load_ftn_charting')
     except Exception as exc:charting=None;error=f'{type(exc).__name__}: {exc}'
-    meta=SeasonStore(path).refresh(season,pbp,charting,games,as_of=as_of)
+    # The caller's as-of is a historical content cutoff, not proof of when
+    # this bulk feed actually arrived. Record the actual post-fetch time.
+    capture_completed_at=datetime.now(timezone.utc).isoformat()
+    meta=SeasonStore(path).refresh(season,pbp,charting,games,as_of=as_of,
+                                  retrieved_at=capture_completed_at)
     return dict(metadata=meta,charting_error=error)
 
 

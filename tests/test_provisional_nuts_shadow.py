@@ -113,11 +113,14 @@ class ProvisionalSafetyTests(unittest.TestCase):
              "forecast_at":at.isoformat(),"event_start":(at+timedelta(hours=2)).isoformat(),
              "team":"NE","opponent":"BUF","home_team":"NE","away_team":"BUF",
              "matchup_orientation_verified":True,"run_id":"test"}
+        # Pin inference completion to the *original pregame test instant*.
+        # Using real wall-clock time makes this historical fixture post-kickoff.
         with patch.object(shadow.parent,"candidate_context",
                           return_value={"player_id":"GSIS1","opponent":"BUF","season":"2026",
                                         "home":True,"line":25.5}), patch.object(
             shadow,"provisional_forecast",return_value={
-                "q_over":.65,"q_under":.35,"q_push":0.0}):
+                "q_over":.65,"q_under":.35,"q_push":0.0}), patch.object(shadow, "datetime") as clock:
+            clock.now.return_value = at + timedelta(seconds=1)
             result=shadow.forecast_one(row,manifest,None,at,asset)
         self.assertEqual(result["status"],"forecast")
         self.assertAlmostEqual(result["q_win"],.65)

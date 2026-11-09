@@ -45,7 +45,7 @@ def profiles():
     games,plays,chart=dataset()
     with tempfile.TemporaryDirectory() as d:
         store=ns.SeasonStore(Path(d)/'season.sqlite3')
-        store.refresh(2026,plays,chart,games,as_of=STAMP)
+        store.refresh(2026,plays,chart,games,as_of=STAMP,retrieved_at=STAMP)
         return store.profiles(2026,as_of=STAMP)
 
 
@@ -80,6 +80,41 @@ class SeasonStoreTests(unittest.TestCase):
             p=store.profiles(2026,as_of=STAMP)
             self.assertEqual(p['passers']['A|Q']['throws'],16)
             with self.assertRaises(ValueError):store.profiles(2026,as_of='2026-10-01T00:00:00+00:00')
+
+    def test_replayed_profile_rejects_post_forecast_retrieval(self):
+        games, plays, chart = dataset()
+        with tempfile.TemporaryDirectory() as d:
+            store = ns.SeasonStore(Path(d) / 'season.sqlite3')
+            # The source is refreshed after the historical prediction cutoff.
+            store.refresh(2026, plays, chart, games, as_of=STAMP,
+                          retrieved_at='2026-10-27T12:00:00+00:00')
+            with self.assertRaisesRegex(ValueError, 'source_retrieved_after_evaluation'):
+                store.profiles(2026, as_of=STAMP)
+            self.assertEqual(
+                store.profiles(2026, as_of='2026-10-28T12:00:00+00:00')
+                     ['passers']['A|Q']['throws'], 16)
+
+    def test_replayed_profile_rejects_naive_retrieval_timestamp(self):
+        games, plays, chart = dataset()
+        with tempfile.TemporaryDirectory() as d:
+            store = ns.SeasonStore(Path(d) / 'season.sqlite3')
+            store.refresh(2026, plays, chart, games, as_of=STAMP,
+                          retrieved_at='2026-10-26T12:00:00')
+            with self.assertRaisesRegex(ValueError, 'naive_retrieval_timestamp'):
+                store.profiles(2026, as_of=STAMP)
+
+    def test_live_opportunity_requires_observed_source_retrieval(self):
+        p = profiles()
+        ctx = ns.candidate_context(p, "D", "R", "M")
+        self.assertEqual(ctx["metadata"]["retrieval_provenance"], "observed_capture")
+        ctx["metadata"]["retrieval_provenance"] = "assumed_as_of_unverified"
+        with self.assertRaisesRegex(ValueError, "season_source_retrieval_unverified"):
+            no.project(dict(mode="tackles", expected_defensive_plays=60), ctx, {}, now=NOW)
+
+    def test_replay_rejects_naive_cutoff(self):
+        games, _plays, _chart = dataset()
+        with self.assertRaisesRegex(ValueError, "naive_catalog_timestamp"):
+            ns.completed_catalog(games, 2026, "2026-10-26T12:00:00")
 
     def test_unknown_reads_are_not_coverage_wins(self):
         games,plays,chart=dataset();chart=[]

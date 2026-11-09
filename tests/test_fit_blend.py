@@ -5,6 +5,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 SKILL_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SKILL_DIR / "scripts"))
@@ -171,6 +172,103 @@ class FitBlendMathTests(unittest.TestCase):
         self.assertIsNotNone(q_hi)
         self.assertIsNotNone(q_lo)
         self.assertNotAlmostEqual(q_hi, q_lo, places=3)
+
+
+class FitBlendClusterBootstrapTests(unittest.TestCase):
+    def test_one_slate_cannot_certify_a_blend(self):
+        a = [(0.5, 1, "2026-01-01", (str(i),)) for i in range(400)]
+        b = [(0.9, 1, "2026-01-01", (str(i),)) for i in range(400)]
+        self.assertIsNone(fb.bootstrap_ci(a, b, "log_loss"))
+
+    def test_mismatched_contract_identity_fails_closed(self):
+        a = [(0.5, 1, f"2026-01-{d + 1:02d}", (str(d),))
+             for d in range(20)]
+        b = [(0.6, 1, p[2], ("different-" + str(i),))
+             for i, p in enumerate(a)]
+        self.assertIsNone(fb.bootstrap_ci(a, b, "brier"))
+
+    def test_date_block_interval_reflects_correlated_slates(self):
+        baseline, challenger = [], []
+        for day in range(20):
+            date = f"2026-01-{day + 1:02d}"
+            # Ten props on one slate share the same forecast error direction.
+            # Repeating each slate ten times must not create 200 IID games.
+            for player in range(10):
+                ident = (date, str(player))
+                baseline.append((0.5, 1, date, ident))
+                challenger.append((0.8 if day < 10 else 0.2, 1, date, ident))
+        result = fb.bootstrap_ci(baseline, challenger, "brier")
+        self.assertIsNotNone(result)
+        self.assertEqual(result["independent_dates"], 20)
+        self.assertLess(result["low"], 0)
+        self.assertGreater(result["high"], 0)
+        self.assertEqual(result["method"], "paired_date_block_bootstrap_v1")
+
+    def test_300_rows_on_ten_dates_cannot_promote(self):
+        rows = _synthetic_cohort(n_dates=10, rows_per_date=40, b_mode="useful")
+        report, oof = fb.build_fit_report(rows, l2=0.5, force=False)
+        self.assertGreaterEqual(report["n_settled"], fb.MIN_SETTLED)
+        ok, reason = fb.should_emit_config(report, oof)
+        self.assertFalse(ok)
+        self.assertIn("independent chronological", reason)
+
+
+class FitBlendReleaseGatesTests(unittest.TestCase):
+    def test_deduplication_keeps_separate_lines_and_earliest_forecast(self):
+        original = _snapshot_row(1, "2026-01-01", 0.6, 0.6, 0.5, 1)
+        original["forecast_at"] = "2026-01-01T12:00:00+00:00"
+        later = dict(original)
+        later["forecast_at"] = "2026-01-01T13:00:00+00:00"
+        later["engine_a"] = {"mean": 4.8, "q_win": 0.99, "q_push": 0.0}
+        separate_line = dict(original)
+        separate_line["reference_line"] = 5.5
+        result = fb.dedupe_settled([later, separate_line, original])
+        self.assertEqual(len(result), 2)
+        chosen = next(p for p in result if p["reference_line"] == 4.5)
+        self.assertEqual(chosen["engine_a"]["q_win"], 0.6)
+
+    def test_zero_line_is_not_a_missing_line(self):
+        original = _snapshot_row(1, "2026-01-01", 0.6, 0.6, 0.5, 1)
+        original["reference_line"] = 0.0
+        missing = dict(original)
+        missing.pop("reference_line")
+        self.assertNotEqual(fb.contract_key(original), fb.contract_key(missing))
+        self.assertEqual(fb.contract_key(original)[-1], "0")
+        formatted = dict(original)
+        formatted["reference_line"] = "0.00"
+        self.assertEqual(fb.contract_key(original), fb.contract_key(formatted))
+
+    def test_early_walk_forward_folds_are_excluded(self):
+        rows = _synthetic_cohort(n_dates=25, rows_per_date=16, b_mode="useful")
+        enriched = [fb.enrich_row(row) for row in rows]
+        oof, _ = fb.walk_forward(enriched, ("M0", "M2", "M3"), l2=1.0)
+        self.assertTrue(oof["M3"])
+        self.assertTrue(all(date >= "2026-01-21" for p, y, date, key in oof["M3"]))
+        self.assertEqual(len(oof["M3"]), 5 * 16)
+
+    def test_adequate_row_count_without_source_archive_remains_unverified(self):
+        rows = _synthetic_cohort(n_dates=25, rows_per_date=16, b_mode="useful")
+        report, _ = fb.build_fit_report(rows, l2=0.5, force=False)
+        self.assertEqual(report["n_settled"], 400)
+        self.assertFalse(report["weights_included"])
+        self.assertEqual(report["point_in_time_verified"], 0)
+        self.assertEqual(report["point_in_time_missing_or_invalid"], 400)
+        self.assertIn("missing_or_imprecise_timestamp:forecast_at",
+                      report["point_in_time_rejection_reasons"])
+
+    def test_release_rejects_brier_degradation_even_if_logloss_improves(self):
+        pairs = [(0.5, 1, f"2026-01-{d + 1:02d}", (d, i))
+                 for d in range(20) for i in range(6)]
+        oof = {"M0": pairs, "M2": pairs, "M3": pairs}
+        report = {"n_settled": 400, "point_in_time_verified": 400}
+        def ci(a, b, metric):
+            return ({"low": 0.02, "high": 0.04, "mean": 0.03}
+                    if metric == "log_loss" else
+                    {"low": -0.03, "high": 0.04, "mean": 0.01})
+        with patch.object(fb, "bootstrap_ci", side_effect=ci):
+            ok, reason = fb.should_emit_config(report, oof)
+        self.assertFalse(ok)
+        self.assertIn("brier", reason)
 
 
 class BlendWeightsVersionTests(unittest.TestCase):

@@ -140,8 +140,12 @@ class MachineReviewTests(unittest.TestCase):
             self.assertTrue(decision["machine_review"]["independent_live_refetch"])
             self.assertTrue(decision["engine_a_reliable"],decision["blockers"])
             self.assertTrue(decision["engine_b_reliable"],decision["blockers"])
-            self.assertIsInstance(decision["verified_model_probability"],float)
-            self.assertTrue(0 <= decision["verified_model_probability"] <= 1)
+            # This fixture has real A/B evidence but no eligible frozen
+            # historical-consensus sidecars. A numerical production win
+            # probability must not be fabricated from A/B alone.
+            self.assertIsNone(decision["verified_model_probability"])
+            self.assertFalse(decision["publication_eligible"])
+            self.assertTrue(decision["blockers"])
             # A genuinely non-qualifying numeric grade remains blocked; no
             # synthetic probability or Tier label is injected into Engine A/B.
             if not decision["publication_eligible"]:
