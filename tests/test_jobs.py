@@ -65,6 +65,38 @@ class JobsHelperTests(unittest.TestCase):
         self.assertEqual(jobs.shadow_run_id("2026-10-22"), jobs.shadow_run_id("2026-10-22"))
         self.assertNotEqual(jobs.shadow_run_id("2026-10-22"), jobs.shadow_run_id("2026-10-23"))
 
+    def test_exact_market_quote_event_id_is_kept_without_guessing(self):
+        row = {
+            "sport": "NHL", "game_date": "2026-10-22",
+            "player": "Example Skater", "player_id": 8470001,
+            "team": "BOS", "opponent": "TOR", "stat": "shots on goal",
+            "suggested_dist": "poisson", "baseline_window_mean": 3.0,
+            "baseline_n": 20, "season_n": 25, "recent_mean": 3.2,
+            "recent_n": 5,
+        }
+        prices = [_quote(), _quote(book="FanDuel")]
+        candidate = fs_mod.prepare_pipeline([row], prices,
+                                            now="2026-10-22T16:05:00Z")
+        self.assertTrue(candidate)
+        self.assertTrue(all(x["event_id"] == "evt-1" for x in candidate))
+        conflicting = [_quote(), _quote(book="FanDuel", event_id="evt-2")]
+        candidates = fs_mod.prepare_pipeline([row], conflicting,
+                                             now="2026-10-22T16:05:00Z")
+        self.assertTrue(candidates)
+        self.assertTrue(all(x["event_id"] is None for x in candidates))
+
+    def test_original_numeric_nhl_player_id_is_string_in_frozen_snapshot(self):
+        row = jobs.pipeline_to_snapshot(
+            {"project": {}, "grade": {}, "market": {}, "engine_b": {"abstain": True}},
+            meta={"game_date": "2026-10-22", "sport": "NHL",
+                  "player": "Example Skater", "player_id": 8470001,
+                  "stat": "shots on goal", "matchup": "BOS vs TOR"},
+            run_id=jobs.shadow_run_id("2026-10-22"),
+            run_at="2026-10-22 10:00 ET",
+            candidate={"line": 2.5, "side": "over", "dist": "poisson"},
+        )
+        self.assertEqual(row["player_id"], "8470001")
+
     def test_enrich_pipeline_copies_reads_fields(self):
         slate = {
             "sport": "NFL",
