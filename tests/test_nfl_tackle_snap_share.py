@@ -234,6 +234,54 @@ class TackleOpportunityTest(unittest.TestCase):
     def setUp(self):
         self.history=sn.normalize_bundles(fixture())
 
+    def test_combined_tackles_not_solo_enters_step6_training_and_lines(self):
+        # Verify the actual normalized population source feeding Step 6,
+        # rather than just trusting the 'tackles + assists' market label.
+        import population_nfl as original_source
+        schedule=[{"game_id":"2025_01_BUF_BAL","season":2025,"week":1,
+                   "game_type":"REG","gameday":"2025-09-07",
+                   "away_team":"BUF","home_team":"BAL"}]
+        weekly=[{"season":2025,"week":1,"season_type":"REG","team":"BUF",
+                 "position":"LB","player_id":"defender-1",
+                 "player_display_name":"Alex Defender","opponent_team":"BAL",
+                 "def_tackles_solo":4,"def_tackles_with_assist":2,
+                 "def_tackle_assists":1,"def_qb_hits":0,"def_pass_defended":0}]
+        snaps=[{"game_id":"2025_01_BUF_BAL","season":2025,"week":1,
+                "game_type":"REG","team":"BUF","player":"Alex Defender",
+                "defense_snaps":59,"offense_snaps":0}]
+        rows,_=original_source.normalize_season(
+            weekly,snaps,schedule,2025,cutoff="2025-09-08")
+        stat={r["stat"]:r["value"] for r in rows}
+        self.assertEqual(stat["solo tackles"],4)
+        self.assertEqual(stat["tackle assists"],1)
+        self.assertEqual(stat["tackles + assists"],7)  # 4 + 2 + 1, not 4
+        self.assertEqual(stat["tackles + assists"]-stat["solo tackles"],3)
+        from datetime import timedelta
+        kickoff=game_time(0)
+        bundle={"schema":"nfl-context-data-v1",
+                "availability_policy":"retrospective_start_plus_18h",
+                "source_digest":"source-2025-combined-tackles",
+                "teams":[{"game_id":"2025_01_BUF_BAL","team":"BUF","opponent":"BAL",
+                          "plays":65},
+                         {"game_id":"2025_01_BUF_BAL","team":"BAL","opponent":"BUF",
+                          "plays":65}],
+                "players":[{**r,"start_time":kickoff.isoformat(),
+                            "available_at":(kickoff+timedelta(hours=18)).isoformat()}
+                           for r in rows if r["stat"]=="tackles + assists"]}
+        result=sn.normalize_bundles([bundle])
+        self.assertEqual(len(result["rows"]),1)
+        defender=result["rows"][0]
+        self.assertEqual(defender["tackles_assists"],7)
+        self.assertEqual(defender["player_defensive_snaps"],59)
+        self.assertAlmostEqual(defender["tackles_assists"]/defender["player_defensive_snaps"],7/59)
+        # A source lacking an assist component cannot be treated as an
+        # authentic combined-tackle observation.
+        missing=copy.deepcopy(weekly)
+        missing[0].pop("def_tackle_assists")
+        bad,_=original_source.normalize_season(
+            missing,snaps,schedule,2025,cutoff="2025-09-08")
+        self.assertNotIn("tackles + assists",{r["stat"] for r in bad})
+
     def test_separates_snap_share_and_per_snap_tackle_rate(self):
         result=sn.predict(**future_args(self.history))
         self.assertEqual(result["status"],"research_forecast")
