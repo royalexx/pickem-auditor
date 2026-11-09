@@ -227,6 +227,14 @@ class FitBlendReleaseGatesTests(unittest.TestCase):
         chosen = next(p for p in result if p["reference_line"] == 4.5)
         self.assertEqual(chosen["engine_a"]["q_win"], 0.6)
 
+    def test_zero_line_is_not_a_missing_line(self):
+        original = _snapshot_row(1, "2026-01-01", 0.6, 0.6, 0.5, 1)
+        original["reference_line"] = 0.0
+        missing = dict(original)
+        missing.pop("reference_line")
+        self.assertNotEqual(fb.contract_key(original), fb.contract_key(missing))
+        self.assertEqual(fb.contract_key(original)[-1], "0")
+
     def test_early_walk_forward_folds_are_excluded(self):
         rows = _synthetic_cohort(n_dates=25, rows_per_date=16, b_mode="useful")
         enriched = [fb.enrich_row(row) for row in rows]
