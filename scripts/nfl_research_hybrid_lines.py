@@ -59,7 +59,7 @@ def hybrid_research_line(state, *, market, player_id, position, game_day):
     if any(date.fromisoformat(r["gameday"])>=cutoff for r in previous):
         raise ValueError("hybrid_line_future_or_current_week_leak")
     values=[float(r["value"]) for r in previous[-10:]]
-    if any(v<0 or not math.isfinite(v) for v in values):
+    if any(not math.isfinite(v) for v in values) or (\n        market not in {"rushing yards", "passing yards", "receiving yards"}\n        and any(v<0 for v in values)):
         raise ValueError("invalid_hybrid_line_history")
     n=len(values)
     m5=float(median(values[-5:])) if n else None
@@ -69,8 +69,10 @@ def hybrid_research_line(state, *, market, player_id, position, game_day):
     wr=1.-w5-w10
     raw=w5*(m5 if m5 is not None else 0.)+w10*(
         m10 if m10 is not None else 0.)+wr*prior
-    if not math.isfinite(raw) or raw<0:
+    if not math.isfinite(raw):
         raise ValueError("nonfinite_hybrid_line")
+    # Negative yardage is legitimate. A prop research line cannot be negative.
+    raw=max(0.,raw)
     line=math.floor(raw)+.5
     return line, {
       "method":"player_last5_last10_role_v1" if n else "role_prior_only_v1",
