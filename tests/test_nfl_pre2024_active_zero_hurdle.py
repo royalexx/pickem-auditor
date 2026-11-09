@@ -85,22 +85,36 @@ class ZeroHurdleTests(unittest.TestCase):
     self.assertAlmostEqual(avg,(.70+.70+.30)/3)
  def test_stale_2022_presence_not_recent_for_2024(self):
     x=state()
-    context={"participation":{"player_dropback_presence":{"P":[
+    context={"participation":{"provenance":{
+       "2023_ftn_participation_used":False,"actual_routes_run_available":False},
+       "player_dropback_presence":{"P":[
        {"gameday":"2022-12-01","dropback_presence_rate":.30}]}}}
     f=hz.features(x,context,market="targets",pid="P",position="WR",
        team="A",opponent="B",asof="2024-01-01")
     self.assertEqual(float(f[hz.FEATURE_NAMES.index("dropback_proxy_available")]),0.)
     self.assertTrue(math.isnan(float(f[hz.FEATURE_NAMES.index("dropback_presence_last3")])))
  def test_personnel11_signal_without_unverified_future(self):
-    x=state()
-    context={"participation":{"offense_11_personnel":{"B":[
-      {"gameday":"2023-11-19","offense_11_personnel_share":.85},
-      {"gameday":"2023-11-26","offense_11_personnel_share":.85},
-      {"gameday":"2023-12-03","offense_11_personnel_share":.85}]}}}
+    x=state(year=2022)
+    context={"participation":{"provenance":{
+       "2023_ftn_participation_used":False,"actual_routes_run_available":False},
+       "offense_11_personnel":{"B":[
+      {"gameday":"2022-11-19","offense_11_personnel_share":.85},
+      {"gameday":"2022-11-26","offense_11_personnel_share":.85},
+      {"gameday":"2022-12-03","offense_11_personnel_share":.85}]}}}
     f=hz.features(x,context,market="targets",pid="P",position="WR",
-       team="A",opponent="B",asof="2023-12-12")
+       team="A",opponent="B",asof="2022-12-12")
     self.assertAlmostEqual(float(f[hz.FEATURE_NAMES.index("personnel11_opponent_last3")]),.85)
     self.assertEqual(float(f[hz.FEATURE_NAMES.index("personnel11_available")]),1.)
+ def test_unverified_participation_cannot_be_injected(self):
+    with self.assertRaisesRegex(ValueError,"unsafe_participation_provenance"):
+      hz.features(state(),{"participation":{"offense_11_personnel":{"B":[]}}},
+          market="targets",pid="P",position="WR",team="A",opponent="B",
+          asof="2024-01-01")
+ def test_wrong_team_prior_not_used(self):
+    x=state()
+    for row in x["player"][("targets","P")]:row["team"]="OLD"
+    self.assertIsNone(hz.features(x,{},market="targets",pid="P",
+        position="WR",team="A",opponent="B",asof="2024-01-01"))
  def test_injury_questionable_feature_not_claimed_emergency(self):
     x=state()
     context={"injuries":{("P",2023,14):{"gameday":"2023-12-10",
