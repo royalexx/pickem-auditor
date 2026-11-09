@@ -16,6 +16,7 @@ from collections import defaultdict
 
 import numpy as np
 import nfl_pre2024_team_defense_challenger as priors
+import nfl_pre2024_active_hurdle as hurdle
 from nfl_pre2024_pbp_ngs_sources import CUTOFF
 
 VERSION="xgboost_team_dirichlet_beta_nb_montecarlo_pre2024_v1"
@@ -112,6 +113,76 @@ def _alloc(rng,totals,alpha):
     return np.asarray([rng.multinomial(int(n),p) for n,p in zip(totals,ps)],
                        dtype=np.int32)
 
+def _hurdle_allocation(rng,totals,alpha,prob_positive):
+    """Joint, count-conserving positive/zero hurdle allocation.
+
+    A selected player's positive opportunity outcome is guaranteed >=1,
+    not sampled AGAIN from a zero-inclusive count model. Thus a structural
+    hurdle zero and the count distribution cannot both charge for the zero.
+    The unlisted-player category absorbs all unused team opportunities.
+    """
+    nplayers=len(prob_positive)
+    if len(alpha)!=nplayers+1:raise ValueError("hurdle_alpha_mismatch")
+    positive=np.asarray(prob_positive,dtype=float)
+    if np.any(~np.isfinite(positive)) or np.any((positive<0)|(positive>1)):
+        raise ValueError("invalid_hurdle_positive_probability")
+    totals=np.asarray(totals,dtype=int)
+    if np.any(totals<0):raise ValueError("negative_team_opportunities")
+    draws=len(totals)
+    alpha=np.asarray(alpha,dtype=float)
+    p=rng.dirichlet(alpha,size=draws)
+    data=np.zeros((draws,nplayers+1),dtype=np.int32)
+    for i,n in enumerate(totals):
+        if n==0:continue
+        selected=np.flatnonzero(rng.random(nplayers)<positive)
+        if len(selected)>n:
+            # If there are fewer pass/rush plays than selected players,
+            # select a feasible subset using each player's learned
+            # occurrence weight. No player may receive fractional plays.
+            chosen=rng.choice(selected,size=n,replace=False,
+                p=positive[selected]/positive[selected].sum())
+            selected=np.sort(chosen)
+        if len(selected):
+            data[i,selected]+=1
+        rem=int(n)-len(selected)
+        if rem:
+            q=p[i].copy()
+            inactive=np.ones(nplayers,dtype=bool)
+            inactive[selected]=False
+            q[:nplayers][inactive]=0.
+            q/=q.sum()
+            data[i]+=rng.multinomial(rem,q)
+    if not np.array_equal(data.sum(axis=1),totals):
+        raise RuntimeError("hurdle_conservation_invariant")
+    return data
+
+
+def _hurdle_p0(model,state,market,pid,pos,team,opponent):
+    if model is None:return None
+    value,metadata=hurdle.predict_zero(model,state,market,pid,pos,team,
+          opponent,asof=CUTOFF.isoformat())
+    if value is None:return None
+    return value
+
+
+def _positive_poisson(rng,rate,enabled):
+    """True zero-truncated Poisson conditional on Bernoulli positive gate."""
+    enabled=np.asarray(enabled,dtype=bool)
+    rate=np.asarray(rate,dtype=float)
+    if len(enabled)!=len(rate):raise ValueError("gate_rate_size_mismatch")
+    z=np.zeros(len(enabled),dtype=int)
+    todo=np.flatnonzero(enabled)
+    # Conditional-on-positive Poisson via inverse CDF, with stable ppf at
+    # very small rates. A disabled gate always emits exactly zero.
+    if len(todo):
+        from scipy.stats import poisson
+        mu=np.maximum(.0001,rate[todo])
+        p0=np.exp(-mu)
+        u=rng.random(len(todo))
+        z[todo]=np.maximum(1,poisson.ppf(p0+u*(1.-p0),mu).astype(int))
+    return z
+
+
 def _beta_catch(state,pid,team):
     targets=_history(state,"targets",pid,team)
     caught=_history(state,"receptions",pid,team)
@@ -141,15 +212,21 @@ def _store(out,team,pid,pos,market,draws):
     if np.any(~np.isfinite(val)):raise ValueError("nonfinite_monte_carlo_draw")
     out[k]={"position":pos,"samples":val}
 
-def _simulate_offense(rng,out,state,team,roster,passmu,rushmu,pass_k,rush_k,draws):
+def _simulate_offense(rng,out,state,team,opponent,roster,passmu,rushmu,pass_k,rush_k,draws,*,hurdle_model=None):
     attempts=_sample_nb(rng,passmu,pass_k,draws)
     rushes=_sample_nb(rng,rushmu,rush_k,draws)
 
     receivers=_eligible(state,team,roster,"targets")
     if receivers:
-        t_alloc=_alloc(rng,attempts,
-                       _dirichlet_share([p[2] for p in receivers],
-                       _historical_team_total(state,team,"pass_attempts",33.)))
+        alpha=_dirichlet_share([p[2] for p in receivers],
+                       _historical_team_total(state,team,"pass_attempts",33.))
+        target_positive=[_hurdle_p0(hurdle_model,state,"targets",pid,pos,
+                                    team,opponent)
+                         for pid,pos,_,_ in receivers]
+        t_alloc=(_hurdle_allocation(rng,attempts,alpha,
+                 [1.-v if v is not None else .5 for v in target_positive])
+                 if hurdle_model is not None
+                 else _alloc(rng,attempts,alpha))
         recv_yards=np.zeros(draws,dtype=float)
         ncompletions=np.zeros(draws,dtype=int)
         for j,(pid,pos,expected,_) in enumerate(receivers):
@@ -199,9 +276,14 @@ def _simulate_offense(rng,out,state,team,roster,passmu,rushmu,pass_k,rush_k,draw
             remaining_att-=take
     backs=_eligible(state,team,roster,"carries")
     if backs:
-        carries=_alloc(rng,rushes,
-                       _dirichlet_share([p[2] for p in backs],
-                       _historical_team_total(state,team,"rush_attempts",26.)))
+        alpha=_dirichlet_share([p[2] for p in backs],
+                         _historical_team_total(state,team,"rush_attempts",26.))
+        carry_zero=[_hurdle_p0(hurdle_model,state,"carries",pid,pos,team,opponent)
+                    for pid,pos,_,_ in backs]
+        carries=(_hurdle_allocation(rng,rushes,alpha,
+             [1.-v if v is not None else .5 for v in carry_zero])
+             if hurdle_model is not None
+             else _alloc(rng,rushes,alpha))
         for j,(pid,pos,_,_) in enumerate(backs):
             n=carries[:,j]
             ypc=_per_carry_yards(state,pid,team)
@@ -211,7 +293,7 @@ def _simulate_offense(rng,out,state,team,roster,passmu,rushmu,pass_k,rush_k,draw
             _store(out,team,pid,pos,"rushing yards",yards)
     return attempts,rushes
 
-def _simulate_defense(rng,out,state,team,roster,opponent_plays,draws):
+def _simulate_defense(rng,out,state,team,opponent,roster,opponent_plays,draws,*,hurdle_model=None):
     # Official tackles+assists may include a separate assisted-tackle credit,
     # so total != solo + tackle_assists in the underlying NFL source. Model
     # the aggregate total first, and allocate its mutually compatible pieces.
@@ -228,7 +310,15 @@ def _simulate_defense(rng,out,state,team,roster,opponent_plays,draws):
         mu=.82*t+.18*priors.MARKET_BASE_PRIOR["tackles + assists"]
         gamma=rng.gamma(shape=DEFENSIVE_OPPORTUNITY_DISPERSION,
                         scale=1./DEFENSIVE_OPPORTUNITY_DISPERSION,size=draws)
-        total=rng.poisson(np.maximum(0.,mu*(opponent_plays/62.)*gamma))
+        expected=np.maximum(0.,mu*(opponent_plays/62.)*gamma)
+        pzero=_hurdle_p0(hurdle_model,state,"tackles + assists",pid,pos,
+                             team,opponent)
+        if hurdle_model is not None and pzero is not None:
+            # P0 is decided once; zero-truncated count conditional >0.
+            gated=(rng.random(draws)<(1.-pzero))&(opponent_plays>0)
+            total=_positive_poisson(rng,expected,gated)
+        else:
+            total=rng.poisson(expected)
         qsolo=min(.95,max(.05,(so+.4)/(max(t,so+a)+1.2)))
         solo=rng.binomial(total,qsolo)
         qassist=min(.95,max(.02,(a+.2)/(max(t,so+a)+1.2)))
@@ -241,7 +331,7 @@ def _simulate_defense(rng,out,state,team,roster,opponent_plays,draws):
         _store(out,team,pid,pos,"tackle assists",assists)
         _store(out,team,pid,pos,"tackles + assists",total)
 
-def simulate_game(state,fixture,team_volumes,team_dispersions,*,draws=2000,seed=20261109):
+def simulate_game(state,fixture,team_volumes,team_dispersions,*,draws=2000,seed=20261109,hurdle_model=None):
     """Returns joint samples. Seeded for repeatability; no 2024 update."""
     if not 100<=int(draws)<=100000:raise ValueError("simulation_draw_count")
     _pre2024_only(state)
@@ -258,13 +348,15 @@ def simulate_game(state,fixture,team_volumes,team_dispersions,*,draws=2000,seed=
     team_plays={}
     for t in (home,away):
         mu=team_volumes[t];k=team_dispersions[t]
-        pa,ru=_simulate_offense(rng,samples,state,t,roster[t],
+        opp=(away if t==home else home)
+        pa,ru=_simulate_offense(rng,samples,state,t,opp,roster[t],
            float(mu["pass_attempts"]),float(mu["rush_attempts"]),
-           float(k["pass_attempts"]),float(k["rush_attempts"]),int(draws))
+           float(k["pass_attempts"]),float(k["rush_attempts"]),int(draws),
+           hurdle_model=hurdle_model)
         team_plays[t]=pa+ru
     for team,opp in ((home,away),(away,home)):
-        _simulate_defense(rng,samples,state,team,roster[team],
-                          team_plays[opp],int(draws))
+        _simulate_defense(rng,samples,state,team,opp,roster[team],
+                          team_plays[opp],int(draws),hurdle_model=hurdle_model)
     if not samples:return {},{"status":"no_pre2024_eligible_player_histories"}
     return samples,{"status":"frozen_pre2024_posterior_predictive",
         "game_id":gid,"draws":int(draws),"rng_seed":int(seed),"team": {
@@ -274,11 +366,13 @@ def simulate_game(state,fixture,team_volumes,team_dispersions,*,draws=2000,seed=
           for t in (home,away)},
         "family":"NB_team_Dirichlet_multinomial_Beta_Binomial_Gamma_Poisson",
         "ftn_2024_pulled_archive_excluded":True,
-        "2024_training_data_used":False,"sportsbook_offer_verified":False}
+        "2024_training_data_used":False,"sportsbook_offer_verified":False,
+        "hurdle_model_used":hurdle_model is not None,
+        "hurdle_zero_outcomes_conditioned_on_prior_observed_snaps":True}
 
-def summarize_game(state,fixture,team_volumes,team_dispersions,*,draws=2000,seed=20261109):
+def summarize_game(state,fixture,team_volumes,team_dispersions,*,draws=2000,seed=20261109,hurdle_model=None):
     samples,receipt=simulate_game(state,fixture,team_volumes,team_dispersions,
-                                 draws=draws,seed=seed)
+                                 draws=draws,seed=seed,hurdle_model=hurdle_model)
     forecasts=[]
     for (team,pid,market),record in sorted(samples.items()):
         pos=record["position"]
@@ -296,5 +390,6 @@ def summarize_game(state,fixture,team_volumes,team_dispersions,*,draws=2000,seed
             "p10":float(np.quantile(vals,.10)),"p90":float(np.quantile(vals,.90)),
             "draws":int(draws),"model_asof":"2024-01-01",
             "training_data_from_2024":False,
-            "roster_2024_verified":False,"bookmaker_quote_verified":False})
+            "roster_2024_verified":False,"bookmaker_quote_verified":False,
+            "hurdle_shadow":hurdle_model is not None})
     return forecasts,receipt
