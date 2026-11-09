@@ -15,6 +15,7 @@ import math
 from pathlib import Path
 from urllib.parse import urlparse
 
+from nfl_volume_market_policy import nfl_volume_market_allowed
 from research_triage import latest_batch
 from usage_baseline import key as usage_key, local_day, validate_rows
 
@@ -153,6 +154,8 @@ def _score(consensus, floor, edge_pp, spread, history):
 
 
 def candidate(row, comparison, *, data_root):
+    if not nfl_volume_market_allowed(row.get("sport"),row.get("stat")):
+        return None, "nfl_market_excluded_volume_only_policy"
     if (comparison.get("production_consensus_available") is not True
             or row.get("reason") not in RESEARCH_REASONS
             or not (row.get("engine_a") or {}).get("reliable")
