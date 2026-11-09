@@ -234,6 +234,51 @@ class TackleOpportunityTest(unittest.TestCase):
     def setUp(self):
         self.history=sn.normalize_bundles(fixture())
 
+    def test_step6_raw_weekly_combined_tackles_includes_both_assist_components(self):
+        # Regression across the actual raw nflverse population normalizer
+        # and the Step 6 challenger: this must NEVER degrade to solo-only.
+        import population_nfl as population
+        import nfl_stat_definitions as definitions
+        schedule=[{"game_id":"2025_01_BUF_MIA","season":2025,"week":1,
+                   "game_type":"REG","gameday":"2025-09-07",
+                   "away_team":"BUF","home_team":"MIA"}]
+        weekly={"season":2025,"week":1,"season_type":"REG","team":"BUF",
+                "position":"LB","player_id":"lb1","player_display_name":"Alex Defender",
+                "opponent_team":"MIA",
+                "def_tackles_solo":4.,"def_tackles_with_assist":2.,
+                "def_tackle_assists":1.}
+        snaps=[{"game_id":"2025_01_BUF_MIA","season":2025,"week":1,
+                "game_type":"REG","team":"BUF","player":"Alex Defender",
+                "defense_snaps":60.,"offense_snaps":0.}]
+        normalized,counts=population.normalize_season([weekly],snaps,schedule,
+                                                        2025,cutoff="2025-09-08")
+        strict=definitions.strict_source_stat(weekly,"tackles + assists")
+        self.assertEqual(strict.value,7)
+        selected=[r for r in normalized if r["stat"]=="tackles + assists"]
+        self.assertEqual(len(selected),1)
+        self.assertEqual(selected[0]["value"],7)
+        self.assertNotEqual(selected[0]["value"],weekly["def_tackles_solo"])
+        event_start="2025-09-07T17:00:00+00:00"
+        available="2025-09-08T11:00:00+00:00"
+        player={**selected[0],"start_time":event_start,"available_at":available}
+        bundle={"schema":"nfl-context-data-v1","availability_policy":"retrospective_start_plus_18h",
+                "source_digest":"verified_population_fixture",
+                "teams":[
+                    {"game_id":"2025_01_BUF_MIA","team":"BUF","opponent":"MIA","plays":65},
+                    {"game_id":"2025_01_BUF_MIA","team":"MIA","opponent":"BUF","plays":65}],
+                "players":[player]}
+        history=sn.normalize_bundles([bundle])
+        self.assertEqual(len(history["rows"]),1)
+        self.assertEqual(history["rows"][0]["tackles_assists"],7)
+        self.assertAlmostEqual(history["rows"][0]["tackles_assists"]/
+                               history["rows"][0]["player_defensive_snaps"],7/60)
+        modified={**weekly,"def_tackles_with_assist":0.,"def_tackle_assists":0.}
+        reduced,_=population.normalize_season([modified],snaps,schedule,
+                                                2025,cutoff="2025-09-08")
+        solo_only=next(r for r in reduced if r["stat"]=="tackles + assists")
+        self.assertEqual(solo_only["value"],4)
+        self.assertEqual(selected[0]["value"]-solo_only["value"],3)
+
     def test_separates_snap_share_and_per_snap_tackle_rate(self):
         result=sn.predict(**future_args(self.history))
         self.assertEqual(result["status"],"research_forecast")
