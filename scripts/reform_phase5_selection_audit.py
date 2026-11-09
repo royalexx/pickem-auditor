@@ -15,7 +15,7 @@ import json
 import math
 from pathlib import Path
 
-from reform_phase4_scorecard import load_nfl_slate, read_json, contract_key
+from reform_phase4_scorecard import load_nfl_slate, read_json, contract_key, stamp
 
 REASONS={"STATUS_NOT_VERIFIED","VENUE_OR_FORECAST_UNVERIFIED",
          "CONTEXT_UNRESOLVED","RESEARCH_UNVERIFIED",
@@ -47,6 +47,9 @@ def rebuild_pool(frozen, reviews):
     if (comparison.get("schema")!="slate-model-comparison-v1"
             or evidence.get("schema")!="slate-full-universe-player-opponent-review-v1"):
         raise SelectionAuditError("wrong_immutable_comparison_or_review_schema")
+    if (evidence.get("run_id")!=comparison.get("metadata",{}).get("run_id")
+            or evidence.get("date")!=comparison.get("metadata",{}).get("day")):
+        raise SelectionAuditError("cross_run_or_cross_date_original_review")
     records=comparison["picks"]
     evidence_rows=evidence["reviews"]
     if len(records)!=len(evidence_rows) or evidence.get("contracts_reviewed")!=len(records):
@@ -60,6 +63,8 @@ def rebuild_pool(frozen, reviews):
     candidates=[]
     for r in records:
         ident=identity(r)
+        if stamp(r.get("forecast_at"))>=stamp(r.get("event_start")):
+            raise SelectionAuditError("poststart_forecast_in_frozen_ranking")
         v=by_id.pop(ident,None)
         if v is None or r.get("block_reason")!=v.get("original_block_reason"):
             raise SelectionAuditError("unmatched_frozen_review_identity")
@@ -163,6 +168,7 @@ def audit(*,frozen,review,board,settlement,pinned):
     candidate_pool,excluded,total=rebuild_pool(frozen,review)
     original,board_sha=read_json(board)
     if (original.get("schema")!="slate-evidence-priority-v1"
+            or original.get("date")!=read_json(frozen)[0]["metadata"]["day"]
             or original.get("full_universe_before_top10") is not True
             or original.get("ranking_not_a_probability") is not True
             or original.get("original_forecasts_unchanged") is not True
