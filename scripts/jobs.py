@@ -361,6 +361,11 @@ def pipeline_to_snapshot(
         "market": ({**market, "books": candidate.get("books")}
                    if isinstance(candidate.get("books"), list) else market),
     }
+    # Provider-backed IDs may be numeric (notably official NHL player IDs).
+    # Preserve their exact digits as a string for source-linked contract keys.
+    if (record.get("player_id") is not None and
+            not isinstance(record["player_id"], bool)):
+        record["player_id"] = str(record["player_id"])
     blend = result.get('blend') or {}
     if blend.get('production_policy'):
         # A is still visible as a component when consensus must abstain.
