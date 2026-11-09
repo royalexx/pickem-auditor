@@ -17,6 +17,7 @@ from datetime import date,datetime,timezone,timedelta
 import hashlib
 import json
 import math
+from statistics import median
 import os
 from pathlib import Path
 import subprocess
@@ -242,7 +243,7 @@ def prepare_packet(state,fixtures,week,season=2024):
                 values=global_values;method="global_market_median"
             else:
                 values=[];method="insufficient_pregame_line_history"
-            line=math.floor(sorted(values)[len(values)//2])+0.5 if values else None
+            line=math.floor(median(values))+0.5 if values else None
             candidates[market].append({
                 "player_id":player_id,"team":latest["team"],
                 "game_id":fixture["game_id"],"week":week,
