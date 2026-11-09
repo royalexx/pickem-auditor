@@ -81,6 +81,20 @@ class ScoringContracts(unittest.TestCase):
     def test_tied_side_abstains_from_directional_score(self):
         self.assertIsNone(scorecard.chosen(scorecard.source_model(.5,.5),"under"))
 
+    def test_one_slate_cannot_generate_date_level_confidence(self):
+        a=scorecard.chosen(scorecard.source_model(.7,.3),"over")
+        b=scorecard.chosen(scorecard.source_model(.55,.45),"over")
+        rows=[{"game_id":f"game{i}", "date":"2026-11-08",
+               "models":{"Consensus":a,"Market":b}} for i in range(9)]
+        by_date=scorecard.paired_cluster_interval(
+            rows,"Consensus","Market",cluster="date",minimum=20)
+        self.assertEqual(by_date["status"],"insufficient_independent_clusters")
+        self.assertEqual(by_date["independent_units"],1)
+        by_game=scorecard.paired_cluster_interval(
+            rows,"Consensus","Market",draws=100,minimum=8)
+        self.assertEqual(by_game["independent_units"],9)
+        self.assertIsNotNone(by_game["interval_95"]["brier"])
+
     def test_no_model_training_or_production_promotion(self):
         r={"sport":"NFL","stat":"tackles + assists","date":"2026-11-08",
            "game_id":"123","models":{"Engine_A":scorecard.chosen(scorecard.source_model(.9,.1),"under"),
