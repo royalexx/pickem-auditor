@@ -47,6 +47,7 @@ def summarize_participation(rows,schedule):
     team11=defaultdict(int)
     teamoffplays=defaultdict(int)
     player_db=defaultdict(int)
+    players_by_team=defaultdict(set)
     outgame={}
     seen=set()
     for r in rows:
@@ -72,6 +73,7 @@ def summarize_participation(rows,schedule):
         team_dropbacks[(gid,offense)]+=1
         for pid in player_ids(r.get("offense_players")):
             player_db[(gid,offense,pid)]+=1
+            players_by_team[(gid,offense)].add(pid)
         outgame[(gid,offense)]={
             "gameday":str(fixture["gameday"]),"season":int(fixture["season"]),
             "week":int(fixture["week"]), "team":offense,"opponent":opponent}
@@ -79,21 +81,21 @@ def summarize_participation(rows,schedule):
     for (gid,team),info in outgame.items():
         n=team_dropbacks[(gid,team)]
         if n<8:continue
-        for (a,b,pid),count in player_db.items():
-            if a!=gid or b!=team:continue
+        for pid in players_by_team[(gid,team)]:
+            count=player_db[(gid,team,pid)]
             byplayer[pid].append({**info,"dropback_presence_rate":count/n,
                "source":"2021_22_NGS_participation_not_routes"})
     for (gid,team),count in teamoffplays.items():
         if count<12:continue
         f=schedule[gid];opp=f["away_team"] if team==f["home_team"] else f["home_team"]
-        byopponent[opp].append({"gameday":str(f["gameday"]),
+        byopponent[team].append({"gameday":str(f["gameday"]),
            "offense_team":team,"opponent_defense":opp,
            "offense_11_personnel_share":team11[(gid,team)]/count,
            "source":"2021_22_NGS_participation_only"})
     for d in (byplayer,byopponent):
         for k in d:d[k].sort(key=lambda r:r["gameday"])
     return {"player_dropback_presence":dict(byplayer),
-            "opponent_11_personnel":dict(byopponent),
+            "offense_11_personnel":dict(byopponent),
             "provenance":{"source":"nflreadpy.load_participation(2021,2022)",
                "2023_ftn_participation_used":False,"actual_routes_run_available":False,
                "observations_after_2023":0}}
