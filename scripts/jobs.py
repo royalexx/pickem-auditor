@@ -457,6 +457,8 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                     candidate, result, data_root=Path(data_root or SKILL_ROOT / "data"),
                     archive_root=Path(data_root or SKILL_ROOT / "data") / "source_archives",
                     clock=clock_fn or (lambda: datetime.now(timezone.utc)),
+                    identity={key: meta.get(key) for key in
+                              ("sport", "player_id", "stat", "game_date")},
                 ))
             except (OSError, ValueError, KeyError, TypeError) as exc:
                 # Keep V1 immutable for comparison; never manufacture missing

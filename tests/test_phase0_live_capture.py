@@ -78,6 +78,27 @@ class LiveCaptureTests(unittest.TestCase):
                 row, archive_root=data / "source_archives")[1],
                 "source_archive_digest_mismatch")
 
+    def test_nba_candidate_with_no_sport_uses_verified_slate_identity(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            data, candidate = self.setup_inputs(Path(tmp))
+            candidate.pop("sport")
+            candidate["id"] = "NFL|Example|receptions|over"
+            result = {"engine_b": {"abstain": True},
+                      "market": {"market_valid": True, "line": 4.5}}
+            when = datetime(2026, 11, 9, 15, 0, tzinfo=timezone.utc)
+            evidence = capture(candidate, result, data_root=data,
+                               archive_root=data / "source_archives",
+                               clock=lambda: when,
+                               identity={"sport": "NFL", "player_id": "pid-1",
+                                         "stat": "receptions", "game_date": "2026-11-09"})
+            self.assertGreater(len(evidence["source_receipts"]), 2)
+            with self.assertRaisesRegex(ValueError, "identity_mismatch"):
+                capture(candidate, result, data_root=data,
+                        archive_root=data / "source_archives",
+                        clock=lambda: when,
+                        identity={"sport": "NHL", "player_id": "pid-1",
+                                  "stat": "receptions", "game_date": "2026-11-09"})
+
     def test_reject_future_usage_and_missing_original_market(self):
         with tempfile.TemporaryDirectory() as tmp:
             data, candidate = self.setup_inputs(Path(tmp))

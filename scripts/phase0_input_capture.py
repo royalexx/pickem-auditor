@@ -97,7 +97,7 @@ def _read_json(path):
     return raw, json.loads(raw)
 
 
-def capture(candidate, result, *, data_root, archive_root, clock):
+def capture(candidate, result, *, data_root, archive_root, clock, identity=None):
     """Capture exact inputs actually available at evaluation, not postgame sources.
 
     Failure returns no certification rather than manufacturing a timestamp or
@@ -110,8 +110,24 @@ def capture(candidate, result, *, data_root, archive_root, clock):
         raise ValueError("naive_capture_time")
     when = when.astimezone(timezone.utc)
     receipts = []
-    usage_ident = usage_key(candidate["sport"], candidate["player_id"],
-                            candidate["stat"], candidate["game_date"])
+    # Most NHL/NBA forecasting payloads intentionally omit the redundant
+    # sport field. Use the pre-matched, original slate identity rather than
+    # claiming it was included in the numerical engine inputs.
+    identity = identity or {}
+    sport = identity.get("sport") or candidate.get("sport")
+    player_id = identity.get("player_id") or candidate.get("player_id")
+    stat = identity.get("stat") or candidate.get("stat")
+    game_date = identity.get("game_date") or candidate.get("game_date")
+    candidate_id_sport = (str(candidate["id"]).split("|", 1)[0]
+                          if candidate.get("id") else None)
+    if (sport not in ("NBA", "NHL", "NFL") or not player_id or not stat
+            or not game_date or
+            (candidate_id_sport is not None and candidate_id_sport != sport) or
+            any(candidate.get(k) not in (None, v) for k, v in
+                (("sport", sport), ("player_id", player_id),
+                 ("stat", stat), ("game_date", game_date)))):
+        raise ValueError("original_slate_candidate_identity_mismatch")
+    usage_ident = usage_key(sport, player_id, stat, game_date)
     usage_path = root / "usage" / (usage_ident + ".json")
     usage_bytes, usage_doc = _read_json(usage_path)
     retrieved = utc(usage_doc.get("retrieved_at"))
