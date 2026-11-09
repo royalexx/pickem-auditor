@@ -139,6 +139,8 @@ def verified_status(report, *, forecast_at, game_id, team, teammate_id, archive_
                 or parse_stamp(raw.get("event_start"),"archived_teammate_event_start")!=
                    parse_stamp(report.get("event_start"),"reported_teammate_event_start")):
             raise TackleChallengerError("archived_teammate_status_identity_mismatch")
+    except TackleChallengerError:
+        raise
     except (OSError,UnicodeError,ValueError,TypeError,KeyError) as exc:
         raise TackleChallengerError("archived_teammate_status_unreadable_or_mismatched") from exc
     return report["status"],source_id
