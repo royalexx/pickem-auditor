@@ -127,7 +127,7 @@ def oracle_prepare(root, vault):
     for wk in range(1,19):
         this_fixtures = {gid:date for gid,date in allowed.items()
                          if gid_week[gid]==wk}
-        this_positions={str(r["player_id"]):str(r["position"])
+        this_positions={(str(r["game_id"]),str(r["player_id"])):str(r["position"])
               for r in week_obs[wk] if r["stat"]=="targets"}
         week_teams,week_cov = pbp_utils.aggregate_games(
              week_pbp[wk],this_fixtures,
