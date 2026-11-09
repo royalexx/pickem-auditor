@@ -297,6 +297,32 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
             shadow[key]=[r for r in rows if r.get("run_id")==selected_run]
     meta=source/"slate_fetch.meta.json"
     source_meta=json.loads(meta.read_text()) if phase=="afternoon" and meta.is_file() else None
+    # Retain already-collected, time-stamped same-book quotes in the identical
+    # immutable prospective packet as original predictions, not in a later
+    # reconstruction. Verify the normalized archive's SHA before publication.
+    market_quote_archive=[]
+    phase0_pregame_receipt=None
+    if phase=="afternoon":
+        from market_odds_archive import SCHEMA as ODDS_SCHEMA, digest as odds_digest
+        odds_folder=source/"market_odds_history"/game_date/"afternoon"
+        for odds_path in sorted(odds_folder.glob("*.json")):
+            archive_doc=json.loads(odds_path.read_text(encoding="utf-8"))
+            checksum=archive_doc.get("snapshot_sha256")
+            if (archive_doc.get("schema")!=ODDS_SCHEMA
+                    or archive_doc.get("date")!=game_date
+                    or archive_doc.get("phase")!="afternoon"
+                    or odds_digest({k:v for k,v in archive_doc.items()
+                                    if k!="snapshot_sha256"})!=checksum):
+                raise ValueError("invalid_original_market_quote_archive")
+            market_quote_archive.append(archive_doc)
+        evidence_path=root/"reports/phase0_pregame_provenance.json"
+        if evidence_path.is_file():
+            candidate=json.loads(evidence_path.read_text(encoding="utf-8"))
+            if (candidate.get("schema")=="pickem_phase0_pregame_provenance_v1"
+                    and candidate.get("game_date")==game_date
+                    and candidate.get("selected_run_id")==selected_run
+                    and candidate.get("publication_eligible") is False):
+                phase0_pregame_receipt=candidate
     raw_source_path=root/"data/live_pool_staging/raw"/(game_date+".json")
     raw_collected_sources=(json.loads(raw_source_path.read_text())
                            if phase=="morning" and raw_source_path.is_file() else {})
@@ -323,7 +349,10 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
          "forecasts":forecasts,"settlements":settlements,
          "population":observations,"population_collection_receipt":collection_receipt,"raw_completed_game_sources":raw_collected_sources,"nhl_completed_boxscores":raw_nhl,
          "source_slate":source_slate,"source_quotes":source_quotes,
-         "source_meta":source_meta,"shadow":shadow,
+         "source_meta":source_meta,
+         "market_quote_archive":market_quote_archive,
+         "phase0_pregame_receipt":phase0_pregame_receipt,
+         "shadow":shadow,
          "verification_state":"research_only; no retrospective model upgrades"}
     if phase=="afternoon" and any(
             (r.get("game_date")!=game_date for r in source_slate)):
