@@ -52,6 +52,49 @@ class SlateReportTests(unittest.TestCase):
         for change in ({'event_id':'other'},{'line':3.},{'retrieved_at':'2026-11-08T20:01:00Z'}):
             self.assertIsNone(report.build(row,{},[{**quote(),**change}])['Market'])
 
+    def test_nuts_shared_seed_ignores_side_specific_forecast_time(self):
+        over=fixture()
+        under={**over,"side":"under","forecast_at":"2026-11-08T20:00:00.123456Z"}
+        self.assertNotEqual(over["forecast_at"],under["forecast_at"])
+        self.assertEqual(nuts.shared_contract_seed(over),nuts.shared_contract_seed(under))
+        changed={**under,"opponent":"NYJ"}
+        self.assertNotEqual(nuts.shared_contract_seed(over),nuts.shared_contract_seed(changed))
+        changed={**under,"reference_line":2.5}
+        self.assertNotEqual(nuts.shared_contract_seed(over),nuts.shared_contract_seed(changed))
+
+    def test_invalid_nuts_pair_cannot_enter_production_or_rankings(self):
+        original=fixture()
+        over=report.build(original,{},[quote()])
+        under=copy.deepcopy(over)
+        under.update(side="under",forecast_at="2026-11-08T20:00:00.001Z")
+        for x,cp,n in ((over,.550,.550),(under,.449,.449)):
+            x["Consensus"]=cp;x["NUTS"]=n
+            x["models"]["Consensus"].update(probability=cp,status="forecast")
+            x["models"]["NUTS"].update(probability=n,status="forecast")
+            x["production_consensus_available"]=True
+            x["production_ensemble"]={"probability":cp,"q_win":cp,"q_push":0,
+                                      "q_loss":1-cp,"status":"forecast"}
+        got=report.enforce_paired_probability_integrity([over,under])
+        self.assertEqual(got["rejected_contracts"],1)
+        for row in (over,under):
+            self.assertIsNone(row["Consensus"])
+            self.assertIsNone(row["NUTS"])
+            self.assertIsNone(row["Consensus_gap_pp"])
+            self.assertFalse(row["production_consensus_available"])
+            self.assertEqual(row["production_ensemble"]["status"],"unavailable")
+            self.assertIn("NUTS",row["paired_probability_integrity"]["raw_probability_pairs"])
+
+    def test_valid_complementary_pairs_not_modified(self):
+        over=report.build(fixture(),{},[quote()])
+        under=copy.deepcopy(over)
+        under["side"]="under"
+        over["Consensus"],under["Consensus"]=.57,.43
+        over["NUTS"],under["NUTS"]=.67,.33
+        got=report.enforce_paired_probability_integrity([over,under])
+        self.assertEqual(got["rejected_contracts"],0)
+        self.assertEqual(over["Consensus"],.57)
+        self.assertEqual(under["NUTS"],.33)
+
     def test_conflicting_sidecars_fail_closed(self):
         row=fixture()
         with self.assertRaisesRegex(ValueError,'conflicting_model'):
