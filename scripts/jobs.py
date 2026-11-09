@@ -701,6 +701,31 @@ def run_snapshot(
         forecast_at=now.isoformat(), commence_index=commence_index,
         venue_index=venue_index_from_quotes(quotes),
     )
+    # Stage original per-book source clocks ONLY inside the scheduled job.
+    # Do not alter fetch_slate.prepare_pipeline's public numerical schema,
+    # which is also used directly by offline research and engine tests.
+    for prepared in pipeline_rows:
+        parsed = parse_pipeline_id(prepared.get("id"))
+        if not parsed:
+            continue
+        sport, player, stat, _side = parsed
+        source_row = slate_by_key.get((sport, player, stat))
+        if source_row is None:
+            continue
+        original_quotes = quotes_for_row(quotes, source_row)
+        try:
+            line = float(prepared.get("line"))
+            original_quotes = [q for q in original_quotes
+                               if q.get("line") is not None and
+                               float(q["line"]) == line]
+        except (TypeError, ValueError):
+            original_quotes = []
+        prepared["_phase0_market_quotes"] = [
+            {k: quote.get(k) for k in
+             ("book", "line", "over_odds", "under_odds",
+              "retrieved_at", "event_id")}
+            for quote in original_quotes
+        ]
     # The complete prepared candidate universe is evaluated before ranking.
     # Retain one receipt per input, including inputs that cannot be predicted.
     evaluated_contracts=[]
