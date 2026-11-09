@@ -517,7 +517,7 @@ def walk_forward(history, *, from_time, line=5.5, max_rows=10000,
         raise TackleChallengerError("position_line_policy_disallows_manual_threshold")
     history=index_research_history(history)
     allrows=history["rows"]
-    position_lines=(derive_frozen_position_lines(history,before=boundary)
+    position_lines=(derive_frozen_position_lines(history,before=boundary.isoformat())
                     if line_policy=="position_training_median_v1" else None)
     done=[];skipped=Counter();seen=set()
     for target in sorted(allrows,key=lambda r:(r["start_time"],r["game_id"],r["player_id"])):
