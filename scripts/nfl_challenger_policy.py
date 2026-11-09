@@ -28,9 +28,11 @@ def model_family(record):
         if isinstance(value,str) and value.strip():
             if value.strip() in UNSAFE_FAMILIES:
                 return value.strip()
-    nested=record.get("model")
-    if isinstance(nested,dict):
-        return model_family(nested)
+    for key in ("model","inputs","forecast","source_model"):
+        nested=record.get(key)
+        if isinstance(nested,dict):
+            family=model_family(nested)
+            if family:return family
     return None
 
 
