@@ -63,14 +63,27 @@ approximately 19.5-point confidence/realized-hit discrepancy in the slate.
   forecast timestamps, different seeds for different opponents and lines,
   fail-closed behavior and preservation of valid complementary pairs.
 
-**Code-level closure:** root cause established and preventable by these
-changes. **Operational acceptance:** generate a fresh pregame run using the
-pinned, eligible original posterior (inference only, no training), verify
-that both actual sides have identical `q_over/q_under/q_push`, that all
-consensus-over/under pairs sum to one, and that no disallowed NUTS sidecar
-is substituted. This acceptance requires actual posterior availability
-and future frozen pair receipts, not user-supplied guessed probabilities.
-Historical November 8 rows must never be overwritten.
+**Actual-posterior acceptance passed, without retraining.** The cached
+official NFL receptions joint NUTS posterior (336,264,670 bytes; manifest:
+four chains × 2,000 retained draws, diagnostics: R-hat 1.00986,
+minimum bulk ESS 460.39, zero divergences) was read with HDF5. The
+unchanged `joint_population_bayes.forecast` formula was evaluated twice
+on the same original Amon-Ra St. Brown receptions 6.5 contract, using
+different original Over and Under `forecast_at` values but the corrected
+contract-level seed. Both produced exactly the same `q_over`
+**0.4983248289428103**, `q_under` **0.5016751710571896**, and
+`q_push` **0**, total exactly **1.0**. The original archived paired NUTS
+conditional probabilities totaled **0.9897555945128014**. This is real
+posterior integration, not a refit, synthetic forecast, post hoc historical
+correction or statistical validation of market accuracy.
+
+**4a numerical defect can be marked repaired:** source bug traced, shared
+seed fixed, actual-posterior replay demonstrated, new paired report guard
+tested. **The only remaining operational acceptance** is to observe one
+fresh integrated pregame sidecar/report from this patched code with no
+noncomplementary pairs and no false production eligibility. The user
+does **not** need to supply odds, archives, restart training, or manually
+reproduce the NUTS run. Historical November 8 rows must never be overwritten.
 
 ## 5. Original top-k optimizer’s-curse audit
 
