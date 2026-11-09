@@ -113,6 +113,41 @@ It also shows why training-only population position lines are a better
 research control than 5.5-for-everyone but are insufficient to model actual
 player-specific pick'em markets.
 
+## Later predeclared cutoff sensitivity — 2025-11-01 (NOT independent)
+
+To inspect early-season sampling variability, the same unchanged rule was
+also frozen at **2025-11-01T00:00:00Z**, then evaluated on the remaining
+3,183 defender-game observations across 42 dates. This holdout is **nested
+within** October's holdout; treat it as a sensitivity analysis, not fresh
+out-of-sample proof or a second independent validation sample.
+
+| Research role | October-frozen line | November-frozen line | November pre-cutoff role observations |
+| --- | ---: | ---: | ---: |
+| Off-ball LB | 3.5 | 3.5 | 921 |
+| OLB, unclassified | 3.5 | 3.5 | 76 |
+| CB | 2.5 | **3.5** | 546 |
+| DE | 2.5 | 2.5 | 603 |
+| DT / NT | 2.5 | 2.5 | 705 |
+| DB, unclassified | 3.5 | 3.5 | 89 |
+| Safety | Unsupported | **4.5** | 52 |
+
+The safety line of **4.5** arose mechanically from its November training
+median of **4.0** and the half-integer rule; it was **not chosen** to
+match the user's illustrative example. The safety comparison had only
+39 heldout observations and a **worse** challenger Brier difference of
++0.00683. No player- or betting-grade safety prediction follows.
+
+The later-cutoff aggregate research Brier scores were **0.217663**
+challenger versus **0.220096** simple control, and log losses were
+**0.625173** versus **0.634490**. The date-block descriptive
+differences were -0.002433 Brier (95% interval
+[-0.004691, -0.000849]) and -0.009317 log loss (interval
+[-0.014849, -0.004491]). Off-ball LB (+0.00251 Brier) and
+OLB (+0.01643) still performed worse; the first-cutoff weaknesses
+were **not** resolved by changing training cutoff. Some lines changed,
+notably cornerbacks, because the early-season role population estimate
+was unstable. The data is not an archive of contemporaneous market lines.
+
 ## Reproducibility and promotion gates
 
 Read-only execution and original evidence:
