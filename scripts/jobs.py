@@ -446,7 +446,8 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
             mark("unavailable","invalid_pipeline_candidate_id")
             continue
         sport, player, stat, _side = parsed
-        if os.environ.get("PICKEM_PHASE0_CAPTURE") == "1":
+        if (os.environ.get("PICKEM_PHASE0_CAPTURE") == "1"
+                or os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1"):
             # Freeze exact collector-owned usage, candidate, research and
             # sportsbook bytes before recording a forecast timestamp.
             try:
