@@ -92,4 +92,45 @@ class NumericalProbabilityAudit(unittest.TestCase):
         self.assertEqual(line,8.5)
 
 
+class VerifiedOfferSafetyTests(unittest.TestCase):
+    def offer(self):
+        return dict(source_kind="bookmaker_quote",market_available=True,
+           player_active_asof=True,identity_verified=True,
+           player_id="P",game_id="G",market="tackles + assists",
+           bookmaker="book",quote_id="quote-123",source_sha256="a"*64,
+           kickoff="2024-09-08T18:00:00Z",quoted_at="2024-09-08T17:00:00Z",
+           roster_status_available_at="2024-09-08T16:00:00Z",
+           line=8.5,over_decimal_odds=1.91,under_decimal_odds=1.91)
+
+    def test_bookmaker_offer_validation_requires_quotes_and_availability(self):
+        from nfl_prop_offer_validation import validated_bookmaker_prop,OfferNotVerified
+        o=self.offer()
+        verified=validated_bookmaker_prop(o)
+        self.assertTrue(verified["availability_verified"])
+        self.assertEqual(verified["line_source"],"verified_bookmaker_quote")
+        for key,value in (("source_kind","hybrid_research"),("market_available",False),
+                          ("player_active_asof",False),("identity_verified",False),
+                          ("quoted_at","2024-09-09T01:00:00Z")):
+            with self.subTest(key=key):
+                z={**o,key:value}
+                with self.assertRaises(OfferNotVerified):validated_bookmaker_prop(z)
+
+    def test_market_selection_abstains_when_research_line_only(self):
+        from nfl_prop_offer_validation import rank_verified_props
+        p=dict(player_id="P",game_id="G",market="tackles + assists",
+            p_over=.99,p_under=.01,p_push=0.)
+        self.assertEqual(rank_verified_props([p]),[])
+        self.assertEqual(rank_verified_props([{**p,"offer":{
+            **self.offer(),"source_kind":"hybrid_research"}}]),[])
+
+    def test_verified_positive_ev_can_rank_but_no_fake_quota(self):
+        from nfl_prop_offer_validation import rank_verified_props
+        p=dict(player_id="P",game_id="G",market="tackles + assists",
+            p_over=.65,p_under=.35,p_push=0.,offer=self.offer())
+        chosen=rank_verified_props([p])
+        self.assertEqual(len(chosen),1)
+        self.assertEqual(chosen[0]["side"],"over")
+        self.assertGreater(chosen[0]["expected_value_per_unit"],0)
+
+
 if __name__=="__main__":unittest.main()
