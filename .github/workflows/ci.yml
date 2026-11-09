@@ -89,6 +89,9 @@ jobs:
         run: python -m unittest discover -s tests -q
 
   joint-bayes-nuts-smoke:
+    # User-directed Bayesian training pause during model reform.
+    # Re-enable only after explicit approval to resume sampling.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
