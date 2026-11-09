@@ -108,8 +108,12 @@ def features(state,context,*,market,pid,position,team,opponent,
  personnel,_,personnel_count=_recent(o_hist,"offense_11_personnel_share",day)
  injury_lookup=context.get("injuries") or {}
  inj=injury_lookup.get((str(pid),int(season),int(week))) if season is not None and week is not None else None
- if inj and _day(inj["date_modified"])>=day:
-  raise ValueError("injury_report_postdated_pregame_cutoff")
+ # Some nflverse injury rows refer to a different scheduled game or
+ # were modified after this subject's actual kickoff. Never use such a
+ # report as a pregame feature; treat it as missing, not as a zero bet.
+ if inj and (_day(inj["date_modified"])>=day
+             or (inj.get("team") not in (None,team))):
+  inj=None
  status=inj.get("status","") if inj else ""
  if status=="out":
   # An official Out designation contradicts confirmed active-game modeling;
