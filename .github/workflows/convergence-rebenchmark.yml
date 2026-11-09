@@ -32,6 +32,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Enforce user-directed NUTS training pause before costly work
+        shell: bash
+        run: |
+          if test -f .training-control/PAUSED.json; then
+            echo 'TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED' >&2
+            exit 1
+          fi
       - name: Restore EXACT original 93-fit historical commit
         env:
           SOURCE_SHA: cb3e26d8c251160dfecb2cb8cee312deeb3b5ed1
@@ -90,6 +97,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Enforce user-directed NUTS training pause before costly work
+        shell: bash
+        run: |
+          if test -f .training-control/PAUSED.json; then
+            echo 'TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED' >&2
+            exit 1
+          fi
       - name: Restore exactly the frozen source snapshot
         env:
           FROZEN_WAREHOUSE_SHA: ${{ needs.preflight.outputs.source_sha }}
