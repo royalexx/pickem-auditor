@@ -57,6 +57,12 @@ pass --features /path/to/feature_receipts.json with an object containing
 a features array. Every included feature requires exact frozen contract
 identity, verified status, an HTTPS source URL, source ID, published_at and
 retrieved_at **at or before the earliest over/under forecast timestamp**.
+The strengthened source contract also requires `observed_at`,
+`content_sha256` (64 lowercase hexadecimal characters), and `archive_path`.
+The archive path must be relative to the directory containing the `--features`
+JSON file; the validator rejects missing files, traversal, and changed bytes.
+Duplicate feature/source identities are rejected. An asserted timestamp or
+checksum alone does **not** establish historical availability.
 A missing feature simply isn't authorized as a contextual numerical effect.
 Never manufacture evidence or assume last week's status persists.
 
@@ -143,3 +149,70 @@ the read-only validator, adversarial unit suite and **real source SHA-pinned
 replay** all pass on a committed revision. Any missing pregame source
 evidence is reported explicitly as a gap; passing time integrity for the
 existing model sidecars does not establish future feature completeness.
+
+
+## Additional reform safeguards (Phase 1 completion)
+
+### NFL season profiles and replay
+
+The current-season `nfl_season_store.py` rejects timezone-naive as-of
+cutoffs and source retrievals after the evaluation time. A user-supplied
+`as_of` used as a content cutoff is explicitly distinguished from a
+captured `retrieved_at`; legacy snapshots that assume retrieval at as-of
+are tagged `assumed_as_of_unverified` and cannot enable the live
+`nfl_opportunity.project` adjustment. `refresh_live` captures the real
+post-fetch UTC retrieval time.
+
+The historical NFL context-training module still uses a documented
+start-plus-18-hours availability approximation, not provider publication
+receipts. It is not to be advertised as a fully point-in-time historical
+replay. Only genuinely archived pregame features may qualify as certified
+forecast comparisons.
+
+### Blend research confidence intervals
+
+`scripts/fit_blend.py` remains a research challenger, **not** the
+production consensus. It now:
+
+- deduplicates **exact player/event/stat/side/line contracts**, retaining
+  the earliest timestamped prediction instead of selecting a more favorable
+  later forecast;
+- excludes early walk-forward folds until the preceding training window
+  contains at least 300 settled rows across at least 20 dates;
+- uses aligned pairs and a paired **date-block bootstrap** (all picks on a
+  sampled date stay together, 500 resamples);
+- refuses a candidate when there are fewer than 100 scored out-of-fold
+  observations, fewer than 20 independent evaluation dates, a mismatched
+  contract, or duplicate contracts;
+- requires the lower 95% CI bound for **both** log-loss and Brier-score
+  improvement versus **both** M0 (market) and M2 (model + market) to exceed
+  zero before any research-config emission is considered;
+- requires original, timezone-aware forecast/event/settlement timestamps,
+  an explicit validated **same-line** market quote, source receipts for
+  the employed Engine A / B / Market components, and actual archived
+  source files whose bytes match each submitted SHA-256. Insufficient or
+  absent old archives remain `UNVERIFIED`—they are not backfilled.
+
+To provide source artifacts to the blend report, place immutable source
+files under an archive directory and pass `--archive-root <directory>`.
+Source receipts need `source_id`, `source_url`, `model_component`,
+`status=verified`, `observed_at`, `published_at`, `retrieved_at`,
+`content_sha256`, and a relative `archive_path`. A snapshot must list
+exactly the employed receipt IDs in `used_source_ids`. All raw source
+files must actually exist and match their hashes.
+
+**Historical source gaps cannot be repaired by claiming the old slate was
+replayed point-in-time.** Those remain explicit missing-data limitations.
+
+### Verification
+
+```bash
+python -m unittest discover -s tests -p 'test_point_in_time_provenance.py' -v
+python -m unittest discover -s tests -p 'test_directional_phase1_validation.py' -v
+python -m unittest discover -s tests -p 'test_nfl_season_store.py' -v
+python -m unittest discover -s tests -p 'test_fit_blend.py' -v
+```
+
+The full `ci.yml` offline test suite remains the release gate. Its
+`joint-bayes-nuts-smoke` job is deliberately disabled for the duration
+of the user's requested training pause, not counted as a green NUTS run.
