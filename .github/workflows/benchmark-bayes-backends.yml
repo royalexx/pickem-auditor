@@ -38,6 +38,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Enforce user-directed NUTS training pause before costly work
+        shell: bash
+        run: |
+          if test -f .training-control/PAUSED.json; then
+            echo 'TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED' >&2
+            exit 1
+          fi
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
