@@ -114,6 +114,21 @@ class TackleOpportunityTest(unittest.TestCase):
         self.assertNotEqual(sum(x["player_defensive_snaps"] for x in
                            self.history["rows"][:4]),65)
 
+    def test_chronological_prefix_index_matches_direct_prior_exactly(self):
+        direct=sn.predict(**future_args(self.history))
+        indexed_history=sn.index_research_history(self.history)
+        indexed=sn.predict(**future_args(indexed_history))
+        self.assertEqual(indexed["status"],direct["status"])
+        self.assertEqual(indexed["statistical_support"]["prior_player_game_ids"],
+                         direct["statistical_support"]["prior_player_game_ids"])
+        for key in ("estimated_defensive_snap_share",
+                    "estimated_credited_tackles_per_snap",
+                    "expected_tackles_assists",
+                    "team_play_rate_control_expected_tackles"):
+            self.assertAlmostEqual(indexed["projection_components"][key],
+                                   direct["projection_components"][key],places=10)
+        self.assertAlmostEqual(indexed["q_over"],direct["q_over"],places=10)
+
     def test_future_player_result_never_enters_prior(self):
         prior=sn.predict(**future_args(self.history))
         changed=copy.deepcopy(self.history)
