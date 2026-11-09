@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 import json
 from pathlib import Path
 
+from nfl_volume_market_policy import nfl_volume_market_allowed
 import pickem_math as pm
 from automated_scouting_review import evaluate as machine_review
 from mechanism_evidence import assess as assess_mechanism
@@ -107,6 +108,9 @@ def build(rows, queue, packet, date, *, now=None, decisions=(),
     reviewed = (reviews or {}).get("attestations") or []
     fresh_quotes = quotes
     for entry in research.get("research_ranked") or []:
+        if not nfl_volume_market_allowed(entry.get("sport"),entry.get("stat")):
+            rejected["nfl_market_excluded_volume_only_policy"] += 1
+            continue
         ident = entry["candidate_id"]
         row = source.get(ident)
         item = index.get(ident)
