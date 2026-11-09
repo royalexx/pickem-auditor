@@ -45,7 +45,7 @@ def rebuild_pool(frozen, reviews):
     comparison, _=read_json(frozen)
     evidence, _=read_json(reviews)
     if (comparison.get("schema")!="slate-model-comparison-v1"
-            or evidence.get("schema")!="slate-full-universe-research-v1"):
+            or evidence.get("schema")!="slate-full-universe-player-opponent-review-v1"):
         raise SelectionAuditError("wrong_immutable_comparison_or_review_schema")
     records=comparison["picks"]
     evidence_rows=evidence["reviews"]
