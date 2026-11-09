@@ -173,6 +173,45 @@ class FitBlendMathTests(unittest.TestCase):
         self.assertNotAlmostEqual(q_hi, q_lo, places=3)
 
 
+class FitBlendClusterBootstrapTests(unittest.TestCase):
+    def test_one_slate_cannot_certify_a_blend(self):
+        a = [(0.5, 1, "2026-01-01", (str(i),)) for i in range(400)]
+        b = [(0.9, 1, "2026-01-01", (str(i),)) for i in range(400)]
+        self.assertIsNone(fb.bootstrap_ci(a, b, "log_loss"))
+
+    def test_mismatched_contract_identity_fails_closed(self):
+        a = [(0.5, 1, f"2026-01-{d + 1:02d}", (str(d),))
+             for d in range(20)]
+        b = [(0.6, 1, p[2], ("different-" + str(i),))
+             for i, p in enumerate(a)]
+        self.assertIsNone(fb.bootstrap_ci(a, b, "brier"))
+
+    def test_date_block_interval_reflects_correlated_slates(self):
+        baseline, challenger = [], []
+        for day in range(20):
+            date = f"2026-01-{day + 1:02d}"
+            # Ten props on one slate share the same forecast error direction.
+            # Repeating each slate ten times must not create 200 IID games.
+            for player in range(10):
+                ident = (date, str(player))
+                baseline.append((0.5, 1, date, ident))
+                challenger.append((0.8 if day < 10 else 0.2, 1, date, ident))
+        result = fb.bootstrap_ci(baseline, challenger, "brier")
+        self.assertIsNotNone(result)
+        self.assertEqual(result["independent_dates"], 20)
+        self.assertLess(result["low"], 0)
+        self.assertGreater(result["high"], 0)
+        self.assertEqual(result["method"], "paired_date_block_bootstrap_v1")
+
+    def test_300_rows_on_ten_dates_cannot_promote(self):
+        rows = _synthetic_cohort(n_dates=10, rows_per_date=40, b_mode="useful")
+        report, oof = fb.build_fit_report(rows, l2=0.5, force=False)
+        self.assertGreaterEqual(report["n_settled"], fb.MIN_SETTLED)
+        ok, reason = fb.should_emit_config(report, oof)
+        self.assertFalse(ok)
+        self.assertIn("independent chronological", reason)
+
+
 class BlendWeightsVersionTests(unittest.TestCase):
     def test_snapshot_stamps_blend_weights_version(self):
         with tempfile.TemporaryDirectory() as folder:
