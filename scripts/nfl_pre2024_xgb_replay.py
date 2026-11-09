@@ -94,8 +94,12 @@ def pre2024_sources():
     if not source or not schedule:
         raise RuntimeError("no_pre2024_training_source")
     pbp_games=[];coverage_by_season={}
-    position={str(r["player_id"]):r["position"] for r in source
-                if r["stat"]=="targets"}
+    # IMPORTANT: a global player_id->position map leaks later-season
+    # position/eligibility metadata backward into earlier game PBP features.
+    # Qualify by original game_id so each historical team's RB target feature
+    # is constructed using ONLY receiver identity from that same settled game.
+    position={(str(r["game_id"]),str(r["player_id"])):r["position"]
+                for r in source if r["stat"]=="targets"}
     for year in TRAINING_SEASONS:
         pbp=nflreadpy.load_pbp(seasons=[year])
         import polars as pl
