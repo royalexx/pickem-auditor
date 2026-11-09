@@ -230,6 +230,36 @@ class TackleOpportunityTest(unittest.TestCase):
                 sn.predict(**future_args(self.history),teammate_id="mate",
                   teammate_report=prospective,historical_teammate_reports=prior,archive_root=d)
 
+    def test_sparse_walk_forward_returns_no_fabricated_confidence_interval(self):
+        walk=sn.walk_forward(self.history,from_time=game_time(10).isoformat())
+        result=sn.summarize_walk_forward(walk)
+        self.assertGreater(result["score"]["n"],0)
+        self.assertLess(result["n_dates"],20)
+        self.assertIsNone(result["interval_95"])
+        self.assertEqual(result["status"],"insufficient_independent_dates_for_promotion")
+        self.assertFalse(result["production_eligible"])
+
+    def test_same_cohort_baseline_and_challenger_and_date_bootstrap(self):
+        # Deterministic synthetic example used to exercise *statistics*,
+        # never to claim empirical NFL improvement.
+        import math
+        rows=[]
+        for i in range(20):
+            for player in range(6):
+                y=8 if (i+player)%3 else 3
+                rows.append({"date":(game_time(i).date().isoformat()),
+                             "actual":y,"q_over":.62,"baseline":{"q_over":.58}})
+        report={"schema":"nfl-tackle-walk-forward-research-v1",
+                "line":5.5,"line_source":"fixed_5_5_synthetic_research_not_market",
+                "rows":rows}
+        a=sn.summarize_walk_forward(report,bootstraps=100)
+        b=sn.summarize_walk_forward(report,bootstraps=100)
+        self.assertEqual(a,b)
+        self.assertEqual(a["score"]["n"],120)
+        self.assertEqual(a["n_dates"],20)
+        self.assertIsNotNone(a["interval_95"])
+        self.assertEqual(a["status"],"research_only_date_cluster_interval_not_production_calibration")
+
     def test_walk_forward_uses_fixed_prior_volume_not_actual_holdout_plays(self):
         result=sn.walk_forward(self.history,from_time=game_time(10).isoformat())
         self.assertGreater(result["n"],0)
