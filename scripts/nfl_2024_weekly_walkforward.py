@@ -445,7 +445,10 @@ def forecast_one_week(state,static_state,context,index,base_index,
                     for m in teamxgb.TARGETS}
         means={t:projection(fitted,index,t,opp)
                for t,opp in ((home,away),(away,home))}
-        frozen_means={t:projection(frozen_fitted,base_index,t,opp)
+        # True parameter-refit ablation: BOTH variants see the same
+        # already-revealed 2024 team context, player state and game line.
+        # Only the fitted XGBoost weights differ.
+        frozen_means={t:projection(frozen_fitted,index,t,opp)
                for t,opp in ((home,away),(away,home))}
         k={t:dispersions for t in (home,away)}
         pure,_=hybrid.summarize_game(state,fixture,means,k,draws=draws)
