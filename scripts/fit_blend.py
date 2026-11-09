@@ -371,7 +371,7 @@ def contract_key(row: dict) -> tuple[str, ...]:
         row.get("sport"), row.get("game_date"),
         row.get("event_id_namespace"), event, player,
         row.get("team"), row.get("opponent"),
-        row.get("stat"), row.get("side"), row.get("reference_line"))
+        row.get("stat"), row.get("side"), row.get("reference_line")))
 
 
 def _pregame_stamp(row: dict):
