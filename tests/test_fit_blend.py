@@ -234,6 +234,9 @@ class FitBlendReleaseGatesTests(unittest.TestCase):
         missing.pop("reference_line")
         self.assertNotEqual(fb.contract_key(original), fb.contract_key(missing))
         self.assertEqual(fb.contract_key(original)[-1], "0")
+        formatted = dict(original)
+        formatted["reference_line"] = "0.00"
+        self.assertEqual(fb.contract_key(original), fb.contract_key(formatted))
 
     def test_early_walk_forward_folds_are_excluded(self):
         rows = _synthetic_cohort(n_dates=25, rows_per_date=16, b_mode="useful")
