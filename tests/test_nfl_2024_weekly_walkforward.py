@@ -93,10 +93,10 @@ class WalkforwardGuardTests(unittest.TestCase):
             {"game_id":"2024_02_B_C","player_id":"future","stat":"targets","position":"RB"},
         ]
         wk1=wf.week_scoped_receiver_positions(observed,gid,1)
-        self.assertEqual(wk1,{"p":"WR"})
-        self.assertNotIn("future",wk1)
+        self.assertEqual(wk1,{("2024_01_A_B","p"):"WR"})
+        self.assertNotIn(("2024_02_B_C","future"),wk1)
         self.assertEqual(wf.week_scoped_receiver_positions(observed,gid,2),
-                         {"p":"RB","future":"RB"})
+                         {("2024_02_B_C","p"):"RB",("2024_02_B_C","future"):"RB"})
         with self.assertRaisesRegex(RuntimeError,"unknown_position_source_fixture"):
             wf.week_scoped_receiver_positions(
                 [{"game_id":"2024_19_B_C","player_id":"p",
