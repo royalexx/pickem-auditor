@@ -37,7 +37,8 @@ def verified_row(root):
         "event_start": "2026-11-08T18:00:00+00:00",
         "settled_at": "2026-11-08T22:00:00+00:00",
         "engine_b": {"abstain": False},
-        "market": {"q_market": 0.48, "line": 4.5, "retrieved_at": "2026-11-08T14:15:00Z"},
+        "market": {"q_market": 0.48, "line": 4.5, "market_valid": True,
+                   "retrieved_at": "2026-11-08T14:15:00Z"},
         "source_receipts": receipts,
         "used_source_ids": ["a", "b", "m"],
     }
