@@ -201,6 +201,81 @@ def build(row,indices,quotes,policy=None):
     return record
 
 
+
+def enforce_paired_probability_integrity(records, *, tolerance=1e-8):
+    """Fail closed on incompatible Over/Under forecasts for one exact contract.
+
+    NUTS population simulations are matched at player/game/line rather than
+    per-side forecast timestamp. The original November 8 archive demonstrated
+    independent stochastic draws on rows a few milliseconds apart. Never
+    rescale or silently 'repair' a frozen forecast by renormalization.
+    """
+    groups={}
+    for record in records:
+        line=record.get('reference_line',record.get('line'))
+        if type(line) not in (int,float) or not math.isfinite(line):
+            raise ValueError('invalid_paired_probability_line')
+        key=tuple(str(record.get(k) or '') for k in (
+            'run_id','game_date','sport','event_start','team','opponent',
+            'player_id','player','stat'))+(format(float(line),'.15g'),)
+        side=record.get('side')
+        if side not in ('over','under'):
+            raise ValueError('invalid_paired_probability_side')
+        group=groups.setdefault(key,{})
+        if side in group:
+            raise ValueError('duplicate_paired_probability_side')
+        group[side]=record
+    rejected=0
+    for group in groups.values():
+        if set(group)!= {'over','under'}:
+            continue
+        over,under=group['over'],group['under']
+        issues=[]
+        for name in ('NUTS','Consensus'):
+            a,b=over.get(name),under.get(name)
+            if a is None or b is None:
+                continue
+            if (type(a) not in (int,float) or type(b) not in (int,float)
+                    or not math.isfinite(a) or not math.isfinite(b)
+                    or abs(a+b-1.)>tolerance):
+                issues.append((name,a,b))
+        if not issues:
+            continue
+        rejected+=1
+        # Preserve exact original component values in a separate audit field
+        # before withholding the potentially invalid published probabilities.
+        issue_labels=[name+'_over_under_not_complementary' for name,_,_ in issues]
+        reason=';'.join(issue_labels)
+        for record in (over,under):
+            record['paired_probability_integrity']={
+                'status':'rejected','reason':reason,
+                'raw_probability_pairs':{name:{'over':a,'under':b,
+                         'sum':a+b if type(a) in (int,float) and type(b) in (int,float) else None}
+                    for name,a,b in issues}}
+            consensus=(record.get('models') or {}).get('Consensus')
+            if consensus is not None:
+                consensus.update(probability=None,status='unavailable',
+                                 reason='noncomplementary_paired_forecast')
+            record.update(Consensus=None,Consensus_gap_pp=None,
+                          production_consensus_available=False,
+                          block_reason='NONCOMPLEMENTARY_PAIRED_FORECAST')
+            ensemble=record.get('production_ensemble')
+            if isinstance(ensemble,dict):
+                ensemble.update(status='unavailable',
+                                reason='noncomplementary_paired_forecast',
+                                probability=None,q_win=None,q_push=None,q_loss=None,
+                                publication_eligible=False)
+            if any(name=='NUTS' for name,_,_ in issues):
+                nuts=(record.get('models') or {}).get('NUTS')
+                if nuts is not None:
+                    nuts.update(probability=None,status='unavailable',
+                                reason='noncomplementary_nuts_paired_forecast')
+                record.update(NUTS=None,NUTS_status='unavailable',
+                              NUTS_reason='noncomplementary_nuts_paired_forecast')
+    return {'checked_contracts':sum(set(g)=={'over','under'} for g in groups.values()),
+            'rejected_contracts':rejected,'tolerance':tolerance}
+
+
 def run(root,day,out_dir):
     import live_pool_exchange as pool
     root=Path(root);out_dir=Path(out_dir);out_dir.mkdir(parents=True,exist_ok=True)
@@ -229,6 +304,7 @@ def run(root,day,out_dir):
     quotes=rows(root/'data/odds_quotes.jsonl')
     policy=production_policy(root)
     records=[build(r,indices,quotes,policy=policy) for r in snapshots]
+    pair_integrity=enforce_paired_probability_integrity(records)
     inputs={'snapshots_sha256':hashlib.sha256((root/'data/prop_snapshots.jsonl').read_bytes()).hexdigest(),
             'code_sha':os.environ.get('PICKEM_CODE_SHA'),
             'comparison_schema':VERSION,'day':day,'run_id':run_id,'rows':len(records),
@@ -240,7 +316,8 @@ def run(root,day,out_dir):
                 if policy and policy.get('model')=='historical_consensus_engine_b'
                 else {'a':policy['weight_a'],'b':policy['weight_b']}
                 if policy else None),
-            'probability_scale':'conditional_on_nonpush','training_started':False}
+            'probability_scale':'conditional_on_nonpush','training_started':False,
+            'paired_probability_integrity':pair_integrity}
     payload={'schema':VERSION,'metadata':inputs,'picks':records}
     paths={'json':out_dir/'slate_model_comparisons.json','csv':out_dir/'slate_model_comparisons.csv',
            'markdown':out_dir/'slate_model_comparisons.md'}
