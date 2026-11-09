@@ -111,9 +111,11 @@ def build(rows, receipts, date, *, now=None, max_age_minutes=60):
         # Authoritative defense-in-depth: legacy Tier 2 at 57% is never
         # published as an >80% target, even if an old approval receipt says so.
         from tier_quality import assess as assess_tier_quality
+        from nfl_challenger_policy import model_family as challenger_family
         tier_quality = assess_tier_quality(
             decision["verified_rank"], p,
-            blend_validated=decision.get("blend_validated") is True)
+            blend_validated=decision.get("blend_validated") is True,
+            model_family=challenger_family(row) or challenger_family(decision))
         if not tier_quality["eligible"]:
             exclusions["tier_quality_definition_not_met"] += 1
             continue
