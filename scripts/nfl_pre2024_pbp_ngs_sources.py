@@ -61,7 +61,13 @@ def aggregate_games(pbp_rows,schedule_day,player_position=None,ftn_rows=()):
     PBP downstream pass depth and RB target rates are short-pass/checkdown
     *proxies*, not verified first-read/checkdown labels.
     """
+    # Resolve a player's RB role from THIS game's observed roster only.
+    # A whole-season/whole-history player_id -> position mapping can reveal
+    # future roles when constructing older team-game training features.
+    # Flat player-id keys are intentionally not accepted: fail closed.
     player_position=player_position or {}
+    if any(not (isinstance(k,tuple) and len(k)==2) for k in player_position):
+        raise ValueError("cross_game_player_role_mapping_forbidden")
     ftn={}
     for r in ftn_safe_history(ftn_rows,schedule_day):
         k=(str(r["nflverse_game_id"]),int(r["nflverse_play_id"]))
@@ -97,7 +103,7 @@ def aggregate_games(pbp_rows,schedule_day,player_position=None,ftn_rows=()):
             v["short_pass_attempts"]+=float(short)
             v["pass_completions"]+=float(_yes(r.get("complete_pass")))
             v["short_pass_completions"]+=float(short and _yes(r.get("complete_pass")))
-            rb=player_position.get(str(r.get("receiver_player_id")),None)=="RB"
+            rb=player_position.get((gid,str(r.get("receiver_player_id"))),None)=="RB"
             v["rb_targets"]+=float(rb)
             v["short_rb_targets"]+=float(rb and short)
             v["passing_yards"]+=_metric(r.get("passing_yards"))
