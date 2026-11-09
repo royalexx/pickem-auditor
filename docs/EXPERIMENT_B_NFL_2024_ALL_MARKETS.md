@@ -85,6 +85,82 @@ defensive markets can arise from synthetic low event rates and
 dominant Under selections. They are **not** 80%+ independently
 validated market bets.
 
+## Adversarial accuracy/outlier audit — release interpretation changed
+
+The independent full-season run's **74.538%** was an aggregate of
+**71,009 participation-matched player-market observations**, **NOT**
+the hit rate of a slate of selected sportsbook props. The replay
+generated 107,319 forecasts, leaving 36,310 without an observed
+stat row. These forecasts must be classified as missing/void/unverified,
+not silently dropped from the denominator of a marketed pick hit rate.
+
+The subsequent adversarial 2024 audit of original SHA-locked forecasts
+established:
+
+| Diagnostic | Observed |
+| --- | ---: |
+| Lowest aggregate week, 18 weeks / thousands of props each | **72.39%** (Week 3) |
+| Lowest week across nine major count/yard markets | **67.95%** (Week 1) |
+| All coherent, graded predictions with ≥80% selected-side probability | 28,841 |
+| Proportion of that high-confidence group choosing Under | **95.23%** |
+| High-confidence mean declared selected-side probability | **90.19%** |
+| High-confidence realized hit frequency | **88.38%** |
+| Simple historical control hit frequency on that same cohort | **88.38%** |
+| 90–100% group choosing Under | **98.57%** |
+| 90–100% cohort hit frequency vs historical control | **93.64% vs 93.64%** |
+
+Therefore, the apparent strong-confidence performance has **no
+demonstrated advantage over the simple baseline** and is dominated
+by betting-unrealistic Unders at synthetic history-derived lines.
+The model is modestly **overconfident** within the high-confidence
+group, even relative to this conditional retrospective sample.
+
+A further stage selected **10 picks from ALL ORIGINAL PRESETTLEMENT
+FORECASTS per week**, before reading 2024 public outcomes, with
+maximum one pick per player and four per NFL game. It froze the
+preselection checksum
+`1e9d58e2620947f629214dfbadcf1e2e6f4306393f86bd23992b0cbb1e8aefab`
+before opening the source results.
+
+Out of 180 *pregame-selected* top-ten candidates, **124 (68.89%)**
+had no matching observed source record, leaving only **56**
+scored. **All 180 selected Under**, concentrated in
+pass attempts, carries and rushing touchdowns, with model-selected
+probabilities often **above 99.9%**. The 54/56 (96.4%) apparent
+accuracy among graded choices is **not a valid pregame pick hit rate**.
+These extreme probabilities arise in a candidate universe that
+includes players without verified active status and lines not
+actually offered by a sportsbook. We cannot assert the missing 124
+would have been wins, losses or valid voids.
+
+In particular, ranking the candidate universe *after* discarding
+unmatched outcomes (as a preliminary diagnostic notebook also
+displayed) is **hindsight-contaminated selection** and must not be
+used as a top-10 validation result. The second audit rectified
+that by freezing picks from the complete original forecast pool.
+
+These findings explain the absence of ~30% hit-rate weeks:
+thousands of mostly Under research classifications are much
+less variable than a small, heterogeneous list of real-world
+market-selected props, and the two samples use different
+models and lines. They do **not** show that the live November 8
+failure was a random outlier or that the production probability
+model improved.
+
+**Verdict: no production promotion.** The weekly training/freeze
+mechanism works, but **probability quality and actionable
+directional performance are not established**. Required changes
+before a meaningful real-prop replay include: authentic per-player
+pre-kickoff quotes, lineup/availability and eligibility evidence,
+published outcome/void rules, original market-only comparator,
+full frozen pregame top-10 eligibility, source-verified settlement
+for every attempted selection, and selection-conditional
+game/week-clustered evaluation.
+
+[Adversarial week and confidence diagnostics](https://deepnote.com/workspace/stonks-a257-e2858df6-426e-479b-a4f8-0376a602f7bb/project/Pickem-Auditor-Daily-Cloud-Inference-9cc31536-93be-44db-bdeb-06fba3f61410/notebook/Adversarial-2024-replay-audit-weekly-outliers-synthetic-line-bias-high-confidence-top-k-46452f1a43664a4181aedf66adcf5d7a?utm_content=9cc31536-93be-44db-bdeb-06fba3f61410).
+
+[Blind preselection and coverage audit](https://deepnote.com/workspace/stonks-a257-e2858df6-426e-479b-a4f8-0376a602f7bb/project/Pickem-Auditor-Daily-Cloud-Inference-9cc31536-93be-44db-bdeb-06fba3f61410/notebook/Blind-preselection-audit-top-ten-fixed-before-2024-outcomes-invalid-player-coverage-cb9da37a41e04a62bc7b8bf69c5ff824?utm_content=9cc31536-93be-44db-bdeb-06fba3f61410).
+
 ## Critical limitations and follow-ups
 
 1. **Participation conditioning remains severe:** 36,310 of 107,319
