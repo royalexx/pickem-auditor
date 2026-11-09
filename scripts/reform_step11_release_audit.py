@@ -23,6 +23,7 @@ VERSION="pickem-reform-step11-release-audit-v1"
 TRAINING_WORKFLOWS=(
     "precision-full-markets.yml",
     "historical-bayes-training.yml",
+    "multisport-joint-evaluation.yml",
     "nhl-joint-bayes-fit.yml",
     "precision-local-bayes.yml",
     "precision-nhl-full.yml",
@@ -33,6 +34,7 @@ TRAINING_WORKFLOWS=(
     "convergence-rebenchmark.yml",
     "recover-full-backend-coverage.yml",
 )
+MODEL_RELEASE_WORKFLOWS=("nfl-targets-model-release.yml",)
 REQUIRED_CODE=(
     "scripts/point_in_time_provenance.py",
     "scripts/fit_blend.py",
@@ -143,7 +145,7 @@ def inspect_release(root, *, frozen=None,settlement=None,pinned=None):
         if paused.get(key)!=value:
             raise ReleaseAuditError("user_training_pause_not_enforced:"+key)
     workflow={}
-    for file in TRAINING_WORKFLOWS:
+    for file in TRAINING_WORKFLOWS+MODEL_RELEASE_WORKFLOWS:
         path=".github/workflows/"+file
         raw,sha=source(root,path)
         digests[path]=sha
@@ -215,6 +217,8 @@ def inspect_release(root, *, frozen=None,settlement=None,pinned=None):
         "audited_code_and_test_sha256":digests,
         "pause_guarded_training_workflows":workflow,
         "pause_guarded_workflow_count":len(workflow),
+        "training_workflow_count":len(TRAINING_WORKFLOWS),
+        "model_release_workflow_count":len(MODEL_RELEASE_WORKFLOWS),
         "policy_verified_unchanged_60_40":True,
         "full_source_stat_combined_nfl_tackles_verified":True,
         "step4a_paired_probability_guard_exists":True,
