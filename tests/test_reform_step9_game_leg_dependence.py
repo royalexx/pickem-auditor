@@ -85,7 +85,6 @@ class Step9LegDependenceTests(unittest.TestCase):
         self.assertAlmostEqual(pair["joint_hit"],0)
         self.assertAlmostEqual(pair["joint_excess"],-.42)
         self.assertAlmostEqual(pair["residual_product"],(.3)*(-.6))
-        self.assertIsNone(s.pair_category(a,{**b,"game_id":"other"})) if False else None
         with self.assertRaisesRegex(s.LegDependenceError,"pair_must_share_game"):
             s.pair_receipt(a,{**b,"game_id":"other"})
 
@@ -132,6 +131,7 @@ class Step9LegDependenceTests(unittest.TestCase):
         self.assertEqual(score["n_pairs"],400)
         self.assertEqual(len(score["interval_95"]),2)
         self.assertEqual(score["pair_weighting"],"equal_game_weight_not_independent_pair_rows")
+        self.assertEqual(score["interval_cluster_when_available"],"entire_game_date_blocks")
         self.assertEqual(
             result,s.dependence_audit(rows,model="Market",source="nov8_current",draws=200))
 
