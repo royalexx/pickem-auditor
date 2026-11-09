@@ -10,7 +10,7 @@ a missing player-stat row. Empirical alpha/dispersion is NOT tuned here.
 from __future__ import annotations
 
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import argparse
 import json
@@ -127,7 +127,7 @@ def verified_status(report, *, forecast_at, game_id, team, teammate_id, archive_
     return report["status"],source_id
 
 
-def conditional_statuses(reports, *, teammate_id, team, archive_root):
+def conditional_statuses(reports, *, teammate_id, team, archive_root, game_starts):
     """Collect explicit historical statuses authenticated before each *game*.
 
     The source must have been published and retrieved before its game start.
@@ -142,7 +142,13 @@ def conditional_statuses(reports, *, teammate_id, team, archive_root):
             raise TackleChallengerError("historical_teammate_identity_mismatch")
         gid=str(item.get("game_id"))
         if gid in result:raise TackleChallengerError("duplicate_historical_teammate_report")
-        state,_=verified_status(item,forecast_at=item.get("event_start"),
+        # Reject asserted availability timed against a different or fictitious
+        # kickoff for this exact archived team/player game.
+        if gid not in game_starts or parse_stamp(item.get("event_start"),"historical_teammate_start") != parse_stamp(
+                game_starts[gid],"historical_real_start"):
+            raise TackleChallengerError("historical_teammate_event_time_mismatch")
+        pregame=(parse_stamp(game_starts[gid],"historical_real_start")-timedelta(seconds=1)).isoformat()
+        state,_=verified_status(item,forecast_at=pregame,
                  game_id=gid,team=team,teammate_id=teammate_id,archive_root=archive_root)
         result[gid]=state
     return result
@@ -235,10 +241,13 @@ def predict(history, *, player_id,team,forecast_at,event_start,
         else:
             gid=teammate_report.get("game_id")
             if not gid:raise TackleChallengerError("missing_future_teammate_event")
+            if parse_stamp(teammate_report.get("event_start"),"teammate_future_event_start")!=start:
+                raise TackleChallengerError("future_teammate_event_time_mismatch")
             state,receipt=verified_status(teammate_report,forecast_at=now.isoformat(),
                 game_id=gid,team=team,teammate_id=teammate_id,archive_root=archive_root)
             historical=conditional_statuses(historical_teammate_reports,
-                teammate_id=teammate_id,team=team,archive_root=archive_root)
+                teammate_id=teammate_id,team=team,archive_root=archive_root,
+                game_starts={r["game_id"]:r["start_time"] for r in selected})
             by={k:[] for k in ("active","inactive")}
             for w,row in zip(weights,selected):
                 status=historical.get(str(row["game_id"]))
@@ -340,8 +349,8 @@ def walk_forward(history, *, from_time, line=5.5, max_rows=10000):
         # own historical offensive dataset; use a neutral, predeclared
         # 65-play scenario rather than the heldout team's actual plays.
         prediction=predict(history,player_id=target["player_id"],team=target["team"],
-            forecast_at=(now.replace(microsecond=0)).isoformat(),
-            event_start=(now.replace(microsecond=0)).isoformat(),
+            forecast_at=(now-timedelta(hours=2)).isoformat(),
+            event_start=now.isoformat(),
             expected_defensive_plays=65.,line=line)
         # The forecast date must be strictly before kickoff. Do not
         # fall back to choosing the observed target event play total.
