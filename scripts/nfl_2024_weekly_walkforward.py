@@ -41,7 +41,7 @@ from population_nfl import fetch_season, normalize_season
 SCHEMA = "nfl_2024_weekly_expanding_training_after_results_v1"
 TRAIN_END = "2024-01-01"
 EXTENDED_BOUNDARY = date(2025, 2, 1)
-BASE = "pickem_runs/2024_hybrid_activezero_pre2024_numpy2_clean_v3"
+BASE = "pickem_runs/2024_corrected_game_role_pre2024_base_v1"
 MARKETS = ("p_over", "p_over_hurdle", "p_over_no_refit", "p_over_player_prior", "p_over_static_player")
 MODEL_FILES = {
     "pass_attempts": "pass_attempts.ubj",
@@ -308,6 +308,13 @@ def load_base(root):
     manifest = json.loads((base / "FROZEN_MANIFEST.json").read_bytes())
     if manifest["training_cutoff_exclusive"] != TRAIN_END:
         raise RuntimeError("base_model_contains_post2023_training")
+    # Original pre2024 weights were fitted with a cross-game player-position
+    # lookup. After the leakage repair they are NOT approved for this code.
+    from nfl_2024_corrected_base_fit import ROLE_MAPPING, SCHEMA as BASE_SCHEMA
+    if (manifest.get("schema") != BASE_SCHEMA or
+            manifest.get("game_position_mapping_provenance") != ROLE_MAPPING or
+            manifest.get("legacy_pre2024_models_reused") is not False):
+        raise RuntimeError("old_pre2024_model_leaked_game_role_provenance_must_refit")
     if not manifest["fit_and_hyperparameter_selection_use_only_pre2024"]:
         raise RuntimeError("base_parameters_not_pre2024_only")
     for key,filename in MODEL_FILES.items():
