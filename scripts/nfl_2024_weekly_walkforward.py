@@ -98,9 +98,10 @@ def week_scoped_receiver_positions(observed, game_week, week):
             continue
         pid=str(r["player_id"])
         pos=str(r["position"])
-        if pid in positions and positions[pid]!=pos:
-            raise RuntimeError("conflicting_same_week_player_positions")
-        positions[pid]=pos
+        key=(gid,pid)
+        if key in positions and positions[key]!=pos:
+            raise RuntimeError("conflicting_same_game_player_positions")
+        positions[key]=pos
     return positions
 
 
