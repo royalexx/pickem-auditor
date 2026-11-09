@@ -164,6 +164,10 @@ class ReleaseGuardTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             row = prospective_row(root)
+            archive_dir = root / "data/source_archives"
+            archive_dir.mkdir(parents=True, exist_ok=True)
+            for filename in ("a.json", "b.json", "m.json"):
+                (archive_dir / filename).write_bytes((root / filename).read_bytes())
             row["run_type"] = "shadow"
             for key in ("actual_stat", "outcome", "settled_at"):
                 row.pop(key, None)
@@ -194,6 +198,9 @@ class ReleaseGuardTests(unittest.TestCase):
                              original["snapshot_sha256"])
             self.assertEqual(doc["phase0_pregame_receipt"]["selected_run_id"],
                              "prospective-1")
+            self.assertEqual(doc["phase0_source_input_count"], 3)
+            self.assertEqual({x["path"] for x in doc["phase0_source_input_archive"]},
+                             {"a.json", "b.json", "m.json"})
             self.assertFalse(doc["phase0_pregame_receipt"]["publication_eligible"])
             self.assertNotIn("SECRET", json.dumps(doc["market_quote_archive"]))
 
