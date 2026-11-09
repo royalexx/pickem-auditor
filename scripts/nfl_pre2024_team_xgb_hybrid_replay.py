@@ -56,6 +56,13 @@ def freeze(root,*,trials=8,draws=2000):
         mpath=root/"MODELS"/"active_zero_hurdle.ubj"
         mpath.parent.mkdir(parents=True,exist_ok=True)
         active_zero_fit[0].save_model(str(mpath))
+        if active_zero_fit[1] is not None:
+            cal=active_zero_fit[1]
+            common.atomic_new(root/"MODELS"/"active_zero_platt_calibration.json",
+               {"coef":cal.coef_.tolist(),"intercept":cal.intercept_.tolist(),
+                "classes":cal.classes_.tolist(),
+                "fit_cutoff_exclusive":TRAIN_END_EXCLUSIVE,
+                "method":"pre2024_oof_platt_logit"})
         print("HURDLE_PRE2024_FIT",json.dumps(zero_receipt,sort_keys=True)[:2500],flush=True)
     else:
         print("HURDLE_PRE2024_ABSTAIN",zero_receipt,flush=True)
@@ -149,7 +156,10 @@ def freeze(root,*,trials=8,draws=2000):
         model_file_hashes={
            **{m:common.sha(root/"MODELS"/(m+".ubj")) for m in fitted},
            **({"active_zero_hurdle":common.sha(root/"MODELS"/"active_zero_hurdle.ubj")}
-              if active_zero_fit is not None else {})},
+              if active_zero_fit is not None else {}),
+           **({"active_zero_platt_calibration":common.sha(
+                root/"MODELS"/"active_zero_platt_calibration.json")}
+              if active_zero_fit is not None and active_zero_fit[1] is not None else {})},
         week_hashes=hashes,week_counts=week_counts,
         forecasted=sum(week_counts.values()),draws=int(draws),
         all_18_weeks_frozen_before_scoring=True,
