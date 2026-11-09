@@ -97,6 +97,33 @@ class JobsHelperTests(unittest.TestCase):
         )
         self.assertEqual(row["player_id"], "8470001")
 
+    def test_preliminary_production_retains_original_verified_book_prices(self):
+        books = [{"book": "Pinnacle", "line": 2.5,
+                  "over": -110, "under": -110,
+                  "retrieved_at": "2026-10-22T15:55:00Z"}]
+        result = {
+            "project": {"q_win": 0.61, "q_push": 0.0},
+            "market": {"q_market": None, "retrieved_at": None},
+            "consensus": {"market_valid": True, "line": 2.5, "q_market": 0.49},
+            "blend": {"production_policy": "research", "preliminary": True},
+        }
+        row = jobs.pipeline_to_snapshot(
+            result,
+            meta={"game_date": "2026-10-22", "sport": "NHL",
+                  "player": "Example Skater", "player_id": 8470001,
+                  "stat": "shots on goal", "matchup": "BOS vs TOR"},
+            run_id=jobs.shadow_run_id("2026-10-22"),
+            run_at="2026-10-22 11:00 ET",
+            candidate={"line": 2.5, "side": "over", "dist": "poisson",
+                       "books": books,
+                       "market_retrieved_at": "2026-10-22T15:55:00Z"},
+        )
+        self.assertTrue(row["market"]["market_valid"])
+        self.assertEqual(row["market"]["line"], 2.5)
+        self.assertEqual(row["market"]["books"], books)
+        self.assertEqual(row["market"]["retrieved_at"], "2026-10-22T15:55:00Z")
+        self.assertIsNone(row["q_model"])
+
     def test_enrich_pipeline_copies_reads_fields(self):
         slate = {
             "sport": "NFL",

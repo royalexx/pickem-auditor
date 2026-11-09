@@ -300,6 +300,22 @@ def pipeline_to_snapshot(
     project = result.get("project") or {}
     grade = result.get("grade") or {}
     market = result.get("market") or {}
+    quoted_books = candidate.get("books")
+    quoted_consensus = result.get("consensus") or {}
+    if isinstance(quoted_books, list) and quoted_books:
+        # The production model can return a preliminary cross-market block
+        # before independent Bayesian sidecars are available. Preserve the
+        # separately validated bookmaker consensus from the SAME evaluation
+        # rather than falsely treating that preliminary block as the quote.
+        market = {
+            **market,
+            "market_valid": quoted_consensus.get("market_valid") is True,
+            "line": quoted_consensus.get("line", candidate.get("line")),
+            "retrieved_at": (candidate.get("market_retrieved_at")
+                             or market.get("retrieved_at")),
+            "books": quoted_books,
+            "receipt_basis": "evaluated_original_bookmaker_consensus",
+        }
     line = candidate.get("line")
     rank = str(result.get("final_rank") or "Unranked")
     status = "UNRANKED" if rank == "Unranked" else "GRADED"
@@ -358,8 +374,7 @@ def pipeline_to_snapshot(
         "crosscheck": result.get("crosscheck"),
         "blend": result.get("blend"),
         "shared_context":result.get('shared_context'),
-        "market": ({**market, "books": candidate.get("books")}
-                   if isinstance(candidate.get("books"), list) else market),
+        "market": market,
     }
     # Provider-backed IDs may be numeric (notably official NHL player IDs).
     # Preserve their exact digits as a string for source-linked contract keys.
