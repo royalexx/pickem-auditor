@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter,defaultdict
-import hashlib
 from itertools import combinations
 import json
 import math
@@ -205,8 +204,6 @@ def _summary(grid, *, bootstraps=BOOTSTRAPS,seed=SEED):
     # Re-sample WHOLE original game dates. Once a date is selected, every
     # associated game enters with equal weight; never bootstrap prop pairs.
     by_date=defaultdict(list)
-    for vals in vg:
-        pass
     for game_key,events in grouped.items():
         by_date[game_key[0]].append(
             sum(x["excess_joint_hit_vs_independent"] for x in events)/len(events))
