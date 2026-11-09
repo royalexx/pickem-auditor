@@ -44,6 +44,35 @@ def describe(rows):
                 (1-r["actual_over"])*math.log(max(1e-6,min(1-1e-6,1-r[key])))) for r in a)/len(a),
             "predicted_under_share":sum(r[key]<.5 for r in a)/len(a),
         }
+        # Pick'em tier-relevance: a claimed >=80% side must achieve
+        # approximately its advertised confidence out of sample.
+        for threshold in (.7,.8,.9):
+            selected=[r for r in a if max(r[key],1.-r[key])>=threshold]
+            if not selected:
+                d[name]["tier_"+str(int(100*threshold))]={
+                    "n":0,"accuracy":None,"mean_confidence":None,
+                    "calibration_gap":None}
+            else:
+                actual=sum(int((r[key]>=.5)==bool(r["actual_over"]))
+                          for r in selected)/len(selected)
+                predicted=sum(max(r[key],1.-r[key]) for r in selected)/len(selected)
+                d[name]["tier_"+str(int(100*threshold))]={
+                    "n":len(selected),"accuracy":actual,
+                    "mean_confidence":predicted,
+                    "calibration_gap":actual-predicted}
+        # Equally-spaced probability calibration bins, not confidence bins.
+        d[name]["calibration_bins"]=[]
+        for bi in range(10):
+            binrows=[r for r in a if min(9,int(r[key]*10))==bi]
+            if binrows:
+                d[name]["calibration_bins"].append({
+                    "range":[bi/10.,(bi+1)/10.],
+                    "n":len(binrows),
+                    "mean_p_over":sum(r[key] for r in binrows)/len(binrows),
+                    "actual_over":sum(r["actual_over"] for r in binrows)/len(binrows)})
+        d[name]["ece10"]=sum(
+            x["n"]*abs(x["mean_p_over"]-x["actual_over"])
+            for x in d[name]["calibration_bins"])/len(a)
     return d
 
 
@@ -198,6 +227,18 @@ def audit(root):
         if not s:continue
         lines.append("| %s | %d | %.4f | %.5f | %.2f%% |"%(
           name,s["n"],s["accuracy"],s["brier"],100*s["predicted_under_share"]))
+    lines.extend(["","## Confidence reliability (unverified synthetic lines)","",
+      "| Method | Picks >=80% | Mean predicted confidence | Actual hit rate | Calibration gap | ECE-10 |",
+      "|---|---:|---:|---:|---:|---:|"])
+    for name in METHODS:
+        s=report["overall"].get(name)
+        if not s:continue
+        x=s["tier_80"]
+        def pct(v):
+            return "—" if v is None else "%.2f%%"%(100*v)
+        lines.append("| %s | %s | %s | %s | %s | %s |"%(
+          name,x["n"],pct(x["mean_confidence"]),pct(x["accuracy"]),
+          pct(x["calibration_gap"]),pct(s["ece10"])))
     lines.extend(["",
          "## Paired uncertainty", "",
          "Intervals use an exploratory 500-replicate NFL-game cluster bootstrap. "
