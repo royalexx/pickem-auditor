@@ -351,6 +351,14 @@ def evaluate(nfl, historical):
                 "original_reliability":dict(collections.Counter(
                     "qualified" if r.get("original_reliable") else "unqualified_or_missing"
                     for r in historical)),
+                "by_original_reliability":{
+                    label:{
+                        "contracts":len(group),
+                        "models":models_by_contract(group,historical_models),
+                        "same_contract_engine_a_market":matched_pairwise(group,"Engine_A","Market")}
+                    for label,group in (
+                        ("qualified",[r for r in historical if r.get("original_reliable")]),
+                        ("unqualified_or_missing",[r for r in historical if not r.get("original_reliable")]))},
                 "confidence_bins":probability_bins(historical,historical_models),
                 "subgroups":slices(historical,historical_models),
             },
