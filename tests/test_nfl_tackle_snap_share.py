@@ -223,7 +223,8 @@ class TackleOpportunityTest(unittest.TestCase):
     def test_historical_teammate_status_must_match_actual_own_game(self):
         with tempfile.TemporaryDirectory() as d:
             prior=[status(d,i,"active" if i<7 else "inactive") for i in range(15)]
-            prior[0]["event_start"]=(game_time(0)+timedelta(days=1)).isoformat()
+            # Corrupt a report for a game inside the model's last-12 window.
+            prior[5]["event_start"]=(game_time(5)+timedelta(days=1)).isoformat()
             prospective=status(d,16,"inactive")
             with self.assertRaisesRegex(sn.TackleChallengerError,"historical_teammate_event_time_mismatch"):
                 sn.predict(**future_args(self.history),teammate_id="mate",
