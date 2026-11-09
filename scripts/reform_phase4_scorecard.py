@@ -257,7 +257,7 @@ def load_historical(path, archive_root):
             raise AuditError("historical_archive_sha256_mismatch")
         hashes.append({"date":item["date"],"sha256":item["sha256"]})
     registry={str(g["id"]):g for g in src.get("sources",[])
-              if g.get("detail") == "Final" and g.get("start")}
+              if str(g.get("detail") or "").startswith("Final") and g.get("start")}
     out=[]
     excluded=collections.Counter()
     seen=set()
