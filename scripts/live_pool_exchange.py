@@ -342,6 +342,40 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
     receipt_path=root/"reports"/("live_population_collect_"+game_date+".json")
     collection_receipt=(json.loads(receipt_path.read_text())
                         if phase=="morning" and receipt_path.is_file() else None)
+    source_input_archive=[]
+    if phase=="afternoon":
+        # Preserve original input bytes inside the immutable shared bundle.
+        # An on-disk checksum is insufficient if the ephemeral collector
+        # checkout will later disappear.
+        wanted={}
+        for forecast in forecasts:
+            for receipt in forecast.get("source_receipts") or []:
+                relative=receipt.get("archive_path")
+                digest=receipt.get("content_sha256")
+                if (not isinstance(relative,str) or not isinstance(digest,str)
+                        or not re.fullmatch(r"[0-9a-f]{64}",digest)):
+                    raise ValueError("invalid_forecast_source_receipt")
+                if relative in wanted and wanted[relative]!=digest:
+                    raise ValueError("conflicting_original_source_receipt")
+                wanted[relative]=digest
+        total_size=0
+        root_archives=(source/"source_archives").resolve()
+        for relative,digest in sorted(wanted.items()):
+            rel=Path(relative)
+            if rel.is_absolute() or ".." in rel.parts:
+                raise ValueError("unsafe_forecast_source_archive_path")
+            filename=(root_archives/rel).resolve()
+            if not filename.is_relative_to(root_archives) or not filename.is_file():
+                raise ValueError("missing_original_forecast_source_archive")
+            data=filename.read_bytes()
+            if sha256(data)!=digest:
+                raise ValueError("modified_original_forecast_source_archive")
+            total_size+=len(data)
+            if total_size>70_000_000:
+                raise ValueError("original_forecast_source_archive_too_large")
+            source_input_archive.append({"path":relative,"sha256":digest,
+                                         "bytes":len(data),
+                                         "content_b64":base64.b64encode(data).decode("ascii")})
     doc={"schema":SCHEMA,"game_date":game_date,"phase":phase,
          "captured_at_utc":datetime.now(timezone.utc).isoformat(),
          "source":"Deepnote cloud inference / completed-game independent verification",
@@ -352,6 +386,8 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
          "source_meta":source_meta,
          "market_quote_archive":market_quote_archive,
          "phase0_pregame_receipt":phase0_pregame_receipt,
+         "phase0_source_input_archive":source_input_archive,
+         "phase0_source_input_count":len(source_input_archive),
          "shadow":shadow,
          "verification_state":"research_only; no retrospective model upgrades"}
     if phase=="afternoon" and any(
