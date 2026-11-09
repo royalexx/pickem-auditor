@@ -147,7 +147,23 @@ class SeasonStore:
             meta=db.execute('SELECT payload FROM metadata WHERE season=?',(season,)).fetchone()
             if meta is None:raise ValueError('season not stored')
             meta=json.loads(meta[0])
-            if datetime.fromisoformat(meta['as_of'].replace('Z','+00:00'))>datetime.fromisoformat(as_of.replace('Z','+00:00')):raise ValueError('store snapshot is newer than evaluation; use an as-of snapshot')
+            def at(value, field):
+                try:
+                    stamp=datetime.fromisoformat(value.replace('Z','+00:00'))
+                except (ValueError,TypeError,AttributeError) as exc:
+                    raise ValueError('invalid_'+field+'_timestamp') from exc
+                if stamp.tzinfo is None:
+                    raise ValueError('naive_'+field+'_timestamp')
+                return stamp.astimezone(timezone.utc)
+            evaluation=at(as_of,'evaluation')
+            snapshot_asof=at(meta.get('as_of'),'snapshot')
+            source_retrieved=at(meta.get('retrieved_at'),'retrieval')
+            if snapshot_asof>evaluation:
+                raise ValueError('store snapshot is newer than evaluation; use an as-of snapshot')
+            # A post-hoc source refresh must never be silently presented as
+            # a true pregame archive even if older game rows were filtered.
+            if source_retrieved>evaluation:
+                raise ValueError('source_retrieved_after_evaluation')
             plays=[json.loads(x[0]) for x in db.execute('SELECT payload FROM plays WHERE season=? ORDER BY game_id,play_id',(season,))]
             chart={(x[0],x[1]):json.loads(x[2]) for x in db.execute('SELECT game_id,play_id,payload FROM charting WHERE season=?',(season,))}
         return build_profiles(plays,chart,meta)
