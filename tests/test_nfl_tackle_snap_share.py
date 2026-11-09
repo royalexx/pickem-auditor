@@ -85,6 +85,151 @@ def status(root, i, state, *, teammate="mate", event_time=None):
                                  status=state,game_id=game_id,teammate=teammate)}
 
 
+def role_history(n_games=19):
+    """Fixed synthetic history for testing frozen *training-only* role cutpoints."""
+    rows=[]
+    distribution={
+        "LB":("linebacker",7),
+        "S":("safety",4),
+        "CB":("cornerback",3),
+        "DE":("defensive_end",2),
+    }
+    for i in range(n_games):
+        t=game_time(i)
+        for position,(_role,center) in distribution.items():
+            for player in range(12):
+                player_id=f"{position}_{player:02d}"
+                # Prior-count locations differ by role; test data is NOT
+                # accepted performance evidence or a real sportsbook line.
+                actual=center+(player%3)-1
+                if i>=15:
+                    actual=min(15,actual+2)
+                rows.append({
+                    "game_id":f"role_test_{i:02d}","player_id":player_id,
+                    "team":"A","opponent":"B","position":position,
+                    "start_time":t.isoformat(),
+                    "available_at":(t+timedelta(hours=18)).isoformat(),
+                    "team_defensive_plays":65.0,
+                    "player_defensive_snaps":55.0 if position in ("LB","S") else 45.0,
+                    "tackles_assists":float(actual),
+                    "source_digest":"synthetic_training_rows"})
+    return {
+        "schema":sn.VERSION,
+        "rows":rows,
+        "time_provenance":"retrospective_start_plus18h_fixture_not_live",
+        "history_source_digests":["synthetic_training_rows"],
+        "production_eligible":False,
+    }
+
+
+class PositionSpecificLinesTests(unittest.TestCase):
+    def test_training_only_role_medians_are_distinct_half_lines(self):
+        history=role_history()
+        cutoff=game_time(15).isoformat()
+        frozen=sn.derive_frozen_position_lines(history,before=cutoff)
+        lines=frozen["role_lines"]
+        self.assertEqual(lines["off_ball_lb"]["line"],7.5)
+        self.assertEqual(lines["safety"]["line"],4.5)
+        self.assertEqual(lines["cornerback"]["line"],3.5)
+        self.assertEqual(lines["defensive_end"]["line"],2.5)
+        self.assertEqual(frozen["frozen_cutoff"],cutoff)
+        self.assertNotIn("olb_unclassified",lines)
+        for item in lines.values():
+            self.assertGreaterEqual(item["player_game_rows"],sn.MIN_ROLE_LINE_PLAYER_GAMES)
+            self.assertEqual(item["line"]%1,.5)
+
+    def test_mutating_every_holdout_outcome_cannot_change_training_lines(self):
+        original=role_history()
+        cutoff=game_time(15).isoformat()
+        frozen=sn.derive_frozen_position_lines(original,before=cutoff)
+        mutated=copy.deepcopy(original)
+        for row in mutated["rows"]:
+            if row["start_time"]>=cutoff:
+                row["tackles_assists"]=1000.
+        reproduced=sn.derive_frozen_position_lines(mutated,before=cutoff)
+        self.assertEqual(frozen,reproduced)
+
+    def test_unavailable_training_games_are_not_used_to_freeze_line(self):
+        history=role_history()
+        cutoff=game_time(15).isoformat()
+        original=sn.derive_frozen_position_lines(history,before=cutoff)
+        changed=copy.deepcopy(history)
+        for row in changed["rows"]:
+            if row["position"]=="LB" and row["game_id"] in (
+                    "role_test_12","role_test_13","role_test_14"):
+                row["available_at"]=(game_time(16)).isoformat()
+                row["tackles_assists"]=40.0
+        after=sn.derive_frozen_position_lines(changed,before=cutoff)
+        self.assertEqual(after["role_lines"]["off_ball_lb"]["line"],
+                         original["role_lines"]["off_ball_lb"]["line"])
+        self.assertEqual(after["role_lines"]["off_ball_lb"]["player_game_rows"],
+                         original["role_lines"]["off_ball_lb"]["player_game_rows"]-36)
+
+    def test_frozen_lines_apply_to_both_models_and_decompose_by_role(self):
+        history=role_history()
+        report=sn.walk_forward(history,from_time=game_time(15).isoformat(),
+                               line_policy="position_training_median_v1",
+                               max_rows=400)
+        self.assertEqual(report["line_policy"],"position_training_median_v1")
+        self.assertIsNone(report["line"])
+        self.assertEqual(report["n"],4*12*4)
+        known=report["position_line_receipt"]["role_lines"]
+        self.assertEqual(report["line_source"],
+                         "frozen_preholdout_position_median_synthetic_not_market")
+        for row in report["rows"]:
+            self.assertEqual(row["line"],known[row["role"]]["line"])
+            self.assertTrue(row["role_from_prior_only"])
+            self.assertAlmostEqual(
+                row["baseline"]["q_over"]+row["baseline"]["q_under"]+
+                row["baseline"]["q_push"],1.0)
+            actual=row["actual"]
+            self.assertNotEqual(actual,row["line"])
+        scored=sn.summarize_walk_forward(report,bootstraps=100)
+        by_role=sn.summarize_walk_forward_by_role(report,bootstraps=100)
+        self.assertEqual(scored["score"]["n"],report["n"])
+        self.assertEqual(sum(x["score"]["n"] for x in by_role.values()),report["n"])
+        self.assertEqual(set(by_role),set(known))
+        self.assertFalse(scored["production_eligible"])
+
+    def test_holdout_role_change_cannot_pick_a_new_threshold(self):
+        history=role_history()
+        changed=copy.deepcopy(history)
+        for row in changed["rows"]:
+            if row["game_id"]=="role_test_15" and row["player_id"]=="LB_00":
+                row["position"]="DE"
+        report=sn.walk_forward(changed,from_time=game_time(15).isoformat(),
+                               line_policy="position_training_median_v1",
+                               max_rows=400)
+        target=next(x for x in report["rows"] if
+                    x["game_id"]=="role_test_15" and
+                    x["forecast"]["player_id"]=="LB_00")
+        self.assertEqual(target["role"],"off_ball_lb")
+        self.assertEqual(target["line"],7.5)
+
+    def test_sparse_role_abstains_instead_of_unsafe_default_line(self):
+        history=role_history()
+        for i in range(19):
+            now=game_time(i)
+            history["rows"].append({
+                "game_id":f"olb_{i}","player_id":"OLB_alone","team":"A",
+                "position":"OLB","start_time":now.isoformat(),
+                "available_at":(now+timedelta(hours=18)).isoformat(),
+                "team_defensive_plays":65.,"player_defensive_snaps":50.,
+                "tackles_assists":5.,"source_digest":"synthetic_training_rows"})
+        report=sn.walk_forward(history,from_time=game_time(15).isoformat(),
+                               line_policy="position_training_median_v1",
+                               max_rows=400)
+        self.assertIn("olb_unclassified",report["position_line_receipt"]["abstaining_roles"])
+        self.assertTrue(all(x["role"]!="olb_unclassified" for x in report["rows"]))
+        self.assertGreater(report["excluded"].get("role_without_frozen_preholdout_line",0),0)
+
+    def test_manual_override_rejected_in_role_policy(self):
+        with self.assertRaisesRegex(sn.TackleChallengerError,
+                                    "disallows_manual_threshold"):
+            sn.walk_forward(role_history(),from_time=game_time(15).isoformat(),
+                            line=8.5,line_policy="position_training_median_v1")
+
+
 class TackleOpportunityTest(unittest.TestCase):
     def setUp(self):
         self.history=sn.normalize_bundles(fixture())

@@ -17,6 +17,7 @@ import argparse
 import json
 import math
 import random
+from statistics import median
 
 from point_in_time_provenance import instant, verified_source_receipt, ProvenanceError
 
@@ -31,6 +32,19 @@ SHARE_PRIOR_MODES=("constant_v1","evidence_adaptive_v2")
 MIN_POSITION_GAMES=25
 MIN_PLAYER_GAMES=3
 MIN_CONTRAST_GAMES=3
+# Research evaluation lines are derived only from completed pre-holdout
+# tackle outcomes. Positions are source labels, not inferred PFF alignments.
+POSITION_LINE_POLICIES=("fixed","position_training_median_v1")
+POSITION_ROLE_GROUPS={
+    "LB":"off_ball_lb","MLB":"off_ball_lb","ILB":"off_ball_lb",
+    "OLB":"olb_unclassified",
+    "S":"safety","FS":"safety","SS":"safety",
+    "CB":"cornerback","DB":"db_unclassified",
+    "DE":"defensive_end","DT":"interior_defensive_line","NT":"interior_defensive_line",
+}
+MIN_ROLE_LINE_PLAYER_GAMES=40
+MIN_ROLE_LINE_GAMES=12
+MIN_ROLE_LINE_PLAYERS=10
 
 
 class TackleChallengerError(ValueError):
@@ -420,64 +434,151 @@ def predict(history, *, player_id,team,forecast_at,event_start,
                 "No missing teammate game is assumed to be inactive"]}
 
 
-def walk_forward(history, *, from_time, line=5.5, max_rows=10000,
-                 share_prior_mode="evidence_adaptive_v2"):
-    """Research-only chronological fixed-line baseline comparison.
+def derive_frozen_position_lines(history, *, before):
+    """Pre-holdout, outcome-independent-to-model, position-median thresholds.
 
-    The future player's outcome and actual team plays are used only to
-    settle the prediction, never to set expected game volume.
-    Fixed 5.5 is NOT an archived sportsbook line.
+    The numeric line is computed solely from historical tackle outcomes that
+    were marked available *before* the first holdout date. One cutpoint is
+    frozen for every role across the entire evaluation; no search over model
+    scores, hindsight or per-game target outcomes is permitted. Sparse roles
+    abstain instead of falling back to the same universal 5.5 threshold.
+    """
+    cutoff=parse_stamp(before,"position_line_cutoff")
+    if not isinstance(history,dict) or history.get("schema")!=VERSION:
+        raise TackleChallengerError("invalid_position_line_history")
+    groups=defaultdict(list)
+    for r in history["rows"]:
+        start=parse_stamp(r["start_time"],"position_line_game_start")
+        available=parse_stamp(r["available_at"],"position_line_available")
+        if not (start<cutoff and available<=cutoff):
+            continue
+        role=POSITION_ROLE_GROUPS.get(r["position"])
+        if role is None:
+            continue
+        groups[role].append(r)
+    derived={}
+    skipped={}
+    for role in sorted(set(POSITION_ROLE_GROUPS.values())):
+        rows=groups.get(role,[])
+        games={r["game_id"] for r in rows}
+        players={r["player_id"] for r in rows}
+        if (len(rows)<MIN_ROLE_LINE_PLAYER_GAMES or
+                len(games)<MIN_ROLE_LINE_GAMES or
+                len(players)<MIN_ROLE_LINE_PLAYERS):
+            skipped[role]={"reason":"insufficient_pre_holdout_role_support",
+                           "player_game_rows":len(rows),"distinct_games":len(games),
+                           "distinct_players":len(players)}
+            continue
+        prior_counts=[positive(r["tackles_assists"],"prior_position_tackles",zero=True)
+                      for r in rows]
+        middle=median(prior_counts)
+        threshold=float(math.floor(middle)+0.5)
+        # Every selected line lies exactly between two count outcomes. No pushes.
+        derived[role]={"line":threshold,"training_median":middle,
+                       "player_game_rows":len(rows),
+                       "distinct_games":len(games),
+                       "distinct_players":len(players),
+                       "historical_over_share":sum(y>threshold for y in prior_counts)/len(rows),
+                       "threshold_policy":"training_median_half_integer_v1"}
+    return {"schema":"nfl-tackle-preholdout-role-lines-v1",
+            "line_policy":"position_training_median_v1",
+            "frozen_cutoff":cutoff.isoformat(),
+            "source_timing":history.get("time_provenance"),
+            "role_mapping":dict(sorted(POSITION_ROLE_GROUPS.items())),
+            "role_lines":derived,"abstaining_roles":skipped,
+            "training_started":False,"production_eligible":False}
+
+
+def _pregame_player_role(history, *, team, player_id, now):
+    """Obtain position from prior defender games; never current game labels."""
+    if history.get("_index") is None:
+        raise TackleChallengerError("position_line_replay_requires_history_index")
+    past,_=indexed_prior(history["_index"],("player",team,str(player_id)),now)
+    past=sorted(past,key=lambda r:(r["start_time"],r["game_id"]))[-MAX_GAMES:]
+    if len(past)<MIN_PLAYER_GAMES:
+        return None
+    position=Counter(r["position"] for r in past).most_common(1)[0][0]
+    return POSITION_ROLE_GROUPS.get(position)
+
+
+def walk_forward(history, *, from_time, line=5.5, max_rows=10000,
+                 share_prior_mode="evidence_adaptive_v2", line_policy="fixed"):
+    """Chronological, matched research-only comparison, never market approval.
+
+    Fixed mode reproduces the original uniform 5.5 threshold. Position mode
+    freezes role-specific median count thresholds from training history
+    available before the holdout starts. All holdout player outcomes and
+    target defensive plays remain completely unavailable to forecasting.
     """
     boundary=parse_stamp(from_time,"holdout_begin")
+    if line_policy not in POSITION_LINE_POLICIES:
+        raise TackleChallengerError("unsupported_position_line_policy")
+    if line_policy=="position_training_median_v1" and line!=5.5:
+        raise TackleChallengerError("position_line_policy_disallows_manual_threshold")
     history=index_research_history(history)
     allrows=history["rows"]
+    position_lines=(derive_frozen_position_lines(history,before=boundary.isoformat())
+                    if line_policy=="position_training_median_v1" else None)
     done=[];skipped=Counter();seen=set()
-    # Team offense history is indexed by opponent: the offense's plays
-    # from games in which these defenders faced them are retrospectively
-    # observed but never from the heldout game itself.
-    own_team=defaultdict(list)
-    for r in allrows:
-        own_team[r["team"]].append(r)
     for target in sorted(allrows,key=lambda r:(r["start_time"],r["game_id"],r["player_id"])):
         now=parse_stamp(target["start_time"],"game_start")
         if now<boundary:continue
         key=(target["game_id"],target["player_id"])
         if key in seen:raise TackleChallengerError("duplicate_backtest_player_game")
         seen.add(key)
-        # The pregame opponent offensive-play-volume forecast needs its
-        # own historical offensive dataset; use a neutral, predeclared
-        # 65-play scenario rather than the heldout team's actual plays.
+        forecast_at=now-timedelta(hours=2)
+        role=None
+        evaluation_line=line
+        if position_lines is not None:
+            role=_pregame_player_role(history,team=target["team"],
+                                      player_id=target["player_id"],now=forecast_at)
+            if role is None:
+                skipped["insufficient_prior_games_or_unknown_role"]+=1
+                continue
+            frozen=position_lines["role_lines"].get(role)
+            if frozen is None:
+                skipped["role_without_frozen_preholdout_line"]+=1
+                continue
+            evaluation_line=frozen["line"]
+        # The neutral 65-play scenario is fixed in advance. The actual
+        # heldout team-play volume is NEVER used to form either forecast.
         prediction=predict(history,player_id=target["player_id"],team=target["team"],
-            game_id=target["game_id"],
-            forecast_at=(now-timedelta(hours=2)).isoformat(),
-            event_start=now.isoformat(),
-            expected_defensive_plays=65.,line=line,share_prior_mode=share_prior_mode)
-        # The forecast date must be strictly before kickoff. Do not
-        # fall back to choosing the observed target event play total.
+            game_id=target["game_id"],forecast_at=forecast_at.isoformat(),
+            event_start=now.isoformat(),expected_defensive_plays=65.,
+            line=evaluation_line,share_prior_mode=share_prior_mode)
         if prediction.get("status")!="research_forecast":
             skipped[prediction.get("reason","missing")]+=1
             continue
-        # Actual on-field volume and conversion are appended ONLY after
-        # the pregame forecast has been computed. They are explanatory
-        # postgame diagnostics, not model inputs.
+        predicted_role=POSITION_ROLE_GROUPS.get(prediction["position"])
+        if position_lines is not None and predicted_role!=role:
+            raise TackleChallengerError("inconsistent_pregame_position_role")
         done.append({"game_id":target["game_id"],"date":now.date().isoformat(),
             "stat":STATS,"actual":target["tackles_assists"],
+            "line":evaluation_line,"role":predicted_role,
+            "role_from_prior_only":True,
+            "line_policy":line_policy,
+            "position_line_freeze_cutoff":position_lines["frozen_cutoff"]
+                        if position_lines else None,
             "actual_player_defensive_snaps":target["player_defensive_snaps"],
             "actual_team_defensive_plays":target["team_defensive_plays"],
             "actual_snap_share":target["player_defensive_snaps"]/target["team_defensive_plays"],
             "actual_tackles_per_snap":target["tackles_assists"]/target["player_defensive_snaps"],
-            "q_over":prediction["q_over"],
-            "q_under":prediction["q_under"],
+            "q_over":prediction["q_over"],"q_under":prediction["q_under"],
             "baseline":score_probability(
-                prediction["projection_components"]["team_play_rate_control_expected_tackles"],line),
+                prediction["projection_components"]["team_play_rate_control_expected_tackles"],
+                evaluation_line),
             "forecast":prediction})
         if len(done)>=max_rows:break
     return {"schema":"nfl-tackle-walk-forward-research-v1",
-            "share_prior_mode":share_prior_mode,"line":line,
-            "line_source":"fixed_5_5_synthetic_research_not_market",
+            "share_prior_mode":share_prior_mode,
+            "line":line if position_lines is None else None,
+            "line_policy":line_policy,
+            "position_line_receipt":position_lines,
+            "line_source":("fixed_5_5_synthetic_research_not_market"
+                           if position_lines is None else
+                           "frozen_preholdout_position_median_synthetic_not_market"),
             "n":len(done),"rows":done,"excluded":dict(skipped),
             "training_started":False,"production_eligible":False}
-
 
 
 def summarize_walk_forward(report, *, seed=20261108, bootstraps=500):
@@ -493,7 +594,7 @@ def summarize_walk_forward(report, *, seed=20261108, bootstraps=500):
     valid=[]
     for r in report.get("rows",[]):
         actual=positive(r.get("actual"),"holdout_actual",zero=True)
-        line=positive(report.get("line"),"walk_forward_line",zero=True)
+        line=positive(r.get("line",report.get("line")),"walk_forward_line",zero=True)
         if actual==line:
             continue
         p=r["q_over"];b=r["baseline"]["q_over"]
@@ -540,10 +641,27 @@ def summarize_walk_forward(report, *, seed=20261108, bootstraps=500):
         status="research_only_date_cluster_interval_not_production_calibration"
     return {"schema":"nfl-tackle-challenger-walk-forward-scoring-v1",
             "source":"retrospective_plus_18h_historical_availability_unverified",
-            "line_source":report["line_source"],"n_dates":len(dates),
+            "line_source":report["line_source"],"line_policy":report.get("line_policy","fixed"),
+            "n_dates":len(dates),
             "score":scored,"interval_95":interval,"status":status,
             "ranking_allowed":False,"production_eligible":False,
             "training_started":False}
+
+
+def summarize_walk_forward_by_role(report, *, seed=20261108, bootstraps=500):
+    """Diagnostics on the exact same frozen lines, separated by prior role.
+
+    A role with too few distinct evaluation dates cannot report a confidence
+    interval, even when the overall experiment has adequate dates.
+    """
+    grouped=defaultdict(list)
+    for r in report.get("rows",[]):
+        role=r.get("role")
+        if role:
+            grouped[role].append(r)
+    return {role:summarize_walk_forward(
+                {**report,"rows":rows},seed=seed,bootstraps=bootstraps)
+            for role,rows in sorted(grouped.items())}
 
 
 def main(argv=None):
@@ -554,6 +672,7 @@ def main(argv=None):
                     help="Research-only chronological replay start (UTC instant)")
     ap.add_argument("--max-holdout-rows",type=int,default=4200)
     ap.add_argument("--share-prior-mode",choices=SHARE_PRIOR_MODES,default="evidence_adaptive_v2")
+    ap.add_argument("--line-policy",choices=POSITION_LINE_POLICIES,default="fixed")
     ap.add_argument("--player-id")
     ap.add_argument("--team")
     ap.add_argument("--game-id")
@@ -573,10 +692,13 @@ def main(argv=None):
             ap.error("teammate conditioning requires archived game-specific pregame reports")
         if not 100<=a.max_holdout_rows<=50000:
             ap.error("invalid walk-forward row cap")
+        if a.line_policy!="fixed" and a.line is not None:
+            ap.error("position line policy freezes thresholds before holdout; do not supply --line")
         research=walk_forward(history,from_time=a.walk_forward_from,
                               line=5.5 if a.line is None else a.line,
                               max_rows=a.max_holdout_rows,
-                              share_prior_mode=a.share_prior_mode)
+                              share_prior_mode=a.share_prior_mode,
+                              line_policy=a.line_policy)
         result={
             "schema":"nfl-tackle-challenger-research-report-v1",
             "input_source_digests":history["history_source_digests"],
@@ -584,8 +706,11 @@ def main(argv=None):
             "historical_timing_policy":history["time_provenance"],
             "walk_forward_from":a.walk_forward_from,
             "share_prior_mode":a.share_prior_mode,
+            "line_policy":a.line_policy,
+            "position_line_receipt":research["position_line_receipt"],
             "max_holdout_rows":a.max_holdout_rows,
             "score":summarize_walk_forward(research),
+            "by_role":summarize_walk_forward_by_role(research),
             "production_eligible":False,
             "ranking_allowed":False,"training_started":False}
     else:
