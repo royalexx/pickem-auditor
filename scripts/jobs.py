@@ -307,6 +307,13 @@ def pipeline_to_snapshot(
     record = {
         "forecast_at": meta.get('forecast_at'),
         "event_start": meta.get('event_start'),
+        "model_training_cutoff_at": meta.get("model_training_cutoff_at"),
+        "model_training_cutoff_basis": meta.get("model_training_cutoff_basis"),
+        "source_receipts": meta.get("source_receipts"),
+        "used_source_ids": meta.get("used_source_ids"),
+        "source_capture_at": meta.get("source_capture_at"),
+        "source_capture_scope": meta.get("source_capture_scope"),
+        "source_capture_error": meta.get("source_capture_error"),
         "run_at": run_at,
         "game_date": str(meta["game_date"]),
         "sport": str(meta["sport"]),
@@ -350,7 +357,8 @@ def pipeline_to_snapshot(
         "crosscheck": result.get("crosscheck"),
         "blend": result.get("blend"),
         "shared_context":result.get('shared_context'),
-        "market": market,
+        "market": ({**market, "books": candidate.get("books")}
+                   if isinstance(candidate.get("books"), list) else market),
     }
     blend = result.get('blend') or {}
     if blend.get('production_policy'):
@@ -438,6 +446,29 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
             mark("unavailable","invalid_pipeline_candidate_id")
             continue
         sport, player, stat, _side = parsed
+        if os.environ.get("PICKEM_PHASE0_CAPTURE") == "1":
+            # Freeze exact collector-owned usage, candidate, research and
+            # sportsbook bytes before recording a forecast timestamp.
+            try:
+                from phase0_input_capture import capture
+                meta.update(capture(
+                    candidate, result, data_root=Path(data_root or SKILL_ROOT / "data"),
+                    archive_root=Path(data_root or SKILL_ROOT / "data") / "source_archives",
+                    clock=clock_fn or (lambda: datetime.now(timezone.utc)),
+                ))
+            except (OSError, ValueError, KeyError, TypeError) as exc:
+                # Keep V1 immutable for comparison; never manufacture missing
+                # receipts or silently certify the affected contract.
+                meta["source_capture_error"] = type(exc).__name__ + ":" + str(exc)[:180]
+        frozen_at = clock_fn() if clock_fn else (evaluation_now or datetime.now(timezone.utc))
+        if frozen_at.tzinfo is None:
+            errors += 1
+            mark("unavailable", "naive_freeze_clock")
+            continue
+        if meta.get("event_start") and game_started(meta["event_start"], frozen_at):
+            mark("unavailable", "event_started_before_forecast_freeze")
+            continue
+        meta["forecast_at"] = frozen_at.isoformat()
         snapshots.append(
             pipeline_to_snapshot(
                 result,
