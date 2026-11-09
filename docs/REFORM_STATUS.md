@@ -12,11 +12,13 @@ Training is deliberately paused, and existing checkpoints/posteriors are preserv
 - [x] Disable hourly frozen-training recovery automation.
 - [x] Add `.training-control/PAUSED.json` and an early GitHub Actions guard to reject successor 31-market starts.
 - [x] Preserve the original 60/40 model, source manifest, and archived pregame forecasts.
-- [x] **Code**: replace IID row bootstrap in `fit_blend.py` with matched date-block resampling and reject sparse chronological promotion comparisons.
-- [x] **Code**: reject NFL season profiles retrieved after the historical evaluation time; block missing/naive provenance timestamps.
-- [x] **Tests written**: four blend-bootstrap tests (same-day pseudo-replication, misaligned contracts, correlated slates, insufficient independent dates); two NFL retrieval-integrity tests.
-- [ ] Full repository CI green; the 2026-11-08 reform-branch workflow found two failures outside the changed code, including `test_automated_scouting_review` and `test_provisional_nuts_shadow`. The separate joint-Bayesian smoke check passed.
-- [ ] Expand the immutable historical timing/source audit to additional inputs, including lineups and injury features; preserve missing-retrieval evidence as unavailable.
+- [x] **Item 2 completed — point-in-time code enforcement.** The original Phase 1 validator now requires archived pregame source files and verifies their SHA-256 bytes, explicit publication/observation/retrieval chronology, original contract identity, and unique feature receipts across NFL/NBA/NHL. Later or absent provider inputs are rejected, never reconstructed.
+- [x] **Item 2 completed — NFL live/replay safety.** `nfl_season_store.py` rejects timezone-naive cutoffs and future retrievals, distinguishes actual captured retrieval times from user-supplied `as_of`, and the live NFL opportunity projection refuses profiles without captured source provenance.
+- [x] **Item 3 completed — clustered blend statistics.** `fit_blend.py` preserves earliest frozen forecasts and distinct exact lines, excludes fold predictions before 300 prior rows on at least 20 dates, resamples matched game dates, rejects duplicated/mismatched contracts and fewer than 100 OOF rows / 20 test dates, and requires positive 95% paired-block improvement for BOTH log loss and Brier vs M0 and M2.
+- [x] **Item 3 completed — promotion source gate.** The market-augmented blend cannot emit weights without verified source archive bytes, explicit same-line market quote and all included engine provenance; unverified historical snapshots are research-only.
+- [x] **Adversarial tests.** Expanded regression suites for hash tampering, future lineup/news/market inputs, clock drift, duplicate receipts, source path traversal, missing player-line identity, pseudo-replication and underpowered/blended results.
+- [x] **Full offline CI green.** GitHub Actions run #42540592355 completed 1,103 tests with nine expected skips and no failures; the Bayesian sampling job is deliberately skipped during the user-directed training pause. The old scouting-review/NUTS tests were corrected to respect frozen-consensus abstention and simulated pregame inference clocks.
+- [ ] **Historical evidence limitation:** The original November 8 market/lineup/injury provider bundle was incomplete. Integrity checks cannot retrospectively establish a missing original publication time or create evidence that was not archived. Collect/source-pin those payloads prospectively in item 4's validation cohort.
 - [ ] Compile a **single canonical** matched pregame settlement cohort across sports and dates, with original model/market quotes and non-push/push status.
 - [ ] Run aggregate Brier/log loss, directional and Over/Under bias, full-universe vs selected top-k calibration, with game/date clustering.
 - [ ] Build and validate NFL tackle snap-share / on-field conversion challenger, including teammate availability.
@@ -60,13 +62,20 @@ File: `scripts/nfl_season_store.py`. Historical profile reads check both
 the source snapshot's as-of and its source retrieval timestamps against
 evaluation time, rejecting future or timezone-naive retrieval metadata.
 
-### CI note
+### CI and audit note
 
-The 2026-11-08 reform branch's full offline test job finished with 1,085
-tests and two failures in unrelated modules. This is **not** a green build;
-CI must be reconciled before release. The independent Bayesian smoke-test
-job was successful. The six newly added reform regression tests did not
-appear among the reported failures. No production blend was promoted.
+The full **offline** test suite is green (1,103 tests at commit
+`7dfca8403ce86adb811cc8072c83f1b64f309cc2`).
+The separate Bayesian NUTS smoke job is deliberately **skipped**, not passed,
+while model training remains paused. CI must be rechecked on the final merged
+revision. No production ensemble weight, trained posterior, frozen forecast,
+selection Tier or ranking algorithm was modified.
+
+The requirements behind items 2 and 3 are implemented and tested.
+They do not retroactively authenticate unavailable historical sources, nor
+prove predictive skill. Item 4 must still assemble an adequate prospective
+matched archive and publish aggregate performance.
+
 
 ## Important operational note
 
