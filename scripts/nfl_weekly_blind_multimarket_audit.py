@@ -62,13 +62,13 @@ def weekly_interval(weeks,market,*,draws=1200,seed=20261109):
     return {k:ci(v) for k,v in reps.items()}
 
 
-def audit(root, *, expected_weeks=18):
+def audit(root, *, expected_weeks=18, year=2024):
     root=Path(root)
-    if not 1<=expected_weeks<=18:
+    if not 1<=expected_weeks<=18 or year not in (2024,2025):
         raise WeeklyAuditError("invalid_experiment_year_week_count")
     settlements=[];receipts=[];prior=None
     for week in range(1,expected_weeks+1):
-        directory=root/f"2024_week_{week:02d}"
+        directory=root/f"{year}_week_{week:02d}"
         packet,p_sha=read_verify(directory/"pregame_packet.json")
         frozen,f_sha=read_verify(directory/"frozen_all_markets.json")
         lock,l_sha=read_verify(directory/"lock.json")
@@ -80,7 +80,7 @@ def audit(root, *, expected_weeks=18):
                           (settled,"complete_week_settled")):
             if obj.get("schema")!=SCHEMA or obj.get("stage")!=stage:
                 raise WeeklyAuditError("original_week_stage_mismatch")
-            if obj.get("week")!=week or obj.get("year")!=2024:
+            if obj.get("week")!=week or obj.get("year")!=year:
                 raise WeeklyAuditError("week_identity_mismatch")
         if packet.get("target_week_results_in_packet") is not False:
             raise WeeklyAuditError("target_result_exposure_not_explicitly_blocked")
@@ -155,7 +155,7 @@ def audit(root, *, expected_weeks=18):
     all_metrics=weighted_metrics(settlements,None)
     return {
         "schema":"pickem-nfl-weekly-blind-independent-audit-v1",
-        "year":2024,"weeks":len(settlements),
+        "year":year,"weeks":len(settlements),
         "n_markets":len(MARKETS),"sequential_all_market_reveal_verified":True,
         "all_week_locks_verified":True,
         "training_counts_advance_only_after_previous_week_settlement":True,
@@ -177,9 +177,10 @@ def main(argv=None):
     p=argparse.ArgumentParser()
     p.add_argument("--root",type=Path,required=True)
     p.add_argument("--weeks",type=int,default=18)
+    p.add_argument("--year",type=int,default=2024)
     p.add_argument("--out",type=Path)
     a=p.parse_args(argv)
-    result=audit(a.root,expected_weeks=a.weeks)
+    result=audit(a.root,expected_weeks=a.weeks,year=a.year)
     raw=json.dumps(result,sort_keys=True,indent=2,allow_nan=False)+"\n"
     if a.out:
         if a.out.exists() and a.out.read_text()!=raw:
