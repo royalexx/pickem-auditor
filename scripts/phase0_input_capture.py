@@ -11,12 +11,14 @@ import json
 import os
 import re
 from datetime import datetime, timezone
+from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
 from usage_baseline import key as usage_key
 
-MAX_INPUT_BYTES = 12_000_000
+MAX_INPUT_BYTES = 64_000_000
+_STATIC_RECEIPTS = {}
 SAFE_ID = re.compile(r"^[a-zA-Z0-9._-]+$")
 
 
@@ -53,6 +55,12 @@ def _safe_bytes(raw):
 
 def preserve(root, component, role, raw, *, captured, retrieved, url=None):
     """Atomic content-addressed write, no modification of an existing snapshot."""
+    # Shared research and market files are identical for many contracts.
+    # The cached immutable byte object remains pinned by the file cache.
+    cache_key = ((component, role, id(raw), retrieved.isoformat(), url)
+                 if role in ("original_research", "original_book_quotes") else None)
+    if cache_key is not None and cache_key in _STATIC_RECEIPTS:
+        return dict(_STATIC_RECEIPTS[cache_key])
     raw = _safe_bytes(raw)
     if not raw:
         raise ValueError("empty_source_input")
@@ -75,7 +83,7 @@ def preserve(root, component, role, raw, *, captured, retrieved, url=None):
         pass
     if hashlib.sha256(target.read_bytes()).hexdigest() != digest:
         raise ValueError("existing_source_archive_mutated")
-    return {
+    receipt = {
         "source_id": f"{component}_{role}_{digest[:24]}",
         "model_component": component,
         "source_kind": "collector_input_bytes",
@@ -88,13 +96,23 @@ def preserve(root, component, role, raw, *, captured, retrieved, url=None):
         "retrieved_at": stamp(retrieved),
         "status": "verified",
     }
+    if cache_key is not None:
+        _STATIC_RECEIPTS[cache_key] = receipt
+    return receipt
 
 
-def _read_json(path):
-    raw = path.read_bytes()
+@lru_cache(maxsize=32)
+def _read_json_version(path, mtime_ns, size):
+    raw = Path(path).read_bytes()
     if len(raw) > MAX_INPUT_BYTES:
         raise ValueError("source_file_too_large")
     return raw, json.loads(raw)
+
+
+def _read_json(path):
+    path = Path(path)
+    stat = path.stat()
+    return _read_json_version(str(path.resolve()), stat.st_mtime_ns, stat.st_size)
 
 
 def capture(candidate, result, *, data_root, archive_root, clock, identity=None):
@@ -175,8 +193,17 @@ def capture(candidate, result, *, data_root, archive_root, clock, identity=None)
     }
 
 
-def _read_jsonl(path):
-    raw = path.read_bytes()
+@lru_cache(maxsize=8)
+def _read_jsonl_version(path, mtime_ns, size):
+    raw = Path(path).read_bytes()
+    if len(raw) > MAX_INPUT_BYTES:
+        raise ValueError("source_file_too_large")
     if not raw.strip():
         raise ValueError("source_book_quotes_missing")
     return raw, None
+
+
+def _read_jsonl(path):
+    path = Path(path)
+    stat = path.stat()
+    return _read_jsonl_version(str(path.resolve()), stat.st_mtime_ns, stat.st_size)
