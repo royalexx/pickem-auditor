@@ -9,6 +9,7 @@ a missing player-stat row. Empirical alpha/dispersion is NOT tuned here.
 """
 from __future__ import annotations
 
+from bisect import bisect_right
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -204,6 +205,45 @@ def score_probability(mean, line, *, alpha=ALPHA):
             "alpha_fixed":dispersion,"distribution":"negative_binomial_fixed_alpha_research"}
 
 
+
+def index_research_history(history):
+    """Prepare chronological **in-memory only** prefixes for fast OOS scoring.
+
+    Sorting keys are actual source availability instants, not final game
+    results or the holdout target. All queries cut the prefix at forecast_at.
+    The index must be constructed after the source rows are frozen.
+    """
+    if history.get("schema")!=VERSION:
+        raise TackleChallengerError("invalid_challenger_history")
+    grouped=defaultdict(list)
+    for row in history["rows"]:
+        grouped[("player",row["team"],row["player_id"])].append(row)
+        grouped[("position",row["position"])].append(row)
+        grouped[("position_player",row["position"],row["player_id"])].append(row)
+    index={}
+    for key,rows in grouped.items():
+        chronological=sorted(rows,key=lambda r:(
+            parse_stamp(r["available_at"],"indexed_available"),
+            r["start_time"],r["game_id"],r["player_id"]))
+        timestamps=[];sums={"share":[0.0],"credits":[0.0],"snaps":[0.0]}
+        for row in chronological:
+            timestamps.append(parse_stamp(row["available_at"],"indexed_available"))
+            sums["share"].append(sums["share"][-1]+
+                     row["player_defensive_snaps"]/row["team_defensive_plays"])
+            sums["credits"].append(sums["credits"][-1]+row["tackles_assists"])
+            sums["snaps"].append(sums["snaps"][-1]+row["player_defensive_snaps"])
+        index[key]={"rows":chronological,"times":timestamps,"sums":sums}
+    return {**history,"_index":index}
+
+
+def indexed_prior(index,key,when):
+    bucket=index.get(key)
+    if not bucket:return [],(0,0.,0.,0.)
+    n=bisect_right(bucket["times"],when)
+    data=bucket["sums"]
+    return bucket["rows"][:n],(n,data["share"][n],data["credits"][n],data["snaps"][n])
+
+
 def predict(history, *, player_id,team,forecast_at,event_start,
             expected_defensive_plays,line,game_id=None,
             teammate_id=None,teammate_report=None,
@@ -216,9 +256,15 @@ def predict(history, *, player_id,team,forecast_at,event_start,
     if not now<start:raise TackleChallengerError("late_or_invalid_forecast")
     volume=positive(expected_defensive_plays,"expected_defensive_plays")
     if volume>120:raise TackleChallengerError("implausible_expected_defensive_plays")
-    selected=[r for r in history["rows"] if str(r["player_id"])==str(player_id)
-              and r["team"]==team and parse_stamp(r["start_time"],"history_start")<start
-              and parse_stamp(r["available_at"],"history_available")<=now]
+    indexed=history.get("_index")
+    if indexed is None:
+        selected=[r for r in history["rows"] if str(r["player_id"])==str(player_id)
+                  and r["team"]==team and parse_stamp(r["start_time"],"history_start")<start
+                  and parse_stamp(r["available_at"],"history_available")<=now]
+    else:
+        selected,_=indexed_prior(indexed,("player",team,str(player_id)),now)
+        if any(parse_stamp(r["start_time"],"history_start")>=start for r in selected):
+            raise TackleChallengerError("indexed_future_game_leak")
     selected.sort(key=lambda r:(r["start_time"],r["game_id"]))
     selected=selected[-MAX_GAMES:]
     if len({r["game_id"] for r in selected})!=len(selected):
@@ -229,11 +275,22 @@ def predict(history, *, player_id,team,forecast_at,event_start,
                 "ranking_allowed":False}
     positions=Counter(r["position"] for r in selected)
     position=positions.most_common(1)[0][0]
-    pool=[r for r in history["rows"] if r["player_id"]!=str(player_id)
-          and r["position"]==position and
-          parse_stamp(r["start_time"],"history_start")<start
-          and parse_stamp(r["available_at"],"history_available")<=now]
-    pool_games=len(pool)
+    if indexed is None:
+        pool=[r for r in history["rows"] if r["player_id"]!=str(player_id)
+              and r["position"]==position and
+              parse_stamp(r["start_time"],"history_start")<start
+              and parse_stamp(r["available_at"],"history_available")<=now]
+        pool_games=len(pool)
+        prior_share_numerator=sum(r["player_defensive_snaps"]/r["team_defensive_plays"] for r in pool)
+        prior_credit_numerator=sum(r["tackles_assists"] for r in pool)
+        prior_snap_denominator=sum(r["player_defensive_snaps"] for r in pool)
+    else:
+        _,full=indexed_prior(indexed,("position",position),now)
+        _,own=indexed_prior(indexed,("position_player",position,str(player_id)),now)
+        pool_games=full[0]-own[0]
+        prior_share_numerator=full[1]-own[1]
+        prior_credit_numerator=full[2]-own[2]
+        prior_snap_denominator=full[3]-own[3]
     reasons=[]
     if pool_games<MIN_POSITION_GAMES:
         reasons.append("sparse_position_prior")
@@ -242,8 +299,8 @@ def predict(history, *, player_id,team,forecast_at,event_start,
         share_prior_games=0.0
         rate_prior_snaps=0.0
     else:
-        prior_share=sum(r["player_defensive_snaps"]/r["team_defensive_plays"] for r in pool)/len(pool)
-        prior_rate=sum(r["tackles_assists"] for r in pool)/sum(r["player_defensive_snaps"] for r in pool)
+        prior_share=prior_share_numerator/pool_games
+        prior_rate=prior_credit_numerator/prior_snap_denominator
         share_prior_games=POSITION_PSEUDO_GAMES
         rate_prior_snaps=RATE_PSEUDO_SNAPS
     # Recency weights are set before outcomes, not tuned on the heldout games.
@@ -357,6 +414,7 @@ def walk_forward(history, *, from_time, line=5.5, max_rows=10000):
     Fixed 5.5 is NOT an archived sportsbook line.
     """
     boundary=parse_stamp(from_time,"holdout_begin")
+    history=index_research_history(history)
     allrows=history["rows"]
     done=[];skipped=Counter();seen=set()
     # Team offense history is indexed by opponent: the offense's plays
