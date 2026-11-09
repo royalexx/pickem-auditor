@@ -23,6 +23,8 @@ def project(spec,context,packet,*,now=None):
     if not isinstance(context,dict) or context.get('metadata',{}).get('version')!=VERSION:
         raise ValueError('current-season profile unavailable')
     meta=context['metadata']
+    if meta.get('retrieval_provenance')!='observed_capture':
+        raise ValueError('season_source_retrieval_unverified')
     season=now.year-(now.month<3)
     if meta.get('season')!=season:raise ValueError('season profile does not match evaluation season')
     stamp=datetime.fromisoformat(meta['retrieved_at'].replace('Z','+00:00'))
