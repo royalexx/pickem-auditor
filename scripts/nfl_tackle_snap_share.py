@@ -27,6 +27,7 @@ ALPHA=8.0                       # fixed research dispersion, not learned
 MAX_GAMES=12
 POSITION_PSEUDO_GAMES=3.0
 RATE_PSEUDO_SNAPS=120.0
+SHARE_PRIOR_MODES=("constant_v1","evidence_adaptive_v2")
 MIN_POSITION_GAMES=25
 MIN_PLAYER_GAMES=3
 MIN_CONTRAST_GAMES=3
@@ -251,6 +252,7 @@ def indexed_prior(index,key,when):
 
 def predict(history, *, player_id,team,forecast_at,event_start,
             expected_defensive_plays,line,game_id=None,
+            share_prior_mode="evidence_adaptive_v2",
             teammate_id=None,teammate_report=None,
             historical_teammate_reports=None,archive_root=None):
     """Predict from *only* prior available games. Always research-only."""
@@ -259,6 +261,8 @@ def predict(history, *, player_id,team,forecast_at,event_start,
     now=parse_stamp(forecast_at,"forecast_at")
     start=parse_stamp(event_start,"event_start")
     if not now<start:raise TackleChallengerError("late_or_invalid_forecast")
+    if share_prior_mode not in SHARE_PRIOR_MODES:
+        raise TackleChallengerError("unsupported_snap_share_prior_method")
     volume=positive(expected_defensive_plays,"expected_defensive_plays")
     if volume>120:raise TackleChallengerError("implausible_expected_defensive_plays")
     indexed=history.get("_index")
@@ -306,7 +310,10 @@ def predict(history, *, player_id,team,forecast_at,event_start,
     else:
         prior_share=prior_share_numerator/pool_games
         prior_rate=prior_credit_numerator/prior_snap_denominator
-        share_prior_games=POSITION_PSEUDO_GAMES
+        # Retire positional pseudo-games as independent player games arrive.
+        # Otherwise genuine starters remain shrunk toward bench usage.
+        share_prior_games=(POSITION_PSEUDO_GAMES if share_prior_mode=="constant_v1"
+                           else POSITION_PSEUDO_GAMES*min(1.,3./len(selected)))
         rate_prior_snaps=RATE_PSEUDO_SNAPS
     # Recency weights are set before outcomes, not tuned on the heldout games.
     weights=[2.**(-(len(selected)-1-i)/4.0) for i in range(len(selected))]
@@ -383,6 +390,7 @@ def predict(history, *, player_id,team,forecast_at,event_start,
             "forecast_at":now.isoformat(),"event_start":start.isoformat(),
             "player_id":str(player_id),"team":team,"position":position,
             "player_games":len(selected),"source_timing":history.get("time_provenance"),
+            "share_prior_mode":share_prior_mode,
             "projection_components":{
                 "expected_team_defensive_plays":volume,
                 "estimated_defensive_snap_share":share,
@@ -397,6 +405,7 @@ def predict(history, *, player_id,team,forecast_at,event_start,
             "statistical_support":{"position_peer_games":pool_games,
                  "prior_player_game_ids":[r["game_id"] for r in selected],
                  "source_history_digests":history.get("history_source_digests",[]),
+                 "position_prior_equivalent_games":share_prior_games,
                  "relative_se_lower_bound_excludes_game_volume_error":relative_se_lower,
                  "dispersion":"fixed_alpha_8_unvalidated"},
             **distribution,
@@ -411,7 +420,8 @@ def predict(history, *, player_id,team,forecast_at,event_start,
                 "No missing teammate game is assumed to be inactive"]}
 
 
-def walk_forward(history, *, from_time, line=5.5, max_rows=10000):
+def walk_forward(history, *, from_time, line=5.5, max_rows=10000,
+                 share_prior_mode="evidence_adaptive_v2"):
     """Research-only chronological fixed-line baseline comparison.
 
     The future player's outcome and actual team plays are used only to
@@ -441,7 +451,7 @@ def walk_forward(history, *, from_time, line=5.5, max_rows=10000):
             game_id=target["game_id"],
             forecast_at=(now-timedelta(hours=2)).isoformat(),
             event_start=now.isoformat(),
-            expected_defensive_plays=65.,line=line)
+            expected_defensive_plays=65.,line=line,share_prior_mode=share_prior_mode)
         # The forecast date must be strictly before kickoff. Do not
         # fall back to choosing the observed target event play total.
         if prediction.get("status")!="research_forecast":
@@ -462,7 +472,8 @@ def walk_forward(history, *, from_time, line=5.5, max_rows=10000):
                 prediction["projection_components"]["team_play_rate_control_expected_tackles"],line),
             "forecast":prediction})
         if len(done)>=max_rows:break
-    return {"schema":"nfl-tackle-walk-forward-research-v1","line":line,
+    return {"schema":"nfl-tackle-walk-forward-research-v1",
+            "share_prior_mode":share_prior_mode,"line":line,
             "line_source":"fixed_5_5_synthetic_research_not_market",
             "n":len(done),"rows":done,"excluded":dict(skipped),
             "training_started":False,"production_eligible":False}
@@ -542,6 +553,7 @@ def main(argv=None):
     ap.add_argument("--walk-forward-from",
                     help="Research-only chronological replay start (UTC instant)")
     ap.add_argument("--max-holdout-rows",type=int,default=4200)
+    ap.add_argument("--share-prior-mode",choices=SHARE_PRIOR_MODES,default="evidence_adaptive_v2")
     ap.add_argument("--player-id")
     ap.add_argument("--team")
     ap.add_argument("--game-id")
@@ -563,13 +575,15 @@ def main(argv=None):
             ap.error("invalid walk-forward row cap")
         research=walk_forward(history,from_time=a.walk_forward_from,
                               line=5.5 if a.line is None else a.line,
-                              max_rows=a.max_holdout_rows)
+                              max_rows=a.max_holdout_rows,
+                              share_prior_mode=a.share_prior_mode)
         result={
             "schema":"nfl-tackle-challenger-research-report-v1",
             "input_source_digests":history["history_source_digests"],
             "source_quality_counts":history["source_quality_counts"],
             "historical_timing_policy":history["time_provenance"],
             "walk_forward_from":a.walk_forward_from,
+            "share_prior_mode":a.share_prior_mode,
             "max_holdout_rows":a.max_holdout_rows,
             "score":summarize_walk_forward(research),
             "production_eligible":False,
@@ -585,6 +599,7 @@ def main(argv=None):
         result=predict(history,player_id=a.player_id,team=a.team,
             game_id=a.game_id,forecast_at=a.forecast_at,event_start=a.event_start,
             expected_defensive_plays=a.expected_defensive_plays,line=a.line,
+            share_prior_mode=a.share_prior_mode,
             teammate_id=a.teammate_id,teammate_report=teammate,
             historical_teammate_reports=archived,archive_root=a.archive_root)
     data=json.dumps(result,sort_keys=True,indent=2,allow_nan=False)+"\n"
