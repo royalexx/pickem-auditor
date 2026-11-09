@@ -313,6 +313,7 @@ def pipeline_to_snapshot(
         "used_source_ids": meta.get("used_source_ids"),
         "source_capture_at": meta.get("source_capture_at"),
         "source_capture_scope": meta.get("source_capture_scope"),
+        "historical_usage_retrieved_at": meta.get("historical_usage_retrieved_at"),
         "source_capture_error": meta.get("source_capture_error"),
         "run_at": run_at,
         "game_date": str(meta["game_date"]),
