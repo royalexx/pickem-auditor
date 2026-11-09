@@ -41,20 +41,18 @@ def leg_from_contract(row, *, model, source):
     if not proper_pair(m):
         return None,"noncomplementary_or_invalid_original_pair"
     side=m.get("side")
-    if side not in ("over","under") or not 0<=m.get("p",-1)<=1:
+    prob=m.get("p")
+    if (side not in ("over","under") or type(prob) not in (float,int)
+            or not math.isfinite(prob) or not 0<=prob<=1):
         raise LegDependenceError("unmatched_frozen_model_direction")
     if m.get("hit") != int(side==row["outcome"]) or abs(m["p"]-m[side])>1e-10:
         raise LegDependenceError("model_probabilities_not_same_frozen_side")
     key=row.get("contract")
     if not isinstance(key,tuple) or len(key)!=8:
         raise LegDependenceError("invalid_exact_contract")
-    if source=="nov8_current":
-        sport,_,team,opponent,player_id,player_name,stat,_line=key
-    else:
-        _date,sport,_event,team,player_name,stat,_line=key
-        # Historical legacy contract key has SEVEN members, so source
-        # evolution must be checked explicitly before interpreting fields.
-        raise LegDependenceError("unexpected_historical_contract_layout")
+    if source!="nov8_current":
+        raise LegDependenceError("historical_source_must_use_legacy_contract_parser")
+    sport,_,team,opponent,player_id,player_name,stat,_line=key
     if str(sport)!=str(row.get("sport")) or str(stat)!=str(row.get("stat")):
         raise LegDependenceError("settled_contract_market_identity_changed")
     if not row.get("date") or not row.get("game_id") or not str(player_id):
@@ -184,16 +182,25 @@ def summary(pairs, *, draws=500, seed=BOOTSTRAP_SEED):
     interval=None
     if ok:
         if draws<100:raise LegDependenceError("insufficient_bootstrap_draws")
+        # Games on the same date can share weather, news, and unobserved
+        # market-wide shock. Resample entire dates and retain all games
+        # on each date, rather than bootstrap correlated games as IID.
+        by_date=defaultdict(list)
+        for key in units:by_date[key[1]].append(key)
+        days=sorted(by_date)
         rng=random.Random(seed)
         values=[]
         for _ in range(draws):
-            sample=rng.choices(units,k=len(units))
-            values.append(sum(games[k]["mean_residual_product"] for k in sample)/len(sample))
+            drawn=[g for d in rng.choices(days,k=len(days))
+                   for g in by_date[d]]
+            values.append(sum(games[g]["mean_residual_product"]
+                              for g in drawn)/len(drawn))
         values.sort()
         interval=[values[int(draws*.025)],values[int(draws*.975)-1]]
     return {
         "n_pairs":n_pairs,"n_games":len(units),"n_dates":len(dates),
         "pair_weighting":"equal_game_weight_not_independent_pair_rows",
+        "interval_cluster_when_available":"entire_game_date_blocks",
         **mean,
         "status":("descriptive_game_cluster_interval_not_entry_authorization"
                   if ok else "insufficient_independent_games_or_dates"),
