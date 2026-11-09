@@ -99,6 +99,26 @@ class LiveCaptureTests(unittest.TestCase):
                         identity={"sport": "NHL", "player_id": "pid-1",
                                   "stat": "receptions", "game_date": "2026-11-09"})
 
+    def test_large_original_research_is_content_addressed_and_reused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            data, candidate = self.setup_inputs(Path(tmp))
+            path = data / "research_2026-11-09.json"
+            path.write_text(json.dumps({"date": "2026-11-09", "payload": "x" * 12_100_000}))
+            when = datetime(2026, 11, 9, 15, 0, tzinfo=timezone.utc)
+            result = {"engine_b": {"abstain": False},
+                      "market": {"market_valid": True, "line": 4.5}}
+            first = capture(candidate, result, data_root=data,
+                            archive_root=data / "source_archives", clock=lambda: when)
+            second = capture(candidate, result, data_root=data,
+                             archive_root=data / "source_archives", clock=lambda: when)
+            original = next(x for x in first["source_receipts"]
+                            if x["source_id"].startswith("Engine_B_original_research_"))
+            original_again = next(x for x in second["source_receipts"]
+                                  if x["source_id"].startswith("Engine_B_original_research_"))
+            self.assertEqual(original, original_again)
+            self.assertEqual((data / "source_archives" / original["archive_path"]).stat().st_size,
+                             path.stat().st_size)
+
     def test_reject_future_usage_and_missing_original_market(self):
         with tempfile.TemporaryDirectory() as tmp:
             data, candidate = self.setup_inputs(Path(tmp))
