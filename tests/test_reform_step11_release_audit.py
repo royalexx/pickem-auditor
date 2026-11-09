@@ -16,7 +16,7 @@ def fixture(destination):
     for name in list(check.REQUIRED_CODE)+list(check.REQUIRED_TESTS)+[
         "config/production_consensus.json",
         ".training-control/PAUSED.json",
-    ]+[".github/workflows/"+w for w in check.TRAINING_WORKFLOWS]:
+    ]+[".github/workflows/"+w for w in check.TRAINING_WORKFLOWS+check.MODEL_RELEASE_WORKFLOWS]:
         dst=destination/name
         dst.parent.mkdir(parents=True,exist_ok=True)
         shutil.copy2(ROOT/name,dst)
@@ -26,7 +26,9 @@ def fixture(destination):
 class ReleaseAuditTests(unittest.TestCase):
     def test_real_repo_workflows_policy_and_math_fail_closed(self):
         audit=check.inspect_release(ROOT)
-        self.assertEqual(audit["pause_guarded_workflow_count"],11)
+        self.assertEqual(audit["pause_guarded_workflow_count"],13)
+        self.assertEqual(audit["training_workflow_count"],12)
+        self.assertEqual(audit["model_release_workflow_count"],1)
         self.assertTrue(audit["full_source_stat_combined_nfl_tackles_verified"])
         self.assertTrue(audit["step4a_paired_probability_guard_exists"])
         self.assertTrue(audit["policy_verified_unchanged_60_40"])
@@ -45,6 +47,17 @@ class ReleaseAuditTests(unittest.TestCase):
             self.assertIn("TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED",source)
             path.write_text(source.replace(
                 "TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED",""))
+            with self.assertRaisesRegex(check.ReleaseAuditError,
+                                        "missing_early_training_pause_guard"):
+                check.inspect_release(root)
+
+    def test_posterior_publication_cannot_bypass_training_pause(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=fixture(d)
+            path=root/".github/workflows/nfl-targets-model-release.yml"
+            raw=path.read_text()
+            self.assertIn("TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED",raw)
+            path.write_text(raw.replace("TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED",""))
             with self.assertRaisesRegex(check.ReleaseAuditError,
                                         "missing_early_training_pause_guard"):
                 check.inspect_release(root)
