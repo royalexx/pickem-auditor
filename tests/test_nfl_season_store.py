@@ -81,6 +81,28 @@ class SeasonStoreTests(unittest.TestCase):
             self.assertEqual(p['passers']['A|Q']['throws'],16)
             with self.assertRaises(ValueError):store.profiles(2026,as_of='2026-10-01T00:00:00+00:00')
 
+    def test_replayed_profile_rejects_post_forecast_retrieval(self):
+        games, plays, chart = dataset()
+        with tempfile.TemporaryDirectory() as d:
+            store = ns.SeasonStore(Path(d) / 'season.sqlite3')
+            # The source is refreshed after the historical prediction cutoff.
+            store.refresh(2026, plays, chart, games, as_of=STAMP,
+                          retrieved_at='2026-10-27T12:00:00+00:00')
+            with self.assertRaisesRegex(ValueError, 'source_retrieved_after_evaluation'):
+                store.profiles(2026, as_of=STAMP)
+            self.assertEqual(
+                store.profiles(2026, as_of='2026-10-28T12:00:00+00:00')
+                     ['passers']['A|Q']['throws'], 16)
+
+    def test_replayed_profile_rejects_naive_retrieval_timestamp(self):
+        games, plays, chart = dataset()
+        with tempfile.TemporaryDirectory() as d:
+            store = ns.SeasonStore(Path(d) / 'season.sqlite3')
+            store.refresh(2026, plays, chart, games, as_of=STAMP,
+                          retrieved_at='2026-10-26T12:00:00')
+            with self.assertRaisesRegex(ValueError, 'naive_retrieval_timestamp'):
+                store.profiles(2026, as_of=STAMP)
+
     def test_unknown_reads_are_not_coverage_wins(self):
         games,plays,chart=dataset();chart=[]
         with tempfile.TemporaryDirectory() as d:
