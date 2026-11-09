@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import math
 import re
+import hashlib
+from pathlib import Path
 from datetime import datetime, timezone
 from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
@@ -32,11 +34,11 @@ def instant(value, field: str) -> datetime:
     return result.astimezone(timezone.utc)
 
 
-def verified_source_receipt(source: dict, *, forecast: datetime) -> str:
+def verified_source_receipt(source: dict, *, forecast: datetime, archive_root: Path | None) -> str:
     """Validate an immutable-archive receipt's metadata and timing.
 
-    SHA-256 syntax is checked here. Content authentication also requires the
-    calling archive loader to compare that digest with the actual source bytes.
+    This validates the digest against actual immutable source bytes on disk.
+    A mere receipt or retrospectively asserted timestamp is insufficient.
     """
     if not isinstance(source, dict) or source.get("status") != "verified":
         raise ProvenanceError("source_not_verified")
@@ -52,6 +54,20 @@ def verified_source_receipt(source: dict, *, forecast: datetime) -> str:
     digest = source.get("content_sha256")
     if not isinstance(digest, str) or not SHA256.fullmatch(digest):
         raise ProvenanceError("source_digest_missing_or_invalid")
+    relative = source.get("archive_path")
+    if archive_root is None:
+        raise ProvenanceError("source_archive_root_missing")
+    if not isinstance(relative, str) or not relative:
+        raise ProvenanceError("source_archive_path_missing")
+    path = Path(relative)
+    if path.is_absolute() or ".." in path.parts:
+        raise ProvenanceError("source_archive_path_unsafe")
+    root = Path(archive_root).resolve()
+    candidate = (root / path).resolve()
+    if not candidate.is_relative_to(root) or not candidate.is_file():
+        raise ProvenanceError("source_archive_file_unavailable")
+    if hashlib.sha256(candidate.read_bytes()).hexdigest() != digest:
+        raise ProvenanceError("source_archive_digest_mismatch")
     observed = instant(source.get("observed_at"), "source.observed_at")
     published = instant(source.get("published_at"), "source.published_at")
     retrieved = instant(source.get("retrieved_at"), "source.retrieved_at")
@@ -60,12 +76,13 @@ def verified_source_receipt(source: dict, *, forecast: datetime) -> str:
     return ident
 
 
-def blend_snapshot_status(row: dict) -> tuple[bool, str]:
+def blend_snapshot_status(row: dict, *, archive_root: Path | None = None) -> tuple[bool, str]:
     """Audit a scored row without changing its historical prediction.
 
-    A return of True asserts only that the timeline/identity contract and
-    archival receipts are present. It does not independently authenticate
-    external source bytes, which must be done by the frozen archive loader.
+    A return of True requires exact relative archive bytes to match every
+    source digest, along with the pregame timeline and contract identifiers.
+    It does not prove independently that a provider's publication timestamp
+    is truthful; immutable captured source timestamps must be reviewed.
     """
     try:
         forecast = instant(row.get("forecast_at"), "forecast_at")
@@ -99,7 +116,7 @@ def blend_snapshot_status(row: dict) -> tuple[bool, str]:
         ids = set()
         components = set()
         for receipt in receipts:
-            ident = verified_source_receipt(receipt, forecast=forecast)
+            ident = verified_source_receipt(receipt, forecast=forecast, archive_root=archive_root)
             if ident in ids:
                 raise ProvenanceError("duplicate_source_id")
             ids.add(ident)
@@ -116,8 +133,6 @@ def blend_snapshot_status(row: dict) -> tuple[bool, str]:
             required.add("Engine_B")
         if not required <= components:
             raise ProvenanceError("missing_engine_or_market_source_receipt")
-        if row.get("source_archive_bytes_verified") is not True:
-            raise ProvenanceError("source_archive_bytes_not_verified")
         # Reconcile the archived outcome, never repair it silently.
         actual = row.get("actual_stat")
         if actual is not None:
