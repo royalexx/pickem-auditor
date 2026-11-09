@@ -107,10 +107,36 @@ def oracle_prepare(root, vault):
     del df
     pbp_utils.CUTOFF = EXTENDED_BOUNDARY
     pbp_utils.TRAINING_SEASONS = (2024,)
-    positions = {str(r["player_id"]): str(r["position"])
-                 for r in obs if r["stat"] == "targets"}
-    team_games, pbp_coverage = pbp_utils.aggregate_games(
-        slim, allowed, player_position=positions, ftn_rows=())
+    # Never build role/position mappings from the *whole* 2024 season.
+    # For each week's PBP, only same-week postgame player identities
+    # can label an RB target. Future weeks must not influence even a
+    # training feature reconstructed for an earlier completed game.
+    gid_week = {f["game_id"]: int(f["week"]) for f in fixtures}
+    week_obs = collections.defaultdict(list)
+    week_pbp = collections.defaultdict(list)
+    for r in obs:
+        week_obs[gid_week[r["game_id"]]].append(r)
+    for r in slim:
+        wk = gid_week.get(str(r.get("game_id") or ""))
+        if wk is not None:
+            week_pbp[wk].append(r)
+    team_games = []
+    pbp_coverage = {"pbp_plays":0,"ftn_eligible_plays":0,
+          "ftn_joined_pbp_plays":0,"ftn_disallowed_or_missing":0,
+          "pre2024_games":0}
+    for wk in range(1,19):
+        this_fixtures = {gid:date for gid,date in allowed.items()
+                         if gid_week[gid]==wk}
+        this_positions={str(r["player_id"]):str(r["position"])
+              for r in week_obs[wk] if r["stat"]=="targets"}
+        week_teams,week_cov = pbp_utils.aggregate_games(
+             week_pbp[wk],this_fixtures,
+             player_position=this_positions,ftn_rows=())
+        if any(int(r["week"])!=wk for r in week_teams):
+            raise RuntimeError("future_week_role_leaked_to_team_pbp")
+        team_games.extend(week_teams)
+        for k in pbp_coverage:
+            pbp_coverage[k]+=week_cov[k]
     byweek = collections.defaultdict(lambda: {"players": [], "team_games": []})
     gid_week = {f["game_id"]: int(f["week"]) for f in fixtures}
     for r in obs:
