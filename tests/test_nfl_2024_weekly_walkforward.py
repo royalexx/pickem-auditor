@@ -63,6 +63,28 @@ class WalkforwardGuardTests(unittest.TestCase):
         finally:
             wf.hybrid.CUTOFF=old
 
+    def test_revealed_2024_team_games_admitted_only_to_online_index(self):
+        prior=wf.teamxgb.CUTOFF
+        try:
+            wf.teamxgb.CUTOFF=wf.EXTENDED_BOUNDARY
+            fresh={"season":2024,"gameday":"2024-09-05",
+                "team":"KC","opponent":"BAL","game_id":"2024_01_BAL_KC",
+                "week":1,"pass_attempts":30.0,"rush_attempts":25.0}
+            idx=wf.build_index_revealed([fresh],
+                    {"passing":[],"receiving":[],"rushing":[]})
+            self.assertEqual(len(idx["offense"]["KC"]),1)
+            self.assertEqual(len(idx["defense"]["BAL"]),1)
+            self.assertEqual(idx["offense"]["KC"][0]["season"],2024)
+            bad={**fresh,"season":2025}
+            with self.assertRaisesRegex(RuntimeError,"future_or_unrecognized"):
+                wf.build_index_revealed([bad],{"passing":[],"receiving":[],"rushing":[]})
+            future={**fresh,"gameday":"2025-02-01"}
+            with self.assertRaisesRegex(RuntimeError,"future_game"):
+                wf.build_index_revealed([future],
+                    {"passing":[],"receiving":[],"rushing":[]})
+        finally:
+            wf.teamxgb.CUTOFF=prior
+
     def test_never_count_unmatched_as_zero_or_loss(self):
         forecasts=[
             {"game_id":"2024_01_BAL_KC","player_id":"a","market":"targets",
