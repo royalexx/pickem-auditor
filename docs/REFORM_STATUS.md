@@ -274,6 +274,31 @@ prevent production promotion.**
 Full 16-market table, independent audit receipts and limitations:
 `docs/EXPERIMENT_B_NFL_2024_ALL_MARKETS.md`.
 
+### Adversarial historical probability and top-10 audit — release veto
+
+A further audit showed that the Experiment B headline accuracy is
+**not a comparable 2024 bettable hit rate**, and must not justify
+model promotion or dismissal of the November 8 roughly 30–37%
+selection failure. Of 28,841 predictions claiming ≥80% confidence
+on matched historical synthetic markets, **95.23% chose Under**,
+the realized **88.38%** hit rate was the same as the historical
+control, and the mean claimed probability was **90.19%**.
+
+More decisively, a separate preselection stage froze 10 candidates
+per week from the **whole original forecast pool BEFORE settlement**.
+The 180 locked top-ten selections were **all Unders** and
+**124/180 (68.89%)** had no matched outcome record; only 56
+could be graded. Apparent 54/56 graded wins is therefore not
+an authentic sportsbook prop-selection hit rate. Extreme confidence
+in research lines and selection from non-verified player availability
+must not be advertised as betting accuracy.
+
+**Block all production advancement**, score real pregame quoted
+lines with proper roster/void evidence, rank all eligible
+pregame candidates before the result is visible, and
+compare only original same-line market, model and consensus contracts.
+Full evidence in `docs/EXPERIMENT_B_NFL_2024_ALL_MARKETS.md`.
+
 ### CI and audit note
 
 The full **offline** test suite passed **1,104 tests** (nine skipped)
