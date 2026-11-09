@@ -8,7 +8,7 @@ import math
 import random
 import sys
 from collections import defaultdict
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
