@@ -19,8 +19,9 @@ Training is deliberately paused, and existing checkpoints/posteriors are preserv
 - [x] **Adversarial tests.** Expanded regression suites for hash tampering, future lineup/news/market inputs, clock drift, duplicate receipts, source path traversal, missing player-line identity, pseudo-replication and underpowered/blended results.
 - [x] **Full offline CI green.** PR #67 run #42540922477 completed **1,104 tests** (nine expected skips) with no failures on the final reform code revision. The Bayesian sampling job was deliberately skipped during the training pause. The old scouting-review/NUTS test fixtures were corrected without weakening safety gates.
 - [ ] **Historical evidence limitation:** The original November 8 market/lineup/injury provider bundle was incomplete. Integrity checks cannot retrospectively establish a missing original publication time or create evidence that was not archived. Collect/source-pin those payloads prospectively in item 4's validation cohort.
-- [ ] Compile a **single canonical** matched pregame settlement cohort across sports and dates, with original model/market quotes and non-push/push status.
-- [ ] Run aggregate Brier/log loss, directional and Over/Under bias, full-universe vs selected top-k calibration, with game/date clustering.
+- [x] **Item 4 — canonical read-only scorecard completed.** Matched original frozen November 8 NFL 1 PM forecasts to 253 verified official contracts (67 with production consensus); kept the separate November 5–7 retrospective backtest at 645 officially settled contracts. Rejected 1,379 historical unverified/missing contracts. See `docs/REFORM_PHASE4_RESULTS_20261108.md`.
+- [x] **Item 4 — per-engine directional and calibration diagnostics.** Published one-contract-not-two-sides Brier/log loss, Over/Under direction bias, confidence-versus-hit gaps, per-market/sport/day breakdown, exact consensus–market common-contract comparisons, reliability cohorts and game/date-cluster **insufficiency** reports. Reusable code: `scripts/reform_phase4_scorecard.py`.
+- [ ] **Item 5 — optimizer's curse selection audit.** Replay top-k historical selections versus the eligible full universe with matching probability/market strata. Item 4 did not certify top-k selection effects or build an uncertainty-adjusted ranking.
 - [ ] Build and validate NFL tackle snap-share / on-field conversion challenger, including teammate availability.
 - [ ] Evaluate uncertainty-adjusted rankings vs frozen original rank, without editing the original forecasts.
 - [ ] Validate M2/M3 market-inclusive blends against the frozen 60/40 and market-only baselines on adequate independent chronological folds.
@@ -61,6 +62,25 @@ Promotion logic fails closed when the chronological test cohort is too small.
 File: `scripts/nfl_season_store.py`. Historical profile reads check both
 the source snapshot's as-of and its source retrieval timestamps against
 evaluation time, rejecting future or timezone-naive retrieval metadata.
+
+### Change 3 — item 4 contract-level multi-slate diagnostics
+
+Original frozen 2026-11-08 NFL 1 PM: 253 official matches, 67 production
+consensus forecasts, 25 correct directions (37.3%). On 65 exactly shared
+consensus/market contracts, consensus is 24/65 (36.9%) and market is 36/65
+(55.4%); their Brier scores are .2658 and .2568, respectively. **Only six
+independent NFL games:** no robust confidence interval or production promotion.
+
+Earlier November 5–7 archives: 645 verified contracts from 2,024 original
+records, including 348 flagged historically reliable; 297 false/missing.
+Within 273 historically reliable Engine A/market matched cases, Engine A
+Brier .2801 versus market .2464. Only three independent dates. Older
+production is not the frozen 60/40 baseline.
+
+No training, ranking, market adjustment or numerical probability update
+was made. The audit *did not* recover missing archived pregame sources.
+Detailed limitations and reproduction commands are in
+`docs/REFORM_PHASE4_RESULTS_20261108.md`.
 
 ### CI and audit note
 
