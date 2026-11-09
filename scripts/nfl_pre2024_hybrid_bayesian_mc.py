@@ -29,7 +29,8 @@ def _when(r):
     return date.fromisoformat(str(r["gameday"])[:10])
 
 def _pre2024_only(state):
-    for bucket in ("player","role","team_offense","opponent_allowed","ngs"):
+    for bucket in ("player","role","team_offense","opponent_allowed",
+                   "league_offense","ngs"):
         for records in state[bucket].values():
             for row in records:
                 if _when(row)>=CUTOFF or int(row.get("season",2023))>=2024:
@@ -77,6 +78,13 @@ def _eligible(state,team,roster,stat):
         expected=max(0.04,weight*avg+(1-weight)*prior)
         ans.append((pid,pos,expected,rows))
     return ans
+
+def _historical_team_total(state,team,stat,default):
+    data=sorted((r for r in state["team_offense"].get((stat,team),())
+            if _when(r)<CUTOFF),key=lambda r:r["gameday"],reverse=True)[:8]
+    if not data:return float(default)
+    avg,_=_recency(data)
+    return max(1.,avg)
 
 def _dirichlet_share(expected,total):
     """Unlisted players and no-target outcomes preserve the conservation law."""
@@ -140,7 +148,8 @@ def _simulate_offense(rng,out,state,team,roster,passmu,rushmu,pass_k,rush_k,draw
     receivers=_eligible(state,team,roster,"targets")
     if receivers:
         t_alloc=_alloc(rng,attempts,
-                       _dirichlet_share([p[2] for p in receivers],passmu))
+                       _dirichlet_share([p[2] for p in receivers],
+                       _historical_team_total(state,team,"pass_attempts",33.)))
         recv_yards=np.zeros(draws,dtype=float)
         ncompletions=np.zeros(draws,dtype=int)
         for j,(pid,pos,expected,_) in enumerate(receivers):
@@ -169,7 +178,8 @@ def _simulate_offense(rng,out,state,team,roster,passmu,rushmu,pass_k,rush_k,draw
 
     qbs=_eligible(state,team,roster,"pass attempts")
     if qbs:
-        qa=_alloc(rng,attempts,_dirichlet_share([p[2] for p in qbs],passmu))
+        qa=_alloc(rng,attempts,_dirichlet_share([p[2] for p in qbs],
+                       _historical_team_total(state,team,"pass_attempts",33.)))
         remaining_att=attempts.astype(int).copy()
         remaining_comp=np.minimum(ncompletions,remaining_att).astype(int).copy()
         for j,(pid,pos,_,_) in enumerate(qbs):
@@ -190,7 +200,8 @@ def _simulate_offense(rng,out,state,team,roster,passmu,rushmu,pass_k,rush_k,draw
     backs=_eligible(state,team,roster,"carries")
     if backs:
         carries=_alloc(rng,rushes,
-                       _dirichlet_share([p[2] for p in backs],rushmu))
+                       _dirichlet_share([p[2] for p in backs],
+                       _historical_team_total(state,team,"rush_attempts",26.)))
         for j,(pid,pos,_,_) in enumerate(backs):
             n=carries[:,j]
             ypc=_per_carry_yards(state,pid,team)
@@ -201,29 +212,34 @@ def _simulate_offense(rng,out,state,team,roster,passmu,rushmu,pass_k,rush_k,draw
     return attempts,rushes
 
 def _simulate_defense(rng,out,state,team,roster,opponent_plays,draws):
-    # Defensive tackles are not conserved 1:1 to plays (assist credits).
-    # Shared opponent volume and per-player gamma latent create correlation.
-    group=[]
+    # Official tackles+assists may include a separate assisted-tackle credit,
+    # so total != solo + tackle_assists in the underlying NFL source. Model
+    # the aggregate total first, and allocate its mutually compatible pieces.
     for pid,pos in roster:
-        if pos in priors.ROLE_POS["solo tackles"]:
-            solo=_history(state,"solo tackles",pid,team)
-            assists=_history(state,"tackle assists",pid,team)
-            if len(solo)>=MIN_PLAYER_HISTORY and len(assists)>=MIN_PLAYER_HISTORY:
-                group.append((pid,pos,solo,assists))
-    for pid,pos,solo,assists in group:
-        s,_=_recency(solo);a,_=_recency(assists)
-        # Last-five player totals matter most. Convert per-game pace into
-        # opportunity-adjusted rate with 2023 typical 62 opponent plays.
-        s=.82*s+.18*priors.MARKET_BASE_PRIOR["solo tackles"]
-        a=.82*a+.18*priors.MARKET_BASE_PRIOR["tackle assists"]
+        if pos not in priors.ROLE_POS["tackles + assists"]:continue
+        total_hist=_history(state,"tackles + assists",pid,team)
+        solo_hist=_history(state,"solo tackles",pid,team)
+        assist_hist=_history(state,"tackle assists",pid,team)
+        if min(map(len,(total_hist,solo_hist,assist_hist)))<MIN_PLAYER_HISTORY:
+            continue
+        t,_=_recency(total_hist)
+        so,_=_recency(solo_hist)
+        a,_=_recency(assist_hist)
+        mu=.82*t+.18*priors.MARKET_BASE_PRIOR["tackles + assists"]
         gamma=rng.gamma(shape=DEFENSIVE_OPPORTUNITY_DISPERSION,
-                         scale=1./DEFENSIVE_OPPORTUNITY_DISPERSION,size=draws)
-        mult=opponent_plays/62.*gamma
-        solo_draw=rng.poisson(np.maximum(0.,s*mult))
-        assist_draw=rng.poisson(np.maximum(0.,a*mult))
-        _store(out,team,pid,pos,"solo tackles",solo_draw)
-        _store(out,team,pid,pos,"tackle assists",assist_draw)
-        _store(out,team,pid,pos,"tackles + assists",solo_draw+assist_draw)
+                        scale=1./DEFENSIVE_OPPORTUNITY_DISPERSION,size=draws)
+        total=rng.poisson(np.maximum(0.,mu*(opponent_plays/62.)*gamma))
+        qsolo=min(.95,max(.05,(so+.4)/(max(t,so+a)+1.2)))
+        solo=rng.binomial(total,qsolo)
+        qassist=min(.95,max(.02,(a+.2)/(max(t,so+a)+1.2)))
+        left=total-solo
+        # P(assists | not solo): the residual contains assisted tackles
+        # from a different NFL source field, so don't force equality.
+        qremaining=min(.98,qassist/max(.02,1.-qsolo))
+        assists=rng.binomial(left,qremaining)
+        _store(out,team,pid,pos,"solo tackles",solo)
+        _store(out,team,pid,pos,"tackle assists",assists)
+        _store(out,team,pid,pos,"tackles + assists",total)
 
 def simulate_game(state,fixture,team_volumes,team_dispersions,*,draws=2000,seed=20261109):
     """Returns joint samples. Seeded for repeatability; no 2024 update."""
