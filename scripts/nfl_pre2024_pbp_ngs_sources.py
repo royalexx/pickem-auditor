@@ -97,7 +97,10 @@ def aggregate_games(pbp_rows,schedule_day,player_position=None,ftn_rows=()):
             v["short_pass_attempts"]+=float(short)
             v["pass_completions"]+=float(_yes(r.get("complete_pass")))
             v["short_pass_completions"]+=float(short and _yes(r.get("complete_pass")))
-            rb=player_position.get(str(r.get("receiver_player_id")),None)=="RB"
+            # Receiver position is an observed *same-game* label, not a
+            # player-wide lookup built using later weeks or seasons.
+            # A player changing roster/role must not rewrite past features.
+            rb=player_position.get((gid,str(r.get("receiver_player_id"))),None)=="RB"
             v["rb_targets"]+=float(rb)
             v["short_rb_targets"]+=float(rb and short)
             v["passing_yards"]+=_metric(r.get("passing_yards"))
