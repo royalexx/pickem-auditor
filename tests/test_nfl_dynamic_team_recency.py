@@ -56,6 +56,13 @@ class DynamicOpportunityTests(unittest.TestCase):
   self.assertEqual(ev["status"],"no_pregame_current_team_appearance")
  def test_old_roster_cannot_enter_synthetic_week1(self):
   s=form_state()
+  # Historical-as-of state contains 2022 information only; future 2024
+  # observations must not exist in the model before Week 1.
+  s["player"][("targets","P")]=[
+      r for r in s["player"][("targets","P")] if r["season"]<2024]
+  s["role_history"][("targets","WR")]=[
+      r for r in s["role_history"][("targets","WR")] if r["season"]<2024]
+  s["team_history"].clear();s["allowed_history"].clear();s["league_team"].clear()
   mu,ev=predict(s,day="2024-09-07")
   self.assertIsNone(mu)
  def test_future_current_week_aborts(self):
