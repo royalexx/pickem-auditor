@@ -157,6 +157,8 @@ class FrozenTopKTests(unittest.TestCase):
             contract=("NFL",row["event_start"],row["team"],row["opponent"],
                       row["player_id"],row["player"],row["stat"],"4.5")
             observed=[{"contract":contract,"outcome":"under","game_id":"game01"}]
+            (Path(d)/"unused.json").write_text("{}")
+            (Path(d)/"unused2.json").write_text("{}")
             with patch.object(audit,"load_nfl_slate",return_value=(observed,{})):
                 result=audit.audit(frozen=a,review=b,board=path,
                                   settlement=Path(d)/"unused.json",pinned=Path(d)/"unused2.json")
