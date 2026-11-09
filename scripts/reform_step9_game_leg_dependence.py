@@ -27,7 +27,7 @@ MIN_GAMES_FOR_INTERVAL=20
 MIN_COMBOS_FOR_INTERVAL=100
 BOOTSTRAPS=400
 SEED=20261108
-MAX_LEGS_PER_GAME=75
+MAX_LEGS_PER_GAME=100
 COHORT_MIN_CONFIDENCE=(0.50,0.60)
 
 
@@ -237,7 +237,11 @@ def analyze(rows, *, model, reliable_only=False):
                     categories[label]=_summary([x for x in grid if x["pair_type"]==label])
                 for label in ("both_over","both_under","mixed_directions"):
                     categories[label]=_summary([x for x in grid if x["direction_type"]==label])
-            combos[str(n)]={"all":_summary(grid),"subgroups":categories}
+            sports=sorted({x["sport"] for x in grid})
+            by_sport={sport:_summary([event for event in grid if event["sport"]==sport])
+                      for sport in sports}
+            combos[str(n)]={"all":_summary(grid),"by_sport":by_sport,
+                             "subgroups":categories}
         cohorts[f"{min_p:.2f}"]={
             "legs":len(all_legs),
             "unique_games_with_legs":len(by_game),
@@ -280,6 +284,7 @@ def audit(*,frozen,settlement,pinned,historical,archive_root):
           "Model-picked sides are fixed before settlement; outcomes only label hit or miss",
           "Same player+stat multiple lines removed entirely to prevent pseudo-independent duplicate legs",
           "Same-game combinations are exhaustive hypothetical pairs/triples, not recommended entries",
+          "Cross-sport aggregate is descriptive only; consult by_sport because the legacy archive has many NBA props",
           "Date-block intervals require >=20 independent dates, >=20 games and >=100 combinations",
           "No statistical test from this archive can certify a universal joint distribution",
           "Separate legacy and current-policy cohorts are never pooled for predictive promotion"]}
