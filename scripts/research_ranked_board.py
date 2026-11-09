@@ -140,6 +140,13 @@ def build(rows, queue, date, *, now=None, decisions=(), history_root="data", pac
         if rank is None:
             excluded["numeric_flag_or_sample_cap"] += 1
             continue
+        # Research visibility only: uncalibrated 2024 challenger can never
+        # present as elite/unicorn until independently validated.
+        from nfl_challenger_policy import model_family as challenger_family
+        family=challenger_family(row)
+        if family is not None and rank in (
+                "Unicorn Research Prospect","Tier 2 Research Prospect"):
+            rank="Tier 3 Research Prospect"
         price = utc_time((row.get("inputs") or {}).get("market_retrieved_at") or (row.get("market") or {}).get("retrieved_at") or row.get("retrieved_at"))
         if price and (price > forecast or (forecast-price).total_seconds() > 1800):
             excluded["stale_at_original_forecast"] += 1
