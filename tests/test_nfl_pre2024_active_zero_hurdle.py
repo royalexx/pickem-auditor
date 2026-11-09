@@ -28,6 +28,11 @@ class NFLverseGatewayTests(unittest.TestCase):
  def test_exact_ids_not_substrings(self):
     got=gateway.player_ids("00-003001;00-0030012;00-003333")
     self.assertEqual(got,frozenset(("00-003001","00-0030012","00-003333")))
+ def test_float_pbp_play_id_equals_integer_participation_id(self):
+    self.assertEqual(gateway._play_id(40.0),40)
+    self.assertEqual(gateway._play_id("40.0"),40)
+    self.assertEqual(gateway._play_id(40),40)
+    self.assertIsNone(gateway._play_id("40.5"))
  def test_stale_2023_ftn_participation_forbidden(self):
     fixtures={"2023_12_A_B":{"gameday":"2023-11-19","season":2023,
         "week":12,"home_team":"B","away_team":"A"}}
