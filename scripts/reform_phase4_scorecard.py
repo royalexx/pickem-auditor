@@ -10,6 +10,7 @@ import collections
 import hashlib
 import json
 import math
+import random
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -125,6 +126,39 @@ def matched_pairwise(contracts, model_a, model_b):
     return {"n": len(same), model_a: left, model_b: right,
             "brier_delta_a_minus_b": left["brier"]-right["brier"],
             "logloss_delta_a_minus_b": left["log_loss"]-right["log_loss"]}
+
+
+
+def paired_cluster_interval(contracts, model_a, model_b, *, cluster="game_id",
+                            draws=1000, seed=20261108, minimum=8):
+    """Descriptive paired bootstrap: re-sample entire games, not prop rows."""
+    same=[r for r in contracts if r["models"].get(model_a) is not None
+          and r["models"].get(model_b) is not None]
+    groups=collections.defaultdict(list)
+    for row in same:
+        if not row.get(cluster):
+            raise AuditError("missing_cluster_identity")
+        groups[str(row[cluster])].append(row)
+    units=sorted(groups)
+    if len(units)<minimum:
+        return {"status":"insufficient_independent_clusters",
+                "unit":cluster,"independent_units":len(units),
+                "required_units":minimum,"interval_95":None}
+    rng=random.Random(seed)
+    deltas={"brier":[],"log_loss":[],"directional_accuracy":[]}
+    for _ in range(draws):
+        sample=[r for u in rng.choices(units,k=len(units)) for r in groups[u]]
+        left=score([r["models"][model_a] for r in sample])
+        right=score([r["models"][model_b] for r in sample])
+        for metric in deltas:
+            deltas[metric].append(left[metric]-right[metric])
+    return {"status":"descriptive_paired_cluster_bootstrap_not_promotion_evidence",
+            "unit":cluster,"independent_units":len(units),
+            "draws":draws,
+            "interval_95":{m:[sorted(v)[int(.025*draws)],
+                               sorted(v)[int(.975*draws)-1]]
+                           for m,v in deltas.items()}}
+
 
 
 def slices(contracts, names, *, min_bucket=8):
@@ -283,7 +317,9 @@ def load_historical(path, archive_root):
             model_predictions[model]=chosen(source_model(x.get("over"),x.get("under")),c["winner"]) if isinstance(x,dict) else None
         out.append({"sport":c["sport"],"stat":c["stat"],"date":c["day"],
                     "game_id":str(c["game_id"]),"contract":key,
-                    "outcome":c["winner"],"actual":actual,"models":model_predictions})
+                    "outcome":c["winner"],"actual":actual,"models":model_predictions,
+                    "original_reliable":c.get("original_reliable") is True or
+                    c.get("original_reliable") == "True"})
     return out, {"source_sha256":sha,"archives":hashes,"settled_contracts":len(out),
                  "excluded":dict(excluded),"source_level":"retrospective_official_result_archive",
                  "source_completeness_verified":False}
@@ -302,6 +338,7 @@ def evaluate(nfl, historical):
                 "contract_count":len(nfl),"unique_games":len({r["game_id"] for r in nfl}),
                 "production_consensus_coverage":sum(r["models"].get("Consensus") is not None for r in nfl),
                 "models":models,"common_consensus_market":matched_pairwise(nfl,"Consensus","Market"),
+                "paired_game_cluster_interval":paired_cluster_interval(nfl,"Consensus","Market"),
                 "confidence_bins":probability_bins(nfl,LIVE_MODELS),
                 "subgroups":slices(nfl,LIVE_MODELS),
             },
@@ -309,6 +346,11 @@ def evaluate(nfl, historical):
                 "contract_count":len(historical),"unique_games":len({r["game_id"] for r in historical}),
                 "models":models_by_contract(historical,historical_models),
                 "common_engine_a_market":matched_pairwise(historical,"Engine_A","Market"),
+                "paired_date_cluster_interval":paired_cluster_interval(
+                    historical,"Engine_A","Market",cluster="date",minimum=20),
+                "original_reliability":dict(collections.Counter(
+                    "qualified" if r.get("original_reliable") else "unqualified_or_missing"
+                    for r in historical)),
                 "confidence_bins":probability_bins(historical,historical_models),
                 "subgroups":slices(historical,historical_models),
             },
