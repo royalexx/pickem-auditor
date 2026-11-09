@@ -54,6 +54,11 @@ def verified_source_receipt(source: dict, *, forecast: datetime, archive_root: P
     digest = source.get("content_sha256")
     if not isinstance(digest, str) or not SHA256.fullmatch(digest):
         raise ProvenanceError("source_digest_missing_or_invalid")
+    observed = instant(source.get("observed_at"), "source.observed_at")
+    published = instant(source.get("published_at"), "source.published_at")
+    retrieved = instant(source.get("retrieved_at"), "source.retrieved_at")
+    if not observed <= published <= retrieved <= forecast:
+        raise ProvenanceError("source_after_forecast_or_inconsistent_timeline")
     relative = source.get("archive_path")
     if archive_root is None:
         raise ProvenanceError("source_archive_root_missing")
@@ -68,11 +73,6 @@ def verified_source_receipt(source: dict, *, forecast: datetime, archive_root: P
         raise ProvenanceError("source_archive_file_unavailable")
     if hashlib.sha256(candidate.read_bytes()).hexdigest() != digest:
         raise ProvenanceError("source_archive_digest_mismatch")
-    observed = instant(source.get("observed_at"), "source.observed_at")
-    published = instant(source.get("published_at"), "source.published_at")
-    retrieved = instant(source.get("retrieved_at"), "source.retrieved_at")
-    if not observed <= published <= retrieved <= forecast:
-        raise ProvenanceError("source_after_forecast_or_inconsistent_timeline")
     return ident
 
 
