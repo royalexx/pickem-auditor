@@ -85,6 +85,40 @@ class WalkforwardGuardTests(unittest.TestCase):
         finally:
             wf.teamxgb.CUTOFF=prior
 
+    def test_future_only_position_cannot_backfill_prior_week(self):
+        gid={"2024_01_A_B":1,"2024_02_B_C":2}
+        observed=[
+            {"game_id":"2024_01_A_B","player_id":"p","stat":"targets","position":"WR"},
+            {"game_id":"2024_02_B_C","player_id":"p","stat":"targets","position":"RB"},
+            {"game_id":"2024_02_B_C","player_id":"future","stat":"targets","position":"RB"},
+        ]
+        wk1=wf.week_scoped_receiver_positions(observed,gid,1)
+        self.assertEqual(wk1,{"p":"WR"})
+        self.assertNotIn("future",wk1)
+        self.assertEqual(wf.week_scoped_receiver_positions(observed,gid,2),
+                         {"p":"RB","future":"RB"})
+        with self.assertRaisesRegex(RuntimeError,"unknown_position_source_fixture"):
+            wf.week_scoped_receiver_positions(
+                [{"game_id":"2024_19_B_C","player_id":"p",
+                  "stat":"targets","position":"RB"}],gid,1)
+
+    def test_future_player_identity_cache_fails_closed(self):
+        state={k:{} for k in ("player","role","team_offense",
+             "opponent_allowed","league_offense","ngs")}
+        state["latest_by_player"]={
+            "p":{"gameday":"2024-09-15","team":"KC","position":"QB",
+                 "season":2024}}
+        prior=wf.hybrid.CUTOFF
+        try:
+            wf.hybrid.CUTOFF=wf.date(2024,9,12)
+            with self.assertRaisesRegex(RuntimeError,
+                    "future_player_identity_cache"):
+                wf.assert_player_state_past(state)
+            wf.hybrid.CUTOFF=wf.date(2024,9,16)
+            self.assertTrue(wf.assert_player_state_past(state))
+        finally:
+            wf.hybrid.CUTOFF=prior
+
     def test_never_count_unmatched_as_zero_or_loss(self):
         forecasts=[
             {"game_id":"2024_01_BAL_KC","player_id":"a","market":"targets",
