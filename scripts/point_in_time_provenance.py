@@ -94,14 +94,15 @@ def blend_snapshot_status(row: dict, *, archive_root: Path | None = None) -> tup
         if start.astimezone(ZoneInfo("America/Toronto")).date().isoformat() != day:
             raise ProvenanceError("event_game_date_mismatch")
         market = row.get("market")
-        if not isinstance(market, dict) or market.get("market_valid") is False:
-            raise ProvenanceError("market_unavailable")
+        if not isinstance(market, dict) or market.get("market_valid") is not True:
+            raise ProvenanceError("market_unavailable_or_unverified")
         observed = instant(market.get("retrieved_at"), "market.retrieved_at")
         if observed > forecast:
             raise ProvenanceError("post_forecast_market_quote")
-        if market.get("line") is not None:
-            if float(market["line"]) != float(row["reference_line"]):
-                raise ProvenanceError("different_market_line")
+        if market.get("line") is None:
+            raise ProvenanceError("market_line_not_archived")
+        if float(market["line"]) != float(row["reference_line"]):
+            raise ProvenanceError("different_market_line")
         for quote in market.get("books", []) or []:
             if not isinstance(quote, dict) or "retrieved_at" not in quote:
                 raise ProvenanceError("missing_book_quote_timestamp")
