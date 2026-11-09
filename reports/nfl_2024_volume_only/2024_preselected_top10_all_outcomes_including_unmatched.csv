@@ -1,0 +1,181 @@
+week,game_id,player_id,team,position,market,research_line,line_type,model_p_over,baseline_p_over,predicted_side,selected_model_probability,actual_stat,actual_over,result,hit,rank
+1,2024_01_NE_CIN,00-0036972,NE,QB,carries,3.5,player_last5_last10_role_hybrid_eligible_research_only,0.010707298410526998,0.2519896389733757,under,0.989292701589473,,,UNMATCHED,,1
+1,2024_01_HOU_IND,00-0039163,HOU,QB,carries,3.5,player_last5_last10_role_hybrid_eligible_research_only,0.015473068140638717,0.31146955525038844,under,0.9845269318593612,4,1,MISS,0,2
+1,2024_01_LA_DET,00-0032655,DET,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.01934452863676804,0.147574008128084,under,0.980655471363232,,,UNMATCHED,,3
+1,2024_01_WAS_TB,00-0037077,WAS,QB,carries,3.5,player_last5_last10_role_hybrid_eligible_research_only,0.02269040868581028,0.31146955525038844,under,0.9773095913141897,,,UNMATCHED,,4
+1,2024_01_DAL_CLE,00-0026158,CLE,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.028977568112277644,0.32835860101303777,under,0.9710224318877223,,,UNMATCHED,,5
+1,2024_01_NYJ_SF,00-0033963,NYJ,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.03589667892390785,0.1965571898392866,under,0.9641033210760922,,,UNMATCHED,,6
+1,2024_01_JAX_MIA,00-0036212,MIA,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.03756254227894693,0.38309232829625345,under,0.962437457721053,1,0,HIT,1,7
+1,2024_01_ARI_BUF,00-0034397,BUF,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.04251868885370304,0.15894910492839714,under,0.957481311146297,,,UNMATCHED,,8
+1,2024_01_TEN_CHI,00-0039152,TEN,QB,carries,3.5,player_last5_last10_role_hybrid_eligible_research_only,0.04360056897563498,0.2965984228416941,under,0.956399431024365,4,1,MISS,0,9
+1,2024_01_TEN_CHI,00-0029701,TEN,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.04388136630364445,0.41835648356146227,under,0.9561186336963555,,,UNMATCHED,,10
+2,2024_02_TB_DET,00-0036963,DET,WR,receiving yards,91.5,player_last5_last10_role_hybrid_eligible_research_only,0.11181465397690693,0.1261119322051738,under,0.8881853460230931,119.0,1,MISS,0,1
+2,2024_02_NO_DAL,00-0036321,NO,DE,tackles + assists,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.1288400136216891,0.22899020998343794,under,0.8711599863783109,4,1,MISS,0,2
+2,2024_02_CIN_KC,00-0036902,CIN,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.13475514653405662,0.20052472605329197,under,0.8652448534659434,0,0,HIT,1,3
+2,2024_02_NO_DAL,00-0036661,DAL,CB,tackle assists,0.5,player_last5_last10_role_hybrid_eligible_research_only,0.1369759913455739,0.33025647877789766,under,0.8630240086544261,,,UNMATCHED,,4
+2,2024_02_NYG_WAS,00-0038506,NYG,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.14555777348609863,0.20208064409091883,under,0.8544422265139013,0,0,HIT,1,5
+2,2024_02_NYG_WAS,00-0035692,WAS,DE,tackle assists,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.14667228815375025,0.1608919824208845,under,0.8533277118462498,0,0,HIT,1,6
+2,2024_02_LA_ARI,00-0033908,LA,WR,receiving yards,79.5,player_last5_last10_role_hybrid_eligible_research_only,0.14720917455547472,0.13175196424465324,under,0.8527908254445253,37.0,0,HIT,1,7
+2,2024_02_NYJ_TEN,00-0038107,NYJ,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.15721101930906867,0.1739125668401394,under,0.8427889806909313,0,0,HIT,1,8
+2,2024_02_NYJ_TEN,00-0039142,NYJ,DE,tackle assists,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.1618170621999695,0.18732819561114925,under,0.8381829378000305,0,0,HIT,1,9
+2,2024_02_CHI_HOU,00-0032265,HOU,DE,tackle assists,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.16368206655228945,0.18732819561114925,under,0.8363179334477105,0,0,HIT,1,10
+3,2024_03_HOU_MIN,00-0036322,MIN,WR,receiving yards,102.5,player_last5_last10_role_hybrid_eligible_research_only,0.06801892687218307,0.09769743986143925,under,0.931981073127817,81.0,0,HIT,1,1
+3,2024_03_CHI_IND,00-0037830,IND,CB,tackle assists,0.5,player_last5_last10_role_hybrid_eligible_research_only,0.09471675002648867,0.278907754788149,under,0.9052832499735113,1,1,MISS,0,2
+3,2024_03_DET_ARI,00-0035239,ARI,CB,solo tackles,0.5,player_last5_last10_role_hybrid_eligible_research_only,0.9044280397997335,0.8939881136792097,over,0.9044280397997335,3,1,HIT,1,3
+3,2024_03_NYG_CLE,00-0038506,NYG,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.09723953522679062,0.17811359007608674,under,0.9027604647732094,,,UNMATCHED,,4
+3,2024_03_NE_NYJ,00-0037711,NE,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.09780068075137464,0.15826684693750295,under,0.9021993192486254,1,0,HIT,1,5
+3,2024_03_MIA_SEA,00-0036212,MIA,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.10703328179615744,0.3662687886821088,under,0.8929667182038425,,,UNMATCHED,,6
+3,2024_03_LAC_PIT,00-0036843,PIT,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.11647159257240297,0.20047333005906223,under,0.8835284074275971,0,0,HIT,1,7
+3,2024_03_DET_ARI,00-0036963,DET,WR,receiving yards,91.5,player_last5_last10_role_hybrid_eligible_research_only,0.11656682343202995,0.14135342170161735,under,0.88343317656797,75.0,0,HIT,1,8
+3,2024_03_DET_ARI,00-0036249,ARI,DE,tackles + assists,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.12188559524629616,0.24768388179185685,under,0.8781144047537038,1,0,HIT,1,9
+3,2024_03_SF_LA,00-0039061,LA,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.1294481167538812,0.18899126903619679,under,0.8705518832461188,0,0,HIT,1,10
+4,2024_04_DAL_NYG,00-0038506,NYG,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.0877433008772334,0.17780681912882196,under,0.9122566991227666,,,UNMATCHED,,1
+4,2024_04_NE_SF,00-0037602,SF,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.0936841358524565,0.18437577921371173,under,0.9063158641475435,2,1,MISS,0,2
+4,2024_04_LA_CHI,00-0039061,LA,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.0971265430737579,0.16596867016345107,under,0.9028734569262421,,,UNMATCHED,,3
+4,2024_04_TEN_MIA,00-0036212,MIA,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.12017156781082959,0.36606541932788805,under,0.8798284321891704,,,UNMATCHED,,4
+4,2024_04_NO_ATL,00-0037283,NO,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12491698960694649,0.1579875120360651,under,0.8750830103930535,,,UNMATCHED,,5
+4,2024_04_JAX_HOU,00-0036554,HOU,WR,receiving yards,98.5,player_last5_last10_role_hybrid_eligible_research_only,0.12555248474992897,0.2100194006937084,under,0.874447515250071,151.0,1,MISS,0,6
+4,2024_04_TEN_MIA,00-0035000,MIA,LB,solo tackles,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.12677691401066,0.16340783220787305,under,0.87322308598934,1,0,HIT,1,7
+4,2024_04_BUF_BAL,00-0031177,BAL,DE,tackle assists,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12870846822776424,0.16072825530996154,under,0.8712915317722357,1,0,HIT,1,8
+4,2024_04_CIN_CAR,00-0031795,CAR,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.13187883564985914,0.1472235283979955,under,0.8681211643501409,0,0,HIT,1,9
+4,2024_04_WAS_ARI,00-0033553,ARI,RB,rushing yards,94.5,player_last5_last10_role_hybrid_eligible_research_only,0.13829649491931173,0.16033173167841097,under,0.8617035050806883,104.0,1,MISS,0,10
+5,2024_05_BUF_HOU,00-0036554,HOU,WR,receiving yards,111.5,player_last5_last10_role_hybrid_eligible_research_only,0.04408220922798719,0.07606070762847171,under,0.9559177907720128,78.0,0,HIT,1,1
+5,2024_05_BAL_CIN,00-0032764,BAL,RB,rushing yards,112.5,player_last5_last10_role_hybrid_eligible_research_only,0.058028159638594194,0.07210101792161322,under,0.9419718403614058,92.0,0,HIT,1,2
+5,2024_05_GB_LA,00-0039061,LA,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.08919513783918419,0.1658274498898777,under,0.9108048621608158,,,UNMATCHED,,3
+5,2024_05_NYG_SEA,00-0038506,NYG,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.09186887910625033,0.17772812425994222,under,0.9081311208937497,,,UNMATCHED,,4
+5,2024_05_MIA_NE,00-0036212,MIA,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.09633926171491522,0.3663573550901898,under,0.9036607382850848,,,UNMATCHED,,5
+5,2024_05_NYG_SEA,00-0035640,SEA,WR,receiving yards,90.5,player_last5_last10_role_hybrid_eligible_research_only,0.11544999903768022,0.12479999630027472,under,0.8845500009623197,55.0,0,HIT,1,6
+5,2024_05_DAL_PIT,00-0036661,DAL,CB,tackle assists,0.5,player_last5_last10_role_hybrid_eligible_research_only,0.119863036201953,0.33178799766639044,under,0.880136963798047,,,UNMATCHED,,7
+5,2024_05_LV_DEN,00-0036878,LV,DE,tackle assists,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12153712698306227,0.1609318270067219,under,0.8784628730169377,0,0,HIT,1,8
+5,2024_05_NO_KC,00-0037283,NO,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.1221545775655357,0.15791585848025685,under,0.8778454224344643,0,0,HIT,1,9
+5,2024_05_TB_ATL,00-0036948,ATL,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12256619674527518,0.15791585848025685,under,0.8774338032547249,,,UNMATCHED,,10
+6,2024_06_HOU_NE,00-0038584,NE,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.08794716063810222,0.1955366693851217,under,0.9120528393618977,2,1,MISS,0,1
+6,2024_06_PIT_LV,00-0038579,LV,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.10340978588939473,0.3662182295154337,under,0.8965902141106052,0,0,HIT,1,2
+6,2024_06_LAC_DEN,00-0036181,LAC,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.10531972548336115,0.18457184060781756,under,0.8946802745166389,1,0,HIT,1,3
+6,2024_06_HOU_NE,00-0036554,HOU,WR,receiving yards,100.5,player_last5_last10_role_hybrid_eligible_research_only,0.10773473275635553,0.20950127162646542,under,0.8922652672436444,,,UNMATCHED,,4
+6,2024_06_DET_DAL,00-0036661,DAL,CB,tackle assists,0.5,player_last5_last10_role_hybrid_eligible_research_only,0.1159678805264825,0.33215250701790194,under,0.8840321194735175,0,0,HIT,1,5
+6,2024_06_ATL_CAR,00-0035910,CAR,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12008813861276992,0.1955366693851217,under,0.8799118613872301,,,UNMATCHED,,6
+6,2024_06_ATL_CAR,00-0031795,CAR,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12528708396048402,0.14697403400106546,under,0.874712916039516,,,UNMATCHED,,7
+6,2024_06_ATL_CAR,00-0036948,ATL,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.1279809585184141,0.1581802878357288,under,0.8720190414815859,0,0,HIT,1,8
+6,2024_06_IND_TEN,00-0034987,IND,LB,solo tackles,7.5,player_last5_last10_role_hybrid_eligible_research_only,0.14606402781782407,0.22213448278195985,under,0.853935972182176,3,0,HIT,1,9
+6,2024_06_CIN_NYG,00-0036922,NYG,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.1486024619583385,0.22654708562166265,under,0.8513975380416615,0,0,HIT,1,10
+7,2024_07_MIA_IND,00-0039031,IND,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.10335730268744442,0.1843880919848506,under,0.8966426973125556,0,0,HIT,1,1
+7,2024_07_HOU_GB,00-0036554,HOU,WR,receiving yards,100.5,player_last5_last10_role_hybrid_eligible_research_only,0.10597259722113339,0.2090518242512378,under,0.8940274027788666,,,UNMATCHED,,2
+7,2024_07_LAC_ARI,00-0036181,LAC,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.10781309361437139,0.1843880919848506,under,0.8921869063856286,0,0,HIT,1,3
+7,2024_07_LV_LA,00-0037280,LV,DT,solo tackles,0.5,player_last5_last10_role_hybrid_eligible_research_only,0.11732753984776068,0.33545210269500103,under,0.8826724601522393,,,UNMATCHED,,4
+7,2024_07_KC_SF,00-0039067,KC,WR,receiving yards,87.5,player_last5_last10_role_hybrid_eligible_research_only,0.11837454649380846,0.16430167755809205,under,0.8816254535061916,,,UNMATCHED,,5
+7,2024_07_NE_JAX,00-0038570,JAX,LB,solo tackles,5.5,player_last5_last10_role_hybrid_eligible_research_only,0.12257337086193543,0.12918301818518746,under,0.8774266291380646,6,1,MISS,0,6
+7,2024_07_CAR_WAS,00-0035910,CAR,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12497889097307792,0.19529680049327947,under,0.8750211090269221,0,0,HIT,1,7
+7,2024_07_CAR_WAS,00-0031795,CAR,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.1301303038079059,0.14695185224297627,under,0.8698696961920941,0,0,HIT,1,8
+7,2024_07_MIA_IND,00-0035000,MIA,LB,solo tackles,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.13538555299835048,0.15669868209474436,under,0.8646144470016495,0,0,HIT,1,9
+7,2024_07_BAL_TB,00-0032764,BAL,RB,rushing yards,104.5,player_last5_last10_role_hybrid_eligible_research_only,0.14190983490816017,0.21097018413217816,under,0.8580901650918398,169.0,1,MISS,0,10
+8,2024_08_BAL_CLE,00-0032764,BAL,RB,rushing yards,120.5,player_last5_last10_role_hybrid_eligible_research_only,0.06950351516676861,0.15099406381705988,under,0.9304964848332313,73.0,0,HIT,1,1
+8,2024_08_ARI_MIA,00-0035000,MIA,LB,solo tackles,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.09968029437977428,0.13242731724517479,under,0.9003197056202257,,,UNMATCHED,,2
+8,2024_08_IND_HOU,00-0036554,HOU,WR,receiving yards,100.5,player_last5_last10_role_hybrid_eligible_research_only,0.10835377933096185,0.20842999122989625,under,0.8916462206690381,,,UNMATCHED,,3
+8,2024_08_DAL_SF,00-0038603,SF,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.10841327652069732,0.21974518548307653,under,0.8915867234793027,1,0,HIT,1,4
+8,2024_08_DAL_SF,00-0033077,DAL,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.11000138717273317,0.3672791052104234,under,0.8899986128272668,1,0,HIT,1,5
+8,2024_08_KC_LV,00-0037280,LV,DT,solo tackles,0.5,player_last5_last10_role_hybrid_eligible_research_only,0.11731577516554753,0.33542360670724625,under,0.8826842248344524,1,1,MISS,0,6
+8,2024_08_CAR_DEN,00-0031795,CAR,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.11938100107198157,0.14696544688223756,under,0.8806189989280184,1,0,HIT,1,7
+8,2024_08_GB_JAX,00-0038940,JAX,DE,tackle assists,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12570718368932812,0.161044494611866,under,0.8742928163106719,3,1,MISS,0,8
+8,2024_08_NYG_PIT,00-0035704,NYG,QB,completions,8.5,player_last5_last10_role_hybrid_eligible_research_only,0.866789504885303,0.8215801517471778,over,0.866789504885303,,,UNMATCHED,,9
+8,2024_08_KC_LV,00-0030757,KC,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.13936282876777778,0.18437369319219782,under,0.8606371712322223,1,0,HIT,1,10
+9,2024_09_DEN_BAL,00-0039064,BAL,WR,receiving yards,91.5,player_last5_last10_role_hybrid_eligible_research_only,0.07443882812211518,0.07247120378212273,under,0.9255611718778848,127.0,1,MISS,0,1
+9,2024_09_MIA_BUF,00-0035000,MIA,LB,solo tackles,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.10284170030944946,0.13254294814986062,under,0.8971582996905505,,,UNMATCHED,,2
+9,2024_09_DEN_BAL,00-0032764,BAL,RB,rushing yards,110.5,player_last5_last10_role_hybrid_eligible_research_only,0.11155662665132315,0.1866480242151955,under,0.8884433733486768,106.0,0,HIT,1,3
+9,2024_09_DAL_ATL,00-0034612,ATL,DE,tackles + assists,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.11724963611833658,0.2341604591638851,under,0.8827503638816634,1,0,HIT,1,4
+9,2024_09_WAS_NYG,00-0035704,NYG,QB,completions,8.5,player_last5_last10_role_hybrid_eligible_research_only,0.8761820780320007,0.8217988559083622,over,0.8761820780320007,,,UNMATCHED,,5
+9,2024_09_DET_GB,00-0038128,GB,QB,pass attempts,10.5,player_last5_last10_role_hybrid_eligible_research_only,0.8691025475708977,0.7833525149963194,over,0.8691025475708977,,,UNMATCHED,,6
+9,2024_09_TB_KC,00-0030757,KC,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.13423343505201654,0.1843320032490421,under,0.8657665649479834,,,UNMATCHED,,7
+9,2024_09_LAC_CLE,00-0038574,CLE,DE,solo tackles,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.13516585164233028,0.16033337767176226,under,0.8648341483576697,1,0,HIT,1,8
+9,2024_09_DAL_ATL,00-0038738,DAL,RB,targets,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.13522349465117273,0.21540072667566107,under,0.8647765053488272,2,0,HIT,1,9
+9,2024_09_JAX_PHI,00-0038570,JAX,LB,solo tackles,5.5,player_last5_last10_role_hybrid_eligible_research_only,0.14525725094660447,0.16415147466218372,under,0.8547427490533955,4,0,HIT,1,10
+10,2024_10_CIN_BAL,00-0039064,BAL,WR,receiving yards,98.5,player_last5_last10_role_hybrid_eligible_research_only,0.05780715251437575,0.07189257873142056,under,0.9421928474856243,34.0,0,HIT,1,1
+10,2024_10_MIA_LA,00-0039076,LA,LB,tackles + assists,3.5,player_last5_last10_role_hybrid_eligible_research_only,0.08838684455415663,0.21059703592283902,under,0.9116131554458433,,,UNMATCHED,,2
+10,2024_10_ATL_NO,00-0034612,ATL,DE,tackles + assists,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.09488414385282345,0.22125566128178764,under,0.9051158561471766,,,UNMATCHED,,3
+10,2024_10_MIA_LA,00-0035000,MIA,LB,solo tackles,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.10147719011357297,0.13292977727917685,under,0.8985228098864271,2,0,HIT,1,4
+10,2024_10_NE_CHI,00-0037082,CHI,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.11397337168816044,0.1468620076859757,under,0.8860266283118395,0,0,HIT,1,5
+10,2024_10_ATL_NO,00-0036926,NO,DE,tackles + assists,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.1195996373921688,0.22898147511926675,under,0.8804003626078312,4,1,MISS,0,6
+10,2024_10_BUF_IND,00-0039875,BUF,RB,targets,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.12487250942055486,0.23374588913591662,under,0.8751274905794452,0,0,HIT,1,7
+10,2024_10_DEN_KC,00-0030757,KC,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.13156831459621185,0.18442355486481293,under,0.8684316854037881,1,0,HIT,1,8
+10,2024_10_NYJ_ARI,00-0039284,NYJ,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.13267571918538698,0.2151914726133143,under,0.867324280814613,0,0,HIT,1,9
+10,2024_10_NYG_CAR,00-0035704,NYG,QB,completions,8.5,player_last5_last10_role_hybrid_eligible_research_only,0.865373256322485,0.8219379955976744,over,0.865373256322485,,,UNMATCHED,,10
+11,2024_11_ATL_DEN,00-0034612,ATL,DE,tackles + assists,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.09121490985002989,0.2210276741154626,under,0.9087850901499701,,,UNMATCHED,,1
+11,2024_11_LA_NE,00-0039076,LA,LB,tackles + assists,3.5,player_last5_last10_role_hybrid_eligible_research_only,0.09180848256691104,0.21079988474613204,under,0.908191517433089,,,UNMATCHED,,2
+11,2024_11_IND_NYJ,00-0039284,NYJ,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.09785811534703451,0.18824968382399526,under,0.9021418846529655,,,UNMATCHED,,3
+11,2024_11_CLE_NO,00-0031503,CLE,QB,pass attempts,12.5,player_last5_last10_role_hybrid_eligible_research_only,0.9001617579415429,0.7739446197053337,over,0.9001617579415429,46,1,HIT,1,4
+11,2024_11_GB_CHI,00-0037082,CHI,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.10105214825727923,0.1470620109616517,under,0.8989478517427207,,,UNMATCHED,,5
+11,2024_11_BAL_PIT,00-0039064,BAL,WR,receiving yards,87.5,player_last5_last10_role_hybrid_eligible_research_only,0.10165734063485815,0.11405355963659813,under,0.8983426593651418,39.0,0,HIT,1,6
+11,2024_11_IND_NYJ,00-0026158,IND,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.10502260306220322,0.40341193379779966,under,0.8949773969377968,,,UNMATCHED,,7
+11,2024_11_GB_CHI,00-0036264,GB,QB,carries,3.5,player_last5_last10_role_hybrid_eligible_research_only,0.10595210027388849,0.268979631289864,under,0.8940478997261115,4,1,MISS,0,8
+11,2024_11_WAS_PHI,00-0034264,WAS,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.1282614186513677,0.18461568722241603,under,0.8717385813486322,1,0,HIT,1,9
+11,2024_11_WAS_PHI,00-0038412,PHI,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12915826744947842,0.15822340166291327,under,0.8708417325505216,1,0,HIT,1,10
+12,2024_12_PHI_LA,00-0034844,PHI,RB,rushing yards,116.5,player_last5_last10_role_hybrid_eligible_research_only,0.07212186446051282,0.12392482490149959,under,0.9278781355394872,255.0,1,MISS,0,1
+12,2024_12_BAL_LAC,00-0038454,BAL,RB,targets,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.08382871633947181,0.23290440530617312,under,0.9161712836605282,,,UNMATCHED,,2
+12,2024_12_PHI_LA,00-0039076,LA,LB,tackles + assists,3.5,player_last5_last10_role_hybrid_eligible_research_only,0.08466713808101066,0.21130070885289015,under,0.9153328619189893,,,UNMATCHED,,3
+12,2024_12_NE_MIA,00-0036212,MIA,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.09347067032119813,0.3860435409805547,under,0.9065293296788018,3,1,MISS,0,4
+12,2024_12_MIN_CHI,00-0037082,CHI,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.09759655845319298,0.14697552324349028,under,0.902403441546807,,,UNMATCHED,,5
+12,2024_12_DET_IND,00-0026158,IND,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.11287357156249143,0.4037713620700883,under,0.8871264284375086,,,UNMATCHED,,6
+12,2024_12_DAL_WAS,00-0034264,WAS,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12112292784028011,0.18432048369768272,under,0.8788770721597199,,,UNMATCHED,,7
+12,2024_12_SF_GB,00-0038387,GB,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12222341509188796,0.1731505571420275,under,0.8777765849081121,1,0,HIT,1,8
+12,2024_12_PHI_LA,00-0036418,PHI,LB,solo tackles,6.5,player_last5_last10_role_hybrid_eligible_research_only,0.12268344560994589,0.14523316563830413,under,0.8773165543900541,2,0,HIT,1,9
+12,2024_12_PHI_LA,00-0038412,PHI,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12552233681116534,0.157933145797982,under,0.8744776631888347,1,0,HIT,1,10
+13,2024_13_PHI_BAL,00-0034844,PHI,RB,rushing yards,122.5,player_last5_last10_role_hybrid_eligible_research_only,0.06878461001134185,0.14248565607861247,under,0.9312153899886582,107.0,0,HIT,1,1
+13,2024_13_PHI_BAL,00-0038454,BAL,RB,targets,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.0832529774677529,0.23253914832793082,under,0.9167470225322472,,,UNMATCHED,,2
+13,2024_13_LA_NO,00-0039075,LA,WR,receiving yards,94.5,player_last5_last10_role_hybrid_eligible_research_only,0.08499680725481445,0.11311294571564112,under,0.9150031927451856,56.0,0,HIT,1,3
+13,2024_13_IND_NE,00-0026158,IND,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.08825638625661034,0.40399240948042603,under,0.9117436137433896,,,UNMATCHED,,4
+13,2024_13_SEA_NYJ,00-0039284,NYJ,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.0928708389662831,0.18849291226111095,under,0.9071291610337169,,,UNMATCHED,,5
+13,2024_13_CHI_DET,00-0037082,CHI,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.10390699657776786,0.14726195116186575,under,0.8960930034222321,,,UNMATCHED,,6
+13,2024_13_TEN_WAS,00-0035659,WAS,WR,receiving yards,91.5,player_last5_last10_role_hybrid_eligible_research_only,0.1046591633793102,0.1262364539047307,under,0.8953408366206899,73.0,0,HIT,1,7
+13,2024_13_HOU_JAX,00-0033897,HOU,RB,rushing yards,93.5,player_last5_last10_role_hybrid_eligible_research_only,0.11494175970417086,0.12005393965399719,under,0.8850582402958291,101.0,1,MISS,0,8
+13,2024_13_MIA_GB,00-0038387,GB,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.11752885259147612,0.17344319151702142,under,0.8824711474085238,,,UNMATCHED,,9
+13,2024_13_TEN_WAS,00-0034264,WAS,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.11835152175222212,0.18415957323680124,under,0.8816484782477779,,,UNMATCHED,,10
+14,2024_14_CAR_PHI,00-0034844,PHI,RB,rushing yards,122.5,player_last5_last10_role_hybrid_eligible_research_only,0.07696461020274158,0.15785248102311505,under,0.9230353897972584,124.0,1,MISS,0,1
+14,2024_14_BUF_LA,00-0039075,LA,WR,receiving yards,90.5,player_last5_last10_role_hybrid_eligible_research_only,0.09708582178146208,0.10741065756549034,under,0.9029141782185379,162.0,1,MISS,0,2
+14,2024_14_CHI_SF,00-0037832,SF,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.11898729521752013,0.20120263835523652,under,0.8810127047824798,0,0,HIT,1,3
+14,2024_14_GB_DET,00-0038387,GB,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.1231297891325915,0.17305393095701938,under,0.8768702108674085,3,1,MISS,0,4
+14,2024_14_ATL_MIN,00-0033926,MIN,CB,tackle assists,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12326434810663268,0.14376695371856033,under,0.8767356518933673,0,0,HIT,1,5
+14,2024_14_CAR_PHI,00-0036418,PHI,LB,solo tackles,6.5,player_last5_last10_role_hybrid_eligible_research_only,0.12679789688625726,0.15373164174790915,under,0.8732021031137427,5,0,HIT,1,6
+14,2024_14_CHI_SF,00-0036413,CHI,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12875261748374514,0.17305393095701938,under,0.8712473825162549,2,1,MISS,0,7
+14,2024_14_ATL_MIN,00-0034612,ATL,DE,tackles + assists,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.1349377634918307,0.228672911492248,under,0.8650622365081693,,,UNMATCHED,,8
+14,2024_14_CIN_DAL,00-0039908,CIN,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.13639256641785022,0.1577412250343066,under,0.8636074335821498,1,0,HIT,1,9
+14,2024_14_CAR_PHI,00-0037461,PHI,DB,solo tackles,3.5,player_last5_last10_role_hybrid_eligible_research_only,0.14967647218103936,0.18024902717767416,under,0.8503235278189607,3,0,HIT,1,10
+15,2024_15_LA_SF,00-0039075,LA,WR,receiving yards,100.5,player_last5_last10_role_hybrid_eligible_research_only,0.06996357862895873,0.10265427890943324,under,0.9300364213710413,97.0,0,HIT,1,1
+15,2024_15_KC_CLE,00-0032162,CLE,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.08761956011735161,0.15775778571644544,under,0.9123804398826484,,,UNMATCHED,,2
+15,2024_15_NE_ARI,00-0039367,ARI,LB,solo tackles,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.10916939308275085,0.13814983082762552,under,0.8908306069172491,0,0,HIT,1,3
+15,2024_15_NE_ARI,00-0036249,ARI,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.1103018578073901,0.1469873479814478,under,0.8896981421926099,4,1,MISS,0,4
+15,2024_15_WAS_NO,00-0039412,WAS,LB,solo tackles,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.11930788890470105,0.13395656261549163,under,0.880692111095299,,,UNMATCHED,,5
+15,2024_15_WAS_NO,00-0031938,WAS,DT,solo tackles,0.5,player_last5_last10_role_hybrid_eligible_research_only,0.128704853922208,0.3625699682180195,under,0.871295146077792,,,UNMATCHED,,6
+15,2024_15_ATL_LV,00-0034612,ATL,DE,tackles + assists,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.13241190108299197,0.2285294507198078,under,0.867588098917008,2,0,HIT,1,7
+15,2024_15_LA_SF,00-0036430,SF,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.13310793174997498,0.18414211814937342,under,0.866892068250025,,,UNMATCHED,,8
+15,2024_15_PIT_PHI,00-0036843,PIT,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.13506856812870016,0.17316263882856336,under,0.8649314318712998,0,0,HIT,1,9
+15,2024_15_LA_SF,00-0032434,SF,QB,pass attempts,9.5,player_last5_last10_role_hybrid_eligible_research_only,0.8606468982925238,0.8218071600474324,over,0.8606468982925238,,,UNMATCHED,,10
+16,2024_16_CLE_CIN,00-0032162,CLE,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.09301262947337453,0.15781855612382029,under,0.9069873705266255,,,UNMATCHED,,1
+16,2024_16_LA_NYJ,00-0039075,LA,WR,receiving yards,98.5,player_last5_last10_role_hybrid_eligible_research_only,0.09842654639557774,0.15766363206036915,under,0.9015734536044222,56.0,0,HIT,1,2
+16,2024_16_CLE_CIN,00-0039810,CIN,WR,receptions,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.10929448721375522,0.23162979198489486,under,0.8907055127862448,0,0,HIT,1,3
+16,2024_16_PHI_WAS,00-0039412,WAS,LB,solo tackles,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.11244575601319853,0.1339882464975195,under,0.8875542439868015,1,0,HIT,1,4
+16,2024_16_PHI_WAS,00-0037615,PHI,LB,solo tackles,6.5,player_last5_last10_role_hybrid_eligible_research_only,0.11610476549727237,0.1295522456671679,under,0.8838952345027277,6,0,HIT,1,5
+16,2024_16_DET_CHI,00-0037082,CHI,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12415339373288256,0.17329871845120756,under,0.8758466062671174,1,0,HIT,1,6
+16,2024_16_PHI_WAS,00-0034264,WAS,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12428565735563778,0.18420393148283687,under,0.8757143426443622,2,1,MISS,0,7
+16,2024_16_NYG_ATL,00-0038653,NYG,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12492768805688326,0.19505639213845383,under,0.8750723119431167,1,0,HIT,1,8
+16,2024_16_PHI_WAS,00-0031938,WAS,DT,solo tackles,0.5,player_last5_last10_role_hybrid_eligible_research_only,0.12875080125743107,0.36267771673213056,under,0.8712491987425689,1,1,MISS,0,9
+16,2024_16_SF_MIA,00-0036430,SF,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.1388560342066721,0.18420393148283687,under,0.8611439657933279,,,UNMATCHED,,10
+17,2024_17_MIA_CLE,00-0036212,MIA,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.05774600806105054,0.36805936695681596,under,0.9422539919389494,,,UNMATCHED,,1
+17,2024_17_MIA_CLE,00-0032162,CLE,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.08345374866806884,0.1582005265838203,under,0.9165462513319311,,,UNMATCHED,,2
+17,2024_17_SEA_CHI,00-0030063,SEA,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.11192668174555973,0.1582005265838203,under,0.8880733182544402,,,UNMATCHED,,3
+17,2024_17_LV_NO,00-0039376,NO,QB,carries,4.5,player_last5_last10_role_hybrid_eligible_research_only,0.11404503082586645,0.23155476239524964,under,0.8859549691741335,3,0,HIT,1,4
+17,2024_17_IND_NYG,00-0039340,IND,DE,solo tackles,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.12578121516441165,0.09967638940622554,under,0.8742187848355883,,,UNMATCHED,,5
+17,2024_17_DET_SF,00-0036430,SF,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12814123123930476,0.18459242343755194,under,0.8718587687606952,,,UNMATCHED,,6
+17,2024_17_LAC_NE,00-0036328,NE,RB,targets,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.13091677764249082,0.19467060494920155,under,0.8690832223575091,1,0,HIT,1,7
+17,2024_17_DAL_PHI,00-0034844,PHI,RB,rushing yards,113.5,player_last5_last10_role_hybrid_eligible_research_only,0.13242498982112755,0.25877046421748584,under,0.8675750101788724,167.0,1,MISS,0,8
+17,2024_17_ARI_LA,00-0036568,ARI,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.13341354628255592,0.1582005265838203,under,0.8665864537174441,0,0,HIT,1,9
+17,2024_17_DAL_PHI,00-0036358,DAL,WR,receiving yards,84.5,player_last5_last10_role_hybrid_eligible_research_only,0.1372439184596842,0.15217753523453587,under,0.8627560815403158,,,UNMATCHED,,10
+18,2024_18_MIA_NYJ,00-0036212,MIA,QB,carries,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.05100050522213037,0.3676745818944115,under,0.9489994947778696,,,UNMATCHED,,1
+18,2024_18_CLE_BAL,00-0032764,BAL,RB,rushing yards,109.5,player_last5_last10_role_hybrid_eligible_research_only,0.08840773109086758,0.12092109536823875,under,0.9115922689091325,138.0,1,MISS,0,2
+18,2024_18_SEA_LA,00-0030063,SEA,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.1082474059558887,0.1579113016153022,under,0.8917525940441113,1,0,HIT,1,3
+18,2024_18_JAX_IND,00-0039340,IND,DE,solo tackles,2.5,player_last5_last10_role_hybrid_eligible_research_only,0.1181958104563803,0.09967989303019356,under,0.8818041895436197,0,0,HIT,1,4
+18,2024_18_JAX_IND,00-0036213,IND,DT,solo tackles,0.5,player_last5_last10_role_hybrid_eligible_research_only,0.12882091448615302,0.3628421081544986,under,0.871179085513847,,,UNMATCHED,,5
+18,2024_18_CHI_GB,00-0037364,GB,DE,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.12950439982667306,0.19963541933034273,under,0.8704956001733269,0,0,HIT,1,6
+18,2024_18_JAX_IND,00-0039743,JAX,DT,solo tackles,1.5,player_last5_last10_role_hybrid_eligible_research_only,0.13106092736374883,0.17772311954791406,under,0.8689390726362511,0,0,HIT,1,7
+18,2024_18_KC_DEN,00-0037294,DEN,DT,solo tackles,0.5,player_last5_last10_role_hybrid_eligible_research_only,0.13249825548101854,0.3628421081544986,under,0.8675017445189814,2,1,MISS,0,8
+18,2024_18_NYG_PHI,00-0034844,PHI,RB,rushing yards,113.5,player_last5_last10_role_hybrid_eligible_research_only,0.13832716186274158,0.26606778413455745,under,0.8616728381372585,,,UNMATCHED,,9
+18,2024_18_WAS_DAL,00-0036358,DAL,WR,receiving yards,84.5,player_last5_last10_role_hybrid_eligible_research_only,0.14085841025578016,0.15208606720592077,under,0.8591415897442198,,,UNMATCHED,,10
