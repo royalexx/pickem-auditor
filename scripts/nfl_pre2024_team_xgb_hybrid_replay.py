@@ -185,9 +185,21 @@ def evaluate(root):
          or not original.get("all_18_weeks_frozen_before_scoring")
          or original.get("ftndata_used")):
         raise RuntimeError("invalid_strict_cutoff_manifest")
+    # Calibrator is saved as JSON, while XGBoost boosters are .ubj.
+    # Resolve each frozen artifact to its registered exact filename.
+    # Never modify an artifact or silently skip its hash check.
+    model_artifacts={
+        "pass_attempts":"pass_attempts.ubj",
+        "rush_attempts":"rush_attempts.ubj",
+        "active_zero_hurdle":"active_zero_hurdle.ubj",
+        "active_zero_platt_calibration":"active_zero_platt_calibration.json",
+    }
     for market,h in original["model_file_hashes"].items():
-        if common.sha(root/"MODELS"/(market+".ubj"))!=h:
-            raise RuntimeError("xgb_model_changed_after_forecast_lock")
+        if market not in model_artifacts:
+            raise RuntimeError("unrecognized_frozen_model_artifact:"+market)
+        path=root/"MODELS"/model_artifacts[market]
+        if common.sha(path)!=h:
+            raise RuntimeError("frozen_model_changed_after_forecast_lock:"+market)
     rows=[]
     for week in range(1,19):
         path=root/f"FROZEN/2024_week_{week:02d}.json"
