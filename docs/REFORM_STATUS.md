@@ -23,10 +23,12 @@ Training is deliberately paused, and existing checkpoints/posteriors are preserv
 - [x] **Item 4 — per-engine directional and calibration diagnostics.** Published one-contract-not-two-sides Brier/log loss, Over/Under direction bias, confidence-versus-hit gaps, per-market/sport/day breakdown, exact consensus–market common-contract comparisons, reliability cohorts and game/date-cluster **insufficiency** reports. Reusable code: `scripts/reform_phase4_scorecard.py`.
 - [x] **Item 4a — paired NUTS numerical bug found and fixed.** The original 2026-11-08 NFL sidecar used `forecast_at` in the supposed shared-contract integration seed: 16 original noncomplementary NUTS reception pairs, all from different Over/Under Monte Carlo seeds. Updated `nuts_slate_shadow.shared_contract_seed` to exclude side-specific forecast times, retaining exact game/fixture/player/line identity, and added `slate_model_report.enforce_paired_probability_integrity` to withhold incompatible pairs from future consensus and rankings, preserving raw diagnostics. The original archived forecasts remain untouched.
 - [x] **Item 4a — authentic posterior numerical acceptance.** Read the original 336 MB, four-chain NFL receptions NUTS artifact in Deepnote (no refit), and forecast the same frozen player/stat/line twice with corrected shared seed: exactly identical Over/Under/Push masses, summing to 1.000000; original paired archive summed to 0.989756. This closes the identified code/numerical defect.
+- [x] **Item 4a — controlled full 16-pair actual-posterior integration.** Generated all 32 original paired NFL receptions NUTS sidecar inference calls against the authentic 336 MB trained posterior, then the complete historical-family 60/40 consensus and publication-pair numerical guard: zero invalid paired sums; tampered negative control was withheld. No NUTS training or historical archive edits. Controlled fixtures only; not a genuine new pregame game.
 - [ ] **Item 4a — prospective integration acceptance.** Confirm the first fresh paired pregame NUTS sidecar/report produced by the patched code stays complementary and no invalid sidecar becomes production eligible. This requires the next frozen run, not user-provided data or training. The November 8 archive remains untouched.
 - [x] **Item 5 — original top-k replay and descriptive audit.** Replayed all 2,436 frozen side rows, exactly reproduced 160 original eligible research candidates and all 30 original top-10 ranks. Only 10 eligible candidates fell in the independently settled NFL 1 PM window; 2 original selected picks won 2/2, with 4/8 unselected winning. No comparable matched stat/confidence/edge strata exist, so an optimizer's-curse hypothesis is **not yet identified**. See `docs/REFORM_4A_5_RESULTS_20261108.md`.
 - [ ] **Item 5 — prospective statistical conclusion.** Require independently graded full-day top-k selections across enough games/dates and comparable eligible-unselected candidates before fitting edge shrinkage or changing rankings.
-- [ ] Build and validate NFL tackle snap-share / on-field conversion challenger, including teammate availability.
+- [x] **Item 6 — NFL tackle snap-share research challenger built and tested.** Added `scripts/nfl_tackle_snap_share.py` and 18+ adversarial tests: separate opponent offensive plays × verified defender snap share × per-snap tackle conversion; source-hashed, timestamp-checked explicit teammate status; strictly prior-only context; date-clustered research backtest. Public 2025 NFL data: 6,732 valid defender-games, 835 players, 272 games. Synthetic fixed 5.5 tackle threshold, 4,200 matched holdout rows, 59 dates: Brier .09207 challenger vs .09583 simple team-play control, log loss .31748 vs .33123. High-snap-share LBs (n=40) were worse; **no production promotion**. See `docs/REFORM_STEP6_TACKLE_SNAP_SHARE_20261108.md`.
+- [ ] **Item 6 — actual market/production promotion study.** Freeze real pregame tackle lines with immutable snap/availability evidence, evaluate same-contract challenger vs existing 60/40 consensus and market on separate future dates, validate full-time linebackers and uncertainty before allowing ranking changes.
 - [ ] Evaluate uncertainty-adjusted rankings vs frozen original rank, without editing the original forecasts.
 - [ ] Validate M2/M3 market-inclusive blends against the frozen 60/40 and market-only baselines on adequate independent chronological folds.
 - [ ] Quantify game-level leg dependence before making multi-leg expected-hit claims.
@@ -111,6 +113,23 @@ contracts. Two of the original top-ten entries were in that 1 PM window:
 candidates. No exact stat/confidence/market-edge matched strata or reliable
 winner's-curse inference are available from so few selected outcomes.
 Ranking, Tier logic and 60/40 weights are unchanged.
+
+### Change 6 — NFL tackle snap share challenger (shadow-only)
+
+The first full research rollout is implemented and tested with original
+free 2025 NFL public data: 6,732 valid defender-game records, 272 regular-season
+games, and a 4,200-observation chronological fixed-5.5 holdout across 59 dates.
+The challenger improves Brier .09583 to .09207 and log loss .33123 to .31748
+against a simple historical team-play control. High-snap-share linebackers
+(n=40) are notably worse, and the threshold is not a real archived pick'em
+quote. No production substitution or model-selection certificate is justified.
+For source limitations, subgroup breakdown, CI and guarded roommate/teammate
+availability see `docs/REFORM_STEP6_TACKLE_SNAP_SHARE_20261108.md`.
+
+Step 4a also passed the controlled full-batch trained-posterior test on all
+16 formerly invalid receptions contracts (32 sidecar calls) plus the paired
+60/40 publication guard; first true future pregame operational confirmation
+remains a separate incomplete check.
 
 ### CI and audit note
 
