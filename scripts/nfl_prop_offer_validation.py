@@ -9,6 +9,7 @@ from datetime import datetime,timezone
 import math
 import re
 
+from nfl_volume_market_policy import nfl_volume_market_allowed
 class OfferNotVerified(ValueError):pass
 
 def _utc(raw):
@@ -31,6 +32,8 @@ def validated_bookmaker_prop(offer, *, allow_age_hours=24):
     raw source and quote ID; this only validates supplied evidence.
     """
     if not isinstance(offer,dict):raise OfferNotVerified("no_bookmaker_offer")
+    if not nfl_volume_market_allowed("NFL",offer.get("market")):
+        raise OfferNotVerified("nfl_market_excluded_volume_only_policy")
     if offer.get("source_kind")!="bookmaker_quote":
         raise OfferNotVerified("synthetic_or_nonbookmaker_line")
     if offer.get("market_available") is not True:
