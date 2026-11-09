@@ -488,6 +488,8 @@ def forecast_one_week(state,static_state,context,index,base_index,
             q["p_over_player_prior"]=(
                 priors.prob_over(mean,q["research_line"],q["market"])
                 if mean is not None else None)
+            from nfl_challenger_policy import forecast_receipt
+            q.update(forecast_receipt())
             q["model_asof"]=week_start
             q["forecast_week"]=int(fixture["week"])
             q["training_last_revealed_week"]=int(fixture["week"])-1
