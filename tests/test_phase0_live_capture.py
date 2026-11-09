@@ -57,7 +57,7 @@ class LiveCaptureTests(unittest.TestCase):
                                archive_root=data / "source_archives", clock=lambda: when)
             self.assertEqual(len(evidence["source_receipts"]), 6)
             self.assertEqual(evidence["model_training_cutoff_at"],
-                             "2026-11-09T14:00:00Z")
+                             "2026-11-09T15:00:00Z")
             self.assertTrue(all(
                 (data / "source_archives" / x["archive_path"]).is_file()
                 for x in evidence["source_receipts"]))
