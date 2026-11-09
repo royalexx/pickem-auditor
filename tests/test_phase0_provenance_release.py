@@ -164,6 +164,9 @@ class ReleaseGuardTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             row = prospective_row(root)
+            row["run_type"] = "shadow"
+            for key in ("actual_stat", "outcome", "settled_at"):
+                row.pop(key, None)
             pool.dump_jsonl(root / "data/prop_snapshots.jsonl", [row])
             source_quote = {
                 "sport": "NFL", "event_id": "fixture-123",
