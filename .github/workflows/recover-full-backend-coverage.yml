@@ -23,6 +23,13 @@ jobs:
       history_sha: ${{ steps.plan.outputs.history_sha }}
     steps:
       - uses: actions/checkout@v4
+      - name: Enforce user-directed NUTS training pause before costly work
+        shell: bash
+        run: |
+          if test -f .training-control/PAUSED.json; then
+            echo 'TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED' >&2
+            exit 1
+          fi
       - uses: actions/download-artifact@v4
         with:
           run-id: 40894977636
@@ -64,6 +71,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Enforce user-directed NUTS training pause before costly work
+        shell: bash
+        run: |
+          if test -f .training-control/PAUSED.json; then
+            echo 'TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED' >&2
+            exit 1
+          fi
       - name: Restore original frozen warehouse, NOT latest branch state
         env:
           FROZEN_SHA: ${{ needs.recovery-plan.outputs.history_sha }}
@@ -124,6 +138,13 @@ jobs:
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
+      - name: Enforce user-directed NUTS training pause before costly work
+        shell: bash
+        run: |
+          if test -f .training-control/PAUSED.json; then
+            echo 'TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED' >&2
+            exit 1
+          fi
       - uses: actions/download-artifact@v4
         with:
           run-id: 40894977636

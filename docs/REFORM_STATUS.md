@@ -1,6 +1,6 @@
 # Pick'em Auditor — model reform status
 
-**Started:** 2026-11-08. **Phase:** 1 — point-in-time validation and trustworthy out-of-sample comparisons.
+**Started:** 2026-11-08. **Phase:** technical model reform complete; prospective evidence gates remain open. Independent-code-path release audit verified November 9, 2026 UTC.
 
 This document is an implementation log, not evidence of improved prop accuracy.
 Production continues to use the frozen 60% historical / 40% Engine B policy.
@@ -39,7 +39,8 @@ Training is deliberately paused, and existing checkpoints/posteriors are preserv
 - [ ] **Item 9 — calibrated game-dependent joint probability for entries.** Requires many separately settled prospective game dates, source-matched actual bookmaker lines and conditional opportunities, validation against independence/market and game/date-cluster intervals; current historical archive is insufficient.
 - [x] **Item 10 — Beta calibration and global regularized stack implemented with strict abstention.** Added `reform_step10_calibration_shadow.py` with identity-preserving monotone Beta calibration and global regularized consensus+market logit stack. Requires 300 prior same-contract source-verified contracts on ≥20 dates and ≥100 later contracts on ≥20 further dates; date-block scoring vs original consensus and market, excludes push/noncomplementary pairs, and has **no production/config writer**. Original November 8 had only **50** coherent market/consensus pairs on **one** date and unverified original provider publication receipts: **no coefficients fitted and no promotion**. See `docs/REFORM_STEP10_CALIBRATION_GATES.md`.
 - [ ] **Item 10 — future empirical calibration/stacking promotion evidence.** Await fully source-verified chronological data, compare global Beta and M2/M3 against both market and 60/40 production on later untouched outcomes with game/date-block uncertainty. More complex hierarchical stacking and simulations remain deferred until evidence warrants complexity.
-- [ ] Independent adversarial audit; require explicit approval for any production/Tier promotion.
+- [x] **Item 11 — separate adversarial release audit completed.** `scripts/reform_step11_release_audit.py` independently checks baseline production 60/40, verified combined tackles + assists, source/pinned paired NUTS guards, calibration identity and multi-leg bounds, source-derived provenance status, and pause guards on **12 manually dispatched Bayesian/benchmark workflows plus one trained-NFL-model publisher** (17 checkout paths). Original pinned Nov8 source: 253 official outcomes, 50 coherent consensus/market contract pairs, one independent date and incomplete original pregame provider receipts. **1,204 offline unit tests passed, nine expected skips**, and no NUTS training started. See `docs/REFORM_STEP11_FINAL_AUDIT.md`.
+- [ ] **Item 11 — external review and user-approved promotion.** Technical review is complete, but independent third-party statistical signoff and explicit user permission are still required before changing 60/40 or high-confidence Tier approval. All eight future evidence-dependent gates remain open.
 
 ## Phase 1 statistical and provenance gates
 
@@ -203,6 +204,26 @@ or released to production. Synthetic adversarial tests cover identity,
 monotonicity, push exclusion, future-label mutation, cohort underpower,
 and date-cluster holdout metrics. See
 `docs/REFORM_STEP10_CALIBRATION_GATES.md`.
+
+### Change 11 — final adversarial release control
+
+An independently written, read-only release auditor verified the
+original 60/40 policy, full Solo + Tackle With Assist + Tackle
+Assists source total, current training pause, no promotion of
+shadow Beta/market/ranking/leg models, and pinned original
+November 8 receipt integrity. Ten older manually dispatchable
+sampling/fit workflows plus the original main training workflow
+and a previously unguarded multisport fit workflow are now
+guarded immediately after source checkout (12 training/benchmark
+workflows), and the NFL trained-posterior release publisher is
+also blocked (13 protected workflows; 17 checkout paths).
+The Nov 8 pinned archive still has only 50 exact coherent
+consensus/market pairs on one date out of 253 settled contracts,
+with missing original provider-source provenance.
+**1,204 offline tests passed**, nine expected skips, and the
+NUTS job remained skipped. Details and remaining eight
+non-waivable prospective gates are in
+`docs/REFORM_STEP11_FINAL_AUDIT.md`.
 
 ### CI and audit note
 
