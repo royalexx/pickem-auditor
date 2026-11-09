@@ -80,6 +80,43 @@ def _eligible(state,team,roster,stat):
         ans.append((pid,pos,expected,rows))
     return ans
 
+def _primary_qb_from_prior_game(state,team,eligible):
+    """Select ONE historically dominant QB, or abstain if the role is unclear.
+
+    The original multi-QB Dirichlet splitter treated every quarterback who
+    had appeared within the past 75 days as an equally roster-eligible
+    simultaneous passer, causing spurious 90%+ Unders. Use only the most
+    recently *completed* team's QB usage, strictly before CUTOFF; never
+    inspect a 2024 slate's current-week result. This is a probabilistic
+    historical role proxy, NOT proof that the QB will start this week.
+    """
+    if not eligible:
+        return None
+    games=[r for r in state["team_offense"].get(("pass_attempts",team),())
+           if _when(r)<CUTOFF]
+    if not games:return None
+    latest=max(games,key=lambda r:r["gameday"])
+    latest_day=_when(latest)
+    team_att=float(latest["value"])
+    if not math.isfinite(team_att) or team_att<12:
+        return None
+    attempts=[]
+    for item in eligible:
+        pid=item[0]
+        last=[r for r in state["player"].get(("pass attempts",str(pid)),())
+              if r["team"]==team and _when(r)==latest_day]
+        value=sum(max(0.,float(x["value"])) for x in last)
+        attempts.append((value,item))
+    attempts.sort(key=lambda x:x[0],reverse=True)
+    top,chosen=attempts[0]
+    runner_up=attempts[1][0] if len(attempts)>1 else 0.
+    # A split last game, injury/emergency QB change, or history with a
+    # missing new starter is not a verified starting-QB forecast.
+    if top<12 or top/team_att<.75 or runner_up>top*.30:
+        return None
+    return chosen
+
+
 def _historical_team_total(state,team,stat,default):
     data=sorted((r for r in state["team_offense"].get((stat,team),())
             if _when(r)<CUTOFF),key=lambda r:r["gameday"],reverse=True)[:8]
@@ -227,7 +264,12 @@ def _simulate_offense(rng,out,state,team,roster,passmu,rushmu,pass_k,rush_k,draw
         recv_yards=np.where(ncompletions>0,ncompletions*10.+
             rng.standard_t(6,size=draws)*8.*np.sqrt(np.maximum(ncompletions,1)),0.)
 
-    qbs=_eligible(state,team,roster,"pass attempts")
+    candidate_qbs=_eligible(state,team,roster,"pass attempts")
+    primary_qb=_primary_qb_from_prior_game(state,team,candidate_qbs)
+    # Never assign one team's pass opportunities to 2-4 presumed starters.
+    # If the last completed game does not identify one dominant QB, abstain
+    # from QB research props; do not manufacture high-confidence Unders.
+    qbs=[primary_qb] if primary_qb is not None else []
     if qbs:
         qa=_alloc(rng,attempts,_dirichlet_share([p[2] for p in qbs],
                        _historical_team_total(state,team,"pass_attempts",33.)))
