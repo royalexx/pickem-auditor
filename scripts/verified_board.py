@@ -10,9 +10,11 @@ from pathlib import Path
 from nfl_volume_market_policy import nfl_volume_market_allowed
 from pick_verification import TIERS, forecast_digest, utc_time, write_atomic
 from research_triage import latest_batch, probability
+from phase0_policy import authorize as phase0_authorize
 
 
-def build(rows, receipts, date, *, now=None, max_age_minutes=60):
+def build(rows, receipts, date, *, now=None, max_age_minutes=60,
+          phase0_enforced=False):
     now = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
     originals, run = latest_batch(rows, date)
     index = {}
@@ -82,6 +84,11 @@ def build(rows, receipts, date, *, now=None, max_age_minutes=60):
                 or not str(decision.get("reviewer") or "").strip()):
             exclusions["latest_decision_not_approved"] += 1
             continue
+        release_gate = phase0_authorize(decision["verified_rank"],
+                                        production=phase0_enforced)
+        if not release_gate["publication_eligible"]:
+            exclusions["phase0_high_confidence_publication_suspended"] += 1
+            continue
         quality=decision.get("mechanism_evidence")
         allowed={"Watchlist":0,"Tier 3":1,"Tier 2":2,"Tier 1":3}
         if (not isinstance(quality,dict)
@@ -147,6 +154,10 @@ def build(rows, receipts, date, *, now=None, max_age_minutes=60):
         "invalid_receipts": dict(sorted(invalid.items())),
         "status": "verified_picks_available" if candidates else "no_verified_picks",
         "source_only_other_candidates_not_promoted": True,
+        "phase0_release_guard_active": bool(phase0_enforced or phase0_authorize(
+            "Tier 1")["production_context"]),
+        "phase0_high_confidence_tiers_suspended": bool(phase0_enforced or phase0_authorize(
+            "Tier 1")["production_context"]),
     }
 
 
@@ -159,7 +170,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
     rows = [json.loads(x) for x in Path(args.snapshots).read_text(encoding="utf-8").splitlines() if x.strip()]
     files = sorted((Path(args.archive_root) / args.date / "decisions").glob("*.json"))
-    report = build(rows, [json.loads(p.read_text(encoding="utf-8")) for p in files], args.date)
+    report = build(rows, [json.loads(p.read_text(encoding="utf-8")) for p in files],
+                   args.date, phase0_enforced=True)
     write_atomic(args.out, report)
     print(json.dumps({k:v for k,v in report.items() if k!="verified_picks"}, indent=2))
     return 0
