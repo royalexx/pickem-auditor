@@ -35,7 +35,7 @@ class LiveCaptureTests(unittest.TestCase):
         (usage / (ident + ".json")).write_text(json.dumps({
             "sport": "NFL", "player_id": "pid-1", "stat": "receptions",
             "retrieved_at": "2026-11-09T14:00:00Z",
-            "source_url": "https://example.org/roster?api_key=secretvalue",
+            "source_url": "https://example.org/roster",
             "observations": [{"id": "g-1", "date": "2026-11-02", "value": 5}],
         }))
         (data / "odds_quotes.jsonl").write_text(
@@ -93,10 +93,10 @@ class LiveCaptureTests(unittest.TestCase):
         self.assertIsNone(source_url("http://example.org/a"))
         with tempfile.TemporaryDirectory() as tmp:
             with patch.dict(os.environ, {"PROPLINE_API_KEY": "should-not-publish"}):
+                stamp = datetime.now(timezone.utc)
                 with self.assertRaisesRegex(ValueError, "contains_secret"):
                     preserve(Path(tmp), "Market", "raw", b"should-not-publish",
-                             captured=datetime.now(timezone.utc),
-                             retrieved=datetime.now(timezone.utc))
+                             captured=stamp, retrieved=stamp)
 
 
 if __name__ == "__main__":
