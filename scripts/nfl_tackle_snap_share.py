@@ -447,8 +447,15 @@ def walk_forward(history, *, from_time, line=5.5, max_rows=10000):
         if prediction.get("status")!="research_forecast":
             skipped[prediction.get("reason","missing")]+=1
             continue
+        # Actual on-field volume and conversion are appended ONLY after
+        # the pregame forecast has been computed. They are explanatory
+        # postgame diagnostics, not model inputs.
         done.append({"game_id":target["game_id"],"date":now.date().isoformat(),
             "stat":STATS,"actual":target["tackles_assists"],
+            "actual_player_defensive_snaps":target["player_defensive_snaps"],
+            "actual_team_defensive_plays":target["team_defensive_plays"],
+            "actual_snap_share":target["player_defensive_snaps"]/target["team_defensive_plays"],
+            "actual_tackles_per_snap":target["tackles_assists"]/target["player_defensive_snaps"],
             "q_over":prediction["q_over"],
             "q_under":prediction["q_under"],
             "baseline":score_probability(
