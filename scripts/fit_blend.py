@@ -364,14 +364,22 @@ def outcome_label(row: dict) -> int | None:
 
 
 def contract_key(row: dict) -> tuple[str, ...]:
-    """Exact market-side contract; do not collapse different lines or fixtures."""
+    """Exact contract; normalize numeric line formatting without losing zero."""
     event = row.get("event_id") or row.get("matchup")
     player = row.get("player_id") or row.get("player")
+    line = row.get("reference_line")
+    if line is not None and not isinstance(line, bool):
+        try:
+            numeric = float(line)
+            if math.isfinite(numeric):
+                line = format(numeric, ".15g")
+        except (TypeError, ValueError, OverflowError):
+            pass
     return tuple("" if value is None else str(value) for value in (
         row.get("sport"), row.get("game_date"),
         row.get("event_id_namespace"), event, player,
         row.get("team"), row.get("opponent"),
-        row.get("stat"), row.get("side"), row.get("reference_line")))
+        row.get("stat"), row.get("side"), line))
 
 
 def _pregame_stamp(row: dict):
