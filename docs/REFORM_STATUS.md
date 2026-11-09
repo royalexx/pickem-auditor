@@ -21,7 +21,11 @@ Training is deliberately paused, and existing checkpoints/posteriors are preserv
 - [ ] **Historical evidence limitation:** The original November 8 market/lineup/injury provider bundle was incomplete. Integrity checks cannot retrospectively establish a missing original publication time or create evidence that was not archived. Collect/source-pin those payloads prospectively in item 4's validation cohort.
 - [x] **Item 4 — canonical read-only scorecard completed.** Matched original frozen November 8 NFL 1 PM forecasts to 253 verified official contracts (67 with production consensus); kept the separate November 5–7 retrospective backtest at 645 officially settled contracts. Rejected 1,379 historical unverified/missing contracts. See `docs/REFORM_PHASE4_RESULTS_20261108.md`.
 - [x] **Item 4 — per-engine directional and calibration diagnostics.** Published one-contract-not-two-sides Brier/log loss, Over/Under direction bias, confidence-versus-hit gaps, per-market/sport/day breakdown, exact consensus–market common-contract comparisons, reliability cohorts and game/date-cluster **insufficiency** reports. Reusable code: `scripts/reform_phase4_scorecard.py`.
-- [ ] **Item 5 — optimizer's curse selection audit.** Replay top-k historical selections versus the eligible full universe with matching probability/market strata. Item 4 did not certify top-k selection effects or build an uncertainty-adjusted ranking.
+- [x] **Item 4a — paired NUTS numerical bug found and fixed.** The original 2026-11-08 NFL sidecar used `forecast_at` in the supposed shared-contract integration seed: 16 original noncomplementary NUTS reception pairs, all from different Over/Under Monte Carlo seeds. Updated `nuts_slate_shadow.shared_contract_seed` to exclude side-specific forecast times, retaining exact game/fixture/player/line identity, and added `slate_model_report.enforce_paired_probability_integrity` to withhold incompatible pairs from future consensus and rankings, preserving raw diagnostics. The original archived forecasts remain untouched.
+- [x] **Item 4a — authentic posterior numerical acceptance.** Read the original 336 MB, four-chain NFL receptions NUTS artifact in Deepnote (no refit), and forecast the same frozen player/stat/line twice with corrected shared seed: exactly identical Over/Under/Push masses, summing to 1.000000; original paired archive summed to 0.989756. This closes the identified code/numerical defect.
+- [ ] **Item 4a — prospective integration acceptance.** Confirm the first fresh paired pregame NUTS sidecar/report produced by the patched code stays complementary and no invalid sidecar becomes production eligible. This requires the next frozen run, not user-provided data or training. The November 8 archive remains untouched.
+- [x] **Item 5 — original top-k replay and descriptive audit.** Replayed all 2,436 frozen side rows, exactly reproduced 160 original eligible research candidates and all 30 original top-10 ranks. Only 10 eligible candidates fell in the independently settled NFL 1 PM window; 2 original selected picks won 2/2, with 4/8 unselected winning. No comparable matched stat/confidence/edge strata exist, so an optimizer's-curse hypothesis is **not yet identified**. See `docs/REFORM_4A_5_RESULTS_20261108.md`.
+- [ ] **Item 5 — prospective statistical conclusion.** Require independently graded full-day top-k selections across enough games/dates and comparable eligible-unselected candidates before fitting edge shrinkage or changing rankings.
 - [ ] Build and validate NFL tackle snap-share / on-field conversion challenger, including teammate availability.
 - [ ] Evaluate uncertainty-adjusted rankings vs frozen original rank, without editing the original forecasts.
 - [ ] Validate M2/M3 market-inclusive blends against the frozen 60/40 and market-only baselines on adequate independent chronological folds.
@@ -81,6 +85,32 @@ No training, ranking, market adjustment or numerical probability update
 was made. The audit *did not* recover missing archived pregame sources.
 Detailed limitations and reproduction commands are in
 `docs/REFORM_PHASE4_RESULTS_20261108.md`.
+
+### Change 4 — source-side NUTS numerical consistency repair (4a)
+
+The population NUTS integration is now seeded by the immutable
+game/player/stat/line/fixture/run, not the per-side timestamp. All 16
+inconsistent original reception pairs had different old side-specific seeds;
+the new seed agrees for all 16. Maximum original consensus pair discrepancy:
+0.339 percentage points. New paired numeric gate rejects incompatible NUTS
+and consensus pairs prospectively without rewriting historic probabilities.
+The corrected seed was exercised twice against the actual cached, converged
+336 MB NFL receptions NUTS posterior (4 chains × 2,000 draws, no retraining);
+both forecasts shared exact masses 0.4983248289428103 Over and
+0.5016751710571896 Under, versus 0.9897555945128014 paired original
+archive sum. A fresh integrated pregame batch remains the final deployment
+acceptance check. No NUTS training was run.
+
+### Change 5 — exact top-10 selection replay and bias pilot
+
+`scripts/reform_phase5_selection_audit.py` reproduces all 30 original
+full-slate top-10 research ranks from 160 eligible candidates out of 2,436
+frozen forecast sides, then joins only the 1 PM independently settled NFL
+contracts. Two of the original top-ten entries were in that 1 PM window:
+2/2 correct, compared with 4/8 correct among equally eligible but unselected
+candidates. No exact stat/confidence/market-edge matched strata or reliable
+winner's-curse inference are available from so few selected outcomes.
+Ranking, Tier logic and 60/40 weights are unchanged.
 
 ### CI and audit note
 

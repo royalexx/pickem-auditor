@@ -40,6 +40,28 @@ def checksum(path):
 def identity(row):return tuple(str(row.get(k,'')) for k in KEYS)
 
 
+def shared_contract_seed(row):
+    """One deterministic NUTS integration stream for both sides of a contract.
+
+    Side and per-side forecast_at are intentionally omitted: the original
+    collector records Over and Under milliseconds apart. Including its
+    timestamp produced different Monte Carlo samples and incoherent pair
+    probabilities in the frozen November 8 NFL reception forecasts.
+    The run/fixture/player/stat/line remain part of the seed identity.
+    """
+    keys=('run_id','game_date','sport','event_start','team','opponent',
+          'player_id','stat','reference_line')
+    contract={k:row.get(k) for k in keys}
+    if any(contract[k] in (None,'') for k in keys):
+        raise ValueError('missing_nuts_shared_contract_identity')
+    line=contract['reference_line']
+    if type(line) not in (int,float) or not math.isfinite(line):
+        raise ValueError('invalid_nuts_shared_contract_line')
+    contract['reference_line']=format(float(line),'.15g')
+    return int.from_bytes(hashlib.sha256(json.dumps(
+        contract,sort_keys=True,separators=(',',':')).encode()).digest()[:8],'big')
+
+
 def canon_stat(stat):return 'saves' if stat=='goalie saves' else stat
 
 
@@ -209,9 +231,9 @@ def evaluate(row,m,posterior,cache,now,*,model_id,clock=None):
     try:
         if not strict_manifest(m):raise ValueError('strict_convergence_failed')
         context=candidate_context(row,m,now)
-        # Both sides of an identical contract use identical stochastic draws.
-        contract={k:row.get(k) for k in KEYS if k!='side'}
-        seed=int.from_bytes(hashlib.sha256(json.dumps(contract,sort_keys=True).encode()).digest()[:8],'big')
+        # Both sides of an identical contract MUST use identical posterior
+        # integration draws; in particular, exclude per-side forecast_at.
+        seed=shared_contract_seed(row)
         from joint_population_bayes import forecast
         q=forecast(posterior,m,**context,seed=seed,draws=1500,diagnostic=m['diagnostics'],cache=cache)
         completed=clock() if clock else now
