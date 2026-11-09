@@ -140,6 +140,7 @@ def freeze(root,*,trials=8,draws=2000):
         training_cutoff_exclusive=TRAIN_END_EXCLUSIVE,
         fit_and_hyperparameter_selection_use_only_pre2024=True,
         feature_source="PBP_2021_2023_and_NGS_2021_2023",
+        rb_target_receiver_position_scope="same_game_only_no_future_season_backfill",
         ftndata_used=False,
         ftndata_quarantine_reason="FTN_2022_2023_archive_pulled_2024_09",
         model_mode="XGB_team_pass_rush_Dirichlet_Beta_Binomial_MC_active_zero_hurdle",
