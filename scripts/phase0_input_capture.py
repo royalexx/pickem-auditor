@@ -146,8 +146,12 @@ def capture(candidate, result, *, data_root, archive_root, clock):
     # This is the time the latest historical input was retrieved, not a claim
     # about the time that a hierarchical NUTS model was trained.
     return {
-        "model_training_cutoff_at": stamp(retrieved),
-        "model_training_cutoff_basis": "on_demand_engine_a_input_retrieved_at",
+        # Engine A is fitted on demand, rather than loaded from an opaque
+        # pretrained artifact. This is the effective calculation/data freeze
+        # time; historical source retrieval has a separately recorded clock.
+        "model_training_cutoff_at": stamp(when),
+        "model_training_cutoff_basis": "on_demand_engine_a_input_freeze",
+        "historical_usage_retrieved_at": stamp(retrieved),
         "source_receipts": receipts,
         "used_source_ids": [entry["source_id"] for entry in receipts],
         "source_capture_at": stamp(when),
