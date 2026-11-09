@@ -529,25 +529,61 @@ def summarize_walk_forward(report, *, seed=20261108, bootstraps=500):
 
 
 def main(argv=None):
-    ap=argparse.ArgumentParser()
+    ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--normalized-bundles",required=True,type=Path,
-                    help="JSON array of original nfl_context_data.normalize bundles")
-    ap.add_argument("--player-id",required=True)
-    ap.add_argument("--team",required=True)
-    ap.add_argument("--forecast-at",required=True)
-    ap.add_argument("--event-start",required=True)
-    ap.add_argument("--expected-defensive-plays",required=True,type=float)
-    ap.add_argument("--line",required=True,type=float)
+                    help="Original JSON array of nfl_context_data.normalize bundles")
+    ap.add_argument("--walk-forward-from",
+                    help="Research-only chronological replay start (UTC instant)")
+    ap.add_argument("--max-holdout-rows",type=int,default=4200)
+    ap.add_argument("--player-id")
+    ap.add_argument("--team")
+    ap.add_argument("--game-id")
+    ap.add_argument("--forecast-at")
+    ap.add_argument("--event-start")
+    ap.add_argument("--expected-defensive-plays",type=float)
+    ap.add_argument("--line",type=float)
+    ap.add_argument("--teammate-id")
+    ap.add_argument("--teammate-report",type=Path)
+    ap.add_argument("--historical-teammate-reports",type=Path)
+    ap.add_argument("--archive-root",type=Path)
     ap.add_argument("--out",type=Path)
     a=ap.parse_args(argv)
     history=normalize_bundles(json.loads(a.normalized_bundles.read_text()))
-    result=predict(history,player_id=a.player_id,team=a.team,
-        forecast_at=a.forecast_at,event_start=a.event_start,
-        expected_defensive_plays=a.expected_defensive_plays,line=a.line)
+    if a.walk_forward_from:
+        if a.teammate_id or a.teammate_report:
+            ap.error("teammate conditioning requires archived game-specific pregame reports")
+        if not 100<=a.max_holdout_rows<=50000:
+            ap.error("invalid walk-forward row cap")
+        research=walk_forward(history,from_time=a.walk_forward_from,
+                              line=5.5 if a.line is None else a.line,
+                              max_rows=a.max_holdout_rows)
+        result={
+            "schema":"nfl-tackle-challenger-research-report-v1",
+            "input_source_digests":history["history_source_digests"],
+            "source_quality_counts":history["source_quality_counts"],
+            "historical_timing_policy":history["time_provenance"],
+            "walk_forward_from":a.walk_forward_from,
+            "max_holdout_rows":a.max_holdout_rows,
+            "score":summarize_walk_forward(research),
+            "production_eligible":False,
+            "ranking_allowed":False,"training_started":False}
+    else:
+        if (not a.player_id or not a.team or not a.forecast_at or
+                not a.event_start or a.line is None or
+                a.expected_defensive_plays is None):
+            ap.error("single challenger forecast needs exact player/team, forecast/event "
+                     "time, pregame expected defensive plays and a line")
+        teammate=json.loads(a.teammate_report.read_text()) if a.teammate_report else None
+        archived=json.loads(a.historical_teammate_reports.read_text()) if a.historical_teammate_reports else None
+        result=predict(history,player_id=a.player_id,team=a.team,
+            game_id=a.game_id,forecast_at=a.forecast_at,event_start=a.event_start,
+            expected_defensive_plays=a.expected_defensive_plays,line=a.line,
+            teammate_id=a.teammate_id,teammate_report=teammate,
+            historical_teammate_reports=archived,archive_root=a.archive_root)
     data=json.dumps(result,sort_keys=True,indent=2,allow_nan=False)+"\n"
     if a.out:
         if a.out.exists() and a.out.read_text()!=data:
-            raise TackleChallengerError("would_overwrite_different_forecast")
+            raise TackleChallengerError("would_overwrite_different_forecast_or_report")
         a.out.parent.mkdir(parents=True,exist_ok=True)
         a.out.write_text(data)
     print(data)
