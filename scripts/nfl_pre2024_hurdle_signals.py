@@ -150,7 +150,7 @@ def select_pregame_injury_rows(rows,game_day_by_team_week,*,asof_utc):
         if game_day is None or _date(game_day)>=CUTOFF:continue
         try:stamp=_timestamp(r.get("date_modified"))
         except ValueError:continue
-        if stamp>=asof or stamp.date()>=CUTOFF or stamp.date()>_date(game_day):
+        if stamp>=asof or stamp.date()>=CUTOFF or stamp.date()>=_date(game_day):
             continue
         ident=(key,pid)
         prior=selected.get(ident)
