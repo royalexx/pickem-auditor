@@ -125,8 +125,13 @@ def training_rows(team_games,index):
     for r in sorted(team_games,key=lambda x:(x["gameday"],x["game_id"],x["team"])):
         day=_day(r["gameday"])
         if day>=CUTOFF:raise ValueError("future_team_training_label")
+        # The PBP team-game aggregate does not carry home; the canonical
+        # nflverse game ID ends in the true home team abbreviation.
+        home_team=str(r["game_id"]).split("_")[-1]
+        if home_team not in (r["team"],r["opponent"]):
+            raise ValueError("malformed_game_home_team")
         x=features(index,r["team"],r["opponent"],asof=day,
-                   home=bool(r.get("home",False)),week=int(r["week"]))
+                   home=(r["team"]==home_team),week=int(r["week"]))
         for market in TARGETS:
             val=float(r.get(market,0.))
             if not math.isfinite(val) or val<0:raise ValueError("invalid_team_volume_label")
