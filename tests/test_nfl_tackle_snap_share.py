@@ -50,15 +50,19 @@ def fixture(n=15, *, high_from=7, team_plays=65):
 
 def future_args(history):
     return dict(history=history,player_id="p1",team="A",
+                game_id="FUTURE-TEAM-A",
                 forecast_at=(game_time(16)-timedelta(hours=1)).isoformat(),
                 event_start=game_time(16).isoformat(),
                 expected_defensive_plays=66.,line=5.5)
 
 
-def receipt(root, name, at, *, delay_minutes=0):
-    """Authentically verify temporary, immutable fixture bytes."""
+def receipt(root, name, at, *, status, game_id, teammate, delay_minutes=0):
+    """Verify bytes of source-owned, exact-contract structured fixture."""
     path=Path(root)/name
-    path.write_text("Original official pregame active/inactive status",encoding="utf-8")
+    path.write_text(json.dumps({
+        "schema":"verified-nfl-teammate-status-v1",
+        "game_id":game_id,"team":"A","teammate_id":teammate,
+        "event_start":at.isoformat(),"status":status}),encoding="utf-8")
     published=at-timedelta(hours=2)
     return {
         "source_id":f"provider:{name}","status":"verified",
@@ -72,11 +76,13 @@ def receipt(root, name, at, *, delay_minutes=0):
 
 def status(root, i, state, *, teammate="mate", event_time=None):
     t=event_time or game_time(i)
+    game_id=f"2025_test_{i:02d}_A_B" if i<15 else "FUTURE-TEAM-A"
     return {
-        "game_id":f"2025_test_{i:02d}_A_B" if i<15 else "FUTURE-TEAM-A",
+        "game_id":game_id,
         "team":"A","teammate_id":teammate,
         "event_start":t.isoformat(),"status":state,
-        "source_receipt":receipt(root,f"verified_{i}_{state}_{teammate}.txt",t)}
+        "source_receipt":receipt(root,f"verified_{i}_{state}_{teammate}.txt",t,
+                                 status=state,game_id=game_id,teammate=teammate)}
 
 
 class TackleOpportunityTest(unittest.TestCase):
@@ -179,6 +185,17 @@ class TackleOpportunityTest(unittest.TestCase):
                 archive_root=d)
             self.assertIsNone(result["projection_components"]["conditional_teammate_effect"])
             self.assertIn("insufficient_confirmed_teammate_contrast",result["reliability_reasons"])
+
+    def test_unbacked_status_mutation_rejected_even_if_sha_matches_original(self):
+        with tempfile.TemporaryDirectory() as d:
+            prospective=status(d,16,"inactive")
+            # Signed source file still claims inactive. Rewriting just the
+            # in-memory status cannot turn it into a verified active player.
+            prospective["status"]="active"
+            with self.assertRaisesRegex(sn.TackleChallengerError,
+                                        "archived_teammate_status_identity_mismatch"):
+                sn.predict(**future_args(self.history),teammate_id="mate",
+                           teammate_report=prospective,archive_root=d)
 
     def test_tampered_teammate_source_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
