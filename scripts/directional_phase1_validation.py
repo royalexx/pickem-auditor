@@ -23,6 +23,7 @@ import json
 import math
 from pathlib import Path
 import random
+import point_in_time_provenance as pit
 import sys
 from urllib.parse import urlparse, parse_qs
 
@@ -289,13 +290,16 @@ def audit_frozen(comparison: dict) -> tuple[dict, dict]:
     }
 
 
-def verify_feature_receipts(features: list[dict], groups: dict) -> dict:
-    """Optional Phase 2 feature intake: reject all ungrounded or late evidence.
+def verify_feature_receipts(features: list[dict], groups: dict,
+                            *, archive_root: Path | None = None) -> dict:
+    """Point-in-time features must be linked to original archived source bytes.
 
-    Feature evidence must be available at or before *the frozen forecast*, not
-    merely before kickoff. Missing features are not silently filled.
+    This source check is optional for legacy frozen runs with incomplete
+    archives. When feature evidence is submitted it must pass every check;
+    it is never retrospectively imputed or treated as a model forecast.
     """
     accepted = Counter()
+    seen = set()
     for f in features:
         if not isinstance(f, dict):
             raise AuditError("feature_not_an_object")
@@ -311,6 +315,13 @@ def verify_feature_receipts(features: list[dict], groups: dict) -> dict:
             raise AuditError("feature_missing_source_url")
         if not isinstance(f.get("source_id"), str) or not f["source_id"]:
             raise AuditError("feature_missing_source_id")
+        family = f.get("feature_family")
+        if not isinstance(family, str) or not family.strip():
+            raise AuditError("feature_family_unavailable")
+        unique = (key, family, f["source_id"])
+        if unique in seen:
+            raise AuditError("duplicate_feature_source_receipt")
+        seen.add(unique)
         published = instant(f.get("published_at"), field="feature.published_at")
         retrieved = instant(f.get("retrieved_at"), field="feature.retrieved_at")
         at = min(instant(pair[side]["forecast_at"], field=side + ".forecast_at")
@@ -319,8 +330,15 @@ def verify_feature_receipts(features: list[dict], groups: dict) -> dict:
             raise AuditError("feature_retrieved_after_forecast")
         if f.get("status") != "verified":
             raise AuditError("feature_not_verified")
-        accepted[str(f.get("feature_family") or "unspecified")] += 1
-    return {"total_source_verified": sum(accepted.values()), "by_family": dict(accepted)}
+        try:
+            pit.verified_source_receipt(f, forecast=at, archive_root=archive_root)
+        except pit.ProvenanceError as exc:
+            raise AuditError("feature_" + str(exc)) from exc
+        accepted[family] += 1
+    return {"total_source_verified": sum(accepted.values()),
+            "by_family": dict(accepted),
+            "verified_source_bytes": sum(accepted.values()),
+            "source_archive_hash_checked": archive_root is not None}
 
 
 def validate_settlement(comparison: dict, settlement: dict, groups: dict) -> dict:
@@ -478,6 +496,7 @@ def score_frozen(groups: dict, outcome: dict) -> dict:
 
 def run(comparison: dict, *, settlement: dict | None = None,
         expected_run_id: str | None = None, features: list[dict] | None = None,
+        feature_archive_root: Path | None = None,
         sport: str | None = None, event_start: str | None = None) -> dict:
     """Filter ONLY the evaluation view after pinning the full source bytes.
 
@@ -515,7 +534,8 @@ def run(comparison: dict, *, settlement: dict | None = None,
             "excluded_from_this_view": original_count - scope["side_rows"],
             "not_scored_outside_scope": True,
         },
-        "feature_verification": verify_feature_receipts(features or [], groups),
+        "feature_verification": verify_feature_receipts(
+            features or [], groups, archive_root=feature_archive_root),
         "limitations": [
             "Existing source-model forecasts are not retrained or regenerated",
             "Frozen comparison SHA is not proof of complete original provider-source archives",
@@ -568,6 +588,7 @@ def main(argv=None) -> int:
             if not isinstance(feature_rows, list):
                 raise AuditError("feature_rows_missing")
         result = run(original, settlement=actual, features=feature_rows,
+                     feature_archive_root=args.features.parent if args.features else None,
                      sport=args.sport, event_start=args.event_start,
                      expected_run_id=manifest.get("baseline_forecast", {}).get("run_id")
                          if manifest else None)
