@@ -187,6 +187,24 @@ jobs:
                       except (ValueError,OSError):
                           receipt['structured_research']={'error':'INVALID_RESEARCH_RECEIPT'}
                   pregame_ok=step('pregame_engines',[sys.executable,'scripts/jobs.py','snapshot','--reuse-collected'])
+                  # Read-only source audit. Unarchived original model inputs
+                  # are explicitly UNCERTIFIED; do not alter original forecasts.
+                  if Path('data/prop_snapshots.jsonl').is_file():
+                      step('phase0_pregame_provenance',[sys.executable,
+                           'scripts/phase0_preflight.py','--date',archive_day,
+                           '--snapshots','data/prop_snapshots.jsonl',
+                           '--archive-root','data/source_archives',
+                           '--out','reports/phase0_pregame_provenance.json'])
+                      phase0_path=Path('reports/phase0_pregame_provenance.json')
+                      if phase0_path.is_file():
+                          try:
+                              phase0_report=json.loads(phase0_path.read_text())
+                              receipt['phase0_pregame_provenance']={k:phase0_report.get(k) for k in
+                                  ('schema','status','selected_run_id','contract_rows_in_batch',
+                                   'certified_rows','uncertified_rows',
+                                   'source_archive_complete','publication_eligible')}
+                          except (OSError,ValueError):
+                              receipt['phase0_pregame_provenance']={'status':'INVALID_PHASE0_REPORT'}
                   if pregame_ok:
                       # Strictly pre-forecast market snapshots; no hindsight matching.
                       step('market_odds_at_forecast',[sys.executable,
@@ -499,6 +517,7 @@ jobs:
             reports/market_coverage.json
             reports/market_odds_capture.json
             reports/market_odds_evaluation.json
+            reports/phase0_pregame_provenance.json
             data/market_odds_history/
             reports/history_bootstrap.json
             reports/forecast_invariants.json

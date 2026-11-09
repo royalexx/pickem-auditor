@@ -358,6 +358,10 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
                                            model_family=family)
         if rank in TIERS and not tier_quality["eligible"]:
             reasons.append("TIER_QUALITY_" + tier_quality["reason"])
+        from phase0_policy import authorize as phase0_authorize
+        release_gate = phase0_authorize(rank)
+        if not release_gate["publication_eligible"]:
+            reasons.append(release_gate["reason"])
         accepted = not reasons and rank in TIERS
         final_rank = rank if accepted else "Unranked"
         counts["verified" if accepted else "blocked"] += 1
@@ -381,6 +385,7 @@ def verify(rows, queue, packet, date, *, now=None, phase="initial", limit=10,
             "verified_rank": final_rank,
             "mechanism_evidence": mechanism_quality,
             "tier_quality": tier_quality,
+            "phase0_release_gate": release_gate,
             "diagnostic_regrade_rank": rank,
             "verified_model_probability": ((result or {}).get("grade") or {}).get("q_model"),
             "verified_market_probability": ((result or {}).get("grade") or {}).get("q_market_comparable"),
@@ -504,6 +509,9 @@ def main(argv=None):
     parser.add_argument("--archive-root", default="data/verification")
     parser.add_argument("--now", help="Test-only frozen evaluation time")
     args = parser.parse_args(argv)
+    # The CLI emits publication decisions, not historical research fixtures.
+    # Never let a shell environment omission revive unvalidated Tier 1/2.
+    os.environ["PICKEM_PHASE0_RELEASE_GUARD"] = "1"
     now = utc_time(args.now) if args.now else datetime.now(timezone.utc)
     if now is None:
         parser.error("invalid aware --now")
