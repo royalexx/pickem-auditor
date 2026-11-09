@@ -134,13 +134,21 @@ class ZeroHurdleTests(unittest.TestCase):
     self.assertIsNone(hz.features(x,context,market="targets",pid="P",
        position="WR",team="A",opponent="B",asof="2023-12-10",
        season=2023,week=14))
- def test_future_injury_report_fails(self):
+ def test_future_injury_report_is_never_used(self):
     x=state()
     context={"injuries":{("P",2023,14):{"gameday":"2023-12-10",
         "date_modified":"2023-12-11","status":"questionable"}}}
-    with self.assertRaisesRegex(ValueError,"postdated"):
-       hz.features(x,context,market="targets",pid="P",position="WR",
-           team="A",opponent="B",asof="2023-12-10",season=2023,week=14)
+    f=hz.features(x,context,market="targets",pid="P",position="WR",
+         team="A",opponent="B",asof="2023-12-10",season=2023,week=14)
+    self.assertEqual(float(f[hz.FEATURE_NAMES.index("injury_questionable_asof")]),0.)
+    self.assertEqual(float(f[hz.FEATURE_NAMES.index("injury_report_available")]),0.)
+ def test_injury_team_mismatch_is_not_transferred(self):
+    x=state()
+    context={"injuries":{("P",2023,14):{"gameday":"2023-12-10",
+        "date_modified":"2023-12-09","status":"questionable","team":"OLD"}}}
+    f=hz.features(x,context,market="targets",pid="P",position="WR",
+         team="A",opponent="B",asof="2023-12-10",season=2023,week=14)
+    self.assertEqual(float(f[hz.FEATURE_NAMES.index("injury_report_available")]),0.)
  def test_no_hurdle_without_fitted_model(self):
     p,ev=hz.zero_probability(None,state(),{},market="targets",
         pid="P",position="WR",team="A",opponent="B",asof="2024-01-01")
