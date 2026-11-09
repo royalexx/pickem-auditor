@@ -69,6 +69,26 @@ Accuracy, Brier, and log loss are **not sufficient** to approve a model on artif
 | 33 | P3 | Enforce release assertions and provenance | **PARTIAL IMPLEMENTED:** Added 2024 adversarial release gate, 11 numerical/validation tests (passed), fail-closed bookmaker quote validator, and corrected source-derived hybrid provenance ledger 107,319 rows. Integration into live ranking still outstanding. |
 | 34 | P3 | Fully prospective unseen live validation | **BLOCKED:** Needs timestamped real offers, settled active-player outcomes, and pre-registered post-fix slates. None supplied by this replay. |
 
+## Smoking-gun root cause: candidate eligibility, not a miraculous Bayesian edge
+
+An independent forensic join of **every** top-ten selected contract to its SHA-256-locked pregame packet identified the following exact composition:
+
+| Selected research prop type | Log1p hybrid | Raw-mean challenger |
+|---|---:|---:|
+| WR rushing touchdowns (typically threshold 0.5) | **105/180** | **112/180** |
+| WR rushing attempts/carries | **49/180** | **66/180** |
+| RB carries | 24/180 | 1/180 |
+| QB pass attempts | 2/180 | 1/180 |
+| **Verified bookmaker offers** | **0 documented** | **0 documented** |
+
+Both top-ten boards contain **180/180 Unders**. Most candidates are rare-event WR contracts, with extremely low player baselines and no verified bookmaker offer. Thus most of the 99.9% confidence is manufactured by ranking arbitrary, typically unoffered synthetic thresholds.
+
+**Correction of earlier preliminary audit figure:** An initial top-ten `model_mean / max(baseline, 0.01)` median of ~0.12 was **a denominator-floor artifact** for near-zero touchdown baselines. Recomputed without that artificial floor, all cases satisfy the research code's 30% historical-baseline floor for nonnegative stat means. The extreme confident Unders primarily reflect **tiny target probabilities on fabricated/uncorroborated contracts**, not necessarily a model mean violating the 30% blend. The log1p retransformation *also* induces bias, as confirmed by the raw-response replay, but did not fix the top-ten selection pathology.
+
+**Action:** `scripts/nfl_prop_offer_validation.py` now requires verifiable, timestamped pregame quote+two-sided odds and active-player evidence and returns **zero** picks for synthetic-only candidates. This protection is implemented on the isolated audit branch and is **not yet connected to production ranking**.
+
+Supporting records: `reports/nfl_2024_adversarial/top10_priors_comparison.json`, `top10_pregame_priors_log1p.csv`, `top10_pregame_priors_raw.csv`.
+
 ## Week by week: exactly the same 2024 player/game/market contracts
 
 | Week | Matched contracts | Log1p hybrid accuracy | Raw-mean challenger accuracy | Unmatched | Log1p top10 matched | Raw top10 matched |
