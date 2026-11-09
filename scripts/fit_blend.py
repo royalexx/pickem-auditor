@@ -16,6 +16,7 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 import pickem_math as pm
+import point_in_time_provenance as pit
 
 try:
     import numpy as np  # type: ignore
@@ -25,7 +26,7 @@ except ImportError:
     np = None  # type: ignore
     _HAS_NUMPY = False
 
-CODE_VERSION = "pickem-auditor-fit_blend/3"
+CODE_VERSION = "pickem-auditor-fit_blend/4"
 MIN_SETTLED = 300
 MIN_STAT_SPLIT = 100
 BOOTSTRAP_SAMPLES = 500
@@ -745,8 +746,13 @@ def should_emit_config(report: dict, oof: dict[str, list[tuple[float, int]]]) ->
     return True, "M3 beats M0 and M2 on both proper scores with paired day-block CIs"
 
 
-def build_fit_report(rows_raw: list[dict], l2: float, force: bool) -> dict:
+def build_fit_report(rows_raw: list[dict], l2: float, force: bool,
+                     archive_root: Path | None = None) -> dict:
     enriched = [row for row in (enrich_row(row) for row in rows_raw) if row is not None]
+    provenance = [pit.blend_snapshot_status(row["raw"], archive_root=archive_root)
+                  for row in enriched]
+    verified = sum(ok for ok, _reason in provenance)
+    reasons = dict(Counter(reason for ok, reason in provenance if not ok))
     with_b = [row for row in enriched if not row["abstain_b"] and "logit_qB" in row["features"]]
     abstain = [row for row in enriched if row["abstain_b"]]
 
@@ -758,7 +764,8 @@ def build_fit_report(rows_raw: list[dict], l2: float, force: bool) -> dict:
 
     n_settled = len(enriched)
     underpowered = n_settled < MIN_SETTLED
-    include_weights = (not underpowered) or force
+    source_verified = n_settled > 0 and verified == n_settled
+    include_weights = (not underpowered and source_verified) or force
 
     def cohort_block(rows: list[dict], models: tuple[str, ...], oof: dict) -> dict:
         model_reports = {}
@@ -771,6 +778,8 @@ def build_fit_report(rows_raw: list[dict], l2: float, force: bool) -> dict:
         weights = fit_final_weights(rows, models, l2) if include_weights else None
         if underpowered and force and weights is not None:
             stamp = "UNDERPOWERED"
+        elif not source_verified and force and weights is not None:
+            stamp = "UNVERIFIED_PREGAME_SOURCE_NOT_DEPLOYABLE"
         else:
             stamp = None
         return {
@@ -787,6 +796,11 @@ def build_fit_report(rows_raw: list[dict], l2: float, force: bool) -> dict:
         "n_settled": n_settled,
         "underpowered": underpowered,
         "weights_included": include_weights,
+        "point_in_time_verified": verified,
+        "point_in_time_missing_or_invalid": n_settled - verified,
+        "point_in_time_rejection_reasons": reasons,
+        "source_archive_root_present": archive_root is not None,
+        "source_provenance_requirement": "actual_source_bytes_sha256_and_pregame_timestamps",
         "ab_diagnostics": ab_diagnostics(with_b),
         "cohorts": {
             "with_b": cohort_block(with_b, cohort_with_b_models, oof_with_b),
@@ -835,6 +849,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--force", action="store_true", help="Emit weights when n < 300 (UNDERPOWERED)")
     parser.add_argument("--emit-config", action="store_true", help="Write config/blend_weights.json when M3 wins")
     parser.add_argument("--config-path", default=str(DEFAULT_BLEND_WEIGHTS_PATH))
+    parser.add_argument("--archive-root", type=Path, help="Root containing immutable source receipts' relative archive files")
     args = parser.parse_args(argv)
 
     try:
@@ -853,12 +868,13 @@ def main(argv: list[str] | None = None) -> int:
         print(f"UNDERPOWERED: no settled outcomes; diagnostic written {out}")
         return 2
 
-    report, oof_with_b = build_fit_report(rows, l2=args.l2, force=args.force)
+    report, oof_with_b = build_fit_report(
+        rows, l2=args.l2, force=args.force, archive_root=args.archive_root)
 
     if not report["weights_included"]:
         print(
-            f"ERROR: n_settled={report['n_settled']} < {MIN_SETTLED}; "
-            "refusing weights (use --force to stamp UNDERPOWERED)",
+            f"ERROR: settled={report['n_settled']} source_verified={report['point_in_time_verified']}; "
+            "refusing unverified/underpowered weights (use --force for research only)",
             file=sys.stderr,
         )
 
