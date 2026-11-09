@@ -29,6 +29,15 @@ def _check(year,day):
     if int(year) not in YEAR_RANGE or _date(day)>=CUTOFF:
         raise ValueError("2024_plus_observation_forbidden")
 
+def _play_id(value):
+    """nflreadpy PBP play_id can be 40.0 while participation is 40."""
+    try:
+        f=float(value)
+        if not math.isfinite(f) or not f.is_integer():return None
+        return int(f)
+    except (TypeError,ValueError):
+        return None
+
 def player_ids(val):
     """Parse delimiter-separated GSIS identities, not substring matches."""
     if val is None:return frozenset()
@@ -57,7 +66,7 @@ def summarize_participation(rows,schedule):
         _check(fixture["season"],fixture["gameday"])
         if int(fixture["season"]) not in PARTICIPATION_ALLOWED_YEARS:
             raise ValueError("ftn_2023_participation_postseason_leakage")
-        key=(gid,str(r.get("play_id") or ""))
+        key=(gid,_play_id(r.get("play_id")))
         if key in seen:raise ValueError("duplicate_participation_play")
         seen.add(key)
         offense=str(r.get("possession_team") or "")
@@ -159,9 +168,9 @@ def load_nflreadpy_strict_pre2024_context(*,include_participation=True,
             frame=nflreadpy.load_pbp(seasons=[year])
             for r in frame.select("game_id","play_id","qb_dropback").to_dicts():
                 if r.get("qb_dropback") in (True,1,"1"):
-                    dropbacks.add((str(r["game_id"]),str(r["play_id"])))
+                    dropbacks.add((str(r["game_id"]),_play_id(r.get("play_id"))))
         for row in rows:
-            row["qb_dropback"]=(str(row["nflverse_game_id"]),str(row["play_id"])) in dropbacks
+            row["qb_dropback"]=(str(row["nflverse_game_id"]),_play_id(row.get("play_id"))) in dropbacks
         participation=summarize_participation(rows,schedules)
     injuries={}
     if include_injuries:
