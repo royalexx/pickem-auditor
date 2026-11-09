@@ -55,7 +55,7 @@ class WalkforwardGuardTests(unittest.TestCase):
         state["player"]={("targets","x"):[{"gameday":"2024-09-08","season":2024}]}
         old=wf.hybrid.CUTOFF
         try:
-            wf.hybrid.CUTOFF=wf.date(2024,9,08)
+            wf.hybrid.CUTOFF=wf.date(2024,9,8)
             with self.assertRaisesRegex(RuntimeError,"unrevealed_or_same_week"):
                 wf.assert_player_state_past(state)
             wf.hybrid.CUTOFF=wf.date(2024,9,12)
