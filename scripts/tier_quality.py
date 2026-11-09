@@ -18,13 +18,19 @@ DESCRIPTION = {
 }
 
 
-def assess(tier, q_win, *, blend_validated=False):
+def assess(tier, q_win, *, blend_validated=False, model_family=None):
     """Authorize only a sufficiently high model probability, never a win-rate claim."""
     result = {"version": VERSION, "tier": tier, "eligible": False,
               "minimum_model_probability": PREDICTIVE_FLOORS.get(tier),
               "target_is_observed": False, "empirical_hit_rate_certified": False,
               "quality_definition": DESCRIPTION.get(tier, "No approved tier")}
     floor = PREDICTIVE_FLOORS.get(tier)
+    from nfl_challenger_policy import authorize
+    policy=authorize(tier,family=model_family)
+    if not policy["eligible"]:
+        result["reason"]=policy["reason"]
+        result["calibration_tier_gate"]=policy
+        return result
     if floor is None:
         result["reason"] = "NO_APPROVED_TIER"
         return result
