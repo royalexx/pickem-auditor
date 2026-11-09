@@ -124,6 +124,23 @@ def verified_status(report, *, forecast_at, game_id, team, teammate_id, archive_
                                           archive_root=Path(archive_root) if archive_root is not None else None)
     except (ProvenanceError,ValueError,TypeError) as exc:
         raise TackleChallengerError("uncertified_teammate_status_receipt") from exc
+    # The immutable source bytes must also contain the *same* asserted
+    # athlete/game/status fields. A checked SHA of unrelated text cannot
+    # authorize an arbitrary injury/roster claim.
+    try:
+        receipt=report["source_receipt"]
+        archive=(Path(archive_root)/receipt["archive_path"]).resolve()
+        raw=json.loads(archive.read_text(encoding="utf-8"))
+        if (raw.get("schema")!="verified-nfl-teammate-status-v1"
+                or str(raw.get("game_id"))!=str(game_id)
+                or str(raw.get("team"))!=str(team)
+                or str(raw.get("teammate_id"))!=str(teammate_id)
+                or raw.get("status")!=report["status"]
+                or parse_stamp(raw.get("event_start"),"archived_teammate_event_start")!=
+                   parse_stamp(report.get("event_start"),"reported_teammate_event_start")):
+            raise TackleChallengerError("archived_teammate_status_identity_mismatch")
+    except (OSError,UnicodeError,ValueError,TypeError,KeyError) as exc:
+        raise TackleChallengerError("archived_teammate_status_unreadable_or_mismatched") from exc
     return report["status"],source_id
 
 
@@ -185,7 +202,8 @@ def score_probability(mean, line, *, alpha=ALPHA):
 
 
 def predict(history, *, player_id,team,forecast_at,event_start,
-            expected_defensive_plays,line, teammate_id=None,teammate_report=None,
+            expected_defensive_plays,line,game_id=None,
+            teammate_id=None,teammate_report=None,
             historical_teammate_reports=None,archive_root=None):
     """Predict from *only* prior available games. Always research-only."""
     if not isinstance(history,dict) or history.get("schema")!=VERSION:
@@ -244,7 +262,8 @@ def predict(history, *, player_id,team,forecast_at,event_start,
             reasons.append("future_teammate_status_unverified")
         else:
             gid=teammate_report.get("game_id")
-            if not gid:raise TackleChallengerError("missing_future_teammate_event")
+            if not gid or not game_id or str(gid)!=str(game_id):
+                raise TackleChallengerError("future_teammate_game_id_missing_or_mismatched")
             if parse_stamp(teammate_report.get("event_start"),"teammate_future_event_start")!=start:
                 raise TackleChallengerError("future_teammate_event_time_mismatch")
             state,receipt=verified_status(teammate_report,forecast_at=now.isoformat(),
@@ -353,6 +372,7 @@ def walk_forward(history, *, from_time, line=5.5, max_rows=10000):
         # own historical offensive dataset; use a neutral, predeclared
         # 65-play scenario rather than the heldout team's actual plays.
         prediction=predict(history,player_id=target["player_id"],team=target["team"],
+            game_id=target["game_id"],
             forecast_at=(now-timedelta(hours=2)).isoformat(),
             event_start=now.isoformat(),
             expected_defensive_plays=65.,line=line)
