@@ -49,9 +49,9 @@ MIN_POSITIVES=6
 def _day(value):
  return date.fromisoformat(str(value)[:10])
 
-def _prior_rows(state,market,pid,asof,*,limit=5):
+def _prior_rows(state,market,pid,team,asof,*,limit=5):
  rows=[r for r in state["player"].get((market,str(pid)),())
-     if _day(r["gameday"])<asof and float(r.get("workload",0.))>=MIN_ACTIVE_SNAPS]
+     if _day(r["gameday"])<asof and r.get("team")==team and float(r.get("workload",0.))>=MIN_ACTIVE_SNAPS]
  rows.sort(key=lambda r:r["gameday"],reverse=True)
  return rows[:limit]
 
@@ -85,7 +85,7 @@ def features(state,context,*,market,pid,position,team,opponent,
  if day>CUTOFF:raise ValueError("2024_plus_hurdle_features_forbidden")
  if market not in MARKETS:raise ValueError("market_not_zero_hurdle_eligible")
  if position not in POSITION_ID:raise ValueError("unknown_hurdle_position")
- hist=_prior_rows(state,market,pid,day)
+ hist=_prior_rows(state,market,pid,team,day)
  if len(hist)<MIN_PAST_PLAYER_GAMES:return None
  if not all(_day(r["gameday"])<day for r in hist):
   raise ValueError("hurdle_same_week_training_leak")
@@ -96,6 +96,12 @@ def features(state,context,*,market,pid,position,team,opponent,
   raise ValueError("nonfinite_player_history")
  prior,nrole=_beta_role_zero(state,market,position,day)
  pres=context.get("participation") or {}
+ if pres:
+  provenance=pres.get("provenance") or {}
+  if provenance.get("2023_ftn_participation_used") is not False:
+   raise ValueError("missing_or_unsafe_participation_provenance")
+  if provenance.get("actual_routes_run_available") is not False:
+   raise ValueError("dropback_presence_mislabeled_as_route_run")
  p_hist=(pres.get("player_dropback_presence") or {}).get(str(pid),())
  db,db_delta,db_count=_recent(p_hist,"dropback_presence_rate",day)
  o_hist=(pres.get("offense_11_personnel") or {}).get(str(opponent),())
