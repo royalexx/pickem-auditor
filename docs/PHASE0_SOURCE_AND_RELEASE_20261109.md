@@ -85,3 +85,44 @@ that dependency as unavailable, **not** claim those cases passed.
 - Accumulate enough independent, matched real-bookmaker quote/date
   cohorts for walk-forward calibration and safe champion/challenger
   decisions. Keep the old model as a baseline until then.
+
+## Prospective input-capture repair (November 9)
+
+The production cloud inference runner now freezes real evaluation inputs and their
+SHA-256 bytes before appending each forecast to the immutable snapshot. It
+preserves collector-owned historical player usage, the exact evaluated candidate,
+the available same-day research packet when Engine B is active, original two-sided
+quote files, and the evaluated market structure. The original input bytes are
+copied into each published live-pool bundle, not just referenced from the
+ephemeral notebook checkout. This does not reconstruct old missing evidence.
+
+The historical Engine A estimate is computed on demand. The stored
+`model_training_cutoff_at` is therefore the **effective input/calculation freeze
+clock** (`model_training_cutoff_basis=on_demand_engine_a_input_freeze`), not a
+claim that a separate hierarchical model was fitted at that time.
+`historical_usage_retrieved_at` retains the earlier collector retrieval clock.
+Hierarchical shadow models must retain their *own* training cutoff metadata and
+cannot inherit this field as evidence of their fit.
+
+Collector-capture receipts deliberately omit unknown original publication times;
+they declare `clock_semantics=collector_captured_no_publication_claim`, and the
+validator verifies only collector possession, chronological consistency and
+original byte integrity. The source verifier does not independently establish
+provider publication truth or completeness of every upstream data transform.
+The model remains **research-only** and Tier 1/2 publication remains disabled.
+
+### Formal closure gate
+
+1. Regression suite passes (any missing external `zstd` cases reported separately).
+2. A real same-day Deepnote afternoon job collects original markets and freezes
+   prospective records with source receipts and effective input freeze clock.
+3. Its Phase 0 report certifies eligible rows and explicitly enumerates
+   uncertified rows; all observed failures must be explained and fixed or
+   rejected for legitimate missing evidence.
+4. The immutable GitHub live-pool bundle includes a matching Phase 0 report,
+   the normalized market snapshot, and SHA-verified original source bytes;
+   a later query can retrieve/verify that bundle.
+5. Original V1 forecasts remain untouched; training stays paused and
+   high-confidence Tier publication stays disabled.
+
+An observed zero-certified live run is **not** Phase 0 completion.

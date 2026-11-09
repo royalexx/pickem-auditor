@@ -46,19 +46,34 @@ def verified_source_receipt(source: dict, *, forecast: datetime, archive_root: P
     if not isinstance(ident, str) or not ident.strip():
         raise ProvenanceError("source_id_missing")
     url = source.get("source_url")
-    if not isinstance(url, str):
-        raise ProvenanceError("source_url_missing")
-    parsed = urlparse(url)
-    if parsed.scheme != "https" or not parsed.netloc or parsed.username or parsed.password:
-        raise ProvenanceError("source_url_not_https")
+    collector_capture = (source.get("source_kind") == "collector_input_bytes"
+                         and source.get("clock_semantics") ==
+                             "collector_captured_no_publication_claim")
+    if url is None and collector_capture:
+        if source.get("source_url_status") != "upstream_url_unknown":
+            raise ProvenanceError("source_upstream_url_status_invalid")
+    else:
+        if not isinstance(url, str):
+            raise ProvenanceError("source_url_missing")
+        parsed = urlparse(url)
+        if (parsed.scheme != "https" or not parsed.netloc or parsed.username
+                or parsed.password or (collector_capture and
+                    (parsed.query or parsed.fragment))):
+            raise ProvenanceError("source_url_not_https")
     digest = source.get("content_sha256")
     if not isinstance(digest, str) or not SHA256.fullmatch(digest):
         raise ProvenanceError("source_digest_missing_or_invalid")
     observed = instant(source.get("observed_at"), "source.observed_at")
-    published = instant(source.get("published_at"), "source.published_at")
     retrieved = instant(source.get("retrieved_at"), "source.retrieved_at")
-    if not observed <= published <= retrieved <= forecast:
-        raise ProvenanceError("source_after_forecast_or_inconsistent_timeline")
+    if collector_capture:
+        # These bytes were possessed at collector capture; unknown upstream
+        # publication time is NOT invented or inferred from a filesystem mtime.
+        if not retrieved <= observed <= forecast or source.get("published_at"):
+            raise ProvenanceError("source_after_forecast_or_inconsistent_timeline")
+    else:
+        published = instant(source.get("published_at"), "source.published_at")
+        if not observed <= published <= retrieved <= forecast:
+            raise ProvenanceError("source_after_forecast_or_inconsistent_timeline")
     relative = source.get("archive_path")
     if archive_root is None:
         raise ProvenanceError("source_archive_root_missing")
