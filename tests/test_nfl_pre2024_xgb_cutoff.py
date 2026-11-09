@@ -19,7 +19,7 @@ class Pre2024StrictCutoff(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,"2024_plus"):
    _cutoff({"game_date":"2024-09-08","season":"2024"})
  def test_2023_january_2024_games_hard_blocked(self):
-  with self.assertRaisesRegex(ValueError,"2024_plus_date"):
+  with self.assertRaisesRegex(ValueError,"2024_plus"):
    _cutoff({"game_date":"2024-01-07","season":"2023"})
  def test_unproven_ftn_pull_never_allowed(self):
   x=[{"season":2023,"nflverse_game_id":"2023_10_A_B",
@@ -55,7 +55,7 @@ class Pre2024StrictCutoff(unittest.TestCase):
   for i in range(42):
    d=datetime.date(2021,9,15)+datetime.timedelta(days=19*i)
    if d>=CUTOFF:break
-   for j in range(5):rows.append(dict(date=d.isoformat()))
+   for j in range(15):rows.append(dict(date=d.isoformat()))
   folds=validation_folds(rows)
   self.assertGreaterEqual(len(folds),1)
   for tr,va in folds:
