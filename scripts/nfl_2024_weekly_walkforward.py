@@ -41,7 +41,7 @@ from population_nfl import fetch_season, normalize_season
 SCHEMA = "nfl_2024_weekly_expanding_training_after_results_v1"
 TRAIN_END = "2024-01-01"
 EXTENDED_BOUNDARY = date(2025, 2, 1)
-BASE = "pickem_runs/2024_hybrid_activezero_pre2024_numpy2_clean_v3"
+BASE = "pickem_runs/2024_pre2024_samegame_position_safe_base_v1"
 MARKETS = ("p_over", "p_over_hurdle", "p_over_no_refit", "p_over_player_prior", "p_over_static_player")
 MODEL_FILES = {
     "pass_attempts": "pass_attempts.ubj",
