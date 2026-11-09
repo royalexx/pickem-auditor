@@ -31,6 +31,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Enforce user-directed NUTS training pause before costly work
+        shell: bash
+        run: |
+          if test -f .training-control/PAUSED.json; then
+            echo 'TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED' >&2
+            exit 1
+          fi
       - name: Load source-owned immutable historical warehouse
         run: bash scripts/history_warehouse_store.sh load
       - name: Audit every supported NHL NBA NFL market without training
@@ -66,6 +73,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Enforce user-directed NUTS training pause before costly work
+        shell: bash
+        run: |
+          if test -f .training-control/PAUSED.json; then
+            echo 'TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED' >&2
+            exit 1
+          fi
       - name: Load EXACT historical snapshot audited by preflight
         env:
           FROZEN_SHA: ${{ needs.preflight.outputs.history_sha }}
