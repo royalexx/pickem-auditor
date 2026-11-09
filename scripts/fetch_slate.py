@@ -2898,6 +2898,19 @@ def prepare_pipeline(rows, quotes, now=None) -> list[dict]:
         ]
         if not on_line:
             continue
+        # Preserve the actual provider's event identity from the priced quotes.
+        # A synthetic fixture ID or player/matchup-based guess is not evidence.
+        # Conflicting or incomplete quote identities remain uncertified.
+        quoted_event_ids = {str(q["event_id"]) for q in on_line
+                            if q.get("event_id") not in (None, "")}
+        event_id_consistent = (
+            len(quoted_event_ids) == 1 and
+            all(q.get("event_id") not in (None, "") for q in on_line))
+        market_event_id = next(iter(quoted_event_ids)) if event_id_consistent else None
+        quoted_namespaces = {str(q["event_id_namespace"]) for q in on_line
+                             if q.get("event_id_namespace") not in (None, "")}
+        market_event_namespace = (next(iter(quoted_namespaces))
+                                  if len(quoted_namespaces) == 1 else None)
         for side in ("over", "under"):
             groups = build_consensus_input(on_line, now=now, side=side)
             info = next(
@@ -2911,10 +2924,11 @@ def prepare_pipeline(rows, quotes, now=None) -> list[dict]:
                 "side_name": f"{row.get('player')} {side} {info['line']} {row.get('stat')}",
                 "team": row.get("team"),
                 "opponent": row.get("opponent"),
-                "event_id_namespace": row.get("event_id_namespace"),
+                "event_id_namespace": (row.get("event_id_namespace") or
+                                       market_event_namespace),
                 "game_date": row.get("game_date"),
                 "player_id": row.get("player_id"),
-                "event_id": row.get("event_id"),
+                "event_id": row.get("event_id") or market_event_id,
                 "dist": row["suggested_dist"],
                 "side": side,
                 "line": info["line"],
