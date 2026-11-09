@@ -61,11 +61,11 @@ def paired_diff(rows,a,b,kind="brier"):
     raise ValueError("unknown_comparison_score")
 
 
-def block_bootstrap(allrows,model_a,model_b,kind,*,replications=500):
+def block_bootstrap(allrows,model_a,model_b,kind,*,block_key="game_id",replications=500):
     groups=collections.defaultdict(list)
     for r in allrows:
         if r.get(METHODS[model_a]) is not None and r.get(METHODS[model_b]) is not None:
-            groups[r["game_id"]].append(r)
+            groups[r[block_key]].append(r)
     games=list(groups.values())
     rng=random.Random(20261109)
     obs=paired_diff([r for group in games for r in group],model_a,model_b,kind)
@@ -78,7 +78,7 @@ def block_bootstrap(allrows,model_a,model_b,kind,*,replications=500):
     vals.sort()
     return {"A_minus_B":obs,"interval_95pc":[vals[int(.025*len(vals))],
                     vals[int(.975*len(vals))-1]],
-            "block":"2024 NFL game","n_games":len(games),
+            "block":block_key,"n_clusters":len(games),
             "replications":replications}
 
 
@@ -149,7 +149,9 @@ def audit(root):
         ("team_xgb_bayes_hurdle_online","rolling_prior"),
         ("rolling_prior","static_2023_prior")]:
         paired[a+"_minus_"+b]={
-          kind:block_bootstrap(allrows,a,b,kind)
+          kind:{
+            "game":block_bootstrap(allrows,a,b,kind,block_key="game_id"),
+            "player":block_bootstrap(allrows,a,b,kind,block_key="player_id")}
           for kind in ("accuracy","brier")}
     report={
         "schema":"nfl_2024_weekly_learning_progression_audit_v1",
@@ -201,9 +203,10 @@ def audit(root):
          "Intervals use an exploratory 500-replicate NFL-game cluster bootstrap. "
          "They do not resolve roster/line selection bias or across-week player dependence."])
     for key,parts in paired.items():
-        for kind,m in parts.items():
-            lines.append("- %s / %s: A − B = %.5f; approx. 95%% CI [%.5f, %.5f]"%(
-                key,kind,m["A_minus_B"],*m["interval_95pc"]))
+        for kind,blocks in parts.items():
+            for method,m in blocks.items():
+                lines.append("- %s / %s / %s clusters: A − B = %.5f; approx. 95%% CI [%.5f, %.5f]"%(
+                  key,kind,method,m["A_minus_B"],*m["interval_95pc"]))
     lines.extend(["","## Data and limits","",
       "Forecasted: %s; graded: %s; unmatched: %s (not counted as losses or zeros)."%(
         report["forecasts"],report["graded"],report["unmatched"]),
