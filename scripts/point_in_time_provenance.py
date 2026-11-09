@@ -150,3 +150,83 @@ def blend_snapshot_status(row: dict, *, archive_root: Path | None = None) -> tup
         return True, "verified_metadata_and_archived_source_receipts"
     except (ProvenanceError, KeyError, TypeError, ValueError, OverflowError) as exc:
         return False, str(exc)
+
+
+def pregame_snapshot_status(row: dict, *, archive_root: Path | None = None) -> tuple[bool, str]:
+    """Fail-closed pre-event source/market/training-cutoff attestation.
+
+    Unlike blend_snapshot_status this can run BEFORE the game settles. It never
+    needs or trusts actual_stat, outcome, settlement or retrospective feature
+    values. Archived original bytes are mandatory for every declared input.
+    This certifies receipt/timing consistency, not the truth of a provider's
+    independently claimed publication date or hidden upstream transformations.
+    """
+    try:
+        if not isinstance(row, dict):
+            raise ProvenanceError("invalid_forecast")
+        forecast = instant(row.get("forecast_at"), "forecast_at")
+        start = instant(row.get("event_start"), "event_start")
+        if not forecast < start:
+            raise ProvenanceError("forecast_not_strictly_before_event")
+        cutoff = instant(row.get("model_training_cutoff_at"), "model_training_cutoff_at")
+        if cutoff > forecast:
+            raise ProvenanceError("model_trained_after_forecast")
+        if start.astimezone(ZoneInfo("America/Toronto")).date().isoformat() != row.get("game_date"):
+            raise ProvenanceError("event_game_date_mismatch")
+        for key in ("run_id", "sport", "player_id", "stat", "side", "event_id"):
+            if not isinstance(row.get(key), str) or not row[key].strip():
+                raise ProvenanceError("missing_contract_identity:" + key)
+        if row["side"] not in ("over", "under"):
+            raise ProvenanceError("invalid_side")
+        line = row.get("reference_line")
+        if (isinstance(line, bool) or not isinstance(line, (int, float))
+                or not math.isfinite(line) or line < 0):
+            raise ProvenanceError("invalid_reference_line")
+        market = row.get("market")
+        if not isinstance(market, dict) or market.get("market_valid") is not True:
+            raise ProvenanceError("market_unavailable_or_unverified")
+        market_time = instant(market.get("retrieved_at"), "market.retrieved_at")
+        if market_time > forecast:
+            raise ProvenanceError("post_forecast_market_quote")
+        price_line = market.get("line")
+        if (isinstance(price_line, bool) or not isinstance(price_line, (int, float))
+                or not math.isfinite(price_line) or float(price_line) != float(line)):
+            raise ProvenanceError("different_market_line")
+        books = market.get("books")
+        if not isinstance(books, list) or not books:
+            raise ProvenanceError("market_book_quote_receipt_missing")
+        for book in books:
+            if not isinstance(book, dict) or not str(book.get("book") or "").strip():
+                raise ProvenanceError("invalid_book_identity")
+            observed = instant(book.get("retrieved_at"), "market.book.retrieved_at")
+            if observed > forecast:
+                raise ProvenanceError("post_forecast_book_quote")
+            if (book.get("line") is None or isinstance(book["line"], bool)
+                    or not isinstance(book["line"], (int, float))
+                    or float(book["line"]) != float(line)):
+                raise ProvenanceError("different_book_line")
+        receipts, used = row.get("source_receipts"), row.get("used_source_ids")
+        if not isinstance(receipts, list) or not receipts or not isinstance(used, list) or not used:
+            raise ProvenanceError("source_manifest_missing")
+        ids = set()
+        components = set()
+        for receipt in receipts:
+            ident = verified_source_receipt(receipt, forecast=forecast, archive_root=archive_root)
+            if ident in ids:
+                raise ProvenanceError("duplicate_source_id")
+            ids.add(ident)
+            component = receipt.get("model_component")
+            if component not in SOURCE_COMPONENTS:
+                raise ProvenanceError("unknown_source_component")
+            components.add(component)
+        if (any(not isinstance(x, str) or not x for x in used)
+                or len(used) != len(set(used)) or set(used) != ids):
+            raise ProvenanceError("incomplete_or_unused_source_manifest")
+        required = {"Engine_A", "Market"}
+        if not (row.get("engine_b") or {}).get("abstain"):
+            required.add("Engine_B")
+        if not required <= components:
+            raise ProvenanceError("missing_engine_or_market_source_receipt")
+        return True, "pregame_archived_inputs_and_training_timeline_verified"
+    except (ProvenanceError, KeyError, TypeError, ValueError, OverflowError) as exc:
+        return False, str(exc)
