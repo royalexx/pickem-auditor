@@ -60,7 +60,9 @@ def preserve(root, component, role, raw, *, captured, retrieved, url=None):
     cache_key = ((component, role, id(raw), retrieved.isoformat(), url)
                  if role in ("original_research", "original_book_quotes") else None)
     if cache_key is not None and cache_key in _STATIC_RECEIPTS:
-        return dict(_STATIC_RECEIPTS[cache_key])
+        stored_receipt, stored_bytes = _STATIC_RECEIPTS[cache_key]
+        if stored_bytes is raw:
+            return dict(stored_receipt)
     raw = _safe_bytes(raw)
     if not raw:
         raise ValueError("empty_source_input")
@@ -97,7 +99,7 @@ def preserve(root, component, role, raw, *, captured, retrieved, url=None):
         "status": "verified",
     }
     if cache_key is not None:
-        _STATIC_RECEIPTS[cache_key] = receipt
+        _STATIC_RECEIPTS[cache_key] = (receipt, raw)
     return receipt
 
 
