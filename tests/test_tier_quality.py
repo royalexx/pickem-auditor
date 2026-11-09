@@ -31,6 +31,28 @@ class TierQualityTests(unittest.TestCase):
             self.assertFalse(q.assess("Tier 2",p)["eligible"])
         self.assertFalse(q.assess("Research Tier 2",.99)["eligible"])
 
+    def test_research_challenger_cannot_authorize_tier1_or_tier2(self):
+        for model in q.SUSPENDED_CHALLENGER_IDS:
+            for tier in ("Tier 1","Tier 2"):
+                r=q.assess(tier,.999,blend_validated=True,model_provenance=model)
+                self.assertFalse(r["eligible"])
+                self.assertIn("SUSPENDED",r["reason"])
+                self.assertFalse(r["production_authorized"])
+
+    def test_challenger_tier3_remains_research_not_production(self):
+        model="nfl_2024_weekly_expanding_training_after_results_v1"
+        r=q.assess("Tier 3",.85,model_provenance=model)
+        self.assertFalse(r["eligible"])
+        self.assertEqual(r["reason"],"CHALLENGER_RESEARCH_ONLY_NO_PRODUCTION_AUTHORIZATION")
+        self.assertTrue(q.assess("Tier 2",.9,model_provenance="production_consensus_v1")["eligible"])
+
+    def test_source_provenance_nested_or_top_level_and_no_name_inference(self):
+        model="nfl_2024_weekly_expanding_training_after_results_v1"
+        self.assertEqual(q.identify_model_provenance({"model_id":model}),model)
+        self.assertEqual(q.identify_model_provenance({"inputs":{"model_schema":model}}),model)
+        self.assertIsNone(q.identify_model_provenance({"sport":"NFL","stat":"targets",
+                                                        "q_model":.999}))
+
 
 if __name__=="__main__":
     unittest.main()
