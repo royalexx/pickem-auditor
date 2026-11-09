@@ -15,6 +15,7 @@ from pathlib import Path
 import argparse
 import json
 import math
+import random
 
 from point_in_time_provenance import instant, verified_source_receipt, ProvenanceError
 
@@ -395,6 +396,73 @@ def walk_forward(history, *, from_time, line=5.5, max_rows=10000):
             "line_source":"fixed_5_5_synthetic_research_not_market",
             "n":len(done),"rows":done,"excluded":dict(skipped),
             "training_started":False,"production_eligible":False}
+
+
+
+def summarize_walk_forward(report, *, seed=20261108, bootstraps=500):
+    """Evaluate the same *fixed synthetic line* on matched holdout outcomes.
+
+    A repeated team/game contributes multiple correlated defenders, so
+    resampling occurs at the date level, never by independent prop row.
+    Chronological replay based on a retrospective +18h availability
+    approximation cannot establish point-in-time provider validity.
+    """
+    if report.get("schema")!="nfl-tackle-walk-forward-research-v1":
+        raise TackleChallengerError("invalid_walk_forward_source")
+    valid=[]
+    for r in report.get("rows",[]):
+        actual=positive(r.get("actual"),"holdout_actual",zero=True)
+        line=positive(report.get("line"),"walk_forward_line",zero=True)
+        if actual==line:
+            continue
+        p=r["q_over"];b=r["baseline"]["q_over"]
+        if not (type(p) in (int,float) and type(b) in (int,float)
+                and math.isfinite(p) and math.isfinite(b) and
+                0<=p<=1 and 0<=b<=1):
+            raise TackleChallengerError("invalid_walk_forward_probabilities")
+        y=int(actual>line)
+        valid.append((str(r["date"]),p,b,y))
+    if not valid:
+        return {"n":0,"status":"no_valid_holdout"}
+    def calculate(xs):
+        n=len(xs)
+        def log_loss(p,y):
+            p=min(1-1e-12,max(1e-12,p))
+            return -y*math.log(p)-(1-y)*math.log1p(-p)
+        mean_brier_chal=sum((p-y)**2 for _date,p,b,y in xs)/n
+        mean_brier_base=sum((b-y)**2 for _date,p,b,y in xs)/n
+        mean_log_chal=sum(log_loss(p,y) for _date,p,b,y in xs)/n
+        mean_log_base=sum(log_loss(b,y) for _date,p,b,y in xs)/n
+        return {"n":n,"brier_challenger":mean_brier_chal,
+                "brier_team_play_control":mean_brier_base,
+                "brier_delta_challenger_minus_control":mean_brier_chal-mean_brier_base,
+                "logloss_challenger":mean_log_chal,
+                "logloss_team_play_control":mean_log_base,
+                "logloss_delta_challenger_minus_control":mean_log_chal-mean_log_base}
+    scored=calculate(valid)
+    clusters=defaultdict(list)
+    for row in valid:clusters[row[0]].append(row)
+    dates=sorted(clusters)
+    interval=None
+    status="insufficient_independent_dates_for_promotion"
+    if len(dates)>=20 and len(valid)>=100:
+        rng=random.Random(seed)
+        draws={"brier":[],"logloss":[]}
+        for _ in range(bootstraps):
+            sample=[r for d in rng.choices(dates,k=len(dates)) for r in clusters[d]]
+            value=calculate(sample)
+            draws["brier"].append(value["brier_delta_challenger_minus_control"])
+            draws["logloss"].append(value["logloss_delta_challenger_minus_control"])
+        interval={k:[sorted(xs)[int(.025*bootstraps)],
+                     sorted(xs)[int(.975*bootstraps)-1]]
+                  for k,xs in draws.items()}
+        status="research_only_date_cluster_interval_not_production_calibration"
+    return {"schema":"nfl-tackle-challenger-walk-forward-scoring-v1",
+            "source":"retrospective_plus_18h_historical_availability_unverified",
+            "line_source":report["line_source"],"n_dates":len(dates),
+            "score":scored,"interval_95":interval,"status":status,
+            "ranking_allowed":False,"production_eligible":False,
+            "training_started":False}
 
 
 def main(argv=None):
