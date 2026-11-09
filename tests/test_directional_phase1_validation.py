@@ -1,5 +1,6 @@
 """Adversarial Phase 1 tests: no time leakage, false zeros, or retroactive picks."""
 import copy
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -173,8 +174,47 @@ class DirectionalPhase1Tests(unittest.TestCase):
 
     def test_verified_feature_receipt_accepted(self):
         c, _ = fixture()
-        result = audit.run(c, features=[self.feature(c)])
-        self.assertEqual(result["feature_verification"]["total_source_verified"], 1)
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            f = self.archived_feature(c, root)
+            result = audit.run(c, features=[f], feature_archive_root=root)
+            self.assertEqual(result["feature_verification"]["total_source_verified"], 1)
+            self.assertEqual(result["feature_verification"]["verified_source_bytes"], 1)
+
+    def archived_feature(self, c, root):
+        content = b"archived official active list"
+        (root / "active-list.json").write_bytes(content)
+        f = self.feature(c)
+        f.update(observed_at="2026-11-08T11:30:00Z",
+                 archive_path="active-list.json",
+                 content_sha256=hashlib.sha256(content).hexdigest())
+        return f
+
+    def test_future_lineup_publication_and_tampering_rejected(self):
+        c, _ = fixture()
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            f = self.archived_feature(c, root)
+            f["observed_at"] = "2026-11-08T12:15:00Z"
+            self.check_block(c, reason="source_after_forecast", features=[f])
+            f = self.archived_feature(c, root)
+            f["content_sha256"] = "0" * 64
+            with self.assertRaisesRegex(audit.AuditError, "feature_source_archive_digest_mismatch"):
+                audit.run(c, features=[f], feature_archive_root=root)
+
+    def test_duplicate_archived_feature_receipts_rejected(self):
+        c, _ = fixture()
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            f = self.archived_feature(c, root)
+            with self.assertRaisesRegex(audit.AuditError, "duplicate_feature_source_receipt"):
+                audit.run(c, features=[f, f], feature_archive_root=root)
+
+    def test_metadata_only_feature_evidence_cannot_be_certified(self):
+        c, _ = fixture()
+        with self.assertRaisesRegex(audit.AuditError, "feature_source_digest_missing_or_invalid"):
+            audit.run(c, features=[self.feature(c)])
+
 
     def feature(self, c):
         row = c["picks"][0]
