@@ -225,6 +225,29 @@ NUTS job remained skipped. Details and remaining eight
 non-waivable prospective gates are in
 `docs/REFORM_STEP11_FINAL_AUDIT.md`.
 
+### Blind historical replay pilot — November 9
+
+Added a strict **prepare → outcome-blind forecast → sealed settlement**
+pipeline to `scripts/reform_blind_historical_replay.py`. The forecast
+subprocess receives sanitized pregame history and candidate lines with
+**no target-slate results**. It writes and SHA-256-locks immutable
+predictions before settlement can open the separate source vault.
+
+An independently executed Deepnote 2025 NFL tackles + assists pilot
+covered **28** historical slate dates and **100** games. It locked
+**2,616** predictions and graded **1,837** exactly matched defender-game
+outcomes. At predeclared synthetic position-median research lines, the
+snap-share challenger outperformed a matched historical team-play
+control (Brier **.223007** vs **.228671**, log loss **.636449** vs
+**.652756**; directional **64.725%** vs **63.800%**). These are
+descriptive scores: 779 unobserved forecasted participants could not
+be graded, source-time availability is approximate, original
+bookmaker quotes/production models are not reconstructed, and
+no date-cluster interval is yet available for this sealed pilot.
+Details, immutable hashes and follow-up caveats:
+`docs/REFORM_BLIND_HISTORICAL_2025_PILOT.md`.
+Production and paused NUTS training remain unchanged.
+
 ### CI and audit note
 
 The full **offline** test suite passed **1,104 tests** (nine skipped)
