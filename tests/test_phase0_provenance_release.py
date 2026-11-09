@@ -158,5 +158,50 @@ class ReleaseGuardTests(unittest.TestCase):
         self.assertIn("not_independently_verified", record["source_clock_semantics"])
 
 
+    def test_daily_shared_archive_pins_original_market_price_receipts(self):
+        from market_odds_archive import capture_records
+        import live_pool_exchange as pool
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            row = prospective_row(root)
+            pool.dump_jsonl(root / "data/prop_snapshots.jsonl", [row])
+            source_quote = {
+                "sport": "NFL", "event_id": "fixture-123",
+                "event_start": "2026-11-08T18:00:00Z",
+                "game_date": "2026-11-08",
+                "player": "Example Defender", "team": "KC",
+                "stat": "tackles + assists", "book": "FanDuel",
+                "line": 4.5, "over_odds": -110, "under_odds": -110,
+                "retrieved_at": "2026-11-08T14:00:00Z",
+                "source_url": "https://api.example.com/quotes?token=SECRET",
+            }
+            original = capture_records(
+                [source_quote], phase="afternoon", slate_date="2026-11-08",
+                observed_at="2026-11-08T14:10:00Z",
+                archive_root=root / "data/market_odds_history",
+                capture_id="prospective-source")
+            preflight = audit(root / "data/prop_snapshots.jsonl",
+                              slate_date="2026-11-08", archive_root=root)
+            (root / "reports").mkdir(exist_ok=True)
+            (root / "reports/phase0_pregame_provenance.json").write_text(json.dumps(preflight))
+            doc = pool.bundle(root, phase="afternoon", game_date="2026-11-08")
+            self.assertEqual(doc["run_id"], "prospective-1")
+            self.assertEqual(len(doc["market_quote_archive"]), 1)
+            self.assertEqual(doc["market_quote_archive"][0]["snapshot_sha256"],
+                             original["snapshot_sha256"])
+            self.assertEqual(doc["phase0_pregame_receipt"]["selected_run_id"],
+                             "prospective-1")
+            self.assertFalse(doc["phase0_pregame_receipt"]["publication_eligible"])
+            self.assertNotIn("SECRET", json.dumps(doc["market_quote_archive"]))
+
+            archive = Path(original["archive_path"])
+            payload = json.loads(archive.read_text())
+            payload["quotes"][0]["line"] = 99.0
+            archive.write_text(json.dumps(payload))
+            with self.assertRaisesRegex(ValueError, "invalid_original_market_quote_archive"):
+                pool.bundle(root, phase="afternoon", game_date="2026-11-08")
+
+
+
 if __name__ == "__main__":
     unittest.main()
