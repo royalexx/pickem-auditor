@@ -165,9 +165,12 @@ class TackleOpportunityTest(unittest.TestCase):
         data=fixture()
         p=data[0]["players"][0]
         p["workload"]=200
-        rows=sn.normalize_bundles(data)["rows"]
+        normalized=sn.normalize_bundles(data)
+        rows=normalized["rows"]
         self.assertFalse(any(r["game_id"]==p["game_id"] and
                              r["player_id"]=="p1" for r in rows))
+        self.assertEqual(normalized["source_quality_counts"][
+            "excluded_snap_count_exceeds_pbp_team_plays"],1)
 
     def test_teammate_inactive_condition_requires_signed_pregame_status_receipts(self):
         with tempfile.TemporaryDirectory() as d:
