@@ -37,6 +37,23 @@ class Pre2024StrictCutoff(unittest.TestCase):
      "game_id":"G","week":18,"posteam":"A","defteam":"B",
      "pass_attempt":1,"play_id":1}],{"G":"2024-01-07"})
   self.assertEqual(a,[])
+ def test_position_dictionary_requires_game_specific_provenance(self):
+  with self.assertRaisesRegex(ValueError,"receiver_position_not_game_scoped"):
+   aggregate_games([],{},player_position={"p":"RB"})
+  # A future game calling the same player's role RB must not change
+  # an earlier game's PBP receiver role. No global player position map.
+  games={"G1":"2023-09-05","G2":"2023-09-12"}
+  plays=[{"season":2023,"season_type":"REG","game_id":gid,
+          "week":w,"posteam":"A","defteam":"B","play_id":i,
+          "pass_attempt":1,"rush_attempt":0,"qb_dropback":1,
+          "receiver_player_id":"p"} for gid,w in (("G1",1),("G2",2))
+          for i in range(1,6)]
+  result,cov=aggregate_games(plays,games,
+                  player_position={("G2","p"):"RB"})
+  byid={r["game_id"]:r for r in result}
+  self.assertEqual(byid["G1"]["rb_targets"],0)
+  self.assertEqual(byid["G2"]["rb_targets"],5)
+
  def test_ngs_2024_season_banned(self):
   with self.assertRaisesRegex(ValueError,"2024_plus"):
    ngs_pre2024_rows([{"season":2024,"week":1}],
