@@ -19,9 +19,11 @@ import nfl_pre2024_xgb_replay as common
 import nfl_pre2024_team_volume_xgb as teamxgb
 import nfl_pre2024_team_defense_challenger as priors
 import nfl_pre2024_hybrid_bayesian_mc as hybrid
+import nfl_pre2024_active_zero_hurdle as active_zero
+import nflverse_pre2024_hurdle_gateway as gateway
 from population_nfl import fetch_season,normalize_season
 
-SCHEMA="nfl_pre2024_team_xgb_hierarchical_mc_frozen_2024_v1"
+SCHEMA="nfl_pre2024_team_xgb_hierarchical_mc_activezero_frozen_2024_v2"
 TRAIN_END_EXCLUSIVE="2024-01-01"
 
 def freeze(root,*,trials=8,draws=2000):
@@ -44,6 +46,19 @@ def freeze(root,*,trials=8,draws=2000):
         "ngs_rows":{k:len(v) for k,v in ngs.items()},
         "ftn_rows":0}),flush=True)
     state=priors.historical_sources(rows,team_games,ngs)
+    # No 2024 game observations, no 2023 FTN postseason participation.
+    context=gateway.load_nflreadpy_strict_pre2024_context(
+       include_participation=True,include_injuries=True)
+    if context["cutoff_exclusive"]!=TRAIN_END_EXCLUSIVE or context["ftn_participation_2023_plus"]:
+        raise RuntimeError("hurdle_context_breaks_asof_cutoff")
+    active_zero_fit,zero_receipt=active_zero.train(state,context,rows,trials=trials)
+    if active_zero_fit is not None:
+        mpath=root/"MODELS"/"active_zero_hurdle.ubj"
+        mpath.parent.mkdir(parents=True,exist_ok=True)
+        active_zero_fit[0].save_model(str(mpath))
+        print("HURDLE_PRE2024_FIT",json.dumps(zero_receipt,sort_keys=True)[:2500],flush=True)
+    else:
+        print("HURDLE_PRE2024_ABSTAIN",zero_receipt,flush=True)
     index=teamxgb.build_index(team_games,ngs)
     # Team totals, NOT individual player props, are the two XGBoost labels.
     fitted,fit_receipts=teamxgb.train(team_games,index,trials=trials)
@@ -66,6 +81,24 @@ def freeze(root,*,trials=8,draws=2000):
                     for t in (home,away)}
         forecasts,meta=hybrid.summarize_game(state,fixture,means,dispersion,
                                               draws=draws)
+        # Paired forecast from EXACT same pre2024 state and same game.
+        if active_zero_fit is not None:
+            new,hr=hybrid.summarize_game(
+                state,fixture,means,dispersion,draws=draws,
+                active_zero_model=active_zero_fit,hurdle_context=context)
+            byid={(p["game_id"],p["player_id"],p["market"]):p for p in new}
+            if len(byid)!=len(forecasts):
+                raise RuntimeError("hurdle_candidate_universe_changed")
+            for p in forecasts:
+                ident=(p["game_id"],p["player_id"],p["market"])
+                if ident not in byid:raise RuntimeError("hurdle_identity_mismatch")
+                h=byid[ident]
+                p["p_over_hurdle"]=h["p_over"]
+                p["p_zero_active_hurdle_simulated"]=h["p_zero_active_simulated"]
+        else:
+            for p in forecasts:
+                p["p_over_hurdle"]=None
+                p["p_zero_active_hurdle_simulated"]=None
         for pred in forecasts:
             # Comparator is the last-five player prior, also pre2024 only.
             ref,ev=priors.predict(state,stat=pred["market"],
@@ -102,12 +135,21 @@ def freeze(root,*,trials=8,draws=2000):
         feature_source="PBP_2021_2023_and_NGS_2021_2023",
         ftndata_used=False,
         ftndata_quarantine_reason="FTN_2022_2023_archive_pulled_2024_09",
-        model_mode="XGB_team_pass_rush_then_Dirichlet_Beta_Binomial_GammaPoisson_MC",
+        model_mode="XGB_team_pass_rush_Dirichlet_Beta_Binomial_MC_active_zero_hurdle",
+        hurdle_fit_receipt=zero_receipt,
+        hurdle_source_provenance={"nflreadpy_standardized":True,
+          "2023_ftn_participation_quarantined":True,
+          "2021_22_dropback_presence_is_not_routes_run":True,
+          "active_only_confirmed_snap_training_labels":True,
+          "2024_pregame_injury_report_unavailable_by_design":True,
+          "no_emergency_only_imputation":True},
         previous_2024_weeks_train_model=False,
         source_receipt=source_receipt,
         team_xgboost_fit_receipts=fit_receipts,
-        model_file_hashes={m:common.sha(root/"MODELS"/(m+".ubj"))
-                           for m in fitted},
+        model_file_hashes={
+           **{m:common.sha(root/"MODELS"/(m+".ubj")) for m in fitted},
+           **({"active_zero_hurdle":common.sha(root/"MODELS"/"active_zero_hurdle.ubj")}
+              if active_zero_fit is not None else {})},
         week_hashes=hashes,week_counts=week_counts,
         forecasted=sum(week_counts.values()),draws=int(draws),
         all_18_weeks_frozen_before_scoring=True,
@@ -171,7 +213,7 @@ def evaluate(root):
             # All research lines are half-points; no artificial push logic.
             over=int(actual>p["research_line"])
             q["actual_over"]=over
-            for name in ("p_over","p_over_player_prior"):
+            for name in ("p_over","p_over_hurdle","p_over_player_prior"):
                 pro=p.get(name)
                 if pro is None:
                     q[name+"_brier"]=None;q[name+"_hit"]=None
@@ -190,7 +232,7 @@ def evaluate(root):
             m={"week":wk,"market":market or "ALL",
                "forecasted":len(candidates),"graded":len(matched),
                "unmatched":len(candidates)-len(matched)}
-            for probname in ("p_over","p_over_player_prior"):
+            for probname in ("p_over","p_over_hurdle","p_over_player_prior"):
                 subset=[r for r in matched if r.get(probname+"_hit") is not None]
                 m[probname+"_accuracy"]=(sum(x[probname+"_hit"] for x in subset)/
                        len(subset) if subset else None)
@@ -207,10 +249,13 @@ def evaluate(root):
            "brier":sum(r[name+"_brier"] for r in chosen)/len(chosen) if chosen else None,
            "under_share":sum(r[name]<.5 for r in chosen)/len(chosen) if chosen else None}
     report={"schema":SCHEMA,"training_cutoff_exclusive":TRAIN_END_EXCLUSIVE,
+        "active_zero_hurdle_fitted_pre2024":original.get("hurdle_fit_receipt",{}).get("status")=="fitted_pre2024_only",
         "model_was_frozen_before_2024_labels":True,
         "forecasts":len(result),"graded":len(graded),
         "unmatched":len(result)-len(graded),
-        "hybrid":agg("p_over"),"player_prior":agg("p_over_player_prior"),
+        "hybrid":agg("p_over"),
+        "hybrid_active_zero_hurdle":agg("p_over_hurdle"),
+        "player_prior":agg("p_over_player_prior"),
         "always_under_on_graded":sum(r["actual_over"]==0 for r in graded)/
                                     len(graded) if graded else None,
         "weekly_and_market_metrics":metrics,
