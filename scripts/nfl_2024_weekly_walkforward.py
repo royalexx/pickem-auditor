@@ -85,6 +85,25 @@ def lock_sha(root, week):
     return common.sha(path)
 
 
+def week_scoped_receiver_positions(observed, game_week, week):
+    """After-week labels MAY identify a receiver's position, but only within
+    that settled week; season-wide position backfill leaks future metadata.
+    """
+    positions={}
+    for r in observed:
+        gid=str(r.get("game_id",""))
+        if gid not in game_week:
+            raise RuntimeError("unknown_position_source_fixture")
+        if int(game_week[gid])!=int(week) or r.get("stat")!="targets":
+            continue
+        pid=str(r["player_id"])
+        pos=str(r["position"])
+        if pid in positions and positions[pid]!=pos:
+            raise RuntimeError("conflicting_same_week_player_positions")
+        positions[pid]=pos
+    return positions
+
+
 def oracle_prepare(root, vault):
     """Privileged stage, never imported/called from the forecasting model."""
     if not lock_sha(root, 1):
@@ -127,8 +146,8 @@ def oracle_prepare(root, vault):
     for wk in range(1,19):
         this_fixtures = {gid:date for gid,date in allowed.items()
                          if gid_week[gid]==wk}
-        this_positions={str(r["player_id"]):str(r["position"])
-              for r in week_obs[wk] if r["stat"]=="targets"}
+        this_positions=week_scoped_receiver_positions(
+             week_obs[wk],gid_week,wk)
         week_teams,week_cov = pbp_utils.aggregate_games(
              week_pbp[wk],this_fixtures,
              player_position=this_positions,ftn_rows=())
