@@ -1,0 +1,369 @@
+{
+  "cluster_bootstrap_20k": {
+    "accuracy_delta_weekcluster_95ci": [
+      -0.0011605484741111882,
+      0.00039976322547158907
+    ],
+    "brier_delta_weekcluster_95ci": [
+      -3.805779553556952e-05,
+      2.678532322129959e-05
+    ],
+    "p_online_accuracy_better": 0.14315,
+    "p_online_brier_better": 0.62185
+  },
+  "design": "identical pregame synthetic lines, candidate lists, baseline histories, model form; freeze only pooled ridge coefficients and residual variance at 2023 end",
+  "early": {
+    "accuracy_delta": -0.0011729440896650592,
+    "accuracy_frozen": 0.6000912289847518,
+    "accuracy_online": 0.5989182848950867,
+    "brier_frozen": 0.2360864815924708,
+    "brier_online": 0.23609844539753636,
+    "delta_online_minus_frozen": 1.1963805065559455e-05,
+    "fraction_cases_improved": 0.418936530692037,
+    "n": 15346
+  },
+  "initial_training_count_by_market": {
+    "carries": 6198,
+    "completions": 1950,
+    "pass attempts": 1950,
+    "passing yards": 1950,
+    "receiving yards": 14919,
+    "receptions": 14919,
+    "rushing yards": 6198,
+    "solo tackles": 25256,
+    "tackle assists": 25256,
+    "tackles + assists": 25256,
+    "targets": 14919
+  },
+  "late": {
+    "accuracy_delta": 0.000307370750599373,
+    "accuracy_frozen": 0.5903362636011558,
+    "accuracy_online": 0.590643634351755,
+    "brier_frozen": 0.23729006238937378,
+    "brier_online": 0.23726897263451313,
+    "delta_online_minus_frozen": -2.1089754860634192e-05,
+    "fraction_cases_improved": 0.4822032335402963,
+    "n": 16267
+  },
+  "live_p_reproduction_verified": true,
+  "market": {
+    "carries": {
+      "accuracy_delta": 0.0007892659826361484,
+      "accuracy_frozen": 0.5785319652722968,
+      "accuracy_online": 0.579321231254933,
+      "brier_frozen": 0.2467371292559341,
+      "brier_online": 0.24670293574235422,
+      "delta_online_minus_frozen": -3.419351357990296e-05,
+      "fraction_cases_improved": 0.4648776637726914,
+      "n": 1267
+    },
+    "completions": {
+      "accuracy_delta": 0.001949317738791423,
+      "accuracy_frozen": 0.5263157894736842,
+      "accuracy_online": 0.5282651072124757,
+      "brier_frozen": 0.25061029148931174,
+      "brier_online": 0.2507042544066885,
+      "delta_online_minus_frozen": 9.396291737675128e-05,
+      "fraction_cases_improved": 0.4775828460038986,
+      "n": 513
+    },
+    "pass attempts": {
+      "accuracy_delta": -0.005847953216374269,
+      "accuracy_frozen": 0.5555555555555556,
+      "accuracy_online": 0.5497076023391813,
+      "brier_frozen": 0.24419470503251747,
+      "brier_online": 0.24451856678992537,
+      "delta_online_minus_frozen": 0.00032386175740786776,
+      "fraction_cases_improved": 0.44834307992202727,
+      "n": 513
+    },
+    "passing yards": {
+      "accuracy_delta": 0.0,
+      "accuracy_frozen": 0.5769980506822612,
+      "accuracy_online": 0.5769980506822612,
+      "brier_frozen": 0.2410364748244555,
+      "brier_online": 0.241049984817641,
+      "delta_online_minus_frozen": 1.3509993185478938e-05,
+      "fraction_cases_improved": 0.4873294346978557,
+      "n": 513
+    },
+    "receiving yards": {
+      "accuracy_delta": -0.002354788069073783,
+      "accuracy_frozen": 0.5376766091051806,
+      "accuracy_online": 0.5353218210361067,
+      "brier_frozen": 0.2517748036532614,
+      "brier_online": 0.2518550829284111,
+      "delta_online_minus_frozen": 8.027927514969132e-05,
+      "fraction_cases_improved": 0.489403453689168,
+      "n": 2548
+    },
+    "receptions": {
+      "accuracy_delta": 0.0007849293563579278,
+      "accuracy_frozen": 0.5875196232339089,
+      "accuracy_online": 0.5883045525902669,
+      "brier_frozen": 0.23987375305992847,
+      "brier_online": 0.2398392271626021,
+      "delta_online_minus_frozen": -3.45258973264053e-05,
+      "fraction_cases_improved": 0.4815541601255887,
+      "n": 2548
+    },
+    "rushing yards": {
+      "accuracy_delta": -0.0015785319652722968,
+      "accuracy_frozen": 0.5359116022099447,
+      "accuracy_online": 0.5343330702446725,
+      "brier_frozen": 0.25615447905652683,
+      "brier_online": 0.2561983332344296,
+      "delta_online_minus_frozen": 4.385417790277073e-05,
+      "fraction_cases_improved": 0.46250986582478293,
+      "n": 1267
+    },
+    "solo tackles": {
+      "accuracy_delta": 0.0006031363088057901,
+      "accuracy_frozen": 0.6379674306393245,
+      "accuracy_online": 0.6385705669481303,
+      "brier_frozen": 0.22493587580310664,
+      "brier_online": 0.2249709552424081,
+      "delta_online_minus_frozen": 3.507943930144751e-05,
+      "fraction_cases_improved": 0.42083835946924003,
+      "n": 6632
+    },
+    "tackle assists": {
+      "accuracy_delta": 0.0010554885404101327,
+      "accuracy_frozen": 0.623341375150784,
+      "accuracy_online": 0.6243968636911942,
+      "brier_frozen": 0.22918383589633903,
+      "brier_online": 0.22903911470907404,
+      "delta_online_minus_frozen": -0.00014472118726500577,
+      "fraction_cases_improved": 0.4460193003618818,
+      "n": 6632
+    },
+    "tackles + assists": {
+      "accuracy_delta": -0.002261761158021713,
+      "accuracy_frozen": 0.5781061519903499,
+      "accuracy_online": 0.5758443908323281,
+      "brier_frozen": 0.2407159363070203,
+      "brier_online": 0.24073028020172643,
+      "delta_online_minus_frozen": 1.4343894706109943e-05,
+      "fraction_cases_improved": 0.44074185765983115,
+      "n": 6632
+    },
+    "targets": {
+      "accuracy_delta": -0.0007849293563579278,
+      "accuracy_frozen": 0.5820251177394035,
+      "accuracy_online": 0.5812401883830455,
+      "brier_frozen": 0.2384064791167104,
+      "brier_online": 0.23845453662062013,
+      "delta_online_minus_frozen": 4.8057503909760474e-05,
+      "fraction_cases_improved": 0.4815541601255887,
+      "n": 2548
+    }
+  },
+  "n_forecasted": 40351,
+  "n_scored": 31613,
+  "overall": {
+    "accuracy_delta": -0.000411223230949293,
+    "accuracy_frozen": 0.5950716477398539,
+    "accuracy_online": 0.5946604245089046,
+    "brier_frozen": 0.23670580430221744,
+    "brier_online": 0.23670075984298292,
+    "delta_online_minus_frozen": -5.04445923455101e-06,
+    "fraction_cases_improved": 0.4514914750260969,
+    "n": 31613
+  },
+  "schema": "nfl_2024_online_ridge_vs_frozen_coefficients_v1",
+  "w18_training_count_by_market": {
+    "carries": 8161,
+    "completions": 2571,
+    "pass attempts": 2571,
+    "passing yards": 2571,
+    "receiving yards": 19619,
+    "receptions": 19619,
+    "rushing yards": 8161,
+    "solo tackles": 32953,
+    "tackle assists": 32953,
+    "tackles + assists": 32953,
+    "targets": 19619
+  },
+  "weekly": {
+    "1": {
+      "accuracy_delta": 0.0,
+      "accuracy_frozen": 0.6363636363636364,
+      "accuracy_online": 0.6363636363636364,
+      "brier_frozen": 0.23134731534076752,
+      "brier_online": 0.23134731534076752,
+      "delta_online_minus_frozen": 0.0,
+      "fraction_cases_improved": 0.0,
+      "n": 1430
+    },
+    "10": {
+      "accuracy_delta": 0.000585480093676815,
+      "accuracy_frozen": 0.6083138173302107,
+      "accuracy_online": 0.6088992974238876,
+      "brier_frozen": 0.23346931927012782,
+      "brier_online": 0.23349801414843543,
+      "delta_online_minus_frozen": 2.8694878307637872e-05,
+      "fraction_cases_improved": 0.48243559718969553,
+      "n": 1708
+    },
+    "11": {
+      "accuracy_delta": 0.004043905257076834,
+      "accuracy_frozen": 0.5892547660311959,
+      "accuracy_online": 0.5932986712882726,
+      "brier_frozen": 0.23562959230514374,
+      "brier_online": 0.23555023119873186,
+      "delta_online_minus_frozen": -7.936110641189274e-05,
+      "fraction_cases_improved": 0.49393414211438474,
+      "n": 1731
+    },
+    "12": {
+      "accuracy_delta": -0.0012445550715619166,
+      "accuracy_frozen": 0.5712507778469197,
+      "accuracy_online": 0.5700062227753578,
+      "brier_frozen": 0.24322406742406874,
+      "brier_online": 0.24333174579553896,
+      "delta_online_minus_frozen": 0.00010767837147023463,
+      "fraction_cases_improved": 0.46670815183571873,
+      "n": 1607
+    },
+    "13": {
+      "accuracy_delta": 0.0,
+      "accuracy_frozen": 0.5726941115164148,
+      "accuracy_online": 0.5726941115164148,
+      "brier_frozen": 0.23837910622302563,
+      "brier_online": 0.2384801449592149,
+      "delta_online_minus_frozen": 0.00010103873618925282,
+      "fraction_cases_improved": 0.45648775403856173,
+      "n": 1919
+    },
+    "14": {
+      "accuracy_delta": 0.0,
+      "accuracy_frozen": 0.5971867007672634,
+      "accuracy_online": 0.5971867007672634,
+      "brier_frozen": 0.23947290076438368,
+      "brier_online": 0.23948399285167926,
+      "delta_online_minus_frozen": 1.109208729557491e-05,
+      "fraction_cases_improved": 0.4635549872122762,
+      "n": 1564
+    },
+    "15": {
+      "accuracy_delta": -0.001006036217303823,
+      "accuracy_frozen": 0.6126760563380281,
+      "accuracy_online": 0.6116700201207244,
+      "brier_frozen": 0.23272816360208173,
+      "brier_online": 0.2325670128035221,
+      "delta_online_minus_frozen": -0.0001611507985596165,
+      "fraction_cases_improved": 0.5110663983903421,
+      "n": 1988
+    },
+    "16": {
+      "accuracy_delta": 0.0015060240963855422,
+      "accuracy_frozen": 0.589859437751004,
+      "accuracy_online": 0.5913654618473896,
+      "brier_frozen": 0.2345968051600754,
+      "brier_online": 0.2345682747926438,
+      "delta_online_minus_frozen": -2.8530367431610467e-05,
+      "fraction_cases_improved": 0.48493975903614456,
+      "n": 1992
+    },
+    "17": {
+      "accuracy_delta": -0.0025826446280991736,
+      "accuracy_frozen": 0.5764462809917356,
+      "accuracy_online": 0.5738636363636364,
+      "brier_frozen": 0.2424115357120452,
+      "brier_online": 0.24236551805476073,
+      "delta_online_minus_frozen": -4.601765728445623e-05,
+      "fraction_cases_improved": 0.47985537190082644,
+      "n": 1936
+    },
+    "18": {
+      "accuracy_delta": 0.001646542261251372,
+      "accuracy_frozen": 0.5949506037321625,
+      "accuracy_online": 0.5965971459934138,
+      "brier_frozen": 0.23667489958730642,
+      "brier_online": 0.23658011700907614,
+      "delta_online_minus_frozen": -9.478257823025524e-05,
+      "fraction_cases_improved": 0.495609220636663,
+      "n": 1822
+    },
+    "2": {
+      "accuracy_delta": -0.001176470588235294,
+      "accuracy_frozen": 0.6041176470588235,
+      "accuracy_online": 0.6029411764705882,
+      "brier_frozen": 0.23711748434222896,
+      "brier_online": 0.23713965674415916,
+      "delta_online_minus_frozen": 2.2172401930189435e-05,
+      "fraction_cases_improved": 0.44823529411764707,
+      "n": 1700
+    },
+    "3": {
+      "accuracy_delta": -0.0005494505494505495,
+      "accuracy_frozen": 0.5879120879120879,
+      "accuracy_online": 0.5873626373626374,
+      "brier_frozen": 0.2379932058312314,
+      "brier_online": 0.23805519502861555,
+      "delta_online_minus_frozen": 6.19891973841269e-05,
+      "fraction_cases_improved": 0.4620879120879121,
+      "n": 1820
+    },
+    "4": {
+      "accuracy_delta": -0.0016384489350081922,
+      "accuracy_frozen": 0.5958492626979792,
+      "accuracy_online": 0.594210813762971,
+      "brier_frozen": 0.24033538959989437,
+      "brier_online": 0.2403072431877687,
+      "delta_online_minus_frozen": -2.8146412125656272e-05,
+      "fraction_cases_improved": 0.4620425996723102,
+      "n": 1831
+    },
+    "5": {
+      "accuracy_delta": -0.0038192234245703373,
+      "accuracy_frozen": 0.6008911521323997,
+      "accuracy_online": 0.5970719287078294,
+      "brier_frozen": 0.23353777491049288,
+      "brier_online": 0.2336332814617607,
+      "delta_online_minus_frozen": 9.550655126783454e-05,
+      "fraction_cases_improved": 0.45448758752387014,
+      "n": 1571
+    },
+    "6": {
+      "accuracy_delta": -0.0018963337547408343,
+      "accuracy_frozen": 0.606826801517067,
+      "accuracy_online": 0.6049304677623262,
+      "brier_frozen": 0.23319955095674394,
+      "brier_online": 0.23318373497524597,
+      "delta_online_minus_frozen": -1.5815981497987645e-05,
+      "fraction_cases_improved": 0.4582806573957016,
+      "n": 1582
+    },
+    "7": {
+      "accuracy_delta": -0.001135718341851221,
+      "accuracy_frozen": 0.6104486087450313,
+      "accuracy_online": 0.60931289040318,
+      "brier_frozen": 0.23191024287921172,
+      "brier_online": 0.23190504611500162,
+      "delta_online_minus_frozen": -5.196764210090439e-06,
+      "fraction_cases_improved": 0.4645088018171493,
+      "n": 1761
+    },
+    "8": {
+      "accuracy_delta": -0.001070090957731407,
+      "accuracy_frozen": 0.5783841626538255,
+      "accuracy_online": 0.5773140716960942,
+      "brier_frozen": 0.24139925884211322,
+      "brier_online": 0.24142792053188192,
+      "delta_online_minus_frozen": 2.86616897687305e-05,
+      "fraction_cases_improved": 0.47351524879614765,
+      "n": 1869
+    },
+    "9": {
+      "accuracy_delta": 0.0005611672278338945,
+      "accuracy_frozen": 0.5897867564534232,
+      "accuracy_online": 0.590347923681257,
+      "brier_frozen": 0.23595754362770363,
+      "brier_online": 0.2359099466046408,
+      "delta_online_minus_frozen": -4.759702306286229e-05,
+      "fraction_cases_improved": 0.4702581369248036,
+      "n": 1782
+    }
+  }
+}
