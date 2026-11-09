@@ -118,8 +118,11 @@ def capture(candidate, result, *, data_root, archive_root, clock, identity=None)
     player_id = identity.get("player_id") or candidate.get("player_id")
     stat = identity.get("stat") or candidate.get("stat")
     game_date = identity.get("game_date") or candidate.get("game_date")
+    candidate_id_sport = (str(candidate["id"]).split("|", 1)[0]
+                          if candidate.get("id") else None)
     if (sport not in ("NBA", "NHL", "NFL") or not player_id or not stat
             or not game_date or
+            (candidate_id_sport is not None and candidate_id_sport != sport) or
             any(candidate.get(k) not in (None, v) for k, v in
                 (("sport", sport), ("player_id", player_id),
                  ("stat", stat), ("game_date", game_date)))):
