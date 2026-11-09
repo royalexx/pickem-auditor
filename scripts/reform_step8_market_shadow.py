@@ -117,18 +117,37 @@ def same_contract_scenario(rows, *, model):
 
 
 def oos_gates(rows, *, independent_source_archive_verified):
-    # This diagnostic counts only rows; it NEVER fits or turns an estimate
-    # into a real-time forecast. Dates and archive provenance must both pass.
-    dates={r["date"] for r in rows}
+    """Require a feasible chronological 300/100, 20/20 date split.
+
+    Counts of 400 contracts on 40 dates are *not sufficient* if most
+    observations fall into the final evaluation date, or if engine/market
+    quotes cannot be aligned on identical contracts.
+    """
+    by_date={}
     c=Counter()
     for r in rows:
         p=r["models"]
         for name in ("Engine_A","Engine_B","Market"):
             if proper_pair(p.get(name)):c[name]+=1
-        if all(proper_pair(p.get(k)) for k in ("Engine_A","Market")):
-            c["M2_complete_paired_inputs"]+=1
-        if all(proper_pair(p.get(k)) for k in ("Engine_A","Engine_B","Market")):
-            c["M3_complete_paired_inputs"]+=1
+        m2=all(proper_pair(p.get(k)) for k in ("Engine_A","Market"))
+        m3=all(proper_pair(p.get(k)) for k in ("Engine_A","Engine_B","Market"))
+        if m2:c["M2_complete_paired_inputs"]+=1
+        if m3:c["M3_complete_paired_inputs"]+=1
+        if m3:by_date[r["date"]]=by_date.get(r["date"],0)+1
+    dates=sorted(by_date)
+    prefix=[0]
+    for day in dates:prefix.append(prefix[-1]+by_date[day])
+    feasible=None
+    for split in range(MIN_TRAIN_DATES,len(dates)-MIN_EVAL_DATES+1):
+        n_train=prefix[split]
+        n_test=prefix[-1]-prefix[split]
+        if n_train>=MIN_TRAIN_ROWS and n_test>=MIN_EVAL_ROWS:
+            feasible={"cutoff_first_evaluation_date":dates[split],
+                      "training_dates":split,
+                      "training_contracts":n_train,
+                      "evaluation_dates":len(dates)-split,
+                      "evaluation_contracts":n_test}
+            break
     reasons=[]
     if not independent_source_archive_verified:
         reasons.append("original_pregame_feature_source_archive_incomplete")
@@ -136,8 +155,13 @@ def oos_gates(rows, *, independent_source_archive_verified):
         reasons.append("fewer_than_40_training_plus_evaluation_dates")
     if c["M3_complete_paired_inputs"]<MIN_TRAIN_ROWS+MIN_EVAL_ROWS:
         reasons.append("fewer_than_400_matched_M3_training_plus_evaluation_contracts")
-    return {"contract_count":len(rows),"independent_dates":len(dates),
+    if feasible is None:
+        reasons.append("no_feasible_300_100_20_20_chronological_M3_split")
+    return {"contract_count":len(rows),
+            "independent_dates_any_model":len({r["date"] for r in rows}),
+            "independent_dates_with_full_M3_inputs":len(dates),
             "complete_input_counts":dict(c),
+            "feasible_chronological_split":feasible,
             "requirements":{"train_rows":MIN_TRAIN_ROWS,"train_dates":MIN_TRAIN_DATES,
                             "eval_rows":MIN_EVAL_ROWS,"eval_dates":MIN_EVAL_DATES},
             "source_provenance_verified":bool(independent_source_archive_verified),
