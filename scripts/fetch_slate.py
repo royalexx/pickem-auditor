@@ -2942,14 +2942,6 @@ def prepare_pipeline(rows, quotes, now=None) -> list[dict]:
                 "data_veto": "no",
                 "research_checklist": "no",
                 "books": info["books"],
-                # Audit-only original paired quotes. These fields are removed
-                # by jobs._pipeline_input and never affect numerical inference.
-                "_phase0_market_quotes": [
-                    {k: quote.get(k) for k in
-                     ("book", "line", "over_odds", "under_odds",
-                      "retrieved_at", "event_id")}
-                    for quote in on_line
-                ],
             }
             if row.get('observation_ids') is not None:
                 ids=dict(row['observation_ids'])
