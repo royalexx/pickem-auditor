@@ -56,7 +56,7 @@ def normalize_bundles(bundles):
     conservative population_nfl unique-week/player snap join supplies defense
     snaps and actual T+A. Always mark start+18h source timing as approximate.
     """
-    out=[];seen=set()
+    out=[];seen=set();quality=Counter()
     games={};sources=set()
     if not isinstance(bundles,(list,tuple)) or not bundles:
         raise TackleChallengerError("missing_normalized_source_bundles")
@@ -75,6 +75,7 @@ def normalize_bundles(bundles):
         for p in bundle.get("players") or ():
             if p.get("stat")!=STATS or p.get("position") not in POSITIONS:
                 continue
+            quality["candidate_defender_game_rows"]+=1
             game=str(p.get("game_id"));team=str(p.get("team"));opponent=str(p.get("opponent"))
             key=(game,str(p.get("player_id")))
             if key in seen:raise TackleChallengerError("duplicate_defender_game")
@@ -95,10 +96,13 @@ def normalize_bundles(bundles):
                 raise TackleChallengerError("invalid_snap_or_tackle_measurement") from exc
             # PBP and PFR team denominators can differ by nullified plays;
             # never silently cap the player's participation to 100%.
-            if snaps>plays or actual>snaps:
-                # Incomplete or incompatible source *row* is excluded, never
-                # used as an extreme role observation.
+            if snaps>plays:
+                quality["excluded_snap_count_exceeds_pbp_team_plays"]+=1
                 continue
+            if actual>snaps:
+                quality["excluded_tackles_exceed_on_field_snaps"]+=1
+                continue
+            quality["accepted_defender_game_rows"]+=1
             out.append(dict(game_id=game,player_id=str(p["player_id"]),
                             team=team,opponent=opponent,position=str(p["position"]),
                             start_time=before.isoformat(),available_at=available.isoformat(),
@@ -109,6 +113,7 @@ def normalize_bundles(bundles):
     return {"schema":VERSION,"rows":sorted(out,key=lambda r:(r["start_time"],r["game_id"],r["player_id"])),
             "history_source_digests":sorted(sources),
             "time_provenance":"retrospective_game_plus_18h_not_immutable_provider_capture",
+            "source_quality_counts":dict(quality),
             "production_eligible":False}
 
 
