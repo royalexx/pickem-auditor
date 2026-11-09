@@ -28,6 +28,7 @@ Training is deliberately paused, and existing checkpoints/posteriors are preserv
 - [x] **Item 5 — original top-k replay and descriptive audit.** Replayed all 2,436 frozen side rows, exactly reproduced 160 original eligible research candidates and all 30 original top-10 ranks. Only 10 eligible candidates fell in the independently settled NFL 1 PM window; 2 original selected picks won 2/2, with 4/8 unselected winning. No comparable matched stat/confidence/edge strata exist, so an optimizer's-curse hypothesis is **not yet identified**. See `docs/REFORM_4A_5_RESULTS_20261108.md`.
 - [ ] **Item 5 — prospective statistical conclusion.** Require independently graded full-day top-k selections across enough games/dates and comparable eligible-unselected candidates before fitting edge shrinkage or changing rankings.
 - [x] **Item 6 — NFL tackle snap-share research challenger built and tested.** Added `scripts/nfl_tackle_snap_share.py` and 18+ adversarial tests: separate opponent offensive plays × verified defender snap share × per-snap tackle conversion; source-hashed, timestamp-checked explicit teammate status; strictly prior-only context; date-clustered research backtest. Public 2025 NFL data: 6,732 valid defender-games, 835 players, 272 games. Synthetic fixed 5.5 tackle threshold, 4,200 matched holdout rows, 59 dates: Brier .09207 challenger vs .09583 simple team-play control, log loss .31748 vs .33123. High-snap-share LBs (n=40) were worse; **no production promotion**. See `docs/REFORM_STEP6_TACKLE_SNAP_SHARE_20261108.md`.
+- [x] **Item 6b — position-specific synthetic lines implemented, validated and frozen before holdout.** New `position_training_median_v1` mode derives role-specific half-integer tackle thresholds from only pre-holdout player-game medians (not model Brier or heldout stats), requires independent sample support and abstains on unsupported safety sources. True recorded positions are not mislabeled as verified on-field alignments; holdout roles are chosen from pregame history. In 2025 retrospective research over 4,163 defender-games/59 dates, challenger Brier .220775 vs .224458 simple control; log loss .631440 vs .643497. **OLB is worse** and off-ball LB has no Brier advantage; high-predicted-snap-share LB subgroup (n=144) has no established improvement. Full report: `docs/REFORM_STEP6_POSITION_SPECIFIC_LINES.md`. No change to sportsbook lines or real rankings.
 - [ ] **Item 6 — actual market/production promotion study.** Freeze real pregame tackle lines with immutable snap/availability evidence, evaluate same-contract challenger vs existing 60/40 consensus and market on separate future dates, validate full-time linebackers and uncertainty before allowing ranking changes.
 - [ ] Evaluate uncertainty-adjusted rankings vs frozen original rank, without editing the original forecasts.
 - [ ] Validate M2/M3 market-inclusive blends against the frozen 60/40 and market-only baselines on adequate independent chronological folds.
@@ -130,6 +131,20 @@ Step 4a also passed the controlled full-batch trained-posterior test on all
 16 formerly invalid receptions contracts (32 sidecar calls) plus the paired
 60/40 publication guard; first true future pregame operational confirmation
 remains a separate incomplete check.
+
+### Change 6b — frozen position-specific line controls (shadow-only)
+
+To address the unrepresentative fixed-5.5 all-position benchmark, the
+2025 walk-forward now supports frozen role-median half-integer lines,
+selected using **only** the information available before the holdout.
+Results: 4,163 role-scored player-games over 59 dates; overall challenger
+Brier .220775 versus simple rate-control .224458 and log loss .631440
+versus .643497. OLB and off-ball LB do **not** show improved Brier
+with those lines; safety was excluded for source sparsity. Full-time
+off-ball LB (predicted ≥75% snaps, n=144) remained unproven.
+The original universal 5.5 test is still available for replication, and
+the program produces only research evidence, not real market prices.
+See `docs/REFORM_STEP6_POSITION_SPECIFIC_LINES.md`.
 
 ### CI and audit note
 
