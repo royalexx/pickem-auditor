@@ -289,6 +289,41 @@ def filter_started_pipeline(
     return kept, skipped
 
 
+def original_book_receipts(books: list[dict], source_quotes: list[dict] | None,
+                           *, event_id=None) -> list[dict]:
+    """Restore only uniquely matched ORIGINAL book quote retrieval clocks.
+
+    The numerical candidate is not changed. Missing or ambiguous source
+    timestamps stay missing so Phase 0 certification rejects those rows.
+    """
+    if not isinstance(source_quotes, list):
+        return books
+    receipts = []
+    for book in books:
+        try:
+            side = book.get("book_side")
+            if side not in ("over", "under"):
+                raise ValueError("missing_original_quote_side")
+            over = book.get("target") if side == "over" else book.get("other")
+            under = book.get("other") if side == "over" else book.get("target")
+            matches = [
+                quote for quote in source_quotes
+                if str(quote.get("book") or "").casefold() ==
+                   str(book.get("book") or "").casefold()
+                and float(quote.get("line")) == float(book.get("line"))
+                and float(quote.get("over_odds")) == float(over)
+                and float(quote.get("under_odds")) == float(under)
+                and (not event_id or str(quote.get("event_id")) == str(event_id))
+            ]
+            stamps = {str(quote.get("retrieved_at") or "") for quote in matches}
+            stamp = next(iter(stamps)) if len(stamps) == 1 and "" not in stamps else None
+        except (ValueError, TypeError):
+            over = under = stamp = None
+        receipts.append({"book": book.get("book"), "line": book.get("line"),
+                         "over": over, "under": under, "retrieved_at": stamp})
+    return receipts
+
+
 def pipeline_to_snapshot(
     result: dict,
     *,
@@ -313,7 +348,9 @@ def pipeline_to_snapshot(
             "line": quoted_consensus.get("line", candidate.get("line")),
             "retrieved_at": (candidate.get("market_retrieved_at")
                              or market.get("retrieved_at")),
-            "books": quoted_books,
+            "books": original_book_receipts(
+                quoted_books, meta.get("phase0_market_quotes"),
+                event_id=candidate.get("event_id") or meta.get("event_id")),
             "receipt_basis": "evaluated_original_bookmaker_consensus",
         }
     line = candidate.get("line")
@@ -447,6 +484,8 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
             mark("unavailable","event_started_before_evaluation")
             continue
         if evaluation_now:meta['forecast_at']=evaluation_now.isoformat()
+        if isinstance(row.get("_phase0_market_quotes"), list):
+            meta["phase0_market_quotes"] = row["_phase0_market_quotes"]
         candidate = _pipeline_input(row)
         try:
             from usage_baseline import using_directory
