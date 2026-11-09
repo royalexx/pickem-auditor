@@ -343,11 +343,36 @@ def dynamic_model_hashes(model_paths):
     return {name:common.sha(path) for name,path in model_paths.items()}
 
 
+def build_index_revealed(team_games,ngs):
+    """Preserve historical build_index's fail-closed gate; add only revealed 2024 games.
+
+    The original indexer rightly refuses any 2024 rows. This replay builds
+    the original historical index unchanged and appends explicitly accepted
+    2024 team games, never reclassifying their actual season as 2023.
+    """
+    historic=[r for r in team_games if int(r["season"]) < 2024]
+    fresh=[r for r in team_games if int(r["season"]) == 2024]
+    if len(historic)+len(fresh)!=len(team_games):
+        raise RuntimeError("future_or_unrecognized_team_season_in_retrain")
+    idx=teamxgb.build_index(historic,ngs)
+    for r in fresh:
+        if day(r["gameday"]) >= EXTENDED_BOUNDARY:
+            raise RuntimeError("future_game_in_revealed_team_index")
+        if r["team"]==r["opponent"]:
+            raise RuntimeError("same_team_opponent")
+        idx["offense"][str(r["team"])].append(r)
+        idx["defense"][str(r["opponent"])].append(r)
+    for k in ("offense","defense"):
+        for team in idx[k]:
+            idx[k][team].sort(key=lambda r:r["gameday"])
+    return idx
+
+
 def refit_with_prior_params(manifest,team_games,ngs,historical_zero,weekly_zero):
     """Refit actual XGBoost parameters weekly; don't retune against 2024."""
     import xgboost as xgb
     teamxgb.CUTOFF=EXTENDED_BOUNDARY
-    index=teamxgb.build_index(team_games,ngs)
+    index=build_index_revealed(team_games,ngs)
     train=teamxgb.training_rows(team_games,index)
     fitted={}
     for market in teamxgb.TARGETS:
@@ -580,7 +605,7 @@ def run(root,*,draws=750):
         curr_fitted=fitted_new
         curr_hurdle=(model_zero,original_hurdle[1])
         teamxgb.CUTOFF=EXTENDED_BOUNDARY
-        index=teamxgb.build_index(team_games,ngs)
+        index=build_index_revealed(team_games,ngs)
         week_score={"week":week,"forecasted":len(predictions),
                     "matched":len(graded),"unmatched":len(predictions)-len(graded),
                     "revealed_rows":len(observed),"update_sha":update_sha,
