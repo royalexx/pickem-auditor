@@ -59,7 +59,9 @@ def hybrid_research_line(state, *, market, player_id, position, game_day):
     if any(date.fromisoformat(r["gameday"])>=cutoff for r in previous):
         raise ValueError("hybrid_line_future_or_current_week_leak")
     values=[float(r["value"]) for r in previous[-10:]]
-    if any(not math.isfinite(v) for v in values) or (\n        market not in {"rushing yards", "passing yards", "receiving yards"}\n        and any(v<0 for v in values)):
+    if any(not math.isfinite(v) for v in values) or (
+        market not in {"rushing yards", "passing yards", "receiving yards"}
+        and any(v<0 for v in values)):
         raise ValueError("invalid_hybrid_line_history")
     n=len(values)
     m5=float(median(values[-5:])) if n else None
