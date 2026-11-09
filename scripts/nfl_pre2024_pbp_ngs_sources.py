@@ -62,6 +62,12 @@ def aggregate_games(pbp_rows,schedule_day,player_position=None,ftn_rows=()):
     *proxies*, not verified first-read/checkdown labels.
     """
     player_position=player_position or {}
+    # Never accept legacy player_id-only position maps: these can be
+    # backfilled using later seasons, contaminating earlier training folds.
+    if any(not (isinstance(k,tuple) and len(k)==2 and
+                all(isinstance(part,str) for part in k))
+           for k in player_position):
+        raise ValueError("receiver_position_not_game_scoped")
     ftn={}
     for r in ftn_safe_history(ftn_rows,schedule_day):
         k=(str(r["nflverse_game_id"]),int(r["nflverse_play_id"]))
