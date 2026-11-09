@@ -248,6 +248,32 @@ Details, immutable hashes and follow-up caveats:
 `docs/REFORM_BLIND_HISTORICAL_2025_PILOT.md`.
 Production and paused NUTS training remain unchanged.
 
+### Experiment B — 2024 NFL all-market week-by-week blinded training
+
+Full 2024 regular-season rolling-origin experiment **successfully completed
+18 / 18 weeks**, forecasting all **16 registered NFL markets** before
+any result of the current week is revealed. Each week has an original
+SHA-256 market forecast lock, encrypted result vault and immutable
+week-end settlement. The next week's ridge learner incorporates only
+previously revealed weekly outcomes. Original training history was
+2021–2023; existing NUTS artifacts remain paused.
+
+An independent receipt auditor verified **all 18 hash lock/settlement
+chains**, the complete 16-market roster and exact sequential training
+counts. Research observations: **107,319 frozen forecasts, 71,009
+matched and settled, 36,310 unmatched (33.83%)**. Same-contract
+overall Brier 0.173086 learner vs 0.175093 historical control,
+log loss 0.517605 vs 0.522235, directional accuracy **74.538% vs
+73.816%**. Descriptive week-block intervals exclude zero for
+the aggregate, but individual markets vary substantially:
+receiving/rushing yards improved; several QB and tackling markets
+did not. **Synthetic historical medians are not sportsbook lines;
+participation-conditioned scores and prior 2024 research exposure
+prevent production promotion.**
+
+Full 16-market table, independent audit receipts and limitations:
+`docs/EXPERIMENT_B_NFL_2024_ALL_MARKETS.md`.
+
 ### CI and audit note
 
 The full **offline** test suite passed **1,104 tests** (nine skipped)
