@@ -337,6 +337,12 @@ def load_base(root):
         raise RuntimeError("base_model_contains_post2023_training")
     if not manifest["fit_and_hyperparameter_selection_use_only_pre2024"]:
         raise RuntimeError("base_parameters_not_pre2024_only")
+    # Earlier frozen baseline was trained with a player-wide position map
+    # that could backfill later game role metadata into earlier PBP. Explicit
+    # provenance is mandatory: never reuse weights learned with that map.
+    if manifest.get("rb_target_receiver_position_scope") != (
+            "same_game_only_no_future_season_backfill"):
+        raise RuntimeError("old_unsafe_base_receiver_position_provenance")
     for key,filename in MODEL_FILES.items():
         expected=manifest["model_file_hashes"].get(key)
         if expected is None or common.sha(base / "MODELS" / filename)!=expected:
