@@ -48,6 +48,7 @@ def ftn_safe_history(ftn_rows,schedule_day):
         gid=str(r["nflverse_game_id"])
         day=schedule_day.get(gid)
         if day is None:continue
+        if date.fromisoformat(str(day)[:10])>=CUTOFF:continue
         _gameday(day)
         if not _ftn_date_safe(r.get("date_pulled")):
             continue
@@ -75,6 +76,7 @@ def aggregate_games(pbp_rows,schedule_day,player_position=None,ftn_rows=()):
             raise ValueError("training_pbp_season_not_pre2024")
         gid=str(r.get("game_id") or "")
         if gid not in schedule_day:continue
+        if date.fromisoformat(str(schedule_day[gid])[:10])>=CUTOFF:continue
         day=_gameday(schedule_day[gid])
         posteam=r.get("posteam");defteam=r.get("defteam")
         if not posteam or not defteam or posteam==defteam:continue
@@ -148,6 +150,7 @@ def ngs_pre2024_rows(data,stat_type,schedule_by_season_week):
         team=str(row.get("team_abbr") or "")
         day=schedule_by_season_week.get((season,week,team))
         if day is None:continue
+        if date.fromisoformat(str(day)[:10])>=CUTOFF:continue
         _gameday(day)
         pid=str(row.get("player_gsis_id") or "")
         if not pid:continue
