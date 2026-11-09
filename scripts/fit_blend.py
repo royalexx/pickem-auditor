@@ -362,19 +362,46 @@ def outcome_label(row: dict) -> int | None:
     return None
 
 
+def contract_key(row: dict) -> tuple[str, ...]:
+    """Exact market-side contract; do not collapse different lines or fixtures."""
+    event = row.get("event_id") or row.get("matchup")
+    player = row.get("player_id") or row.get("player")
+    return tuple(str(value or "") for value in (
+        row.get("sport"), row.get("game_date"),
+        row.get("event_id_namespace"), event, player,
+        row.get("team"), row.get("opponent"),
+        row.get("stat"), row.get("side"), row.get("reference_line"))
+
+
+def _pregame_stamp(row: dict):
+    """Comparable ISO timestamp or None. Unverifiable rows remain diagnostic."""
+    try:
+        value = row.get("forecast_at")
+        if not isinstance(value, str):
+            return None
+        stamp = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        return stamp.astimezone(timezone.utc) if stamp.tzinfo else None
+    except (ValueError, TypeError, OverflowError):
+        return None
+
+
 def dedupe_settled(rows: list[dict]) -> list[dict]:
+    """Earliest archived forecast per exact line, never best later outcome.
+
+    Without a verifiable timestamp the first archived version is retained;
+    such rows cannot certify a new market blend.
+    """
     by_side: dict[tuple, dict] = {}
     for row in rows:
         if outcome_label(row) is None:
             continue
-        key = (
-            str(row.get("game_date") or ""),
-            str(row.get("player") or "").casefold(),
-            str(row.get("stat") or "").casefold(),
-            str(row.get("side") or "").casefold(),
-        )
+        key = contract_key(row)
         prev = by_side.get(key)
-        if prev is None or str(row.get("settled_at") or "") > str(prev.get("settled_at") or ""):
+        if prev is None:
+            by_side[key] = row
+            continue
+        previous_at, current_at = _pregame_stamp(prev), _pregame_stamp(row)
+        if current_at is not None and (previous_at is None or current_at < previous_at):
             by_side[key] = row
     return list(by_side.values())
 
@@ -406,8 +433,7 @@ def enrich_row(row: dict) -> dict | None:
         features["logit_qB"] = logit(q_b)
     out = {
         "game_date": str(row.get("game_date") or ""),
-        "contract_id": tuple(str(row.get(k) or "") for k in
-                             ("sport", "game_date", "matchup", "player", "stat", "side", "reference_line")),
+        "contract_id": contract_key(row),
         "stat": str(row.get("stat") or ""),
         "label": label,
         "qA": q_a,
