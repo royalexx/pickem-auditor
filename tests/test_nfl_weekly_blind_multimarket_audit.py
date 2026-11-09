@@ -79,7 +79,7 @@ class AllMarketReceiptAuditTests(unittest.TestCase):
         data["market_packets"].pop("tackles + assists")
         file.write_text(json.dumps(data))
         with self.assertRaisesRegex(a.WeeklyAuditError,
-                                    "incomplete_required_week_markets"):
+                                    "corrupted_frozen_week_receipt"):
             a.audit(self.root,expected_weeks=1)
 
     def test_broken_forecast_sha_chain_fails_closed(self):
