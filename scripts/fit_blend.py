@@ -367,7 +367,7 @@ def contract_key(row: dict) -> tuple[str, ...]:
     """Exact market-side contract; do not collapse different lines or fixtures."""
     event = row.get("event_id") or row.get("matchup")
     player = row.get("player_id") or row.get("player")
-    return tuple(str(value or "") for value in (
+    return tuple("" if value is None else str(value) for value in (
         row.get("sport"), row.get("game_date"),
         row.get("event_id_namespace"), event, player,
         row.get("team"), row.get("opponent"),
