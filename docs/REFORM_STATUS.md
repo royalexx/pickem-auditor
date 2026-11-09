@@ -37,7 +37,8 @@ Training is deliberately paused, and existing checkpoints/posteriors are preserv
 - [ ] **Item 8 — prospective M2/M3 fitting/evidence gate.** Gather at least 300 original pregame verified matched training contracts over ≥20 dates plus 100 later out-of-fold matches over ≥20 dates, evaluate both proper scores vs frozen market and 60/40, ensure source bytes are authenticated and do not pool earlier research policies.
 - [x] **Item 9 — same-game leg dependence diagnostic implemented and run.** Reconciles frozen original probabilities, official outcomes and source game identity; excludes invalid side pairs and repeated same-player/stat lines, compares same-game relationships, and adds cross-game negative control and date-block intervals. Nov 8 market: 220 coherent legs, 4,038 nominal pairs, **only six independent games on one date**; observed both-hit 32.31% vs naive independent 28.72%, but mean residual product -0.00169 and **no valid uncertainty interval**. Historical Engine A: 17,519 nominal pairs from 27 games on just three dates, not pooled. All joint probabilities/entry expected returns blocked. See `docs/REFORM_STEP9_GAME_LEG_DEPENDENCE.md`.
 - [ ] **Item 9 — calibrated game-dependent joint probability for entries.** Requires many separately settled prospective game dates, source-matched actual bookmaker lines and conditional opportunities, validation against independence/market and game/date-cluster intervals; current historical archive is insufficient.
-- [ ] Defer Beta calibration, hierarchical stacking, and richer simulations until prospective data and simple challengers justify them.
+- [x] **Item 10 — Beta calibration and global regularized stack implemented with strict abstention.** Added `reform_step10_calibration_shadow.py` with identity-preserving monotone Beta calibration and global regularized consensus+market logit stack. Requires 300 prior same-contract source-verified contracts on ≥20 dates and ≥100 later contracts on ≥20 further dates; date-block scoring vs original consensus and market, excludes push/noncomplementary pairs, and has **no production/config writer**. Original November 8 had only **50** coherent market/consensus pairs on **one** date and unverified original provider publication receipts: **no coefficients fitted and no promotion**. See `docs/REFORM_STEP10_CALIBRATION_GATES.md`.
+- [ ] **Item 10 — future empirical calibration/stacking promotion evidence.** Await fully source-verified chronological data, compare global Beta and M2/M3 against both market and 60/40 production on later untouched outcomes with game/date-block uncertainty. More complex hierarchical stacking and simulations remain deferred until evidence warrants complexity.
 - [ ] Independent adversarial audit; require explicit approval for any production/Tier promotion.
 
 ## Phase 1 statistical and provenance gates
@@ -188,6 +189,20 @@ samples; dates are block-resampled only when enough information is
 available. Exact marginal Fréchet bounds are reported instead of
 assuming independence. No entry optimizer or production output
 was changed.
+
+### Change 10 — research-only monotone Beta and market stack
+
+Mathematically complete, identity-preserving monotone Beta calibrator
+and global regularized logistic market stack added as separate research
+families. On the only original current-production settlement from
+November 8, 253 contracts yielded 50 coherent model/market pairs
+and one independent date; immutable provider pregame source
+completeness was not verified. None of the 300/100, 20+20-date
+chronological fit gates was satisfied. No parameters were fitted
+or released to production. Synthetic adversarial tests cover identity,
+monotonicity, push exclusion, future-label mutation, cohort underpower,
+and date-cluster holdout metrics. See
+`docs/REFORM_STEP10_CALIBRATION_GATES.md`.
 
 ### CI and audit note
 
