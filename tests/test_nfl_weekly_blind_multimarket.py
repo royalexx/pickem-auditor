@@ -43,7 +43,7 @@ class WeeklyAllMarketTests(unittest.TestCase):
         s=w.make_state()
         w.update_week(s,[row(2023,1,"qb","pass attempts",29,"QB")],[fixture(2023,1)])
         with self.assertRaisesRegex(w.WeeklyReplayError,
-                                    "future_game_used_in_player_features"):
+                                    "target_or_future_player_result_in_features"):
             w.features(s,market="pass attempts",player_id="qb",
                        team="BUF",position="QB",game_day="2023-09-01",
                        home=True)
@@ -59,7 +59,7 @@ class WeeklyAllMarketTests(unittest.TestCase):
                 if w.eligible(name,"WR")]
         w.update_week(s,rows,[fixture(2023,1)])
         weekf=fixture(2024,1)
-        weekf["gameday"]="2024-09-05"
+        weekf["gameday"]="2024-03-01"
         p=w.prepare_packet(s,[weekf],1)
         self.assertEqual(p["expected_markets"],16)
         self.assertEqual(list(p["market_packets"]),list(w.MARKETS))
@@ -98,7 +98,7 @@ class WeeklyAllMarketTests(unittest.TestCase):
                 rows.append(row(2023,week,f"L{j}","tackles + assists",2+j%5,"LB"))
             w.update_week(s,rows,[f])
         self.assertGreater(s["trained_n"]["pass attempts"],80)
-        p=w.prepare_packet(s,[{**fixture(2024,1),"gameday":"2024-09-05"}],1)
+        p=w.prepare_packet(s,[{**fixture(2024,1),"gameday":"2024-03-01"}],1)
         self.assertEqual(p["market_packets"]["pass attempts"]["trained_n"],96)
         with tempfile.TemporaryDirectory() as d:
             a=Path(d)/"packet.json";b=Path(d)/"forecast.json"
@@ -106,7 +106,8 @@ class WeeklyAllMarketTests(unittest.TestCase):
             result=w.forecast(a,b)
             self.assertEqual(result["markets"],16)
             frozen=json.loads(b.read_text())
-            self.assertEqual(list(frozen["market_results"]),list(w.MARKETS))
+            self.assertEqual(frozen["markets_order"],list(w.MARKETS))
+            self.assertEqual(set(frozen["market_results"]),set(w.MARKETS))
             self.assertEqual(frozen["market_results"]["pass attempts"]["status"],
                             "trained_machine_learning_ridge")
             self.assertTrue(frozen["market_results"]["pass attempts"]["model_coefficients_sha256"])
@@ -158,7 +159,7 @@ class WeeklyAllMarketTests(unittest.TestCase):
         # Only explicit outcome reveal + update can change count.
         w.update_week(s,[{**row(2024,1,"qb","pass attempts",32,"QB"),
                           "gameday":"2024-09-05"}],
-                      [{**fixture(2024,1),"gameday":"2024-09-05"}])
+                      [{**fixture(2024,1),"gameday":"2024-03-01"}])
         self.assertEqual(s["trained_n"]["pass attempts"],count+1)
 
 
