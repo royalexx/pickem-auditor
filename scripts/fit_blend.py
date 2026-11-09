@@ -25,10 +25,11 @@ except ImportError:
     np = None  # type: ignore
     _HAS_NUMPY = False
 
-CODE_VERSION = "pickem-auditor-fit_blend/1"
+CODE_VERSION = "pickem-auditor-fit_blend/2"
 MIN_SETTLED = 300
 MIN_STAT_SPLIT = 100
 BOOTSTRAP_SAMPLES = 500
+MIN_BOOTSTRAP_DATES = 20
 RELIABILITY_BINS = 10
 PROB_EPS = 1e-6
 DEFAULT_L2 = 1.0
@@ -63,14 +64,15 @@ def clip_prob(p: float) -> float:
 def brier_score(pairs: list[tuple[float, int]]) -> float | None:
     if not pairs:
         return None
-    return sum((p - y) ** 2 for p, y in pairs) / len(pairs)
+    return sum((pair[0] - pair[1]) ** 2 for pair in pairs) / len(pairs)
 
 
 def log_loss(pairs: list[tuple[float, int]]) -> float | None:
     if not pairs:
         return None
     total = 0.0
-    for prob, label in pairs:
+    for pair in pairs:
+        prob, label = pair[:2]
         p = clip_prob(prob)
         total += -(label * math.log(p) + (1 - label) * math.log(1.0 - p))
     return total / len(pairs)
@@ -93,7 +95,8 @@ def pearson(xs: list[float], ys: list[float]) -> float | None:
 def reliability_bins(pairs: list[tuple[float, int]], n_bins: int = RELIABILITY_BINS) -> list[dict]:
     width = 1.0 / n_bins
     buckets: list[list[tuple[float, int]]] = [[] for _ in range(n_bins)]
-    for prob, label in pairs:
+    for pair in pairs:
+        prob, label = pair[:2]
         idx = min(n_bins - 1, int(prob / width))
         if prob >= 1.0:
             idx = n_bins - 1
@@ -401,6 +404,8 @@ def enrich_row(row: dict) -> dict | None:
         features["logit_qB"] = logit(q_b)
     out = {
         "game_date": str(row.get("game_date") or ""),
+        "contract_id": tuple(str(row.get(k) or "") for k in
+                             ("sport", "game_date", "matchup", "player", "stat", "side", "reference_line")),
         "stat": str(row.get("stat") or ""),
         "label": label,
         "qA": q_a,
@@ -549,44 +554,53 @@ def walk_forward(
                 prob = predict_model(model_id, row, fitted)
                 if prob is None:
                     continue
-                oof[model_id].append((prob, row["label"]))
+                oof[model_id].append((prob, row["label"], row["game_date"], row["contract_id"]))
     return oof, last_weights
 
 
 def bootstrap_ci(
-    pairs_a: list[tuple[float, int]],
-    pairs_b: list[tuple[float, int]],
+    pairs_a: list[tuple],
+    pairs_b: list[tuple],
     metric: str,
     samples: int = BOOTSTRAP_SAMPLES,
     seed: int = 42,
 ) -> dict | None:
-    if len(pairs_a) != len(pairs_b) or not pairs_a:
+    """Paired day-block bootstrap; never treat correlated prop rows as IID.
+
+    Each prediction must carry (probability, outcome, game_date, contract_id).
+    We require matched contract identities and >=20 independent dates before
+    a 95% interval may authorize a blend. Missing provenance fails closed.
+    """
+    if len(pairs_a) != len(pairs_b) or not pairs_a or samples < 100:
         return None
+    groups: dict[str, list[int]] = defaultdict(list)
+    for i, (a, b) in enumerate(zip(pairs_a, pairs_b)):
+        if (len(a) != 4 or len(b) != 4 or a[1:] != b[1:]
+                or not isinstance(a[2], str) or not a[2]
+                or not isinstance(a[3], tuple) or not any(a[3])):
+            return None
+        groups[a[2]].append(i)
+    days = sorted(groups)
+    if len(days) < MIN_BOOTSTRAP_DATES:
+        return None
+    scorer = brier_score if metric == "brier" else log_loss if metric == "log_loss" else None
+    if scorer is None:
+        raise ValueError("unknown_bootstrap_metric")
     rng = random.Random(seed)
-    n = len(pairs_a)
     diffs = []
     for _ in range(samples):
-        idxs = [rng.randrange(n) for _ in range(n)]
-        sample_a = [pairs_a[i] for i in idxs]
-        sample_b = [pairs_b[i] for i in idxs]
-        if metric == "brier":
-            va = brier_score(sample_a)
-            vb = brier_score(sample_b)
-            if va is None or vb is None:
-                continue
-            diffs.append(va - vb)
-        else:
-            va = log_loss(sample_a)
-            vb = log_loss(sample_b)
-            if va is None or vb is None:
-                continue
-            diffs.append(va - vb)
-    if not diffs:
-        return None
+        selected = [i for day in rng.choices(days, k=len(days)) for i in groups[day]]
+        va = scorer([pairs_a[i] for i in selected])
+        vb = scorer([pairs_b[i] for i in selected])
+        if va is None or vb is None:
+            return None
+        diffs.append(va - vb)
     diffs.sort()
-    lo = diffs[int(0.025 * len(diffs))]
-    hi = diffs[int(0.975 * len(diffs))]
-    return {"low": lo, "high": hi, "mean": sum(diffs) / len(diffs)}
+    return {"low": diffs[int(.025 * samples)],
+            "high": diffs[int(.975 * samples)],
+            "mean": sum(diffs) / samples,
+            "independent_dates": len(days),
+            "method": "paired_date_block_bootstrap_v1"}
 
 
 def summarize_model(pairs: list[tuple[float, int]]) -> dict:
@@ -683,6 +697,8 @@ def should_emit_config(report: dict, oof: dict[str, list[tuple[float, int]]]) ->
         return False, f"n_settled={report.get('n_settled')} < {MIN_SETTLED}"
     if len(m3) != len(m0) or len(m3) != len(m2):
         return False, "M3/M0/M2 out-of-fold rows are not aligned"
+    if len(m3) < 100 or len({p[2] for p in m3 if len(p) == 4}) < MIN_BOOTSTRAP_DATES:
+        return False, "insufficient independent chronological out-of-fold dates"
     for base, label in ((m0, "M0"), (m2, "M2")):
         ci = bootstrap_ci(base, m3, "log_loss")
         if ci is None:
