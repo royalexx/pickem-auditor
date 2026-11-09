@@ -1,0 +1,411 @@
+{
+  "base_versions": {
+    "log1p_ridge": "0a185b1afd41c7e4593467674f530b9ba43626a1",
+    "raw_mean_ridge": "bc6cb790c232d21f5a03f24a08f5e941a65f8838"
+  },
+  "challenger_report_line_type": [
+    "player_last5_last10_role_hybrid_synthetic"
+  ],
+  "game_cluster_bootstrap_5000": {
+    "brier_diff_log_minus_baseline": {
+      "ci_95": [
+        -0.003256393301002919,
+        -0.0015217170482124266
+      ],
+      "positive_fraction": 0.0
+    },
+    "brier_diff_raw_minus_baseline": {
+      "ci_95": [
+        -0.0012129688446261748,
+        0.00018623845582414877
+      ],
+      "positive_fraction": 0.0842
+    },
+    "brier_diff_raw_minus_log": {
+      "ci_95": [
+        0.0010131394242903443,
+        0.002768681258040782
+      ],
+      "positive_fraction": 1.0
+    },
+    "lift_over_under_log": {
+      "ci_95": [
+        0.01215113746089361,
+        0.01651528331539816
+      ],
+      "positive_fraction": 1.0
+    },
+    "lift_over_under_raw": {
+      "ci_95": [
+        -0.002408177129728504,
+        0.0053349114902076075
+      ],
+      "positive_fraction": 0.7566
+    }
+  },
+  "identical_prop_contracts_verified": true,
+  "markets": {
+    "log1p_ridge": [
+      {
+        "accuracy": 0.7657087189478812,
+        "always_under": 0.763273258645884,
+        "brier": 0.15730658713150297,
+        "market": "carries",
+        "n": 4106,
+        "under_share": 0.9771066731612275
+      },
+      {
+        "accuracy": 0.5175879396984925,
+        "always_under": 0.5058626465661642,
+        "brier": 0.26478345609973264,
+        "market": "completions",
+        "n": 597,
+        "under_share": 0.931323283082077
+      },
+      {
+        "accuracy": 0.52428810720268,
+        "always_under": 0.49748743718592964,
+        "brier": 0.2615643050557949,
+        "market": "pass attempts",
+        "n": 597,
+        "under_share": 0.9296482412060302
+      },
+      {
+        "accuracy": 0.8009265387160821,
+        "always_under": 0.8010589013898081,
+        "brier": 0.14127509532133187,
+        "market": "passes defended",
+        "n": 7555,
+        "under_share": 0.999602911978822
+      },
+      {
+        "accuracy": 0.5963149078726968,
+        "always_under": 0.5494137353433836,
+        "brier": 0.24113567155403484,
+        "market": "passing touchdowns",
+        "n": 597,
+        "under_share": 0.8860971524288107
+      },
+      {
+        "accuracy": 0.5628140703517588,
+        "always_under": 0.5276381909547738,
+        "brier": 0.2527799316791257,
+        "market": "passing yards",
+        "n": 597,
+        "under_share": 0.8777219430485762
+      },
+      {
+        "accuracy": 0.7678358702845798,
+        "always_under": 0.7561879549966909,
+        "brier": 0.15385238657884925,
+        "market": "qb hits",
+        "n": 7555,
+        "under_share": 0.9452018530774322
+      },
+      {
+        "accuracy": 0.8523316062176166,
+        "always_under": 0.8523316062176166,
+        "brier": 0.11739498069904108,
+        "market": "receiving touchdowns",
+        "n": 4632,
+        "under_share": 1.0
+      },
+      {
+        "accuracy": 0.6312607944732297,
+        "always_under": 0.6265112262521589,
+        "brier": 0.23450118006966486,
+        "market": "receiving yards",
+        "n": 4632,
+        "under_share": 0.940846286701209
+      },
+      {
+        "accuracy": 0.6381692573402418,
+        "always_under": 0.6323402417962003,
+        "brier": 0.2215159302487314,
+        "market": "receptions",
+        "n": 4632,
+        "under_share": 0.9315630397236615
+      },
+      {
+        "accuracy": 0.9037993180711155,
+        "always_under": 0.9035557720409158,
+        "brier": 0.07072692144361584,
+        "market": "rushing touchdowns",
+        "n": 4106,
+        "under_share": 0.9997564539698003
+      },
+      {
+        "accuracy": 0.739162201656113,
+        "always_under": 0.76668290306868,
+        "brier": 0.2455762106568694,
+        "market": "rushing yards",
+        "n": 4106,
+        "under_share": 0.9227959084266927
+      },
+      {
+        "accuracy": 0.6435473196558571,
+        "always_under": 0.6195896757114494,
+        "brier": 0.22121982578928437,
+        "market": "solo tackles",
+        "n": 7555,
+        "under_share": 0.9093315684976837
+      },
+      {
+        "accuracy": 0.613898080741231,
+        "always_under": 0.5417604235605559,
+        "brier": 0.23269261243644349,
+        "market": "tackle assists",
+        "n": 7555,
+        "under_share": 0.7833223031105229
+      },
+      {
+        "accuracy": 0.6011912640635341,
+        "always_under": 0.5804103242885507,
+        "brier": 0.23707557223158832,
+        "market": "tackles + assists",
+        "n": 7555,
+        "under_share": 0.8966247518199868
+      },
+      {
+        "accuracy": 0.6293177892918825,
+        "always_under": 0.623272884283247,
+        "brier": 0.22278838246756866,
+        "market": "targets",
+        "n": 4632,
+        "under_share": 0.9287564766839378
+      }
+    ],
+    "raw_mean_ridge": [
+      {
+        "accuracy": 0.6945932781295665,
+        "always_under": 0.763273258645884,
+        "brier": 0.1846585617405135,
+        "market": "carries",
+        "n": 4106,
+        "under_share": 0.7364831953239163
+      },
+      {
+        "accuracy": 0.52428810720268,
+        "always_under": 0.5058626465661642,
+        "brier": 0.25391980671103953,
+        "market": "completions",
+        "n": 597,
+        "under_share": 0.7705192629815746
+      },
+      {
+        "accuracy": 0.5494137353433836,
+        "always_under": 0.49748743718592964,
+        "brier": 0.2464532700652184,
+        "market": "pass attempts",
+        "n": 597,
+        "under_share": 0.7537688442211056
+      },
+      {
+        "accuracy": 0.8026472534745202,
+        "always_under": 0.8010589013898081,
+        "brier": 0.13974889157299614,
+        "market": "passes defended",
+        "n": 7555,
+        "under_share": 0.9894109861019192
+      },
+      {
+        "accuracy": 0.6130653266331658,
+        "always_under": 0.5494137353433836,
+        "brier": 0.23363726160450302,
+        "market": "passing touchdowns",
+        "n": 597,
+        "under_share": 0.8090452261306532
+      },
+      {
+        "accuracy": 0.5711892797319933,
+        "always_under": 0.5276381909547738,
+        "brier": 0.2435004863099762,
+        "market": "passing yards",
+        "n": 597,
+        "under_share": 0.6348408710217756
+      },
+      {
+        "accuracy": 0.7733951025810721,
+        "always_under": 0.7561879549966909,
+        "brier": 0.15314111745884484,
+        "market": "qb hits",
+        "n": 7555,
+        "under_share": 0.8806088682991396
+      },
+      {
+        "accuracy": 0.8523316062176166,
+        "always_under": 0.8523316062176166,
+        "brier": 0.1157384199931704,
+        "market": "receiving touchdowns",
+        "n": 4632,
+        "under_share": 1.0
+      },
+      {
+        "accuracy": 0.5649827288428325,
+        "always_under": 0.6265112262521589,
+        "brier": 0.24348739480662876,
+        "market": "receiving yards",
+        "n": 4632,
+        "under_share": 0.49805699481865284
+      },
+      {
+        "accuracy": 0.6403281519861831,
+        "always_under": 0.6323402417962003,
+        "brier": 0.2211659661537353,
+        "market": "receptions",
+        "n": 4632,
+        "under_share": 0.819300518134715
+      },
+      {
+        "accuracy": 0.9040428641013152,
+        "always_under": 0.9035557720409158,
+        "brier": 0.06969757785545735,
+        "market": "rushing touchdowns",
+        "n": 4106,
+        "under_share": 0.997564539698003
+      },
+      {
+        "accuracy": 0.6293229420360448,
+        "always_under": 0.76668290306868,
+        "brier": 0.26692803564130285,
+        "market": "rushing yards",
+        "n": 4106,
+        "under_share": 0.5723331709693132
+      },
+      {
+        "accuracy": 0.6508272667107876,
+        "always_under": 0.6195896757114494,
+        "brier": 0.21957212697103462,
+        "market": "solo tackles",
+        "n": 7555,
+        "under_share": 0.8162806088682991
+      },
+      {
+        "accuracy": 0.628722700198544,
+        "always_under": 0.5417604235605559,
+        "brier": 0.2273215198067323,
+        "market": "tackle assists",
+        "n": 7555,
+        "under_share": 0.671608206485771
+      },
+      {
+        "accuracy": 0.5872931833223031,
+        "always_under": 0.5804103242885507,
+        "brier": 0.23597248262501785,
+        "market": "tackles + assists",
+        "n": 7555,
+        "under_share": 0.7651886168100596
+      },
+      {
+        "accuracy": 0.623272884283247,
+        "always_under": 0.623272884283247,
+        "brier": 0.22473240889133628,
+        "market": "targets",
+        "n": 4632,
+        "under_share": 0.7780656303972366
+      }
+    ]
+  },
+  "model_compare": {
+    "log1p_ridge": {
+      "always_under_hit": 0.6875748144601389,
+      "baseline_brier": 0.1951961993567869,
+      "brier": 0.19281840152163854,
+      "hit": 0.7018969426410737,
+      "log_loss": 0.5624140247149984,
+      "under_share": 0.9285020208705939,
+      "unmatched": 36310
+    },
+    "raw_mean_ridge": {
+      "always_under_hit": 0.6875748144601389,
+      "baseline_brier": 0.1951961993567869,
+      "brier": 0.1946955971651432,
+      "hit": 0.6889971693728963,
+      "log_loss": 0.56532481734366,
+      "under_share": 0.7989128138686645,
+      "unmatched": 36310
+    }
+  },
+  "n_graded": 71009,
+  "n_predicted": 107319,
+  "original_hybrid_report_line_source_mislabeled": true,
+  "prior_samples_2021_2023_only": true,
+  "schema": "2024-adversarial-model-benchmark-v1",
+  "synthetic_line_not_bookmaker": true,
+  "top10_censoring_bounds": {
+    "log1p_ridge": {
+      "known_hits": 71,
+      "matched": 73,
+      "matched_only_overstates_evidence": true,
+      "max_full_candidate_accuracy_if_unmatched_all_win": 0.9888888888888889,
+      "min_full_candidate_accuracy_if_unmatched_all_fail": 0.39444444444444443,
+      "n": 180,
+      "reported_matched_accuracy": 0.9726027397260274,
+      "top10_mean_to_player_baseline_mean": 0.20819991754590825,
+      "top10_mean_to_player_baseline_median": 0.12180147350075259,
+      "under_share": 1.0,
+      "unmatched": 107
+    },
+    "raw_mean_ridge": {
+      "known_hits": 80,
+      "matched": 84,
+      "matched_only_overstates_evidence": true,
+      "max_full_candidate_accuracy_if_unmatched_all_win": 0.9777777777777777,
+      "min_full_candidate_accuracy_if_unmatched_all_fail": 0.4444444444444444,
+      "n": 180,
+      "reported_matched_accuracy": 0.9523809523809523,
+      "top10_mean_to_player_baseline_mean": 0.18609567102815805,
+      "top10_mean_to_player_baseline_median": 0.12110524470695716,
+      "under_share": 1.0,
+      "unmatched": 96
+    }
+  },
+  "top10_synthetic_line_median": {
+    "log1p_ridge": 0.5,
+    "raw_mean_ridge": 0.5
+  },
+  "ungraded": 36310,
+  "unique_game_clusters": 272,
+  "week_cluster_bootstrap_20000": {
+    "brier_diff_log_minus_baseline": {
+      "ci_95": [
+        -0.0037943586434209878,
+        -0.0009376088212612102
+      ],
+      "estimate": -0.002377797835148337,
+      "positive_fraction": 0.0003
+    },
+    "brier_diff_raw_minus_baseline": {
+      "ci_95": [
+        -0.0012773440033598614,
+        0.00037274615444841404
+      ],
+      "estimate": -0.0005006021916436447,
+      "positive_fraction": 0.1221
+    },
+    "brier_diff_raw_minus_log": {
+      "ci_95": [
+        0.0007992468796309433,
+        0.0030336392949046123
+      ],
+      "estimate": 0.0018771956435046926,
+      "positive_fraction": 0.9996
+    },
+    "lift_over_under_log": {
+      "ci_95": [
+        0.011914485574723415,
+        0.01685790566520113
+      ],
+      "estimate": 0.01432212818093481,
+      "positive_fraction": 1.0
+    },
+    "lift_over_under_raw": {
+      "ci_95": [
+        -0.002749456866830704,
+        0.005533770947494238
+      ],
+      "estimate": 0.0014223549127575378,
+      "positive_fraction": 0.7469
+    }
+  }
+}
