@@ -17,7 +17,7 @@ Training is deliberately paused, and existing checkpoints/posteriors are preserv
 - [x] **Item 3 completed — clustered blend statistics.** `fit_blend.py` preserves earliest frozen forecasts and distinct exact lines, excludes fold predictions before 300 prior rows on at least 20 dates, resamples matched game dates, rejects duplicated/mismatched contracts and fewer than 100 OOF rows / 20 test dates, and requires positive 95% paired-block improvement for BOTH log loss and Brier vs M0 and M2.
 - [x] **Item 3 completed — promotion source gate.** The market-augmented blend cannot emit weights without verified source archive bytes, explicit same-line market quote and all included engine provenance; unverified historical snapshots are research-only.
 - [x] **Adversarial tests.** Expanded regression suites for hash tampering, future lineup/news/market inputs, clock drift, duplicate receipts, source path traversal, missing player-line identity, pseudo-replication and underpowered/blended results.
-- [x] **Full offline CI green.** GitHub Actions run #42540592355 completed 1,103 tests with nine expected skips and no failures; the Bayesian sampling job is deliberately skipped during the user-directed training pause. The old scouting-review/NUTS tests were corrected to respect frozen-consensus abstention and simulated pregame inference clocks.
+- [x] **Full offline CI green.** PR #67 run #42540922477 completed **1,104 tests** (nine expected skips) with no failures on the final reform code revision. The Bayesian sampling job was deliberately skipped during the training pause. The old scouting-review/NUTS test fixtures were corrected without weakening safety gates.
 - [ ] **Historical evidence limitation:** The original November 8 market/lineup/injury provider bundle was incomplete. Integrity checks cannot retrospectively establish a missing original publication time or create evidence that was not archived. Collect/source-pin those payloads prospectively in item 4's validation cohort.
 - [ ] Compile a **single canonical** matched pregame settlement cohort across sports and dates, with original model/market quotes and non-push/push status.
 - [ ] Run aggregate Brier/log loss, directional and Over/Under bias, full-universe vs selected top-k calibration, with game/date clustering.
@@ -64,11 +64,13 @@ evaluation time, rejecting future or timezone-naive retrieval metadata.
 
 ### CI and audit note
 
-The full **offline** test suite is green (1,103 tests at commit
-`7dfca8403ce86adb811cc8072c83f1b64f309cc2`).
+The full **offline** test suite passed **1,104 tests** (nine skipped)
+on the final PR #67 revision (`27d9aba4b2c74548a5e5471c0ec79b1661ec3710`).
+PR #67 was squash-merged into `main` as
+`66484d1782f15a301f531a6939c189ccd8da6b78`.
 The separate Bayesian NUTS smoke job is deliberately **skipped**, not passed,
-while model training remains paused. CI must be rechecked on the final merged
-revision. No production ensemble weight, trained posterior, frozen forecast,
+while model training remains paused. CI on the merged revision is separately recorded by GitHub Actions.
+No production ensemble weight, trained posterior, frozen forecast,
 selection Tier or ranking algorithm was modified.
 
 The requirements behind items 2 and 3 are implemented and tested.
