@@ -123,7 +123,14 @@ def normalize_quote(raw: dict, *, date_text: str, observed: datetime) -> tuple[d
             or not valid_american(raw.get("under_odds"))):
         return None, "not_two_sided_numeric_quote"
     source = str(raw.get("source_url") or "")
-    host = urlsplit(source).hostname or ""
+    try:
+        parsed_source = urlsplit(source)
+        host = parsed_source.hostname or ""
+    except ValueError:
+        return None, "unverifiable_quote_source"
+    if (parsed_source.scheme != "https" or not host
+            or parsed_source.username or parsed_source.password):
+        return None, "unverifiable_quote_source"
     if "underdog" in host.lower() or "underdog" in bookmaker.lower():
         return None, "unapproved_market"
     record = {
@@ -137,8 +144,15 @@ def normalize_quote(raw: dict, *, date_text: str, observed: datetime) -> tuple[d
         "stat": stat, "book": bookmaker, "line": float(line),
         "over_odds": int(raw["over_odds"]) if int(raw["over_odds"]) == raw["over_odds"] else raw["over_odds"],
         "under_odds": int(raw["under_odds"]) if int(raw["under_odds"]) == raw["under_odds"] else raw["under_odds"],
+        # Provider's last_update can fall back to collector time upstream.
+        # Never call it independently verified publication time.
         "market_updated_at": stamp(updated),
+        "archive_observed_at": stamp(observed),
+        "source_clock_semantics": "provider_update_or_collector_fallback_not_independently_verified",
         "source_host": host,
+        "source_url_sha256": hashlib.sha256(source.encode("utf-8")).hexdigest(),
+        # Persist no provider URL query string, which may contain API credentials.
+        "source_url_contains_query": bool(parsed_source.query),
     }
     record["quote_sha256"] = digest(record)
     return record, "accepted"
@@ -172,6 +186,10 @@ def capture_records(quotes: list[dict], *, phase: str, slate_date: str,
         "exclusions": dict(sorted(counts.items())), "quotes": rows,
         "uses_only_existing_collector_quotes": True,
         "api_requests_added": 0, "changes_original_predictions": False,
+        "quote_time_qualification": (
+            "Observed-at is the collector snapshot timestamp. Per-market "
+            "updated-at may be provider time or a collector fallback. "
+            "Neither is a verified upstream publication timestamp."),
     }
     document["snapshot_sha256"] = digest(document)
     path = Path(archive_root) / slate_date / phase / (capture_id + ".json")
