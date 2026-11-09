@@ -26,6 +26,12 @@ jobs:
       MKL_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
+      - name: Block trained-model publication during user-directed reform pause
+        shell: pwsh
+        run: |
+          if (Test-Path '.training-control/PAUSED.json') {
+            throw 'TRAINING_PAUSED_FOR_MODEL_REFORM_USER_APPROVAL_REQUIRED'
+          }
       - name: Export and publish only the verified trained posterior
         run: |
           $modelRun = 'C:\Users\alexi\Music\pickem-auditor\reports\nfl_reads_full_v2'
