@@ -141,6 +141,10 @@ def conditional_statuses(reports, *, teammate_id, team, archive_root, game_start
         if str(item.get("teammate_id"))!=str(teammate_id) or str(item.get("team"))!=str(team):
             raise TackleChallengerError("historical_teammate_identity_mismatch")
         gid=str(item.get("game_id"))
+        # Reports outside the last-twelve input window are not model
+        # features; their contents must not influence this projection.
+        if gid not in game_starts:
+            continue
         if gid in result:raise TackleChallengerError("duplicate_historical_teammate_report")
         # Reject asserted availability timed against a different or fictitious
         # kickoff for this exact archived team/player game.
