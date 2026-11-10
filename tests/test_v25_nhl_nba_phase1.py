@@ -191,19 +191,32 @@ class FrozenNhlNbaContractTests(unittest.TestCase):
         self.assertEqual(_legacy_baseline(row,other)["status"],"available")
 
     def test_official_settlement_requires_source_period_and_integer(self):
-        item={"sport":"NHL","event_id":"event-1","player_id":"8470001",
-              "stat":"shots on goal","period":"full","status":"settled",
-              "actual":3,"source_url":"https://api-web.nhle.com/v1/gamecenter",
-              "settled_at":"2026-11-09T21:00:00Z",
-              "retrieved_at":"2026-11-09T21:01:00Z",
-              "source_sha256":"a"*64}
-        self.assertEqual(len(_settlement_index([item])),1)
-        with self.assertRaisesRegex(ContractError,"duplicate_official"):
-            _settlement_index([item,item])
-        with self.assertRaisesRegex(ContractError,"settlement_period_mismatch"):
-            _settlement_index([{**item,"period":"regulation"}])
-        with self.assertRaises(ContractError):
-            _settlement_index([{**item,"actual":2.5}])
+        with tempfile.TemporaryDirectory() as tmp:
+            source=Path(tmp)
+            body=b'{"source":"api-web.nhle.com","captured":true}'
+            (source/"source.json").write_bytes(body)
+            item={"sport":"NHL","event_id":"event-1","player_id":"8470001",
+                  "stat":"shots on goal","period":"full","status":"settled",
+                  "actual":3,"source_url":"https://api-web.nhle.com/v1/gamecenter",
+                  "settled_at":"2026-11-09T21:00:00Z",
+                  "retrieved_at":"2026-11-09T21:01:00Z",
+                  "source_sha256":hashlib.sha256(body).hexdigest(),
+                  "source_archive_path":"source.json"}
+            self.assertEqual(len(_settlement_index([item],
+                source_archive_root=source)),1)
+            with self.assertRaisesRegex(ContractError,"duplicate_official"):
+                _settlement_index([item,item],source_archive_root=source)
+            with self.assertRaisesRegex(ContractError,"settlement_period_mismatch"):
+                _settlement_index([{**item,"period":"regulation"}],
+                                  source_archive_root=source)
+            with self.assertRaisesRegex(ContractError,"noninteger"):
+                _settlement_index([{**item,"actual":2.5}],
+                                  source_archive_root=source)
+            with self.assertRaisesRegex(ContractError,"source_archive_unverified"):
+                _settlement_index([{**item,"source_sha256":"0"*64}],
+                                  source_archive_root=source)
+            with self.assertRaisesRegex(ContractError,"source_archive_required"):
+                _settlement_index([item])
 
     def test_no_synthetic_settlement_or_postgame_features_allowed(self):
         with tempfile.TemporaryDirectory() as tmp:
