@@ -1,0 +1,86 @@
+{
+  "schema": "v25-phase2-nfl-research-status-v1",
+  "reviewed_at_utc": "2026-11-10T14:00:00Z",
+  "implementation_state": "DRAFT_RESEARCH_PROTOTYPE_BUILT",
+  "formal_phase2_exit": "NOT_MET",
+  "derived_from_phase1_pr": 90,
+  "branch": "chatgpt/v25-phase2-nfl-opportunity-research-20261110",
+  "independent_qa": {
+    "notebook_id": "f2f65eb3f7cd472b982d55de10265fa8",
+    "run_id": "056316f9-5585-45ce-af7b-b8ff90327708",
+    "stacked_branch_test_suites": [
+      {
+        "pattern": "test_v25_phase2_nfl.py",
+        "passed": 21
+      },
+      {
+        "pattern": "test_v25_phase1.py",
+        "passed": 27
+      },
+      {
+        "pattern": "test_v25_phase1_exit.py",
+        "passed": 25
+      },
+      {
+        "pattern": "test_phase0_provenance_release.py",
+        "passed": 13
+      },
+      {
+        "pattern": "test_production_consensus.py",
+        "passed": 6
+      }
+    ],
+    "separate_latest_main_regressions": [
+      {
+        "pattern": "test_phase0r_pre_eval.py",
+        "passed": 5
+      },
+      {
+        "pattern": "test_phase0_provenance_release.py",
+        "passed": 13
+      }
+    ],
+    "scenario_smoke_count": 64,
+    "synthetic_test_input": true,
+    "verified_absent_receiver_targets_zero": true,
+    "constrained_allocator_illegal_scenarios": 0,
+    "original_market_state_fit": "ABSTAINED_NO_MARKET_INPUT",
+    "independent_prospective_accuracy_improvement_observed": false
+  },
+  "modeled_stats": [
+    "QB dropbacks",
+    "QB pass attempts",
+    "player routes",
+    "player targets",
+    "residual unattributed pass attempts"
+  ],
+  "research_models": [
+    "hierarchical logistic_normal capacity constrained",
+    "route-capped gamma-simplex DM",
+    "label-dependent ZIDM",
+    "untruncated standard DM diagnostic",
+    "independent Poisson diagnostic",
+    "verified-history optional game spread fitted state"
+  ],
+  "manual_go_nogo": {
+    "pregame_leakage_regression": "TESTED_SYNTHETIC",
+    "physically_constrained_allocation": "TESTED_SYNTHETIC",
+    "original_nfl_2024_source_certification": "NOT_PROVEN",
+    "real_historical_2024_score_improvement": "NOT_RUN",
+    "absence_high_usage_real_cohort": "NOT_RUN",
+    "roster_game_script_market_data_receipts": "NOT_PROVEN",
+    "provider_publication_truth": "NOT_VERIFIED",
+    "phase0r_general_live_gate": "NOT_SIGNED",
+    "phase1_approved": "NO",
+    "model_promotion": "NO",
+    "tier1_tier2": "BLOCKED",
+    "heavy_training": "PAUSED"
+  },
+  "next_actions": [
+    "Merge or rebase Phase 1 onto current main after Phase 0R independent signoff",
+    "Construct certified historical NFL as-of state/route/target ledger, not settled game features",
+    "Run registered 2024 rolling-origin control/challenger ablations with matched contracts and source SHA receipts",
+    "Compare player target CRPS and QB attempts on verified cohorts, with independent event/date cluster sensitivity",
+    "Only then decide Phase2 promotion or rollback"
+  ]
+}
