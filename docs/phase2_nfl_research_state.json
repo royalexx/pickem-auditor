@@ -257,6 +257,26 @@
     "conclusion": "CALIBRATION_IMPROVED_BUT_COUNT_DISTRIBUTION_AND_UNDER_DIRECTION_BIAS_FAIL_RELEASE",
     "model_promotion_authorized": false,
     "report": "docs/V25_PHASE2_2024_TRUE_PARTICIPATION_FULL_WEEKLY_REPORT_20261110.md",
-    "data_receipt": "docs/phase2_nfl_2024_true_participation_first_replay_receipt.json"
+    "data_receipt": "docs/phase2_nfl_2024_true_participation_first_replay_receipt.json",
+    "independent_18_week_audit_status": "PASSED_WITH_8_BASELINE_CALIBRATION_ABSTENTIONS",
+    "independent_18_week_audit_sha256": "165022a41915ecb03c569b704cb23ca90b0ef48a76d7b631f6c4a89b2a0e0a47",
+    "independently_audited_replay_run": "1e708464-72f7-488a-bf9d-f5ff7a96365c",
+    "original_replay_digest_reproduced_identically": "3c32cc97e5899c7f4814e22d60b1c43298d2a2b4470f47c2f2feab8998dfc95a",
+    "independent_audit_machine_report": "docs/phase2_nfl_2024_participation_independent_audit.json",
+    "original_raw_mean_p_over": 0.31099871014582303,
+    "original_actual_over_frequency": 0.43895205140879884,
+    "new_raw_mean_p_over": 0.30885070384208047,
+    "new_actual_over_frequency": 0.4337491174393975,
+    "new_global_platt_mean_p_over": 0.4202161135385206,
+    "new_role_platt_mean_p_over": 0.421868844891821,
+    "new_raw_ece10": 0.12868790818427867,
+    "new_global_platt_ece10": 0.01903386244250542,
+    "new_role_platt_ece10": 0.02147539998903329,
+    "high80_calibration_weeks1_to6_n": 100,
+    "high80_calibration_weeks7_to12_n": 21,
+    "high80_calibration_weeks13_to18_n": 1,
+    "high80_calibration_weeks14_to18_n": 0,
+    "asof_report_live_source_proven": false,
+    "unchanged_promotion_gate": "BLOCKED"
   }
 }
