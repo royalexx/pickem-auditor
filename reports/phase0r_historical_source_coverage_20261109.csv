@@ -1,0 +1,3 @@
+run_stamp,code_sha,forecast_rows,legacy_metadata_accepted,legacy_metadata_rejected,archive_objects_verified,archive_sha256_mismatches,archive_size_mismatches,source_receipt_unmapped,source_receipt_digest_mismatches,candidate_hash_matches,candidate_hash_mismatches,pre_eval_bound_rows,strict_certified_rows,book_quotes_incoming,book_quotes_accepted,quotes_unverified_or_future,quotes_after_event_started,nuts_pairs_checked,nuts_pairs_rejected,publication_eligible
+20261109T234719Z,10404038846f9f621c245ca089daf91b974ddde9,1568,1220,348,3894,0,0,0,0,1568,0,0,0,2122,1174,948,0,784,6,false
+20261110T001047Z,1799074428a0c74016042bae122f00527c953be0,1056,860,196,2634,0,0,0,0,1056,0,0,0,2165,1248,218,699,528,6,false

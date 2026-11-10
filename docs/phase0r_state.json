@@ -1,9 +1,9 @@
 {
   "schema": "pickem_phase0r_execution_state_v1",
   "phase": "0R",
-  "reviewed_at_utc": "2026-11-10T00:21:31.693Z",
+  "reviewed_at_utc": "2026-11-10T01:19:27Z",
   "release_status": "BLOCKED",
-  "latest_code_sha_before_receipt": "5923eb32b628562574ee22a5e33bdb09547f759f",
+  "latest_code_sha_before_receipt": "f9cc39525eddea8412baeeadbbb29893d98ab8f9",
   "baseline_code_sha": "10404038846f9f621c245ca089daf91b974ddde9",
   "merged_repairs": [
     {
@@ -20,6 +20,16 @@
       "pr": 88,
       "merge_sha": "5923eb32b628562574ee22a5e33bdb09547f759f",
       "scope": "capture_completion_clock"
+    },
+    {
+      "pr": 91,
+      "merge_sha": "d2107cd6b13456624900c880d8ffed5343515e2f",
+      "scope": "pre_evaluation_immutable_input_snapshot_and_strict_certification_gate"
+    },
+    {
+      "pr": 92,
+      "merge_sha": "f9cc39525eddea8412baeeadbbb29893d98ab8f9",
+      "scope": "quarantined_optional_http415_provisional_nuts_shadow"
     }
   ],
   "nuts_training_paused": true,
@@ -79,15 +89,56 @@
       "run_id": "e7239851-2118-41c1-a092-d0815c6aa559",
       "scope": "PR88",
       "targeted_suites_passed": 4
+    },
+    {
+      "run_id": "f6fa6f26-844c-4ac9-b6b1-2ccc2f51103d",
+      "scope": "PR91 frozen pre-eval input and strict gate",
+      "targeted_tests_passed": 60
+    },
+    {
+      "run_id": "49019a93-6746-4387-b8a1-de971d44a4a0",
+      "scope": "PR92 HTTP415 non-promoting shadow",
+      "targeted_tests_passed": 9
+    },
+    {
+      "run_id": "0c424fa0-dbb7-49b6-a25a-bfedaf3dcbdb",
+      "scope": "Both November 9 original live source-byte archives",
+      "archived_source_objects_verified": 6528,
+      "sha256_mismatches": 0,
+      "original_candidate_digest_mismatches": 0,
+      "strict_certified_rows": 0
+    },
+    {
+      "run_id": "df9be8c6-3006-402f-999a-3d5805dfe5cc",
+      "scope": "Current strict phase0_preflight on all 2624 original rows with 6528 exact archived bytes",
+      "strict_certified_rows": 0,
+      "uncertified_rows": 2624,
+      "no_retroactive_certification": true
     }
   ],
   "open_release_blockers": [
-    "Numerical model inputs currently archived after pm.evaluate_candidate: complete pre-evaluation immutable dependency pinning required",
-    "No fresh, fully pregame end-to-end run on final merged source revision",
-    "Last dry run had 196 unavailable_or_unverified_market rows; exclude, do not reconstruct",
-    "Fresh NHL goalie saves paired integrity proof on new source revision",
-    "Reconcile actual model-specific training cutoff receipts and upstream source publication truth",
-    "Optional NFL provisional NUTS HTTP 415 research artifact retrieval remains unavailable"
+    "No genuinely pregame end-to-end run on final merged pre-evaluation binding code; previous Nov 9 archives cannot be retrocertified",
+    "New source and market data must be pinned before evaluation on a real slate; strict run-level independence and release gate have not been signed off",
+    "Six historical NHL goalie-saves NUTS paired failures need a new sidecar rerun on corrected shared-seed code; original six remain invalid",
+    "Every absent or unverified market and any unpinned upstream transformation must remain an explicit research-only abstention",
+    "Original metadata-only pass counts (1220 and 860) do not satisfy strict source binding; all 2624 historical forecasts have zero pre-eval bindings",
+    "An independent release packet must establish new-run source coverage, manifest, cutoff truth and zero false certifications"
   ],
-  "next_phase_authorized": false
+  "next_phase_authorized": false,
+  "historical_replay_report": "docs/phase0r_historical_slate_replay_20261109.json",
+  "original_slate_strict_replay": {
+    "first_run": {
+      "strict_certified": 0,
+      "reasons": {
+        "missing_or_imprecise_timestamp:input_freeze_at": 1568
+      }
+    },
+    "second_run": {
+      "strict_certified": 0,
+      "reasons": {
+        "market_unavailable_or_unverified": 196,
+        "pre_eval_input_binding_missing": 860
+      }
+    }
+  }
 }
