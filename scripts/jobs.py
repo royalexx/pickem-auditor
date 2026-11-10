@@ -550,8 +550,8 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                 continue
         from usage_baseline import using_directory
         from probability_blend import using_production
-        capture_enabled = (os.environ.get("PICKEM_PHASE0_CAPTURE") == "1"
-                           or os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1")
+        capture_enabled = (certified_only
+                           or os.environ.get("PICKEM_PHASE0_CAPTURE") == "1")
         pre_eval_error = None
         if capture_enabled:
             try:
@@ -590,6 +590,11 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                 # A missing or oversized source must never generate a fake
                 # certification. The legacy result remains a research shadow.
                 pre_eval_error = type(exc).__name__ + ":" + str(exc)[:180]
+                if certified_only:
+                    # Never fall back to mutable source data when strict
+                    # certification is required by the live workflow.
+                    mark("unavailable", "phase0r_source_capture_failed:" + pre_eval_error)
+                    continue
         if not capture_enabled or pre_eval_error is not None:
             if pre_eval_error is not None:
                 meta["source_capture_error"] = pre_eval_error
