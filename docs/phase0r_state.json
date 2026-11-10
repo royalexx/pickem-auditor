@@ -107,6 +107,13 @@
       "sha256_mismatches": 0,
       "original_candidate_digest_mismatches": 0,
       "strict_certified_rows": 0
+    },
+    {
+      "run_id": "df9be8c6-3006-402f-999a-3d5805dfe5cc",
+      "scope": "Current strict phase0_preflight on all 2624 original rows with 6528 exact archived bytes",
+      "strict_certified_rows": 0,
+      "uncertified_rows": 2624,
+      "no_retroactive_certification": true
     }
   ],
   "open_release_blockers": [
@@ -118,5 +125,20 @@
     "An independent release packet must establish new-run source coverage, manifest, cutoff truth and zero false certifications"
   ],
   "next_phase_authorized": false,
-  "historical_replay_report": "docs/phase0r_historical_slate_replay_20261109.json"
+  "historical_replay_report": "docs/phase0r_historical_slate_replay_20261109.json",
+  "original_slate_strict_replay": {
+    "first_run": {
+      "strict_certified": 0,
+      "reasons": {
+        "missing_or_imprecise_timestamp:input_freeze_at": 1568
+      }
+    },
+    "second_run": {
+      "strict_certified": 0,
+      "reasons": {
+        "market_unavailable_or_unverified": 196,
+        "pre_eval_input_binding_missing": 860
+      }
+    }
+  }
 }
