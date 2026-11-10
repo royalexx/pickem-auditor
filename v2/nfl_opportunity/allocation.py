@@ -295,6 +295,64 @@ def allocate_attempts(
     }
 
 
+def standard_dm_diagnostic(state: dict, fit: AllocationFit,
+                           rng: random.Random, *,
+                           concentration: float = 25.) -> dict:
+    """Untruncated canonical Dirichlet-multinomial comparison.
+
+    Gamma-normalized Dirichlet probabilities and multinomial allocation of
+    EVERY pass attempt. Unlike the route-capped champion, this control may
+    give a receiver more targets than projected routes. Keep those physical
+    violations visible rather than deceptively calling this DM constrained.
+    """
+    conc=finite(concentration,"standard_dm_concentration")
+    if conc<=0:
+        raise ContractError("invalid_standard_dm_concentration")
+    drop=state["dropbacks"]
+    attempts=state["pass_attempts"]
+    if type(drop) is not int or type(attempts) is not int or not 0<=attempts<=drop:
+        raise ContractError("standard_dm_team_attempt_state_invalid")
+    players={}
+    expected=[]
+    for prior in fit.players:
+        active,p_route,p_target,reason=prior.draw_role(rng)
+        routes=_binomial(rng,drop,p_route) if active else 0
+        share=(routes/max(1,drop))*p_target*prior.absence_role_multiplier if routes else 0.
+        players[prior.player_id]={
+            "player_id":prior.player_id,"role":prior.role,
+            "roster_status":prior.status,"routes":routes,"targets":0,
+            "participation_reason":reason,
+        }
+        expected.append(share)
+    residual=rng.betavariate(fit.residual_alpha,fit.residual_beta)
+    weights=expected+[residual]
+    norm=math.fsum(weights)
+    if norm<=0:
+        raise ContractError("standard_dm_no_residual_mass")
+    fractions=[v/norm for v in weights]
+    gamma=[rng.gammavariate(max(1e-6,conc*w),1.) if w>0 else 0.
+           for w in fractions]
+    # Sampling remains multinomial even if actual route capacity is exhausted.
+    unassigned=0
+    for _ in range(attempts):
+        selected=_weighted_pick(rng,gamma)
+        if selected==len(fit.players):
+            unassigned+=1
+        else:
+            players[fit.players[selected].player_id]["targets"]+=1
+    violated=[pid for pid,p in players.items() if p["targets"]>p["routes"]]
+    return {
+        "method":"standard_dirichlet_multinomial_diagnostic",
+        "players":players,
+        "tracked_player_targets":sum(p["targets"] for p in players.values()),
+        "unassigned_pass_attempts":unassigned,
+        "pass_attempts":attempts,
+        "illegal_route_capacity_players":violated,
+        "not_jointly_physically_valid":bool(violated),
+        "canonical_dm_not_capacity_truncated":True,
+    }
+
+
 def independent_poisson_diagnostic(
         state: dict, fit: AllocationFit, rng: random.Random) -> dict:
     """Unconstrained count control; illegal team totals remain *visible*."""
