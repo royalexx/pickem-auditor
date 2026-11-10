@@ -52,6 +52,8 @@ def main(argv=None):
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--official-settlements", type=Path,
                         help="optional later official settlement receipt; no synthetic outcomes")
+    parser.add_argument("--settlement-source-root", type=Path,
+                        help="required original raw official source bytes if settlements supplied")
     parser.add_argument("--seed", type=int, default=20261110)
     args = parser.parse_args(argv)
     inputs = [args.bundle, args.attempts]
@@ -71,6 +73,8 @@ def main(argv=None):
         settled = None
         settled_sha = None
         if args.official_settlements:
+            if args.settlement_source_root is None:
+                raise ContractError("official_settlement_raw_source_root_required")
             settlement_raw = args.official_settlements.read_bytes()
             settled = read_json(settlement_raw)
             if not isinstance(settled, list):
@@ -82,6 +86,7 @@ def main(argv=None):
                 archive_root=Path(tmp), bundle_sha256=hashlib.sha256(raw).hexdigest(),
                 code_commit=args.code_commit,
                 settlement_rows=settled,
+                settlement_archive_root=args.settlement_source_root,
                 seed=args.seed,
             )
         report["input_attempts_sha256"] = hashlib.sha256(original_attempts).hexdigest()
