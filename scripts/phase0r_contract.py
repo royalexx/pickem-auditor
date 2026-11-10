@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 
 from point_in_time_provenance import pregame_snapshot_status, instant
+from phase0_quote_binding import bind_original_quotes
 
 SCHEMA = "pickem_pre_eval_input_binding_v1"
 
@@ -73,8 +74,8 @@ def strict_snapshot_status(row, *, archive_root):
         if (candidate.get("player_id") is not None
                 and str(candidate["player_id"]) != str(row.get("player_id"))):
             return False, "frozen_numerical_candidate_player_mismatch"
-        if (candidate.get("event_id") is not None
-                and str(candidate["event_id"]) != str(row.get("event_id"))):
+        if (not str(candidate.get("event_id") or "").strip()
+                or str(candidate["event_id"]) != str(row.get("event_id"))):
             return False, "frozen_numerical_candidate_event_mismatch"
 
         receipts = row.get("source_receipts") or []
@@ -106,6 +107,12 @@ def strict_snapshot_status(row, *, archive_root):
             return False, "frozen_candidate_not_equal_evaluated_candidate"
         if by_role[("Engine_B", "evaluated_candidate")].get("content_sha256") != digest:
             return False, "engine_b_frozen_candidate_drift"
+        original_quote = by_role[("Market", "original_book_quotes")]
+        original_bytes = (Path(archive_root) / original_quote["archive_path"]).read_bytes()
+        bound_quote_digest = bind_original_quotes(candidate, original_bytes,
+                                                 freeze_at=row["input_freeze_at"])
+        if binding.get("matched_original_quotes_sha256") != bound_quote_digest:
+            return False, "pre_eval_original_offer_binding_mismatch"
         market_input = {k: candidate.get(k) for k in
                         ("books", "line", "side", "market_retrieved_at")}
         market_digest = hashlib.sha256(canonical_bytes(market_input)).hexdigest()
