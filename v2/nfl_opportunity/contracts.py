@@ -43,6 +43,10 @@ class NFLTeamHistory:
     dropbacks: int
     pass_attempts: int
     tracked_targets: int
+    pregame_spread: float | None = None
+    pregame_spread_at: str | None = None
+    pregame_spread_source_sha256: str | None = None
+    pregame_spread_source_uri: str | None = None
 
     def __post_init__(self) -> None:
         valid_id(self.event_id, "event_id")
@@ -58,6 +62,20 @@ class NFLTeamHistory:
             raise ContractError("historical_team_opportunity_conservation")
         if self.offensive_plays and self.possessions == 0:
             raise ContractError("historical_team_possessions_missing")
+        fields=(self.pregame_spread,self.pregame_spread_at,
+                self.pregame_spread_source_sha256,self.pregame_spread_source_uri)
+        if any(v is not None for v in fields):
+            if any(v is None for v in fields):
+                raise ContractError("historical_pregame_spread_source_incomplete")
+            finite(self.pregame_spread,"historical_pregame_spread")
+            if utc(self.pregame_spread_at,"historical_spread_quote") >= utc(
+                    self.event_start_at,"event_start_at"):
+                raise ContractError("historical_game_spread_not_pregame")
+            sha=self.pregame_spread_source_sha256
+            if len(sha)!=64 or any(c not in "0123456789abcdef" for c in sha):
+                raise ContractError("historical_pregame_spread_sha_invalid")
+            if not self.pregame_spread_source_uri.startswith("https://"):
+                raise ContractError("historical_pregame_spread_original_uri_required")
 
 
 @dataclass(frozen=True)
