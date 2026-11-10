@@ -152,7 +152,10 @@ def fit_allocator(team_history: list[NFLTeamHistory],
             empirical=0.
         # Floor is numerical regularization, not an asserted NFL dispersion
         # estimate. It is versioned as part of the experimental algorithm.
-        logit_sd=max(.05,empirical/math.sqrt(max(1,n)))
+        # This is predictive BETWEEN-GAME variability, not the standard
+        # error of an estimated mean. More games must not erase real role
+        # volatility; the Beta rate posterior already carries fit uncertainty.
+        logit_sd=max(.05,empirical)
         labelled=[row.structurally_inactive for row,team in own
                   if row.structurally_inactive is not None]
         if len(labelled)<4:

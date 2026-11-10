@@ -130,10 +130,12 @@ def calibrate_asof(history,offers,*,week,mode="global_platt"):
             for r in ("WR","RB","TE")}
         status="fit_from_earlier_weeks_only"
     out=[]
+    identity = mode == "raw" or len(history) < 80
     for offer in offers:
         q=offer["raw_over"]
         z=a+b*_logit(q)+offsets[offer["role"]]["offset"]
-        calibrated=_sigmoid(z)
+        # A raw/no-fit contract is exact, including finite ensemble 0/1.
+        calibrated=float(q) if identity else _sigmoid(z)
         out.append({**offer,"calibrated_over":calibrated,
             "calibrated_under":1.-calibrated})
     report={
@@ -142,6 +144,8 @@ def calibrate_asof(history,offers,*,week,mode="global_platt"):
            [x["week"] for x in history],default=0),
        "fit_count":len(history),
        "status":status,"method":mode,
+       "calibration_active":not identity,
+       "exact_raw_identity":identity,
        "a_intercept":a,"b_slope":b,"role_offsets":offsets,
        "future_labels_read":False,
        "calibration_is_point_in_time":True,
