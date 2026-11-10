@@ -110,7 +110,8 @@ def strict_snapshot_status(row, *, archive_root):
         original_quote = by_role[("Market", "original_book_quotes")]
         original_bytes = (Path(archive_root) / original_quote["archive_path"]).read_bytes()
         bound_quote_digest = bind_original_quotes(candidate, original_bytes,
-                                                 freeze_at=row["input_freeze_at"])
+                                                 freeze_at=row["input_freeze_at"],
+                                                 event_start_at=row["event_start"])
         if binding.get("matched_original_quotes_sha256") != bound_quote_digest:
             return False, "pre_eval_original_offer_binding_mismatch"
         market_input = {k: candidate.get(k) for k in
