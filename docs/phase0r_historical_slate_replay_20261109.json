@@ -1,0 +1,105 @@
+{
+  "schema": "pickem_phase0r_historical_slate_audit_v1",
+  "audit_date_utc": "2026-11-10",
+  "status": "HISTORICAL_NEGATIVE_CONTROL_NOT_RELEASE_CERTIFICATION",
+  "audit_tool": "independent_read_only_deepnote_replay",
+  "audit_run_id": "0c424fa0-dbb7-49b6-a25a-bfedaf3dcbdb",
+  "source_qualification": "Original archivally captured bytes prove collector possession and byte integrity; they do not establish numerical pre-evaluation pinning, upstream publication truth, or absence of all hidden upstream transformations.",
+  "slates": [
+    {
+      "game_date": "2026-11-09",
+      "run_stamp": "20261109T234719Z",
+      "code_sha": "10404038846f9f621c245ca089daf91b974ddde9",
+      "forecasts": 1568,
+      "metadata_passed": 1220,
+      "metadata_rejected": 348,
+      "strict_pre_eval_binding_rows": 0,
+      "strict_certifiable_rows": 0,
+      "source_archive_objects": 3894,
+      "unique_source_objects": 3894,
+      "sha256_mismatches": 0,
+      "size_mismatches": 0,
+      "missing_or_unmapped_receipts": 0,
+      "receipt_sha_mismatches": 0,
+      "original_candidate_digest_matched": 1568,
+      "original_candidate_digest_mismatched": 0,
+      "original_frozen_forecast_file_sha256": "5e4cdb130b7a550aad483397c3aeab554eb5ecbc2638455f49564f79d89123c9",
+      "market_quotes_incoming": 2122,
+      "market_quotes_accepted": 1174,
+      "market_quotes_future_or_unverified": 948,
+      "paired_contracts": 784,
+      "paired_rejected": 6,
+      "paired_rejection_family": "NHL goalie saves NUTS shadow",
+      "publication_eligible": false
+    },
+    {
+      "game_date": "2026-11-09",
+      "run_stamp": "20261110T001047Z",
+      "code_sha": "1799074428a0c74016042bae122f00527c953be0",
+      "forecasts": 1056,
+      "metadata_passed": 860,
+      "metadata_rejected": 196,
+      "strict_pre_eval_binding_rows": 0,
+      "strict_certifiable_rows": 0,
+      "source_archive_objects": 2634,
+      "unique_source_objects": 2634,
+      "sha256_mismatches": 0,
+      "size_mismatches": 0,
+      "missing_or_unmapped_receipts": 0,
+      "receipt_sha_mismatches": 0,
+      "original_candidate_digest_matched": 1056,
+      "original_candidate_digest_mismatched": 0,
+      "original_frozen_forecast_file_sha256": "46c66175bbdb4e896c1a06acdb940fa14098571785b03a65298e025575a89e8d",
+      "market_quotes_incoming": 2165,
+      "market_quotes_accepted": 1248,
+      "market_quotes_event_started": 699,
+      "market_quotes_future_or_unverified": 218,
+      "paired_contracts": 528,
+      "paired_rejected": 6,
+      "paired_rejection_family": "NHL goalie saves NUTS shadow",
+      "publication_eligible": false,
+      "optional_shadow_artifact_error": "HTTP 415"
+    }
+  ],
+  "cumulative_checks": {
+    "forecast_rows": 2624,
+    "source_archive_objects": 6528,
+    "source_sha256_mismatches": 0,
+    "source_size_mismatches": 0,
+    "unmapped_source_receipts": 0,
+    "forecast_candidate_digest_mismatches": 0,
+    "strictly_certifiable_original_forecasts": 0
+  },
+  "fixes_since_original_archives": [
+    {
+      "pr": 86,
+      "scope": "mandatory input freeze timestamp"
+    },
+    {
+      "pr": 87,
+      "scope": "NHL goalie saves shared seed across sides"
+    },
+    {
+      "pr": 88,
+      "scope": "archive-capture completion timestamp"
+    },
+    {
+      "pr": 91,
+      "scope": "pre-evaluation frozen candidate, data, policy and strict certificate"
+    },
+    {
+      "pr": 92,
+      "scope": "HTTP 415 research-shadow artifact unavailability quarantine"
+    }
+  ],
+  "release_conditions": [
+    "Run final merged code on a genuinely pregame slate, against immutably pinned original source bytes.",
+    "Independently verify that every newly certified row has exact pre-evaluation source/model/market lineage and zero critical timestamp/identity/hash exceptions.",
+    "Explicitly classify every missing/unverified market candidate as unavailable, never retroactively certified.",
+    "Verify paired NHL goalie saves and other NUTS contract Over/Under complementarity on new forecasts.",
+    "Preserve Tier1/Tier2 and new model production gates until their separate prospective performance validations."
+  ],
+  "training_resumed": false,
+  "tier1_tier2_publication_allowed": false,
+  "phase0r_closed": false
+}
