@@ -45,7 +45,7 @@ def _history_role_pool(history):
         total_attempts+=attempts
         role_c=defaultdict(int)
         prior_seen = set()
-        for old in all_team_games[g["team"]]:
+        for old in all_team_games[(g["season"],g["team"])]:
             prior_seen.update(old)
         current_players=set()
         for pid,p in g["players"].items():
@@ -60,7 +60,7 @@ def _history_role_pool(history):
                 unseen_targets[role]+=n
             current_players.add(pid)
         for role in ROLES:role_totals[role]+=role_c[role]
-        all_team_games[g["team"]].append(current_players)
+        all_team_games[(g["season"],g["team"])].append(current_players)
     if total_attempts<=0 or sum(role_totals.values())>total_attempts:
         reject("invalid_historical_role_targets")
     # Source league role distribution is only past outcomes. Pseudo-counts
@@ -233,6 +233,7 @@ def _stochastic_allocator(pass_samples, rng, recent, prior, *,
     return {
        "status":"role_hierarchical_target_only_shadow",
        "player_targets":{pid:xs.tolist() for pid,xs in sorted(pred.items())},
+       "player_roles":{p["player_id"]:role for role in ROLES for p in roster[role]},
        "pass_attempts":pass_samples.tolist(),
        "unassigned_attempts":unassigned.tolist(),
        "player_count":len(pred),
