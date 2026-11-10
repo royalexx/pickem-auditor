@@ -11,6 +11,7 @@ Test whether **market-optional probabilistic team passing volume, player route/p
 2. Standard Dirichlet–multinomial (DM) allocations.
 3. The proposed hierarchical logistic-normal allocation (first constrained champion *candidate*, not production champion).
 4. Zero-inflated DM (ZIDM) only where independently labeled structural inactivity histories exist.
+5. **Canonical untruncated DM** as a diagnostic-only control; it preserves the pass-attempt total but may violate receiver route capacities. The separate **route-capped DM** variant is explicitly not called mathematically identical to standard DM.
 
 Phase 3 receptions/yards/defensive tackle likelihoods and Phase 4 full-game multivariate dependent simulations remain **out of scope**. QB **pass attempts and dropbacks are included**; QB completions and passing yards remain Phase 3.
 
@@ -22,7 +23,7 @@ Phase 3 receptions/yards/defensive tackle likelihoods and Phase 4 full-game mult
 | **P2-02** | `allocation.py` fits as-of player and role peer posteriors for participation, route share of dropbacks, and targets per route. New players inherit an uncertain role prior, not an arbitrary zero. | All routes are **latent pregame** projections. Does not feed realized current-game snaps, routes or targets. |
 | **P2-03** | Draw shared team attempts once and allocate mutually exclusive targets from logistic-normal relative intensities plus an explicit residual/unattributed attempt slot. Exhaustion of projected routes removes a player from subsequent choices. | Conservation is checked on *every* simulated scenario; this does not guarantee improved calibration. |
 | **P2-04** | A `verified_out` receiver gets exactly zero routes/targets and is removed before normalized allocation. Conditional role-uplift ratios are learned only from sufficiently observed **previously available, explicitly verified** affected-versus-normal role-transition examples. | If the role transition is not identifiable, use **no uplift**, report an abstention. No imported power-grid 120% capacity or 60% imbalance thresholds. |
-| **P2-05** | DM gamma-normalized simplex challenger, explicitly labeled ZIDM variant requiring at least four structural labels per active role, and independent Poisson control. | DM concentration and empirical Bayes prior strengths are research hyperparameters, **not calibrated**. EFDM/continuous-categorical are not added without a data/compute justification. |
+| **P2-05** | Gamma-normalized **route-capped DM** and labeled ZIDM challengers, plus **untruncated standard DM** and independent Poisson research controls. Standard DM has no route cap, and any resulting illegal receiver routes are reported rather than erased. | DM concentration and empirical Bayes prior strengths are research hyperparameters, **not calibrated**. EFDM/continuous-categorical are not added without a data/compute justification. |
 | **P2-06** | `replay.py` scores sealed-as-of NFL scenarios against separate postgame outcomes, with player target CRPS, team attempt CRPS, complete case/event ledgers, short-role and high-usage verified-absence cohorts, event/date cluster comparisons. | The included input is **entirely synthetic**. No real historical 2024 quote cohort or Phase 0R-certified NFL source archive has yet proven improved predictive performance. |
 
 The synthetic example includes a new receiver, a high-usage verified absence, historical position-transition labels and a future game *withheld by the chronological freeze*. It is a software test fixture, **not** real NFL data or a sports betting result.
@@ -56,7 +57,7 @@ QB pass attempts = A_m
 
 The residual slot includes throwaways, spikes and other attempts without a target **credited to one of the represented players**; it is not a separate invented receiver.
 
-The no-market team-state sample is shared *exactly* across logistic-normal, DM, ZIDM and the independent Poisson control in scenario index `m`. Only their allocation draw differs. The market-conditioned game-state version is kept as a **separate** research model if genuine as-of spread training is available.
+The no-market team-state sample is shared *exactly* across logistic-normal, route-capped DM, untruncated standard DM, ZIDM and the independent Poisson control in scenario index `m`. Only their allocation draw differs. The market-conditioned game-state version is kept as a **separate** research model if genuine as-of spread training is available.
 
 All Over/Under/Push probabilities at a line come from a **single fixed scenario ensemble**, never independently seeded sides. The empirical Monte Carlo standard error of P(Over) is reported as `sqrt(p(1-p)/M)`; additional parameter, model and data uncertainty is *not* covered by this MC error alone. There is no market-edge calculation or wager ranking.
 
