@@ -212,6 +212,8 @@ def prepare_inputs(payload: dict) -> tuple[NFLPregame, list[NFLTeamHistory],
             raise ContractError("historical_routes_exceed_team_dropbacks")
         summed_targets[key] = summed_targets.get(key, 0) + row.targets
     for key, total in summed_targets.items():
+        if total > by_team[key].tracked_targets:
+            raise ContractError("historical_player_target_sum_exceeds_charted_targets")
         if total > by_team[key].pass_attempts:
             raise ContractError("historical_player_target_sum_exceeds_attempts")
     return frozen, teams, individuals, {
