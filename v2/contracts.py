@@ -264,6 +264,7 @@ class MarketQuote:
     reject_reason: str | None = None
     over_decimal_odds: float | None = None
     under_decimal_odds: float | None = None
+    quote_archive_path: str | None = None
 
     def __post_init__(self) -> None:
         for name in ("quote_id", "contract_id", "event_id", "sport", "league", "team_id", "opponent_id", "player_id", "stat_key", "period", "book", "product_type", "settlement_policy"):
@@ -283,6 +284,12 @@ class MarketQuote:
             if self.team_id == self.opponent_id:
                 raise ContractError("identical_team_and_opponent_identity")
         require_sha(self.quote_receipt_sha256, "quote_receipt")
+        if self.quote_archive_path is not None:
+            relative = self.quote_archive_path
+            if (not isinstance(relative, str) or not relative.strip()
+                    or relative.startswith("/") or "\\" in relative
+                    or ".." in relative.split("/")):
+                raise ContractError("invalid_quote_archive_path")
         if self.quote_kind not in ("real", "synthetic"):
             raise ContractError("invalid_quote_kind")
         if self.accepted and utc(self.quote_at, "quote_at") >= utc(self.event_start_at, "event_start_at"):
