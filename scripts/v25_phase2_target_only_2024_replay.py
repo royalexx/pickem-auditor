@@ -382,6 +382,41 @@ def main():
             "online_better_week_count":sum(
                 stats.mean(by_week[w])<0 for w in by_week),
         }
+    # Fair direct comparison of the new constrained target allocator against
+    # the independent Poisson baseline on EXACTLY the same as-of players.
+    online={ (r["week"],r["event_id"],r["team"],r["player_id"]):r
+             for b in results for r in b["target_scores"]["updated"]}
+    poisson={ (r["week"],r["event_id"],r["team"],r["player_id"]):r
+              for b in results for r in b["target_scores"]["independent_poisson"]}
+    aligned=sorted(set(online)&set(poisson))
+    matched_deltas=defaultdict(list)
+    matched_brier=defaultdict(list)
+    for key in aligned:
+        r1,r0=online[key],poisson[key]
+        matched_deltas[key[0]].append(r1["crps"]-r0["crps"])
+        if "brier" in r1 and "brier" in r0:
+            matched_brier[key[0]].append(r1["brier"]-r0["brier"])
+    def summarize_matched(per_week):
+        values=[v for week in sorted(per_week) for v in per_week[week]]
+        if not values:return {"n":0}
+        rng=random.Random(args.seed+317)
+        boots=[]
+        for _ in range(3000):
+            chosen=rng.choices(sorted(per_week),k=18)
+            draws=[d for wk in chosen for d in per_week[wk]]
+            boots.append(sum(draws)/len(draws))
+        boots.sort()
+        return {
+           "n":len(values),"mean_online_minus_independent":sum(values)/len(values),
+           "week_cluster_95":[boots[75],boots[2924]],
+           "online_better_weeks":sum(
+               stats.mean(per_week[w])<0 for w in per_week),
+        }
+    pairs["target_online_vs_independent_poisson"]={
+       "matched_contracts":len(aligned),
+       "crps":summarize_matched(matched_deltas),
+       "conditional_brier":summarize_matched(matched_brier),
+    }
     confidence_all={}
     for mode in METHODS:
         confidence_all[mode]={}
