@@ -60,7 +60,7 @@ class LiveCaptureTests(unittest.TestCase):
                              "2026-11-09T15:00:00Z")
             self.assertEqual(evidence["input_freeze_at"], "2026-11-09T15:00:00Z")
             self.assertEqual(evidence["input_freeze_basis"],
-                             "all_original_collector_inputs_captured_before_forecast")
+                             "archived_original_collector_inputs_fully_captured")
             self.assertTrue(all(
                 (data / "source_archives" / x["archive_path"]).is_file()
                 for x in evidence["source_receipts"]))
@@ -84,6 +84,40 @@ class LiveCaptureTests(unittest.TestCase):
             self.assertEqual(pregame_snapshot_status(
                 row, archive_root=data / "source_archives")[1],
                 "source_archive_digest_mismatch")
+
+    def test_completed_capture_freeze_is_after_all_source_archives(self):
+        from datetime import timedelta
+        with tempfile.TemporaryDirectory() as tmp:
+            data,candidate=self.setup_inputs(Path(tmp))
+            begin=datetime(2026,11,9,15,0,tzinfo=timezone.utc)
+            finish=begin+timedelta(seconds=4)
+            moments=iter([begin,finish])
+            result={"engine_b":{"abstain":False},
+                    "market":{"market_valid":True,"line":4.5,
+                              "retrieved_at":"2026-11-09T14:10:00Z"}}
+            evidence=capture(candidate,result,data_root=data,
+                             archive_root=data/"source_archives",
+                             clock=lambda:next(moments))
+            self.assertEqual(evidence["model_training_cutoff_at"],
+                             "2026-11-09T15:00:00Z")
+            self.assertEqual(evidence["input_freeze_at"],"2026-11-09T15:00:04Z")
+            self.assertEqual(evidence["source_capture_at"],"2026-11-09T15:00:04Z")
+            for receipt in evidence["source_receipts"]:
+                self.assertEqual(receipt["observed_at"],evidence["input_freeze_at"])
+                if not receipt["archive_path"].startswith("historical_usage/"):
+                    self.assertEqual(receipt["retrieved_at"],evidence["input_freeze_at"])
+            self.assertEqual(len(evidence["source_receipts"]),6)
+
+    def test_capture_completion_clock_cannot_go_backwards(self):
+        from datetime import timedelta
+        with tempfile.TemporaryDirectory() as tmp:
+            data,candidate=self.setup_inputs(Path(tmp))
+            begin=datetime(2026,11,9,15,0,tzinfo=timezone.utc)
+            times=iter([begin,begin-timedelta(seconds=1)])
+            with self.assertRaisesRegex(ValueError,"nonmonotonic_capture_clock"):
+                capture(candidate,{"engine_b":{"abstain":True},"market":{}},
+                        data_root=data,archive_root=data/"source_archives",
+                        clock=lambda:next(times))
 
     def test_nba_candidate_with_no_sport_uses_verified_slate_identity(self):
         with tempfile.TemporaryDirectory() as tmp:
