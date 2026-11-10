@@ -140,20 +140,30 @@ def scan_original_pairs(rows: list[dict], *, strict_checker: Callable | None = N
     checker, failed checker or retrospective data means diagnostic-only.
     """
     groups: dict[tuple, dict] = {}
-    for index, row in enumerate(rows):
-        if not isinstance(row, dict):
-            raise ContractError("legacy_row_not_object")
-        key = _key(row)
-        side = row.get("side")
-        if side not in ("over", "under"):
-            raise ContractError("legacy_invalid_side")
-        bucket = groups.setdefault(key, {})
-        if side in bucket:
-            raise ContractError("legacy_duplicate_original_side")
-        bucket[side] = (index, row)
     reasons: Counter = Counter()
     pairs: list[FrozenLegacyPair] = []
     decisions = []
+    invalid_rows = 0
+    for index, row in enumerate(rows):
+        try:
+            if not isinstance(row, dict):
+                raise ContractError("legacy_row_not_object")
+            key = _key(row)
+            side = row.get("side")
+            if side not in ("over", "under"):
+                raise ContractError("legacy_invalid_side")
+        except (ContractError, ValueError, TypeError) as exc:
+            reason = str(exc)
+            reasons[reason] += 1
+            invalid_rows += 1
+            decisions.append({"row_index": index, "status": "rejected", "reason": reason})
+            continue
+        bucket = groups.setdefault(key, {})
+        if side in bucket:
+            # Two contradictory frozen originals for the same exact side
+            # cannot be treated as separate candidate betting contracts.
+            raise ContractError("legacy_duplicate_original_side")
+        bucket[side] = (index, row)
     for key in sorted(groups):
         bucket = groups[key]
         if set(bucket) != {"over", "under"}:
@@ -184,7 +194,10 @@ def scan_original_pairs(rows: list[dict], *, strict_checker: Callable | None = N
                     reason = "phase0r_certificate_required"
                 else:
                     for row in (over, under):
-                        approved, why = strict_checker(row, archive_root=archive_root)
+                        try:
+                            approved, why = strict_checker(row, archive_root=archive_root)
+                        except (ValueError, TypeError, KeyError, OSError) as exc:
+                            approved, why = False, type(exc).__name__ + ":" + str(exc)[:80]
                         if not approved:
                             reason = "phase0r:" + str(why)
                             break
@@ -203,6 +216,7 @@ def scan_original_pairs(rows: list[dict], *, strict_checker: Callable | None = N
     return {
         "schema": "v25-frozen-v1-adapter-1",
         "rows": len(rows), "unique_contracts": len(groups),
+        "invalid_original_rows": invalid_rows,
         "eligible_pairs": len(pairs),
         "rejected_pairs": sum(reasons.values()),
         "reasons": dict(sorted(reasons.items())),
