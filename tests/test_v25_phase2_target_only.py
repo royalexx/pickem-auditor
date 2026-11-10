@@ -49,6 +49,14 @@ class TestPhase2TargetOnlyIsolation(unittest.TestCase):
         self.assertFalse(report["future_outcomes_exposed_to_forecaster"])
         self.assertFalse(report["source_data_asof_publication_independently_certified"])
 
+    def test_exact_week_one_frozen_and_online_draws_are_identical(self):
+        report=forecast(fixture(),samples=128,seed=1947)
+        models=report["forecasts"][0]["models"]
+        self.assertEqual(models["updated"]["pass_attempts"],
+                         models["no_refit"]["pass_attempts"])
+        self.assertEqual(models["updated"]["player_targets"],
+                         models["no_refit"]["player_targets"])
+
     def test_prior_week_only_and_repeat_seed(self):
         first=forecast(fixture(3),samples=128,seed=45)
         copy=forecast(fixture(3),samples=128,seed=45)
