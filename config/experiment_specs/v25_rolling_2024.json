@@ -1,0 +1,23 @@
+{
+  "experiment_id": "V25-EXP-B-2024-ROLLING-ORIGIN",
+  "status": "protocol_only_unexecuted",
+  "governing_plan": "PA-V25-MASTER-2026-11-09",
+  "hypothesis": "Opportunity-first V2.5 challengers improve pregame distribution and exact-contract forecasting versus frozen, leakage-safe controls",
+  "start_season": 2024,
+  "primary_cohort": "all available NFL 2024 pregame, time-certified offers; preserve full rejected and missing denominator",
+  "synthetic_lines": "statistic_distribution_diagnostics_only_no_market_edge_claims",
+  "baseline_models": ["naive_pregame_exposure_rate", "role_shrunk_hierarchical_rate", "frozen_v1_60_40_where_archived", "two_sided_no_vig_where_quoted"],
+  "train_cutoff": "strict_prior_available_observation_at_before_each_forecast_freeze",
+  "split_unit": "chronological_event_week",
+  "bootstrap_cluster": "event_id_then_date_sensitivity",
+  "primary_metrics": ["matched_brier", "matched_log_loss"],
+  "secondary_metrics": ["directional_accuracy", "calibration_by_side", "crps", "energy_score", "variogram_score_p05", "coverage", "missingness", "CPU_cost"],
+  "negative_controls": ["shift_minus_one_leakage_sentinel", "permuted_opponent_context", "same_game_outcome_feature", "randomized_labels", "future_market_quote", "postgame_training_cutoff"],
+  "2025_independent_holdout_status": "unknown_must_audit_prior_training_and_human_design_exposure",
+  "2026_november_8_status": "exposed_regression_case_not_prospective_proof",
+  "code_commit": null,
+  "data_manifest_sha256": null,
+  "promotion_authorized": false,
+  "production_training_allowed": false,
+  "frozen_legacy_blend_must_not_change": true
+}
