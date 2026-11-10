@@ -154,7 +154,22 @@ def evaluate_contracts(source, *, replicates=1000, seed=20261110):
             raise Phase15Error("frozen_side_probability_mismatch")
         chosen = p if declared == "over" else 1 - p
         hit = int((declared == "over") == bool(over))
+        recorded_over = original.get("actual_over")
+        if recorded_over not in (None, ""):
+            if str(recorded_over).strip() not in ("0", "1") or int(recorded_over) != over:
+                raise Phase15Error("recorded_over_outcome_mismatch")
+        if result not in ("HIT", "MISS"):
+            raise Phase15Error("invalid_scored_result_status")
+        if (result == "HIT") != bool(hit):
+            raise Phase15Error("settlement_status_mismatch")
+        selected_recorded = original.get("selected_model_probability")
+        if selected_recorded not in (None, ""):
+            declared_confidence = number(selected_recorded, "selected_model_probability", low=0, high=1)
+            if not math.isclose(declared_confidence, chosen, rel_tol=0, abs_tol=1e-9):
+                raise Phase15Error("selected_probability_mismatch")
         game = str(original["week"]).strip() + "|" + str(original["game_id"]).strip()
+        if original.get("hit") not in ("", None) and str(original["hit"]).strip() not in ("0", "1"):
+            raise Phase15Error("invalid_settlement_hit")
         if original.get("hit") not in ("", None) and int(original["hit"]) != hit:
             raise Phase15Error("settlement_hit_mismatch")
         joined.append({"week": str(original["week"]), "game": game,

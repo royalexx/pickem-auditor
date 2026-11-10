@@ -100,6 +100,27 @@ class Phase15Tests(unittest.TestCase):
             with self.assertRaisesRegex(p.Phase15Error, "invalid_numeric"):
                 p.evaluate_contracts(self.make_csv(d, "a.csv", [r]))
 
+    def test_original_actual_over_and_selected_probability_crosschecked(self):
+        with tempfile.TemporaryDirectory() as d:
+            r = self.contract()
+            r["actual_over"] = "0"
+            with self.assertRaisesRegex(p.Phase15Error, "recorded_over_outcome_mismatch"):
+                p.evaluate_contracts(self.make_csv(d, "a.csv", [r]))
+            r["actual_over"] = "1"
+            r["selected_model_probability"] = ".99"
+            with self.assertRaisesRegex(p.Phase15Error, "selected_probability_mismatch"):
+                p.evaluate_contracts(self.make_csv(d, "b.csv", [r]))
+
+    def test_original_result_status_not_reinterpreted(self):
+        with tempfile.TemporaryDirectory() as d:
+            r = self.contract()
+            r["result"] = "MISS"
+            with self.assertRaisesRegex(p.Phase15Error, "settlement_status_mismatch"):
+                p.evaluate_contracts(self.make_csv(d, "a.csv", [r]))
+            r["result"] = "SOMETHING_UNEXPECTED"
+            with self.assertRaisesRegex(p.Phase15Error, "invalid_scored_result_status"):
+                p.evaluate_contracts(self.make_csv(d, "b.csv", [r]))
+
     def test_game_cluster_bootstrap_is_deterministic(self):
         rows = [{"game": str(i), "week": str(i//2), "v": float(i)} for i in range(1, 15)]
         left = p.bootstrap_interval(rows, lambda x: x["v"], cluster="game",

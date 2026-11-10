@@ -82,6 +82,48 @@ class QBBridgeTests(unittest.TestCase):
             with self.assertRaisesRegex(Phase15Error,"training_week_leak"):
                 m.process(root,oracle,replicates=0)
 
+    def test_candidate_pool_coverage_reported(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)/"archive"
+            oracle=self.fixture(root)
+            result=m.process(root,oracle,replicates=0)
+            pool=result["team_game_candidate_pool_diagnostic"]
+            self.assertEqual(pool["team_game_groups"],18)
+            self.assertEqual(pool["predicted_qb_total_exceeds_team_groups"],0)
+            self.assertEqual(pool["multi_candidate_groups"],0)
+
+    def test_nonboolean_grade_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)/"archive"
+            oracle=self.fixture(root)
+            path=root/"REVEALED"/"week_01.json"
+            data=json.loads(path.read_text())
+            data["full_research_rows"][0]["graded"]="false"
+            self.write_json(path,data)
+            with self.assertRaisesRegex(Phase15Error,"graded_status_not_boolean"):
+                m.process(root,oracle,replicates=0)
+
+    def test_multiple_qbs_exceeding_official_team_attempts_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)/"archive"
+            oracle=self.fixture(root)
+            fp=root/"FROZEN"/"week_01.json"
+            rp=root/"REVEALED"/"week_01.json"
+            frozen=json.loads(fp.read_text())
+            revealed=json.loads(rp.read_text())
+            other=copy.deepcopy(frozen["predictions"][0])
+            other["player_id"]="SECOND_QB"
+            frozen["predictions"].append(other)
+            self.write_json(fp,frozen)
+            graded=copy.deepcopy(other)
+            graded["graded"]=True
+            graded["actual_stat"]=6.
+            revealed["full_research_rows"].append(graded)
+            revealed["frozen_sha"]=hashlib.sha256(fp.read_bytes()).hexdigest()
+            self.write_json(rp,revealed)
+            with self.assertRaisesRegex(Phase15Error,"graded_qb_attempt_pool_exceeds_team_total"):
+                m.process(root,oracle,replicates=0)
+
     def test_two_factor_attribution_conservation(self):
         row=m.sh2(8.,.5,10.,.6,6.)
         self.assertAlmostEqual(row["base_squared_error"],4)

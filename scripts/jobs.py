@@ -506,7 +506,7 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                     policy_root=SKILL_ROOT,
                     clock=clock_fn or (lambda: datetime.now(timezone.utc)),
                     identity={key: meta.get(key) for key in
-                              ("sport", "player_id", "stat", "game_date")},
+                              ("sport", "player_id", "stat", "game_date", "event_id", "event_start")},
                 ) as (pinned_evidence, pinned_root, pinned_candidate):
                     # The model sees precisely the candidate, history, lineup
                     # and production policy bytes stored by the archive.

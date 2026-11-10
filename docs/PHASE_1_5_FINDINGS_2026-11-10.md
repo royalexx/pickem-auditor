@@ -74,6 +74,14 @@ The source-locked bridge does **not** score the same 2024 cohort as the
 107,319-contract hybrid replay. Do not aggregate their denominators or
 compare their squared errors without separate normalization.
 
+## Follow-up mathematical/code audit addendum (2026-11-10)
+
+An adversarial follow-up added cross-checks for archived `actual_over`, recorded `HIT/MISS` settlement status, selected-confidence field, nonboolean `graded` flags, and the sum of graded QB attempts against actual team passing attempts. Rerunning the **original untouched research inputs** reproduced 107,319/71,009/36,310 contract counts and unchanged Brier difference `−0.002377797835148354`. The QB bridge again scored 547 QBs in 270 games and recovered the same Shapley attribution of 107.9601 share and 45.0338 volume squared-error units. These agreements are research-code reproducibility, not point-in-time bookmaker certification.
+
+The original QB candidate pool contained **527 team-game groups**, **297 with multiple forecast QB candidates**, zero with inconsistent team-volume forecasts and zero with the sum of candidate QB projected means exceeding the forecast team attempts. This establishes that the observed QB bias is **not a simple summed-pool conservation overflow**. Instead, the estimated QB share likely absorbs starting-QB/role uncertainty when multiple candidates are present. The forecast-to-realized ratio and Shapley identity cannot alone prove that the internal algorithm's allocation component was the causal error source, or that a new starter classifier will achieve oracle performance. Preregister a starter/eligibility pilot and evaluate it only on future out-of-sample cases.
+
+The exact binomial power numbers were independently checked using SciPy `binom.sf` with one-sided exact rejection boundaries and match 119, 437, 365, 281 and 179 for the five declared rate pairs. These are IID design values, not attained prospective effective sample sizes.
+
 ## Phase 1.5 stop/go recommendations
 
 - **Gate A / source integrity:** Completed for the archival research

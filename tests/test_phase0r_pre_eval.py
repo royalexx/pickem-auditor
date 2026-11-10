@@ -33,6 +33,9 @@ def make_inputs(root):
         "observations": [{"id": "old-game", "date": "2026-11-02", "value": 5}],
     }))
     (root / "odds_quotes.jsonl").write_text(json.dumps({
+        "sport": "NFL", "event_id": "event-1", "event_id_namespace":"propline",
+        "event_start":"2026-11-09T18:00:00Z", "team": "BUF",
+        "player": "Example Player", "stat": "receptions",
         "book": "ExampleBook", "line": 4.5,
         "over_odds": -110, "under_odds": -110,
         "retrieved_at": "2026-11-09T14:10:00Z"}) + "\n")
@@ -42,6 +45,7 @@ def make_inputs(root):
         "id": "NFL|Example Player|receptions|over", "sport": "NFL",
         "stat": "receptions", "player_id": "pid-1", "team": "BUF",
         "game_date": "2026-11-09", "event_id": "event-1",
+        "event_id_namespace": "propline",
         "line": 4.5, "side": "over",
         "books": [{"book": "ExampleBook", "line": 4.5,
                    "book_side": "over", "target": -110, "other": -110,
@@ -134,6 +138,33 @@ class Phase0RPreEvalTests(unittest.TestCase):
                 target.write_bytes(b"tampered")
                 self.assertEqual(strict_snapshot_status(row, archive_root=archive)[1],
                                  "source_archive_digest_mismatch")
+
+    def test_candidate_event_identity_must_be_present_before_freeze(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            data_root=root/"collected"
+            candidate,_=make_inputs(data_root)
+            del candidate["event_id"]
+            with self.assertRaisesRegex(ValueError,"pre_eval_identity_mismatch"):
+                with phase0_pre_eval.pin(candidate,data_root=data_root,
+                        archive_root=data_root/"source_archives",
+                        policy_root=root/"policy", clock=lambda:START):
+                    pass
+
+    def test_changed_original_book_price_fails_before_model(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            data_root=root/"collected"
+            candidate,_=make_inputs(data_root)
+            original=data_root/"odds_quotes.jsonl"
+            row=json.loads(original.read_text())
+            row["over_odds"]=-130
+            original.write_text(json.dumps(row)+"\n")
+            with self.assertRaisesRegex(ValueError,"market_book_original_offer_mismatch"):
+                with phase0_pre_eval.pin(candidate,data_root=data_root,
+                        archive_root=data_root/"source_archives",
+                        policy_root=root/"policy", clock=lambda:START):
+                    pass
 
     def test_batch_audit_defaults_to_strict_not_legacy(self):
         with tempfile.TemporaryDirectory() as tmp:

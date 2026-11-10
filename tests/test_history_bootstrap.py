@@ -4,6 +4,7 @@ import importlib.util
 import json
 from pathlib import Path
 import subprocess
+import shutil
 import tempfile
 import unittest
 
@@ -13,6 +14,8 @@ module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
 
+@unittest.skipUnless(shutil.which("tar") and shutil.which("zstd"),
+                     "External tar and zstd required; isolated Deepnote Basic CPU image lacks zstd")
 class Bootstrapping(unittest.TestCase):
     def seed(self, root: Path, lines: int = 1492):
         origin = root / 'origin'

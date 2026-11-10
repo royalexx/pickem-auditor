@@ -56,6 +56,10 @@ def process(root: Path, vault: Path, *, replicates=1000, seed=20261110):
     rejected = Counter()
     source_hashes = {"oracle_sha256": sha256_file(vault), "weeks": {}}
     all_qb_forecasts = Counter()
+    # Keep a team/game-level conservation ledger rather than treating all
+    # candidate QBs as mutually exclusive starters with independent pools.
+    predicted_qb_pool = defaultdict(float)
+    predicted_team_pool = defaultdict(list)
     pair_cache = []
     for week in range(1, 19):
         frozen_path = root / "FROZEN" / ("week_%02d.json" % week)
@@ -86,7 +90,10 @@ def process(root: Path, vault: Path, *, replicates=1000, seed=20261110):
             if ident in originals:
                 raise Phase15Error("duplicated_frozen_qb")
             originals[ident] = r
-            all_qb_forecasts[(week, ident[0], ident[1])] += 1
+            pool_key = (week, ident[0], ident[1])
+            all_qb_forecasts[pool_key] += 1
+            predicted_qb_pool[pool_key] += number(r.get("simulated_mean"), "qb_pred", low=0)
+            predicted_team_pool[pool_key].append(number(r.get("team_xgb_pass_mean"), "team_pred", low=1e-12))
         teams = {}
         if str(week) not in oracle["weeks"]:
             raise Phase15Error("missing_oracle_week")
@@ -110,7 +117,9 @@ def process(root: Path, vault: Path, *, replicates=1000, seed=20261110):
                 if not math.isclose(number(r.get(field), field),
                                     number(x.get(field), field), rel_tol=0, abs_tol=1e-9):
                     raise Phase15Error("frozen_qb_prediction_mutated:" + field)
-            if not x.get("graded"):
+            if not isinstance(x.get("graded"), bool):
+                raise Phase15Error("graded_status_not_boolean")
+            if not x["graded"]:
                 rejected["not_graded"] += 1
                 continue
             t = teams.get((ident[0], ident[1]))
@@ -146,6 +155,31 @@ def process(root: Path, vault: Path, *, replicates=1000, seed=20261110):
     if abs(mean([r["team_volume"]+r["qb_allocation_share"] for r in rows])
            - mean([r["base_squared_error"]-r["oracle_squared_error"] for r in rows])) > 1e-7:
         raise Phase15Error("qb_shapley_conservation_failed")
+    team_pool_summary = []
+    for team_key, total_qb_mean in predicted_qb_pool.items():
+        team_means = predicted_team_pool[team_key]
+        inconsistent = max(team_means) - min(team_means) > 1e-6
+        team_pool_summary.append({
+            "sum_predicted_candidate_qb_attempts": total_qb_mean,
+            "reference_team_attempts": team_means[0],
+            "candidate_qbs": all_qb_forecasts[team_key],
+            "team_mean_inconsistent": inconsistent,
+            "predicted_qb_total_exceeds_team": total_qb_mean > min(team_means) + 1e-6,
+        })
+    graded_actual_by_pool = defaultdict(float)
+    for r in rows:
+        pool_key = (int(r["week"]), r["game"].split("|", 1)[1], r["team"])
+        graded_actual_by_pool[pool_key] += r["actual_qb"]
+    # Oracle team accounting should never count more completed QB attempts
+    # than the official team's total passing attempts.
+    actual_team_by_pool = {}
+    for week in range(1, 19):
+        for t in oracle["weeks"][str(week)].get("team_games", []):
+            actual_team_by_pool[(week, str(t.get("game_id")), str(t.get("team")))] = number(
+                t.get("pass_attempts"), "team_actual", low=0)
+    for pool_key, graded_sum in graded_actual_by_pool.items():
+        if graded_sum > actual_team_by_pool[pool_key] + 1e-6:
+            raise Phase15Error("graded_qb_attempt_pool_exceeds_team_total")
     result = {"schema":"pickem-phase15-qb-opportunity-oracle-v1",
               "mode":"offline_date_level_freeze_not_certified_pregame",
               "cohort":"independent_2024_research_archive_not_necessarily_untouched",
@@ -153,6 +187,17 @@ def process(root: Path, vault: Path, *, replicates=1000, seed=20261110):
               "n":len(rows),"games":len({r["game"] for r in rows}),
               "weeks":len({r["week"] for r in rows}),
               "excluded":dict(rejected),
+              "team_game_candidate_pool_diagnostic": {
+                  "team_game_groups": len(team_pool_summary),
+                  "multi_candidate_groups": sum(x["candidate_qbs"] > 1 for x in team_pool_summary),
+                  "predicted_qb_total_exceeds_team_groups": sum(
+                      x["predicted_qb_total_exceeds_team"] for x in team_pool_summary),
+                  "inconsistent_team_volume_forecast_groups": sum(
+                      x["team_mean_inconsistent"] for x in team_pool_summary),
+                  "note": ("All forecast QB candidates counted. Not a lineup projection: "
+                           "bench QBs may be mutually exclusive; group sums are a "
+                           "physical-coherence diagnostic, not bets or starter probabilities.")
+              },
               "mean_predicted_team_attempts":mean([r["pred_team"] for r in rows]),
               "mean_actual_team_attempts":mean([r["actual_team"] for r in rows]),
               "mean_predicted_qb_attempts":mean([r["pred_qb"] for r in rows]),
@@ -171,6 +216,8 @@ def process(root: Path, vault: Path, *, replicates=1000, seed=20261110):
                  "Historical cohort used for model research and may have design exposure.",
                  "Actual team attempts and QB share enter only this retrospective oracle.",
                  "Shares calculated as model QB mean / model team mean; not proof of conditional role probabilities.",
+                 "Many QB forecast candidates are mutually exclusive starter/backup scenarios; naive grouped means may overstate true game pool.",
+                 "Observed share Shapley attribution mechanically absorbs any player-level bias not represented by predicted team totals.",
                  "Shapley squared-error gain is observational, not causal or directly achievable.",
                  "QB-only evidence does not establish causes for receiver, rusher or defender markets."
               ]}

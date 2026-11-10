@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from phase0_input_capture import preserve, utc, stamp
+from phase0_quote_binding import bind_original_quotes
 from usage_baseline import key as usage_key
 
 SCHEMA = "pickem_pre_eval_input_binding_v1"
@@ -49,6 +50,9 @@ def pin(candidate, *, data_root, archive_root, policy_root, clock, identity=None
     stat = identity.get("stat") or candidate.get("stat")
     day = identity.get("game_date") or candidate.get("game_date")
     if (sport not in ("NFL", "NBA", "NHL") or not player_id or not stat or not day
+            or not str(candidate.get("event_id") or "").strip()
+            or (identity.get("event_id") is not None and
+                str(identity["event_id"]) != str(candidate.get("event_id")))
             or (candidate.get("id") and
                 str(candidate["id"]).split("|", 1)[0] != sport)
             or any(candidate.get(key) not in (None, expected)
@@ -103,6 +107,9 @@ def pin(candidate, *, data_root, archive_root, policy_root, clock, identity=None
         odds_raw = (root / "odds_quotes.jsonl").read_bytes()
         if not odds_raw.strip():
             raise ValueError("original_book_quotes_missing")
+        original_quote_digest = bind_original_quotes(
+            candidate, odds_raw, freeze_at=stamp(started),
+            event_start_at=identity.get("event_start"))
         ingest("Market", "original_book_quotes", odds_raw,
                relative="odds_quotes.jsonl")
         market_input = {k: candidate.get(k) for k in
@@ -160,6 +167,7 @@ def pin(candidate, *, data_root, archive_root, policy_root, clock, identity=None
             "schema": SCHEMA,
             "method": "pre_evaluation_archived_copy",
             "candidate_sha256": hashlib.sha256(candidate_raw).hexdigest(),
+            "matched_original_quotes_sha256": original_quote_digest,
             "input_files": frozen_files,
             "source_receipt_ids": [r["source_id"] for r in receipts],
             "evaluates_frozen_candidate": True,
