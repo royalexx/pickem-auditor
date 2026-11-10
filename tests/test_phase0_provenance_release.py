@@ -31,6 +31,7 @@ def prospective_row(root):
         event_id="fixture-123",
         player_id="12345",
         model_training_cutoff_at="2026-11-07T23:59:00Z",
+        input_freeze_at="2026-11-08T14:30:00Z",
     )
     row["market"]["books"] = [{
         "book": "ExampleBook", "line": 4.5,
@@ -57,7 +58,46 @@ class ProspectiveAttestationTests(unittest.TestCase):
             row = prospective_row(Path(d))
             row["model_training_cutoff_at"] = "2026-11-08T16:00:00Z"
             self.assertEqual(pregame_snapshot_status(row, archive_root=Path(d))[1],
-                             "model_trained_after_forecast")
+                             "model_trained_after_input_freeze")
+
+    def test_input_freeze_missing_or_after_forecast_never_certifies(self):
+        with tempfile.TemporaryDirectory() as d:
+            row = prospective_row(Path(d))
+            del row["input_freeze_at"]
+            self.assertIn("input_freeze_at",
+                          pregame_snapshot_status(row, archive_root=Path(d))[1])
+            row = prospective_row(Path(d))
+            row["input_freeze_at"] = "2026-11-08T15:01:00Z"
+            self.assertEqual(pregame_snapshot_status(row, archive_root=Path(d))[1],
+                             "input_freeze_after_forecast")
+            row = prospective_row(Path(d))
+            row["input_freeze_at"] = "2026-11-08T14:30:00"
+            self.assertIn("naive_timestamp:input_freeze_at",
+                          pregame_snapshot_status(row, archive_root=Path(d))[1])
+
+    def test_after_freeze_data_cannot_be_rescued_by_later_forecast(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            row = prospective_row(root)
+            row["market"]["retrieved_at"] = "2026-11-08T14:40:00Z"
+            self.assertEqual(pregame_snapshot_status(row, archive_root=root)[1],
+                             "post_input_freeze_market_quote")
+            row = prospective_row(root)
+            row["market"]["books"][0]["retrieved_at"] = "2026-11-08T14:40:00Z"
+            self.assertEqual(pregame_snapshot_status(row, archive_root=root)[1],
+                             "post_input_freeze_book_quote")
+            row = prospective_row(root)
+            row["source_receipts"][0]["retrieved_at"] = "2026-11-08T14:40:00Z"
+            self.assertEqual(pregame_snapshot_status(row, archive_root=root)[1],
+                             "source_after_forecast_or_inconsistent_timeline")
+            row = prospective_row(root)
+            row["model_training_cutoff_at"] = "2026-11-08T14:40:00Z"
+            self.assertEqual(pregame_snapshot_status(row, archive_root=root)[1],
+                             "model_trained_after_input_freeze")
+            row = prospective_row(root)
+            row["source_capture_at"] = "2026-11-08T14:40:00Z"
+            self.assertEqual(pregame_snapshot_status(row, archive_root=root)[1],
+                             "source_captured_after_input_freeze")
 
     def test_future_book_prices_and_original_bytes_fail_closed(self):
         with tempfile.TemporaryDirectory() as d:
@@ -65,7 +105,7 @@ class ProspectiveAttestationTests(unittest.TestCase):
             row = prospective_row(root)
             row["market"]["books"][0]["retrieved_at"] = "2026-11-08T16:00:00Z"
             self.assertEqual(pregame_snapshot_status(row, archive_root=root)[1],
-                             "post_forecast_book_quote")
+                             "post_input_freeze_book_quote")
             row = prospective_row(root)
             (root / "a.json").write_text("postgame data contamination")
             self.assertEqual(pregame_snapshot_status(row, archive_root=root)[1],
