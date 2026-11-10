@@ -1,0 +1,75 @@
+{
+  "schema": "pickem_v25_phase1_scoped_execution_state_v1",
+  "scope": [
+    "NBA",
+    "NHL"
+  ],
+  "phase": "1",
+  "implementation_status": "accepted_and_independently_audited_infrastructure",
+  "scientific_prospective_skill_status": "not_yet_testable_no_official_settlements",
+  "reviewed_at_utc": "2026-11-10T19:58:46Z",
+  "freeze_date": "2026-11-10",
+  "source_original": {
+    "run_id": "ccd5d53d-6583-4380-97ed-9fda64e90559",
+    "run_stamp": "20261110T180409Z",
+    "producing_git_sha": "e5635d8fd8444a3144174cf019924d2010cdbca8",
+    "immutable_gzip_sha256": "76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6",
+    "archive_source_objects": 1783,
+    "forecast_side_rows": 712,
+    "prepared_attempts": 1314,
+    "rejected_attempts": 602,
+    "reasons": {
+      "pre_eval_external_context_unpinned": 438,
+      "market_unavailable_or_unverified": 164
+    }
+  },
+  "phase1_checked_code_sha": "e95cb5009a9c2720db16f039f8122dfb4f54f778",
+  "phase1_replay": {
+    "paired_contracts": 356,
+    "NBA": 250,
+    "NHL": 106,
+    "naive_shadow_baseline_available": 356,
+    "pooled_peer_shadow_baseline_available": 356,
+    "real_market_no_vig_available": 356,
+    "frozen_v1_60_40_final_available": 0,
+    "engine_a_original_reliable_available": 322,
+    "engine_b_original_reliable_available": 260,
+    "bayesian_a_b_nuts_without_original_snapshot": 356,
+    "pending_official_settlements": 356,
+    "proper_scored_contracts": 0,
+    "data_result": "source_integrity_pass_no_settled_scores",
+    "original_historical_predictions_rewritten": false,
+    "original_model_weights_changed": false
+  },
+  "phase1_ticket_status": {
+    "P1-01": "implemented_tested",
+    "P1-02": "simple_pooled_baselines_complete_role_specific_actual_inputs_missing",
+    "P1-03": "deterministic_full_universe_and_cluster_scorecards_executable_real_outcomes_pending",
+    "P1-04": "adversarial_time_source_support_settlement_tests_pass",
+    "P1-05": "energy_variogram_CRPS_methods_and_analytic_tests_pass_joint_live_ensemble_missing",
+    "P1-06": "scoped_precommitted_protocol_and_exact_original_digest_saved_2025_not_independent"
+  },
+  "test_runs": {
+    "qa": "5cb468f7-b97a-496b-bf97-2ca1ebc7f94f",
+    "focused_unit_tests_passed": 101,
+    "independent_math_audit": "6a63a7ff-4e10-4619-8e63-fa0832a1d6fa",
+    "independently_verified_book_derived_market_probs": 356,
+    "independently_verified_naive_rates": 356,
+    "source_digest_failures": 0,
+    "original_contract_pair_failures": 0,
+    "original_side_sha_failures": 0
+  },
+  "deepnote_project": "9cc31536-93be-44db-bdeb-06fba3f61410",
+  "replay_receipt_path": "reports/phase1_nhl_nba_certified_20261110_original_batch_e95cb5009a9c.json",
+  "replay_receipt_bytes_sha256": "1e8dec3661501d1a74e3212e5aacfb91a3c5483cd5565fb68d137a08d88d8949",
+  "independent_acceptance_path": "reports/phase1_nhl_nba_20261110_independent_acceptance.json",
+  "experiment_spec": "config/experiment_specs/v25_phase1_nhl_nba_20261110.json",
+  "operational_runbook": "docs/V25_PHASE1_NHL_NBA_ACCEPTANCE_20261110.md",
+  "tier1_tier2_publication_allowed": false,
+  "model_promotion_allowed": false,
+  "nuts_training_paused": true,
+  "phase1_5_error_investment_gate_remains_separate": true,
+  "2024_historical_nhl_nba_market_edge_claim": false,
+  "2025_independent_holdout_demonstrated": false,
+  "next_safe_action": "collect official postgame raw-source settlement receipts after original events; replay without modifying original frozen forecast/offer inputs; accumulate multiple independent event dates before performance release"
+}
