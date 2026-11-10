@@ -103,7 +103,11 @@ def legacy_rows():
         "source_receipts":[{"source_id":"collector","model_component":"Engine_A",
             "source_kind":"collector_input_bytes",
             "content_sha256":SHA,"archive_path":"candidate/a.bin",
-            "observed_at":"2026-11-09T16:29:00Z"}],
+            "observed_at":"2026-11-09T16:29:00Z"},
+            {"source_id":"original-book","model_component":"Market",
+             "source_kind":"collector_input_bytes","content_sha256":SHA,
+             "archive_path":"original_book_quotes/b.bin",
+             "observed_at":"2026-11-09T16:29:00Z"}],
     }
     return [{**common,"side":"over","q_model":.6},
             {**common,"side":"under","q_model":.4}]
@@ -166,6 +170,18 @@ class OriginalLegacyTests(unittest.TestCase):
         with self.assertRaisesRegex(ContractError,"fixed_line_cannot_be_repriced"):
             saved.distribution.probabilities(3.5)
         self.assertEqual(saved.run_id,"r1")
+
+    def test_binding_rejects_unmatched_book_and_mutated_archived_pair(self):
+        pairs=scan_original_pairs(legacy_rows(),
+              strict_checker=lambda row,**kw:(True,"fixture"),
+              archive_root="fixture")["pairs"]
+        pair=pairs[0]
+        with self.assertRaisesRegex(ContractError,"original_market_receipt_unmatched"):
+            pair.bind(quote(quote_receipt_sha256="b"*64),code_commit=COMMIT,
+                      model_artifact_sha256=SHA)
+        pair.over_row["q_model"]=.8
+        with self.assertRaisesRegex(ContractError,"modified_after_scan"):
+            pair.bind(quote(),code_commit=COMMIT,model_artifact_sha256=SHA)
 
     def test_uncertified_and_preliminary_are_never_frozen_v1(self):
         rows=legacy_rows()
