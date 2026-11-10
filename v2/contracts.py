@@ -105,6 +105,33 @@ class DiscreteDistribution:
 
 
 @dataclass(frozen=True)
+class FixedLineDistribution:
+    """An ORIGINAL, immutable three-way forecast for exactly one offered line.
+
+    This is not an inferred outcome distribution. It cannot be reused on a
+    different line or sampled as if it were a predictive simulation. The
+    archived Over and Under must have originated from one paired contract.
+    """
+    line: float
+    over: float
+    under: float
+    push: float
+
+    def __post_init__(self) -> None:
+        finite(self.line, "original_line")
+        EventProbabilities(self.over, self.under, self.push)
+
+    def probabilities(self, line: float) -> EventProbabilities:
+        if finite(line, "line") != self.line:
+            raise ContractError("fixed_line_cannot_be_repriced")
+        return EventProbabilities(self.over, self.under, self.push)
+
+    def to_record(self) -> dict:
+        return {"kind": "fixed_line", "line": self.line, "over": self.over,
+                "under": self.under, "push": self.push}
+
+
+@dataclass(frozen=True)
 class PoissonDistribution:
     rate: float
 
@@ -167,6 +194,9 @@ def parse_distribution(record: dict) -> PredictiveDistribution:
         if not isinstance(masses, list) or any(not isinstance(x, list) or len(x) != 2 for x in masses):
             raise ContractError("invalid_discrete_masses")
         return DiscreteDistribution(tuple((x[0], x[1]) for x in masses))
+    if kind == "fixed_line":
+        return FixedLineDistribution(record["line"], record["over"],
+                                     record["under"], record["push"])
     if kind == "poisson":
         return PoissonDistribution(record["rate"])
     if kind == "normal":
@@ -180,20 +210,33 @@ class SourceReceipt:
     first_available_at: str
     retrieved_at: str
     content_sha256: str
-    source_uri: str
+    source_uri: str | None
     archive_path: str
+    source_kind: str = "provider_publication"  # or archive_possession
 
     def __post_init__(self) -> None:
         require_id(self.source_id, "source_id")
         require_sha(self.content_sha256, "source_content")
         require_id(self.archive_path, "archive_path")
-        if self.archive_path.startswith("/") or ".." in self.archive_path.split("/"):
+        if (self.archive_path.startswith("/") or "\\" in self.archive_path
+                or ".." in self.archive_path.split("/")
+                or not all(self.archive_path.split("/"))):
             raise ContractError("invalid_archive_path")
-        url = urlparse(self.source_uri)
-        if url.scheme != "https" or not url.netloc:
-            raise ContractError("invalid_source_uri")
-        if utc(self.first_available_at, "first_available_at") > utc(self.retrieved_at, "retrieved_at"):
+        first = utc(self.first_available_at, "first_available_at")
+        collected = utc(self.retrieved_at, "retrieved_at")
+        if first > collected:
             raise ContractError("source_retrieved_before_available")
+        if self.source_kind == "provider_publication":
+            url = urlparse(self.source_uri or "")
+            if url.scheme != "https" or not url.netloc:
+                raise ContractError("invalid_source_uri")
+        elif self.source_kind == "archive_possession":
+            # An on-disk collector input does not have a trusted publication
+            # timestamp. Its first-known time is archive possession ONLY.
+            if self.source_uri is not None or first != collected:
+                raise ContractError("archive_possession_provenance_not_exact")
+        else:
+            raise ContractError("invalid_source_kind")
 
 
 @dataclass(frozen=True)
