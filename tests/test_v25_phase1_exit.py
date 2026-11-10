@@ -259,9 +259,11 @@ class RollingTests(unittest.TestCase):
                         ["game_cluster_brier_interval"]["status"],"descriptive_only")
         for fold in first["origin_manifest"]:
             freeze=datetime.fromisoformat(fold["input_freeze_at"].replace("Z","+00:00"))
-            self.assertTrue(all(
-                not event.endswith(f"-{int(fold['origin_id'][-2:])-1}")
-                for event in fold["training_event_ids"]))
+            # Only the current origin's event is embargoed. Historical
+            # events in the same league may share trailing ID digits.
+            self.assertNotIn(
+                "season-game-"+str(int(fold["origin_id"][-2:])-1),
+                fold["training_event_ids"])
             if fold["max_training_available_at"]:
                 self.assertLessEqual(datetime.fromisoformat(
                     fold["max_training_available_at"]),freeze)
@@ -272,7 +274,7 @@ class RollingTests(unittest.TestCase):
                 payload=synthetic_rolling(2)
                 offer=payload["origins"][0]["offers"][0]
                 if scenario=="quote":
-                    payload["quotes"][0]["quote_at"]="2024-09-05T18:00:00Z"
+                    payload["quotes"][0]["quote_at"]="2024-09-05T16:00:00Z"
                     expected="future_market_quote"
                 elif scenario=="source":
                     offer["sources"][0]["retrieved_at"]="2024-09-05T17:00:00Z"
@@ -296,9 +298,10 @@ class RollingTests(unittest.TestCase):
         payload["settlements"]= [
             s for s in payload["settlements"] if s["player_id"]!="p2" or not s["event_id"].endswith("0")
         ]
-        payload["settlements"][0]["status"]="void"
-        payload["settlements"][0]["actual"]=None
-        payload["settlements"][0]["settled_at"]=None
+        # Do not put the void on the already rejected offer.
+        payload["settlements"][1]["status"]="void"
+        payload["settlements"][1]["actual"]=None
+        payload["settlements"][1]["settled_at"]=None
         out=run_rolling(payload)
         self.assertEqual(out["all_quotes"],6)
         self.assertEqual(out["statuses"]["rejected_quote"],1)
@@ -343,9 +346,10 @@ class ExperimentTests(unittest.TestCase):
             input_file=root/"input.json"
             protocol_file=root/"protocol.json"
             output_file=root/"report.json"
-            json.dump({"experiment_id":EXP,"rolling":synthetic_rolling(4)},
-                      input_file.open("w"))
-            json.dump(protocol(),protocol_file.open("w"))
+            with input_file.open("w") as stream:
+                json.dump({"experiment_id":EXP,"rolling":synthetic_rolling(4)},stream)
+            with protocol_file.open("w") as stream:
+                json.dump(protocol(),stream)
             with redirect_stdout(io.StringIO()):
                 self.assertEqual(main(["--input",str(input_file),
                     "--output",str(output_file),"--protocol",str(protocol_file),
