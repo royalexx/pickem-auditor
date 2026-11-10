@@ -207,9 +207,10 @@ class EvaluationTests(unittest.TestCase):
             evaluate([quote()], [forecast()], [settlement(settled_at=BASE)])
 
     def test_binary_scores_condition_on_nonpush(self):
-        q = quote(line=0.)
+        # Negative values are legal for signed yardage, never for targets.
+        q = quote(stat_key="receiving yards", line=0.)
         f = forecast(q, line=0., distribution=DiscreteDistribution(((-1., .2), (0., .5), (1., .3))))
-        s = settlement(actual=1)
+        s = settlement(stat_key="receiving yards", actual=1)
         r = evaluate([q], [f], [s])
         self.assertAlmostEqual(r["models"]["frozen_v1"]["brier"], .16)
 
