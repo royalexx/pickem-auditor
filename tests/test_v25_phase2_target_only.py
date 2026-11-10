@@ -10,7 +10,7 @@ def fixture(week=1):
     games=[]
     # Synthetic prior 2021–2023 team games never read outcomes in 2024.
     for season in (2021,2022,2023):
-        for game in range(210):
+        for game in range(420):
             team="A" if game%2 else "B"
             games.append({
               "event_id":f"synthetic-{season}-{game}",
