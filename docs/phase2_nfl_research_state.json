@@ -76,17 +76,18 @@
     "tier1_tier2": "BLOCKED",
     "heavy_training": "PAUSED",
     "real_2024_target_only_sequential_training": "PASSED_RETROSPECTIVE_LEARNING_SIGNAL_NOT_FULL_P2",
-    "high_confidence_reliability": "FAILED_OVERCONFIDENT_DIRECTIONAL_UNDER",
+    "high_confidence_reliability": "FAILED_STRUCTURAL_RESIDUAL_AND_SHORT_HISTORY_DIR_BIAS",
     "actual_nfl_route_availability": "NOT_PROVEN",
     "phase2_production_model_acceptance": "BLOCKED"
   },
   "next_actions": [
-    "Retain Phase 0R live certification and Phase 1 acceptance gates; do not merge research into production",
-    "Obtain auditable pregame route, player participation and verified absence histories; never substitute current-game routes or snaps",
-    "Test an as-of-only participation/no-target hurdle to address underpredicted target means",
-    "Fit probability calibration only to prior revealed 2024 weeks or a new untouched season",
-    "Compare challenger to independent Poisson on matched coverage, full universe, event/week clustered uncertainty, with untouched future data",
-    "Remain in research until true route-aware model has reliable prospective calibration"
+    "Do not promote any hindsight-designed 2024 reallocation sensitivity without a genuinely unexposed season",
+    "Collect as-of verified player roster, game routes, explicit zero/absence status and role migration features",
+    "Model target opportunities and player participation separately, dynamically redistribute opportunities only when verified",
+    "Preserve a true missing/other target category and model its distribution, rather than hiding historical churn in throwaways",
+    "Use hierarchical short-history player priors with wider predictive variance; allow abstentions",
+    "Fit side and role conditional calibration on previous weeks only and audit full denominator in a new untouched chronological fold",
+    "Require matched Poisson/DM comparison plus credible calibration in high-confidence over and under cohorts"
   ],
   "historical_target_only_learning_study": {
     "status": "COMPLETED_RETROSPECTIVE_LEARNING_ONLY",
@@ -138,5 +139,56 @@
     "independent_deepnote_run": "86f727b4-ca9b-4386-852b-40ada8be75be",
     "full_report_path": "docs/V25_PHASE2_2024_WEEKLY_LEARNING_REPORT_20261110.md",
     "receipt_path": "docs/phase2_nfl_2024_target_only_replay_20261110.json"
+  },
+  "under_bias_2024_forensic_audit": {
+    "status": "COMPLETE_ROOT_CAUSE_CONFIRMED_RESEARCH_ONLY",
+    "code_mechanism": "last_two_game_proxy_roster_with_last_ten_game_targets_drives_departed_player_targets_into_residual_unassigned_attempt_category",
+    "all_high80_n": 1306,
+    "all_high80_selected_under": 1282,
+    "high80_mean_confidence": 0.8966458891653905,
+    "high80_actual_accuracy": 0.6408882082695253,
+    "high80_predicted_targets": 1.5210342290390506,
+    "high80_actual_targets": 2.927258805513017,
+    "mean_history_churn_target_mass_out_of_344_pass_attempts": 43.45404411764706,
+    "mean_team_residual_historical_prior_fraction": 0.22784198471092054,
+    "mean_actual_unassigned_pass_attempt_fraction": 0.11941281996334663,
+    "q1_turnover_team_predicted_vs_actual_roster_targets": [
+      29.904181985294116,
+      29.03676470588235
+    ],
+    "q4_turnover_team_predicted_vs_actual_roster_targets": [
+      21.39955767463235,
+      28.352941176470587
+    ],
+    "short_history_1_5_n": 709,
+    "short_history_1_5_selected_under": 709,
+    "poisson_high80_selected_under": 1299,
+    "poisson_high80_total": 1330,
+    "posthoc_churn_mass_reallocation_stress_test": {
+      "fractions_tested": [
+        0.5,
+        1
+      ],
+      "all_original_model_brier": 0.267491393907201,
+      "all_100pct_recycled_brier": 0.26001856224523934,
+      "all_original_under_fraction": 0.8269896193771626,
+      "all_100pct_recycled_under_fraction": 0.7115669797330697,
+      "still_overconfident": true,
+      "training_or_promotion_decision": "NOT_ALLOWED_BECAUSE_INSPECTED_2024_ALREADY"
+    },
+    "posterior_variance_only_test": {
+      "unchanged_mean_targets": true,
+      "original_brier": 0.267491393907201,
+      "fivefold_wider_brier": 0.2662865586405748,
+      "still_under_dominated": true
+    },
+    "independent_deepnote_runs": [
+      "4baa5f1e-f458-4085-9eec-e75f8e71c3ee",
+      "1757340b-904b-4f3c-b1ef-b6f6685e2b13"
+    ],
+    "complete_audit_document": "docs/V25_PHASE2_2024_UNDER_BIAS_FORENSIC_AUDIT_20261110.md",
+    "machine_audit": "docs/phase2_nfl_2024_high_confidence_under_root_cause_audit.json",
+    "phase2_exit_authorized": false,
+    "model_promotion_authorized": false
   }
 }
