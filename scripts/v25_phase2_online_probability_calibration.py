@@ -150,3 +150,60 @@ def calibrate_asof(history,offers,*,week,mode="global_platt"):
     report["sha256"]=hashlib.sha256(json.dumps(
         report,sort_keys=True,separators=(",",":"),allow_nan=False).encode()).hexdigest()
     return report
+
+def main(argv=None):
+    import argparse
+    from pathlib import Path
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--input",required=True,type=Path)
+    parser.add_argument("--output",required=True,type=Path)
+    args=parser.parse_args(argv)
+    if args.output.exists():
+        parser.error("immutable_frozen_calibration_exists")
+    raw=args.input.read_bytes()
+    if len(raw)>50_000_000:
+        parser.error("oversized_asof_calibration_input")
+    def no_duplicate(pairs):
+        result={}
+        for key,value in pairs:
+            if key in result:fail("duplicate_calibration_json_key")
+            result[key]=value
+        return result
+    inp=json.loads(raw,object_pairs_hook=no_duplicate)
+    if set(inp)!={"schema","week","history","offers"} or inp["schema"]!=(
+            "v25-p2-calibration-asof-input-v1"):
+        fail("calibration_input_schema")
+    week=inp["week"]
+    if not isinstance(inp["history"],dict) or not isinstance(inp["offers"],dict):
+        fail("calibration_model_names_missing")
+    if set(inp["history"])!=set(inp["offers"]):
+        fail("calibration_offer_model_history_mismatch")
+    output={}
+    for model in sorted(inp["offers"]):
+        if model not in ("updated","role_repaired","role_no_hurdle"):
+            fail("unknown_calibration_model_identity")
+        history=inp["history"][model]
+        offers=inp["offers"][model]
+        output[model]={}
+        for method in ("raw","global_platt","role_platt"):
+            output[model][method]=calibrate_asof(
+                history,offers,week=week,mode=method)
+    result={"schema":"v25-p2-frozen-calibrations-v1","week":week,
+            "models":output,"current_and_future_game_outcomes_accessed":False,
+            "original_calibrator_input_sha256":hashlib.sha256(raw).hexdigest(),
+            "automatic_promotion_authorized":False}
+    result["receipt_sha256"]=hashlib.sha256(json.dumps(
+        result,sort_keys=True,separators=(",",":"),allow_nan=False).encode()).hexdigest()
+    args.output.parent.mkdir(parents=True,exist_ok=True)
+    with args.output.open("x",encoding="utf8") as f:
+        json.dump(result,f,sort_keys=True,separators=(",",":"),allow_nan=False)
+    print(json.dumps({"week":week,"model_count":len(output),
+                      "receipt_sha256":result["receipt_sha256"],
+                      "latest_training_week":max((r["week"] for rows in inp["history"].values()
+                                               for r in rows),default=0),
+                      "outcome_access":False},sort_keys=True))
+    return 0
+
+
+if __name__=="__main__":
+    raise SystemExit(main())
