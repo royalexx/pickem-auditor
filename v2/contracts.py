@@ -272,7 +272,16 @@ class MarketQuote:
             raise ContractError("invalid_season")
         if self.settlement_policy != "strict_gt_lt_equal_push":
             raise ContractError("unsupported_settlement_policy")
-        finite(self.line, "line")
+        line=finite(self.line, "line")
+        if self.accepted:
+            from .stat_registry import canonical_stat
+            stat=canonical_stat(self.sport,self.stat_key,self.period)
+            if self.stat_key != stat.key:
+                raise ContractError("noncanonical_stat_key")
+            if stat.value_kind != "signed_count" and line < 0:
+                raise ContractError("negative_line_on_nonnegative_stat")
+            if self.team_id == self.opponent_id:
+                raise ContractError("identical_team_and_opponent_identity")
         require_sha(self.quote_receipt_sha256, "quote_receipt")
         if self.quote_kind not in ("real", "synthetic"):
             raise ContractError("invalid_quote_kind")
@@ -361,6 +370,15 @@ class ForecastSnapshot:
             seen.add(receipt.source_id)
             if utc(receipt.retrieved_at, "retrieved_at") > freeze:
                 raise ContractError("future_source_retrieval")
+        from .stat_registry import canonical_stat
+        stat=canonical_stat(self.sport,self.stat_key,self.period)
+        if stat.value_kind == "signed_count" and isinstance(self.distribution, PoissonDistribution):
+            raise ContractError("poisson_cannot_model_signed_yardage")
+        if stat.value_kind == "count" and isinstance(self.distribution, DiscreteDistribution):
+            if any(x < 0 or not float(x).is_integer() for x,_p in self.distribution.masses):
+                raise ContractError("negative_or_fractional_support_for_count")
+        if stat.value_kind == "count" and isinstance(self.distribution, NormalDistribution):
+            raise ContractError("continuous_normal_cannot_certify_integer_count_support")
         self.distribution.probabilities(self.line)
 
     def to_record(self) -> dict:
