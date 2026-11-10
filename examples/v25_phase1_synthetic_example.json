@@ -1,0 +1,286 @@
+{
+  "schema": "v25-synthetic-experiment-fixture-1",
+  "experiment_id": "V25-EXP-B-2024-ROLLING-ORIGIN",
+  "fixture_is_synthetic": true,
+  "provenance_warning": "Not original pregame publications; example.org sources are test identifiers only; cannot support real-market edge or performance claims",
+  "rolling": {
+    "schema": "v25-rolling-input-1",
+    "experiment_id": "V25-EXP-B-2024-ROLLING-ORIGIN",
+    "history": [
+      {
+        "player_id": "p1",
+        "stat_key": "targets",
+        "role": "WR1",
+        "event_id": "synthetic-2023-prior",
+        "event_start_at": "2023-12-01T18:00:00Z",
+        "available_at": "2023-12-02T00:00:00Z",
+        "exposure": 10,
+        "count": 4
+      },
+      {
+        "player_id": "p2",
+        "stat_key": "targets",
+        "role": "WR1",
+        "event_id": "synthetic-2023-prior",
+        "event_start_at": "2023-12-01T18:00:00Z",
+        "available_at": "2023-12-02T00:00:00Z",
+        "exposure": 10,
+        "count": 6
+      },
+      {
+        "player_id": "p1",
+        "stat_key": "targets",
+        "role": "WR1",
+        "event_id": "synthetic-nfl-week-1",
+        "event_start_at": "2024-09-05T18:00:00Z",
+        "available_at": "2024-09-05T23:00:00Z",
+        "exposure": 10,
+        "count": 4
+      },
+      {
+        "player_id": "p2",
+        "stat_key": "targets",
+        "role": "WR1",
+        "event_id": "synthetic-nfl-week-1",
+        "event_start_at": "2024-09-05T18:00:00Z",
+        "available_at": "2024-09-05T23:00:00Z",
+        "exposure": 10,
+        "count": 6
+      },
+      {
+        "player_id": "p1",
+        "stat_key": "targets",
+        "role": "WR1",
+        "event_id": "synthetic-nfl-week-2",
+        "event_start_at": "2024-09-12T18:00:00Z",
+        "available_at": "2024-09-12T23:00:00Z",
+        "exposure": 10,
+        "count": 5
+      },
+      {
+        "player_id": "p2",
+        "stat_key": "targets",
+        "role": "WR1",
+        "event_id": "synthetic-nfl-week-2",
+        "event_start_at": "2024-09-12T18:00:00Z",
+        "available_at": "2024-09-12T23:00:00Z",
+        "exposure": 10,
+        "count": 7
+      }
+    ],
+    "quotes": [
+      {
+        "quote_id": "synthetic-q1-p1",
+        "contract_id": "synthetic-contract-synthetic-q1-p1",
+        "event_id": "synthetic-nfl-week-1",
+        "event_start_at": "2024-09-05T18:00:00Z",
+        "sport": "NFL",
+        "league": "NFL",
+        "season": 2024,
+        "team_id": "SYNTH_A",
+        "opponent_id": "SYNTH_B",
+        "player_id": "p1",
+        "stat_key": "targets",
+        "period": "full",
+        "line": 4.5,
+        "book": "synthetic_not_real_offer",
+        "product_type": "diagnostic_only",
+        "quote_at": "2024-09-05T14:30:00Z",
+        "quote_receipt_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "settlement_policy": "strict_gt_lt_equal_push",
+        "quote_kind": "synthetic",
+        "accepted": true,
+        "reject_reason": null,
+        "over_decimal_odds": null,
+        "under_decimal_odds": null
+      },
+      {
+        "quote_id": "synthetic-q1-p2",
+        "contract_id": "synthetic-contract-synthetic-q1-p2",
+        "event_id": "synthetic-nfl-week-1",
+        "event_start_at": "2024-09-05T18:00:00Z",
+        "sport": "NFL",
+        "league": "NFL",
+        "season": 2024,
+        "team_id": "SYNTH_A",
+        "opponent_id": "SYNTH_B",
+        "player_id": "p2",
+        "stat_key": "targets",
+        "period": "full",
+        "line": 4.5,
+        "book": "synthetic_not_real_offer",
+        "product_type": "diagnostic_only",
+        "quote_at": "2024-09-05T14:30:00Z",
+        "quote_receipt_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "settlement_policy": "strict_gt_lt_equal_push",
+        "quote_kind": "synthetic",
+        "accepted": true,
+        "reject_reason": null,
+        "over_decimal_odds": null,
+        "under_decimal_odds": null
+      },
+      {
+        "quote_id": "synthetic-q2-p1",
+        "contract_id": "synthetic-contract-synthetic-q2-p1",
+        "event_id": "synthetic-nfl-week-2",
+        "event_start_at": "2024-09-12T18:00:00Z",
+        "sport": "NFL",
+        "league": "NFL",
+        "season": 2024,
+        "team_id": "SYNTH_A",
+        "opponent_id": "SYNTH_B",
+        "player_id": "p1",
+        "stat_key": "targets",
+        "period": "full",
+        "line": 4.5,
+        "book": "synthetic_not_real_offer",
+        "product_type": "diagnostic_only",
+        "quote_at": "2024-09-12T14:30:00Z",
+        "quote_receipt_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "settlement_policy": "strict_gt_lt_equal_push",
+        "quote_kind": "synthetic",
+        "accepted": true,
+        "reject_reason": null,
+        "over_decimal_odds": null,
+        "under_decimal_odds": null
+      },
+      {
+        "quote_id": "synthetic-q2-p2",
+        "contract_id": "synthetic-contract-synthetic-q2-p2",
+        "event_id": "synthetic-nfl-week-2",
+        "event_start_at": "2024-09-12T18:00:00Z",
+        "sport": "NFL",
+        "league": "NFL",
+        "season": 2024,
+        "team_id": "SYNTH_A",
+        "opponent_id": "SYNTH_B",
+        "player_id": "p2",
+        "stat_key": "targets",
+        "period": "full",
+        "line": 4.5,
+        "book": "synthetic_not_real_offer",
+        "product_type": "diagnostic_only",
+        "quote_at": "2024-09-12T14:30:00Z",
+        "quote_receipt_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "settlement_policy": "strict_gt_lt_equal_push",
+        "quote_kind": "synthetic",
+        "accepted": true,
+        "reject_reason": null,
+        "over_decimal_odds": null,
+        "under_decimal_odds": null
+      }
+    ],
+    "settlements": [
+      {
+        "event_id": "synthetic-nfl-week-1",
+        "player_id": "p1",
+        "stat_key": "targets",
+        "period": "full",
+        "status": "settled",
+        "actual": 4,
+        "settled_at": "2024-09-05T23:00:00Z"
+      },
+      {
+        "event_id": "synthetic-nfl-week-1",
+        "player_id": "p2",
+        "stat_key": "targets",
+        "period": "full",
+        "status": "settled",
+        "actual": 6,
+        "settled_at": "2024-09-05T23:00:00Z"
+      },
+      {
+        "event_id": "synthetic-nfl-week-2",
+        "player_id": "p1",
+        "stat_key": "targets",
+        "period": "full",
+        "status": "settled",
+        "actual": 5,
+        "settled_at": "2024-09-12T23:00:00Z"
+      },
+      {
+        "event_id": "synthetic-nfl-week-2",
+        "player_id": "p2",
+        "stat_key": "targets",
+        "period": "full",
+        "status": "settled",
+        "actual": 7,
+        "settled_at": "2024-09-12T23:00:00Z"
+      }
+    ],
+    "origins": [
+      {
+        "origin_id": "SYNTHETIC-2024-W01",
+        "freeze_at": "2024-09-05T15:00:00Z",
+        "offers": [
+          {
+            "quote_id": "synthetic-q1-p1",
+            "role": "WR1",
+            "projected_exposure": 10,
+            "sources": [
+              {
+                "source_id": "synthetic-source-synthetic-q1-p1",
+                "first_available_at": "2024-09-05T14:20:00Z",
+                "retrieved_at": "2024-09-05T14:25:00Z",
+                "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "source_uri": "https://example.org/synthetic-source/synthetic-q1-p1",
+                "archive_path": "synthetic/inputs/synthetic-q1-p1.json"
+              }
+            ]
+          },
+          {
+            "quote_id": "synthetic-q1-p2",
+            "role": "WR1",
+            "projected_exposure": 10,
+            "sources": [
+              {
+                "source_id": "synthetic-source-synthetic-q1-p2",
+                "first_available_at": "2024-09-05T14:20:00Z",
+                "retrieved_at": "2024-09-05T14:25:00Z",
+                "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "source_uri": "https://example.org/synthetic-source/synthetic-q1-p2",
+                "archive_path": "synthetic/inputs/synthetic-q1-p2.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "origin_id": "SYNTHETIC-2024-W02",
+        "freeze_at": "2024-09-12T15:00:00Z",
+        "offers": [
+          {
+            "quote_id": "synthetic-q2-p1",
+            "role": "WR1",
+            "projected_exposure": 10,
+            "sources": [
+              {
+                "source_id": "synthetic-source-synthetic-q2-p1",
+                "first_available_at": "2024-09-12T14:20:00Z",
+                "retrieved_at": "2024-09-12T14:25:00Z",
+                "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "source_uri": "https://example.org/synthetic-source/synthetic-q2-p1",
+                "archive_path": "synthetic/inputs/synthetic-q2-p1.json"
+              }
+            ]
+          },
+          {
+            "quote_id": "synthetic-q2-p2",
+            "role": "WR1",
+            "projected_exposure": 10,
+            "sources": [
+              {
+                "source_id": "synthetic-source-synthetic-q2-p2",
+                "first_available_at": "2024-09-12T14:20:00Z",
+                "retrieved_at": "2024-09-12T14:25:00Z",
+                "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "source_uri": "https://example.org/synthetic-source/synthetic-q2-p2",
+                "archive_path": "synthetic/inputs/synthetic-q2-p2.json"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
