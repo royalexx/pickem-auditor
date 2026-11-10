@@ -13,13 +13,16 @@ class QuoteBindingTests(unittest.TestCase):
     def setUp(self):
         self.candidate = {
             "id": "NFL|Example Player|receptions|over", "sport":"NFL",
-            "event_id":"real-event","team":"BUF","stat":"receptions",
+            "event_id":"real-event","event_id_namespace":"propline",
+            "team":"BUF","stat":"receptions",
             "side":"over","line":4.5, "market_retrieved_at":"2026-11-09T14:10:00Z",
             "books":[{"book":"ExampleBook", "line":4.5, "target":-110,
                       "other":-110, "book_side":"over"}]
         }
         self.quote = {
-            "sport":"NFL","event_id":"real-event","team":"BUF",
+            "sport":"NFL","event_id":"real-event",
+            "event_id_namespace":"propline",
+            "event_start":"2026-11-09T18:00:00Z","team":"BUF",
             "player":"Example Player","stat":"receptions","book":"ExampleBook",
             "line":4.5,"over_odds":-110,"under_odds":-110,
             "retrieved_at":"2026-11-09T14:10:00Z"
@@ -42,6 +45,16 @@ class QuoteBindingTests(unittest.TestCase):
     def test_event_forgery_fails_closed(self):
         with self.assertRaisesRegex(ValueError,"market_original_offer_missing"):
             self.bind({**self.candidate,"event_id":"fake-event"})
+
+    def test_event_namespace_and_start_are_source_bound(self):
+        with self.assertRaisesRegex(ValueError,"market_original_offer_missing"):
+            self.bind({**self.candidate, "event_id_namespace":"other-api"})
+        with self.assertRaisesRegex(ValueError,"market_binding_event_namespace_missing"):
+            self.bind({**self.candidate, "event_id_namespace":None})
+        raw=json.dumps(self.quote).encode()
+        with self.assertRaisesRegex(ValueError,"market_original_event_start_mismatch"):
+            bind_original_quotes(self.candidate,raw,freeze_at=self.freeze,
+                                 event_start_at="2026-11-09T19:00:00Z")
 
     def test_player_team_stat_and_price_forgery_rejected(self):
         for mutation in ({"player":"Another Player"}, {"team":"NYJ"},
