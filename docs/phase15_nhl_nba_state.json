@@ -1,0 +1,118 @@
+{
+  "schema": "pickem_phase15_nhl_nba_state_v1",
+  "reviewed_at_utc": "2026-11-10T22:59:34Z",
+  "phase": "1.5",
+  "scope": {
+    "sports": [
+      "NBA",
+      "NHL"
+    ],
+    "nhl_market_only": "shots on goal",
+    "nba_markets": [
+      "points",
+      "rebounds",
+      "assists",
+      "threes",
+      "pa",
+      "pr",
+      "ra",
+      "pra"
+    ],
+    "original_frozen_date": "2026-11-10"
+  },
+  "engineering_diagnostics": "EXECUTED_TESTED_INDEPENDENTLY_VERIFIED",
+  "empirical_error_attribution": "BLOCKED_NO_GENUINE_RESULTS",
+  "investment_decision": "DEFER_EXPENSIVE_PHASE2_AND_HEAVY_NUTS",
+  "source": {
+    "original_immutable_bundle_sha256": "76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6",
+    "original_daily_run_id": "ccd5d53d-6583-4380-97ed-9fda64e90559",
+    "phase1_merged_impl_sha": "939024a347d648e4479afbe74dc987ce4d0ed15f",
+    "phase1_receipt_sha256": "005abb2980bc2ce38ad5d6e09ca84a26048177fac2fd58841ed0988b21e9c22c",
+    "phase1_receipt_path": "reports/phase1_nhl_nba_certified_20261110_original_batch_939024a347d6.json"
+  },
+  "diagnostic": {
+    "tested_code_sha": "3bd693d4df29363909bfacf858348276a2d8a460",
+    "deepnote_run_id": "8985042c-cf87-4349-ab75-2e12afb68b55",
+    "receipt": "reports/phase15_nhl_nba_20261110_certified_diagnostic_3bd693d4df29.json",
+    "receipt_bytes_sha256": "cc1041632ae9d53ae1b5b451469351a9519481e9f7314ebefc640068e559310a",
+    "independent_qa_run": "42cf7d1a-31c0-4bef-8001-3c54218b2185",
+    "independent_qa_path": "reports/phase15_nhl_nba_20261110_independent_qa.json",
+    "independent_math_status": "PASS",
+    "regression_test_suites": 9,
+    "regression_tests_passed": 134,
+    "regression_tests_failed": 0,
+    "new_adversarial_tests_passed": 14,
+    "prepared_forecast_sides": 1314,
+    "retained_forecast_sides": 712,
+    "rejected_forecast_sides": 602,
+    "retained_unique_contracts": 356,
+    "NBA_contracts": 250,
+    "NHL_contracts": 106,
+    "distinct_game_events": 12,
+    "distinct_calendar_dates": 1,
+    "settled_contracts": 0,
+    "measured_brier_scored_contracts": 0,
+    "original_final_60_40_available": 0,
+    "Engine_A_reliable": 322,
+    "Engine_B_reliable": 260,
+    "original_Bayesian_A_B_and_NUTS_accepted": 0,
+    "four_factor_pregame_forecasts": 0,
+    "mean_absolute_p_over_gap_to_market": {
+      "NBA": {
+        "recent": 0.15404965235865162,
+        "pooled": 0.11512963131443436
+      },
+      "NHL": {
+        "recent": 0.14189685167648644,
+        "pooled": 0.04603764856919238
+      }
+    },
+    "selection_under_share": {
+      "NBA": {
+        "recent": 0.512,
+        "pooled": 0.412,
+        "market": 0.544
+      },
+      "NHL": {
+        "recent": 0.5283018867924528,
+        "pooled": 0.5377358490566038,
+        "market": 0.5943396226415094
+      }
+    },
+    "eighty_percent_numerical_confidence": {
+      "NBA": {
+        "recent": 34,
+        "pooled": 20,
+        "market": 0
+      },
+      "NHL": {
+        "recent": 9,
+        "pooled": 0,
+        "market": 0
+      }
+    },
+    "observed_hit_rate": null,
+    "observed_signed_over_error": null,
+    "observed_calibration": null,
+    "market_edge_verified": false
+  },
+  "gates": {
+    "A": "PASS_CERTIFIED_ORIGINAL_INPUTS",
+    "B": "BLOCKED_NO_SETTLEMENT",
+    "C": "BLOCKED_NO_PREGAME_FOUR_FACTOR_VECTORS_OR_ACTUALS",
+    "D": "BLOCKED_NO_SETTLEMENT_OR_PAYOUT_TERMS",
+    "E": "DEFER_EXPENSIVE_CHALLENGERS"
+  },
+  "tier1_tier2_publication_allowed": false,
+  "production_promotion_allowed": false,
+  "training_resumed": false,
+  "existing_daily_workflows_changed": false,
+  "report": "docs/V25_PHASE15_NHL_NBA_RESULTS_20261110.md",
+  "next_safe_actions": [
+    "Preserve full original attempted and certified-universe ledger",
+    "After 2026-11-10 games end, obtain source-hashed official player-stat settlement receipts at exact period and contract identity",
+    "Audit missing final pregame 60/40 snapshot path before any production-model comparison",
+    "Prospectively freeze stat-specific opportunity factors with source/time/version receipts; no postgame reconstruction as pregame",
+    "Accumulate independent future NBA and NHL dates and reevaluate signed Over residual and matched Brier, log loss and uncertainty"
+  ]
+}

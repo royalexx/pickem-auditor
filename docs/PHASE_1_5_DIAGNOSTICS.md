@@ -1,5 +1,15 @@
 # Pick'em Auditor V2.5 — Phase 1.5 implementation
 
+> **NBA/NHL scoped update — November 10, 2026:** Phase 1.5 has now been
+> executed against **356 strictly certified, original pregame NHL/NBA paired
+> contracts** (250 NBA, 106 NHL shots on goal). The direction, dispersion,
+> bookmaker disagreement, completeness, exact Tier-power and investment gates
+> are [independently documented here](V25_PHASE15_NHL_NBA_RESULTS_20261110.md).
+> **Empirical accuracy and opportunity-error attribution remain blocked: the
+> 356 games' player outcomes and pregame four-factor vectors are not available.**
+> The original NFL 2024 synthetic-line results below must not be interpreted
+> as NHL/NBA performance evidence. No Tier/production/Phase 2 promotion.
+>
 Status: **implemented in isolated shadow branch; predictive promotion blocked.**
 
 Purpose: diagnose where already-frozen NFL forecasts fail *before* paying the
