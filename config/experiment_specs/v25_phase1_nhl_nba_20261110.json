@@ -1,0 +1,82 @@
+{
+  "schema": "v25-phase1-nhl-nba-scoped-experiment-protocol-v1",
+  "experiment_id": "V25-P1-NHL-NBA-20261110-CERTIFIED-ORIGINAL",
+  "scope": {
+    "sports": [
+      "NHL",
+      "NBA"
+    ],
+    "period": "full",
+    "settlement_policy": "strict_gt_lt_equal_push",
+    "stat_registry": "v25-stat-registry-1",
+    "nhl_markets": [
+      "shots on goal"
+    ],
+    "nba_markets": [
+      "points",
+      "rebounds",
+      "assists",
+      "threes",
+      "pra",
+      "pa",
+      "pr",
+      "ra"
+    ]
+  },
+  "original_prospective_collection": {
+    "run_stamp": "20261110T180409Z",
+    "deepnote_run_id": "ccd5d53d-6583-4380-97ed-9fda64e90559",
+    "code_commit_at_original_freeze": "e5635d8fd8444a3144174cf019924d2010cdbca8",
+    "immutable_gzip_sha256": "76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6",
+    "eligible_original_prepared_attempts": 1314,
+    "certified_forecast_sides": 712,
+    "unique_paired_contracts": 356,
+    "original_rejected_sides": 602
+  },
+  "candidate_baselines": {
+    "naive": "last5_pregame_history_count_per_exposure * median_last5_exposure_poisson",
+    "pooled_shrunk": "same_sport_stat_peer_pool_excluding_target_player_with_20_exposure_prior",
+    "position_or_role_shrinkage": "unavailable_in_original_Nov10_collector_metadata_not_claimed",
+    "original_frozen_V1_60_40": "only_if_final_immutable_paired_q_model_and_artifact_exist_no_preliminary_substitution",
+    "real_market": "precommitted_stable_Pinnacle_then_other_approved_books_two_sided_de_vig",
+    "component_originals": "Engine_A_B_only_when_orig_prob_reliable",
+    "bayes_and_nuts": "separate_artifact_receipts_required_not_deduced_from_legacy"
+  },
+  "evaluation": {
+    "seed": 20261110,
+    "protocol_locked_at": "2026-11-10",
+    "score_only_after_validated_postgame_official_settlement": true,
+    "primary_metric": "paired_brier_nonpush",
+    "secondary_metrics": [
+      "paired_log_loss_nonpush",
+      "categorical_push_where_original_distribution_available",
+      "game_cluster_interval",
+      "date_cluster_sensitivity",
+      "calibration_in_large",
+      "over_under_selection_rate",
+      "zero_and_tail_audit",
+      "CRPS_if_actual_frozen_full_distribution",
+      "energy_score_if_actual_joint_scenarios",
+      "variogram_score_power_0_5_if_actual_joint_scenarios",
+      "all_attempted_coverage",
+      "abstention_reasons"
+    ],
+    "game_cluster_bootstrap_seed": 20261110,
+    "bootstrap_replicates": 1000,
+    "minimum_clusters_for_interval": 8,
+    "no_actual_outcomes_currently_available": true
+  },
+  "chronological_historical": {
+    "start_season": 2024,
+    "historical_2024_nhl_nba": "research_diagnostic_only_until_original_asof_sources_and_historical_offers_verified",
+    "season_2025_independent_holdout": "not_demonstrated_prior_training_and_human_design_exposure",
+    "model_choice_can_use_2024_2025_as_untouched_holdout": false,
+    "future_real_pregame_slates": "separately_frozen_and_scored_after_official_settlement"
+  },
+  "no_promotion": true,
+  "tier1_tier2_publication_allowed": false,
+  "phase2_investment_gate": "Phase1.5 signed error_priority_power card required",
+  "null_results_must_not_imply_zero_error": true,
+  "sample_size_caveat": "356 contracts from 12 games and one date; predictions only without any settlement; not 356 independent tests",
+  "rollback": "remove v2 scoped replay from research pipeline; do not rewrite stored Nov10 forecasts, quotes, or legacy comparison chart"
+}

@@ -1,5 +1,16 @@
 # V2.5 Phase 1 — isolated shadow contracts and evaluation
 
+> **Scoped update — November 10, 2026:** NBA and NHL Phase 1 baseline/evaluation
+> infrastructure now has a genuinely certified original live archive replay and
+> independent acceptance (356 paired contracts; 101 targeted passing tests).
+> See [V25_PHASE1_NHL_NBA_ACCEPTANCE_20261110.md](V25_PHASE1_NHL_NBA_ACCEPTANCE_20261110.md).
+> This does **not** certify NFL, historical profitability, role-specific priors
+> absent from the input, or unarchived joint scenario scores. The legacy V1
+> consensus in that batch was preliminary; all 356 authentic V1 comparisons
+> are withheld. All original settlements were pending at acceptance. The
+> generic research work described below remains scoped to the earlier
+> prototype and is not an instruction to regenerate the certified Nov 10 feed.
+>
 **Scope:** P1-01, P1-03, P1-04 and P1-05 foundations; P1-02 basic historical/role baselines; P1-06 pre-registered protocol stub. **Status: implemented prototype, not validated on live/certified feeds.**
 
 This addition is independent of Phase 0R. It changes no production policy, GitHub workflows, Deepnote notebooks, training jobs, legacy forecasts, or Tier gates. The existing `scripts/directional_phase1_validation.py` remains authoritative for the pinned November 8 V1 retrospective audit. `v2/` is a new contract and shadow-evaluation layer and does not retroactively repair source evidence.
