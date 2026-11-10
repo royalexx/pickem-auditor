@@ -80,8 +80,9 @@ class DiscreteDistribution:
     masses: tuple[tuple[float, float], ...]
 
     def __post_init__(self) -> None:
-        if not self.masses:
-            raise ContractError("empty_distribution")
+        if (not isinstance(self.masses, tuple) or not self.masses or
+                any(not isinstance(item, tuple) or len(item) != 2 for item in self.masses)):
+            raise ContractError("distribution_masses_must_be_immutable_pairs")
         values = []
         for x, p in self.masses:
             values.append(finite(x, "support"))
@@ -264,6 +265,7 @@ class ForecastSnapshot:
     model_id: str
     model_version: str
     quote_id: str
+    contract_id: str
     event_id: str
     sport: str
     league: str
@@ -291,7 +293,11 @@ class ForecastSnapshot:
         require_sha(self.model_artifact_sha256, "model_artifact")
         if self.schema_version != "v25-shadow-1":
             raise ContractError("unsupported_forecast_schema")
-        for name in ("quote_id", "event_id", "sport", "league", "season", "team_id", "opponent_id", "player_id", "stat_key", "period", "line", "quote_receipt_sha256"):
+        if not isinstance(self.sources, tuple):
+            raise ContractError("sources_must_be_immutable_tuple")
+        if len(self.code_commit) != 40 or any(c not in "0123456789abcdef" for c in self.code_commit):
+            raise ContractError("invalid_code_commit_sha")
+        for name in ("quote_id", "contract_id", "event_id", "sport", "league", "season", "team_id", "opponent_id", "player_id", "stat_key", "period", "line", "quote_receipt_sha256"):
             if getattr(self, name) != getattr(quote, name):
                 raise ContractError(f"forecast_quote_mismatch:{name}")
         start = utc(quote.event_start_at, "event_start_at")
@@ -319,7 +325,7 @@ class ForecastSnapshot:
             "schema_version": self.schema_version,
             "forecast_id": self.forecast_id, "run_id": self.run_id,
             "model_id": self.model_id, "model_version": self.model_version,
-            "quote_id": self.quote_id, "event_id": self.event_id,
+            "quote_id": self.quote_id, "contract_id": self.contract_id, "event_id": self.event_id,
             "sport": self.sport, "league": self.league, "season": self.season,
             "team_id": self.team_id, "opponent_id": self.opponent_id,
             "quote_receipt_sha256": self.quote_receipt_sha256,

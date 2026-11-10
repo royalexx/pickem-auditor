@@ -30,7 +30,7 @@ def quote(**kwargs):
 def forecast(q=None, **kwargs):
     q = q or quote()
     data = dict(forecast_id="f1", run_id="r1", model_id="frozen_v1",
-                model_version="frozen-original", quote_id=q.quote_id,
+                model_version="frozen-original", quote_id=q.quote_id, contract_id=q.contract_id,
                 event_id=q.event_id, sport=q.sport, league=q.league, season=q.season,
                 team_id=q.team_id, opponent_id=q.opponent_id,
                 quote_receipt_sha256=q.quote_receipt_sha256,
@@ -38,7 +38,7 @@ def forecast(q=None, **kwargs):
                 period=q.period, line=q.line, forecast_at="2026-11-09T16:40:00Z",
                 input_freeze_at=FREEZE, decision_cutoff_at="2026-11-09T16:35:00Z",
                 model_training_cutoff_at="2026-11-08T23:59:00Z",
-                model_artifact_sha256=SHA, code_commit="frozen-commit",
+                model_artifact_sha256=SHA, code_commit="f"*40,
                 sources=(SourceReceipt("stats-receipt", BASE, BASE, SHA, "https://example.org/stats", "stats/source.json"),),
                 distribution=DiscreteDistribution(((0., .25), (6., .75))))
     data.update(kwargs)
@@ -66,6 +66,15 @@ class DistributionTests(unittest.TestCase):
         x = DiscreteDistribution(((4., .4), (5., .6))).probabilities(4.5)
         self.assertEqual(x.push, 0)
         self.assertAlmostEqual(x.over, .6)
+
+    def test_poisson_complementarity_many_rates_and_lines(self):
+        for rate in (0, 0.01, 1.5, 20., 55., 200., 300.):
+            dist = PoissonDistribution(rate)
+            for line in (-0.5, 0., 0.5, 1., 3.5, 20.5, 100., 300.5):
+                with self.subTest(rate=rate, line=line):
+                    p = dist.probabilities(line)
+                    self.assertAlmostEqual(sum((p.over, p.under, p.push)), 1., places=10)
+                    self.assertGreaterEqual(p.over, 0)
 
     def test_poisson_thresholds_and_zero_rate(self):
         x = PoissonDistribution(2).probabilities(2.)
@@ -119,6 +128,14 @@ class ProvenanceTests(unittest.TestCase):
             forecast(input_freeze_at="2026-11-09T16:30:00").validate_against(quote())
         with self.assertRaisesRegex(ContractError, "quote_after_input_freeze"):
             forecast().validate_against(quote(quote_at="2026-11-09T16:38:00Z"))
+
+    def test_immutable_internal_collections_and_commit_sha(self):
+        with self.assertRaisesRegex(ContractError, "distribution_masses_must_be_immutable_pairs"):
+            DiscreteDistribution([[1., 1.]])
+        with self.assertRaisesRegex(ContractError, "sources_must_be_immutable_tuple"):
+            forecast(sources=[]).validate_against(quote())
+        with self.assertRaisesRegex(ContractError, "invalid_code_commit_sha"):
+            forecast(code_commit="not-a-real-commit").validate_against(quote())
 
     def test_postgame_forecast_rejected(self):
         with self.assertRaisesRegex(ContractError, "forecast_temporal_order"):
