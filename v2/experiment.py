@@ -70,6 +70,10 @@ def run_experiment(payload: dict, protocol: dict, *,
             raise ContractError("rolling_experiment_id_mismatch")
         result["rolling"] = run_rolling(payload["rolling"], seed=seed)
     legacy_pairs = []
+    if "joint_scenarios" in payload:
+        from .joint_evaluation import evaluate_joint
+        result["joint_scenarios"]=evaluate_joint(
+            payload["joint_scenarios"],bootstrap_seed=seed)
     if "legacy_originals" in payload:
         legacy = scan_original_pairs(
             payload["legacy_originals"],
@@ -132,7 +136,7 @@ def run_experiment(payload: dict, protocol: dict, *,
         )
         result["frozen"]["source_publication_independently_verified"] = False
         result["frozen"]["phase0r_certification_independently_verified"] = False
-    if not any(k in result for k in ("rolling", "frozen", "legacy_v1")):
+    if not any(k in result for k in ("rolling", "frozen", "legacy_v1", "joint_scenarios")):
         raise ContractError("empty_experiment_workstreams")
     result["receipt_sha256"] = canonical_hash(result)
     return result
