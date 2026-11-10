@@ -117,9 +117,25 @@ def _observations(doc, freeze):
             event = str(item.get("id") or "")
             if not event:
                 raise ContractError("missing_historical_event_id")
-            start = utc(item.get("date"), "history_game_date")
-            if start >= freeze:
-                raise ContractError("postfreeze_history_observation")
+            raw_date = item.get("date")
+            if isinstance(raw_date, str) and "T" not in raw_date:
+                # Some NHL official game logs expose only the calendar date.
+                # An earlier UTC DATE is safe as past history, but do not
+                # invent an exact publication or puck-drop timestamp.
+                try:
+                    date_only = datetime.strptime(raw_date, "%Y-%m-%d").date()
+                except ValueError as exc:
+                    raise ContractError("invalid_history_calendar_day") from exc
+                if date_only >= freeze.date():
+                    raise ContractError("unproven_same_day_history_order")
+                start = datetime.fromisoformat(raw_date + "T00:00:00+00:00")
+                precision = "original_calendar_day_only_ordering"
+            else:
+                start = utc(raw_date, "history_game_date")
+                if start >= freeze:
+                    raise ContractError("postfreeze_history_observation")
+                precision = "original_precise_game_start"
+
             value = _finite(item.get("value"), "history_value")
             workload = _finite(item.get("workload"), "history_workload")
             if value < 0 or not value.is_integer() or workload < 0:
@@ -132,6 +148,7 @@ def _observations(doc, freeze):
             records[event] = {
                 "event_id": event, "start": start, "value": value,
                 "workload": workload, "prior_season": prior_flag,
+                "time_precision": precision,
             }
     return sorted(records.values(), key=lambda r: (r["start"], r["event_id"]))
 
