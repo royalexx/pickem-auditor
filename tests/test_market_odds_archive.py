@@ -110,6 +110,18 @@ class MarketOddsArchiveTest(unittest.TestCase):
         self.assertEqual(receipt["status"], "no_eligible_market_quotes")
         self.assertEqual(sum(receipt["exclusions"].values()), len(invalid))
 
+    def test_future_and_missing_market_clocks_have_distinct_reasons(self):
+        # The original November 9 combined reason remains historical; future
+        # observations are now classified separately in prospective capture.
+        r=self.capture([quote(retrieved_at=None),
+                        quote(retrieved_at="invalid"),
+                        quote(retrieved_at="2026-11-03T17:00:00Z")],
+                        capture_id="clock-taxonomy")
+        self.assertEqual(r["exclusions"]["market_update_timestamp_missing_or_invalid"],2)
+        self.assertEqual(r["exclusions"]["market_update_timestamp_after_capture"],1)
+        self.assertEqual(r["input_quote_count"],3)
+        self.assertEqual(r["quote_count"],0)
+
     def test_push_and_unsettled_are_not_scored(self):
         self.capture()
         self.write_forecasts(forecast(outcome="PUSH", actual_stat=2.5),
