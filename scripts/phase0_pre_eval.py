@@ -107,7 +107,9 @@ def pin(candidate, *, data_root, archive_root, policy_root, clock, identity=None
         odds_raw = (root / "odds_quotes.jsonl").read_bytes()
         if not odds_raw.strip():
             raise ValueError("original_book_quotes_missing")
-        original_quote_digest = bind_original_quotes(candidate, odds_raw, freeze_at=stamp(started))
+        original_quote_digest = bind_original_quotes(
+            candidate, odds_raw, freeze_at=stamp(started),
+            event_start_at=identity.get("event_start"))
         ingest("Market", "original_book_quotes", odds_raw,
                relative="odds_quotes.jsonl")
         market_input = {k: candidate.get(k) for k in
