@@ -311,7 +311,10 @@ def independent_poisson_diagnostic(
         # A conspicuously high lambda is unsupported by this prototype.
         if exp_targets>50:
             raise ContractError("independent_poisson_parameter_outside_support")
-        t=1
+        if exp_targets==0:
+            targets[prior.player_id]=0
+            continue
+        t=1.
         point=math.exp(-exp_targets)
         k=0
         while t>point:
