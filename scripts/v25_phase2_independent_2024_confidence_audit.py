@@ -203,6 +203,15 @@ def run(direct,original):
                         for method in ("global_platt","role_platt"):
                             v=calibration_lookup.get((model,method,*identity))
                             if v is None:
+                                # Baseline preserves its full forecast cohort,
+                                # including players omitted by the new lagged
+                                # roster. The separate calibration runner
+                                # properly abstains for such unverified roles.
+                                # This is an explicit loss of calibration
+                                # coverage, NOT an invented player role.
+                                if model=="updated":
+                                    coverage[(model,"no_asof_role_for_calibration")]+=1
+                                    continue
                                 bad["missing_current_calibrated_probability"]+=1
                                 continue
                             reliability[(model,method)].append({
