@@ -101,7 +101,7 @@
       "offensive_plays": 65,
       "dropbacks": 39,
       "pass_attempts": 33,
-      "tracked_targets": 19
+      "tracked_targets": 23
     },
     {
       "event_id": "synthetic-teamB-game-1",
@@ -145,7 +145,7 @@
       "offensive_plays": 67,
       "dropbacks": 38,
       "pass_attempts": 35,
-      "tracked_targets": 19
+      "tracked_targets": 23
     },
     {
       "event_id": "synthetic-teamB-game-3",
@@ -189,7 +189,7 @@
       "offensive_plays": 69,
       "dropbacks": 40,
       "pass_attempts": 33,
-      "tracked_targets": 19
+      "tracked_targets": 23
     },
     {
       "event_id": "synthetic-teamB-game-5",
@@ -233,7 +233,7 @@
       "offensive_plays": 64,
       "dropbacks": 39,
       "pass_attempts": 35,
-      "tracked_targets": 19
+      "tracked_targets": 23
     },
     {
       "event_id": "synthetic-teamB-game-7",
@@ -277,7 +277,7 @@
       "offensive_plays": 66,
       "dropbacks": 38,
       "pass_attempts": 33,
-      "tracked_targets": 19
+      "tracked_targets": 23
     },
     {
       "event_id": "synthetic-teamB-game-9",
@@ -321,7 +321,7 @@
       "offensive_plays": 68,
       "dropbacks": 40,
       "pass_attempts": 35,
-      "tracked_targets": 19
+      "tracked_targets": 23
     },
     {
       "event_id": "synthetic-teamB-game-11",
