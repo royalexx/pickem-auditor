@@ -18,6 +18,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
+from urllib.parse import urlsplit
 import statistics
 import tempfile
 
@@ -252,10 +253,25 @@ def _settlement_index(items):
         if s.get("status") not in ("settled", "void", "unavailable"):
             raise ContractError("unknown_settlement_status")
         if s.get("status") == "settled":
-            if not s.get("source_url") or not str(s["source_url"]).startswith("https://"):
-                raise ContractError("official_settlement_source_missing")
-            if not s.get("settled_at"):
-                raise ContractError("official_settlement_timestamp_missing")
+            uri = urlsplit(str(s.get("source_url") or ""))
+            # An outcome is not certified merely because a user supplies a
+            # URL and score. Require an immutable official/provider payload
+            # hash, observed collection clock and an approved endpoint.
+            allowed = {"api-web.nhle.com", "api.nhle.com", "site.web.api.espn.com",
+                       "site.api.espn.com", "cdn.nba.com", "stats.nba.com"}
+            if (uri.scheme != "https" or uri.hostname not in allowed
+                    or uri.username or uri.password):
+                raise ContractError("official_settlement_source_missing_or_unapproved")
+            digest = s.get("source_sha256")
+            if (not isinstance(digest, str) or len(digest) != 64
+                    or any(ch not in "0123456789abcdef" for ch in digest)):
+                raise ContractError("official_settlement_raw_source_digest_missing")
+            if not s.get("settled_at") or not s.get("retrieved_at"):
+                raise ContractError("official_settlement_timestamps_missing")
+            settled_at = utc(s["settled_at"], "settled_at")
+            retrieved_at = utc(s["retrieved_at"], "retrieved_at")
+            if retrieved_at < settled_at:
+                raise ContractError("official_settlement_retrieved_before_settlement")
             canonical_stat(s["sport"], s["stat"], "full").validate_actual(s.get("actual"))
         index[key] = s
     return index
@@ -355,6 +371,10 @@ def run_phase1(packet, attempts, *, archive_root, bundle_sha256,
         pool[token] = list(seen.items())
 
     indexed = _settlement_index(settlement_rows or [])
+    originals = {(sport, event_id, player_id, stat)
+                 for sport, event_id, player_id, stat, _line in groups}
+    if set(indexed) - originals:
+        raise ContractError("unmatched_official_settlement_contract")
     contracts = []
     scores = defaultdict(dict)
     missing = defaultdict(Counter)
