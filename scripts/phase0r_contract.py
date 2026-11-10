@@ -127,6 +127,17 @@ def strict_snapshot_status(row, *, archive_root):
         usage_id = by_role[("Engine_A", "historical_usage")]["source_id"]
         if usage_id not in {v for k, v in files.items() if k.startswith("usage/")}:
             return False, "frozen_usage_file_unbound"
+        # PropLine's ORIGINAL frozen quote rows already contain an authenticated
+        # API collection URL, event namespace and retrieval clock. Check their
+        # exact athlete/stat/book/price identity instead of requiring a direct
+        # bookmaker URL or an upstream publication clock that the API lacks.
+        # Other provider namespaces retain the pre-existing strict receipt gate.
+        if row.get("event_id_namespace") == "propline":
+            from phase0_quote_origin import verified_original_api_quote_lineage
+            origin_ok, origin_reason = verified_original_api_quote_lineage(
+                row, archive_root=archive_root)
+            if not origin_ok:
+                return False, origin_reason
         # All claims are bounded to the recorded legacy A/B evaluation. The
         # subsequent Bayesian/NUTS sidecars need their own artifact receipts.
         return True, "strict_pre_eval_bound_source_inputs"
