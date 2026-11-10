@@ -191,6 +191,8 @@ def capture(candidate, result, *, data_root, archive_root, clock, identity=None)
         "source_receipts": receipts,
         "used_source_ids": [entry["source_id"] for entry in receipts],
         "source_capture_at": stamp(when),
+        "input_freeze_at": stamp(when),
+        "input_freeze_basis": "all_original_collector_inputs_captured_before_forecast",
         "source_capture_scope": "actual_collected_inputs_not_provider_publication_truth",
     }
 
