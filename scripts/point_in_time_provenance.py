@@ -183,9 +183,15 @@ def pregame_snapshot_status(row: dict, *, archive_root: Path | None = None) -> t
         start = instant(row.get("event_start"), "event_start")
         if not forecast < start:
             raise ProvenanceError("forecast_not_strictly_before_event")
+        freeze = instant(row.get("input_freeze_at"), "input_freeze_at")
+        if freeze > forecast:
+            raise ProvenanceError("input_freeze_after_forecast")
         cutoff = instant(row.get("model_training_cutoff_at"), "model_training_cutoff_at")
-        if cutoff > forecast:
-            raise ProvenanceError("model_trained_after_forecast")
+        if cutoff > freeze:
+            raise ProvenanceError("model_trained_after_input_freeze")
+        capture_at = row.get("source_capture_at")
+        if capture_at is not None and instant(capture_at, "source_capture_at") > freeze:
+            raise ProvenanceError("source_captured_after_input_freeze")
         if start.astimezone(ZoneInfo("America/Toronto")).date().isoformat() != row.get("game_date"):
             raise ProvenanceError("event_game_date_mismatch")
         for key in ("run_id", "sport", "player_id", "stat", "side", "event_id"):
@@ -201,8 +207,8 @@ def pregame_snapshot_status(row: dict, *, archive_root: Path | None = None) -> t
         if not isinstance(market, dict) or market.get("market_valid") is not True:
             raise ProvenanceError("market_unavailable_or_unverified")
         market_time = instant(market.get("retrieved_at"), "market.retrieved_at")
-        if market_time > forecast:
-            raise ProvenanceError("post_forecast_market_quote")
+        if market_time > freeze:
+            raise ProvenanceError("post_input_freeze_market_quote")
         price_line = market.get("line")
         if (isinstance(price_line, bool) or not isinstance(price_line, (int, float))
                 or not math.isfinite(price_line) or float(price_line) != float(line)):
@@ -214,8 +220,8 @@ def pregame_snapshot_status(row: dict, *, archive_root: Path | None = None) -> t
             if not isinstance(book, dict) or not str(book.get("book") or "").strip():
                 raise ProvenanceError("invalid_book_identity")
             observed = instant(book.get("retrieved_at"), "market.book.retrieved_at")
-            if observed > forecast:
-                raise ProvenanceError("post_forecast_book_quote")
+            if observed > freeze:
+                raise ProvenanceError("post_input_freeze_book_quote")
             if (book.get("line") is None or isinstance(book["line"], bool)
                     or not isinstance(book["line"], (int, float))
                     or float(book["line"]) != float(line)):
@@ -226,7 +232,9 @@ def pregame_snapshot_status(row: dict, *, archive_root: Path | None = None) -> t
         ids = set()
         components = set()
         for receipt in receipts:
-            ident = verified_source_receipt(receipt, forecast=forecast, archive_root=archive_root)
+            ident = verified_source_receipt(receipt, forecast=freeze, archive_root=archive_root)
+            if receipt.get("source_kind") == "collector_input_bytes" and capture_at is None:
+                raise ProvenanceError("source_capture_at_missing")
             if ident in ids:
                 raise ProvenanceError("duplicate_source_id")
             ids.add(ident)

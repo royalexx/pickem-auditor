@@ -360,6 +360,8 @@ def pipeline_to_snapshot(
     record = {
         "forecast_at": meta.get('forecast_at'),
         "event_start": meta.get('event_start'),
+        "input_freeze_at": meta.get("input_freeze_at"),
+        "input_freeze_basis": meta.get("input_freeze_basis"),
         "model_training_cutoff_at": meta.get("model_training_cutoff_at"),
         "model_training_cutoff_basis": meta.get("model_training_cutoff_basis"),
         "source_receipts": meta.get("source_receipts"),
@@ -531,6 +533,8 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
         if meta.get("event_start") and game_started(meta["event_start"], frozen_at):
             mark("unavailable", "event_started_before_forecast_freeze")
             continue
+        # Do not repair missing input receipts by assigning the publish time.
+        # Only phase0_input_capture may attest the original pregame freeze.
         meta["forecast_at"] = frozen_at.isoformat()
         snapshots.append(
             pipeline_to_snapshot(
