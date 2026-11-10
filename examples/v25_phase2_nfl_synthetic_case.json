@@ -930,7 +930,7 @@
       "role": "WR1",
       "event_start_at": "2024-12-12T18:00:00Z",
       "label_available_at": "2024-12-12T23:45:00Z",
-      "routes": 30,
+      "routes": 0,
       "targets": 0,
       "structurally_inactive": true,
       "verified_absent_teammate_role": null
