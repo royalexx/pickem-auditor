@@ -180,7 +180,8 @@ def main(argv=None):
         fail("calibration_offer_model_history_mismatch")
     output={}
     for model in sorted(inp["offers"]):
-        if model not in ("updated","role_repaired","role_no_hurdle"):
+        if model not in ("updated","role_repaired","role_no_hurdle",
+                         "participation_snap","participation_no_hurdle"):
             fail("unknown_calibration_model_identity")
         history=inp["history"][model]
         offers=inp["offers"][model]
