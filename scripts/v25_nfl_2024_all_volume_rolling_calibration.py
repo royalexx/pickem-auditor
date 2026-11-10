@@ -267,7 +267,9 @@ def run(root:Path):
             "training_only_through_week":w-1,
             "methods":"raw,global,role",
             "marketwise_global_and_marketwise_role_partial_pooling":True,
-            "history_n":plain["prior_history_rows"]}
+            "history_n":plain["prior_history_rows"],
+            "parameter_preimage":plain,
+            "numpy_version":np.__version__}
         current=defaultdict(list)
         new_history=defaultdict(list)
         seen=set()

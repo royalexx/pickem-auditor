@@ -102,7 +102,10 @@ class SourceSelectionTests(unittest.TestCase):
             self.assertEqual(len(late),6)
             self.assertGreaterEqual(be._peer_index.cache_info().hits,2)
             be._peer_index.cache_clear()
-            one=next((root/'usage'/'snapshots').glob('*.json'))
+            # Filesystem iteration order may return the future snapshot,
+            # whose corruption cannot change the earlier-cutoff peer count.
+            one=next(p for p in (root/'usage'/'snapshots').glob('*.json')
+                     if json.loads(p.read_text())["player_id"]=="1")
             one.write_text(one.read_text().replace('"value": 2','"value": 999'))
             result=be.peers_from_cache(root,sport='NHL',stat='shots on goal',
                          player_id='99',cutoff=now,source_date=date(2026,10,28))

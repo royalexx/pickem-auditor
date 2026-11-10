@@ -1,0 +1,929 @@
+{
+  "schema": "v25-opportunity-asof-v1",
+  "week": 1,
+  "history": [
+    {
+      "event_id": "2023_01_A_B",
+      "season": 2023,
+      "week": 1,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_02_A_B",
+      "season": 2023,
+      "week": 2,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_03_A_B",
+      "season": 2023,
+      "week": 3,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_04_A_B",
+      "season": 2023,
+      "week": 4,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_05_A_B",
+      "season": 2023,
+      "week": 5,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_06_A_B",
+      "season": 2023,
+      "week": 6,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_07_A_B",
+      "season": 2023,
+      "week": 7,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_08_A_B",
+      "season": 2023,
+      "week": 8,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_09_A_B",
+      "season": 2023,
+      "week": 9,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_10_A_B",
+      "season": 2023,
+      "week": 10,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_11_A_B",
+      "season": 2023,
+      "week": 11,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_12_A_B",
+      "season": 2023,
+      "week": 12,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_13_A_B",
+      "season": 2023,
+      "week": 13,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_14_A_B",
+      "season": 2023,
+      "week": 14,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    },
+    {
+      "event_id": "2023_15_A_B",
+      "season": 2023,
+      "week": 15,
+      "team": "A",
+      "opponent": "B",
+      "pass_attempts": 30,
+      "rush_attempts": 20,
+      "players": {
+        "q": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 30,
+            "completions": 20,
+            "passing yards": 240
+          }
+        },
+        "bench": {
+          "role": "QB",
+          "values": {
+            "pass attempts": 0,
+            "completions": 0,
+            "passing yards": 0
+          }
+        },
+        "wr": {
+          "role": "WR",
+          "values": {
+            "targets": 10,
+            "receptions": 7,
+            "receiving yards": 90
+          }
+        },
+        "te": {
+          "role": "TE",
+          "values": {
+            "targets": 5,
+            "receptions": 4,
+            "receiving yards": 40
+          }
+        },
+        "rb": {
+          "role": "RB",
+          "values": {
+            "targets": 3,
+            "receptions": 2,
+            "receiving yards": 12,
+            "carries": 18,
+            "rushing yards": 72
+          }
+        },
+        "lb": {
+          "role": "LB",
+          "values": {
+            "solo tackles": 5,
+            "tackle assists": 3,
+            "tackles + assists": 9
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {
+      "event_id": "synthetic-2024-opportunity-game",
+      "team": "A",
+      "opponent": "B",
+      "week": 1
+    }
+  ]
+}

@@ -49,7 +49,7 @@ def main(argv=None):
     parser.add_argument("--code-commit",required=True)
     parser.add_argument("--seed",type=int,default=20261110)
     parser.add_argument("--n-scenarios",type=int,default=256)
-    parser.add_argument("--mode",choices=("single","replay"),default="single")
+    parser.add_argument("--mode",choices=("single","replay","opportunity-repair"),default="single")
     parser.add_argument("--summary-only",action="store_true",
                         help="Only store SHA-bound distributions, not raw scenario ensemble")
     args=parser.parse_args(argv)
@@ -59,7 +59,10 @@ def main(argv=None):
         parser.error("immutable_output_exists_or_invalid_git_commit")
     try:
         payload,input_sha=_read(args.input)
-        if args.mode=="single":
+        if args.mode=="opportunity-repair":
+            from v25_opportunity_repair_replay import forecast_snapshot
+            result=forecast_snapshot(payload,args.n_scenarios,args.seed)
+        elif args.mode=="single":
             result=simulate_nfl_opportunities(
                 payload,seed=args.seed,n_scenarios=args.n_scenarios,
                 store_scenarios=not args.summary_only)
