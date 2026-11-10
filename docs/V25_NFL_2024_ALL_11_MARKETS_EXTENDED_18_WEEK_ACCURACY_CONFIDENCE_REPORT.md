@@ -36,6 +36,40 @@ These aggregate cohorts include different predictions after calibration. The n v
 
 **Confidence calibration improved Brier but did not demonstrate increased high-confidence hit-rate skill.** The ≥80% raw cohort contains 3,822 selections, 2,516 correct, while role calibration contains 565 selections, 364 correct. Raw high80 is dominated by Unders (3,516/3,822), and role high80 also remains Under-heavy (472/565).
 
+## All-side directional accuracy: no aggregate gain
+
+This table reports the percentage of all graded contracts whose predicted Over/Under direction was correct, regardless of a 70–95% confidence cutoff. It is evaluated on identical game-player-market thresholds. Unlike Brier, this measure changes only when calibration crosses 50%.
+
+| Week | Raw hit | Global hit | Role hit | Role minus raw (percentage points) |
+|---|---:|---:|---:|---:|
+| 01 | 60.87% | 60.87% | 60.87% | +0.00 |
+| 02 | 56.16% | 55.23% | 54.97% | −1.19 |
+| 03 | 59.30% | 58.83% | 57.39% | −1.91 |
+| 04 | 57.86% | 57.66% | 58.45% | +0.60 |
+| 05 | 58.32% | 56.79% | 57.14% | −1.18 |
+| 06 | 58.40% | 58.28% | 59.08% | +0.68 |
+| 07 | 59.56% | 59.35% | 59.72% | +0.16 |
+| 08 | 57.22% | 56.94% | 56.24% | −0.98 |
+| 09 | 58.69% | 58.46% | 59.30% | +0.61 |
+| 10 | 59.88% | 60.39% | 60.39% | +0.52 |
+| 11 | 56.44% | 56.74% | 57.60% | +1.17 |
+| 12 | 57.24% | 56.96% | 58.61% | +1.36 |
+| 13 | 57.00% | 57.36% | 56.54% | −0.46 |
+| 14 | 59.00% | 59.31% | 58.95% | −0.04 |
+| 15 | 60.58% | 60.31% | 59.99% | −0.59 |
+| 16 | 56.92% | 58.58% | 57.04% | +0.11 |
+| 17 | 57.02% | 57.68% | 58.06% | +1.05 |
+| 18 | 56.80% | 56.60% | 55.94% | −0.85 |
+
+| Period | Raw all-side hit | Global all-side hit | Role all-side hit | Role − raw |
+|---|---:|---:|---:|---:|
+| Weeks 1–6 | 58.49% | 57.96% | 58.07% | −0.42 pp |
+| Weeks 7–12 | 58.16% | 58.12% | 58.59% | +0.44 pp |
+| Weeks 13–18 | 57.85% | 58.28% | 57.73% | −0.12 pp |
+| **All 18 weeks** | **58.14%** | **58.14%** | **58.12%** | **−0.02 pp** |
+
+**Decision:** directional accuracy did not improve in aggregate. The calibration methods changed *probability honesty* (Brier/log loss), not demonstrated event-direction discrimination. An all-side 58% hit rate, a selective 65–66% hit rate and a credible conditional hit probability are distinct quantities.
+
 ## Season progression: does calibration learn?
 
 | Period | Graded | Raw Brier | Global Brier | Role Brier | Raw ≥80% hit (n) | Global ≥80% hit (n) | Role ≥80% hit (n) |
