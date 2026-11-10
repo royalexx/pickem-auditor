@@ -164,7 +164,9 @@ def fitted_spread_effect(market: dict | None, team_history: list[dict],
             "team_spread", "quote_at", "source_sha256", "source_uri"}:
         raise ContractError("game_market_fields_incomplete_or_forbidden")
     spread = finite(market["team_spread"],"team_spread")
-    if not isinstance(market["source_sha256"],str) or len(market["source_sha256"])!=64:
+    if (not isinstance(market["source_sha256"],str)
+            or len(market["source_sha256"])!=64
+            or any(c not in "0123456789abcdef" for c in market["source_sha256"])):
         raise ContractError("game_market_receipt_digest_missing")
     if not isinstance(market["source_uri"],str) or not market["source_uri"].startswith("https://"):
         raise ContractError("game_market_original_source_required")
@@ -177,6 +179,8 @@ def fitted_spread_effect(market: dict | None, team_history: list[dict],
             available=utc(r["label_available_at"],"hist_available")
             observed=utc(r["event_start_at"],"hist_start")
             quoted=utc(r["pregame_spread_at"],"historical_spread_at")
+            if not r.get("pregame_spread_source_sha256"):
+                continue
             count=r["offensive_plays"]
             drop=r["dropbacks"]
             if (available <= freeze and observed < freeze and quoted < observed
