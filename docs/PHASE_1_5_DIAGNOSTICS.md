@@ -1,6 +1,6 @@
 # Pick'em Auditor V2.5 — Phase 1.5 implementation
 
-Status: **implemented in isolated shadow branch; predictive promotion blocked.**
+Status: **merged as read-only shadow infrastructure in PR #94** on 2026-11-10; code-level diagnostics remain **non-promoting**, and complete scientific validation depends on genuine pregame component and market data. Follow-up audit repairs belong to `chatgpt/v25-early-phase-audit-remediation-20261110`.
 
 Purpose: diagnose where already-frozen NFL forecasts fail *before* paying the
 complexity cost of a logistic-normal allocation model or joint simulator.
@@ -36,6 +36,7 @@ not touch the existing daily notebook, production weights, or training state.
 - Paired bootstrap intervals with **game** and **week** resampling (each
   clustered independently); no per-prop IID bootstrap.
 - Input SHA-256 receipt and explicit shadow/no-promotion mode.
+- Cross-check original `actual_over`, `HIT`/`MISS` settlement labels, actual hit bit and recorded selected confidence against the frozen model probability. Any inconsistency fails the entire run.
 
 The archived 2024 CSV uses **synthetic** research lines, so these scores can
 help evaluate distribution and direction, *not historical sportsbook edge*.
