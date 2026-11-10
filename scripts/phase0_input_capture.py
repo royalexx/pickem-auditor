@@ -179,6 +179,24 @@ def capture(candidate, result, *, data_root, archive_root, clock, identity=None)
                               separators=(",", ":")).encode("utf-8")
     receipts.append(preserve(archive, "Market", "evaluated_market", market_bytes,
                              captured=when, retrieved=when))
+    # The input freeze is a completed, immutable collector snapshot, not
+    # the timestamp at which we *started* reading and hashing the files.
+    completed = clock()
+    if not isinstance(completed, datetime) or completed.tzinfo is None:
+        raise ValueError("capture_completion_clock_unavailable")
+    completed = completed.astimezone(timezone.utc)
+    if completed < when:
+        raise ValueError("nonmonotonic_capture_clock")
+    # The bytes remain held in the immutable archive at completion. Set
+    # the as-of possession clock no earlier than that finished capture.
+    # For local candidate/research/odds files with no upstream retrieval
+    # clock, record the conservative completion time instead of pretending
+    # a provider supplied the time at which this call began.
+    for receipt in receipts:
+        if receipt.get("source_kind") == "collector_input_bytes":
+            receipt["observed_at"] = stamp(completed)
+            if not receipt["archive_path"].startswith("historical_usage/"):
+                receipt["retrieved_at"] = stamp(completed)
     # This is the time the latest historical input was retrieved, not a claim
     # about the time that a hierarchical NUTS model was trained.
     return {
@@ -190,9 +208,9 @@ def capture(candidate, result, *, data_root, archive_root, clock, identity=None)
         "historical_usage_retrieved_at": stamp(retrieved),
         "source_receipts": receipts,
         "used_source_ids": [entry["source_id"] for entry in receipts],
-        "source_capture_at": stamp(when),
-        "input_freeze_at": stamp(when),
-        "input_freeze_basis": "all_original_collector_inputs_captured_before_forecast",
+        "source_capture_at": stamp(completed),
+        "input_freeze_at": stamp(completed),
+        "input_freeze_basis": "archived_original_collector_inputs_fully_captured",
         "source_capture_scope": "actual_collected_inputs_not_provider_publication_truth",
     }
 
