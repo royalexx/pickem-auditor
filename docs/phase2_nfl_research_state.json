@@ -80,7 +80,8 @@
     "actual_nfl_route_availability": "NOT_PROVEN",
     "phase2_production_model_acceptance": "BLOCKED",
     "real_participation_2024_sequential_learning": "PASSED_MECHANICAL_REPLAY_NOT_PROSPECTIVE",
-    "target_count_crps": "FAILED_CHALLENGER_WORSE_THAN_ORIGINAL_ON_MATCHED_COHORT"
+    "target_count_crps": "FAILED_CHALLENGER_WORSE_THAN_ORIGINAL_ON_MATCHED_COHORT",
+    "archive_all11_2024_probability_calibration": "PASSED_RETROSPECTIVE_SCORING_ONLY_NOT_PROSPECTIVE"
   },
   "next_actions": [
     "Do not promote the new lagged-snap participation or 2024-hindsight-tuned confidence architecture; keep old simple count models",
@@ -278,5 +279,61 @@
     "high80_calibration_weeks14_to18_n": 0,
     "asof_report_live_source_proven": false,
     "unchanged_promotion_gate": "BLOCKED"
+  },
+  "all_nfl_volume_2024_archived_forecast_calibration": {
+    "status": "COMPLETE_RETROSPECTIVE_ALL_11_MARKETS_18_WEEKS_RESEARCH_ONLY",
+    "study_id": "v25-nfl-2024-11-volume-global-role-calibration-v1",
+    "draft_pr": 98,
+    "markets": 11,
+    "weeks": 18,
+    "candidate_forecasts": 57223,
+    "graded_observed": 38809,
+    "unmatched_or_abstained": 18414,
+    "population": "original_archived_2024_multi_market_forecasts_not_new_phase2_participation_model",
+    "model_variants": [
+      "archive_raw",
+      "archive_hurdle",
+      "archive_no_refit"
+    ],
+    "calibration_variants": [
+      "raw",
+      "market_global_ridge_platt",
+      "market_plus_position_shrunk_role_platt"
+    ],
+    "min_prior_week_market_observations": 80,
+    "min_prior_market_role_observations": 40,
+    "original_weekly_input_has_future_week_outcomes": false,
+    "original_source_pregame_publication_certified": false,
+    "lines_are_actual_bookmaker_quotes": false,
+    "holdout_2024_independent_and_unexposed": false,
+    "research_report_receipt_sha256": "d18906ee4fef21ca89572a3b30d55a0497d69cca2517967234c72465d81d2c65",
+    "independent_receipt_sha256": "9f0be6a3047514ab993fad13c2a9e5244a3f341d7db5c7869f458f418fe5f9bb",
+    "overall_raw_brier": 0.24933777528408357,
+    "overall_market_global_brier": 0.24202252400990812,
+    "overall_market_plus_role_brier": 0.24105132195770362,
+    "overall_raw_log_loss": 0.7060190917522583,
+    "overall_market_global_log_loss": 0.6788224418997336,
+    "overall_market_plus_role_log_loss": 0.6767195205320644,
+    "raw_high80": {
+      "hit": 0.6582940868655154,
+      "n": 3822,
+      "under": 3516
+    },
+    "global_high80": {
+      "hit": 0.6368613138686131,
+      "n": 548,
+      "under": 465
+    },
+    "role_high80": {
+      "hit": 0.6442477876106195,
+      "n": 565,
+      "under": 472
+    },
+    "explicitly_not_full_p2_11_market_model": true,
+    "production_promotion_authorized": false,
+    "markdown_18_week_full": "docs/V25_NFL_2024_ALL_11_VOLUME_WEEKLY_CALIBRATION_REPORT.md",
+    "machine_18_week_jsonl": "docs/phase2_nfl_2024_all11_weekly_calibration_scorecard.jsonl",
+    "independent_audit": "docs/phase2_nfl_2024_all_volume_calibration_independent_audit.json",
+    "tests_eight_adversarial": "passed"
   }
 }
