@@ -464,6 +464,49 @@ def _pipeline_input(row: dict) -> dict:
     }
 
 
+def phase0r_live_candidate_rejection(candidate: dict, *, source_quotes, event_id, now) -> str | None:
+    """Fail closed before live numerical inference when an input is unverifiable.
+
+    This is a source-eligibility screen, NOT a calibration or ranking filter.
+    The original prepared candidate is kept in the append-only attempt ledger.
+    The final independent strict certificate is separately checked after inference.
+    """
+    # The present event-context evaluator can consult external event facts
+    # that are not independently pinned. Never silently drop context and
+    # predict a baseline in its place, especially for questionable/out players.
+    if candidate.get("event_context"):
+        return "pre_eval_external_context_unpinned"
+    books = candidate.get("books")
+    if not isinstance(books, list) or not books or candidate.get("q_market") is not None:
+        return "market_unavailable_or_unverified"
+    if candidate.get("market_valid") is False:
+        return "market_unavailable_or_unverified"
+    try:
+        if now is None or now.tzinfo is None:
+            return "market_unavailable_or_unverified"
+        stamp = parse_iso_utc(candidate.get("market_retrieved_at"))
+        if stamp is None or not 0 <= (now - stamp).total_seconds() <= 30 * 60:
+            return "market_unavailable_or_unverified"
+        matched = original_book_receipts(books, source_quotes, event_id=event_id)
+        if len(matched) != len(books):
+            return "market_unavailable_or_unverified"
+        for quote in matched:
+            retrieved = parse_iso_utc(quote.get("retrieved_at"))
+            if retrieved is None or retrieved > now:
+                return "market_unavailable_or_unverified"
+        prepared_books = pm._books_from_payload(books)
+        if pm._orient_books(prepared_books, candidate.get("side")):
+            return "market_unavailable_or_unverified"
+        consensus = pm.consensus(pm._consensus_tuples(prepared_books),
+                                 (now - stamp).total_seconds() / 60)
+        if (consensus.get("market_valid") is not True
+                or float(consensus.get("line")) != float(candidate.get("line"))):
+            return "market_unavailable_or_unverified"
+    except (pm.PickemError, TypeError, KeyError, ValueError, OverflowError):
+        return "market_unavailable_or_unverified"
+    return None
+
+
 def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=None,
                        attempt_receipts: list[dict] | None = None) -> tuple[list[dict], int]:
     """Evaluate the COMPLETE prepared slate, not the triage queue or top-10.
@@ -492,6 +535,19 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
         if isinstance(row.get("_phase0_market_quotes"), list):
             meta["phase0_market_quotes"] = row["_phase0_market_quotes"]
         candidate = _pipeline_input(row)
+        # User policy: unverifiable contracts never enter the live prediction
+        # pool. Retain their identities and reasons in the attempt ledger.
+        certified_only = (os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1"
+                          or os.environ.get("PICKEM_PHASE0_CERTIFIED_ONLY") == "1")
+        if certified_only:
+            exclusion = phase0r_live_candidate_rejection(
+                candidate, source_quotes=meta.get("phase0_market_quotes"),
+                event_id=candidate.get("event_id") or meta.get("event_id"),
+                now=evaluation_now,
+            )
+            if exclusion is not None:
+                mark("unavailable", exclusion)
+                continue
         from usage_baseline import using_directory
         from probability_blend import using_production
         capture_enabled = (os.environ.get("PICKEM_PHASE0_CAPTURE") == "1"
@@ -566,15 +622,26 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
         # Do not repair missing input receipts by assigning the publish time.
         # Only phase0_input_capture may attest the original pregame freeze.
         meta["forecast_at"] = frozen_at.isoformat()
-        snapshots.append(
-            pipeline_to_snapshot(
-                result,
-                meta=meta,
-                run_id=row["_run_id"],
-                run_at=row["_run_at"],
-                candidate=candidate,
-            )
+        forecast = pipeline_to_snapshot(
+            result,
+            meta=meta,
+            run_id=row["_run_id"],
+            run_at=row["_run_at"],
+            candidate=candidate,
         )
+        if certified_only:
+            # A forecast is not stored, ranked, shadow-scored or published
+            # unless the exact original immutable input/archive passes the
+            # independent strict validator. Never backfill missing receipts.
+            from phase0r_contract import strict_snapshot_status
+            source_root = Path(data_root or SKILL_ROOT / "data")
+            accepted, reason = strict_snapshot_status(
+                forecast, archive_root=source_root / "source_archives")
+            if not accepted:
+                mark("unavailable", "phase0r_strict_rejected:" + reason)
+                continue
+            forecast["phase0r_original_source_certified"] = True
+        snapshots.append(forecast)
         mark("forecast")
     return snapshots, errors
 
