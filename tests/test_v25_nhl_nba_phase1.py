@@ -218,6 +218,38 @@ class FrozenNhlNbaContractTests(unittest.TestCase):
             with self.assertRaisesRegex(ContractError,"source_archive_required"):
                 _settlement_index([item])
 
+    def test_matched_archived_official_settlement_scores_exact_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            packet,ledger=fixture(root)
+            source=root/"official"
+            source.mkdir()
+            original=b'{"provider":"nhl","game":"event-1","shots_on_goal":5}'
+            (source/"game.json").write_bytes(original)
+            result=run_phase1(packet,ledger,archive_root=root/"replay",
+                bundle_sha256="a"*64,code_commit="a"*40,
+                settlement_archive_root=source,
+                settlement_rows=[{
+                    "sport":"NHL","event_id":"event-1","player_id":"8470001",
+                    "stat":"shots on goal","period":"full","status":"settled",
+                    "actual":5,"settled_at":"2026-11-09T21:00:00Z",
+                    "retrieved_at":"2026-11-09T21:01:00Z",
+                    "source_url":"https://api-web.nhle.com/v1/gamecenter",
+                    "source_sha256":hashlib.sha256(original).hexdigest(),
+                    "source_archive_path":"game.json",
+                }])
+            self.assertEqual(result["settlement_states"],{"over":1})
+            self.assertEqual(result["models"]["naive_recent_exposure_rate"][
+                "scored_contracts"],1)
+            self.assertEqual(result["models"]["real_no_vig_market"][
+                "scored_contracts"],1)
+            self.assertEqual(result["models"]["frozen_v1_60_40"][
+                "scored_contracts"],0)
+            self.assertEqual(result["paired"]["real_no_vig_market"][
+                "matched_contracts"],1)
+            self.assertEqual(result["paired"]["real_no_vig_market"][
+                "game_cluster_interval"]["status"],"insufficient_clusters")
+
     def test_no_synthetic_settlement_or_postgame_features_allowed(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
