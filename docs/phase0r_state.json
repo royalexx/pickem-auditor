@@ -1,9 +1,9 @@
 {
   "schema": "pickem_phase0r_execution_state_v1",
   "phase": "0R",
-  "reviewed_at_utc": "2026-11-10T01:19:27Z",
+  "reviewed_at_utc": "2026-11-10T18:58:43Z",
   "release_status": "BLOCKED",
-  "latest_code_sha_before_receipt": "f9cc39525eddea8412baeeadbbb29893d98ab8f9",
+  "latest_code_sha_before_receipt": "e5635d8fd8444a3144174cf019924d2010cdbca8",
   "baseline_code_sha": "10404038846f9f621c245ca089daf91b974ddde9",
   "merged_repairs": [
     {
@@ -30,6 +30,11 @@
       "pr": 92,
       "merge_sha": "f9cc39525eddea8412baeeadbbb29893d98ab8f9",
       "scope": "quarantined_optional_http415_provisional_nuts_shadow"
+    },
+    {
+      "pr": 99,
+      "merge_sha": "e5635d8fd8444a3144174cf019924d2010cdbca8",
+      "scope": "certified_only_candidate_quarantine_and_full_attempted_universe_ledger"
     }
   ],
   "nuts_training_paused": true,
@@ -51,28 +56,38 @@
     "publication_eligible": false
   },
   "latest_dry_run": {
-    "run_stamp": "20261110T001047Z",
-    "deepnote_run_id": "b0e0c757-594b-44cc-b683-25d0225b0c27",
-    "source_sha": "1799074428a0c74016042bae122f00527c953be0",
-    "forecast_rows": 1056,
-    "game_count": 9,
-    "metadata_accepted_rows": 860,
-    "uncertified_rows": 196,
-    "uncertified_reasons": {
-      "market_unavailable_or_unverified": 196
+    "run_stamp": "20261110T180409Z",
+    "deepnote_run_id": "ccd5d53d-6583-4380-97ed-9fda64e90559",
+    "source_sha": "e5635d8fd8444a3144174cf019924d2010cdbca8",
+    "forecast_rows": 712,
+    "game_count": 12,
+    "prepared_contracts": 1314,
+    "rejected_contracts": 602,
+    "rejection_reasons": {
+      "market_unavailable_or_unverified": 164,
+      "pre_eval_external_context_unpinned": 438
     },
-    "original_forecast_sha256": "46c66175bbdb4e896c1a06acdb940fa14098571785b03a65298e025575a89e8d",
-    "market_quotes_incoming": 2165,
-    "market_quotes_accepted": 1248,
-    "market_quotes_event_started": 699,
-    "market_quotes_unverified_or_future": 218,
-    "paired_contracts": 528,
-    "paired_rejected_contracts": 6,
-    "source_archive_complete": false,
+    "by_sport": {
+      "NBA": {
+        "retained": 500,
+        "rejected": 558
+      },
+      "NHL": {
+        "retained": 212,
+        "rejected": 44
+      }
+    },
+    "source_archive_complete": true,
+    "original_bundle_sha256": "76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6",
+    "independent_archive_sha_failures": 0,
+    "independent_contract_duplicates": 0,
+    "internal_strict_certified_rows": 712,
+    "independent_binding_pass_rows": 712,
+    "original_quote_upstream_urls_unknown": 712,
+    "original_research_upstream_urls_unknown": 712,
+    "third_party_publication_claims_verified": 0,
     "publication_eligible": false,
-    "optional_shadow_failure": "nfl_provisional_nuts_shadow HTTP 415",
-    "research_archive_published": true,
-    "not_verified_against_final_main": true
+    "shared_pool_published": true
   },
   "independent_qa": [
     {
@@ -114,15 +129,30 @@
       "strict_certified_rows": 0,
       "uncertified_rows": 2624,
       "no_retroactive_certification": true
+    },
+    {
+      "run_id": "7617e496-7e06-486d-b0a3-389d004d3ee9",
+      "scope": "Prospective NHL/NBA complete source SHA, pre-eval, 1314 full-universe ledger, 712 retained rows; ten tampering fixtures and mutated byte check",
+      "strict_independently_passed": 712,
+      "attempted": 1314,
+      "rejected": 602,
+      "tamper_fixtures_rejected": 10,
+      "sha256_mismatches": 0
+    },
+    {
+      "run_id": "ff98c686-a32e-4244-8dad-17ad882ed692",
+      "scope": "Upstream source original provider/publication assessment and conservative Phase0R closure decision",
+      "original_quote_source_urls_unknown": 712,
+      "original_research_source_urls_unknown": 712,
+      "full_phase0r_closed": false
     }
   ],
   "open_release_blockers": [
-    "No genuinely pregame end-to-end run on final merged pre-evaluation binding code; previous Nov 9 archives cannot be retrocertified",
-    "New source and market data must be pinned before evaluation on a real slate; strict run-level independence and release gate have not been signed off",
-    "Six historical NHL goalie-saves NUTS paired failures need a new sidecar rerun on corrected shared-seed code; original six remain invalid",
-    "Every absent or unverified market and any unpinned upstream transformation must remain an explicit research-only abstention",
-    "Original metadata-only pass counts (1220 and 860) do not satisfy strict source binding; all 2624 historical forecasts have zero pre-eval bindings",
-    "An independent release packet must establish new-run source coverage, manifest, cutoff truth and zero false certifications"
+    "P0R-05: 712/712 original_book_quotes source receipts have source_url_status=upstream_url_unknown and no provider publication claim. Internal collector retrieval/observed timestamps and book-level market verification are preserved, but do not independently prove original upstream source identity/publication.",
+    "P0R-05: 712/712 Engine B original_research source receipts have upstream_url_unknown. Distinguish internally generated research from externally sourced evidence and pin upstream references where required.",
+    "Prospectively capture verifiable original quote provider/offer identity and immutable first-seen timestamps, update fail-closed source-origin gate, independently audit a NEW actual pregame run. Do not retrocertify Nov 10 against post hoc data.",
+    "Historical six NHL goalie-saves NUTS paired failures remain invalid and out of scope for Phase0R acceptance; do not promote them.",
+    "Tier 1/2 publication and model promotion remain blocked until their separate prospective performance and release gates."
   ],
   "next_phase_authorized": false,
   "historical_replay_report": "docs/phase0r_historical_slate_replay_20261109.json",
@@ -140,5 +170,40 @@
         "pre_eval_input_binding_missing": 860
       }
     }
+  },
+  "phase0r_formal_closure": false,
+  "phase0r_internal_archive_integrity": "PASS",
+  "phase0r_independent_upstream_source_provenance": "BLOCKED",
+  "phase0r_closure_decision": "BLOCKED_P0R05_ORIGINAL_SOURCE_ORIGIN_NOT_INDEPENDENTLY_VERIFIABLE",
+  "previous_dry_run": {
+    "run_stamp": "20261110T001047Z",
+    "deepnote_run_id": "b0e0c757-594b-44cc-b683-25d0225b0c27",
+    "source_sha": "1799074428a0c74016042bae122f00527c953be0",
+    "forecast_rows": 1056,
+    "game_count": 9,
+    "metadata_accepted_rows": 860,
+    "uncertified_rows": 196,
+    "uncertified_reasons": {
+      "market_unavailable_or_unverified": 196
+    },
+    "original_forecast_sha256": "46c66175bbdb4e896c1a06acdb940fa14098571785b03a65298e025575a89e8d",
+    "market_quotes_incoming": 2165,
+    "market_quotes_accepted": 1248,
+    "market_quotes_event_started": 699,
+    "market_quotes_unverified_or_future": 218,
+    "paired_contracts": 528,
+    "paired_rejected_contracts": 6,
+    "source_archive_complete": false,
+    "publication_eligible": false,
+    "optional_shadow_failure": "nfl_provisional_nuts_shadow HTTP 415",
+    "research_archive_published": true,
+    "not_verified_against_final_main": true
+  },
+  "audit_artifacts": {
+    "final_integrity": "reports/phase0r_20261110T180409Z_independent_final_audit.json",
+    "adversarial_fixtures": "reports/phase0r_20261110T180409Z_adversarial_fixtures.json",
+    "closure_decision": "reports/phase0r_20261110T180409Z_closure_decision.json",
+    "deepnote_project": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "auditor_notebook": "818a10801dc34193b3a366659069137f"
   }
 }
