@@ -44,7 +44,8 @@ def make_inputs(root):
         "game_date": "2026-11-09", "event_id": "event-1",
         "line": 4.5, "side": "over",
         "books": [{"book": "ExampleBook", "line": 4.5,
-                   "book_side": "over", "target": -110, "other": -110}],
+                   "book_side": "over", "target": -110, "other": -110,
+                   "retrieved_at": "2026-11-09T14:10:00Z"}],
         "market_retrieved_at": "2026-11-09T14:10:00Z",
         "scouting": {"historical_usage": ident},
     }
