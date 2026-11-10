@@ -127,7 +127,8 @@ def fit_from_past(history):
             "latest_week":max(x["week"] for x in history)}
 
 def ptransform(p,role,fit,method):
-    if method=="raw":return float(p)
+    # No prior labels means exact identity, including original zeros/ones.
+    if method=="raw" or not fit["active"]:return float(p)
     x=float(clip_logit(float(p)))
     linear=fit["a"]+fit["b"]*x
     if method=="role":linear+=fit["offset"].get(role,0.)
