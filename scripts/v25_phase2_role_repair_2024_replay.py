@@ -24,12 +24,13 @@ import numpy as np
 from v25_phase2_target_only_2024_replay import (
     H,fail,normalise_pre2024,load_2024_oracle,frozen_lines,crps
 )
+from v25_phase2_participation_source_bridge import collect_nfl_source_context, build_asof_context
 
 SCRIPT = Path(__file__).resolve().parent
-FORECASTER = SCRIPT / "v25_phase2_role_repair_forecast.py"
+FORECASTER = SCRIPT / "v25_phase2_participation_snap_forecast.py"
 CALIBRATOR = SCRIPT / "v25_phase2_online_probability_calibration.py"
-MODELS=("updated","no_refit","independent_poisson","role_repaired","role_no_hurdle")
-CALIBRATABLE=("updated","role_repaired","role_no_hurdle")
+MODELS=("updated","no_refit","independent_poisson","participation_snap","participation_no_hurdle")
+CALIBRATABLE=("updated","participation_snap","participation_no_hurdle")
 CALMODES=("raw","global_platt","role_platt")
 THRESHOLDS=(.7,.8,.9,.95)
 
@@ -129,6 +130,8 @@ def main(argv=None):
     if args.output_dir.exists():parser.error("immutable_repair_output_dir_already_exists")
     import nflreadpy
     pre,coverage=normalise_pre2024(nflreadpy)
+    sources=collect_nfl_source_context(nflreadpy)
+    print("ASOF_SOURCE_INPUT_COUNTS",json.dumps(sources["counts"],sort_keys=True),flush=True)
     oracle,schedules,oracle_sha=load_2024_oracle(args.root)
     lines,universe,orig_sha=frozen_lines(args.root)
     args.output_dir.mkdir(parents=True)
@@ -144,7 +147,8 @@ def main(argv=None):
         # The only fields passed to a forecasting process are the BEFORE-week
         # historical observations and the outcome-free current schedule.
         inp={"schema":"v25-p2-target-only-asof-week-v1","week":week,
-             "history":past,"schedule":schedules[week]}
+             "history":past,"schedule":schedules[week],
+             **build_asof_context(sources,week,schedules[week])}
         if any(x["season"]==2024 and x["week"]>=week for x in inp["history"]):
             fail("future_training_outcome_during_week_forecast")
         if any(set(x)!={"event_id","team","opponent","week"}
@@ -162,7 +166,7 @@ def main(argv=None):
                  completed.stderr[-2200:])
         prediction=json.loads(forecast_file.read_bytes())
         if (prediction["train_2024_max_week"]!=week-1
-                or prediction["future_outcomes_exposed_to_forecaster"] is not False
+                or prediction["current_or_future_game_stats_exposed"] is not False
                 or prediction["original_file_bytes_sha256"]!=asof_sha):
             fail("frozen_prediction_input_or_time_mismatch")
         frozen_digest=hashlib.sha256(forecast_file.read_bytes()).hexdigest()
@@ -179,7 +183,7 @@ def main(argv=None):
                 obj=team["models"][key]
                 if obj["status"] not in (
                    "shadow_target_allocation_without_routes",
-                   "role_hierarchical_target_only_shadow"):
+                   "retrospective_participation_snap_challenger_not_certified"):
                     continue
                 if model in ("updated","no_refit","independent_poisson"):
                     forecast_player=("independent_poisson_targets"
@@ -187,7 +191,7 @@ def main(argv=None):
                 else:
                     forecast_player="player_targets"
                 targets=obj[forecast_player]
-                asof_roles=team["models"]["role_repaired"].get("player_roles",{})
+                asof_roles=team["models"]["participation_snap"].get("player_roles",{})
                 for pid,arr in targets.items():
                     scenario_index[(model,*identity,pid)]=arr
                     if pid in asof_roles:
@@ -321,13 +325,13 @@ def main(argv=None):
         print("WEEK_FROZEN_REVEALED",json.dumps({
            "week":week,
            "target_n_original":len(current_score["updated"]),
-           "target_n_repaired":len(current_score["role_repaired"]),
+           "target_n_repaired":len(current_score["participation_snap"]),
            "target_crps_original":_metric(current_score["updated"])["crps"],
-           "target_crps_repaired":_metric(current_score["role_repaired"])["crps"],
-           "brier_role_raw":_metric(current_cal["role_repaired"]["raw"])["brier"],
+           "target_crps_repaired":_metric(current_score["participation_snap"])["crps"],
+           "brier_role_raw":_metric(current_cal["participation_snap"]["raw"])["brier"],
            "brier_role_calibrated":_metric(
-               current_cal["role_repaired"]["role_platt"])["brier"],
-           "historical_calibrator_rows":len(calib_input["history"]["role_repaired"]),
+               current_cal["participation_snap"]["role_platt"])["brier"],
+           "historical_calibrator_rows":len(calib_input["history"]["participation_snap"]),
         },sort_keys=True),flush=True)
     overall={
        "baseline_targets":{m:_metric(scored[m]) for m in MODELS},
@@ -338,30 +342,33 @@ def main(argv=None):
          for t in THRESHOLDS} for c in CALMODES}
          for m in CALIBRATABLE},
        "paired_repaired_vs_original":{
-         metric:_paired(scored["role_repaired"],scored["updated"],metric,args.seed)
+         metric:_paired(scored["participation_snap"],scored["updated"],metric,args.seed)
          for metric in ("crps","brier","log_loss")},
        "paired_repaired_vs_poisson":{
-         metric:_paired(scored["role_repaired"],
+         metric:_paired(scored["participation_snap"],
                         scored["independent_poisson"],metric,args.seed)
          for metric in ("crps","brier","log_loss")},
        "paired_repaired_calibration_vs_raw":{
-         metric:_paired(calibrated["role_repaired"]["role_platt"],
-                        calibrated["role_repaired"]["raw"],metric,args.seed)
+         metric:_paired(calibrated["participation_snap"]["role_platt"],
+                        calibrated["participation_snap"]["raw"],metric,args.seed)
          for metric in ("brier","log_loss")},
        "paired_repaired_platt_vs_original_platt":{
-         metric:_paired(calibrated["role_repaired"]["role_platt"],
+         metric:_paired(calibrated["participation_snap"]["role_platt"],
                         calibrated["updated"]["role_platt"],metric,args.seed)
          for metric in ("brier","log_loss")},
     }
     report={
-      "schema":"v25-p2-role-repair-calibration-retrospective-2024-v1",
+      "schema":"v25-p2-participation-calibration-retrospective-2024-v1",
       "study_status":"EXPLORATORY_2024_ALREADY_INSPECTED_NO_UNTOUCHED_HOLDOUT",
       "research_only":True,"promotion_authorized":False,
-      "code_package_version":"v25-phase2-role-repair-shadow-20261110",
+      "code_package_version":"v25-phase2-participation-snap-shadow-20261110",
       "original_oracle_sha256":oracle_sha,
       "initial_training":coverage,
       "weeks":18,"samples":args.samples,"seed":args.seed,
       "uses_true_pregame_roster":False,
+      "source_coverage":sources["counts"],
+      "true_original_pregame_capture_verified":False,
+      "snap_exposure_is_not_routes":True,
       "uses_actual_receiver_routes":False,
       "future_or_current_games_seen_by_forecaster":False,
       "calendar_week_boundary_only_2024":True,
@@ -383,8 +390,8 @@ def main(argv=None):
       "receipt_sha256":report["receipt_sha256"],
       "initial_training":coverage,
       "original_scored":overall["baseline_targets"]["updated"],
-      "repaired_scored":overall["baseline_targets"]["role_repaired"],
-      "no_hurdle_scored":overall["baseline_targets"]["role_no_hurdle"],
+      "repaired_scored":overall["baseline_targets"]["participation_snap"],
+      "no_hurdle_scored":overall["baseline_targets"]["participation_no_hurdle"],
       "poisson_scored":overall["baseline_targets"]["independent_poisson"],
       "overall_calibrated":overall["calibrated_binary"],
       "confidence":overall["confidence"],
