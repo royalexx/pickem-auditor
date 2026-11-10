@@ -44,7 +44,7 @@ def _canonical(value):
                       separators=(",", ":")).encode("utf-8")
 
 
-def bind_original_quotes(candidate, original_jsonl, *, freeze_at):
+def bind_original_quotes(candidate, original_jsonl, *, freeze_at, event_start_at=None):
     """Return SHA-256 of exactly matched collector quote records.
 
     Require every evaluated book to originate from the same exact
@@ -65,11 +65,15 @@ def bind_original_quotes(candidate, original_jsonl, *, freeze_at):
     event = str(candidate.get("event_id") or "").strip()
     if not event:
         raise ValueError("market_binding_event_missing")
+    namespace = str(candidate.get("event_id_namespace") or "").strip()
+    if not namespace:
+        raise ValueError("market_binding_event_namespace_missing")
     line = _finite(candidate.get("line"), "line")
     books = candidate.get("books")
     if not isinstance(books, list) or not books:
         raise ValueError("market_binding_books_missing")
     freeze = _utc(freeze_at)
+    declared_start = _utc(event_start_at) if event_start_at is not None else None
     origin = []
     for index, raw in enumerate(original_jsonl.splitlines(), 1):
         if not raw.strip():
@@ -81,6 +85,7 @@ def bind_original_quotes(candidate, original_jsonl, *, freeze_at):
         if not isinstance(item, dict):
             raise ValueError("market_original_quote_not_object")
         if (str(item.get("event_id") or "").strip() != event
+                or str(item.get("event_id_namespace") or "").strip() != namespace
                 or str(item.get("sport") or "").strip() != sport
                 or str(item.get("stat") or "").strip() != stat
                 or normalize_player(item.get("player")) != normalize_player(player)
@@ -88,6 +93,11 @@ def bind_original_quotes(candidate, original_jsonl, *, freeze_at):
             continue
         if item.get("team") and candidate.get("team") and item["team"] != candidate["team"]:
             continue
+        original_start = _utc(item.get("event_start"))
+        if original_start <= freeze:
+            raise ValueError("market_original_event_already_started")
+        if declared_start is not None and original_start != declared_start:
+            raise ValueError("market_original_event_start_mismatch")
         if _utc(item.get("retrieved_at")) > freeze:
             raise ValueError("market_original_quote_after_freeze")
         origin.append(item)
