@@ -33,6 +33,8 @@ def make_inputs(root):
         "observations": [{"id": "old-game", "date": "2026-11-02", "value": 5}],
     }))
     (root / "odds_quotes.jsonl").write_text(json.dumps({
+        "sport": "NFL", "event_id": "event-1", "team": "BUF",
+        "player": "Example Player", "stat": "receptions",
         "book": "ExampleBook", "line": 4.5,
         "over_odds": -110, "under_odds": -110,
         "retrieved_at": "2026-11-09T14:10:00Z"}) + "\n")
