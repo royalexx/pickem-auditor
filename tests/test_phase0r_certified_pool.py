@@ -92,7 +92,7 @@ class LiveCertifiedOnlyPoolTests(unittest.TestCase):
             rows, errors, ledger, calls = self.run_live(data, [row])
             self.assertEqual((rows, errors, calls), ([], 0, 0))
             self.assertEqual(ledger[0]["reason"], "market_unavailable_or_unverified")
-            data, row = prepared(Path(tmp))
+            data, row = prepared(Path(tmp) / "separate_stale_case")
             row["market_retrieved_at"] = "2026-11-09T13:00:00Z"
             rows, errors, ledger, calls = self.run_live(data, [row])
             self.assertEqual((rows, errors, calls), ([], 0, 0))
@@ -113,8 +113,8 @@ class LiveCertifiedOnlyPoolTests(unittest.TestCase):
                 path.unlink()
             rows, errors, ledger, calls = self.run_live(data, [row])
             self.assertEqual((rows, errors), ([], 0))
-            self.assertEqual(calls, 1)
-            self.assertIn("phase0r_strict_rejected:", ledger[0]["reason"])
+            self.assertEqual(calls, 0)
+            self.assertIn("phase0r_source_capture_failed:", ledger[0]["reason"])
             self.assertEqual(ledger[0]["status"], "unavailable")
 
     def test_historical_legacy_run_not_retroactively_filtered(self):
