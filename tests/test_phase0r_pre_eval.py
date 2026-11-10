@@ -137,6 +137,33 @@ class Phase0RPreEvalTests(unittest.TestCase):
                 self.assertEqual(strict_snapshot_status(row, archive_root=archive)[1],
                                  "source_archive_digest_mismatch")
 
+    def test_candidate_event_identity_must_be_present_before_freeze(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            data_root=root/"collected"
+            candidate,_=make_inputs(data_root)
+            del candidate["event_id"]
+            with self.assertRaisesRegex(ValueError,"pre_eval_identity_mismatch"):
+                with phase0_pre_eval.pin(candidate,data_root=data_root,
+                        archive_root=data_root/"source_archives",
+                        policy_root=root/"policy", clock=lambda:START):
+                    pass
+
+    def test_changed_original_book_price_fails_before_model(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            data_root=root/"collected"
+            candidate,_=make_inputs(data_root)
+            original=data_root/"odds_quotes.jsonl"
+            row=json.loads(original.read_text())
+            row["over_odds"]=-130
+            original.write_text(json.dumps(row)+"\n")
+            with self.assertRaisesRegex(ValueError,"market_book_original_offer_mismatch"):
+                with phase0_pre_eval.pin(candidate,data_root=data_root,
+                        archive_root=data_root/"source_archives",
+                        policy_root=root/"policy", clock=lambda:START):
+                    pass
+
     def test_batch_audit_defaults_to_strict_not_legacy(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
