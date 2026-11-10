@@ -74,13 +74,69 @@
     "phase1_approved": "NO",
     "model_promotion": "NO",
     "tier1_tier2": "BLOCKED",
-    "heavy_training": "PAUSED"
+    "heavy_training": "PAUSED",
+    "real_2024_target_only_sequential_training": "PASSED_RETROSPECTIVE_LEARNING_SIGNAL_NOT_FULL_P2",
+    "high_confidence_reliability": "FAILED_OVERCONFIDENT_DIRECTIONAL_UNDER",
+    "actual_nfl_route_availability": "NOT_PROVEN",
+    "phase2_production_model_acceptance": "BLOCKED"
   },
   "next_actions": [
-    "Merge or rebase Phase 1 onto current main after Phase 0R independent signoff",
-    "Construct certified historical NFL as-of state/route/target ledger, not settled game features",
-    "Run registered 2024 rolling-origin control/challenger ablations with matched contracts and source SHA receipts",
-    "Compare player target CRPS and QB attempts on verified cohorts, with independent event/date cluster sensitivity",
-    "Only then decide Phase2 promotion or rollback"
-  ]
+    "Retain Phase 0R live certification and Phase 1 acceptance gates; do not merge research into production",
+    "Obtain auditable pregame route, player participation and verified absence histories; never substitute current-game routes or snaps",
+    "Test an as-of-only participation/no-target hurdle to address underpredicted target means",
+    "Fit probability calibration only to prior revealed 2024 weeks or a new untouched season",
+    "Compare challenger to independent Poisson on matched coverage, full universe, event/week clustered uncertainty, with untouched future data",
+    "Remain in research until true route-aware model has reliable prospective calibration"
+  ],
+  "historical_target_only_learning_study": {
+    "status": "COMPLETED_RETROSPECTIVE_LEARNING_ONLY",
+    "forecast_seasons_initial": [
+      2021,
+      2022,
+      2023
+    ],
+    "evaluation_season": 2024,
+    "weeks": 18,
+    "initial_training_games": 815,
+    "team_game_predictions": 544,
+    "original_synthetic_target_candidates": 6186,
+    "eligible_online_targets": 4046,
+    "eligible_no_refit_targets": 2542,
+    "paired_updated_frozen_targets": 2433,
+    "team_crps_online": 4.6412477002424355,
+    "team_crps_frozen": 4.794852936969084,
+    "paired_team_crps_delta": -0.15360523672664866,
+    "paired_target_crps_delta_updated_minus_frozen": -0.11087163446177879,
+    "updated_target_crps": 1.3941454866176421,
+    "independent_poisson_target_crps": 1.4012926010229891,
+    "paired_target_crps_delta_updated_minus_independent_poisson": -0.007147114405346812,
+    "high80": {
+      "n": 1306,
+      "mean_confidence": 0.8966458891653905,
+      "accuracy": 0.6408882082695253
+    },
+    "high90": {
+      "n": 638,
+      "mean_confidence": 0.9489126175548589,
+      "accuracy": 0.6880877742946708
+    },
+    "high95": {
+      "n": 316,
+      "mean_confidence": 0.9732187005537974,
+      "accuracy": 0.7088607594936709,
+      "all_selected_under": true
+    },
+    "scenario_and_asof_checks": "PASSED_18_WEEKS_NO_CURRENT_OR_FUTURE_OUTCOMES_IN_CHILD_INPUTS",
+    "real_route_features_available": false,
+    "pregame_roster_verified": false,
+    "original_lines_real_bookmaker_quotes": false,
+    "untouched_2024_holdout": false,
+    "source_publication_independently_certified": false,
+    "valid_production_promotion": false,
+    "source_research_code_sha": "284d1367ca9dc72f75e8c6fe31028c270f514893",
+    "source_report_sha256": "90959af55dae516a3236c08bf70622c2ec2c2105561155f73800608dd6fd7e8e",
+    "independent_deepnote_run": "86f727b4-ca9b-4386-852b-40ada8be75be",
+    "full_report_path": "docs/V25_PHASE2_2024_WEEKLY_LEARNING_REPORT_20261110.md",
+    "receipt_path": "docs/phase2_nfl_2024_target_only_replay_20261110.json"
+  }
 }
