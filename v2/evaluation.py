@@ -54,6 +54,41 @@ def log_loss(p: float, outcome: int) -> float:
     return -math.log(p) if outcome == 1 else -math.log1p(-p)
 
 
+def categorical_brier(probabilities: tuple[float, float, float],
+                      observed: str) -> float:
+    """Three-way Over/Under/Push Brier; a push is a real outcome, not a miss."""
+    if observed not in ("over", "under", "push"):
+        raise ContractError("unknown_categorical_settlement")
+    if len(probabilities) != 3 or any(not 0 <= finite(x, "prob") <= 1
+                                     for x in probabilities):
+        raise ContractError("categorical_probability_invalid")
+    if abs(math.fsum(probabilities)-1) > 1e-10:
+        raise ContractError("categorical_mass_not_one")
+    return math.fsum((p-int(index == ("over","under","push").index(observed)))**2
+                     for index,p in enumerate(probabilities))
+
+
+def categorical_log_loss(probabilities: tuple[float,float,float],
+                         observed: str) -> float:
+    if observed not in ("over", "under", "push"):
+        raise ContractError("unknown_categorical_settlement")
+    categorical_brier(probabilities, observed)
+    return -math.log(max(LOG_LOSS_EPSILON,
+                         probabilities[("over","under","push").index(observed)]))
+
+
+def _calibration_bins(rows: list[dict]) -> list[dict]:
+    bins = [(0., .2), (.2, .4), (.4, .6), (.6, .8), (.8, 1.00000001)]
+    result = []
+    for low, high in bins:
+        selected = [r for r in rows if low <= r["p"] < high]
+        result.append({"bin": f"[{low:.1f},{min(high,1):.1f}]",
+                       "n": len(selected),
+                       "predicted_over": _mean(r["p"] for r in selected),
+                       "observed_over": _mean(r["observed_over"] for r in selected)})
+    return result
+
+
 def _mean(items: Iterable[float]) -> float | None:
     items = tuple(items)
     return math.fsum(items) / len(items) if items else None
@@ -123,6 +158,9 @@ def evaluate(quotes: list[MarketQuote], forecasts: list[ForecastSnapshot],
     statuses = Counter()
     rejection_reasons = Counter()
     scored: dict[str, dict[str, dict]] = {model: {} for model in models}
+    multiclass: dict[str, dict[str, dict]] = {model: {} for model in models}
+    quoted_market = {}
+    n_settled_contracts = 0
     n_scored_contracts = 0
     real_with_two_sided_prices = 0
     accepted_count = sum(q.accepted for q in quotes)
@@ -143,17 +181,32 @@ def evaluate(quotes: list[MarketQuote], forecasts: list[ForecastSnapshot],
             continue
         if utc(s.settled_at, "settled_at") < utc(q.event_start_at, "event_start_at"):
             raise ContractError("outcome_available_before_game")
-        if s.actual == q.line:
-            statuses["push"] += 1
-            continue
-        statuses["scorable"] += 1
-        n_scored_contracts += 1
+        is_push = s.actual == q.line
+        statuses["push" if is_push else "scorable"] += 1
+        n_settled_contracts += 1
+        n_scored_contracts += int(not is_push)
         observed_over = int(s.actual > q.line)
+        observed_state = ("push" if is_push else "over" if observed_over else "under")
+        real_market_over = no_vig_over(q)
+        if real_market_over is not None and not is_push:
+            quoted_market[q.quote_id] = {
+                "p": real_market_over, "brier": brier(real_market_over,observed_over),
+                "log_loss": log_loss(real_market_over,observed_over),
+                "group": q.event_id, "observed_over": observed_over}
         for model in models:
             f = by_model.get((q.quote_id, model))
             if f is None:
                 continue
             probs = f.distribution.probabilities(q.line)
+            vector = (probs.over, probs.under, probs.push)
+            multiclass[model][q.quote_id] = {
+                "categorical_brier": categorical_brier(vector, observed_state),
+                "categorical_log_loss": categorical_log_loss(vector,observed_state),
+                "state": observed_state, "group": q.event_id,
+                "date": utc(q.event_start_at,"event_start").date().isoformat(),
+            }
+            if is_push:
+                continue
             p = probs.conditional_over()
             if p is None:
                 # A distribution that always pushes cannot be scored as a binary event.
@@ -166,13 +219,36 @@ def evaluate(quotes: list[MarketQuote], forecasts: list[ForecastSnapshot],
                 "hit": int(chosen == observed_over) if chosen is not None else None,
                 "p": p, "observed_over": observed_over,
                 "group": q.event_id, "synthetic": q.quote_kind == "synthetic",
+                "date": utc(q.event_start_at,"event_start").date().isoformat(),
+                "sport": q.sport, "stat": q.stat_key, "product_type": q.product_type,
                 "forecast_sha256": f.snapshot_sha256,
             }
     summaries = {}
     for model in models:
         rows = list(scored[model].values())
+        category_rows = list(multiclass[model].values())
         directional = [r["hit"] for r in rows if r["hit"] is not None]
+        subsets = defaultdict(list)
+        for qid, r in scored[model].items():
+            quote = by_quote[qid]
+            subsets[(quote.sport,quote.stat_key,quote.quote_kind)].append(r)
+        stratified = {
+            "|".join(k): {
+                "n":len(v), "brier":_mean(x["brier"] for x in v),
+                "log_loss":_mean(x["log_loss"] for x in v),
+                "over_selection_rate":_mean(int(x["p"]>.5) for x in v),
+                "observed_over_rate":_mean(x["observed_over"] for x in v),
+            } for k,v in sorted(subsets.items())
+        }
         summaries[model] = {
+            "settled_three_way_scored":len(category_rows),
+            "settled_three_way_total": n_settled_contracts,
+            "categorical_brier":_mean(x["categorical_brier"] for x in category_rows),
+            "categorical_log_loss":_mean(x["categorical_log_loss"] for x in category_rows),
+            "categorical_push_n":sum(x["state"]=="push" for x in category_rows),
+            "scorable_missing_forecast":n_scored_contracts-len(rows),
+            "calibration_bins":_calibration_bins(rows),
+            "stratified":stratified,
             "scored": len(rows), "scorable_contracts": n_scored_contracts,
             "forecasted_accepted_offers": sum((q.quote_id, model) in by_model for q in quotes if q.accepted),
             "offer_coverage": sum((q.quote_id, model) in by_model for q in quotes if q.accepted) / accepted_count if accepted_count else 0,
@@ -195,11 +271,25 @@ def evaluate(quotes: list[MarketQuote], forecasts: list[ForecastSnapshot],
         # Do not interpret mixed synthetic cohorts as real quote profitability.
         diffs = [(scored[model][c]["group"], scored[model][c]["brier"] - baseline[c]["brier"])
                  for c in common]
+        by_date = [(scored[model][c]["date"],
+                    scored[model][c]["brier"] - baseline[c]["brier"])
+                   for c in common]
+        ternary_common = sorted(set(multiclass[model]) & set(multiclass.get(baseline_model, {})))
         paired[model] = {
             "vs": baseline_model, "matched_contracts": len(common),
+            "matched_settled_three_way": len(ternary_common),
             "brier_difference": _mean(d for _, d in diffs),
             "log_loss_difference": _mean(scored[model][c]["log_loss"] - baseline[c]["log_loss"] for c in common),
+            "categorical_brier_difference": _mean(
+                multiclass[model][c]["categorical_brier"] -
+                multiclass[baseline_model][c]["categorical_brier"]
+                for c in ternary_common),
+            "categorical_log_loss_difference": _mean(
+                multiclass[model][c]["categorical_log_loss"] -
+                multiclass[baseline_model][c]["categorical_log_loss"]
+                for c in ternary_common),
             "brier_cluster_interval": _cluster_interval(diffs, bootstrap_seed, bootstrap_replicates),
+            "date_cluster_brier_interval": _cluster_interval(by_date,bootstrap_seed,bootstrap_replicates),
             "negative_is_better": True,
             "synthetic_diagnostic_count": sum(scored[model][c]["synthetic"] for c in common),
         }
@@ -210,6 +300,15 @@ def evaluate(quotes: list[MarketQuote], forecasts: list[ForecastSnapshot],
         "rejection_reasons": dict(sorted(rejection_reasons.items())),
         "real_two_sided_market_quotes": real_with_two_sided_prices,
         "scorable_contracts": n_scored_contracts,
+        "settled_three_way_contracts": n_settled_contracts,
+        "unforecasted_accepted_offers": {
+            model:sum(q.accepted and (q.quote_id,model) not in by_model for q in quotes)
+            for model in models},
+        "real_market_binary_reference": {
+            "scored":len(quoted_market),
+            "brier":_mean(x["brier"] for x in quoted_market.values()),
+            "log_loss":_mean(x["log_loss"] for x in quoted_market.values()),
+            "note":"Conditional nonpush sportsbook quote benchmark; does not infer pickem pricing or push mass."},
         "models": summaries, "paired": paired,
         "bootstrap_seed": bootstrap_seed, "bootstrap_replicates": bootstrap_replicates,
     }
