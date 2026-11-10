@@ -112,8 +112,13 @@ def pin(candidate, *, data_root, archive_root, policy_root, clock, identity=None
 
         research = root / ("research_" + str(day) + ".json")
         if research.is_file():
-            ingest("Engine_B", "original_research", research.read_bytes(),
-                   relative=research.name)
+            # The merged candidate is what B actually consumes; the original
+            # research packet is archived for provenance, not loaded by the
+            # numerical evaluator. Avoid cloning a multi-MB research file
+            # for every Over/Under candidate.
+            from phase0_input_capture import _read_json
+            research_bytes, _ = _read_json(research)
+            ingest("Engine_B", "original_research", research_bytes)
         # A declared policy must never silently fall back to the one in the
         # mutable repository while a prediction is being computed.
         policy = config_root / "config" / "production_consensus.json"
