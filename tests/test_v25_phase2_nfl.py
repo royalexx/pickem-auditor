@@ -299,7 +299,7 @@ class Phase2NflReplayTests(unittest.TestCase):
 
     def test_inconsistent_settlement_abstains_before_scoring(self):
         cases=chronological_cases(1)
-        cases[0]["outcome"]["player_targets"]["WR1_A"]=20
+        cases[0]["outcome"]["player_targets"]["WR1_A"]=1
         with self.assertRaisesRegex(ContractError,"verified_absent_player_has_actual_targets"):
             replay_nfl_opportunity_cases(cases,n_scenarios=64)
         cases=chronological_cases(1)
