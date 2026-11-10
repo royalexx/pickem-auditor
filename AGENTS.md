@@ -1,84 +1,49 @@
-# Pick'em Auditor operating instructions
+# Pick'em Auditor — agent operating instructions
 
-## User-approved directional-accuracy research baseline (mandatory)
+## Required reading before any project task (V2.5, governing v1.1)
 
-**Before making ANY future forecasting, data, lineup, Bayesian training, ranking,
-probability, calibration, settlement, or validation changes, read and apply
-docs/research/DIRECTIONAL_ACCURACY_RESEARCH_BASELINE_20261108.md and its
-frozen source manifest config/directional_research_baseline_20261108.json.**
-These encode the November 8, 2026 user-approved Deep Research study comparing
-Pick'em Auditor against relevant statistical papers and LosingLoonies.
-Treat the report as the design and acceptance baseline, not optional advice.
+This repository is governed by the **November 10, 2026 V2.5 Master Implementation Plan v1.1**. Every ChatGPT-controlled coding, research, validation, audit, and orchestration agent must read, in order:
 
-Implement in sequence: (1) immutable 60/40 baseline and strict timestamp/
-leakage/source receipts; (2) independently modeled exposure/opportunity and
-current role/lineups/injuries; (3) role/position/season-specific hierarchical
-priors; (4) temporally cross-fitted correlation-aware stacking; (5) separate
-held-out calibration; (6) adversarial chronological validation, shuffled-feature
-controls and independent game/slate cluster uncertainty. At every phase,
-compare on EXACT pregame contracts against the frozen 60/40 and timestamped
-market baseline, with separate directional accuracy, Brier/log-loss, side bias,
-coverage, missingness and abstentions. Never present a single slate as proof.
-**No production promotion or Tier changes without a separate decision.**
-Retain the full source report in the research conversation; the repository
-methodology document is its implementable research contract. Deviations require
-explicit reasoning and new authorization, not a silent implementation shortcut.
+1. [README.md](README.md) — repository overview, entrypoints, and historical context.
+2. [V2.5 Master Implementation Plan v1.1](docs/Pickem_Auditor_V2_5_Master_Implementation_Plan_v1_1_2026-11-10.md) — **primary governing architecture, scientific contracts, phase gates, and release policy**. Read the applicable sections in full before making changes.
+3. [V2.5 Next Workflow Launch Brief v1.1](docs/Pickem_Auditor_V2_5_Next_Workflow_Launch_Brief_v1_1_2026-11-10.md) — current recorded checkpoint and next-session work instructions. Treat dated numbers as **historical checkpoints**, not verified live state.
+4. This `AGENTS.md`, plus the files, phase-specific docs, live status receipts, and original frozen source artifacts relevant to the assigned ticket.
+5. [November 8 directional accuracy research baseline](docs/research/DIRECTIONAL_ACCURACY_RESEARCH_BASELINE_20261108.md) and [frozen baseline manifest](config/directional_research_baseline_20261108.json) when work intersects forecasting, probabilities, calibration, ranking, or validation. These remain essential **supporting research**, subordinate to the approved V2.5 v1.1 amendments when instructions conflict.
 
-The Phase 1 read-only validator is scripts/directional_phase1_validation.py.
-It must not overwrite historical rows, change the trained model or dispatch
-Dell jobs. Consult docs/PHASE1_DIRECTIONAL_VALIDATION.md for use and limits.
+**Precedence:** the governing master plan defines *what is permissible and what evidence is required*; the launch brief describes *what to investigate next*; the README and historical research supply context; phase-specific documents describe implementation details. The actual repository HEAD, currently running jobs, immutable forecast/source receipts, accepted commits, and reproducible test artifacts establish what is **factually true today**. If instructions conflict, do not quietly choose a convenient rule: follow the most recent explicitly approved governing amendment and document the conflict in an architecture decision record (ADR). A dated report never overrides newer verified evidence. User-specific instructions and security constraints continue to apply.
 
+### Mandatory startup checklist for every agent or new workflow
 
-The production slate policy is `config/production_consensus.json`:
-60% consensus of available, same-contract, pregame historical engines
-(Engine A, Bayesian A, Bayesian B and strictly eligible NUTS) plus 40%
-source-verified opportunity/situational Engine B. Missing historical models
-are individually reported; the historical pool requires Engine A plus at least
-one other valid family. Market and provisional NUTS are NEVER included in the
-blend. Final production probabilities are computed after Bayesian/NUTS sidecars;
-preliminary A/B-only snapshots are unranked and not publication-authorized.
-Preserve existing research, availability, market and Tier 1 validation gates.
-Do not interpret production authorization as demonstrated probability calibration.
+- Read the four top-level onboarding/authority documents above **before** proposing work; report the governing version (`PA-V25-MASTER-2026-11-09 / v1.1`).
+- Inspect actual `main` commit, relevant branches/PRs, active workflow schedules, Deepnote source/notebook state when applicable, model training pause markers, and original source hashes. Do **not** infer merge, certification, or deployment from narrative status.
+- Classify the requested work by Phase 0R, 1, 1.5, or a conditionally approved later phase; identify prerequisites, the exact bounded ticket, validation method, and rollback.
+- Record `implemented`, `tested`, `independently verified`, `blocked-by-data`, `shadow-only`, `rejected`, or `release-approved` with evidence. Do not use `done` when only code or historical diagnostics exist.
+- Preserve source/quote reject denominators and failed forecast records, including invalid/missing identities and timestamps. Never retro-certify or silently drop them.
+- Do not begin expensive Phase 2–8 modeling simply because a plan lists it. Phase 1.5 error diagnosis and preregistered pilot evidence decide investment; Phase 0R source integrity gates trusted release.
 
-For every requested slate, report each pick's player/stat/side/line plus Engine A,
-Engine B, production Consensus, Bayesian A, Bayesian B, normalized Market and
-trained NUTS probabilities. Use `scripts/slate_model_report.py`; retain unavailable
-values and reasons, exact model builds and original timestamps. Never substitute
-another model into a missing column. Bayesian/NUTS comparisons do not enter the
-production blend.
+### Non-negotiable development and operational rules
 
-Before a slate, inspect completed model availability. Deepnote's current token
-has Contents access but lacks Actions-artifact access. Approved cached NUTS fits
-remain usable. Use connected GitHub capabilities to stage newly completed,
-strictly converged artifacts when needed, validating artifact/manifest/posterior
-hashes. Do not ask the user to manually collect files that connections can read.
+- **Point-in-time integrity first:** use authenticated pregame source, input freeze, model training cutoff, event/contract identity, quote receipt, and immutable snapshot lineage. No future/postgame data in pregame features.
+- **Separate integrity, forecast quality, and market edge:** synthetic sportsbook lines and exploratory Brier improvements are diagnostic, never proof of real offered edge, profits, certified forecasts, or high-confidence Tiers.
+- **Keep the frozen legacy 60/40 model and Engine A/B, Bayesian A/B, strict NUTS outputs, posteriors, and historical settlement/provenance ledgers** as auditable controls. Existing `config/production_consensus.json` describes legacy behavior; it is **not** evidence that the 60/40 model has validated authority to publish Tier 1/2.
+- **Do not restart, alter, or destroy paused/active NUTS training**, rewrite historical forecast records, automatically change weights/thresholds, or re-enable the afternoon publishing schedule without specific authorization and relevant gates.
+- **No paid-data dependencies** or GitHub-hosted coding agents/Copilot. Code changes are to be performed by ChatGPT-controlled tooling. Use an isolated branch, appropriate tests, review, and traceable PR/commit; do not equate an infrastructure merge with statistical promotion.
+- **No trusted Tier 1/2 publication** before independent prospective, preregistered, dependence-aware reliability evidence and certification. If required receipt/offer/payout evidence is absent, mark output `UNCERTIFIED/SHADOW` or unavailable.
+- Test exact Over/Under/Push complementarity, legal support, sport-specific constraints, leakage, role/participation uncertainty, model/source provenance, clustered matched validation, negative controls, and rollback as specified by the governing plan.
+- Keep the existing slate comparison chart and report all **available** Engine A, Engine B, Bayesian A, Bayesian B, strict NUTS, frozen 60/40, market, and V2.5 outputs without fabricating missing columns. For each sport report all eligible candidates and a properly explained research top 10; do not confuse a research ranking with an approved pick.
 
-Never interrupt, restart, overwrite or modify active training to run a slate.
-Never relax convergence gates or promote a failed model. Preserve original
-predictions and outcomes; settle archived forecasts without rebuilding them.
-Do not invoke GitHub Copilot or GitHub-hosted AI agents. See
-`docs/PRODUCTION_VALIDATION.md` for the validation/reporting contract.
+### Current recorded starting point, **not** live certification
 
+The v1.1 launch brief prioritizes bounded **Phase 0R-A** diagnosis of November 9 forecast certification failures (1,490 forecasts / zero certified) and separately 658 rejected quotes, with parallel immutable prospective quote/source capture. **Phase 1.5** code and historical 2024 synthetic-line analysis exist, but independent audit, authentic opportunity-factor inputs, and scientific exit gates remain unresolved as of the document's dated checkpoint. **Phase 1** reproducible baseline/evaluation contracts are required. Choose the first Phase 2/3 modeling pilot only after the signed Phase 1.5 evidence-priority decision. Phase 4–8 research remains individually conditional.
 
-For nightly slate requests, also report the evidence-based research top ten
-for each sport from slate_top10_evidence.json and slate_top10_evidence.md.
-Every worthwhile candidate must have its exact line and all available model
-probabilities plus concrete evidence: verified same-line current-season hits
-and observed workload trends when available, or explicit "unavailable" and
-required source checks. Never infer lineup status from prior appearances.
-Use the transparent priority score for research ORDER ONLY, not as a win
-probability, Tier certificate or permission to bet. Preserve the separate
-fully verified board.
+Before acting, re-check the live repository, original artifacts, and runtime: the preceding paragraph is not a claim about today's deployment or merge state.
 
-For every slate, evaluate EVERY source-supported, archived NFL/NBA/NHL player/stat/side
-contract before narrowing the display to ten per sport. Read
-`slate_full_universe_research.json` and `slate_forecast_scope_audit.json`:
-report the player trend and the opponent tendency or explicitly name missing
-context. Verify current lineup, snaps/usage, opponent scheme, opportunity,
-game script, injuries, rest and stadium-specific weather before claiming that
-the matchup favors a candidate. No unsourced trend, venue assumption or weather
-multiplier can substitute for actual opponent evidence. Retain the existing
-all-model comparison chart. In NFL research prioritize credible volume overs
-(targets, pass attempts, rush attempts) and outcome-dependent unders as a
-screening preference, NOT a probability bonus or a reason to ignore other
-stronger opportunities. Never skip an available market solely due to type.
+### Additional research and implementation references
+
+- [Directional research contract](docs/research/DIRECTIONAL_ACCURACY_RESEARCH_BASELINE_20261108.md) — retained as a frozen historical research baseline unless superseded by V2.5.
+- [Phase 1 directional validator](docs/PHASE1_DIRECTIONAL_VALIDATION.md) — read-only, not release authorization.
+- [Phase 1.5 methodology and tests](docs/PHASE_1_5_DIAGNOSTICS.md) — shadow diagnosis; not validated opportunity decomposition without genuine pregame factor forecasts.
+- [Production validation](docs/PRODUCTION_VALIDATION.md) — consult alongside V2.5; older language granting Tier authority does not supersede the master gates.
+- [Research/verification ranking](references/evidence_ranking_repair_20261028.md) and [verification policy](references/pick_verification.md) — legacy mechanisms and evidence infrastructure, not exceptions to source/certification rules.
+
+**When reporting work:** include exact branch/commit/PR, source and output hashes, cohort and exclusions, adversarial test results, whether evidence is historical/synthetic/prospective, which gates passed or remain blocked, and the smallest next action. A new agent should be able to resume without relying on chat memory.
