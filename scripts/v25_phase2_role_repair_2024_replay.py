@@ -278,6 +278,13 @@ def main(argv=None):
             if model in CALIBRATABLE and "actual_over" in row:
                 role=feature_roles.get((model,event,team,pid))
                 if role not in ("WR","RB","TE"):
+                    if model=="updated":
+                        # Old model may include players absent from the
+                        # newer lagged-roster research cohort. Keep them in
+                        # old-model full-universe scores, but do NOT forge
+                        # a role or synthesize a calibrated comparison.
+                        numerics["baseline_player_not_in_asof_roster_calibration_abstains"]+=1
+                        continue
                     fail("current_calibration_role_missing_from_prior")
                 for cal in CALMODES:
                     q=qindex.get((model,cal,event,team,pid))
