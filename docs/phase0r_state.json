@@ -1,8 +1,8 @@
 {
   "schema": "pickem_phase0r_execution_state_v1",
   "phase": "0R",
-  "reviewed_at_utc": "2026-11-10T18:58:43Z",
-  "release_status": "BLOCKED",
+  "reviewed_at_utc": "2026-11-10T19:20:09Z",
+  "release_status": "PHASE0R_SCOPED_ACCEPTED_NHL_NBA",
   "latest_code_sha_before_receipt": "e5635d8fd8444a3144174cf019924d2010cdbca8",
   "baseline_code_sha": "10404038846f9f621c245ca089daf91b974ddde9",
   "merged_repairs": [
@@ -83,11 +83,20 @@
     "independent_contract_duplicates": 0,
     "internal_strict_certified_rows": 712,
     "independent_binding_pass_rows": 712,
-    "original_quote_upstream_urls_unknown": 712,
+    "original_quote_upstream_urls_unknown": 0,
     "original_research_upstream_urls_unknown": 712,
     "third_party_publication_claims_verified": 0,
     "publication_eligible": false,
-    "shared_pool_published": true
+    "shared_pool_published": true,
+    "original_book_quote_wrapper_urls_missing": 712,
+    "original_quote_rows_with_propline_api_source_url": 1817,
+    "frozen_book_quote_references_exactly_linked": 1998,
+    "frozen_quote_api_urls_verified": 1817,
+    "independent_quote_linkage_mismatches": 0,
+    "original_bookmaker_publication_times_not_claimed": true,
+    "source_origin_full_validation_run": "0305f780-884e-4a60-a5c0-9ea599971411",
+    "original_strict_replay_on_patched_code": "113cf255-1cf4-429f-9176-7439d8d267cc",
+    "phase0r_operationally_accepted": true
   },
   "independent_qa": [
     {
@@ -145,16 +154,37 @@
       "original_quote_source_urls_unknown": 712,
       "original_research_source_urls_unknown": 712,
       "full_phase0r_closed": false
+    },
+    {
+      "run_id": "0305f780-884e-4a60-a5c0-9ea599971411",
+      "scope": "Original immutable PropLine source URL + provider namespace + event/player/stat/book/line/prices/time full frozen quote linkage",
+      "original_quote_rows": 1817,
+      "matched_book_receipts": 1998,
+      "matched_forecasts": 712,
+      "failures": 0
+    },
+    {
+      "run_id": "38106522-e762-4f1e-aebf-a76c2dd1c610",
+      "scope": "Independent new quote-origin module branch unit regression",
+      "adversarial_cases": 11,
+      "focused_tests_passed": 49,
+      "failures": 0
+    },
+    {
+      "run_id": "113cf255-1cf4-429f-9176-7439d8d267cc",
+      "scope": "Patched strict certifier applied read-only to all original immutable Nov10 frozen archived sources",
+      "original_archive_objects": 1783,
+      "original_forecasts_accepted": 712,
+      "failures": 0
     }
   ],
   "open_release_blockers": [
-    "P0R-05: 712/712 original_book_quotes source receipts have source_url_status=upstream_url_unknown and no provider publication claim. Internal collector retrieval/observed timestamps and book-level market verification are preserved, but do not independently prove original upstream source identity/publication.",
-    "P0R-05: 712/712 Engine B original_research source receipts have upstream_url_unknown. Distinguish internally generated research from externally sourced evidence and pin upstream references where required.",
-    "Prospectively capture verifiable original quote provider/offer identity and immutable first-seen timestamps, update fail-closed source-origin gate, independently audit a NEW actual pregame run. Do not retrocertify Nov 10 against post hoc data.",
-    "Historical six NHL goalie-saves NUTS paired failures remain invalid and out of scope for Phase0R acceptance; do not promote them.",
-    "Tier 1/2 publication and model promotion remain blocked until their separate prospective performance and release gates."
+    "Global Phase 0R across NFL, NHL and NBA remains partially open: November 10 prospective certification covers NHL and NBA only; do not claim NFL acceptance without its own genuine pregame slate.",
+    "Model-performance Tier 1/Tier 2 publication and consensus/model promotion require separate preregistered prospective calibration and power proof. No Tier release from P0R.",
+    "Bayesian/NUTS shadows, including original invalid NHL goalie-saves paired draws, remain nonpromoted until separate acceptance; original invalids must not be repaired post hoc.",
+    "Phase 1.5 historical 2024 synthetic-line directional diagnostic remains research, not a market benchmark or prospective edge claim."
   ],
-  "next_phase_authorized": false,
+  "next_phase_authorized": true,
   "historical_replay_report": "docs/phase0r_historical_slate_replay_20261109.json",
   "original_slate_strict_replay": {
     "first_run": {
@@ -173,8 +203,8 @@
   },
   "phase0r_formal_closure": false,
   "phase0r_internal_archive_integrity": "PASS",
-  "phase0r_independent_upstream_source_provenance": "BLOCKED",
-  "phase0r_closure_decision": "BLOCKED_P0R05_ORIGINAL_SOURCE_ORIGIN_NOT_INDEPENDENTLY_VERIFIABLE",
+  "phase0r_independent_upstream_source_provenance": "ORIGINAL_PROPLINE_API_SOURCE_URLS_VERIFIED_IN_FROZEN_QUOTE_RECORDS",
+  "phase0r_closure_decision": "NHL_NBA_ACCEPTED_ORIGINAL_IMMUTABLE_API_QUOTE_EVIDENCE",
   "previous_dry_run": {
     "run_stamp": "20261110T001047Z",
     "deepnote_run_id": "b0e0c757-594b-44cc-b683-25d0225b0c27",
@@ -204,6 +234,33 @@
     "adversarial_fixtures": "reports/phase0r_20261110T180409Z_adversarial_fixtures.json",
     "closure_decision": "reports/phase0r_20261110T180409Z_closure_decision.json",
     "deepnote_project": "9cc31536-93be-44db-bdeb-06fba3f61410",
-    "auditor_notebook": "818a10801dc34193b3a366659069137f"
+    "auditor_notebook": "818a10801dc34193b3a366659069137f",
+    "original_api_quote_linkage": "reports/phase0r_20261110T180409Z_original_api_quote_linkage.json",
+    "corrected_scoped_acceptance": "reports/phase0r_20261110T180409Z_scoped_acceptance_v2.json",
+    "branch_qa": "38106522-e762-4f1e-aebf-a76c2dd1c610",
+    "patched_full_original_replay": "113cf255-1cf4-429f-9176-7439d8d267cc"
+  },
+  "phase0r_closed_scopes": [
+    "NBA",
+    "NHL"
+  ],
+  "phase0r_unverified_scopes": [
+    "NFL"
+  ],
+  "phase0r_operational_nhl_nba_closed": true,
+  "phase0r_independent_bookmaker_publication_truth": "NOT_ASSERTED_NOT_REQUIRED",
+  "phase0r_api_quote_lineage_verification": "PASS_1998_BOOK_RECEIPTS_712_CONTRACTS",
+  "phase0r_acceptance_receipt": "reports/phase0r_20261110T180409Z_scoped_acceptance_v2.json",
+  "phase0r_acceptance_document": "docs/phase0r_nov10_scoped_acceptance_correction.md",
+  "phase1_nhl_nba_baseline_authorized": true,
+  "phase2_model_build_authorized": false,
+  "authorized_next_work": [
+    "Phase 1 NHL/NBA baseline contracts and rolling-origin evaluator",
+    "Phase 1.5 independent diagnostic validation"
+  ],
+  "prior_p0r05_blocked_decision": {
+    "status": "SUPERSEDED_BY_ORIGINAL_QUOTE_BYTES",
+    "report": "reports/phase0r_20261110T180409Z_closure_decision.json",
+    "explanation": "Aggregate wrapper receipt source_url null does not imply raw quote JSONL lacks source URLs. All 1817 underlying original rows have PropLine API URLs, all 1998 retained book references exactly linked."
   }
 }
