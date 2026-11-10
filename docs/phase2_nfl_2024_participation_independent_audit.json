@@ -1,0 +1,1765 @@
+{
+  "actual_receiver_routes_not_reconstructed": true,
+  "asof_history_verified": true,
+  "audit_sha256": "165022a41915ecb03c569b704cb23ca90b0ef48a76d7b631f6c4a89b2a0e0a47",
+  "coverage": {
+    "original_research_candidate_lines": 6186,
+    "player_target_scored": {
+      "independent_poisson": 4046,
+      "no_refit": 2542,
+      "participation_no_hurdle": 4249,
+      "participation_snap": 4249,
+      "updated": 4046
+    },
+    "reasons": {
+      "independent_poisson:has_saved_line": 5177,
+      "independent_poisson:no_settlement": 1131,
+      "no_refit:has_saved_line": 3555,
+      "no_refit:no_settlement": 1013,
+      "participation_no_hurdle:has_saved_line": 5636,
+      "participation_no_hurdle:no_settlement": 1387,
+      "participation_snap:has_saved_line": 5636,
+      "participation_snap:no_settlement": 1387,
+      "updated:has_saved_line": 5177,
+      "updated:no_asof_role_for_calibration": 8,
+      "updated:no_settlement": 1131
+    }
+  },
+  "distribution_metrics": {
+    "independent_poisson": {
+      "mean_crps": 1.4012926010229891,
+      "n": 4046
+    },
+    "no_refit": {
+      "mean_crps": 1.4802677400650517,
+      "n": 2542
+    },
+    "participation_no_hurdle": {
+      "mean_crps": 1.471084297559042,
+      "n": 4249
+    },
+    "participation_snap": {
+      "mean_crps": 1.4113719362908461,
+      "n": 4249
+    },
+    "updated": {
+      "mean_crps": 1.3941454866176421,
+      "n": 4046
+    }
+  },
+  "original_provider_publication_independently_verified": false,
+  "paired_calibration_vs_raw": {
+    "participation_no_hurdle": {
+      "brier": {
+        "mean_new_minus_reference": -0.029443833980740346,
+        "n": 4249,
+        "n_distinct_event_clusters": 272,
+        "positive_improvement_fraction": 0.4264532831254413
+      },
+      "log_loss": {
+        "mean_new_minus_reference": -0.08263342984856813,
+        "n": 4249,
+        "n_distinct_event_clusters": 272,
+        "positive_improvement_fraction": 0.42292304071546244
+      }
+    },
+    "participation_snap": {
+      "brier": {
+        "mean_new_minus_reference": -0.01707601773352298,
+        "n": 4249,
+        "n_distinct_event_clusters": 272,
+        "positive_improvement_fraction": 0.42104024476347374
+      },
+      "log_loss": {
+        "mean_new_minus_reference": -0.04622813190817502,
+        "n": 4249,
+        "n_distinct_event_clusters": 272,
+        "positive_improvement_fraction": 0.41727465285949633
+      }
+    },
+    "updated": {
+      "brier": {
+        "mean_new_minus_reference": -0.026308983188953652,
+        "n": 4042,
+        "n_distinct_event_clusters": 272,
+        "positive_improvement_fraction": 0.40598713508164275
+      },
+      "log_loss": {
+        "mean_new_minus_reference": -0.10867051015080317,
+        "n": 4042,
+        "n_distinct_event_clusters": 272,
+        "positive_improvement_fraction": 0.4027709054923305
+      }
+    }
+  },
+  "paired_model_vs_baseline_crps": {
+    "independent_poisson": {
+      "mean_new_minus_reference": 0.007147114405346812,
+      "n": 4046,
+      "n_distinct_event_clusters": 272,
+      "positive_improvement_fraction": 0.5358378645575878
+    },
+    "participation_no_hurdle": {
+      "mean_new_minus_reference": 0.09769247735508121,
+      "n": 4042,
+      "n_distinct_event_clusters": 272,
+      "positive_improvement_fraction": 0.40846115784265213
+    },
+    "participation_snap": {
+      "mean_new_minus_reference": 0.028187815474142598,
+      "n": 4042,
+      "n_distinct_event_clusters": 272,
+      "positive_improvement_fraction": 0.4168728352300841
+    }
+  },
+  "paired_raw_vs_original": {
+    "participation_no_hurdle": {
+      "brier": {
+        "mean_new_minus_reference": 0.006135883925870643,
+        "n": 4042,
+        "n_distinct_event_clusters": 272,
+        "positive_improvement_fraction": 0.4856506679861455
+      },
+      "log_loss": {
+        "mean_new_minus_reference": -0.019456951892557774,
+        "n": 4042,
+        "n_distinct_event_clusters": 272,
+        "positive_improvement_fraction": 0.4856506679861455
+      }
+    },
+    "participation_snap": {
+      "brier": {
+        "mean_new_minus_reference": -0.010499874947390776,
+        "n": 4042,
+        "n_distinct_event_clusters": 272,
+        "positive_improvement_fraction": 0.483424047501237
+      },
+      "log_loss": {
+        "mean_new_minus_reference": -0.06617958599261088,
+        "n": 4042,
+        "n_distinct_event_clusters": 272,
+        "positive_improvement_fraction": 0.483424047501237
+      }
+    }
+  },
+  "probability_metrics": {
+    "independent_poisson|raw": {
+      "ece_10_equal_width": 0.1413954368512111,
+      "equality_tie_share": 0.0017301038062283738,
+      "mean_brier": 0.2690145518010168,
+      "mean_p_over": 0.31291418221700446,
+      "n": 4046,
+      "over_actual_rate": 0.43895205140879884
+    },
+    "no_refit|raw": {
+      "ece_10_equal_width": 0.1534962627852085,
+      "equality_tie_share": 0.003933910306845004,
+      "mean_brier": 0.27518428919542315,
+      "mean_p_over": 0.3816062032848151,
+      "n": 2542,
+      "over_actual_rate": 0.44807238394964594
+    },
+    "participation_no_hurdle|global_platt": {
+      "ece_10_equal_width": 0.027752103803382038,
+      "equality_tie_share": 0.0,
+      "mean_brier": 0.2422427744056883,
+      "mean_p_over": 0.4192414458774471,
+      "n": 4249,
+      "over_actual_rate": 0.4337491174393975
+    },
+    "participation_no_hurdle|raw": {
+      "ece_10_equal_width": 0.17134500397152272,
+      "equality_tie_share": 0.0016474464579901153,
+      "mean_brier": 0.27210587438456335,
+      "mean_p_over": 0.27862759987644153,
+      "n": 4249,
+      "over_actual_rate": 0.4337491174393975
+    },
+    "participation_no_hurdle|role_platt": {
+      "ece_10_equal_width": 0.02612355019166193,
+      "equality_tie_share": 0.0,
+      "mean_brier": 0.24266204040382305,
+      "mean_p_over": 0.42085581173622316,
+      "n": 4249,
+      "over_actual_rate": 0.4337491174393975
+    },
+    "participation_snap|global_platt": {
+      "ece_10_equal_width": 0.01903386244250542,
+      "equality_tie_share": 0.0,
+      "mean_brier": 0.2381630476949578,
+      "mean_p_over": 0.4202161135385206,
+      "n": 4249,
+      "over_actual_rate": 0.4337491174393975
+    },
+    "participation_snap|raw": {
+      "ece_10_equal_width": 0.12868790818427867,
+      "equality_tie_share": 0.002824193927983055,
+      "mean_brier": 0.2557780058643739,
+      "mean_p_over": 0.30885070384208047,
+      "n": 4249,
+      "over_actual_rate": 0.4337491174393975
+    },
+    "participation_snap|role_platt": {
+      "ece_10_equal_width": 0.02147539998903329,
+      "equality_tie_share": 0.0,
+      "mean_brier": 0.2387019881308509,
+      "mean_p_over": 0.421868844891821,
+      "n": 4249,
+      "over_actual_rate": 0.4337491174393975
+    },
+    "updated|global_platt": {
+      "ece_10_equal_width": 0.020413328312845223,
+      "equality_tie_share": 0.0004948045522018803,
+      "mean_brier": 0.24128812455891727,
+      "mean_p_over": 0.42159235774989373,
+      "n": 4042,
+      "over_actual_rate": 0.4393864423552697
+    },
+    "updated|raw": {
+      "ece_10_equal_width": 0.14154218672763225,
+      "equality_tie_share": 0.003213049925852694,
+      "mean_brier": 0.267491393907201,
+      "mean_p_over": 0.31099871014582303,
+      "n": 4046,
+      "over_actual_rate": 0.43895205140879884
+    },
+    "updated|role_platt": {
+      "ece_10_equal_width": 0.01917153517758217,
+      "equality_tie_share": 0.0004948045522018803,
+      "mean_brier": 0.24135088977305802,
+      "mean_p_over": 0.4223119864205074,
+      "n": 4042,
+      "over_actual_rate": 0.4393864423552697
+    }
+  },
+  "real_market_quotes_not_used": true,
+  "schema": "v25-phase2-independent-2024-confidence-audit-v1",
+  "selective_reliability": {
+    "independent_poisson|raw": {
+      "70": {
+        "accuracy": 0.6188486536675951,
+        "mean_claimed": 0.8394366222725163,
+        "n": 2154,
+        "over_accuracy": 0.5873015873015873,
+        "over_n": 126,
+        "under_accuracy": 0.6208086785009862,
+        "under_n": 2028
+      },
+      "80": {
+        "accuracy": 0.6443609022556391,
+        "mean_claimed": 0.8956913768796992,
+        "n": 1330,
+        "over_accuracy": 0.7096774193548387,
+        "over_n": 31,
+        "under_accuracy": 0.642802155504234,
+        "under_n": 1299
+      },
+      "90": {
+        "accuracy": 0.6671875,
+        "mean_claimed": 0.9491790771484375,
+        "n": 640,
+        "over_accuracy": 0.5,
+        "over_n": 6,
+        "under_accuracy": 0.668769716088328,
+        "under_n": 634
+      },
+      "95": {
+        "accuracy": 0.7038216560509554,
+        "mean_claimed": 0.9761270899681529,
+        "n": 314,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.7038216560509554,
+        "under_n": 314
+      }
+    },
+    "no_refit|raw": {
+      "70": {
+        "accuracy": 0.6118518518518519,
+        "mean_claimed": 0.8423553240740741,
+        "n": 1350,
+        "over_accuracy": 0.6055363321799307,
+        "over_n": 289,
+        "under_accuracy": 0.6135721017907634,
+        "under_n": 1061
+      },
+      "80": {
+        "accuracy": 0.6156583629893239,
+        "mean_claimed": 0.8986877224199288,
+        "n": 843,
+        "over_accuracy": 0.6504854368932039,
+        "over_n": 103,
+        "under_accuracy": 0.6108108108108108,
+        "under_n": 740
+      },
+      "90": {
+        "accuracy": 0.6264775413711584,
+        "mean_claimed": 0.950673204787234,
+        "n": 423,
+        "over_accuracy": 0.5384615384615384,
+        "over_n": 39,
+        "under_accuracy": 0.6354166666666666,
+        "under_n": 384
+      },
+      "95": {
+        "accuracy": 0.6421568627450981,
+        "mean_claimed": 0.9769167432598039,
+        "n": 204,
+        "over_accuracy": 0.5,
+        "over_n": 10,
+        "under_accuracy": 0.6494845360824743,
+        "under_n": 194
+      }
+    },
+    "participation_no_hurdle|global_platt": {
+      "70": {
+        "accuracy": 0.7153284671532847,
+        "mean_claimed": 0.763619632669099,
+        "n": 411,
+        "over_accuracy": 0.6,
+        "over_n": 10,
+        "under_accuracy": 0.7182044887780549,
+        "under_n": 401
+      },
+      "80": {
+        "accuracy": 0.651685393258427,
+        "mean_claimed": 0.8548537157499972,
+        "n": 89,
+        "over_accuracy": 0.5,
+        "over_n": 2,
+        "under_accuracy": 0.6551724137931034,
+        "under_n": 87
+      },
+      "90": {
+        "accuracy": 0.6428571428571429,
+        "mean_claimed": 0.921875,
+        "n": 14,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.6428571428571429,
+        "under_n": 14
+      },
+      "95": {
+        "accuracy": 0.0,
+        "mean_claimed": 0.955078125,
+        "n": 1,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.0,
+        "under_n": 1
+      }
+    },
+    "participation_no_hurdle|raw": {
+      "70": {
+        "accuracy": 0.6077777777777778,
+        "mean_claimed": 0.8085640914351852,
+        "n": 2700,
+        "over_accuracy": 0.4,
+        "over_n": 60,
+        "under_accuracy": 0.6125,
+        "under_n": 2640
+      },
+      "80": {
+        "accuracy": 0.6532083633741889,
+        "mean_claimed": 0.8620124932408075,
+        "n": 1387,
+        "over_accuracy": 0.625,
+        "over_n": 8,
+        "under_accuracy": 0.653372008701958,
+        "under_n": 1379
+      },
+      "90": {
+        "accuracy": 0.69,
+        "mean_claimed": 0.92376953125,
+        "n": 300,
+        "over_accuracy": 1.0,
+        "over_n": 2,
+        "under_accuracy": 0.6879194630872483,
+        "under_n": 298
+      },
+      "95": {
+        "accuracy": 0.717948717948718,
+        "mean_claimed": 0.9605368589743589,
+        "n": 39,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.717948717948718,
+        "under_n": 39
+      }
+    },
+    "participation_no_hurdle|role_platt": {
+      "70": {
+        "accuracy": 0.7068181818181818,
+        "mean_claimed": 0.7645533231860001,
+        "n": 440,
+        "over_accuracy": 0.5,
+        "over_n": 16,
+        "under_accuracy": 0.714622641509434,
+        "under_n": 424
+      },
+      "80": {
+        "accuracy": 0.6632653061224489,
+        "mean_claimed": 0.8510846385389248,
+        "n": 98,
+        "over_accuracy": 0.5,
+        "over_n": 2,
+        "under_accuracy": 0.6666666666666666,
+        "under_n": 96
+      },
+      "90": {
+        "accuracy": 0.6428571428571429,
+        "mean_claimed": 0.921875,
+        "n": 14,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.6428571428571429,
+        "under_n": 14
+      },
+      "95": {
+        "accuracy": 0.0,
+        "mean_claimed": 0.955078125,
+        "n": 1,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.0,
+        "under_n": 1
+      }
+    },
+    "participation_snap|global_platt": {
+      "70": {
+        "accuracy": 0.711864406779661,
+        "mean_claimed": 0.7582253746060362,
+        "n": 590,
+        "over_accuracy": 0.5862068965517241,
+        "over_n": 29,
+        "under_accuracy": 0.7183600713012478,
+        "under_n": 561
+      },
+      "80": {
+        "accuracy": 0.7075471698113207,
+        "mean_claimed": 0.8364623388870303,
+        "n": 106,
+        "over_accuracy": 0.8,
+        "over_n": 5,
+        "under_accuracy": 0.7029702970297029,
+        "under_n": 101
+      },
+      "90": {
+        "accuracy": 0.6666666666666666,
+        "mean_claimed": 0.923828125,
+        "n": 3,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.6666666666666666,
+        "under_n": 3
+      },
+      "95": {
+        "n": 0
+      }
+    },
+    "participation_snap|raw": {
+      "70": {
+        "accuracy": 0.6362835755173932,
+        "mean_claimed": 0.795693320673712,
+        "n": 2271,
+        "over_accuracy": 0.6444444444444445,
+        "over_n": 45,
+        "under_accuracy": 0.6361185983827493,
+        "under_n": 2226
+      },
+      "80": {
+        "accuracy": 0.6808300395256917,
+        "mean_claimed": 0.8524946732954546,
+        "n": 1012,
+        "over_accuracy": 0.7777777777777778,
+        "over_n": 9,
+        "under_accuracy": 0.6799601196410767,
+        "under_n": 1003
+      },
+      "90": {
+        "accuracy": 0.7323943661971831,
+        "mean_claimed": 0.9212835607394366,
+        "n": 142,
+        "over_accuracy": 0.5,
+        "over_n": 2,
+        "under_accuracy": 0.7357142857142858,
+        "under_n": 140
+      },
+      "95": {
+        "accuracy": 0.7777777777777778,
+        "mean_claimed": 0.9637586805555556,
+        "n": 9,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.7777777777777778,
+        "under_n": 9
+      }
+    },
+    "participation_snap|role_platt": {
+      "70": {
+        "accuracy": 0.7019867549668874,
+        "mean_claimed": 0.7602027554067059,
+        "n": 604,
+        "over_accuracy": 0.6176470588235294,
+        "over_n": 34,
+        "under_accuracy": 0.7070175438596491,
+        "under_n": 570
+      },
+      "80": {
+        "accuracy": 0.7540983606557377,
+        "mean_claimed": 0.8359596084421635,
+        "n": 122,
+        "over_accuracy": 0.6666666666666666,
+        "over_n": 6,
+        "under_accuracy": 0.7586206896551724,
+        "under_n": 116
+      },
+      "90": {
+        "accuracy": 0.6666666666666666,
+        "mean_claimed": 0.923828125,
+        "n": 3,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.6666666666666666,
+        "under_n": 3
+      },
+      "95": {
+        "n": 0
+      }
+    },
+    "updated|global_platt": {
+      "70": {
+        "accuracy": 0.6701030927835051,
+        "mean_claimed": 0.7785696313822228,
+        "n": 388,
+        "over_accuracy": 0.8571428571428571,
+        "over_n": 7,
+        "under_accuracy": 0.6666666666666666,
+        "under_n": 381
+      },
+      "80": {
+        "accuracy": 0.7295081967213115,
+        "mean_claimed": 0.8607295868151494,
+        "n": 122,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.7295081967213115,
+        "under_n": 122
+      },
+      "90": {
+        "accuracy": 0.7727272727272727,
+        "mean_claimed": 0.9514618267452088,
+        "n": 22,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.7727272727272727,
+        "under_n": 22
+      },
+      "95": {
+        "accuracy": 0.8333333333333334,
+        "mean_claimed": 0.9715042721864094,
+        "n": 12,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.8333333333333334,
+        "under_n": 12
+      }
+    },
+    "updated|raw": {
+      "70": {
+        "accuracy": 0.6229895931882686,
+        "mean_claimed": 0.8403629819063387,
+        "n": 2114,
+        "over_accuracy": 0.6344086021505376,
+        "over_n": 93,
+        "under_accuracy": 0.6224641266699653,
+        "under_n": 2021
+      },
+      "80": {
+        "accuracy": 0.6408882082695253,
+        "mean_claimed": 0.8966458891653905,
+        "n": 1306,
+        "over_accuracy": 0.75,
+        "over_n": 24,
+        "under_accuracy": 0.6388455538221529,
+        "under_n": 1282
+      },
+      "90": {
+        "accuracy": 0.6880877742946708,
+        "mean_claimed": 0.9489126175548589,
+        "n": 638,
+        "over_accuracy": 0.5,
+        "over_n": 4,
+        "under_accuracy": 0.6892744479495269,
+        "under_n": 634
+      },
+      "95": {
+        "accuracy": 0.7088607594936709,
+        "mean_claimed": 0.9732187005537974,
+        "n": 316,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.7088607594936709,
+        "under_n": 316
+      }
+    },
+    "updated|role_platt": {
+      "70": {
+        "accuracy": 0.6878048780487804,
+        "mean_claimed": 0.7775203008957668,
+        "n": 410,
+        "over_accuracy": 0.8333333333333334,
+        "over_n": 6,
+        "under_accuracy": 0.6856435643564357,
+        "under_n": 404
+      },
+      "80": {
+        "accuracy": 0.7213114754098361,
+        "mean_claimed": 0.8629839956305482,
+        "n": 122,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.7213114754098361,
+        "under_n": 122
+      },
+      "90": {
+        "accuracy": 0.75,
+        "mean_claimed": 0.947326756417611,
+        "n": 24,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.75,
+        "under_n": 24
+      },
+      "95": {
+        "accuracy": 0.8333333333333334,
+        "mean_claimed": 0.9724467738381142,
+        "n": 12,
+        "over_accuracy": null,
+        "over_n": 0,
+        "under_accuracy": 0.8333333333333334,
+        "under_n": 12
+      }
+    }
+  },
+  "source_report_sha256": "3c32cc97e5899c7f4814e22d60b1c43298d2a2b4470f47c2f2feab8998dfc95a",
+  "week_by_week": [
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6119402985074627,
+          "mean_claimed": 0.8635727611940298,
+          "n": 67,
+          "over_accuracy": 0.0,
+          "over_n": 1,
+          "under_accuracy": 0.6212121212121212,
+          "under_n": 66
+        },
+        "participation_snap": {
+          "accuracy": 0.6956521739130435,
+          "mean_claimed": 0.8425186820652174,
+          "n": 46,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6956521739130435,
+          "under_n": 46
+        },
+        "updated": {
+          "accuracy": 0.8,
+          "mean_claimed": 0.8822916666666667,
+          "n": 30,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.8,
+          "under_n": 30
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6119402985074627,
+          "mean_claimed": 0.8635727611940298,
+          "n": 67,
+          "over_accuracy": 0.0,
+          "over_n": 1,
+          "under_accuracy": 0.6212121212121212,
+          "under_n": 66
+        },
+        "participation_snap": {
+          "accuracy": 0.6956521739130435,
+          "mean_claimed": 0.8425186820652174,
+          "n": 46,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6956521739130435,
+          "under_n": 46
+        },
+        "updated": {
+          "accuracy": 0.8064516129032258,
+          "mean_claimed": 0.8852696572580645,
+          "n": 31,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.8064516129032258,
+          "under_n": 31
+        }
+      },
+      "scored": {
+        "independent_poisson": 166,
+        "no_refit": 166,
+        "participation_no_hurdle": 178,
+        "participation_snap": 178,
+        "updated": 166
+      },
+      "week": 1
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.7692307692307693,
+          "mean_claimed": 0.826030773889905,
+          "n": 13,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.7692307692307693,
+          "under_n": 13
+        },
+        "participation_snap": {
+          "accuracy": 0.7894736842105263,
+          "mean_claimed": 0.8360226947879162,
+          "n": 19,
+          "over_accuracy": 0.0,
+          "over_n": 1,
+          "under_accuracy": 0.8333333333333334,
+          "under_n": 18
+        },
+        "updated": {
+          "accuracy": 0.6086956521739131,
+          "mean_claimed": 0.8876653285532153,
+          "n": 23,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6086956521739131,
+          "under_n": 23
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.726027397260274,
+          "mean_claimed": 0.8703178510273972,
+          "n": 73,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.726027397260274,
+          "under_n": 73
+        },
+        "participation_snap": {
+          "accuracy": 0.7058823529411765,
+          "mean_claimed": 0.8682215073529411,
+          "n": 51,
+          "over_accuracy": 0.0,
+          "over_n": 1,
+          "under_accuracy": 0.72,
+          "under_n": 50
+        },
+        "updated": {
+          "accuracy": 0.5277777777777778,
+          "mean_claimed": 0.8924153645833334,
+          "n": 36,
+          "over_accuracy": 1.0,
+          "over_n": 2,
+          "under_accuracy": 0.5,
+          "under_n": 34
+        }
+      },
+      "scored": {
+        "independent_poisson": 158,
+        "no_refit": 142,
+        "participation_no_hurdle": 158,
+        "participation_snap": 158,
+        "updated": 158
+      },
+      "week": 2
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.875,
+          "mean_claimed": 0.8267243787810897,
+          "n": 8,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.875,
+          "under_n": 8
+        },
+        "participation_snap": {
+          "accuracy": 0.75,
+          "mean_claimed": 0.8284321720826427,
+          "n": 12,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.75,
+          "under_n": 12
+        },
+        "updated": {
+          "accuracy": 0.6666666666666666,
+          "mean_claimed": 0.8508853085546624,
+          "n": 18,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6666666666666666,
+          "under_n": 18
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6666666666666666,
+          "mean_claimed": 0.869873046875,
+          "n": 72,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.6619718309859155,
+          "under_n": 71
+        },
+        "participation_snap": {
+          "accuracy": 0.6842105263157895,
+          "mean_claimed": 0.8544750548245614,
+          "n": 57,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6842105263157895,
+          "under_n": 57
+        },
+        "updated": {
+          "accuracy": 0.7058823529411765,
+          "mean_claimed": 0.9111519607843137,
+          "n": 51,
+          "over_accuracy": 1.0,
+          "over_n": 2,
+          "under_accuracy": 0.6938775510204082,
+          "under_n": 49
+        }
+      },
+      "scored": {
+        "independent_poisson": 181,
+        "no_refit": 155,
+        "participation_no_hurdle": 181,
+        "participation_snap": 181,
+        "updated": 181
+      },
+      "week": 3
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.8193017362476134,
+          "n": 3,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 3
+        },
+        "participation_snap": {
+          "accuracy": 0.8888888888888888,
+          "mean_claimed": 0.8167218773760561,
+          "n": 9,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.875,
+          "under_n": 8
+        },
+        "updated": {
+          "accuracy": 0.7333333333333333,
+          "mean_claimed": 0.8368071773669428,
+          "n": 30,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.7333333333333333,
+          "under_n": 30
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6627906976744186,
+          "mean_claimed": 0.8697765261627907,
+          "n": 86,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.6588235294117647,
+          "under_n": 85
+        },
+        "participation_snap": {
+          "accuracy": 0.7777777777777778,
+          "mean_claimed": 0.8608630952380952,
+          "n": 63,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.7741935483870968,
+          "under_n": 62
+        },
+        "updated": {
+          "accuracy": 0.6442307692307693,
+          "mean_claimed": 0.9291616586538461,
+          "n": 104,
+          "over_accuracy": 1.0,
+          "over_n": 3,
+          "under_accuracy": 0.6336633663366337,
+          "under_n": 101
+        }
+      },
+      "scored": {
+        "independent_poisson": 229,
+        "no_refit": 151,
+        "participation_no_hurdle": 233,
+        "participation_snap": 233,
+        "updated": 229
+      },
+      "week": 4
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6666666666666666,
+          "mean_claimed": 0.8173408728879679,
+          "n": 3,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6666666666666666,
+          "under_n": 3
+        },
+        "participation_snap": {
+          "accuracy": 0.7142857142857143,
+          "mean_claimed": 0.8514048839085422,
+          "n": 7,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.6666666666666666,
+          "under_n": 6
+        },
+        "updated": {
+          "accuracy": 0.3333333333333333,
+          "mean_claimed": 0.8289608810126761,
+          "n": 3,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.3333333333333333,
+          "under_n": 3
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6455696202531646,
+          "mean_claimed": 0.8729727056962026,
+          "n": 79,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.6410256410256411,
+          "under_n": 78
+        },
+        "participation_snap": {
+          "accuracy": 0.6612903225806451,
+          "mean_claimed": 0.8531691028225806,
+          "n": 62,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.6557377049180327,
+          "under_n": 61
+        },
+        "updated": {
+          "accuracy": 0.5510204081632653,
+          "mean_claimed": 0.9115513392857143,
+          "n": 98,
+          "over_accuracy": 1.0,
+          "over_n": 2,
+          "under_accuracy": 0.5416666666666666,
+          "under_n": 96
+        }
+      },
+      "scored": {
+        "independent_poisson": 211,
+        "no_refit": 133,
+        "participation_no_hurdle": 215,
+        "participation_snap": 215,
+        "updated": 211
+      },
+      "week": 5
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.5,
+          "mean_claimed": 0.8193454389487986,
+          "n": 2,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.0,
+          "under_n": 1
+        },
+        "participation_snap": {
+          "accuracy": 0.7142857142857143,
+          "mean_claimed": 0.8219092462685804,
+          "n": 7,
+          "over_accuracy": 0.5,
+          "over_n": 2,
+          "under_accuracy": 0.8,
+          "under_n": 5
+        },
+        "updated": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.8454488950774172,
+          "n": 1,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 1
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6419753086419753,
+          "mean_claimed": 0.8580970293209876,
+          "n": 81,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.6375,
+          "under_n": 80
+        },
+        "participation_snap": {
+          "accuracy": 0.7090909090909091,
+          "mean_claimed": 0.8544034090909091,
+          "n": 55,
+          "over_accuracy": 0.5,
+          "over_n": 2,
+          "under_accuracy": 0.7169811320754716,
+          "under_n": 53
+        },
+        "updated": {
+          "accuracy": 0.6129032258064516,
+          "mean_claimed": 0.9126554099462365,
+          "n": 93,
+          "over_accuracy": 0.5,
+          "over_n": 2,
+          "under_accuracy": 0.6153846153846154,
+          "under_n": 91
+        }
+      },
+      "scored": {
+        "independent_poisson": 209,
+        "no_refit": 131,
+        "participation_no_hurdle": 221,
+        "participation_snap": 221,
+        "updated": 209
+      },
+      "week": 6
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "n": 0
+        },
+        "participation_snap": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.8269043849002969,
+          "n": 9,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 1.0,
+          "under_n": 8
+        },
+        "updated": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.8384573712857228,
+          "n": 1,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 1
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.7228915662650602,
+          "mean_claimed": 0.8733057228915663,
+          "n": 83,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.7228915662650602,
+          "under_n": 83
+        },
+        "participation_snap": {
+          "accuracy": 0.7903225806451613,
+          "mean_claimed": 0.8656439012096774,
+          "n": 62,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.7868852459016393,
+          "under_n": 61
+        },
+        "updated": {
+          "accuracy": 0.6494845360824743,
+          "mean_claimed": 0.9018806378865979,
+          "n": 97,
+          "over_accuracy": 0.0,
+          "over_n": 1,
+          "under_accuracy": 0.65625,
+          "under_n": 96
+        }
+      },
+      "scored": {
+        "independent_poisson": 232,
+        "no_refit": 143,
+        "participation_no_hurdle": 242,
+        "participation_snap": 242,
+        "updated": 232
+      },
+      "week": 7
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "n": 0
+        },
+        "participation_snap": {
+          "accuracy": 0.8,
+          "mean_claimed": 0.8363798909722894,
+          "n": 5,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.8,
+          "under_n": 5
+        },
+        "updated": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.8269043520596727,
+          "n": 1,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 1
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.7,
+          "mean_claimed": 0.8684375,
+          "n": 100,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.696969696969697,
+          "under_n": 99
+        },
+        "participation_snap": {
+          "accuracy": 0.6428571428571429,
+          "mean_claimed": 0.8595703125,
+          "n": 70,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.6376811594202898,
+          "under_n": 69
+        },
+        "updated": {
+          "accuracy": 0.6585365853658537,
+          "mean_claimed": 0.8848450203252033,
+          "n": 123,
+          "over_accuracy": 1.0,
+          "over_n": 3,
+          "under_accuracy": 0.65,
+          "under_n": 120
+        }
+      },
+      "scored": {
+        "independent_poisson": 262,
+        "no_refit": 158,
+        "participation_no_hurdle": 279,
+        "participation_snap": 279,
+        "updated": 262
+      },
+      "week": 8
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "n": 0
+        },
+        "participation_snap": {
+          "accuracy": 0.0,
+          "mean_claimed": 0.8118572428776131,
+          "n": 2,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.0,
+          "under_n": 2
+        },
+        "updated": {
+          "n": 0
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6296296296296297,
+          "mean_claimed": 0.8617380401234568,
+          "n": 81,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6296296296296297,
+          "under_n": 81
+        },
+        "participation_snap": {
+          "accuracy": 0.6153846153846154,
+          "mean_claimed": 0.8556565504807693,
+          "n": 52,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6153846153846154,
+          "under_n": 52
+        },
+        "updated": {
+          "accuracy": 0.6333333333333333,
+          "mean_claimed": 0.8775607638888889,
+          "n": 90,
+          "over_accuracy": 0.3333333333333333,
+          "over_n": 3,
+          "under_accuracy": 0.6436781609195402,
+          "under_n": 87
+        }
+      },
+      "scored": {
+        "independent_poisson": 241,
+        "no_refit": 139,
+        "participation_no_hurdle": 252,
+        "participation_snap": 252,
+        "updated": 241
+      },
+      "week": 9
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.8292918161335809,
+          "n": 1,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 1
+        },
+        "participation_snap": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.8227619312961363,
+          "n": 2,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 2
+        },
+        "updated": {
+          "accuracy": 0.3333333333333333,
+          "mean_claimed": 0.8413730575995787,
+          "n": 3,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.3333333333333333,
+          "under_n": 3
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6923076923076923,
+          "mean_claimed": 0.8597756410256411,
+          "n": 78,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6923076923076923,
+          "under_n": 78
+        },
+        "participation_snap": {
+          "accuracy": 0.7169811320754716,
+          "mean_claimed": 0.8529628537735849,
+          "n": 53,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.7169811320754716,
+          "under_n": 53
+        },
+        "updated": {
+          "accuracy": 0.6923076923076923,
+          "mean_claimed": 0.8922475961538462,
+          "n": 65,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6923076923076923,
+          "under_n": 65
+        }
+      },
+      "scored": {
+        "independent_poisson": 219,
+        "no_refit": 129,
+        "participation_no_hurdle": 230,
+        "participation_snap": 230,
+        "updated": 219
+      },
+      "week": 10
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "n": 0
+        },
+        "participation_snap": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.8903520779213093,
+          "n": 1,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 1
+        },
+        "updated": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.889986601304019,
+          "n": 3,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 3
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6410256410256411,
+          "mean_claimed": 0.853690905448718,
+          "n": 78,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6410256410256411,
+          "under_n": 78
+        },
+        "participation_snap": {
+          "accuracy": 0.6875,
+          "mean_claimed": 0.8397216796875,
+          "n": 64,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6875,
+          "under_n": 64
+        },
+        "updated": {
+          "accuracy": 0.6842105263157895,
+          "mean_claimed": 0.8962787828947368,
+          "n": 57,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6842105263157895,
+          "under_n": 57
+        }
+      },
+      "scored": {
+        "independent_poisson": 233,
+        "no_refit": 138,
+        "participation_no_hurdle": 248,
+        "participation_snap": 248,
+        "updated": 233
+      },
+      "week": 11
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.0,
+          "mean_claimed": 0.8168139645592339,
+          "n": 1,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.0,
+          "under_n": 1
+        },
+        "participation_snap": {
+          "accuracy": 0.5,
+          "mean_claimed": 0.8339286340866642,
+          "n": 2,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.5,
+          "under_n": 2
+        },
+        "updated": {
+          "n": 0
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.696969696969697,
+          "mean_claimed": 0.8605587121212122,
+          "n": 66,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.696969696969697,
+          "under_n": 66
+        },
+        "participation_snap": {
+          "accuracy": 0.7169811320754716,
+          "mean_claimed": 0.8516362028301887,
+          "n": 53,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.7169811320754716,
+          "under_n": 53
+        },
+        "updated": {
+          "accuracy": 0.6964285714285714,
+          "mean_claimed": 0.8828822544642857,
+          "n": 56,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6964285714285714,
+          "under_n": 56
+        }
+      },
+      "scored": {
+        "independent_poisson": 217,
+        "no_refit": 120,
+        "participation_no_hurdle": 229,
+        "participation_snap": 229,
+        "updated": 217
+      },
+      "week": 12
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "n": 0
+        },
+        "participation_snap": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.8904131679512132,
+          "n": 1,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 1
+        },
+        "updated": {
+          "n": 0
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6233766233766234,
+          "mean_claimed": 0.8589437905844156,
+          "n": 77,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6233766233766234,
+          "under_n": 77
+        },
+        "participation_snap": {
+          "accuracy": 0.6792452830188679,
+          "mean_claimed": 0.8529260023584906,
+          "n": 53,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6792452830188679,
+          "under_n": 53
+        },
+        "updated": {
+          "accuracy": 0.5396825396825397,
+          "mean_claimed": 0.8824094742063492,
+          "n": 63,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.5396825396825397,
+          "under_n": 63
+        }
+      },
+      "scored": {
+        "independent_poisson": 258,
+        "no_refit": 150,
+        "participation_no_hurdle": 274,
+        "participation_snap": 274,
+        "updated": 258
+      },
+      "week": 13
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "n": 0
+        },
+        "participation_snap": {
+          "n": 0
+        },
+        "updated": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.8522646101640468,
+          "n": 2,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 2
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6363636363636364,
+          "mean_claimed": 0.8573922821969697,
+          "n": 66,
+          "over_accuracy": 0.0,
+          "over_n": 1,
+          "under_accuracy": 0.6461538461538462,
+          "under_n": 65
+        },
+        "participation_snap": {
+          "accuracy": 0.6346153846153846,
+          "mean_claimed": 0.8426607572115384,
+          "n": 52,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6346153846153846,
+          "under_n": 52
+        },
+        "updated": {
+          "accuracy": 0.639344262295082,
+          "mean_claimed": 0.8858542520491803,
+          "n": 61,
+          "over_accuracy": 0.5,
+          "over_n": 2,
+          "under_accuracy": 0.6440677966101694,
+          "under_n": 59
+        }
+      },
+      "scored": {
+        "independent_poisson": 201,
+        "no_refit": 111,
+        "participation_no_hurdle": 215,
+        "participation_snap": 215,
+        "updated": 201
+      },
+      "week": 14
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "n": 0
+        },
+        "participation_snap": {
+          "n": 0
+        },
+        "updated": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.8994879193999767,
+          "n": 1,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 1
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.6162790697674418,
+          "mean_claimed": 0.8544013444767442,
+          "n": 86,
+          "over_accuracy": 0.0,
+          "over_n": 1,
+          "under_accuracy": 0.6235294117647059,
+          "under_n": 85
+        },
+        "participation_snap": {
+          "accuracy": 0.6923076923076923,
+          "mean_claimed": 0.8487379807692308,
+          "n": 65,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6923076923076923,
+          "under_n": 65
+        },
+        "updated": {
+          "accuracy": 0.6575342465753424,
+          "mean_claimed": 0.8826252140410958,
+          "n": 73,
+          "over_accuracy": 0.0,
+          "over_n": 1,
+          "under_accuracy": 0.6666666666666666,
+          "under_n": 72
+        }
+      },
+      "scored": {
+        "independent_poisson": 264,
+        "no_refit": 145,
+        "participation_no_hurdle": 273,
+        "participation_snap": 273,
+        "updated": 264
+      },
+      "week": 15
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "n": 0
+        },
+        "participation_snap": {
+          "n": 0
+        },
+        "updated": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.8859279819392347,
+          "n": 2,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 2
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.5584415584415584,
+          "mean_claimed": 0.8497869318181818,
+          "n": 77,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.5584415584415584,
+          "under_n": 77
+        },
+        "participation_snap": {
+          "accuracy": 0.5636363636363636,
+          "mean_claimed": 0.8388849431818182,
+          "n": 55,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.5636363636363636,
+          "under_n": 55
+        },
+        "updated": {
+          "accuracy": 0.5166666666666667,
+          "mean_claimed": 0.8939127604166667,
+          "n": 60,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.5166666666666667,
+          "under_n": 60
+        }
+      },
+      "scored": {
+        "independent_poisson": 251,
+        "no_refit": 147,
+        "participation_no_hurdle": 271,
+        "participation_snap": 271,
+        "updated": 251
+      },
+      "week": 16
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "n": 0
+        },
+        "participation_snap": {
+          "n": 0
+        },
+        "updated": {
+          "accuracy": 1.0,
+          "mean_claimed": 0.851534262425146,
+          "n": 3,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 1.0,
+          "under_n": 3
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.7083333333333334,
+          "mean_claimed": 0.8561740451388888,
+          "n": 72,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.7083333333333334,
+          "under_n": 72
+        },
+        "participation_snap": {
+          "accuracy": 0.6862745098039216,
+          "mean_claimed": 0.8469286151960784,
+          "n": 51,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.6862745098039216,
+          "under_n": 51
+        },
+        "updated": {
+          "accuracy": 0.7532467532467533,
+          "mean_claimed": 0.8959263392857143,
+          "n": 77,
+          "over_accuracy": 1.0,
+          "over_n": 1,
+          "under_accuracy": 0.75,
+          "under_n": 76
+        }
+      },
+      "scored": {
+        "independent_poisson": 267,
+        "no_refit": 148,
+        "participation_no_hurdle": 279,
+        "participation_snap": 279,
+        "updated": 267
+      },
+      "week": 17
+    },
+    {
+      "cal_high80": {
+        "participation_no_hurdle": {
+          "n": 0
+        },
+        "participation_snap": {
+          "n": 0
+        },
+        "updated": {
+          "accuracy": 0.0,
+          "mean_claimed": 0.8565959061571038,
+          "n": 1,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.0,
+          "under_n": 1
+        }
+      },
+      "raw_high80": {
+        "participation_no_hurdle": {
+          "accuracy": 0.5538461538461539,
+          "mean_claimed": 0.8531850961538462,
+          "n": 65,
+          "over_accuracy": null,
+          "over_n": 0,
+          "under_accuracy": 0.5538461538461539,
+          "under_n": 65
+        },
+        "participation_snap": {
+          "accuracy": 0.5625,
+          "mean_claimed": 0.8524576822916666,
+          "n": 48,
+          "over_accuracy": 1.0,
+          "over_n": 2,
+          "under_accuracy": 0.5434782608695652,
+          "under_n": 46
+        },
+        "updated": {
+          "accuracy": 0.6338028169014085,
+          "mean_claimed": 0.8962367957746479,
+          "n": 71,
+          "over_accuracy": 1.0,
+          "over_n": 2,
+          "under_accuracy": 0.6231884057971014,
+          "under_n": 69
+        }
+      },
+      "scored": {
+        "independent_poisson": 247,
+        "no_refit": 136,
+        "participation_no_hurdle": 271,
+        "participation_snap": 271,
+        "updated": 247
+      },
+      "week": 18
+    }
+  ],
+  "week_count": 18
+}
