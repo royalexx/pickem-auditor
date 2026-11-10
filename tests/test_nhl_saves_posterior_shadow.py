@@ -118,6 +118,24 @@ class NHLShadowSafety(unittest.TestCase):
         self.assertFalse(r["publication_eligible"])
         self.assertFalse(r["calibrated"])
 
+    def test_over_under_share_draws_independent_of_forecast_timestamp(self):
+        over=row(side="over", forecast_at="2026-10-30T10:10:00-04:00")
+        under=row(side="under", forecast_at="2026-10-30T10:11:00-04:00")
+        self.assertEqual(sh.identity(over),sh.identity(under))
+        seeds=[]
+        def simulated(*args,**kwargs):
+            seeds.append(kwargs["seed"])
+            return {"q_over":.35,"q_under":.65,"q_push":0.,
+                    "numerical_mc_se":.004}
+        with patch("joint_population_bayes.forecast",side_effect=simulated):
+            a=sh.evaluate(over,manifest=manifest(),posterior=object(),cache={},now=NOW)
+            b=sh.evaluate(under,manifest=manifest(),posterior=object(),cache={},now=NOW)
+        self.assertEqual(a["status"],"forecast")
+        self.assertEqual(b["status"],"forecast")
+        self.assertEqual(seeds[0],seeds[1])
+        self.assertAlmostEqual(a["q_win"]+b["q_win"],1.)
+        self.assertNotEqual(sh.identity(over),sh.identity(row(player_id="200",side="over")))
+
     def test_completion_after_start_is_unavailable(self):
         q={"q_over":.21,"q_under":.79,"q_push":0.,"numerical_mc_se":.004}
         with patch("joint_population_bayes.forecast",return_value=q):

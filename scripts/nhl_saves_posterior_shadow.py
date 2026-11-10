@@ -89,8 +89,21 @@ def load_model(folder):
 
 
 def identity(row):
-    return tuple(str(row.get(k)) for k in
-        ("game_date","sport","player_id","stat","side","reference_line","forecast_at","run_id"))
+    """Shared game/goalie/line seed identity; side and forecast_at are excluded.
+
+    Over and Under rows are captured at different instants but must draw from
+    the identical posterior integration stream. Including either per-side
+    field causes noncomplementary same-contract probabilities.
+    """
+    keys=("run_id","game_date","sport","event_start","team","opponent",
+          "player_id","stat")
+    values=[row.get(k) for k in keys]
+    if any(v in (None,"") for v in values):
+        raise ModelUnavailable("missing_shared_contract_identity")
+    line=row.get("reference_line")
+    if type(line) not in (int,float) or not math.isfinite(line):
+        raise ModelUnavailable("invalid_shared_contract_line")
+    return tuple(str(v) for v in values)+(format(float(line),".15g"),)
 
 
 def validate_candidate(row, manifest, now):
