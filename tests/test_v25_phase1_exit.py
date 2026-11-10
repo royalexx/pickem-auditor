@@ -381,6 +381,72 @@ class RollingTests(unittest.TestCase):
                       outcome["models"]["naive_pregame_exposure_rate"]["missing_reasons"])
 
 
+class JointScorecardTests(unittest.TestCase):
+    def records(self):
+        from v2.joint_evaluation import evaluate_joint
+        components=[{"player_id":"p1","stat_key":"targets","period":"full"},
+                    {"player_id":"p2","stat_key":"targets","period":"full"}]
+        result=[]
+        for event in ("s1","s2"):
+            for model,simulations in (("frozen_v1",[[0.,0.],[10.,10.]]),
+                                      ("challenger",[[4.,5.],[4.,5.]])):
+                result.append({
+                    "event_id":event,"model_id":model,"run_id":"original-v1",
+                    "event_start_at":"2024-09-05T18:00:00Z",
+                    "forecast_at":"2024-09-05T17:00:00Z",
+                    "input_freeze_at":"2024-09-05T16:59:00Z",
+                    "model_training_cutoff_at":"2024-09-01T00:00:00Z",
+                    "settled_at":"2024-09-06T00:00:00Z",
+                    "scenarios_sha256":canonical_hash({"scenarios":simulations,
+                        "components":components}),
+                    "source_receipt_sha256":SHA,
+                    "components":components,"scenarios":simulations,
+                    "observed":[4.,5.],
+                })
+        return result
+
+    def test_analytic_frozen_joint_scores_and_matched_contracts(self):
+        from v2.joint_evaluation import evaluate_joint
+        result=evaluate_joint(self.records())
+        self.assertEqual(result["event_universe"],2)
+        self.assertEqual(result["records"],4)
+        self.assertEqual(result["paired"]["challenger"]["matched_events"],2)
+        self.assertLess(result["paired"]["challenger"]["energy_difference"],0)
+        self.assertEqual(result["paired"]["challenger"]
+                         ["energy_game_cluster_interval"]["status"],"insufficient_clusters")
+        self.assertFalse(result["production_promotion_authorized"])
+
+    def test_tampered_ensemble_future_cutoff_duplicate_and_mismatched_coordinates(self):
+        from v2.joint_evaluation import evaluate_joint
+        rows=self.records()
+        tampered=[dict(r) for r in rows]
+        tampered[0]["scenarios"]=[[0.,0.],[100.,100.]]
+        with self.assertRaisesRegex(ContractError,"scenario_bytes_hash"):
+            evaluate_joint(tampered)
+        future=[dict(r) for r in rows]
+        future[0]["forecast_at"]=future[0]["settled_at"]
+        with self.assertRaisesRegex(ContractError,"joint_temporal_order_failed"):
+            evaluate_joint(future)
+        with self.assertRaisesRegex(ContractError,"duplicate_joint_model_event"):
+            evaluate_joint(rows+[rows[0]])
+        wrong=[dict(r) for r in rows]
+        changed=[dict(r) for r in rows[0]["components"]]
+        changed[0]={"player_id":"changed","stat_key":"targets","period":"full"}
+        wrong[0]["components"]=changed
+        wrong[0]["scenarios_sha256"]=canonical_hash(
+            {"scenarios":wrong[0]["scenarios"],"components":changed})
+        with self.assertRaisesRegex(ContractError,"incompatible_joint_component_universe"):
+            evaluate_joint(wrong)
+
+    def test_manifest_can_evaluate_original_ensemble_only(self):
+        result=run_experiment(
+            {"experiment_id":EXP,"joint_scenarios":self.records()},
+            protocol(),input_sha256=SHA,protocol_sha256=SHA,
+            code_commit=COMMIT)
+        self.assertEqual(result["joint_scenarios"]["models"]["challenger"]["events"],2)
+        self.assertFalse(result["source_publication_certified"])
+
+
 class ExperimentTests(unittest.TestCase):
     def test_receipt_determinism_and_2025_not_independent(self):
         payload={"experiment_id":EXP,"rolling":synthetic_rolling(8)}
