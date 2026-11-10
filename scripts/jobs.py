@@ -862,10 +862,29 @@ def run_snapshot(
     from collections import Counter
     outcomes=Counter(item["status"] for item in evaluated_contracts)
     by_stat=Counter(str(item.get("sport"))+"|"+str(item.get("stat")) for item in evaluated_contracts)
+    strict_live_policy = (os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1"
+                          or os.environ.get("PICKEM_PHASE0_CERTIFIED_ONLY") == "1")
+    eligibility_by_sport = {}
+    for sport in sorted({str(x.get("sport")) for x in evaluated_contracts}):
+        eligible = [x for x in evaluated_contracts if str(x.get("sport")) == sport]
+        eligibility_by_sport[sport] = {
+            "prepared": len(eligible),
+            "certified_forecast": sum(x["status"] == "forecast" for x in eligible)
+                                  if strict_live_policy else None,
+            "unavailable": sum(x["status"] == "unavailable" for x in eligible),
+        }
     scope_receipt={
         "schema":"all_prepared_props_attempts_v1","date":game_date,"run_id":run_id,
         "source_player_stat_rows":len(rows),
         "normalized_two_sided_quote_rows":len(quotes),
+        "forecast_pool_policy": ("strict_certified_only_original_inputs_v1"
+                                  if strict_live_policy else "legacy_research_pool"),
+        "certification_exclusion_is_not_random":True,
+        "all_prepared_contracts_in_coverage_denominator":True,
+        "certified_forecast_contracts":outcomes["forecast"] if strict_live_policy else None,
+        "excluded_from_prediction_pool":outcomes["unavailable"]
+                                         if strict_live_policy else None,
+        "eligibility_by_sport":eligibility_by_sport,
         "prepared_contracts":len(evaluated_contracts),
         "forecast_contracts":outcomes["forecast"],
         "unavailable_contracts":outcomes["unavailable"],
