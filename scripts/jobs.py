@@ -360,6 +360,9 @@ def pipeline_to_snapshot(
     record = {
         "forecast_at": meta.get('forecast_at'),
         "event_start": meta.get('event_start'),
+        "model_input_binding": meta.get("model_input_binding"),
+        "model_evaluation_started_at": meta.get("model_evaluation_started_at"),
+        "model_fit_receipts": meta.get("model_fit_receipts"),
         "input_freeze_at": meta.get("input_freeze_at"),
         "input_freeze_basis": meta.get("input_freeze_basis"),
         "model_training_cutoff_at": meta.get("model_training_cutoff_at"),
@@ -489,42 +492,69 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
         if isinstance(row.get("_phase0_market_quotes"), list):
             meta["phase0_market_quotes"] = row["_phase0_market_quotes"]
         candidate = _pipeline_input(row)
-        try:
-            from usage_baseline import using_directory
-            from probability_blend import using_production
-            with using_directory(data_root or SKILL_ROOT / "data"), using_production(SKILL_ROOT):
-                result = pm.evaluate_candidate(candidate,now=evaluation_now)
-        except pm.PickemError as exc:
-            errors += 1
-            mark("unavailable","pipeline_exception:"+str(exc)[:160])
-            continue
+        from usage_baseline import using_directory
+        from probability_blend import using_production
+        capture_enabled = (os.environ.get("PICKEM_PHASE0_CAPTURE") == "1"
+                           or os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1")
+        pre_eval_error = None
+        if capture_enabled:
+            try:
+                from phase0_pre_eval import pin
+                with pin(
+                    candidate, data_root=Path(data_root or SKILL_ROOT / "data"),
+                    archive_root=Path(data_root or SKILL_ROOT / "data") / "source_archives",
+                    policy_root=SKILL_ROOT,
+                    clock=clock_fn or (lambda: datetime.now(timezone.utc)),
+                    identity={key: meta.get(key) for key in
+                              ("sport", "player_id", "stat", "game_date")},
+                ) as (pinned_evidence, pinned_root, pinned_candidate):
+                    # The model sees precisely the candidate, history, lineup
+                    # and production policy bytes stored by the archive.
+                    evaluation_at = datetime.fromisoformat(
+                        pinned_evidence["input_freeze_at"].replace("Z", "+00:00"))
+                    if (meta.get("event_start")
+                            and game_started(meta["event_start"], evaluation_at)):
+                        mark("unavailable", "event_started_before_input_freeze")
+                        continue
+                    with using_directory(pinned_root), using_production(pinned_root):
+                        result = pm.evaluate_candidate(pinned_candidate, now=evaluation_at)
+                    meta.update(pinned_evidence)
+                    meta["model_evaluation_started_at"] = evaluation_at.isoformat()
+                    meta["model_fit_receipts"] = [
+                        {"component": "Engine_A", "fit_mode": "on_demand",
+                         "training_data_cutoff_at": pinned_evidence["input_freeze_at"]},
+                        {"component": "Engine_B", "fit_mode": "rule_based",
+                         "training_data_cutoff_at": pinned_evidence["input_freeze_at"]},
+                    ]
+            except pm.PickemError as exc:
+                errors += 1
+                mark("unavailable", "pipeline_exception:" + str(exc)[:160])
+                continue
+            except (OSError, ValueError, KeyError, TypeError) as exc:
+                # A missing or oversized source must never generate a fake
+                # certification. The legacy result remains a research shadow.
+                pre_eval_error = type(exc).__name__ + ":" + str(exc)[:180]
+        if not capture_enabled or pre_eval_error is not None:
+            if pre_eval_error is not None:
+                meta["source_capture_error"] = pre_eval_error
+            try:
+                with using_directory(data_root or SKILL_ROOT / "data"), using_production(SKILL_ROOT):
+                    result = pm.evaluate_candidate(candidate, now=evaluation_now)
+            except pm.PickemError as exc:
+                errors += 1
+                mark("unavailable", "pipeline_exception:" + str(exc)[:160])
+                continue
         if not result.get("ok"):
             errors += 1
-            mark("unavailable","pipeline_not_ok:"+str(result.get("error") or result.get("reason") or "unknown")[:160])
+            mark("unavailable", "pipeline_not_ok:" +
+                 str(result.get("error") or result.get("reason") or "unknown")[:160])
             continue
         parsed = parse_pipeline_id(result.get("id") or row.get("id"))
         if not parsed:
             errors += 1
-            mark("unavailable","invalid_pipeline_candidate_id")
+            mark("unavailable", "invalid_pipeline_candidate_id")
             continue
         sport, player, stat, _side = parsed
-        if (os.environ.get("PICKEM_PHASE0_CAPTURE") == "1"
-                or os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1"):
-            # Freeze exact collector-owned usage, candidate, research and
-            # sportsbook bytes before recording a forecast timestamp.
-            try:
-                from phase0_input_capture import capture
-                meta.update(capture(
-                    candidate, result, data_root=Path(data_root or SKILL_ROOT / "data"),
-                    archive_root=Path(data_root or SKILL_ROOT / "data") / "source_archives",
-                    clock=clock_fn or (lambda: datetime.now(timezone.utc)),
-                    identity={key: meta.get(key) for key in
-                              ("sport", "player_id", "stat", "game_date")},
-                ))
-            except (OSError, ValueError, KeyError, TypeError) as exc:
-                # Keep V1 immutable for comparison; never manufacture missing
-                # receipts or silently certify the affected contract.
-                meta["source_capture_error"] = type(exc).__name__ + ":" + str(exc)[:180]
         frozen_at = clock_fn() if clock_fn else (evaluation_now or datetime.now(timezone.utc))
         if frozen_at.tzinfo is None:
             errors += 1

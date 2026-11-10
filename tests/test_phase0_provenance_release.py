@@ -124,7 +124,12 @@ class ProspectiveAttestationTests(unittest.TestCase):
             row = prospective_row(root)
             path = root / "forecasts.jsonl"
             path.write_text(json.dumps(row) + "\n")
-            report = audit(path, slate_date="2026-11-08", archive_root=root)
+            report = audit(path, slate_date="2026-11-08", archive_root=root, strict=False)
+            strict_report = audit(path, slate_date="2026-11-08", archive_root=root)
+            self.assertEqual(strict_report["metadata_verified_rows"], 1)
+            self.assertEqual(strict_report["certified_rows"], 0)
+            self.assertEqual(strict_report["uncertified_reasons"],
+                             {"pre_eval_input_binding_missing": 1})
             self.assertEqual(report["certified_rows"], 1)
             self.assertEqual(report["uncertified_rows"], 0)
             self.assertFalse(report["publication_eligible"])
@@ -134,7 +139,7 @@ class ProspectiveAttestationTests(unittest.TestCase):
             bad = copy.deepcopy(row)
             bad["source_receipts"] = []
             path.write_text(json.dumps(bad) + "\n")
-            blocked = audit(path, slate_date="2026-11-08", archive_root=root)
+            blocked = audit(path, slate_date="2026-11-08", archive_root=root, strict=False)
             self.assertEqual(blocked["status"], "uncertified_research_only")
             self.assertEqual(blocked["uncertified_rows"], 1)
 

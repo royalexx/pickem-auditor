@@ -15,12 +15,13 @@ from datetime import date
 from pathlib import Path
 
 from point_in_time_provenance import pregame_snapshot_status
+from phase0r_contract import strict_snapshot_status
 from market_odds_archive import atomic_json
 
 SCHEMA = "pickem_phase0_pregame_provenance_v1"
 
 
-def audit(path: Path, *, slate_date: str, archive_root: Path) -> dict:
+def audit(path: Path, *, slate_date: str, archive_root: Path, strict: bool = True) -> dict:
     date.fromisoformat(slate_date)
     path = Path(path)
     report = {
@@ -31,6 +32,9 @@ def audit(path: Path, *, slate_date: str, archive_root: Path) -> dict:
         "selected_run_id": None,
         "contract_rows_in_batch": 0,
         "certified_rows": 0,
+        "metadata_verified_rows": 0,
+        "certification_level": ("strict_pre_evaluation_input_binding_v1" if strict else
+                                "legacy_metadata_only_diagnostic"),
         "uncertified_rows": 0,
         "distinct_games_in_batch": 0,
         "uncertified_reasons": {},
@@ -88,6 +92,7 @@ def audit(path: Path, *, slate_date: str, archive_root: Path) -> dict:
         for row in selected)
     reasons = Counter()
     certified = 0
+    metadata_accepted = 0
     for row in selected:
         identity = (
             row.get("sport"), row.get("event_id"), row.get("player_id"),
@@ -95,18 +100,25 @@ def audit(path: Path, *, slate_date: str, archive_root: Path) -> dict:
         if identity_counts[identity] > 1:
             reasons["duplicate_original_contract_identity"] += 1
             continue
-        accepted, reason = pregame_snapshot_status(
+        old_accepted, old_reason = pregame_snapshot_status(
             row, archive_root=Path(archive_root))
+        if old_accepted:
+            metadata_accepted += 1
+        accepted, reason = (
+            strict_snapshot_status(row, archive_root=Path(archive_root))
+            if strict else (old_accepted, old_reason))
         if accepted:
             certified += 1
         else:
             reasons[reason] += 1
+    report["metadata_verified_rows"] = metadata_accepted
     report["certified_rows"] = certified
     report["uncertified_rows"] = len(selected) - certified
     report["uncertified_reasons"] = dict(sorted(reasons.items()))
     report["source_archive_complete"] = certified == len(selected) and bool(selected)
     report["status"] = (
-        "all_rows_have_archived_pregame_source_receipts"
+        ("all_rows_have_strict_pre_eval_input_bindings" if strict
+         else "all_rows_have_metadata_receipts_diagnostic_only")
         if report["source_archive_complete"]
         else "uncertified_research_only")
     # Source certification is necessary but never enough to release Tiers.
