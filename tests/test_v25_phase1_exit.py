@@ -211,6 +211,47 @@ class OriginalLegacyTests(unittest.TestCase):
                          {"legacy_opposite_side_missing":1})
 
 
+class IntegratedLegacyBaselineTests(unittest.TestCase):
+    def test_original_certified_60_40_compares_on_exact_one_quote(self):
+        q=quote()
+        challenger=forecast(q,model_id="challenger_v25",
+                            forecast_id="f2").to_record()
+        payload={
+            "experiment_id":EXP,
+            "legacy_originals":legacy_rows(),
+            "legacy_bindings":[{"quote_id":q.quote_id,
+                "original_code_commit":COMMIT,
+                "original_model_artifact_sha256":SHA}],
+            "frozen":{"quotes":[vars(q)],
+                      "forecasts":[challenger],
+                      "settlements":[vars(settlement())]},
+        }
+        result=run_experiment(payload,protocol(),input_sha256=SHA,
+                              protocol_sha256=SHA,code_commit=COMMIT,
+                              strict_checker=lambda row,**kw:(True,"fixture"),
+                              archive_root="fixture")
+        self.assertEqual(result["legacy_v1"]["bound_for_scoring"],1)
+        self.assertEqual(result["frozen"]["models"]["frozen_v1"]["scored"],1)
+        self.assertEqual(result["frozen"]["paired"]["challenger_v25"]
+                         ["matched_contracts"],1)
+        self.assertFalse(result["phase0r_live_approval"])
+
+    def test_no_synthetic_v1_generated_without_certification(self):
+        q=quote()
+        payload={"experiment_id":EXP,"legacy_originals":legacy_rows(),
+                "legacy_bindings":[{"quote_id":q.quote_id,
+                  "original_code_commit":COMMIT,"original_model_artifact_sha256":SHA}],
+                "frozen":{"quotes":[vars(q)],"forecasts":[],
+                          "settlements":[vars(settlement())]}}
+        with self.assertRaisesRegex(ContractError,"not_uniquely_certified"):
+            run_experiment(payload,protocol(),input_sha256=SHA,
+                           protocol_sha256=SHA,code_commit=COMMIT)
+        payload["legacy_bindings"][0]["quote_id"]="unknown"
+        with self.assertRaisesRegex(ContractError,"unknown_quote"):
+            run_experiment(payload,protocol(),input_sha256=SHA,
+                           protocol_sha256=SHA,code_commit=COMMIT)
+
+
 class ThreeWayScoringTests(unittest.TestCase):
     def test_analytic_three_way_scores_and_push(self):
         self.assertAlmostEqual(categorical_brier((.2,.3,.5),"push"),.38)
