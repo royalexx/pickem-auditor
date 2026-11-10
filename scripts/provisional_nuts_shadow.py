@@ -17,6 +17,7 @@ from pathlib import Path, PurePosixPath
 import shutil
 import tempfile
 import urllib.request
+from urllib.error import HTTPError
 import zipfile
 
 import nuts_slate_shadow as parent
@@ -281,7 +282,31 @@ def run(root,day,*,token,config_path=CONFIG,now=None):
                     and parent.canon_stat(r.get("stat"))==asset["stat"]]
         if not candidates:continue
         with tempfile.TemporaryDirectory(prefix="provisional_nuts_asset_") as temp:
-            archive=_download_asset(asset,temp,token=token)
+            try:
+                archive=_download_asset(asset,temp,token=token)
+            except HTTPError as exc:
+                # GitHub Actions may refuse an artifact request with HTTP 415.
+                # This is a verified model UNAVAILABLE state, never a reason
+                # to substitute an unpinned or synthetic trained posterior.
+                if exc.code != 415:
+                    raise
+                reason="pinned_provisional_artifact_http_415_unavailable"
+                errors[reason]+=len(candidates)
+                for row in candidates:
+                    unavailable={k:row.get(k) for k in
+                                 parent.KEYS+("player","team","opponent","event_start")}
+                    unavailable.update(version=VERSION,
+                        model_id="artifact:"+str(asset["artifact_id"]),
+                        generated_at=now.isoformat(),status="unavailable",
+                        reason=reason,provisional=True,shadow_only=True,
+                        ranking_allowed=False,publication_eligible=False,
+                        validated=False,calibrated=False)
+                    predictions.append(unavailable)
+                receipts.append({"stat":asset["stat"],
+                    "artifact_id":asset["artifact_id"],
+                    "run_id":asset["run_id"],"status":"unavailable",
+                    "reason":reason,"candidates":len(candidates),"forecasts":0})
+                continue
             manifest,pfile=_extract_exact(archive,temp,asset,cfg)
             # Downloads from a trusted temporary project cache are erased
             # after this model finishes, never retained in Git or reports.

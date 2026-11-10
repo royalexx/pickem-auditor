@@ -129,6 +129,39 @@ class ProvisionalSafetyTests(unittest.TestCase):
         self.assertIs(result["provisional"],True)
         self.assertIs(result["sampler_diagnostics"]["posterior_sampling_ok"],False)
 
+    def test_artifact_http_415_quarantines_shadow_without_promotion(self):
+        from types import SimpleNamespace
+        from urllib.error import HTTPError
+        asset={"index":1,"stat":"pass attempts","run_id":20261108,
+               "artifact_id":9876543}
+        now=datetime(2026,11,9,15,tzinfo=timezone.utc)
+        contract={"game_date":"2026-11-09","sport":"NFL",
+                  "stat":"pass attempts","player_id":"pid1",
+                  "side":"over","reference_line":29.5,"run_id":"frozen1",
+                  "event_start":"2026-11-09T19:00:00Z",
+                  "forecast_at":"2026-11-09T14:00:00Z"}
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            with (patch.object(shadow,"load_policy",return_value={"models":[asset]}),
+                  patch("live_pool_exchange.jsonl",return_value=[]),
+                  patch.dict(sys.modules,{"arviz":SimpleNamespace()}),
+                  patch("live_pool_exchange.pick_latest",return_value=([contract],"frozen1")),
+                  patch.object(shadow,"_download_asset",
+                      side_effect=HTTPError("https://github.com/test",415,
+                                            "Unsupported Media Type",None,None))):
+                receipt=shadow.run(root,"2026-11-09",token="fixture",now=now)
+            self.assertEqual(receipt["forecasts"],0)
+            reason="pinned_provisional_artifact_http_415_unavailable"
+            self.assertEqual(receipt["unavailable"],{reason:1})
+            self.assertFalse(receipt["ranking_allowed"])
+            self.assertFalse(receipt["production_consensus_changed"])
+            self.assertEqual(receipt["assets"][0]["status"],"unavailable")
+            output=root/"data/provisional_nuts_shadow/2026-11-09.jsonl"
+            frozen=json.loads(output.read_text().strip())
+            self.assertEqual(frozen["status"],"unavailable")
+            self.assertFalse(frozen["publication_eligible"])
+            self.assertEqual(frozen["reason"],reason)
+
     def test_no_predictions_after_kickoff(self):
         cfg=shadow.load_policy()
         asset=cfg["models"][0]
