@@ -76,7 +76,8 @@ def _scores(rows, model):
     selected = []
     for c in rows:
         o = c["outcome"]
-        if o["status"] not in ("over", "under"):
+        if (o["status"] not in ("over", "under") or
+                c["models"][model]["status"] not in ("counterfactual_shadow","available")):
             continue
         ob = int(o["status"] == "over")
         p = probability(c["models"][model].get("p_over_nonpush"), model)
@@ -109,13 +110,25 @@ def _scores(rows, model):
 
 
 def _rates(rows, label):
-    n=len(rows)
+    present=[c for c in rows if c["models"][label]["status"] in
+             ("counterfactual_shadow","available")]
+    n=len(present)
     if not n:
-        return {"n":0}
-    ps=[probability(c["models"][label].get("p_over_nonpush"),label) for c in rows]
+        return {"n":0,"offered_contracts":len(rows),
+                "unavailable_contracts":len(rows),
+                "missing_reasons":dict(Counter(
+                    c["models"][label].get("reason",c["models"][label]["status"])
+                    for c in rows)),
+                "empirical_scores":_scores(rows,label)}
+    ps=[probability(c["models"][label].get("p_over_nonpush"),label) for c in present]
     p_ge=[max(v,1-v) for v in ps]
     return {
-        "n":n, "over_n":sum(p>.5 for p in ps),
+        "n":n, "offered_contracts":len(rows),
+        "unavailable_contracts":len(rows)-n,
+        "missing_reasons":dict(Counter(
+            c["models"][label].get("reason",c["models"][label]["status"])
+            for c in rows if c not in present)),
+        "over_n":sum(p>.5 for p in ps),
         "under_n":sum(p<.5 for p in ps),
         "tie_n":sum(p==.5 for p in ps),
         "under_share_of_all_contracts":sum(p<.5 for p in ps)/n,
@@ -135,6 +148,9 @@ def _rates(rows, label):
 def _comparison(rows, other, ref="real_no_vig_market"):
     vals=[]
     for c in rows:
+        if (c["models"][other]["status"] not in ("counterfactual_shadow","available")
+                or c["models"][ref]["status"] not in ("counterfactual_shadow","available")):
+            continue
         a=probability(c["models"][other].get("p_over_nonpush"),other)
         b=probability(c["models"][ref].get("p_over_nonpush"),ref)
         vals.append((a,b,c))
@@ -144,7 +160,8 @@ def _comparison(rows, other, ref="real_no_vig_market"):
         p=max(1e-12,min(1-1e-12,p))
         return -(y*math.log(p)+(1-y)*math.log1p(-p))
     return {
-        "n":len(vals),
+        "n":len(vals), "offered_contracts":len(rows),
+        "unmatched_model_or_market_contracts":len(rows)-len(vals),
         "mean_signed_over_probability_difference":avg([a-b for a,b,_ in vals]),
         "mean_absolute_over_probability_difference":avg([abs(a-b) for a,b,_ in vals]),
         "direction_disagreement_n":sum((a-.5)*(b-.5)<0 for a,b,_ in vals),
@@ -233,7 +250,9 @@ def diagnose(source: dict, *, seed=20261110, power=None):
         for m in MODELS:
             v=c["models"][m]
             if v["status"] not in ("counterfactual_shadow","available"):
-                raise ContractError("phase15_core_model_unavailable:"+m)
+                if v["status"]!="unavailable" or not v.get("reason"):
+                    raise ContractError("phase15_core_model_unavailable_or_unexplained:"+m)
+                continue
             probability(v.get("p_over_nonpush"),m)
             if m!="real_no_vig_market":
                 if v.get("originally_published_forecast") is not False:
@@ -273,9 +292,9 @@ def diagnose(source: dict, *, seed=20261110, power=None):
     scores=state.get("over",0)+state.get("under",0)
     for m in MODELS:
         expected_score=source.get("models",{}).get(m,{})
-        if expected_score.get("scored_contracts")!=scores:
-            raise ContractError("phase1_vs_phase15_scoring_denominator_mismatch")
         ours=_scores(contracts,m)
+        if expected_score.get("scored_contracts")!=ours["n"]:
+            raise ContractError("phase1_vs_phase15_scoring_denominator_mismatch")
         for metric in ("brier","log_loss"):
             left=expected_score.get(metric)
             right=ours[metric]
