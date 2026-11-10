@@ -31,6 +31,16 @@ The six paired NUTS failures were all goalie-saves contracts. The older 23:47 UT
 
 **Interpretation:** The archived bytes are tamper-evident and internally consistent. However, the old job computed its forecast **before** archiving the source input. No digest comparison can retroactively prove which bytes the numerical model actually read at the earlier instant. A strong Phase 0R proof for these original predictions is unavailable. The corrected verifier explicitly denies them strict status.
 
+## Actual strict-validator negative-control replay
+
+Both entire archived forecast batches were also replayed against the **new** `scripts/phase0_preflight.py` using the original 6,528 archived source byte objects materialized into isolated temporary archive roots. This is not merely an inference from missing fields: it is the actual Phase 0R release validator applied to the old source-backed forecasts.
+
+- Run `20261109T234719Z`: **0/1,568 strict certifications**. All 1,568 rows failed `missing_or_imprecise_timestamp:input_freeze_at`. The older code's historical 1,220 metadata passes do not satisfy today's stronger contract.
+- Run `20261110T001047Z`: **0/1,056 strict certifications**. Of these, 860 failed `pre_eval_input_binding_missing` and 196 failed `market_unavailable_or_unverified`. Exactly 860 pass the current *weaker* metadata-only test, but none have proof of pre-evaluation input isolation.
+- No retrospective timestamp or source reconstruction was used, and no original forecast was modified. Both remain `publication_eligible:false`.
+
+Independent Deepnote detached read-only run `df9be8c6-3006-402f-999a-3d5805dfe5cc` reproduced these results, with 3.35 and 38.87 seconds of replay work respectively. See the `new_strict_validator_replay` section of [the JSON evidence](phase0r_historical_slate_replay_20261109.json).
+
 ## Corrections now in the repository
 
 - [PR #86](https://github.com/royalexx/pickem-auditor/pull/86): mandatory input-freeze chronology
