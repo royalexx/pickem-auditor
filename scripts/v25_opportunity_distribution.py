@@ -46,12 +46,12 @@ def seed_for(*parts):
     return int.from_bytes(hashlib.sha256("|".join(map(str, parts)).encode()).digest()[:8], "big")
 
 
-def normalise_player_source(rows, *, rejection_ledger=None):
+def normalise_player_source(rows, *, rejection_ledger=None, allowed_seasons=(2021,2022,2023,2024)):
     """Never replace null statistics with zero. Preserve all observed zeros."""
     groups = {}
     seen = set()
     for r in rows:
-        if r.get("season_type") != "REG" or r.get("season") not in (2021,2022,2023,2024):
+        if r.get("season_type") != "REG" or r.get("season") not in allowed_seasons:
             continue
         if not 1 <= r.get("week",0) <= 18:
             continue
@@ -101,7 +101,9 @@ def normalise_player_source(rows, *, rejection_ledger=None):
     return sorted(groups.values(), key=lambda g:(g["season"],g["week"],g["event_id"],g["team"]))
 
 
-def validate_history(history, week):
+def validate_history(history, week, *, forecast_season=2024):
+    if type(forecast_season) is not int or forecast_season not in (2024,2025):
+        reject("unsupported_forecast_season")
     if type(week) is not int or not 1 <= week <= 18 or not history:
         reject("invalid_week_or_empty_history")
     seen = set()
@@ -110,9 +112,9 @@ def validate_history(history, week):
             reject("history_schema_or_hidden_feature")
         if type(g["season"]) is not int or type(g["week"]) is not int:
             reject("invalid_history_calendar")
-        if g["season"] not in (2021,2022,2023,2024) or not 1 <= g["week"] <= 18:
+        if g["season"] not in range(2021,forecast_season+1) or not 1 <= g["week"] <= 18:
             reject("history_calendar_out_of_range")
-        if g["season"] == 2024 and g["week"] >= week:
+        if g["season"] == forecast_season and g["week"] >= week:
             reject("current_or_future_game_label")
         k=(g["event_id"],g["team"])
         if k in seen:
@@ -149,8 +151,8 @@ def _nb(rng,mean,variance,n):
 
 
 class OpportunityModel:
-    def __init__(self, history, week):
-        validate_history(history,week)
+    def __init__(self, history, week, *, forecast_season=2024):
+        validate_history(history,week,forecast_season=forecast_season)
         self.history=history;self.week=week
         self.byteam=defaultdict(list);self.byplayer=defaultdict(list)
         self.byrole=defaultdict(list)
