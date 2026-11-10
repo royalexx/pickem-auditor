@@ -76,18 +76,19 @@
     "tier1_tier2": "BLOCKED",
     "heavy_training": "PAUSED",
     "real_2024_target_only_sequential_training": "PASSED_RETROSPECTIVE_LEARNING_SIGNAL_NOT_FULL_P2",
-    "high_confidence_reliability": "FAILED_STRUCTURAL_RESIDUAL_AND_SHORT_HISTORY_DIR_BIAS",
+    "high_confidence_reliability": "FAILED_TRUE_CALIBRATION_AT_80_PLUS_N122_ACCURACY_75_4",
     "actual_nfl_route_availability": "NOT_PROVEN",
-    "phase2_production_model_acceptance": "BLOCKED"
+    "phase2_production_model_acceptance": "BLOCKED",
+    "real_participation_2024_sequential_learning": "PASSED_MECHANICAL_REPLAY_NOT_PROSPECTIVE",
+    "target_count_crps": "FAILED_CHALLENGER_WORSE_THAN_ORIGINAL_ON_MATCHED_COHORT"
   },
   "next_actions": [
-    "Do not promote any hindsight-designed 2024 reallocation sensitivity without a genuinely unexposed season",
-    "Collect as-of verified player roster, game routes, explicit zero/absence status and role migration features",
-    "Model target opportunities and player participation separately, dynamically redistribute opportunities only when verified",
-    "Preserve a true missing/other target category and model its distribution, rather than hiding historical churn in throwaways",
-    "Use hierarchical short-history player priors with wider predictive variance; allow abstentions",
-    "Fit side and role conditional calibration on previous weeks only and audit full denominator in a new untouched chronological fold",
-    "Require matched Poisson/DM comparison plus credible calibration in high-confidence over and under cohorts"
+    "Do not promote the new lagged-snap participation or 2024-hindsight-tuned confidence architecture; keep old simple count models",
+    "Acquire original pregame captured NFL roster, injury, route evidence prospectively before claiming publication certification",
+    "Estimate participation and missed-receiver/role share from pre2024 chronological folds rather than apply arbitrary target recycling percentages",
+    "Improve player-count CRPS and mean opportunity bias before accepting binary tail calibration as structural repair",
+    "Evaluate calibrated Over/Under, target CRPS and full candidate coverage on new 2025+ untouched time blocks, not repeatedly choose corrections on exposed 2024",
+    "Keep Phase 0R, Phase 1 and Phase 1.5 gates independent and do not change production or heavy NUTS"
   ],
   "historical_target_only_learning_study": {
     "status": "COMPLETED_RETROSPECTIVE_LEARNING_ONLY",
@@ -190,5 +191,72 @@
     "machine_audit": "docs/phase2_nfl_2024_high_confidence_under_root_cause_audit.json",
     "phase2_exit_authorized": false,
     "model_promotion_authorized": false
+  },
+  "real_lagged_participation_2024_repair": {
+    "status": "18_WEEKS_COMPLETE_CONFIDENCE_GAIN_COUNT_CRPS_NOT_IMPROVED",
+    "draft_pr": 97,
+    "first_replay_run": "2a83f3ee-6e04-476b-982b-74e6962f465f",
+    "first_replay_receipt_sha256": "3c32cc97e5899c7f4814e22d60b1c43298d2a2b4470f47c2f2feab8998dfc95a",
+    "initial_seasons": [
+      2021,
+      2022,
+      2023
+    ],
+    "training_games": 815,
+    "evaluation_year": 2024,
+    "weeks": 18,
+    "prior_snap_context_rows": 24673,
+    "asof_source_contract_tests_passed": 39,
+    "original_source_publication_proven": false,
+    "current_nfl_routes_asof_available": false,
+    "full_2024_external_holdout_untouched": false,
+    "candidate_lines_preselected_synthetic": 6186,
+    "original_scored_targets": 4046,
+    "new_scored_targets": 4249,
+    "matched_targets": 4042,
+    "n_scenarios": 512,
+    "original_count_crps": 1.3941454866176421,
+    "new_count_crps": 1.4113719362908461,
+    "matched_count_crps_new_minus_original": 0.028187815474142598,
+    "matched_count_crps_week_cluster_95": [
+      -0.013698969178965601,
+      0.06793851772520439
+    ],
+    "original_raw_brier": 0.267491393907201,
+    "new_raw_brier": 0.2557780058643739,
+    "new_role_platt_brier": 0.2387019881308509,
+    "matched_raw_brier_new_minus_original": -0.010499874947390776,
+    "matched_role_calibration_vs_raw_brier": -0.01707601773352298,
+    "new_mean_count_bias_pred_minus_actual": -0.912130060014121,
+    "original_mean_count_bias_pred_minus_actual": -0.7464924848615917,
+    "high80_original_raw": {
+      "n": 1305,
+      "correct_rate": 0.6406130268199234,
+      "mean_claimed": 0.8965811661877395,
+      "unders": 1281
+    },
+    "high80_new_raw": {
+      "n": 1012,
+      "correct_rate": 0.6808300395256917,
+      "mean_claimed": 0.8524946732954546,
+      "unders": 1003
+    },
+    "high80_new_role_calibrated": {
+      "n": 122,
+      "correct_rate": 0.7540983606557377,
+      "mean_claimed": 0.8359596084421635,
+      "unders": 116
+    },
+    "high90_new_role_calibrated": {
+      "n": 3,
+      "correct_rate": 0.6666666666666666
+    },
+    "high95_new_role_calibrated": {
+      "n": 0
+    },
+    "conclusion": "CALIBRATION_IMPROVED_BUT_COUNT_DISTRIBUTION_AND_UNDER_DIRECTION_BIAS_FAIL_RELEASE",
+    "model_promotion_authorized": false,
+    "report": "docs/V25_PHASE2_2024_TRUE_PARTICIPATION_FULL_WEEKLY_REPORT_20261110.md",
+    "data_receipt": "docs/phase2_nfl_2024_true_participation_first_replay_receipt.json"
   }
 }
