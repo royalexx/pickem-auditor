@@ -138,6 +138,11 @@ def _comparison(rows, other, ref="real_no_vig_market"):
         a=probability(c["models"][other].get("p_over_nonpush"),other)
         b=probability(c["models"][ref].get("p_over_nonpush"),ref)
         vals.append((a,b,c))
+    observed=[(a,b,int(c["outcome"]["status"]=="over"))
+              for a,b,c in vals if c["outcome"]["status"] in ("over","under")]
+    def ll(p, y):
+        p=max(1e-12,min(1-1e-12,p))
+        return -(y*math.log(p)+(1-y)*math.log1p(-p))
     return {
         "n":len(vals),
         "mean_signed_over_probability_difference":avg([a-b for a,b,_ in vals]),
@@ -145,8 +150,15 @@ def _comparison(rows, other, ref="real_no_vig_market"):
         "direction_disagreement_n":sum((a-.5)*(b-.5)<0 for a,b,_ in vals),
         "market_at_50_n":sum(b==.5 for _,b,_ in vals),
         "mean_absolute_probability_difference_is_not_accuracy":True,
-        "model_vs_market_brier_difference":None,
-        "model_vs_market_logloss_difference":None,
+        "matched_scored_contracts":len(observed),
+        "model_vs_market_brier_difference":avg([
+            (a-y)**2-(b-y)**2 for a,b,y in observed]),
+        "model_vs_market_logloss_difference":avg([
+            ll(a,y)-ll(b,y) for a,b,y in observed]),
+        "negative_difference_favors_model":True,
+        "game_and_date_clustered_inference_status":
+            "descriptive_only_requires_multiple_independent_games_and_dates"
+            if observed else "BLOCKED_NO_SETTLEMENT",
     }
 
 
@@ -260,8 +272,17 @@ def diagnose(source: dict, *, seed=20261110, power=None):
     settled=state.get("over",0)+state.get("under",0)+state.get("push",0)
     scores=state.get("over",0)+state.get("under",0)
     for m in MODELS:
-        if source.get("models",{}).get(m,{}).get("scored_contracts")!=scores:
+        expected_score=source.get("models",{}).get(m,{})
+        if expected_score.get("scored_contracts")!=scores:
             raise ContractError("phase1_vs_phase15_scoring_denominator_mismatch")
+        ours=_scores(contracts,m)
+        for metric in ("brier","log_loss"):
+            left=expected_score.get(metric)
+            right=ours[metric]
+            if left is None and right is None:continue
+            if (left is None or right is None or
+                    not math.isclose(finite(left,metric),right,abs_tol=1e-10,rel_tol=1e-10)):
+                raise ContractError("phase1_vs_phase15_score_disagreement:"+m+":"+metric)
     independent_dates=len({c["event_start"][:10] for c in contracts})
     prospective_components=sum(bool(c.get("opportunity",{}).get("pregame_factor_vector_receipt"))
                                for c in contracts)
