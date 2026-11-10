@@ -1,0 +1,93 @@
+{
+  "schema": "pickem_phase0r_execution_state_v1",
+  "phase": "0R",
+  "reviewed_at_utc": "2026-11-10T00:21:31.693Z",
+  "release_status": "BLOCKED",
+  "latest_code_sha_before_receipt": "5923eb32b628562574ee22a5e33bdb09547f759f",
+  "baseline_code_sha": "10404038846f9f621c245ca089daf91b974ddde9",
+  "merged_repairs": [
+    {
+      "pr": 86,
+      "merge_sha": "1799074428a0c74016042bae122f00527c953be0",
+      "scope": "input_freeze_authorization_gate"
+    },
+    {
+      "pr": 87,
+      "merge_sha": "b7c0acd0afba97d3620664ccd571b6f1e5e92036",
+      "scope": "nhl_saves_paired_monte_carlo_seed"
+    },
+    {
+      "pr": 88,
+      "merge_sha": "5923eb32b628562574ee22a5e33bdb09547f759f",
+      "scope": "capture_completion_clock"
+    }
+  ],
+  "nuts_training_paused": true,
+  "tier1_tier2_publication_allowed": false,
+  "production_promotion_allowed": false,
+  "old_run": {
+    "run_stamp": "20261109T234719Z",
+    "source_sha": "10404038846f9f621c245ca089daf91b974ddde9",
+    "forecast_rows": 1568,
+    "metadata_accepted_rows": 1220,
+    "uncertified_rows": 348,
+    "uncertified_reasons": {
+      "market_unavailable_or_unverified": 348
+    },
+    "original_forecast_sha256": "5e4cdb130b7a550aad483397c3aeab554eb5ecbc2638455f49564f79d89123c9",
+    "paired_contracts": 784,
+    "paired_rejected_contracts": 6,
+    "source_archive_complete": false,
+    "publication_eligible": false
+  },
+  "latest_dry_run": {
+    "run_stamp": "20261110T001047Z",
+    "deepnote_run_id": "b0e0c757-594b-44cc-b683-25d0225b0c27",
+    "source_sha": "1799074428a0c74016042bae122f00527c953be0",
+    "forecast_rows": 1056,
+    "game_count": 9,
+    "metadata_accepted_rows": 860,
+    "uncertified_rows": 196,
+    "uncertified_reasons": {
+      "market_unavailable_or_unverified": 196
+    },
+    "original_forecast_sha256": "46c66175bbdb4e896c1a06acdb940fa14098571785b03a65298e025575a89e8d",
+    "market_quotes_incoming": 2165,
+    "market_quotes_accepted": 1248,
+    "market_quotes_event_started": 699,
+    "market_quotes_unverified_or_future": 218,
+    "paired_contracts": 528,
+    "paired_rejected_contracts": 6,
+    "source_archive_complete": false,
+    "publication_eligible": false,
+    "optional_shadow_failure": "nfl_provisional_nuts_shadow HTTP 415",
+    "research_archive_published": true,
+    "not_verified_against_final_main": true
+  },
+  "independent_qa": [
+    {
+      "run_id": "bbb92b03-70ab-44fc-927c-68b0e7390b1f",
+      "scope": "PR86",
+      "targeted_tests_passed": 40
+    },
+    {
+      "run_id": "43a448d4-148d-452c-965c-bb6905fe9178",
+      "scope": "PR87",
+      "targeted_tests_passed": 23
+    },
+    {
+      "run_id": "e7239851-2118-41c1-a092-d0815c6aa559",
+      "scope": "PR88",
+      "targeted_suites_passed": 4
+    }
+  ],
+  "open_release_blockers": [
+    "Numerical model inputs currently archived after pm.evaluate_candidate: complete pre-evaluation immutable dependency pinning required",
+    "No fresh, fully pregame end-to-end run on final merged source revision",
+    "Last dry run had 196 unavailable_or_unverified_market rows; exclude, do not reconstruct",
+    "Fresh NHL goalie saves paired integrity proof on new source revision",
+    "Reconcile actual model-specific training cutoff receipts and upstream source publication truth",
+    "Optional NFL provisional NUTS HTTP 415 research artifact retrieval remains unavailable"
+  ],
+  "next_phase_authorized": false
+}
