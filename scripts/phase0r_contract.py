@@ -70,9 +70,11 @@ def strict_snapshot_status(row, *, archive_root):
         if (candidate.get("side") != row.get("side")
                 or candidate.get("line") != row.get("reference_line")):
             return False, "frozen_numerical_candidate_contract_mismatch"
-        if candidate.get("player_id") not in (None, row.get("player_id")):
+        if (candidate.get("player_id") is not None
+                and str(candidate["player_id"]) != str(row.get("player_id"))):
             return False, "frozen_numerical_candidate_player_mismatch"
-        if candidate.get("event_id") not in (None, row.get("event_id")):
+        if (candidate.get("event_id") is not None
+                and str(candidate["event_id"]) != str(row.get("event_id"))):
             return False, "frozen_numerical_candidate_event_mismatch"
 
         receipts = row.get("source_receipts") or []
