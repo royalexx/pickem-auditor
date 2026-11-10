@@ -89,6 +89,24 @@ class Phase2NflSourceContracts(unittest.TestCase):
         with self.assertRaisesRegex(ContractError,"post_kickoff"):
             prepare_inputs(payload)
 
+    def test_charted_team_target_total_must_reconcile(self):
+        payload=input_fixture()
+        first=next(x for x in payload["team_history"]
+                   if x["event_id"]=="synthetic-teamA-game-0")
+        first["tracked_targets"]=2
+        with self.assertRaisesRegex(ContractError,"target_sum_exceeds_charted_targets"):
+            prepare_inputs(payload)
+
+    def test_historical_spread_quote_after_kickoff_is_rejected(self):
+        payload=input_fixture()
+        row=payload["team_history"][0]
+        row.update(pregame_spread=-4.,
+                   pregame_spread_at="2024-09-05T19:00:00Z",
+                   pregame_spread_source_sha256="a"*64,
+                   pregame_spread_source_uri="https://example.org/fiction")
+        with self.assertRaisesRegex(ContractError,"historical_game_spread_not_pregame"):
+            prepare_inputs(payload)
+
     def test_missing_role_source_and_duplicate_player_rejected(self):
         payload=input_fixture()
         payload["forecast"]["players"][1]["player_id"]="WR1_A"
@@ -177,7 +195,8 @@ class Phase2NflScenarioTests(unittest.TestCase):
         scenarios=report["scenarios"]
         for idx in range(64):
             a=scenarios["logistic_normal"][idx]["team"]
-            for mode in ("dirichlet_multinomial","zidm"):
+            for mode in ("dirichlet_multinomial","zidm",
+                         "standard_dirichlet_multinomial_diagnostic"):
                 self.assertEqual(a,scenarios[mode][idx]["team"])
             self.assertEqual(a,scenarios["independent_poisson_diagnostic"][idx]["team"])
         self.assertIn("qb_pass_attempts",report["models"]["logistic_normal"])
@@ -202,6 +221,44 @@ class Phase2NflScenarioTests(unittest.TestCase):
                 self.assertTrue(line["same_scenarios_for_both_sides"])
                 self.assertGreaterEqual(line["finite_m_se_over"],0)
                 self.assertFalse(line["original_market_quote"])
+
+    def test_standard_dirichlet_multinomial_is_not_the_capped_version(self):
+        report=simulate_nfl_opportunities(input_fixture(),n_scenarios=64,seed=488)
+        standard=report["models"]["standard_dirichlet_multinomial_diagnostic"]
+        capped=report["models"]["dirichlet_multinomial"]
+        self.assertFalse(standard["physically_constrained"])
+        self.assertTrue(standard["diagnostic_violations_may_be_present"])
+        self.assertTrue(capped["physically_constrained"])
+        for i,scenario in enumerate(report["scenarios"][
+                "standard_dirichlet_multinomial_diagnostic"]):
+            self.assertEqual(scenario["team"],
+                             report["scenarios"]["logistic_normal"][i]["team"])
+            self.assertEqual(
+                sum(p["targets"] for p in scenario["players"].values())+
+                scenario["unassigned_pass_attempts"],
+                scenario["team"]["pass_attempts"])
+        self.assertNotEqual(standard["scenario_sha256"],capped["scenario_sha256"])
+
+    def test_market_optional_challenger_only_when_original_pregame_training_exists(self):
+        payload=input_fixture()
+        for j,row in enumerate(payload["team_history"]):
+            if row["event_id"]==payload["forecast"]["event_id"]:
+                continue
+            day=row["event_start_at"][:10]
+            row["pregame_spread"]=-4.+(j%5)
+            row["pregame_spread_at"]=day+"T14:00:00Z"
+            row["pregame_spread_source_sha256"]="b"*64
+            row["pregame_spread_source_uri"]="https://example.org/synthetic-spread"
+        payload["forecast"]["game_market"]={
+            "team_spread":-6.,"quote_at":"2024-12-12T14:00:00Z",
+            "source_sha256":"a"*64,
+            "source_uri":"https://example.org/synthetic-market"}
+        forecast=simulate_nfl_opportunities(payload,n_scenarios=64)
+        self.assertIn("logistic_normal_market_state",forecast["models"])
+        self.assertEqual(
+            forecast["metadata"]["game_market_effect"]["status"],
+            "fitted_spread_state_challenger")
+        self.assertFalse(forecast["metadata"]["phase2_predictive_acceptance"])
 
     def test_unidentifiable_structural_zero_abstains(self):
         data=input_fixture()
