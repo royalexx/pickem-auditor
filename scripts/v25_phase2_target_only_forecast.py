@@ -126,8 +126,11 @@ def forecast(payload,*,seed=20261110,samples=512):
                     "reason":"insufficient_prior_team_games"}
                 continue
             team_mu=(5.*mu+sum(x["pass_attempts"] for x in recent))/(5.+len(recent))
+            # Common random numbers remove unnecessary Monte Carlo noise in
+            # the matched online-vs-frozen ablation. At Week 1, identical
+            # training data MUST generate exactly identical samples.
             rng=np.random.default_rng(stable_seed(seed,week,game["event_id"],
-                                                   game["team"],mode))
+                                                   game["team"],"shared_state"))
             passes=rng.negative_binomial(dispersion,dispersion/(dispersion+team_mu),
                                          size=samples)
             # As-of roster proxy: players with actually known targets/appearances
