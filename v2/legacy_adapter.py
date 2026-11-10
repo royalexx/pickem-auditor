@@ -8,6 +8,7 @@ scorable. Ineligible originals remain in the complete reason ledger.
 from __future__ import annotations
 
 from collections import Counter
+from copy import deepcopy
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Callable
@@ -37,6 +38,20 @@ class FrozenLegacyPair:
         if not self.certified:
             raise ContractError("uncertified_legacy_cannot_be_scored")
         over, under = self.over_row, self.under_row
+        if (canonical_hash(over) != self.original_over_sha256
+                or canonical_hash(under) != self.original_under_sha256):
+            raise ContractError("original_frozen_legacy_modified_after_scan")
+        original_market_digests = {
+            r.get("content_sha256") for row in (over,under)
+            for r in (row.get("source_receipts") or [])
+            if r.get("model_component") == "Market"
+        }
+        if quote.quote_receipt_sha256 not in original_market_digests:
+            raise ContractError("legacy_quote_original_market_receipt_unmatched")
+        if ((over.get("team") is not None and str(over["team"]) != str(quote.team_id))
+                or (over.get("opponent") is not None
+                    and str(over["opponent"]) != str(quote.opponent_id))):
+            raise ContractError("legacy_team_or_opponent_mismatch")
         if (str(quote.event_id) != str(over["event_id"])
                 or str(quote.player_id) != str(over["player_id"])
                 or str(quote.stat_key) != str(over["stat"])
@@ -203,7 +218,7 @@ def scan_original_pairs(rows: list[dict], *, strict_checker: Callable | None = N
                             break
             if reason is None:
                 pairs.append(FrozenLegacyPair(
-                    key=key, over_row=over, under_row=under,
+                    key=key, over_row=deepcopy(over), under_row=deepcopy(under),
                     distribution=distribution,
                     original_over_sha256=canonical_hash(over),
                     original_under_sha256=canonical_hash(under),
