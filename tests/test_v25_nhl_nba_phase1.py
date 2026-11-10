@@ -194,7 +194,9 @@ class FrozenNhlNbaContractTests(unittest.TestCase):
         item={"sport":"NHL","event_id":"event-1","player_id":"8470001",
               "stat":"shots on goal","period":"full","status":"settled",
               "actual":3,"source_url":"https://api-web.nhle.com/v1/gamecenter",
-              "settled_at":"2026-11-09T21:00:00Z"}
+              "settled_at":"2026-11-09T21:00:00Z",
+              "retrieved_at":"2026-11-09T21:01:00Z",
+              "source_sha256":"a"*64}
         self.assertEqual(len(_settlement_index([item])),1)
         with self.assertRaisesRegex(ContractError,"duplicate_official"):
             _settlement_index([item,item])
