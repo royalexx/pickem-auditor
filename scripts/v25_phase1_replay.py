@@ -15,6 +15,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from v2.contracts import ContractError, parse_quote, parse_snapshot, canonical_hash
 from v2.evaluation import Settlement, evaluate
+from v2.source_bytes import verify_original_source_bytes
 
 
 def _unique_keys(pairs):
@@ -26,7 +27,8 @@ def _unique_keys(pairs):
     return seen
 
 
-def replay(payload: dict, *, baseline_model: str = "frozen_v1", seed: int = 20261109) -> dict:
+def replay(payload: dict, *, baseline_model: str = "frozen_v1", seed: int = 20261109,
+           original_archive_root: Path | None = None) -> dict:
     if not isinstance(payload, dict) or any(k not in payload for k in ("quotes", "forecasts", "settlements")):
         raise ContractError("missing_replay_arrays")
     if any(not isinstance(payload[k], list) for k in ("quotes", "forecasts", "settlements")):
@@ -34,7 +36,13 @@ def replay(payload: dict, *, baseline_model: str = "frozen_v1", seed: int = 2026
     quotes = [parse_quote(row) for row in payload["quotes"]]
     forecasts = [parse_snapshot(row) for row in payload["forecasts"]]
     settlements = [Settlement(**row) for row in payload["settlements"]]
-    return evaluate(quotes, forecasts, settlements, baseline_model=baseline_model, bootstrap_seed=seed)
+    report = evaluate(quotes, forecasts, settlements, baseline_model=baseline_model, bootstrap_seed=seed)
+    report["source_archive_verification"] = (
+        verify_original_source_bytes(quotes, forecasts, original_archive_root)
+        if original_archive_root is not None
+        else {"status": "not_checked_original_archive_root_missing"}
+    )
+    return report
 
 
 def main() -> int:
@@ -42,6 +50,9 @@ def main() -> int:
     parser.add_argument("--input", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--baseline-model", default="frozen_v1")
+    parser.add_argument("--original-archive-root", type=Path,
+                        help="Required to verify the actual frozen quote and feature bytes; "
+                             "absence leaves archive integrity unverified.")
     parser.add_argument("--seed", type=int, default=20261109)
     args = parser.parse_args()
     if args.output.exists() or args.input.resolve() == args.output.resolve():
@@ -50,7 +61,8 @@ def main() -> int:
         source = args.input.read_bytes()
         payload = json.loads(source, object_pairs_hook=_unique_keys,
                              parse_constant=lambda x: (_ for _ in ()).throw(ContractError("nonfinite_json:"+x)))
-        result = replay(payload, baseline_model=args.baseline_model, seed=args.seed)
+        result = replay(payload, baseline_model=args.baseline_model, seed=args.seed,
+                        original_archive_root=args.original_archive_root)
         result["input_sha256"] = hashlib.sha256(source).hexdigest()
         result["receipt_sha256"] = canonical_hash(result)
         args.output.parent.mkdir(parents=True, exist_ok=True)
