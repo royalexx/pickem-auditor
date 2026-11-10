@@ -7,7 +7,7 @@ This addition is independent of Phase 0R. It changes no production policy, GitHu
 ## Contract
 
 - Each accepted quote specifies exact event/player/stat/period/line, distinct quote/contract IDs, offered product, original quote timestamp and source hash. Each forecast separately pins the exact original contract ID and a 40-character code-commit SHA. A rejected quote has its own reason; synthetic lines remain diagnostic only.
-- Every `ForecastSnapshot` references exactly one quote, records the actual artifact SHA and training cutoff, includes input freeze, decision and forecast timestamps, carries immutable source receipts, and binds **one** predictive distribution to all three Over/Under/Push probabilities. Time order is fail-closed.
+- Every `ForecastSnapshot` references exactly one quote, records the actual artifact SHA and training cutoff, includes input freeze, decision and forecast timestamps, carries immutable source receipts, and binds **one** predictive distribution to all three Over/Under/Push probabilities. Time order is fail-closed. An optional `--original-archive-root` now verifies every original quote and source receipt against actual bytes. Without it, hashes are **unverified claims**, never release evidence.
 - Discrete PMFs permit signed yardage and exact push mass. Poisson counts and continuous Normal diagnostics are included; Normal is not an endorsed NFL-yardage likelihood. No-vig probabilities are computed only when two compatible real decimal-odds sides exist; pick'em offers do not imply -110.
 - Official settlement keys are event/player/stat/period. Both sides are scored as a single contract; push, void, absent, rejected and unsupported evidence have separate counts. Binary log-loss/Brier are conditional on a non-push event. Log loss applies a fixed, disclosed `1e-12` numerical floor and reports how many rows were clipped. The scorer reports every eligible quote as a denominator, plus matched baseline/challenger cohorts and game-clustered descriptive bootstrap intervals only if >=8 distinct games.
 - Empirical energy score, `VS_0.5` and CRPS are research metrics for ensembles of joint game scenarios. They are not yet wired to historical scenario feeds.
@@ -19,6 +19,7 @@ With Python 3.10+ from repository root (stdlib only):
 ```bash
 python -m unittest discover -s tests -p 'test_v25_phase1.py' -v
 python scripts/v25_phase1_replay.py --input /path/to/immutable-shadow-export.json --output /path/to/new-shadow-receipt.json
+# When authentic source/quote files are available, pass --original-archive-root /path/to/frozen-archive
 ```
 
 Input is a JSON object with arrays `quotes`, `forecasts`, and `settlements`; each element contains the matching dataclass's required fields, and `distribution` uses `{"kind":"discrete","masses":[[0,0.4],[1,0.6]]}`, `{"kind":"poisson","rate":2.0}`, or `{"kind":"normal","mean":0,"sd":1}`. Reject duplicate JSON keys, invalid temporal order and duplicate contract/model IDs. Never reuse an existing output path; replay receipts contain input and result SHA-256 and cannot override the frozen inputs.
