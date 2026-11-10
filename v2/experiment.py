@@ -69,6 +69,54 @@ def run_experiment(payload: dict, protocol: dict, *,
         if payload["rolling"].get("experiment_id") != protocol["experiment_id"]:
             raise ContractError("rolling_experiment_id_mismatch")
         result["rolling"] = run_rolling(payload["rolling"], seed=seed)
+    legacy_pairs = []
+    if "legacy_originals" in payload:
+        legacy = scan_original_pairs(
+            payload["legacy_originals"],
+            strict_checker=strict_checker, archive_root=archive_root,
+        )
+        legacy_pairs = legacy["pairs"]
+        result["legacy_v1"] = {k:v for k,v in legacy.items() if k != "pairs"}
+        result["legacy_v1"]["bound_for_scoring"] = 0
+        result["legacy_v1"]["unbound_certified_pairs"] = len(legacy_pairs)
+    if "legacy_bindings" in payload and "legacy_originals" not in payload:
+        raise ContractError("legacy_bindings_without_original_forecasts")
+    bound_forecasts = []
+    if "legacy_bindings" in payload:
+        from .contracts import parse_quote
+        section = payload.get("frozen")
+        if not isinstance(section, dict):
+            raise ContractError("legacy_binding_requires_exact_frozen_quote_universe")
+        quote_index = {q.quote_id: q for q in
+                       (parse_quote(x) for x in section.get("quotes", []))}
+        seen_bindings = set()
+        for bind in payload["legacy_bindings"]:
+            qid = bind.get("quote_id")
+            if qid in seen_bindings:
+                raise ContractError("duplicate_legacy_quote_binding")
+            seen_bindings.add(qid)
+            if qid not in quote_index:
+                raise ContractError("legacy_binding_unknown_quote")
+            quote = quote_index[qid]
+            matches = [pair for pair in legacy_pairs
+                       if pair.key[3] == str(quote.event_id)
+                       and pair.key[4] == str(quote.player_id)
+                       and pair.key[5] == str(quote.stat_key)
+                       and pair.key[6] == float(quote.line)]
+            # key order: run_id, game_date, sport, event_id, player_id,
+            # stat, reference_line. Never choose between multiple original runs.
+            if len(matches) != 1:
+                raise ContractError("legacy_binding_not_uniquely_certified")
+            original = matches[0]
+            original_commit = bind.get("original_code_commit")
+            original_artifact = bind.get("original_model_artifact_sha256")
+            bound_forecasts.append(original.bind(
+                quote, code_commit=original_commit,
+                model_artifact_sha256=original_artifact,
+            ))
+        result["legacy_v1"]["bound_for_scoring"] = len(bound_forecasts)
+        result["legacy_v1"]["unbound_certified_pairs"] = (
+            len(legacy_pairs)-len(bound_forecasts))
     if "frozen" in payload:
         from .contracts import parse_quote, parse_snapshot
         from .evaluation import Settlement, evaluate
@@ -78,18 +126,12 @@ def run_experiment(payload: dict, protocol: dict, *,
             raise ContractError("invalid_frozen_replay_bundle")
         result["frozen"] = evaluate(
             [parse_quote(x) for x in section["quotes"]],
-            [parse_snapshot(x) for x in section["forecasts"]],
+            [parse_snapshot(x) for x in section["forecasts"]] + bound_forecasts,
             [Settlement(**x) for x in section["settlements"]],
             bootstrap_seed=seed,
         )
         result["frozen"]["source_publication_independently_verified"] = False
         result["frozen"]["phase0r_certification_independently_verified"] = False
-    if "legacy_originals" in payload:
-        legacy = scan_original_pairs(
-            payload["legacy_originals"],
-            strict_checker=strict_checker, archive_root=archive_root,
-        )
-        result["legacy_v1"] = {k:v for k,v in legacy.items() if k != "pairs"}
     if not any(k in result for k in ("rolling", "frozen", "legacy_v1")):
         raise ContractError("empty_experiment_workstreams")
     result["receipt_sha256"] = canonical_hash(result)
