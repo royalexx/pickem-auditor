@@ -143,7 +143,7 @@ class ProvisionalSafetyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp)
             with (patch.object(shadow,"load_policy",return_value={"models":[asset]}),
-                  patch.object(shadow.parent,"jsonl",return_value=[]),
+                  patch("live_pool_exchange.jsonl",return_value=[]),
                   patch.dict(sys.modules,{"arviz":SimpleNamespace()}),
                   patch("live_pool_exchange.pick_latest",return_value=([contract],"frozen1")),
                   patch.object(shadow,"_download_asset",
