@@ -1,0 +1,2643 @@
+{
+  "schema": "v25-phase2-2024-learning-independent-20261110",
+  "underlying_final_report_sha": "90959af55dae516a3236c08bf70622c2ec2c2105561155f73800608dd6fd7e8e",
+  "source_2024_oracle_sha": "978637383e6bfc8f9795ca102a358259e20753ea1ddb2ca4d78001f5e0849efa",
+  "pre2024_training_coverage": {
+    "first_year": 2021,
+    "last_year": 2023,
+    "n_games": 815,
+    "n_player_week_source_rows": 56443,
+    "n_team_games": 1630
+  },
+  "summary": {
+    "high_confidence": {
+      "no_refit": {
+        "70": {
+          "hit_rate": 0.6118518518518519,
+          "mean_claimed": 0.8423553240740741,
+          "n": 1350,
+          "over_n": 289,
+          "under_n": 1061
+        },
+        "80": {
+          "hit_rate": 0.6156583629893239,
+          "mean_claimed": 0.8986877224199288,
+          "n": 843,
+          "over_n": 103,
+          "under_n": 740
+        },
+        "90": {
+          "hit_rate": 0.6264775413711584,
+          "mean_claimed": 0.950673204787234,
+          "n": 423,
+          "over_n": 39,
+          "under_n": 384
+        },
+        "95": {
+          "hit_rate": 0.6421568627450981,
+          "mean_claimed": 0.9769167432598039,
+          "n": 204,
+          "over_n": 10,
+          "under_n": 194
+        }
+      },
+      "updated": {
+        "70": {
+          "hit_rate": 0.6229895931882686,
+          "mean_claimed": 0.8403629819063387,
+          "n": 2114,
+          "over_n": 93,
+          "under_n": 2021
+        },
+        "80": {
+          "hit_rate": 0.6408882082695253,
+          "mean_claimed": 0.8966458891653905,
+          "n": 1306,
+          "over_n": 24,
+          "under_n": 1282
+        },
+        "90": {
+          "hit_rate": 0.6880877742946708,
+          "mean_claimed": 0.9489126175548589,
+          "n": 638,
+          "over_n": 4,
+          "under_n": 634
+        },
+        "95": {
+          "hit_rate": 0.7088607594936709,
+          "mean_claimed": 0.9732187005537974,
+          "n": 316,
+          "over_n": 0,
+          "under_n": 316
+        }
+      }
+    },
+    "paired_online_vs_no_refit": {
+      "target": {
+        "matched_contracts": 2433,
+        "n_week_clusters": 18,
+        "online_better_week_count": 17,
+        "online_minus_no_refit_crps": -0.11087163446177879,
+        "week_cluster_95": [
+          -0.14942908534473184,
+          -0.07399210625822028
+        ]
+      },
+      "target_online_vs_independent_poisson": {
+        "conditional_brier": {
+          "mean_online_minus_independent": -0.0015231578938158443,
+          "n": 4046,
+          "online_better_weeks": 12,
+          "week_cluster_95": [
+            -0.0028693820132963486,
+            -0.00010454315082397166
+          ]
+        },
+        "crps": {
+          "mean_online_minus_independent": -0.007147114405346812,
+          "n": 4046,
+          "online_better_weeks": 14,
+          "week_cluster_95": [
+            -0.012262388514186614,
+            -0.0022628150048193993
+          ]
+        },
+        "matched_contracts": 4046
+      },
+      "team": {
+        "matched_contracts": 544,
+        "n_week_clusters": 18,
+        "online_better_week_count": 14,
+        "online_minus_no_refit_crps": -0.15360523672664866,
+        "week_cluster_95": [
+          -0.2688378298724139,
+          -0.03902928034464518
+        ]
+      }
+    },
+    "targets": {
+      "independent_poisson": {
+        "accuracy": 0.5870264917058677,
+        "brier": 0.2690145518010168,
+        "crps": 1.4012926010229891,
+        "mae": 1.883058209497034,
+        "n": 4046
+      },
+      "no_refit": {
+        "accuracy": 0.5880726698262243,
+        "brier": 0.27518428919542315,
+        "crps": 1.4802677400650517,
+        "mae": 2.030634558172699,
+        "n": 2542
+      },
+      "updated": {
+        "accuracy": 0.5876518720555418,
+        "brier": 0.267491393907201,
+        "crps": 1.3941454866176421,
+        "mae": 1.878659092313396,
+        "n": 4046
+      }
+    },
+    "team": {
+      "no_refit": {
+        "crps": 4.794852936969084,
+        "mae": 6.66241455078125,
+        "n": 544
+      },
+      "updated": {
+        "crps": 4.6412477002424355,
+        "mae": 6.509510713465073,
+        "n": 544
+      }
+    }
+  },
+  "weekly_matched": [
+    {
+      "week": 1,
+      "team_matched": 32,
+      "team_diff": 0,
+      "target_matched": 166,
+      "target_diff": 0,
+      "poisson_matched": 166,
+      "poisson_diff": -0.0163344187908862,
+      "target_updated_n": 166,
+      "target_frozen_n": 166,
+      "high80_n": 31,
+      "high80_hit": 0.8064516129032258,
+      "high90_n": 13,
+      "high90_hit": 0.9230769230769231,
+      "high95_n": 7,
+      "high95_hit": 1
+    },
+    {
+      "week": 2,
+      "team_matched": 32,
+      "team_diff": -0.036962151527404785,
+      "target_matched": 142,
+      "target_diff": -0.014721480893417143,
+      "poisson_matched": 158,
+      "poisson_diff": -0.00362649748596964,
+      "target_updated_n": 158,
+      "target_frozen_n": 142,
+      "high80_n": 36,
+      "high80_hit": 0.5277777777777778,
+      "high90_n": 17,
+      "high90_hit": 0.5882352941176471,
+      "high95_n": 9,
+      "high95_hit": 0.5555555555555556
+    },
+    {
+      "week": 3,
+      "team_matched": 32,
+      "team_diff": -0.1499481201171875,
+      "target_matched": 155,
+      "target_diff": -0.03847872826360887,
+      "poisson_matched": 181,
+      "poisson_diff": -0.004949369483231181,
+      "target_updated_n": 181,
+      "target_frozen_n": 155,
+      "high80_n": 51,
+      "high80_hit": 0.7058823529411765,
+      "high90_n": 32,
+      "high90_hit": 0.65625,
+      "high95_n": 19,
+      "high95_hit": 0.7368421052631579
+    },
+    {
+      "week": 4,
+      "team_matched": 32,
+      "team_diff": 0.2738684415817261,
+      "target_matched": 148,
+      "target_diff": -0.02856558722418708,
+      "poisson_matched": 229,
+      "poisson_diff": -0.027816722486737513,
+      "target_updated_n": 229,
+      "target_frozen_n": 151,
+      "high80_n": 104,
+      "high80_hit": 0.6442307692307693,
+      "high90_n": 72,
+      "high90_hit": 0.6666666666666666,
+      "high95_n": 56,
+      "high95_hit": 0.7321428571428571
+    },
+    {
+      "week": 5,
+      "team_matched": 28,
+      "team_diff": -0.14782919202532088,
+      "target_matched": 130,
+      "target_diff": -0.027540911160982572,
+      "poisson_matched": 211,
+      "poisson_diff": -0.021393129610902326,
+      "target_updated_n": 211,
+      "target_frozen_n": 133,
+      "high80_n": 98,
+      "high80_hit": 0.5510204081632653,
+      "high90_n": 58,
+      "high90_hit": 0.603448275862069,
+      "high95_n": 38,
+      "high95_hit": 0.5789473684210527
+    },
+    {
+      "week": 6,
+      "team_matched": 28,
+      "team_diff": -0.1172865458897182,
+      "target_matched": 124,
+      "target_diff": -0.12102483933971774,
+      "poisson_matched": 209,
+      "poisson_diff": 0.016671741978403484,
+      "target_updated_n": 209,
+      "target_frozen_n": 131,
+      "high80_n": 93,
+      "high80_hit": 0.6129032258064516,
+      "high90_n": 59,
+      "high90_hit": 0.6779661016949152,
+      "high95_n": 26,
+      "high95_hit": 0.6923076923076923
+    },
+    {
+      "week": 7,
+      "team_matched": 30,
+      "team_diff": -0.017574183146158853,
+      "target_matched": 137,
+      "target_diff": -0.1481539037105811,
+      "poisson_matched": 232,
+      "poisson_diff": -0.00021696090698242188,
+      "target_updated_n": 232,
+      "target_frozen_n": 143,
+      "high80_n": 97,
+      "high80_hit": 0.6494845360824743,
+      "high90_n": 55,
+      "high90_hit": 0.6909090909090909,
+      "high95_n": 17,
+      "high95_hit": 0.8235294117647058
+    },
+    {
+      "week": 8,
+      "team_matched": 32,
+      "team_diff": -0.16074013710021973,
+      "target_matched": 145,
+      "target_diff": -0.11333602379108297,
+      "poisson_matched": 262,
+      "poisson_diff": -0.010582712770418357,
+      "target_updated_n": 262,
+      "target_frozen_n": 158,
+      "high80_n": 123,
+      "high80_hit": 0.6585365853658537,
+      "high90_n": 55,
+      "high90_hit": 0.7090909090909091,
+      "high95_n": 18,
+      "high95_hit": 0.8333333333333334
+    },
+    {
+      "week": 9,
+      "team_matched": 30,
+      "team_diff": -0.27412516276041665,
+      "target_matched": 132,
+      "target_diff": -0.16301608808112866,
+      "poisson_matched": 241,
+      "poisson_diff": 0.0020024311493046553,
+      "target_updated_n": 241,
+      "target_frozen_n": 139,
+      "high80_n": 90,
+      "high80_hit": 0.6333333333333333,
+      "high90_n": 34,
+      "high90_hit": 0.8823529411764706,
+      "high95_n": 10,
+      "high95_hit": 0.8
+    },
+    {
+      "week": 10,
+      "team_matched": 28,
+      "team_diff": -0.23137869153703963,
+      "target_matched": 122,
+      "target_diff": -0.2312223403180232,
+      "poisson_matched": 219,
+      "poisson_diff": -0.003051217832521761,
+      "target_updated_n": 219,
+      "target_frozen_n": 129,
+      "high80_n": 65,
+      "high80_hit": 0.6923076923076923,
+      "high90_n": 26,
+      "high90_hit": 0.7307692307692307,
+      "high95_n": 16,
+      "high95_hit": 0.625
+    },
+    {
+      "week": 11,
+      "team_matched": 28,
+      "team_diff": -0.46839782169886995,
+      "target_matched": 129,
+      "target_diff": -0.07689459748970445,
+      "poisson_matched": 233,
+      "poisson_diff": 0.0037004528127514754,
+      "target_updated_n": 233,
+      "target_frozen_n": 138,
+      "high80_n": 57,
+      "high80_hit": 0.6842105263157895,
+      "high90_n": 25,
+      "high90_hit": 0.76,
+      "high95_n": 15,
+      "high95_hit": 0.8
+    },
+    {
+      "week": 12,
+      "team_matched": 26,
+      "team_diff": -0.31437096228966344,
+      "target_matched": 113,
+      "target_diff": -0.13098954732439158,
+      "poisson_matched": 217,
+      "poisson_diff": -0.0008991962204331077,
+      "target_updated_n": 217,
+      "target_frozen_n": 120,
+      "high80_n": 56,
+      "high80_hit": 0.6964285714285714,
+      "high90_n": 21,
+      "high90_hit": 0.7619047619047619,
+      "high95_n": 11,
+      "high95_hit": 0.7272727272727273
+    },
+    {
+      "week": 13,
+      "team_matched": 32,
+      "team_diff": -0.6166800260543823,
+      "target_matched": 141,
+      "target_diff": -0.05519098592988143,
+      "poisson_matched": 258,
+      "poisson_diff": -0.007730868435645288,
+      "target_updated_n": 258,
+      "target_frozen_n": 150,
+      "high80_n": 63,
+      "high80_hit": 0.5396825396825397,
+      "high90_n": 23,
+      "high90_hit": 0.6956521739130435,
+      "high95_n": 11,
+      "high95_hit": 0.7272727272727273
+    },
+    {
+      "week": 14,
+      "team_matched": 26,
+      "team_diff": -0.49703143193171573,
+      "target_matched": 101,
+      "target_diff": -0.15584386693369043,
+      "poisson_matched": 201,
+      "poisson_diff": -0.012715771423643501,
+      "target_updated_n": 201,
+      "target_frozen_n": 111,
+      "high80_n": 61,
+      "high80_hit": 0.639344262295082,
+      "high90_n": 26,
+      "high90_hit": 0.5769230769230769,
+      "high95_n": 11,
+      "high95_hit": 0.45454545454545453
+    },
+    {
+      "week": 15,
+      "team_matched": 32,
+      "team_diff": 0.2897958755493164,
+      "target_matched": 140,
+      "target_diff": -0.09104971204485213,
+      "poisson_matched": 264,
+      "poisson_diff": -0.022262674389463482,
+      "target_updated_n": 264,
+      "target_frozen_n": 145,
+      "high80_n": 73,
+      "high80_hit": 0.6575342465753424,
+      "high90_n": 26,
+      "high90_hit": 0.6538461538461539,
+      "high95_n": 10,
+      "high95_hit": 0.8
+    },
+    {
+      "week": 16,
+      "team_matched": 32,
+      "team_diff": -0.3824350833892822,
+      "target_matched": 135,
+      "target_diff": -0.15957845052083333,
+      "poisson_matched": 251,
+      "poisson_diff": -0.007692010279195717,
+      "target_updated_n": 251,
+      "target_frozen_n": 147,
+      "high80_n": 60,
+      "high80_hit": 0.5166666666666667,
+      "high90_n": 25,
+      "high90_hit": 0.52,
+      "high95_n": 13,
+      "high95_hit": 0.6153846153846154
+    },
+    {
+      "week": 17,
+      "team_matched": 32,
+      "team_diff": -0.11938798427581787,
+      "target_matched": 145,
+      "target_diff": -0.28086524174131194,
+      "poisson_matched": 267,
+      "poisson_diff": 0.002711363946007432,
+      "target_updated_n": 267,
+      "target_frozen_n": 148,
+      "high80_n": 77,
+      "high80_hit": 0.7532467532467533,
+      "high90_n": 37,
+      "high90_hit": 0.7567567567567568,
+      "high95_n": 15,
+      "high95_hit": 0.8666666666666667
+    },
+    {
+      "week": 18,
+      "team_matched": 32,
+      "team_diff": 0.06821346282958984,
+      "target_matched": 128,
+      "target_diff": -0.22784358263015747,
+      "poisson_matched": 247,
+      "poisson_diff": -0.01360812167889676,
+      "target_updated_n": 247,
+      "target_frozen_n": 136,
+      "high80_n": 71,
+      "high80_hit": 0.6338028169014085,
+      "high90_n": 34,
+      "high90_hit": 0.6764705882352942,
+      "high95_n": 14,
+      "high95_hit": 0.5714285714285714
+    }
+  ],
+  "weekly_original": [
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 429,
+        "no_refit_candidate_not_asof_roster": 103,
+        "no_refit_candidate_not_in_settled_source": 160,
+        "no_refit_scored_targets": 166,
+        "updated_all_original_targets_in_team": 429,
+        "updated_candidate_not_asof_roster": 103,
+        "updated_candidate_not_in_settled_source": 160,
+        "updated_scored_targets": 166
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.7538461538461538,
+            "mean_claimed": 0.8138221153846154,
+            "n": 65,
+            "overs": 5,
+            "unders": 60
+          },
+          "80": {
+            "accuracy": 0.8064516129032258,
+            "mean_claimed": 0.8852696572580645,
+            "n": 31,
+            "overs": 0,
+            "unders": 31
+          },
+          "90": {
+            "accuracy": 0.9230769230769231,
+            "mean_claimed": 0.9546274038461539,
+            "n": 13,
+            "overs": 0,
+            "unders": 13
+          },
+          "95": {
+            "accuracy": 1,
+            "mean_claimed": 0.9807477678571429,
+            "n": 7,
+            "overs": 0,
+            "unders": 7
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.7538461538461538,
+            "mean_claimed": 0.8138221153846154,
+            "n": 65,
+            "overs": 5,
+            "unders": 60
+          },
+          "80": {
+            "accuracy": 0.8064516129032258,
+            "mean_claimed": 0.8852696572580645,
+            "n": 31,
+            "overs": 0,
+            "unders": 31
+          },
+          "90": {
+            "accuracy": 0.9230769230769231,
+            "mean_claimed": 0.9546274038461539,
+            "n": 13,
+            "overs": 0,
+            "unders": 13
+          },
+          "95": {
+            "accuracy": 1,
+            "mean_claimed": 0.9807477678571429,
+            "n": 7,
+            "overs": 0,
+            "unders": 7
+          }
+        }
+      },
+      "n_original_research_targets": 429,
+      "n_team_games": 32,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.6265060240963856,
+          "brier": 0.2278866825333561,
+          "crps": 1.2491193104939289,
+          "mae": 1.7706842996987953,
+          "n": 166
+        },
+        "no_refit": {
+          "accuracy": 0.6341463414634146,
+          "brier": 0.22274233346962066,
+          "crps": 1.2327848917030426,
+          "mae": 1.7578948606927711,
+          "n": 166
+        },
+        "updated": {
+          "accuracy": 0.6341463414634146,
+          "brier": 0.22274233346962066,
+          "crps": 1.2327848917030426,
+          "mae": 1.7578948606927711,
+          "n": 166
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 4.569456100463867,
+          "mae": 6.6619873046875,
+          "n": 32
+        },
+        "updated": {
+          "crps": 4.569456100463867,
+          "mae": 6.6619873046875,
+          "n": 32
+        }
+      },
+      "week": 1
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 194,
+        "no_refit_candidate_not_asof_roster": 26,
+        "no_refit_candidate_not_in_settled_source": 26,
+        "no_refit_scored_targets": 142,
+        "updated_all_original_targets_in_team": 194,
+        "updated_candidate_not_in_settled_source": 36,
+        "updated_scored_targets": 158
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.6229508196721312,
+            "mean_claimed": 0.8144211065573771,
+            "n": 61,
+            "overs": 8,
+            "unders": 53
+          },
+          "80": {
+            "accuracy": 0.59375,
+            "mean_claimed": 0.87664794921875,
+            "n": 32,
+            "overs": 3,
+            "unders": 29
+          },
+          "90": {
+            "accuracy": 0.875,
+            "mean_claimed": 0.94580078125,
+            "n": 8,
+            "overs": 0,
+            "unders": 8
+          },
+          "95": {
+            "accuracy": 1,
+            "mean_claimed": 0.9697265625,
+            "n": 4,
+            "overs": 0,
+            "unders": 4
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.5757575757575758,
+            "mean_claimed": 0.8253432765151515,
+            "n": 66,
+            "overs": 3,
+            "unders": 63
+          },
+          "80": {
+            "accuracy": 0.5277777777777778,
+            "mean_claimed": 0.8924153645833334,
+            "n": 36,
+            "overs": 2,
+            "unders": 34
+          },
+          "90": {
+            "accuracy": 0.5882352941176471,
+            "mean_claimed": 0.9499080882352942,
+            "n": 17,
+            "overs": 0,
+            "unders": 17
+          },
+          "95": {
+            "accuracy": 0.5555555555555556,
+            "mean_claimed": 0.978515625,
+            "n": 9,
+            "overs": 0,
+            "unders": 9
+          }
+        }
+      },
+      "n_original_research_targets": 194,
+      "n_team_games": 32,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.6242038216560509,
+          "brier": 0.26064590260952336,
+          "crps": 1.4710346656509592,
+          "mae": 2.0093947784810124,
+          "n": 158
+        },
+        "no_refit": {
+          "accuracy": 0.6267605633802817,
+          "brier": 0.24848486671985034,
+          "crps": 1.4090748907814563,
+          "mae": 1.9879648987676057,
+          "n": 142
+        },
+        "updated": {
+          "accuracy": 0.6369426751592356,
+          "brier": 0.2642805847940566,
+          "crps": 1.4674081681649895,
+          "mae": 2.0277516811708862,
+          "n": 158
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 5.260786771774292,
+          "mae": 7.2537841796875,
+          "n": 32
+        },
+        "updated": {
+          "crps": 5.223824620246887,
+          "mae": 7.26617431640625,
+          "n": 32
+        }
+      },
+      "week": 2
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 221,
+        "no_refit_candidate_not_asof_roster": 35,
+        "no_refit_candidate_not_in_settled_source": 31,
+        "no_refit_scored_targets": 155,
+        "updated_all_original_targets_in_team": 221,
+        "updated_candidate_not_in_settled_source": 40,
+        "updated_scored_targets": 181
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.6438356164383562,
+            "mean_claimed": 0.8187339469178082,
+            "n": 73,
+            "overs": 6,
+            "unders": 67
+          },
+          "80": {
+            "accuracy": 0.6388888888888888,
+            "mean_claimed": 0.8940972222222222,
+            "n": 36,
+            "overs": 3,
+            "unders": 33
+          },
+          "90": {
+            "accuracy": 0.625,
+            "mean_claimed": 0.9560546875,
+            "n": 16,
+            "overs": 1,
+            "unders": 15
+          },
+          "95": {
+            "accuracy": 0.6,
+            "mean_claimed": 0.9748046875,
+            "n": 10,
+            "overs": 0,
+            "unders": 10
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.6666666666666666,
+            "mean_claimed": 0.8465634300595238,
+            "n": 84,
+            "overs": 7,
+            "unders": 77
+          },
+          "80": {
+            "accuracy": 0.7058823529411765,
+            "mean_claimed": 0.9111519607843137,
+            "n": 51,
+            "overs": 2,
+            "unders": 49
+          },
+          "90": {
+            "accuracy": 0.65625,
+            "mean_claimed": 0.95306396484375,
+            "n": 32,
+            "overs": 0,
+            "unders": 32
+          },
+          "95": {
+            "accuracy": 0.7368421052631579,
+            "mean_claimed": 0.9762541118421053,
+            "n": 19,
+            "overs": 0,
+            "unders": 19
+          }
+        }
+      },
+      "n_original_research_targets": 221,
+      "n_team_games": 32,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.580110497237569,
+          "brier": 0.2600927827107972,
+          "crps": 1.398904768801526,
+          "mae": 1.9085268473756907,
+          "n": 181
+        },
+        "no_refit": {
+          "accuracy": 0.5806451612903226,
+          "brier": 0.2697779255528604,
+          "crps": 1.352566626764113,
+          "mae": 1.9286038306451614,
+          "n": 155
+        },
+        "updated": {
+          "accuracy": 0.5944444444444444,
+          "brier": 0.2577006092387668,
+          "crps": 1.3939553993182947,
+          "mae": 1.906217627762431,
+          "n": 181
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 5.636670827865601,
+          "mae": 7.881103515625,
+          "n": 32
+        },
+        "updated": {
+          "crps": 5.486722707748413,
+          "mae": 7.6490478515625,
+          "n": 32
+        }
+      },
+      "week": 3
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 298,
+        "no_refit_candidate_not_asof_roster": 103,
+        "no_refit_candidate_not_in_settled_source": 44,
+        "no_refit_scored_targets": 151,
+        "updated_all_original_targets_in_team": 298,
+        "updated_candidate_not_asof_roster": 18,
+        "updated_candidate_not_in_settled_source": 51,
+        "updated_scored_targets": 229
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.7323943661971831,
+            "mean_claimed": 0.8300231073943662,
+            "n": 71,
+            "overs": 11,
+            "unders": 60
+          },
+          "80": {
+            "accuracy": 0.717948717948718,
+            "mean_claimed": 0.8938301282051282,
+            "n": 39,
+            "overs": 3,
+            "unders": 36
+          },
+          "90": {
+            "accuracy": 0.6842105263157895,
+            "mean_claimed": 0.9459292763157895,
+            "n": 19,
+            "overs": 2,
+            "unders": 17
+          },
+          "95": {
+            "accuracy": 0.625,
+            "mean_claimed": 0.97802734375,
+            "n": 8,
+            "overs": 0,
+            "unders": 8
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.6439393939393939,
+            "mean_claimed": 0.8914535984848485,
+            "n": 132,
+            "overs": 5,
+            "unders": 127
+          },
+          "80": {
+            "accuracy": 0.6442307692307693,
+            "mean_claimed": 0.9291616586538461,
+            "n": 104,
+            "overs": 3,
+            "unders": 101
+          },
+          "90": {
+            "accuracy": 0.6666666666666666,
+            "mean_claimed": 0.96533203125,
+            "n": 72,
+            "overs": 0,
+            "unders": 72
+          },
+          "95": {
+            "accuracy": 0.7321428571428571,
+            "mean_claimed": 0.9763881138392857,
+            "n": 56,
+            "overs": 0,
+            "unders": 56
+          }
+        }
+      },
+      "n_original_research_targets": 298,
+      "n_team_games": 32,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.5895196506550219,
+          "brier": 0.2796743634486303,
+          "crps": 1.696192279132693,
+          "mae": 2.208532341703057,
+          "n": 229
+        },
+        "no_refit": {
+          "accuracy": 0.6,
+          "brier": 0.24753441715872052,
+          "crps": 1.4744891236159976,
+          "mae": 2.0834799254966887,
+          "n": 151
+        },
+        "updated": {
+          "accuracy": 0.611353711790393,
+          "brier": 0.2745572385829609,
+          "crps": 1.6683755566459555,
+          "mae": 2.1952527974890828,
+          "n": 229
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 5.074457764625549,
+          "mae": 7.31219482421875,
+          "n": 32
+        },
+        "updated": {
+          "crps": 5.348326206207275,
+          "mae": 7.704345703125,
+          "n": 32
+        }
+      },
+      "week": 4
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 291,
+        "no_refit_candidate_not_asof_roster": 112,
+        "no_refit_candidate_not_in_settled_source": 46,
+        "no_refit_scored_targets": 133,
+        "updated_all_original_targets_in_team": 291,
+        "updated_candidate_not_asof_roster": 22,
+        "updated_candidate_not_in_settled_source": 58,
+        "updated_scored_targets": 211
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.609375,
+            "mean_claimed": 0.832183837890625,
+            "n": 64,
+            "overs": 9,
+            "unders": 55
+          },
+          "80": {
+            "accuracy": 0.6341463414634146,
+            "mean_claimed": 0.8758574695121951,
+            "n": 41,
+            "overs": 3,
+            "unders": 38
+          },
+          "90": {
+            "accuracy": 0.6666666666666666,
+            "mean_claimed": 0.9542643229166666,
+            "n": 12,
+            "overs": 0,
+            "unders": 12
+          },
+          "95": {
+            "accuracy": 0.5714285714285714,
+            "mean_claimed": 0.9734933035714286,
+            "n": 7,
+            "overs": 0,
+            "unders": 7
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.5581395348837209,
+            "mean_claimed": 0.8732891230620154,
+            "n": 129,
+            "overs": 7,
+            "unders": 122
+          },
+          "80": {
+            "accuracy": 0.5510204081632653,
+            "mean_claimed": 0.9115513392857143,
+            "n": 98,
+            "overs": 2,
+            "unders": 96
+          },
+          "90": {
+            "accuracy": 0.603448275862069,
+            "mean_claimed": 0.9586813038793104,
+            "n": 58,
+            "overs": 1,
+            "unders": 57
+          },
+          "95": {
+            "accuracy": 0.5789473684210527,
+            "mean_claimed": 0.974609375,
+            "n": 38,
+            "overs": 0,
+            "unders": 38
+          }
+        }
+      },
+      "n_original_research_targets": 291,
+      "n_team_games": 28,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.5260663507109005,
+          "brier": 0.31688845666098936,
+          "crps": 1.8928261707179355,
+          "mae": 2.3670023696682465,
+          "n": 211
+        },
+        "no_refit": {
+          "accuracy": 0.6335877862595419,
+          "brier": 0.26071835281257344,
+          "crps": 1.7132816171287595,
+          "mae": 2.239984727443609,
+          "n": 133
+        },
+        "updated": {
+          "accuracy": 0.5428571428571428,
+          "brier": 0.312495010159027,
+          "crps": 1.871433041107033,
+          "mae": 2.3406305539099526,
+          "n": 211
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 5.356895583016532,
+          "mae": 7.125209263392857,
+          "n": 28
+        },
+        "updated": {
+          "crps": 5.209066390991211,
+          "mae": 6.949358258928571,
+          "n": 28
+        }
+      },
+      "week": 5
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 294,
+        "no_refit_candidate_not_asof_roster": 120,
+        "no_refit_candidate_not_in_settled_source": 43,
+        "no_refit_scored_targets": 131,
+        "updated_all_original_targets_in_team": 294,
+        "updated_candidate_not_asof_roster": 31,
+        "updated_candidate_not_in_settled_source": 54,
+        "updated_scored_targets": 209
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.6333333333333333,
+            "mean_claimed": 0.8375651041666666,
+            "n": 60,
+            "overs": 12,
+            "unders": 48
+          },
+          "80": {
+            "accuracy": 0.6097560975609756,
+            "mean_claimed": 0.8829077743902439,
+            "n": 41,
+            "overs": 5,
+            "unders": 36
+          },
+          "90": {
+            "accuracy": 0.5625,
+            "mean_claimed": 0.9466552734375,
+            "n": 16,
+            "overs": 2,
+            "unders": 14
+          },
+          "95": {
+            "accuracy": 0.5,
+            "mean_claimed": 0.973876953125,
+            "n": 8,
+            "overs": 1,
+            "unders": 7
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.5726495726495726,
+            "mean_claimed": 0.8792568108974359,
+            "n": 117,
+            "overs": 5,
+            "unders": 112
+          },
+          "80": {
+            "accuracy": 0.6129032258064516,
+            "mean_claimed": 0.9126554099462365,
+            "n": 93,
+            "overs": 2,
+            "unders": 91
+          },
+          "90": {
+            "accuracy": 0.6779661016949152,
+            "mean_claimed": 0.9461731991525424,
+            "n": 59,
+            "overs": 2,
+            "unders": 57
+          },
+          "95": {
+            "accuracy": 0.6923076923076923,
+            "mean_claimed": 0.9710036057692307,
+            "n": 26,
+            "overs": 0,
+            "unders": 26
+          }
+        }
+      },
+      "n_original_research_targets": 294,
+      "n_team_games": 28,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.583732057416268,
+          "brier": 0.2857464694520503,
+          "crps": 1.4997425900692005,
+          "mae": 1.9806089264354068,
+          "n": 209
+        },
+        "no_refit": {
+          "accuracy": 0.5923076923076923,
+          "brier": 0.2698997322839635,
+          "crps": 1.5152963536386272,
+          "mae": 2.0525405534351147,
+          "n": 131
+        },
+        "updated": {
+          "accuracy": 0.5625,
+          "brier": 0.28997132880836013,
+          "crps": 1.516414332047604,
+          "mae": 2.0076069078947367,
+          "n": 209
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 3.8626112256731306,
+          "mae": 5.223772321428571,
+          "n": 28
+        },
+        "updated": {
+          "crps": 3.7453246797834123,
+          "mae": 5.37548828125,
+          "n": 28
+        }
+      },
+      "week": 6
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 329,
+        "no_refit_candidate_not_asof_roster": 136,
+        "no_refit_candidate_not_in_settled_source": 50,
+        "no_refit_scored_targets": 143,
+        "updated_all_original_targets_in_team": 329,
+        "updated_candidate_not_asof_roster": 41,
+        "updated_candidate_not_in_settled_source": 56,
+        "updated_scored_targets": 232
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.5,
+            "mean_claimed": 0.8333583733974359,
+            "n": 78,
+            "overs": 16,
+            "unders": 62
+          },
+          "80": {
+            "accuracy": 0.5111111111111111,
+            "mean_claimed": 0.8940538194444444,
+            "n": 45,
+            "overs": 5,
+            "unders": 40
+          },
+          "90": {
+            "accuracy": 0.5,
+            "mean_claimed": 0.9490234375,
+            "n": 20,
+            "overs": 2,
+            "unders": 18
+          },
+          "95": {
+            "accuracy": 0.5,
+            "mean_claimed": 0.9744140625,
+            "n": 10,
+            "overs": 1,
+            "unders": 9
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.6402877697841727,
+            "mean_claimed": 0.8575483363309353,
+            "n": 139,
+            "overs": 6,
+            "unders": 133
+          },
+          "80": {
+            "accuracy": 0.6494845360824743,
+            "mean_claimed": 0.9018806378865979,
+            "n": 97,
+            "overs": 1,
+            "unders": 96
+          },
+          "90": {
+            "accuracy": 0.6909090909090909,
+            "mean_claimed": 0.9393110795454546,
+            "n": 55,
+            "overs": 1,
+            "unders": 54
+          },
+          "95": {
+            "accuracy": 0.8235294117647058,
+            "mean_claimed": 0.9734604779411765,
+            "n": 17,
+            "overs": 0,
+            "unders": 17
+          }
+        }
+      },
+      "n_original_research_targets": 329,
+      "n_team_games": 30,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.5974025974025974,
+          "brier": 0.2724983609955886,
+          "crps": 1.4256288265359813,
+          "mae": 1.8702182112068966,
+          "n": 232
+        },
+        "no_refit": {
+          "accuracy": 0.5460992907801419,
+          "brier": 0.30523660299661276,
+          "crps": 1.437000594772659,
+          "mae": 1.9829955201048952,
+          "n": 143
+        },
+        "updated": {
+          "accuracy": 0.5974025974025974,
+          "brier": 0.2672598937462116,
+          "crps": 1.425411865628999,
+          "mae": 1.8750757677801724,
+          "n": 232
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 5.354480743408203,
+          "mae": 7.914583333333334,
+          "n": 30
+        },
+        "updated": {
+          "crps": 5.336906560262045,
+          "mae": 7.863606770833333,
+          "n": 30
+        }
+      },
+      "week": 7
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 371,
+        "no_refit_candidate_not_asof_roster": 163,
+        "no_refit_candidate_not_in_settled_source": 50,
+        "no_refit_scored_targets": 158,
+        "updated_all_original_targets_in_team": 371,
+        "updated_candidate_not_asof_roster": 55,
+        "updated_candidate_not_in_settled_source": 54,
+        "updated_scored_targets": 262
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.6551724137931034,
+            "mean_claimed": 0.8478807471264368,
+            "n": 87,
+            "overs": 16,
+            "unders": 71
+          },
+          "80": {
+            "accuracy": 0.7090909090909091,
+            "mean_claimed": 0.9052911931818182,
+            "n": 55,
+            "overs": 5,
+            "unders": 50
+          },
+          "90": {
+            "accuracy": 0.7142857142857143,
+            "mean_claimed": 0.9584263392857143,
+            "n": 28,
+            "overs": 2,
+            "unders": 26
+          },
+          "95": {
+            "accuracy": 0.625,
+            "mean_claimed": 0.9825439453125,
+            "n": 16,
+            "overs": 2,
+            "unders": 14
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.6287425149700598,
+            "mean_claimed": 0.848673746257485,
+            "n": 167,
+            "overs": 7,
+            "unders": 160
+          },
+          "80": {
+            "accuracy": 0.6585365853658537,
+            "mean_claimed": 0.8848450203252033,
+            "n": 123,
+            "overs": 3,
+            "unders": 120
+          },
+          "90": {
+            "accuracy": 0.7090909090909091,
+            "mean_claimed": 0.9388494318181818,
+            "n": 55,
+            "overs": 0,
+            "unders": 55
+          },
+          "95": {
+            "accuracy": 0.8333333333333334,
+            "mean_claimed": 0.9699435763888888,
+            "n": 18,
+            "overs": 0,
+            "unders": 18
+          }
+        }
+      },
+      "n_original_research_targets": 371,
+      "n_team_games": 32,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.5877862595419847,
+          "brier": 0.2747212475492754,
+          "crps": 1.371583050443926,
+          "mae": 1.8302868559160306,
+          "n": 262
+        },
+        "no_refit": {
+          "accuracy": 0.6265822784810127,
+          "brier": 0.25867537003529223,
+          "crps": 1.3407311982746366,
+          "mae": 1.8185942444620253,
+          "n": 158
+        },
+        "updated": {
+          "accuracy": 0.5801526717557252,
+          "brier": 0.2716924216001088,
+          "crps": 1.3610003376735076,
+          "mae": 1.8272826216603053,
+          "n": 262
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 4.15116548538208,
+          "mae": 5.892578125,
+          "n": 32
+        },
+        "updated": {
+          "crps": 3.9904253482818604,
+          "mae": 5.7930908203125,
+          "n": 32
+        }
+      },
+      "week": 8
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 357,
+        "no_refit_candidate_not_asof_roster": 161,
+        "no_refit_candidate_not_in_settled_source": 57,
+        "no_refit_scored_targets": 139,
+        "updated_all_original_targets_in_team": 357,
+        "updated_candidate_not_asof_roster": 56,
+        "updated_candidate_not_in_settled_source": 60,
+        "updated_scored_targets": 241
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.5789473684210527,
+            "mean_claimed": 0.8410259046052632,
+            "n": 76,
+            "overs": 18,
+            "unders": 58
+          },
+          "80": {
+            "accuracy": 0.48936170212765956,
+            "mean_claimed": 0.8965259308510638,
+            "n": 47,
+            "overs": 6,
+            "unders": 41
+          },
+          "90": {
+            "accuracy": 0.47619047619047616,
+            "mean_claimed": 0.9560081845238095,
+            "n": 21,
+            "overs": 3,
+            "unders": 18
+          },
+          "95": {
+            "accuracy": 0.4166666666666667,
+            "mean_claimed": 0.9767252604166666,
+            "n": 12,
+            "overs": 1,
+            "unders": 11
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.6,
+            "mean_claimed": 0.8347237723214286,
+            "n": 140,
+            "overs": 8,
+            "unders": 132
+          },
+          "80": {
+            "accuracy": 0.6333333333333333,
+            "mean_claimed": 0.8775607638888889,
+            "n": 90,
+            "overs": 3,
+            "unders": 87
+          },
+          "90": {
+            "accuracy": 0.8823529411764706,
+            "mean_claimed": 0.9352596507352942,
+            "n": 34,
+            "overs": 0,
+            "unders": 34
+          },
+          "95": {
+            "accuracy": 0.8,
+            "mean_claimed": 0.96875,
+            "n": 10,
+            "overs": 0,
+            "unders": 10
+          }
+        }
+      },
+      "n_original_research_targets": 357,
+      "n_team_games": 30,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.6041666666666666,
+          "brier": 0.2667571578283033,
+          "crps": 1.360664177732349,
+          "mae": 1.8543503630705394,
+          "n": 241
+        },
+        "no_refit": {
+          "accuracy": 0.539568345323741,
+          "brier": 0.3066244605633852,
+          "crps": 1.587437087683369,
+          "mae": 2.156840152877698,
+          "n": 139
+        },
+        "updated": {
+          "accuracy": 0.5833333333333334,
+          "brier": 0.2692760293414484,
+          "crps": 1.3626666088816537,
+          "mae": 1.8685733272821576,
+          "n": 241
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 4.9427132924397785,
+          "mae": 7.055924479166666,
+          "n": 30
+        },
+        "updated": {
+          "crps": 4.668588129679362,
+          "mae": 6.659440104166666,
+          "n": 30
+        }
+      },
+      "week": 9
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 343,
+        "no_refit_candidate_not_asof_roster": 163,
+        "no_refit_candidate_not_in_settled_source": 51,
+        "no_refit_scored_targets": 129,
+        "updated_all_original_targets_in_team": 343,
+        "updated_candidate_not_asof_roster": 55,
+        "updated_candidate_not_in_settled_source": 69,
+        "updated_scored_targets": 219
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.5945945945945946,
+            "mean_claimed": 0.8424831081081081,
+            "n": 74,
+            "overs": 15,
+            "unders": 59
+          },
+          "80": {
+            "accuracy": 0.6428571428571429,
+            "mean_claimed": 0.9129464285714286,
+            "n": 42,
+            "overs": 6,
+            "unders": 36
+          },
+          "90": {
+            "accuracy": 0.5555555555555556,
+            "mean_claimed": 0.9537760416666666,
+            "n": 27,
+            "overs": 2,
+            "unders": 25
+          },
+          "95": {
+            "accuracy": 0.6428571428571429,
+            "mean_claimed": 0.9793526785714286,
+            "n": 14,
+            "overs": 1,
+            "unders": 13
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.656,
+            "mean_claimed": 0.822359375,
+            "n": 125,
+            "overs": 3,
+            "unders": 122
+          },
+          "80": {
+            "accuracy": 0.6923076923076923,
+            "mean_claimed": 0.8922475961538462,
+            "n": 65,
+            "overs": 0,
+            "unders": 65
+          },
+          "90": {
+            "accuracy": 0.7307692307692307,
+            "mean_claimed": 0.9556790865384616,
+            "n": 26,
+            "overs": 0,
+            "unders": 26
+          },
+          "95": {
+            "accuracy": 0.625,
+            "mean_claimed": 0.974853515625,
+            "n": 16,
+            "overs": 0,
+            "unders": 16
+          }
+        }
+      },
+      "n_original_research_targets": 343,
+      "n_team_games": 28,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.6422018348623854,
+          "brier": 0.25593983201675763,
+          "crps": 1.2681787569228917,
+          "mae": 1.6692886700913243,
+          "n": 219
+        },
+        "no_refit": {
+          "accuracy": 0.5503875968992248,
+          "brier": 0.29720823894175447,
+          "crps": 1.5030571102171906,
+          "mae": 2.078503512596899,
+          "n": 129
+        },
+        "updated": {
+          "accuracy": 0.6118721461187214,
+          "brier": 0.2538514159041453,
+          "crps": 1.26512753909037,
+          "mae": 1.6706353453196348,
+          "n": 219
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 4.847183091299875,
+          "mae": 6.724260602678571,
+          "n": 28
+        },
+        "updated": {
+          "crps": 4.615804399762835,
+          "mae": 6.596819196428571,
+          "n": 28
+        }
+      },
+      "week": 10
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 348,
+        "no_refit_candidate_not_asof_roster": 162,
+        "no_refit_candidate_not_in_settled_source": 48,
+        "no_refit_scored_targets": 138,
+        "updated_all_original_targets_in_team": 348,
+        "updated_candidate_not_asof_roster": 61,
+        "updated_candidate_not_in_settled_source": 54,
+        "updated_scored_targets": 233
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.6578947368421053,
+            "mean_claimed": 0.8540810032894737,
+            "n": 76,
+            "overs": 21,
+            "unders": 55
+          },
+          "80": {
+            "accuracy": 0.6862745098039216,
+            "mean_claimed": 0.9091222426470589,
+            "n": 51,
+            "overs": 7,
+            "unders": 44
+          },
+          "90": {
+            "accuracy": 0.6451612903225806,
+            "mean_claimed": 0.9472026209677419,
+            "n": 31,
+            "overs": 2,
+            "unders": 29
+          },
+          "95": {
+            "accuracy": 0.7,
+            "mean_claimed": 0.9783203125,
+            "n": 10,
+            "overs": 0,
+            "unders": 10
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.6226415094339622,
+            "mean_claimed": 0.8260060436320755,
+            "n": 106,
+            "overs": 1,
+            "unders": 105
+          },
+          "80": {
+            "accuracy": 0.6842105263157895,
+            "mean_claimed": 0.8962787828947368,
+            "n": 57,
+            "overs": 0,
+            "unders": 57
+          },
+          "90": {
+            "accuracy": 0.76,
+            "mean_claimed": 0.95875,
+            "n": 25,
+            "overs": 0,
+            "unders": 25
+          },
+          "95": {
+            "accuracy": 0.8,
+            "mean_claimed": 0.9766927083333333,
+            "n": 15,
+            "overs": 0,
+            "unders": 15
+          }
+        }
+      },
+      "n_original_research_targets": 348,
+      "n_team_games": 28,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.5689655172413793,
+          "brier": 0.2595172440033614,
+          "crps": 1.2624109947630264,
+          "mae": 1.7369735783261802,
+          "n": 233
+        },
+        "no_refit": {
+          "accuracy": 0.5869565217391305,
+          "brier": 0.26901499430338544,
+          "crps": 1.357026031051857,
+          "mae": 1.8505434782608696,
+          "n": 138
+        },
+        "updated": {
+          "accuracy": 0.575107296137339,
+          "brier": 0.2614548318887473,
+          "crps": 1.266111447575778,
+          "mae": 1.7464961105150214,
+          "n": 233
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 4.723780632019043,
+          "mae": 6.03662109375,
+          "n": 28
+        },
+        "updated": {
+          "crps": 4.255382810320173,
+          "mae": 5.536551339285714,
+          "n": 28
+        }
+      },
+      "week": 11
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 328,
+        "no_refit_candidate_not_asof_roster": 161,
+        "no_refit_candidate_not_in_settled_source": 47,
+        "no_refit_scored_targets": 120,
+        "updated_all_original_targets_in_team": 328,
+        "updated_candidate_not_asof_roster": 66,
+        "updated_candidate_not_in_settled_source": 45,
+        "updated_scored_targets": 217
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.6891891891891891,
+            "mean_claimed": 0.8370460304054054,
+            "n": 74,
+            "overs": 16,
+            "unders": 58
+          },
+          "80": {
+            "accuracy": 0.6666666666666666,
+            "mean_claimed": 0.8961371527777777,
+            "n": 45,
+            "overs": 6,
+            "unders": 39
+          },
+          "90": {
+            "accuracy": 0.7619047619047619,
+            "mean_claimed": 0.9491257440476191,
+            "n": 21,
+            "overs": 2,
+            "unders": 19
+          },
+          "95": {
+            "accuracy": 0.875,
+            "mean_claimed": 0.985107421875,
+            "n": 8,
+            "overs": 0,
+            "unders": 8
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.6857142857142857,
+            "mean_claimed": 0.8197544642857143,
+            "n": 105,
+            "overs": 2,
+            "unders": 103
+          },
+          "80": {
+            "accuracy": 0.6964285714285714,
+            "mean_claimed": 0.8828822544642857,
+            "n": 56,
+            "overs": 0,
+            "unders": 56
+          },
+          "90": {
+            "accuracy": 0.7619047619047619,
+            "mean_claimed": 0.9451264880952381,
+            "n": 21,
+            "overs": 0,
+            "unders": 21
+          },
+          "95": {
+            "accuracy": 0.7272727272727273,
+            "mean_claimed": 0.9676846590909091,
+            "n": 11,
+            "overs": 0,
+            "unders": 11
+          }
+        }
+      },
+      "n_original_research_targets": 328,
+      "n_team_games": 26,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.5806451612903226,
+          "brier": 0.2551216969292285,
+          "crps": 1.1804628328244258,
+          "mae": 1.5954151065668203,
+          "n": 217
+        },
+        "no_refit": {
+          "accuracy": 0.625,
+          "brier": 0.24352636337280273,
+          "crps": 1.2931532224019369,
+          "mae": 1.828759765625,
+          "n": 120
+        },
+        "updated": {
+          "accuracy": 0.5668202764976958,
+          "brier": 0.2529351019090222,
+          "crps": 1.1795636366039925,
+          "mae": 1.589429723502304,
+          "n": 217
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 5.019745606642503,
+          "mae": 7.076697716346154,
+          "n": 26
+        },
+        "updated": {
+          "crps": 4.7053746443528395,
+          "mae": 6.895057091346154,
+          "n": 26
+        }
+      },
+      "week": 12
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 397,
+        "no_refit_candidate_not_asof_roster": 191,
+        "no_refit_candidate_not_in_settled_source": 56,
+        "no_refit_scored_targets": 150,
+        "updated_all_original_targets_in_team": 397,
+        "updated_candidate_not_asof_roster": 82,
+        "updated_candidate_not_in_settled_source": 57,
+        "updated_scored_targets": 258
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.6703296703296703,
+            "mean_claimed": 0.847162603021978,
+            "n": 91,
+            "overs": 30,
+            "unders": 61
+          },
+          "80": {
+            "accuracy": 0.6666666666666666,
+            "mean_claimed": 0.8971028645833333,
+            "n": 60,
+            "overs": 11,
+            "unders": 49
+          },
+          "90": {
+            "accuracy": 0.7407407407407407,
+            "mean_claimed": 0.9587673611111112,
+            "n": 27,
+            "overs": 2,
+            "unders": 25
+          },
+          "95": {
+            "accuracy": 0.7647058823529411,
+            "mean_claimed": 0.9770220588235294,
+            "n": 17,
+            "overs": 0,
+            "unders": 17
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.5853658536585366,
+            "mean_claimed": 0.820582444105691,
+            "n": 123,
+            "overs": 4,
+            "unders": 119
+          },
+          "80": {
+            "accuracy": 0.5396825396825397,
+            "mean_claimed": 0.8824094742063492,
+            "n": 63,
+            "overs": 0,
+            "unders": 63
+          },
+          "90": {
+            "accuracy": 0.6956521739130435,
+            "mean_claimed": 0.9473505434782609,
+            "n": 23,
+            "overs": 0,
+            "unders": 23
+          },
+          "95": {
+            "accuracy": 0.7272727272727273,
+            "mean_claimed": 0.9698153409090909,
+            "n": 11,
+            "overs": 0,
+            "unders": 11
+          }
+        }
+      },
+      "n_original_research_targets": 397,
+      "n_team_games": 32,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.5697674418604651,
+          "brier": 0.2767591550368671,
+          "crps": 1.395292415175327,
+          "mae": 1.8895803052325582,
+          "n": 258
+        },
+        "no_refit": {
+          "accuracy": 0.6333333333333333,
+          "brier": 0.24960650126139322,
+          "crps": 1.5382352193196616,
+          "mae": 2.0855729166666666,
+          "n": 150
+        },
+        "updated": {
+          "accuracy": 0.5719844357976653,
+          "brier": 0.27612326865972475,
+          "crps": 1.3875615467396818,
+          "mae": 1.8737357679263567,
+          "n": 258
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 5.83976948261261,
+          "mae": 8.25079345703125,
+          "n": 32
+        },
+        "updated": {
+          "crps": 5.2230894565582275,
+          "mae": 7.1075439453125,
+          "n": 32
+        }
+      },
+      "week": 13
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 328,
+        "no_refit_candidate_not_asof_roster": 159,
+        "no_refit_candidate_not_in_settled_source": 58,
+        "no_refit_scored_targets": 111,
+        "updated_all_original_targets_in_team": 328,
+        "updated_candidate_not_asof_roster": 69,
+        "updated_candidate_not_in_settled_source": 58,
+        "updated_scored_targets": 201
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.5142857142857142,
+            "mean_claimed": 0.8577566964285714,
+            "n": 70,
+            "overs": 20,
+            "unders": 50
+          },
+          "80": {
+            "accuracy": 0.5714285714285714,
+            "mean_claimed": 0.9022640306122449,
+            "n": 49,
+            "overs": 9,
+            "unders": 40
+          },
+          "90": {
+            "accuracy": 0.5384615384615384,
+            "mean_claimed": 0.9474158653846154,
+            "n": 26,
+            "overs": 3,
+            "unders": 23
+          },
+          "95": {
+            "accuracy": 0.4,
+            "mean_claimed": 0.980078125,
+            "n": 10,
+            "overs": 0,
+            "unders": 10
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.6,
+            "mean_claimed": 0.8201766304347826,
+            "n": 115,
+            "overs": 11,
+            "unders": 104
+          },
+          "80": {
+            "accuracy": 0.639344262295082,
+            "mean_claimed": 0.8858542520491803,
+            "n": 61,
+            "overs": 2,
+            "unders": 59
+          },
+          "90": {
+            "accuracy": 0.5769230769230769,
+            "mean_claimed": 0.9465895432692307,
+            "n": 26,
+            "overs": 0,
+            "unders": 26
+          },
+          "95": {
+            "accuracy": 0.45454545454545453,
+            "mean_claimed": 0.9730113636363636,
+            "n": 11,
+            "overs": 0,
+            "unders": 11
+          }
+        }
+      },
+      "n_original_research_targets": 328,
+      "n_team_games": 26,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.58,
+          "brier": 0.27039965349643386,
+          "crps": 1.533733690556009,
+          "mae": 2.0437072450248754,
+          "n": 201
+        },
+        "no_refit": {
+          "accuracy": 0.5454545454545454,
+          "brier": 0.3153598201167476,
+          "crps": 1.681552165263408,
+          "mae": 2.2279349662162162,
+          "n": 111
+        },
+        "updated": {
+          "accuracy": 0.5870646766169154,
+          "brier": 0.27149616070647736,
+          "crps": 1.5210179191323656,
+          "mae": 2.0320662313432836,
+          "n": 201
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 4.228485841017503,
+          "mae": 5.818885216346154,
+          "n": 26
+        },
+        "updated": {
+          "crps": 3.7314544090857873,
+          "mae": 5.152493990384615,
+          "n": 26
+        }
+      },
+      "week": 14
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 409,
+        "no_refit_candidate_not_asof_roster": 204,
+        "no_refit_candidate_not_in_settled_source": 60,
+        "no_refit_scored_targets": 145,
+        "updated_all_original_targets_in_team": 409,
+        "updated_candidate_not_asof_roster": 75,
+        "updated_candidate_not_in_settled_source": 70,
+        "updated_scored_targets": 264
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.6024096385542169,
+            "mean_claimed": 0.8594691265060241,
+            "n": 83,
+            "overs": 21,
+            "unders": 62
+          },
+          "80": {
+            "accuracy": 0.5806451612903226,
+            "mean_claimed": 0.8959173387096774,
+            "n": 62,
+            "overs": 7,
+            "unders": 55
+          },
+          "90": {
+            "accuracy": 0.6129032258064516,
+            "mean_claimed": 0.9437373991935484,
+            "n": 31,
+            "overs": 3,
+            "unders": 28
+          },
+          "95": {
+            "accuracy": 0.75,
+            "mean_claimed": 0.9768880208333334,
+            "n": 12,
+            "overs": 0,
+            "unders": 12
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.6259541984732825,
+            "mean_claimed": 0.8208045085877863,
+            "n": 131,
+            "overs": 5,
+            "unders": 126
+          },
+          "80": {
+            "accuracy": 0.6575342465753424,
+            "mean_claimed": 0.8826252140410958,
+            "n": 73,
+            "overs": 1,
+            "unders": 72
+          },
+          "90": {
+            "accuracy": 0.6538461538461539,
+            "mean_claimed": 0.9418569711538461,
+            "n": 26,
+            "overs": 0,
+            "unders": 26
+          },
+          "95": {
+            "accuracy": 0.8,
+            "mean_claimed": 0.9681640625,
+            "n": 10,
+            "overs": 0,
+            "unders": 10
+          }
+        }
+      },
+      "n_original_research_targets": 409,
+      "n_team_games": 32,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.5871212121212122,
+          "brier": 0.2677831505284165,
+          "crps": 1.3799652764291475,
+          "mae": 1.904925722064394,
+          "n": 264
+        },
+        "no_refit": {
+          "accuracy": 0.5724137931034483,
+          "brier": 0.28408184709220097,
+          "crps": 1.5271152101714036,
+          "mae": 2.1145608836206895,
+          "n": 145
+        },
+        "updated": {
+          "accuracy": 0.5900383141762452,
+          "brier": 0.26174383452444366,
+          "crps": 1.3577026020396838,
+          "mae": 1.8797496448863635,
+          "n": 264
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 4.207665205001831,
+          "mae": 5.84912109375,
+          "n": 32
+        },
+        "updated": {
+          "crps": 4.4974610805511475,
+          "mae": 5.961669921875,
+          "n": 32
+        }
+      },
+      "week": 15
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 410,
+        "no_refit_candidate_not_asof_roster": 205,
+        "no_refit_candidate_not_in_settled_source": 58,
+        "no_refit_scored_targets": 147,
+        "updated_all_original_targets_in_team": 410,
+        "updated_candidate_not_asof_roster": 93,
+        "updated_candidate_not_in_settled_source": 66,
+        "updated_scored_targets": 251
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.5747126436781609,
+            "mean_claimed": 0.8480827945402298,
+            "n": 87,
+            "overs": 23,
+            "unders": 64
+          },
+          "80": {
+            "accuracy": 0.5818181818181818,
+            "mean_claimed": 0.9073863636363636,
+            "n": 55,
+            "overs": 4,
+            "unders": 51
+          },
+          "90": {
+            "accuracy": 0.625,
+            "mean_claimed": 0.95013427734375,
+            "n": 32,
+            "overs": 2,
+            "unders": 30
+          },
+          "95": {
+            "accuracy": 0.5625,
+            "mean_claimed": 0.97119140625,
+            "n": 16,
+            "overs": 0,
+            "unders": 16
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.5585585585585585,
+            "mean_claimed": 0.8296734234234234,
+            "n": 111,
+            "overs": 6,
+            "unders": 105
+          },
+          "80": {
+            "accuracy": 0.5166666666666667,
+            "mean_claimed": 0.8939127604166667,
+            "n": 60,
+            "overs": 0,
+            "unders": 60
+          },
+          "90": {
+            "accuracy": 0.52,
+            "mean_claimed": 0.950390625,
+            "n": 25,
+            "overs": 0,
+            "unders": 25
+          },
+          "95": {
+            "accuracy": 0.6153846153846154,
+            "mean_claimed": 0.9713040865384616,
+            "n": 13,
+            "overs": 0,
+            "unders": 13
+          }
+        }
+      },
+      "n_original_research_targets": 410,
+      "n_team_games": 32,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.6,
+          "brier": 0.2786268712989837,
+          "crps": 1.2234829450508513,
+          "mae": 1.7054049427290836,
+          "n": 251
+        },
+        "no_refit": {
+          "accuracy": 0.5986394557823129,
+          "brier": 0.28791668950294963,
+          "crps": 1.4705120527825388,
+          "mae": 2.012662096088435,
+          "n": 147
+        },
+        "updated": {
+          "accuracy": 0.596,
+          "brier": 0.2769157288083992,
+          "crps": 1.2157909347716556,
+          "mae": 1.6838972236055776,
+          "n": 251
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 4.431167125701904,
+          "mae": 5.9866943359375,
+          "n": 32
+        },
+        "updated": {
+          "crps": 4.048732042312622,
+          "mae": 5.4644775390625,
+          "n": 32
+        }
+      },
+      "week": 16
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 419,
+        "no_refit_candidate_not_asof_roster": 211,
+        "no_refit_candidate_not_in_settled_source": 60,
+        "no_refit_scored_targets": 148,
+        "updated_all_original_targets_in_team": 419,
+        "updated_candidate_not_asof_roster": 89,
+        "updated_candidate_not_in_settled_source": 63,
+        "updated_scored_targets": 267
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.5476190476190477,
+            "mean_claimed": 0.8546316964285714,
+            "n": 84,
+            "overs": 24,
+            "unders": 60
+          },
+          "80": {
+            "accuracy": 0.6,
+            "mean_claimed": 0.9091974431818182,
+            "n": 55,
+            "overs": 9,
+            "unders": 46
+          },
+          "90": {
+            "accuracy": 0.6,
+            "mean_claimed": 0.9497209821428572,
+            "n": 35,
+            "overs": 3,
+            "unders": 32
+          },
+          "95": {
+            "accuracy": 0.75,
+            "mean_claimed": 0.97705078125,
+            "n": 16,
+            "overs": 1,
+            "unders": 15
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.7364341085271318,
+            "mean_claimed": 0.8360586240310077,
+            "n": 129,
+            "overs": 4,
+            "unders": 125
+          },
+          "80": {
+            "accuracy": 0.7532467532467533,
+            "mean_claimed": 0.8959263392857143,
+            "n": 77,
+            "overs": 1,
+            "unders": 76
+          },
+          "90": {
+            "accuracy": 0.7567567567567568,
+            "mean_claimed": 0.9444151182432432,
+            "n": 37,
+            "overs": 0,
+            "unders": 37
+          },
+          "95": {
+            "accuracy": 0.8666666666666667,
+            "mean_claimed": 0.9697916666666667,
+            "n": 15,
+            "overs": 0,
+            "unders": 15
+          }
+        }
+      },
+      "n_original_research_targets": 419,
+      "n_team_games": 32,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.6217228464419475,
+          "brier": 0.22952850570392966,
+          "crps": 1.2215907921951807,
+          "mae": 1.6889337546816479,
+          "n": 267
+        },
+        "no_refit": {
+          "accuracy": 0.581081081081081,
+          "brier": 0.2954385087296769,
+          "crps": 1.6021970027201884,
+          "mae": 2.1594568201013513,
+          "n": 148
+        },
+        "updated": {
+          "accuracy": 0.6367041198501873,
+          "brier": 0.23057616158817593,
+          "crps": 1.2243021561411882,
+          "mae": 1.696885241104869,
+          "n": 267
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 4.7549625635147095,
+          "mae": 6.55694580078125,
+          "n": 32
+        },
+        "updated": {
+          "crps": 4.635574579238892,
+          "mae": 6.575439453125,
+          "n": 32
+        }
+      },
+      "week": 17
+    },
+    {
+      "candidate_coverage": {
+        "no_refit_all_original_targets_in_team": 420,
+        "no_refit_candidate_not_asof_roster": 216,
+        "no_refit_candidate_not_in_settled_source": 68,
+        "no_refit_scored_targets": 136,
+        "updated_all_original_targets_in_team": 420,
+        "updated_candidate_not_asof_roster": 93,
+        "updated_candidate_not_in_settled_source": 80,
+        "updated_scored_targets": 247
+      },
+      "high_confidence": {
+        "no_refit": {
+          "70": {
+            "accuracy": 0.4605263157894737,
+            "mean_claimed": 0.8745374177631579,
+            "n": 76,
+            "overs": 18,
+            "unders": 58
+          },
+          "80": {
+            "accuracy": 0.47368421052631576,
+            "mean_claimed": 0.9166666666666666,
+            "n": 57,
+            "overs": 11,
+            "unders": 46
+          },
+          "90": {
+            "accuracy": 0.525,
+            "mean_claimed": 0.948291015625,
+            "n": 40,
+            "overs": 8,
+            "unders": 32
+          },
+          "95": {
+            "accuracy": 0.5789473684210527,
+            "mean_claimed": 0.973889802631579,
+            "n": 19,
+            "overs": 3,
+            "unders": 16
+          }
+        },
+        "updated": {
+          "70": {
+            "accuracy": 0.5538461538461539,
+            "mean_claimed": 0.8300631009615385,
+            "n": 130,
+            "overs": 4,
+            "unders": 126
+          },
+          "80": {
+            "accuracy": 0.6338028169014085,
+            "mean_claimed": 0.8962367957746479,
+            "n": 71,
+            "overs": 2,
+            "unders": 69
+          },
+          "90": {
+            "accuracy": 0.6764705882352942,
+            "mean_claimed": 0.9430721507352942,
+            "n": 34,
+            "overs": 0,
+            "unders": 34
+          },
+          "95": {
+            "accuracy": 0.5714285714285714,
+            "mean_claimed": 0.9673549107142857,
+            "n": 14,
+            "overs": 0,
+            "unders": 14
+          }
+        }
+      },
+      "n_original_research_targets": 420,
+      "n_team_games": 32,
+      "targets": {
+        "independent_poisson": {
+          "accuracy": 0.5141700404858299,
+          "brier": 0.2942579941228334,
+          "crps": 1.471661926763743,
+          "mae": 1.9669471153846154,
+          "n": 247
+        },
+        "no_refit": {
+          "accuracy": 0.4888888888888889,
+          "brier": 0.3420502157772289,
+          "crps": 1.7133182637831743,
+          "mae": 2.2909007352941178,
+          "n": 136
+        },
+        "updated": {
+          "accuracy": 0.5222672064777328,
+          "brier": 0.29156912676235924,
+          "crps": 1.4580538050848464,
+          "mae": 1.9514486336032388,
+          "n": 247
+        }
+      },
+      "team": {
+        "no_refit": {
+          "crps": 3.9769294261932373,
+          "mae": 5.1322021484375,
+          "n": 32
+        },
+        "updated": {
+          "crps": 4.045142889022827,
+          "mae": 5.6729736328125,
+          "n": 32
+        }
+      },
+      "week": 18
+    }
+  ],
+  "frozen_sha_manifest": {
+    "1": {
+      "asof_input_sha": "3eaf4594878b1bb1b3626d8356af70d91ed8dc9cd07e3073bc07e2a86310a3a0",
+      "fitted_last_2024_week": 0,
+      "forecasts_sha": "5664f2519eae534f5bfbd0787c9cb5ae57a1a6517d51a1bc4bbeceb11af27a58",
+      "historical_team_games": 1630,
+      "original_legacy_frozen_sha": "7666deaab188f10c458e757615dd0b5e938d3475f7880cc69fdbcd3847654dbf"
+    },
+    "2": {
+      "asof_input_sha": "d72c0a788cee455fa0637cb4608cc48d3edde85b08effdcfa4b0be6664b1ab1b",
+      "fitted_last_2024_week": 1,
+      "forecasts_sha": "ffcd92880fbb4d0647b724d9fdbb7b929162e3ca1d06eeb178057149635b901f",
+      "historical_team_games": 1662,
+      "original_legacy_frozen_sha": "e2faaf00cd9b32e02d78aa2c7bf1b3abcfb1d080794b470b129f9da834c88180"
+    },
+    "3": {
+      "asof_input_sha": "0060f94447231263cbb6e80c9d6fc3b3561fea6772d6b1868793e0b415fca3b8",
+      "fitted_last_2024_week": 2,
+      "forecasts_sha": "ee12a10455b5d50d85a1c35d699e4a948de8302f0fc9dffef46b5e70e8ef6c68",
+      "historical_team_games": 1694,
+      "original_legacy_frozen_sha": "5570f2f70b38f6c1d5eb8fd270f1b40083ac2161575563914bb983d8ffe69e72"
+    },
+    "4": {
+      "asof_input_sha": "82f5457836689d2632962ea19e6f0f50408fe37bd5f90cfbc9233b9c47ec107b",
+      "fitted_last_2024_week": 3,
+      "forecasts_sha": "ab545403d20d7158576fd5f61b487428f90fc2550cddf0fb3f1b2fb87afde408",
+      "historical_team_games": 1726,
+      "original_legacy_frozen_sha": "77f5c5c2f680105722aa7388dbf9112ab36df594b8f6be6fc8490f39723a76fa"
+    },
+    "5": {
+      "asof_input_sha": "decdd653335ed00face203f0826000c8c3e6449748e55e0900688808ce79f826",
+      "fitted_last_2024_week": 4,
+      "forecasts_sha": "c0d2ad487669ad594080a21f4f12b29ce1e783b58cab13c8171121e6fac79fa6",
+      "historical_team_games": 1758,
+      "original_legacy_frozen_sha": "88d95f4e636a60aa4c7158aacd16f8e84923b38e98940b4055db3c0f4f878ba4"
+    },
+    "6": {
+      "asof_input_sha": "9b917c25d10eec3a89c369b7805e562217200355645cab97444fd68cf41cb5d8",
+      "fitted_last_2024_week": 5,
+      "forecasts_sha": "ba0f535648677657f1cfb9ea03c8eacb71ce6b0030121aec7c1587a3cfc9a332",
+      "historical_team_games": 1786,
+      "original_legacy_frozen_sha": "86305f554899539fa878427d14b42f3751c166a45f9f9c96a0d353118ae849bb"
+    },
+    "7": {
+      "asof_input_sha": "3a052ce7eafc9fb71773444184d021cacc806f98c2a4ace89f86575f1ecbda80",
+      "fitted_last_2024_week": 6,
+      "forecasts_sha": "b99358b6f4b1047f6126096cc4af818fb1b93bf383e57724e83e0c77e54686bb",
+      "historical_team_games": 1814,
+      "original_legacy_frozen_sha": "dced7e4aa8754fb557ff9a2fd25ff9caf2283c0e82b2273fd6723e724b05c40f"
+    },
+    "8": {
+      "asof_input_sha": "3ee8560e9d838853fe1fae504c49fb319bd88dd408de276f7c60659fc510f090",
+      "fitted_last_2024_week": 7,
+      "forecasts_sha": "6c5d08a0d661b2481248fdb633f888aec597f5b673a00e54c0df44f718bf61a1",
+      "historical_team_games": 1844,
+      "original_legacy_frozen_sha": "da51d396adedce394cf7f56833ff69c24347763980326b06eb0bf1bb00d7e640"
+    },
+    "9": {
+      "asof_input_sha": "9365cebd81c3ad5618ba5f52f8f2b871e90368470e164b2fb13964a617c3bef3",
+      "fitted_last_2024_week": 8,
+      "forecasts_sha": "78c0a25bb8f710aec00ede5c8d0178229495c2ef0ec9e108d343016f6bf77708",
+      "historical_team_games": 1876,
+      "original_legacy_frozen_sha": "7c4b840e9c23ebf912655dea1dea0a58d0f84aa792a8ca633b5ae809624b3d2a"
+    },
+    "10": {
+      "asof_input_sha": "ffb5452334d80062254650d73c7133418a14905c8a9dd8a2ea17d06cb04f9ab4",
+      "fitted_last_2024_week": 9,
+      "forecasts_sha": "69468440821a02d3efddb596a4d3c6bb4edf93c35c3b682192f4020afe040850",
+      "historical_team_games": 1906,
+      "original_legacy_frozen_sha": "1b788152fc5414c9a5899fa9ce3618db449f8f770bff5253cb9ee991c07ccb10"
+    },
+    "11": {
+      "asof_input_sha": "5e3a2c066628ddbdf37fd78307436b9be878508097054d4e781cbf145e3a209d",
+      "fitted_last_2024_week": 10,
+      "forecasts_sha": "87384fb85882524180c35166b619c486304cc55c23375a36b45634bd5d6c3a65",
+      "historical_team_games": 1934,
+      "original_legacy_frozen_sha": "09d8c7a129f21228a0ed905468a702da2bc49daccc6ef3349953278a3e44ebcf"
+    },
+    "12": {
+      "asof_input_sha": "97806b5ae4ae94c9992e0d8055b7693b8546547a299e383283d5918698f9c8a2",
+      "fitted_last_2024_week": 11,
+      "forecasts_sha": "9aab4db97d23800a88beeb3f6475c547bf48c34be6ab0dfda6ce7ab4c6812cca",
+      "historical_team_games": 1962,
+      "original_legacy_frozen_sha": "cc576c7ef52d447ff2d5fcf06c0b1c600d232cce51a321ab9d1a4b12f84d5102"
+    },
+    "13": {
+      "asof_input_sha": "11596bc9ca92ce4ae37be4250d198df72f43a727a767b14af8fcab2bf1b69901",
+      "fitted_last_2024_week": 12,
+      "forecasts_sha": "b1c8169be596263d0bf4714761a9f892c706431a434ab575c1c8b483a7579893",
+      "historical_team_games": 1988,
+      "original_legacy_frozen_sha": "710d83da0f5a246147853b38424b7e06c3b731045501b400cc0c38a0033e1dd9"
+    },
+    "14": {
+      "asof_input_sha": "27311a1d97bf54eac09e9cc51d6184dd49526f177f62bbeb4354c707fcdc80b1",
+      "fitted_last_2024_week": 13,
+      "forecasts_sha": "527240e6f99d2a7a337c11c3979185f836335b53d288ad8277d18b84408ef714",
+      "historical_team_games": 2020,
+      "original_legacy_frozen_sha": "28d259dd1bf8be4ddd5b179c6115caf952c73e197140846aafed33aa1b764974"
+    },
+    "15": {
+      "asof_input_sha": "8035f45cdf7051755472ebece838787548bd159e359609d04df307d372e64db7",
+      "fitted_last_2024_week": 14,
+      "forecasts_sha": "abae04ae59120d8decf91778af96ec3182dee2472ca5a7a853782051dfdaf7f8",
+      "historical_team_games": 2046,
+      "original_legacy_frozen_sha": "323d591f52dccb0ac96958c3bd405bbdd0b736933a7ef40fe0e0514025755e69"
+    },
+    "16": {
+      "asof_input_sha": "66e34696d76f5597126e8532c9ac4f90e6f19e08bb491e881c37246c7ce0f6bb",
+      "fitted_last_2024_week": 15,
+      "forecasts_sha": "8848e0337f35917eccf77b6d9fae96a834c5a44b9901fa3207bf33d1a2e2cacc",
+      "historical_team_games": 2078,
+      "original_legacy_frozen_sha": "3792d1790e10677b46b2a124e6baf11777a6fa0bcf4d78b404dda66abca5a56b"
+    },
+    "17": {
+      "asof_input_sha": "e9b9da0cff9fe01bc8c36a2f3a81d11904bc2cb8c4141f297caf1018c27bca92",
+      "fitted_last_2024_week": 16,
+      "forecasts_sha": "d2dbe9ba0dcb8f6da3978225054626afbef6f9ec003f75136d53de1c7304976a",
+      "historical_team_games": 2110,
+      "original_legacy_frozen_sha": "c31e64e7c0f9ef7718fddcd56969ca9a3e7776690696ee39d1b339365df03c70"
+    },
+    "18": {
+      "asof_input_sha": "89eb23b665bc3a4a36666d608c02174f92baf0452dc260ba2baf9f4b9370bd22",
+      "fitted_last_2024_week": 17,
+      "forecasts_sha": "b30203c942f90994696ec068c3026049fe41f98df60b905a2c12308ef6dbdd05",
+      "historical_team_games": 2142,
+      "original_legacy_frozen_sha": "d551107c2a046f0a5905398e4a8d969538d40a44c225262268e57c63e182952f"
+    }
+  },
+  "mode": "research_only_no_phase0r_certification",
+  "code_sha": "284d1367ca9dc72f75e8c6fe31028c270f514893",
+  "detached_deepnote_run": "86f727b4-ca9b-4386-852b-40ada8be75be",
+  "audit_checks": {
+    "all_18_asof_inputs_without_current_or_future_week_labels": true,
+    "all_forecast_scenario_target_sums_at_most_team_pass_attempts": true,
+    "week1_updated_equals_no_refit_sample_for_sample": true,
+    "no_live_pregame_publication_certification": true
+  },
+  "independent_distribution_integrity": {
+    "team_n": 544,
+    "team_mean_forecast": 34.194346708409924,
+    "team_mean_actual": 35.338235294117645,
+    "team_90pct_interval_coverage": 0.9080882352941176,
+    "targets_n": 4046,
+    "targets_mean_forecast": 2.959637025766189,
+    "targets_mean_actual": 3.7061295106277807,
+    "targets_90pct_interval_coverage": 0.8591201186356896,
+    "side_calibration": {
+      "under": {
+        "n": 3346,
+        "high80_n": 1282,
+        "high80_hit": 0.6388455538221529
+      },
+      "over": {
+        "n": 687,
+        "high80_n": 24,
+        "high80_hit": 0.75
+      },
+      "tie": {
+        "n": 13,
+        "high80_n": 0,
+        "high80_hit": null
+      }
+    },
+    "report_sha": "90959af55dae516a3236c08bf70622c2ec2c2105561155f73800608dd6fd7e8e"
+  }
+}
