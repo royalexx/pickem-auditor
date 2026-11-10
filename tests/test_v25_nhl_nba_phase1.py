@@ -49,6 +49,8 @@ def fixture(root):
     }
     (data/"odds_quotes.jsonl").write_text(json.dumps(quote)+"\n")
     (data/"research_2026-11-09.json").write_text('{"internal_research":true}')
+    (root/"config").mkdir(parents=True)
+    (root/"config"/"production_consensus.json").write_text('{"weights":{"a":0.6,"b":0.4}}')
     rows=[]
     for side in ("over","under"):
         candidate = {
