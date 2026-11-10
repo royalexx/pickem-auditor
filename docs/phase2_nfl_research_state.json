@@ -1,6 +1,6 @@
 {
   "schema": "v25-phase2-nfl-research-status-v1",
-  "reviewed_at_utc": "2026-11-10T14:00:00Z",
+  "reviewed_at_utc": "2026-11-10T14:02:00Z",
   "implementation_state": "DRAFT_RESEARCH_PROTOTYPE_BUILT",
   "formal_phase2_exit": "NOT_MET",
   "derived_from_phase1_pr": 90,
@@ -11,7 +11,7 @@
     "stacked_branch_test_suites": [
       {
         "pattern": "test_v25_phase2_nfl.py",
-        "passed": 21
+        "passed": 22
       },
       {
         "pattern": "test_v25_phase1.py",
