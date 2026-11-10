@@ -12,7 +12,8 @@ import math
 
 from v2.contracts import ContractError, finite, utc, canonical_hash
 from v2.evaluation import _cluster_interval, _mean, brier, crps_ensemble
-from .simulation import simulate_nfl_opportunities, BASELINE, CHALLENGERS
+from .simulation import (simulate_nfl_opportunities, BASELINE, CHALLENGERS,
+                         STANDARD_DM)
 
 SCHEMA = "v25-nfl-phase2-rolling-scorecard-v1"
 
@@ -113,7 +114,7 @@ def replay_nfl_opportunity_cases(cases: list[dict], *,
         }
         for mode,values in rows_by_model.items():
             for scenario in values:
-                if mode!=BASELINE:
+                if mode not in (BASELINE,STANDARD_DM):
                     if (sum(p["targets"] for p in scenario["players"].values())
                             +scenario["unassigned_pass_attempts"] !=
                             scenario["team"]["pass_attempts"]
@@ -145,7 +146,10 @@ def replay_nfl_opportunity_cases(cases: list[dict], *,
                 by_model[(mode,cohort,"team_attempts")].append({
                     **team_score,"event_id":key[0],
                     "date":event_start.date().isoformat()})
-            illegal=sum(s.get("illegal_target_sum",False) for s in values)
+            illegal=(sum(s.get("illegal_target_sum",False) for s in values)
+                     if mode==BASELINE else
+                     sum(bool(s.get("illegal_route_capacity_players"))
+                         for s in values) if mode==STANDARD_DM else 0)
             case_entry["models"][mode]={
                 "team_pass_attempt_crps":team_score["crps"],
                 "player_targets_crps":_mean(x["crps"] for x in player_scores),
@@ -167,7 +171,7 @@ def replay_nfl_opportunity_cases(cases: list[dict], *,
     # Paired comparisons on identical game/team player contracts only.
     reference=by_model
     comparisons={}
-    for mode in CHALLENGERS:
+    for mode in (*CHALLENGERS,STANDARD_DM):
         candidates=reference.get((mode,"all","player"),[])
         baseline=reference.get((BASELINE,"all","player"),[])
         indexed={(r["event_id"],r["player_id"]):r for r in candidates}
