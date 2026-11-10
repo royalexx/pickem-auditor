@@ -1,23 +1,78 @@
 {
   "experiment_id": "V25-EXP-B-2024-ROLLING-ORIGIN",
-  "status": "protocol_only_unexecuted",
+  "status": "locked_methodology_implementation_only_no_live_certification",
   "governing_plan": "PA-V25-MASTER-2026-11-09",
   "hypothesis": "Opportunity-first V2.5 challengers improve pregame distribution and exact-contract forecasting versus frozen, leakage-safe controls",
   "start_season": 2024,
   "primary_cohort": "all available NFL 2024 pregame, time-certified offers; preserve full rejected and missing denominator",
   "synthetic_lines": "statistic_distribution_diagnostics_only_no_market_edge_claims",
-  "baseline_models": ["naive_pregame_exposure_rate", "role_shrunk_hierarchical_rate", "frozen_v1_60_40_where_archived", "two_sided_no_vig_where_quoted"],
+  "baseline_models": [
+    "naive_pregame_exposure_rate",
+    "role_shrunk_hierarchical_rate",
+    "frozen_v1_60_40_where_archived",
+    "two_sided_no_vig_where_quoted"
+  ],
   "train_cutoff": "strict_prior_available_observation_at_before_each_forecast_freeze",
   "split_unit": "chronological_event_week",
   "bootstrap_cluster": "event_id_then_date_sensitivity",
-  "primary_metrics": ["matched_brier", "matched_log_loss"],
-  "secondary_metrics": ["directional_accuracy", "calibration_by_side", "crps", "energy_score", "variogram_score_p05", "coverage", "missingness", "CPU_cost"],
-  "negative_controls": ["shift_minus_one_leakage_sentinel", "permuted_opponent_context", "same_game_outcome_feature", "randomized_labels", "future_market_quote", "postgame_training_cutoff"],
-  "2025_independent_holdout_status": "unknown_must_audit_prior_training_and_human_design_exposure",
+  "primary_metrics": [
+    "paired_conditional_nonpush_brier",
+    "paired_conditional_nonpush_log_loss",
+    "settled_three_way_brier_and_log_loss_where_full_distribution_exists"
+  ],
+  "secondary_metrics": [
+    "directional_hit_rate",
+    "over_under_calibration_bins",
+    "push_void_missing_denominators",
+    "coverage_by_market_sport_stat",
+    "event_cluster_intervals",
+    "date_cluster_sensitivity",
+    "crps_distributional",
+    "energy_score",
+    "variogram_score_power_0_5",
+    "runtime_cpu_memory"
+  ],
+  "negative_controls": [
+    "future_quote_sentinel",
+    "future_projected_exposure_source_sentinel",
+    "same_origin_outcome_embargo",
+    "duplicate_event_or_offer_sentinel",
+    "signed_yardage_support",
+    "synthetic_market_never_has_no_vig",
+    "original_v1_missing_probability_abstention",
+    "unverified_source_receipt_no_retrocertification",
+    "randomized_label_placebo_report_only",
+    "permuted_opponent_context_report_only"
+  ],
+  "2025_independent_holdout_status": "not_independent_not_eligible_for_unseen_holdout_claims",
   "2026_november_8_status": "exposed_regression_case_not_prospective_proof",
-  "code_commit": null,
-  "data_manifest_sha256": null,
   "promotion_authorized": false,
   "production_training_allowed": false,
-  "frozen_legacy_blend_must_not_change": true
+  "frozen_legacy_blend_must_not_change": true,
+  "protocol_schema": "v25-rolling-origin-protocol-locked-v1",
+  "design_locked_at_utc": "2026-11-10T13:04:00Z",
+  "code_commit_requirement": "exact_40_character_git_sha_recorded_in_each_immutable_run_receipt",
+  "data_manifest_requirement": "sha256_of_original_input_and_protocol_recorded_in_each_immutable_run_receipt",
+  "fold_design": {
+    "season": 2024,
+    "origin_unit": "explicit_nfl_week_or_earlier_event_cohort",
+    "expected_regular_season_weeks": 18,
+    "all_offers_must_be_enumerated": true,
+    "model_training_cutoff": "first_input_freeze_per_origin_strictly_prior_publicly_available_history",
+    "within_origin_current_event_embargo": true,
+    "source_receipts_required_for_projected_exposure": true,
+    "snapshot_recomputations_as_original_forbidden": true
+  },
+  "bootstrap": {
+    "seed": 20261109,
+    "replicates": 1000,
+    "ci_descriptive_only": true,
+    "min_game_clusters": 8,
+    "min_date_clusters": 8
+  },
+  "2024_original_pregame_market_cohort_certified": false,
+  "source_publication_truth_inferred": false,
+  "outcomes_recomputed_as_pregame_predictions": false,
+  "paper_significance_or_profitability_claims_allowed": false,
+  "exit_condition": "one_command_versioned_replay_receipt_and_all_implementation_property_tests; operational_acceptance_after_phase0r_live_certified_records"
 }
