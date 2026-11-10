@@ -115,8 +115,13 @@ def normalize_quote(raw: dict, *, date_text: str, observed: datetime) -> tuple[d
         return None, "wrong_slate_date"
     if observed >= start:
         return None, "event_already_started"
-    if not updated or updated > observed:
-        return None, "market_update_unverified_or_future"
+    if not updated:
+        # Preserve the distinction between a missing/invalid provider clock
+        # and an actual future-dated market update. Earlier archived runs keep
+        # their historical combined rejection code without reinterpretation.
+        return None, "market_update_timestamp_missing_or_invalid"
+    if updated > observed:
+        return None, "market_update_timestamp_after_capture"
     if (not isinstance(line, (int, float)) or isinstance(line, bool)
             or not math.isfinite(line) or line < 0
             or not valid_american(raw.get("over_odds"))
