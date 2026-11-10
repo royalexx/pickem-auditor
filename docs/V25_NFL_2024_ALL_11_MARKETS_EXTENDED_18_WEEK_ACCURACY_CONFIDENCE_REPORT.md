@@ -23,6 +23,31 @@
 
 **Accuracy caution:** All-side hit rate counts whether the model's 50% directional choice was correct. Brier and log loss measure the quality of *stated probabilities*, even if the chosen side is unchanged. Calibrated ≥80% selections are different, much smaller cohorts than raw selections.
 
+## All-markets selective accuracy by claimed-confidence threshold
+
+These aggregate cohorts include different predictions after calibration. The n values and hit rates below should not be interpreted as the same matched subset or as realistic sportsbook profitability.
+
+| Threshold | Raw hit (n) | Global hit (n) | Role hit (n) |
+|---|---:|---:|---:|
+| ≥70% | 64.3% (11,440) | 66.6% (2,200) | 68.7% (2,539) |
+| ≥80% | 65.8% (3,822) | 63.7% (548) | 64.4% (565) |
+| ≥90% | 65.8% (855) | 61.1% (131) | 62.4% (133) |
+| ≥95% | 64.9% (439) | 64.3% (56) | 62.9% (62) |
+
+**Confidence calibration improved Brier but did not demonstrate increased high-confidence hit-rate skill.** The ≥80% raw cohort contains 3,822 selections, 2,516 correct, while role calibration contains 565 selections, 364 correct. Raw high80 is dominated by Unders (3,516/3,822), and role high80 also remains Under-heavy (472/565).
+
+## Season progression: does calibration learn?
+
+| Period | Graded | Raw Brier | Global Brier | Role Brier | Raw ≥80% hit (n) | Global ≥80% hit (n) | Role ≥80% hit (n) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Weeks 1–6 | 11,036 | 0.2488 | 0.2443 | 0.2437 | 65.5% (1,291) | 63.6% (467) | 63.8% (481) |
+| Weeks 7–12 | 13,205 | 0.2488 | 0.2415 | 0.2402 | 67.0% (1,189) | 59.0% (61) | 60.7% (61) |
+| Weeks 13–18 | 14,568 | 0.2503 | 0.2408 | 0.2398 | 65.1% (1,342) | 80.0% (20) | 87.0% (23) |
+
+Global and role probability calibration both beat raw Brier in **17/18 weeks** (Week 1 exact identity). Role beats global Brier in **14/18 weeks**. However, the role-calibrated ≥80% selection count falls from **481** in Weeks 1–6 to just **23** in Weeks 13–18, while the raw model continues issuing more than 1,000 high-confidence selections per six-week period. High-confidence hit-rate comparisons at those dramatically different coverage levels do not establish better selection skill. Week 1 alone contributes 208/565 (~37%) of all role-calibrated ≥80% selections, although Week 1 uses no learned 2024 calibration.
+
+Raw Brier did not improve from early to late season, while role-calibrated Brier improved. This is consistent with *learning the raw forecast's frequency bias*, not necessarily learning more accurate underlying player opportunity and count distributions.
+
 ## Overall week-by-week evolution
 
 All markets pooled equally per graded contract (not equally by market). The per-market tables below eliminate the large defensive-market weighting.
