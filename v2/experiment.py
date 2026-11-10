@@ -69,6 +69,12 @@ def run_experiment(payload: dict, protocol: dict, *,
         if payload["rolling"].get("experiment_id") != protocol["experiment_id"]:
             raise ContractError("rolling_experiment_id_mismatch")
         result["rolling"] = run_rolling(payload["rolling"], seed=seed)
+        if payload.get("run_negative_controls") is True:
+            from .negative_controls import run_negative_controls
+            result["negative_controls"] = run_negative_controls(
+                payload["rolling"], seed=seed)
+    elif payload.get("run_negative_controls") is True:
+        raise ContractError("negative_controls_require_original_rolling_input")
     legacy_pairs = []
     if "joint_scenarios" in payload:
         from .joint_evaluation import evaluate_joint
