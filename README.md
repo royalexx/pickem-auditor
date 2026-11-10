@@ -1,12 +1,33 @@
 # Pick'em Auditor — GitHub is the authoritative project
 
-Private code, original research, history, collection jobs and diagnostics live in this repository. Daily GitHub cron was paused on November 2, 2026 due to hosted usage limits; morning/afternoon and pregame workflows currently support manual dispatch.
+Code, original research, immutable history, collection jobs, diagnostics, and design decisions live in this repository. Before interpreting any dated status or launching work, verify the current repository, schedules, source receipts, and training state.
+
+## Start here — V2.5 governing documents (approved November 10, 2026)
+
+**New engineering/research agents and ChatGPT Work sessions: read these documents first, in order.** Do not substitute an older chat answer or an out-of-date README section for the approved V2.5 specification.
+
+| Read order | Document | Authority |
+|---|---|---|
+| 1 | **[README.md](README.md)** | Orientation, repository entrypoints, and legacy operational context |
+| 2 | **[V2.5 Master Implementation Plan v1.1](docs/Pickem_Auditor_V2_5_Master_Implementation_Plan_v1_1_2026-11-10.md)** | **Governing architecture, scientific contracts, dependencies, experiment design, investment/release gates, and rollback** |
+| 3 | **[V2.5 Next Workflow Launch Brief v1.1](docs/Pickem_Auditor_V2_5_Next_Workflow_Launch_Brief_v1_1_2026-11-10.md)** | Bounded immediate task, verified-at-the-time checkpoints, evidence recovery, and execution guardrails |
+| 4 | **[AGENTS.md](AGENTS.md)** | Mandatory project agent startup order, instruction precedence, and engineering restrictions |
+
+**Authority and updates:** The master plan is the authoritative reference for project design and permitted promotion. The launch brief determines the next working session's focus but must be reconciled against current GitHub/Deepnote/runtime evidence. `AGENTS.md` operationalizes this startup hierarchy. The [November 8 directional-accuracy baseline](docs/research/DIRECTIONAL_ACCURACY_RESEARCH_BASELINE_20261108.md) and earlier phase documents remain preserved research references. If a historical instruction conflicts with an explicitly approved V2.5 v1.1 amendment, follow V2.5, record the difference, and do not silently rewrite prior results. Material revisions require an ADR and versioned review.
+
+**Current v1.1 engineering priorities (dated plan, not independently live-verified):** diagnose Phase 0R forecast-certification failures and quote rejections, capture immutable genuine pregame evidence in parallel, independently validate Phase 1.5 directional/error/power diagnostics, and maintain Phase 1 chronological baselines. Choose Phase 2/3 modeling only from the evidence-priority decision; advanced simulation is conditional. Frozen legacy 60/40/engines, NUTS artifacts, all-original receipts, morning settlement, and the comparison chart are retained. No automatic Tier 1/2 release, costly NUTS restart, or afternoon schedule activation.
+
+**Historical material below:** The remainder of this README records previous implementations, methods, and operational behaviors. It is valuable for orientation but may describe earlier phases or statuses. Check the live code and current governed gates before treating a historical claim as production authority.
+
+---
 
 ## User-approved directional research baseline (November 8, 2026)
 
-All changes to forecasting, source feeds, Bayesian training, opportunity,
-consensus weighting, calibration, ranking and settlement must follow
-[the canonical directional-accuracy research contract](docs/research/DIRECTIONAL_ACCURACY_RESEARCH_BASELINE_20261108.md).
+For work involving forecasting, source feeds, Bayesian training, opportunity,
+consensus weighting, calibration, ranking or settlement, consult
+[the original directional-accuracy research contract](docs/research/DIRECTIONAL_ACCURACY_RESEARCH_BASELINE_20261108.md)
+**after** the governing V2.5 master plan. This November 8 research remains a frozen
+supporting baseline; V2.5 v1.1 controls when an approved amendment changes the roadmap.
 The existing 60/40 model is the frozen validation control, not a calibrated
 champion. [Phase 1](docs/PHASE1_DIRECTIONAL_VALIDATION.md) implements a
 read-only, source-time and leak-aware scorecard; no model/Tier/deployment
