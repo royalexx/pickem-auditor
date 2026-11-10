@@ -447,6 +447,38 @@ class JointScorecardTests(unittest.TestCase):
         self.assertFalse(result["source_publication_certified"])
 
 
+class NegativeControlTests(unittest.TestCase):
+    def test_labels_permuted_after_training_cutoff_do_not_change_probabilities(self):
+        from v2.negative_controls import run_negative_controls
+        payload=synthetic_rolling(9)
+        result=run_negative_controls(payload,seed=90210)
+        self.assertEqual(result["controls"]["permuted_outcomes"]["status"],
+                         "passed_no_target_feedback_into_frozen_prediction")
+        self.assertFalse(result["production_promotion_authorized"])
+        self.assertEqual(result["controls"]["permuted_opponents"]["status"],
+                         "not_identifiable_fewer_than_two_distinct_opponents")
+
+    def test_opponent_permutation_preserves_null_history_control(self):
+        from v2.negative_controls import run_negative_controls
+        payload=synthetic_rolling(4)
+        for q in payload["quotes"]:
+            if q["player_id"] == "p2":
+                q["opponent_id"]="MIA"
+        status=run_negative_controls(payload)["controls"]["permuted_opponents"]
+        self.assertEqual(status["status"],
+                         "passed_opponent_agnostic_baseline_invariant")
+        self.assertTrue(status["artificial_quotes_are_not_real_market_evidence"])
+
+    def test_manifest_negative_control_option(self):
+        result=run_experiment(
+            {"experiment_id":EXP,"rolling":synthetic_rolling(4),
+             "run_negative_controls":True},
+            protocol(),input_sha256=SHA,protocol_sha256=SHA,
+            code_commit=COMMIT)
+        self.assertEqual(result["negative_controls"]["schema"],
+                         "v25-negative-controls-1")
+
+
 class ExperimentTests(unittest.TestCase):
     def test_receipt_determinism_and_2025_not_independent(self):
         payload={"experiment_id":EXP,"rolling":synthetic_rolling(8)}
