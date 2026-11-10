@@ -15,11 +15,13 @@ from v2.contracts import ContractError, canonical_hash, finite, utc
 from .contracts import prepare_inputs
 from .state import fit_team_state, fitted_spread_effect
 from .allocation import (fit_allocator, allocate_attempts,
-                         independent_poisson_diagnostic)
+                         independent_poisson_diagnostic,
+                         standard_dm_diagnostic)
 
 SCHEMA = "v25-nfl-phase2-opportunity-shadow-v1"
 CHALLENGERS = ("logistic_normal", "dirichlet_multinomial", "zidm")
 BASELINE = "independent_poisson_diagnostic"
+STANDARD_DM = "standard_dirichlet_multinomial_diagnostic"
 
 
 def _seed_for(seed: int, run_id: str, event_id: str,
@@ -111,6 +113,7 @@ def simulate_nfl_opportunities(payload: dict, *, seed: int = 20261110,
         }
     scenarios={name:[] for name in modes}
     scenarios[BASELINE]=[]
+    scenarios[STANDARD_DM]=[]
     legal_failures={}
     sample_seed_sha=[]
     for n in range(n_scenarios):
@@ -152,6 +155,18 @@ def simulate_nfl_opportunities(payload: dict, *, seed: int = 20261110,
             "illegal_target_sum":independent["illegal_target_sum"],
             "not_jointly_physically_valid":True,
         })
+        standard=standard_dm_diagnostic(
+            state,allocator,random.Random(_seed_for(
+                seed,forecast.run_id,forecast.event_id,n,"standard_dm")),
+            concentration=dm_concentration)
+        scenarios[STANDARD_DM].append({
+            "team":state,
+            "players":standard["players"],
+            "unassigned_pass_attempts":standard["unassigned_pass_attempts"],
+            "tracked_player_targets":standard["tracked_player_targets"],
+            "illegal_route_capacity_players":standard["illegal_route_capacity_players"],
+            "not_jointly_physically_valid":standard["not_jointly_physically_valid"],
+        })
     lines = payload["forecast"].get("diagnostic_lines", [])
     if not isinstance(lines,list):
         raise ContractError("invalid_synthetic_diagnostic_lines")
@@ -188,7 +203,9 @@ def simulate_nfl_opportunities(payload: dict, *, seed: int = 20261110,
                      else counts[contract["player_id"]])
             raw_lines.append({**contract,"original_market_quote":False,
                               **_probabilities(samples,contract["line"])})
-        illegal=sum(r["illegal_target_sum"] for r in rows) if mode==BASELINE else 0
+        illegal=(sum(r["illegal_target_sum"] for r in rows) if mode==BASELINE
+                 else sum(bool(r["illegal_route_capacity_players"]) for r in rows)
+                 if mode==STANDARD_DM else 0)
         summaries[mode]={
             "scenario_count":n_scenarios,
             "team_pass_attempts":_summary_samples(attempts),
@@ -202,7 +219,8 @@ def simulate_nfl_opportunities(payload: dict, *, seed: int = 20261110,
             "synthetic_line_probabilities":raw_lines,
             "illegal_allocations":illegal,
             "illegal_allocation_frequency":illegal/n_scenarios,
-            "physically_constrained":mode!=BASELINE,
+            "physically_constrained":mode not in (BASELINE,STANDARD_DM),
+            "diagnostic_violations_may_be_present":mode in (BASELINE,STANDARD_DM),
             "counterfactual_not_original_pregame_model":True,
             "scenario_sha256":canonical_hash({"samples":rows}),
         }
