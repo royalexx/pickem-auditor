@@ -94,6 +94,17 @@ class TestElevenMarketSequentialCalibration(unittest.TestCase):
         self.assertEqual(report["summary_by_market"]["targets"]["models"]["archive_raw"]["raw"]["n"],0)
         self.assertEqual(report["summary_by_market"]["targets"]["counts"]["unsettled_no_observation"],18)
         self.assertEqual(report["summary_by_market"]["receptions"]["models"]["archive_raw"]["raw"]["n"],18)
+ def test_exact_identity_for_zero_and_one_until_enough_history(self):
+    from scripts.v25_nfl_2024_all_volume_rolling_calibration import ptransform
+    f=fit_from_past([])
+    self.assertFalse(f["active"])
+    for p in (0.,1.,.5,.125,.875):
+        self.assertEqual(ptransform(p,"QB",f,"global"),p)
+        self.assertEqual(ptransform(p,"WR",f,"role"),p)
+    recent=[{"p":.5,"y":1,"role":"WR","week":1} for _ in range(79)]
+    ff=fit_from_past(recent)
+    self.assertFalse(ff["active"])
+    self.assertEqual(ptransform(1.,"WR",ff,"role"),1.)
  def test_strict_prior_calibration_corrects_overconfidence(self):
     hist=[{"p":.15 if i%3==0 else .9,
            "y":1 if i%3==0 else 0,"role":"WR" if i%2 else "TE",
