@@ -237,7 +237,7 @@ def _status_for_raw_component(row, key):
             "conditional_side_win": _finite(v, key + ".q_win")}
 
 
-def _settlement_index(items):
+def _settlement_index(items, *, source_archive_root=None):
     index = {}
     for s in items:
         if not isinstance(s, dict):
@@ -272,13 +272,26 @@ def _settlement_index(items):
             retrieved_at = utc(s["retrieved_at"], "retrieved_at")
             if retrieved_at < settled_at:
                 raise ContractError("official_settlement_retrieved_before_settlement")
+            relative = s.get("source_archive_path")
+            if source_archive_root is None or not isinstance(relative, str):
+                raise ContractError("official_settlement_source_archive_required")
+            if (not relative or relative.startswith("/") or "\\" in relative or
+                    ".." in relative.split("/")):
+                raise ContractError("official_settlement_source_archive_invalid_path")
+            source_root = Path(source_archive_root).resolve()
+            original_file = (source_root / relative).resolve()
+            if not original_file.is_relative_to(source_root):
+                raise ContractError("official_settlement_source_archive_path_escape")
+            if not original_file.is_file() or _sha(original_file.read_bytes()) != digest:
+                raise ContractError("official_settlement_source_archive_unverified")
             canonical_stat(s["sport"], s["stat"], "full").validate_actual(s.get("actual"))
         index[key] = s
     return index
 
 
 def run_phase1(packet, attempts, *, archive_root, bundle_sha256,
-               code_commit, settlement_rows=None, seed=20261110):
+               code_commit, settlement_rows=None, settlement_archive_root=None,
+               seed=20261110):
     """One deterministic NBA/NHL Phase 1 infrastructure evaluation.
 
     The generated simple-model controls are labeled counterfactual, and
@@ -370,7 +383,8 @@ def run_phase1(packet, attempts, *, archive_root, bundle_sha256,
             seen[ident] = o
         pool[token] = list(seen.items())
 
-    indexed = _settlement_index(settlement_rows or [])
+    indexed = _settlement_index(
+        settlement_rows or [], source_archive_root=settlement_archive_root)
     originals = {(sport, event_id, player_id, stat)
                  for sport, event_id, player_id, stat, _line in groups}
     if set(indexed) - originals:
