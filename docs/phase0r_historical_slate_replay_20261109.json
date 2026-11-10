@@ -101,5 +101,35 @@
   ],
   "training_resumed": false,
   "tier1_tier2_publication_allowed": false,
-  "phase0r_closed": false
+  "phase0r_closed": false,
+  "new_strict_validator_replay": {
+    "run_id": "df9be8c6-3006-402f-999a-3d5805dfe5cc",
+    "method": "materialize_original_archived_source_bytes_and_run_current_phase0_preflight_strict",
+    "status": "PASSED_NEGATIVE_CONTROL",
+    "results": [
+      {
+        "stamp": "20261109T234719Z",
+        "forecast_rows": 1568,
+        "metadata_verified_under_new_rules": 0,
+        "strict_certified_rows": 0,
+        "reasons": {
+          "missing_or_imprecise_timestamp:input_freeze_at": 1568
+        },
+        "elapsed_seconds": 3.35
+      },
+      {
+        "stamp": "20261110T001047Z",
+        "forecast_rows": 1056,
+        "metadata_verified_under_new_rules": 860,
+        "strict_certified_rows": 0,
+        "reasons": {
+          "market_unavailable_or_unverified": 196,
+          "pre_eval_input_binding_missing": 860
+        },
+        "elapsed_seconds": 38.87
+      }
+    ],
+    "publication_eligible": false,
+    "training_resumed": false
+  }
 }
