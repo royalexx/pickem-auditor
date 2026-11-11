@@ -451,6 +451,10 @@ def update_one_day(state,day,afternoon,morning):
             "n":len(batch),
             "brier_base":sum((p-y)**2 for p,y in batch),
             "brier_online":sum((q-y)**2 for q,(p,y) in zip(online_before,batch)),
+            "logloss_base":sum(-math.log(max(1e-12,p if y else 1-p))
+                               for p,y in batch),
+            "logloss_online":sum(-math.log(max(1e-12,q if y else 1-q))
+                                 for q,(p,y) in zip(online_before,batch)),
             "orientation":"CANONICAL_OVER_ONLY_V2",
             "not_production":True,
         }
