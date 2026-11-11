@@ -16,7 +16,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from v2.phase15_nhl_roster import roster_url,roster_members,utc,digest
 
 
-def capture(*,phase1,output_dir,code_commit,fetch=None,now=None):
+def capture(*,phase1,output_dir,code_commit,source_phase1_sha256,fetch=None,now=None):
     if phase1.get("schema")!="v25-phase1-nhl-nba-certified-replay-v1":
         raise ValueError("wrong_original_phase1_schema")
     if phase1.get("model_promotion_authorized") is not False:
@@ -67,7 +67,7 @@ def capture(*,phase1,output_dir,code_commit,fetch=None,now=None):
             errors[team]=type(exc).__name__+":"+str(exc)[:160]
     result={
        "schema":"phase15_nhl_pregame_roster_capture_v1",
-       "source_phase1_sha256":None,  # Populated by the CLI from ORIGINAL bytes.
+       "source_phase1_sha256":source_phase1_sha256,
        "code_commit":code_commit,
        "teams_attempted":len(teams),
        "teams_captured":len(receipts),
@@ -94,10 +94,8 @@ def main(argv=None):
         raw=args.phase1.read_bytes()
         phase=json.loads(raw)
         out=capture(phase1=phase,output_dir=args.output_dir,
-                    code_commit=args.code_commit)
-        out["source_phase1_sha256"]=hashlib.sha256(raw).hexdigest()
-        (args.output_dir/"roster_manifest.json").write_text(
-            json.dumps(out,sort_keys=True,indent=2,allow_nan=False)+"\n",encoding="utf8")
+                    code_commit=args.code_commit,
+                    source_phase1_sha256=hashlib.sha256(raw).hexdigest())
         print(json.dumps({"output":str(args.output_dir),
              "source_phase1_sha256":out["source_phase1_sha256"],
              "teams_attempted":out["teams_attempted"],"teams_captured":out["teams_captured"],
