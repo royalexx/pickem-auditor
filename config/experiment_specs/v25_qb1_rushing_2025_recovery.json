@@ -1,0 +1,53 @@
+{
+  "experiment_id": "V25-QB1-RUSHING-2025-RETROSPECTIVE-20261111",
+  "status": "LOCKED_RESEARCH_BEFORE_RERUN",
+  "scope": "new isolated 2025 QB rushing attempts and yards only; old 2025 eight-count replay unchanged",
+  "season": 2025,
+  "training_history_seasons": [
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "weeks": 18,
+  "games": 272,
+  "samples": 512,
+  "seed": 20261111,
+  "research_markets": [
+    "qb rushing attempts",
+    "qb rushing yards"
+  ],
+  "market_source_columns": {
+    "qb rushing attempts": "carries",
+    "qb rushing yards": "rushing_yards"
+  },
+  "qb_starter_proxy": "latest depth-chart QB pos_rank=1 dated at least 2h before scheduled kickoff and no more than 10 days old, never finished-schedule starter ID",
+  "source_authority": "RETROSPECTIVE_DATED_DEPTH_CHART_NOT_CAPTURED_ORIGINALLY",
+  "depth_chart_original_pregame_possession_verified": false,
+  "depth_chart_ranking_is_not_official_confirmed_starter": true,
+  "if_missing_or_conflicting_qb1": "ABSTAIN_WITH_ORIGINAL_EVENT_TEAM_RECEIPT",
+  "absences_and_package_QBs": "not predicted; pregame QB1 only; in-game injuries/new relief remain unpredictable",
+  "yards_model": "retained original 2024 appearance matched empirical-residual control; yard replacements rejected by earlier research, not refitted or promoted",
+  "lines": "same synthetic half integer last-eight-asof QB stat observations for both models; not real bookmaker lines",
+  "models": [
+    "expanding",
+    "frozen_2024"
+  ],
+  "methods": [
+    "raw",
+    "global",
+    "role"
+  ],
+  "calibration": "only completed earlier weeks; no in-week leakage",
+  "validation": "per exact QB team/event/stat half-integer line; official nflverse player stats results after forecast child freeze",
+  "independent_truth_limits": [
+    "2025 development-exposed",
+    "depth chart snapshots collected in 2026",
+    "source postgame QB schedule identity used only for independent discrepancy audit",
+    "missing observed QB stat never becomes Under hit"
+  ],
+  "strict_no_production_weights_change": true,
+  "production_authorized": false,
+  "tier1_tier2_authorized": false,
+  "heavy_nuts_training": false
+}
