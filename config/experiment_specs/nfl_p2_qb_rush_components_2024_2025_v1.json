@@ -1,0 +1,35 @@
+{
+  "experiment_id": "EXP_NFL_QB_RUSH_SCRAMBLE_DESIGNED_KNEEL_2024_2025_V1",
+  "status": "PRECOMMITTED_RESEARCH_ONLY_20261111",
+  "season_years": [
+    2024,
+    2025
+  ],
+  "models": [
+    "component_types",
+    "historic_player_prior"
+  ],
+  "fixed_QB_scramble_kneel_components": true,
+  "component_categories": [
+    "scramble",
+    "designed",
+    "kneel",
+    "other"
+  ],
+  "samples": 256,
+  "seed": 20261111,
+  "comparison": [
+    "brier",
+    "log_loss",
+    "crps",
+    "bias",
+    "confidence_80",
+    "coverage"
+  ],
+  "original_2025_synthetic_lines_must_match_archived": true,
+  "known_research_years_not_new_blind_validation": true,
+  "pregame_source_certified": false,
+  "production_allowed": false,
+  "tier1_tier2_authorized": false,
+  "source_published_originally_before_games_verified": false
+}
