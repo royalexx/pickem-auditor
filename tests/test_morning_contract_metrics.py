@@ -122,6 +122,24 @@ class ContractAuditTests(unittest.TestCase):
         m=result["metrics"]["NHL"]["shots on goal"]["engine_a"]
         self.assertFalse(m["full_calendar_date_cluster_power_available"])
 
+    def test_wrong_original_source_run_is_not_repaired_by_display_name(self):
+        items=rows()
+        items[0]["original_source_run_id"]="different-run"
+        result=score_contract_rows(items)
+        self.assertEqual(result["settled_valid_paired_contracts"],0)
+        self.assertEqual(result["invalid_or_unsettled_contract_reasons"][
+            "source_run_id_conflicts_with_original"],1)
+
+    def test_evidence_receipt_records_both_exact_original_forecast_hashes(self):
+        items=rows()
+        items[0]["original_forecast_sha256"]="a"*64
+        items[1]["original_forecast_sha256"]="b"*64
+        ledger=score_contract_rows(items)["contract_ledger"][0]
+        self.assertEqual(ledger["source_over_forecast_sha256"],"a"*64)
+        self.assertEqual(ledger["source_under_forecast_sha256"],"b"*64)
+        self.assertEqual(ledger["original_event_start"],EVENT)
+        self.assertEqual(ledger["original_book_probability_over"],.54)
+
     def test_source_digest_stable_and_sensitive(self):
         x=rows()[0]
         self.assertEqual(canonical_source_digest(x),canonical_source_digest(copy.deepcopy(x)))
