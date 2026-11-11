@@ -1,0 +1,81 @@
+{
+  "schema": "v25_locked_shadow_prospective_experiment_v1",
+  "experiment_id": "EXP_NHL_SOG_P15_RATE_DISPERSION_NEXT_PROSPECTIVE",
+  "status": "REGISTERED_RESEARCH_ONLY_AWAIT_NEW_PROSPECTIVE_INPUTS",
+  "registration_date": "2026-11-10",
+  "hypothesis": "NHL SOG count rates or tail dispersion may be miscalibrated on genuine future prices, independently of actual ice-time exposure; first test a simple shrink/dispersion challenger, not heavy joint architecture.",
+  "source_reason": "NHL Nov10 GateB verified 47 contracted skater SOG outcomes from 3 games; Brier naive 0.296334, peer 0.254484, book no-vig 0.245472. Postgame actual-TOI oracle gives only modest improvements and is never a pregame feature. This cohort is for hypothesis discovery only.",
+  "discovering_data_excluded_from_final_test": {
+    "date": "2026-11-10",
+    "source_run": "ccd5d53d-6583-4380-97ed-9fda64e90559",
+    "settled_contracts": 47,
+    "games": 3,
+    "independent_dates": 1,
+    "may_inform_precommitted_hypothesis": true,
+    "may_be_reused_for_promotion_test": false
+  },
+  "scope": {
+    "sport": "NHL",
+    "stat": "shots on goal",
+    "period": "full",
+    "player_universe": "official_roster_checked_skaters_only",
+    "two_sided_original_quotes_required": true,
+    "include_rejected_candidates_in_denominator": true
+  },
+  "inputs": {
+    "team_identity": "independent_immutable_official_roster_before_event_not_aggregator_label_alone",
+    "model_cutoff": "strictly_before_pregame_snapshot",
+    "exposure": "frozen_before_game_predicted_TOI_or_flag_missing",
+    "shot_rate": "only_earlier_observed_games",
+    "market": "original_real_two_sided_offer_same_player_line_event",
+    "no_paid_provider": true,
+    "no_postgame_replacement_of_original_features": true
+  },
+  "frozen_baselines": [
+    "original_naive_last5_exposure_poisson",
+    "original_same_sport_stat_20_exposure_peer_shrink",
+    "real_book_no_vig",
+    "original_final_60_40_if_truly_available_at_freeze"
+  ],
+  "allowed_challenger_type": "single_mechanism_shrinkage_or_negative_binomial_overdispersion_only",
+  "not_yet_approved_to_train": true,
+  "required_before_first_trial": [
+    "Choose exact single challenger and lock source code revision",
+    "Record original pregame features, real quotes, role and team validity",
+    "Predeclare dispersion prior or rate shrinkage hyperparameters without using future evaluation outcomes",
+    "Freeze model training cutoff and seeds",
+    "Demonstrate nonzero prospective calendar-date accrual and settlement verification"
+  ],
+  "primary_metric": "paired_nonpush_Brier_on_same_exact_original_line_period_contract",
+  "secondary_metrics": [
+    "paired_log_loss",
+    "over_minus_observed_signed_bias",
+    "side_specific_calibration",
+    "zero_and_high_tail_SOG_predictions",
+    "conditional_coverage_and_abstention",
+    "source_and_position_validity",
+    "runtime_and_compute_cost"
+  ],
+  "uncertainty": {
+    "bootstrap_unit": "game_and_calendar_date",
+    "no_promotion_on_one_slate": true,
+    "prerequire_multiple_independent_dates": true,
+    "minimum_clusters_for_descriptive_intervals": 8,
+    "multiple_testing": "new_candidates_tracked_and_alpha_budget_planned_before_look",
+    "tier_hit_power": "independent_fixed_n_adjusted_for_game_and_date_clusters"
+  },
+  "negative_controls": [
+    "shifted_source_timestamp_after_event_blocks",
+    "original_player_team_mismatch_blocks",
+    "future_donor_record_blocks",
+    "same_game_player_outcome_cannot_enter_pregame_features",
+    "label_shuffling_diagnostic_only",
+    "unavailable_60_40_never_imputed",
+    "no_source_price_fabrication"
+  ],
+  "pass_rule": "No leak/provenance errors; challenger has favorable paired proper scores with uncertainty across predeclared independent prospective cohort and does not lose material coverage, calibration or role fidelity; otherwise baseline retained.",
+  "rollback": "Champion and prices remain frozen, challenger remains shadow; never overwrite original forecasts or data.",
+  "tier1_tier2_release_allowed": false,
+  "model_promotion_allowed": false,
+  "heavy_NUTS_or_joint_simulator_authorized": false
+}
