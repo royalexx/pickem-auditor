@@ -13,9 +13,9 @@ def example_rows():
     for i in range(112):
         mobile=i%4==0
         pid="mobile" if mobile else "pocket"
-        scramble=5 if mobile else i%3==0
+        scramble=5 if mobile else int(i%3==0)
         designed=4 if mobile else 0
-        kneel=0 if mobile else i%3==1
+        kneel=0 if mobile else int(i%3==1)
         other=0
         cc={"scramble":scramble,"designed":designed,"kneel":kneel,"other":other}
         yy={"scramble":scramble*7.0,"designed":designed*3.0,
