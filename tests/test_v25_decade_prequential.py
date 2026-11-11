@@ -15,8 +15,10 @@ from test_v25_qb_rush_components import example_rows
 
 def packet():
     h=history()
+    for g in h:g["season"]=2015
     pbp=example_rows()
-    # The copied source already covers 2016 and 2025 as pre-event model years.
+    for g in pbp:g["season"]=2015
+    # All fixture observations are earlier than the 2016 target week.
     return {"schema":SCHEMA,"experiment":EXPERIMENT,
        "season":2016,"week":1,"history":h,"pbp_prior":pbp,
        "games":[{"game_id":"2016_01_A_B","team":"A","opponent":"B","week":1}],
@@ -105,7 +107,9 @@ class DecadeScientificAcceptanceTests(unittest.TestCase):
                         "player_history" in r["forecast_models"] for r in o["offers"]))
 
     def test_qb_rushing_component_uses_team_pass_draws(self):
-        m=QBRushComponentModel(example_rows(),forecast_year=2016,forecast_week=1)
+        rows=example_rows()
+        for g in rows:g["season"]=2015
+        m=QBRushComponentModel(rows,forecast_year=2016,forecast_week=1)
         low=m.draw("mobile",n=128,seed=5,dropback_samples=np.zeros(128,dtype=int))
         high=m.draw("mobile",n=128,seed=5,dropback_samples=np.full(128,70,dtype=int))
         self.assertEqual(sum(low["counts"]["scramble"]),0)
