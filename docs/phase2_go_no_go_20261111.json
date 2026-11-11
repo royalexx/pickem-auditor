@@ -1,0 +1,115 @@
+{
+  "schema": "pickem_v25_phase2_investment_decision_v1",
+  "signed_at_utc": "2026-11-11T11:38:00Z",
+  "decision": "NO_GO_FULL_PHASE2",
+  "research_exception": "CONDITIONAL_GO_PREREGISTERED_SMALL_SHADOW_ONLY",
+  "decision_scope": "This finding audits NBA and NHL Nov10 outcomes; governing V2.5 Phase2 is NFL-specific and is not unlocked by this NBA/NHL audit.",
+  "stakeholders_status": {
+    "NBA": "NBA actual archived production 60/40 and two Bayesian shadows show favorable descriptive one-date matched Brier vs median sportsbook on abstention-filtered subsets; no promotion or reproducible edge yet",
+    "NHL": "NHL actual production 60/40 and qualitative Engine B underperform median sportsbook on matched single-date contracts; prioritize root-cause and prospective shadow tests",
+    "NFL": "NOT_EVALUATED_IN_THIS_AUDIT_NO_PHASE2_PROMOTION"
+  },
+  "original_denominator": {
+    "attempted_sides": 1314,
+    "certified_forecast_sides": 712,
+    "rejected_sides": 602,
+    "unique_paired_player_market_contracts": 356
+  },
+  "scoring": {
+    "verified_settled": 354,
+    "NBA": 250,
+    "NHL": 104,
+    "unresolved": 2,
+    "distinct_slate_dates": 1,
+    "NBA_game_clusters": 5,
+    "NHL_game_clusters": 7,
+    "promotion_grade_clustered_power": "UNAVAILABLE"
+  },
+  "evidence": {
+    "original_pregame_bundle_sha256": "76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6",
+    "source_repository_git_sha": "e5635d8fd8444a3144174cf019924d2010cdbca8",
+    "full_official_finals_capture": "reports/phase15_Nov10_FULL_REAL_FINAL_official_capture_20261111_f3162e921187/capture_manifest.json",
+    "phase15_scored": "reports/phase15_Nov10_FULL_REAL_FINAL_scored_phase15_20261111_f3162e921187.json",
+    "independent_full_count_audit": "reports/phase15_20261111_full_independent_NBA_NHL_audit.json",
+    "original_final_postshadow_sidecar_sha256": "65ec6f549d32aa735999841c42f10941cd75aa811ddd7e9d9d2ee8e98ba67921",
+    "independent_original_model_audit": "reports/phase15_Nov11_original_certified_final_consensus_independent_model_audit_v3.json",
+    "morning_untrusted_two_sided_summary": "reports/phase15_morning_first_archived_nov10_anti_tautology_audit_20261111.json",
+    "morning_incoherent_online_probabilities": "reports/phase15_morning_policy_complement_and_market_pair_audit_20261111.json",
+    "deepnote_project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "forensic_document": "docs/V25_FULL_NOV11_FORENSIC_AUDIT_AND_PHASE2_GATE.md"
+  },
+  "verified_software_defect": {
+    "name": "NHL official final state OFF rejected by collector",
+    "prior_impact": "all 106 original NHL SOG contracts falsely pending at morning audit",
+    "repair": "NHL OFF and FINAL both treated as completed in schedule and provider boxscore; CRIT/LIVE rejected",
+    "new_regression_tests": [
+      "test_nhl_off_is_an_official_final_after_game",
+      "test_nhl_crit_still_not_final"
+    ],
+    "reported_backcast_altered": false
+  },
+  "independent_root_causes": [
+    {
+      "rank": 1,
+      "name": "Count variance and inaccurate mean/count distribution",
+      "evidence": "Poisson exploratory Pearson dispersion NBA recent 2.267, NHL recent 1.889; excess variability may include mean/role errors, cannot infer NB2 alone solves."
+    },
+    {
+      "rank": 2,
+      "name": "Production differs by sport",
+      "evidence": "NBA 60/40 consensus n146 Brier 0.239755 vs same-market 0.246562; NHL consensus n102 0.263987 vs 0.250399; NHL Engine B worse than matched market in 7/7 game clusters."
+    },
+    {
+      "rank": 3,
+      "name": "Misnamed peer shrinkage",
+      "evidence": "pooled baseline uses all player historical games instead of last5 and prior player-comparable rate only 1.049% effective exposure at median, no verified position."
+    },
+    {
+      "rank": 4,
+      "name": "Missing genuine pregame opportunity/role factor distributions",
+      "evidence": "frozen baseline uses last-five median workload; zero independently archived true four-factor pregame vectors; composite NBA components and team/player correlation not modeled."
+    },
+    {
+      "rank": 5,
+      "name": "Provider identity and source-level selection",
+      "evidence": "one stale-team Dawson Mercer supplied by real pregame quote collector; 602 side rejects before scoring, selection coverage substantial."
+    },
+    {
+      "rank": 6,
+      "name": "Nonnegative support failure of current count Bayes likelihood",
+      "evidence": "NBA 29 Bayesian A and 25 Bayesian B original eligible contracts abstained with normal_predictive_negative_mass."
+    },
+    {
+      "rank": 7,
+      "name": "Morning evaluation/display defect and incoherent online research sidecars",
+      "evidence": "624 paired original-first-batch morning contracts double-scored as sides, reporting tautological 50% probability and hit; all online Bayes A/B available complementary pair sums >1, unlike production Bayesian A/B."
+    },
+    {
+      "rank": 8,
+      "name": "Insufficient independent test dates and verified economic execution terms",
+      "evidence": "one slate date, NBA5 games and NHL7, no operator-specific payout, multiple researched models and selection effects."
+    }
+  ],
+  "formal_gate_signoff": {
+    "A_source_identity": "PASS_FOR_THIS_ARCHIVE_WITH_EXCEPTIONS_DOCUMENTED",
+    "B_directional_calibration": "DIAGNOSTIC_MEASURED_NOT_RELEASE_GRADE_ONE_DATE",
+    "C_opportunity_attribution": "BLOCKED_NO_AUTHENTIC_FOUR_FACTOR_PRE_EVENT_INPUTS",
+    "D_market_economic_edge": "DESCRIPTIVE_PROPER_SCORES_ONLY_NOT_PROVEN_PICKEM_ECONOMIC_EDGE",
+    "E_phase2": "NO_GO_FULL_EXPENSIVE_ARCHITECTURE;CONDITIONAL_LOW_COST_PREREGISTERED_SHADOW"
+  },
+  "required_before_full_phase2": [
+    "Complete any applicable NFL-specific prerequisite if requesting governing V2.5 Phase 2, not inferred from NBA/NHL evidence",
+    "Fix original pregame role/team authority and independently pin sources before feature generation and candidate selection",
+    "Correct one-contract-one-scored forecast morning report, keep source IDs, first-archive chronology and abstention coverage; reject noncomplementary online Bayes",
+    "Run at least several distinct new prospective calendar dates with official-sourced player-level final results and exact original quotes",
+    "Report paired, game/date-cluster uncertainty, source selection/abstention, signed directional residuals and multiple-testing controls",
+    "For NBA/NHL small trials, freeze selected count/support/distribution hypothesis, original cutoff and no re-use of Nov10 discovery outcomes as unseen test",
+    "Verify original eligible pickem payout and settlement contract for economic release claim",
+    "Do not remove frozen legacy production outputs or promote Tier1/Tier2 without independent performance power and calibrated uncertainty"
+  ],
+  "production_model_weights_changed": false,
+  "daily_workflows_changed": false,
+  "NUTS_training_authorized": false,
+  "tier1_tier2_publication_allowed": false,
+  "production_model_promotion_allowed": false
+}
