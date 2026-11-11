@@ -1,0 +1,81 @@
+{
+  "schema": "nfl_2016_2025_prequential_experiment_lock_v1",
+  "experiment_id": "EXP_NFL_DECADE_2016_2025_ALL13_PREQUENTIAL_V1",
+  "seasons": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "initial_history_years": [
+    2014,
+    2015
+  ],
+  "all_original_volume_markets": [
+    "pass attempts",
+    "completions",
+    "passing yards",
+    "targets",
+    "receptions",
+    "receiving yards",
+    "carries",
+    "rushing yards",
+    "tackles + assists",
+    "solo tackles",
+    "tackle assists"
+  ],
+  "qb_rush_extension_markets": [
+    "qb rushing attempts",
+    "qb rushing yards"
+  ],
+  "models": [
+    "shared_opportunity",
+    "player_history"
+  ],
+  "joint_shared_pass_and_rush_workload": true,
+  "QB_scrambles_share_team_pass_workload": true,
+  "source_kind": "nflverse_retroactively_collected_2026_not_original_pregame",
+  "candidate_rule": "non_QBs_from_previous_two_team_games_QBs_only_from_strict_prior_week_depth_rank",
+  "2025_depth_rule": "source_record_dated_before_kickoff_minus_two_hours_with_10day_age_limit",
+  "original_historical_provider_publication_verified": false,
+  "lines": "synthetic_player_specific_last8_median_plus_0.5",
+  "no_sportsbook_2024_2025_line_claim": true,
+  "weekly_sequence": "freeze_prior_input_freeze_forecast_score_completed_week_then_update_bayesian_calibrator",
+  "calibration": {
+    "market_bin_prior_strength": 36,
+    "role_bin_prior_strength": 32,
+    "weekly_memory_discount": 0.995,
+    "calibration_scope": "each model and each market with role shrinkage using STRICTLY earlier weeks",
+    "probability_pseudocount": "Jeffreys .5 each two-sided"
+  },
+  "opportunity_memory": "last three seasons plus same-season prior weeks, fitted from pregame histories only",
+  "count_simulations_per_original_contract": 128,
+  "samples": 128,
+  "seed": 20162025,
+  "confidence_thresholds": [
+    0.7,
+    0.8,
+    0.9
+  ],
+  "statistical_metrics": [
+    "Brier",
+    "log loss",
+    "empirical sample CRPS",
+    "mean count bias",
+    "central 80% coverage",
+    "directional hit",
+    "80% claimed vs observed"
+  ],
+  "known_historical_years_exposed_to_prior_research": true,
+  "financial_profits_tiers_from_synthetic_lines_forbidden": true,
+  "release_gate": "never promote based on these exposed historical data",
+  "production_authorized": false,
+  "tier1_tier2_authorized": false,
+  "heavy_NUTS_or_paid_compute": false
+}
