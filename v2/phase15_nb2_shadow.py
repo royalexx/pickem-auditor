@@ -84,9 +84,9 @@ def build_prospective_shadow(*,phase1,phase1_bytes_sha256,roster_manifest,
             experiment_spec.get("tier1_tier2_release_allowed") is not False or
             experiment_spec.get("model_promotion_allowed") is not False):
         raise ValueError("fixed_shape_and_anti_promotion_prereg_required")
-    generated_at=now.astimezone(timezone.utc)
-    if now.tzinfo is None:
+    if not isinstance(now,datetime) or now.tzinfo is None:
         raise ValueError("naive_generation_clock_forbidden")
+    generated_at=now.astimezone(timezone.utc)
     if phase1.get("input_immutable_bundle_sha256") is None:
         raise ValueError("original_bundle_digest_missing")
     accepted=[]
