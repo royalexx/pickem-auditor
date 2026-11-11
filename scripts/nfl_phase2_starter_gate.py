@@ -51,11 +51,14 @@ def _name(value,name):
 def _official_url(value):
     if not isinstance(value,str):
         raise QBStarterEvidenceError("missing_source_url")
-    try:parts=urlsplit(value)
-    except ValueError as exc:raise QBStarterEvidenceError("invalid_source_url") from exc
+    try:
+        parts=urlsplit(value)
+        port=parts.port  # Access itself can raise ValueError on malformed ports.
+    except ValueError as exc:
+        raise QBStarterEvidenceError("invalid_source_url") from exc
     if (parts.scheme!="https" or parts.hostname not in APPROVED_HOSTS or
             parts.username is not None or parts.password is not None or
-            parts.port not in (None,443)):
+            port not in (None,443)):
         raise QBStarterEvidenceError("not_approved_original_league_source")
     return value
 
