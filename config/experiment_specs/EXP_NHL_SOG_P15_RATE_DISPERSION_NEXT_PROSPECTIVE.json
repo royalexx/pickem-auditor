@@ -1,7 +1,7 @@
 {
   "schema": "v25_locked_shadow_prospective_experiment_v1",
   "experiment_id": "EXP_NHL_SOG_P15_RATE_DISPERSION_NEXT_PROSPECTIVE",
-  "status": "REGISTERED_RESEARCH_ONLY_AWAIT_NEW_PROSPECTIVE_INPUTS",
+  "status": "REGISTERED_SHADOW_IMPLEMENTATION_PENDING_FIRST_FUTURE_PREGAME_RUN",
   "registration_date": "2026-11-10",
   "hypothesis": "NHL SOG count rates or tail dispersion may be miscalibrated on genuine future prices, independently of actual ice-time exposure; first test a simple shrink/dispersion challenger, not heavy joint architecture.",
   "source_reason": "NHL Nov10 GateB verified 47 contracted skater SOG outcomes from 3 games; Brier naive 0.296334, peer 0.254484, book no-vig 0.245472. Postgame actual-TOI oracle gives only modest improvements and is never a pregame feature. This cohort is for hypothesis discovery only.",
@@ -77,5 +77,25 @@
   "rollback": "Champion and prices remain frozen, challenger remains shadow; never overwrite original forecasts or data.",
   "tier1_tier2_release_allowed": false,
   "model_promotion_allowed": false,
-  "heavy_NUTS_or_joint_simulator_authorized": false
+  "heavy_NUTS_or_joint_simulator_authorized": false,
+  "low_cost_shadow_execution_authorized": true,
+  "user_authorization_date": "2026-11-11",
+  "research_fixed_nb2_shape": 4,
+  "research_likelihood": "negative_binomial_gamma_poisson_NB2",
+  "research_dispersion_hypothesis": "Var(Y|mean) = mean + mean^2/4; fixed shape chosen from Nov10 discovery, not fit on later event outcomes.",
+  "no_fitting_on_discovery_day": true,
+  "allowed_earliest_live_shadow_capture_date": "2026-11-11",
+  "required_original_snapshot_source": "v25-phase1-nhl-nba-certified-replay-v1 pregame, missing all postgame actuals",
+  "required_external_roster_evidence": "raw bytes from https://api-web.nhle.com/v1/roster/{team}/current for BOTH original team and opponent, captured before model and event, maximum six hours old",
+  "roster_membership_not_playing_confirmation": true,
+  "scoring_and_release_status": "shadow only; not ranked or published; no calibration or promotion before independently powered rolling future holdouts",
+  "experiment_change_log": [
+    {
+      "date": "2026-11-11",
+      "type": "research_only_precommitted_single_mechanism",
+      "reason": "Nov10 full 354-contract forensic audit identified residual overdispersion and NHL source-roster drift; fixed-shape 4.0 NB2 is a cheap distinct distribution challenger, not a selected optimum.",
+      "scope": "NHL shots on goal only, future original first pregame archive with independent roster receipts, same historical mean as pooled Poisson baseline",
+      "hard_no_promotion": true
+    }
+  ]
 }
