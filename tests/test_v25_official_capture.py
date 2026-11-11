@@ -58,6 +58,26 @@ class OfficialFinalGateTests(unittest.TestCase):
         self.assertEqual(settled[0]["settlement_clock_semantics"],
             "collector_first_verified_provider_final_no_whistle_claim")
 
+    def test_nhl_off_is_an_official_final_after_game(self):
+        x=nhl_final()
+        x["gameState"]="OFF"
+        rows=nhl_stat_rows(x,expected_teams={"COL","TOR"})
+        self.assertEqual(rows["8480069"]["shots on goal"],3)
+        original=original_event_scope([contract()])[("NHL","orig-1")]
+        settled,unresolved=settlement_rows_for_final(
+            original,x,game_id="2026020286",
+            url="https://api-web.nhle.com/v1/gamecenter/2026020286/boxscore",
+            raw_digest="a"*64,source_path="off.json",
+            observed_at="2026-11-11T08:00:00Z")
+        self.assertEqual(len(settled),1)
+        self.assertFalse(unresolved)
+
+    def test_nhl_crit_still_not_final(self):
+        x=nhl_final()
+        x["gameState"]="CRIT"
+        with self.assertRaisesRegex(SettlementCaptureError,"not_final"):
+            nhl_stat_rows(x,expected_teams={"COL","TOR"})
+
     def test_live_nhl_game_rejected(self):
         x=nhl_final();x["gameState"]="LIVE"
         with self.assertRaisesRegex(SettlementCaptureError,"not_final"):
