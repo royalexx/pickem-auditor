@@ -235,7 +235,15 @@ def settlement_rows_for_final(original_group, source, *, game_id, url,
                 "reason":"missing_or_did_not_play_in_verified_final_boxscore"})
             continue
         if actual["team"]!=normalized_team(c["team_id"],sport):
-            raise SettlementCaptureError("official_player_team_disagrees_frozen_offer")
+            unresolved.append({
+                "sport":sport,"event_id":original_group["event_id"],
+                "player_id":str(c["player_id"]),"stat":c["stat"],
+                "reason":"official_player_team_disagrees_frozen_offer",
+                "original_frozen_team":str(c["team_id"]),
+                "official_postgame_team":actual["team"],
+                "source_only_postgame_identity_evidence":True,
+            })
+            continue
         if c["stat"] not in actual:
             raise SettlementCaptureError("unsupported_official_stat")
         output.append({
