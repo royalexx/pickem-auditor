@@ -167,7 +167,7 @@ def child_forecast(packet,*,samples=128,seed=20162025):
     require(hist and pbp and all(yearweek_before(x,year,week) for x in hist) and
             all(yearweek_before(x,year,week) for x in pbp),
             "current_or_future_week_leak_in_predictor")
-    require(type(samples) is int and 64<=samples<=1024,"bad_samples")
+    require(type(samples) is int and 128<=samples<=1024,"bad_samples")
     model=OpportunityModel(hist,week,forecast_season=year)
     run_types=QBRushComponentModel(pbp,forecast_year=year,forecast_week=week)
     offers=[];excluded=collections.Counter()
