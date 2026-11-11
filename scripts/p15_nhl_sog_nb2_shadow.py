@@ -19,6 +19,10 @@ from v2.phase15_nb2_shadow import build_prospective_shadow
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--phase1",type=Path,required=True)
+    p.add_argument("--bundle",type=Path,required=True,
+                   help="Exact original untouched pregame live_pool gzip archive")
+    p.add_argument("--attempts",type=Path,required=True,
+                   help="Complete original prepared attempts ledger")
     p.add_argument("--roster-manifest",type=Path,required=True)
     p.add_argument("--roster-root",type=Path,required=True)
     p.add_argument("--experiment-spec",type=Path,required=True)
@@ -26,13 +30,21 @@ def main(argv=None):
     p.add_argument("--output",type=Path,required=True)
     args=p.parse_args(argv)
     if args.output.exists() or args.output.resolve() in (
-            args.phase1.resolve(),args.roster_manifest.resolve(),
+            args.phase1.resolve(),args.bundle.resolve(),
+            args.attempts.resolve(),args.roster_manifest.resolve(),
             args.experiment_spec.resolve()):
         p.error("append_only_output_required")
     try:
         phase1_raw=args.phase1.read_bytes()
+        original=json.loads(phase1_raw)
+        if (original.get("input_immutable_bundle_sha256")
+                !=hashlib.sha256(args.bundle.read_bytes()).hexdigest()):
+            raise ValueError("original_pregame_bundle_sha256_does_not_match_phase1")
+        if (original.get("input_attempts_sha256")
+                !=hashlib.sha256(args.attempts.read_bytes()).hexdigest()):
+            raise ValueError("complete_original_attempts_sha256_does_not_match_phase1")
         report=build_prospective_shadow(
-            phase1=json.loads(phase1_raw),
+            phase1=original,
             phase1_bytes_sha256=hashlib.sha256(phase1_raw).hexdigest(),
             roster_manifest=json.loads(args.roster_manifest.read_bytes()),
             roster_root=args.roster_root,
