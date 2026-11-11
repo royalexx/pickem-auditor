@@ -208,10 +208,10 @@ class QBRushComponentModel:
     def draw(self,pid,*,n=512,seed=20261111):
         require(type(n) is int and MIN_SAMPLES<=n<=MAX_SAMPLES,"bad_draw_count")
         require(isinstance(pid,str) and bool(pid),"invalid_qb_player_id")
-        if not self.by_player.get(pid):
-            # No QB prior -> abstain, not a synthetic fallback that could
-            # misrepresent a relief QB as a source-qualified starter.
-            return None
+        # A QB1 named by the independent, dated research selector may be a
+        # rookie with no NFL appearances. Cold starts use only the prior QB
+        # population and are marked distinctly; a model MUST NOT infer the
+        # starter from observed current-week participation or known outcome.
         p=self._params(pid)
         rng=np.random.default_rng(seed_from(SCHEMA,self.year,self.week,pid,seed))
         pace=rng.gamma(shape=20.0,scale=1/20.0,size=n)
@@ -257,6 +257,7 @@ class QBRushComponentModel:
                 "qb_rushing_attempts":attempts.astype(int).tolist(),
                 "qb_rushing_yards":total_yards.tolist(),
                 "parameters":p,
+                "QB_cold_start_no_prior_games":p["n_appearance_history"]==0,
                 "forecast_season":self.year,"forecast_week":self.week,
                 "model_supports_zero_yards":bool(np.any(total_yards==0)),
                 "inference_does_not_consume_current_game_data":True,
