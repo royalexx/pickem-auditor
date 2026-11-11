@@ -121,7 +121,7 @@ def match_schedule(events, schedules, *, max_start_shift_minutes=90):
 
 
 def nhl_stat_rows(source, *, expected_teams):
-    if source.get("gameState")!="FINAL":
+    if source.get("gameState") not in ("FINAL", "OFF"):
         raise SettlementCaptureError("NHL_source_not_final")
     home=normalized_team(source["homeTeam"]["abbrev"],"NHL")
     away=normalized_team(source["awayTeam"]["abbrev"],"NHL")

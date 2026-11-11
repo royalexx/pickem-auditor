@@ -104,7 +104,7 @@ def main(argv=None):
             if official_id is None:
                 entry["settlement_status"]="blocked_unmatched_official_schedule"
                 pending_reasons[entry["settlement_status"]]+=len(group["contracts"])
-            elif status!="FINAL":
+            elif status not in ("FINAL", "OFF"):
                 entry["settlement_status"]="pending_game_not_final"
                 pending_reasons[entry["settlement_status"]]+=len(group["contracts"])
             else:
