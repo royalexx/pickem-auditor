@@ -10,6 +10,8 @@ import pytest
 
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/"scripts"))
+FROZEN=ROOT/"reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/EXP_ALL13_20261111T200951Z/frozen_code"
+if FROZEN.exists():sys.path.insert(0,str(FROZEN))
 sys.path.insert(0,str(ROOT/"research"))
 from nfl_decade_context_v3_model_20261111 import (
     MatchupRegressor,GameContextModel,OnlineBayesCalibrator,seed)
