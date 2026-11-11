@@ -6,6 +6,7 @@ outcomes, no artificial pushes, no production/Tier promotion.
 from __future__ import annotations
 from collections import Counter,defaultdict
 from datetime import datetime,timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 import hashlib,json,math
 
@@ -174,7 +175,7 @@ def score_frozen_shadow(*,original_phase1,phase1_bytes_sha256,shadow,
         }
         row={"contract_id":key,"status":"source_verified_settled_nonpush",
              "sport":c["sport"],"original_event_id":c["event_id"],
-             "player_id":c["player_id"],"game_date":c["event_start"][:10],
+             "player_id":c["player_id"],"game_date":utc(c["event_start"]).astimezone(ZoneInfo("America/Toronto")).date().isoformat(),
              "line":c["line"],"observed_over":y,"actual":actual,
              "official_source_sha256":s["source_sha256"],
              "models":{k:{"p_over_nonpush":p,**_metric(p,y)}
