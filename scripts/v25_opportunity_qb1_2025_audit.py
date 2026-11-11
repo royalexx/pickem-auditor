@@ -8,6 +8,7 @@ from zoneinfo import ZoneInfo
 MODELS={"expanding","frozen_2024"}
 METHODS={"raw","global","role"}
 MARKETS={"qb rushing attempts":"carries","qb rushing yards":"rushing_yards"}
+HISTORY_STAT={"qb rushing attempts":"carries","qb rushing yards":"rushing yards"}
 EXPECTED="V25-QB1-RUSHING-2025-RETROSPECTIVE-20261111"
 
 
@@ -131,7 +132,7 @@ def audit(folder,sources):
                  c["depth_chart_is_not_confirmed_starter"] is True,
                  "historical_role_certification_false")
             # Independent synthetic line from *prior to forecast* matching QB rows.
-            col=MARKETS[c["market"]]
+            col=HISTORY_STAT[c["market"]]
             prior_values=[x["players"][c["player_id"]]["values"][col]
                           for x in prior["history"] if c["player_id"] in x["players"]
                           and col in x["players"][c["player_id"]]["values"]]
