@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
-from datetime import datetime,timezone
+from datetime import datetime,timezone,timedelta
 import hashlib
 import json
 from pathlib import Path
@@ -74,9 +74,7 @@ def main(argv=None):
             raise SettlementCaptureError("multiple_dates_in_one_snapshot")
         if not scoped:raise SettlementCaptureError("empty_source_cohort")
         # All games fall on selected Toronto/North American slate date.
-        if not all(group["start"].date().isoformat() in
-                   (args.date,(date.replace(day=date.day).isoformat()))
-                   or group["start"].date().isoformat()>=args.date
+        if not all(group["start"].date() in (date,date+timedelta(days=1))
                    for group in scoped.values()):
             raise SettlementCaptureError("source_event_dates_mismatch")
         raw_schedules={}
