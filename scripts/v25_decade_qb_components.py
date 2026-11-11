@@ -54,7 +54,7 @@ def _finite_nonnegative(x,name):
 
 def verify_component_row(row):
     require(isinstance(row,dict),"source_not_mapping")
-    require(row.get("season") in (2021,2022,2023,2024,2025),
+    require(type(row.get("season")) is int and 2014<=row["season"]<=2025,
             "unsupported_component_season")
     wk=row.get("week")
     require(type(wk) is int and 1<=wk<=18,"bad_week")
