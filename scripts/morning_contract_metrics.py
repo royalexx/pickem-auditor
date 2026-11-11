@@ -110,6 +110,10 @@ def score_contract_rows(rows,*,models=AUDITED_MODELS,reference="market_raw_novig
             rejects["unpaired_original_contract"]+=1
             continue
         over,under=pair["over"],pair["under"]
+        if (over.get("original_source_run_id")!=key[1]
+                or under.get("original_source_run_id")!=key[1]):
+            rejects["source_run_id_conflicts_with_original"]+=1
+            continue
         if any(over.get(x)!=under.get(x) for x in
                ("actual_stat","team","opponent","event_start",
                 "game_date","period","original_source_run_id")):
@@ -178,6 +182,14 @@ def score_contract_rows(rows,*,models=AUDITED_MODELS,reference="market_raw_novig
           "event_id":key[3],"player_id":key[4],"stat":key[5],
           "line":key[-1],"period":key[6],"actual":actual,
           "observed_over":y,"models_scored":sorted(evaluated),
+          "source_over_forecast_sha256":over.get("original_forecast_sha256"),
+          "source_under_forecast_sha256":under.get("original_forecast_sha256"),
+          "original_forecast_at_over":over.get("forecast_at"),
+          "original_forecast_at_under":under.get("forecast_at"),
+          "original_event_start":key[7],
+          "original_team":over.get("team"),
+          "original_opponent":over.get("opponent"),
+          "original_book_probability_over":_prob(over.get(reference)),
           "model_exclusions":{
            model:"missing_or_invalid_probability" if (
                _prob(over.get(model)) is None or
