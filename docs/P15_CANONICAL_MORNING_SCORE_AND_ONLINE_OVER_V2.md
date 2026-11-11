@@ -1,0 +1,33 @@
+# V2.5 Phase 1.5 remediation — original-contract morning metrics + canonical Over online Bayesian v2
+
+**Status:** engineering remediation, tested on November 11, 2026. **No production/weight/Tier promotion.** The governing audit remains `docs/V25_FULL_NOV11_FORENSIC_AUDIT_AND_PHASE2_GATE.md`. Full Phase 2 remains **NO-GO**; only small, precommitted, non-promoting shadow experiments may proceed.
+
+## Confirmed root cause 1 — double-side morning arithmetic
+
+The daily Deepnote morning block (`notebooks/deepnote_daily_cloud_inference.ipynb`, connected notebook `932674d66d4543c6b10ff2e2c0a4df9c`) previously evaluated **every Over and Under side** of an identical settled player/line contract. Consequently `avg_probability` and `observed_hit_rate` were often mechanically **0.5**, regardless of directional performance. This was not evidence of 50% selective hit rate.
+
+New **`scripts/morning_contract_metrics.py`** builds a unique pregame key `(slate_date, original_run_id, sport, original_event_id, original_player_id, stat, full_period, original_event_start, original_line)`, requires exactly one settled Over and one settled Under, verifies their outcome complementarity and exact market line, and scores **one canonical Over observation once**. It reports selected-side hit, actual directional P(Over), Brier, log loss, 80%+ count/hit, matchup coverage, paired market differences and per-model rejection reasons. A 0.50 tie is an abstention for selected-side accuracy but may be properly scored. No model may silently add or subtract probability mass: `P(over|nonpush)+P(under|nonpush)` must be within `1e-8` of 1.
+
+The original per-side JSONL is **preserved** and annotated with the original player/event/run/team/opponent/period/event timestamp and per-side SHA256. A new `settled_model_contracts.jsonl` contains the one-contract ledger including both original forecast SHA256s. `morning_model_validation.json` now exposes contract-level `metrics`, `paired_model_vs_market`, `model_coverage_and_invalidity` and old `raw_both_sides_legacy_metrics_not_selection`, explicitly marked as unsuitable for directional selection. The first-archived source cohort remains clearly **separate** from the later stricter 712-side Phase0R-certified batch.
+
+**Independent real-data canary:** first archived 2026-11-10 bundle, 1,310 original forecast sides, morning archive 1,248 resolved sides, reconstructed independently from immutable pregame player/event IDs, **624/624** exact canonical player/line contracts preserved (NBA 502, NHL 122). No invalid/duplicate contract exclusions. In the old morning report NHL shots-on-goal `Engine A` P/Hit showed tautological 0.5/0.5; corrected **selected-side hit 50.43% on 117 NHL SOG contracts**. NBA assists Engine B **63.46% on 52**; these are descriptive one-date results and **not** valid Tier/strategy scores. The archived actual Brier/log-loss remain numerically consistent because properly complementary side scores agree. Original `online_bayesian_a` or `online_bayesian_b` on every available side pair was *not* complementary and is counted as `noncomplementary_probabilities`, never scored.
+
+**Source and output receipts:** Deepnote detached notebook `0c146b211d6947fb9510acdff67e0092`; successful test/replay run `7ee5bbe9-ba91-483e-b843-09132ec279f1` (before the online-v2 source patch) and subsequent complete QA (see PR). The canary computes code-path results from immutable raw historical records, but it does **not** retrocertify that originally unverified afternoon cohort.
+
+## Confirmed root cause 2 — inconsistent online Bayesian shadow probability orientation
+
+The original `scripts/cloud_bayes_incremental.py` calibration state used the earliest quote side for each player-stat-event, without normalizing outcomes to Over. Its shadow inference independently calibrated each Over and Under side, and the archived November 10 first-run outputs violated probability complementarity by **6.46/8.95 percentage points** on average for NBA online A/B and **8.30/10.15 pp** for NHL, respectively. These were **research shadows**. The historical production `Bayesian_A` and `Bayesian_B` models themselves passed complementarity.
+
+**Remediation**: introduce a **new, separately named** `|canonical_over_v2` calibrator state for each sport/stat/family, trained only from strictly earlier original quote/outcome matches. Under-labeled observations are transformed to their logically equivalent Over observation **once**; the legacy posterior is preserved unchanged, and never misrepresented as a trained Over posterior. Future prospective online shadows derive both sides from the exact same original Over CDF and single v2 posterior, sharing original push mass, verifying the original pair's numeric coherence, and declining to forecast if either original side or v2 training state is missing. All v2 output remains `warmup` or `research_shadow`, with `approved_for_production=false`. No historical Nov 10 outputs were rewritten. The new v2 posterior starts fresh when the next valid future morning settlement arrives, rather than pretending the old incoherent side calibrator has 100+ qualifying events.
+
+**Important limitation:** This is an internally coherent binary calibration, not an independently validated multivariate count distribution, original source provider or guaranteed improvement. Separate future market/role/count tests remain mandatory.
+
+## Audit and rollback
+
+New adversarial tests in `tests/test_morning_contract_metrics.py` and updated `tests/test_cloud_bayes_incremental.py` require duplicate/missing side exclusion, exact original source IDs, negative controls for late forecasts/contradictory actuals, complete original contract coverage, Bayesian v2 orientation and complementarity, and V1 posterior rejection. Prior immutable archives, NUTS state and 60/40 weights are not modified.
+
+**Rollback:** revert this PR or restore prior Deepnote morning code block. Previous source side files remain intact and the new canonical ledger is an additive output. If the next morning lacks original IDs or a valid paired source, the corrected system abstains/records gaps rather than inventing a hit. The new Bayesian v2 is never allowed to promote itself.
+
+## Next bounded experiment
+
+NHL SOG `EXP_NHL_SOG_P15_RATE_DISPERSION_NEXT_PROSPECTIVE` remains pre-registered and unpromoted: implement a single NB2 rate/dispersion shadow comparison using **future, pregame-frozen** player lines and independent pregame team/roster identity, with November 10 data reserved for discovery, not tested as unseen. NBA Bayesian B/60–40 stay read-only comparison references. A full NFL Phase 2 team-volume/target allocator is still deferred until its own Phase 1.5 NFL authorization.

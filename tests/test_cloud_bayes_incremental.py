@@ -98,6 +98,13 @@ class OnlineBayesianTests(unittest.TestCase):
         self.assertGreater(next_p,prior_p)
         self.assertEqual(a["calibration"]["NHL|shots on goal|bayesian_a"]["events"],1)
         self.assertFalse(cb.calibrator_ready(a["calibration"]["NHL|shots on goal|bayesian_a"]))
+        # Separate, forward-only canonical Over v2: no inherited V1 posterior.
+        v2=a["calibration"]["NHL|shots on goal|bayesian_a|canonical_over_v2"]
+        self.assertEqual(v2["events"],1)
+        self.assertFalse(cb.calibrator_ready(v2))
+        self.assertEqual(a["daily_metrics"][DAY][
+            "NHL|shots on goal|bayesian_a|canonical_over_v2"]["orientation"],
+            "CANONICAL_OVER_ONLY_V2")
 
     def test_snapshot_freeze_rejects_same_day_future_data(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -193,15 +200,21 @@ class OnlineBayesianTests(unittest.TestCase):
             original_forecast=original()
             data=root/"data"
             data.mkdir()
-            (data/"prop_snapshots.jsonl").write_text(json.dumps(original_forecast)+"\n")
+            under_forecast=original(side="under")
+            (data/"prop_snapshots.jsonl").write_text(
+                json.dumps(original_forecast)+"\n"+json.dumps(under_forecast)+"\n")
             for subdir,q in (("bayesian_shadow",.55),("bayesian_b_shadow",.6)):
                 folder=data/subdir
                 folder.mkdir()
-                sidecar={k:original_forecast[k] for k in (
-                    "game_date","run_id","sport","stat","player_id","side",
-                    "reference_line","forecast_at")}
-                sidecar.update(status="forecast",q_win=q,q_push=0.,workload_mean=19.0)
-                (folder/(DAY+".jsonl")).write_text(json.dumps(sidecar)+"\n")
+                entries=[]
+                for part,p in ((original_forecast,q),(under_forecast,1-q)):
+                    sidecar={k:part[k] for k in (
+                        "game_date","run_id","sport","stat","player_id","side",
+                        "reference_line","forecast_at")}
+                    sidecar.update(status="forecast",q_win=p,q_push=0.,
+                                   workload_mean=19.0)
+                    entries.append(json.dumps(sidecar))
+                (folder/(DAY+".jsonl")).write_text("\n".join(entries)+"\n")
             state=cb.initial_state()
             state["through"]="2026-11-04"
             state["rate"]["NHL|shots on goal|2026|8480001"]={
@@ -210,19 +223,67 @@ class OnlineBayesianTests(unittest.TestCase):
             cal=cb.start_calibrator()
             cal["events"]=101
             cal["days"]=16
-            state["calibration"]["NHL|shots on goal|bayesian_a"]=copy.deepcopy(cal)
+            state["calibration"]["NHL|shots on goal|bayesian_a|canonical_over_v2"]=copy.deepcopy(cal)
             report=cb.forecast_sidecar(root=root,date_text=DAY,state=state,
                                        out=root/"online.jsonl")
             rows=cb.read_jsonl(root/"online.jsonl")
-            self.assertEqual(report["rows"],1)
+            self.assertEqual(report["rows"],2)
             self.assertEqual(rows[0]["training_data_through"],"2026-11-04")
             self.assertEqual(rows[0]["models"]["bayesian_a_online_calibrated"]["status"],
                              "research_shadow")
+            self.assertEqual(rows[0]["models"]["bayesian_a_online_calibrated"]["model_kind"],
+                             "canonical_over_v2")
+            self.assertAlmostEqual(
+                sum(r["models"]["bayesian_a_online_calibrated"]["q_win"] for r in rows),
+                1.0,places=8)
+            self.assertEqual(
+                rows[1]["models"]["bayesian_a_online_calibrated"]["status"],"research_shadow")
             self.assertEqual(rows[0]["models"]["player_rate_gamma_poisson"]["status"],
                              "research_shadow")
             self.assertFalse(rows[0]["publication_eligible"])
-            self.assertEqual(json.loads((data/"prop_snapshots.jsonl").read_text()),
-                             original_forecast)
+            self.assertEqual(
+                [json.loads(line) for line in (data/"prop_snapshots.jsonl").read_text().splitlines()],
+                [original_forecast,under_forecast])
+
+    def test_legacy_independently_oriented_calibrator_is_not_misused_for_v2(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);data=root/"data";data.mkdir()
+            left,right=original(),original(side="under")
+            (data/"prop_snapshots.jsonl").write_text(
+                json.dumps(left)+"\n"+json.dumps(right)+"\n")
+            for folder_name,p in (("bayesian_shadow",.55),("bayesian_b_shadow",.6)):
+                folder=data/folder_name;folder.mkdir()
+                records=[]
+                for source,q in ((left,p),(right,1-p)):
+                    rec={k:source[k] for k in ("game_date","run_id","sport","stat",
+                        "player_id","side","reference_line","forecast_at")}
+                    rec.update(status="forecast",q_win=q,q_push=0.,workload_mean=19.0)
+                    records.append(json.dumps(rec))
+                (folder/(DAY+".jsonl")).write_text("\n".join(records)+"\n")
+            state=cb.initial_state()
+            state["through"]="2026-11-04"
+            old=cb.start_calibrator()
+            old["events"]=150;old["days"]=20
+            state["calibration"]["NHL|shots on goal|bayesian_a"]=old
+            cb.forecast_sidecar(root=root,date_text=DAY,state=state,
+                                out=root/"online.jsonl")
+            rows=cb.read_jsonl(root/"online.jsonl")
+            self.assertTrue(all(r["models"]["bayesian_a_online_calibrated"]["status"]
+                                =="unavailable" for r in rows))
+            self.assertTrue(all("coherent_over_v2" in
+                r["models"]["bayesian_a_online_calibrated"]["reason"] for r in rows))
+
+    def test_over_v2_update_orients_under_selected_observation(self):
+        state=cb.initial_state()
+        under=original(side="under")
+        afternoon=af_doc(under,model_q=.45)
+        morning=mo_doc(sides=[dict(under,actual_stat=3,outcome="loss",
+                                  settled_at="2026-11-06T12:00:00Z")],pop=[])
+        cb.update_one_day(state,DAY,[afternoon],[morning])
+        rec=state["calibration"]["NHL|shots on goal|bayesian_a|canonical_over_v2"]
+        reference=cb.start_calibrator()
+        cb.update_calibration(reference,[(.55,1)])
+        self.assertEqual(rec,reference)
 
 if __name__=="__main__":
     unittest.main()

@@ -426,6 +426,39 @@ def update_one_day(state,day,afternoon,morning):
             metrics["logloss_online"]+=-math.log(max(1e-12,q if y else 1-q))
         daily[key]=metrics
         update_calibration(record,batch)
+
+    # V2 starts a NEW, separately keyed probability calibration. Historical
+    # V1 records were fit on whichever side happened to be the earliest
+    # original quote. That can calibrate Over and Under inconsistently.
+    # Convert each matched binary label/probability to the CANONICAL OVER
+    # orientation before updating; do not rewrite previously published V1
+    # posteriors or pretend their weights are trained Over posteriors.
+    coherent_over_observations=defaultdict(list)
+    for _event,(_at,key,y,models) in matches:
+        side=key[5]
+        if side not in ("over","under"):
+            raise ValueError("COHERENT_CALIBRATION_INVALID_SIDE")
+        for name,p in models.items():
+            oriented_p=p if side=="over" else 1-p
+            oriented_y=y if side=="over" else 1-y
+            if not 0<oriented_p<1:continue
+            cid="|".join((key[2],key[4],name,"canonical_over_v2"))
+            coherent_over_observations[cid].append((oriented_p,oriented_y))
+    for cid,batch in sorted(coherent_over_observations.items()):
+        new_record=state["calibration"].setdefault(cid,start_calibrator())
+        online_before=[predictive_probability(new_record,p) for p,y in batch]
+        daily[cid]={
+            "n":len(batch),
+            "brier_base":sum((p-y)**2 for p,y in batch),
+            "brier_online":sum((q-y)**2 for q,(p,y) in zip(online_before,batch)),
+            "logloss_base":sum(-math.log(max(1e-12,p if y else 1-p))
+                               for p,y in batch),
+            "logloss_online":sum(-math.log(max(1e-12,q if y else 1-q))
+                                 for q,(p,y) in zip(online_before,batch)),
+            "orientation":"CANONICAL_OVER_ONLY_V2",
+            "not_production":True,
+        }
+        update_calibration(new_record,batch)
     state["daily_metrics"][day]=daily
     state["source_days"][day]=digest(canonical({
         "population":source_rows,"matches":[(list(event),at,list(key),y,models)
@@ -556,19 +589,40 @@ def forecast_sidecar(*,root,date_text,state,out):
                       original_source_forecast_id=digest(canonical(key).encode()),
                       models={})
         for model in ("bayesian_a","bayesian_b"):
-            src=indices[model].get(key)
-            prediction={"status":"unavailable","reason":"no_qualified_prior_completed_game_calibration"}
-            if src and src.get("status")=="forecast":
-                p,push=prob(src.get("q_win")),prob(src.get("q_push"))
-                cid="|".join((row.get("sport",""),row.get("stat",""),model))
-                cal=state["calibration"].get(cid)
-                if p is not None and push is not None and push<1 and p<=1-push and 0<p/(1-push)<1 and cal:
-                    q=predictive_probability(cal,p/(1-push))*(1-push)
-                    prediction={"status":"research_shadow" if calibrator_ready(cal) else "warmup",
-                                "q_win":round(q,10),"q_push":push,
-                                "baseline_q_win":p,"posterior_events":cal["events"],
-                                "posterior_days":cal["days"],
-                                "approved_for_production":False}
+            # A coherent pair MUST be generated from the same original
+            # Over CDF, shared calibrated Over posterior and original push
+            # mass. Never fit/calibrate Over and Under independently.
+            over_key=identity(dict(row,side="over"))
+            under_key=identity(dict(row,side="under"))
+            over_src=indices[model].get(over_key) or {}
+            under_src=indices[model].get(under_key) or {}
+            prediction={"status":"unavailable",
+                        "reason":"coherent_over_v2_qualified_pair_or_history_missing",
+                        "model_kind":"canonical_over_v2"}
+            if (over_src.get("status")=="forecast"
+                    and under_src.get("status")=="forecast"):
+                qo,qu=prob(over_src.get("q_win")),prob(under_src.get("q_win"))
+                po,pu=prob(over_src.get("q_push")),prob(under_src.get("q_push"))
+                if (None not in (qo,qu,po,pu) and po<1
+                        and abs(po-pu)<=1e-8 and abs(qo+qu+po-1)<=1e-8
+                        and 0<qo/(1-po)<1):
+                    cid="|".join((row.get("sport",""),row.get("stat",""),
+                                  model,"canonical_over_v2"))
+                    cal=state["calibration"].get(cid)
+                    if cal is not None:
+                        p_over=predictive_probability(cal,qo/(1-po))
+                        p_side=p_over if row["side"]=="over" else 1-p_over
+                        prediction={
+                           "status":"research_shadow" if calibrator_ready(cal) else "warmup",
+                           "q_win":round(p_side*(1-po),10),
+                           "q_push":po,
+                           "baseline_q_win":qo if row["side"]=="over" else qu,
+                           "posterior_events":cal["events"],
+                           "posterior_days":cal["days"],
+                           "model_kind":"canonical_over_v2",
+                           "calibration_orientation":"single_pregame_over_posterior",
+                           "approved_for_production":False,
+                        }
             result["models"][model+"_online_calibrated"]=prediction
         # Independent count-rate update from actual finished player-game
         # stat/exposure, NOT an approximation to NUTS's player/team effects.
