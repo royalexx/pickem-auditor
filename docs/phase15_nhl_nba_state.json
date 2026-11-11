@@ -1,6 +1,6 @@
 {
   "schema": "pickem_phase15_nhl_nba_state_v1",
-  "reviewed_at_utc": "2026-11-10T22:59:34Z",
+  "reviewed_at_utc": "2026-11-11T03:05:00Z",
   "phase": "1.5",
   "scope": {
     "sports": [
@@ -20,9 +20,9 @@
     ],
     "original_frozen_date": "2026-11-10"
   },
-  "engineering_diagnostics": "EXECUTED_TESTED_INDEPENDENTLY_VERIFIED",
-  "empirical_error_attribution": "BLOCKED_NO_GENUINE_RESULTS",
-  "investment_decision": "DEFER_EXPENSIVE_PHASE2_AND_HEAVY_NUTS",
+  "engineering_diagnostics": "B_TO_E_SEQUENTIALLY_EXECUTED_SOURCE_AUDITED_PARTIAL",
+  "empirical_error_attribution": "PARTIAL_NHL_47_OF_106_SOURCE_VERIFIED;_NBA_ZERO_PENDING",
+  "investment_decision": "RETAIN_SHADOW_DEFER_HEAVY_PHASE2_AND_NUTS",
   "source": {
     "original_immutable_bundle_sha256": "76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6",
     "original_daily_run_id": "ccd5d53d-6583-4380-97ed-9fda64e90559",
@@ -97,22 +97,120 @@
     "market_edge_verified": false
   },
   "gates": {
-    "A": "PASS_CERTIFIED_ORIGINAL_INPUTS",
-    "B": "BLOCKED_NO_SETTLEMENT",
-    "C": "BLOCKED_NO_PREGAME_FOUR_FACTOR_VECTORS_OR_ACTUALS",
-    "D": "BLOCKED_NO_SETTLEMENT_OR_PAYOUT_TERMS",
-    "E": "DEFER_EXPENSIVE_CHALLENGERS"
+    "A": "PASS_ORIGINAL_PREGAME_ARCHIVE",
+    "B": "PARTIAL_NHL_47_SETTLED_BLOCKED_FULL_CALIBRATION_AND_NBA",
+    "C": "PARTIAL_SOURCE_VERIFIED_TOI_ORACLE_FULL_FACTOR_BLOCKED",
+    "D": "PRE_GAME_BOOKMAKER_PROPER_SCORE_AVAILABLE_OPERATOR_EDGE_BLOCKED",
+    "E": "DEFER_HEAVY_MODELS_OR_PROMOTION"
   },
   "tier1_tier2_publication_allowed": false,
   "production_promotion_allowed": false,
   "training_resumed": false,
   "existing_daily_workflows_changed": false,
-  "report": "docs/V25_PHASE15_NHL_NBA_RESULTS_20261110.md",
+  "report": "docs/V25_PHASE15_NHL_NBA_BCDE_NOV10_RESULTS.md",
   "next_safe_actions": [
     "Preserve full original attempted and certified-universe ledger",
     "After 2026-11-10 games end, obtain source-hashed official player-stat settlement receipts at exact period and contract identity",
     "Audit missing final pregame 60/40 snapshot path before any production-model comparison",
     "Prospectively freeze stat-specific opportunity factors with source/time/version receipts; no postgame reconstruction as pregame",
     "Accumulate independent future NBA and NHL dates and reevaluate signed Over residual and matched Brier, log loss and uncertainty"
-  ]
+  ],
+  "latest_sequential_B_through_E": {
+    "original_prospective_date": "2026-11-10",
+    "source_phase1_receipt": "reports/phase1_nhl_nba_certified_20261110_original_batch_939024a347d6.json",
+    "prepared_forecast_sides": 1314,
+    "accepted_forecast_sides": 712,
+    "rejected_forecast_sides": 602,
+    "paired_contracts": 356,
+    "NBA_contracts": 250,
+    "NHL_contracts": 106,
+    "settled_contracts": 47,
+    "settled_NHL_games": 3,
+    "settled_NBA_contracts": 0,
+    "remaining_pending_or_unverifiable_contracts": 309,
+    "verified_stale_team_conflicts": 1,
+    "verified_stale_team_case": {
+      "original_player_id": "8482110",
+      "player": "Dawson Mercer",
+      "original_frozen_team": "NJD",
+      "postgame_official_team": "WPG",
+      "resolution": "QUARANTINED_ORIGINAL_NOT_RETROCORRECTED"
+    },
+    "outcome_counts": {
+      "over": 15,
+      "under": 32
+    },
+    "gate_B": {
+      "status": "PARTIAL_NHL_DESCRIPTIVE_SCORES_VERIFIED_FULL_CALIBRATION_RELEASE_BLOCKED",
+      "naive_recent_history_brier": 0.2963338434955516,
+      "pooled_peer_brier": 0.2544835854286995,
+      "real_pregame_market_brier": 0.24547161274059262,
+      "signed_over_bias": {
+        "naive": 0.18944001000914001,
+        "pooled": 0.1763360432930617,
+        "market": 0.17346139136446267
+      },
+      "source_verified_NHL_player_contracts": 47,
+      "NBA_scored": 0,
+      "official_capture_manifest": "reports/phase15_Nov10_gate_B_official_capture_83198f51e6d5/capture_manifest.json",
+      "phase1_scored_receipt": "reports/phase15_gate_B_phase1_scored_20261110_83198f51e6d5.json",
+      "phase15_scored_receipt": "reports/phase15_gate_B_matched_diagnostics_20261110_83198f51e6d5.json",
+      "independent_official_audit": "reports/phase15_gate_B_20261110_independent_official_audit.json",
+      "independent_audit_run": "ecf8452c-2dec-47a4-8360-bac1b3e92a33"
+    },
+    "gate_C": {
+      "status": "PARTIAL_POSTGAME_TOI_ORACLE_ONLY_FULL_FOUR_FACTOR_PRE_EVAL_ABSENT",
+      "projected_minutes_mean": 18.74609929078014,
+      "actual_minutes_mean": 18.885106382978723,
+      "mean_abs_TOI_error_minutes": 1.5553191489361702,
+      "recent_original_count_MSE": 3.5683227381238316,
+      "recent_oracle_count_MSE": 3.4489323725219783,
+      "pooled_original_count_MSE": 2.797311787141007,
+      "pooled_oracle_count_MSE": 2.595447400900151,
+      "interpretation": "Postgame actual TOI used ONLY in isolated oracle; never prospective model inputs or promotion",
+      "full_four_factor_pregame_vectors": 0,
+      "source_verified_receipt": "reports/phase15_gate_C_NHL_time_oracle_20261110_5dda576d25d8.json",
+      "test_run": "f85c6fc1-b006-4bfd-999c-d15134beb385",
+      "future_only_factor_collector": "scripts/capture_phase15_pregame_factors.py",
+      "logger_auto_wired_to_daily": false
+    },
+    "gate_D": {
+      "status": "PAIRED_BOOKMARKET_BRIER_DESCRIPTIVE_OPERATOR_PAYOFF_AND_PROFITABILITY_BLOCKED",
+      "naive_minus_market_brier": 0.050862230754958965,
+      "peer_minus_market_brier": 0.009011972688106823,
+      "naive_exploratory_book_selection": {
+        "count": 41,
+        "mean_hypothetical_unit_return": -0.19179338924121359
+      },
+      "peer_exploratory_book_selection": {
+        "count": 25,
+        "mean_hypothetical_unit_return": -0.243627774115579
+      },
+      "no_pregame_strategy_registration": true,
+      "actual_bet_return_claimed": false,
+      "pickem_operator_payout_verified": false,
+      "receipt": "reports/phase15_gate_D_NHL_source_book_research_20261110_f2cae97a4032.json",
+      "test_run": "46b48bf0-bc85-4116-a132-18f933240933"
+    },
+    "gate_E": {
+      "status": "SIGNED_DEFER_HEAVY_TRAINING_OR_PROMOTION",
+      "ranked_actions": [
+        "Implement independent PRE-EVENT NHL roster check, not merely original aggregator book team label",
+        "Capture remaining verified final NBA/NHL outcomes with independent source SHA and preserve all missing entries",
+        "Freeze authentic pregame factor predictions with role opportunity, source timestamps and support, no postgame reconstruction",
+        "Run constrained NHL SOG rate/dispersion shadow pilot on later unseen dates only after model+evaluation preregistration"
+      ],
+      "preregistration": "config/experiment_specs/EXP_NHL_SOG_P15_RATE_DISPERSION_NEXT_PROSPECTIVE.json",
+      "decision_report": "reports/phase15_gate_E_NHL_NBA_Nov10_signed_investment.json",
+      "decision_sha256": "73f116f7d9c931bc0432c83305a243e9d4b91d4da11b92efb73087502265b80a",
+      "investment_decision_run": "6763844e-5ea8-41a7-96fb-a92e4cd76c6c"
+    },
+    "source_deepnote_project": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "full_report": "docs/V25_PHASE15_NHL_NBA_BCDE_NOV10_RESULTS.md",
+    "prospective_promo_allowed": false,
+    "original_models_or_weights_changed": false,
+    "daily_automation_changed": false
+  },
+  "model_promotion_allowed": false,
+  "nuts_training_paused": true
 }
