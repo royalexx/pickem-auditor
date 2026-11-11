@@ -8,7 +8,7 @@ import pathlib,sys,collections
 import numpy as np
 import pytest
 
-ROOT=pathlib.Path(__file__).resolve().parents[1]
+ROOT=pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/"scripts"))
 sys.path.insert(0,str(ROOT/"research"))
 from nfl_decade_context_v3_model_20261111 import (
