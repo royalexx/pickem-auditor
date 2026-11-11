@@ -67,8 +67,6 @@ def original_event_scope(contracts):
             ident.add(token)
             if c["stat"] not in (NBA_MARKETS if sport=="NBA" else NHL_MARKETS):
                 raise SettlementCaptureError("unsupported_market_stat")
-            if instant(c["input_freeze_at"])>=starts.pop() if False else False:
-                pass  # actual pregame check below, without mutating starts
             if instant(c["input_freeze_at"])>=next(iter(starts)):
                 raise SettlementCaptureError("nonpregame_original_input")
         result[(sport,event)]={
@@ -77,12 +75,12 @@ def original_event_scope(contracts):
     return result
 
 
-def schedule_games(sport, payload):
+def schedule_games(sport, payload, *, game_date):
     found=[]
     if sport=="NHL":
         for day in payload.get("gameWeek",[]):
             for g in day.get("games",[]):
-                if day.get("date")!="2026-11-10":continue
+                if day.get("date")!=game_date:continue
                 found.append({"sport":"NHL","id":str(g["id"]),
                     "teams":{normalized_team(g["homeTeam"]["abbrev"],"NHL"),
                              normalized_team(g["awayTeam"]["abbrev"],"NHL")},
@@ -216,7 +214,7 @@ def settlement_rows_for_final(original_group, source, *, game_id, url,
     rows=(nhl_stat_rows(source,expected_teams=original_group["teams"])
           if sport=="NHL" else
           nba_stat_rows(source,expected_teams=original_group["teams"]))
-    if str(source.get("id"))!=str(game_id) if sport=="NHL" else False:
+    if sport=="NHL" and str(source.get("id"))!=str(game_id):
         raise SettlementCaptureError("NHL_source_game_id_mismatch")
     collection=instant(observed_at)
     if collection<=original_group["start"]:
