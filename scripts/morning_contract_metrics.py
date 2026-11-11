@@ -212,7 +212,7 @@ def score_contract_rows(rows,*,models=AUDITED_MODELS,reference="market_raw_novig
             "full_calendar_date_cluster_power_available":len(dates)>1,
             "not_release_eligible":True,
         }
-    deltas=defaultdict(dict)
+    deltas=defaultdict(lambda:defaultdict(dict))
     for (sport,stat,model),recs in sorted(matched.items()):
         n=len(recs)
         deltas[sport][stat][model]={
