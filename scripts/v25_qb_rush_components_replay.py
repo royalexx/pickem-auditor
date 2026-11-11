@@ -308,7 +308,8 @@ def run(args):
     tofreeze=("v25_qb_rush_components.py","v25_qb_rush_components_replay.py",
               "v25_opportunity_distribution.py","v25_opportunity_repair_replay.py",
               "v25_opportunity_2025_replay.py",
-              "v25_nfl_2024_all_volume_rolling_calibration.py")
+              "v25_nfl_2024_all_volume_rolling_calibration.py",
+              "nfl_contract_settlement.py")
     codehash={}
     for filename in tofreeze:
         raw=(HERE/filename).read_bytes();(codedir/filename).write_bytes(raw)
