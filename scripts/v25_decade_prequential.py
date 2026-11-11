@@ -419,14 +419,44 @@ def run(args):
                 "QB_PBP_schema_or_year_mismatch")
         pbp[y]=d["rows"]
     allgames={}
+    rejected_original_player_rows={}
     for y in range(2014,2026):
         data=read(source/f"stats_{y}.json.gz")
         require(data["season"]==y,"season_source_file_mismatch")
         rejections=[]
-        team_games=normalise_player_source(data["rows"],rejection_ledger=rejections,
+        attributable=[]
+        unknown=[]
+        # nflverse historical archives contain 17 or 18 unidentified player
+        # placeholders per season. Some have actual nonzero tackle stats.
+        # They cannot be called an identifiable pick or a verified zero.
+        # Quarantine EVERY such original row, including nonzero ones.
+        volume_fields=("attempts","completions","passing_yards","targets",
+          "receptions","receiving_yards","carries","rushing_yards",
+          "def_tackles_solo","def_tackle_assists","def_tackles_with_assist")
+        for row in data["rows"]:
+            ident=(row.get("game_id"),row.get("team"),row.get("player_id"))
+            if not all(isinstance(i,str) and bool(i) for i in ident):
+                nonzero={k:row.get(k) for k in volume_fields
+                         if isinstance(row.get(k),(int,float))
+                         and row.get(k)!=0}
+                unknown.append({"row_sha256":sha_bytes(canonical(row)),
+                    "game_id":row.get("game_id"),"team":row.get("team"),
+                    "position":row.get("position"),"nonzero_values":nonzero,
+                    "reason":"original_player_identity_missing_no_imputation"})
+                continue
+            attributable.append(row)
+        team_games=normalise_player_source(attributable,rejection_ledger=rejections,
                allowed_seasons=tuple(range(2014,2026)))
         allgames[y]=team_games
-        # Always preserve data rejections; never turn unknown placeholders into zeros.
+        rejected_original_player_rows[str(y)]={
+          "original_rows":len(data["rows"]),"attributable_rows":len(attributable),
+          "unidentified_rows":len(unknown),
+          "unidentified_with_nonzero_original_stats":
+             sum(bool(z["nonzero_values"]) for z in unknown),
+          "unidentified_source_rows":unknown,
+          "normalizer_rejections":rejections,
+          "unidentified_original_forecasts_do_not_exist":True,
+        }
     schedules={y:read(source/f"games_{y}.json.gz")["rows"] for y in range(2016,2026)}
     depths={y:read(source/f"qb_depth_{y}.json.gz")["rows"] for y in range(2016,2026)}
     args.output_dir.mkdir(parents=True,exist_ok=False)
@@ -445,7 +475,8 @@ def run(args):
         "codehash":codehash,"spec_sha256":sha_file(args.protocol),
         "years":spec["seasons"],"markets":list(MARKETS),
         "QB1": "previous_week_depth_only_until_2024_2025_UTC_if_past_kickoff",
-        "original_quotes_not_verified":True,"nonproduction":True}
+        "original_quotes_not_verified":True,"nonproduction":True,
+        "all_original_unidentifiable_source_rows":rejected_original_player_rows}
     freeze(args.output_dir/"FROZEN_START_RECEIPT.json",receipt)
     calibration=OnlineCalibrator()
     all_aggregated=[];artifacts=[];coverage=collections.Counter()
@@ -532,7 +563,9 @@ def run(args):
         "joint_crossmarket_team_pass_rush_volume":True,
         "QB_scramble_uses_shared_team_pass_volume":True,
         "weekly_and_season_source_archive":artifacts,
-        "source_receipt":receipt,"total_offered":sum(a["offered_contracts"] for a in artifacts),
+        "source_receipt":receipt,
+        "unidentifiable_original_player_rows_by_season":rejected_original_player_rows,
+        "total_offered":sum(a["offered_contracts"] for a in artifacts),
         "total_scored":sum(a["scored_contracts"] for a in artifacts),
         "season_summaries":{},
         "all_seasons_proper_scores":summarise(all_aggregated)}
