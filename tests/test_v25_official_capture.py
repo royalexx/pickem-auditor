@@ -82,6 +82,20 @@ class OfficialFinalGateTests(unittest.TestCase):
         self.assertEqual(settled,[])
         self.assertEqual(missing[0]["reason"],"missing_or_did_not_play_in_verified_final_boxscore")
 
+    def test_wrong_team_forecast_quarantined_without_discarding_valid_game(self):
+        expected=original_event_scope([contract(
+            player_id="8480069",team_id="TOR",opponent_id="COL")])[("NHL","orig-1")]
+        result,excluded=settlement_rows_for_final(expected,nhl_final(),
+            game_id="2026020286",
+            url="https://api-web.nhle.com/v1/gamecenter/2026020286/boxscore",
+            raw_digest="a"*64,source_path="nhl.json",
+            observed_at="2026-11-11T03:10:00Z")
+        self.assertEqual(result,[])
+        self.assertEqual(excluded[0]["reason"],
+                         "official_player_team_disagrees_frozen_offer")
+        self.assertEqual(excluded[0]["original_frozen_team"],"TOR")
+        self.assertEqual(excluded[0]["official_postgame_team"],"COL")
+
     def test_nba_final_all_combo_stats_and_threes(self):
         stat=nba_stat_rows(nba_final(),expected_teams={"NYK","MIL"})
         self.assertEqual(stat["42"]["points"],24)
