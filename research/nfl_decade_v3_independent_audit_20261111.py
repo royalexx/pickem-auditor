@@ -54,8 +54,14 @@ for i,entry in enumerate(W):
   issues["beyond_10yr_context"]+=1
  if tuple(pred["model_training"]["latest_training_year_week"]) >= (y,w):
   issues["regression_trained_on_future"]+=1
- if len(pred["game_context"])!=len({z["game_id"] for z in packet["games"]}):
-  issues["missing_game_simulation"]+=1
+ # The forecaster only simulates games with at least one offered contract.
+ # Games with zero candidates are coverage exclusions, not missing forecasts.
+ offered_games={f["game_id"] for f in pred["offers"]}
+ simulated_games=set(pred["game_context"])
+ if simulated_games!=offered_games:
+  issues["missing_offered_game_simulation"]+=1
+ for gid in sorted({z["game_id"] for z in packet["games"]}-offered_games):
+  zero_contract_scheduled_games.append({"year":y,"week":w,"game_id":gid})
  current=result["all"]
  r={"year":y,"week":w,"offered":result["offered"],"scored":result["scored_original"],
     "paired":result["paired"],"history_first_year":entry["first_history_year"],
@@ -177,7 +183,7 @@ report={"status":"INDEPENDENT_AUDIT_DONE_RESEARCH_ONLY","integrity_issues":dict(
  "source_is_original_pregame_certified":False,
  "all":full,"week_cluster_bootstrap":boot,"by_season":byyear,
  "markets":market,"calibration":conf,"top10_selected_before_outcomes":dict(top),
- "QB":dict(QB),"confidence_only_shrink_ablation":shrinks,
+ "QB":dict(QB),"zero_contract_scheduled_games":zero_contract_scheduled_games,"confidence_only_shrink_ablation":shrinks,
  "weekly_joint_v3_better":sum(r["delta_brier_new_minus_v2"]<0 for r in rows),
  "weekly_joint_v3_worse":sum(r["delta_brier_new_minus_v2"]>0 for r in rows),
  "constraints":["Legacy V2 baseline itself fitted with only three years of historical game records",
@@ -232,6 +238,6 @@ intro+=["","## Limitations and next actions","",
  ""]
 (OUT/"V3_FULL_AUDIT.md").write_text("\n".join(intro))
 print("INDEPENDENT_V3_DECADE_AUDIT_COMPLETE",json.dumps({
- "integrity":dict(issues),"overall":full,"boot":boot,"market":[{k:v for k,v in m.items() if k in ("market","n","delta_brier","delta_crps","hit80","claim80")} for m in market],
+ "integrity":dict(issues),"zero_contract_scheduled_games":zero_contract_scheduled_games,"overall":full,"boot":boot,"market":[{k:v for k,v in m.items() if k in ("market","n","delta_brier","delta_crps","hit80","claim80")} for m in market],
  "high":conf,"top10":dict(top),"QB":dict(QB),
  "shrink_only":shrinks,"week_wins":report["weekly_joint_v3_better"]},default=str),flush=True)
