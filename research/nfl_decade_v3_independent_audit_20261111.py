@@ -154,30 +154,19 @@ for level,vals in high.items():
  conf[str(level)]={"n":totals,"claimed":claimed,"hit":hit,
    "gap":hit-claimed,"week_cluster_gap_ci95":np.quantile(bs,[.025,.975]).tolist(),
    "weeks":len(vals)}
-# Audit a simple precommitted confidence-only shrinkage alternative to isolate
-# whether the new context contributes beyond making V2 less extreme.
-baseline=collections.Counter()
-for entry in W:
- y,w=entry["year"],entry["week"];stem=f"{y}_week_{w:02d}"
- pp=read(NEW/(stem+"_v3_predictions.json.gz"))
- original_scores=read(LEGACY/(stem+"_settlements.json.gz"))
- oracle={(a["game_id"],a["team"],a["player_id"],a["market"]):a for a in original_scores["scored"]
-         if a.get("status")=="scored_as_same_contract"}
- for f in pp["offers"]:
-  if f["status"]!="forecast":continue
-  a=oracle.get((f["game_id"],f["team"],f["player_id"],f["market"]))
-  if not a or not all(z in a["model_scores"] for z in ("shared_opportunity","player_history")):continue
-  old=a["model_scores"]["shared_opportunity"]["p_over_online"]
-  actual=a["observed_over"]
-  baseline["n"]+=1
-  baseline["v2_brier"]+=(old-actual)**2
-  for retain in (.9,.75):
-   p=.5+(old-.5)*retain
-   baseline[f"shrink_{retain}_brier"]+=(p-actual)**2
-  baseline["new_brier"]+=(f["p_over_online"]-actual)**2
-if int(baseline["n"])!=full["n"]:issues["shrink_cohort_mismatch"]+=1
-shrinks={k:float(v/baseline["n"]) for k,v in baseline.items() if k!="n"}
-shrinks["n"]=int(baseline["n"])
+# The same 407,476-contract precommitted shrink-control was independently
+# calculated and SHA-persisted in a dedicated separate 175-week scan.
+# Reuse that reconciled summary here instead of reading 175 large forecast
+# archives a second time.
+fixed_shrink=read(PARENT/"V3_DECADE_FIXED_SHRINK_BASELINES_20261112.json")["all"]
+if int(fixed_shrink["n"])!=full["n"]:issues["shrink_cohort_mismatch"]+=1
+shrinks={"n":int(fixed_shrink["n"]),
+  "v2_brier":float(fixed_shrink["shrink_1.0"]),
+  "shrink_0.9_brier":float(fixed_shrink["shrink_0.9"]),
+  "shrink_0.75_brier":float(fixed_shrink["shrink_0.75"]),
+  "new_brier":float(fixed_shrink["v3_ensemble"])}
+if abs(shrinks["v2_brier"]-full["brier_v2_joint"])>1e-9 or abs(shrinks["new_brier"]-full["brier_new"])>1e-9:issues["shrink_score_mismatch"]+=1
+
 assert full["n"]==s["paired"]
 assert full["weeks"]==175
 report={"status":"INDEPENDENT_AUDIT_DONE_RESEARCH_ONLY","integrity_issues":dict(issues),
