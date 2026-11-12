@@ -30,6 +30,15 @@ BRANCH = "data/live-observations"
 ROOT = Path(__file__).resolve().parents[1]
 TORONTO = ZoneInfo("America/Toronto")
 MAX_COMPRESSED = 8_000_000
+# Preserve a full 3-sport frozen input archive on free Basic CPU. 70 MB
+# rejected genuine prospective 2026-11-12 originals before writing any
+# recovery bytes. The compressed artifact still uses the 5 MB immutable
+# sharding/manifest path when above the single-file ceiling.
+MAX_SOURCE_ARCHIVE_BYTES = 256_000_000
+
+def check_source_archive_size(total_size: int) -> None:
+    if type(total_size) is not int or total_size < 0 or total_size > MAX_SOURCE_ARCHIVE_BYTES:
+        raise ValueError("original_forecast_source_archive_too_large")
 # GitHub contents API accepts immutable 5 MB binary part blobs; the manifest
 # is published LAST, so interrupted uploads do not expose partial cohorts.
 ARCHIVE_PART_BYTES = 5_000_000
@@ -371,8 +380,7 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
             if sha256(data)!=digest:
                 raise ValueError("modified_original_forecast_source_archive")
             total_size+=len(data)
-            if total_size>70_000_000:
-                raise ValueError("original_forecast_source_archive_too_large")
+            check_source_archive_size(total_size)
             source_input_archive.append({"path":relative,"sha256":digest,
                                          "bytes":len(data),
                                          "content_b64":base64.b64encode(data).decode("ascii")})
