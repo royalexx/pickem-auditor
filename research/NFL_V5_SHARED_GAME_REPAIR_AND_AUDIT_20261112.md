@@ -94,6 +94,34 @@ V5.1 freeze and game-state audit read the original persisted forecast/settlement
 - No per-contract legacy source fallback.
 - **Zero integrity violations**.
 
+## Original V4.1 defect reproduced with archived research inputs
+
+An isolated re-simulation of 2016 Week 2 using the frozen preweek packet found:
+
+| Scenario conservation condition | Original V4 | Repaired-QB V4.1 |
+|---|---:|---:|
+| Recent factor: QB + RB rush > team rush | 0 of 3,712 | **254 of 3,712 (6.84%)** |
+| Long factor: QB + RB rush > team rush | 0 of 3,712 | **250 of 3,712 (6.73%)** |
+| Max rushing attempts overallocated | 0 | **8 attempts** |
+
+This directly confirms the underlying post-hoc QB rewrite bug. It also establishes why a successful V4.1 *probability arithmetic* audit cannot certify *joint physical consistency*.
+
+### Existing V4 and V4.1 full-decade result and repaired audit
+
+The corrected independent V4/V4.1 forensic auditor completed all 175 weekly settlement files (2016–2025) on the same **407,476 matched contracts**, with **zero hash/chronology/settlement arithmetic violations**. The previous undefined `th` variable failure was removed and its two-week smoke regression passed before the full decade audit.
+
+| Aggregate metric | V4 | V4.1 | Frozen V3 |
+|---|---:|---:|---:|
+| Brier score | 0.23507765 | 0.23508627 | 0.23521197 |
+| Directional hit rate | 59.8897% | 59.8919% | 59.8909% |
+| Mean CRPS across mixed incompatible stat units (diagnostic only) | 3.46535 | 3.45362 | 3.45510 |
+
+V4.1 minus V4 Brier = **+0.00000863**, i.e. V4.1 did *not* improve the full-cohort binary proper score compared with V4, despite the QB repair. Mixed-market CRPS must not be a release comparator; compare each market separately. The original V4.1 simulator is **rejected on physical conservation grounds** regardless of its marginal Brier.
+
+Evidence files:
+- `reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/V4_INTERIM_INDEPENDENT_AUDIT/V4_V41_INTERIM_FORENSIC_REPORT.json` (now 175 weeks, despite legacy directory name)
+- `reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/V4_1_GAME_CONSERVATION_SMOKE_20261112.json`
+
 ## Remaining release requirements
 
 1. Improve participation/opportunity/efficiency distributions on matched chronological historic cohorts, not by manually rewriting final probabilities.
