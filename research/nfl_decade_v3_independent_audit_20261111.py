@@ -20,6 +20,7 @@ assert s["source_receipt"]["historical_source_capture_verified"] is False
 assert s["production_allowed"] is False
 W=s["weekly_archive"]
 issues=collections.Counter()
+zero_contract_scheduled_games=[]
 if sha((ROOT/"research/nfl_decade_context_v3_model_20261111.py").read_bytes())!=s["source_receipt"]["model_sha256"]:
  issues["current_model_code_differs_from_frozen_source_sha"]+=1
 if sha((ROOT/"research/nfl_decade_context_v3_run_20261111.py").read_bytes())!=s["source_receipt"]["runner_sha256"]:
