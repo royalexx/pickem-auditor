@@ -24,7 +24,8 @@ def atomic_bytes(path,content):
  try:
   with tmp.open("xb") as fh:
    fh.write(content);fh.flush();os.fsync(fh.fileno())
-  os.link(tmp,path)   # atomic no-clobber creation
+  verify(not path.exists(),"immutable_target_exists_before_rename_"+str(path))
+  os.replace(tmp,path)  # Deepnote mount supports atomic rename, not hard links
  finally:
   tmp.unlink(missing_ok=True)
  return base.sha(content)
