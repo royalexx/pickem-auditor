@@ -173,7 +173,8 @@ def _moments(pi, lam, posterior_a=None, posterior_b=None):
 
 def fit_model(own_receipts, peer_receipts, *, archive_root,player_id,
               position_group,input_freeze_at,event_start_at,role_change=False,
-              subject_out=False,context_affected=False):
+              subject_out=False,context_affected=False,
+              target_event_id=None,current_team_id=None):
     """Return immutable-ready full distribution parameters and source hashes.
 
     Cohort A only. The calling layer MUST independently verify current official
@@ -233,6 +234,7 @@ def fit_model(own_receipts, peer_receipts, *, archive_root,player_id,
       "tier_publication_allowed":False,
       "conditioning":"played_game; no DNP mass in this distribution",
       "position_group":position_group,"player_id":str(player_id),
+      "target_event_id":target_event_id,"current_team_id":current_team_id,
       "input_freeze_at":input_freeze_at,"event_start_at":event_start_at,
       "rate_a":a,"rate_b":b,"gamma_parameterization":"shape_rate",
       "peer_rate":rate_peer,"tau_minutes":TAU_MINUTES,"eta_games":ETA_GAMES,
@@ -400,6 +402,10 @@ def forecast_for_approved_quote(model,quote,*,source_root,roster_root,roster_rec
             quote.quote_kind!="real" or quote.sport!="NHL" or
             quote.stat_key!="shots on goal" or quote.period!="full"):
         raise ExperimentBlocked("UNMATCHED_OR_SYNTHETIC_QUOTE")
+    if (not model.get("target_event_id") or not model.get("current_team_id") or
+            quote.event_id!=model["target_event_id"] or
+            quote.team_id!=model["current_team_id"]):
+        raise ExperimentBlocked("TARGET_EVENT_TEAM_UNVERIFIED")
     if (quote.player_id!=model.get("player_id") or
             _utc(model["input_freeze_at"],"input_freeze_at")>
             _utc(forecast_at,"forecast_at") or
