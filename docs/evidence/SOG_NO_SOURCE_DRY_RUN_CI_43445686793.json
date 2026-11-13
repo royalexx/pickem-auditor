@@ -1,0 +1,21 @@
+{
+  "evidence_schema": "v25_sog_ci_no_source_receipt_copy_v1",
+  "ci_run": 43445686793,
+  "attempt_stdout_exact": {
+    "attempted_at": "2026-11-13T14:45:36.437392Z",
+    "contract_id": null,
+    "event_id": null,
+    "experiment_id": "EXP-V25-NHL-SOG-EXPOSURE-EB-001",
+    "outcome_used": false,
+    "production_selection_allowed": false,
+    "reason": "ExperimentBlocked:RAW_REAL_OFFER_RECEIPT_MISSING",
+    "schema": "v25_sog_prospective_attempt_v1",
+    "source_semantics": "collector_possession_not_upstream_publication",
+    "status": "ABSTAIN",
+    "tier_publication_allowed": false
+  },
+  "attempt_canonical_sha256": "ed52bc279e6b7e6b80a2e44659b68a3e3f27a7e30634eb533e6b08ac305e6284",
+  "source": "https://github.com/royalexx/pickem-auditor/actions/runs/43445686793",
+  "provenance": "transcription from GitHub Actions test stdout; not first-party returned runner artifact",
+  "note": "No authentic quote/roster/historical input was supplied; no forecast/probabilities generated"
+}
