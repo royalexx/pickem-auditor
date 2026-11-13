@@ -119,7 +119,8 @@ def verify_observation(receipt, archive_root, freeze_at):
     y=_num(d.get("shots_on_goal"),"SOG")
     if not 0<w<=MAX_ICE_MINUTES or y<0 or not y.is_integer():
         raise ExperimentBlocked("INVALID_SOG_OR_TOI")
-    return {**d,"source_sha256":digest,"source_received_at":receipt["received_at"]}
+    return {**d,"source_sha256":digest,"source_received_at":receipt["received_at"],
+            "source_archive_path":rel,"source_url":url}
 
 
 def _clean_history(receipts, *, root, freeze, intended=None, position=None):
@@ -240,6 +241,13 @@ def fit_model(own_receipts, peer_receipts, *, archive_root,player_id,
       "peer_games":len(peers),
       "own_source_sha256":[o["source_sha256"] for o in own],
       "peer_source_sha256":[o["source_sha256"] for o in peers],
+      "source_manifest":[
+          {"archive_path":o["source_archive_path"],
+           "content_sha256":o["source_sha256"],
+           "received_at":o["source_received_at"],"source_uri":o["source_url"],
+           "player_id":o["player_id"],"event_id":o["event_id"]}
+          for o in own+peers],
+      "fit_data_cutoff_at":max(o["source_received_at"] for o in own+peers),
       "mean":mean,"variance":var,
       "zero_probability":math.fsum(p*_pmf_gamma_poisson(0,a,b,w) for w,p in pi),
       "model_id":"SOG_EXPOSURE_GAMMA_POISSON_V1"
@@ -372,3 +380,108 @@ def power_null_simulation(*,dates=40,replicates=2000,seed=20261112,
             "one_sided_alpha":0.025,
             "empirical_type1_rate":rejects/replicates,
             "not_a_formal_power_guarantee":True}
+
+
+def forecast_for_approved_quote(model,quote,*,source_root,roster_root,roster_receipts,
+                                code_commit,run_id,forecast_id,forecast_at,
+                                decision_cutoff_at):
+    """Strict shadow-only FixedLine adapter with separate full-distribution hash.
+
+    A source-hashed GENERATIVE model supports many alternate quotes. Each
+    immutable ForecastSnapshot uses FixedLineDistribution only at its exact
+    offer, never pretending a fixed-line object is the full SOG likelihood.
+    """
+    from .contracts import (MarketQuote,ForecastSnapshot,SourceReceipt,
+                            FixedLineDistribution)
+    from .phase15_nhl_roster import membership_status
+    if not isinstance(quote,MarketQuote) or not quote.accepted or (
+            quote.quote_kind!="real" or quote.sport!="NHL" or
+            quote.stat_key!="shots on goal" or quote.period!="full"):
+        raise ExperimentBlocked("UNMATCHED_OR_SYNTHETIC_QUOTE")
+    if (quote.player_id!=model.get("player_id") or
+            _utc(model["input_freeze_at"],"input_freeze_at")>
+            _utc(forecast_at,"forecast_at") or
+            _utc(model["event_start_at"],"event_start")!=
+            _utc(quote.event_start_at,"quote_event_start")):
+        raise ExperimentBlocked("MODEL_QUOTE_IDENTITY_OR_TIME_MISMATCH")
+    path=quote.quote_archive_path
+    if not isinstance(path,str) or not path or path.startswith("/") or (
+            "\\" in path or ".." in Path(path).parts):
+        raise ExperimentBlocked("ORIGINAL_QUOTE_ARCHIVE_MISSING")
+    root=Path(source_root).resolve()
+    file=(root/path).resolve()
+    if not file.is_relative_to(root) or not file.is_file() or (
+            hashlib.sha256(file.read_bytes()).hexdigest()!=quote.quote_receipt_sha256):
+        raise ExperimentBlocked("ORIGINAL_QUOTE_HASH_MISMATCH")
+    membership=membership_status(quote.player_id,quote.team_id,quote.opponent_id,
+        receipts=roster_receipts,source_root=roster_root,
+        forecast_at=forecast_at,event_start=quote.event_start_at)
+    if membership.get("status")!="pre_event_team_membership_confirmed":
+        raise ExperimentBlocked("NHL_ROSTER_MEMBERSHIP_UNVERIFIED")
+    # The official roster differentiates F and D; verify the group, not just
+    # general 'skater' membership. Opponent roster also guards traded players.
+    team_roster=roster_receipts.get(quote.team_id)
+    team_bytes=(Path(roster_root)/team_roster["raw_archive_path"]).read_bytes()
+    roster=json.loads(team_bytes)
+    role="F" if any(str(x.get("id"))==quote.player_id for x in roster["forwards"]) else (
+         "D" if any(str(x.get("id"))==quote.player_id for x in roster["defensemen"]) else None)
+    if role!=model["position_group"]:
+        raise ExperimentBlocked("CURRENT_OFFICIAL_POSITION_MISMATCH")
+    sources=[]
+    seen=set()
+    for record in model["source_manifest"]:
+        ident=record["content_sha256"]
+        if ident in seen:continue
+        seen.add(ident)
+        sources.append(SourceReceipt(
+            source_id="sog_observation_"+ident[:24],
+            first_available_at=record["received_at"],
+            retrieved_at=record["received_at"],
+            content_sha256=ident,
+            source_uri=None,archive_path=record["archive_path"],
+            source_kind="archive_possession"))
+    p=forecast_lines(model,[quote.line])[format(float(quote.line),"g")]
+    dist=FixedLineDistribution(float(quote.line),p["over"],p["under"],p["push"])
+    snap=ForecastSnapshot(
+        forecast_id=forecast_id,run_id=run_id,
+        model_id=model["model_id"],model_version=SCHEMA,
+        quote_id=quote.quote_id,contract_id=quote.contract_id,
+        event_id=quote.event_id,sport=quote.sport,league=quote.league,
+        season=quote.season,team_id=quote.team_id,opponent_id=quote.opponent_id,
+        player_id=quote.player_id,stat_key=quote.stat_key,period=quote.period,
+        line=quote.line,quote_receipt_sha256=quote.quote_receipt_sha256,
+        forecast_at=forecast_at,input_freeze_at=model["input_freeze_at"],
+        decision_cutoff_at=decision_cutoff_at,
+        model_training_cutoff_at=model["fit_data_cutoff_at"],
+        model_artifact_sha256=stable_hash(model),code_commit=code_commit,
+        sources=tuple(sources),distribution=dist)
+    snap.validate_against(quote)
+    return {"status":"RESEARCH_SHADOW_ONLY",
+            "snapshot":snap.to_record(),
+            "fixed_line_is_not_full_distribution":True,
+            "full_distribution_sha256":stable_hash(model),
+            "full_distribution_artifact":model,
+            "model_promotion_allowed":False,"tier_publication_allowed":False}
+
+
+def count_log_loss(model,observed_sog,kind="full_gamma_poisson_exposure"):
+    y=_num(observed_sog,"observed_sog")
+    if y<0 or not y.is_integer():raise ExperimentBlocked("INVALID_SETTLEMENT_COUNT")
+    mass=_mass(model,int(y),kind)
+    return -math.log(max(mass,1e-300))
+
+
+def count_crps(model,observed_sog,kind="full_gamma_poisson_exposure",
+               tolerance=1e-12,max_terms=2500):
+    """Discrete CRPS via sum_k [F(k)-1{y<=k}]^2; fail on material tail."""
+    y=_num(observed_sog,"observed_sog")
+    if y<0 or not y.is_integer():raise ExperimentBlocked("INVALID_SETTLEMENT_COUNT")
+    acc=0.
+    cumulative=0.
+    for k in range(max_terms):
+        mass=_mass(model,k,kind)
+        cumulative+=mass
+        acc+=(cumulative-float(y<=k))**2
+        if cumulative>=1-tolerance and k>=y:
+            return acc
+    raise ExperimentBlocked("TAIL_TRUNCATION_NOT_CERTIFIED")
