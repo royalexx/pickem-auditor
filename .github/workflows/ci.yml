@@ -4,8 +4,13 @@ on:
     paths:
       - 'scripts/**'
       - 'tests/**'
+      - 'v2/**'
+      - 'config/**'
+      - 'docs/**'
+      - 'AGENTS.md'
+      - 'README.md'
       - '.cursor/**'
-      - '.github/workflows/ci.yml'
+      - '.github/workflows/**'
   pull_request:
   workflow_dispatch:
 permissions:
@@ -19,7 +24,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Compile skill Python modules
-        run: python -m compileall -q scripts tests
+        run: python -m compileall -q scripts tests v2
       - name: Validate persistent shadow-store Bash syntax
         run: bash -n scripts/shadow_store.sh && bash -n scripts/history_warehouse_store.sh
       - name: Validate GitHub Actions workflow YAML
