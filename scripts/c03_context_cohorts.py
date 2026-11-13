@@ -80,7 +80,9 @@ def _url(raw):
     uri=urlsplit(raw)
     if uri.scheme!="https" or not uri.hostname or uri.username or uri.password:
         raise CohortError("SOURCE_URL_UNTRUSTED")
-    return uri._replace(query="",fragment="").geturl()
+    # Preserve the exact event query; stripping it makes distinct events alias.
+    # The live collector rejects secret-bearing query keys before archiving.
+    return uri._replace(fragment="").geturl()
 
 
 def archive_response(raw,*,archive_root,source_url,observed_at,received_at,
@@ -203,6 +205,12 @@ def verify_claim(claim,receipts,*,archive_root,freeze,event_start,
     if claim["event_id"]!=expected_event or claim["team_id"]!=expected_team:
         raise CohortError("SOURCE_IDENTITY_MISMATCH")
     observed=_pointer(doc,claim.get("value_path"))
+    if claim.get("value_transform") == "boolean_active_to_status_v1":
+        if claim["kind"] not in ("subject_status","teammate_status") or type(observed) is not bool:
+            raise CohortError("CLAIM_BOOL_TRANSFORM_INVALID")
+        observed="active" if observed else "out"
+    elif claim.get("value_transform") not in (None,"literal_identity_v1"):
+        raise CohortError("CLAIM_TRANSFORM_NOT_SUPPORTED")
     value=claim.get("value")
     if type(value) is not type(observed) or value!=observed:
         raise CohortError("SOURCE_CLAIM_VALUE_MISMATCH")
@@ -602,16 +610,21 @@ def strict_c03_snapshot_status(row,*,archive_root):
         except (CohortError,TypeError,OSError) as exc:
             return False,str(exc)
         receipts=ctx.get("source_receipts") or []
-        if not receipts or any(r.get("transport_attestation")!="collector_live_transport_verified"
-                               or not r.get("transport_capture_id") for r in receipts):
+        if not receipts or any(
+                r.get("transport_attestation")!="collector_signed_tls_bytes_v1"
+                for r in receipts):
             return False,"C03_LIVE_TRANSPORT_NOT_ATTESTED"
+        # Do not trust a recomputable metadata hash or an in-memory attested
+        # flag. Verify a separate collector-signed immutable receipt and
+        # original TLS-fetched bytes in the independent strict validator.
+        from c03_live_transport import verify_signed_capture
         for r in receipts:
-            expected=neutral_digest({
-                 "source_id":r.get("source_id"),"url":r.get("source_url"),
-                 "observed_at":r.get("observed_at"),"received_at":r.get("received_at"),
-                 "body_sha256":r.get("body_sha256")})
-            if expected!=r.get("transport_capture_id"):
-                return False,"C03_TRANSPORT_ATTESTATION_MISMATCH"
+            try:
+                verify_signed_capture(r,archive_root=archive_root,
+                    freeze=row.get("input_freeze_at"),
+                    event_start=row.get("event_start"))
+            except (CohortError,ValueError,OSError) as exc:
+                return False,"C03_COLLECTOR_PROOF_INVALID:"+str(exc)
         # Provider publication truth is never inferred from possession.
         if any(r.get("source_publication_truth_verified") is not False for r in receipts):
             return False,"C03_UPSTREAM_PUBLICATION_CLAIM_INVALID"
