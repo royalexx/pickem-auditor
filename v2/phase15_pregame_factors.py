@@ -20,6 +20,7 @@ from .official_nba_nhl_capture import SettlementCaptureError, instant
 SCHEMA_RECEIPT_V1 = "phase15_pregame_factor_receipt_v1"
 SCHEMA_MANIFEST_V2 = "v25_phase15_pregame_factor_capture_v2"
 SCHEMA_BUNDLE_V1 = "v25_phase15_frozen_capture_bundle_v1"
+SCHEMA_PRODUCER_OUTPUT = "v25_phase15_original_producer_factor_output_v1"
 SCHEMA_VERSION = "2.0.0"
 DEFAULT_EXPERIMENT = "V25-P1.5-07-PREGAME-FACTOR-CAPTURE"
 
@@ -118,7 +119,7 @@ def _valid_content_digest(digest: str | None) -> bool:
     return True
 
 
-def _verify_archived_source(sr: dict, *, source_root: Path) -> dict:
+def _read_verified_archive(sr: dict, *, source_root: Path) -> tuple[dict[str, str | None], bytes]:
     if not isinstance(sr, dict):
         raise SettlementCaptureError("factor_source_invalid")
     relative = sr.get("archive_path")
@@ -140,9 +141,10 @@ def _verify_archived_source(sr: dict, *, source_root: Path) -> dict:
     path = (root / relative).resolve()
     if not path.is_relative_to(root) or not path.is_file():
         raise SettlementCaptureError("factor_source_missing")
-    if _digest_bytes(path.read_bytes()) != hash_:
+    raw = path.read_bytes()
+    if _digest_bytes(raw) != hash_:
         raise SettlementCaptureError("factor_source_hash_mismatch")
-    return {
+    meta: dict[str, str | None] = {
         "source_identifier": relative,
         "source_content_sha256": hash_,
         "source_retrieved_at": instant(retrieved).isoformat().replace("+00:00", "Z"),
@@ -152,6 +154,138 @@ def _verify_archived_source(sr: dict, *, source_root: Path) -> dict:
             else None
         ),
     }
+    return meta, raw
+
+
+def parse_producer_output_document(raw: bytes) -> dict:
+    try:
+        doc = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise SettlementCaptureError("producer_output_not_json") from exc
+    if not isinstance(doc, dict) or doc.get("schema") != SCHEMA_PRODUCER_OUTPUT:
+        raise SettlementCaptureError("producer_output_schema_missing")
+    required = (
+        "model_version",
+        "run_id",
+        "forecast_id",
+        "sport",
+        "event_id",
+        "player_id",
+        "stat",
+        "input_freeze_at",
+        "forecast_at",
+        "factor_predictions",
+    )
+    for key in required:
+        if doc.get(key) in (None, ""):
+            raise SettlementCaptureError("producer_output_field_missing:" + key)
+    if not isinstance(doc["factor_predictions"], list):
+        raise SettlementCaptureError("producer_output_predictions_invalid")
+    return doc
+
+
+def _strict_predicted_value_equal(claimed: Any, archived: Any, factor_name: str) -> None:
+    claimed_n = _num(claimed, "claimed_" + factor_name)
+    archived_n = _num(archived, "archived_" + factor_name)
+    if claimed_n != archived_n:
+        raise SettlementCaptureError("factor_value_source_binding_mismatch:" + factor_name)
+
+
+def _prediction_for_factor(doc: dict, factor_name: str) -> dict:
+    for pred in doc["factor_predictions"]:
+        if not isinstance(pred, dict):
+            continue
+        if pred.get("factor_name") == factor_name:
+            if pred.get("predicted_value") is None:
+                raise SettlementCaptureError("producer_output_prediction_missing_value:" + factor_name)
+            if not isinstance(pred.get("units"), str) or not pred["units"]:
+                raise SettlementCaptureError("producer_output_prediction_missing_units:" + factor_name)
+            return pred
+    raise SettlementCaptureError("producer_output_missing_factor_prediction:" + factor_name)
+
+
+def _assert_producer_output_identity(
+    doc: dict,
+    *,
+    sport: str,
+    stat: str,
+    event_id: str,
+    player_id: str,
+    forecast_at: str,
+    input_freeze_at: str,
+    model_training_cutoff_at: str | None,
+    model_version: str | None,
+    run_id: str | None,
+    forecast_id: str | None,
+) -> None:
+    checks = (
+        ("sport", sport),
+        ("stat", stat),
+        ("event_id", str(event_id)),
+        ("player_id", str(player_id)),
+        ("forecast_at", forecast_at),
+        ("input_freeze_at", input_freeze_at),
+    )
+    for field, expected in checks:
+        if str(doc.get(field)) != str(expected):
+            raise SettlementCaptureError("producer_output_identity_mismatch:" + field)
+    if model_version is not None and str(doc.get("model_version")) != str(model_version):
+        raise SettlementCaptureError("producer_output_model_version_mismatch")
+    if run_id is not None and str(doc.get("run_id")) != str(run_id):
+        raise SettlementCaptureError("producer_output_run_id_mismatch")
+    if forecast_id is not None and str(doc.get("forecast_id")) != str(forecast_id):
+        raise SettlementCaptureError("producer_output_forecast_id_mismatch")
+    if model_training_cutoff_at is not None:
+        if instant(doc["model_training_cutoff_at"]) != instant(model_training_cutoff_at):
+            raise SettlementCaptureError("producer_output_training_cutoff_mismatch")
+
+
+def bind_factor_claim_to_archive(
+    sr: dict,
+    *,
+    source_root: Path,
+    sport: str,
+    stat: str,
+    event_id: str,
+    player_id: str,
+    factor_name: str,
+    expected_units: str,
+    claimed_value: Any,
+    forecast_at: str,
+    input_freeze_at: str,
+    model_training_cutoff_at: str | None,
+    model_version: str | None,
+    run_id: str | None,
+    forecast_id: str | None,
+) -> tuple[dict[str, str | None], float, dict]:
+    meta, raw = _read_verified_archive(sr, source_root=source_root)
+    doc = parse_producer_output_document(raw)
+    _assert_producer_output_identity(
+        doc,
+        sport=sport,
+        stat=stat,
+        event_id=event_id,
+        player_id=player_id,
+        forecast_at=forecast_at,
+        input_freeze_at=input_freeze_at,
+        model_training_cutoff_at=model_training_cutoff_at,
+        model_version=model_version,
+        run_id=run_id,
+        forecast_id=forecast_id,
+    )
+    pred = _prediction_for_factor(doc, factor_name)
+    if pred["units"] != expected_units:
+        raise SettlementCaptureError("producer_output_units_mismatch:" + factor_name)
+    _strict_predicted_value_equal(claimed_value, pred["predicted_value"], factor_name)
+    bound_value = _num(pred["predicted_value"], factor_name)
+    binding = {
+        "producer_output_schema": SCHEMA_PRODUCER_OUTPUT,
+        "producer_forecast_id": doc["forecast_id"],
+        "producer_run_id": doc["run_id"],
+        "producer_model_version": doc["model_version"],
+        "archived_predicted_value": bound_value,
+    }
+    return meta, bound_value, binding
 
 
 def _resolve_factor_source_receipt(fname: str, producer: dict) -> dict | None:
@@ -362,6 +496,9 @@ def _rows_from_producer(
     input_freeze_at: str,
     forecast_at: str,
     model_training_cutoff_at: str | None,
+    model_version: str | None,
+    run_id: str | None,
+    forecast_id: str | None,
     source_root: Path | None,
 ) -> list[dict]:
     _reject_postgame_keys(producer.get("factors"), "producer_factors")
@@ -392,29 +529,44 @@ def _rows_from_producer(
                 row = {
                     **base,
                     "status": STATUS_INVALID,
-                    "predicted_value": factors[fname],
+                    "predicted_value": None,
                     "invalid_reason": "missing_verified_source_receipt",
                 }
             else:
                 try:
-                    verified = _verify_archived_source(sr, source_root=source_root)
+                    meta, bound_value, binding = bind_factor_claim_to_archive(
+                        sr,
+                        source_root=source_root,
+                        sport=sport,
+                        stat=str(stat),
+                        event_id=str(event_id),
+                        player_id=str(player_id),
+                        factor_name=fname,
+                        expected_units=units,
+                        claimed_value=factors[fname],
+                        forecast_at=forecast_at,
+                        input_freeze_at=input_freeze_at,
+                        model_training_cutoff_at=model_training_cutoff_at,
+                        model_version=model_version,
+                        run_id=run_id,
+                        forecast_id=forecast_id,
+                    )
                 except SettlementCaptureError as exc:
                     reason = exc.args[0] if exc.args else "source_verification_failed"
                     row = {
                         **base,
                         "status": STATUS_INVALID,
-                        "predicted_value": factors[fname],
+                        "predicted_value": None,
                         "invalid_reason": reason,
                     }
                 else:
                     row = {
                         **base,
                         "status": STATUS_AVAILABLE,
-                        "predicted_value": factors[fname],
-                        **verified,
+                        "predicted_value": bound_value,
+                        **{k: v for k, v in meta.items() if v is not None},
+                        "source_to_value_binding": binding,
                     }
-                    if verified.get("source_available_at"):
-                        row["source_available_at"] = verified["source_available_at"]
         rows.append(
             validate_factor_row(
                 row,
@@ -470,6 +622,9 @@ def build_contract_capture(
         input_freeze_at=input_freeze,
         forecast_at=forecast,
         model_training_cutoff_at=contract.get("model_training_cutoff_at"),
+        model_version=contract.get("model_version"),
+        run_id=contract.get("producer_run_id") or contract.get("run_id"),
+        forecast_id=contract.get("original_forecast_contract_id") or contract.get("forecast_id"),
         source_root=source_root,
     )
     return {
@@ -782,15 +937,48 @@ def validate_pregame_factor_receipt(receipt, *, source_root, possession_clock):
         path = (root / relative).resolve()
         if not path.is_relative_to(root) or not path.is_file():
             raise SettlementCaptureError("factor_source_missing")
-        if not isinstance(hash_, str) or _digest_bytes(path.read_bytes()) != hash_:
-            raise SettlementCaptureError("factor_source_hash_mismatch")
         if instant(sr.get("retrieved_at")) > cap:
             raise SettlementCaptureError("factor_future_source")
-    values = receipt.get("factors")
-    if not isinstance(values, dict) or set(values) != set(FIELDS_REQUIRED_V1[sport]):
+    claimed = receipt.get("factors")
+    if not isinstance(claimed, dict) or set(claimed) != set(FIELDS_REQUIRED_V1[sport]):
         raise SettlementCaptureError("factor_fields_missing_or_unrecognized")
-    _reject_postgame_keys(values, "v1_factors")
-    val = {key: _num(values[key], key) for key in FIELDS_REQUIRED_V1[sport]}
+    _reject_postgame_keys(claimed, "v1_factors")
+    freeze_s = receipt.get("input_freeze_at") or receipt.get("captured_at")
+    forecast_s = receipt.get("forecast_at") or freeze_s
+    if not freeze_s or not forecast_s:
+        raise SettlementCaptureError("factor_timing_missing")
+    parsed_docs: dict[str, dict] = {}
+    val: dict[str, float] = {}
+    for sr in sources:
+        _, raw = _read_verified_archive(sr, source_root=root)
+        relative = sr["archive_path"]
+        doc = parsed_docs.get(relative)
+        if doc is None:
+            doc = parse_producer_output_document(raw)
+            parsed_docs[relative] = doc
+            _assert_producer_output_identity(
+                doc,
+                sport=sport,
+                stat=stat,
+                event_id=receipt["event_id"],
+                player_id=receipt["player_id"],
+                forecast_at=forecast_s,
+                input_freeze_at=freeze_s,
+                model_training_cutoff_at=receipt.get("model_training_cutoff_at"),
+                model_version=receipt.get("model_version"),
+                run_id=receipt.get("producer_run_id"),
+                forecast_id=receipt.get("forecast_id"),
+            )
+        bound = sr.get("factor_names") or list(FIELDS_REQUIRED_V1[sport])
+        for fname in bound:
+            pred = _prediction_for_factor(doc, fname)
+            expected_units = next(u for n, _c, u in factor_specs(sport, stat) if n == fname)
+            if pred["units"] != expected_units:
+                raise SettlementCaptureError("producer_output_units_mismatch:" + fname)
+            _strict_predicted_value_equal(claimed[fname], pred["predicted_value"], fname)
+            val[fname] = _num(pred["predicted_value"], fname)
+    if set(val) != set(FIELDS_REQUIRED_V1[sport]):
+        raise SettlementCaptureError("factor_archive_binding_incomplete")
     if sport == "NHL":
         if val["team_unblocked_attempts"] < 0 or any(
             not 0 <= val[k] <= 1

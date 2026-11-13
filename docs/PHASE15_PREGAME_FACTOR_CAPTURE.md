@@ -39,7 +39,9 @@ Persist genuinely pregame, time-frozen opportunity-factor evidence for later Pha
 }
 ```
 
-Omitted `producer_factors` or partial factor dicts yield per-factor **`UNMEASURED`** rows (never imputed). Numeric factors without a **per-factor verified source receipt** (via `factor_names` on a `source_receipts` entry or `factor_source_receipts[factor_name]`) are recorded **`INVALID`**, never `AVAILABLE`. Placeholder digests (`0`*64), inline source ids, and unarchived bytes are rejected.
+Omitted `producer_factors` or partial factor dicts yield per-factor **`UNMEASURED`** rows (never imputed).
+
+**Source-to-value binding:** archived bytes must parse as `v25_phase15_original_producer_factor_output_v1` and carry matching identity (`model_version`, `run_id`, `forecast_id`, sport, event, player, stat, freeze/forecast timestamps) plus an exact `predicted_value` for that `factor_name` (strict equality, no silent rounding). Receipt SHA-256 alone is insufficient; non-producer JSON (e.g. metadata-only blobs) cannot authenticate numeric factors.
 
 ### Output manifest — `v25_phase15_pregame_factor_capture_v2`
 

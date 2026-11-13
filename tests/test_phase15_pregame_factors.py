@@ -15,10 +15,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from v2.official_nba_nhl_capture import SettlementCaptureError
 from v2.phase15_pregame_factors import (
+    SCHEMA_PRODUCER_OUTPUT,
     STATUS_AVAILABLE,
     STATUS_INVALID,
     STATUS_UNMEASURED,
     build_capture_manifest,
+    factor_specs,
     integrate_shadow_factor_capture,
     make_shadow_receipt,
     manifest_canonical_hash,
@@ -29,30 +31,72 @@ from v2.phase15_pregame_factors import (
 CLOCK = "2026-11-11T18:00:00Z"
 EVENT = "2026-11-12T00:00:00Z"
 RUN_ID = "test-run-7f3a"
+FORECAST_ID = "forecast-test-001"
+
+
+def write_producer_archive(
+    root: Path,
+    relative: str,
+    *,
+    sport: str,
+    stat: str,
+    factors: dict[str, float],
+    identity: dict,
+) -> str:
+    predictions = [
+        {
+            "factor_name": fname,
+            "units": next(u for n, _c, u in factor_specs(sport, stat) if n == fname),
+            "predicted_value": value,
+        }
+        for fname, value in factors.items()
+    ]
+    doc = {
+        "schema": SCHEMA_PRODUCER_OUTPUT,
+        "model_version": identity["model_version"],
+        "run_id": identity.get("run_id", RUN_ID),
+        "forecast_id": identity.get("forecast_id", FORECAST_ID),
+        "sport": sport,
+        "event_id": identity["event_id"],
+        "player_id": identity["player_id"],
+        "stat": stat,
+        "input_freeze_at": identity["input_freeze_at"],
+        "forecast_at": identity["forecast_at"],
+        "model_training_cutoff_at": identity.get("model_training_cutoff_at"),
+        "factor_predictions": predictions,
+    }
+    path = root / relative
+    path.write_text(json.dumps(doc, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def producer_data(root, sport="NHL", *, omit=None):
-    (root / "one.json").write_text('{"captured_before_forecast":true}', encoding="utf-8")
-    src = root / "one.json"
-    digest = hashlib.sha256(src.read_bytes()).hexdigest()
-    ret = {
+    identity = {
         "sport": sport,
         "stat": "shots on goal" if sport == "NHL" else "pra",
         "event_id": "pregame-event",
         "player_id": "123",
         "model_version": "shadow-study-001",
+        "input_freeze_at": "2026-11-11T17:30:00Z",
+        "forecast_at": "2026-11-11T17:30:00Z",
+        "model_training_cutoff_at": "2026-11-10T00:00:00Z",
+        "run_id": RUN_ID,
+        "forecast_id": FORECAST_ID,
+    }
+    ret = {
+        **{k: identity[k] for k in ("sport",) if k in identity},
+        "stat": identity["stat"],
+        "event_id": identity["event_id"],
+        "player_id": identity["player_id"],
+        "model_version": identity["model_version"],
+        "forecast_id": identity["forecast_id"],
+        "producer_run_id": identity["run_id"],
         "period": "full",
         "event_start": EVENT,
-        "forecast_at": "2026-11-11T17:30:00Z",
-        "input_freeze_at": "2026-11-11T17:30:00Z",
-        "model_training_cutoff_at": "2026-11-10T00:00:00Z",
-        "source_receipts": [
-            {
-                "archive_path": "one.json",
-                "sha256": digest,
-                "retrieved_at": "2026-11-11T17:00:00Z",
-            }
-        ],
+        "forecast_at": identity["forecast_at"],
+        "input_freeze_at": identity["input_freeze_at"],
+        "model_training_cutoff_at": identity["model_training_cutoff_at"],
+        "source_receipts": [],
     }
     if sport == "NHL":
         factors = {
@@ -75,7 +119,15 @@ def producer_data(root, sport="NHL", *, omit=None):
     if omit:
         factors.pop(omit)
     ret["factors"] = factors
-    ret["source_receipts"][0]["factor_names"] = list(factors.keys())
+    digest = write_producer_archive(root, "one.json", sport=sport, stat=ret["stat"], factors=factors, identity=identity)
+    ret["source_receipts"] = [
+        {
+            "archive_path": "one.json",
+            "sha256": digest,
+            "retrieved_at": "2026-11-11T17:00:00Z",
+            "factor_names": list(factors.keys()),
+        }
+    ]
     return ret
 
 
@@ -101,6 +153,9 @@ def frozen_bundle(root, sport="NHL", *, full=True):
                     "forecast_at": prod["forecast_at"],
                     "input_freeze_at": prod["input_freeze_at"],
                     "model_training_cutoff_at": prod.get("model_training_cutoff_at"),
+                    "model_version": prod.get("model_version"),
+                    "producer_run_id": prod.get("producer_run_id"),
+                    "original_forecast_contract_id": prod.get("forecast_id"),
                     "producer_factors": {
                         "factors": prod.get("factors"),
                         "source_receipts": prod.get("source_receipts"),
@@ -303,6 +358,95 @@ class FactorReceiptTests(unittest.TestCase):
             nc = manifest["negative_control_receipt"]
             self.assertEqual(nc["expected_status"], STATUS_INVALID)
 
+    def test_non_producer_archive_cannot_authenticate_factors(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "one.json").write_text('{"captured_before_forecast": true}\n', encoding="utf-8")
+            digest = hashlib.sha256((root / "one.json").read_bytes()).hexdigest()
+            factors = {
+                "team_unblocked_attempts": 60,
+                "probability_active": 0.95,
+                "individual_share_if_active": 0.08,
+                "on_target_probability": 0.60,
+            }
+            bundle = {
+                "schema": "v25_phase15_frozen_capture_bundle_v1",
+                "experiment_id": "EXP-TEST",
+                "run_id": RUN_ID,
+                "contracts": [
+                    {
+                        "sport": "NHL",
+                        "stat": "shots on goal",
+                        "event_id": "pregame-event",
+                        "player_id": "123",
+                        "game_date": "2026-11-11",
+                        "event_start": EVENT,
+                        "forecast_at": "2026-11-11T17:30:00Z",
+                        "input_freeze_at": "2026-11-11T17:30:00Z",
+                        "model_training_cutoff_at": "2026-11-10T00:00:00Z",
+                        "model_version": "shadow-study-001",
+                        "producer_run_id": RUN_ID,
+                        "original_forecast_contract_id": FORECAST_ID,
+                        "producer_factors": {
+                            "factors": factors,
+                            "source_receipts": [
+                                {
+                                    "archive_path": "one.json",
+                                    "sha256": digest,
+                                    "retrieved_at": "2026-11-11T17:00:00Z",
+                                    "factor_names": list(factors.keys()),
+                                }
+                            ],
+                        },
+                    }
+                ],
+            }
+            manifest = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
+            rows = manifest["contracts"][0]["factor_rows"]
+            self.assertEqual(len(rows), 4)
+            self.assertTrue(all(r["status"] == STATUS_INVALID for r in rows))
+            self.assertFalse(any(r["status"] == STATUS_AVAILABLE for r in rows))
+
+    def test_valid_producer_archive_binds_all_four_available(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest = build_capture_manifest(frozen_bundle(root), source_root=root, observed_clock=CLOCK)
+            rows = manifest["contracts"][0]["factor_rows"]
+            self.assertTrue(all(r["status"] == STATUS_AVAILABLE for r in rows))
+            self.assertTrue(all("source_to_value_binding" in r for r in rows))
+
+    def test_one_factor_claim_alteration_invalidates_binding(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            bundle = frozen_bundle(root)
+            bundle["contracts"][0]["producer_factors"]["factors"]["on_target_probability"] = 0.61
+            manifest = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
+            row = next(
+                r for r in manifest["contracts"][0]["factor_rows"]
+                if r["factor_name"] == "on_target_probability"
+            )
+            self.assertEqual(row["status"], STATUS_INVALID)
+            self.assertIn("binding_mismatch", row.get("invalid_reason", ""))
+
+    def test_archive_player_id_mismatch_invalidates_all(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            prod = producer_data(root)
+            doc = json.loads((root / "one.json").read_text(encoding="utf-8"))
+            doc["player_id"] = "wrong-player"
+            (root / "one.json").write_text(json.dumps(doc, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+            digest = hashlib.sha256((root / "one.json").read_bytes()).hexdigest()
+            prod["source_receipts"][0]["sha256"] = digest
+            bundle = frozen_bundle(root)
+            bundle["contracts"][0]["producer_factors"] = {
+                "factors": prod["factors"],
+                "source_receipts": prod["source_receipts"],
+            }
+            manifest = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
+            self.assertTrue(
+                all(r["status"] == STATUS_INVALID for r in manifest["contracts"][0]["factor_rows"])
+            )
+
     def test_numeric_factors_without_bound_source_not_available(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -384,6 +528,20 @@ class FactorReceiptTests(unittest.TestCase):
             root = Path(tmp)
             ret = producer_data(root, "NBA")
             ret["factors"]["projected_minutes"] = 52
+            identity = {
+                "event_id": ret["event_id"],
+                "player_id": ret["player_id"],
+                "model_version": ret["model_version"],
+                "input_freeze_at": ret["input_freeze_at"],
+                "forecast_at": ret["forecast_at"],
+                "model_training_cutoff_at": ret["model_training_cutoff_at"],
+                "run_id": ret["producer_run_id"],
+                "forecast_id": ret["forecast_id"],
+            }
+            digest = write_producer_archive(
+                root, "one.json", sport="NBA", stat="pra", factors=ret["factors"], identity=identity
+            )
+            ret["source_receipts"][0]["sha256"] = digest
             manifest = build_capture_manifest(
                 {
                     "schema": "v25_phase15_frozen_capture_bundle_v1",
@@ -400,6 +558,9 @@ class FactorReceiptTests(unittest.TestCase):
                             "forecast_at": ret["forecast_at"],
                             "input_freeze_at": ret["input_freeze_at"],
                             "model_training_cutoff_at": ret["model_training_cutoff_at"],
+                            "model_version": ret["model_version"],
+                            "producer_run_id": ret["producer_run_id"],
+                            "original_forecast_contract_id": ret["forecast_id"],
                             "producer_factors": {
                                 "factors": ret["factors"],
                                 "source_receipts": ret["source_receipts"],
@@ -421,8 +582,23 @@ class FactorReceiptTests(unittest.TestCase):
             root = Path(tmp)
             ret = producer_data(root, "NBA")
             ret["factors"]["projected_minutes"] = -1
+            identity = {
+                "event_id": ret["event_id"],
+                "player_id": ret["player_id"],
+                "model_version": ret["model_version"],
+                "input_freeze_at": ret["input_freeze_at"],
+                "forecast_at": ret["forecast_at"],
+                "model_training_cutoff_at": ret["model_training_cutoff_at"],
+                "run_id": ret["producer_run_id"],
+                "forecast_id": ret["forecast_id"],
+            }
+            digest = write_producer_archive(
+                root, "one.json", sport="NBA", stat="pra", factors=ret["factors"], identity=identity
+            )
             bundle = frozen_bundle(root, "NBA")
-            bundle["contracts"][0]["producer_factors"]["factors"]["projected_minutes"] = -1
+            pf = bundle["contracts"][0]["producer_factors"]
+            pf["factors"]["projected_minutes"] = -1
+            pf["source_receipts"][0]["sha256"] = digest
             manifest = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
             row = next(
                 r for r in manifest["contracts"][0]["factor_rows"]
