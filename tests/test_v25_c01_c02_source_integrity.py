@@ -90,8 +90,10 @@ class C02NhlIdentityAndQuoteProvenanceTests(unittest.TestCase):
         return {"NJD": "BUF", "BUF": "NJD"}
 
     def test_mandatory_traded_player_current_team_when_both_play(self):
+        roster = self.roster()
         team, reason = fs.resolve_nhl_slate_team(
-            "NJD,WPG", self.slate_wpg_njd(), player_id=9001, roster_memberships=self.roster(),
+            "NJD,WPG", self.slate_wpg_njd(), player_id=9001,
+            roster_memberships=roster, roster_fetched_teams=set(roster),
         )
         self.assertIsNone(reason)
         self.assertEqual(team, "WPG")
@@ -101,16 +103,18 @@ class C02NhlIdentityAndQuoteProvenanceTests(unittest.TestCase):
         self.assertIsNone(wrong)
 
     def test_mandatory_idle_current_team_abstains(self):
+        roster = self.roster()
         team, reason = fs.resolve_nhl_slate_team(
-            "NJD,WPG", self.slate_njd_only(), player_id=9001, roster_memberships=self.roster(),
+            "NJD,WPG", self.slate_njd_only(), player_id=9001,
+            roster_memberships=roster, roster_fetched_teams=set(roster),
         )
         self.assertIsNone(team)
         self.assertEqual(reason, "nhl_team_idle_current_not_on_slate")
 
     def test_mandatory_ambiguous_without_roster_abstains(self):
-        team, reason = fs.resolve_nhl_slate_team("NJD,WPG", self.slate_wpg_njd())
+        team, reason = fs.resolve_nhl_slate_team("NJD,WPG", self.slate_wpg_njd(), player_id=9001)
         self.assertIsNone(team)
-        self.assertEqual(reason, "nhl_team_ambiguous_multi_slate_without_roster")
+        self.assertEqual(reason, "nhl_team_roster_evidence_incomplete")
 
     def test_mandatory_blank_provider_team_stays_in_original_archive(self):
         quotes = op.provider_quote_snapshot([

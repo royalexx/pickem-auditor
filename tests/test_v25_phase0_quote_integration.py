@@ -135,8 +135,13 @@ class Phase0QuoteCertificationIntegration(unittest.TestCase):
             "sport": "NFL", "player_id": "pid-1", "stat": "tackles + assists",
             "game_date": "2026-11-09", "team": "BUF",
             "source_url": "https://example.test", "retrieved_at": "2026-11-08T12:00:00Z",
-            "usage_observations": [{"id": "g1", "date": "2026-11-01", "value": 5}],
-            "tackle_derived_cache_schema": "nfl-tackles-assists-derived-v2",
+            "source_stat_definition_version": "nfl-source-stat-v2-three-component-tackles",
+            "usage_observations": [{
+                "id": "g1", "date": "2026-11-01", "value": 5,
+                "tackle_components": {
+                    "def_tackles_solo": 3, "def_tackles_with_assist": 1, "def_tackle_assists": 1,
+                },
+            }],
         }
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -154,6 +159,34 @@ class Phase0QuoteCertificationIntegration(unittest.TestCase):
             with using_directory(root):
                 with self.assertRaisesRegex(ValueError, "stale_tackle_usage_cache_requires_rebuild"):
                     load_usage(candidate, datetime(2026, 11, 9, 15, tzinfo=timezone.utc))
+
+    def test_pre_change_v1_binding_without_version_field_still_certifies(self):
+        """Legacy frozen snapshot: no market_quote_archive_version key, only odds_quotes.jsonl."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data = root / "collected"
+            candidate, _ = make_inputs(data)
+            with phase0_pre_eval.pin(
+                candidate, data_root=data,
+                archive_root=data / "source_archives",
+                policy_root=root, clock=lambda: START,
+            ) as (evidence, _frozen, frozen_candidate):
+                row = build_row(frozen_candidate, evidence)
+                row["model_input_binding"].pop("market_quote_archive_version", None)
+                archive = data / "source_archives"
+                ok, reason = strict_snapshot_status(row, archive_root=archive)
+                self.assertTrue(ok, reason)
+
+    def test_legacy_two_component_tackle_usage_cannot_acquire_v2_on_persist(self):
+        row = {
+            "sport": "NFL", "player_id": "lb-1", "stat": "tackles + assists",
+            "game_date": "2026-11-09", "team": "BUF",
+            "source_url": "https://example.test", "retrieved_at": "2026-11-08T12:00:00Z",
+            "usage_observations": [{"id": "g1", "date": "2026-11-01", "value": 6}],
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaisesRegex(ValueError, "tackle_usage_cache_missing_three_component_evidence"):
+                persist_usage([row], Path(tmp))
 
 
 class NhlCollectorIdentityIntegration(unittest.TestCase):
@@ -283,6 +316,52 @@ class NhlCollectorIdentityIntegration(unittest.TestCase):
         self.assertEqual(rejections, [])
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["team"], "WPG")
+
+
+class NhlResolverRegression(unittest.TestCase):
+    def roster(self, player_id, teams):
+        return {team: {str(player_id)} for team in teams}
+
+    def test_idle_current_team_when_roster_fetch_missing_for_current_club(self):
+        roster = self.roster(9001, ("WPG", "NJD"))
+        team, reason = fs.resolve_nhl_slate_team(
+            "NJD,WPG", {"NJD": "BUF"}, player_id=9001,
+            roster_memberships=roster, roster_fetched_teams={"NJD"},
+        )
+        self.assertIsNone(team)
+        self.assertEqual(reason, "nhl_team_roster_evidence_incomplete")
+
+    def test_both_teams_on_slate_one_roster_missing(self):
+        team, reason = fs.resolve_nhl_slate_team(
+            "NJD,WPG", {"NJD": "WPG", "WPG": "NJD"}, player_id=9001,
+            roster_memberships={"WPG": {"9001"}}, roster_fetched_teams={"WPG"},
+        )
+        self.assertIsNone(team)
+        self.assertEqual(reason, "nhl_team_roster_evidence_incomplete")
+
+    def test_player_absent_from_every_retrieved_roster(self):
+        team, reason = fs.resolve_nhl_slate_team(
+            "NJD,WPG", {"WPG": "NJD", "NJD": "WPG"}, player_id=9001,
+            roster_memberships={"WPG": {"2"}, "NJD": {"3"}},
+            roster_fetched_teams={"WPG", "NJD"},
+        )
+        self.assertIsNone(team)
+        self.assertEqual(reason, "nhl_team_absent_from_verified_rosters")
+
+    def test_player_on_exactly_one_verified_roster(self):
+        team, reason = fs.resolve_nhl_slate_team(
+            "NJD,WPG", {"WPG": "NJD", "NJD": "WPG"}, player_id=9001,
+            roster_memberships={"WPG": {"9001"}, "NJD": {"2"}},
+            roster_fetched_teams={"WPG", "NJD"},
+        )
+        self.assertIsNone(reason)
+        self.assertEqual(team, "WPG")
+
+    def test_historical_collector_single_team_string(self):
+        team, reason = fs.resolve_nhl_slate_team(
+            "BOS", {"BOS": "NSH"}, identity_mode="historical_collector",
+        )
+        self.assertEqual((team, reason), ("BOS", None))
 
 
 if __name__ == "__main__":

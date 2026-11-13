@@ -2280,6 +2280,7 @@ class GameLogTests(unittest.TestCase):
             client=Client(),
             fetch=unused,
             source_urls=urls,
+            roster_identity_mode="historical_collector",
         )
         self.assertEqual(notes, [])
         self.assertIn("https://api-web.nhle.com/v1/player/1/game-log/20262027/2", urls)
@@ -2309,6 +2310,7 @@ class GameLogTests(unittest.TestCase):
             "2026-10-22T16:00:00Z",
             client=DownClient(),
             fetch=down_fetch,
+            roster_identity_mode="historical_collector",
         )
         self.assertTrue(rows)
         self.assertTrue(any("game-log" in note for note in notes))

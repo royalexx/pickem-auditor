@@ -571,28 +571,51 @@ def resolve_nhl_slate_team(
     *,
     player_id=None,
     roster_memberships: dict[str, set[str]] | None = None,
+    roster_fetched_teams: set[str] | None = None,
+    identity_mode: str = "pregame_live",
 ) -> tuple[str | None, str | None]:
-    """Resolve tonight's NHL team; fail closed when slate identity is ambiguous."""
+    """Resolve NHL team assignment; abstain when pregame identity is not provable."""
+    if identity_mode not in ("pregame_live", "historical_collector"):
+        return None, "nhl_team_identity_mode_invalid"
     if not team_abbrevs:
         return None, "nhl_team_missing_abbrevs"
     parts = [part.strip() for part in str(team_abbrevs).split(",") if part.strip()]
     on_slate = [part for part in parts if part in slate]
     pid = None if player_id in (None, "") else str(player_id)
-    if roster_memberships and pid:
-        roster_hits = [team for team in on_slate if pid in roster_memberships.get(team, set())]
-        if len(roster_hits) == 1:
-            return roster_hits[0], None
-        if len(roster_hits) > 1:
-            return None, "nhl_team_ambiguous_multi_roster_match"
-        player_teams = [team for team, members in roster_memberships.items() if pid in members]
-        if player_teams and not any(team in slate for team in player_teams):
+    if identity_mode == "historical_collector":
+        if len(parts) == 1 and parts[0] in slate:
+            return parts[0], None
+        if len(parts) > 1:
+            return None, "nhl_team_ambiguous_multi_historical_teams"
+        return None, "nhl_team_no_slate_intersection"
+    fetched = roster_fetched_teams or set((roster_memberships or {}).keys())
+    if len(parts) > 1:
+        if not set(parts).issubset(fetched):
+            return None, "nhl_team_roster_evidence_incomplete"
+        if not pid:
+            return None, "nhl_team_player_id_required_for_multi_team_history"
+        player_teams = [team for team in parts if pid in (roster_memberships or {}).get(team, set())]
+        if len(player_teams) == 1:
+            team = player_teams[0]
+            if team not in slate:
+                return None, "nhl_team_idle_current_not_on_slate"
+            return team, None
+        if not player_teams:
+            if on_slate:
+                return None, "nhl_team_absent_from_verified_rosters"
             return None, "nhl_team_idle_current_not_on_slate"
-        if on_slate:
-            return None, "nhl_team_roster_slate_mismatch"
-    if len(on_slate) == 1:
-        return on_slate[0], None
-    if len(on_slate) > 1:
-        return None, "nhl_team_ambiguous_multi_slate_without_roster"
+        return None, "nhl_team_ambiguous_multi_roster_match"
+    if len(parts) == 1:
+        team = parts[0]
+        if team not in slate:
+            return None, "nhl_team_no_slate_intersection"
+        if not pid:
+            return team, None
+        if team not in fetched:
+            return None, "nhl_team_roster_evidence_incomplete"
+        if pid not in (roster_memberships or {}).get(team, set()):
+            return None, "nhl_team_absent_from_verified_roster"
+        return team, None
     return None, "nhl_team_no_slate_intersection"
 
 
@@ -627,13 +650,17 @@ def nhl_pregame_roster_memberships(
     fetch,
     *,
     extra_teams: list[str] | None = None,
-) -> tuple[dict[str, set[str]], list[str]]:
-    """Load authenticated current-roster player ids for slate clubs and candidates."""
+    retrieved_at: str | None = None,
+) -> tuple[dict[str, set[str]], list[str], set[str], list[dict]]:
+    """Load current-roster membership ids; receipts document fetch only, not starter status."""
     from v2.phase15_nhl_roster import roster_members, roster_url
+    import hashlib
     slate = slate_matchups(games)
     teams = sorted({*slate, *slate.values(), *(extra_teams or [])})
     memberships: dict[str, set[str]] = {}
     notes: list[str] = []
+    fetched: set[str] = set()
+    receipts: list[dict] = []
     for abbrev in teams:
         url = roster_url(abbrev)
         try:
@@ -645,9 +672,18 @@ def nhl_pregame_roster_memberships(
             else:
                 raw = json.dumps(payload, sort_keys=True).encode("utf-8")
             memberships[abbrev] = set(roster_members(raw).keys())
+            fetched.add(abbrev)
+            receipts.append({
+                "schema": "nhl_collector_roster_membership_v1",
+                "team": abbrev,
+                "source_url": url,
+                "content_sha256": hashlib.sha256(raw).hexdigest(),
+                "retrieved_at": retrieved_at,
+                "membership_only_not_starter_certified": True,
+            })
         except Exception as exc:
             notes.append(f"roster {abbrev}: unavailable ({exc})")
-    return memberships, notes
+    return memberships, notes, fetched, receipts
 
 
 def nhl_rows_from_summaries(
@@ -659,6 +695,8 @@ def nhl_rows_from_summaries(
     retrieved_at: str,
     source_url: str,
     roster_memberships: dict[str, set[str]] | None = None,
+    roster_fetched_teams: set[str] | None = None,
+    identity_mode: str = "pregame_live",
     identity_rejections: list[dict] | None = None,
 ) -> list[dict]:
     slate = slate_matchups(games)
@@ -674,9 +712,13 @@ def nhl_rows_from_summaries(
             slate,
             player_id=skater.get("playerId"),
             roster_memberships=roster_memberships,
+            roster_fetched_teams=roster_fetched_teams,
+            identity_mode=identity_mode,
         )
         if not team:
-            if team_reason and identity_rejections is not None:
+            if team_reason and identity_rejections is not None and team_reason not in (
+                "nhl_team_no_slate_intersection",
+            ):
                 identity_rejections.append({
                     "sport": "NHL",
                     "kind": "skater",
@@ -720,9 +762,13 @@ def nhl_rows_from_summaries(
             slate,
             player_id=goalie.get("playerId"),
             roster_memberships=roster_memberships,
+            roster_fetched_teams=roster_fetched_teams,
+            identity_mode=identity_mode,
         )
         if not team:
-            if team_reason and identity_rejections is not None:
+            if team_reason and identity_rejections is not None and team_reason not in (
+                "nhl_team_no_slate_intersection",
+            ):
                 identity_rejections.append({
                     "sport": "NHL",
                     "kind": "goalie",
@@ -3165,7 +3211,16 @@ def run_prep(argv: list[str] | None = None):
     return {"rows": len(payloads), "stdout": bool(args.stdout)}
 
 
-def fetch_nhl(game_date: str, retrieved_at: str, client=None, client_error: str | None = None, fetch=fetch_json, source_urls=None, history_workers=4):
+def fetch_nhl(
+    game_date: str,
+    retrieved_at: str,
+    client=None,
+    client_error: str | None = None,
+    fetch=fetch_json,
+    source_urls=None,
+    history_workers=4,
+    roster_identity_mode: str = "pregame_live",
+):
     notes = []
     if client_error:
         notes.append(client_error)
@@ -3260,18 +3315,26 @@ def fetch_nhl(game_date: str, retrieved_at: str, client=None, client_error: str 
     if source == NHL_STATS_SKATER:
         _remember(source_urls, NHL_STATS_GOALIE)
     identity_rejections: list[dict] = []
-    roster_teams: set[str] = set()
-    for entry in (skaters or []) + (goalies or []):
-        for part in str(entry.get("teamAbbrevs") or "").split(","):
-            part = part.strip()
-            if part:
-                roster_teams.add(part)
-    roster_memberships, roster_notes = nhl_pregame_roster_memberships(
-        games, fetch, extra_teams=sorted(roster_teams),
-    )
-    notes.extend(roster_notes)
-    if games and not roster_memberships:
-        notes.append("nhl_roster_identities_unavailable_for_entire_slate")
+    roster_memberships = None
+    roster_fetched: set[str] = set()
+    roster_receipts: list[dict] = []
+    if roster_identity_mode == "pregame_live":
+        roster_teams: set[str] = set()
+        for entry in (skaters or []) + (goalies or []):
+            for part in str(entry.get("teamAbbrevs") or "").split(","):
+                part = part.strip()
+                if part:
+                    roster_teams.add(part)
+        roster_memberships, roster_notes, roster_fetched, roster_receipts = nhl_pregame_roster_memberships(
+            games, fetch, extra_teams=sorted(roster_teams), retrieved_at=retrieved_at,
+        )
+        notes.extend(roster_notes)
+        if games and not roster_memberships:
+            notes.append("nhl_roster_identities_unavailable_for_entire_slate")
+        if roster_receipts:
+            notes.append(f"nhl_roster_receipts:{len(roster_receipts)}")
+    elif roster_identity_mode != "historical_collector":
+        notes.append(f"nhl_roster_identity_mode_unrecognized:{roster_identity_mode}")
     rows = nhl_rows_from_summaries(
         games,
         skaters or [],
@@ -3280,7 +3343,9 @@ def fetch_nhl(game_date: str, retrieved_at: str, client=None, client_error: str 
         game_date,
         retrieved_at,
         source,
-        roster_memberships=roster_memberships or None,
+        roster_memberships=roster_memberships,
+        roster_fetched_teams=roster_fetched,
+        identity_mode=roster_identity_mode,
         identity_rejections=identity_rejections,
     )
     if identity_rejections:

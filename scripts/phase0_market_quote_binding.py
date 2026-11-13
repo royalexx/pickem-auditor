@@ -36,11 +36,19 @@ def verify_market_quote_file_bindings(binding: dict, by_role: dict) -> str | Non
     original = by_role.get(("Market", "original_book_quotes"))
     if original is None:
         return "pre_eval_required_source_role_missing"
-    version = binding.get("market_quote_archive_version") or detect_market_quote_archive_version(files)
-    if not version:
+    inferred = detect_market_quote_archive_version(files)
+    if not inferred:
         return "frozen_original_quote_path_missing"
-    if version != binding.get("market_quote_archive_version"):
-        return "market_quote_archive_version_mismatch"
+    declared = binding.get("market_quote_archive_version")
+    if declared is None:
+        if "odds_quotes_original.jsonl" in files and "odds_quotes.jsonl" in files:
+            version = MARKET_QUOTE_ARCHIVE_V1_1
+        else:
+            version = MARKET_QUOTE_ARCHIVE_V1
+    else:
+        version = declared
+        if declared != inferred:
+            return "market_quote_archive_version_mismatch"
     path = original_quote_frozen_path(files)
     if path is None:
         return "frozen_original_quote_path_missing"
