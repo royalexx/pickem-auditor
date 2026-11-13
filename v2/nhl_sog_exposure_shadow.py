@@ -485,3 +485,41 @@ def count_crps(model,observed_sog,kind="full_gamma_poisson_exposure",
         if cumulative>=1-tolerance and k>=y:
             return acc
     raise ExperimentBlocked("TAIL_TRUNCATION_NOT_CERTIFIED")
+
+
+def fixed_horizon_feasibility_grid(*,replicates=3000,seed=20261112):
+    """40-date simulated operating characteristics, not estimated real power.
+
+    One-sided Student-t_39 critical value 2.02269092 at alpha .025.
+    Scenarios explicitly vary date-to-date SD and AR(1) correlation. False
+    rejection under positive serial dependence is an integrity warning, not a
+    reason to cherry-pick a model on final outcomes.
+    """
+    if not 100<=replicates<=50000:
+        raise ExperimentBlocked("FEASIBILITY_REPLICATES_OUT_OF_RANGE")
+    rng=random.Random(seed)
+    out=[]
+    for sd in (.01,.02,.04,.08):
+        for rho in (0.,.3,.6):
+            counts={"null_rejections":0,"effect_rejections":0}
+            for effect,key in ((0.,"null_rejections"),(-.002,"effect_rejections")):
+                rejected=0
+                for _ in range(replicates):
+                    z=0.
+                    differences=[]
+                    for _date in range(40):
+                        z=rho*z+math.sqrt(1-rho*rho)*rng.gauss(0.,sd)
+                        differences.append(effect+z)
+                    std=statistics.stdev(differences)
+                    t=statistics.mean(differences)/(std/math.sqrt(40))
+                    rejected+=int(t< -2.02269092)
+                counts[key]=rejected
+            out.append({"date_sd_assumed":sd,"ar1_rho_assumed":rho,
+                "null_type1_rate":counts["null_rejections"]/replicates,
+                "effect_minus_0_002_power":counts["effect_rejections"]/replicates})
+    return {"experiment_id":EXPERIMENT,"schema":"sog_fixed_40_date_feasibility_v1",
+            "seed":seed,"replicates":replicates,"eligible_dates":40,
+            "effect_is_hypothetical_not_estimated":-0.002,
+            "critical_t39":2.02269092,"one_sided_alpha":.025,
+            "results":out,
+            "inference_status":"SIMULATION_ONLY_NOT_PROSPECTIVE_CERTIFICATION"}
