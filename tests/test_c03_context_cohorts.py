@@ -3,6 +3,8 @@ import hashlib
 import json
 import tempfile
 import unittest
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"))
 from pathlib import Path
 from scripts.c03_context_cohorts import (
     CohortError, classify, neutralize, verify_context_binding,
