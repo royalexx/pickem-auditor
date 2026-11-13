@@ -194,10 +194,14 @@ def _normal_cdf(x: float, mean: float, sd: float) -> float:
 
 @dataclass(frozen=True)
 class DiscretizedNormalDistribution:
-    """Serializable integer-outcome wrapper around a latent continuous Normal.
+    """Zero-clamped discretized Normal on integers (not zero-truncated).
 
-    Settlement uses half-step CDF cutpoints: P(Y=k) = Φ(k+½) - Φ(k-½). Continuous
-    `NormalDistribution` remains available for diagnostics with P(push)=0 always.
+    Latent Z ~ Normal(mean, sd); K = floor(Z + ½). Signed support uses Y = K;
+    nonnegative support clamps Y = max(0, K). Thus P(Y=0) = Φ(½) on nonnegative
+    counts, absorbing latent mass below zero into the atom at zero rather than
+    conditioning a continuous Normal on Y ≥ 0. Settlement and pmf share this law:
+    P(Y=k) = Φ(k+½) - Φ(k-½) for k ≥ 1; P(Under L) = P(Y < L); P(Push L) = P(Y = L)
+    only when L is an integer; P(Over L) = P(Y > L), including fractional lines.
     """
     mean: float
     sd: float
@@ -213,23 +217,69 @@ class DiscretizedNormalDistribution:
     def _cdf(self, x: float) -> float:
         return _normal_cdf(x, self.mean, self.sd)
 
+    def _latent_bin_mass(self, k: int) -> float:
+        """Mass on K=k before nonnegative clamping."""
+        return self._cdf(k + 0.5) - self._cdf(k - 0.5)
+
     def pmf(self, k: int) -> float:
         if isinstance(k, bool) or not isinstance(k, int):
             raise ContractError("pmf_requires_integer_k")
-        if self.support == "nonnegative_integer" and k < 0:
+        if self.support == "nonnegative_integer":
+            if k < 0:
+                return 0.0
+            if k == 0:
+                return self._cdf(0.5)
+            return self._latent_bin_mass(k)
+        return self._latent_bin_mass(k)
+
+    def _largest_y_strictly_below(self, line: float) -> int | None:
+        """Largest integer y with y < line (None when empty on nonnegative support)."""
+        if line == int(line):
+            return int(line) - 1
+        return math.floor(line)
+
+    def _smallest_y_strictly_above(self, line: float) -> int:
+        if line == int(line):
+            return int(line) + 1
+        return math.ceil(line)
+
+    def prob_le(self, y: int) -> float:
+        """P(Y ≤ y) on the declared discrete support."""
+        if self.support == "nonnegative_integer":
+            if y < 0:
+                return 0.0
+            return self._cdf(y + 0.5)
+        return self._cdf(y + 0.5)
+
+    def prob_less_than(self, line: float) -> float:
+        line = finite(line, "line")
+        if self.support == "nonnegative_integer" and line <= 0:
             return 0.0
-        return self._cdf(k + 0.5) - self._cdf(k - 0.5)
+        y = self._largest_y_strictly_below(line)
+        if y is None:
+            return 0.0
+        if self.support == "nonnegative_integer" and y < 0:
+            return 0.0
+        return self.prob_le(y)
+
+    def prob_greater_than(self, line: float) -> float:
+        line = finite(line, "line")
+        if self.support == "nonnegative_integer" and line < 0:
+            return 1.0
+        y = self._smallest_y_strictly_above(line)
+        return 1.0 - self._cdf(y - 0.5)
 
     def probabilities(self, line: float) -> EventProbabilities:
         line = finite(line, "line")
         if line.is_integer():
-            under = self._cdf(line - 0.5)
-            push = self._cdf(line + 0.5) - self._cdf(line - 0.5)
-            over = 1.0 - self._cdf(line + 0.5)
+            k = int(line)
+            push = self.pmf(k)
+            under = self.prob_less_than(line)
+            over = self.prob_greater_than(line)
         else:
-            under = self._cdf(line)
             push = 0.0
-            over = 1.0 - self._cdf(line)
+            under = self.prob_less_than(line)
+            over = self.prob_greater_than(line)
         return EventProbabilities(over, under, push)
 
     def to_record(self) -> dict:

@@ -10,7 +10,6 @@ from v2.contracts import (ContractError, DiscretizedNormalDistribution,
                             SourceReceipt, parse_distribution)
 from v2.evaluation import categorical_brier, categorical_log_loss
 
-
 SHA = "a" * 64
 BASE = "2026-11-09T16:00:00Z"
 FREEZE = "2026-11-09T16:30:00Z"
@@ -59,6 +58,18 @@ def forecast_for(q: MarketQuote, distribution) -> ForecastSnapshot:
     )
 
 
+def pmf_mass_sum(dist: DiscretizedNormalDistribution, *, max_k: int = 500) -> float:
+    total = 0.0
+    if dist.support == "signed_integer":
+        for k in range(-max_k, max_k + 1):
+            total += dist.pmf(k)
+        return total
+    for k in range(0, max_k + 1):
+        total += dist.pmf(k)
+    tail = dist.prob_greater_than(float(max_k))
+    return total + tail
+
+
 class ProblemReproduction(unittest.TestCase):
     def test_continuous_normal_never_pushes_on_integer_line(self):
         d = NormalDistribution(55, 20)
@@ -67,34 +78,78 @@ class ProblemReproduction(unittest.TestCase):
         self.assertAlmostEqual(p.over + p.under, 1.0)
 
 
-class DiscretizedNormalCore(unittest.TestCase):
+class NonnegativeClamp(unittest.TestCase):
+    def test_under_zero_line_is_zero(self):
+        d = DiscretizedNormalDistribution(0, 2, "nonnegative_integer")
+        self.assertAlmostEqual(d.probabilities(0.0).under, 0.0, places=12)
+
+    def test_pmf_mass_sums_to_one(self):
+        d = DiscretizedNormalDistribution(12, 4, "nonnegative_integer")
+        self.assertAlmostEqual(pmf_mass_sum(d), 1.0, places=9)
+
+    def test_negative_mean_assigns_mass_to_zero(self):
+        d = DiscretizedNormalDistribution(-5, 2, "nonnegative_integer")
+        self.assertGreater(d.pmf(0), 0.95)
+        self.assertGreater(d.pmf(1), 0.0)
+
+    def test_no_probability_below_zero(self):
+        d = DiscretizedNormalDistribution(-5, 2, "nonnegative_integer")
+        for k in range(-20, 0):
+            self.assertEqual(d.pmf(k), 0.0)
+        self.assertAlmostEqual(d.prob_less_than(0.0), 0.0, places=12)
+
+    def test_fractional_line_cutpoint(self):
+        d = DiscretizedNormalDistribution(4, 2, "nonnegative_integer")
+        self.assertAlmostEqual(
+            d.probabilities(0.25).under,
+            d.probabilities(0.5).under,
+            places=12,
+        )
+
+
+class SignedLattice(unittest.TestCase):
+    def test_fractional_negative_line_uses_lattice(self):
+        d = DiscretizedNormalDistribution(0, 3, "signed_integer")
+        self.assertAlmostEqual(d.prob_less_than(-0.25), d._cdf(-0.5), places=12)
+
+    def test_integer_push_matches_pmf(self):
+        d = DiscretizedNormalDistribution(55, 20, "signed_integer")
+        p = d.probabilities(55.0)
+        self.assertAlmostEqual(p.push, d.pmf(55), places=12)
+
+
+class SettlementLaws(unittest.TestCase):
     def setUp(self) -> None:
         self.d = DiscretizedNormalDistribution(55, 20, "signed_integer")
 
     def test_push_positive_at_integer_line(self):
-        p = self.d.probabilities(55.0)
-        self.assertGreater(p.push, 0.0)
+        self.assertGreater(self.d.probabilities(55.0).push, 0.0)
 
     def test_no_push_at_half_integer_line(self):
-        p = self.d.probabilities(55.5)
-        self.assertEqual(p.push, 0.0)
+        self.assertEqual(self.d.probabilities(55.5).push, 0.0)
 
     def test_cdf_coherence_between_integer_and_half_step(self):
         at_int = self.d.probabilities(55.0)
         at_half = self.d.probabilities(55.5)
         self.assertAlmostEqual(at_int.under + at_int.push, at_half.under, places=10)
 
-    def test_exact_complementarity(self):
-        for line in (0.0, 0.5, 55.0, 55.5, 200.0, 200.5, -12.0, -11.5):
-            p = self.d.probabilities(line)
-            self.assertAlmostEqual(p.over + p.under + p.push, 1.0, places=10)
+    def test_complementarity(self):
+        lines = (0.0, 0.25, 0.5, 55.0, 55.5, 99.7, -12.0, -11.5, -0.25)
+        for dist in (
+            self.d,
+            DiscretizedNormalDistribution(0, 2, "nonnegative_integer"),
+        ):
+            for line in lines:
+                p = dist.probabilities(line)
+                self.assertAlmostEqual(p.over + p.under + p.push, 1.0, places=10)
 
-    def test_signed_support_allows_negative_pmf(self):
-        self.assertGreater(self.d.pmf(-5), 0.0)
-        self.assertEqual(
-            DiscretizedNormalDistribution(3, 1, "nonnegative_integer").pmf(-1),
-            0.0,
-        )
+    def test_discrete_cdf_monotone(self):
+        d = DiscretizedNormalDistribution(20, 6, "signed_integer")
+        prev = 0.0
+        for y in range(-30, 80):
+            cur = d.prob_le(y)
+            self.assertGreaterEqual(cur, prev - 1e-15)
+            prev = cur
 
 
 class SupportAndValidation(unittest.TestCase):
@@ -110,14 +165,14 @@ class SupportAndValidation(unittest.TestCase):
         with self.assertRaisesRegex(ContractError, "signed_support_required"):
             forecast_for(q, d).validate_against(q)
 
-    def test_nonnegative_pmf_never_assigns_negative_counts(self):
-        d = DiscretizedNormalDistribution(-5, 2, "nonnegative_integer")
-        for k in range(-10, 0):
-            self.assertEqual(d.pmf(k), 0.0)
-
-    def test_nonnegative_passes_with_low_negative_tail(self):
+    def test_nonnegative_targets_validate(self):
         q = targets_quote(40.0)
         d = DiscretizedNormalDistribution(40, 10, "nonnegative_integer")
+        forecast_for(q, d).validate_against(q)
+
+    def test_signed_receiving_yards_validate(self):
+        q = receiving_yards_quote(-3.0)
+        d = DiscretizedNormalDistribution(-2, 15, "signed_integer")
         forecast_for(q, d).validate_against(q)
 
 
@@ -125,7 +180,7 @@ class Serialization(unittest.TestCase):
     def test_round_trip_preserves_probabilities(self):
         d = DiscretizedNormalDistribution(55, 20, "signed_integer")
         restored = parse_distribution(d.to_record())
-        for line in (54.5, 55.0, 55.5, 120.0):
+        for line in (-0.25, 54.5, 55.0, 55.5, 120.0, 120.25):
             self.assertEqual(d.probabilities(line), restored.probabilities(line))
 
     def test_legacy_continuous_normal_unchanged(self):
@@ -163,11 +218,11 @@ class NumericalStress(unittest.TestCase):
 
     def test_random_fuzz_complementarity(self):
         rng = random.Random(20261112)
-        for _ in range(80):
+        for _ in range(120):
             mean = rng.uniform(-80, 120)
             sd = rng.uniform(0.05, 40)
             support = rng.choice(("signed_integer", "nonnegative_integer"))
-            line = rng.choice([x + 0.0 for x in range(-5, 100)] + [x + 0.5 for x in range(-5, 100)])
+            line = rng.uniform(-20, 90)
             dist = DiscretizedNormalDistribution(mean, sd, support)
             p = dist.probabilities(line)
             self.assertAlmostEqual(p.over + p.under + p.push, 1.0, places=9)
