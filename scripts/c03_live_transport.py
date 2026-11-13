@@ -23,8 +23,7 @@ HOSTS={"espn":{"site.api.espn.com"},
        "nhl_official":{"api-web.nhle.com","api.nhle.com"}}
 FIELDS=("schema","source_id","source_namespace","source_kind","body_bytes",
         "body_sha256","archive_path","source_url","observed_at","received_at",
-        "http_status","clock_semantics","source_publication_truth_verified",
-        "transport_capture_id")
+        "http_status","clock_semantics","source_publication_truth_verified")
 
 
 def _key():
