@@ -387,6 +387,7 @@ def power_null_simulation(*,dates=40,replicates=2000,seed=20261112,
 
 
 def forecast_for_approved_quote(model,quote,*,source_root,roster_root,roster_receipts,
+                                source_bound_player_name,
                                 code_commit,run_id,forecast_id,forecast_at,
                                 decision_cutoff_at):
     """Strict shadow-only FixedLine adapter with separate full-distribution hash.
@@ -421,6 +422,13 @@ def forecast_for_approved_quote(model,quote,*,source_root,roster_root,roster_rec
     if not file.is_relative_to(root) or not file.is_file() or (
             hashlib.sha256(file.read_bytes()).hexdigest()!=quote.quote_receipt_sha256):
         raise ExperimentBlocked("ORIGINAL_QUOTE_HASH_MISMATCH")
+    # A file hash does not bind an offered player/line/book/price to the
+    # specific structured original quote. Independently crosscheck every
+    # original provider row before adapting a full count law to one line.
+    from .nhl_sog_quote_binding import verify_structured_original_sog_offer
+    quote_lineage=verify_structured_original_sog_offer(
+        quote,source_root=source_root,
+        source_bound_player_name=source_bound_player_name)
     membership=membership_status(quote.player_id,quote.team_id,quote.opponent_id,
         receipts=roster_receipts,source_root=roster_root,
         forecast_at=forecast_at,event_start=quote.event_start_at)
@@ -465,6 +473,7 @@ def forecast_for_approved_quote(model,quote,*,source_root,roster_root,roster_rec
         sources=tuple(sources),distribution=dist)
     snap.validate_against(quote)
     return {"status":"RESEARCH_SHADOW_ONLY",
+            "original_quote_lineage":quote_lineage,
             "snapshot":snap.to_record(),
             "fixed_line_is_not_full_distribution":True,
             "full_distribution_sha256":stable_hash(model),
