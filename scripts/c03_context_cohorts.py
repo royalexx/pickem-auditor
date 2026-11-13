@@ -28,6 +28,9 @@ RESEARCH_OWNED={
     "outdoor","sustained_wind_mph","gust_mph","precip_prob",
     "precip_intensity","back_to_back","third_in_four",
     "goalie_confirmed","expected_starting_qb","snow",
+    # Every numeric pregame role/workload context field must be neutralized.
+    "minutes_tonight","ice_time_tonight",
+    "snap_pct_tonight","route_pct_tonight",
 }
 ALLOWED_KINDS={"subject_status","teammate_status","roster_membership",
                "named_nfl_starting_qb","named_nhl_starting_goalie"}
