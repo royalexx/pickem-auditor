@@ -720,6 +720,13 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
             if c03_enabled:
                 forecast["c03_cohort"] = ("B" if c03_original is not None else "A")
                 forecast["c03_context_adjusted"] = False
+        if c03_enabled and c03_original is not None:
+            # Research source certification is not selection authorization.
+            # Never let a verified-but-not-independent-review-approved B cohort
+            # enter legacy production snapshots, ranking or publication merely
+            # because the C03 flag was switched on. Audit denominator retained.
+            mark("unavailable", "c03_v2_cohort_b_shadow_only_no_production_selection")
+            continue
         snapshots.append(forecast)
         mark("forecast")
     return snapshots, errors
