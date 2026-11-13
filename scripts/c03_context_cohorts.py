@@ -304,6 +304,13 @@ def classify(candidate,*,source_receipts,claims,archive_root,
                   if v["kind"]=="subject_status" and v["player_id"]==pid]
         if len(set(statuses))>1:
             raise CohortError("AVAILABILITY_CONFLICT")
+        declared_subject=candidate.get("event_context",{}).get("subject_status")
+        if declared_subject is not None:
+            declared=(declared_subject.get("value") if isinstance(declared_subject,dict)
+                      else declared_subject)
+            if not isinstance(declared,str) or (
+                    statuses and declared.lower().strip()!=statuses[0]):
+                raise CohortError("SUBJECT_SOURCE_STATUS_MISMATCH")
         if statuses and statuses[0]=="out":
             raise CohortError("PLAYER_OUT")
         if statuses and statuses[0] in ("questionable","doubtful"):
@@ -472,6 +479,13 @@ def strict_c03_snapshot_status(row,*,archive_root):
         if not receipts or any(r.get("transport_attestation")!="collector_live_transport_verified"
                                or not r.get("transport_capture_id") for r in receipts):
             return False,"C03_LIVE_TRANSPORT_NOT_ATTESTED"
+        for r in receipts:
+            expected=neutral_digest({
+                 "source_id":r.get("source_id"),"url":r.get("source_url"),
+                 "observed_at":r.get("observed_at"),"received_at":r.get("received_at"),
+                 "body_sha256":r.get("body_sha256")})
+            if expected!=r.get("transport_capture_id"):
+                return False,"C03_TRANSPORT_ATTESTATION_MISMATCH"
         # Provider publication truth is never inferred from possession.
         if any(r.get("source_publication_truth_verified") is not False for r in receipts):
             return False,"C03_UPSTREAM_PUBLICATION_CLAIM_INVALID"
