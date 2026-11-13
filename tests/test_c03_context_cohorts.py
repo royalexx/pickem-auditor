@@ -119,6 +119,26 @@ class C03CohortTests(unittest.TestCase):
                 input_freeze_at=FREEZE,event_start_at=EVENT)["reason"],"STARTING_QB_UNVERIFIED")
 
 
+    def test_opt_in_live_producer_never_infers_propline_as_espn(self):
+        from c03_pregame_live_capture import annotate_prepared_candidates
+        from unittest.mock import patch
+        future=(__import__("datetime").datetime.now(
+                __import__("datetime").timezone.utc)+
+                __import__("datetime").timedelta(hours=12)).isoformat()
+        candidate=original()
+        candidate["_meta"]={"sport":"NBA","event_id":"123456",
+            "event_id_namespace":"propline","player_id":"99555",
+            "player_id_namespace":"espn","event_start":future}
+        with tempfile.TemporaryDirectory() as d:
+            with patch("c03_pregame_live_capture.capture_signed_live",
+                       side_effect=AssertionError("No network allowed")):
+                result=annotate_prepared_candidates([candidate],archive_root=d)
+        self.assertEqual(len(result),1)
+        self.assertIn("C03_ESPN_EVENT_CROSSWALK_UNVERIFIED",
+                      result[0]["_c03_capture_issue"])
+        self.assertEqual(result[0]["_c03_claims"],[])
+        self.assertEqual(result[0]["_c03_source_receipts"],[])
+
     def test_signed_raw_espn_capture_claim_and_tamper(self):
         """A source/body metadata hash cannot fake a signed collector receipt."""
         from datetime import datetime,timedelta,timezone
