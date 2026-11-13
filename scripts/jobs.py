@@ -539,6 +539,29 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
         # pool. Retain their identities and reasons in the attempt ledger.
         certified_only = (os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1"
                           or os.environ.get("PICKEM_PHASE0_CERTIFIED_ONLY") == "1")
+        # C03 is a separate, opt-in strict-source experimental route. It may
+        # not bypass an unavailable source or the independent Phase 0R gate.
+        c03_original = None
+        c03_claims = row.get("_c03_claims") or []
+        c03_receipts = row.get("_c03_source_receipts") or []
+        c03_binding = None
+        c03_original_archive = None
+        c03_enabled = (certified_only and
+                       os.environ.get("PICKEM_C03_V2_SHADOW") == "1")
+        if c03_enabled:
+            from c03_context_cohorts import classify
+            c03_check = classify(
+                candidate, claims=c03_claims, source_receipts=c03_receipts,
+                archive_root=Path(data_root or SKILL_ROOT / "data") / "source_archives",
+                input_freeze_at=evaluation_now.isoformat() if evaluation_now else "",
+                event_start_at=meta.get("event_start") or "",
+            )
+            if c03_check["cohort"] == "D":
+                mark("unavailable", "c03_v2:" + c03_check["reason"])
+                continue
+            if c03_check["cohort"] == "B":
+                c03_original = candidate
+                candidate = c03_check["neutral_candidate"]
         if certified_only:
             exclusion = phase0r_live_candidate_rejection(
                 candidate, source_quotes=meta.get("phase0_market_quotes"),
@@ -568,6 +591,29 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                     # and production policy bytes stored by the archive.
                     evaluation_at = datetime.fromisoformat(
                         pinned_evidence["input_freeze_at"].replace("Z", "+00:00"))
+                    if c03_original is not None:
+                        # Revalidate against the TRUE pre-evaluation freeze, not
+                        # the earlier provisional candidate-screen timestamp.
+                        from c03_context_cohorts import (
+                            classify as c03_classify, neutral_digest,
+                            archive_original_candidate,
+                        )
+                        c03_frozen = c03_classify(
+                            c03_original, claims=c03_claims,
+                            source_receipts=c03_receipts,
+                            archive_root=Path(data_root or SKILL_ROOT / "data") / "source_archives",
+                            input_freeze_at=pinned_evidence["input_freeze_at"],
+                            event_start_at=meta.get("event_start") or "",
+                        )
+                        if (c03_frozen["cohort"] != "B" or
+                                neutral_digest(c03_frozen["neutral_candidate"]) !=
+                                neutral_digest(pinned_candidate)):
+                            mark("unavailable", "c03_v2:frozen_cohort_or_neutral_input_changed")
+                            continue
+                        c03_binding = c03_frozen["binding"]
+                        c03_original_archive = archive_original_candidate(
+                            c03_original,
+                            Path(data_root or SKILL_ROOT / "data") / "source_archives")
                     if (meta.get("event_start")
                             and game_started(meta["event_start"], evaluation_at)):
                         mark("unavailable", "event_started_before_input_freeze")
@@ -635,17 +681,31 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
             candidate=candidate,
         )
         if certified_only:
-            # A forecast is not stored, ranked, shadow-scored or published
-            # unless the exact original immutable input/archive passes the
-            # independent strict validator. Never backfill missing receipts.
+            # The old v1 independent validator remains authoritative for A.
+            # B requires BOTH neutral v1 verification and a second v2 source
+            # validator. Context adjustments never enter this baseline path.
             from phase0r_contract import strict_snapshot_status
             source_root = Path(data_root or SKILL_ROOT / "data")
-            accepted, reason = strict_snapshot_status(
-                forecast, archive_root=source_root / "source_archives")
+            if c03_original is not None:
+                from c03_context_cohorts import strict_c03_snapshot_status
+                if c03_binding is None or c03_original_archive is None:
+                    mark("unavailable", "c03_v2:original_or_binding_missing")
+                    continue
+                c03_binding["original_candidate_receipt"] = c03_original_archive
+                forecast["c03_context_binding"] = c03_binding
+                forecast["c03_original_candidate"] = c03_original
+                accepted, reason = strict_c03_snapshot_status(
+                    forecast, archive_root=source_root / "source_archives")
+            else:
+                accepted, reason = strict_snapshot_status(
+                    forecast, archive_root=source_root / "source_archives")
             if not accepted:
                 mark("unavailable", "phase0r_strict_rejected:" + reason)
                 continue
             forecast["phase0r_original_source_certified"] = True
+            if c03_enabled:
+                forecast["c03_cohort"] = ("B" if c03_original is not None else "A")
+                forecast["c03_context_adjusted"] = False
         snapshots.append(forecast)
         mark("forecast")
     return snapshots, errors
