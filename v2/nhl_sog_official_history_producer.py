@@ -53,7 +53,7 @@ def _put_once(root,namespace,body):
 
 
 def import_signed_official_history(*,player_id,position_group,gamelog_receipt,
-                                   completed_game_receipts,archive_root,
+                                   player_profile_receipt,completed_game_receipts,archive_root,
                                    input_freeze_at,event_start_at):
     """Link signed official gameLog rows to independent signed final game states.
 
@@ -63,6 +63,19 @@ def import_signed_official_history(*,player_id,position_group,gamelog_receipt,
     player_id=str(player_id)
     if position_group not in ("F","D") or not player_id.isdigit():
         raise ExperimentBlocked("NHL_OFFICIAL_PLAYER_OR_POSITION_UNVERIFIED")
+    profile_url="https://api-web.nhle.com/v1/player/"+player_id+"/landing"
+    if (not isinstance(player_profile_receipt,dict) or
+            player_profile_receipt.get("source_url")!=profile_url):
+        raise ExperimentBlocked("SIGNED_NHL_PLAYER_PROFILE_MISSING_OR_IDENTITY_MISMATCH")
+    profile=_signed(player_profile_receipt,archive_root,
+                    input_freeze_at,event_start_at)
+    if not isinstance(profile,dict) or str(profile.get("playerId"))!=player_id:
+        raise ExperimentBlocked("SIGNED_NHL_PLAYER_PROFILE_ID_MISMATCH")
+    position=str(profile.get("position") or "")
+    official_group=("D" if position=="D" else
+                    "F" if position in ("C","L","R","LW","RW") else None)
+    if official_group!=position_group:
+        raise ExperimentBlocked("SIGNED_NHL_POSITION_GROUP_MISMATCH")
     url=(gamelog_receipt or {}).get("source_url") or ""
     prefix="https://api-web.nhle.com/v1/player/"+player_id+"/game-log/"
     if not url.startswith(prefix) or not re.fullmatch(
@@ -114,6 +127,7 @@ def import_signed_official_history(*,player_id,position_group,gamelog_receipt,
              "shots_on_goal":shots,"played":True,
              "event_ended_at":source["received_at"],
              "event_end_clock_semantics":"official_final_state_first_observed_not_exact_final_horn",
+             "source_player_profile_sha256":player_profile_receipt["body_sha256"],
              "source_game_log_sha256":gamelog_receipt["body_sha256"],
              "source_final_sha256":source["body_sha256"],
              "source_game_log_row":entry,
@@ -125,6 +139,7 @@ def import_signed_official_history(*,player_id,position_group,gamelog_receipt,
                  "received_at":observed.isoformat()}
         verify_observation(receipt,archive_root,input_freeze_at)
         returned.append({"observation_receipt":receipt,"raw_log_receipt":gamelog_receipt,
+                         "raw_profile_receipt":player_profile_receipt,
                          "raw_final_receipt":source})
     return returned
 
@@ -134,6 +149,18 @@ def independent_verify_observation_lineage(entry,*,archive_root,freeze,event_sta
     rec=entry.get("observation_receipt")
     obs=verify_observation(rec,archive_root,freeze)
     rawlog=_signed(entry.get("raw_log_receipt"),archive_root,freeze,event_start)
+    profile_receipt=entry.get("raw_profile_receipt")
+    profile=_signed(profile_receipt,archive_root,freeze,event_start)
+    if str(profile.get("playerId"))!=obs["player_id"] or (
+            profile_receipt.get("source_url")!=
+            "https://api-web.nhle.com/v1/player/"+obs["player_id"]+"/landing"):
+        raise ExperimentBlocked("OFFICIAL_PROFILE_PLAYER_IDENTITY_MISMATCH")
+    position=str(profile.get("position") or "")
+    actual_group=("D" if position=="D" else
+                  "F" if position in ("C","L","R","LW","RW") else None)
+    if actual_group!=obs["position_group"] or (
+            obs.get("source_player_profile_sha256")!=profile_receipt["body_sha256"]):
+        raise ExperimentBlocked("OFFICIAL_PROFILE_POSITION_SOURCE_MISMATCH")
     rawfinal=_signed(entry.get("raw_final_receipt"),archive_root,freeze,event_start)
     if (str(rawfinal.get("id"))!=obs["event_id"] or
             rawfinal.get("gameState") not in ("OFF","FINAL") or
