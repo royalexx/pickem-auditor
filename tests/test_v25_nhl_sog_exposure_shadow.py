@@ -46,7 +46,8 @@ class NHLSOGExposureTests(unittest.TestCase):
     def test_half_up_and_short_play(self):
         self.assertEqual(bin_toi_minutes(0.25),0.5)
         self.assertEqual(bin_toi_minutes(0.75),1.0)
-        self.assertEqual(bin_toi_minutes(0.1),0.5)
+        with self.assertRaisesRegex(ExperimentBlocked,"TOI_QUANTIZES_TO_ZERO"):
+            bin_toi_minutes(0.1)
         self.assertEqual(bin_toi_minutes(64.75),65)
         with self.assertRaises(ExperimentBlocked):
             bin_toi_minutes(0)
@@ -103,7 +104,7 @@ class NHLSOGExposureTests(unittest.TestCase):
             with self.assertRaises(ExperimentBlocked):
                 fit_model(own,peers,archive_root=root,player_id="target",
                           position_group="F",input_freeze_at=F,event_start_at=START)
-            own[0]=make_obs(root,"target","o0",0.1,0,played=True)
+            own[0]=make_obs(root,"target","o0",0.4,0,played=True)
             model=fit_model(own,peers,archive_root=root,player_id="target",
                             position_group="F",input_freeze_at=F,event_start_at=START)
             self.assertGreater(model["zero_probability"],0)
