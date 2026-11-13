@@ -69,7 +69,9 @@ def bin_toi_minutes(minutes):
     if not 0<minutes<=MAX_ICE_MINUTES:
         raise ExperimentBlocked("INVALID_PLAYED_TOI")
     units=int((Decimal(str(minutes))*2).quantize(Decimal("1"),rounding=ROUND_HALF_UP))
-    return min(MAX_ICE_MINUTES,max(1,units)/2)
+    if units < 1:
+        raise ExperimentBlocked("TOI_QUANTIZES_TO_ZERO")
+    return min(MAX_ICE_MINUTES,units/2)
 
 
 def verify_observation(receipt, archive_root, freeze_at):
