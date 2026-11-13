@@ -135,6 +135,15 @@ def verify_receipt(receipt,*,archive_root,freeze,event_start):
     if receipt.get("http_status")!=200:
         raise CohortError("SOURCE_HTTP_NOT_OK")
     _url(receipt.get("source_url"))
+    host=urlsplit(receipt["source_url"]).hostname
+    allowed={
+        "espn":{"site.api.espn.com"},
+        "nhl_official":{"api-web.nhle.com","api.nhle.com"},
+        "nfl_official":{"static.www.nfl.com","www.nfl.com"},
+    }
+    if (receipt.get("source_namespace") not in allowed or
+            host not in allowed[receipt["source_namespace"]]):
+        raise CohortError("SOURCE_NAMESPACE_HOST_MISMATCH")
     observed=_utc(receipt.get("observed_at"),"observed_at")
     received=_utc(receipt.get("received_at"),"received_at")
     freeze=_utc(freeze,"input_freeze_at")
