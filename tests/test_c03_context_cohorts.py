@@ -125,7 +125,7 @@ class C03CohortTests(unittest.TestCase):
         from unittest.mock import patch
         import os
         import c03_live_transport as lt
-        from scripts.c03_context_cohorts import CohortError
+        from c03_context_cohorts import CohortError
         now=datetime.now(timezone.utc)
         cutoff=(now+timedelta(minutes=5)).isoformat()
         start=(now+timedelta(minutes=60)).isoformat()
