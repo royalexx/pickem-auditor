@@ -85,6 +85,21 @@ def prospective_shadow_attempt(bundle,*,source_root,output_root):
         peer_verified=[independent_verify_observation_lineage(x,
                 archive_root=root,freeze=observed,event_start=quote.event_start_at)
                 for x in peers]
+        # Match player name to *signed official NHL profile*, never a
+        # self-declared name inserted into the offer bundle.
+        from .nhl_sog_official_history_producer import _signed
+        profile=_signed(own[0].get("raw_profile_receipt"),root,
+                        observed,quote.event_start_at)
+        first=profile.get("firstName")
+        last=profile.get("lastName")
+        if isinstance(first,dict):first=first.get("default")
+        if isinstance(last,dict):last=last.get("default")
+        if not isinstance(first,str) or not isinstance(last,str) or not first or not last:
+            raise ExperimentBlocked("SIGNED_OFFICIAL_PLAYER_NAME_UNAVAILABLE")
+        official_player_name=first.strip()+" "+last.strip()
+        from .nhl_sog_quote_binding import verify_structured_original_sog_offer
+        quote_lineage=verify_structured_original_sog_offer(
+            quote,source_root=root,source_bound_player_name=official_player_name)
         position=bundle.get("official_position_group")
         model=fit_model(own_verified,peer_verified,archive_root=root,
                   player_id=quote.player_id,position_group=position,
@@ -106,6 +121,7 @@ def prospective_shadow_attempt(bundle,*,source_root,output_root):
         later=datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
         snapshot=forecast_for_approved_quote(model,quote,source_root=root,
                 roster_root=root,roster_receipts=rosters,
+                source_bound_player_name=official_player_name,
                 code_commit=code_commit,run_id=bundle.get("run_id") or "",
                 forecast_id=bundle.get("forecast_id") or "",
                 forecast_at=later,decision_cutoff_at=observed)
@@ -114,7 +130,8 @@ def prospective_shadow_attempt(bundle,*,source_root,output_root):
         record.update(status="SHADOW_FORECAST",reason=None,
                       model_artifact=model_ref,snapshot_artifact=snapshot_ref,
                       source_manifest_digest=stable_hash(model["source_manifest"]),
-                      quote_id=quote.quote_id,three_way_probabilities=probs,
+                      quote_id=quote.quote_id,original_quote_lineage=quote_lineage,
+                      three_way_probabilities=probs,
                       baseline_three_way=forecast_lines(model,[quote.line],kind="plugin_poisson")[
                           format(float(quote.line),"g")],
                       never_authorized_to_publish=True)
