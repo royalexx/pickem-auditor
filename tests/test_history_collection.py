@@ -90,7 +90,10 @@ class HistoryCollectionTests(unittest.TestCase):
             def team_summary(self,**kwargs):return load('nhl_teams.json')
             def player_game_log(self,*args):return []
         client=SimpleNamespace(stats=Stats(),schedule=SimpleNamespace(daily_schedule=lambda **k:load('nhl_schedule.json')))
-        rows,_=fs.fetch_nhl('2026-10-22','2026-10-22T16:00:00Z',client=client)
+        rows, _, _, _ = fs.fetch_nhl(
+            '2026-10-22', '2026-10-22T16:00:00Z', client=client,
+            roster_identity_mode='historical_collector',
+        )
         self.assertTrue(rows)
         self.assertEqual(starts,[(0,100),(100,100)])
 

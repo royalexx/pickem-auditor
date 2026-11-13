@@ -119,8 +119,10 @@ def strict_snapshot_status(row, *, archive_root):
             return False, "frozen_candidate_file_unbound"
         if files.get("market_input.json") != by_role[("Market", "evaluated_market")]["source_id"]:
             return False, "frozen_market_file_unbound"
-        if files.get("odds_quotes.jsonl") != by_role[("Market", "original_book_quotes")]["source_id"]:
-            return False, "frozen_original_quotes_file_unbound"
+        from phase0_market_quote_binding import verify_market_quote_file_bindings
+        quote_binding_reason = verify_market_quote_file_bindings(binding, by_role)
+        if quote_binding_reason:
+            return False, quote_binding_reason
         if by_role.get(("Engine_A", "production_policy")) is not None:
             if files.get("config/production_consensus.json") != by_role[("Engine_A", "production_policy")]["source_id"]:
                 return False, "frozen_policy_file_unbound"
