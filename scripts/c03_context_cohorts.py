@@ -382,3 +382,97 @@ def register_research_adjustment(baseline,artifact,*,archive_root):
             "status":"VERIFIED_INPUT_CONTEXT_RESEARCH_SHADOW_ONLY",
             "artifact_sha256":digest,"source_baseline":baseline["binding"],
             "certified_for_publication":False,"tier_publication_allowed":False}
+
+
+def archive_original_candidate(candidate,archive_root):
+    """Freeze BOTH original and neutral inputs; never overwrite old captures."""
+    body=canonical(candidate)
+    digest=hashlib.sha256(body).hexdigest()
+    rel="c03_original_candidate/"+digest+".json"
+    path=_safe_archive(archive_root,rel)
+    path.parent.mkdir(parents=True,exist_ok=True)
+    try:
+        with path.open("xb") as f:f.write(body)
+    except FileExistsError:pass
+    if path.read_bytes()!=body:
+        raise CohortError("C03_ORIGINAL_SOURCE_MUTATED")
+    return {"archive_path":rel,"content_sha256":digest,"bytes":len(body)}
+
+
+def capture_live_http_body(url,*,archive_root,source_namespace,source_id,timeout=12):
+    """Opt-in live transport capture. No retroactive/injected collection clock.
+
+    This helper is not called by the legacy collector and never changes its
+    source bytes. Only allowlisted public HTTPS event feeds are accepted.
+    """
+    from urllib.request import Request,urlopen
+    parts=urlsplit(url)
+    if parts.scheme!="https" or parts.hostname not in (
+         "site.api.espn.com","api-web.nhle.com","api.nhle.com"):
+        raise CohortError("LIVE_SOURCE_DOMAIN_NOT_ALLOWED")
+    observed=datetime.now(timezone.utc)
+    req=Request(url,headers={"Accept":"application/json"})
+    try:
+        with urlopen(req,timeout=timeout) as response:
+            status=response.status
+            content_type=response.headers.get("Content-Type","")
+            body=response.read(32_000_001)
+    except (OSError,ValueError,TimeoutError) as exc:
+        raise CohortError("LIVE_SOURCE_FETCH_FAILED:"+type(exc).__name__) from exc
+    received=datetime.now(timezone.utc)
+    if "json" not in content_type.lower():
+        raise CohortError("LIVE_SOURCE_NOT_JSON")
+    stamp=lambda x:x.isoformat().replace("+00:00","Z")
+    receipt=archive_response(body,archive_root=archive_root,source_url=url,
+                             observed_at=stamp(observed),received_at=stamp(received),
+                             source_id=source_id,source_namespace=source_namespace,
+                             http_status=status)
+    receipt["transport_attestation"]="collector_live_transport_verified"
+    receipt["transport_capture_id"]=neutral_digest({
+         "source_id":source_id,"url":receipt["source_url"],
+         "observed_at":receipt["observed_at"],"received_at":receipt["received_at"],
+         "body_sha256":receipt["body_sha256"]})
+    return receipt
+
+
+def strict_c03_snapshot_status(row,*,archive_root):
+    """V2 fail-closed wrapper around the unchanged, independently checked v1.
+
+    A context-neutral baseline must first pass v1 strict certification on its
+    exact evaluated neutral candidate, then prove the original/claim binding.
+    """
+    from phase0r_contract import strict_snapshot_status
+    ok,reason=strict_snapshot_status(row,archive_root=archive_root)
+    if not ok:return False,"BASE_V1_"+str(reason)
+    ctx=row.get("c03_context_binding")
+    if not isinstance(ctx,dict) or ctx.get("schema")!=SCHEMA_COHORT:
+        return False,"C03_BINDING_MISSING"
+    if ctx.get("cohort") not in ("A","B"):
+        return False,"C03_NONBASELINE_COHORT"
+    original=row.get("c03_original_candidate")
+    neutral=row.get("inputs")
+    original_receipt=ctx.get("original_candidate_receipt")
+    if not isinstance(original,dict) or not isinstance(original_receipt,dict):
+        return False,"C03_ORIGINAL_CANDIDATE_NOT_ARCHIVED"
+    try:
+        path=_safe_archive(archive_root,original_receipt.get("archive_path"))
+        body=path.read_bytes()
+        if (body!=canonical(original) or len(body)!=original_receipt.get("bytes") or
+                hashlib.sha256(body).hexdigest()!=original_receipt.get("content_sha256")):
+            return False,"C03_ORIGINAL_BYTES_MISMATCH"
+    except (OSError,ValueError,TypeError,CohortError):
+        return False,"C03_ORIGINAL_ARCHIVE_INVALID"
+    ok,reason=verify_context_binding(ctx,archive_root=archive_root,
+                    original_candidate=original,neutral_candidate=neutral,
+                    input_freeze_at=row.get("input_freeze_at"),
+                    event_start_at=row.get("event_start"))
+    if not ok:return False,reason
+    if ctx["cohort"]=="B":
+        receipts=ctx.get("source_receipts") or []
+        if not receipts or any(r.get("transport_attestation")!="collector_live_transport_verified"
+                               or not r.get("transport_capture_id") for r in receipts):
+            return False,"C03_LIVE_TRANSPORT_NOT_ATTESTED"
+        # Provider publication truth is never inferred from possession.
+        if any(r.get("source_publication_truth_verified") is not False for r in receipts):
+            return False,"C03_UPSTREAM_PUBLICATION_CLAIM_INVALID"
+    return True,"C03_STRICT_SOURCE_NEUTRAL_BASELINE"
