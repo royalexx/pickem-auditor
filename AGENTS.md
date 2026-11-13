@@ -41,7 +41,7 @@ Before acting, re-check the live repository, original artifacts, and runtime: th
 ### Additional research and implementation references
 
 - [Directional research contract](docs/research/DIRECTIONAL_ACCURACY_RESEARCH_BASELINE_20261108.md) — retained as a frozen historical research baseline unless superseded by V2.5.
-- [Phase 1 directional validator](docs/PHASE1_DIRECTIONAL_VALIDATION.md) — read-only, not release authorization.
+- [Phase 1 directional validator](docs/PHASE1_DIRECTIONAL_VALIDATION.md) — read-only, not release authorization. No production promotion or Tier changes.
 - [Phase 1.5 methodology and tests](docs/PHASE_1_5_DIAGNOSTICS.md) — shadow diagnosis; not validated opportunity decomposition without genuine pregame factor forecasts.
 - [Production validation](docs/PRODUCTION_VALIDATION.md) — consult alongside V2.5; older language granting Tier authority does not supersede the master gates.
 - [Research/verification ranking](references/evidence_ranking_repair_20261028.md) and [verification policy](references/pick_verification.md) — legacy mechanisms and evidence infrastructure, not exceptions to source/certification rules.
