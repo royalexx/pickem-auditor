@@ -1,0 +1,5 @@
+{
+  "name": "pickem-auditor",
+  "user": "ubuntu",
+  "install": "bash .cursor/cloud-agent-install.sh"
+}
