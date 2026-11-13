@@ -185,6 +185,58 @@ class NormalDistribution:
         return {"kind": "normal", "mean": self.mean, "sd": self.sd}
 
 
+def _normal_cdf(x: float, mean: float, sd: float) -> float:
+    """Standard normal CDF Φ evaluated at a real point."""
+    x = finite(x, "cdf_point")
+    z = (x - mean) / (sd * math.sqrt(2.0))
+    return 0.5 * math.erfc(-z)
+
+
+@dataclass(frozen=True)
+class DiscretizedNormalDistribution:
+    """Serializable integer-outcome wrapper around a latent continuous Normal.
+
+    Settlement uses half-step CDF cutpoints: P(Y=k) = Φ(k+½) - Φ(k-½). Continuous
+    `NormalDistribution` remains available for diagnostics with P(push)=0 always.
+    """
+    mean: float
+    sd: float
+    support: str  # signed_integer | nonnegative_integer
+
+    def __post_init__(self) -> None:
+        finite(self.mean, "mean")
+        if finite(self.sd, "sd") <= 0:
+            raise ContractError("nonpositive_sd")
+        if self.support not in ("signed_integer", "nonnegative_integer"):
+            raise ContractError("invalid_discretized_support")
+
+    def _cdf(self, x: float) -> float:
+        return _normal_cdf(x, self.mean, self.sd)
+
+    def pmf(self, k: int) -> float:
+        if isinstance(k, bool) or not isinstance(k, int):
+            raise ContractError("pmf_requires_integer_k")
+        if self.support == "nonnegative_integer" and k < 0:
+            return 0.0
+        return self._cdf(k + 0.5) - self._cdf(k - 0.5)
+
+    def probabilities(self, line: float) -> EventProbabilities:
+        line = finite(line, "line")
+        if line.is_integer():
+            under = self._cdf(line - 0.5)
+            push = self._cdf(line + 0.5) - self._cdf(line - 0.5)
+            over = 1.0 - self._cdf(line + 0.5)
+        else:
+            under = self._cdf(line)
+            push = 0.0
+            over = 1.0 - self._cdf(line)
+        return EventProbabilities(over, under, push)
+
+    def to_record(self) -> dict:
+        return {"kind": "discretized_normal", "mean": self.mean, "sd": self.sd,
+                "support": self.support}
+
+
 def parse_distribution(record: dict) -> PredictiveDistribution:
     if not isinstance(record, dict):
         raise ContractError("distribution_not_object")
@@ -201,6 +253,11 @@ def parse_distribution(record: dict) -> PredictiveDistribution:
         return PoissonDistribution(record["rate"])
     if kind == "normal":
         return NormalDistribution(record["mean"], record["sd"])
+    if kind == "discretized_normal":
+        support = record.get("support")
+        if support not in ("signed_integer", "nonnegative_integer"):
+            raise ContractError("invalid_discretized_support")
+        return DiscretizedNormalDistribution(record["mean"], record["sd"], support)
     raise ContractError("unsupported_distribution")
 
 
@@ -386,6 +443,15 @@ class ForecastSnapshot:
                 raise ContractError("negative_or_fractional_support_for_count")
         if stat.value_kind == "count" and isinstance(self.distribution, NormalDistribution):
             raise ContractError("continuous_normal_cannot_certify_integer_count_support")
+        if isinstance(self.distribution, DiscretizedNormalDistribution):
+            if stat.value_kind == "count":
+                if self.distribution.support != "nonnegative_integer":
+                    raise ContractError("nonnegative_support_required_for_count")
+            elif stat.value_kind == "signed_count":
+                if self.distribution.support != "signed_integer":
+                    raise ContractError("signed_support_required_for_signed_count")
+            else:
+                raise ContractError("discretized_normal_not_for_continuous_stat")
         self.distribution.probabilities(self.line)
 
     def to_record(self) -> dict:
