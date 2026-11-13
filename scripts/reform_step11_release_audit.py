@@ -48,6 +48,9 @@ REQUIRED_CODE=(
     "scripts/reform_step9_game_leg_dependence.py",
     "scripts/reform_step10_calibration_shadow.py",
     "scripts/population_nfl.py",
+    "scripts/nfl_stat_definitions.py",
+    "scripts/fetch_slate.py",
+    "scripts/settle.py",
 )
 REQUIRED_TESTS=(
     "tests/test_reform_phase4_scorecard.py",

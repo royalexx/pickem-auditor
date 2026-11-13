@@ -68,6 +68,12 @@ def persist(rows,root):
         data={k:row.get(k) for k in ('sport','player_id','stat','game_date','source_url','retrieved_at','team')}
         data['stat']=source_stat(data['stat'])
         data.update(version=VERSION,observations=observations,prior_observations=row.get('prior_usage_observations',[]))
+        if row.get('sport') == 'NFL' and source_stat(row.get('stat')) == 'tackles + assists':
+            schema = row.get('tackle_derived_cache_schema')
+            if not schema:
+                from nfl_stat_definitions import TACKLE_DERIVED_CACHE_SCHEMA
+                schema = TACKLE_DERIVED_CACHE_SCHEMA
+            data['tackle_derived_cache_schema'] = schema
         encoded=json.dumps(data,sort_keys=True,allow_nan=False)
         digest=hashlib.sha256(encoded.encode()).hexdigest()
         snapshots=root/'snapshots';snapshots.mkdir(exist_ok=True)
@@ -83,6 +89,14 @@ def load(candidate,now):
     packet=candidate['scouting']
     if packet.get('historical_usage')!=ident:raise ValueError('usage reference identity mismatch')
     data=json.loads((directory()/(ident+'.json')).read_text())
+    if (candidate.get('sport') == 'NFL'
+            and source_stat(candidate.get('stat')) == 'tackles + assists'):
+        from nfl_stat_definitions import STALE_TACKLE_CACHE_SCHEMAS, TACKLE_DERIVED_CACHE_SCHEMA
+        schema = data.get('tackle_derived_cache_schema')
+        if schema is None or schema in STALE_TACKLE_CACHE_SCHEMAS:
+            raise ValueError('stale_tackle_usage_cache_requires_rebuild')
+        if schema != TACKLE_DERIVED_CACHE_SCHEMA:
+            raise ValueError('unsupported_tackle_usage_cache_schema')
     if not isinstance(data,dict):raise ValueError('collector history must be an object')
     digest=data.pop('content_sha256',None)
     if digest!=hashlib.sha256(json.dumps(data,sort_keys=True,allow_nan=False).encode()).hexdigest():

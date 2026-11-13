@@ -622,6 +622,34 @@ def index_team_rates(teams: list[dict], lookup: dict) -> dict[str, dict]:
     return indexed
 
 
+def nhl_pregame_roster_memberships(
+    games: list[dict],
+    fetch,
+    *,
+    extra_teams: list[str] | None = None,
+) -> tuple[dict[str, set[str]], list[str]]:
+    """Load authenticated current-roster player ids for slate clubs and candidates."""
+    from v2.phase15_nhl_roster import roster_members, roster_url
+    slate = slate_matchups(games)
+    teams = sorted({*slate, *slate.values(), *(extra_teams or [])})
+    memberships: dict[str, set[str]] = {}
+    notes: list[str] = []
+    for abbrev in teams:
+        url = roster_url(abbrev)
+        try:
+            payload = fetch(url)
+            if isinstance(payload, (bytes, bytearray)):
+                raw = bytes(payload)
+            elif isinstance(payload, str):
+                raw = payload.encode("utf-8")
+            else:
+                raw = json.dumps(payload, sort_keys=True).encode("utf-8")
+            memberships[abbrev] = set(roster_members(raw).keys())
+        except Exception as exc:
+            notes.append(f"roster {abbrev}: unavailable ({exc})")
+    return memberships, notes
+
+
 def nhl_rows_from_summaries(
     games: list[dict],
     skaters: list[dict],
@@ -631,6 +659,7 @@ def nhl_rows_from_summaries(
     retrieved_at: str,
     source_url: str,
     roster_memberships: dict[str, set[str]] | None = None,
+    identity_rejections: list[dict] | None = None,
 ) -> list[dict]:
     slate = slate_matchups(games)
     lookup = team_abbrev_lookup(games)
@@ -647,6 +676,15 @@ def nhl_rows_from_summaries(
             roster_memberships=roster_memberships,
         )
         if not team:
+            if team_reason and identity_rejections is not None:
+                identity_rejections.append({
+                    "sport": "NHL",
+                    "kind": "skater",
+                    "player_id": skater.get("playerId"),
+                    "player": person_name(skater),
+                    "teamAbbrevs": skater.get("teamAbbrevs"),
+                    "reason": team_reason,
+                })
             continue
         games_played = _num(skater.get("gamesPlayed"))
         shots = _num(skater.get("shots"))
@@ -684,6 +722,15 @@ def nhl_rows_from_summaries(
             roster_memberships=roster_memberships,
         )
         if not team:
+            if team_reason and identity_rejections is not None:
+                identity_rejections.append({
+                    "sport": "NHL",
+                    "kind": "goalie",
+                    "player_id": goalie.get("playerId"),
+                    "player": person_name(goalie),
+                    "teamAbbrevs": goalie.get("teamAbbrevs"),
+                    "reason": team_reason,
+                })
             continue
         started = _num(goalie.get("gamesStarted"))
         played = _num(goalie.get("gamesPlayed"))
@@ -3212,6 +3259,19 @@ def fetch_nhl(game_date: str, retrieved_at: str, client=None, client_error: str 
     _remember(source_urls, source)
     if source == NHL_STATS_SKATER:
         _remember(source_urls, NHL_STATS_GOALIE)
+    identity_rejections: list[dict] = []
+    roster_teams: set[str] = set()
+    for entry in (skaters or []) + (goalies or []):
+        for part in str(entry.get("teamAbbrevs") or "").split(","):
+            part = part.strip()
+            if part:
+                roster_teams.add(part)
+    roster_memberships, roster_notes = nhl_pregame_roster_memberships(
+        games, fetch, extra_teams=sorted(roster_teams),
+    )
+    notes.extend(roster_notes)
+    if games and not roster_memberships:
+        notes.append("nhl_roster_identities_unavailable_for_entire_slate")
     rows = nhl_rows_from_summaries(
         games,
         skaters or [],
@@ -3220,7 +3280,13 @@ def fetch_nhl(game_date: str, retrieved_at: str, client=None, client_error: str 
         game_date,
         retrieved_at,
         source,
+        roster_memberships=roster_memberships or None,
+        identity_rejections=identity_rejections,
     )
+    if identity_rejections:
+        notes.append(
+            f"nhl_team_identity_rejections:{len(identity_rejections)}"
+        )
     prior_season = previous_season_id(season)
     current_logs,prior_logs,failed,prior_failed=load_history_pairs(
         _player_ids(rows),season,prior_season,
@@ -3237,7 +3303,7 @@ def fetch_nhl(game_date: str, retrieved_at: str, client=None, client_error: str 
             f"nhl: prior-season game-log failed for {prior_failed} player(s). "
             "prior_season_mean left null."
         )
-    return rows, notes
+    return rows, notes, identity_rejections
 
 
 def frame_to_rows(frame) -> list[dict]:
@@ -3596,14 +3662,16 @@ def _as_notes(notes) -> list[str]:
 
 def _split_feed_result(result):
     if not isinstance(result, tuple):
-        return result, [], []
+        return result, [], [], []
+    if len(result) >= 4:
+        return result[0], result[1], list(result[2] or []), list(result[3] or [])
     if len(result) >= 3:
-        return result[0], result[1], list(result[2] or [])
+        return result[0], result[1], list(result[2] or []), []
     if len(result) == 2:
-        return result[0], result[1], []
+        return result[0], result[1], [], []
     if len(result) == 1:
-        return result[0], [], []
-    return None, [], []
+        return result[0], [], [], []
+    return None, [], [], []
 
 
 def _feed_record(status: str, rows: int, started: str, finished: str, notes, source_urls) -> dict:
@@ -3632,15 +3700,17 @@ def _run_feed(name: str, fn, clock) -> tuple[dict, object]:
     started = clock()
     payload = None
     urls: list[str] = []
+    feed_extras: list = []
     failed = False
     if fn is None:
         notes = [f"{name}: feed was not run"]
         failed = True
     else:
         try:
-            payload, raw_notes, urls = _split_feed_result(fn())
+            payload, raw_notes, urls, feed_extras = _split_feed_result(fn())
             notes = _as_notes(raw_notes)
             urls = list(urls or [])
+            feed_extras = list(feed_extras or [])
         except Exception as exc:
             notes = [f"{name}: {type(exc).__name__}: {exc}"]
             urls = []
@@ -3662,14 +3732,17 @@ def _run_feed(name: str, fn, clock) -> tuple[dict, object]:
         _remember(urls, url)
     status = "failed" if failed or not rows else "ok"
     kept = rows if status == "ok" else []
-    return _feed_record(status, len(kept), started, finished, notes, urls), kept
+    record = _feed_record(status, len(kept), started, finished, notes, urls)
+    if name == "nhl" and feed_extras:
+        record["identity_rejections"] = feed_extras
+    return record, kept
 
 
 def _builtin_fetchers(game_date, retrieved_at, nhl_client, nhl_client_error, fetch_json_fn, data_dir=None):
     buckets = {name: [] for name in FEED_NAMES}
 
     def nhl():
-        rows, notes = fetch_nhl(
+        rows, notes, identity_rejections = fetch_nhl(
             game_date,
             retrieved_at,
             client=nhl_client,
@@ -3677,7 +3750,7 @@ def _builtin_fetchers(game_date, retrieved_at, nhl_client, nhl_client_error, fet
             fetch=fetch_json_fn,
             source_urls=buckets["nhl"],
         )
-        return rows, notes, list(buckets["nhl"])
+        return rows, notes, list(buckets["nhl"]), identity_rejections
 
     def nfl():
         path=Path(data_dir)/'season'/f'nfl_{int(nfl_season_from_date(game_date))}.sqlite3' if data_dir else None
@@ -3759,11 +3832,16 @@ def collect(
     if quotes_ready and quotes_path is not None:
         quotes_root = Path(quotes_path)
         original_path = quotes_root.with_name("odds_quotes_original.jsonl")
+        # Structured pre-resolution records from the odds provider API parser,
+        # not byte-identical upstream HTTP responses.
         write_jsonl(ordered_quotes(provider_quote_snapshot(quote_payload)), original_path)
         write_jsonl(ordered_quotes(resolved), quotes_root)
         summary["quotes_out"] = str(quotes_path)
         summary["quotes_original_out"] = str(original_path)
         summary["quote_provenance_schema"] = "pickem_collector_quote_provenance_v1"
+        summary["original_quote_archive_semantics"] = (
+            "structured_pre_resolution_quote_records_not_raw_http_bytes"
+        )
     note = unmatched_note(unmatched)
     if note:
         summary["feeds"]["odds"]["notes"].append(note)

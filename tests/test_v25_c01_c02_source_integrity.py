@@ -186,7 +186,7 @@ class C02Phase0QuoteArchiveSeparation(unittest.TestCase):
             clock = lambda: datetime(2026, 11, 8, 14, 0, tzinfo=timezone.utc)
             with pin(candidate, data_root=root, archive_root=archive, policy_root=ROOT, clock=clock) as (evidence, *_):
                 roles = {item["archive_path"].split("/", 1)[0] for item in evidence["source_receipts"]}
-            self.assertIn("original_provider_book_quotes", roles)
+            self.assertIn("original_book_quotes", roles)
             self.assertIn("collector_resolved_book_quotes", roles)
 
 
