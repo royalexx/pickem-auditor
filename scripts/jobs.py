@@ -611,6 +611,11 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                             mark("unavailable", "c03_v2:frozen_cohort_or_neutral_input_changed")
                             continue
                         c03_binding = c03_frozen["binding"]
+                        if isinstance(row.get("_c03_official_nhl_rosters"), dict):
+                            # Explicit independent official roster artifacts are
+                            # separately validated by the v2 strict checker.
+                            c03_binding["official_nhl_roster_receipts"] = (
+                                row["_c03_official_nhl_rosters"])
                         c03_original_archive = archive_original_candidate(
                             c03_original,
                             Path(data_root or SKILL_ROOT / "data") / "source_archives")
