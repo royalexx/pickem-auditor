@@ -54,6 +54,8 @@ class C03CohortTests(unittest.TestCase):
         b["weather_issue"]="clouds"
         b["spread"]=-8.5
         b["soft_flags"]=3
+        b.update(minutes_tonight=44.0,ice_time_tonight=25.0,
+                 snap_pct_tonight=.9,route_pct_tonight=.8)
         n1=neutralize(a); n2=neutralize(b)
         self.assertEqual(n1,n2)
         self.assertEqual(n2["soft_flags"],1)
