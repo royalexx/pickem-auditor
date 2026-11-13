@@ -1682,10 +1682,10 @@ class FetchHardenTests(unittest.TestCase):
             self.assertFalse(meta["usable"])
             for name in ("nhl", "nfl", "nba", "odds"):
                 feed = meta["feeds"][name]
-                self.assertEqual(
-                    set(feed),
-                    {"status", "rows", "started_at", "finished_at", "notes", "source_urls"},
-                )
+                expected = {"status", "rows", "started_at", "finished_at", "notes", "source_urls"}
+                if name == "nhl":
+                    expected |= {"identity_rejection_count", "roster_receipt_count"}
+                self.assertEqual(set(feed), expected)
                 self.assertEqual(feed["status"], "failed")
                 self.assertEqual(feed["rows"], 0)
             self.assertEqual(list(Path(tmp).glob("*.tmp")), [])
