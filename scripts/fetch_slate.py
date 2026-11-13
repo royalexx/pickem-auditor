@@ -92,10 +92,16 @@ from odds_providers import (
     consensus_input as build_consensus_input,
     ordered_quotes,
     primary_price,
+    provider_quote_snapshot,
     quotes_for_row,
     redact,
     resolve_quote_teams,
     unmatched_note,
+)
+from nfl_stat_definitions import (
+    TACKLE_DERIVED_CACHE_SCHEMA,
+    VERSION as NFL_SOURCE_STAT_VERSION,
+    combined_tackles_assists,
 )
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
@@ -559,14 +565,66 @@ def team_abbrev_lookup(games: list[dict]) -> dict:
     return lookup
 
 
-def abbrev_on_slate(team_abbrevs: str | None, slate: dict[str, str]) -> str | None:
+def resolve_nhl_slate_team(
+    team_abbrevs: str | None,
+    slate: dict[str, str],
+    *,
+    player_id=None,
+    roster_memberships: dict[str, set[str]] | None = None,
+    roster_fetched_teams: set[str] | None = None,
+    identity_mode: str = "pregame_live",
+) -> tuple[str | None, str | None]:
+    """Resolve NHL team assignment; abstain when pregame identity is not provable."""
+    if identity_mode not in ("pregame_live", "historical_collector"):
+        return None, "nhl_team_identity_mode_invalid"
     if not team_abbrevs:
-        return None
+        return None, "nhl_team_missing_abbrevs"
     parts = [part.strip() for part in str(team_abbrevs).split(",") if part.strip()]
-    for part in parts:
-        if part in slate:
-            return part
-    return None
+    on_slate = [part for part in parts if part in slate]
+    pid = None if player_id in (None, "") else str(player_id)
+    if identity_mode == "historical_collector":
+        if len(parts) == 1 and parts[0] in slate:
+            return parts[0], None
+        if len(parts) > 1:
+            return None, "nhl_team_ambiguous_multi_historical_teams"
+        return None, "nhl_team_no_slate_intersection"
+    fetched = roster_fetched_teams or set((roster_memberships or {}).keys())
+    if len(parts) > 1:
+        if not set(parts).issubset(fetched):
+            return None, "nhl_team_roster_evidence_incomplete"
+        if not pid:
+            return None, "nhl_team_player_id_required_for_multi_team_history"
+        player_teams = [team for team in parts if pid in (roster_memberships or {}).get(team, set())]
+        if len(player_teams) == 1:
+            team = player_teams[0]
+            if team not in slate:
+                return None, "nhl_team_idle_current_not_on_slate"
+            return team, None
+        if not player_teams:
+            if on_slate:
+                return None, "nhl_team_absent_from_verified_rosters"
+            return None, "nhl_team_idle_current_not_on_slate"
+        return None, "nhl_team_ambiguous_multi_roster_match"
+    if len(parts) == 1:
+        team = parts[0]
+        if team not in slate:
+            return None, "nhl_team_no_slate_intersection"
+        if not pid:
+            return None, "nhl_team_player_id_required_for_pregame_identity"
+        if team not in fetched:
+            return None, "nhl_team_roster_evidence_incomplete"
+        if pid not in (roster_memberships or {}).get(team, set()):
+            return None, "nhl_team_absent_from_verified_roster"
+        return team, None
+    return None, "nhl_team_no_slate_intersection"
+
+
+def abbrev_on_slate(team_abbrevs: str | None, slate: dict[str, str]) -> str | None:
+    """Legacy wrapper; prefer ``resolve_nhl_slate_team`` for traded-player safety."""
+    team, _ = resolve_nhl_slate_team(
+        team_abbrevs, slate, identity_mode="historical_collector",
+    )
+    return team
 
 
 def index_team_rates(teams: list[dict], lookup: dict) -> dict[str, dict]:
@@ -589,6 +647,122 @@ def index_team_rates(teams: list[dict], lookup: dict) -> dict[str, dict]:
     return indexed
 
 
+def _clock_to_utc_instant(clock) -> datetime:
+    if clock is None:
+        return datetime.now(ZoneInfo("UTC"))
+    value = clock()
+    if isinstance(value, datetime):
+        return value.astimezone(ZoneInfo("UTC")) if value.tzinfo else value.replace(tzinfo=ZoneInfo("UTC"))
+    text = str(value).replace("Z", "+00:00")
+    parsed = datetime.fromisoformat(text)
+    return parsed.astimezone(ZoneInfo("UTC")) if parsed.tzinfo else parsed.replace(tzinfo=ZoneInfo("UTC"))
+
+
+def _archive_collector_roster_bytes(
+    archive_root: Path | None,
+    url: str,
+    raw: bytes,
+    *,
+    representation: str,
+    clock,
+    team: str,
+    require_archive: bool = False,
+) -> dict:
+    import hashlib
+    if require_archive and archive_root is None:
+        raise ValueError("nhl_roster_membership_unpinned_no_archive_root")
+    digest = hashlib.sha256(raw).hexdigest()
+    receipt: dict = {
+        "schema": "nhl_collector_roster_membership_v1",
+        "team": team,
+        "source_url": url,
+        "content_sha256": digest,
+        "byte_representation": representation,
+        "membership_only_not_starter_certified": True,
+        "participation_or_starter_not_certified": True,
+    }
+    if archive_root is not None:
+        from phase0_input_capture import preserve
+        instant = _clock_to_utc_instant(clock)
+        archived = preserve(
+            Path(archive_root),
+            "NHL_Collector",
+            "nhl_roster_membership",
+            raw,
+            captured=instant,
+            retrieved=instant,
+            url=url,
+        )
+        receipt["archive_path"] = archived["archive_path"]
+        receipt["retrieved_at"] = archived["retrieved_at"]
+        receipt["observed_at"] = archived["observed_at"]
+        receipt["source_id"] = archived["source_id"]
+        blob = Path(archive_root) / archived["archive_path"]
+        if hashlib.sha256(blob.read_bytes()).hexdigest() != digest:
+            raise ValueError("nhl_roster_archive_digest_mismatch")
+    elif require_archive:
+        raise ValueError("nhl_roster_archive_required_but_missing")
+    elif clock is not None:
+        from phase0_input_capture import stamp
+        receipt["retrieved_at"] = stamp(_clock_to_utc_instant(clock))
+        receipt["membership_unpinned_research_only"] = True
+    return receipt
+
+
+def nhl_pregame_roster_memberships(
+    games: list[dict],
+    fetch,
+    *,
+    extra_teams: list[str] | None = None,
+    archive_root: Path | str | None = None,
+    clock=None,
+    require_archived_membership: bool = False,
+) -> tuple[dict[str, set[str]], list[str], set[str], list[dict]]:
+    """Load current-roster membership ids; receipts document fetch only, not starter status."""
+    from v2.phase15_nhl_roster import roster_members, roster_url
+    slate = slate_matchups(games)
+    teams = sorted({*slate, *slate.values(), *(extra_teams or [])})
+    memberships: dict[str, set[str]] = {}
+    notes: list[str] = []
+    fetched: set[str] = set()
+    receipts: list[dict] = []
+    archive = Path(archive_root) if archive_root else None
+    if require_archived_membership and archive is None:
+        notes.append("nhl_roster_membership_research_only_no_archive_root")
+        return memberships, notes, fetched, receipts
+    for abbrev in teams:
+        url = roster_url(abbrev)
+        try:
+            payload = fetch(url)
+            if isinstance(payload, (bytes, bytearray)):
+                raw = bytes(payload)
+                representation = "raw_http_bytes"
+            elif isinstance(payload, str):
+                raw = payload.encode("utf-8")
+                representation = "raw_http_bytes"
+            else:
+                raw = json.dumps(payload, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+                representation = "canonical_json_not_raw_http_bytes"
+            member_ids = set(roster_members(raw).keys())
+            receipt = _archive_collector_roster_bytes(
+                archive,
+                url,
+                raw,
+                representation=representation,
+                clock=clock,
+                team=abbrev,
+                require_archive=require_archived_membership,
+            )
+            if require_archived_membership and not receipt.get("archive_path"):
+                raise ValueError("nhl_roster_archive_required_but_missing")
+            memberships[abbrev] = member_ids
+            fetched.add(abbrev)
+            receipts.append(receipt)
+        except Exception as exc:
+            notes.append(f"roster {abbrev}: unavailable ({exc})")
+    return memberships, notes, fetched, receipts
+
+
 def nhl_rows_from_summaries(
     games: list[dict],
     skaters: list[dict],
@@ -597,6 +771,10 @@ def nhl_rows_from_summaries(
     game_date: str,
     retrieved_at: str,
     source_url: str,
+    roster_memberships: dict[str, set[str]] | None = None,
+    roster_fetched_teams: set[str] | None = None,
+    identity_mode: str = "historical_collector",
+    identity_rejections: list[dict] | None = None,
 ) -> list[dict]:
     slate = slate_matchups(games)
     lookup = team_abbrev_lookup(games)
@@ -606,8 +784,26 @@ def nhl_rows_from_summaries(
     goalie_source = NHL_STATS_GOALIE if source_url == NHL_STATS_SKATER else source_url
     rows = []
     for skater in skaters:
-        team = abbrev_on_slate(skater.get("teamAbbrevs"), slate)
+        team, team_reason = resolve_nhl_slate_team(
+            skater.get("teamAbbrevs"),
+            slate,
+            player_id=skater.get("playerId"),
+            roster_memberships=roster_memberships,
+            roster_fetched_teams=roster_fetched_teams,
+            identity_mode=identity_mode,
+        )
         if not team:
+            if team_reason and identity_rejections is not None and team_reason not in (
+                "nhl_team_no_slate_intersection",
+            ):
+                identity_rejections.append({
+                    "sport": "NHL",
+                    "kind": "skater",
+                    "player_id": skater.get("playerId"),
+                    "player": person_name(skater),
+                    "teamAbbrevs": skater.get("teamAbbrevs"),
+                    "reason": team_reason,
+                })
             continue
         games_played = _num(skater.get("gamesPlayed"))
         shots = _num(skater.get("shots"))
@@ -638,8 +834,26 @@ def nhl_rows_from_summaries(
             built["player_id"] = skater.get("playerId")
         rows.append(built)
     for goalie in goalies:
-        team = abbrev_on_slate(goalie.get("teamAbbrevs"), slate)
+        team, team_reason = resolve_nhl_slate_team(
+            goalie.get("teamAbbrevs"),
+            slate,
+            player_id=goalie.get("playerId"),
+            roster_memberships=roster_memberships,
+            roster_fetched_teams=roster_fetched_teams,
+            identity_mode=identity_mode,
+        )
         if not team:
+            if team_reason and identity_rejections is not None and team_reason not in (
+                "nhl_team_no_slate_intersection",
+            ):
+                identity_rejections.append({
+                    "sport": "NHL",
+                    "kind": "goalie",
+                    "player_id": goalie.get("playerId"),
+                    "player": person_name(goalie),
+                    "teamAbbrevs": goalie.get("teamAbbrevs"),
+                    "reason": team_reason,
+                })
             continue
         started = _num(goalie.get("gamesStarted"))
         played = _num(goalie.get("gamesPlayed"))
@@ -984,12 +1198,20 @@ def _log_player(log, team: str, player_name: str, player_id=None):
 
 def _game_stat(game_rows: list[dict], column: str | None) -> float | None:
     if column is None:
-        if not any("def_tackles_solo" in row or "def_tackle_assists" in row for row in game_rows):
+        if not any(
+            "def_tackles_solo" in row
+            or "def_tackle_assists" in row
+            or "def_tackles_with_assist" in row
+            for row in game_rows
+        ):
             return None
-        total = 0.0
+        total = 0
         for row in game_rows:
-            total += (_num(row.get("def_tackles_solo")) or 0.0) + (_num(row.get("def_tackle_assists")) or 0.0)
-        return total
+            value = combined_tackles_assists(row)
+            if value is None:
+                return None
+            total += value
+        return float(total)
     if not any(column in row for row in game_rows):
         return None
     total = 0.0
@@ -1010,7 +1232,10 @@ def splits_from_log(log, team: str, player_name: str, column: str | None, player
     if log is None:
         return None
     if column is None:
-        if "def_tackles_solo" not in log["columns"] and "def_tackle_assists" not in log["columns"]:
+        if not any(
+            key in log["columns"]
+            for key in ("def_tackles_solo", "def_tackle_assists", "def_tackles_with_assist")
+        ):
             return None
     elif column not in log["columns"]:
         return None
@@ -1715,12 +1940,14 @@ def nfl_rows_from_tables(
         else:
             route_share = None
         specs = list(NFL_COUNTING)
-        solo = _num(player.get("def_tackles_solo")) or 0.0
-        assists = _num(player.get("def_tackle_assists")) or 0.0
-        if solo + assists > 0:
+        tackles_total = combined_tackles_assists(player)
+        if tackles_total is not None and tackles_total > 0:
             specs.append(("tackles + assists", None))
         for stat, column in specs:
-            total = solo + assists if column is None else _num(player.get(column))
+            if column is None:
+                total = tackles_total
+            else:
+                total = _num(player.get(column))
             if total is None or total <= 0:
                 continue
             built = make_row(
@@ -1748,6 +1975,9 @@ def nfl_rows_from_tables(
                 built["routes_per_game"] = _round(routes_per_game)
             if route_share is not None:
                 built["route_share"] = _round(route_share)
+            if stat == "tackles + assists":
+                built["source_stat_definition_version"] = NFL_SOURCE_STAT_VERSION
+                built["tackle_derived_cache_schema"] = TACKLE_DERIVED_CACHE_SCHEMA
             # None: week log missing. A list, possibly empty: log read, gate applied.
             # baseline_mean stays the mixed season rate. The deployment step chooses a split.
             built["teammate_splits"] = None if log is None else splits_from_log(
@@ -2808,7 +3038,10 @@ def nfl_series_from_log(log, snap_index, team: str, name: str, player_id, stat: 
     if log is None:
         return None
     if column is None:
-        if "def_tackles_solo" not in log["columns"] and "def_tackle_assists" not in log["columns"]:
+        if not any(
+            key in log["columns"]
+            for key in ("def_tackles_solo", "def_tackle_assists", "def_tackles_with_assist")
+        ):
             return None
     elif column not in log["columns"]:
         return None
@@ -3055,7 +3288,18 @@ def run_prep(argv: list[str] | None = None):
     return {"rows": len(payloads), "stdout": bool(args.stdout)}
 
 
-def fetch_nhl(game_date: str, retrieved_at: str, client=None, client_error: str | None = None, fetch=fetch_json, source_urls=None, history_workers=4):
+def fetch_nhl(
+    game_date: str,
+    retrieved_at: str,
+    client=None,
+    client_error: str | None = None,
+    fetch=fetch_json,
+    source_urls=None,
+    history_workers=4,
+    roster_identity_mode: str = "pregame_live",
+    collector_archive_root: Path | str | None = None,
+    clock=None,
+):
     notes = []
     if client_error:
         notes.append(client_error)
@@ -3149,6 +3393,32 @@ def fetch_nhl(game_date: str, retrieved_at: str, client=None, client_error: str 
     _remember(source_urls, source)
     if source == NHL_STATS_SKATER:
         _remember(source_urls, NHL_STATS_GOALIE)
+    identity_rejections: list[dict] = []
+    roster_memberships = None
+    roster_fetched: set[str] = set()
+    roster_receipts: list[dict] = []
+    if roster_identity_mode == "pregame_live":
+        roster_teams: set[str] = set()
+        for entry in (skaters or []) + (goalies or []):
+            for part in str(entry.get("teamAbbrevs") or "").split(","):
+                part = part.strip()
+                if part:
+                    roster_teams.add(part)
+        roster_memberships, roster_notes, roster_fetched, roster_receipts = nhl_pregame_roster_memberships(
+            games,
+            fetch,
+            extra_teams=sorted(roster_teams),
+            archive_root=collector_archive_root,
+            clock=clock or utc_now,
+            require_archived_membership=True,
+        )
+        notes.extend(roster_notes)
+        if games and not roster_memberships:
+            notes.append("nhl_roster_identities_unavailable_for_entire_slate")
+        if roster_receipts:
+            notes.append(f"nhl_roster_receipts:{len(roster_receipts)}")
+    elif roster_identity_mode != "historical_collector":
+        notes.append(f"nhl_roster_identity_mode_unrecognized:{roster_identity_mode}")
     rows = nhl_rows_from_summaries(
         games,
         skaters or [],
@@ -3157,7 +3427,15 @@ def fetch_nhl(game_date: str, retrieved_at: str, client=None, client_error: str 
         game_date,
         retrieved_at,
         source,
+        roster_memberships=roster_memberships,
+        roster_fetched_teams=roster_fetched,
+        identity_mode=roster_identity_mode,
+        identity_rejections=identity_rejections,
     )
+    if identity_rejections:
+        notes.append(
+            f"nhl_team_identity_rejections:{len(identity_rejections)}"
+        )
     prior_season = previous_season_id(season)
     current_logs,prior_logs,failed,prior_failed=load_history_pairs(
         _player_ids(rows),season,prior_season,
@@ -3174,7 +3452,7 @@ def fetch_nhl(game_date: str, retrieved_at: str, client=None, client_error: str 
             f"nhl: prior-season game-log failed for {prior_failed} player(s). "
             "prior_season_mean left null."
         )
-    return rows, notes
+    return rows, notes, identity_rejections, roster_receipts
 
 
 def frame_to_rows(frame) -> list[dict]:
@@ -3533,14 +3811,21 @@ def _as_notes(notes) -> list[str]:
 
 def _split_feed_result(result):
     if not isinstance(result, tuple):
-        return result, [], []
+        return result, [], [], {}
+    if len(result) >= 4:
+        extras = result[3]
+        if isinstance(extras, dict):
+            return result[0], result[1], list(result[2] or []), extras
+        return result[0], result[1], list(result[2] or []), {
+            "identity_rejections": list(extras or []),
+        }
     if len(result) >= 3:
-        return result[0], result[1], list(result[2] or [])
+        return result[0], result[1], list(result[2] or []), {}
     if len(result) == 2:
-        return result[0], result[1], []
+        return result[0], result[1], [], {}
     if len(result) == 1:
-        return result[0], [], []
-    return None, [], []
+        return result[0], [], [], {}
+    return None, [], [], {}
 
 
 def _feed_record(status: str, rows: int, started: str, finished: str, notes, source_urls) -> dict:
@@ -3569,15 +3854,17 @@ def _run_feed(name: str, fn, clock) -> tuple[dict, object]:
     started = clock()
     payload = None
     urls: list[str] = []
+    feed_extras: dict = {}
     failed = False
     if fn is None:
         notes = [f"{name}: feed was not run"]
         failed = True
     else:
         try:
-            payload, raw_notes, urls = _split_feed_result(fn())
+            payload, raw_notes, urls, feed_extras = _split_feed_result(fn())
             notes = _as_notes(raw_notes)
             urls = list(urls or [])
+            feed_extras = dict(feed_extras or {})
         except Exception as exc:
             notes = [f"{name}: {type(exc).__name__}: {exc}"]
             urls = []
@@ -3599,22 +3886,36 @@ def _run_feed(name: str, fn, clock) -> tuple[dict, object]:
         _remember(urls, url)
     status = "failed" if failed or not rows else "ok"
     kept = rows if status == "ok" else []
-    return _feed_record(status, len(kept), started, finished, notes, urls), kept
+    record = _feed_record(status, len(kept), started, finished, notes, urls)
+    if name == "nhl" and feed_extras:
+        record["identity_rejections"] = list(feed_extras.get("identity_rejections") or [])
+        record["roster_receipts"] = list(feed_extras.get("roster_receipts") or [])
+    return record, kept
 
 
-def _builtin_fetchers(game_date, retrieved_at, nhl_client, nhl_client_error, fetch_json_fn, data_dir=None):
+def _builtin_fetchers(
+    game_date, retrieved_at, nhl_client, nhl_client_error, fetch_json_fn, data_dir=None, clock=None,
+):
+    clock = clock or utc_now
     buckets = {name: [] for name in FEED_NAMES}
 
+    archive_root = (Path(data_dir) / "source_archives" / "collector") if data_dir else None
+
     def nhl():
-        rows, notes = fetch_nhl(
+        rows, notes, identity_rejections, roster_receipts = fetch_nhl(
             game_date,
             retrieved_at,
             client=nhl_client,
             client_error=nhl_client_error,
             fetch=fetch_json_fn,
             source_urls=buckets["nhl"],
+            collector_archive_root=archive_root,
+            clock=clock,
         )
-        return rows, notes, list(buckets["nhl"])
+        return rows, notes, list(buckets["nhl"]), {
+            "identity_rejections": identity_rejections,
+            "roster_receipts": roster_receipts,
+        }
 
     def nfl():
         path=Path(data_dir)/'season'/f'nfl_{int(nfl_season_from_date(game_date))}.sqlite3' if data_dir else None
@@ -3678,6 +3979,7 @@ def collect(
             nhl_client_error,
             fetch_json_fn,
             data_dir=Path(quotes_path).parent if quotes_path else None,
+            clock=clock,
         )
     summary = {"date": game_date, "retrieved_at": retrieved_at, "feeds": {}}
     player_rows: list[dict] = []
@@ -3694,8 +3996,18 @@ def collect(
             player_rows.extend(payload)
     resolved, unmatched = attach_prices(player_rows, quote_payload)
     if quotes_ready and quotes_path is not None:
-        write_jsonl(ordered_quotes(resolved), Path(quotes_path))
+        quotes_root = Path(quotes_path)
+        original_path = quotes_root.with_name("odds_quotes_original.jsonl")
+        # Structured pre-resolution records from the odds provider API parser,
+        # not byte-identical upstream HTTP responses.
+        write_jsonl(ordered_quotes(provider_quote_snapshot(quote_payload)), original_path)
+        write_jsonl(ordered_quotes(resolved), quotes_root)
         summary["quotes_out"] = str(quotes_path)
+        summary["quotes_original_out"] = str(original_path)
+        summary["quote_provenance_schema"] = "pickem_collector_quote_provenance_v1"
+        summary["original_quote_archive_semantics"] = (
+            "structured_pre_resolution_quote_records_not_raw_http_bytes"
+        )
     note = unmatched_note(unmatched)
     if note:
         summary["feeds"]["odds"]["notes"].append(note)
@@ -3745,10 +4057,141 @@ def failed_output_path(out: Path) -> Path:
     return Path(str(out) + ".failed.json")
 
 
+NHL_IDENTITY_LEDGER_SCHEMA = "pickem_nhl_identity_rejections_v1"
+NHL_IDENTITY_LEDGER_ARCHIVE_ROLE = "nhl_identity_rejections"
+
+
+def nhl_identity_ledger_archive_root(out: Path) -> Path:
+    return Path(out).parent / "source_archives" / "collector"
+
+
+def _canonical_identity_ledger_bytes(ledger: dict) -> bytes:
+    return json.dumps(
+        ledger, sort_keys=True, ensure_ascii=False, allow_nan=False, separators=(",", ":"),
+    ).encode("utf-8")
+
+
+def _write_immutable_collector_json(
+    archive_root: Path, namespace: str, payload: dict,
+) -> tuple[str, str, bytes]:
+    """Content-addressed JSON under archive_root/namespace/{digest}.json; create-if-absent."""
+    import hashlib
+    raw = _canonical_identity_ledger_bytes(payload)
+    digest = hashlib.sha256(raw).hexdigest()
+    if ".." in namespace.split("/"):
+        raise ValueError("nhl_identity_ledger_namespace_unsafe")
+    rel = f"{namespace}/{digest}.json"
+    target = Path(archive_root) / rel
+    target.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with target.open("xb") as handle:
+            handle.write(raw)
+    except FileExistsError:
+        existing = target.read_bytes()
+        if hashlib.sha256(existing).hexdigest() != digest:
+            raise ValueError("nhl_identity_ledger_archive_conflict")
+    stored = target.read_bytes()
+    if hashlib.sha256(stored).hexdigest() != digest:
+        raise ValueError("nhl_identity_ledger_archive_mutated")
+    return rel, digest, raw
+
+
+def resolve_nhl_identity_ledger_path(ref: dict, *, base: Path | None = None) -> Path:
+    """Resolve ledger artifact path; reject unsafe relative paths."""
+    if not isinstance(ref, dict):
+        raise ValueError("nhl_identity_ledger_ref_invalid")
+    rel = ref.get("archive_path")
+    if isinstance(rel, str) and rel:
+        if ".." in Path(rel).parts:
+            raise ValueError("nhl_identity_ledger_path_unsafe")
+        root = ref.get("collector_archive_root")
+        if root:
+            return (Path(root) / rel).resolve()
+        if base is not None:
+            return (base / "source_archives" / "collector" / rel).resolve()
+        raise ValueError("nhl_identity_ledger_archive_root_unresolved")
+    legacy = ref.get("path")
+    if not legacy:
+        raise ValueError("nhl_identity_ledger_path_missing")
+    path = Path(legacy)
+    if not path.is_absolute():
+        if base is None:
+            raise ValueError("nhl_identity_ledger_archive_root_unresolved")
+        path = (base / path).resolve()
+    return path
+
+
+def persist_nhl_identity_ledger(out: Path, summary: dict, clock=None) -> dict | None:
+    """Write immutable NHL identity rejection ledger linked to this collector run."""
+    feed = (summary.get("feeds") or {}).get("nhl")
+    if not isinstance(feed, dict):
+        return None
+    rejections = list(feed.get("identity_rejections") or [])
+    roster_receipts = list(feed.get("roster_receipts") or [])
+    recorded_at = (clock or utc_now)()
+    ledger = {
+        "schema": NHL_IDENTITY_LEDGER_SCHEMA,
+        "game_date": summary.get("date"),
+        "collector_run": {
+            "retrieved_at": summary.get("retrieved_at"),
+            "slate_out": str(out),
+            "meta_out": str(meta_path_for(out)),
+            "nhl_feed_started_at": feed.get("started_at"),
+            "nhl_feed_finished_at": feed.get("finished_at"),
+            "nhl_feed_status": feed.get("status"),
+            "recorded_at": recorded_at,
+        },
+        "denominators": {
+            "rejected_players": len(rejections),
+            "accepted_nhl_rows": int(feed.get("rows") or 0),
+            "roster_receipts": len(roster_receipts),
+        },
+        "rejections": [{**item, "recorded_at": recorded_at} for item in rejections],
+        "roster_receipts": roster_receipts,
+    }
+    archive_root = nhl_identity_ledger_archive_root(out)
+    archive_root.mkdir(parents=True, exist_ok=True)
+    rel, digest, _raw = _write_immutable_collector_json(
+        archive_root, NHL_IDENTITY_LEDGER_ARCHIVE_ROLE, ledger,
+    )
+    ref = {
+        "schema": NHL_IDENTITY_LEDGER_SCHEMA,
+        "archive_path": rel,
+        "collector_archive_root": str(archive_root.resolve()),
+        "content_sha256": digest,
+        "run_identity": {
+            "game_date": summary.get("date"),
+            "retrieved_at": summary.get("retrieved_at"),
+            "recorded_at": recorded_at,
+            "slate_out": str(out),
+        },
+        "rejection_count": len(rejections),
+        "accepted_nhl_rows": int(feed.get("rows") or 0),
+    }
+    summary["nhl_identity_ledger"] = ref
+    return ref
+
+
+def load_nhl_identity_ledger(meta: dict, *, base: Path | None = None) -> dict | None:
+    import hashlib
+    ref = meta.get("nhl_identity_ledger")
+    if not isinstance(ref, dict):
+        return None
+    if not ref.get("archive_path") and not ref.get("path"):
+        return None
+    path = resolve_nhl_identity_ledger_path(ref, base=base)
+    if not path.is_file():
+        raise ValueError("nhl_identity_ledger_archive_missing")
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != ref.get("content_sha256"):
+        raise ValueError("nhl_identity_ledger_digest_mismatch")
+    return json.loads(raw.decode("utf-8"))
+
+
 def meta_document(summary: dict) -> dict:
     feeds = {}
     for name, feed in (summary.get("feeds") or {}).items():
-        feeds[name] = {
+        entry = {
             "status": feed.get("status"),
             "rows": feed.get("rows"),
             "started_at": feed.get("started_at"),
@@ -3756,7 +4199,11 @@ def meta_document(summary: dict) -> dict:
             "notes": list(feed.get("notes") or []),
             "source_urls": list(feed.get("source_urls") or []),
         }
-    return {
+        if name == "nhl":
+            entry["identity_rejection_count"] = len(feed.get("identity_rejections") or [])
+            entry["roster_receipt_count"] = len(feed.get("roster_receipts") or [])
+        feeds[name] = entry
+    doc = {
         "date": summary.get("date"),
         "retrieved_at": summary.get("retrieved_at"),
         "usable": bool(summary.get("usable")),
@@ -3765,14 +4212,18 @@ def meta_document(summary: dict) -> dict:
         "coverage": summary.get('coverage'),
         "feeds": feeds,
     }
+    if summary.get("nhl_identity_ledger"):
+        doc["nhl_identity_ledger"] = dict(summary["nhl_identity_ledger"])
+    return doc
 
 
-def commit_slate(rows: list[dict], summary: dict, out: Path) -> int:
+def commit_slate(rows: list[dict], summary: dict, out: Path, *, clock=None) -> int:
     """Persist rows. Zero rows leaves `out` untouched, writes `<out>.failed.json`, and returns 2."""
     out = Path(out)
     summary["out"] = str(out)
     summary["meta"] = str(meta_path_for(out))
     summary["usable"] = bool(rows)
+    persist_nhl_identity_ledger(out, summary, clock=clock)
     if not rows:
         failed = failed_output_path(out)
         summary["failed_out"] = str(failed)

@@ -15,9 +15,17 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from phase0_input_capture import preserve, utc, stamp
+from phase0_market_quote_binding import (
+    MARKET_QUOTE_ARCHIVE_V1,
+    MARKET_QUOTE_ARCHIVE_V1_1,
+    detect_market_quote_archive_version,
+)
 from usage_baseline import key as usage_key
 
 SCHEMA = "pickem_pre_eval_input_binding_v1"
+ORIGINAL_QUOTE_ARCHIVE_NOTE = (
+    "structured_pre_resolution_quote_records_not_raw_http_bytes"
+)
 
 
 def canonical_bytes(value):
@@ -98,13 +106,30 @@ def pin(candidate, *, data_root, archive_root, policy_root, clock, identity=None
                relative="usage/" + ident + ".json", retrieved=retrieved,
                url=usage_doc.get("source_url"))
 
-        # The collector-derived market book payload is the model's direct
-        # input. Archive original quoted bytes separately for verification.
-        odds_raw = (root / "odds_quotes.jsonl").read_bytes()
-        if not odds_raw.strip():
-            raise ValueError("original_book_quotes_missing")
-        ingest("Market", "original_book_quotes", odds_raw,
-               relative="odds_quotes.jsonl")
+        # Archive pre-resolution structured quote records under the strict
+        # original_book_quotes role expected by phase0r_contract.
+        original_quotes = root / "odds_quotes_original.jsonl"
+        resolved_quotes = root / "odds_quotes.jsonl"
+        split_archive = original_quotes.is_file() and resolved_quotes.is_file()
+        if split_archive:
+            odds_raw = original_quotes.read_bytes()
+            if not odds_raw.strip():
+                raise ValueError("original_book_quotes_missing")
+            ingest("Market", "original_book_quotes", odds_raw,
+                   relative="odds_quotes_original.jsonl")
+            derived_raw = resolved_quotes.read_bytes()
+            if not derived_raw.strip():
+                raise ValueError("collector_resolved_book_quotes_missing")
+            if derived_raw == odds_raw:
+                raise ValueError("collector_resolved_quotes_must_differ_from_original")
+            ingest("Market", "collector_resolved_book_quotes", derived_raw,
+                   relative="odds_quotes.jsonl")
+        else:
+            odds_raw = resolved_quotes.read_bytes()
+            if not odds_raw.strip():
+                raise ValueError("original_book_quotes_missing")
+            ingest("Market", "original_book_quotes", odds_raw,
+                   relative="odds_quotes.jsonl")
         market_input = {k: candidate.get(k) for k in
                         ("books", "line", "side", "market_retrieved_at")}
         ingest("Market", "evaluated_market", canonical_bytes(market_input),
@@ -167,7 +192,14 @@ def pin(candidate, *, data_root, archive_root, policy_root, clock, identity=None
             "uses_isolated_production_policy": True,
             "external_context_unpinned": bool(candidate.get("event_context")),
             "source_publication_truth_verified": False,
+            "market_quote_archive_version": (
+                MARKET_QUOTE_ARCHIVE_V1_1 if split_archive else MARKET_QUOTE_ARCHIVE_V1
+            ),
+            "original_quote_archive_semantics": ORIGINAL_QUOTE_ARCHIVE_NOTE,
         }
+        detected = detect_market_quote_archive_version(frozen_files)
+        if detected != binding["market_quote_archive_version"]:
+            raise ValueError("market_quote_archive_binding_inconsistent")
         evidence = {
             "input_freeze_at": stamp(completed),
             "source_capture_at": stamp(completed),
