@@ -561,6 +561,18 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                 continue
             if c03_check["cohort"] == "B":
                 c03_original = candidate
+                # Original evaluated input must be captured BEFORE the
+                # numerical pre-evaluation freeze, not afterward.
+                from c03_context_cohorts import archive_original_candidate
+                try:
+                    c03_original_archive = archive_original_candidate(
+                        c03_original,
+                        Path(data_root or SKILL_ROOT / "data") / "source_archives",
+                        possessed_at=evaluation_now.isoformat() if evaluation_now else None)
+                except (OSError,ValueError,TypeError) as exc:
+                    mark("unavailable","c03_v2:original_source_capture_failed:"+
+                         type(exc).__name__)
+                    continue
                 candidate = c03_check["neutral_candidate"]
         if certified_only:
             exclusion = phase0r_live_candidate_rejection(
@@ -596,7 +608,6 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                         # the earlier provisional candidate-screen timestamp.
                         from c03_context_cohorts import (
                             classify as c03_classify, neutral_digest,
-                            archive_original_candidate,
                         )
                         c03_frozen = c03_classify(
                             c03_original, claims=c03_claims,
@@ -616,9 +627,6 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                             # separately validated by the v2 strict checker.
                             c03_binding["official_nhl_roster_receipts"] = (
                                 row["_c03_official_nhl_rosters"])
-                        c03_original_archive = archive_original_candidate(
-                            c03_original,
-                            Path(data_root or SKILL_ROOT / "data") / "source_archives")
                     if (meta.get("event_start")
                             and game_started(meta["event_start"], evaluation_at)):
                         mark("unavailable", "event_started_before_input_freeze")
