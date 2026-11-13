@@ -157,7 +157,7 @@ class C03CohortTests(unittest.TestCase):
             plan=classify(a,source_receipts=[r],claims=[c],archive_root=root,
                           input_freeze_at=FREEZE,event_start_at=EVENT)
             binding=plan["binding"]
-            binding["original_candidate_receipt"]=archive_original_candidate(a,root)
+            binding["original_candidate_receipt"]=archive_original_candidate(a,root,possessed_at=BEFORE)
             row={"c03_context_binding":binding,"c03_original_candidate":a,
                  "inputs":plan["neutral_candidate"],"input_freeze_at":FREEZE,
                  "event_start":EVENT}
