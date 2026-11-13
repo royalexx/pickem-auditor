@@ -117,6 +117,24 @@ class C03CohortTests(unittest.TestCase):
             self.assertEqual(classify(qb,source_receipts=[],claims=[],archive_root=root,
                 input_freeze_at=FREEZE,event_start_at=EVENT)["reason"],"STARTING_QB_UNVERIFIED")
 
+    def test_qb_rush_starter_gate_does_not_reject_verified_running_back(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            rb=original(pid="runner",sport="NFL",stat="rush attempts")
+            r,c=claim(root,"runner","rb",kind="verified_player_position")
+            out=classify(rb,source_receipts=[r],claims=[c],
+                archive_root=root,input_freeze_at=FREEZE,event_start_at=EVENT)
+            self.assertEqual(out["cohort"],"B")
+            qb=original(pid="passer",sport="NFL",stat="rushing yards")
+            rq,cq=claim(root,"passer","qb",kind="verified_player_position")
+            blocked=classify(qb,source_receipts=[rq],claims=[cq],
+                archive_root=root,input_freeze_at=FREEZE,event_start_at=EVENT)
+            self.assertEqual(blocked["reason"],"STARTING_QB_UNVERIFIED")
+            starter,st=claim(root,"passer","starter",kind="named_nfl_starting_qb")
+            good=classify(qb,source_receipts=[rq,starter],claims=[cq,st],
+                archive_root=root,input_freeze_at=FREEZE,event_start_at=EVENT)
+            self.assertEqual(good["cohort"],"B")
+
     def test_nhl_goalie_membership_not_starter(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d)
