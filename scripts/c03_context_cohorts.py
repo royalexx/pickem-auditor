@@ -33,7 +33,8 @@ RESEARCH_OWNED={
     "snap_pct_tonight","route_pct_tonight",
 }
 ALLOWED_KINDS={"subject_status","teammate_status","roster_membership",
-               "named_nfl_starting_qb","named_nhl_starting_goalie"}
+               "named_nfl_starting_qb","named_nhl_starting_goalie",
+               "verified_player_position"}
 COHORT_A="A"
 COHORT_B="B"
 COHORT_C="C"
@@ -202,6 +203,9 @@ def verify_claim(claim,receipts,*,archive_root,freeze,event_start,
     if claim["kind"] in ("subject_status","teammate_status"):
         if status not in KNOWN_STATUS:
             raise CohortError("UNRECOGNIZED_STATUS")
+    elif claim["kind"]=="verified_player_position":
+        if status not in ("qb","rb","wr","te","fb","unknown"):
+            raise CohortError("UNRECOGNIZED_NFL_POSITION_CLAIM")
     elif status not in ("starter","member"):
         raise CohortError("UNRECOGNIZED_LINEUP_CLAIM")
     return {**claim,"status":status}
@@ -335,14 +339,23 @@ def classify(candidate,*,source_receipts,claims,archive_root,
         if candidate.get("sport")=="NHL" and candidate.get("stat") in ("goalie saves","saves"):
             if not claim_set(verified,pid,"named_nhl_starting_goalie","starter"):
                 raise CohortError("NHL_STARTING_GOALIE_UNVERIFIED")
-        if candidate.get("sport")=="NFL" and candidate.get("stat") in (
-              "pass attempts","passing yards","completions","rushing yards",
-              "rushing attempts"):
-            # Only QB-specific candidates should be projected as quarterbacks.
-            # A verified roster position QB is mandatory before this gate can
-            # be used. In its absence abstain rather than infer from the market.
-            if not claim_set(verified,pid,"named_nfl_starting_qb","starter"):
-                raise CohortError("STARTING_QB_UNVERIFIED")
+        if candidate.get("sport")=="NFL":
+            stat=str(candidate.get("stat") or "")
+            pass_markets={"pass attempts","passing yards","completions"}
+            qb_rushing_markets={"rushing yards","rush attempts","rushing attempts"}
+            positions={v["status"] for v in verified if (
+                v["kind"]=="verified_player_position" and v["player_id"]==pid)}
+            if len(positions)>1:
+                raise CohortError("NFL_POSITION_CONFLICT")
+            position=next(iter(positions),None)
+            if stat in qb_rushing_markets and position is None:
+                raise CohortError("NFL_RUSHER_POSITION_UNVERIFIED")
+            if stat in pass_markets and position not in (None,"qb"):
+                raise CohortError("NFL_PASSER_POSITION_CONFLICT")
+            if (stat in pass_markets or
+                    stat in qb_rushing_markets and position=="qb"):
+                if not claim_set(verified,pid,"named_nfl_starting_qb","starter"):
+                    raise CohortError("STARTING_QB_UNVERIFIED")
         label=COHORT_B if (statuses or teammate_out or verified) else COHORT_A
         return _decision(label,"CERTIFIED_INPUT_CONTEXT_NEUTRAL" if label=="B" else
                          "NO_CONTEXT_DEPENDENCY",candidate,neutral,claims,source_receipts,
