@@ -75,6 +75,7 @@ def producer_data(root, sport="NHL", *, omit=None):
     if omit:
         factors.pop(omit)
     ret["factors"] = factors
+    ret["source_receipts"][0]["factor_names"] = list(factors.keys())
     return ret
 
 
@@ -301,6 +302,133 @@ class FactorReceiptTests(unittest.TestCase):
             )
             nc = manifest["negative_control_receipt"]
             self.assertEqual(nc["expected_status"], STATUS_INVALID)
+
+    def test_numeric_factors_without_bound_source_not_available(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            prod = producer_data(root)
+            bundle = frozen_bundle(root)
+            bundle["contracts"][0]["producer_factors"] = {
+                "factors": prod["factors"],
+                "source_receipts": [],
+            }
+            manifest = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
+            rows = manifest["contracts"][0]["factor_rows"]
+            self.assertTrue(all(r["status"] == STATUS_INVALID for r in rows))
+            self.assertFalse(any(r["status"] == STATUS_AVAILABLE for r in rows))
+
+    def test_placeholder_source_digest_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            bundle = frozen_bundle(root)
+            bundle["contracts"][0]["producer_factors"]["source_receipts"][0]["sha256"] = (
+                "0" * 64
+            )
+            manifest = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
+            self.assertTrue(
+                all(r["status"] == STATUS_INVALID for r in manifest["contracts"][0]["factor_rows"])
+            )
+
+    def test_partial_bundle_single_verified_factor(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            prod = producer_data(root)
+            bundle = frozen_bundle(root)
+            pf = bundle["contracts"][0]["producer_factors"]
+            pf["factors"] = {"team_unblocked_attempts": prod["factors"]["team_unblocked_attempts"]}
+            pf["source_receipts"] = [
+                {
+                    **prod["source_receipts"][0],
+                    "factor_names": ["team_unblocked_attempts"],
+                }
+            ]
+            manifest = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
+            rows = {r["factor_name"]: r["status"] for r in manifest["contracts"][0]["factor_rows"]}
+            self.assertEqual(rows["team_unblocked_attempts"], STATUS_AVAILABLE)
+            self.assertEqual(rows["probability_active"], STATUS_UNMEASURED)
+
+    def test_manifest_sha256_mismatch_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest = build_capture_manifest(frozen_bundle(root), source_root=root, observed_clock=CLOCK)
+            manifest["manifest_sha256"] = "f" * 64
+            with self.assertRaisesRegex(SettlementCaptureError, "manifest_sha256_mismatch"):
+                write_capture_manifest(manifest, root / "out")
+
+    def test_idempotent_write_verifies_existing_bytes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            out = root / "cap"
+            manifest = build_capture_manifest(frozen_bundle(root), source_root=root, observed_clock=CLOCK)
+            first = write_capture_manifest(manifest, out)
+            second = write_capture_manifest(manifest, out)
+            self.assertTrue(first["written"])
+            self.assertFalse(second["written"])
+            self.assertEqual(second["reason"], "identical_capture_exists")
+
+    def test_existing_manifest_tamper_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            out = root / "cap"
+            manifest = build_capture_manifest(frozen_bundle(root), source_root=root, observed_clock=CLOCK)
+            write_capture_manifest(manifest, out)
+            files = list(out.glob("phase15_factor_capture_*.json"))
+            doc = json.loads(files[0].read_text(encoding="utf-8"))
+            doc["run_id"] = doc["run_id"] + "-tampered"
+            files[0].write_text(json.dumps(doc, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+            with self.assertRaisesRegex(SettlementCaptureError, "existing_manifest_tampered"):
+                write_capture_manifest(manifest, out)
+
+    def test_nba_overtime_minutes_within_bound(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            ret = producer_data(root, "NBA")
+            ret["factors"]["projected_minutes"] = 52
+            manifest = build_capture_manifest(
+                {
+                    "schema": "v25_phase15_frozen_capture_bundle_v1",
+                    "experiment_id": "EXP-TEST",
+                    "run_id": RUN_ID,
+                    "contracts": [
+                        {
+                            "sport": "NBA",
+                            "stat": "pra",
+                            "event_id": "pregame-event",
+                            "player_id": "123",
+                            "game_date": "2026-11-11",
+                            "event_start": EVENT,
+                            "forecast_at": ret["forecast_at"],
+                            "input_freeze_at": ret["input_freeze_at"],
+                            "model_training_cutoff_at": ret["model_training_cutoff_at"],
+                            "producer_factors": {
+                                "factors": ret["factors"],
+                                "source_receipts": ret["source_receipts"],
+                            },
+                        }
+                    ],
+                },
+                source_root=root,
+                observed_clock=CLOCK,
+            )
+            minutes_row = next(
+                r for r in manifest["contracts"][0]["factor_rows"]
+                if r["factor_name"] == "projected_minutes"
+            )
+            self.assertEqual(minutes_row["status"], STATUS_AVAILABLE)
+
+    def test_nba_negative_minutes_invalid(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            ret = producer_data(root, "NBA")
+            ret["factors"]["projected_minutes"] = -1
+            bundle = frozen_bundle(root, "NBA")
+            bundle["contracts"][0]["producer_factors"]["factors"]["projected_minutes"] = -1
+            manifest = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
+            row = next(
+                r for r in manifest["contracts"][0]["factor_rows"]
+                if r["factor_name"] == "projected_minutes"
+            )
+            self.assertEqual(row["status"], STATUS_INVALID)
 
 
 class JobsIntegrationTests(unittest.TestCase):

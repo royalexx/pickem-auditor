@@ -39,7 +39,7 @@ Persist genuinely pregame, time-frozen opportunity-factor evidence for later Pha
 }
 ```
 
-Omitted `producer_factors` or partial factor dicts yield per-factor **`UNMEASURED`** rows (never imputed).
+Omitted `producer_factors` or partial factor dicts yield per-factor **`UNMEASURED`** rows (never imputed). Numeric factors without a **per-factor verified source receipt** (via `factor_names` on a `source_receipts` entry or `factor_source_receipts[factor_name]`) are recorded **`INVALID`**, never `AVAILABLE`. Placeholder digests (`0`*64), inline source ids, and unarchived bytes are rejected.
 
 ### Output manifest — `v25_phase15_pregame_factor_capture_v2`
 

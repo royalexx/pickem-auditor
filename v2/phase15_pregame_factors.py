@@ -11,7 +11,6 @@ from datetime import datetime, timezone
 import hashlib
 import json
 import math
-import os
 import re
 from pathlib import Path
 from typing import Any
@@ -30,6 +29,9 @@ STATUS_INVALID = "INVALID"
 
 POSTGAME_FORBIDDEN = re.compile(
     r"^(actual_|postgame_|realized_|boxscore_)", re.IGNORECASE)
+
+NBA_MAX_PROJECTED_MINUTES = 120.0
+FORBIDDEN_INLINE_SOURCE_IDS = frozenset({"producer_inline", "inline"})
 
 NBA_STATS = {"points", "assists", "rebounds", "threes", "pa", "pr", "ra", "pra"}
 
@@ -104,6 +106,118 @@ def _reject_postgame_keys(obj: dict | None, label: str) -> None:
             raise SettlementCaptureError("postgame_factor_forbidden:" + label + ":" + key)
 
 
+def _valid_content_digest(digest: str | None) -> bool:
+    if not isinstance(digest, str) or len(digest) != 64:
+        return False
+    if digest == "0" * 64:
+        return False
+    try:
+        int(digest, 16)
+    except ValueError:
+        return False
+    return True
+
+
+def _verify_archived_source(sr: dict, *, source_root: Path) -> dict:
+    if not isinstance(sr, dict):
+        raise SettlementCaptureError("factor_source_invalid")
+    relative = sr.get("archive_path")
+    hash_ = sr.get("sha256")
+    retrieved = sr.get("retrieved_at")
+    if (
+        not isinstance(relative, str)
+        or not relative
+        or relative.startswith("/")
+        or "\\" in relative
+        or ".." in relative.split("/")
+    ):
+        raise SettlementCaptureError("factor_unsafe_source")
+    if not _valid_content_digest(hash_):
+        raise SettlementCaptureError("factor_placeholder_source_digest")
+    if not retrieved:
+        raise SettlementCaptureError("factor_source_missing_retrieved_at")
+    root = source_root.resolve()
+    path = (root / relative).resolve()
+    if not path.is_relative_to(root) or not path.is_file():
+        raise SettlementCaptureError("factor_source_missing")
+    if _digest_bytes(path.read_bytes()) != hash_:
+        raise SettlementCaptureError("factor_source_hash_mismatch")
+    return {
+        "source_identifier": relative,
+        "source_content_sha256": hash_,
+        "source_retrieved_at": instant(retrieved).isoformat().replace("+00:00", "Z"),
+        "source_available_at": (
+            instant(sr["source_available_at"]).isoformat().replace("+00:00", "Z")
+            if sr.get("source_available_at")
+            else None
+        ),
+    }
+
+
+def _resolve_factor_source_receipt(fname: str, producer: dict) -> dict | None:
+    fmap = producer.get("factor_source_receipts")
+    if isinstance(fmap, dict):
+        rec = fmap.get(fname)
+        if isinstance(rec, dict):
+            return rec
+    for sr in producer.get("source_receipts") or []:
+        if not isinstance(sr, dict):
+            continue
+        names = sr.get("factor_names")
+        if isinstance(names, list) and fname in names:
+            return sr
+    return None
+
+
+def _validate_single_factor_numeric(sport: str, fname: str, value: float) -> str | None:
+    if sport == "NHL":
+        if fname == "team_unblocked_attempts" and value < 0:
+            return "factor_nhl_team_attempts_negative"
+        if fname in (
+            "probability_active",
+            "individual_share_if_active",
+            "on_target_probability",
+        ) and not 0 <= value <= 1:
+            return "factor_nhl_probability_out_of_range"
+    else:
+        if fname == "projected_minutes" and (value < 0 or value > NBA_MAX_PROJECTED_MINUTES):
+            return "factor_nba_minutes_out_of_range"
+        if fname == "projected_team_possessions" and value < 0:
+            return "factor_nba_possessions_negative"
+        if fname in (
+            "player_usage_or_opportunity_rate",
+            "conditional_stat_rate_per_minute",
+        ) and value < 0:
+            return "factor_nba_rate_negative"
+    return None
+
+
+def _chronology_invalid_reason(
+    *,
+    model_training_cutoff_at: str | None,
+    input_freeze_at: datetime,
+    forecast_at: datetime,
+    event_start: datetime,
+    source_retrieved_at: datetime | None,
+    possession_clock: datetime,
+) -> str | None:
+    if possession_clock >= event_start:
+        return "capture_clock_not_before_event_start"
+    if forecast_at >= event_start:
+        return "forecast_at_not_before_event_start"
+    if input_freeze_at > forecast_at:
+        return "input_freeze_after_forecast"
+    if source_retrieved_at is not None and source_retrieved_at > input_freeze_at:
+        return "source_retrieved_after_input_freeze"
+    if source_retrieved_at is not None and source_retrieved_at > possession_clock:
+        return "source_retrieved_after_capture_clock"
+    if model_training_cutoff_at:
+        cutoff = instant(model_training_cutoff_at)
+        if cutoff > input_freeze_at:
+            return "model_training_cutoff_after_input_freeze"
+    return None
+
+
 def factor_specs(sport: str, stat: str) -> tuple[tuple[str, str, str], ...]:
     key = (sport, stat)
     if key not in FACTOR_SPECS:
@@ -136,11 +250,8 @@ def validate_factor_row(
     out = dict(row)
     out["factor_name"] = name
     out["status"] = status
-    out.setdefault("units", next(u for n, _c, u in factor_specs(sport, stat) if n == name))
-    out.setdefault(
-        "factor_category",
-        next(c for n, c, _u in factor_specs(sport, stat) if n == name),
-    )
+    out["units"] = next(u for n, _c, u in factor_specs(sport, stat) if n == name)
+    out["factor_category"] = next(c for n, c, _u in factor_specs(sport, stat) if n == name)
     out.setdefault("conditioning", "full_game")
     out.setdefault("provenance_status", "shadow_original_runtime_inputs_only")
     if str(row.get("event_id", event_id)) != str(event_id):
@@ -151,73 +262,92 @@ def validate_factor_row(
     out["player_id"] = str(player_id)
     freeze_at = instant(row.get("input_freeze_at") or row.get("forecast_at") or "")
     forecast_at = instant(row.get("forecast_at") or row.get("input_freeze_at") or "")
-    if forecast_at >= event_start:
+    cutoff_raw = row.get("model_training_cutoff_at")
+    src_ret = instant(row["source_retrieved_at"]) if row.get("source_retrieved_at") else None
+    chron = _chronology_invalid_reason(
+        model_training_cutoff_at=cutoff_raw,
+        input_freeze_at=freeze_at,
+        forecast_at=forecast_at,
+        event_start=event_start,
+        source_retrieved_at=src_ret,
+        possession_clock=possession_clock,
+    )
+    if chron and status == STATUS_AVAILABLE:
         status = STATUS_INVALID
         out["status"] = status
-        out["invalid_reason"] = "forecast_at_not_before_event_start"
+        out["invalid_reason"] = chron
     if status == STATUS_AVAILABLE:
         if row.get("predicted_value") is None:
             raise SettlementCaptureError("factor_available_missing_value:" + name)
         _reject_postgame_keys({"predicted_value": row.get("predicted_value")}, name)
         val = _num(row["predicted_value"], name)
-        out["predicted_value"] = val
+        numeric_reason = _validate_single_factor_numeric(sport, name, val)
+        if numeric_reason:
+            out["status"] = STATUS_INVALID
+            out["invalid_reason"] = numeric_reason
+            out["predicted_value"] = None
+        else:
+            out["predicted_value"] = val
         src_id = row.get("source_identifier")
         src_hash = row.get("source_content_sha256")
         retrieved = row.get("source_retrieved_at")
-        if not src_id or not src_hash or not retrieved:
-            raise SettlementCaptureError("factor_available_missing_source:" + name)
-        ret = instant(retrieved)
-        if ret > possession_clock:
-            status = STATUS_INVALID
-            out["status"] = status
-            out["invalid_reason"] = "source_retrieved_after_capture_clock"
-        if ret > freeze_at:
-            status = STATUS_INVALID
-            out["status"] = status
-            out["invalid_reason"] = "source_retrieved_after_input_freeze"
-        out["source_identifier"] = str(src_id)
-        out["source_content_sha256"] = str(src_hash)
-        out["source_retrieved_at"] = ret.isoformat().replace("+00:00", "Z")
-        if row.get("source_available_at"):
-            out["source_available_at"] = instant(row["source_available_at"]).isoformat().replace(
-                "+00:00", "Z"
+        if (
+            not src_id
+            or str(src_id).strip() in FORBIDDEN_INLINE_SOURCE_IDS
+            or not _valid_content_digest(src_hash)
+            or not retrieved
+        ):
+            out["status"] = STATUS_INVALID
+            out["invalid_reason"] = "factor_available_missing_verified_source"
+            out["predicted_value"] = None
+        elif out["status"] == STATUS_AVAILABLE:
+            ret = instant(retrieved)
+            chron2 = _chronology_invalid_reason(
+                model_training_cutoff_at=cutoff_raw,
+                input_freeze_at=freeze_at,
+                forecast_at=forecast_at,
+                event_start=event_start,
+                source_retrieved_at=ret,
+                possession_clock=possession_clock,
             )
+            if chron2:
+                out["status"] = STATUS_INVALID
+                out["invalid_reason"] = chron2
+                out["predicted_value"] = None
+            else:
+                out["source_identifier"] = str(src_id)
+                out["source_content_sha256"] = str(src_hash)
+                out["source_retrieved_at"] = ret.isoformat().replace("+00:00", "Z")
+                if row.get("source_available_at"):
+                    out["source_available_at"] = instant(row["source_available_at"]).isoformat().replace(
+                        "+00:00", "Z"
+                    )
     elif status == STATUS_UNMEASURED:
         if row.get("predicted_value") is not None:
             raise SettlementCaptureError("factor_unmeasured_must_not_have_value:" + name)
         out["predicted_value"] = None
+        for k in (
+            "source_identifier",
+            "source_content_sha256",
+            "source_retrieved_at",
+            "source_available_at",
+        ):
+            out.pop(k, None)
     else:
         out["predicted_value"] = None
         out.setdefault("invalid_reason", "unspecified")
     out["input_freeze_at"] = freeze_at.isoformat().replace("+00:00", "Z")
     out["forecast_at"] = forecast_at.isoformat().replace("+00:00", "Z")
-    if row.get("model_training_cutoff_at"):
-        out["model_training_cutoff_at"] = instant(row["model_training_cutoff_at"]).isoformat().replace(
-            "+00:00", "Z"
-        )
+    if cutoff_raw:
+        out["model_training_cutoff_at"] = instant(cutoff_raw).isoformat().replace("+00:00", "Z")
     return out
 
 
 def _validate_v1_numeric_ranges(sport: str, values: dict[str, float]) -> None:
-    if sport == "NHL":
-        if values["team_unblocked_attempts"] < 0 or any(
-            not 0 <= values[k] <= 1
-            for k in (
-                "probability_active",
-                "individual_share_if_active",
-                "on_target_probability",
-            )
-        ):
-            raise SettlementCaptureError("factor_nhl_support_violation")
-    else:
-        if (
-            values["projected_minutes"] < 0
-            or values["projected_minutes"] > 80
-            or values["projected_team_possessions"] < 0
-            or values["player_usage_or_opportunity_rate"] < 0
-            or values["conditional_stat_rate_per_minute"] < 0
-        ):
-            raise SettlementCaptureError("factor_nba_support_violation")
+    for fname, val in values.items():
+        reason = _validate_single_factor_numeric(sport, fname, val)
+        if reason:
+            raise SettlementCaptureError("factor_v1_support_violation:" + reason)
 
 
 def _rows_from_producer(
@@ -239,25 +369,6 @@ def _rows_from_producer(
     factors = producer.get("factors")
     if factors is not None and not isinstance(factors, dict):
         raise SettlementCaptureError("producer_factors_not_object")
-    sources = producer.get("source_receipts") or []
-    if factors and not isinstance(sources, list):
-        raise SettlementCaptureError("factor_original_sources_missing")
-    source_by_path: dict[str, dict] = {}
-    if source_root is not None and sources:
-        root = source_root.resolve()
-        for sr in sources:
-            if not isinstance(sr, dict):
-                raise SettlementCaptureError("factor_source_invalid")
-            relative = sr.get("archive_path")
-            hash_ = sr.get("sha256")
-            if not isinstance(relative, str) or not relative or relative.startswith("/"):
-                raise SettlementCaptureError("factor_unsafe_source")
-            path = (root / relative).resolve()
-            if not path.is_relative_to(root) or not path.is_file():
-                raise SettlementCaptureError("factor_source_missing")
-            if not isinstance(hash_, str) or _digest_bytes(path.read_bytes()) != hash_:
-                raise SettlementCaptureError("factor_source_hash_mismatch")
-            source_by_path[relative] = sr
     rows: list[dict] = []
     for fname, _cat, units in factor_specs(sport, stat):
         base = {
@@ -272,22 +383,38 @@ def _rows_from_producer(
         }
         if model_training_cutoff_at:
             base["model_training_cutoff_at"] = model_training_cutoff_at
-        if isinstance(factors, dict) and fname in factors:
-            sr = sources[0] if len(sources) == 1 else None
-            if sr is None and sources:
-                sr = sources[0]
-            row = {
-                **base,
-                "status": STATUS_AVAILABLE,
-                "predicted_value": factors[fname],
-                "source_identifier": (sr or {}).get("archive_path", producer.get("source_identifier", "producer_inline")),
-                "source_content_sha256": (sr or {}).get("sha256", producer.get("source_content_sha256", "0" * 64)),
-                "source_retrieved_at": (sr or {}).get("retrieved_at", producer.get("source_retrieved_at", forecast_at)),
-            }
-            if sr and sr.get("source_available_at"):
-                row["source_available_at"] = sr["source_available_at"]
-        else:
+        has_value = isinstance(factors, dict) and fname in factors and factors[fname] is not None
+        if not has_value:
             row = {**base, "status": STATUS_UNMEASURED, "predicted_value": None}
+        else:
+            sr = _resolve_factor_source_receipt(fname, producer)
+            if sr is None or source_root is None:
+                row = {
+                    **base,
+                    "status": STATUS_INVALID,
+                    "predicted_value": factors[fname],
+                    "invalid_reason": "missing_verified_source_receipt",
+                }
+            else:
+                try:
+                    verified = _verify_archived_source(sr, source_root=source_root)
+                except SettlementCaptureError as exc:
+                    reason = exc.args[0] if exc.args else "source_verification_failed"
+                    row = {
+                        **base,
+                        "status": STATUS_INVALID,
+                        "predicted_value": factors[fname],
+                        "invalid_reason": reason,
+                    }
+                else:
+                    row = {
+                        **base,
+                        "status": STATUS_AVAILABLE,
+                        "predicted_value": factors[fname],
+                        **verified,
+                    }
+                    if verified.get("source_available_at"):
+                        row["source_available_at"] = verified["source_available_at"]
         rows.append(
             validate_factor_row(
                 row,
@@ -299,10 +426,13 @@ def _rows_from_producer(
                 possession_clock=possession_clock,
             )
         )
-    if isinstance(factors, dict) and factors:
-        values = {k: _num(factors[k], k) for k in FIELDS_REQUIRED_V1[sport] if k in factors}
-        if set(values) == set(FIELDS_REQUIRED_V1[sport]):
-            _validate_v1_numeric_ranges(sport, values)
+    available_values = {
+        r["factor_name"]: r["predicted_value"]
+        for r in rows
+        if r["status"] == STATUS_AVAILABLE and r["predicted_value"] is not None
+    }
+    if set(available_values) == set(FIELDS_REQUIRED_V1[sport]):
+        _validate_v1_numeric_ranges(sport, available_values)
     return rows
 
 
@@ -399,8 +529,9 @@ def build_capture_manifest(
         "contract_count": len(captures),
         "four_factor_attribution_possible": False,
         "four_factor_attribution_note": (
-            "Set true only when every contract has all four categories AVAILABLE "
-            "from authentic pregame sources; never from postgame boxes."
+            "Shadow capture always emits four rows per contract for schema completeness; "
+            "this never implies oracle attribution readiness. Independently verified "
+            "AVAILABLE pregame factors from immutable source receipts are required first."
         ),
     }
     available_by_cat: dict[str, int] = {}
@@ -410,20 +541,6 @@ def build_capture_manifest(
                 available_by_cat[row["factor_category"]] = (
                     available_by_cat.get(row["factor_category"], 0) + 1
                 )
-    required_cats = {"team_volume", "player_participation", "opportunity_share", "conditional_efficiency"}
-    if (
-        captures
-        and all(
-            required_cats <= {r["factor_category"] for r in c["factor_rows"] if r["status"] == STATUS_AVAILABLE}
-            for c in captures
-        )
-        and manifest["row_count"] == len(captures) * 4
-    ):
-        manifest["four_factor_attribution_possible"] = True
-        manifest["four_factor_attribution_note"] = (
-            "All contracts report four AVAILABLE pregame factors; oracle attribution "
-            "may proceed only under Phase 1.5 preregistered diagnostics."
-        )
     manifest["available_factor_rows_by_category"] = available_by_cat
     if include_negative_control:
         manifest["negative_control_receipt"] = synthetic_negative_control_receipt(possession)
@@ -473,61 +590,69 @@ def capture_artifact_paths(output_dir: Path, manifest: dict) -> tuple[Path, Path
     return manifest_path, index_path
 
 
-def write_capture_manifest(
-    manifest: dict,
-    output_dir: Path,
-    *,
-    allow_supersession: bool = False,
-) -> dict:
+def _index_entries(index_path: Path) -> list[dict]:
+    if not index_path.exists():
+        return []
+    out = []
+    for line in index_path.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            out.append(json.loads(line))
+    return out
+
+
+def write_capture_manifest(manifest: dict, output_dir: Path) -> dict:
+    expected = manifest_canonical_hash(manifest)
+    if manifest.get("manifest_sha256") != expected:
+        raise SettlementCaptureError("manifest_sha256_mismatch")
     manifest_path, index_path = capture_artifact_paths(output_dir, manifest)
-    if manifest_path.exists() and not allow_supersession:
-        existing = json.loads(manifest_path.read_text(encoding="utf-8"))
-        if existing.get("manifest_sha256") == manifest["manifest_sha256"]:
-            return {
-                "written": False,
-                "reason": "identical_capture_exists",
-                "path": str(manifest_path),
-                "manifest_sha256": manifest["manifest_sha256"],
-            }
-        raise SettlementCaptureError("duplicate_capture_path_hash_collision")
     key = {
         "experiment_id": manifest["experiment_id"],
         "run_id": manifest["run_id"],
-        "manifest_sha256": manifest["manifest_sha256"],
+        "manifest_sha256": expected,
     }
-    if index_path.exists():
-        for line in index_path.read_text(encoding="utf-8").splitlines():
-            if not line.strip():
-                continue
-            prior = json.loads(line)
-            if (
-                prior.get("experiment_id") == key["experiment_id"]
-                and prior.get("run_id") == key["run_id"]
-                and prior.get("manifest_sha256") != key["manifest_sha256"]
-                and not allow_supersession
-            ):
+    if manifest_path.exists():
+        existing = json.loads(manifest_path.read_bytes().decode("utf-8"))
+        if manifest_canonical_hash(existing) != expected:
+            raise SettlementCaptureError("existing_manifest_tampered")
+        return {
+            "written": False,
+            "reason": "identical_capture_exists",
+            "path": str(manifest_path),
+            "manifest_sha256": expected,
+        }
+    for prior in _index_entries(index_path):
+        if prior.get("experiment_id") == key["experiment_id"] and prior.get("run_id") == key["run_id"]:
+            if prior.get("manifest_sha256") != key["manifest_sha256"]:
                 raise SettlementCaptureError("duplicate_capture_key_run_id")
     payload = json.dumps(manifest, sort_keys=True, indent=2, allow_nan=False) + "\n"
-    tmp = manifest_path.with_suffix(".tmp")
-    tmp.write_text(payload, encoding="utf-8")
-    os.replace(tmp, manifest_path)
-    with index_path.open("a", encoding="utf-8") as index:
-        index.write(
-            json.dumps(
-                {
-                    **key,
-                    "path": manifest_path.name,
-                    "capture_run_at": manifest["capture_run_at"],
-                    "contract_count": manifest["contract_count"],
-                },
-                sort_keys=True,
+    try:
+        with manifest_path.open("x", encoding="utf-8") as out:
+            out.write(payload)
+    except FileExistsError as exc:
+        raise SettlementCaptureError("duplicate_capture_race") from exc
+    if not any(
+        p.get("experiment_id") == key["experiment_id"]
+        and p.get("run_id") == key["run_id"]
+        and p.get("manifest_sha256") == key["manifest_sha256"]
+        for p in _index_entries(index_path)
+    ):
+        with index_path.open("a", encoding="utf-8") as index:
+            index.write(
+                json.dumps(
+                    {
+                        **key,
+                        "path": manifest_path.name,
+                        "capture_run_at": manifest["capture_run_at"],
+                        "contract_count": manifest["contract_count"],
+                    },
+                    sort_keys=True,
+                )
+                + "\n"
             )
-            + "\n"
-        )
     return {
         "written": True,
         "path": str(manifest_path),
-        "manifest_sha256": manifest["manifest_sha256"],
+        "manifest_sha256": expected,
         "index_path": str(index_path),
     }
 
@@ -688,14 +813,15 @@ def validate_pregame_factor_receipt(receipt, *, source_root, possession_clock):
         if abs(provided - exp) > max(1e-8, 1e-6 * max(1, exp)):
             raise SettlementCaptureError("factor_nhl_product_not_coherent")
     else:
-        if (
-            val["projected_minutes"] < 0
-            or val["projected_minutes"] > 80
-            or val["projected_team_possessions"] < 0
-            or val["player_usage_or_opportunity_rate"] < 0
-            or val["conditional_stat_rate_per_minute"] < 0
-        ):
+        if _validate_single_factor_numeric("NBA", "projected_minutes", val["projected_minutes"]):
             raise SettlementCaptureError("factor_nba_support_violation")
+        for nba_field in (
+            "projected_team_possessions",
+            "player_usage_or_opportunity_rate",
+            "conditional_stat_rate_per_minute",
+        ):
+            if _validate_single_factor_numeric("NBA", nba_field, val[nba_field]):
+                raise SettlementCaptureError("factor_nba_support_violation")
         if receipt.get("factorization") != "nba_diagnostic_nonmultiplicative_v1":
             raise SettlementCaptureError("factor_nba_invalid_multiplicative_claim")
         if receipt.get("implied_mean") is not None:
