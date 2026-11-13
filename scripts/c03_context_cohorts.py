@@ -490,3 +490,31 @@ def strict_c03_snapshot_status(row,*,archive_root):
         if any(r.get("source_publication_truth_verified") is not False for r in receipts):
             return False,"C03_UPSTREAM_PUBLICATION_CLAIM_INVALID"
     return True,"C03_STRICT_SOURCE_NEUTRAL_BASELINE"
+
+
+def settlement_disposition(*,participated,official_state,actual_stat,line,
+                           void_terms_verified,provider_void_on_dnp):
+    """Separate played zero and early-exit outcomes from DNP/void policy.
+
+    No default book rules: without a verified market-specific void definition
+    neither a missing player nor a postponed event is scorable.
+    """
+    if official_state not in ("settled","dnp","postponed","void","unverified"):
+        raise CohortError("SETTLEMENT_STATE_UNKNOWN")
+    if official_state in ("dnp","postponed","void"):
+        if not void_terms_verified or provider_void_on_dnp is None:
+            return {"status":"UNVERIFIED_VOID_RULE","scoreable":False}
+        if official_state=="void" or (official_state=="dnp" and provider_void_on_dnp):
+            return {"status":"VOID","scoreable":False}
+        return {"status":"NEEDS_OFFICIAL_BOOK_RESOLUTION","scoreable":False}
+    if official_state!="settled" or participated is not True:
+        return {"status":"UNVERIFIED_SETTLEMENT","scoreable":False}
+    if type(actual_stat) not in (int,float) or type(line) not in (int,float):
+        raise CohortError("INVALID_SETTLEMENT_VALUE")
+    import math
+    if not math.isfinite(actual_stat) or not math.isfinite(line):
+        raise CohortError("NONFINITE_SETTLEMENT")
+    return {"status":("push" if actual_stat==line else
+                      "over" if actual_stat>line else "under"),
+            "scoreable":True,"actual_stat":actual_stat,
+            "participation":"played_includes_zero_or_early_exit"}
