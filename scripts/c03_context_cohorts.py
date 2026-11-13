@@ -483,6 +483,53 @@ def capture_live_http_body(url,*,archive_root,source_namespace,source_id,timeout
     return receipt
 
 
+PREMERGE_REQUIRED_CORE=("dist","side","line","baseline_mean","baseline_n")
+PREMERGE_OPTIONAL_NUMERIC=(
+    "recent_mean","recent_n","season_n","prior_mean","prior_n",
+    "sd","var_ratio","observation_ids","books","market_retrieved_at",
+)
+
+
+def verify_premerge_numeric_receipt(receipt,*,archive_root,neutral_candidate,
+                                    input_freeze_at):
+    """Independent raw collector pre-research input against neutral baseline.
+
+    This is not a substitute for upstream historical-usage or market receipt
+    verification, both checked by existing Phase 0R.
+    """
+    if not isinstance(receipt,dict):
+        raise CohortError("C03_PREMERGE_SOURCE_MISSING")
+    path=_safe_archive(archive_root,receipt.get("archive_path"))
+    if not path.is_file():
+        raise CohortError("C03_PREMERGE_ARCHIVE_MISSING")
+    raw=path.read_bytes()
+    if (len(raw)!=receipt.get("bytes") or
+            hashlib.sha256(raw).hexdigest()!=receipt.get("content_sha256")):
+        raise CohortError("C03_PREMERGE_ARCHIVE_DIGEST_MISMATCH")
+    possessed=_utc(receipt.get("collector_possessed_at"),"premerge_possessed_at")
+    if possessed>_utc(input_freeze_at,"input_freeze_at"):
+        raise CohortError("C03_PREMERGE_CAPTURE_AFTER_FREEZE")
+    try:doc=json.loads(raw)
+    except (TypeError,ValueError,UnicodeDecodeError) as exc:
+        raise CohortError("C03_PREMERGE_ARCHIVE_INVALID") from exc
+    if not isinstance(doc,dict):
+        raise CohortError("C03_PREMERGE_DOC_NOT_OBJECT")
+    for k in PREMERGE_REQUIRED_CORE:
+        if k not in doc or doc[k]!=neutral_candidate.get(k):
+            raise CohortError("C03_PREMERGE_NUMERIC_MISMATCH:"+k)
+    for k in PREMERGE_OPTIONAL_NUMERIC:
+        if k in doc and doc[k]!=neutral_candidate.get(k):
+            raise CohortError("C03_PREMERGE_NUMERIC_MISMATCH:"+k)
+    # The neutral model can use only the historical_usage reference; compare
+    # that source handle when it originated in the collector.
+    history=(doc.get("scouting") or {})
+    if isinstance(history,dict) and history.get("historical_usage") is not None:
+        if history["historical_usage"] != (
+                neutral_candidate.get("scouting") or {}).get("historical_usage"):
+            raise CohortError("C03_PREMERGE_USAGE_HANDLE_MISMATCH")
+    return True
+
+
 def strict_c03_snapshot_status(row,*,archive_root):
     """V2 fail-closed wrapper around the unchanged, independently checked v1.
 
@@ -547,6 +594,13 @@ def strict_c03_snapshot_status(row,*,archive_root):
         except (KeyError,TypeError,ValueError,OSError) as exc:
             return False,"C03_NHL_OFFICIAL_ROSTER_UNVERIFIED:"+type(exc).__name__
     if ctx["cohort"]=="B":
+        try:
+            verify_premerge_numeric_receipt(
+                ctx.get("premerge_collector_receipt"),archive_root=archive_root,
+                neutral_candidate=neutral,
+                input_freeze_at=row.get("input_freeze_at"))
+        except (CohortError,TypeError,OSError) as exc:
+            return False,str(exc)
         receipts=ctx.get("source_receipts") or []
         if not receipts or any(r.get("transport_attestation")!="collector_live_transport_verified"
                                or not r.get("transport_capture_id") for r in receipts):
