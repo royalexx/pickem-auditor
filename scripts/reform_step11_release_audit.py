@@ -157,6 +157,15 @@ def inspect_release(root, *, frozen=None,settlement=None,pinned=None):
         raise ReleaseAuditError("combined_tackles_components_missing")
     if 'if stat=="tackles + assists":' not in nfl or "v=sum(components)" not in nfl:
         raise ReleaseAuditError("combined_tackle_market_no_longer_sums_three_components")
+    fs_src,_=source(root,"scripts/fetch_slate.py")
+    settle_src,_=source(root,"scripts/settle.py")
+    defs_src,_=source(root,"scripts/nfl_stat_definitions.py")
+    if "combined_tackles_assists" not in defs_src:
+        raise ReleaseAuditError("canonical_combined_tackle_helper_missing")
+    if "combined_tackles_assists" not in fs_src or "nfl_stat_definitions" not in fs_src:
+        raise ReleaseAuditError("fetch_slate_not_routed_through_canonical_tackle_definition")
+    if "combined_tackles_assists" not in settle_src:
+        raise ReleaseAuditError("settle_not_routed_through_canonical_tackle_definition")
     step6,_=source(root,"scripts/nfl_tackle_snap_share.py")
     if 'STATS="tackles + assists"' not in step6 or 'p.get("stat")!=STATS' not in step6:
         raise ReleaseAuditError("step6_no_longer_consumes_combined_tackles")

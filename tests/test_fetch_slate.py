@@ -827,9 +827,15 @@ class DeploymentTests(unittest.TestCase):
         rows = []
         for number in range(1, 11):
             solo = 4 if number <= 5 else 1
-            rows.append(self._week("Backer", "NE", f"g{number}", number, def_tackles_solo=solo, def_tackle_assists=1))
+            rows.append(self._week(
+                "Backer", "NE", f"g{number}", number,
+                def_tackles_solo=solo, def_tackles_with_assist=0, def_tackle_assists=1,
+            ))
             if number <= 5:
-                rows.append(self._week("Mike", "NE", f"g{number}", number, def_tackles_solo=9, def_tackle_assists=9))
+                rows.append(self._week(
+                    "Mike", "NE", f"g{number}", number,
+                    def_tackles_solo=9, def_tackles_with_assist=0, def_tackle_assists=9,
+                ))
         splits = fs.teammate_splits(rows, "NE", "Backer", None)
         self.assertEqual(splits[0]["with_n"], 5)
         self.assertEqual(splits[0]["without_n"], 5)

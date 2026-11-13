@@ -92,10 +92,16 @@ from odds_providers import (
     consensus_input as build_consensus_input,
     ordered_quotes,
     primary_price,
+    provider_quote_snapshot,
     quotes_for_row,
     redact,
     resolve_quote_teams,
     unmatched_note,
+)
+from nfl_stat_definitions import (
+    TACKLE_DERIVED_CACHE_SCHEMA,
+    VERSION as NFL_SOURCE_STAT_VERSION,
+    combined_tackles_assists,
 )
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
@@ -559,14 +565,41 @@ def team_abbrev_lookup(games: list[dict]) -> dict:
     return lookup
 
 
-def abbrev_on_slate(team_abbrevs: str | None, slate: dict[str, str]) -> str | None:
+def resolve_nhl_slate_team(
+    team_abbrevs: str | None,
+    slate: dict[str, str],
+    *,
+    player_id=None,
+    roster_memberships: dict[str, set[str]] | None = None,
+) -> tuple[str | None, str | None]:
+    """Resolve tonight's NHL team; fail closed when slate identity is ambiguous."""
     if not team_abbrevs:
-        return None
+        return None, "nhl_team_missing_abbrevs"
     parts = [part.strip() for part in str(team_abbrevs).split(",") if part.strip()]
-    for part in parts:
-        if part in slate:
-            return part
-    return None
+    on_slate = [part for part in parts if part in slate]
+    pid = None if player_id in (None, "") else str(player_id)
+    if roster_memberships and pid:
+        roster_hits = [team for team in on_slate if pid in roster_memberships.get(team, set())]
+        if len(roster_hits) == 1:
+            return roster_hits[0], None
+        if len(roster_hits) > 1:
+            return None, "nhl_team_ambiguous_multi_roster_match"
+        player_teams = [team for team, members in roster_memberships.items() if pid in members]
+        if player_teams and not any(team in slate for team in player_teams):
+            return None, "nhl_team_idle_current_not_on_slate"
+        if on_slate:
+            return None, "nhl_team_roster_slate_mismatch"
+    if len(on_slate) == 1:
+        return on_slate[0], None
+    if len(on_slate) > 1:
+        return None, "nhl_team_ambiguous_multi_slate_without_roster"
+    return None, "nhl_team_no_slate_intersection"
+
+
+def abbrev_on_slate(team_abbrevs: str | None, slate: dict[str, str]) -> str | None:
+    """Legacy wrapper; prefer ``resolve_nhl_slate_team`` for traded-player safety."""
+    team, _ = resolve_nhl_slate_team(team_abbrevs, slate)
+    return team
 
 
 def index_team_rates(teams: list[dict], lookup: dict) -> dict[str, dict]:
@@ -597,6 +630,7 @@ def nhl_rows_from_summaries(
     game_date: str,
     retrieved_at: str,
     source_url: str,
+    roster_memberships: dict[str, set[str]] | None = None,
 ) -> list[dict]:
     slate = slate_matchups(games)
     lookup = team_abbrev_lookup(games)
@@ -606,7 +640,12 @@ def nhl_rows_from_summaries(
     goalie_source = NHL_STATS_GOALIE if source_url == NHL_STATS_SKATER else source_url
     rows = []
     for skater in skaters:
-        team = abbrev_on_slate(skater.get("teamAbbrevs"), slate)
+        team, team_reason = resolve_nhl_slate_team(
+            skater.get("teamAbbrevs"),
+            slate,
+            player_id=skater.get("playerId"),
+            roster_memberships=roster_memberships,
+        )
         if not team:
             continue
         games_played = _num(skater.get("gamesPlayed"))
@@ -638,7 +677,12 @@ def nhl_rows_from_summaries(
             built["player_id"] = skater.get("playerId")
         rows.append(built)
     for goalie in goalies:
-        team = abbrev_on_slate(goalie.get("teamAbbrevs"), slate)
+        team, team_reason = resolve_nhl_slate_team(
+            goalie.get("teamAbbrevs"),
+            slate,
+            player_id=goalie.get("playerId"),
+            roster_memberships=roster_memberships,
+        )
         if not team:
             continue
         started = _num(goalie.get("gamesStarted"))
@@ -984,12 +1028,20 @@ def _log_player(log, team: str, player_name: str, player_id=None):
 
 def _game_stat(game_rows: list[dict], column: str | None) -> float | None:
     if column is None:
-        if not any("def_tackles_solo" in row or "def_tackle_assists" in row for row in game_rows):
+        if not any(
+            "def_tackles_solo" in row
+            or "def_tackle_assists" in row
+            or "def_tackles_with_assist" in row
+            for row in game_rows
+        ):
             return None
-        total = 0.0
+        total = 0
         for row in game_rows:
-            total += (_num(row.get("def_tackles_solo")) or 0.0) + (_num(row.get("def_tackle_assists")) or 0.0)
-        return total
+            value = combined_tackles_assists(row)
+            if value is None:
+                return None
+            total += value
+        return float(total)
     if not any(column in row for row in game_rows):
         return None
     total = 0.0
@@ -1010,7 +1062,10 @@ def splits_from_log(log, team: str, player_name: str, column: str | None, player
     if log is None:
         return None
     if column is None:
-        if "def_tackles_solo" not in log["columns"] and "def_tackle_assists" not in log["columns"]:
+        if not any(
+            key in log["columns"]
+            for key in ("def_tackles_solo", "def_tackle_assists", "def_tackles_with_assist")
+        ):
             return None
     elif column not in log["columns"]:
         return None
@@ -1715,12 +1770,14 @@ def nfl_rows_from_tables(
         else:
             route_share = None
         specs = list(NFL_COUNTING)
-        solo = _num(player.get("def_tackles_solo")) or 0.0
-        assists = _num(player.get("def_tackle_assists")) or 0.0
-        if solo + assists > 0:
+        tackles_total = combined_tackles_assists(player)
+        if tackles_total is not None and tackles_total > 0:
             specs.append(("tackles + assists", None))
         for stat, column in specs:
-            total = solo + assists if column is None else _num(player.get(column))
+            if column is None:
+                total = tackles_total
+            else:
+                total = _num(player.get(column))
             if total is None or total <= 0:
                 continue
             built = make_row(
@@ -1748,6 +1805,9 @@ def nfl_rows_from_tables(
                 built["routes_per_game"] = _round(routes_per_game)
             if route_share is not None:
                 built["route_share"] = _round(route_share)
+            if stat == "tackles + assists":
+                built["source_stat_definition_version"] = NFL_SOURCE_STAT_VERSION
+                built["tackle_derived_cache_schema"] = TACKLE_DERIVED_CACHE_SCHEMA
             # None: week log missing. A list, possibly empty: log read, gate applied.
             # baseline_mean stays the mixed season rate. The deployment step chooses a split.
             built["teammate_splits"] = None if log is None else splits_from_log(
@@ -2808,7 +2868,10 @@ def nfl_series_from_log(log, snap_index, team: str, name: str, player_id, stat: 
     if log is None:
         return None
     if column is None:
-        if "def_tackles_solo" not in log["columns"] and "def_tackle_assists" not in log["columns"]:
+        if not any(
+            key in log["columns"]
+            for key in ("def_tackles_solo", "def_tackle_assists", "def_tackles_with_assist")
+        ):
             return None
     elif column not in log["columns"]:
         return None
@@ -3694,8 +3757,13 @@ def collect(
             player_rows.extend(payload)
     resolved, unmatched = attach_prices(player_rows, quote_payload)
     if quotes_ready and quotes_path is not None:
-        write_jsonl(ordered_quotes(resolved), Path(quotes_path))
+        quotes_root = Path(quotes_path)
+        original_path = quotes_root.with_name("odds_quotes_original.jsonl")
+        write_jsonl(ordered_quotes(provider_quote_snapshot(quote_payload)), original_path)
+        write_jsonl(ordered_quotes(resolved), quotes_root)
         summary["quotes_out"] = str(quotes_path)
+        summary["quotes_original_out"] = str(original_path)
+        summary["quote_provenance_schema"] = "pickem_collector_quote_provenance_v1"
     note = unmatched_note(unmatched)
     if note:
         summary["feeds"]["odds"]["notes"].append(note)
