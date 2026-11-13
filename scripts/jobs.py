@@ -622,6 +622,7 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                             mark("unavailable", "c03_v2:frozen_cohort_or_neutral_input_changed")
                             continue
                         c03_binding = c03_frozen["binding"]
+                        c03_binding["premerge_collector_receipt"]=row.get("_c03_premerge_receipt")
                         if isinstance(row.get("_c03_official_nhl_rosters"), dict):
                             # Explicit independent official roster artifacts are
                             # separately validated by the v2 strict checker.
@@ -854,6 +855,22 @@ def run_snapshot(
         pipeline_rows, slate_by_key, commence_index, now,
     )
 
+    # Before ANY research/availability merge, capture the ORIGINAL
+    # collector-prepared numeric candidate in an immutable archive. Research
+    # status is not allowed to back-fill or change this source. Disabled in
+    # the legacy/default runner.
+    if os.environ.get("PICKEM_C03_V2_SHADOW") == "1" and (
+            os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1" or
+            os.environ.get("PICKEM_PHASE0_CERTIFIED_ONLY") == "1"):
+        from c03_context_cohorts import archive_original_candidate
+        premerge_root=slate_path.parent / "source_archives"
+        for source_premerge in pipeline_rows:
+            stamp_at=clock_fn()
+            if stamp_at.tzinfo is None:
+                raise JobError("C03_PREMERGE_NAIVE_CLOCK")
+            source_premerge["_c03_premerge_receipt"]=archive_original_candidate(
+                {k:v for k,v in source_premerge.items() if not str(k).startswith("_")},
+                premerge_root,possessed_at=stamp_at.isoformat())
     # Consume the freshly collected packet before snapshot evaluation. Shadow
     # forecasts may be retained when research is absent, but cannot be graded.
     import research_packet as rp
