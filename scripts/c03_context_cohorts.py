@@ -385,6 +385,19 @@ def register_research_adjustment(baseline,artifact,*,archive_root):
         raise CohortError("ADJUSTMENT_ARTIFACT_INTEGRITY_FAILURE")
     if not artifact.get("model_training_cutoff_at") or not artifact.get("code_commit"):
         raise CohortError("ADJUSTMENT_FIT_PROVENANCE_MISSING")
+    cutoff=_utc(artifact["model_training_cutoff_at"],"adjustment_training_cutoff")
+    freeze=_utc(baseline["binding"]["input_freeze_at"],"baseline_freeze")
+    if cutoff>freeze or (not isinstance(artifact["code_commit"],str)
+                        or len(artifact["code_commit"])!=40
+                        or any(c not in "0123456789abcdef" for c in artifact["code_commit"])):
+        raise CohortError("ADJUSTMENT_TRAINED_AFTER_FREEZE_OR_CODE_UNVERIFIED")
+    manifest=artifact.get("training_manifest")
+    if not isinstance(manifest,dict) or not isinstance(manifest.get("sha256"),str):
+        raise CohortError("ADJUSTMENT_TRAINING_MANIFEST_MISSING")
+    manifest_file=_safe_archive(archive_root,manifest.get("archive_path"))
+    if (not manifest_file.is_file() or
+            hashlib.sha256(manifest_file.read_bytes()).hexdigest()!=manifest["sha256"]):
+        raise CohortError("ADJUSTMENT_TRAINING_MANIFEST_INVALID")
     return {"schema":SCHEMA_COHORT,"cohort":"C",
             "status":"VERIFIED_INPUT_CONTEXT_RESEARCH_SHADOW_ONLY",
             "artifact_sha256":digest,"source_baseline":baseline["binding"],
