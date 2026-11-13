@@ -3,13 +3,16 @@ import hashlib
 import json
 import math
 import tempfile
+import time
+import tracemalloc
 import unittest
 from pathlib import Path
 
 from v2.nhl_sog_exposure_shadow import (
     ExperimentBlocked, fit_model, forecast_lines, same_data_ablations,
     bin_toi_minutes, categorical_brier, evaluate_paired_dates, power_null_simulation,
-    verify_observation, stable_hash,
+    verify_observation, stable_hash, count_crps, count_log_loss,
+    fixed_horizon_feasibility_grid,
 )
 
 F="2026-11-12T18:00:00Z"
@@ -104,6 +107,32 @@ class NHLSOGExposureTests(unittest.TestCase):
             model=fit_model(own,peers,archive_root=root,player_id="target",
                             position_group="F",input_freeze_at=F,event_start_at=START)
             self.assertGreater(model["zero_probability"],0)
+
+    def test_full_count_scores_and_cpu_smoke(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);own,peers=fixture(root)
+            model=fit_model(own,peers,archive_root=root,player_id="target",
+                            position_group="F",input_freeze_at=F,event_start_at=START)
+            self.assertGreaterEqual(count_crps(model,0),0)
+            self.assertGreaterEqual(count_log_loss(model,0),0)
+            tracemalloc.start()
+            start=time.perf_counter()
+            for i in range(1000):
+                p=forecast_lines(model,[(i%16)/2+0.5])
+                self.assertEqual(len(p),1)
+            duration=time.perf_counter()-start
+            _current,peak=tracemalloc.get_traced_memory()
+            tracemalloc.stop()
+            print("V25_SOG_CPU_SMOKE 1000_contract_lines_seconds=%.3f peak_python_bytes=%d" % (duration,peak))
+            self.assertLess(duration,60)
+            self.assertLess(peak,512*1024*1024)
+
+    def test_feasibility_simulation_is_deterministic(self):
+        a=fixed_horizon_feasibility_grid(replicates=100,seed=20261112)
+        b=fixed_horizon_feasibility_grid(replicates=100,seed=20261112)
+        self.assertEqual(a,b)
+        self.assertEqual(len(a["results"]),12)
+        self.assertTrue(any(r["null_type1_rate"]>.025 for r in a["results"]))
 
     def test_proper_score_and_fixed_date_estimand(self):
         self.assertEqual(categorical_brier({"over":1,"under":0,"push":0},"over"),0)
