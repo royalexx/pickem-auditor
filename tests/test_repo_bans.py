@@ -22,6 +22,10 @@ ALLOWED_REL_PATHS = {
     "cursor/rules/pickem-auditor.mdc",
     ".cursor/rules/pickem-auditor.mdc",
     "SKILL.md",
+    # Frozen V2.5 governing and audit artifacts cite external tool/repo names by URL
+    # or historical review label; they are not executable vendor dependencies.
+    "docs/Pickem_Auditor_V2_5_Master_Implementation_Plan_v1_1_2026-11-10.md",
+    "docs/V25_FULL_NOV11_FORENSIC_AUDIT_AND_PHASE2_GATE.md",
 }
 
 DOMAIN_PATTERNS = (
