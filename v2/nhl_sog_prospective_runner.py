@@ -94,7 +94,9 @@ def prospective_shadow_attempt(bundle,*,source_root,output_root):
             "own":[x["raw_log_receipt"]["collector_proof_sha256"] for x in own],
             "peer":[x["raw_log_receipt"]["collector_proof_sha256"] for x in peers],
             "own_final":[x["raw_final_receipt"]["collector_proof_sha256"] for x in own],
-            "peer_final":[x["raw_final_receipt"]["collector_proof_sha256"] for x in peers]})
+            "peer_final":[x["raw_final_receipt"]["collector_proof_sha256"] for x in peers],
+            "own_profile":[x["raw_profile_receipt"]["collector_proof_sha256"] for x in own],
+            "peer_profile":[x["raw_profile_receipt"]["collector_proof_sha256"] for x in peers]})
         model["verified_original_source_lineage"]=True
         code_commit=bundle.get("code_commit")
         if (not isinstance(code_commit,str) or len(code_commit)!=40 or
