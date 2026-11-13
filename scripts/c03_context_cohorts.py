@@ -487,6 +487,29 @@ def strict_c03_snapshot_status(row,*,archive_root):
                     input_freeze_at=row.get("input_freeze_at"),
                     event_start_at=row.get("event_start"))
     if not ok:return False,reason
+    if original.get("sport")=="NHL":
+        # A generic 'member' string in a research packet is NOT official NHL
+        # roster evidence. Revalidate both team rosters against independent
+        # NHL-hosted bytes, with goalie/skater identity kept distinct.
+        try:
+            from v2.phase15_nhl_roster import verify_receipt
+            rosters=ctx.get("official_nhl_roster_receipts")
+            own_team=str(original.get("team") or "")
+            other_team=str(original.get("opponent") or "")
+            if not isinstance(rosters,dict) or own_team==other_team:
+                return False,"C03_NHL_OFFICIAL_ROSTER_MISSING"
+            ours=verify_receipt(rosters[own_team],source_root=archive_root,
+                 forecast_at=row.get("input_freeze_at"),
+                 event_start=row.get("event_start"))
+            theirs=verify_receipt(rosters[other_team],source_root=archive_root,
+                 forecast_at=row.get("input_freeze_at"),
+                 event_start=row.get("event_start"))
+            pid=str(original["player_id"])
+            expected="goalie" if original.get("stat") in ("goalie saves","saves") else "skater"
+            if pid in theirs or ours.get(pid)!=expected:
+                return False,"C03_NHL_OFFICIAL_TEAM_OR_ROLE_MISMATCH"
+        except (KeyError,TypeError,ValueError,OSError) as exc:
+            return False,"C03_NHL_OFFICIAL_ROSTER_UNVERIFIED:"+type(exc).__name__
     if ctx["cohort"]=="B":
         receipts=ctx.get("source_receipts") or []
         if not receipts or any(r.get("transport_attestation")!="collector_live_transport_verified"
