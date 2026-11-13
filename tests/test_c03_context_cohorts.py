@@ -118,6 +118,67 @@ class C03CohortTests(unittest.TestCase):
             self.assertEqual(classify(qb,source_receipts=[],claims=[],archive_root=root,
                 input_freeze_at=FREEZE,event_start_at=EVENT)["reason"],"STARTING_QB_UNVERIFIED")
 
+
+    def test_signed_raw_espn_capture_claim_and_tamper(self):
+        """A source/body metadata hash cannot fake a signed collector receipt."""
+        from datetime import datetime,timedelta,timezone
+        from unittest.mock import patch
+        import os
+        import c03_live_transport as lt
+        from scripts.c03_context_cohorts import CohortError
+        now=datetime.now(timezone.utc)
+        cutoff=(now+timedelta(minutes=5)).isoformat()
+        start=(now+timedelta(minutes=60)).isoformat()
+        document={"header":{"id":"e1","competitions":[
+                     {"status":{"type":{"state":"pre"}}}]},
+                  "rosters":[{"team":{"abbreviation":"WAS"},
+                     "roster":[{"athlete":{"id":"star"},"active":True}]}]}
+        raw=json.dumps(document,sort_keys=True,separators=(",",":")).encode()
+        url="https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=e1"
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            def fake_transport(url,*,archive_root,source_namespace,source_id,timeout):
+                assert "event=e1" in url
+                ts=datetime.now(timezone.utc).isoformat()
+                return archive_response(raw,archive_root=archive_root,
+                     source_url=url,observed_at=ts,received_at=ts,
+                     source_id=source_id,source_namespace=source_namespace,http_status=200)
+            with patch.dict(os.environ,{"PICKEM_C03_COLLECTOR_HMAC_KEY_HEX":"ab"*32}),\
+                    patch.object(lt,"capture_live_http_body",side_effect=fake_transport):
+                receipt=lt.capture_signed_live(url,archive_root=root,
+                     source_namespace="espn",source_id="raw-e1-01",
+                     input_cutoff_at=cutoff,event_start_at=start)
+                self.assertEqual(lt.verify_signed_capture(receipt,archive_root=root,
+                        freeze=cutoff,event_start=start),document)
+                claim=lt.claim_from_espn_summary(receipt,archive_root=root,
+                     event_id="e1",team_id="WAS",player_id="star",
+                     freeze=cutoff,event_start=start)
+                self.assertEqual(claim["value"],"active")
+                a=original()
+                a["event_context"]={"subject_status":{"value":"active"}}
+                cohort=classify(a,source_receipts=[receipt],claims=[claim],
+                     archive_root=root,input_freeze_at=cutoff,event_start_at=start)
+                self.assertEqual(cohort["cohort"],"B")
+                tampered=dict(receipt,received_at=(now-timedelta(minutes=30)).isoformat())
+                with self.assertRaises(CohortError):
+                    lt.verify_signed_capture(tampered,archive_root=root,freeze=cutoff,event_start=start)
+                unsigned=dict(receipt,collector_proof_sha256="0"*64)
+                with self.assertRaises(CohortError):
+                    lt.verify_signed_capture(unsigned,archive_root=root,freeze=cutoff,event_start=start)
+                impostor=dict(receipt,transport_attestation="collector_signed_tls_bytes_v1")
+                impostor.pop("collector_proof_sha256")
+                with self.assertRaises(CohortError):
+                    lt.verify_signed_capture(impostor,archive_root=root,freeze=cutoff,event_start=start)
+            with patch.dict(os.environ,{"PICKEM_C03_COLLECTOR_HMAC_KEY_HEX":""}):
+                with self.assertRaises(CohortError):
+                    lt.verify_signed_capture(receipt,archive_root=root,freeze=cutoff,event_start=start)
+
+    def test_c03_flag_must_not_publish_shadow_b(self):
+        from pathlib import Path
+        source=(Path(__file__).resolve().parents[1]/"scripts"/"jobs.py").read_text()
+        self.assertIn("c03_v2_cohort_b_shadow_only_no_production_selection",source)
+        self.assertIn('if c03_enabled and c03_original is not None:',source)
+
     def test_source_namespace_cannot_masquerade_as_official(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);a=original()
