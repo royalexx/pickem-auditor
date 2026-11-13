@@ -20,7 +20,8 @@ BEFORE="2026-11-12T18:00:00Z"
 def original(pid="star",sport="NBA",stat="points",team="WAS"):
     return {"id":sport+"|"+pid+"|"+stat+"|over","sport":sport,"player_id":pid,
             "team":team,"event_id":"e1","stat":stat,"side":"over",
-            "line":12.5,"game_date":"2026-11-12",
+            "line":12.5,"dist":"poisson","baseline_mean":3.0,
+            "baseline_n":10,"game_date":"2026-11-12",
             "soft_flags":3,"research_soft_flags":2,
             "mechanisms":1,"research_checklist":True,
             "hard_veto":"no","data_veto":"no",
@@ -221,6 +222,10 @@ class C03CohortTests(unittest.TestCase):
                           input_freeze_at=FREEZE,event_start_at=EVENT)
             binding=plan["binding"]
             binding["original_candidate_receipt"]=archive_original_candidate(a,root,possessed_at=BEFORE)
+            binding["premerge_collector_receipt"]=archive_original_candidate(
+                {key:plan["neutral_candidate"][key]
+                 for key in ("dist","side","line","baseline_mean","baseline_n")},
+                 root,possessed_at=BEFORE)
             row={"c03_context_binding":binding,"c03_original_candidate":a,
                  "inputs":plan["neutral_candidate"],"input_freeze_at":FREEZE,
                  "event_start":EVENT}
