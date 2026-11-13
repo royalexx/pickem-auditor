@@ -549,6 +549,9 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
         c03_enabled = (certified_only and
                        os.environ.get("PICKEM_C03_V2_SHADOW") == "1")
         if c03_enabled:
+            if row.get("_c03_capture_issue"):
+                mark("unavailable","c03_v2:"+str(row["_c03_capture_issue"])[:220])
+                continue
             from c03_context_cohorts import classify
             c03_check = classify(
                 candidate, claims=c03_claims, source_receipts=c03_receipts,
@@ -904,6 +907,16 @@ def run_snapshot(
         forecast_at=now.isoformat(), commence_index=commence_index,
         venue_index=venue_index_from_quotes(quotes),
     )
+    # Opt-in research capture ONLY. Real HTTPS original response body and
+    # named player/event claim are required. Propline IDs are NOT silently
+    # treated as ESPN IDs, and a missing crosswalk is an explicit abstention.
+    # This does NOT authorize context cohort B for publishing/ranking.
+    if os.environ.get("PICKEM_C03_V2_SHADOW") == "1" and (
+            os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1" or
+            os.environ.get("PICKEM_PHASE0_CERTIFIED_ONLY") == "1"):
+        from c03_pregame_live_capture import annotate_prepared_candidates
+        pipeline_rows = annotate_prepared_candidates(
+            pipeline_rows,archive_root=slate_path.parent/"source_archives")
     # Stage original per-book source clocks ONLY inside the scheduled job.
     # Do not alter fetch_slate.prepare_pipeline's public numerical schema,
     # which is also used directly by offline research and engine tests.
