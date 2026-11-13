@@ -248,12 +248,15 @@ class NhlCollectorIdentityIntegration(unittest.TestCase):
             stats = Stats()
             schedule = Schedule()
 
-        rows, notes, rejections, _rosters = fs.fetch_nhl(
-            "2026-11-09",
-            "2026-11-09T15:00:00Z",
-            client=Client(),
-            fetch=fetch_json,
-        )
+        with tempfile.TemporaryDirectory() as folder:
+            archive = Path(folder) / "collector"
+            rows, notes, rejections, _rosters = fs.fetch_nhl(
+                "2026-11-09",
+                "2026-11-09T15:00:00Z",
+                client=Client(),
+                fetch=fetch_json,
+                collector_archive_root=archive,
+            )
         self.assertEqual(rows, [])
         self.assertTrue(any("9001" in json.dumps(item) for item in rejections))
         self.assertIn(
@@ -307,12 +310,15 @@ class NhlCollectorIdentityIntegration(unittest.TestCase):
             stats = Stats()
             schedule = Schedule()
 
-        rows, _notes, rejections, _rosters = fs.fetch_nhl(
-            "2026-11-09",
-            "2026-11-09T15:00:00Z",
-            client=Client(),
-            fetch=fetch_json,
-        )
+        with tempfile.TemporaryDirectory() as folder:
+            archive = Path(folder) / "collector"
+            rows, _notes, rejections, _rosters = fs.fetch_nhl(
+                "2026-11-09",
+                "2026-11-09T15:00:00Z",
+                client=Client(),
+                fetch=fetch_json,
+                collector_archive_root=archive,
+            )
         self.assertEqual(rejections, [])
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["team"], "WPG")

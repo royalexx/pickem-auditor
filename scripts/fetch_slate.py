@@ -666,8 +666,11 @@ def _archive_collector_roster_bytes(
     representation: str,
     clock,
     team: str,
+    require_archive: bool = False,
 ) -> dict:
     import hashlib
+    if require_archive and archive_root is None:
+        raise ValueError("nhl_roster_membership_unpinned_no_archive_root")
     digest = hashlib.sha256(raw).hexdigest()
     receipt: dict = {
         "schema": "nhl_collector_roster_membership_v1",
@@ -694,9 +697,15 @@ def _archive_collector_roster_bytes(
         receipt["retrieved_at"] = archived["retrieved_at"]
         receipt["observed_at"] = archived["observed_at"]
         receipt["source_id"] = archived["source_id"]
+        blob = Path(archive_root) / archived["archive_path"]
+        if hashlib.sha256(blob.read_bytes()).hexdigest() != digest:
+            raise ValueError("nhl_roster_archive_digest_mismatch")
+    elif require_archive:
+        raise ValueError("nhl_roster_archive_required_but_missing")
     elif clock is not None:
         from phase0_input_capture import stamp
         receipt["retrieved_at"] = stamp(_clock_to_utc_instant(clock))
+        receipt["membership_unpinned_research_only"] = True
     return receipt
 
 
@@ -707,6 +716,7 @@ def nhl_pregame_roster_memberships(
     extra_teams: list[str] | None = None,
     archive_root: Path | str | None = None,
     clock=None,
+    require_archived_membership: bool = False,
 ) -> tuple[dict[str, set[str]], list[str], set[str], list[dict]]:
     """Load current-roster membership ids; receipts document fetch only, not starter status."""
     from v2.phase15_nhl_roster import roster_members, roster_url
@@ -717,6 +727,9 @@ def nhl_pregame_roster_memberships(
     fetched: set[str] = set()
     receipts: list[dict] = []
     archive = Path(archive_root) if archive_root else None
+    if require_archived_membership and archive is None:
+        notes.append("nhl_roster_membership_research_only_no_archive_root")
+        return memberships, notes, fetched, receipts
     for abbrev in teams:
         url = roster_url(abbrev)
         try:
@@ -730,13 +743,21 @@ def nhl_pregame_roster_memberships(
             else:
                 raw = json.dumps(payload, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
                 representation = "canonical_json_not_raw_http_bytes"
-            memberships[abbrev] = set(roster_members(raw).keys())
-            fetched.add(abbrev)
-            receipts.append(
-                _archive_collector_roster_bytes(
-                    archive, url, raw, representation=representation, clock=clock, team=abbrev,
-                )
+            member_ids = set(roster_members(raw).keys())
+            receipt = _archive_collector_roster_bytes(
+                archive,
+                url,
+                raw,
+                representation=representation,
+                clock=clock,
+                team=abbrev,
+                require_archive=require_archived_membership,
             )
+            if require_archived_membership and not receipt.get("archive_path"):
+                raise ValueError("nhl_roster_archive_required_but_missing")
+            memberships[abbrev] = member_ids
+            fetched.add(abbrev)
+            receipts.append(receipt)
         except Exception as exc:
             notes.append(f"roster {abbrev}: unavailable ({exc})")
     return memberships, notes, fetched, receipts
@@ -3389,6 +3410,7 @@ def fetch_nhl(
             extra_teams=sorted(roster_teams),
             archive_root=collector_archive_root,
             clock=clock or utc_now,
+            require_archived_membership=True,
         )
         notes.extend(roster_notes)
         if games and not roster_memberships:
@@ -4036,15 +4058,71 @@ def failed_output_path(out: Path) -> Path:
 
 
 NHL_IDENTITY_LEDGER_SCHEMA = "pickem_nhl_identity_rejections_v1"
+NHL_IDENTITY_LEDGER_ARCHIVE_ROLE = "nhl_identity_rejections"
 
 
-def nhl_identity_ledger_path_for(out: Path) -> Path:
-    return Path(out).parent / "nhl_identity_rejections.json"
+def nhl_identity_ledger_archive_root(out: Path) -> Path:
+    return Path(out).parent / "source_archives" / "collector"
+
+
+def _canonical_identity_ledger_bytes(ledger: dict) -> bytes:
+    return json.dumps(
+        ledger, sort_keys=True, ensure_ascii=False, allow_nan=False, separators=(",", ":"),
+    ).encode("utf-8")
+
+
+def _write_immutable_collector_json(
+    archive_root: Path, namespace: str, payload: dict,
+) -> tuple[str, str, bytes]:
+    """Content-addressed JSON under archive_root/namespace/{digest}.json; create-if-absent."""
+    import hashlib
+    raw = _canonical_identity_ledger_bytes(payload)
+    digest = hashlib.sha256(raw).hexdigest()
+    if ".." in namespace.split("/"):
+        raise ValueError("nhl_identity_ledger_namespace_unsafe")
+    rel = f"{namespace}/{digest}.json"
+    target = Path(archive_root) / rel
+    target.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with target.open("xb") as handle:
+            handle.write(raw)
+    except FileExistsError:
+        existing = target.read_bytes()
+        if hashlib.sha256(existing).hexdigest() != digest:
+            raise ValueError("nhl_identity_ledger_archive_conflict")
+    stored = target.read_bytes()
+    if hashlib.sha256(stored).hexdigest() != digest:
+        raise ValueError("nhl_identity_ledger_archive_mutated")
+    return rel, digest, raw
+
+
+def resolve_nhl_identity_ledger_path(ref: dict, *, base: Path | None = None) -> Path:
+    """Resolve ledger artifact path; reject unsafe relative paths."""
+    if not isinstance(ref, dict):
+        raise ValueError("nhl_identity_ledger_ref_invalid")
+    rel = ref.get("archive_path")
+    if isinstance(rel, str) and rel:
+        if ".." in Path(rel).parts:
+            raise ValueError("nhl_identity_ledger_path_unsafe")
+        root = ref.get("collector_archive_root")
+        if root:
+            return (Path(root) / rel).resolve()
+        if base is not None:
+            return (base / "source_archives" / "collector" / rel).resolve()
+        raise ValueError("nhl_identity_ledger_archive_root_unresolved")
+    legacy = ref.get("path")
+    if not legacy:
+        raise ValueError("nhl_identity_ledger_path_missing")
+    path = Path(legacy)
+    if not path.is_absolute():
+        if base is None:
+            raise ValueError("nhl_identity_ledger_archive_root_unresolved")
+        path = (base / path).resolve()
+    return path
 
 
 def persist_nhl_identity_ledger(out: Path, summary: dict, clock=None) -> dict | None:
     """Write immutable NHL identity rejection ledger linked to this collector run."""
-    import hashlib
     feed = (summary.get("feeds") or {}).get("nhl")
     if not isinstance(feed, dict):
         return None
@@ -4071,13 +4149,22 @@ def persist_nhl_identity_ledger(out: Path, summary: dict, clock=None) -> dict | 
         "rejections": [{**item, "recorded_at": recorded_at} for item in rejections],
         "roster_receipts": roster_receipts,
     }
-    path = nhl_identity_ledger_path_for(out)
-    write_json(ledger, path)
-    ledger_bytes = path.read_bytes()
+    archive_root = nhl_identity_ledger_archive_root(out)
+    archive_root.mkdir(parents=True, exist_ok=True)
+    rel, digest, _raw = _write_immutable_collector_json(
+        archive_root, NHL_IDENTITY_LEDGER_ARCHIVE_ROLE, ledger,
+    )
     ref = {
         "schema": NHL_IDENTITY_LEDGER_SCHEMA,
-        "path": str(path),
-        "content_sha256": hashlib.sha256(ledger_bytes).hexdigest(),
+        "archive_path": rel,
+        "collector_archive_root": str(archive_root.resolve()),
+        "content_sha256": digest,
+        "run_identity": {
+            "game_date": summary.get("date"),
+            "retrieved_at": summary.get("retrieved_at"),
+            "recorded_at": recorded_at,
+            "slate_out": str(out),
+        },
         "rejection_count": len(rejections),
         "accepted_nhl_rows": int(feed.get("rows") or 0),
     }
@@ -4088,13 +4175,13 @@ def persist_nhl_identity_ledger(out: Path, summary: dict, clock=None) -> dict | 
 def load_nhl_identity_ledger(meta: dict, *, base: Path | None = None) -> dict | None:
     import hashlib
     ref = meta.get("nhl_identity_ledger")
-    if not isinstance(ref, dict) or not ref.get("path"):
+    if not isinstance(ref, dict):
         return None
-    path = Path(ref["path"])
-    if base is not None and not path.is_absolute():
-        path = base / path
+    if not ref.get("archive_path") and not ref.get("path"):
+        return None
+    path = resolve_nhl_identity_ledger_path(ref, base=base)
     if not path.is_file():
-        return None
+        raise ValueError("nhl_identity_ledger_archive_missing")
     raw = path.read_bytes()
     if hashlib.sha256(raw).hexdigest() != ref.get("content_sha256"):
         raise ValueError("nhl_identity_ledger_digest_mismatch")

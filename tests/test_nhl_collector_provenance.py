@@ -1,11 +1,13 @@
 """Regression tests for NHL identity rejection ledger and roster archival."""
 from __future__ import annotations
 
+import copy
 import json
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -91,6 +93,8 @@ class NhlIdentityLedgerPersistence(unittest.TestCase):
             self.assertEqual(ledger["schema"], fs.NHL_IDENTITY_LEDGER_SCHEMA)
             self.assertEqual(ledger["denominators"]["rejected_players"], 1)
             self.assertEqual(ledger["rejections"][0]["reason"], "nhl_team_idle_current_not_on_slate")
+            artifact = fs.resolve_nhl_identity_ledger_path(meta["nhl_identity_ledger"])
+            self.assertTrue(artifact.is_file())
             self.assertEqual(ledger["collector_run"]["slate_out"], str(out))
 
     def test_mixed_accepted_and_rejected_players(self):
@@ -129,6 +133,96 @@ class NhlIdentityLedgerPersistence(unittest.TestCase):
             self.assertEqual(len(ledger["rejections"]), 1)
 
 
+class NhlIdentityLedgerImmutability(unittest.TestCase):
+    def _minimal_summary(self, tmp: Path, *, rejection_reason: str):
+        out = tmp / "slate_fetch.jsonl"
+        rejection = {
+            "sport": "NHL",
+            "kind": "skater",
+            "player_id": "9001",
+            "reason": rejection_reason,
+        }
+        return {
+            "date": "2026-11-09",
+            "retrieved_at": NOW,
+            "feeds": {
+                "nhl": {
+                    "status": "ok",
+                    "rows": 1,
+                    "started_at": NOW,
+                    "finished_at": NOW,
+                    "identity_rejections": [rejection],
+                    "roster_receipts": [],
+                },
+            },
+        }, out
+
+    def test_two_runs_preserve_both_content_addressed_ledgers(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            summary_a, out = self._minimal_summary(root, rejection_reason="reason_a")
+            ref_a = fs.persist_nhl_identity_ledger(out, summary_a, clock=lambda: NOW)
+            meta_a = {"nhl_identity_ledger": ref_a}
+            summary_b, _out = self._minimal_summary(root, rejection_reason="reason_b")
+            ref_b = fs.persist_nhl_identity_ledger(out, summary_b, clock=lambda: "2026-11-09T16:00:00Z")
+            self.assertNotEqual(ref_a["content_sha256"], ref_b["content_sha256"])
+            ledger_a = fs.load_nhl_identity_ledger(meta_a, base=root)
+            ledger_b = fs.load_nhl_identity_ledger({"nhl_identity_ledger": ref_b}, base=root)
+            self.assertEqual(ledger_a["rejections"][0]["reason"], "reason_a")
+            self.assertEqual(ledger_b["rejections"][0]["reason"], "reason_b")
+            path_a = fs.resolve_nhl_identity_ledger_path(ref_a, base=root)
+            path_b = fs.resolve_nhl_identity_ledger_path(ref_b, base=root)
+            self.assertTrue(path_a.is_file() and path_b.is_file())
+            self.assertNotEqual(path_a, path_b)
+
+    def test_identical_content_is_idempotent(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            summary, out = self._minimal_summary(root, rejection_reason="same")
+            ref1 = fs.persist_nhl_identity_ledger(out, summary, clock=lambda: NOW)
+            summary2 = copy.deepcopy(summary)
+            ref2 = fs.persist_nhl_identity_ledger(out, summary2, clock=lambda: NOW)
+            self.assertEqual(ref1["content_sha256"], ref2["content_sha256"])
+            self.assertEqual(ref1["archive_path"], ref2["archive_path"])
+
+    def test_tampered_ledger_bytes_fail_closed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            summary, out = self._minimal_summary(root, rejection_reason="tamper_me")
+            ref = fs.persist_nhl_identity_ledger(out, summary, clock=lambda: NOW)
+            path = fs.resolve_nhl_identity_ledger_path(ref, base=root)
+            path.write_bytes(path.read_bytes() + b" ")
+            with self.assertRaisesRegex(ValueError, "nhl_identity_ledger_digest_mismatch"):
+                fs.load_nhl_identity_ledger({"nhl_identity_ledger": ref}, base=root)
+
+    def test_missing_referenced_artifact_fails_closed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            summary, out = self._minimal_summary(root, rejection_reason="gone")
+            ref = fs.persist_nhl_identity_ledger(out, summary, clock=lambda: NOW)
+            path = fs.resolve_nhl_identity_ledger_path(ref, base=root)
+            path.unlink()
+            with self.assertRaisesRegex(ValueError, "nhl_identity_ledger_archive_missing"):
+                fs.load_nhl_identity_ledger({"nhl_identity_ledger": ref}, base=root)
+
+    def test_conflicting_bytes_at_digest_path_raises(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            archive_root = fs.nhl_identity_ledger_archive_root(root / "slate_fetch.jsonl")
+            archive_root.mkdir(parents=True)
+            ledger = {"schema": fs.NHL_IDENTITY_LEDGER_SCHEMA, "k": "v"}
+            raw = fs._canonical_identity_ledger_bytes(ledger)
+            import hashlib
+            digest = hashlib.sha256(raw).hexdigest()
+            target = archive_root / f"nhl_identity_rejections/{digest}.json"
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(b"not-the-ledger")
+            with self.assertRaisesRegex(ValueError, "nhl_identity_ledger_archive_conflict"):
+                fs._write_immutable_collector_json(
+                    archive_root, fs.NHL_IDENTITY_LEDGER_ARCHIVE_ROLE, ledger,
+                )
+
+
 class NhlRosterArchiveIntegrity(unittest.TestCase):
     @staticmethod
     def _roster_payload(player_id: int):
@@ -157,7 +251,11 @@ class NhlRosterArchiveIntegrity(unittest.TestCase):
                 "homeTeam": {"abbrev": "NJD"},
             }]
             _memberships, _notes, _fetched, receipts = fs.nhl_pregame_roster_memberships(
-                schedule, fetch, archive_root=archive, clock=clock,
+                schedule,
+                fetch,
+                archive_root=archive,
+                clock=clock,
+                require_archived_membership=True,
             )
             self.assertEqual(len(receipts), 2)
             receipt = receipts[0]
@@ -170,6 +268,61 @@ class NhlRosterArchiveIntegrity(unittest.TestCase):
             self.assertTrue(blob.is_file())
             self.assertEqual(receipt["retrieved_at"], receipt["observed_at"])
             self.assertTrue(receipt["membership_only_not_starter_certified"])
+
+    def test_archive_failure_leaves_no_verified_membership(self):
+        payload = self._roster_payload(9001)
+        schedule = [{"awayTeam": {"abbrev": "WPG"}, "homeTeam": {"abbrev": "NJD"}}]
+        def fetch(_url):
+            return payload
+
+        with tempfile.TemporaryDirectory() as folder:
+            archive = Path(folder) / "collector"
+            with patch("phase0_input_capture.preserve", side_effect=ValueError("archive write refused")):
+                memberships, notes, fetched, receipts = fs.nhl_pregame_roster_memberships(
+                    schedule,
+                    fetch,
+                    archive_root=archive,
+                    clock=lambda: NOW,
+                    require_archived_membership=True,
+                )
+        self.assertEqual(memberships, {})
+        self.assertEqual(fetched, set())
+        self.assertEqual(receipts, [])
+        self.assertTrue(any("unavailable" in note for note in notes))
+
+    def test_no_archive_root_cannot_certify_membership(self):
+        payload = self._roster_payload(9001)
+        schedule = [{"awayTeam": {"abbrev": "WPG"}, "homeTeam": {"abbrev": "NJD"}}]
+
+        memberships, notes, fetched, receipts = fs.nhl_pregame_roster_memberships(
+            schedule,
+            lambda _url: payload,
+            archive_root=None,
+            clock=lambda: NOW,
+            require_archived_membership=True,
+        )
+        self.assertEqual(memberships, {})
+        self.assertEqual(fetched, set())
+        self.assertTrue(any("research_only_no_archive_root" in note for note in notes))
+
+    def test_successful_archive_allows_membership_and_digest_matches(self):
+        with tempfile.TemporaryDirectory() as folder:
+            archive = Path(folder) / "collector"
+            payload = self._roster_payload(9001)
+            schedule = [{"awayTeam": {"abbrev": "WPG"}, "homeTeam": {"abbrev": "NJD"}}]
+            memberships, _notes, fetched, receipts = fs.nhl_pregame_roster_memberships(
+                schedule,
+                lambda _url: payload,
+                archive_root=archive,
+                clock=lambda: NOW,
+                require_archived_membership=True,
+            )
+            self.assertIn("WPG", memberships)
+            self.assertIn("NJD", memberships)
+            self.assertEqual(fetched, {"NJD", "WPG"})
+            blob = archive / receipts[0]["archive_path"]
+            import hashlib
+            self.assertEqual(hashlib.sha256(blob.read_bytes()).hexdigest(), receipts[0]["content_sha256"])
 
 
 class NhlPregamePlayerIdentity(unittest.TestCase):
