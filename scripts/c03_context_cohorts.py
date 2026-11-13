@@ -404,8 +404,10 @@ def register_research_adjustment(baseline,artifact,*,archive_root):
             "certified_for_publication":False,"tier_publication_allowed":False}
 
 
-def archive_original_candidate(candidate,archive_root):
+def archive_original_candidate(candidate,archive_root,*,possessed_at=None):
     """Freeze BOTH original and neutral inputs; never overwrite old captures."""
+    if possessed_at is not None:
+        _utc(possessed_at,"original_candidate_possessed_at")
     body=canonical(candidate)
     digest=hashlib.sha256(body).hexdigest()
     rel="c03_original_candidate/"+digest+".json"
@@ -416,7 +418,8 @@ def archive_original_candidate(candidate,archive_root):
     except FileExistsError:pass
     if path.read_bytes()!=body:
         raise CohortError("C03_ORIGINAL_SOURCE_MUTATED")
-    return {"archive_path":rel,"content_sha256":digest,"bytes":len(body)}
+    return {"archive_path":rel,"content_sha256":digest,"bytes":len(body),
+            "collector_possessed_at":possessed_at}
 
 
 def capture_live_http_body(url,*,archive_root,source_namespace,source_id,timeout=12):
@@ -482,6 +485,14 @@ def strict_c03_snapshot_status(row,*,archive_root):
             return False,"C03_ORIGINAL_BYTES_MISMATCH"
     except (OSError,ValueError,TypeError,CohortError):
         return False,"C03_ORIGINAL_ARCHIVE_INVALID"
+    try:
+        archived_at=_utc(original_receipt.get("collector_possessed_at"),
+                         "original_candidate_possessed_at")
+        freeze=_utc(row.get("input_freeze_at"),"input_freeze_at")
+        if archived_at>freeze:
+            return False,"C03_ORIGINAL_CAPTURE_AFTER_FREEZE"
+    except CohortError:
+        return False,"C03_ORIGINAL_CAPTURE_TIME_UNVERIFIED"
     ok,reason=verify_context_binding(ctx,archive_root=archive_root,
                     original_candidate=original,neutral_candidate=neutral,
                     input_freeze_at=row.get("input_freeze_at"),
