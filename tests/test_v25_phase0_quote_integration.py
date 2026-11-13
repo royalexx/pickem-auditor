@@ -248,7 +248,7 @@ class NhlCollectorIdentityIntegration(unittest.TestCase):
             stats = Stats()
             schedule = Schedule()
 
-        rows, notes, rejections = fs.fetch_nhl(
+        rows, notes, rejections, _rosters = fs.fetch_nhl(
             "2026-11-09",
             "2026-11-09T15:00:00Z",
             client=Client(),
@@ -307,7 +307,7 @@ class NhlCollectorIdentityIntegration(unittest.TestCase):
             stats = Stats()
             schedule = Schedule()
 
-        rows, _notes, rejections = fs.fetch_nhl(
+        rows, _notes, rejections, _rosters = fs.fetch_nhl(
             "2026-11-09",
             "2026-11-09T15:00:00Z",
             client=Client(),

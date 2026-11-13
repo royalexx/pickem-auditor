@@ -2274,7 +2274,7 @@ class GameLogTests(unittest.TestCase):
         def unused(url, timeout=30, headers=None):
             raise AssertionError(url)
 
-        rows, notes, _rejections = fs.fetch_nhl(
+        rows, notes, _rejections, _rosters = fs.fetch_nhl(
             "2026-10-22",
             "2026-10-22T16:00:00Z",
             client=Client(),
@@ -2305,7 +2305,7 @@ class GameLogTests(unittest.TestCase):
         def down_fetch(url, timeout=30, headers=None):
             raise RuntimeError("urllib down")
 
-        rows, notes, _rejections = fs.fetch_nhl(
+        rows, notes, _rejections, _rosters = fs.fetch_nhl(
             "2026-10-22",
             "2026-10-22T16:00:00Z",
             client=DownClient(),

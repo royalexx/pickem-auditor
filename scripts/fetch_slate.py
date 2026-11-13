@@ -610,7 +610,7 @@ def resolve_nhl_slate_team(
         if team not in slate:
             return None, "nhl_team_no_slate_intersection"
         if not pid:
-            return team, None
+            return None, "nhl_team_player_id_required_for_pregame_identity"
         if team not in fetched:
             return None, "nhl_team_roster_evidence_incomplete"
         if pid not in (roster_memberships or {}).get(team, set()):
@@ -647,42 +647,96 @@ def index_team_rates(teams: list[dict], lookup: dict) -> dict[str, dict]:
     return indexed
 
 
+def _clock_to_utc_instant(clock) -> datetime:
+    if clock is None:
+        return datetime.now(ZoneInfo("UTC"))
+    value = clock()
+    if isinstance(value, datetime):
+        return value.astimezone(ZoneInfo("UTC")) if value.tzinfo else value.replace(tzinfo=ZoneInfo("UTC"))
+    text = str(value).replace("Z", "+00:00")
+    parsed = datetime.fromisoformat(text)
+    return parsed.astimezone(ZoneInfo("UTC")) if parsed.tzinfo else parsed.replace(tzinfo=ZoneInfo("UTC"))
+
+
+def _archive_collector_roster_bytes(
+    archive_root: Path | None,
+    url: str,
+    raw: bytes,
+    *,
+    representation: str,
+    clock,
+    team: str,
+) -> dict:
+    import hashlib
+    digest = hashlib.sha256(raw).hexdigest()
+    receipt: dict = {
+        "schema": "nhl_collector_roster_membership_v1",
+        "team": team,
+        "source_url": url,
+        "content_sha256": digest,
+        "byte_representation": representation,
+        "membership_only_not_starter_certified": True,
+        "participation_or_starter_not_certified": True,
+    }
+    if archive_root is not None:
+        from phase0_input_capture import preserve
+        instant = _clock_to_utc_instant(clock)
+        archived = preserve(
+            Path(archive_root),
+            "NHL_Collector",
+            "nhl_roster_membership",
+            raw,
+            captured=instant,
+            retrieved=instant,
+            url=url,
+        )
+        receipt["archive_path"] = archived["archive_path"]
+        receipt["retrieved_at"] = archived["retrieved_at"]
+        receipt["observed_at"] = archived["observed_at"]
+        receipt["source_id"] = archived["source_id"]
+    elif clock is not None:
+        from phase0_input_capture import stamp
+        receipt["retrieved_at"] = stamp(_clock_to_utc_instant(clock))
+    return receipt
+
+
 def nhl_pregame_roster_memberships(
     games: list[dict],
     fetch,
     *,
     extra_teams: list[str] | None = None,
-    retrieved_at: str | None = None,
+    archive_root: Path | str | None = None,
+    clock=None,
 ) -> tuple[dict[str, set[str]], list[str], set[str], list[dict]]:
     """Load current-roster membership ids; receipts document fetch only, not starter status."""
     from v2.phase15_nhl_roster import roster_members, roster_url
-    import hashlib
     slate = slate_matchups(games)
     teams = sorted({*slate, *slate.values(), *(extra_teams or [])})
     memberships: dict[str, set[str]] = {}
     notes: list[str] = []
     fetched: set[str] = set()
     receipts: list[dict] = []
+    archive = Path(archive_root) if archive_root else None
     for abbrev in teams:
         url = roster_url(abbrev)
         try:
             payload = fetch(url)
             if isinstance(payload, (bytes, bytearray)):
                 raw = bytes(payload)
+                representation = "raw_http_bytes"
             elif isinstance(payload, str):
                 raw = payload.encode("utf-8")
+                representation = "raw_http_bytes"
             else:
-                raw = json.dumps(payload, sort_keys=True).encode("utf-8")
+                raw = json.dumps(payload, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+                representation = "canonical_json_not_raw_http_bytes"
             memberships[abbrev] = set(roster_members(raw).keys())
             fetched.add(abbrev)
-            receipts.append({
-                "schema": "nhl_collector_roster_membership_v1",
-                "team": abbrev,
-                "source_url": url,
-                "content_sha256": hashlib.sha256(raw).hexdigest(),
-                "retrieved_at": retrieved_at,
-                "membership_only_not_starter_certified": True,
-            })
+            receipts.append(
+                _archive_collector_roster_bytes(
+                    archive, url, raw, representation=representation, clock=clock, team=abbrev,
+                )
+            )
         except Exception as exc:
             notes.append(f"roster {abbrev}: unavailable ({exc})")
     return memberships, notes, fetched, receipts
@@ -3222,6 +3276,8 @@ def fetch_nhl(
     source_urls=None,
     history_workers=4,
     roster_identity_mode: str = "pregame_live",
+    collector_archive_root: Path | str | None = None,
+    clock=None,
 ):
     notes = []
     if client_error:
@@ -3328,7 +3384,11 @@ def fetch_nhl(
                 if part:
                     roster_teams.add(part)
         roster_memberships, roster_notes, roster_fetched, roster_receipts = nhl_pregame_roster_memberships(
-            games, fetch, extra_teams=sorted(roster_teams), retrieved_at=retrieved_at,
+            games,
+            fetch,
+            extra_teams=sorted(roster_teams),
+            archive_root=collector_archive_root,
+            clock=clock or utc_now,
         )
         notes.extend(roster_notes)
         if games and not roster_memberships:
@@ -3370,7 +3430,7 @@ def fetch_nhl(
             f"nhl: prior-season game-log failed for {prior_failed} player(s). "
             "prior_season_mean left null."
         )
-    return rows, notes, identity_rejections
+    return rows, notes, identity_rejections, roster_receipts
 
 
 def frame_to_rows(frame) -> list[dict]:
@@ -3729,16 +3789,21 @@ def _as_notes(notes) -> list[str]:
 
 def _split_feed_result(result):
     if not isinstance(result, tuple):
-        return result, [], [], []
+        return result, [], [], {}
     if len(result) >= 4:
-        return result[0], result[1], list(result[2] or []), list(result[3] or [])
+        extras = result[3]
+        if isinstance(extras, dict):
+            return result[0], result[1], list(result[2] or []), extras
+        return result[0], result[1], list(result[2] or []), {
+            "identity_rejections": list(extras or []),
+        }
     if len(result) >= 3:
-        return result[0], result[1], list(result[2] or []), []
+        return result[0], result[1], list(result[2] or []), {}
     if len(result) == 2:
-        return result[0], result[1], [], []
+        return result[0], result[1], [], {}
     if len(result) == 1:
-        return result[0], [], [], []
-    return None, [], [], []
+        return result[0], [], [], {}
+    return None, [], [], {}
 
 
 def _feed_record(status: str, rows: int, started: str, finished: str, notes, source_urls) -> dict:
@@ -3767,7 +3832,7 @@ def _run_feed(name: str, fn, clock) -> tuple[dict, object]:
     started = clock()
     payload = None
     urls: list[str] = []
-    feed_extras: list = []
+    feed_extras: dict = {}
     failed = False
     if fn is None:
         notes = [f"{name}: feed was not run"]
@@ -3777,7 +3842,7 @@ def _run_feed(name: str, fn, clock) -> tuple[dict, object]:
             payload, raw_notes, urls, feed_extras = _split_feed_result(fn())
             notes = _as_notes(raw_notes)
             urls = list(urls or [])
-            feed_extras = list(feed_extras or [])
+            feed_extras = dict(feed_extras or {})
         except Exception as exc:
             notes = [f"{name}: {type(exc).__name__}: {exc}"]
             urls = []
@@ -3801,23 +3866,34 @@ def _run_feed(name: str, fn, clock) -> tuple[dict, object]:
     kept = rows if status == "ok" else []
     record = _feed_record(status, len(kept), started, finished, notes, urls)
     if name == "nhl" and feed_extras:
-        record["identity_rejections"] = feed_extras
+        record["identity_rejections"] = list(feed_extras.get("identity_rejections") or [])
+        record["roster_receipts"] = list(feed_extras.get("roster_receipts") or [])
     return record, kept
 
 
-def _builtin_fetchers(game_date, retrieved_at, nhl_client, nhl_client_error, fetch_json_fn, data_dir=None):
+def _builtin_fetchers(
+    game_date, retrieved_at, nhl_client, nhl_client_error, fetch_json_fn, data_dir=None, clock=None,
+):
+    clock = clock or utc_now
     buckets = {name: [] for name in FEED_NAMES}
 
+    archive_root = (Path(data_dir) / "source_archives" / "collector") if data_dir else None
+
     def nhl():
-        rows, notes, identity_rejections = fetch_nhl(
+        rows, notes, identity_rejections, roster_receipts = fetch_nhl(
             game_date,
             retrieved_at,
             client=nhl_client,
             client_error=nhl_client_error,
             fetch=fetch_json_fn,
             source_urls=buckets["nhl"],
+            collector_archive_root=archive_root,
+            clock=clock,
         )
-        return rows, notes, list(buckets["nhl"]), identity_rejections
+        return rows, notes, list(buckets["nhl"]), {
+            "identity_rejections": identity_rejections,
+            "roster_receipts": roster_receipts,
+        }
 
     def nfl():
         path=Path(data_dir)/'season'/f'nfl_{int(nfl_season_from_date(game_date))}.sqlite3' if data_dir else None
@@ -3881,6 +3957,7 @@ def collect(
             nhl_client_error,
             fetch_json_fn,
             data_dir=Path(quotes_path).parent if quotes_path else None,
+            clock=clock,
         )
     summary = {"date": game_date, "retrieved_at": retrieved_at, "feeds": {}}
     player_rows: list[dict] = []
@@ -3958,10 +4035,76 @@ def failed_output_path(out: Path) -> Path:
     return Path(str(out) + ".failed.json")
 
 
+NHL_IDENTITY_LEDGER_SCHEMA = "pickem_nhl_identity_rejections_v1"
+
+
+def nhl_identity_ledger_path_for(out: Path) -> Path:
+    return Path(out).parent / "nhl_identity_rejections.json"
+
+
+def persist_nhl_identity_ledger(out: Path, summary: dict, clock=None) -> dict | None:
+    """Write immutable NHL identity rejection ledger linked to this collector run."""
+    import hashlib
+    feed = (summary.get("feeds") or {}).get("nhl")
+    if not isinstance(feed, dict):
+        return None
+    rejections = list(feed.get("identity_rejections") or [])
+    roster_receipts = list(feed.get("roster_receipts") or [])
+    recorded_at = (clock or utc_now)()
+    ledger = {
+        "schema": NHL_IDENTITY_LEDGER_SCHEMA,
+        "game_date": summary.get("date"),
+        "collector_run": {
+            "retrieved_at": summary.get("retrieved_at"),
+            "slate_out": str(out),
+            "meta_out": str(meta_path_for(out)),
+            "nhl_feed_started_at": feed.get("started_at"),
+            "nhl_feed_finished_at": feed.get("finished_at"),
+            "nhl_feed_status": feed.get("status"),
+            "recorded_at": recorded_at,
+        },
+        "denominators": {
+            "rejected_players": len(rejections),
+            "accepted_nhl_rows": int(feed.get("rows") or 0),
+            "roster_receipts": len(roster_receipts),
+        },
+        "rejections": [{**item, "recorded_at": recorded_at} for item in rejections],
+        "roster_receipts": roster_receipts,
+    }
+    path = nhl_identity_ledger_path_for(out)
+    write_json(ledger, path)
+    ledger_bytes = path.read_bytes()
+    ref = {
+        "schema": NHL_IDENTITY_LEDGER_SCHEMA,
+        "path": str(path),
+        "content_sha256": hashlib.sha256(ledger_bytes).hexdigest(),
+        "rejection_count": len(rejections),
+        "accepted_nhl_rows": int(feed.get("rows") or 0),
+    }
+    summary["nhl_identity_ledger"] = ref
+    return ref
+
+
+def load_nhl_identity_ledger(meta: dict, *, base: Path | None = None) -> dict | None:
+    import hashlib
+    ref = meta.get("nhl_identity_ledger")
+    if not isinstance(ref, dict) or not ref.get("path"):
+        return None
+    path = Path(ref["path"])
+    if base is not None and not path.is_absolute():
+        path = base / path
+    if not path.is_file():
+        return None
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != ref.get("content_sha256"):
+        raise ValueError("nhl_identity_ledger_digest_mismatch")
+    return json.loads(raw.decode("utf-8"))
+
+
 def meta_document(summary: dict) -> dict:
     feeds = {}
     for name, feed in (summary.get("feeds") or {}).items():
-        feeds[name] = {
+        entry = {
             "status": feed.get("status"),
             "rows": feed.get("rows"),
             "started_at": feed.get("started_at"),
@@ -3969,7 +4112,11 @@ def meta_document(summary: dict) -> dict:
             "notes": list(feed.get("notes") or []),
             "source_urls": list(feed.get("source_urls") or []),
         }
-    return {
+        if name == "nhl":
+            entry["identity_rejection_count"] = len(feed.get("identity_rejections") or [])
+            entry["roster_receipt_count"] = len(feed.get("roster_receipts") or [])
+        feeds[name] = entry
+    doc = {
         "date": summary.get("date"),
         "retrieved_at": summary.get("retrieved_at"),
         "usable": bool(summary.get("usable")),
@@ -3978,14 +4125,18 @@ def meta_document(summary: dict) -> dict:
         "coverage": summary.get('coverage'),
         "feeds": feeds,
     }
+    if summary.get("nhl_identity_ledger"):
+        doc["nhl_identity_ledger"] = dict(summary["nhl_identity_ledger"])
+    return doc
 
 
-def commit_slate(rows: list[dict], summary: dict, out: Path) -> int:
+def commit_slate(rows: list[dict], summary: dict, out: Path, *, clock=None) -> int:
     """Persist rows. Zero rows leaves `out` untouched, writes `<out>.failed.json`, and returns 2."""
     out = Path(out)
     summary["out"] = str(out)
     summary["meta"] = str(meta_path_for(out))
     summary["usable"] = bool(rows)
+    persist_nhl_identity_ledger(out, summary, clock=clock)
     if not rows:
         failed = failed_output_path(out)
         summary["failed_out"] = str(failed)

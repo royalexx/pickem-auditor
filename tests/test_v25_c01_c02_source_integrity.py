@@ -116,6 +116,15 @@ class C02NhlIdentityAndQuoteProvenanceTests(unittest.TestCase):
         self.assertIsNone(team)
         self.assertEqual(reason, "nhl_team_roster_evidence_incomplete")
 
+    def test_mandatory_pregame_single_team_requires_player_id(self):
+        roster = {"BOS": {"42"}}
+        team, reason = fs.resolve_nhl_slate_team(
+            "BOS", {"BOS": "NSH", "NSH": "BOS"},
+            roster_memberships=roster, roster_fetched_teams=set(roster),
+        )
+        self.assertIsNone(team)
+        self.assertEqual(reason, "nhl_team_player_id_required_for_pregame_identity")
+
     def test_mandatory_blank_provider_team_stays_in_original_archive(self):
         quotes = op.provider_quote_snapshot([
             dict(sport="NHL", player="Example", team="", stat="shots on goal", book="FanDuel", line=2.5),
