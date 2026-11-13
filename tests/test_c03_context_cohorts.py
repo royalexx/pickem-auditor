@@ -7,6 +7,7 @@ from pathlib import Path
 from scripts.c03_context_cohorts import (
     CohortError, classify, neutralize, verify_context_binding,
     neutral_digest, archive_response, register_research_adjustment,
+    settlement_disposition,strict_c03_snapshot_status,archive_original_candidate,
 )
 
 FREEZE="2026-11-12T19:00:00Z"
@@ -125,6 +126,43 @@ class C03CohortTests(unittest.TestCase):
                  claims=[roster_claim,starter_claim],
                  archive_root=root,input_freeze_at=FREEZE,event_start_at=EVENT)
             self.assertEqual(out["cohort"],"B")
+
+    def test_settlement_void_and_early_exit(self):
+        played=settlement_disposition(
+            participated=True,official_state="settled",actual_stat=0,line=1.5,
+            void_terms_verified=True,provider_void_on_dnp=True)
+        self.assertEqual(played["status"],"under")
+        self.assertTrue(played["scoreable"])
+        early=settlement_disposition(
+            participated=True,official_state="settled",actual_stat=1,line=1,
+            void_terms_verified=True,provider_void_on_dnp=True)
+        self.assertEqual(early["status"],"push")
+        dnp=settlement_disposition(
+            participated=False,official_state="dnp",actual_stat=None,line=1.5,
+            void_terms_verified=True,provider_void_on_dnp=True)
+        self.assertEqual(dnp["status"],"VOID")
+        unknown=settlement_disposition(
+            participated=False,official_state="postponed",actual_stat=None,line=1.5,
+            void_terms_verified=False,provider_void_on_dnp=None)
+        self.assertEqual(unknown["status"],"UNVERIFIED_VOID_RULE")
+
+    def test_unattested_context_cannot_pass_strict_certification(self):
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            a=original();a["event_context"]={"events":[{"player_id":"bench"}]}
+            r,c=claim(root,"bench","out",kind="teammate_status")
+            plan=classify(a,source_receipts=[r],claims=[c],archive_root=root,
+                          input_freeze_at=FREEZE,event_start_at=EVENT)
+            binding=plan["binding"]
+            binding["original_candidate_receipt"]=archive_original_candidate(a,root)
+            row={"c03_context_binding":binding,"c03_original_candidate":a,
+                 "inputs":plan["neutral_candidate"],"input_freeze_at":FREEZE,
+                 "event_start":EVENT}
+            with patch("phase0r_contract.strict_snapshot_status",return_value=(True,"ok")):
+                ok,reason=strict_c03_snapshot_status(row,archive_root=root)
+            self.assertFalse(ok)
+            self.assertEqual(reason,"C03_LIVE_TRANSPORT_NOT_ATTESTED")
 
     def test_research_adjustment_shadow_only(self):
         with tempfile.TemporaryDirectory() as d:
