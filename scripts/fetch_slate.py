@@ -621,7 +621,9 @@ def resolve_nhl_slate_team(
 
 def abbrev_on_slate(team_abbrevs: str | None, slate: dict[str, str]) -> str | None:
     """Legacy wrapper; prefer ``resolve_nhl_slate_team`` for traded-player safety."""
-    team, _ = resolve_nhl_slate_team(team_abbrevs, slate)
+    team, _ = resolve_nhl_slate_team(
+        team_abbrevs, slate, identity_mode="historical_collector",
+    )
     return team
 
 
@@ -696,7 +698,7 @@ def nhl_rows_from_summaries(
     source_url: str,
     roster_memberships: dict[str, set[str]] | None = None,
     roster_fetched_teams: set[str] | None = None,
-    identity_mode: str = "pregame_live",
+    identity_mode: str = "historical_collector",
     identity_rejections: list[dict] | None = None,
 ) -> list[dict]:
     slate = slate_matchups(games)
