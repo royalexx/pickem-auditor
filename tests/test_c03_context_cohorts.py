@@ -129,6 +129,38 @@ class C03CohortTests(unittest.TestCase):
                  archive_root=root,input_freeze_at=FREEZE,event_start_at=EVENT)
             self.assertEqual(out["cohort"],"B")
 
+    def test_actual_legacy_engine_probabilities_numerically_invariant(self):
+        """Not merely hashes: unchanged Engine A/B and blend probabilities."""
+        import pickem_math as pm
+        import usage_baseline as ub
+        from unittest.mock import patch
+        from test_shared_context import baseline, NOW
+        premerge,data=baseline()
+        premerge.update(id="NBA|P|points|over",soft_flags=0,mechanisms=0,
+                        hard_veto=False,data_veto=False,
+                        research_checklist=False,q_market=.6,
+                        retrieved_minutes_ago=1)
+        # Same collector history and market, only source status changes.
+        ordinary=dict(premerge)
+        injured=dict(premerge)
+        ordinary["research_merge_base"]={"hard_veto":False,"data_veto":False}
+        injured["research_merge_base"]={"hard_veto":False,"data_veto":False}
+        injured["event_context"]={"events":[{"player_id":"Q"}]}
+        injured.update(hard_veto="yes",data_veto="yes",
+                       research_soft_flags=2,soft_flags=2,
+                       availability_issue="STATUS_NOT_VERIFIED",
+                       spread=-8.5)
+        neutral_a=neutralize(ordinary)
+        neutral_b=neutralize(injured)
+        self.assertEqual(neutral_a,neutral_b)
+        with patch.object(ub,"load",return_value=data):
+            baseline_output=pm.evaluate_candidate(neutral_a,now=NOW)
+            affected_output=pm.evaluate_candidate(neutral_b,now=NOW)
+        for field in ("engine_a","engine_b","blend","project","shared_context"):
+            self.assertEqual(baseline_output[field],affected_output[field])
+        self.assertTrue(baseline_output["engine_a"]["reliable"])
+        self.assertIsNone(affected_output["shared_context"].get("factor"))
+
     def test_settlement_void_and_early_exit(self):
         played=settlement_disposition(
             participated=True,official_state="settled",actual_stat=0,line=1.5,
