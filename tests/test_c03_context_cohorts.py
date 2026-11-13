@@ -117,6 +117,17 @@ class C03CohortTests(unittest.TestCase):
             self.assertEqual(classify(qb,source_receipts=[],claims=[],archive_root=root,
                 input_freeze_at=FREEZE,event_start_at=EVENT)["reason"],"STARTING_QB_UNVERIFIED")
 
+    def test_source_namespace_cannot_masquerade_as_official(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);a=original()
+            a["event_context"]={"subject_status":{"value":"active"}}
+            receipt,claim_record=claim(root,"star","active")
+            forged=dict(receipt,source_namespace="nhl_official")
+            result=classify(a,source_receipts=[forged],claims=[claim_record],
+                 archive_root=root,input_freeze_at=FREEZE,event_start_at=EVENT)
+            self.assertEqual(result["cohort"],"D")
+            self.assertEqual(result["reason"],"SOURCE_NAMESPACE_HOST_MISMATCH")
+
     def test_qb_rush_starter_gate_does_not_reject_verified_running_back(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d)
