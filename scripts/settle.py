@@ -17,6 +17,7 @@ if str(SCRIPT_DIR) not in sys.path:
 
 import fetch_slate as fs
 import pickem_math as pm
+from nfl_stat_definitions import combined_tackles_assists
 
 LookupFn = Callable[[str, str, str, str], float | None]
 
@@ -119,11 +120,14 @@ def _nfl_value(week_rows, schedules, player: str, stat: str, game_date: str) -> 
                     and team in (game.get('home_team'),game.get('away_team')))
         if not any(same_game(g) for g in games):continue
         if column:
-            value=fs._num(row.get(column))
+            value = fs._num(row.get(column))
+        elif stat == "tackles + assists":
+            combined = combined_tackles_assists(row)
+            value = float(combined) if combined is not None else None
         else:
-            solo=fs._num(row.get('def_tackles_solo'));assists=fs._num(row.get('def_tackle_assists'))
-            value=solo+assists if solo is not None and assists is not None else None
-        if value is not None:matched.append((str(row.get('player_id') or row.get('player_name') or name),float(value)))
+            value = None
+        if value is not None:
+            matched.append((str(row.get("player_id") or row.get("player_name") or name), float(value)))
     unique=set(matched)
     return next(iter(unique))[1] if len(unique)==1 else None
 

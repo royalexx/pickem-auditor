@@ -78,6 +78,9 @@ BOOK_PRIORITY = (
     "caesars",
     "betmgm",
 )
+QUOTE_PROVENANCE_SCHEMA = "pickem_quote_team_inference_v1"
+PROVIDER_QUOTE_SNAPSHOT_SCHEMA = "pickem_provider_quote_snapshot_v1"
+
 QUOTE_FIELDS = (
     "sport",
     "event_id",
@@ -609,6 +612,21 @@ def quotes_from_records(records, *, source_url: str = "", retrieved_at: str = ""
     return dedupe_quotes(quotes)
 
 
+def provider_quote_snapshot(quotes) -> list[dict]:
+    """Deep-copy provider quotes before any collector team normalization."""
+    return [dict(quote) for quote in quotes or []]
+
+
+def quote_payload_digest(quotes) -> str:
+    import hashlib
+    import json
+    payload = [dict(quote) for quote in quotes or []]
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+                  allow_nan=False).encode("utf-8")
+    ).hexdigest()
+
+
 def dedupe_quotes(quotes: list[dict]) -> list[dict]:
     seen = set()
     kept = []
@@ -689,7 +707,7 @@ def _unmatched_reason(quote: dict, rows) -> str:
 
 
 def resolve_quote_teams(quotes, rows) -> tuple[list[dict], list[dict]]:
-    """Fill a blank team from the slate when the normalized name is on one team.
+    """Normalize quotes for matching; never erase the provider's original team fields.
 
     The join key is (player_norm, team), and team is the slate row's team.
     A quote that still does not match is returned in the unmatched log.
@@ -700,20 +718,31 @@ def resolve_quote_teams(quotes, rows) -> tuple[list[dict], list[dict]]:
     slate = list(rows or [])
     for original in quotes or []:
         quote = dict(original)
+        quote["provider_team"] = original.get("team")
+        quote["provider_opponent"] = original.get("opponent")
         quote["player_norm"] = normalize_player(quote.get("player"))
         quote["team"] = normalize_team(quote.get("team"))
         quote["opponent"] = normalize_team(quote.get("opponent"))
         quote["stat"] = canon_stat(quote.get("stat")) or quote.get("stat")
+        inferred_team = None
         if not quote["team"]:
             compatible = [row for row in slate if _same_player(quote, row) and same_fixture(quote,row)]
             teams = {normalize_team(row.get("team")) for row in compatible}
             teams.discard("")
             if len(teams) == 1:
                 only = next(iter(teams))
+                inferred_team = only
                 quote["team"] = only
                 if not quote["opponent"]:
                     sample = next(row for row in compatible if normalize_team(row.get("team")) == only)
                     quote["opponent"] = normalize_team(sample.get("opponent"))
+        if inferred_team:
+            quote["team_resolution_provenance"] = {
+                "schema": QUOTE_PROVENANCE_SCHEMA,
+                "method": "single_compatible_slate_team",
+                "inferred_team": inferred_team,
+                "provider_team": quote.get("provider_team"),
+            }
         matched = any(
             _same_player(quote, row)
             and same_fixture(quote,row)

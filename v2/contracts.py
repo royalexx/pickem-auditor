@@ -185,6 +185,108 @@ class NormalDistribution:
         return {"kind": "normal", "mean": self.mean, "sd": self.sd}
 
 
+def _normal_cdf(x: float, mean: float, sd: float) -> float:
+    """Standard normal CDF Φ evaluated at a real point."""
+    x = finite(x, "cdf_point")
+    z = (x - mean) / (sd * math.sqrt(2.0))
+    return 0.5 * math.erfc(-z)
+
+
+@dataclass(frozen=True)
+class DiscretizedNormalDistribution:
+    """Zero-clamped discretized Normal on integers (not zero-truncated).
+
+    Latent Z ~ Normal(mean, sd); K = floor(Z + ½). Signed support uses Y = K;
+    nonnegative support clamps Y = max(0, K). Thus P(Y=0) = Φ(½) on nonnegative
+    counts, absorbing latent mass below zero into the atom at zero rather than
+    conditioning a continuous Normal on Y ≥ 0. Settlement and pmf share this law:
+    P(Y=k) = Φ(k+½) - Φ(k-½) for k ≥ 1; P(Under L) = P(Y < L); P(Push L) = P(Y = L)
+    only when L is an integer; P(Over L) = P(Y > L), including fractional lines.
+    """
+    mean: float
+    sd: float
+    support: str  # signed_integer | nonnegative_integer
+
+    def __post_init__(self) -> None:
+        finite(self.mean, "mean")
+        if finite(self.sd, "sd") <= 0:
+            raise ContractError("nonpositive_sd")
+        if self.support not in ("signed_integer", "nonnegative_integer"):
+            raise ContractError("invalid_discretized_support")
+
+    def _cdf(self, x: float) -> float:
+        return _normal_cdf(x, self.mean, self.sd)
+
+    def _latent_bin_mass(self, k: int) -> float:
+        """Mass on K=k before nonnegative clamping."""
+        return self._cdf(k + 0.5) - self._cdf(k - 0.5)
+
+    def pmf(self, k: int) -> float:
+        if isinstance(k, bool) or not isinstance(k, int):
+            raise ContractError("pmf_requires_integer_k")
+        if self.support == "nonnegative_integer":
+            if k < 0:
+                return 0.0
+            if k == 0:
+                return self._cdf(0.5)
+            return self._latent_bin_mass(k)
+        return self._latent_bin_mass(k)
+
+    def _largest_y_strictly_below(self, line: float) -> int | None:
+        """Largest integer y with y < line (None when empty on nonnegative support)."""
+        if line == int(line):
+            return int(line) - 1
+        return math.floor(line)
+
+    def _smallest_y_strictly_above(self, line: float) -> int:
+        if line == int(line):
+            return int(line) + 1
+        return math.ceil(line)
+
+    def prob_le(self, y: int) -> float:
+        """P(Y ≤ y) on the declared discrete support."""
+        if self.support == "nonnegative_integer":
+            if y < 0:
+                return 0.0
+            return self._cdf(y + 0.5)
+        return self._cdf(y + 0.5)
+
+    def prob_less_than(self, line: float) -> float:
+        line = finite(line, "line")
+        if self.support == "nonnegative_integer" and line <= 0:
+            return 0.0
+        y = self._largest_y_strictly_below(line)
+        if y is None:
+            return 0.0
+        if self.support == "nonnegative_integer" and y < 0:
+            return 0.0
+        return self.prob_le(y)
+
+    def prob_greater_than(self, line: float) -> float:
+        line = finite(line, "line")
+        if self.support == "nonnegative_integer" and line < 0:
+            return 1.0
+        y = self._smallest_y_strictly_above(line)
+        return 1.0 - self._cdf(y - 0.5)
+
+    def probabilities(self, line: float) -> EventProbabilities:
+        line = finite(line, "line")
+        if line.is_integer():
+            k = int(line)
+            push = self.pmf(k)
+            under = self.prob_less_than(line)
+            over = self.prob_greater_than(line)
+        else:
+            push = 0.0
+            under = self.prob_less_than(line)
+            over = self.prob_greater_than(line)
+        return EventProbabilities(over, under, push)
+
+    def to_record(self) -> dict:
+        return {"kind": "discretized_normal", "mean": self.mean, "sd": self.sd,
+                "support": self.support}
+
+
 def parse_distribution(record: dict) -> PredictiveDistribution:
     if not isinstance(record, dict):
         raise ContractError("distribution_not_object")
@@ -201,6 +303,11 @@ def parse_distribution(record: dict) -> PredictiveDistribution:
         return PoissonDistribution(record["rate"])
     if kind == "normal":
         return NormalDistribution(record["mean"], record["sd"])
+    if kind == "discretized_normal":
+        support = record.get("support")
+        if support not in ("signed_integer", "nonnegative_integer"):
+            raise ContractError("invalid_discretized_support")
+        return DiscretizedNormalDistribution(record["mean"], record["sd"], support)
     raise ContractError("unsupported_distribution")
 
 
@@ -386,6 +493,15 @@ class ForecastSnapshot:
                 raise ContractError("negative_or_fractional_support_for_count")
         if stat.value_kind == "count" and isinstance(self.distribution, NormalDistribution):
             raise ContractError("continuous_normal_cannot_certify_integer_count_support")
+        if isinstance(self.distribution, DiscretizedNormalDistribution):
+            if stat.value_kind == "count":
+                if self.distribution.support != "nonnegative_integer":
+                    raise ContractError("nonnegative_support_required_for_count")
+            elif stat.value_kind == "signed_count":
+                if self.distribution.support != "signed_integer":
+                    raise ContractError("signed_support_required_for_signed_count")
+            else:
+                raise ContractError("discretized_normal_not_for_continuous_stat")
         self.distribution.probabilities(self.line)
 
     def to_record(self) -> dict:
