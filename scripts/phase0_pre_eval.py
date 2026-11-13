@@ -100,11 +100,25 @@ def pin(candidate, *, data_root, archive_root, policy_root, clock, identity=None
 
         # The collector-derived market book payload is the model's direct
         # input. Archive original quoted bytes separately for verification.
-        odds_raw = (root / "odds_quotes.jsonl").read_bytes()
-        if not odds_raw.strip():
-            raise ValueError("original_book_quotes_missing")
-        ingest("Market", "original_book_quotes", odds_raw,
-               relative="odds_quotes.jsonl")
+        original_quotes = root / "odds_quotes_original.jsonl"
+        resolved_quotes = root / "odds_quotes.jsonl"
+        if original_quotes.is_file():
+            odds_raw = original_quotes.read_bytes()
+            if not odds_raw.strip():
+                raise ValueError("original_provider_book_quotes_missing")
+            ingest("Market", "original_provider_book_quotes", odds_raw,
+                   relative="odds_quotes_original.jsonl")
+        else:
+            odds_raw = resolved_quotes.read_bytes()
+            if not odds_raw.strip():
+                raise ValueError("original_book_quotes_missing")
+            ingest("Market", "original_book_quotes", odds_raw,
+                   relative="odds_quotes.jsonl")
+        if resolved_quotes.is_file():
+            derived_raw = resolved_quotes.read_bytes()
+            if derived_raw.strip() and derived_raw != odds_raw:
+                ingest("Market", "collector_resolved_book_quotes", derived_raw,
+                       relative="odds_quotes.jsonl")
         market_input = {k: candidate.get(k) for k in
                         ("books", "line", "side", "market_retrieved_at")}
         ingest("Market", "evaluated_market", canonical_bytes(market_input),
