@@ -77,7 +77,8 @@ def audit(root,source,config):
  if len(by_game)!=len(originals):raise AuditFailure("DUPLICATE_ORIGINAL_SOURCE")
  by_event={str(x["game_id"]):x for x in scheduled}
  if len(by_event)!=len(scheduled):raise AuditFailure("DUPLICATE_ORIGINAL_EVENT")
- fkeys={(x["game_id"],x["player_id"]) for x in forecast}
+ forecast_index={(x["game_id"],x["player_id"]):x for x in forecast}
+ fkeys=set(forecast_index)
  skeys={(x["game_id"],x["player_id"]) for x in scored}
  if len(fkeys)!=len(forecast) or len(skeys)!=len(scored) or not skeys<=fkeys:
   raise AuditFailure("DUPLICATE_OR_UNMATCHED_PAIRED_KEYS")
@@ -113,7 +114,7 @@ def audit(root,source,config):
     if abs(p-refs[model])>2e-10:
      raise AuditFailure("REFERENCE_PMF_DIVERGENCE:"+str((model,k,refs[model],p)))
  for x in scored:
-  orig=next((p for p in forecast if p["game_id"]==x["game_id"] and p["player_id"]==x["player_id"]),None)
+  orig=forecast_index.get((x["game_id"],x["player_id"]))
   if orig is None:raise AuditFailure("ORIGINAL_FORECAST_MISSING")
   y=x["actual_sog"];m=orig["distribution_params"]
   for model in ("M0","M1","M2","M3","M4"):
