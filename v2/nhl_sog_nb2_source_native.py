@@ -124,11 +124,10 @@ def _official_identity(root: Path, pool: Path, input_doc: dict, quote: MarketQuo
     event = quote.event_start_at
     score, score_doc = _proof(root, pool, input_doc["new_signed_score_proof_sha256"],
                               freeze=freeze, event=event)
-    _check(score["source_url"] ==
-           "https://api-web.nhle.com/v1/score/" +
-           _utc(quote.event_start_at).astimezone(ZoneInfo("America/Toronto")).date().isoformat()
-           or score["source_url"].startswith("https://api-web.nhle.com/v1/score/"),
-           "OFFICIAL_SCORE_SOURCE_ENDPOINT_INVALID")
+    source_day = _utc(input_doc["created_at"]).astimezone(
+        ZoneInfo("America/Toronto")).date().isoformat()
+    _check(score["source_url"] == "https://api-web.nhle.com/v1/score/" +
+           source_day, "OFFICIAL_SCORE_SOURCE_ENDPOINT_INVALID")
     games = score_doc.get("games")
     _check(isinstance(games, list), "OFFICIAL_SCORE_GAMES_MISSING")
     match = [g for g in games if str(g.get("id")) == str(chosen.get("nhl_official_event_id"))]
@@ -311,12 +310,22 @@ def verify_native_source(root: Path, manifest: dict, manifest_path: Path,
            snap["quote_receipt_sha256"] == quote.quote_receipt_sha256 and
            snap["line"] == quote.line and
            _utc(model["input_freeze_at"]) == _utc(snap["input_freeze_at"]) and
+           _utc(model["input_freeze_at"]) <= _utc(snap["forecast_at"]) and
            _utc(snap["forecast_at"]) <= _utc(wrapper["attempt_finished_utc"]) and
            _utc(model["fit_data_cutoff_at"]) <= _utc(model["input_freeze_at"]) and
            _utc(model["event_start_at"]) == _utc(quote.event_start_at),
            "FROZEN_FORECAST_IDENTITY_OR_TEMPORAL_INVALID")
     pool = _within(root, original["source_pool"])
     _check(pool.is_dir(), "FROZEN_SIGNED_SOURCE_POOL_MISSING")
+    source_manifest = pool.parent / "signed_original_source_manifest_v1.json"
+    history_manifest = pool.parent / "pr121_signed_historical_observation_contracts_parallel_v1.json"
+    _check(source_manifest.is_file() and history_manifest.is_file() and
+           _sha(source_manifest.read_bytes()) == original["official_signed_manifest_sha256"] and
+           _sha(source_manifest.read_bytes()) ==
+           manifest["source_baseline_copy"]["legacy_signed_manifest_sha256"] and
+           _sha(history_manifest.read_bytes()) ==
+           manifest["source_baseline_copy"]["historical_signed_observation_manifest_sha256"],
+           "FROZEN_SIGNED_HISTORY_MANIFEST_SOURCE_DRIFT")
     name = _verify_historical(pool, model, original, quote, snap)
     role = _official_identity(root, pool, original, quote, snap, now)
     _check(role == model["position_group"], "CURRENT_OFFICIAL_POSITION_GROUP_MISMATCH")
@@ -397,6 +406,16 @@ def run_day(root: Path, *, now: datetime, code_sha: str) -> dict:
     """Process earliest original same-day manifest; never select by model score."""
     root = Path(root).resolve()
     day = now.astimezone(ZoneInfo("America/Toronto")).date().isoformat()
+    spec_path = Path(__file__).resolve().parents[1] / (
+        "config/experiment_specs/EXP_V25_NHL_SOG_NB2_NATIVE_PLUGIN_MEAN_20261114.json")
+    _check(spec_path.is_file(), "NATIVE_NB2_PREREGISTRATION_FILE_MISSING")
+    spec = json.loads(spec_path.read_bytes())
+    _check(spec.get("schema") == "v25_research_preregistered_native_nb2_control_v1"
+           and spec.get("experiment_id") == EXPERIMENT
+           and spec.get("fixed_shape_r") == SHAPE
+           and spec.get("status") == "RESEARCH_ONLY_NO_PRODUCTION_AUTHORIZATION"
+           and spec.get("created_for_first_eligible_local_date") <= day,
+           "NATIVE_NB2_PREREGISTRATION_INCOMPATIBLE")
     d = root / "reports" / "v25_sog_source_cert_sprint" / day
     candidates = sorted(d.glob("daily_original_gamma_poisson_research_*/daily_research_generation_manifest.json"))
     outcome = {
