@@ -54,7 +54,6 @@ def annotate_prepared_candidates(rows,*,archive_root):
                 raise CohortError("C03_TEAM_SOURCE_IDENTITY_UNVERIFIED")
             start=meta.get("event_start")
             if not start:raise CohortError("C03_EVENT_START_UNVERIFIED")
-            from c03_context_cohorts import _utc
             start_dt=_utc(start,"event_start")
             now=datetime.now(timezone.utc)
             if not now+timedelta(seconds=3)<start_dt:
