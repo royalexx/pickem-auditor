@@ -334,6 +334,7 @@ def _chronology_invalid_reason(
     event_start: datetime,
     source_retrieved_at: datetime | None,
     possession_clock: datetime,
+    source_available_at: datetime | None = None,
 ) -> str | None:
     if possession_clock >= event_start:
         return "capture_clock_not_before_event_start"
@@ -341,6 +342,12 @@ def _chronology_invalid_reason(
         return "forecast_at_not_before_event_start"
     if input_freeze_at > forecast_at:
         return "input_freeze_after_forecast"
+    if forecast_at > possession_clock:
+        return "forecast_at_after_capture_clock"
+    if source_available_at is not None and source_available_at > input_freeze_at:
+        return "source_available_after_input_freeze"
+    if source_available_at is not None and source_available_at > possession_clock:
+        return "source_available_after_capture_clock"
     if source_retrieved_at is not None and source_retrieved_at > input_freeze_at:
         return "source_retrieved_after_input_freeze"
     if source_retrieved_at is not None and source_retrieved_at > possession_clock:
@@ -398,6 +405,11 @@ def validate_factor_row(
     forecast_at = instant(row.get("forecast_at") or row.get("input_freeze_at") or "")
     cutoff_raw = row.get("model_training_cutoff_at")
     src_ret = instant(row["source_retrieved_at"]) if row.get("source_retrieved_at") else None
+    src_avail = instant(row["source_available_at"]) if row.get("source_available_at") else None
+    if status == STATUS_AVAILABLE and not cutoff_raw:
+        status = STATUS_INVALID
+        out["status"] = status
+        out["invalid_reason"] = "model_training_cutoff_missing"
     chron = _chronology_invalid_reason(
         model_training_cutoff_at=cutoff_raw,
         input_freeze_at=freeze_at,
@@ -405,6 +417,7 @@ def validate_factor_row(
         event_start=event_start,
         source_retrieved_at=src_ret,
         possession_clock=possession_clock,
+        source_available_at=src_avail,
     )
     if chron and status == STATUS_AVAILABLE:
         status = STATUS_INVALID
@@ -443,6 +456,7 @@ def validate_factor_row(
                 event_start=event_start,
                 source_retrieved_at=ret,
                 possession_clock=possession_clock,
+                source_available_at=src_avail,
             )
             if chron2:
                 out["status"] = STATUS_INVALID
@@ -947,10 +961,18 @@ def validate_pregame_factor_receipt(receipt, *, source_root, possession_clock):
     forecast_s = receipt.get("forecast_at") or freeze_s
     if not freeze_s or not forecast_s:
         raise SettlementCaptureError("factor_timing_missing")
+    freeze_at, forecast_at = instant(freeze_s), instant(forecast_s)
+    if freeze_at > forecast_at or forecast_at > cap or forecast_at >= event or cutoff > freeze_at:
+        raise SettlementCaptureError("factor_not_genuinely_pregame")
     parsed_docs: dict[str, dict] = {}
     val: dict[str, float] = {}
     for sr in sources:
-        _, raw = _read_verified_archive(sr, source_root=root)
+        source_meta, raw = _read_verified_archive(sr, source_root=root)
+        if instant(source_meta["source_retrieved_at"]) > freeze_at:
+            raise SettlementCaptureError("factor_source_retrieved_after_input_freeze")
+        if (source_meta["source_available_at"] is not None
+                and instant(source_meta["source_available_at"]) > freeze_at):
+            raise SettlementCaptureError("factor_source_available_after_input_freeze")
         relative = sr["archive_path"]
         doc = parsed_docs.get(relative)
         if doc is None:
