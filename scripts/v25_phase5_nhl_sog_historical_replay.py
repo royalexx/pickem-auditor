@@ -117,8 +117,9 @@ def build_params(pid,history):
     pi=[(w,(n[w]+frozen.ETA_GAMES*h[w]/len(peers))/(len(recent)+frozen.ETA_GAMES))
         for w in sorted(set(h)|set(n))]
     if abs(math.fsum(p for _,p in pi)-1)>1e-10:raise ReplayBlocked("EXPOSURE_PMF_NOT_NORMALIZED")
+    mu,var=frozen._moments(pi,a/b,a,b)
     model={"schema":frozen.SCHEMA,"rate_a":a,"rate_b":b,"exposure_pmf":pi,
-           "plugin_rate":ownrate,"plugin_exposure":w0}
+           "plugin_rate":ownrate,"plugin_exposure":w0,"mean":mu,"variance":var}
     ab=frozen.same_data_ablations(model)
     stats={"own_n":len(own),"peer_n":len(peers_by),"peer_games":len(peers),
            "expected_sog":ab["full_gamma_poisson_exposure"]["mean"],
