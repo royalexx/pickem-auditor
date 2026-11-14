@@ -10,13 +10,13 @@ from datetime import datetime,timedelta,timezone
 import hashlib
 
 try:
-    from scripts.c03_context_cohorts import CohortError, _utc
-    from scripts.c03_live_transport import capture_signed_live, claim_from_espn_summary
-except ModuleNotFoundError as exc:
-    if exc.name not in ("scripts", "scripts.c03_context_cohorts", "scripts.c03_live_transport"):
-        raise
     from c03_context_cohorts import CohortError, _utc
     from c03_live_transport import capture_signed_live, claim_from_espn_summary
+except ModuleNotFoundError as exc:
+    if exc.name not in ("c03_context_cohorts", "c03_live_transport"):
+        raise
+    from scripts.c03_context_cohorts import CohortError, _utc
+    from scripts.c03_live_transport import capture_signed_live, claim_from_espn_summary
 
 PATHS={"NBA":"basketball/nba","NFL":"football/nfl","NHL":"hockey/nhl"}
 
