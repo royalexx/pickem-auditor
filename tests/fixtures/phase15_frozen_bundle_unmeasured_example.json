@@ -1,0 +1,19 @@
+{
+  "schema": "v25_phase15_frozen_capture_bundle_v1",
+  "experiment_id": "V25-P1.5-07-PREGAME-FACTOR-CAPTURE",
+  "run_id": "offline-fixture-unmeasured-20261112",
+  "model_version": "shadow-uncertified",
+  "contracts": [
+    {
+      "sport": "NHL",
+      "stat": "shots on goal",
+      "event_id": "fixture-event-001",
+      "player_id": "8482110",
+      "game_date": "2026-11-10",
+      "event_start": "2026-11-11T00:00:00Z",
+      "forecast_at": "2026-11-10T18:04:09Z",
+      "input_freeze_at": "2026-11-10T18:04:09Z",
+      "original_forecast_contract_id": "fixture-contract-001"
+    }
+  ]
+}

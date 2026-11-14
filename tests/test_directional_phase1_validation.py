@@ -467,7 +467,16 @@ class DirectionalPhase1Tests(unittest.TestCase):
         agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
         self.assertIn("DIRECTIONAL_ACCURACY_RESEARCH_BASELINE_20261108.md", agents)
         self.assertIn("config/directional_research_baseline_20261108.json", agents)
-        self.assertIn("No production promotion or Tier changes", agents)
+        self.assertIn("PHASE1_DIRECTIONAL_VALIDATION.md", agents)
+        self.assertRegex(
+            agents,
+            r"(?i)phase\s*1.*(not release authorization|read-only)",
+        )
+        self.assertRegex(
+            agents,
+            r"No trusted Tier 1/2 publication",
+        )
+        self.assertIn("UNCERTIFIED/SHADOW", agents)
 
 
 if __name__ == "__main__":

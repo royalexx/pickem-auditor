@@ -13,11 +13,11 @@ import nfl_stat_definitions as definitions
 
 class NFLSourceStatChallengerTests(unittest.TestCase):
     def test_combined_credits_match_population_definition_and_show_legacy_gap(self):
-        row = dict(def_tackles_solo=4, def_tackles_with_assist=2, def_tackle_assists=1)
+        row = dict(def_tackles_solo=4, def_tackles_with_assist=3, def_tackle_assists=2)
         result = definitions.reconcile(row, ("tackles + assists",))[0]
-        self.assertEqual(result["value"], 7)
-        self.assertEqual(result["legacy_source_formula_value"], 5)
-        self.assertEqual(result["strict_minus_legacy"], 2)
+        self.assertEqual(result["value"], 9)
+        self.assertEqual(result["legacy_source_formula_value"], 6)
+        self.assertEqual(result["strict_minus_legacy"], 3)
         self.assertFalse(result["ranking_allowed"])
         self.assertFalse(result["forecast_generated"])
         self.assertFalse(result["settlement_written"])

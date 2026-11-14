@@ -4,6 +4,34 @@
 # forecasts, settled outcomes and source caches live on data/shadow-calibration.
 # No automatic coefficient, weight or calibration updates are performed here.
 set -euo pipefail
+
+# Prefer an explicit PYTHON_BIN when it resolves to a Python 3 interpreter.
+resolve_python() {
+  local candidate
+  if [[ -n "${PYTHON_BIN:-}" ]]; then
+    if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
+      echo "PYTHON_BIN_UNAVAILABLE: ${PYTHON_BIN}" >&2
+      exit 127
+    fi
+    if ! "$PYTHON_BIN" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)'; then
+      echo "PYTHON_BIN_INCOMPATIBLE: ${PYTHON_BIN} (need Python 3.10+)" >&2
+      exit 127
+    fi
+    printf '%s\n' "$PYTHON_BIN"
+    return 0
+  fi
+  for candidate in python3 python; do
+    if command -v "$candidate" >/dev/null 2>&1 \
+        && "$candidate" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)'; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done
+  echo 'PYTHON_INTERPRETER_UNAVAILABLE: set PYTHON_BIN or install python3' >&2
+  exit 127
+}
+PYTHON="$(resolve_python)"
+
 mode="${1:?use load or save}"
 branch="data/shadow-calibration"
 archive_branch="data/history-archive"
@@ -87,7 +115,7 @@ if [[ "$mode" == load ]]; then
     tmpdir="$(mktemp -d)"
     trap 'rm -rf "$tmpdir"' EXIT
     git archive "refs/remotes/origin/${archive_branch}" archive/2026-10-26 | tar -x -C "$tmpdir"
-    python scripts/history_bootstrap.py --archive-dir "$tmpdir/archive/2026-10-26" --destination "$root"
+    "$PYTHON" scripts/history_bootstrap.py --archive-dir "$tmpdir/archive/2026-10-26" --destination "$root"
   fi
 elif [[ "$mode" == save ]]; then
   if [[ ! -s data/prop_snapshots.jsonl ]]; then
@@ -105,7 +133,7 @@ elif [[ "$mode" == save ]]; then
   mkdir -p "$tmpdir/tree/data" "$tmpdir/tree/logs"
   # Preserve every frozen forecast, including nightly rows added after the
   # original archive. Only additive settlement/closing enrichment is allowed.
-  python scripts/forecast_store_guard.py \
+  "$PYTHON" scripts/forecast_store_guard.py \
     --previous "$tmpdir/tree/data/prop_snapshots.jsonl" \
     --current data/prop_snapshots.jsonl
   cp -p data/prop_snapshots.jsonl "$tmpdir/tree/data/"
@@ -166,7 +194,7 @@ elif [[ "$mode" == save ]]; then
       relative="${forecast#data/bayesian_shadow/}"
       target="$tmpdir/tree/data/bayesian_shadow/$relative"
       if [[ -e "$target" ]]; then
-        python - "$target" "$forecast" <<'PY'
+        "$PYTHON" - "$target" "$forecast" <<'PY'
 import sys
 from pathlib import Path
 old=Path(sys.argv[1]).read_bytes()
@@ -184,7 +212,7 @@ PY
       relative="${forecast#data/bayesian_b_shadow/}"
       target="$tmpdir/tree/data/bayesian_b_shadow/$relative"
       if [[ -e "$target" ]]; then
-        python - "$target" "$forecast" <<'PY'
+        "$PYTHON" - "$target" "$forecast" <<'PY'
 import sys
 from pathlib import Path
 old=Path(sys.argv[1]).read_bytes()
@@ -202,7 +230,7 @@ PY
       relative="${forecast#data/posterior_mc/}"
       target="$tmpdir/tree/data/posterior_mc/$relative"
       if [[ -e "$target" ]]; then
-        python - "$target" "$forecast" <<'PY'
+        "$PYTHON" - "$target" "$forecast" <<'PY'
 import sys
 from pathlib import Path
 old=Path(sys.argv[1]).read_bytes()
@@ -220,7 +248,7 @@ PY
       relative="${forecast#data/nfl_context/}"
       target="$tmpdir/tree/data/nfl_context/$relative"
       if [[ -e "$target" ]]; then
-        python - "$target" "$forecast" <<'PY_CHECK'
+        "$PYTHON" - "$target" "$forecast" <<'PY_CHECK'
 import sys
 from pathlib import Path
 if not Path(sys.argv[2]).read_bytes().startswith(Path(sys.argv[1]).read_bytes()):
@@ -238,7 +266,7 @@ PY_CHECK
       relative="${forecast#data/$extra/}"
       target="$tmpdir/tree/data/$extra/$relative"
       if [[ -e "$target" ]]; then
-        python - "$target" "$forecast" <<'PY_EXTRA'
+        "$PYTHON" - "$target" "$forecast" <<'PY_EXTRA'
 import json,sys
 from pathlib import Path
 from collections import Counter

@@ -175,7 +175,12 @@ class SettlementIntegrityTests(unittest.TestCase):
     def test_nfl_uses_target_game_not_first_player_week(self):
         import settle
         games=[dict(game_id='g2',gameday='2026-10-25',game_type='REG',season=2026,week=8,home_team='T',away_team='X',result=7)]
-        rows=[dict(player='P',player_id='p',team='T',season=2026,week=w,def_tackles_solo=s,def_tackle_assists=2) for w,s in [(7,99),(8,5)]]
+        rows=[
+            dict(player='P', player_id='p', team='T', season=2026, week=7,
+                 def_tackles_solo=99, def_tackles_with_assist=0, def_tackle_assists=2),
+            dict(player='P', player_id='p', team='T', season=2026, week=8,
+                 def_tackles_solo=5, def_tackles_with_assist=0, def_tackle_assists=2),
+        ]
         self.assertEqual(settle._nfl_value(rows,games,'P','tackles + assists','2026-10-25'),7)
         self.assertEqual(settle._nfl_value(rows,games,'P','tackles','2026-10-25'),5)
         self.assertIsNone(settle._nfl_value(rows,games,'P','unknown','2026-10-25'))

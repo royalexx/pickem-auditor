@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-"""Strict NFL source-stat challenger; never changes forecasting or settlement.
+"""Canonical strict NFL source-stat definitions for collector and settlement paths.
 
 The combined tackle definition is the sum of nflverse's three distinct credits:
 solo tackles, tackles with an assistant, and tackle assists. Missing evidence is
-unavailable, rather than a measured zero. This additive audit module is NOT
-called by the existing production collector or settler.
+unavailable, rather than a measured zero. Production collector and settlement
+code must call ``strict_source_stat`` (or ``combined_tackles_assists``) rather
+than recomputing tackle totals from a legacy two-field sum.
+
+Official sportsbook settlement semantics for tackles + assists are not
+independently certified here; this module defines nflverse source counts only.
 
 Read raw nflverse weekly player-stat JSONL and write a NEW diagnostic file:
     python scripts/nfl_stat_definitions.py --input-jsonl weekly.jsonl \
@@ -24,7 +28,12 @@ import math
 from pathlib import Path
 from typing import Mapping
 
-VERSION = "nfl-source-stat-challenger-v1"
+VERSION = "nfl-source-stat-v2-three-component-tackles"
+TACKLE_DERIVED_CACHE_SCHEMA = "nfl-tackles-assists-derived-v2"
+STALE_TACKLE_CACHE_SCHEMAS = frozenset({
+    "nfl-tackles-assists-derived-v1",
+    "nfl-source-stat-challenger-v1",
+})
 COMPONENTS = {
     "targets": ("targets",),
     "solo tackles": ("def_tackles_solo",),
@@ -82,6 +91,53 @@ def strict_source_stat(row: Mapping, stat: str) -> SourceStat:
         return SourceStat(stat, "unavailable", None, fields,
                           ("invalid_combined_count:" + stat,))
     return SourceStat(stat, "available", total, fields, ())
+
+
+def _coerce_integral_count(value):
+    """Parse csv/json numbers for production collectors without accepting bools."""
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float):
+        return int(value) if math.isfinite(value) and float(value).is_integer() else value
+    if isinstance(value, str):
+        text = value.strip()
+        if not text:
+            return None
+        try:
+            number = float(text)
+        except ValueError:
+            return value
+        return int(number) if math.isfinite(number) and float(number).is_integer() else value
+    return value
+
+
+def combined_tackles_assists(row: Mapping) -> int | None:
+    """Return credited tackles + assists when all three source components are valid."""
+    normalized = dict(row)
+    for field in COMPONENTS["tackles + assists"]:
+        if field in normalized:
+            normalized[field] = _coerce_integral_count(normalized.get(field))
+    result = strict_source_stat(normalized, "tackles + assists")
+    return result.value if result.status == "available" else None
+
+
+def tackle_cache_invalidation_receipt() -> dict:
+    """Versioned invalidation guidance for derived tackle caches (no automatic purge)."""
+    return {
+        "schema": TACKLE_DERIVED_CACHE_SCHEMA,
+        "definition_version": VERSION,
+        "stale_cache_schemas": sorted(STALE_TACKLE_CACHE_SCHEMAS),
+        "invalidates_interpretations_tagged": sorted(STALE_TACKLE_CACHE_SCHEMAS),
+        "safe_action": (
+            "Recompute derived usage and season summaries only from strict "
+            "three-component rows; do not rewrite frozen historical archives."
+        ),
+        "book_settlement_certified": False,
+    }
 
 
 def _legacy_formula(row: Mapping, stat: str) -> float | None:

@@ -827,9 +827,15 @@ class DeploymentTests(unittest.TestCase):
         rows = []
         for number in range(1, 11):
             solo = 4 if number <= 5 else 1
-            rows.append(self._week("Backer", "NE", f"g{number}", number, def_tackles_solo=solo, def_tackle_assists=1))
+            rows.append(self._week(
+                "Backer", "NE", f"g{number}", number,
+                def_tackles_solo=solo, def_tackles_with_assist=0, def_tackle_assists=1,
+            ))
             if number <= 5:
-                rows.append(self._week("Mike", "NE", f"g{number}", number, def_tackles_solo=9, def_tackle_assists=9))
+                rows.append(self._week(
+                    "Mike", "NE", f"g{number}", number,
+                    def_tackles_solo=9, def_tackles_with_assist=0, def_tackle_assists=9,
+                ))
         splits = fs.teammate_splits(rows, "NE", "Backer", None)
         self.assertEqual(splits[0]["with_n"], 5)
         self.assertEqual(splits[0]["without_n"], 5)
@@ -1676,10 +1682,10 @@ class FetchHardenTests(unittest.TestCase):
             self.assertFalse(meta["usable"])
             for name in ("nhl", "nfl", "nba", "odds"):
                 feed = meta["feeds"][name]
-                self.assertEqual(
-                    set(feed),
-                    {"status", "rows", "started_at", "finished_at", "notes", "source_urls"},
-                )
+                expected = {"status", "rows", "started_at", "finished_at", "notes", "source_urls"}
+                if name == "nhl":
+                    expected |= {"identity_rejection_count", "roster_receipt_count"}
+                self.assertEqual(set(feed), expected)
                 self.assertEqual(feed["status"], "failed")
                 self.assertEqual(feed["rows"], 0)
             self.assertEqual(list(Path(tmp).glob("*.tmp")), [])
@@ -2268,12 +2274,13 @@ class GameLogTests(unittest.TestCase):
         def unused(url, timeout=30, headers=None):
             raise AssertionError(url)
 
-        rows, notes = fs.fetch_nhl(
+        rows, notes, _rejections, _rosters = fs.fetch_nhl(
             "2026-10-22",
             "2026-10-22T16:00:00Z",
             client=Client(),
             fetch=unused,
             source_urls=urls,
+            roster_identity_mode="historical_collector",
         )
         self.assertEqual(notes, [])
         self.assertIn("https://api-web.nhle.com/v1/player/1/game-log/20262027/2", urls)
@@ -2298,11 +2305,12 @@ class GameLogTests(unittest.TestCase):
         def down_fetch(url, timeout=30, headers=None):
             raise RuntimeError("urllib down")
 
-        rows, notes = fs.fetch_nhl(
+        rows, notes, _rejections, _rosters = fs.fetch_nhl(
             "2026-10-22",
             "2026-10-22T16:00:00Z",
             client=DownClient(),
             fetch=down_fetch,
+            roster_identity_mode="historical_collector",
         )
         self.assertTrue(rows)
         self.assertTrue(any("game-log" in note for note in notes))

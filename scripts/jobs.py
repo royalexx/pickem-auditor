@@ -902,6 +902,24 @@ def run_snapshot(
                        encoding="utf-8")
     os.replace(pending,report_path)
 
+    phase15_factor_capture = None
+    if os.environ.get("PICKEM_PHASE15_FACTOR_CAPTURE") == "1":
+        try:
+            from v2.phase15_pregame_factors import integrate_shadow_factor_capture
+
+            phase15_factor_capture = integrate_shadow_factor_capture(
+                evaluated_contracts,
+                run_id=run_id,
+                output_root=SKILL_ROOT / "reports",
+                observed_clock=now,
+                data_root=slate_path.parent,
+            )
+        except (OSError, ValueError, TypeError, KeyError, ImportError) as exc:
+            phase15_factor_capture = {
+                "captured": False,
+                "reason": "shadow_factor_capture_failed:" + type(exc).__name__,
+            }
+
     return {
         "job": "snapshot",
         "universe_receipt":"reports/all_prepared_props_attempts.json",
@@ -914,6 +932,7 @@ def run_snapshot(
         "lineup_collection":lineup_collection,
         "preflight_feeds_ready": report.get("feeds_ready"),
         "preflight_partial": not bool(report.get("ok")),
+        "phase15_factor_capture": phase15_factor_capture,
         "run_id": run_id,
         "fresh_prefetch_quotes": len(quotes),
         "excluded_stale_prefetch_quotes": (

@@ -1,6 +1,6 @@
-player_display_name,position,season,recent_team,games,receptions,targets,receiving_yards,carries,rushing_yards,passing_yards,attempts,completions,passing_epa,rushing_epa,receiving_epa,target_share,def_tackles_solo,def_tackle_assists
-Example Receiver,WR,2026,NE,6,30,50,360,2,8,0,0,0,0,1,24,0.32,0,0
-Example Back,RB,2026,CHI,6,6,8,40,90,450,0,0,0,0,5,2,0.08,1,0
-Example Linebacker,LB,2026,NE,6,0,0,0,0,0,0,0,0,0,0,0,0,40,20
-Example Kicker,K,2026,NE,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Other Week Player,WR,2025,NE,6,40,60,400,0,0,0,0,0,0,0,10,0.4,0,0
+player_display_name,position,season,recent_team,games,receptions,targets,receiving_yards,carries,rushing_yards,passing_yards,attempts,completions,passing_epa,rushing_epa,receiving_epa,target_share,def_tackles_solo,def_tackles_with_assist,def_tackle_assists
+Example Receiver,WR,2026,NE,6,30,50,360,2,8,0,0,0,0,1,24,0.32,0,0,0
+Example Back,RB,2026,CHI,6,6,8,40,90,450,0,0,0,0,5,2,0.08,1,0,0
+Example Linebacker,LB,2026,NE,6,0,0,0,0,0,0,0,0,0,0,0,0,40,0,20
+Example Kicker,K,2026,NE,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Other Week Player,WR,2025,NE,6,40,60,400,0,0,0,0,0,0,0,10,0.4,0,0,0
