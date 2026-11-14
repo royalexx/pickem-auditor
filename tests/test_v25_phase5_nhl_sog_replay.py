@@ -137,4 +137,48 @@ class Phase5ReplayTests(unittest.TestCase):
  def test_immutable_runs_do_not_overwrite(self):
   self.execute()
   with self.assertRaisesRegex(R.ReplayBlocked,"IMMUTABLE_RUN_ALREADY_EXISTS"):self.execute()
+ def test_future_game_results_and_labels_never_enter_prior_features(self):
+  start=self.execute(runpath=self.root/"control")
+  first=(self.root/"control"/start["run_id"]/"sealed_forecasts.jsonl").read_bytes()
+  d=dt.date(2025,11,15);gid="2025020100"
+  extra={"game_id":gid,"game_date":str(d),"season":"20252026",
+         "start_utc":str(d)+"T23:00:00Z","teams":["AAA","BBB"]}
+  next_obs=[self.row(pid,gid,d,i) for i,pid in enumerate(self.pids)]
+  for r in next_obs:r["sog"]=40
+  second=self.execute(self.observations+next_obs,events=self.events+[extra],runpath=self.root/"mutated_future")
+  b=(self.root/"mutated_future"/second["run_id"]/"sealed_forecasts.jsonl").read_bytes()
+  self.assertEqual(first,b)
+ def test_same_game_and_same_date_causal_filter(self):
+  _,history,_=R.parse_sources(self.observations,self.events)
+  h=R.histories_as_of(history,R.utc("2025-11-01T22:00:00Z"),"2025-11-01")
+  self.assertTrue(h)
+  for entries in h.values():
+   self.assertTrue(all(x["game_date"]<"2025-11-01" for x in entries))
+   self.assertTrue(all(x["_start"]<R.utc("2025-11-01T22:00:00Z") for x in entries))
+ def test_postgame_score_inserted_into_schedule_has_no_model_effect(self):
+  base=self.execute(runpath=self.root/"without_postgame")
+  original=(self.root/"without_postgame"/base["run_id"]/"sealed_forecasts.jsonl").read_bytes()
+  schedule=[dict(e) for e in self.events]
+  for e in schedule:
+   if e["game_id"]==self.target_id:
+    e["actual_final_score"]={"AAA":80,"BBB":0}
+    e["postgame_lineup"]=["FUTURE_ONLY"]
+  tested=self.execute(events=schedule,runpath=self.root/"with_postgame")
+  changed=(self.root/"with_postgame"/tested["run_id"]/"sealed_forecasts.jsonl").read_bytes()
+  self.assertEqual(original,changed)
+ def test_very_short_played_exposure_fails_closed_without_fallback(self):
+  modified=[dict(r) for r in self.observations]
+  for r in modified:
+   if r["game_id"]=="2025020014" and r["player_id"]==self.pids[0]:
+    r["toi_minutes"]=.05
+  result=self.execute(modified,runpath=self.root/"micro_toi")
+  self.assertGreater(result["forecast_abstentions"].get("EXPOSURE_BIN_INVALID",0),0)
+  self.assertLess(result["matched_played"],50)
+ def test_model_outcomes_do_not_create_historical_roster_eligibility(self):
+  full=self.execute(runpath=self.root/"present")
+  absent=[r for r in self.observations if r["game_id"]!=self.target_id]
+  result=self.execute(absent,runpath=self.root/"no_current_game")
+  self.assertEqual(full["candidate_player_games"],result["candidate_player_games"])
+  self.assertEqual(full["forecasted"],result["forecasted"])
+  self.assertEqual(result["matched_played"],0)
 if __name__=="__main__":unittest.main()
