@@ -176,7 +176,7 @@ def distribution_score(p,y,model=None,mid=None):
     return {"crps":crps,"nll":-math.log(max(p[y],1e-300)),
             "mean":math.fsum(k*v for k,v in enumerate(p)),
             "variance":None, "zero":p[0],"tail6":math.fsum(p[6:]),
-            "pit":None}
+            "pit":None, "_cdf_left":math.fsum(p[:y]),"_pmf_at_y":p[y]}
 
 def summarize(rows,ids=MODEL_IDS):
     if not rows:return {"n":0}
@@ -296,7 +296,7 @@ def run(observation_path,schedule_path,output_root,config,code_sha="uncommitted"
             z["variance"]=math.fsum((k-z["mean"])**2*v for k,v in enumerate(p))
             key=sha(canonical([s["game_id"],s["player_id"],mid]))
             rnd=random.Random(int(key[:16],16)).random()
-            z["pit"]=math.fsum(p[:y])+rnd*p[y]
+            z["pit"]=z.pop("_cdf_left")+rnd*z.pop("_pmf_at_y")
             m[mid]=z
         scores.append({"date":s["date"],"season":s["season"],"game_id":s["game_id"],
             "player_id":s["player_id"],"group":s["fit"]["hist_role"],
