@@ -17,14 +17,14 @@ from urllib.parse import urlsplit
 # Works both as a package dependency of `python -m v2...` and when
 # jobs.py is executed with scripts/ as its only import directory.
 try:
-    from scripts.c03_context_cohorts import (
+    from c03_context_cohorts import (
         CohortError, canonical, _utc, _safe_archive,
         capture_live_http_body, verify_receipt, SCHEMA_CLAIM,
     )
 except ModuleNotFoundError as exc:
-    if exc.name not in ("scripts", "scripts.c03_context_cohorts"):
+    if exc.name != "c03_context_cohorts":
         raise
-    from c03_context_cohorts import (
+    from scripts.c03_context_cohorts import (
         CohortError, canonical, _utc, _safe_archive,
         capture_live_http_body, verify_receipt, SCHEMA_CLAIM,
     )
