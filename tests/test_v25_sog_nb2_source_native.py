@@ -128,6 +128,37 @@ class NativeNB2SourceTests(unittest.TestCase):
             with self.assertRaisesRegex(NativeNB2Blocked, "ORIGINAL_TWO_SIDED_HTTP_OFFER_NOT_UNIQUE"):
                 _original_raw_market(root,manifest,inp,quote)
 
+    def test_same_original_offer_never_creates_second_native_snapshot(self):
+        now = datetime(2026, 11, 14, 21, tzinfo=timezone.utc)
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            source = root/"reports/v25_sog_source_cert_sprint/2026-11-14/daily_original_gamma_poisson_research_20261114T210000Z"
+            source.mkdir(parents=True)
+            frozen = {"schema":"v25_daily_original_sog_gamma_poisson_research_generator_v1",
+                      "research_only":True, "production_modified":False,
+                      "forecast_promotion_allowed":False,"slate_date_et":"2026-11-14",
+                      "original_quote":{"raw_body_sha256":"a"*64},
+                      "attempts":[{"status":"SHADOW_FORECAST","receipt_sha256":"f"*64,
+                                   "player_id":"8470000","official_nhl_event_id":"2026020311"}]}
+            (source/"daily_research_generation_manifest.json").write_text(json.dumps(frozen))
+            q=self._original(now)
+            ev={
+                "quote":q,"official_event_id":"2026020311",
+                "plugin_mu":2.4,"poisson_control":{"over":.5,"under":.5,"push":0.0},
+                "original_input_digest":"1"*64,"snapshot_digest":"2"*64,
+                "model_digest":"3"*64,"original_wrapper_digest":"4"*64,
+                "provider_http_body_digest":"5"*64,
+                "signed_historical_observation_count":220}
+            with patch("v2.nhl_sog_nb2_source_native.verify_native_source",return_value=ev):
+                first=run_day(root,now=now,code_sha="a"*40)
+                second=run_day(root,now=now+timedelta(minutes=1),code_sha="a"*40)
+            self.assertEqual(first["native_frozen_count"],1)
+            self.assertEqual(second["native_frozen_count"],0)
+            self.assertEqual(second["status"],"ALREADY_FROZEN_NO_NEW_RECORDS")
+            self.assertEqual(len(list((root/"reports/v25_sog_nb2_source_native/2026-11-14/frozen").glob("*.json"))),1)
+            self.assertEqual(first["attempts"][0]["shadow_sha256"],
+                             second["attempts"][0]["shadow_sha256"])
+
     def test_new_original_batch_must_be_structurally_valid_before_attempt(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d)
