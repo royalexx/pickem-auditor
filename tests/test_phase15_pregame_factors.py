@@ -220,6 +220,50 @@ class FactorReceiptTests(unittest.TestCase):
             statuses = {r["factor_name"]: r["status"] for r in manifest["contracts"][0]["factor_rows"]}
             self.assertEqual(statuses["team_unblocked_attempts"], STATUS_INVALID)
 
+    def test_C2_source_available_after_freeze_is_not_available(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            bundle = frozen_bundle(root)
+            bundle["contracts"][0]["producer_factors"]["source_receipts"][0]["source_available_at"] = "2026-11-11T17:45:00Z"
+            manifest = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
+            rows = manifest["contracts"][0]["factor_rows"]
+            self.assertTrue(all(r["status"] == STATUS_INVALID for r in rows))
+            self.assertTrue(all(r["invalid_reason"] == "source_available_after_input_freeze" for r in rows))
+
+    def test_C3_future_forecast_clock_relative_to_capture_is_invalid(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            bundle = frozen_bundle(root)
+            bundle["contracts"][0]["forecast_at"] = "2026-11-11T18:30:00Z"
+            manifest = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
+            self.assertTrue(all(r["status"] == STATUS_INVALID for r in manifest["contracts"][0]["factor_rows"]))
+
+    def test_C4_missing_training_cutoff_not_available(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            bundle = frozen_bundle(root)
+            bundle["contracts"][0]["model_training_cutoff_at"] = None
+            manifest = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
+            rows = manifest["contracts"][0]["factor_rows"]
+            self.assertTrue(all(r["status"] == STATUS_INVALID for r in rows))
+            self.assertTrue(all(r["invalid_reason"] == "model_training_cutoff_missing" for r in rows))
+
+    def test_C5_v1_retrieved_after_freeze_before_capture_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            ret = producer_data(root)
+            ret["source_receipts"][0]["retrieved_at"] = "2026-11-11T17:45:00Z"
+            with self.assertRaisesRegex(SettlementCaptureError, "source_retrieved_after_input_freeze"):
+                make_shadow_receipt(ret, source_root=root, observed_clock=CLOCK)
+
+    def test_C6_v1_publisher_after_freeze_before_capture_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            ret = producer_data(root)
+            ret["source_receipts"][0]["source_available_at"] = "2026-11-11T17:45:00Z"
+            with self.assertRaisesRegex(SettlementCaptureError, "source_available_after_input_freeze"):
+                make_shadow_receipt(ret, source_root=root, observed_clock=CLOCK)
+
     def test_D_forecast_at_or_after_event_start_invalid(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
