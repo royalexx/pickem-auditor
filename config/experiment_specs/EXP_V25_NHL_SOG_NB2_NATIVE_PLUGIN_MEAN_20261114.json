@@ -1,0 +1,37 @@
+{
+  "schema": "v25_research_preregistered_native_nb2_control_v1",
+  "experiment_id": "EXP-V25-NHL-SOG-NB2-NATIVE-PLUGIN-MEAN-20261114",
+  "created_for_first_eligible_local_date": "2026-11-14",
+  "status": "RESEARCH_ONLY_NO_PRODUCTION_AUTHORIZATION",
+  "fixed_shape_r": 4,
+  "rate_mean_source": "Frozen original EXP-V25-NHL-SOG-EXPOSURE-EB-001 model.plugin_rate * model.plugin_exposure",
+  "comparison_label": "SAME_PLUGIN_POISSON_MEAN_FIXED_DISPERSION",
+  "not_equivalent_to_legacy_nb2_experiment": "EXP_NHL_SOG_P15_RATE_DISPERSION_NEXT_PROSPECTIVE",
+  "candidate_rule": "earliest generator manifest for same current ET calendar date; only original qualified first real two-sided NHL SOG provider offers; fixed original source candidate order independent of confidence, outcome or model advantage",
+  "source_required": [
+    "Original untouched PropLine HTTPS body SHA + full native-player two-sided offer identity",
+    "Original pre-resolution quote row SHA and exact source-bound official player profile name",
+    "Original frozen Gamma model and immutable snapshot SHA, quote, player/event/line identity and source cutoffs",
+    "Collector C03 HMAC proof and raw original NHL official score and two team rosters",
+    "All model historical observations independently verified to original signed official player logs, profile, and official final source receipts",
+    "Actual live native receipt minted before event by at least three minutes"
+  ],
+  "probability_definition": "NB2 count likelihood with fixed shape=4 and mean=original plugin Poisson baseline; exact Over/Under/Push including integer push",
+  "primary_comparison": "Paired proper categorical 3-way Brier and log loss versus exact plugin Poisson control for same original quote, line, player, event",
+  "secondary_comparison": "Count CRPS versus same plugin Poisson control using official NHL SOG finals and DNP/void handling per independently verified book rules",
+  "aggregation": "Equal weight per genuinely prospective local calendar date, paired then cluster by game/date; report opportunity denominators and abstentions",
+  "precommitted_review_minimum_distinct_dates": 40,
+  "interim_policy": "Do not declare superiority, tune shape, recalibrate, rank, or decide model promotion from interim observed outcomes",
+  "excluded_from_confirmatory_validation": "All offers and events before this protocol was frozen and any run whose live source or timestamp integrity is unverified",
+  "source_semantics": "HMAC authenticates collector possession, not independent publisher publication time",
+  "DNP_condition": "Conditional-on-played SOG distribution only; no modeled DNP mass or confirmed NHL starter status",
+  "processing_budget": "No paid compute, no NUTS; fixed-form count evaluation only",
+  "retained_controls": {
+    "original_nb2_phase1_experiment_modified": false,
+    "legacy_engine_A_B_modified": false,
+    "production_model_weights_modified": false,
+    "tiers_changed": false,
+    "automatic_tier_publication": false
+  },
+  "failure_mode": "Explicit ABSTAIN with append-only attempt ledger; no backfill or reconstructed historical predictions"
+}
