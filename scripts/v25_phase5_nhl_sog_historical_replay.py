@@ -234,7 +234,9 @@ def run(observation_path,schedule_path,output_root,config,code_sha="uncommitted"
     # SCHEDULE is independent of target player SOG/TOI. Prior-only roster construction.
     for event in game_list:
         cutoff=event["_start"]-dt.timedelta(minutes=60)
-        day=event["game_date"]; key=(day,cutoff.isoformat())
+        day=event["game_date"];key=day
+        # First scheduled start for each day establishes a common conservative
+        # source cutoff; later games cannot acquire outcomes from same-day play.
         if key not in feature_by_date:feature_by_date[key]=histories_as_of(by_player,cutoff,day)
         hist=feature_by_date[key]
         for team in event["teams"]:
