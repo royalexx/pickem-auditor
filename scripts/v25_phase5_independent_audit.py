@@ -69,6 +69,41 @@ def audit(root,source,config):
   raise AuditFailure("DENOMINATOR_DISAGREEMENT")
  if source_manifest["observations_file"]["sha256"]!=observations_hash or source_manifest["schedule_file"]["sha256"]!=events_hash:
   raise AuditFailure("ORIGINAL_SOURCE_MANIFEST_MISMATCH")
+ # Independent byte-for-byte verification of the source-native official game-log
+ # archive, including every SOG, MM:SS TOI, game and historical team identity.
+ source_rows={}
+ for receipt in source_manifest["game_log_receipts"]:
+  rawpath=source/"raw_official_https"/(receipt["sha256"]+".json")
+  raw=rawpath.read_bytes()
+  if sha(raw)!=receipt["sha256"]:
+   raise AuditFailure("OFFICIAL_RAW_GAME_LOG_SOURCE_SHA_MISMATCH")
+  data=json.loads(raw)
+  rows=data.get("gameLog",[])
+  if len(rows)!=receipt["n"] or not isinstance(rows,list):
+   raise AuditFailure("OFFICIAL_RAW_GAME_LOG_ROW_COUNT_MISMATCH")
+  for row in rows:
+   key=(receipt["pid"],str(row["gameId"]))
+   if key in source_rows:
+    raise AuditFailure("DUPLICATE_ORIGINAL_GAME_LOG_ROW")
+   source_rows[key]=row
+ for obs in originals:
+  key=(obs["player_id"],obs["game_id"])
+  row=source_rows.get(key)
+  if row is None:
+   raise AuditFailure("DERIVED_PLAYED_GAME_WITHOUT_ORIGINAL_HTTP")
+  toi=row.get("toi","")
+  try:
+   minute,second=map(int,toi.split(":"))
+   w=minute+second/60.
+  except (ValueError,AttributeError) as exc:
+   raise AuditFailure("RAW_OFFICIAL_TOI_FORMAT_INVALID") from exc
+  if (row.get("gameDate")!=obs["game_date"]
+      or row.get("teamAbbrev")!=obs["team"]
+      or row.get("shots")!=obs["sog"]
+      or abs(w-obs["toi_minutes"])>1e-10):
+   raise AuditFailure("DERIVED_SOG_TOI_TEAM_OR_DATE_DRIFT")
+  if obs["position_group"]!=source_manifest["initial_player_ids_with_roles"][obs["player_id"]]:
+   raise AuditFailure("HISTORICAL_ROLE_COHORT_DRIFT")
  if not meta["retrospective_source_possession_only"] or not report["original_source_capture_does_not_precede_historical_games"]:
   raise AuditFailure("FALSE_PREGAME_CLAIM")
  valid={"20232024","20242025","20252026"}
@@ -165,6 +200,8 @@ def audit(root,source,config):
     "sealed_forecast_sha256":fc_hash,"score_report_sha256":report_hash,
     "scored_outcomes_sha256":sc_hash,
     "matched_player_games":len(scored),"forecasted_player_games":len(forecast),
+    "source_native_played_rows_rechecked":len(originals),
+    "original_signed_http_log_count_rechecked":len(source_manifest["game_log_receipts"]),
     "distinct_slate_dates":len(bydate),"distinct_games":len({r["game_id"] for r in scored}),
     "independent_scipy_pmf_checked_forecasts":len(sample),
     "reference_max_abs_pmf_error":maxp,"reference_max_abs_nll_error":maxscore,
