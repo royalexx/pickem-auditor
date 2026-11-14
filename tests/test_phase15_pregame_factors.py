@@ -231,12 +231,30 @@ class FactorReceiptTests(unittest.TestCase):
             self.assertTrue(all(r["invalid_reason"] == "source_available_after_input_freeze" for r in rows))
 
     def test_C3_future_forecast_clock_relative_to_capture_is_invalid(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            bundle = frozen_bundle(root)
-            bundle["contracts"][0]["forecast_at"] = "2026-11-11T18:30:00Z"
-            manifest = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
-            self.assertTrue(all(r["status"] == STATUS_INVALID for r in manifest["contracts"][0]["factor_rows"]))
+        row = {
+            "factor_name": "team_unblocked_attempts",
+            "status": STATUS_AVAILABLE,
+            "predicted_value": 50,
+            "event_id": "pregame-event",
+            "player_id": "123",
+            "input_freeze_at": "2026-11-11T17:30:00Z",
+            "forecast_at": "2026-11-11T18:30:00Z",
+            "model_training_cutoff_at": "2026-11-10T00:00:00Z",
+            "source_identifier": "verified-one.json",
+            "source_content_sha256": "a" * 64,
+            "source_retrieved_at": "2026-11-11T17:00:00Z",
+        }
+        checked = validate_factor_row(
+            row,
+            sport="NHL",
+            stat="shots on goal",
+            event_id="pregame-event",
+            player_id="123",
+            event_start=datetime(2026, 11, 12, tzinfo=timezone.utc),
+            possession_clock=datetime(2026, 11, 11, 18, tzinfo=timezone.utc),
+        )
+        self.assertEqual(checked["status"], STATUS_INVALID)
+        self.assertEqual(checked["invalid_reason"], "forecast_at_after_capture_clock")
 
     def test_C4_missing_training_cutoff_not_available(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -262,6 +280,22 @@ class FactorReceiptTests(unittest.TestCase):
             ret = producer_data(root)
             ret["source_receipts"][0]["source_available_at"] = "2026-11-11T17:45:00Z"
             with self.assertRaisesRegex(SettlementCaptureError, "source_available_after_input_freeze"):
+                make_shadow_receipt(ret, source_root=root, observed_clock=CLOCK)
+
+    def test_C7_v1_future_forecast_clock_not_genuinely_pregame(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            ret = producer_data(root)
+            ret["forecast_at"] = "2026-11-11T18:30:00Z"
+            with self.assertRaisesRegex(SettlementCaptureError, "factor_not_genuinely_pregame"):
+                make_shadow_receipt(ret, source_root=root, observed_clock=CLOCK)
+
+    def test_C8_v1_training_cutoff_after_freeze_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            ret = producer_data(root)
+            ret["model_training_cutoff_at"] = "2026-11-11T17:45:00Z"
+            with self.assertRaisesRegex(SettlementCaptureError, "factor_not_genuinely_pregame"):
                 make_shadow_receipt(ret, source_root=root, observed_clock=CLOCK)
 
     def test_D_forecast_at_or_after_event_start_invalid(self):
