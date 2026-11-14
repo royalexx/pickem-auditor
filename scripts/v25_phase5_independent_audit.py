@@ -217,7 +217,7 @@ def audit(root,source,config):
        "data freeze/cutoff only event-time proxy","no authenticated 2023-26 original sportsbook offers",
        "opening day 2023 108-player F/D cohort, not full NHL population"],
     "inference_claims":"none: exploratory date/game bootstrap sensitivity only"}
- out=root/"independent_scipy_adversarial_audit.json"
+ out=root/"independent_scipy_adversarial_audit_v2_full_http.json"
  with out.open("xb") as f:f.write(canon(receipt))
  return receipt
 if __name__=="__main__":
