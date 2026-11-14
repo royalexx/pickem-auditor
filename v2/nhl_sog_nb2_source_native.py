@@ -440,6 +440,29 @@ def run_day(root: Path, *, now: datetime, code_sha: str) -> dict:
         attempted = manifest.get("attempts") or []
         _check(isinstance(attempted, list), "ORIGINAL_ATTEMPTS_LIST_MISSING")
         outcome["original_attempt_count"] = len(attempted)
+        # Denominators here are source/candidate stages, NOT independent offers
+        # or distinct settled player-game results.
+        blocked = [x for x in manifest.get("failures", []) if isinstance(x, dict)]
+        stages = Counter(str(x.get("stage") or "UNSPECIFIED") for x in blocked)
+        unique_subjects = {
+            stage: len({str(x["subject"]) for x in blocked if
+                        str(x.get("stage") or "UNSPECIFIED") == stage and
+                        x.get("subject") not in (None, "")})
+            for stage in stages}
+        counts = manifest.get("counts") or {}
+        outcome["original_source_coverage"] = {
+            "all_original_two_sided_offer_rows": counts.get("two_sided_offer_rows"),
+            "native_id_qualified_candidates": counts.get("native_id_qualified"),
+            "selected_candidates": counts.get("selected_candidates"),
+            "original_forecasts_frozen": counts.get("successful_forecasts"),
+            "signed_current_team_roster_count": counts.get("signed_current_team_rosters"),
+            "source_failure_occurrences": dict(sorted(stages.items())),
+            "distinct_failed_subjects_by_stage": dict(sorted(unique_subjects.items())),
+            "history_sample_age_days": (
+                (manifest.get("source_baseline_copy") or {}).get(
+                    "frozen_historical_population_age_days")),
+            "scientific_or_bookmaker_certification_implied": False,
+        }
         accepted = 0
         for a in attempted:
             rec = {
