@@ -3,6 +3,7 @@ Uses SciPy probability reference, direct source/forecast fingerprint checks, pai
 slate-date/game resampling. No original historical bookmaker offer inference.
 """
 import argparse, collections, datetime as dt, hashlib, json, math, pathlib, random, statistics
+import numpy as np
 from scipy.stats import nbinom, poisson
 
 class AuditFailure(RuntimeError): pass
@@ -22,10 +23,12 @@ def scipy_pmf(m,k):
  a=m["rate_a"];b=m["rate_b"];pm=m["exposure_pmf"]
  r=m["plugin_rate"];w0=m["plugin_exposure"]
  if k<0:raise AuditFailure("NEGATIVE_COUNT")
+ w=np.asarray([q[0] for q in pm],dtype=float)
+ probs=np.asarray([q[1] for q in pm],dtype=float)
  return {"M0":float(poisson.pmf(k,r*w0)),
-   "M1":sum(z*float(poisson.pmf(k,r*w)) for w,z in pm),
+   "M1":float(probs@poisson.pmf(k,r*w)),
    "M2":float(nbinom.pmf(k,a,b/(b+w0))),
-   "M3":sum(z*float(nbinom.pmf(k,a,b/(b+w))) for w,z in pm),
+   "M3":float(probs@nbinom.pmf(k,a,b/(b+w))),
    "M4":float(nbinom.pmf(k,4.,4/(4+r*w0)))}
 def independent_crps(pmf,y):
  mass=0.;total=0.
@@ -152,9 +155,12 @@ def audit(root,source,config):
   orig=forecast_index.get((x["game_id"],x["player_id"]))
   if orig is None:raise AuditFailure("ORIGINAL_FORECAST_MISSING")
   y=x["actual_sog"];m=orig["distribution_params"]
+  # One complete independent five-model reference vector per matched outcome.
+  # Repeated per-model evaluations would multiply SciPy work fivefold.
+  reference_at_y=scipy_pmf(m,y)
   for model in ("M0","M1","M2","M3","M4"):
    p=orig["count_pmfs"][model]
-   yprob=scipy_pmf(m,y)[model]
+   yprob=reference_at_y[model]
    if yprob<=0:raise AuditFailure("REFERENCE_OUTCOME_MASS_ZERO")
    logloss=-math.log(yprob)
    maxscore=max(maxscore,abs(logloss-x["scores"][model]["nll"]))
