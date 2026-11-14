@@ -17,10 +17,17 @@ from .nhl_sog_exposure_shadow import ExperimentBlocked, _utc, _canonical, verify
 
 
 def _signed(receipt,archive_root,freeze,event_start):
+    # The package runner is invoked with `python -m v2.nhl_sog_prospective_runner`;
+    # jobs.py may instead put scripts/ directly on sys.path. Both must work.
     try:
         from c03_live_transport import verify_signed_capture
-    except ImportError as exc:
-        raise ExperimentBlocked("C03_SIGNED_COLLECTOR_NOT_IN_INTEGRATION_BASE") from exc
+    except ModuleNotFoundError as exc:
+        if exc.name != "c03_live_transport":
+            raise
+        try:
+            from scripts.c03_live_transport import verify_signed_capture
+        except ImportError as inner:
+            raise ExperimentBlocked("C03_SIGNED_COLLECTOR_NOT_IN_INTEGRATION_BASE") from inner
     try:
         return verify_signed_capture(receipt,archive_root=archive_root,
                                      freeze=freeze,event_start=event_start)
