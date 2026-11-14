@@ -617,7 +617,12 @@ def strict_c03_snapshot_status(row,*,archive_root):
         # Do not trust a recomputable metadata hash or an in-memory attested
         # flag. Verify a separate collector-signed immutable receipt and
         # original TLS-fetched bytes in the independent strict validator.
-        from c03_live_transport import verify_signed_capture
+        try:
+            from scripts.c03_live_transport import verify_signed_capture
+        except ModuleNotFoundError as exc:
+            if exc.name not in ("scripts", "scripts.c03_live_transport"):
+                raise
+            from c03_live_transport import verify_signed_capture
         for r in receipts:
             try:
                 verify_signed_capture(r,archive_root=archive_root,
