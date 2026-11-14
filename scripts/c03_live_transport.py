@@ -14,8 +14,20 @@ import os
 from pathlib import Path
 from urllib.parse import urlsplit
 
-from c03_context_cohorts import (CohortError, canonical, _utc, _safe_archive,
-                                 capture_live_http_body, verify_receipt, SCHEMA_CLAIM)
+# Works both as a package dependency of `python -m v2...` and when
+# jobs.py is executed with scripts/ as its only import directory.
+try:
+    from scripts.c03_context_cohorts import (
+        CohortError, canonical, _utc, _safe_archive,
+        capture_live_http_body, verify_receipt, SCHEMA_CLAIM,
+    )
+except ModuleNotFoundError as exc:
+    if exc.name not in ("scripts", "scripts.c03_context_cohorts"):
+        raise
+    from c03_context_cohorts import (
+        CohortError, canonical, _utc, _safe_archive,
+        capture_live_http_body, verify_receipt, SCHEMA_CLAIM,
+    )
 
 SCHEMA="pickem_c03_collector_capture_hmac_v1"
 SECRET_ENV="PICKEM_C03_COLLECTOR_HMAC_KEY_HEX"
