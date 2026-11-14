@@ -475,19 +475,42 @@ def run_day(root: Path, *, now: datetime, code_sha: str) -> dict:
                 _check(a.get("status") == "SHADOW_FORECAST", "ORIGINAL_RUN_NOT_A_FORECAST")
                 ev = verify_native_source(root, manifest, selected, a, now=now)
                 target = frozen_native_nb2(ev, now=now, code_sha=code_sha)
-                path = root / "reports" / "v25_sog_nb2_source_native" / day / "frozen" / (
-                    _sha(_canonical(target)) + ".json")
-                target_sha = _append_once(path, target)
-                rec.update(status="NATIVE_NB2_RESEARCH_FROZEN", reason=None,
-                           shadow_sha256=target_sha,
-                           shadow_path=str(path.relative_to(root)))
-                accepted += 1
+                frozen_dir = root / "reports" / "v25_sog_nb2_source_native" / day / "frozen"
+                prior = []
+                for previous in sorted(frozen_dir.glob("*.json")):
+                    _check(_sha(previous.read_bytes()) == previous.stem,
+                           "PREVIOUS_FROZEN_NATIVE_RECEIPT_MUTATED")
+                    existing = json.loads(previous.read_bytes())
+                    if existing.get("contract_id") == target["contract_id"]:
+                        _check(existing.get("original_frozen_input_sha256") ==
+                               target["original_frozen_input_sha256"] and
+                               existing.get("schema") == SCHEMA and
+                               existing.get("production_selection_allowed") is False,
+                               "DUPLICATE_CONTRACT_SOURCE_IDENTITY_CHANGED")
+                        prior.append(previous)
+                _check(len(prior) <= 1, "MORE_THAN_ONE_FROZEN_NATIVE_CONTRACT")
+                if prior:
+                    rec.update(status="ALREADY_FROZEN_FIRST_PROSPECTIVE_SNAPSHOT_RETAINED",
+                               reason="immutable_contract_first_snapshot_policy",
+                               shadow_sha256=prior[0].stem,
+                               shadow_path=str(prior[0].relative_to(root)))
+                else:
+                    path = frozen_dir / (_sha(_canonical(target)) + ".json")
+                    target_sha = _append_once(path, target)
+                    rec.update(status="NATIVE_NB2_RESEARCH_FROZEN", reason=None,
+                               shadow_sha256=target_sha,
+                               shadow_path=str(path.relative_to(root)))
+                    accepted += 1
             except (NativeNB2Blocked, ValueError, TypeError, OSError, KeyError,
                     IndexError, AssertionError) as exc:
                 rec["reason"] = type(exc).__name__ + ":" + str(exc)[:150]
             outcome["attempts"].append(rec)
-        outcome["status"] = "FROZEN_NATIVE_NB2_RESEARCH" if accepted else "ABSTAIN_NO_ELIGIBLE_FUTURE_SOURCE"
+        reused = sum(r["status"].startswith("ALREADY_FROZEN") for r in outcome["attempts"])
+        outcome["status"] = ("FROZEN_NATIVE_NB2_RESEARCH" if accepted
+                             else "ALREADY_FROZEN_NO_NEW_RECORDS" if reused
+                             else "ABSTAIN_NO_ELIGIBLE_FUTURE_SOURCE")
         outcome["native_frozen_count"] = accepted
+        outcome["prior_frozen_unchanged_count"] = reused
     outdir = root / "reports" / "v25_sog_nb2_source_native" / day / "attempt_audit"
     sha = _sha(_canonical(outcome))
     path = outdir / (sha + ".json")
