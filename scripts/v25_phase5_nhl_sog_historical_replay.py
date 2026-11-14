@@ -154,8 +154,21 @@ def pmfs(model):
         ans[mid]=p
     return ans
 
-def distribution_score(p,y):
-    if y>=len(p):raise ReplayBlocked("TARGET_OUTSIDE_PMF_SUPPORT")
+def _frozen_mass_at(model,mid,k):
+    if mid!="M4":return frozen._mass(model,k,KINDS[mid])
+    mu=model["plugin_rate"]*model["plugin_exposure"];r=4.
+    if mu==0:return float(k==0)
+    return math.exp(math.lgamma(k+r)-math.lgamma(r)-math.lgamma(k+1)
+                    +r*math.log(r/(r+mu))+k*math.log(mu/(r+mu)))
+
+def distribution_score(p,y,model=None,mid=None):
+    # Scoring-time tail extension uses the ALREADY SEALED model parameters, never
+    # fits or changes the original forecast. Finite PMF truncation is not a
+    # valid reason to drop an unusual high-SOG result from the matched cohort.
+    if y>=len(p):
+        if model is None or mid not in MODEL_IDS or y>2000:
+            raise ReplayBlocked("TARGET_OUTSIDE_MATHEMATICAL_SUPPORT")
+        p=p+[_frozen_mass_at(model,mid,k) for k in range(len(p),y+1)]
     cy=0.;crps=0.
     for k,pk in enumerate(p):
         cy+=pk
@@ -279,7 +292,7 @@ def run(observation_path,schedule_path,output_root,config,code_sha="uncommitted"
             continue
         y=yrow["sog"];m={}
         for mid,p in s["count_pmfs"].items():
-            z=distribution_score(p,y)
+            z=distribution_score(p,y,s["distribution_params"],mid)
             z["variance"]=math.fsum((k-z["mean"])**2*v for k,v in enumerate(p))
             key=sha(canonical([s["game_id"],s["player_id"],mid]))
             rnd=random.Random(int(key[:16],16)).random()
