@@ -299,6 +299,12 @@ def build_universe(*, events, quotes, quote_receipts, rosters,
         candidate_id = digest({"quote_id": quote_id,
                                "event": identity["event_id"],
                                "player": identity["player_id"]})
+        shadow_eligible = (
+            reason is None and elig in (
+                "EXPECTED_STARTER_SOURCE_BACKED",
+                "ROSTER_MEMBER_GAME_ACTIVE_UNCONFIRMED",
+            )
+        )
         row = {
             "schema": VERSION, "candidate_id": candidate_id, "quote_id": quote_id,
             **identity,
@@ -329,6 +335,9 @@ def build_universe(*, events, quotes, quote_receipts, rosters,
             "availability_certified": False,
             "c03_strict_source_applied": False,
             "forecast_eligible": False,
+            "research_shadow_eligible": shadow_eligible,
+            "research_shadow_status": ("SOURCE_BOUND_ROLE_CONDITIONAL_UNCERTIFIED"
+                                       if shadow_eligible else "RESEARCH_SHADOW_ABSTAIN"),
             "forecast_eligibility_reason": reason or elig_reason or "MODEL_AND_TRAINING_CUTOFF_NOT_FROZEN",
             "research_only": True,
             "production_ranking_allowed": False,
@@ -351,6 +360,8 @@ def build_universe(*, events, quotes, quote_receipts, rosters,
                    q.get("book"), q.get("line"))
             if key in collisions:
                 row["source_certified"] = False
+                row["research_shadow_eligible"] = False
+                row["research_shadow_status"] = "RESEARCH_SHADOW_ABSTAIN"
                 row["source_validation_failure"] = "QUOTE_IDENTITY_COLLISION"
                 row["forecast_eligibility_reason"] = "QUOTE_IDENTITY_COLLISION"
         rejected = [{"quote_id": r["quote_id"], "candidate_id": r["candidate_id"],
@@ -370,6 +381,7 @@ def build_universe(*, events, quotes, quote_receipts, rosters,
         "unique_candidate_ids": len(set(ids)),
         "attempted_contracts": len(rows),
         "source_certified_quotes": sum(r["source_certified"] for r in rows),
+        "research_shadow_eligible_quotes": sum(r["research_shadow_eligible"] for r in rows),
         "forecast_eligible_contracts": sum(r["forecast_eligible"] for r in rows),
         "market_coverage": dict(sorted(counts.items())),
         "failures": dict(sorted(failures.items())),
