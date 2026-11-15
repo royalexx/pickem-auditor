@@ -13,6 +13,7 @@ import json
 import math
 from pathlib import Path
 import re
+from zoneinfo import ZoneInfo
 import numpy as np
 
 VERSION = 'nfl-opportunity-20261115-v1'
@@ -186,7 +187,8 @@ def validate(p):
             require(type(h.get('season')) is int and type(h.get('week')) is int
                     and 1 <= h['week'] <= 22, 'invalid_season_week')
         require(e['home'] != e['away'], 'self_opponent')
-        require(stamp(e['event_start']).date().isoformat() == DAY, 'wrong_event_day')
+        require(stamp(e['event_start']).astimezone(ZoneInfo('America/Toronto')).date().isoformat() == DAY,
+                'wrong_event_day')
         require(stamp(p['forecast_at']) < stamp(e['event_start']), 'kickoff_passed')
         for h in teams + players:
             require(stamp(h['end_at']) <= cutoff, 'historical_game_after_training_cutoff')
