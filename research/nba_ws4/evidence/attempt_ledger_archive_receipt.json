@@ -1,0 +1,9 @@
+{
+  "archive_sha256": "cf82d30f77514f9e7ab5a37c9d01e11c51d6e5b4ae9bc207210b5072fe6c6a65",
+  "compression": "gzip-mtime-zero",
+  "decoded_bytes": 334347,
+  "decoded_sha256": "acb6de539408a0a80c38db20208234046980a1fb77fc64334109d90ee0c8bc41",
+  "original_source_unchanged": true,
+  "reason": "Store original historical labels as archive bytes, not executable model dependencies; lossless decompression verified.",
+  "schema": "nba-ws4-lossless-ledger-archive-v1"
+}
