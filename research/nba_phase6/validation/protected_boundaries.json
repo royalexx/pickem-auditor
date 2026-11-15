@@ -1,0 +1,55 @@
+{
+  "claim": "Unchanged tracked bytes; no assertion of independent source truth.",
+  "original_requested_evidence_sha256": {
+    "research/nba_joint_v01/REPORT.md": "88443b0193e74e469cb558f35e7b87e4a4610037337304d912aa1b421c917a56",
+    "research/nba_joint_v01/results/denominator_ledger.json": "82d4979dbd146f578e709eea23fce555918fa36f6ef38261c93d03dedc62ae1c",
+    "research/nba_joint_v01/results/minute_scores.json.gz": "158602a84dc8bea4c91cec25ec32858d2bb388e983a060663644f83f99103850",
+    "research/nba_joint_v01/results/model.json": "f991b322eadf9165248309608c45d3b5fb4cfde4510b3d03ce3484efce3157e5",
+    "research/nba_joint_v01/results/opportunity_distortion.json": "bdf5a033be1d0a889687ced84e9165cf7ac1c141d7af06b915e3a2cc32d82b47",
+    "research/nba_joint_v01/results/stress_diagnostics.json": "f3377ced13f8ed31d31f398265b2f8707c07d108f5c1dd44319fed44321e0ed5"
+  },
+  "pinned_head": "cdf926f56e86bc9d25576acff61fd6f091313159",
+  "protected_boundaries": {
+    ".github": {
+      "changed_files": [],
+      "unchanged": true
+    },
+    ".training-control": {
+      "changed_files": [],
+      "unchanged": true
+    },
+    "config": {
+      "changed_files": [],
+      "unchanged": true
+    },
+    "research/nba_joint_v01": {
+      "changed_files": [],
+      "unchanged": true
+    },
+    "scripts": {
+      "changed_files": [],
+      "unchanged": true
+    },
+    "v2/nba_joint/events.py": {
+      "changed_files": [],
+      "unchanged": true
+    },
+    "v2/nba_joint/opportunity.py": {
+      "changed_files": [],
+      "unchanged": true
+    },
+    "v2/nba_joint/state.py": {
+      "changed_files": [],
+      "unchanged": true
+    },
+    "v2/nba_opportunity.py": {
+      "changed_files": [],
+      "unchanged": true
+    },
+    "v2/nba_ws1": {
+      "changed_files": [],
+      "unchanged": true
+    }
+  },
+  "warehouse": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24"
+}

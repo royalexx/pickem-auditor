@@ -1,0 +1,35 @@
+{
+  "gates": [
+    {
+      "gate": "A \u2014 Source",
+      "reason": "Original 2024 game-day eligibility and publication clocks absent; current raw capture is membership/injury evidence, not complete game-active eligibility.",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "gate": "B \u2014 Participation",
+      "reason": "Uncertainty and abstention semantics pass; all unsupported probabilities remain null. No validated participation estimator or unconditional forecast is claimed.",
+      "status": "PASSED"
+    },
+    {
+      "gate": "C \u2014 Opportunity",
+      "reason": "Incumbent A regresses from raw M0 by 1.5643 CRPS on all 460. Complete-participant oracle repairs the aggregate diagnostic, but certified B is unavailable and low/early-exit reliability is unresolved.",
+      "status": "FAILED"
+    },
+    {
+      "gate": "D \u2014 Statistical propagation",
+      "reason": "Measured exposure-only interventions change all eight matched count distributions with byte-identical event parameters. This is diagnostic attribution, not prospective model acceptance.",
+      "status": "PASSED"
+    },
+    {
+      "gate": "E \u2014 Prospective",
+      "reason": "Ten future slots over five dates preregistered; zero future game-day forecasts or settlements exist. Honest blocked-state receipts satisfy the reporting alternative, not a completed prospective study.",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "gate": "F \u2014 Statistical adoption",
+      "reason": "Independent statistical review, adequate untouched clusters and certified prospective reliability are absent. Engineering success grants no adoption.",
+      "status": "BLOCKED-BY-DATA"
+    }
+  ],
+  "promotion": false
+}

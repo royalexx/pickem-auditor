@@ -71,3 +71,13 @@ class AdversarialTests(unittest.TestCase):
         g,m=synthetic_fixture();h=sha(m);a=simulate(g,m,n=4)
         project(a['independent_minutes'],a['state']['duration'],a['team_indices'])
         self.assertEqual(sha(m),h)
+
+class MetricSeparationTests(unittest.TestCase):
+    def test_oracle_never_enters_real_metrics(self):
+        from research.nba_phase6.validate import real_forecast_metrics
+        with self.assertRaisesRegex(ValueError,'DIAGNOSTIC_CANNOT_ENTER_REAL_FORECAST_METRICS'):
+            real_forecast_metrics([{'oracle':True,'pregame_source_qualified':True}])
+    def test_retrospective_not_real_by_renaming(self):
+        from research.nba_phase6.validate import real_forecast_metrics
+        with self.assertRaisesRegex(ValueError,'DIAGNOSTIC_CANNOT_ENTER_REAL_FORECAST_METRICS'):
+            real_forecast_metrics([{'oracle':False,'pregame_source_qualified':False,'model':'B_certified'}])
