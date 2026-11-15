@@ -354,8 +354,15 @@ def main(argv=None):
                    default=ROOT / "reports" / "nfl_20261115_prospective")
     p.add_argument("--code-sha", required=True)
     p.add_argument("--include-history", action="store_true")
+    p.add_argument("--expand-markets", action="store_true",
+                   help="Build versioned eleven-market extension from authenticated WS1 archives; no odds request")
     args = p.parse_args(argv)
+    if args.expand_markets:
+        from nfl_sunday_market_extension import build
+        build()
+        return
     run_capture(args.out_root, args.code_sha, include_history=args.include_history)
 
 if __name__ == "__main__":
     main()
+
