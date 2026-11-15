@@ -1,0 +1,28 @@
+{
+  "scope": "single historical gamebook reconciliation; not blanket book certification",
+  "observed_at": "2026-11-15T17:25:53.090068+00:00",
+  "game_id": "2025_01_KC_LAC",
+  "player_id": "00-0034790",
+  "player": "Derwin James",
+  "source_components": {
+    "def_tackles_solo": 5,
+    "def_tackles_with_assist": 0,
+    "def_tackle_assists": 2
+  },
+  "source_combined": 7,
+  "official_regular_defensive_TKL": 5,
+  "official_regular_defensive_AST": 2,
+  "official_regular_defensive_COMB": 7,
+  "source_archive_sha256": "ba1169df7f3a41b486f33b839cc0870f65f30ffac2e29978ea031d7350b3a1bb",
+  "gamebook_url": "https://static.www.nfl.com/image/upload/v1757158720/gamecenter/f5919071-311e-11f0-b670-ae1250fadad1.pdf",
+  "gamebook_sha256": "f95ca2d7f8adb6d196853cd3c0a93c005011480ad4e8a37d73eb4cdf3d49fb0c",
+  "dictionary_url": "https://nflreadr.nflverse.com/articles/dictionary_player_stats_def.html",
+  "source_stat_ids": {
+    "def_tackles_solo": 79,
+    "def_tackles_with_assist": 80,
+    "def_tackle_assists": 82
+  },
+  "mapping_source": "https://github.com/nflverse/nflfastR/blob/master/R/calculate_stats.R",
+  "product_rule_counterexample": "DraftKings Pick6 treats equality as void; do not map mathematical push to every product settlement. Pick6 is not verified as the product of the captured sportsbook offers.",
+  "book_equivalence_verified": false
+}

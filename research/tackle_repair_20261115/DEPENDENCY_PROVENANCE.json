@@ -1,0 +1,23 @@
+[
+  {
+    "path": "v2/nfl_marginal_shadow.py",
+    "upstream_commit": "63d972e15a04ea50f362564e42d433f99221e7b1",
+    "upstream_sha256": "9bc325fd0afa239a2abff78108ffdb0eb64d4e024bda49949a23b6b06aa35e74",
+    "current_sha256": "9bc325fd0afa239a2abff78108ffdb0eb64d4e024bda49949a23b6b06aa35e74",
+    "unchanged": true
+  },
+  {
+    "path": "research/nfl_opportunity_20261115/models.py",
+    "upstream_commit": "e081bc4186be46534d93cc678d074b65d5a7f401",
+    "upstream_sha256": "2d7c5cb16ae8164cb9fa8fc6fa6ca768fb1a9af9cf3798eb52fafd3281befdd0",
+    "current_sha256": "a327ec3f581593b77a97b45fb24a88ba6247d0076e79402ce6cd49e64bbd39c6",
+    "unchanged": false
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/joint_models/joint_simulator.py",
+    "upstream_commit": "fe5d086355173ebfe3630b309957c58c9a8f3e50",
+    "upstream_sha256": "11391a747b204b8fd85dcf33ba39a9b3309a4ad0a9ee40e64c26d4b7690912d8",
+    "current_sha256": "81c592cf5d87f51bf51a4e71b724b0a66da834c4f871f1b5ae18f62b7f83e3d9",
+    "unchanged": false
+  }
+]
