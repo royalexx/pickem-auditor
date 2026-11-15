@@ -328,6 +328,15 @@ def run_day(root, *, code_sha):
     spec_raw=spec_path.read_bytes() if spec_path.is_file() else b""
     _check(spec_raw, "PREREGISTERED_SPEC_MISSING")
     spec=json.loads(spec_raw)
+    clarification_path=spec_path.with_name(
+        "EXP_V25_NHL_SOG_RATE_SHRINKAGE_PROSPECTIVE_001_CLARIFICATION_V1.json")
+    _check(clarification_path.is_file(), "PREREGISTERED_CLARIFICATION_MISSING")
+    clarification_raw=clarification_path.read_bytes()
+    clarification=json.loads(clarification_raw)
+    _check(clarification.get("experiment_id")==EXPERIMENT and
+           clarification.get("schema")=="v25_sog_s1_preregistration_clarification_v1" and
+           clarification.get("original_registration_file_sha256")==sha(spec_raw),
+           "PREREGISTERED_CLARIFICATION_MISMATCH")
     _check(spec.get("experiment_id")==EXPERIMENT and
            spec.get("schema")=="v25_nhl_sog_rate_shrinkage_preregistered_v1" and
            spec.get("status")=="PREREGISTERED_SHADOW_ONLY_NO_OUTCOME_INSPECTION" and
@@ -338,7 +347,8 @@ def run_day(root, *, code_sha):
     result={"schema":"v25_nhl_sog_s1_attempt_audit_v1","experiment_id":EXPERIMENT,
             "date_et":day,"captured_at_utc":now.isoformat(),
             "code_commit":code_sha,"code_source_sha256":sha(Path(__file__).read_bytes()),
-            "preregistration_sha256":sha(spec_raw),"research_only":True,
+            "preregistration_sha256":sha(spec_raw),
+            "protocol_clarification_sha256":sha(clarification_raw),"research_only":True,
             "production_changed":False,"no_outcome_access":True,
             "attempts":[],"status":"NOT_STARTED","source_batches":0}
     if spec["primary"]["prospective_start_et"] <= day <= spec["primary"]["prospective_end_et"]:
@@ -419,6 +429,7 @@ def run_day(root, *, code_sha):
                        "forecast_at":now.isoformat(),"code_commit":code_sha,
                        "code_source_sha256":result["code_source_sha256"],
                        "preregistration_sha256":result["preregistration_sha256"],
+                       "protocol_clarification_sha256":result["protocol_clarification_sha256"],
                        "original_c03_manifest_sha256":result["original_c03_manifest_sha256"],
                        "original_c03_model_sha256":e["model_digest"],
                        "original_c03_snapshot_sha256":e["snapshot_digest"],
