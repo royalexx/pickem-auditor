@@ -231,8 +231,34 @@ The new tests live in this owned directory and require the explicit
 command above; the repository's default `unittest discover -s tests` does
 not discover them.
 
-Remaining gates: authentic WS1 manifest and schema reconciliation; valid
-historical chronological source/OOF evidence for C5/C6; actual pregame
+Remaining gates: complete verified access to the native WS1 byte bundle,
+certified event identity and usable frozen probability/settlement receipts;
+valid historical chronological source/OOF evidence for C5/C6; actual pregame
 forecast capture and immutable external time attestation; independent WS6
 scoring and adversarial review; multiple prospective dates before any
 reliability claim. No release gate is passed by synthetic tests.
+
+### Session execution status
+
+Local relevant tests: **59 passed** (22 WS5 tests, 18 `fit_blend`, 9 step 8,
+10 step 10), plus Python compilation and whitespace checks. All input data
+used for new statistical fit tests are labeled synthetic engineering fixtures.
+
+The actual original WS1 manifest exceeds Deepnote's 64 KiB text-read limit.
+A bounded notebook was saved as
+`77121881a3af4351a996c921440bbaf0`, code block
+`11e914d1145146c2a0b39a2907e10dc5`, pinned to implementation commit
+`eacaa7c711164a0e823da9d76bce684492938575`. It runs the same four suites,
+then reads the native manifest and archived sources and writes only to
+the owned `calibration_models/` project directory. It never calls the WS1
+collector, reads Sunday outcomes or fits on Sunday's data.
+
+The attempted detached Basic CPU (`lake`, 2 vCPU, 5 GiB) run was rejected
+with **“Rate limit exceeded. Please retry later.”** No run ID was returned;
+there is **no completed WS5 Deepnote run and no native Sunday forecast or
+abstention artifact** from that notebook. Its planned output is not treated
+as an existing file. The WS1 counts above come from the inspected completed
+WS1 run snapshot, not independent WS5 verification of the full raw bundle.
+The saved local model registry is specification-only. C5/C6 have no fitted
+parameters. Resume the saved notebook when the service permits execution;
+current WS1 failures must remain abstentions.
