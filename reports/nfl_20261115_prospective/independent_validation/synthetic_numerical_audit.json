@@ -1,0 +1,35 @@
+{
+  "checks": {
+    "row_numerically_checked": 180,
+    "run_coverage_checked": 2
+  },
+  "classification": "SYNTHETIC_FIXTURE_NOT_AUTHENTIC_PREGAME_EVIDENCE",
+  "errors": [],
+  "inputs": {
+    "fixture_file_sha256": "54ea2da35e259c1b0b4616391b6595baeff314d72aa28a13a9ce77a56510fb1c",
+    "new_file_sha256": "518b6b196182ebe416fedae70d174202365932866fe307e5fac7560b8a6c6125",
+    "old_file_sha256": "98ff08729378d5ab8aaab85ee95c0702c349ae8d8dcc7eb060c166a9a576a509"
+  },
+  "n_unique_errors": 0,
+  "stability_128_to_512": {
+    "J1": {
+      "contracts": 30,
+      "max_abs_over_change": 0.05859375,
+      "max_mcse_over_512": 0.022096412552213365,
+      "mean_abs_over_change": 0.019986979166666665
+    },
+    "J2": {
+      "contracts": 30,
+      "max_abs_over_change": 0.076171875,
+      "max_mcse_over_512": 0.022096918324042453,
+      "mean_abs_over_change": 0.019466145833333334
+    },
+    "J3": {
+      "contracts": 30,
+      "max_abs_over_change": 0.07421875,
+      "max_mcse_over_512": 0.022096412552213365,
+      "mean_abs_over_change": 0.019010416666666665
+    }
+  },
+  "status": "PASS_SYNTHETIC_NUMERICAL_ONLY"
+}
