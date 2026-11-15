@@ -55,7 +55,7 @@ def validate_handoff(control, workstream, output):
     if workstream not in WS_DIRS:
         raise ValueError("UNKNOWN_WORKSTREAM")
     candidates = {r["candidate_id"]:r for r in control["candidates"]
-                  if r.get("source_certified") and r.get("forecast_eligible")}
+                  if r.get("source_certified") and r.get("research_shadow_eligible")}
     accepted, rejected = [], []
     seen=set()
     for row in output:
@@ -69,10 +69,6 @@ def validate_handoff(control, workstream, output):
                 if row.get(key) != src.get(key):
                     reason="CONTRACT_IDENTITY_MISMATCH:"+key
                     break
-            if row.get("source_manifest_canonical_sha256") != control.get("canonical_sha256", ""):
-                # This is optional in the originating manifest, so the caller
-                # supplies the original input hash separately below.
-                pass
             if row.get("source_manifest_file_sha256") != control["_file_sha256"]:
                 reason=reason or "ORIGINAL_SOURCE_MANIFEST_HASH_MISMATCH"
             if src.get("source_validation_failure"):
@@ -96,6 +92,8 @@ def validate_handoff(control, workstream, output):
                     reason="FORECAST_TIME_INVALID"
             if row.get("model_id") is None or row.get("model_version") is None:
                 reason=reason or "MODEL_ID_OR_VERSION_MISSING"
+            if row.get("research_only") is not True:
+                reason=reason or "SHADOW_ONLY_REQUIRED"
             p=row.get("probabilities")
             if not isinstance(p,dict):
                 reason=reason or "PROBABILITIES_UNAVAILABLE"
