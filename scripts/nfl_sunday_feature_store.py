@@ -127,8 +127,11 @@ def count_stat(row,stat):
         return None if any(v is None for v in values) else sum(values)
     return numeric(row.get(STATS[stat]))
 def ready_clock(row,freeze):
-    return (stamp(row["source_received_at"])<=stamp(freeze)<
-            stamp(row["event_start_at"]))
+    try:
+        return (stamp(row["source_received_at"])<=stamp(freeze)<
+                stamp(row["event_start_at"]))
+    except (ValueError,KeyError):
+        return False
 def main():
     tests=self_test()
     pin_path=ROOT/"source_control/HANDOFF_PIN.json"
