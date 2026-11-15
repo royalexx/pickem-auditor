@@ -1,0 +1,17 @@
+{
+  "deepnote_final_block_content_hash": "sha256:8afb20eed79a900d86eab4a6c015fd8325bd5b87855ac6a193b0b36e25aec0e8",
+  "deepnote_notebook_id": "5e209a1253b34c06baba0ec11a46d83a",
+  "deterministic_score_replay": true,
+  "final_hardened_run_id": "80055a03-da33-444b-908c-283c3a78bb8b",
+  "limit": "Local scoring resource measurements only; no joint-simulation cost claim.",
+  "python_process_max_rss_kib_linux": 82676,
+  "raw_replay_deterministic_receipt_run_ids": [
+    "ec3164b8-597e-4d31-aa21-d828e47af857",
+    "e2ff7ba5-2858-4b2c-9344-87634f48b4bc"
+  ],
+  "raw_replay_runtime_milliseconds": 10316,
+  "score_build_wall_seconds": 1.0756862749999527,
+  "score_payload_sha256": "e0ecaa8c8a89aefd72b661a0e51f64f9530b57579e75c6da0886544223670f11",
+  "v2_hardened_replay_byte_identical": true,
+  "v2_raw_replay_run_id": "fb88b69d-687d-4b29-810f-1527858a5b60"
+}

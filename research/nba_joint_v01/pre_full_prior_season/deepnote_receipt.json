@@ -1,0 +1,57 @@
+{
+  "runId": "b856b31c-da89-4aff-8e81-7af304f72a2f",
+  "notebookId": "63fe224debe44d0a8ee13e51a3323b75",
+  "status": "success",
+  "fixture": {
+    "audit": {
+      "five_on_court": "witness, not a learned substitution chain",
+      "player_scenarios": 2304,
+      "scenarios": 128,
+      "team_scenarios": 256,
+      "violations": 0
+    },
+    "counts_sha256": "aeb8843df9eb7ba3160110cd8ef21e01b5bb04d8dad136d4ea5038d2a075e483",
+    "numpy": "1.26.4",
+    "python": "3.12.16 (main, Oct 28 2026, 14:28:18) [GCC 12.2.0]",
+    "scenario_sha256": "33fdf8b7e7011af840c86d70a366a00806170a1d58f6ff152bcf9fa031cce700",
+    "scipy": "1.15.3",
+    "timing": {
+      "events": 0.08515073233866133,
+      "opportunity": 0.13045913403038867,
+      "state": 0.023265330877620727,
+      "wall_seconds": 0.24112294102087617
+    }
+  },
+  "pin": "ca41c79426a90a57e78ca9554a993db326461737",
+  "project_storage": "readonly",
+  "promotion": false,
+  "tests": [
+    {
+      "suite": "tests/nba_ws1/test_*.py",
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 25 tests in 0.367s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "tests/test_nba_opportunity.py",
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 25 tests in 2.075s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "tests/test_nba_joint*.py",
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 63 tests in 1.041s",
+        "",
+        "OK"
+      ]
+    }
+  ]
+}

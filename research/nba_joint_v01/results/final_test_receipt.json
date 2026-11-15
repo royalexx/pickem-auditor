@@ -1,0 +1,74 @@
+{
+  "suites": [
+    {
+      "errors": 0,
+      "failed": 0,
+      "passed": 25,
+      "run": 25,
+      "skipped": [],
+      "successful": true,
+      "suite": "tests/nba_ws1/test_*.py"
+    },
+    {
+      "errors": 0,
+      "failed": 0,
+      "passed": 25,
+      "run": 25,
+      "skipped": [],
+      "successful": true,
+      "suite": "tests/test_nba_opportunity.py"
+    },
+    {
+      "errors": 0,
+      "failed": 0,
+      "passed": 63,
+      "run": 63,
+      "skipped": [],
+      "successful": true,
+      "suite": "tests/test_nba_joint*.py"
+    },
+    {
+      "errors": 0,
+      "failed": 0,
+      "passed": 11,
+      "run": 11,
+      "skipped": [],
+      "successful": true,
+      "suite": "tests/test_v25_nhl_nba_phase1.py"
+    },
+    {
+      "errors": 0,
+      "failed": 0,
+      "passed": 13,
+      "run": 13,
+      "skipped": [],
+      "successful": true,
+      "suite": "tests/test_v25_official_capture.py"
+    },
+    {
+      "errors": 0,
+      "failed": 0,
+      "passed": 9,
+      "run": 9,
+      "skipped": [],
+      "successful": true,
+      "suite": "tests/test_population_multisport.py"
+    },
+    {
+      "errors": 0,
+      "failed": 0,
+      "passed": 33,
+      "run": 33,
+      "skipped": [],
+      "successful": true,
+      "suite": "tests/nba_ws4/test_*.py"
+    }
+  ],
+  "total": {
+    "errors": 0,
+    "failed": 0,
+    "passed": 179,
+    "run": 179,
+    "skipped": 0
+  }
+}

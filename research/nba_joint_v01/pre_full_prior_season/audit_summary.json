@@ -1,0 +1,585 @@
+{
+  "conditional_event_audit": {
+    "accepted_game_scenarios": 3712,
+    "event_attempts": 3762,
+    "final_tied_scores": 0,
+    "interpretation": "explicit rejection conditioning, not posthoc score adjustment; all rejected event vectors preserved",
+    "mean_game_average_absolute_count_shift": {
+      "assists": 0.014236454283212026,
+      "points": 0.04602054758954204,
+      "rebounds": 0.019128570011701807,
+      "threes": 0.009309078536550327
+    },
+    "player_scenarios": 122752,
+    "rejected_event_draws": 50
+  },
+  "cross_runtime_reproducibility": {
+    "counts_sha256": "aeb8843df9eb7ba3160110cd8ef21e01b5bb04d8dad136d4ea5038d2a075e483",
+    "deepnote_full_hash": "33fdf8b7e7011af840c86d70a366a00806170a1d58f6ff152bcf9fa031cce700",
+    "full_float_hash_identical": false,
+    "integer_event_count_hash_identical": true,
+    "limitation": "Pin NumPy/SciPy/Python/platform for bitwise full floating-point replay; NumPy 2.3.5/SciPy 1.17.0 local and NumPy 1.26.4/SciPy 1.15.3 Deepnote preserve integer event counts but differ in floating point latent/minute bytes.",
+    "local_full_hash": "98d64d4583fd0598dec9870ea1e8fa7e53dcf893706b5050537da225244e8948"
+  },
+  "denominators": {
+    "original": {
+      "accepted_conditional_candidates": 181,
+      "attempted_candidates": 238,
+      "candidate_rejections": 57,
+      "matched_appearances": 102,
+      "observed_appearances": 118,
+      "prior_candidates_without_observed_appearance": 79,
+      "scored_player_games": 102,
+      "team_identity_rejections": 0,
+      "unforecasted_appearances": 16
+    },
+    "test": {
+      "accepted_conditional_candidates": 778,
+      "attempted_candidates": 900,
+      "candidate_rejections": 122,
+      "matched_appearances": 460,
+      "observed_appearances": 512,
+      "prior_candidates_without_observed_appearance": 317,
+      "scored_player_games": 460,
+      "team_identity_rejections": 1,
+      "unforecasted_appearances": 52
+    }
+  },
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "scipy": "1.17.0"
+  },
+  "limitations": [
+    "No authenticated participation law; prior-roster union is not a real eligible roster.",
+    "Previously exposed retrospective observations and post-result engineering amendments; not a blind holdout.",
+    "128 scenarios are insufficient for reliable unsmoothed empirical NLPD: zero sampled masses are reported as infinite, with no invented smoothing.",
+    "Empirical overtime duration is shared, but the within-game regulation tie and OT score paths are not modeled.",
+    "Five-on-court witnesses prove integrated feasibility, not learned real rotations or event-time lineup matching.",
+    "Opponent/team possession quantity is a reconstructed proxy, not an exact event accounting identity.",
+    "New WS4 compatibility code is author-written; external independent joint acceptance is pending."
+  ],
+  "minutes": {
+    "original": {
+      "J2": {
+        "allocated_crps": 5.425590708763496,
+        "cover90": 0.7843137254901961,
+        "low_minute_outcomes_le5": {
+          "cover90": 1.0,
+          "n": 4
+        },
+        "n": 102,
+        "observed_minutes": 21.254901960784313,
+        "predicted_minutes": 16.18386968443021,
+        "projection_mean_absolute_change": 5.450173555326555,
+        "raw_crps": 4.232737026754395
+      },
+      "J2_M1": {
+        "allocated_crps": 4.9403310604627855,
+        "cover90": 0.7745098039215687,
+        "low_minute_outcomes_le5": {
+          "cover90": 1.0,
+          "n": 4
+        },
+        "n": 102,
+        "observed_minutes": 21.254901960784313,
+        "predicted_minutes": 16.23030480055547,
+        "projection_mean_absolute_change": 5.8552036510781305,
+        "raw_crps": 3.8219087970977257
+      },
+      "J2_M2": {
+        "allocated_crps": 4.582389922931726,
+        "cover90": 0.8235294117647058,
+        "low_minute_outcomes_le5": {
+          "cover90": 1.0,
+          "n": 4
+        },
+        "n": 102,
+        "observed_minutes": 21.254901960784313,
+        "predicted_minutes": 16.540763767798296,
+        "projection_mean_absolute_change": 4.9985523538327445,
+        "raw_crps": 3.28272650395807
+      }
+    },
+    "test": {
+      "J2": {
+        "allocated_crps": 5.625993798846545,
+        "cover90": 0.7239130434782609,
+        "low_minute_outcomes_le5": {
+          "cover90": 0.918918918918919,
+          "n": 37
+        },
+        "n": 460,
+        "observed_minutes": 23.71086956521739,
+        "predicted_minutes": 17.989735728334104,
+        "projection_mean_absolute_change": 5.450173555326555,
+        "raw_crps": 4.0616720100175066
+      },
+      "J2_M1": {
+        "allocated_crps": 5.6304957121051595,
+        "cover90": 0.6826086956521739,
+        "low_minute_outcomes_le5": {
+          "cover90": 0.8918918918918919,
+          "n": 37
+        },
+        "n": 460,
+        "observed_minutes": 23.71086956521739,
+        "predicted_minutes": 17.814369916298926,
+        "projection_mean_absolute_change": 5.8552036510781305,
+        "raw_crps": 3.8210726865651568
+      },
+      "J2_M2": {
+        "allocated_crps": 5.237120415700019,
+        "cover90": 0.6978260869565217,
+        "low_minute_outcomes_le5": {
+          "cover90": 0.918918918918919,
+          "n": 37
+        },
+        "n": 460,
+        "observed_minutes": 23.71086956521739,
+        "predicted_minutes": 18.351081156818502,
+        "projection_mean_absolute_change": 4.9985523538327445,
+        "raw_crps": 3.662155595598627
+      }
+    }
+  },
+  "original_contract_denominator": {
+    "attempted": 250,
+    "counterfactual_distributions_available": 248,
+    "pushes": 0,
+    "rejected": {
+      "NOT_IN_PRIOR_CANDIDATES": 2
+    },
+    "source_new_quotes": 0,
+    "voids": "not reconstructed; no DNP participation law"
+  },
+  "original_contracts": {
+    "Bayesian_A": {
+      "J2_counterfactual": {
+        "brier": 0.2630417357841039,
+        "log_loss": 0.7459167606880907,
+        "over_selected_fraction": 0.1506849315068493,
+        "side_conditional": {
+          "over_selected": {
+            "n": 33,
+            "observed_over": 0.5151515151515151,
+            "predicted_over": 0.5750473484848485
+          },
+          "under_selected": {
+            "n": 186,
+            "observed_over": 0.43548387096774194,
+            "predicted_over": 0.2668010752688172
+          }
+        },
+        "signed_over_residual": -0.1342394406392694,
+        "zero_likelihood_events": 0
+      },
+      "dates": 1,
+      "games": 5,
+      "inference": "one exposed date; no release-grade interval or market-edge claim",
+      "n": 219,
+      "original": {
+        "brier": 0.24084448371778389,
+        "log_loss": 0.6756638596162216,
+        "over_selected_fraction": 0.3013698630136986,
+        "side_conditional": {
+          "over_selected": {
+            "n": 66,
+            "observed_over": 0.5606060606060606,
+            "predicted_over": 0.5920144101229732
+          },
+          "under_selected": {
+            "n": 153,
+            "observed_over": 0.39869281045751637,
+            "predicted_over": 0.3794706369748652
+          }
+        },
+        "signed_over_residual": -0.003963659701960725,
+        "zero_likelihood_events": 0
+      }
+    },
+    "Bayesian_B": {
+      "J2_counterfactual": {
+        "brier": 0.2614149427200112,
+        "log_loss": 0.7415827825727999,
+        "over_selected_fraction": 0.15246636771300448,
+        "side_conditional": {
+          "over_selected": {
+            "n": 34,
+            "observed_over": 0.5,
+            "predicted_over": 0.5749080882352942
+          },
+          "under_selected": {
+            "n": 189,
+            "observed_over": 0.43386243386243384,
+            "predicted_over": 0.2644675925925926
+          }
+        },
+        "signed_over_residual": -0.1321468609865471,
+        "zero_likelihood_events": 0
+      },
+      "dates": 1,
+      "games": 5,
+      "inference": "one exposed date; no release-grade interval or market-edge claim",
+      "n": 223,
+      "original": {
+        "brier": 0.23838174540049092,
+        "log_loss": 0.6700496705616688,
+        "over_selected_fraction": 0.242152466367713,
+        "side_conditional": {
+          "over_selected": {
+            "n": 54,
+            "observed_over": 0.5925925925925926,
+            "predicted_over": 0.5743242539970468
+          },
+          "under_selected": {
+            "n": 169,
+            "observed_over": 0.39644970414201186,
+            "predicted_over": 0.37346428390023423
+          }
+        },
+        "signed_over_residual": -0.02184316728708469,
+        "zero_likelihood_events": 0
+      }
+    },
+    "Consensus": {
+      "J2_counterfactual": {
+        "brier": 0.2633696255618579,
+        "log_loss": 0.7289724792446388,
+        "over_selected_fraction": 0.1643835616438356,
+        "side_conditional": {
+          "over_selected": {
+            "n": 24,
+            "observed_over": 0.5,
+            "predicted_over": 0.560546875
+          },
+          "under_selected": {
+            "n": 122,
+            "observed_over": 0.4672131147540984,
+            "predicted_over": 0.292328381147541
+          }
+        },
+        "signed_over_residual": -0.13618364726027396,
+        "zero_likelihood_events": 0
+      },
+      "dates": 1,
+      "games": 5,
+      "inference": "one exposed date; no release-grade interval or market-edge claim",
+      "n": 146,
+      "original": {
+        "brier": 0.23975491001822952,
+        "log_loss": 0.6729426863693787,
+        "over_selected_fraction": 0.3013698630136986,
+        "side_conditional": {
+          "over_selected": {
+            "n": 44,
+            "observed_over": 0.6363636363636364,
+            "predicted_over": 0.5545892354698082
+          },
+          "under_selected": {
+            "n": 102,
+            "observed_over": 0.4019607843137255,
+            "predicted_over": 0.4110345786436221
+          }
+        },
+        "signed_over_residual": -0.018305113819719117,
+        "zero_likelihood_events": 0
+      }
+    },
+    "Engine_A": {
+      "J2_counterfactual": {
+        "brier": 0.25356366557459675,
+        "log_loss": 0.7200422013652344,
+        "over_selected_fraction": 0.14112903225806453,
+        "side_conditional": {
+          "over_selected": {
+            "n": 35,
+            "observed_over": 0.5142857142857142,
+            "predicted_over": 0.5796875
+          },
+          "under_selected": {
+            "n": 213,
+            "observed_over": 0.431924882629108,
+            "predicted_over": 0.2710167253521127
+          }
+        },
+        "signed_over_residual": -0.12896925403225806,
+        "zero_likelihood_events": 0
+      },
+      "dates": 1,
+      "games": 5,
+      "inference": "one exposed date; no release-grade interval or market-edge claim",
+      "n": 248,
+      "original": {
+        "brier": 0.2604200671547997,
+        "log_loss": 0.727570492809965,
+        "over_selected_fraction": 0.46774193548387094,
+        "side_conditional": {
+          "over_selected": {
+            "n": 116,
+            "observed_over": 0.5344827586206896,
+            "predicted_over": 0.6131709290168502
+          },
+          "under_selected": {
+            "n": 132,
+            "observed_over": 0.36363636363636365,
+            "predicted_over": 0.3714616716624926
+          }
+        },
+        "signed_over_residual": 0.04097084042501465,
+        "zero_likelihood_events": 0
+      }
+    },
+    "Engine_B": {
+      "J2_counterfactual": {
+        "brier": 0.25356366557459675,
+        "log_loss": 0.7200422013652344,
+        "over_selected_fraction": 0.14112903225806453,
+        "side_conditional": {
+          "over_selected": {
+            "n": 35,
+            "observed_over": 0.5142857142857142,
+            "predicted_over": 0.5796875
+          },
+          "under_selected": {
+            "n": 213,
+            "observed_over": 0.431924882629108,
+            "predicted_over": 0.2710167253521127
+          }
+        },
+        "signed_over_residual": -0.12896925403225806,
+        "zero_likelihood_events": 0
+      },
+      "dates": 1,
+      "games": 5,
+      "inference": "one exposed date; no release-grade interval or market-edge claim",
+      "n": 248,
+      "original": {
+        "brier": 0.2497761422603221,
+        "log_loss": 0.6925426532606871,
+        "over_selected_fraction": 0.4435483870967742,
+        "side_conditional": {
+          "over_selected": {
+            "n": 110,
+            "observed_over": 0.4636363636363636,
+            "predicted_over": 0.5665462429327361
+          },
+          "under_selected": {
+            "n": 138,
+            "observed_over": 0.427536231884058,
+            "predicted_over": 0.414519636757816
+          }
+        },
+        "signed_over_residual": 0.038402405625724126,
+        "zero_likelihood_events": 0
+      }
+    },
+    "Market": {
+      "J2_counterfactual": {
+        "brier": 0.25356366557459675,
+        "log_loss": 0.7200422013652344,
+        "over_selected_fraction": 0.14112903225806453,
+        "side_conditional": {
+          "over_selected": {
+            "n": 35,
+            "observed_over": 0.5142857142857142,
+            "predicted_over": 0.5796875
+          },
+          "under_selected": {
+            "n": 213,
+            "observed_over": 0.431924882629108,
+            "predicted_over": 0.2710167253521127
+          }
+        },
+        "signed_over_residual": -0.12896925403225806,
+        "zero_likelihood_events": 0
+      },
+      "dates": 1,
+      "games": 5,
+      "inference": "one exposed date; no release-grade interval or market-edge claim",
+      "n": 248,
+      "original": {
+        "brier": 0.24842175589438126,
+        "log_loss": 0.6900132702128374,
+        "over_selected_fraction": 0.4879032258064516,
+        "side_conditional": {
+          "over_selected": {
+            "n": 121,
+            "observed_over": 0.4297520661157025,
+            "predicted_over": 0.5286166351058622
+          },
+          "under_selected": {
+            "n": 127,
+            "observed_over": 0.4566929133858268,
+            "predicted_over": 0.4608470515921449
+          }
+        },
+        "signed_over_residual": 0.05036366290327314,
+        "zero_likelihood_events": 0
+      }
+    },
+    "NUTS": {
+      "n": 0,
+      "reason": "NO_ORIGINAL_FORECAST_AVAILABLE"
+    },
+    "first_book_market": {
+      "J2_counterfactual": {
+        "brier": 0.25356366557459675,
+        "log_loss": 0.7200422013652344,
+        "over_selected_fraction": 0.14112903225806453,
+        "side_conditional": {
+          "over_selected": {
+            "n": 35,
+            "observed_over": 0.5142857142857142,
+            "predicted_over": 0.5796875
+          },
+          "under_selected": {
+            "n": 213,
+            "observed_over": 0.431924882629108,
+            "predicted_over": 0.2710167253521127
+          }
+        },
+        "signed_over_residual": -0.12896925403225806,
+        "zero_likelihood_events": 0
+      },
+      "dates": 1,
+      "games": 5,
+      "inference": "one exposed date; no release-grade interval or market-edge claim",
+      "n": 248,
+      "original": {
+        "brier": 0.249702079295585,
+        "log_loss": 0.6925733029948093,
+        "over_selected_fraction": 0.45564516129032256,
+        "side_conditional": {
+          "over_selected": {
+            "n": 113,
+            "observed_over": 0.4247787610619469,
+            "predicted_over": 0.5314662307607552
+          },
+          "under_selected": {
+            "n": 135,
+            "observed_over": 0.45925925925925926,
+            "predicted_over": 0.4552950757517365
+          }
+        },
+        "signed_over_residual": 0.04645370686471673,
+        "zero_likelihood_events": 0
+      }
+    },
+    "naive_recent_exposure_rate": {
+      "J2_counterfactual": {
+        "brier": 0.25356366557459675,
+        "log_loss": 0.7200422013652344,
+        "over_selected_fraction": 0.14112903225806453,
+        "side_conditional": {
+          "over_selected": {
+            "n": 35,
+            "observed_over": 0.5142857142857142,
+            "predicted_over": 0.5796875
+          },
+          "under_selected": {
+            "n": 213,
+            "observed_over": 0.431924882629108,
+            "predicted_over": 0.2710167253521127
+          }
+        },
+        "signed_over_residual": -0.12896925403225806,
+        "zero_likelihood_events": 0
+      },
+      "dates": 1,
+      "games": 5,
+      "inference": "one exposed date; no release-grade interval or market-edge claim",
+      "n": 248,
+      "original": {
+        "brier": 0.2860778830156941,
+        "log_loss": 0.7947003353394428,
+        "over_selected_fraction": 0.4879032258064516,
+        "side_conditional": {
+          "over_selected": {
+            "n": 121,
+            "observed_over": 0.4297520661157025,
+            "predicted_over": 0.6529693409663062
+          },
+          "under_selected": {
+            "n": 127,
+            "observed_over": 0.4566929133858268,
+            "predicted_over": 0.3186259399446273
+          }
+        },
+        "signed_over_residual": 0.03820477673343037,
+        "zero_likelihood_events": 0
+      }
+    },
+    "pooled_peer_shrunk_rate": {
+      "J2_counterfactual": {
+        "brier": 0.25356366557459675,
+        "log_loss": 0.7200422013652344,
+        "over_selected_fraction": 0.14112903225806453,
+        "side_conditional": {
+          "over_selected": {
+            "n": 35,
+            "observed_over": 0.5142857142857142,
+            "predicted_over": 0.5796875
+          },
+          "under_selected": {
+            "n": 213,
+            "observed_over": 0.431924882629108,
+            "predicted_over": 0.2710167253521127
+          }
+        },
+        "signed_over_residual": -0.12896925403225806,
+        "zero_likelihood_events": 0
+      },
+      "dates": 1,
+      "games": 5,
+      "inference": "one exposed date; no release-grade interval or market-edge claim",
+      "n": 248,
+      "original": {
+        "brier": 0.26100289835194584,
+        "log_loss": 0.7222439248261654,
+        "over_selected_fraction": 0.592741935483871,
+        "side_conditional": {
+          "over_selected": {
+            "n": 147,
+            "observed_over": 0.48299319727891155,
+            "predicted_over": 0.6160535312238417
+          },
+          "under_selected": {
+            "n": 101,
+            "observed_over": 0.38613861386138615,
+            "predicted_over": 0.35890047989197654
+          }
+        },
+        "signed_over_residual": 0.06777749015723533,
+        "zero_likelihood_events": 0
+      }
+    }
+  },
+  "states": {
+    "original": {
+      "G0_proxy_mae": 4.632898584905661,
+      "G0_team_points_mae": 12.46875,
+      "G1_mean_ot_probability": 0.0453125,
+      "G1_mean_predicted_proxy_variance": 17.49306976743782,
+      "G1_proxy_mae": 4.760196963545954,
+      "G1_team_points_mae": 12.415625,
+      "games": 5,
+      "observed_ot_games": 0,
+      "observed_regulation_proxy_mean": 99.18,
+      "observed_regulation_proxy_variance": 30.06207999999998
+    },
+    "test": {
+      "G0_proxy_mae": 2.903748034591191,
+      "G0_team_points_mae": 10.001953125,
+      "G1_mean_ot_probability": 0.0458984375,
+      "G1_mean_predicted_proxy_variance": 19.548919923280426,
+      "G1_proxy_mae": 2.9416930280492504,
+      "G1_team_points_mae": 10.109537760416666,
+      "games": 24,
+      "observed_ot_games": 2,
+      "observed_regulation_proxy_mean": 100.2377672955975,
+      "observed_regulation_proxy_variance": 13.383100639808553
+    }
+  }
+}

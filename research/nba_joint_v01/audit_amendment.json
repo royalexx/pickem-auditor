@@ -10,6 +10,11 @@
   },
   "initial_findings": "J2 M0 regressed versus simple J0 marginals on points, rebounds, assists and Energy Score. No adoption.",
   "initial_run": "work/joint_run_initial, code bf887d71eadf7f7f1ac8cc477ce4fee32e99a4b9",
+  "prior_season_scope": {
+    "defect": "Initial secondary Nov10 2026 reconstruction omitted the available 2025-26 season between primary evaluation and current-season shards.",
+    "previous_evidence": "pre_full_prior_season, preserved unchanged; input manifest v1 remains archived.",
+    "repair": "Add all four 2026 count-stat shards at the same pinned warehouse commit. Primary 2024-25 inputs cannot consume those future rows and remain score-identical. No hyperparameter adjustment."
+  },
   "provider_fix": "Initial original-market canary incorrectly submitted original provider IDs as ESPN IDs, producing five bounded 404s. Preserve initial manifest. Correct only through WS4 verified official-source SHA256 to path mapping, then fetch five ESPN boxes. Total unique logical input attempts 66, successful boxes 61; initial failed IDs retried once, so 71 input HTTP attempts before the independent prospective canary.",
   "schema": "NBAJointAuditAmendment/1",
   "scope": "Five corrective ESPN reads plus existing WS1 one-event prospective capture. No broader collection or model escalation.",

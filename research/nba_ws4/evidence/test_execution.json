@@ -1,0 +1,18 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "unittest",
+    "tests.nba_ws4.test_evaluator",
+    "tests.test_morning_contract_metrics",
+    "tests.test_v25_nhl_nba_phase1",
+    "tests.test_phase15_nhl_nba",
+    "tests.test_v25_official_capture",
+    "-v"
+  ],
+  "exit_code": 0,
+  "max_child_rss_kib_linux": 86232,
+  "new_ws4_test_methods": 33,
+  "test_methods": 84,
+  "wall_seconds": 1.352335112000219
+}

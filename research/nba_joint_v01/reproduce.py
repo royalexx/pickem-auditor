@@ -13,7 +13,9 @@ import sys
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--output',required=True);args=parser.parse_args()
     base=Path('research/nba_joint_v01');root=Path('work/joint_input');(root/'raw').mkdir(parents=True,exist_ok=True)
-    manifest=json.loads((base/'inputs/manifest.json').read_text())
+    source_manifest=base/'inputs/manifest_v2.json'
+    if not source_manifest.exists():source_manifest=base/'inputs/manifest.json'
+    manifest=json.loads(source_manifest.read_text())
     def retain(path,raw):
         if path.exists():
             if path.read_bytes()!=raw:raise ValueError('EXISTING_REPRO_INPUT_CONFLICT:'+str(path))
@@ -28,7 +30,7 @@ def main():
         raw=gzip.decompress((base/'inputs/official'/(source['game_id']+'.json.gz')).read_bytes())
         if hashlib.sha256(raw).hexdigest()!=source['sha256']:raise ValueError('PINNED_OFFICIAL_SOURCE_HASH_MISMATCH')
         retain(Path(source['path']),raw)
-    retain(root/'manifest.json',(base/'inputs/manifest.json').read_bytes())
+    retain(root/'manifest.json',source_manifest.read_bytes())
     retain(Path('work/ws4_original_replay.json'),(base/'upstream/ws4_original_replay.json').read_bytes())
     reference=json.loads((base/'results/run_receipt.json').read_text())
     env={**os.environ,'OPENBLAS_NUM_THREADS':'1','PYTHONDONTWRITEBYTECODE':'1'}

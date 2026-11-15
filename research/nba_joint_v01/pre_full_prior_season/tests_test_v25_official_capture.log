@@ -1,0 +1,18 @@
+test_live_nhl_game_rejected (test_v25_official_capture.OfficialFinalGateTests.test_live_nhl_game_rejected) ... ok
+test_nba_3pm_more_than_attempts_invalid (test_v25_official_capture.OfficialFinalGateTests.test_nba_3pm_more_than_attempts_invalid) ... ok
+test_nba_final_all_combo_stats_and_threes (test_v25_official_capture.OfficialFinalGateTests.test_nba_final_all_combo_stats_and_threes) ... ok
+test_nba_in_game_never_graded (test_v25_official_capture.OfficialFinalGateTests.test_nba_in_game_never_graded) ... ok
+test_nba_ny_alias_in_schedule (test_v25_official_capture.OfficialFinalGateTests.test_nba_ny_alias_in_schedule) ... ok
+test_nhl_crit_still_not_final (test_v25_official_capture.OfficialFinalGateTests.test_nhl_crit_still_not_final) ... ok
+test_nhl_final_player_id_and_stats (test_v25_official_capture.OfficialFinalGateTests.test_nhl_final_player_id_and_stats) ... ok
+test_nhl_no_player_does_not_invent_zero (test_v25_official_capture.OfficialFinalGateTests.test_nhl_no_player_does_not_invent_zero) ... ok
+test_nhl_off_is_an_official_final_after_game (test_v25_official_capture.OfficialFinalGateTests.test_nhl_off_is_an_official_final_after_game) ... ok
+test_nhl_team_and_game_identity_cannot_be_reused (test_v25_official_capture.OfficialFinalGateTests.test_nhl_team_and_game_identity_cannot_be_reused) ... ok
+test_stale_future_or_duplicate_frozen_candidates_rejected (test_v25_official_capture.OfficialFinalGateTests.test_stale_future_or_duplicate_frozen_candidates_rejected) ... ok
+test_teams_and_start_required_for_match (test_v25_official_capture.OfficialFinalGateTests.test_teams_and_start_required_for_match) ... ok
+test_wrong_team_forecast_quarantined_without_discarding_valid_game (test_v25_official_capture.OfficialFinalGateTests.test_wrong_team_forecast_quarantined_without_discarding_valid_game) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.001s
+
+OK
