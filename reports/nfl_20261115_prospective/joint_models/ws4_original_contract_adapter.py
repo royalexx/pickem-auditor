@@ -29,6 +29,8 @@ STARTER_SHARE_PRIOR_GAMES = 3
 MIN_TEAM_HISTORY_GAMES = 6
 MIN_GLOBAL_QB_SHARE_GAMES = 100
 TIME_MARGIN_SECONDS = 90
+# Historical nflverse uses LA; the ESPN 2026 event/quote identity uses LAR.
+HISTORY_TEAM_ALIAS = {"LAR": "LA"}
 
 
 class AdapterError(ValueError):
@@ -147,7 +149,8 @@ def team_rates(team_name, team_hist, recorded_at):
             raise AdapterError("TEAM_PLAY_ACCOUNTING_INVALID")
         valid.append((r["team"], plays, pa, ru, sacks))
     pool = valid
-    mine = [x for x in pool if x[0] == team_name]
+    history_team = HISTORY_TEAM_ALIAS.get(team_name, team_name)
+    mine = [x for x in pool if x[0] == history_team]
     if len(mine) < MIN_TEAM_HISTORY_GAMES:
         raise AdapterError("TEAM_HISTORICAL_POOL_TOO_SMALL:" + team_name)
     if len(pool) < 300:
@@ -169,12 +172,14 @@ def team_rates(team_name, team_hist, recorded_at):
         "sack_rate": float(sack_rate),
         "n_team_games": n, "n_pooled_team_games": len(pool),
         "prior_equivalent_games": k, "team_observed_plays": totplays,
-        "historical_season": 2024, "first_available_to_this_adapter_at": recorded_at,
+        "historical_season": 2024, "historical_team_key": history_team, "original_team_key": team_name,
+        "first_available_to_this_adapter_at": recorded_at,
         "definition": "plays=passes+rushes+residual_sacks; pass_rate conditional on non-sack modeled plays",
     }
 
 
 def qb_starter_share(team_name, qb_gsis, historical):
+    history_team = HISTORY_TEAM_ALIAS.get(team_name, team_name)
     game = defaultdict(lambda: {"total": 0, "qb": 0, "maxqb": 0})
     for r in historical:
         if r["position"] != "QB":
@@ -185,21 +190,21 @@ def qb_starter_share(team_name, qb_gsis, historical):
         key = (r["team"], r["game_id"])
         game[key]["total"] += att
         game[key]["maxqb"] = max(game[key]["maxqb"], att)
-        if r["team"] == team_name and r["player_id"] == qb_gsis:
+        if r["team"] == history_team and r["player_id"] == qb_gsis:
             game[key]["qb"] += att
     pool = [x["maxqb"] / x["total"] for x in game.values() if x["total"] > 0]
     if len(pool) < MIN_GLOBAL_QB_SHARE_GAMES:
         raise AdapterError("POOLED_QB_ROLE_HIST_TOO_SMALL")
     prior = sum(pool) / len(pool)
     mine = [x["qb"] / x["total"] for (t, _), x in game.items()
-            if t == team_name and x["total"] > 0 and x["qb"] > 0]
+            if t == history_team and x["total"] > 0 and x["qb"] > 0]
     k = STARTER_SHARE_PRIOR_GAMES
     share = (sum(mine) + k * prior) / (len(mine) + k)
     if not (0 < share <= 1):
         raise AdapterError("INVALID_SHRUNK_QB_SHARE")
     return {
         "starter_attempt_share": float(share),
-        "n_qb_games_on_target_team": len(mine),
+        "n_qb_games_on_target_team": len(mine), "historical_team_key": history_team,
         "n_pooled_max_attempt_qb_games": len(pool),
         "prior_equivalent_games": k,
         "role_prior": float(prior),
