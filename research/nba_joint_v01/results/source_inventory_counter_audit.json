@@ -1,0 +1,9 @@
+{
+  "authoritative_final_scope_excluded_stat_rows": 800,
+  "by_reason": {
+    "WS1_SCOPE_QUARANTINE": 800
+  },
+  "initial_prepare_counter_preserved": 272,
+  "reason": "The inherited prepare counter describes the original two-season/initial non-franchise scan. Final full-scope quarantine is counted in run_receipt.json and every excluded row is retained in population_exclusions.json.gz. Original inventory metadata is preserved, not rewritten.",
+  "status": "DOCUMENTED_METADATA_SCOPE_DIFFERENCE"
+}

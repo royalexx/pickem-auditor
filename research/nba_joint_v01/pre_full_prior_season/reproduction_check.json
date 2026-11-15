@@ -1,0 +1,13 @@
+{
+  "differences_excluded": [
+    "runtime",
+    "peak memory",
+    "physical execution commit metadata"
+  ],
+  "model_game_configurations": 145,
+  "reference_receipt_sha256": "4faca00682f35dfb8852468f00eb9c964200f9eb51419bbc4b1b6c6f6d2f798a",
+  "reproduction_receipt_sha256": "f9dfdbbf0caf1f86f9cfd1de43b3cbfdb2d8bc7302214b4c4d7e6e87fc28dc39",
+  "scenario_hashes_identical": true,
+  "score_bytes_identical": true,
+  "status": "PASSED"
+}

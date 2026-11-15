@@ -1,0 +1,430 @@
+{
+  "prs": [
+    {
+      "number": 138,
+      "title": "NBA WS2: probabilistic minutes and conserved opportunity; retain M0 benchmark",
+      "state": "open",
+      "draft": true,
+      "ref": "research/v25-nba-ws2-minutes-opportunity-20261115",
+      "sha": "02426dd1b9c2b0cca28eaf69888adadc0021afa5",
+      "body": "Future NBA exposure previously relied on a recent played-game median. This draft adds isolated M0/M1/M2 conditional-minute distributions, separate availability/participation semantics, a versioned `NBAOpportunityForecast/1.0.0` handoff, and a team allocation mechanism with exact 240+25×OT conservation and five-on-court witnesses.\n\nThe bounded chronological replay fits on 2023–24 and evaluates 25,641 matched appearances across 1,231 franchise games / 164 dates in 2024–25. M2 CRPS improves 3.9561 → 3.5533 (−10.18%; paired 97.5% date-cluster difference CI −0.4391 to −0.3717), while central-estimate MAE improves 5.2427 → 4.9878 minutes. Both challengers pass aggregate numerical gates, but **neither is adopted**: M2 90% coverage regresses on low-minute outcomes (80.7% → 72.3%) and inferred OT outcomes (77.1% → 68.0%). Retain M0 as benchmark. These outcome-conditioned stress rates are diagnostic, not unconditional coverage targets.\n\nSource audit found 68 All-Star exhibition rows. A WS2-local franchise adapter excludes them before histories, with a complete ledger, disclosed post-initial-score integrity amendment, and preserved initial unfiltered evidence. Canonical collectors and WS1 schemas are untouched.\n\nValidation: 25 WS2 tests pass locally and in a detached read-only Deepnote run; 34 existing NBA/population/phase-1.5 tests pass. A 1,000-scenario fixture has zero conservation/five-on-court violations, versus independent total error averaging 20.42 player-minutes. The final full replay takes 224.93 wall seconds / 357.1 MiB peak RSS; 100-player forecast inference is under one CPU second per model.\n\nParticipation FPR/FNR, teammate-absence effects, authentic market ablations and real prospective forecasts remain blocked by missing pregame candidate/availability/source receipts. The manual shadow CLI is exercised only with explicitly synthetic fixtures and retains rejected rows. No prop-probability, causal variance-attribution or economic-edge claim is made.\n\n- Governing: `PA-V25-MASTER-2026-11-09 / v1.1`; current user authorizes this bounded WS2 shadow ticket.\n- Status: implemented / tested / historical exploratory shadow; independent WS4 review pending. Not a trusted release.\n- Preregistration: `975dc89`; fitting/scoring: `df22657`; final implementation: `0efd7d0`; base main: `912bc70`.\n- Full report: `research/nba_ws2/REPORT.md`; pinned-source replay: `bash research/nba_ws2/reproduce.sh`.\n- Hashes, matched predictions, failed/identity-excluded denominators and runtime receipts: `research/nba_ws2/results/evidence_manifest.json`.\n- Deepnote notebook: `8c4c10b625ca4b4ea8635a9723f82ee9`; final test/report run: `22802efa-932c-4141-bdcc-b6a57797f329`.\n- Protected boundaries: no canonical source collector, outcome likelihood, WS4 scoring infrastructure, frozen model, production decision, schedule or NUTS job changes.\n- Rollback: remove the isolated WS2 module, its test file and research directory. No production imports exist.\n\nIndependent review should first challenge tail coverage, participation conditioning, source-time assumptions, competition identity filtering and the fact that simplex projection changes marginal minute laws. No merge or model promotion is requested by this draft.\n\nMinimal shared CI has no pandas/scikit-learn. Four research-replay checks explicitly skip there; all 25 checks run locally and in Deepnote. The 21 core checks require only NumPy/SciPy. No CI or shared dependency configuration changed.\n"
+    },
+    {
+      "number": 137,
+      "title": "NBA WS1: immutable pregame inputs, historical scope audit and source quarantine",
+      "state": "open",
+      "draft": true,
+      "ref": "research/v25-nba-ws1-feature-store-20261115",
+      "sha": "53c01a9eabb9ed09b5c3186eae0d086b07bcc891",
+      "body": "The NBA population's recent stream stops at November 1, and its regular-season filter admits exhibition and NBA Cup championship games. This PR adds an isolated, immutable pregame source interface with explicit temporal rejection and scope quarantine, preserving the existing collectors, evaluator and archives.\n\nGoverning: PA-V25-MASTER-2026-11-09 / v1.1. Phase 0R/1 NBA WS1 infrastructure only; shadow-only, no statistical model or release approval.\n\nBase: 912bc7010058092ea735dcda0aa941429194474b\nCode/head: 53c01a9eabb9ed09b5c3186eae0d086b07bcc891\nWarehouse read: 97a8bb566826afe5a3e5a7b8c632043d8a1dca24\n\n### Implemented\n- Versioned NBAPregameFeatureSnapshot, immutable receipts/records, deterministic hashes and strict deserialization with feature reconstruction.\n- Prior player/team vectors, actual minutes/starts/attempts, explicit roster and injury uncertainty; separate original contract/game-market context.\n- Same-game/future/late-source rejection, dated crosswalk resolution, versioned corrections and retained rejection denominators.\n- Reuse of the existing ESPN parser; legacy population adapter requires explicit eligible game scope and retains provider namespaces.\n- Coverage/missingness report, machine-readable quarantine/abstention ledger, raw-source pregame sample and precise WS2/WS3/WS4 handoff.\n\n### Executed evidence\n- Audited all 99 NBA shards: 2,249,104 rows, 204,464 player-games, 9,625 games; no structural/cross-stat identity or combo arithmetic failures.\n- Quarantined 18 games / 3,938 rows: 15 exhibition games and three Cup championship games. Original data are unchanged. Recent November 1–14 population dates remain missing.\n- Real Lakers–Suns November 15 pregame package: 36 roster memberships, 55 roster-associated historical player-games, ten retained responses. Freeze 19:02:12.757146Z; final serialization 19:09:58.797255Z; scheduled start 21:00Z.\n- Sample hash a0532e8c6f26ea47102a9a6867f7c030c9914a79999d6124481066d779a4cf13; exact offline source-byte replay passes.\n- Existing November 10 evaluator replay ran twice in read-only Deepnote, preserving NBA 250 / NHL 106 contracts, 712 sides, 1,314 attempts and 354 settlements. Output bytes SHA-256 b438345979353e9c421c440c9bd39f0202994a3e94925a5416b904279b0c617d. Run c4ca630e-64d3-47e5-bed4-cc00ac333f93.\n- First Deepnote attempt rejected the parent settlement directory; the corrected invocation points to existing official_source_raw. No archived input was edited.\n\n### Validation\n25 WS1 tests passed; existing population suite 21 passed / three optional ArviZ/PyMC skips; evaluator 11 passed; official capture 13 passed. Total 70 passed, three skipped. Compilation and staged whitespace checks pass. Pytest was unavailable; unittest executed these suites. No numerical fitting was run.\n\nCommands:\n```bash\npython -m unittest discover -s tests/nba_ws1 -v\npython -m unittest discover -s tests -p 'test_population*py' -v\npython -m unittest discover -s tests -p 'test_v25_nhl_nba_phase1.py' -v\npython -m unittest discover -s tests -p 'test_v25_official_capture.py' -v\npython -m v2.nba_ws1.replay docs/nba_ws1/sample --expect-hash a0532e8c6f26ea47102a9a6867f7c030c9914a79999d6124481066d779a4cf13\n```\n\n### Open gates / review\nFull independent league schedule reconciliation failed at the bounded ESPN range endpoint (HTTP 400). Original historical availability clocks, independent provider parity/corrections, dated cross-provider identity mapping, game-active eligibility, historical possessions/pace and original quote/payout evidence remain unavailable or incomplete. The sample is correctly BLOCKED for downstream forecasting. Hashes and passing tests do not establish full source certification.\n\nIndependent reviewer approval has not been performed; same-agent adversarial checks and separate-runtime evaluator replay are not independent code signoff. Please review docs/nba_ws1/INTERFACE.md, COVERAGE_REPORT.md, HANDOFF.md and STATUS_LEDGER.md.\n\n### Preservation / rollback\nOnly v2/nba_ws1, tests/nba_ws1 and docs/nba_ws1 are added. No minutes/outcome model, production weights/ranking, evaluator, existing forecast/source archive, training pause marker or global schedule changes. No paid data, Actions dispatch or model refits. [skip ci] avoids automatic hosted workflow use; the relevant checks were executed as above.\n\nBefore merge, close this draft to roll back. After merge, revert this isolated commit and pin downstream opt-in adapters back first; preserve all original data. No deployment/migration or background process was introduced.\n"
+    },
+    {
+      "number": 136,
+      "title": "Repair NFL T+A source history and execute existing shadow forecast paths",
+      "state": "open",
+      "draft": true,
+      "ref": "repair/nfl-tackles-assists-20261115",
+      "sha": "ea8049e0452a8ddb142649f1bc0b21e7921abdc3",
+      "body": null
+    },
+    {
+      "number": 135,
+      "title": "WS6 research: independently audited NFL Sunday original-source universe and settlement gates (no release)",
+      "state": "open",
+      "draft": true,
+      "ref": "audit/nfl-sunday-ws6-20261115",
+      "sha": "28aa3dcbb54798fa2b62637481e30d448d900339",
+      "body": null
+    },
+    {
+      "number": 134,
+      "title": "research(nfl): execute quote-independent O-family targets and joint composites; gate T+A",
+      "state": "open",
+      "draft": true,
+      "ref": "research/nfl-20261115-opportunity-models",
+      "sha": "e081bc4186be46534d93cc678d074b65d5a7f401",
+      "body": null
+    },
+    {
+      "number": 133,
+      "title": "WS1 V2.5 eleven-market source extension and immutable player-stat handoff",
+      "state": "open",
+      "draft": true,
+      "ref": "chatgpt/nfl-sunday-ws1-source-20261115",
+      "sha": "3b4aff4065f9a07a5965867c344142bc6076488b",
+      "body": null
+    },
+    {
+      "number": 132,
+      "title": "[WS2 research] Execute 3,576 NFL player-stat distributions with separate original-contract evaluation",
+      "state": "open",
+      "draft": true,
+      "ref": "research/nfl-nov15-ws2-marginal-models",
+      "sha": "63d972e15a04ea50f362564e42d433f99221e7b1",
+      "body": null
+    },
+    {
+      "number": 131,
+      "title": "WS5 research: eleven-market original-source benchmarks and full-universe missingness",
+      "state": "open",
+      "draft": true,
+      "ref": "research/nfl-20261115-calibration-shadow",
+      "sha": "da2961e8da7757a6b67917fd91eacf2326b2748d",
+      "body": null
+    },
+    {
+      "number": 130,
+      "title": "Research WS4: 11-market ledger, 3,360 J1/J2 joint distributions and matched composites",
+      "state": "open",
+      "draft": true,
+      "ref": "chatgpt/nfl-20261115-ws4-joint-shadow-20261114",
+      "sha": "4a64b2a3e0bb241a0e5014e23aa6902825dca18f",
+      "body": null
+    },
+    {
+      "number": 129,
+      "title": "Phase 5.1: preregister NHL SOG S1 Poisson and source-native shadow validation",
+      "state": "open",
+      "draft": true,
+      "ref": "research/phase51-sog-rate-shrinkage-prospective-20261114",
+      "sha": "80a0384b270cafa1a5a47262e7452f5c1f6692d9",
+      "body": null
+    },
+    {
+      "number": 128,
+      "title": "research(phase5): isolate post-hoc micro-TOI exposure-bin repair and paired audit",
+      "state": "closed",
+      "draft": false,
+      "ref": "research/phase5-microtoi-sensitivity-v2-20261114",
+      "sha": "875bb237297b7606f6076441de58f21c98a17b8f",
+      "body": null
+    },
+    {
+      "number": 127,
+      "title": "research(phase5): NHL SOG M0–M4 historical rolling-origin benchmark (exploratory only)",
+      "state": "closed",
+      "draft": false,
+      "ref": "research/phase5-nhl-sog-rolling-origin-20261114",
+      "sha": "597b0dc0648a66b838aa31bcbe84c83953c59d2c",
+      "body": null
+    },
+    {
+      "number": 126,
+      "title": "C10 V2.5 — reconcile dependence simulations; freeze outcome-blind no-go inference gate",
+      "state": "closed",
+      "draft": false,
+      "ref": "integration/v25-c10-reconciled-inference-gates-20261114",
+      "sha": "421e94cb49f1abee2a5db046bc939b7422a93cb1",
+      "body": null
+    },
+    {
+      "number": 125,
+      "title": "V2.5 P3: NHL SOG source-native signed fixed NB2 control (research-only)",
+      "state": "closed",
+      "draft": false,
+      "ref": "work/v25-p3-sog-nb2-source-native-20261114",
+      "sha": "60e8bd43a20d44b1ec5ad076fdd7e3518d6fb549",
+      "body": null
+    },
+    {
+      "number": 124,
+      "title": "V2.5 C10: fixed-horizon serial-dependence inference stress test (research only)",
+      "state": "closed",
+      "draft": true,
+      "ref": "work/v25-c10-dependence-inference",
+      "sha": "e16ad46ba0928255e6da54fc6dc98ecc0f5e02e7",
+      "body": null
+    },
+    {
+      "number": 123,
+      "title": "V2.5 C10 research: simulation-calibrated HAC sensitivity, 40-date inference blocked",
+      "state": "open",
+      "draft": true,
+      "ref": "work/v25-c10-sog-fixed-horizon-inference",
+      "sha": "cc94acdb6fc4f0fc37c768ca41c7d13058c6c138",
+      "body": null
+    },
+    {
+      "number": 122,
+      "title": "C03 v2 research: source-bound context cohorts and neutral baseline contracts",
+      "state": "closed",
+      "draft": false,
+      "ref": "work/v25-c03-context-cohorts",
+      "sha": "0a7563b0aef95a3c594fc374afe806728a2a50cb",
+      "body": null
+    },
+    {
+      "number": 121,
+      "title": "V2.5 shadow: exposure-marginal Gamma–Poisson NHL SOG (preregistered pilot)",
+      "state": "closed",
+      "draft": false,
+      "ref": "work/v25-nhl-sog-exposure-eb-shadow",
+      "sha": "79412f987b337e406be1d99cb8b73dc87cee6644",
+      "body": null
+    },
+    {
+      "number": 120,
+      "title": "V2.5 foundation integration candidate: C09 + C01/C02 + C07 + Phase 1.5 (review only)",
+      "state": "closed",
+      "draft": false,
+      "ref": "integration/v25-foundations-20261112",
+      "sha": "14e24b199985f46e15890c713c7027a4db872a88",
+      "body": null
+    },
+    {
+      "number": 119,
+      "title": "Add Cloud Agent install for the offline auditor toolchain",
+      "state": "open",
+      "draft": false,
+      "ref": "cursor/cloud-agent-environment-fa4f",
+      "sha": "1eaee1abad95df792fb02dfc2f6c5a2c136d8d90",
+      "body": null
+    },
+    {
+      "number": 118,
+      "title": "V25-C01/C02: canonical source integrity repairs (draft, no merge)",
+      "state": "open",
+      "draft": true,
+      "ref": "work/v25-c01-c02-source-integrity",
+      "sha": "760ac909ee8d0a1477b1b033cef40b0f6a4a587a",
+      "body": null
+    },
+    {
+      "number": 117,
+      "title": "V25-P1.5-07: Shadow pregame opportunity factor capture (v2 manifest)",
+      "state": "closed",
+      "draft": false,
+      "ref": "work/v25-phase15-factor-capture",
+      "sha": "8bce6a5ede6d9d8b3384c79f8131aabebe043b45",
+      "body": null
+    },
+    {
+      "number": 116,
+      "title": "V25-C07: discrete Normal settlement contract (integer push mass)",
+      "state": "open",
+      "draft": false,
+      "ref": "work/v25-c07-discrete-contracts",
+      "sha": "f36b72dbf8f548f61346a33d32022d67f421f0d2",
+      "body": null
+    },
+    {
+      "number": 115,
+      "title": "V25-C09-QA: CI and test-infrastructure repair (Composer workstream)",
+      "state": "closed",
+      "draft": false,
+      "ref": "work/v25-c09-ci-qa",
+      "sha": "010ed15462603544943db007edc6161b22c5116d",
+      "body": null
+    },
+    {
+      "number": 114,
+      "title": "Phase 0R: retain full multi-sport immutable source archive",
+      "state": "closed",
+      "draft": false,
+      "ref": "chatgpt/phase0r-thursday-source-archive-size-20261112",
+      "sha": "165e9dd3396b16ab87c65880d15c6dd474636840",
+      "body": null
+    },
+    {
+      "number": 113,
+      "title": "Research-only: 2016–2025 NFL 13-volume cross-market prequential calibration and QB component audit",
+      "state": "open",
+      "draft": true,
+      "ref": "chatgpt/nfl-2016-2025-prequential-10yr-study-20261111",
+      "sha": "7c4513b0ad321c4f99957bcc233922ecb383285b",
+      "body": null
+    },
+    {
+      "number": 112,
+      "title": "Audit Nov 10 NBA/NHL performance and restrict 2023–24 NFL reruns to chronological research",
+      "state": "closed",
+      "draft": false,
+      "ref": "chatgpt/nov11-method-performance-2023-24-nfl-replay-decision",
+      "sha": "65b9382002a48c07ebb1141a4e77a6702f5c8ad2",
+      "body": null
+    },
+    {
+      "number": 111,
+      "title": "Phase 1.5: build preregistered NHL SOG fixed-NB2 shadow with independent pregame roster receipts",
+      "state": "closed",
+      "draft": false,
+      "ref": "chatgpt/phase15-nhl-sog-prospective-nb2-and-roster-20261111",
+      "sha": "fc1b1ca9c191bc8c0dbe83a0bc3bbed1dc44208f",
+      "body": null
+    },
+    {
+      "number": 110,
+      "title": "Phase 1.5: fix canonical one-contract morning scoring and forward-only coherent online Bayes Over v2",
+      "state": "closed",
+      "draft": false,
+      "ref": "chatgpt/phase15-contract-ledger-and-shadow-coherence-20261111",
+      "sha": "b3d8a8b4e8b932491d3b4eb0d83735f86277bf57",
+      "body": null
+    },
+    {
+      "number": 109,
+      "title": "Audit Nov 10 NBA/NHL model failures on all 354 official outcomes; repair NHL OFF final-state and record Phase 2 no-go",
+      "state": "closed",
+      "draft": false,
+      "ref": "chatgpt/phase15-nov11-full-slate-audit-off-final",
+      "sha": "db793bd3f4fee8e755a2e4d8791976cdcdec8f43",
+      "body": null
+    }
+  ],
+  "nbSearch": [
+    {
+      "id": "3cde4dae48764f4b9effa66bfdd4b81a",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "V2.5 Phase 1 NBA NHL original frozen baseline harness QA and real 712 row replay",
+      "createdAt": "2026-11-10T19:42:31.118Z",
+      "updatedAt": "2026-11-10T20:02:15.096Z"
+    },
+    {
+      "id": "d5c536856055477bbc37b2cc4b827991",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "V2.5 Phase 1.5 NHL NBA — independent certified prospective diagnostic November 10",
+      "createdAt": "2026-11-10T22:48:50.120Z",
+      "updatedAt": "2026-11-10T22:48:51.229Z"
+    },
+    {
+      "id": "818c023d1ebd4b1b93df42505313653b",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "V2.5 Phase 1.5 NBA NHL — signed prospective direction diagnostics QA (Nov 10)",
+      "createdAt": "2026-11-10T22:54:05.133Z",
+      "updatedAt": "2026-11-10T23:03:47.276Z"
+    },
+    {
+      "id": "4b2485ae1935429098d089d8504556fd",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "V2.5 Phase1 NHL NBA — independent source, probability and denominator acceptance",
+      "createdAt": "2026-11-10T19:57:17.609Z",
+      "updatedAt": "2026-11-10T20:03:09.956Z"
+    },
+    {
+      "id": "21c8dc0b7f1e4f68b4a4aa0c75ad9a59",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "V2.5 Phase 1.5 NHL NBA independent numeric and source audit 20261110",
+      "createdAt": "2026-11-10T22:59:18.356Z",
+      "updatedAt": "2026-11-10T22:59:19.762Z"
+    },
+    {
+      "id": "423d59f403ea49ccb04eec79e600aa88",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "2026-11-10 NHL NBA Phase 0R — independent source archive certification audit (read-only)",
+      "createdAt": "2026-11-10T17:46:33.753Z",
+      "updatedAt": "2026-11-10T17:53:17.126Z"
+    },
+    {
+      "id": "ada4f6a789b0499fb9f6994869a65c79",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "Independent full Nov10 NBA NHL mathematically adversarial source, calibration, exposure and game bootstrap audit",
+      "createdAt": "2026-11-11T11:26:29.029Z",
+      "updatedAt": "2026-11-11T11:26:31.085Z"
+    },
+    {
+      "id": "03adfd8d7f6c4d3e91273fec78b0905f",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "Phase1.5 Gate B verified official 2026-11-10 NBA NHL partial settlements + tests",
+      "createdAt": "2026-11-11T02:49:58.971Z",
+      "updatedAt": "2026-11-11T02:50:02.532Z"
+    },
+    {
+      "id": "f8430a05bb5c4d579f18e0846436c380",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "Phase1.5 Gate E sequential signed investment decision NBA NHL Nov10 partial verified NHL",
+      "createdAt": "2026-11-11T03:04:49.168Z",
+      "updatedAt": "2026-11-11T03:04:51.098Z"
+    },
+    {
+      "id": "47e39298027a4033a0ce89a70087d222",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "V2.5 Nov11 full NBA NHL forensic repair — merged-main independent QA",
+      "createdAt": "2026-11-11T11:47:09.794Z",
+      "updatedAt": "2026-11-11T11:47:24.830Z"
+    },
+    {
+      "id": "a765b89b878e4858ab0742c5d7b2ba60",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "Phase 1.5 Gates B-E NBA NHL — verified official settlement and instrumentation 20261110",
+      "createdAt": "2026-11-11T02:41:11.564Z",
+      "updatedAt": "2026-11-11T02:44:13.581Z"
+    },
+    {
+      "id": "c422a7821afb4663a5911be2510c00dd",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "Nov11 AM — Full retrospective Phase1.5 real NBA NHL audit + Phase2 gate",
+      "createdAt": "2026-11-11T11:18:27.182Z",
+      "updatedAt": "2026-11-11T11:18:34.727Z"
+    },
+    {
+      "id": "7bfaf02bc8cd47e6bd4f6d90ce616897",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "Nov11 independent full NHL NBA retrospective audit after OFF final-state repair",
+      "createdAt": "2026-11-11T11:21:27.968Z",
+      "updatedAt": "2026-11-11T11:21:33.499Z"
+    },
+    {
+      "id": "8a9945f8c0cb470fb750f78535f49f07",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "NBA WS1 2026-11-15 — bounded read-only archive audit and benchmark replay",
+      "createdAt": "2026-11-15T18:54:43.804Z",
+      "updatedAt": "2026-11-15T19:01:05.558Z"
+    },
+    {
+      "id": "5e209a1253b34c06baba0ec11a46d83a",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "NBA WS4 2026-11-15 — independent immutable benchmark replay (read-only)",
+      "createdAt": "2026-11-15T18:57:56.345Z",
+      "updatedAt": "2026-11-15T19:17:31.864Z"
+    },
+    {
+      "id": "8c4c10b625ca4b4ea8635a9723f82ee9",
+      "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+      "name": "NBA WS2 — probabilistic minutes and opportunity — 2026-11-15 shadow handoff",
+      "createdAt": "2026-11-15T19:08:26.311Z",
+      "updatedAt": "2026-11-15T19:16:59.434Z"
+    }
+  ],
+  "ws3Search": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Found 0 search results: 0 projects, 0 notebooks, 0 blocks, and 0 integrations."
+        },
+        {
+          "type": "text",
+          "text": "{\"results\":{\"projects\":[],\"notebooks\":[],\"blocks\":[],\"integrations\":[]}}"
+        }
+      ],
+      "structuredContent": {
+        "results": {
+          "projects": [],
+          "notebooks": [],
+          "blocks": [],
+          "integrations": []
+        }
+      },
+      "isError": false
+    }
+  },
+  "ghsearch": {
+    "content": [
+      {
+        "type": "text",
+        "text": "GitHub API error 422: {\"message\":\"Query must include 'is:issue' or 'is:pull-request'\",\"documentation_url\":\"https://docs.github.com/rest/search/search#search-issues-and-pull-requests\",\"status\":\"422\"}"
+      }
+    ],
+    "structuredContent": {
+      "error": "GitHub API error 422: {\"message\":\"Query must include 'is:issue' or 'is:pull-request'\",\"documentation_url\":\"https://docs.github.com/rest/search/search#search-issues-and-pull-requests\",\"status\":\"422\"}",
+      "error_code": "INVALID_ARGUMENT",
+      "error_data": {
+        "message": "Query must include 'is:issue' or 'is:pull-request'",
+        "documentation_url": "https://docs.github.com/rest/search/search#search-issues-and-pull-requests",
+        "status": "422"
+      }
+    },
+    "isError": true
+  }
+}

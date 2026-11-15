@@ -1,0 +1,23 @@
+{
+  "additional_checks": "Add explicit G0 event ablation, exact-marginal shuffle joint comparison, conversion/covariance/support validation and reference-score tests. No tuning or model selection on test outcomes.",
+  "decision": "Retain M0; no statistical or production adoption regardless of amended scores. External independent joint review pending.",
+  "final_score_audit": {
+    "defect": "Aggregate score approximation allowed tied completed NBA games.",
+    "evidence": "Pre-fix complete results and reproducibility check retained under pre_score_conditioning; same fixed cohorts and no hyperparameter tuning.",
+    "fix": "Condition aggregate event sampling on unequal final scores via explicit rejection sampling; retain all rejected event draw counts and measure marginal changes. Empirical OT duration remains approximate; regulation score paths are not modeled.",
+    "pre_fix_game_scenarios": 3712,
+    "pre_fix_tied_draws": 47
+  },
+  "initial_findings": "J2 M0 regressed versus simple J0 marginals on points, rebounds, assists and Energy Score. No adoption.",
+  "initial_run": "work/joint_run_initial, code bf887d71eadf7f7f1ac8cc477ce4fee32e99a4b9",
+  "prior_season_scope": {
+    "defect": "Initial secondary Nov10 2026 reconstruction omitted the available 2025-26 season between primary evaluation and current-season shards.",
+    "previous_evidence": "pre_full_prior_season, preserved unchanged; input manifest v1 remains archived.",
+    "repair": "Add all four 2026 count-stat shards at the same pinned warehouse commit. Primary 2024-25 inputs cannot consume those future rows and remain score-identical. No hyperparameter adjustment."
+  },
+  "provider_fix": "Initial original-market canary incorrectly submitted original provider IDs as ESPN IDs, producing five bounded 404s. Preserve initial manifest. Correct only through WS4 verified official-source SHA256 to path mapping, then fetch five ESPN boxes. Total unique logical input attempts 66, successful boxes 61; initial failed IDs retried once, so 71 input HTTP attempts before the independent prospective canary.",
+  "schema": "NBAJointAuditAmendment/1",
+  "scope": "Five corrective ESPN reads plus existing WS1 one-event prospective capture. No broader collection or model escalation.",
+  "source_fix": "WS1 quarantined Cup-final game IDs were excluded from selected game lists but initially still entered prior feature/rate histories. Apply the exact WS1 quarantine before all historical features, preserving an exclusion ledger and original initial results. Do not change WS2 historical artifacts.",
+  "timing": "After initial 24-date scores were observed; all following evidence remains development-exposed and exploratory."
+}

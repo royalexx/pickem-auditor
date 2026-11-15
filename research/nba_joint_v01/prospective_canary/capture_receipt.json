@@ -1,0 +1,88 @@
+{
+  "errors": [],
+  "forecast_at": "2026-11-15T20:19:08.444185Z",
+  "game": {
+    "away_team_id": "espn:team:13",
+    "event_start_at": "2026-11-15T21:00:00.000000Z",
+    "game_id": "espn:game:401909986",
+    "home_team_id": "espn:team:21",
+    "status": "scheduled",
+    "venue": "Mortgage Matchup Center"
+  },
+  "snapshot_hash": "2a4d359356f9e4a557c79c20914730651cf2abaac3211e587f83b56663e3ca56",
+  "snapshot_path": "snapshots/2a4d359356f9e4a557c79c20914730651cf2abaac3211e587f83b56663e3ca56.json",
+  "sources": [
+    {
+      "bytes": 173324,
+      "encoding": "gzip",
+      "path": "sources/54aa376ca40ddf35f5f3ba540cac40c72445f732fc6097d16842fca7ed256ce7.json.gz",
+      "raw_sha256": "54aa376ca40ddf35f5f3ba540cac40c72445f732fc6097d16842fca7ed256ce7",
+      "receipt_id": "efe3884f44051cb89d77695693cee7f3b38fbc2c6edd7f15301988c6d3069360"
+    },
+    {
+      "bytes": 125134,
+      "encoding": "gzip",
+      "path": "sources/ab9e1e9a9789f7da6ac4a4b4242958124a89a3e84ce85bf7da7914673b0ca388.json.gz",
+      "raw_sha256": "ab9e1e9a9789f7da6ac4a4b4242958124a89a3e84ce85bf7da7914673b0ca388",
+      "receipt_id": "3fb4c7ea2dbfa0cfc4a430f8e31c77974a0a33851ea0cabf8d2015ab277535d0"
+    },
+    {
+      "bytes": 84407,
+      "encoding": "gzip",
+      "path": "sources/73f499ebdcfe30072bfbc310f32e912d166b4f0112cf205354b5cc7cb41873f7.json.gz",
+      "raw_sha256": "73f499ebdcfe30072bfbc310f32e912d166b4f0112cf205354b5cc7cb41873f7",
+      "receipt_id": "8d9e33bbca581caf6680149f8d8592acac30d3cb37605893162d9c909871b54c"
+    },
+    {
+      "bytes": 900327,
+      "encoding": "gzip",
+      "path": "sources/c49dd89df95effcbb2338a6e975f2dcce948d4883439bc22d6785f10974f29b0.json.gz",
+      "raw_sha256": "c49dd89df95effcbb2338a6e975f2dcce948d4883439bc22d6785f10974f29b0",
+      "receipt_id": "93b6abcb4f757f2c4f07075b0c8c65ceb391037c5012a973bd0a373bd21fcd3a"
+    },
+    {
+      "bytes": 92811,
+      "encoding": "gzip",
+      "path": "sources/403770b676b720a8c4984f8fee1ce83fb827247056eb83b17819ffcaca60b3fe.json.gz",
+      "raw_sha256": "403770b676b720a8c4984f8fee1ce83fb827247056eb83b17819ffcaca60b3fe",
+      "receipt_id": "ae1aae4f6ca59158920b6b787aaa6d85a37ef25c100b9a1e02c2ad58fa3cefa2"
+    },
+    {
+      "bytes": 923316,
+      "encoding": "gzip",
+      "path": "sources/3ceb5e03984cf364a13e85102346d33b2e83a3a4d05db767e81e74990b789d5d.json.gz",
+      "raw_sha256": "3ceb5e03984cf364a13e85102346d33b2e83a3a4d05db767e81e74990b789d5d",
+      "receipt_id": "1efcbf3b4140a3332ab83bcd067ee9aecfd3ab98d1335661141b8374d89c0f21"
+    },
+    {
+      "bytes": 432940,
+      "encoding": "gzip",
+      "path": "sources/8fe3fbc5af6ea048dddb6f0445065fca7a46921ebd0705c763539ab720d7ee28.json.gz",
+      "raw_sha256": "8fe3fbc5af6ea048dddb6f0445065fca7a46921ebd0705c763539ab720d7ee28",
+      "receipt_id": "3c956f6c1410e6a61bfd76888f3c3757de5a4157bd6242f4a2f654a2b260ed8b"
+    },
+    {
+      "bytes": 426357,
+      "encoding": "gzip",
+      "path": "sources/f8c646e3ac588869c23bac604726121a76760fb1d72b2af54f1953ca8a730f99.json.gz",
+      "raw_sha256": "f8c646e3ac588869c23bac604726121a76760fb1d72b2af54f1953ca8a730f99",
+      "receipt_id": "f9c194934ad39c5f8688205a54108e0a376166d9901134983d01f36ac03cf10b"
+    },
+    {
+      "bytes": 489135,
+      "encoding": "gzip",
+      "path": "sources/4d95ac1b9e2184c953499b21f2d3ea7111b8c14fad8fb18e519c36d98a4baf24.json.gz",
+      "raw_sha256": "4d95ac1b9e2184c953499b21f2d3ea7111b8c14fad8fb18e519c36d98a4baf24",
+      "receipt_id": "2fc6108e3f9dbc80783f4c32f04320973a01e66aa702acccc49f0843d3f9a10d"
+    },
+    {
+      "bytes": 444419,
+      "encoding": "gzip",
+      "path": "sources/ce5772103485ba36536629d602aa346769612b3b389de4564ec6d30ed8ee5438.json.gz",
+      "raw_sha256": "ce5772103485ba36536629d602aa346769612b3b389de4564ec6d30ed8ee5438",
+      "receipt_id": "445ec8af9e11ff2fc6a83795d6f5b02d196017b3dd3a4908e2dac13b6f28f412"
+    }
+  ],
+  "status": "captured_partial_shadow",
+  "training_cutoff_semantics": "consumer upper-bound only; no statistical model fitted"
+}

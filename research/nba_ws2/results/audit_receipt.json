@@ -1,0 +1,170 @@
+{
+  "adoption_decision": {
+    "M1": {
+      "adopt": false,
+      "overall_preregistered_statistical_gates": {
+        "coverage_pass": true,
+        "mae_pass": true,
+        "primary_pass": true,
+        "promotion": false
+      },
+      "reasons": [
+        "Material low-minute and/or overtime outcome-cohort coverage regression versus M0",
+        "No authenticated pregame participation/roster validation",
+        "Historical reconstruction and design exposure; independent prospective WS4 validation absent"
+      ],
+      "status": "HISTORICAL_AGGREGATE_GAIN_WITH_STRESS_REGRESSION"
+    },
+    "M2": {
+      "adopt": false,
+      "overall_preregistered_statistical_gates": {
+        "coverage_pass": true,
+        "mae_pass": true,
+        "primary_pass": true,
+        "promotion": false
+      },
+      "reasons": [
+        "Material low-minute and/or overtime outcome-cohort coverage regression versus M0",
+        "No authenticated pregame participation/roster validation",
+        "Historical reconstruction and design exposure; independent prospective WS4 validation absent"
+      ],
+      "status": "HISTORICAL_AGGREGATE_GAIN_WITH_STRESS_REGRESSION"
+    }
+  },
+  "chronological_features_verified": true,
+  "distribution_tail_bound_beyond120": 2.0076871327771397e-14,
+  "executed_code_commit_verified": "df22657d0ee51005e0d7417a4a61468939217736",
+  "executed_code_hashes_verified": {
+    "research/nba_ws2/run_experiment.py": "6af5635bfc03d177a77715cbb13af5a9eb9456487d038c67fb4f142126a0f99c",
+    "v2/nba_opportunity.py": "e444859950691f3288e3a1369546283dbb9189752137c3179b350f8bcb821357"
+  },
+  "no_claims": [
+    "No causal minutes/rate attribution",
+    "No per-minute outcome or prop-probability gain established",
+    "No economic edge or production promotion",
+    "Outcome-selected stress coverage is not expected to equal unconditional nominal coverage"
+  ],
+  "source_exclusion_ledger_rows": 68,
+  "status": "SEQUENTIAL_EXECUTABLE_AUDIT_NOT_INDEPENDENT_WS4_VALIDATION",
+  "stress_comparisons": {
+    "M1": {
+      "inferred_overtime_outcome": {
+        "coverage90_difference": {
+          "ci97_5": [
+            -0.11753889271660291,
+            -0.06171407030778902
+          ],
+          "clusters": 52,
+          "difference": -0.0912311780336581
+        },
+        "crps_difference": {
+          "ci97_5": [
+            -0.034934571320552714,
+            0.37431257286262454
+          ],
+          "clusters": 52,
+          "difference": 0.17065755616215955
+        },
+        "n": 1129
+      },
+      "low_minute_outcome_le5": {
+        "coverage90_difference": {
+          "ci97_5": [
+            -0.05131788836970566,
+            -0.016735386912090613
+          ],
+          "clusters": 161,
+          "difference": -0.034354688950789226
+        },
+        "crps_difference": {
+          "ci97_5": [
+            0.4235277617149388,
+            0.7141173201548794
+          ],
+          "clusters": 161,
+          "difference": 0.5691478124526549
+        },
+        "n": 2154
+      }
+    },
+    "M2": {
+      "inferred_overtime_outcome": {
+        "coverage90_difference": {
+          "ci97_5": [
+            -0.1163003663003663,
+            -0.06458177821646377
+          ],
+          "clusters": 52,
+          "difference": -0.09034543844109831
+        },
+        "crps_difference": {
+          "ci97_5": [
+            -0.22368085248563502,
+            0.16158104819471106
+          ],
+          "clusters": 52,
+          "difference": -0.03687993016938043
+        },
+        "n": 1129
+      },
+      "low_minute_outcome_le5": {
+        "coverage90_difference": {
+          "ci97_5": [
+            -0.1025639122325178,
+            -0.06605970775094133
+          ],
+          "clusters": 161,
+          "difference": -0.0840297121634169
+        },
+        "crps_difference": {
+          "ci97_5": [
+            0.34768625531951836,
+            0.6025371475287645
+          ],
+          "clusters": 161,
+          "difference": 0.4729313304366287
+        },
+        "n": 2154
+      }
+    }
+  },
+  "unique_player_games_verified": true,
+  "weekly_sensitivity_and_point_mae": {
+    "M1": {
+      "crps_week": {
+        "ci97_5": [
+          -0.27979849922745004,
+          -0.18212043221456198
+        ],
+        "clusters": 25,
+        "difference": -0.23152276499050528
+      },
+      "point_mae_date": {
+        "ci97_5": [
+          -0.027036399840667323,
+          0.06939187347798031
+        ],
+        "clusters": 164,
+        "difference": 0.021987034800985288
+      }
+    },
+    "M2": {
+      "crps_week": {
+        "ci97_5": [
+          -0.4375907375772392,
+          -0.37118319447823345
+        ],
+        "clusters": 25,
+        "difference": -0.4027384286292546
+      },
+      "point_mae_date": {
+        "ci97_5": [
+          -0.29805775140180396,
+          -0.21520829839962552
+        ],
+        "clusters": 164,
+        "difference": -0.25490296076077457
+      }
+    }
+  }
+}

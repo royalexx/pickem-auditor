@@ -1,0 +1,6 @@
+{
+  "primary_cohort_scores_byte_equivalent": true,
+  "repair": "Add all four prior-season 2026 shards for secondary 2026 forecasts",
+  "assertion": "pre_full_prior_season/results.json test object equals final results.json test object exactly",
+  "future_rows_cannot_enter_2024_primary_features": true
+}

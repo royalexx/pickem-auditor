@@ -1,0 +1,32 @@
+{
+  "actual_prospective_forecasts": 0,
+  "cli_receipt": {
+    "attempted": 2,
+    "generated": 1,
+    "path": "work/ws2_cli_fixture/freeze_20261115T191604448014.jsonl",
+    "rejected": 1,
+    "sha256": "0349cccd8bd8b32b6678a51c0c137354e7b069133f508d06376483bbdeef513b"
+  },
+  "cli_rows": 2,
+  "fixture_only": true,
+  "forecast_without_participation_abstains_unconditional": true,
+  "max_rss_mib": 45.56640625,
+  "rejected_past_event": true,
+  "timings_100_player_slate": {
+    "M0": {
+      "cpu_seconds": 0.8486158650000001,
+      "players": 100,
+      "wall_seconds": 0.8487844799999493
+    },
+    "M1": {
+      "cpu_seconds": 0.7435752179999999,
+      "players": 100,
+      "wall_seconds": 0.7462229039999784
+    },
+    "M2": {
+      "cpu_seconds": 0.7978123599999998,
+      "players": 100,
+      "wall_seconds": 0.7979045510001015
+    }
+  }
+}

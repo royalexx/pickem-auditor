@@ -1,0 +1,30 @@
+{
+  "archive_bytes": 15440650,
+  "archive_sha256": "478e7868ae3d1707697e4c96b851997cdd00175e2707496ff2be46d4a713edd0",
+  "deepnote_tests_passed": 113,
+  "engine_execution_commit": "ca41c79426a90a57e78ca9554a993db326461737",
+  "model_sha256": "e424c7f98bba50315dfde81a60978855d6ceb8c72aba8ad0af310eb31283326f",
+  "pr": "https://github.com/royalexx/pickem-auditor/pull/140",
+  "promotion_authorized": false,
+  "reproduction": {
+    "differences_excluded": [
+      "runtime",
+      "peak memory",
+      "physical execution commit metadata"
+    ],
+    "model_game_configurations": 145,
+    "reference_receipt_sha256": "9a9bd4a32c54a338f36f38ed758d772b633362bbb6fa77db736e88d86215c7b6",
+    "reproduction_receipt_sha256": "db4fe05bc27d3b1ecd136b3f17e499996ecf0a307db1fc61c1d15c6262abc78d",
+    "scenario_hashes_identical": true,
+    "score_bytes_identical": true,
+    "status": "PASSED"
+  },
+  "source_commit": "76b3892a124a9ce6e4903ddbee7023bedd7cfebe",
+  "tests": {
+    "errors": 0,
+    "failed": 0,
+    "passed": 179,
+    "run": 179,
+    "skipped": 0
+  }
+}

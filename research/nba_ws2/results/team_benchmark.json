@@ -1,0 +1,25 @@
+{
+  "attempted": 1000,
+  "constrained_conservation_failure_rate": 0.0,
+  "constrained_max_absolute_team_error": 1.7053025658242404e-13,
+  "cpu_seconds": 0.41462425599999997,
+  "evidence": "DETERMINISTIC_SYNTHETIC_FIXTURE_NOT_HISTORICAL_SKILL",
+  "five_on_court_violations": 0,
+  "independent_conservation_failure_rate": 1.0,
+  "independent_max_absolute_team_error": 141.89117286673945,
+  "independent_mean_absolute_team_error": 20.41507733818899,
+  "limitations": [
+    "projection changes marginal distributions",
+    "active-roster completeness externally supplied",
+    "unusual-state probability is a fixture parameter, not an estimated real-world rate",
+    "team allocation needs separate historical/prospective calibration"
+  ],
+  "max_overtime_periods": 2,
+  "max_rss_mib": 48.83203125,
+  "mean_absolute_player_projection_adjustment": 2.0415077338188987,
+  "overtime_scenarios": 53,
+  "seed": 20261115,
+  "unusual_rotation_scenarios": 90,
+  "valid": 1000,
+  "wall_seconds": 0.41559771900006126
+}

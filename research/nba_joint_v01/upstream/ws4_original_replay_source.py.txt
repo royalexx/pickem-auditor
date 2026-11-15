@@ -1,0 +1,157 @@
+"""Read-only independent replay of original Nov10 files; no model reconstruction.
+
+Run with --root pointing to original Deepnote project files. Output is a derived
+research receipt, never a new original forecast or recertification.
+"""
+import argparse
+from collections import Counter, defaultdict
+from datetime import datetime
+import gzip
+import hashlib
+import json
+import math
+from pathlib import Path
+import statistics
+
+BASE='pickem_runs/2026-11-10/20261110T180409Z/'
+CAPTURE='reports/phase15_Nov10_FULL_REAL_FINAL_official_capture_20261111_f3162e921187/'
+PHASE1='reports/phase15_Nov10_FULL_REAL_FINAL_scored_phase1_20261111_f3162e921187.json'
+MODELS=('Engine_A','Engine_B','Bayesian_A','Bayesian_B','NUTS','Consensus','Market')
+
+
+def digest(raw): return hashlib.sha256(raw).hexdigest()
+def canonical(obj): return json.dumps(obj,sort_keys=True,separators=(',',':'),allow_nan=False).encode()
+def instant(s):
+    d=datetime.fromisoformat(s.replace('Z','+00:00'))
+    if d.tzinfo is None: raise ValueError('NAIVE_TIME')
+    return d
+
+def check(ok, reason):
+    if not ok: raise ValueError(reason)
+
+
+def replay(root):
+    root=Path(root); hashes={}
+    def raw(path):
+        b=(root/path).read_bytes(); hashes[path]=digest(b); return b
+    def doc(path): return json.loads(raw(path))
+    phase=doc(PHASE1)
+    sides=[json.loads(s) for s in raw(BASE+'model_comparisons.jsonl').decode().splitlines() if s.strip()]
+    check(hashes[BASE+'model_comparisons.jsonl']=='65ec6f549d32aa735999841c42f10941cd75aa811ddd7e9d9d2ee8e98ba67921','ORIGINAL_SIDECAR_HASH_CHANGED')
+    bundle_name=BASE+'live_pool_2026-11-10_afternoon_76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6.json.gz'
+    bundle=raw(bundle_name)
+    check(digest(bundle)=='76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6','ORIGINAL_BUNDLE_HASH_CHANGED')
+    packet=json.loads(gzip.decompress(bundle))
+    # Verify embedded source bytes without writing/extracting any archive.
+    import base64
+    source_objects=packet.get('phase0_source_input_archive',[])
+    check(bool(source_objects),'SOURCE_ARCHIVE_MISSING')
+    for item in source_objects:
+        b=base64.b64decode(item['content_b64'],validate=True)
+        check(digest(b)==item['sha256'] and len(b)==item['bytes'],'SOURCE_BLOB_CHANGED')
+    attempts=doc(BASE+'all_prepared_props_attempts.json')
+    attempt_rows=attempts['attempts']
+    attempt_counts=Counter(a['status'] for a in attempt_rows)
+    rejection_counts=Counter(a['reason'] for a in attempt_rows if a['status']!='forecast')
+    check(len(attempt_rows)==1314 and dict(attempt_counts)=={'forecast':712,'unavailable':602},'ATTEMPT_DENOMINATOR_CHANGED')
+    check(dict(rejection_counts)=={'pre_eval_external_context_unpinned':438,'market_unavailable_or_unverified':164},'REJECTION_DENOMINATOR_CHANGED')
+    revisions=doc(BASE+'source_revisions.json')
+    check(revisions['main']=='e5635d8fd8444a3144174cf019924d2010cdbca8','PRODUCER_SHA_CHANGED')
+    settlements=doc(CAPTURE+'official_settlements.json')
+    settled={}
+    for s in settlements:
+        if s['sport']=='NBA':
+            k=(str(s['event_id']),str(s['player_id']),s['stat'],s['period'])
+            check(k not in settled,'DUPLICATE_SETTLEMENT'); settled[k]=s
+    pairs=defaultdict(dict)
+    for s in sides:
+        key=(s['sport'],str(s['run_id']),str(s['player_id']),s['stat'],float(s['line']),s['event_start'])
+        check(s['side'] in ('over','under') and s['side'] not in pairs[key],'DUPLICATE_OR_REVERSED_SIDE')
+        pairs[key][s['side']]=s
+    # Independently parse official ESPN final boxscore; do not trust receipt actuals.
+    official={}; records=[]; coverage=defaultdict(Counter); seen_contracts=set(); used_side_keys=set()
+    for c in phase['contracts']:
+        if c['sport']!='NBA': continue
+        key=('NBA',str(c['source_run_id']),str(c['player_id']),c['stat'],float(c['line']),c['event_start'])
+        check(c['contract_id'] not in seen_contracts and key not in used_side_keys,'DUPLICATE_CANONICAL_CONTRACT')
+        seen_contracts.add(c['contract_id']); used_side_keys.add(key)
+        pair=pairs[key]; check(set(pair)=={'over','under'},'UNPAIRED_CONTRACT')
+        over,under=pair['over'],pair['under']
+        for f in ('team','opponent','game_date','run_id','player_id','stat','line','event_start'):
+            check(over[f]==under[f],'SIDE_IDENTITY_MISMATCH')
+        check(over['team']==c['team_id'] and over['opponent']==c['opponent_id'],'TEAM_IDENTITY_MISMATCH')
+        check(instant(over['forecast_at'])<instant(c['event_start']) and instant(under['forecast_at'])<instant(c['event_start']),'POSTGAME_FORECAST')
+        s=settled[(c['event_id'],c['player_id'],c['stat'],c['period'])]
+        check(s['status']=='settled' and instant(s['retrieved_at'])>instant(c['event_start']),'NONFINAL_SETTLEMENT')
+        path=CAPTURE+'official_source_raw/'+s['source_archive_path']
+        if path not in official:
+            b=raw(path); check(digest(b)==s['source_sha256'],'OFFICIAL_HASH_CHANGED')
+            box=json.loads(b); comp=box['header']['competitions'][0]
+            check(comp['status']['type']['completed'] is True and comp['status']['type']['name']=='STATUS_FINAL','NOT_FINAL')
+            check(str(comp['id'])==str(s['official_game_id']),'OFFICIAL_EVENT_MISMATCH')
+            alias={'NY':'NYK','GS':'GSW','SA':'SAS','UTAH':'UTA','NO':'NOP','PHO':'PHX'}
+            observed_teams={alias.get(x['team']['abbreviation'],x['team']['abbreviation']) for x in comp['competitors']}
+            check(observed_teams=={c['team_id'],c['opponent_id']},'OFFICIAL_OPPONENT_MISMATCH')
+            check(abs((instant(comp['date'])-instant(c['event_start'])).total_seconds())<=5400,'OFFICIAL_START_MISMATCH')
+            players={}
+            for group in box['boxscore']['players']:
+                for subset in group['statistics']:
+                    labels=subset['labels']; check(len(set(labels))==len(labels),'DUPLICATE_LABELS')
+                    for a in subset['athletes']:
+                        if a.get('didNotPlay'):continue
+                        pid=str(a['athlete']['id']); check(pid not in players,'DUPLICATE_OFFICIAL_PLAYER')
+                        check(len(labels)==len(a['stats']),'STAT_LENGTH')
+                        d=dict(zip(labels,a['stats']))
+                        if not d.get('MIN') or d['MIN']=='0':continue
+                        p,r,ast=int(d['PTS']),int(d['REB']),int(d['AST'])
+                        players[pid]={'team':{'NY':'NYK','GS':'GSW','SA':'SAS','UTAH':'UTA','NO':'NOP','PHO':'PHX'}.get(group['team']['abbreviation'],group['team']['abbreviation']),'points':p,'rebounds':r,'assists':ast,
+                            'threes':int(d['3PT'].split('-')[0]),'pr':p+r,'pa':p+ast,'ra':r+ast,'pra':p+r+ast}
+            official[path]=players
+        observed=official[path][c['player_id']]
+        check(observed['team']==c['team_id'],'TRADED_TEAM_MISMATCH')
+        y=observed[c['stat']]
+        outcome='over' if y>c['line'] else 'under' if y<c['line'] else 'push'
+        check(y==s['actual']==c['outcome']['actual'] and outcome==c['outcome']['status'],'RAW_SETTLEMENT_MISMATCH')
+        rec={'contract_id':c['contract_id'],'event_id':c['event_id'],'player_id':c['player_id'],'player':over.get('player'),
+            'team':c['team_id'],'opponent':c['opponent_id'],'stat':c['stat'],'line':c['line'],'period':c['period'],
+            'date':over['game_date'],'slate_id':c['source_run_id'],'outcome':outcome,'actual':y,'models':{},
+            'original_over_hash':digest(canonical(over)),'original_under_hash':digest(canonical(under)),
+            'source_hash':s['source_sha256'],'forecast_at':over['forecast_at'],'event_start':c['event_start'],
+            'development_exposed':True,'evidence_kind':'original_pregame_final_sidecar_historical_audit',
+            'missing_new_schema_provenance_not_retrocertified':True}
+        for m in MODELS:
+            p,q=over.get(m),under.get(m)
+            if p is None or q is None:
+                reason=over.get('models',{}).get(m,{}).get('reason') or 'MISSING_SIDE'
+                coverage[m][reason]+=1; rec['models'][m]={'abstention':reason}; continue
+            check(not isinstance(p,bool) and not isinstance(q,bool) and math.isfinite(p) and math.isfinite(q) and 0<=p<=1 and 0<=q<=1,'INVALID_PROBABILITY')
+            check(abs(p+q-1)<1e-8,'NONCOMPLEMENTARY_'+m)
+            if m=='Consensus':
+                check(over['models'][m].get('finalized_post_shadow') is True and under['models'][m].get('finalized_post_shadow') is True,'PRELIMINARY_REBRANDING')
+                check(over['production_ensemble']['weight_b']==.4 and over['production_ensemble']['weight_historical']==.6,'FROZEN_WEIGHT_CHANGED')
+            rec['models'][m]={'p':p,'version':over['models'][m].get('version')}; coverage[m]['available']+=1
+        for old in ('naive_recent_exposure_rate','pooled_peer_shrunk_rate'):
+            rec['models'][old]={'p':c['models'][old]['p_over_nonpush'],'counterfactual':True,
+                                'distribution':c['models'][old]['distribution']}
+        rec['models']['first_book_market']={'p':c['market']['p_over_nonpush']}
+        records.append(rec)
+    check(len(records)==250 and len(sides)==712 and sum(s['sport']=='NBA' for s in sides)==500,'CERTIFIED_DENOMINATOR_CHANGED')
+    return {'schema':'nba-ws4-original-replay-v2','source_hashes':hashes,'source_objects_verified':len(source_objects),
+        'producer_sha':'e5635d8fd8444a3144174cf019924d2010cdbca8','settlement_code_sha':phase['code_commit'],
+        'original_sides':len(sides),'all_sport_contracts':len(phase['contracts']),
+        'phase1_denominators':{k:v for k,v in phase.items() if k not in ('contracts','models','market_comparisons') and ('attempt' in k or 'reject' in k or 'exclude' in k or 'retained' in k)},
+        'attempted_sides':len(attempt_rows),'attempt_statuses':dict(attempt_counts),'reject_reasons':dict(rejection_counts),
+        'nba_attempted_sides':sum(a['sport']=='NBA' for a in attempt_rows),
+        'source_revisions':revisions,
+        'nba_contracts':len(records),'games':len({r['event_id'] for r in records}),
+        'dates':len({r['date'] for r in records}),'players':len({r['player_id'] for r in records}),
+        'model_coverage':{k:dict(v) for k,v in coverage.items()},'records':records,
+        'predictive_promotion_allowed':False,'source_certification_reissued':False}
+
+
+def main():
+    p=argparse.ArgumentParser(); p.add_argument('--root',type=Path,required=True); p.add_argument('--output',type=Path,required=True)
+    a=p.parse_args(); result=replay(a.root)
+    with a.output.open('x') as f: json.dump(result,f,sort_keys=True,indent=2,allow_nan=False); f.write('\n')
+
+print(json.dumps(replay(Path.cwd()),sort_keys=True,separators=(',',':'),allow_nan=False))

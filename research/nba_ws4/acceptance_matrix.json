@@ -1,0 +1,219 @@
+{
+  "date": "2026-11-15",
+  "gates": [
+    {
+      "acceptance_requirement": "Original hashes, exact identity/outcomes and paired denominators reproduced",
+      "evidence": "evidence/original_replay_v2.json; 250 contracts, 47 players, five games; 1783 source objects; five raw NBA boxscores",
+      "gate": "Original benchmark replay",
+      "scope": "WS4",
+      "status": "PASSED"
+    },
+    {
+      "acceptance_requirement": "Reconcile the two report versions without rewriting archives; current raw-source scoring is separately verified",
+      "evidence": "Observed 3f417d0e9ba271ca95fd0dcec5e1a4291d84099a6bb50a48077ffbafe9bcb474; forensic markdown cites c6811bebc6cf125211f994ba0228ce9638d2022b428ac9dde60567b295cd3d6c",
+      "gate": "Original scored receipt documentation pin",
+      "scope": "WS4",
+      "status": "FAILED"
+    },
+    {
+      "acceptance_requirement": "Authenticated canonical identities needed; never infer from names",
+      "evidence": "evidence/morning_diagnostic.json; all 1248 rows missing event/player/original hash",
+      "gate": "Legacy morning original canonical identities",
+      "scope": "WS4",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Both sides from one valid probability law; no posthoc normalization",
+      "evidence": "NBA 441/441 and 451/451 diagnostic pairs noncomplementary",
+      "gate": "Legacy morning online Bayesian A/B paired validity",
+      "scope": "WS4",
+      "status": "FAILED"
+    },
+    {
+      "acceptance_requirement": "One-contract outcomes, full ledger, chronology, complementarity, negative controls and append-only artifacts",
+      "evidence": "evidence/test_execution.json; 84 targeted tests; tests/nba_ws4/test_evaluator.py",
+      "gate": "Standalone evaluation engineering",
+      "scope": "WS4",
+      "status": "PASSED"
+    },
+    {
+      "acceptance_requirement": "Separate reviewer before accepted integration; no self release approval",
+      "evidence": "Author-run tests and separate mathematical review pass; no independent external code reviewer",
+      "gate": "Independent review of new audit implementation",
+      "scope": "WS4",
+      "status": "INCONCLUSIVE"
+    },
+    {
+      "acceptance_requirement": "Original raw bytes, event/player/team/quote identity and authenticated availability clocks by freeze",
+      "evidence": "No immutable new WS1 handoff manifest supplied; original Nov10 verified separately",
+      "gate": "New source/identity/timestamp integrity",
+      "scope": "WS1",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Classify each source by original/retrieved-later provenance; prohibit retrospective certification",
+      "evidence": "Original Nov10 only; new WS1 historical availability not established",
+      "gate": "Authentic historical versus retrospective evidence",
+      "scope": "WS1",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "All attempts hash-bound before targets; exact accept/reject reasons and model abstentions",
+      "evidence": "Legacy 1314-side attempt ledger retained; new WS1 ledger not supplied",
+      "gate": "Complete new reject/abstention reporting",
+      "scope": "WS1",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "CRPS, interval/PIT and role/availability slices on untouched multi-date matched folds",
+      "evidence": "No original WS2 OOF minutes distributions/outcomes",
+      "gate": "Minutes calibration",
+      "scope": "WS2",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Participation Brier/log loss, false-zero and DNP policy checks with source-backed status",
+      "evidence": "No WS2 pregame activity probabilities",
+      "gate": "Participation correctness",
+      "scope": "WS2",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Every actual scenario conserves 5*(48+5*OT), supports player/lineup constraints",
+      "evidence": "Synthetic fixture passes 240/265 team-minute tests only",
+      "gate": "Team-minute conservation on actual artifacts",
+      "scope": "WS2",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Fixed paired player/game/date cohort, proper-score improvement or registered noninferiority",
+      "evidence": "No WS2 prospective matched forecasts",
+      "gate": "Matched gain over simple exposure baseline",
+      "scope": "WS2",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Nonnegative count support, normalized mass, exact shared-law thresholds; no clipping repair",
+      "evidence": "Legacy A/B negative Normal mass abstentions 29/25; no new WS3 law supplied",
+      "gate": "Distribution support on actual artifacts",
+      "scope": "WS3",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Untouched PIT/zeros/tails/interval and market/stat-specific probability reliability",
+      "evidence": "Old Poisson interval/tail diagnostics in evidence/scored_v3/scores.json; no WS3 forecasts",
+      "gate": "Calibration and tail behavior",
+      "scope": "WS3",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Paired count CRPS/NLPD and threshold Brier/log-loss with coverage and dependence",
+      "evidence": "No source-matched WS3 eligible predictions",
+      "gate": "Matched proper-score gain",
+      "scope": "WS3",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Conditional draws match law and supplied opportunity; support/conservation checked over full scenarios",
+      "evidence": "Boundary fixture only",
+      "gate": "Valid conditional sampling",
+      "scope": "WS3",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Shared game/scenario/seed, minute/shot/point conservation and same-player combos",
+      "evidence": "sample_joint_fixture.json; fixture digest 186001346386110d9095e283365c83feb42e8e78316ec0d48aed42ab29bdada4",
+      "gate": "Deterministic end-to-end fixture",
+      "scope": "Foundation",
+      "status": "PASSED"
+    },
+    {
+      "acceptance_requirement": "Frozen source-to-threshold replay identical across repeats and worker order",
+      "evidence": "No WS1/WS2/WS3 runtime artifact triple",
+      "gate": "Actual integrated deterministic replay",
+      "scope": "Foundation",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Zero critical violations, full attempt/rejection accounting, no repaired-in-place source/probability",
+      "evidence": "New validator negative controls pass; actual integrated universe not supplied",
+      "gate": "No invalid source/probability states",
+      "scope": "Foundation",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Separate retrospective original test from future artifact acceptance",
+      "evidence": "250 original NBA raw-source outcomes independently reconstructed; source-binding and DNP/push tests",
+      "gate": "Contract identity and settlement",
+      "scope": "Foundation",
+      "status": "PASSED"
+    },
+    {
+      "acceptance_requirement": "Preserve original models and explicit missing columns; no new averaging",
+      "evidence": "evidence/scored_v3/scores.json and contract_comparison.csv; 145-contract common support without unavailable NUTS",
+      "gate": "Matched comparison against frozen models",
+      "scope": "Foundation",
+      "status": "PASSED"
+    },
+    {
+      "acceptance_requirement": "Untouched prospective multi-date matched proper scores and prespecified dependence/multiplicity gates",
+      "evidence": "One development-exposed date, five games; consensus descriptive delta -0.006807566910475942",
+      "gate": "Predictive superiority",
+      "scope": "Foundation",
+      "status": "INCONCLUSIVE"
+    },
+    {
+      "acceptance_requirement": "Bounded evaluation resource receipt only; no joint-simulator extrapolation",
+      "evidence": "evidence/replay_execution.json; local score build 1.08 seconds, peak RSS 82676 KiB",
+      "gate": "Quantified computation for evaluator",
+      "scope": "Foundation",
+      "status": "PASSED"
+    },
+    {
+      "acceptance_requirement": "Measure CPU, wall latency, memory, failed paths and Monte Carlo precision on matching real workload",
+      "evidence": "No joint/WS2/WS3 runtime artifact",
+      "gate": "Quantified actual integrated runtime",
+      "scope": "Foundation",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Zero unexplained loss relative to locked universe; explicit abstention reasons and subgroup comparisons",
+      "evidence": "Original 250 contracts retained; new model coverage unknown",
+      "gate": "No unnecessary new market coverage reduction",
+      "scope": "Foundation",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Locked stat/model/version, earlier OOF only; assess_untouched improvement/noninferiority and tail/coverage review",
+      "evidence": "One exposed date; no earlier eligible OOF calibration dates",
+      "gate": "Untouched calibrated improvement",
+      "scope": "Calibration",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Authentic compatible offered terms plus prospective dependence-aware economic evaluation",
+      "evidence": "No original pickem execution/payout/void/correlation terms",
+      "gate": "Product-specific edge",
+      "scope": "Economics",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Frozen coordinates/weights/scales; Energy and VS_0.5 plus joint-event tests",
+      "evidence": "No original coherent NBA joint scenario ensemble",
+      "gate": "Original multivariate score",
+      "scope": "Joint engine",
+      "status": "BLOCKED-BY-DATA"
+    },
+    {
+      "acceptance_requirement": "Keep research-only; no automatic branch merge, Tier/weights/schedule change or NUTS restart",
+      "evidence": "Source/runtime handoffs, scientific gates and separate release decision absent",
+      "gate": "Production integration / full simulator",
+      "scope": "Release",
+      "status": "BLOCKED-BY-DATA"
+    }
+  ],
+  "overall": "RESEARCH_FRAMEWORK_TESTED_INTEGRATED_SCIENTIFIC_ACCEPTANCE_BLOCKED",
+  "production_release_allowed": false,
+  "schema": "nba-ws4-acceptance-matrix-v1",
+  "timezone": "America/Toronto"
+}

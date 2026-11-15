@@ -1,0 +1,34 @@
+{
+  "53c01a9eabb9ed09b5c3186eae0d086b07bcc891": {
+    "paths": [
+      "v2/nba_ws1",
+      "tests/nba_ws1",
+      "docs/nba_ws1"
+    ],
+    "byte_identical": true
+  },
+  "02426dd1b9c2b0cca28eaf69888adadc0021afa5": {
+    "paths": [
+      "v2/nba_opportunity.py",
+      "tests/test_nba_opportunity.py",
+      "research/nba_ws2"
+    ],
+    "byte_identical": true
+  },
+  "9821694260edb08b7414f02adea8c1fb3fd3b13c": {
+    "paths": [
+      "research/nba_ws4",
+      "tests/nba_ws4"
+    ],
+    "byte_identical": true
+  },
+  "912bc7010058092ea735dcda0aa941429194474b": {
+    "paths": [
+      ".github",
+      ".training-control",
+      "config",
+      "scripts"
+    ],
+    "byte_identical": true
+  }
+}
