@@ -180,6 +180,9 @@ def marked_yards(rng: np.random.Generator, mean: float, sd: float, j2: bool,
 
 
 def game_once(event: dict, rng: np.random.Generator, model: str, script: str) -> tuple[dict, dict]:
+    if "all_market_parameters" in event:
+        from all_market_v04.conditional import extend_game
+        return extend_game(event, rng, model, script)
     j2 = model in ("J2", "J3")
     pass_shift, pace_shift, _ = SCENARIOS[script]
     zpace = float(rng.normal())
