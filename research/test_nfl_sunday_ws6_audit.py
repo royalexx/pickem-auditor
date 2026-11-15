@@ -87,9 +87,16 @@ class Workstream6AuditTests(unittest.TestCase):
              "official_final_at": "2026-11-15T21:30:00Z",
              "official_retrieved_at": "2026-11-15T22:00:00Z"}
         (self.root / "official.jsonl").write_bytes(enc(o))
+        comp = {"slate_date": audit.SLATE, "outcomes_sha256": audit.file_sha(self.root / "official.jsonl"),
+                "official_completion_reviewed": True, "assembled_at": "2026-11-15T22:30:00Z",
+                "event_finals": [{"event_id": "event1", "status": "final",
+                                  "game_final_at": "2026-11-15T21:30:00Z",
+                                  "official_receipt_path": "raw/official.txt",
+                                  "official_receipt_sha256": hashlib.sha256(raw).hexdigest()}]}
+        (self.root / "completion.json").write_bytes(enc(comp))
         return audit.main(["score", "--root", str(self.root),
                            "--frozen", str(self.root / "frozen"),
-                           "--outcomes", "official.jsonl",
+                           "--outcomes", "official.jsonl", "--completion", "completion.json",
                            "--output", str(self.root / "settlement")])
 
     def test_valid_fixture_is_only_structural_not_certified(self):
@@ -163,6 +170,7 @@ class Workstream6AuditTests(unittest.TestCase):
         m = s["model_metrics"]["challenger2"]
         self.assertEqual(m["binary_nonpush_count"], 0)
         self.assertAlmostEqual(m["multiclass_brier_half"], 0.48)
+        self.assertAlmostEqual(m["multiclass_brier"], 0.96)
         self.assertAlmostEqual(m["crps_mean"], 0.32)
 
     def test_over_and_under_share_one_contract(self):
@@ -186,7 +194,7 @@ class Workstream6AuditTests(unittest.TestCase):
         frozen_ledger.write_text(frozen_ledger.read_text() + "\n")
         self.assertEqual(audit.main(["score", "--root", str(self.root),
                                      "--frozen", str(self.root / "frozen"),
-                                     "--outcomes", "official.jsonl",
+                                     "--outcomes", "official.jsonl", "--completion", "completion.json",
                                      "--output", str(self.root / "new")]), 2)
 
     def test_crps_one_atom(self):
@@ -214,6 +222,27 @@ class Workstream6AuditTests(unittest.TestCase):
         s = audit.load_json(self.root / "settlement/score_report.json")
         self.assertEqual(s["model_metrics"].get("market_no_vig"), None)
         self.assertEqual(s["model_metrics"]["challenger2"]["three_way_count"], 1)
+
+    def test_official_game_not_final_blocks_entire_scoring(self):
+        self.assertEqual(self.freeze(), 0)
+        self.assertEqual(self.settled(actual=6), 0)
+        c = audit.load_json(self.root / "completion.json")
+        c["event_finals"][0]["status"] = "in_progress"
+        (self.root / "completion.json").write_bytes(enc(c))
+        self.assertEqual(audit.main(["score", "--root", str(self.root),
+                                     "--frozen", str(self.root / "frozen"),
+                                     "--outcomes", "official.jsonl",
+                                     "--completion", "completion.json",
+                                     "--output", str(self.root / "blocked")]), 2)
+        self.assertFalse((self.root / "blocked").exists())
+
+    def test_missing_official_completion_receipt_blocks_scoring(self):
+        self.assertEqual(self.freeze(), 0)
+        self.assertEqual(audit.main(["score", "--root", str(self.root),
+                                     "--frozen", str(self.root / "frozen"),
+                                     "--outcomes", "quotes.jsonl",
+                                     "--completion", "absent.json",
+                                     "--output", str(self.root / "blocked")]), 2)
 
 
 if __name__ == "__main__":
