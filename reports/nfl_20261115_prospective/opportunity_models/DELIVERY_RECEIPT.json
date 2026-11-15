@@ -1,0 +1,32 @@
+{
+  "schema": "ws3-nfl-20261115-delivery-v1",
+  "status": "SHADOW_ONLY_IMPLEMENTED_AND_LOCALLY_TESTED_LIVE_EXECUTION_BLOCKED",
+  "repository": "royalexx/pickem-auditor",
+  "branch": "research/nfl-20261115-opportunity-models",
+  "code_commit": "e123aa2bab9fbb92b7939078de526720536622dc",
+  "base_commit": "912bc7010058092ea735dcda0aa941429194474b",
+  "draft_pr": "https://github.com/royalexx/pickem-auditor/pull/134",
+  "tests": {
+    "new": 18,
+    "existing_tackles": 26,
+    "total_passed": 44,
+    "numerical_draws": 8192,
+    "numerical_distributions": 52
+  },
+  "final_synthetic_report_sha256": "e73c55f660cb93c5ec7a3fb9838e55114df6a22902b0a01d7877e85bc9fec82b",
+  "final_numerical_review_sha256": "605e451e93fee8678daa002a65c46f842afcae3cadc6a8e12889c0f8e629e37d",
+  "original_ws1_file_sha256": "9a7752e70db7c1d56226847df56f7985c1dd4fba79ae6c3b49acc9e7aad6c150",
+  "deepnote": {
+    "project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "notebook_id": "9f674337fc5f461b87279f03f231a614",
+    "run_id": "79d5ceb0-43f7-4f8a-ad92-ed633fdc71fd",
+    "run_status": "stopped before outputs; subsequent run creation rate-limited",
+    "successful_ws3_execution": false
+  },
+  "real_forecasts": 0,
+  "real_contract_ledger_materialized": false,
+  "no_source_collector": true,
+  "baseline_unchanged": true,
+  "promotion": false,
+  "next_action": "Run existing pinned native WS1 consumer when Deepnote permits execution; source-owned opportunity history and quantified pregame participation/product terms are still required before actual forecasting."
+}
