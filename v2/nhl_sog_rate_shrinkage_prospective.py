@@ -113,6 +113,8 @@ def poisson_pmf(mu):
     """Recurrence avoids factorials; tail truncation <=1e-13, no renormalizing."""
     mu = _num(mu, "POISSON_MEAN")
     _check(mu <= 200, "SOG_MEAN_OUTSIDE_RESEARCH_SUPPORT")
+    if mu == 0:
+        return [1.0]
     probs = [math.exp(-mu)]
     running = probs[0]
     for k in range(1, MAX_K + 1):
@@ -403,6 +405,7 @@ def run_day(root, *, code_sha):
                                e["snapshot_digest"], "ORIGINAL_SOURCE_CHANGED_ON_REPLAY")
                         row["status"]="ALREADY_FROZEN"
                         row["forecast_sha256"]=existing[0].stem
+                        result["attempts"].append(row)
                         continue
                     z={"schema":SCHEMA,"experiment_id":EXPERIMENT,
                        "source_certification":"CERTIFIED_COLLECTOR_POSSESSION_NO_UPSTREAM_PUBLISHER_TIMESTAMP",
