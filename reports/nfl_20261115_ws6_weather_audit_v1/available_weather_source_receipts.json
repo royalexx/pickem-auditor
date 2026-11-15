@@ -1,0 +1,436 @@
+[
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873054_coordinates.json",
+    "receipt": {
+      "headers": {
+        "Accept-Ranges": "bytes",
+        "Age": "0",
+        "Connection": "close",
+        "Content-Length": "511",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sun, 15 Nov 2026 15:41:29 GMT",
+        "Server": "gunicorn/asgi",
+        "Strict-Transport-Security": "max-age=300",
+        "Vary": "accept-language, Accept-Encoding",
+        "Via": "1.1 varnish",
+        "X-Cache": "MISS",
+        "X-Cache-Hits": "0",
+        "X-Served-By": "cache-lga-kjfk8660044-LGA",
+        "X-Timer": "S1794757289.023531,VS0,VE97",
+        "alt-svc": "h3=\":443\";ma=86400,h3-29=\":443\";ma=86400,h3-27=\":443\";ma=86400",
+        "x-nominatim-server": "poldi.openstreetmap.org"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/b5bd9d088afa37259e4955579d7696612911ef994cd35c262612f1d63287d1ae.bin",
+      "request_started_at": "2026-11-15T15:41:28.994840Z",
+      "requested_url": "https://nominatim.openstreetmap.org/search?q=MetLife+Stadium%2C+East+Rutherford&format=jsonv2&limit=1",
+      "resolved_url": "https://nominatim.openstreetmap.org/search?q=MetLife+Stadium%2C+East+Rutherford&format=jsonv2&limit=1",
+      "retrieved_at": "2026-11-15T15:41:29.124353Z",
+      "sha256": "b5bd9d088afa37259e4955579d7696612911ef994cd35c262612f1d63287d1ae",
+      "size_bytes": 511,
+      "status": "OK"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873054_points.json",
+    "receipt": {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "X-Correlation-Id, X-Request-Id, X-Server-Id",
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "Connection": "close",
+        "Content-Length": "3924",
+        "Content-Type": "application/geo+json",
+        "Date": "Sun, 15 Nov 2026 15:41:30 GMT",
+        "Expires": "Mon, 16 Nov 2026 15:41:30 GMT",
+        "Server": "nginx/1.28.3",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains ; preload",
+        "Vary": "Accept-Encoding",
+        "X-Correlation-ID": "18e36393",
+        "X-Edge-Request-ID": "4c5ea434",
+        "X-Request-ID": "01a1dfde-eb23-7416-a217-9f4a623beec3",
+        "X-Server-ID": "vm-bldr-api-ops-app10.ncep.noaa.gov"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/da366d6681da251893e4f783690df5e08e9e196f5a17810948e6bfc3c703ed4e.bin",
+      "request_started_at": "2026-11-15T15:41:30.707482Z",
+      "requested_url": "https://api.weather.gov/points/40.8135,-74.0743",
+      "resolved_url": "https://api.weather.gov/points/40.8135,-74.0743",
+      "retrieved_at": "2026-11-15T15:41:30.852765Z",
+      "sha256": "da366d6681da251893e4f783690df5e08e9e196f5a17810948e6bfc3c703ed4e",
+      "size_bytes": 3924,
+      "status": "OK"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873054_stadium.json",
+    "receipt": {
+      "error": "HTTPError:HTTP Error 404: Not Found",
+      "error_response": {
+        "path": "reports/nfl_20261115_prospective/weather_v2/raw/401331bd0f3dd7b73b6ff14c023242871f655ef493099e7440263f294f5214e3.bin",
+        "sha256": "401331bd0f3dd7b73b6ff14c023242871f655ef493099e7440263f294f5214e3",
+        "size_bytes": 50286
+      },
+      "request_started_at": "2026-11-15T15:41:27.165983Z",
+      "requested_url": "https://www.metlifestadium.com/stadium/venue-facts",
+      "retrieved_at": "2026-11-15T15:41:27.336443Z",
+      "status": "UNAVAILABLE"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873055_grid.json",
+    "receipt": {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "X-Correlation-Id, X-Request-Id, X-Server-Id",
+        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+        "Connection": "close",
+        "Content-Type": "application/geo+json",
+        "Date": "Sun, 15 Nov 2026 15:41:24 GMT",
+        "Expires": "Sun, 15 Nov 2026 16:41:24 GMT",
+        "Last-Modified": "Sun, 15 Nov 2026 13:14:31 GMT",
+        "Server": "nginx/1.28.3",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains ; preload",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Correlation-ID": "18e32eb7",
+        "X-Edge-Request-ID": "4c5dff93",
+        "X-Request-ID": "01a1dfde-d23a-72a3-baf7-bcd22c1334c4",
+        "X-Server-ID": "vm-bldr-api-ops-app3.ncep.noaa.gov"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/774d90123a665efb634672fca059886b399c2c28fc76e28cf1f965baa04ebfb9.bin",
+      "request_started_at": "2026-11-15T15:41:24.348531Z",
+      "requested_url": "https://api.weather.gov/gridpoints/LIX/67,88",
+      "resolved_url": "https://api.weather.gov/gridpoints/LIX/67,88",
+      "retrieved_at": "2026-11-15T15:41:24.565525Z",
+      "sha256": "774d90123a665efb634672fca059886b399c2c28fc76e28cf1f965baa04ebfb9",
+      "size_bytes": 194525,
+      "status": "OK"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873055_points.json",
+    "receipt": {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "X-Correlation-Id, X-Request-Id, X-Server-Id",
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "Connection": "close",
+        "Content-Length": "3915",
+        "Content-Type": "application/geo+json",
+        "Date": "Sun, 15 Nov 2026 15:41:23 GMT",
+        "Expires": "Mon, 16 Nov 2026 15:41:23 GMT",
+        "Server": "nginx/1.28.3",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains ; preload",
+        "Vary": "Accept-Encoding",
+        "X-Correlation-ID": "9ff122b",
+        "X-Edge-Request-ID": "4c5ddc68",
+        "X-Request-ID": "01a1dfde-ccb0-7573-b38b-c8be1a330cb6",
+        "X-Server-ID": "vm-bldr-api-ops-app2.ncep.noaa.gov"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/c4217535412b1d01d7a8026d9f9598ac22d411d8cef4aeeef272c6cf1ae44622.bin",
+      "request_started_at": "2026-11-15T15:41:22.917755Z",
+      "requested_url": "https://api.weather.gov/points/29.9510,-90.0823",
+      "resolved_url": "https://api.weather.gov/points/29.9510,-90.0823",
+      "retrieved_at": "2026-11-15T15:41:23.032430Z",
+      "sha256": "c4217535412b1d01d7a8026d9f9598ac22d411d8cef4aeeef272c6cf1ae44622",
+      "size_bytes": 3915,
+      "status": "OK"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873056_points.json",
+    "receipt": {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "X-Correlation-Id, X-Request-Id, X-Server-Id",
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "Connection": "close",
+        "Content-Length": "3918",
+        "Content-Type": "application/geo+json",
+        "Date": "Sun, 15 Nov 2026 15:40:57 GMT",
+        "Expires": "Mon, 16 Nov 2026 15:40:57 GMT",
+        "Server": "nginx/1.28.3",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains ; preload",
+        "Vary": "Accept-Encoding",
+        "X-Correlation-ID": "13ce366f",
+        "X-Edge-Request-ID": "4c5af3b5",
+        "X-Request-ID": "01a1dfde-6929-7b4e-a258-1e8974a79cd8",
+        "X-Server-ID": "vm-bldr-api-ops-app14.ncep.noaa.gov"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/81e07ecd42d07492b17c7ad3210f47e407c1ffa38fd0a11bad6d4207bade9b50.bin",
+      "request_started_at": "2026-11-15T15:40:57.447266Z",
+      "requested_url": "https://api.weather.gov/points/41.5061,-81.6997",
+      "resolved_url": "https://api.weather.gov/points/41.5061,-81.6997",
+      "retrieved_at": "2026-11-15T15:40:57.620660Z",
+      "sha256": "81e07ecd42d07492b17c7ad3210f47e407c1ffa38fd0a11bad6d4207bade9b50",
+      "size_bytes": 3918,
+      "status": "OK"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873057_coordinates.json",
+    "receipt": {
+      "headers": {
+        "Accept-Ranges": "bytes",
+        "Age": "0",
+        "Connection": "close",
+        "Content-Length": "527",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sun, 15 Nov 2026 15:41:38 GMT",
+        "Server": "gunicorn/asgi",
+        "Strict-Transport-Security": "max-age=300",
+        "Vary": "accept-language, Accept-Encoding",
+        "Via": "1.1 varnish",
+        "X-Cache": "MISS",
+        "X-Cache-Hits": "0",
+        "X-Served-By": "cache-iad-kiad7000061-IAD",
+        "X-Timer": "S1794757298.763343,VS0,VE362",
+        "alt-svc": "h3=\":443\";ma=86400,h3-29=\":443\";ma=86400,h3-27=\":443\";ma=86400",
+        "x-nominatim-server": "longma.openstreetmap.org"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/b42f375aeea57f38fcb428cca021ff424797f8c24603fe4e545291f8d63b97bc.bin",
+      "request_started_at": "2026-11-15T15:41:37.722170Z",
+      "requested_url": "https://nominatim.openstreetmap.org/search?q=Nissan+Stadium%2C+Nashville&format=jsonv2&limit=1",
+      "resolved_url": "https://nominatim.openstreetmap.org/search?q=Nissan+Stadium%2C+Nashville&format=jsonv2&limit=1",
+      "retrieved_at": "2026-11-15T15:41:38.127004Z",
+      "sha256": "b42f375aeea57f38fcb428cca021ff424797f8c24603fe4e545291f8d63b97bc",
+      "size_bytes": 527,
+      "status": "OK"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873057_grid.json",
+    "receipt": {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "X-Correlation-Id, X-Request-Id, X-Server-Id",
+        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+        "Connection": "close",
+        "Content-Type": "application/geo+json",
+        "Date": "Sun, 15 Nov 2026 15:41:41 GMT",
+        "Expires": "Sun, 15 Nov 2026 16:41:41 GMT",
+        "Last-Modified": "Sun, 15 Nov 2026 10:26:33 GMT",
+        "Server": "nginx/1.28.3",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains ; preload",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Correlation-ID": "13935bae",
+        "X-Edge-Request-ID": "51770445",
+        "X-Request-ID": "01a1dfdf-1413-7e3c-bdbc-ddbc45594c57",
+        "X-Server-ID": "vm-bldr-api-ops-app16.ncep.noaa.gov"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/a5a0dae28ab24e4e11c808942aa159e244d16026f4393fd50e63e48798f6b256.bin",
+      "request_started_at": "2026-11-15T15:41:41.210501Z",
+      "requested_url": "https://api.weather.gov/gridpoints/OHX/50,57",
+      "resolved_url": "https://api.weather.gov/gridpoints/OHX/50,57",
+      "retrieved_at": "2026-11-15T15:41:41.467864Z",
+      "sha256": "a5a0dae28ab24e4e11c808942aa159e244d16026f4393fd50e63e48798f6b256",
+      "size_bytes": 309191,
+      "status": "OK"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873057_stadium.json",
+    "receipt": {
+      "error": "HTTPError:HTTP Error 404: Not Found",
+      "error_response": {
+        "path": "reports/nfl_20261115_prospective/weather_v2/raw/acb50d4dab1337dab160d9553484fffcb3f128c5de310c7d3214b60ff4db783b.bin",
+        "sha256": "acb50d4dab1337dab160d9553484fffcb3f128c5de310c7d3214b60ff4db783b",
+        "size_bytes": 321854
+      },
+      "request_started_at": "2026-11-15T15:41:35.245108Z",
+      "requested_url": "https://nissanstadium.com/stadium-information/",
+      "retrieved_at": "2026-11-15T15:41:35.760027Z",
+      "status": "UNAVAILABLE"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873058_grid.json",
+    "receipt": {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "X-Correlation-Id, X-Request-Id, X-Server-Id",
+        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+        "Connection": "close",
+        "Content-Type": "application/geo+json",
+        "Date": "Sun, 15 Nov 2026 15:40:51 GMT",
+        "Expires": "Sun, 15 Nov 2026 16:40:51 GMT",
+        "Last-Modified": "Sun, 15 Nov 2026 13:41:44 GMT",
+        "Server": "nginx/1.28.3",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains ; preload",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Correlation-ID": "13cdf9f7",
+        "X-Edge-Request-ID": "4c5a2ee6",
+        "X-Request-ID": "01a1dfde-51c2-7ca2-9962-d6da44527971",
+        "X-Server-ID": "vm-bldr-api-ops-app2.ncep.noaa.gov"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/2b5af6d7e0e89698f87abeb3abe56c17e9458db476c08892576608655ceafc4e.bin",
+      "request_started_at": "2026-11-15T15:40:51.450216Z",
+      "requested_url": "https://api.weather.gov/gridpoints/FFC/50,87",
+      "resolved_url": "https://api.weather.gov/gridpoints/FFC/50,87",
+      "retrieved_at": "2026-11-15T15:40:51.687700Z",
+      "sha256": "2b5af6d7e0e89698f87abeb3abe56c17e9458db476c08892576608655ceafc4e",
+      "size_bytes": 237004,
+      "status": "OK"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873058_stadium.json",
+    "receipt": {
+      "headers": {
+        "Age": "38438",
+        "CF-Cache-Status": "HIT",
+        "CF-Ray": "a5af5b2a8cd90599-IAD",
+        "Connection": "close",
+        "Content-Type": "text/html; charset=utf-8",
+        "Date": "Sun, 15 Nov 2026 15:40:44 GMT",
+        "Last-Modified": "Sun, 15 Nov 2026 05:00:05 GMT",
+        "Link": "<https://cdn.prod.website-files.com>; rel=preconnect; crossorigin, <https://cdn.prod.website-files.com/5ddedb3aabcf2c01a3f45461/css/mercedesbenzstadium.webflow.shared.4100eaeb9.min.css>; rel=preload; as=style; crossorigin; integrity=\"sha384-QQDq65AU1IPEIMPOs1HxXl8cou8fg4QkgtpTYDkkQ63xrOGyqrADjVk47JdvhBuJ\", <https://fonts.googleapis.com>; rel=preconnect, <https://fonts.gstatic.com>; rel=preconnect; crossorigin, <https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined>; rel=preload; as=style, <https://cdn.mappedin.com/web2/release/mappedin-web.css?venue=atlanta-falcons-mercedes-benz-stadium>; rel=preload; as=style",
+        "Server": "cloudflare",
+        "Transfer-Encoding": "chunked",
+        "Vary": "accept-encoding",
+        "X-Content-Type-Options": "nosniff",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "content-security-policy": "frame-ancestors 'self'",
+        "set-cookie": "_cfuvid=9lFr_iU29xDSm8n_r5wlCkqUTDmtMsfZZD894qNZCUg-1794757244.5647578-1.0.1.1-bmXeATQYBZKVYGo0t4ABC6fDV510Mfk.bw5WtmfZQlY; HttpOnly; SameSite=None; Secure; Path=/; Domain=www.mercedesbenzstadium.com",
+        "surrogate-control": "max-age=86395",
+        "surrogate-key": "www.mercedesbenzstadium.com 5ddedb3aabcf2c01a3f45461 pageId:65e5ef8cbedd8d3c8b4e84fa 65e5ef8cbedd8d3c8b4e864b 65e5ef8cbedd8d3c8b4e8652 65e5ef8cbedd8d3c8b4e8557 65e5ef8cbedd8d3c8b4e8648 65e5ef8cbedd8d3c8b4e862a 65e5ef8cbedd8d3c8b4e864a sp:d4188406aa6e68586e13abd50a603fd4",
+        "x-frame-options": "SAMEORIGIN",
+        "x-lambda-id": "e62b45f8-f09c-4f24-b9b2-aa854c0250cf",
+        "x-wf-region": "us-east-1"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/78157a3c2ddfb82c3184c057c33b1d2fa56f2c766891b3e8af3eea3c0cc53e43.bin",
+      "request_started_at": "2026-11-15T15:40:44.422807Z",
+      "requested_url": "https://www.mercedesbenzstadium.com/",
+      "resolved_url": "https://www.mercedesbenzstadium.com/",
+      "retrieved_at": "2026-11-15T15:40:44.616287Z",
+      "sha256": "78157a3c2ddfb82c3184c057c33b1d2fa56f2c766891b3e8af3eea3c0cc53e43",
+      "size_bytes": 138892,
+      "status": "OK"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873059_coordinates.json",
+    "receipt": {
+      "headers": {
+        "Accept-Ranges": "bytes",
+        "Age": "0",
+        "Connection": "close",
+        "Content-Length": "539",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sun, 15 Nov 2026 15:41:13 GMT",
+        "Server": "gunicorn/asgi",
+        "Strict-Transport-Security": "max-age=300",
+        "Vary": "accept-language, Accept-Encoding",
+        "Via": "1.1 varnish",
+        "X-Cache": "MISS",
+        "X-Cache-Hits": "0",
+        "X-Served-By": "cache-chi-klot8100080-CHI",
+        "X-Timer": "S1794757273.082873,VS0,VE580",
+        "alt-svc": "h3=\":443\";ma=86400,h3-29=\":443\";ma=86400,h3-27=\":443\";ma=86400",
+        "x-nominatim-server": "stormfly-04.openstreetmap.org"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/86006035743f1442446459f322e2f7003f2edd0fb2d7a4e3c948172bc91ed849.bin",
+      "request_started_at": "2026-11-15T15:41:12.992811Z",
+      "requested_url": "https://nominatim.openstreetmap.org/search?q=Lucas+Oil+Stadium%2C+Indianapolis&format=jsonv2&limit=1",
+      "resolved_url": "https://nominatim.openstreetmap.org/search?q=Lucas+Oil+Stadium%2C+Indianapolis&format=jsonv2&limit=1",
+      "retrieved_at": "2026-11-15T15:41:13.672045Z",
+      "sha256": "86006035743f1442446459f322e2f7003f2edd0fb2d7a4e3c948172bc91ed849",
+      "size_bytes": 539,
+      "status": "OK"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873059_grid.json",
+    "receipt": {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "X-Correlation-Id, X-Request-Id, X-Server-Id",
+        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+        "Connection": "close",
+        "Content-Type": "application/geo+json",
+        "Date": "Sun, 15 Nov 2026 15:41:16 GMT",
+        "Expires": "Sun, 15 Nov 2026 16:41:16 GMT",
+        "Last-Modified": "Sun, 15 Nov 2026 15:15:27 GMT",
+        "Server": "nginx/1.28.3",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains ; preload",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Correlation-ID": "39a473f8",
+        "X-Edge-Request-ID": "51735c6e",
+        "X-Request-ID": "01a1dfde-b376-7852-8455-52f474a16829",
+        "X-Server-ID": "vm-bldr-api-ops-app8.ncep.noaa.gov"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/624495f58985ecdc4a0a9cbf57c211c6e815f300c7b70781251d9a76c6765204.bin",
+      "request_started_at": "2026-11-15T15:41:16.478515Z",
+      "requested_url": "https://api.weather.gov/gridpoints/IND/58,69",
+      "resolved_url": "https://api.weather.gov/gridpoints/IND/58,69",
+      "retrieved_at": "2026-11-15T15:41:16.661083Z",
+      "sha256": "624495f58985ecdc4a0a9cbf57c211c6e815f300c7b70781251d9a76c6765204",
+      "size_bytes": 211946,
+      "status": "OK"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873060_coordinates.json",
+    "receipt": {
+      "headers": {
+        "Accept-Ranges": "bytes",
+        "Age": "0",
+        "Connection": "close",
+        "Content-Length": "496",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sun, 15 Nov 2026 15:41:03 GMT",
+        "Server": "gunicorn/asgi",
+        "Strict-Transport-Security": "max-age=300",
+        "Vary": "accept-language, Accept-Encoding",
+        "Via": "1.1 varnish",
+        "X-Cache": "MISS",
+        "X-Cache-Hits": "0",
+        "X-Served-By": "cache-lga-kjfk8660055-LGA",
+        "X-Timer": "S1794757263.377703,VS0,VE271",
+        "alt-svc": "h3=\":443\";ma=86400,h3-29=\":443\";ma=86400,h3-27=\":443\";ma=86400",
+        "x-nominatim-server": "longma.openstreetmap.org"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/be3ee442276c81331d70586b246419c8e78cf058eba1bb9e4909be75e53d4288.bin",
+      "request_started_at": "2026-11-15T15:41:03.352091Z",
+      "requested_url": "https://nominatim.openstreetmap.org/search?q=Lambeau+Field%2C+Green+Bay&format=jsonv2&limit=1",
+      "resolved_url": "https://nominatim.openstreetmap.org/search?q=Lambeau+Field%2C+Green+Bay&format=jsonv2&limit=1",
+      "retrieved_at": "2026-11-15T15:41:03.653154Z",
+      "sha256": "be3ee442276c81331d70586b246419c8e78cf058eba1bb9e4909be75e53d4288",
+      "size_bytes": 496,
+      "status": "OK"
+    }
+  },
+  {
+    "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873060_grid.json",
+    "receipt": {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "X-Correlation-Id, X-Request-Id, X-Server-Id",
+        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+        "Connection": "close",
+        "Content-Type": "application/geo+json",
+        "Date": "Sun, 15 Nov 2026 15:41:06 GMT",
+        "Expires": "Sun, 15 Nov 2026 16:41:06 GMT",
+        "Last-Modified": "Sun, 15 Nov 2026 13:36:28 GMT",
+        "Server": "nginx/1.28.3",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains ; preload",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Correlation-ID": "15133176",
+        "X-Edge-Request-ID": "4c5c2166",
+        "X-Request-ID": "01a1dfde-8d4c-73cb-9da6-432f8034a4ca",
+        "X-Server-ID": "vm-bldr-api-ops-app7.ncep.noaa.gov"
+      },
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/208b8550e9e4eda7cd379a72600b9864109e0ba9e9835d8622e5d289204d1e6c.bin",
+      "request_started_at": "2026-11-15T15:41:06.658953Z",
+      "requested_url": "https://api.weather.gov/gridpoints/GRB/78,31",
+      "resolved_url": "https://api.weather.gov/gridpoints/GRB/78,31",
+      "retrieved_at": "2026-11-15T15:41:06.988904Z",
+      "sha256": "208b8550e9e4eda7cd379a72600b9864109e0ba9e9835d8622e5d289204d1e6c",
+      "size_bytes": 223824,
+      "status": "OK"
+    }
+  }
+]
