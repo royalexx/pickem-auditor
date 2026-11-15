@@ -59,7 +59,15 @@ def parameterize(team,roster,ids,h):
           catch_alpha=catches+2*prior,catch_beta=targets-catches+2*(1-prior),
           receiving_marks=recv or [0.],rushing_marks=rush or [0.],
           historical_game_ids=sorted(r['game_id'] for r in mine)))
-    require(team['starter_qb_id'] in {p['player_id'] for p in players},'QB_HISTORY_UNAVAILABLE')
+    if team['starter_qb_id'] not in {p['player_id'] for p in players}:
+        require(globals().get('ALLOW_PARTIAL_QB',False),'QB_HISTORY_UNAVAILABLE')
+        q=team['starter_qb_id'];require(len(ids.get(q,set()))==1,'QB_IDENTITY_UNVERIFIED')
+        players.append(dict(player_id=q,gsis_id=next(iter(ids[q])),position='QB',n_history_games=0,
+          target_share=0.,rush_share=0.,historical_targets=0,historical_catches=0,historical_carries=0,
+          catch_alpha=.5,catch_beta=.5,receiving_marks=[0.],rushing_marks=[0.],historical_game_ids=[],
+          partial_qb=True,participation_basis='EXPECTED_QB1_SOURCE_BACKED_PASSING_ONLY',
+          rushing_policy='UNMODELED_QB_CARRIES_REMAIN_IN_ANONYMOUS_TEAM_RESIDUAL'))
+        rejected=[(pid,pos,'QB_RUSH_HISTORY_UNAVAILABLE_PASSING_FROM_SHARED_POOL' if pid==q else why) for pid,pos,why in rejected]
     remtar=totals['attempts']-sum(p['historical_targets'] for p in players)
     remcatch=totals['receptions']-sum(p['historical_catches'] for p in players)
     require(0<=remcatch<=remtar,'INVALID_RESIDUAL_COMPLETIONS')
@@ -87,7 +95,7 @@ def run(limit=None,draws=4096):
     before={str(p):ad.digest(p.read_bytes()) for p in (J/'real_original_qb_attempts_multievent_v031').glob('*.json')}
     require(len(before)==11,'FROZEN_WS4_FILES_MISSING')
     outdir=J/'all_market_v04'/'frozen';outdir.mkdir(parents=True,exist_ok=True)
-    seen=set(); receipts=[];errors=[]
+    seen=set(globals().get('EXCLUDE_EVENTS',())); receipts=[];errors=[]
     while limit is None or len(seen)<limit:
         packet=ad.build_canary(exclude_event_ids=seen,include_all_qb_quotes=True)
         if not packet['input']:break
@@ -115,6 +123,7 @@ def run(limit=None,draws=4096):
                 for p in par['players']:
                     stats=['rushing_attempts','rushing_yards']
                     stats+=['pass_attempts','completions','passing_yards','passing_rushing_yards'] if p['position']=='QB' else ['targets','receptions','receiving_yards','rushing_receiving_yards']
+                    if p.get('partial_qb'):stats=['pass_attempts','completions','passing_yards']
                     universe.extend((tid,p['player_id'],s) for s in stats)
             for model in ('J1','J2'):
                 samples,states=sim.sample_event(event,model,draws,payload['input_manifest_sha256']+'|'+VERSION)

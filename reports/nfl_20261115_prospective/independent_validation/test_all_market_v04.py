@@ -70,6 +70,22 @@ class AllMarket(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             f=pathlib.Path(d)/(hashlib.sha256(raw).hexdigest()+'.json');f.write_bytes(raw)
             with self.assertRaisesRegex(AssertionError,'CURRENT_HISTORY_AFTER_TRAINING_CUTOFF'):audit(f)
+    def test_missing_qb_rush_history_keeps_passing_pool(self):
+        from unittest.mock import patch
+        from all_market_v04 import execute
+        h=[]
+        for i in range(3):
+            for pid,pos,att,tar,rec,ca in [('old','QB',10,0,0,2),('r','RB',0,3,2,4)]:
+                h.append(dict(team='H',player_id=pid,position=pos,game_id=str(i),attempts=att,
+                  targets=tar,receptions=rec,carries=ca,receiving_yards=rec*7,rushing_yards=ca*3))
+        with patch.object(execute,'ALLOW_PARTIAL_QB',True,create=True):
+            par,rejected=parameterize({'team_id':'H','starter_qb_id':'q'},
+              {'q':'QB','r':'RB'},{'q':{'new'},'r':{'r'}},h)
+        q=next(p for p in par['players'] if p['player_id']=='q')
+        self.assertTrue(q['partial_qb']);self.assertEqual(q['n_history_games'],0)
+        self.assertEqual(q['rush_share'],0)
+        self.assertLess(sum(p['rush_share'] for p in par['players']),1)
+        self.assertIn('QB_RUSH_HISTORY_UNAVAILABLE_PASSING_FROM_SHARED_POOL',[r[2] for r in rejected])
     def test_wrong_team_join_abstains(self):
         t={'team_id':'H','starter_qb_id':'q'}
         h=[dict(team='A',position='QB',player_id='g')]

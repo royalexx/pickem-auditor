@@ -29,13 +29,13 @@ def report():
             if 'composite_diagnostics' in r:composites.append(dict(event_id=r['event_id'],model_id=r['model_id'],player_id=r['player_id'],stat_key=r['stat_key'],**r['composite_diagnostics']))
         e=o['input_packet']['events'][0]
         for miss in o['player_abstentions']:
-            stats=['tackles_assists'] if 'DEFENDER' in miss['reason'] else (['pass_attempts','completions','passing_yards','rushing_attempts','rushing_yards','passing_rushing_yards'] if miss['position']=='QB' else ['rushing_attempts','rushing_yards','targets','receptions','receiving_yards','rushing_receiving_yards'])
+            stats=['rushing_attempts','rushing_yards','passing_rushing_yards'] if miss['reason'].startswith('QB_RUSH_HISTORY') else ['tackles_assists'] if 'DEFENDER' in miss['reason'] else (['pass_attempts','completions','passing_yards','rushing_attempts','rushing_yards','passing_rushing_yards'] if miss['position']=='QB' else ['rushing_attempts','rushing_yards','targets','receptions','receiving_yards','rushing_receiving_yards'])
             for model in ('J1','J2'):
                 for stat in stats:abstention_counts[(model,stat)]+=1
     for model in ('J1','J2','J3'):
         byid={r['candidate_id']:(p,o,r) for p,o in latest.values() for r in o['contracts'] if r['model_id']==model}
         for c in original:
-            row=dict(candidate_id=c['candidate_id'],model_id=model,normalized_market=NORMAL.get(MAP.get(c['stat']),MAP.get(c['stat'])),event_id=c['event_id'],player_id=c['player_id'],player_id_namespace='espn',status='ABSTAIN')
+            row=dict(candidate_id=c['candidate_id'],model_id=model,normalized_market=NORMAL.get(MAP.get(c['stat']),MAP.get(c['stat'])),event_id=c['event_id'],player_id=c['player_id'],player_id_namespace='espn',status='ABSTAIN',original_record=c.get('original_quote'),original_source_validation_failure=c.get('source_validation_failure'),source_sha256=c.get('source_sha256'),source_received_at=c.get('source_received_at'),quote_id=c.get('quote_id'),line=c.get('line'),period=c.get('period'))
             if c['candidate_id'] in byid:
                 p,o,r=byid[c['candidate_id']];row.update(r);row['forecast_file_sha256']=p.stem
                 row['original_record']=c['original_quote']
@@ -61,6 +61,7 @@ def report():
         return dict(path=str(p.relative_to(J)),sha256=ad.digest(raw))
     cov=seal(report.pop('composite_diagnostics'),'.covariance.json');report['composite_covariance_file']=cov
     report['source_hashes']={'ws1':ad.CANONICAL_WS1,'stats2025':ad.HISTORY_2025_SHA,'crosswalk':ad.CROSSWALK_SHA}
+    report['current_history_source_hashes']=sorted({r['sha256'] for p,o in latest.values() for par in o['input_packet']['events'][0]['all_market_parameters'].values() for r in par.get('current_source_receipts',[])})
     report['model_versions']=sorted({o['model_version'] for p,o in latest.values()})
     report['team_draw_conservation_checks']=sum(d['conservation_checks'] for p,o in latest.values() for d in o['draw_records'].values())
     report['parameter_versions']=[dict(event_id=o['input_packet']['events'][0]['event_id'],sha256=o.get('parameter_sha256'),model_version=o['model_version']) for p,o in latest.values()]
