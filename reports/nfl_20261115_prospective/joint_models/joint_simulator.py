@@ -17,7 +17,7 @@ from typing import Any
 import numpy as np
 
 SCHEMA = "PA_WS4_JOINT_INPUT_v1"
-VERSION = "ws4_j1234_v0.3.0"
+VERSION = "ws4_j1234_v0.3.1"
 COUNT_STATS = {"pass_attempts", "completions", "passing_tds", "qb_rushing_attempts",
                "carries", "targets", "receptions", "receiving_tds", "rushing_tds",
                "solo_tackles", "tackle_assists", "tackles_assists"}
@@ -300,6 +300,9 @@ def game_once(event: dict, rng: np.random.Generator, model: str, script: str) ->
         other=event["teams"][1-i]
         opp=state[other["team_id"]]
         defenders=[p for p in team["players"] if p["role"]=="DEFENDER"]
+        # Preserve anonymous defensive opportunities without inventing a tackle-credit rate.
+        if not defenders:
+            continue
         for _ in range(opp["plays"]):
             is_pass=rng.random()<opp["pass_attempts"]/max(opp["plays"],1)
             # Non-tackled passing incompletions and out-of-bounds remain plausible.
