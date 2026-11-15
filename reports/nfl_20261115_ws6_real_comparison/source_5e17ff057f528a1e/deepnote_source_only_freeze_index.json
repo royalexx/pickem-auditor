@@ -1,0 +1,21 @@
+{
+  "canonical_manifest_file_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+  "canonical_manifest_path": "reports/nfl_20261115_prospective/source_control/captures/ab2eebf29ea0dfcf9b2cc4ff5287b898e6b7b15238ea059a11df3ac399ccc6c8.json",
+  "classification": "NO_GENUINE_PREGAME_MODEL_PROBABILITIES",
+  "created_at": "2026-11-15T14:28:16.894727+00:00",
+  "description": "Immutable original source-only ledger preserving every observation. Not a model prediction or comparison freeze. No original quote was deduplicated or overwritten.",
+  "files": {
+    "independent_audit_summary.json": "6e5f0dc758c79952992289b0b56b6aa1bfbc6b06a6bff2c5657d8f41a99ad8ba",
+    "independent_raw_receipts.jsonl": "16357e59d714cff667b7918d84797fd65b5fe19387165086da77f4885dfca090",
+    "old_capture_candidate_id_collisions.jsonl": "6148080c9c846bd36ca7a5cd0f10a82b5d74d38a8c4f2d0e5c4c7161ed611d89",
+    "original_contract_source_only_ledger.jsonl": "f13b81b167054d38118b22d1bbb5b45fba8cd266ff3d79030e9beda3a2615c89"
+  },
+  "model_forecast_count": 0,
+  "model_freeze_allowed": false,
+  "no_model_forecast_claim": true,
+  "official_settlement_allowed": false,
+  "old_original_manifest_file_sha256": "9a7752e70db7c1d56226847df56f7985c1dd4fba79ae6c3b49acc9e7aad6c150",
+  "schema": "ws6_research_source_only_freeze_index_v1",
+  "source_coverage_report_sha256": "2bec43d5dfad53ddb9b662643776db8291b53442a8c42f6f022f9a9d521516a5",
+  "source_only_observation_count": 1845
+}
