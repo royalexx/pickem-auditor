@@ -1,0 +1,6 @@
+{
+  "status": "SUPERSEDED_BY_IDENTITY_CORRECTION",
+  "initial_prediction_sha256": "df780b88779ec117c30d3d1ed159759228b714b6382aa52db961c4b5964e3bba",
+  "initial_model_commit": "6e5765e67a3dd6a69fe505960f07c0a59bb466d9",
+  "note": "Original unfiltered numerical results preserved. Initial report executed_code_hashes were collected at completion while team-only sampler validation changed concurrently; use initial_model_commit for exact original fitting/score code. Corrected replay hashes are verified against its committed code."
+}

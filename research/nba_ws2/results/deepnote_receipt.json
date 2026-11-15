@@ -1,0 +1,35 @@
+{
+  "projectId": "9cc31536-93be-44db-bdeb-06fba3f61410",
+  "notebookId": "8c4c10b625ca4b4ea8635a9723f82ee9",
+  "notebook_url": "https://deepnote.com/workspace/stonks-a257-e2858df6-426e-479b-a4f8-0376a602f7bb/project/Pickem-Auditor-Daily-Cloud-Inference-9cc31536-93be-44db-bdeb-06fba3f61410/notebook/NBA-WS2-probabilistic-minutes-and-opportunity-2026-11-15-shadow-handoff-8c4c10b625ca4b4ea8635a9723f82ee9?utm_source=codex&utm_medium=mcp&utm_campaign=openaimcp&utm_content=8c4c10b625ca4b4ea8635a9723f82ee9&utm_term=generate_project_url",
+  "final_run_id": "22802efa-932c-4141-bdcc-b6a57797f329",
+  "status": "success",
+  "completedAt": "2026-11-15T19:19:31.181Z",
+  "tests_passed": 25,
+  "frozen_report_sha256": "0c35d53a1c7b82477b3cb47e15153ec64ecc5dd4894a27ba04e64e1c266d4a2d",
+  "previous_runs": [
+    {
+      "id": "4121319c-0ddc-4433-ae91-795b2a8a1e37",
+      "status": "error",
+      "reason": "numpy.trapezoid unavailable in hosted NumPy; fixed with scipy.integrate.trapezoid"
+    },
+    {
+      "id": "61b709d7-9a38-4a38-ae50-24038d4c44e3",
+      "status": "success",
+      "tests": 22
+    },
+    {
+      "id": "b3ff2a5c-adbe-4633-ba04-2818644bd0ed",
+      "status": "success",
+      "tests": 24
+    }
+  ],
+  "interpretation": "Hosted software-contract reproduction and frozen-report hash verification; not an independent historical replay or independent WS4 validation.",
+  "skills": [
+    "c0/deepnote-mcp",
+    "c0/deepnote-workspace",
+    "c0/deepnote-notebooks",
+    "c0/deepnote-runs",
+    "c0/deepnote-links"
+  ]
+}

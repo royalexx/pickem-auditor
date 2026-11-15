@@ -1,0 +1,12 @@
+{
+  "status": "BLOCKED_BY_DATA_FOR_AUTHENTICATED_FUTURE_FORECASTS",
+  "capability": "Manual module research.nba_ws2.shadow accepts --model, --input and --output; genuine pregame adapter records must be independently supplied.",
+  "actual_prospective_forecasts_created": 0,
+  "reasons": [
+    "No independently verified future NBA roster/availability feature packet supplied for this ticket",
+    "Appearance-only historical data cannot establish current active rosters or participation probabilities",
+    "No injury probabilities invented from status labels"
+  ],
+  "behavior": "Future start and UTC receipts validated; forecast time set at execution; rejected rows retained; exclusive-create freeze prevents overwrite; no scheduler or production hook",
+  "fixture_forecasts_are_not_real_forecasts": true
+}

@@ -1,0 +1,160 @@
+{
+  "experiment": "NBA-WS2-20261115-v1",
+  "files": {
+    "research/nba_ws2/.gitignore": {
+      "bytes": 13,
+      "sha256": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b"
+    },
+    "research/nba_ws2/README.md": {
+      "bytes": 1676,
+      "sha256": "e65b7bef5484d983d91e5ab96ec489604038ecf785a920a3f91321ad03d247d2"
+    },
+    "research/nba_ws2/REPORT.md": {
+      "bytes": 17688,
+      "sha256": "0410a2db2e8250949e0079cd27e3872d7c8198f10ab907ac0cc257b9bc343e7f"
+    },
+    "research/nba_ws2/audit_results.py": {
+      "bytes": 4656,
+      "sha256": "ce7738e825ff88c689d550b797548a87bf4356d7f3e3c17e88c64b11d02ca511"
+    },
+    "research/nba_ws2/benchmark_forecasts.py": {
+      "bytes": 2742,
+      "sha256": "1a6f8b59068b9bfd6c7f0aaad47f2b8ddc0f041c716c7129abe5988d05112391"
+    },
+    "research/nba_ws2/context_diagnostic.py": {
+      "bytes": 3449,
+      "sha256": "0c3052ec026b84fe96b80828a51a3f14a4e069bd7d6e73b42b2c3f8e0a3ba7be"
+    },
+    "research/nba_ws2/experiment.json": {
+      "bytes": 2656,
+      "sha256": "470ef7262de1a13c2075a7494577e42b6b28417fc411866cc80fc0558fc41d90"
+    },
+    "research/nba_ws2/integrity_amendment.json": {
+      "bytes": 1238,
+      "sha256": "f7f57b8c60a148701a645959b080b0f66afbe5f1f81128cf6da67ec27eb4014e"
+    },
+    "research/nba_ws2/reproduce.sh": {
+      "bytes": 732,
+      "sha256": "b8a5e7253320affee41b2e26dee46d2a7bb32028dc6d52f4a0efc430ed2e916c"
+    },
+    "research/nba_ws2/requirements.txt": {
+      "bytes": 61,
+      "sha256": "f039a8d2e837edd4ac98e2ce6f1e41ced8c09ab357bbbd23f2ddc0da2bb679a2"
+    },
+    "research/nba_ws2/results/audit_receipt.json": {
+      "bytes": 4923,
+      "sha256": "373d4e1e76d67d75930f573d942e2811651ac6f8cb9425a9ccf360469b673b7f"
+    },
+    "research/nba_ws2/results/context_source_manifest.json": {
+      "bytes": 247949,
+      "sha256": "cb68117fc7939844616dc2f0cf906876a31d9f063428af0207b7b4cba2d2f500"
+    },
+    "research/nba_ws2/results/deepnote_receipt.json": {
+      "bytes": 1528,
+      "sha256": "7c0221c80ff384c88d3661bc28bd5caac63bdf664c9c2be8cd5438ce08c0de81"
+    },
+    "research/nba_ws2/results/implementation_compatibility_note.json": {
+      "bytes": 853,
+      "sha256": "8f3cca91a2e83c6f8c03693c606ac269f0711939eaeeae01046648b0747cd62e"
+    },
+    "research/nba_ws2/results/inference_benchmark.json": {
+      "bytes": 847,
+      "sha256": "213256b3b30a2dbd1a991eb3d47d3db57cee3ed9cb51fb9d21f49be7e0e2ba65"
+    },
+    "research/nba_ws2/results/initial_unfiltered/matched_predictions.csv.gz": {
+      "bytes": 10319270,
+      "sha256": "df780b88779ec117c30d3d1ed159759228b714b6382aa52db961c4b5964e3bba"
+    },
+    "research/nba_ws2/results/initial_unfiltered/model.json": {
+      "bytes": 2829,
+      "sha256": "82935a0394a5ef125bae0ff5fbd4d5dc4518fa24897c913cad13fdb56db66ee5"
+    },
+    "research/nba_ws2/results/initial_unfiltered/provenance_note.json": {
+      "bytes": 534,
+      "sha256": "be38ce6c6d18bcdfb97e8ded8a3404fa8f2e0ee6c2b44ed64892185e2b22588b"
+    },
+    "research/nba_ws2/results/initial_unfiltered/report.json": {
+      "bytes": 19815,
+      "sha256": "8fcd00c45493b7dc985a9981d9e67a8a1481e1fddbc19ecdcad5f81c45ac17a2"
+    },
+    "research/nba_ws2/results/legacy_tests.log": {
+      "bytes": 293,
+      "sha256": "ee40fb2aaff3222f298f3247f64183afe622ebc0e554c81a8b83eef788b6aebc"
+    },
+    "research/nba_ws2/results/local_tests.log": {
+      "bytes": 3638,
+      "sha256": "305096944db654364577101d8eae2f64d4e303fb221f86f306adfa4ea166d356"
+    },
+    "research/nba_ws2/results/matched_predictions.csv.gz": {
+      "bytes": 10300922,
+      "sha256": "0bec8ff5b547e1feead4428c501790bd74e81db7f241cdb9691a1be9e9264541"
+    },
+    "research/nba_ws2/results/model.json": {
+      "bytes": 2822,
+      "sha256": "ea7eae3afc760eafda0fbf0dbdccd2cb77b31b0aca54fc3606b4b31ba90693de"
+    },
+    "research/nba_ws2/results/postgame_context_sample.csv": {
+      "bytes": 33898,
+      "sha256": "faef4353e33f9373762d97ceea5ab5bd90ddc7794b8d28870239be460dd254ba"
+    },
+    "research/nba_ws2/results/prospective_status.json": {
+      "bytes": 808,
+      "sha256": "222e18c5a39242df2222d2251f44efb685fcf4557ce44fbe4e20b2fed29770ae"
+    },
+    "research/nba_ws2/results/rejected_ledger.csv.gz": {
+      "bytes": 16341,
+      "sha256": "c76c926be4b88d1a0144527751c4674fd811750a111ae03067fe00bba9dc04c7"
+    },
+    "research/nba_ws2/results/report.json": {
+      "bytes": 19903,
+      "sha256": "0c35d53a1c7b82477b3cb47e15153ec64ecc5dd4894a27ba04e64e1c266d4a2d"
+    },
+    "research/nba_ws2/results/source_identity_exclusions.csv": {
+      "bytes": 20159,
+      "sha256": "d5e044fee5980805d1db2cfc04ff8f0846dde5d63399ec58b8542f4b96e680f7"
+    },
+    "research/nba_ws2/results/supplemental_report.json": {
+      "bytes": 6643,
+      "sha256": "1a1bb21121de20487713a70fb6a6ac1de68274a8232e73163a046e74e411955b"
+    },
+    "research/nba_ws2/results/team_benchmark.json": {
+      "bytes": 1004,
+      "sha256": "94b6de33ac963193d3c88e87c026cbdebf6cad5407949eee4dbc68bbd895e0cc"
+    },
+    "research/nba_ws2/results/team_scenario_fixture.json": {
+      "bytes": 9238,
+      "sha256": "244a46d8c440590878e9ea14fc0c80e00bffaa352636b972555b24de4370d1da"
+    },
+    "research/nba_ws2/run_experiment.py": {
+      "bytes": 15548,
+      "sha256": "a44bedf6c5f2adbcbfd1bf02240c92b16ac68b18f7eeca8dce79bdeed89c5b8b"
+    },
+    "research/nba_ws2/shadow.py": {
+      "bytes": 1974,
+      "sha256": "b98d6929e63038b9d27fd4175cb79fa72b0a6b2765f7e96e33e3701eadf3a481"
+    },
+    "research/nba_ws2/supplemental_report.py": {
+      "bytes": 4547,
+      "sha256": "f52bdac8b66f53da2352207ad682b555dffd65b7537ed29cde2e104cc070e071"
+    },
+    "research/nba_ws2/team_benchmark.py": {
+      "bytes": 3029,
+      "sha256": "651b702e0e610b68599f8daa673efbbf4e78d37151b8ed7fd917991a63893e68"
+    },
+    "research/nba_ws2/write_report.py": {
+      "bytes": 19538,
+      "sha256": "84aca7c11e5c657794d21e3d3e3b9c0c06296cf7f100ca3a7b06108e53aa6ab0"
+    },
+    "tests/test_nba_opportunity.py": {
+      "bytes": 13581,
+      "sha256": "03b906164ce7930fbd03a42c164ded80655ce7314f865f120631d14f774bc72d"
+    },
+    "v2/nba_opportunity.py": {
+      "bytes": 21480,
+      "sha256": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30"
+    }
+  },
+  "historical_fitting_scoring_commit": "df22657",
+  "implementation_commit": "0efd7d08bd5442cda97da098b428132ce6e431af",
+  "status": "HISTORICAL_EXPLORATORY_SHADOW_ONLY_NO_ADOPTION"
+}
