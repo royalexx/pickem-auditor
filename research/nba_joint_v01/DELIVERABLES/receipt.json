@@ -1,6 +1,6 @@
 {
-  "archive_bytes": 15440622,
-  "archive_sha256": "3092ade9e8e4caccaa3a1485b949ddb00f62c397d8bf1e06444f41d90454e15f",
+  "archive_bytes": 15440650,
+  "archive_sha256": "478e7868ae3d1707697e4c96b851997cdd00175e2707496ff2be46d4a713edd0",
   "deepnote_tests_passed": 113,
   "engine_execution_commit": "ca41c79426a90a57e78ca9554a993db326461737",
   "model_sha256": "e424c7f98bba50315dfde81a60978855d6ceb8c72aba8ad0af310eb31283326f",
@@ -19,7 +19,7 @@
     "score_bytes_identical": true,
     "status": "PASSED"
   },
-  "source_commit": "91e052fac4ab712a01fbea40faaae69ca41df789",
+  "source_commit": "76b3892a124a9ce6e4903ddbee7023bedd7cfebe",
   "tests": {
     "errors": 0,
     "failed": 0,
