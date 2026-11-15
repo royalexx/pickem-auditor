@@ -1,0 +1,32 @@
+{
+  "experiment_id": "WS4-WEATHER-EVIDENCE-GATE-v2-20261115",
+  "governing_plan": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "scope": "Authorized bounded shadow-only extension to WS4; no new simulator",
+  "hypothesis": "Certified pregame weather may improve existing game opportunity and allocation forecasts; untestable without fitted historical response",
+  "baseline": "Frozen v0.3.1 11 events, 58 exact original contracts, J1 and J2 at 4096 draws; first v0.3.0 canary preserved separately",
+  "challenger": null,
+  "training_executed": false,
+  "train_cutoff_policy": "Prior games only; issuance, retrieval, game identity and venue/roof receipts required; observed target weather prohibited",
+  "eligible_universe": "All 1845 original observations retained; 58 unique existing QB pass-attempt contracts for paired coverage audit",
+  "primary_metric_if_unblocked": "Matched full-distribution count CRPS on subsequent weeks; exact three-way Brier/log loss secondary",
+  "cohort_and_splits": "No fitting dataset delivered or folds instantiated. Future candidate must precommit exact chronological origins before fitting; both teams and all contracts grouped by game, week clustered uncertainty",
+  "negative_controls_if_unblocked": [
+    "frozen neutral",
+    "weather disabled",
+    "game-grouped shuffled weather on training folds only"
+  ],
+  "physical_constraints_if_unblocked": [
+    "one shared game weather realization for both teams",
+    "closed roof has zero outdoor exposure",
+    "unknown retractable roof stays unknown",
+    "finite team pool conservation",
+    "no independent player penalties"
+  ],
+  "uncertainty_policy": "No invented coefficient or wind/precipitation/exposure distributions; fitted parameters and forecast error need separate lineage",
+  "promotion_rule": "None in this ticket; PR 130 stays unmerged; no betting recommendations",
+  "rollback_rule": "Remove only the new audit code/sidecar; original forecasts and production files never modified",
+  "artifact_manifest": "SHA-addressed Deepnote weather_v1/ledgers and summaries; execution IDs in delivery receipt",
+  "status": "BLOCKED_BY_DATA_SHADOW_ONLY",
+  "weather_pin_sha256": "273da5a6f5456e99e9b5bd4f2172abce1bf77c7bfbe82d38199886fcad612807",
+  "weather_source_evidence": "WS1 v2 producer run 7dfe59cf-01cb-42b9-9eae-51515ba59051; 11 verified pregame weather events, 1 started exclusion, 0 authentic historical weather training rows"
+}
