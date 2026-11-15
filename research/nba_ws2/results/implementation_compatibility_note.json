@@ -1,0 +1,7 @@
+{
+  "historical_fitting_scoring_commit": "df22657",
+  "changes_after_frozen_replay": ["Use scipy.integrate.trapezoid instead of numpy.trapezoid for older NumPy compatibility", "Team-only latent early-exit caps, participation positivity and payload validation", "Allow expected minutes above 48 when the forecast OT mixture implies longer expected game length"],
+  "numerical_comparison_unchanged": true,
+  "evidence": "Replay central-mean maxima: M0=44.0, M1=38.70140911225928, M2=41.62075834163142. Both old and new expectation bounds exceed all replay predictions. The new OT bound is derived from game length, not a fixed physical player cap. Scipy and Numpy trapezoidal quadrature implement the same numerical rule; the independent quadrature unit test passes locally and in Deepnote.",
+  "final_model_artifact_uses_original_fitting_commit": true
+}
