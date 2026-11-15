@@ -113,3 +113,60 @@ def main():
 
 
 if __name__=='__main__':main()
+
+# Explicit adapter for WS1 historical wide player/team tables. It deliberately
+# requires a source-bound identity crosswalk and actual timestamp columns; it
+# never guesses player identity from names or availability from kickoff time.
+WIDE_STATS = {
+    'attempts': 'pass attempts', 'completions': 'completions',
+    'receptions': 'receptions', 'carries': 'carries',
+    'passing_yards': 'passing yards', 'receiving_yards': 'receiving yards',
+    'rushing_yards': 'rushing yards', 'tackles_plus_assists': 'tackles + assists',
+}
+
+
+def normalize_ws1_tables(packet):
+    """Return the existing long marginal schema from a verified WS1 table packet.
+
+    Team rows provide game_end_at, available_at, source_received_at for exact
+    (game_id, team) joins. Crosswalks map source_player_id to canonical ESPN ID
+    and carry source-bound role/position. Appearance must be supplied by WS1.
+    Missing individual stat cells stay missing rather than becoming zero.
+    """
+    teams={};crosswalk={}
+    for t in packet['teams']:
+        key=(t['game_id'],t['team'])
+        if key in teams:raise ValueError('AMBIGUOUS_HISTORICAL_TEAM_GAME')
+        teams[key]=t
+    for x in packet['player_crosswalk']:
+        key=(x['source_player_id_namespace'],x['source_player_id'])
+        if key in crosswalk:raise ValueError('AMBIGUOUS_HISTORICAL_PLAYER_CROSSWALK')
+        if x.get('verified') is not True:raise ValueError('UNVERIFIED_HISTORICAL_PLAYER_CROSSWALK')
+        crosswalk[key]=x
+    observations=[];excluded=Counter()
+    for player in packet['historical_players']:
+        x=crosswalk.get((player['player_id_namespace'],player['player_id']))
+        if x is None:
+            excluded['UNMAPPED_HISTORICAL_PLAYER']+=1
+            continue
+        team=teams.get((player['game_id'],player['team']))
+        if team is None:
+            excluded['MISSING_HISTORICAL_TEAM_GAME']+=1
+            continue
+        # A historical player's position/role must come from that appearance,
+        # not today's roster or a later-season depth chart.
+        role=player.get('role');position=player.get('position')
+        for column,stat in WIDE_STATS.items():
+            if column not in player or player[column] is None:continue
+            observations.append({
+                'player_id':x['player_id'],'player_id_namespace':x['player_id_namespace'],
+                'event_id':player['game_id'],'team':player['team'],
+                'position':position,'role':role,'stat':stat,'period':'full_game',
+                'game_end_at':team.get('game_end_at'),
+                'available_at':team.get('available_at'),
+                'source_received_at':team.get('source_received_at'),
+                'appearance':player.get('appearance','unknown'), 'value':player[column],
+                'original_historical_player_id':player['player_id'],
+                'historical_source_sha256':player.get('source_sha256'),
+            })
+    return {**packet,'players':observations,'table_adapter_exclusions':dict(excluded)}

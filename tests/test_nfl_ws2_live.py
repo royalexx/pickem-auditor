@@ -69,3 +69,18 @@ class LiveAdapter(unittest.TestCase):
   for r in p['players']:r['stat']='rushing yards';r['value']-=2
   rows=run(s,p);self.assertEqual(audit(rows)['probability_rows_checked'],2)
   self.assertEqual(rows[0]['models'][MODEL_IDS[2]]['reason'],'not_applicable_to_signed_count')
+ def test_wide_table_adapter_dnp_missing_cells_crosswalk(self):
+  from scripts.nfl_ws2_ws1_adapter import normalize_ws1_tables
+  packet={'teams':[dict(game_id='g',team='DET',game_end_at='2026-11-01T23:00:00Z',
+    available_at='2026-11-02T00:00:00Z',source_received_at='2026-11-14T00:00:00Z')],
+   'player_crosswalk':[dict(source_player_id_namespace='gsis',source_player_id='00-1',
+    player_id='espn1',player_id_namespace='espn',verified=True)],
+   'historical_players':[dict(game_id='g',team='DET',player_id_namespace='gsis',player_id='00-1',
+    appearance='DNP',position='WR',role='receiver',receptions=None,rushing_yards=-2)]}
+  out=normalize_ws1_tables(packet)
+  self.assertEqual(len(out['players']),1)
+  self.assertEqual(out['players'][0]['appearance'],'DNP')
+  self.assertEqual(out['players'][0]['value'],-2)
+  self.assertEqual(out['players'][0]['player_id'],'espn1')
+  packet['player_crosswalk'][0]['verified']=False
+  with self.assertRaises(ValueError):normalize_ws1_tables(packet)

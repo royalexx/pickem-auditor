@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from v2.contracts import utc, finite
 from v2.stat_registry import canonical_stat
 from v2.nfl_marginal_shadow import MODEL_IDS, PARAMETERS, fit_laws, fixed_logit, probability_only
-from scripts.nfl_ws2_ws1_adapter import canonical, digest
+from scripts.nfl_ws2_ws1_adapter import canonical, digest, normalize_ws1_tables
 
 SOURCE_SHA = '5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71'
 
@@ -202,6 +202,7 @@ def main():
         if fpin.get('source_manifest_sha256')!=SOURCE_SHA:raise ValueError('FEATURE_PIN_WRONG_SOURCE')
         packet=read_bound(root,fpin['feature_packet'])
         if packet.get('owner')!='workstream1':raise ValueError('FEATURE_PACKET_NOT_WS1')
+        if 'historical_players' in packet:packet=normalize_ws1_tables(packet)
         feature_freeze=utc(packet['input_freeze_at'],'feature_freeze')
         feature_provenance={'feature_pin_sha256':digest(fraw),'feature_packet':fpin['feature_packet'],
             'feature_freeze_at':feature_freeze.isoformat(),'model_training_cutoff_at':packet['model_training_cutoff_at']}
@@ -214,6 +215,8 @@ def main():
         if completed>=utc(r['original_contract']['event_start_at'],'event_start_at'):
             r['models']={m:missing('FORECAST_NOT_PREGAME') for m in MODEL_IDS}
     if src.read_bytes()!=raw:raise ValueError('ORIGINAL_SOURCE_CHANGED_DURING_EXECUTION')
+    for ref,expected in verified.items():
+        if digest((root/ref).read_bytes())!=expected:raise ValueError('ORIGINAL_QUOTE_SOURCE_MUTATED_DURING_RUN')
     repo=Path(__file__).resolve().parents[1]
     provenance={'created_at':completed.isoformat(),'attempt_started_at':now.isoformat(),
         'quote_freeze_at':json.loads(raw)['input_freeze_at'],**feature_provenance,
