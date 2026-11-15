@@ -42,7 +42,7 @@ test_push_requires_played_outcome (test_settlement.SettlementTests.test_push_req
 test_unknown_status_not_scored (test_settlement.SettlementTests.test_unknown_status_not_scored) ... ok
 
 ----------------------------------------------------------------------
-Ran 42 tests in 0.226s
+Ran 42 tests in 0.239s
 
 OK
 {"captured_at":"2026-11-16T23:31:00Z","errors":[{"code":"ValueError","detail":"FREEZE_DEADLINE_MISSED"}],"evidence_kind":"synthetic_fixture_never_original","freeze_deadline_at":"2026-11-16T23:30:00Z","requested_game_id":"espn:game:2","status":"blocked"}

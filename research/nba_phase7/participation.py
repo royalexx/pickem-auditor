@@ -35,7 +35,8 @@ def participation_layer(roster,availability,*,game_abbreviations):
             P1_probability=None,P2_probability=None,uncertainty='no fitted calibrated estimator',
             accepted_availability=accepted,rejected_availability=rejected,
             abstention_reasons=['LEGAL_GAME_ELIGIBILITY_UNAVAILABLE','P1_P2_TRAINING_UNIVERSE_UNAVAILABLE']+(['PARTICIPATION_UNKNOWN'] if not inactive else [])+(['CONFLICTING_AVAILABILITY'] if conflict else [])))
-    return dict(schema='NBAParticipationLayer/1.0.0',game=game,input_freeze_at=roster['input_freeze_at'],rows=rows,
+    return dict(schema='NBAParticipationLayer/1.0.0',game=game,game_id=game['game_id'],input_freeze_at=roster['input_freeze_at'],rows=rows,
+        players=[dict(player_id=r['player_id'],team_id=r['team_id'],eligible=r['eligibility'],probability=r['P0_probability'],method=r['P0_method']) for r in rows],
         methods={'P0':'deterministic verified-status exclusion; other players unknown','P1':'UNFITTED_NO_GENUINE_ELIGIBLE_TRAINING_UNIVERSE','P2':'UNFITTED_NO_GENUINE_ELIGIBLE_TRAINING_UNIVERSE'},
         complete_game_day_universe=roster['coverage']['complete_game_day_universe'],
         source_exclusions=sum(r['P0_probability']==0 for r in rows),positive_validated_probabilities=0,
@@ -44,9 +45,9 @@ def participation_layer(roster,availability,*,game_abbreviations):
 
 def require_participation_ready(layer):
     if not layer['complete_game_day_universe']:raise ValueError('COMPLETE_GAME_DAY_UNIVERSE_UNAVAILABLE')
-    for r in layer['rows']:
-        if r['eligibility'] is None:raise ValueError('LEGAL_ELIGIBILITY_UNKNOWN')
-        if r['eligibility'] and r['P0_probability'] is None:raise ValueError('PARTICIPATION_UNKNOWN')
+    for r in layer['players']:
+        if r['eligible'] is None:raise ValueError('LEGAL_ELIGIBILITY_UNKNOWN')
+        if r['eligible'] and r['probability'] is None:raise ValueError('PARTICIPATION_UNKNOWN')
     if not VALIDATED_REAL_PARTICIPATION_METHODS:raise ValueError('VALIDATED_PARTICIPATION_METHOD_UNAVAILABLE')
     return layer
 
