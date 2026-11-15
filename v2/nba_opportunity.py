@@ -383,6 +383,14 @@ def sample_team(forecasts: Sequence[dict], *, seed: int, n: int = 1,
         raise ValueError('MIXED_TEAM_GAME')
     if any(f['participation_probability'] is None or f['active_roster_eligible'] is None for f in forecasts):
         raise ValueError('UNVERIFIED_ROSTER_OR_PARTICIPATION')
+    for f in forecasts:
+        probability=f['participation_probability']
+        if not math.isfinite(probability) or not 0 <= probability <= 1:
+            raise ValueError('INVALID_PARTICIPATION_PROBABILITY')
+        if not isinstance(f['active_roster_eligible'], bool):
+            raise ValueError('UNVERIFIED_ROSTER_OR_PARTICIPATION')
+        if not f['active_roster_eligible'] and probability != 0:
+            raise ValueError('ROSTER_PARTICIPATION_CONFLICT')
     team=forecasts[0]['team_id']; game=forecasts[0]['game_id']
     team_seed=int.from_bytes(hashlib.sha256(f'{seed}/{game}/{team}'.encode()).digest()[:8],'little')
     rng=np.random.default_rng(team_seed)
@@ -399,7 +407,7 @@ def sample_team(forecasts: Sequence[dict], *, seed: int, n: int = 1,
             result.append({**scenario,'valid':False,'reason':'FEWER_THAN_FIVE_PARTICIPANTS'});continue
         desired=np.array([MinuteLaw(**f['distribution']).sample_at_length(rng,length) if a else 0. for f,a in zip(forecasts,active)])
         unusual=rng.random()<unusual_rotation_probability
-        if unusual:desired *= rng.lognormal(0,.5,len(desired))
+        if unusual:desired = np.minimum(length, desired*rng.lognormal(0,.5,len(desired)))
         caps=active.astype(float)*length
         allocation=capped_allocation(desired,caps,total)
         segments=lineup_segments(allocation,length)

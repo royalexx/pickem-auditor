@@ -42,6 +42,18 @@ def load_population(folder):
     return sorted(rows,key=lambda r:(r['game_date'],r['game_id'],r['player_id'])), manifests
 
 
+NBA_FRANCHISES = frozenset('ATL BOS BKN CHA CHI CLE DAL DEN DET GS HOU IND LAC LAL MEM MIA MIL MIN NO NY OKC ORL PHI PHX POR SAC SA TOR UTAH WSH'.split())
+
+
+def franchise_population(rows):
+    kept=[];rejected=[]
+    for row in rows:
+        if row['team'] not in NBA_FRANCHISES or row['opponent'] not in NBA_FRANCHISES:
+            rejected.append({**row,'reason':'NON_FRANCHISE_COMPETITION_IDENTITY'})
+        else:kept.append(row)
+    return kept,rejected
+
+
 def build_table(rows):
     history=defaultdict(list); team_games=defaultdict(list); out=[]; rejects=[]; season_counts=Counter()
     byday=defaultdict(list)
@@ -162,7 +174,8 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--input',required=True);parser.add_argument('--output',required=True)
     args=parser.parse_args();dest=Path(args.output);dest.mkdir(parents=True,exist_ok=True)
     start=time.perf_counter();cpu=time.process_time()
-    rows,manifest=load_population(args.input);table,rejects=build_table(rows)
+    executed_hashes={p:sha(p) for p in ['v2/nba_opportunity.py','research/nba_ws2/run_experiment.py']}
+    raw_rows,manifest=load_population(args.input);rows,source_exclusions=franchise_population(raw_rows);table,rejects=build_table(rows)
     train=table[table.season=='2024'];test=table[table.season=='2025'].reset_index(drop=True)
     source_sha=hashlib.sha256(json.dumps(manifest,sort_keys=True).encode()).hexdigest()
     code=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
@@ -208,8 +221,8 @@ def main():
     rotation={n:{'state_error_rate':float(np.mean(np.array([role(m) for m in s['mean']])!=role_truth)),
         'definition':'workload low<14, mid<28, high>=28; not starter/bench labels'} for n,s in scores.items()}
     report={'status':'HISTORICAL_EXPLORATORY_SHADOW_ONLY','experiment_sha256':sha('research/nba_ws2/experiment.json'),
-        'code_commit':code,'executed_code_hashes':{p:sha(p) for p in ['v2/nba_opportunity.py','research/nba_ws2/run_experiment.py']},'source_branch_commit':subprocess.check_output(['git','rev-parse','origin/data/bayesian-history'],text=True).strip(),
-        'source_manifest':manifest,'rows_loaded':len(rows),'rows_train':len(train),'rows_test':len(test),
+        'code_commit':code,'executed_code_hashes':executed_hashes,'source_branch_commit':subprocess.check_output(['git','rev-parse','origin/data/bayesian-history'],text=True).strip(),
+        'source_manifest':manifest,'rows_loaded_raw':len(raw_rows),'source_identity_exclusions':len(source_exclusions),'rows_loaded':len(rows),'rows_train':len(train),'rows_test':len(test),
         'rejected_by_season':dict(Counter(x['season'] for x in rejects)),
         'test_games':int(test.game_id.nunique()),'test_dates':int(test.game_date.nunique()),
         'train_start':train.game_date.min(),'train_end':train.game_date.max(),
@@ -233,6 +246,7 @@ def main():
         for col in s:pred[name+'_'+col]=s[col].to_numpy()
     pred.to_csv(dest/'matched_predictions.csv.gz',index=False)
     pd.DataFrame(rejects).to_csv(dest/'rejected_ledger.csv.gz',index=False)
+    pd.DataFrame(source_exclusions).to_csv(dest/'source_identity_exclusions.csv',index=False)
     (dest/'report.json').write_text(json.dumps(report,indent=2,sort_keys=True,allow_nan=False)+'\n')
     print(json.dumps({k:report[k] for k in ('rows_loaded','rows_train','rows_test','training_family_comparison','metrics','paired_crps','acceptance','total_wall_seconds','max_rss_mib')},indent=2))
 

@@ -1,0 +1,11 @@
+{
+  "amendment_id": "NBA-WS2-20261115-IDENTITY-01",
+  "reason": "Source-backed population includes All-Star exhibitions. Non-franchise identities EAST/WEST/CHK/KEN/CAN/SHQ and team totals 50-65 violate target NBA franchise game scope.",
+  "first_results_seen": true,
+  "rule": "Before any history construction, exclude every row whose team or opponent is outside the fixed 30 NBA franchise abbreviation set. Preserve all exclusions in a ledger. No model hyperparameter, fitting horizon or objective changes.",
+  "identified_scope": "24 training rows in one 2024 All-Star game; 44 evaluation rows in three 2025 All-Star games",
+  "initial_evidence_preserved": "results/initial_unfiltered",
+  "interpretation": "Integrity correction after initial exploratory scoring, transparently outcome-exposed; corrected results remain exploratory, never confirmatory.",
+  "stress_gate_clarification": "Overall coverage passes alone do not satisfy user no-material-regression rule when low-minute or OT stress cohorts regress materially. Retain M0 benchmark and withhold challenger adoption if such regressions remain.",
+  "source_owner_handoff": "WS1 should separately decide canonical competition-type filtering. WS2 edits only its local adapter."
+}

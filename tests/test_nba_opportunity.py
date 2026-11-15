@@ -164,6 +164,17 @@ class TeamConservationTests(unittest.TestCase):
         f[1]['participation_probability']=None
         with self.assertRaises(ValueError):sample_team(f,seed=1,ot_probability=.1,ot_continuation=.2)
 
+    def test_raw_sampler_payload_probability_validation(self):
+        for p in (float('nan'), -1., 2.):
+            f=self.forecasts();f[0]['participation_probability']=p
+            with self.assertRaises(ValueError):sample_team(f,seed=1,ot_probability=.1,ot_continuation=.2)
+
+    def test_unusual_independent_draws_still_respect_game_length(self):
+        scenarios=sample_team(self.forecasts(),seed=41,n=100,ot_probability=.2,
+                              ot_continuation=.2,unusual_rotation_probability=1.)
+        for s in scenarios:
+            self.assertTrue(all(0 <= m <= s['game_length'] for m in s['independent_minutes']))
+
     def test_impossible_early_exit_caps_rejected(self):
         with self.assertRaises(ValueError):capped_allocation([20]*5,[40]*5,240)
         with self.assertRaises(ValueError):capped_allocation([np.nan]*6,[48]*6,240)
@@ -172,5 +183,37 @@ class TeamConservationTests(unittest.TestCase):
     def test_exact_five_all_play_full_game(self):
         s=sample_team(self.forecasts(5),seed=1,ot_probability=0,ot_continuation=.2)[0]
         np.testing.assert_allclose(s['minutes'],[48]*5)
+
+
+class ReplayAdapterTests(unittest.TestCase):
+    def test_positions_use_prior_appearance_only(self):
+        from research.nba_ws2.run_experiment import build_table
+        rows=[{'game_id':str(i),'game_date':f'2024-01-{i:02d}',
+            'player_id':'p','team':'A','home':True,'season':'2024',
+            'workload':20.,'position':'G' if i<6 else 'C'} for i in range(1,7)]
+        table,rejects=build_table(rows)
+        self.assertEqual(len(rejects),5)
+        self.assertEqual(table.iloc[0]['position'],'G')
+        self.assertEqual(table.iloc[0]['observed_position'],'C')
+
+    def test_exhibition_rows_excluded_before_histories(self):
+        from research.nba_ws2.run_experiment import franchise_population
+        rows=[{'team':'BOS','opponent':'NY'}, {'team':'EAST','opponent':'WEST'},
+              {'team':'BOS','opponent':'CHK'}]
+        kept,rejected=franchise_population(rows)
+        self.assertEqual(kept,[rows[0]])
+        self.assertEqual(len(rejected),2)
+        self.assertTrue(all(r['reason']=='NON_FRANCHISE_COMPETITION_IDENTITY' for r in rejected))
+
+    def test_duplicate_population_never_silently_deduplicated(self):
+        import gzip,json
+        from research.nba_ws2.run_experiment import load_population
+        row={'game_id':'g','player_id':'p','sport':'NBA','stat':'points',
+            'workload_unit':'minutes','workload':20,'source_sha256':'a'*64,
+            'source_url':'https://example.com','game_date':'2024-01-01'}
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'2024.jsonl.gz'
+            with gzip.open(path,'wt') as handle:handle.write(json.dumps(row)+'\n'+json.dumps(row)+'\n')
+            with self.assertRaisesRegex(ValueError,'DUPLICATE'):load_population(tmp)
 
 if __name__=='__main__':unittest.main()

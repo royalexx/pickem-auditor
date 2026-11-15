@@ -43,7 +43,7 @@ def main():
                             'starter_outcome':athlete.get('starter'), 'did_not_play_outcome':athlete.get('didNotPlay'),
                             'minutes_text':stats.get('MIN'),'final_margin_outcome':margin,'period_outcome':period})
             return {'game_id':gid,'url':url,'sha256':hashlib.sha256(raw).hexdigest(),
-                'retrieved_at':__import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),
+                'retrieved_at':__import__('datetime').datetime.fromtimestamp(path.stat().st_mtime,__import__('datetime').timezone.utc).isoformat(),
                 'historical_population_hashes':sorted({r['source_sha256'] for r in rows if r['game_id']==gid}),
                 'players':players}
         except Exception as exc:return {'game_id':gid,'error':str(exc)}
