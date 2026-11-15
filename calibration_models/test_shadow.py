@@ -274,7 +274,7 @@ class IOAndScoringTests(unittest.TestCase):
             path = root/"manifest.json"
             path.write_bytes(s.canonical(manifest))
             args = ["--manifest", str(path), "--manifest-sha256", s.sha(path.read_bytes()), "--out", str(root/"forecast.json")]
-            with patch.object(s, "datetime", Clock), patch("builtins.print"):
+            with patch.object(s, "datetime", Clock), patch("builtins.print"), patch.object(s.subprocess, "check_output", return_value="a"*40):
                 s.main(args)
                 with self.assertRaises(FileExistsError):
                     s.main(args)
