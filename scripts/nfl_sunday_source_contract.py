@@ -208,10 +208,27 @@ def build_universe(*, events, quotes, quote_receipts, rosters,
         if raw.get("sport") != "NFL":
             reason = "NOT_NFL"
         team, opponent = str(raw.get("team") or ""), str(raw.get("opponent") or "")
-        if not opponent and isinstance(raw.get("event_teams"), list):
-            pairs = [t for t in raw["event_teams"] if t != team]
-            if team and len(pairs) == 1:
-                opponent = pairs[0]
+        raw_teams = raw.get("event_teams")
+        pair = [str(t) for t in raw_teams] if isinstance(raw_teams, list) else []
+        if len(pair) != 2 or len(set(pair)) != 2:
+            reason = reason or "PROVIDER_EVENT_TEAM_PAIR_UNVERIFIABLE"
+        elif team and team not in pair:
+            reason = reason or "PROVIDER_TEAM_EVENT_PAIR_CONFLICT"
+        elif not team:
+            # PropLine's paired O/U outcomes often omit team entirely. Resolve
+            # only when exactly one of the *two original event teams* contains
+            # the uniquely ID'd player in independently captured ESPN rosters.
+            supported = [t for t in pair if len(roster.get((t, _name(raw.get("player"))), [])) == 1]
+            ambiguous = [t for t in pair if len(roster.get((t, _name(raw.get("player"))), [])) > 1]
+            if len(supported) == 1 and not ambiguous:
+                team = supported[0]
+                opponent = next(t for t in pair if t != team)
+            else:
+                reason = reason or "CROSS_TEAM_ROSTER_IDENTITY_UNVERIFIABLE"
+        if not opponent and team in pair and len(pair) == 2:
+            opponent = next(t for t in pair if t != team)
+        if opponent and pair and opponent not in pair:
+            reason = reason or "PROVIDER_OPPONENT_EVENT_PAIR_CONFLICT"
         event = event_by_pair.get((team, opponent))
         if event is None:
             reason = reason or "EVENT_IDENTITY_UNVERIFIABLE"
@@ -287,6 +304,8 @@ def build_universe(*, events, quotes, quote_receipts, rosters,
             "scheduled_kickoff": event.get("scheduled_kickoff") if event else None,
             "event_start_at": event.get("scheduled_kickoff") if event else None,
             "player": raw.get("player"), "position": player.get("position") if player else None,
+            "team_identity_basis": ("independent_unique_espn_roster_on_provider_event_pair"
+                                    if not raw.get("team") and team else "provider_explicit_team"),
             "original_quote": raw,
             "source_sha256": receipt.get("sha256") if receipt else None,
             "source_received_at": receipt.get("source_received_at") if receipt else None,
