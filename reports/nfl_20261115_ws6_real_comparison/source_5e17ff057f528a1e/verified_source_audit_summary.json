@@ -1,0 +1,374 @@
+{
+  "by_kickoff": {
+    "2026-11-15T14:30:00Z": 126,
+    "2026-11-15T18:00:00Z": 1076,
+    "2026-11-15T21:05:00Z": 335,
+    "2026-11-15T21:25:00Z": 152,
+    "2026-11-16T01:20:00Z": 156
+  },
+  "by_market_and_kickoff": [
+    {
+      "kickoff": "2026-11-15T14:30:00Z",
+      "original": 5,
+      "research_eligible": 5,
+      "source_verified": 5,
+      "stat": "completions"
+    },
+    {
+      "kickoff": "2026-11-15T18:00:00Z",
+      "original": 40,
+      "research_eligible": 38,
+      "source_verified": 38,
+      "stat": "completions"
+    },
+    {
+      "kickoff": "2026-11-15T21:05:00Z",
+      "original": 11,
+      "research_eligible": 8,
+      "source_verified": 11,
+      "stat": "completions"
+    },
+    {
+      "kickoff": "2026-11-15T21:25:00Z",
+      "original": 5,
+      "research_eligible": 5,
+      "source_verified": 5,
+      "stat": "completions"
+    },
+    {
+      "kickoff": "2026-11-16T01:20:00Z",
+      "original": 6,
+      "research_eligible": 6,
+      "source_verified": 6,
+      "stat": "completions"
+    },
+    {
+      "kickoff": "2026-11-15T14:30:00Z",
+      "original": 6,
+      "research_eligible": 6,
+      "source_verified": 6,
+      "stat": "pass attempts"
+    },
+    {
+      "kickoff": "2026-11-15T18:00:00Z",
+      "original": 39,
+      "research_eligible": 37,
+      "source_verified": 37,
+      "stat": "pass attempts"
+    },
+    {
+      "kickoff": "2026-11-15T21:05:00Z",
+      "original": 12,
+      "research_eligible": 9,
+      "source_verified": 12,
+      "stat": "pass attempts"
+    },
+    {
+      "kickoff": "2026-11-15T21:25:00Z",
+      "original": 6,
+      "research_eligible": 6,
+      "source_verified": 6,
+      "stat": "pass attempts"
+    },
+    {
+      "kickoff": "2026-11-16T01:20:00Z",
+      "original": 6,
+      "research_eligible": 6,
+      "source_verified": 6,
+      "stat": "pass attempts"
+    },
+    {
+      "kickoff": "2026-11-15T14:30:00Z",
+      "original": 8,
+      "research_eligible": 8,
+      "source_verified": 8,
+      "stat": "passing yards"
+    },
+    {
+      "kickoff": "2026-11-15T18:00:00Z",
+      "original": 56,
+      "research_eligible": 54,
+      "source_verified": 54,
+      "stat": "passing yards"
+    },
+    {
+      "kickoff": "2026-11-15T21:05:00Z",
+      "original": 16,
+      "research_eligible": 12,
+      "source_verified": 16,
+      "stat": "passing yards"
+    },
+    {
+      "kickoff": "2026-11-15T21:25:00Z",
+      "original": 8,
+      "research_eligible": 8,
+      "source_verified": 8,
+      "stat": "passing yards"
+    },
+    {
+      "kickoff": "2026-11-16T01:20:00Z",
+      "original": 8,
+      "research_eligible": 8,
+      "source_verified": 8,
+      "stat": "passing yards"
+    },
+    {
+      "kickoff": "2026-11-15T14:30:00Z",
+      "original": 38,
+      "research_eligible": 38,
+      "source_verified": 38,
+      "stat": "receiving yards"
+    },
+    {
+      "kickoff": "2026-11-15T18:00:00Z",
+      "original": 343,
+      "research_eligible": 328,
+      "source_verified": 328,
+      "stat": "receiving yards"
+    },
+    {
+      "kickoff": "2026-11-15T21:05:00Z",
+      "original": 109,
+      "research_eligible": 107,
+      "source_verified": 107,
+      "stat": "receiving yards"
+    },
+    {
+      "kickoff": "2026-11-15T21:25:00Z",
+      "original": 47,
+      "research_eligible": 44,
+      "source_verified": 44,
+      "stat": "receiving yards"
+    },
+    {
+      "kickoff": "2026-11-16T01:20:00Z",
+      "original": 47,
+      "research_eligible": 47,
+      "source_verified": 47,
+      "stat": "receiving yards"
+    },
+    {
+      "kickoff": "2026-11-15T14:30:00Z",
+      "original": 36,
+      "research_eligible": 36,
+      "source_verified": 36,
+      "stat": "receptions"
+    },
+    {
+      "kickoff": "2026-11-15T18:00:00Z",
+      "original": 335,
+      "research_eligible": 320,
+      "source_verified": 320,
+      "stat": "receptions"
+    },
+    {
+      "kickoff": "2026-11-15T21:05:00Z",
+      "original": 105,
+      "research_eligible": 104,
+      "source_verified": 104,
+      "stat": "receptions"
+    },
+    {
+      "kickoff": "2026-11-15T21:25:00Z",
+      "original": 45,
+      "research_eligible": 42,
+      "source_verified": 42,
+      "stat": "receptions"
+    },
+    {
+      "kickoff": "2026-11-16T01:20:00Z",
+      "original": 47,
+      "research_eligible": 47,
+      "source_verified": 47,
+      "stat": "receptions"
+    },
+    {
+      "kickoff": "2026-11-15T14:30:00Z",
+      "original": 5,
+      "research_eligible": 5,
+      "source_verified": 5,
+      "stat": "rush attempts"
+    },
+    {
+      "kickoff": "2026-11-15T18:00:00Z",
+      "original": 50,
+      "research_eligible": 45,
+      "source_verified": 45,
+      "stat": "rush attempts"
+    },
+    {
+      "kickoff": "2026-11-15T21:05:00Z",
+      "original": 21,
+      "research_eligible": 19,
+      "source_verified": 19,
+      "stat": "rush attempts"
+    },
+    {
+      "kickoff": "2026-11-15T21:25:00Z",
+      "original": 12,
+      "research_eligible": 12,
+      "source_verified": 12,
+      "stat": "rush attempts"
+    },
+    {
+      "kickoff": "2026-11-16T01:20:00Z",
+      "original": 10,
+      "research_eligible": 10,
+      "source_verified": 10,
+      "stat": "rush attempts"
+    },
+    {
+      "kickoff": "2026-11-15T14:30:00Z",
+      "original": 17,
+      "research_eligible": 17,
+      "source_verified": 17,
+      "stat": "rushing yards"
+    },
+    {
+      "kickoff": "2026-11-15T18:00:00Z",
+      "original": 140,
+      "research_eligible": 129,
+      "source_verified": 129,
+      "stat": "rushing yards"
+    },
+    {
+      "kickoff": "2026-11-15T21:05:00Z",
+      "original": 47,
+      "research_eligible": 40,
+      "source_verified": 44,
+      "stat": "rushing yards"
+    },
+    {
+      "kickoff": "2026-11-15T21:25:00Z",
+      "original": 23,
+      "research_eligible": 21,
+      "source_verified": 21,
+      "stat": "rushing yards"
+    },
+    {
+      "kickoff": "2026-11-16T01:20:00Z",
+      "original": 22,
+      "research_eligible": 22,
+      "source_verified": 22,
+      "stat": "rushing yards"
+    },
+    {
+      "kickoff": "2026-11-15T14:30:00Z",
+      "original": 11,
+      "research_eligible": 11,
+      "source_verified": 11,
+      "stat": "tackles + assists"
+    },
+    {
+      "kickoff": "2026-11-15T18:00:00Z",
+      "original": 73,
+      "research_eligible": 68,
+      "source_verified": 68,
+      "stat": "tackles + assists"
+    },
+    {
+      "kickoff": "2026-11-15T21:05:00Z",
+      "original": 14,
+      "research_eligible": 11,
+      "source_verified": 11,
+      "stat": "tackles + assists"
+    },
+    {
+      "kickoff": "2026-11-15T21:25:00Z",
+      "original": 6,
+      "research_eligible": 6,
+      "source_verified": 6,
+      "stat": "tackles + assists"
+    },
+    {
+      "kickoff": "2026-11-16T01:20:00Z",
+      "original": 10,
+      "research_eligible": 8,
+      "source_verified": 8,
+      "stat": "tackles + assists"
+    }
+  ],
+  "canonical_unique_candidate_ids": 1845,
+  "canonical_unique_quote_ids": 1845,
+  "classification": "IMMUTABLE_SOURCE_ONLY_NO_REAL_FORECASTS",
+  "conditional_research_allowed_without_full_certification": true,
+  "feature_sha256": null,
+  "first_actual_model_forecast_timestamp": null,
+  "forecast_ready_contracts_verified": 0,
+  "fully_certified_forecasts": 0,
+  "genuine_pregame_probabilities": 0,
+  "history_source_receipts_available": 0,
+  "last_actual_model_forecast_timestamp": null,
+  "model_status": "NO_REAL_MODEL_INPUT_MANIFEST_OR_ORIGINAL_CONTRACT_PREDICTIONS_AVAILABLE",
+  "no_post_kickoff_prediction_creation": true,
+  "old_excess_candidate_id_observations": 41,
+  "old_repeat_classifications": {
+    "CANDIDATE_ID_COLLISION_DIFFERENT_CONTRACT_KEY": 41
+  },
+  "old_repeat_excess_by_type": {
+    "CANDIDATE_ID_COLLISION_DIFFERENT_CONTRACT_KEY": 41
+  },
+  "old_unique_candidate_ids": 1804,
+  "original_market_counts": {
+    "completions": {
+      "original": 67,
+      "research_eligible": 62,
+      "source_verified": 65
+    },
+    "pass attempts": {
+      "original": 69,
+      "research_eligible": 64,
+      "source_verified": 67
+    },
+    "passing yards": {
+      "original": 96,
+      "research_eligible": 90,
+      "source_verified": 94
+    },
+    "receiving yards": {
+      "original": 584,
+      "research_eligible": 564,
+      "source_verified": 564
+    },
+    "receptions": {
+      "original": 568,
+      "research_eligible": 549,
+      "source_verified": 549
+    },
+    "rush attempts": {
+      "original": 98,
+      "research_eligible": 91,
+      "source_verified": 91
+    },
+    "rushing yards": {
+      "original": 249,
+      "research_eligible": 229,
+      "source_verified": 233
+    },
+    "tackles + assists": {
+      "original": 114,
+      "research_eligible": 104,
+      "source_verified": 104
+    }
+  },
+  "original_observations": 1845,
+  "rejected_models_and_missing_model_rows_not_hidden": true,
+  "schema": "ws6_corrected_original_contract_audit_v1",
+  "source-only-not-forecast-freeze": true,
+  "source_coverage_sha256": "2bec43d5dfad53ddb9b662643776db8291b53442a8c42f6f022f9a9d521516a5",
+  "source_first_known_publication_time_verified": false,
+  "source_hand_off_pin_sha256": "8f8a8a823747ce20a5e7f3879cf386d6d1887a8d5b07703d8299cee3405fd28b",
+  "source_manifest_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+  "source_receipts_hash_checked": 50,
+  "source_state_counts": {
+    "('REJECTED', 'REJECTED')": 78,
+    "('SOURCE_VERIFIED', 'ABSTAIN')": 14,
+    "('SOURCE_VERIFIED', 'CONDITIONAL_ON_PLAYING')": 1753
+  },
+  "source_verification_counts": {
+    "backup_abstentions": 14,
+    "rejected_source_identity": 78,
+    "research_shadow_eligible": 1753,
+    "source_certified": 1767
+  }
+}
