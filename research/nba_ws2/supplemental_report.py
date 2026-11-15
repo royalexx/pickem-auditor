@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 import numpy as np
 import pandas as pd
-from research.nba_ws2.run_experiment import load_population
+from research.nba_ws2.run_experiment import load_population, franchise_population
 
 
 def main():
@@ -25,6 +25,7 @@ def main():
             'mean_actual_minutes':float(rows.workload.mean()),
             'models':{m:{k:float(rows[m+'_'+k].mean()) for k in ('mae','point_mae','crps','nlpd_rounded_bin','cover50','cover80','cover90')} for m in ('M0','M1','M2')}}
     rows,manifest=load_population('work/ws2_input')
+    eligible,excluded=franchise_population(rows)
     df=pd.DataFrame(rows);totals=df.groupby(['season','game_id','team']).workload.sum()
     nearest=240+25*np.maximum(0,np.rint((totals.to_numpy()-240)/25))
     rounded_error=totals.to_numpy()-nearest
@@ -35,7 +36,10 @@ def main():
         'postgame_roster_entries':len(context),'explicit_dnp_entries':int(context.did_not_play_outcome.eq(True).sum()),
         'matched_conditional_played_entries':len(joined),
         'context_metrics':metrics,
-        'population':{'rows':len(df),'games':int(df.game_id.nunique()),'players':int(df.player_id.nunique()),
+        'conditional_played_variability':{'overall_minutes_sd':float(pd.DataFrame(eligible).workload.std()),'median_player_minutes_sd':float(pd.DataFrame(eligible).groupby('player_id').workload.std().median()),'mean_player_minutes_sd':float(pd.DataFrame(eligible).groupby('player_id').workload.std().mean()),'definition':'Descriptive positive played observations only; between-role composition and within-player variation remain separate from unobserved participation uncertainty.'},
+        'franchise_identity_exclusions':len(excluded),
+        'clean_franchise_population_rows':len(eligible),
+        'population_raw_including_exhibitions':{'rows':len(df),'games':int(df.game_id.nunique()),'players':int(df.player_id.nunique()),
             'minutes_quantiles':{str(q):float(df.workload.quantile(q)) for q in (.01,.05,.1,.25,.5,.75,.9,.95,.99)},
             'integer_minute_fraction':float(np.mean(df.workload==np.rint(df.workload))),
             'team_games':len(totals),'team_rounding_error_mae':float(np.mean(abs(rounded_error))),

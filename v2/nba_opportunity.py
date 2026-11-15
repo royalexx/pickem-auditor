@@ -172,10 +172,12 @@ class MinuteLaw:
     family: str = 'beta'
 
     def __post_init__(self):
-        if not (math.isfinite(self.mean) and 0 < self.mean < 48 and
+        if not (math.isfinite(self.mean) and 0 < self.mean and
                 math.isfinite(self.variance) and self.variance > 0 and
                 0 <= self.ot_probability < 1 and 0 < self.ot_continuation < 1):
             raise ValueError('INVALID_MINUTE_LAW')
+        if self.mean >= 48+5*self.ot_probability/(1-self.ot_continuation):
+            raise ValueError('MEAN_EXCEEDS_EXPECTED_GAME_LENGTH')
         if self.family not in ('beta', 'truncated_lognormal'):
             raise ValueError('UNKNOWN_FAMILY')
 
@@ -274,7 +276,8 @@ class MinutesModel:
         variance=cv if name == 'M0' else (n*features['sd10']**2+10*cv)/(n+10)
         if features['team_change'] or features['return_gap'] >= 2:
             variance=max(variance,cv)  # uncertainty, never a fabricated injury penalty
-        return float(np.clip(mean,.1,47.9)), float(max(variance,4.))
+        expected_length=48+5*self.ot_probability/(1-self.ot_continuation)
+        return float(np.clip(mean,.1,expected_length-1e-6)), float(max(variance,4.))
 
     def law(self,name,features,position):
         mean,var=self.parameters(name,features,position)
@@ -368,12 +371,15 @@ def lineup_segments(minutes, length):
 
 def sample_team(forecasts: Sequence[dict], *, seed: int, n: int = 1,
                 ot_probability: float, ot_continuation: float,
-                unusual_rotation_probability: float = 0.):
+                unusual_rotation_probability: float = 0.,
+                scenario_player_caps: dict[int, dict[str, float]] | None = None):
     """One team in a shared game scenario. For two teams supply identical seed
     and OT parameters: OT is drawn first from an independent game RNG stream.
     Reject underfilled sampled rosters explicitly; never force uncertain players
     active. Returned invalid scenarios remain in the attempted denominator.
     Projection changes marginal laws: these team scenarios need separate validation.
+    Optional scenario_player_caps supplies externally generated latent early-exit
+    limits, not realized postgame features. Infeasible limits retain an invalid row.
     """
     if not forecasts or n < 1 or not 0 <= ot_probability < 1 or not 0 < ot_continuation < 1 or not 0 <= unusual_rotation_probability <= 1:
         raise ValueError('INVALID_SCENARIO_CONFIGURATION')
@@ -392,6 +398,9 @@ def sample_team(forecasts: Sequence[dict], *, seed: int, n: int = 1,
         if not f['active_roster_eligible'] and probability != 0:
             raise ValueError('ROSTER_PARTICIPATION_CONFLICT')
     team=forecasts[0]['team_id']; game=forecasts[0]['game_id']
+    for limits in (scenario_player_caps or {}).values():
+        if not set(limits).issubset(ids) or any(not math.isfinite(v) or v < 0 for v in limits.values()):
+            raise ValueError('INVALID_SCENARIO_EXIT_LIMITS')
     team_seed=int.from_bytes(hashlib.sha256(f'{seed}/{game}/{team}'.encode()).digest()[:8],'little')
     rng=np.random.default_rng(team_seed)
     game_seed=int.from_bytes(hashlib.sha256(f'{seed}/{game}'.encode()).digest()[:8],'little')
@@ -409,10 +418,20 @@ def sample_team(forecasts: Sequence[dict], *, seed: int, n: int = 1,
         unusual=rng.random()<unusual_rotation_probability
         if unusual:desired = np.minimum(length, desired*rng.lognormal(0,.5,len(desired)))
         caps=active.astype(float)*length
-        allocation=capped_allocation(desired,caps,total)
+        limits=(scenario_player_caps or {}).get(j,{})
+        caps=np.array([min(caps[i],limits.get(player,length)) for i,player in enumerate(ids)])
+        if np.any(active & (caps <= 0)):
+            result.append({**scenario,'valid':False,'reason':'PARTICIPANT_HAS_ZERO_EXPOSURE_CAP'});continue
+        # Numeric positivity preserves the participation draw. This machine-epsilon
+        # tolerance is not a fitted physical minimum or a generic minutes cap.
+        lower=np.where(active,np.minimum(caps,np.finfo(float).eps*length),0.)
+        try:
+            allocation=lower+capped_allocation(desired-lower,caps-lower,total-lower.sum())
+        except ValueError as exc:
+            result.append({**scenario,'valid':False,'reason':str(exc)});continue
         segments=lineup_segments(allocation,length)
         result.append({**scenario,'valid':True,'rotation_state':'unusual' if unusual else 'normal',
-            'minutes':allocation.tolist(),'independent_minutes':desired.tolist(),
+            'minutes':allocation.tolist(),'participation_draw':active.tolist(),'independent_minutes':desired.tolist(),
             'independent_team_total':float(desired.sum()),'team_total':float(allocation.sum()),
             'lineup_segments':segments})
     return result

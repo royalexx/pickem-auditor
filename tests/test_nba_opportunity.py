@@ -115,6 +115,11 @@ class MinuteDistributionTests(unittest.TestCase):
         reference=quad(lambda x:float(law.cdf(x))**2,0,29)[0]+quad(lambda x:(1-float(law.cdf(x)))**2,29,140)[0]
         self.assertAlmostEqual(s.crps,reference,delta=.002)
 
+    def test_expected_minutes_can_exceed_regulation_with_ot(self):
+        law=MinuteLaw(48.1,4.,.1,.2)
+        self.assertAlmostEqual(law.summary()['expected_minutes_given_played'],48.1,places=6)
+        with self.assertRaises(ValueError):MinuteLaw(50.,4.,.1,.2)
+
     def test_invalid_law_parameters(self):
         for args in [(0,49,.1,.2),(30,-1,.1,.2),(30,49,1,.2),(30,49,.1,0)]:
             with self.assertRaises(ValueError):MinuteLaw(*args)
@@ -174,6 +179,23 @@ class TeamConservationTests(unittest.TestCase):
                               ot_continuation=.2,unusual_rotation_probability=1.)
         for s in scenarios:
             self.assertTrue(all(0 <= m <= s['game_length'] for m in s['independent_minutes']))
+
+    def test_latent_early_exit_caps_are_honored_or_retained_as_invalid(self):
+        scenarios=sample_team(self.forecasts(),seed=41,n=2,ot_probability=0,
+            ot_continuation=.2,scenario_player_caps={0:{'0':3.},1:{str(i):10. for i in range(10)}})
+        self.assertTrue(scenarios[0]['valid'])
+        self.assertLessEqual(scenarios[0]['minutes'][0],3.)
+        self.assertFalse(scenarios[1]['valid'])
+        self.assertEqual(scenarios[1]['reason'],'INFEASIBLE_TEAM_ROTATION')
+
+    def test_selected_participants_keep_positive_exposure(self):
+        scenarios=sample_team(self.forecasts(),seed=57,n=100,ot_probability=0,
+                             ot_continuation=.2,unusual_rotation_probability=1.)
+        self.assertTrue(all(all(m>0 for m in s['minutes']) for s in scenarios))
+        invalid=sample_team(self.forecasts(),seed=57,n=1,ot_probability=0,
+                           ot_continuation=.2,scenario_player_caps={0:{'0':0.}})[0]
+        self.assertFalse(invalid['valid'])
+        self.assertEqual(invalid['reason'],'PARTICIPANT_HAS_ZERO_EXPOSURE_CAP')
 
     def test_impossible_early_exit_caps_rejected(self):
         with self.assertRaises(ValueError):capped_allocation([20]*5,[40]*5,240)

@@ -16,6 +16,7 @@ import time
 import numpy as np
 import pandas as pd
 from scipy.special import betainc, ndtr
+from scipy.integrate import trapezoid
 from sklearn.linear_model import Ridge
 from v2.nba_opportunity import FEATURES, MinutesModel, MinuteLaw, causal_features, position_group, role
 
@@ -139,7 +140,7 @@ def score(model,name,table,family=None,permuted=False):
                 c=np.where(xx<=0,0,np.where(xx>=length,1,c))
             cdf += weight*c
         c=cdf[:,:len(grid)]
-        crps=np.trapezoid((c-(grid[None,:]>=y[:,None]))**2,grid,axis=1)
+        crps=trapezoid((c-(grid[None,:]>=y[:,None]))**2,grid,axis=1)
         # Midpoint correction: y falls on the integration grid for rounded data;
         # trapezoid at its step has O(h) direction bias. Average the two endpoint conventions.
         crps += .25*(c[np.arange(len(y)),np.minimum((y*4).astype(int),len(grid)-1)]-.5)
