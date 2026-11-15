@@ -59,6 +59,17 @@ def test_hash_and_immutable_write():
     with unittest.TestCase().assertRaises(ValueError):m.verified(p,'0'*64)
     with unittest.TestCase().assertRaises(ValueError):m.unchanged(p,b'changed')
     assert p.read_bytes()==b
+    tmp.cleanup()
+
+def test_single_writer_lease():
+    original=m.ROOT
+    with TemporaryDirectory() as directory:
+        m.ROOT=Path(directory)
+        try:
+            out=m.ROOT/'market_extension_v2_5_1';out.mkdir()
+            (out/'.ws1_extension.lock').write_text('already running')
+            with unittest.TestCase().assertRaisesRegex(RuntimeError,'ALREADY_RUNNING'):m.build()
+        finally:m.ROOT=original
 
 
 def load_tests(loader, tests, pattern):

@@ -124,14 +124,23 @@ def load_history(pin, freeze):
             'source_sha256':recs['stats2026']['sha256']}
         if history_valid(rr,freeze):rows.append(rr)
     evidence.extend({'path':r['raw_path'],'sha256':r['sha256'],'source_available_at':r['observed_received_at']} for r in recs.values() if r.get('raw_path'))
-    return unique_history(rows),evidence
+    accepted=[];rejected=[]
+    for r in rows:
+        try:identity(r.get('gsis_id'))
+        except ValueError:
+            rejected.append({'game_id':r['game_id'],'game_date':r['game_date'],
+                'source_player_id':r.get('gsis_id'),'reason':'GSIS_NAMESPACE_REQUIRED',
+                'source_sha256':r['source_sha256'],'source_file':r['source_file'],
+                'source_available_at':r['source_available_at']})
+        else:accepted.append(r)
+    return unique_history(accepted),evidence,rejected
 
 def table(out, name, rows):
     b=b''.join(canonical(r) for r in rows)
     rec=unchanged(out/(name+'_'+sha(b)+'.jsonl'),b)
     return {**rec,'rows':len(rows)}
 
-def build():
+def _build():
     freeze=now();old_path=ROOT/'FORECAST_FEATURE_PIN.json'
     old_bytes=verified(old_path,OLD_FEATURE);pin=json.loads(old_bytes)
     source_path=Path(pin['canonical_source_manifest_path'])
@@ -157,14 +166,14 @@ def build():
     for label,receipt in acquired.items():
         if receipt.get('raw_path'):pin['new_raw_source_receipts'][label]=receipt
     freeze=now()
-    history,evidence=load_history(pin,freeze)
+    history,evidence,history_rejections=load_history(pin,freeze)
     by_player=defaultdict(list)
     for r in history:by_player[r['gsis_id']].append(r)
     for h in by_player.values():h.sort(key=lambda r:(r['game_date'],r['game_id']))
     bridge=defaultdict(set);names={}
     for p in read_csv(pin['new_raw_source_receipts']['players']):
         eid=str(p.get('espn_id') or '').removesuffix('.0');gid=p.get('gsis_id')
-        if eid and gid:
+        if eid and isinstance(gid,str) and re.fullmatch(r'00-\d{7}',gid):
             bridge[eid].add(gid);names[(eid,gid)]=p.get('display_name')
     from nfl_sunday_capture import roster_athletes,depth_qb
     sources=manifest['sources'];players=[];history_output=[]
@@ -238,6 +247,7 @@ def build():
                 'internal_components':{f:numeric(r.get(f)) for f in ('def_tackles_solo','def_tackles_with_assist','def_tackle_assists')},
                 'source_available_at':r['source_available_at'],'source_sha256':r['source_sha256'],'source_file':r['source_file']})
     tables={'original_contracts':table(out,'original_contracts',contracts),
+        'historical_identity_rejections':table(out,'historical_identity_rejections',history_rejections),
         'internal_tackle_evidence':table(out,'internal_tackle_evidence',tackle_internal),
         'paired_history':table(out,'paired_history',history_output),
         'crosswalk':table(out,'crosswalk',[{'quote_id':c['quote_id'],'candidate_id':c['candidate_id'],'player_stat_id':c['player_stat_id']} for c in contracts])}
@@ -261,6 +271,7 @@ def build():
         'source_evidence':evidence,'tables':tables,'coverage':counts,
         'new_public_source_receipts':acquired,
         'unmapped_contract_rows':sum(c['player_stat_id'] is None for c in contracts),
+        'historical_identity_rejections':len(history_rejections),
         'history_original_pregame_availability_verified':False,
         'release_authority':False,'status':'SHADOW_ONLY_SOURCE_EXTENSION',
         'limitations':['No documented provider targets/composite live keys; no fabricated offers',
@@ -277,5 +288,20 @@ def build():
     assert verified(source_path,OLD_SOURCE)==source_bytes
     print(json.dumps({'pin':receipt,'source':source_rec,'coverage':counts,'tables':tables,'unmapped_contract_rows':expanded['unmapped_contract_rows']},sort_keys=True))
     return feature_pin
+
+def build():
+    """Single-writer lease, immutable reruns and no duplicate source requests."""
+    out=ROOT/'market_extension_v2_5_1';out.mkdir(parents=True,exist_ok=True)
+    pin=out/'FEATURE_PIN.json'
+    if pin.exists():
+        result=json.loads(pin.read_bytes())
+        for r in result['tables'].values():verified(r['path'],r['sha256'])
+        return result
+    lock=out/'.ws1_extension.lock'
+    try:
+        with lock.open('x') as f:f.write(now())
+    except FileExistsError:raise RuntimeError('WS1_EXTENSION_ALREADY_RUNNING')
+    try:return _build()
+    finally:lock.unlink(missing_ok=True)
 
 if __name__=='__main__':build()

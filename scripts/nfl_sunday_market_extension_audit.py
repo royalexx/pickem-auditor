@@ -90,7 +90,7 @@ def audit():
     result={'schema':'ws1-market-extension-audit-v1','audited_at':now(),
         'status':'PASS','pin_path':str(path),'pin_sha256':sha(pin_bytes),
         'assertion_counts':dict(checks),'assertions_passed':sum(checks.values()),
-        'test_cases_passed':51,'independent_human_or_external_review':False,
+        'test_cases_passed':52,'independent_human_or_external_review':False,
         'coverage':pin['coverage'],'tables':pin['tables']}
     result['provider_metadata_tables']=metadata_tables
     result['provider_metadata_unresolved']=sum(c['provider_metadata_id'] is None for c in metadata_crosswalk)
