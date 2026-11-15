@@ -1,0 +1,16 @@
+{
+  "schema": "PA_WS4_PRESETTLEMENT_AMENDMENT_V02",
+  "date_utc": "2026-11-15",
+  "original_card": "joint_models/EXPERIMENT_CARD.json",
+  "model_version": "ws4_j1234_v0.2.0",
+  "modification": "Receiving running backs are now included with WR/TE in one finite team pass-target allocation pool. Separate rushing carries remain conserved in the team rush pool.",
+  "why_changed": "A v0.1 synthetic coverage audit identified incorrectly abstained RB receiving props even though the team passing opportunity pool could represent them.",
+  "model_parameter_change": false,
+  "fixed_scenario_weights_unchanged": {"neutral": 0.5, "pass_heavy_underdog": 0.2, "run_heavy_favorite": 0.2, "low_tempo": 0.1},
+  "different_predeclared_model_identity_and_seed": true,
+  "v01_forecasts_preserved_not_rewritten": true,
+  "new_test": "test_rb_targets_receptions_are_supported_without_changing_carries",
+  "source_gate": "Read-only native WS1 original provider quotes; forecast only if individually supported point-in-time opportunity parameters and confirmed starter receipts are authentically present. Current native source independent audit reports 0 forecast eligible quotes.",
+  "outcomes_observed_for_amendment": false,
+  "release_status": "SHADOW_ONLY_NO_PRODUCTION_AUTHORITY"
+}
