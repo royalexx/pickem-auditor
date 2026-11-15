@@ -137,9 +137,22 @@ def key_of(row):
 
 def probability(row):
     a, b, p = [number(row.get(k), k) for k in ("q_over", "q_under", "q_push")]
+    p0 = p
     if any(x < 0 or x > 1 for x in (a, b, p)) or abs(math.fsum((a, b, p)) - 1) > 1e-10:
         fail("PROBABILITY_INTEGRITY")
     distribution = row.get("distribution")
+    if distribution is not None and (not isinstance(distribution, dict)
+                                     or distribution.get("kind") != "discrete"):
+        # Non-discrete laws must pass the pre-existing versioned v2 validator.
+        try:
+            from v2.contracts import parse_distribution
+            p = parse_distribution(distribution).probabilities(number(row["line"], "line"))
+            if max(abs(p.over - a), abs(p.under - b), abs(p.push - p0)) > 1e-8:
+                fail("DISTRIBUTION_THRESHOLD_MISMATCH")
+        except ImportError:
+            fail("DISTRIBUTION_VALIDATOR_UNAVAILABLE")
+        except (ValueError, KeyError, TypeError, AttributeError) as exc:
+            fail("DISTRIBUTION_INVALID:" + str(exc))
     if distribution is not None and distribution.get("kind") == "discrete":
         masses = distribution.get("masses")
         if not isinstance(masses, list) or not masses:
@@ -241,26 +254,44 @@ def group_score(rows):
     if not rows:
         return {"count": 0}
     n = len(rows)
+    tri = [r for r in rows if r["brier3"] is not None]
+    binary = [r for r in rows if r["binary_brier"] is not None]
+    crps = [r["crps"] for r in rows if r["crps"] is not None]
+    selected = [r for r in binary if r["selected"] and r["selected_side"] in ("over", "under")]
+    confident = []
+    for r in selected:
+        den = r["q_over"] + r["q_under"]
+        if den > 0:
+            confidence = (r["q_over"] if r["selected_side"] == "over" else r["q_under"]) / den
+            confident.append((confidence, float(r["outcome"] == r["selected_side"])))
+    bins = {}
+    for low, high in ((0, .5), (.5, .6), (.6, .7), (.7, .8), (.8, .9), (.9, 1.0000001)):
+        bucket = [(p, y) for p, y in confident if low <= p < high]
+        bins[f"{low:.1f}-{min(high, 1):.1f}"] = {
+            "n": len(bucket),
+            "claimed_mean": sum(p for p, y in bucket) / len(bucket) if bucket else None,
+            "observed_rate": sum(y for p, y in bucket) / len(bucket) if bucket else None}
     return {
-        "count": n,
-        "multiclass_brier_half": sum(r["brier3"] for r in rows) / n,
-        "multiclass_logloss": sum(r["logloss3"] for r in rows) / n,
-        "binary_nonpush_count": sum(r["binary_brier"] is not None for r in rows),
-        "binary_nonpush_brier": (sum(r["binary_brier"] for r in rows if r["binary_brier"] is not None)
-                                 / max(1, sum(r["binary_brier"] is not None for r in rows))),
-        "binary_nonpush_logloss": (sum(r["binary_logloss"] for r in rows if r["binary_logloss"] is not None)
-                                  / max(1, sum(r["binary_logloss"] is not None for r in rows))),
+        "count": n, "three_way_count": len(tri),
+        "multiclass_brier_half": sum(r["brier3"] for r in tri) / len(tri) if tri else None,
+        "multiclass_logloss": sum(r["logloss3"] for r in tri) / len(tri) if tri else None,
+        "binary_nonpush_count": len(binary),
+        "binary_nonpush_brier": sum(r["binary_brier"] for r in binary) / len(binary) if binary else None,
+        "binary_nonpush_logloss": sum(r["binary_logloss"] for r in binary) / len(binary) if binary else None,
         "predicted_over_mean": sum(r["q_over"] for r in rows) / n,
         "realized_over_rate": sum(r["outcome"] == "over" for r in rows) / n,
         "selected_over_fraction": (sum(r["selected"] and r["selected_side"] == "over" for r in rows)
-                                   / max(1, sum(r["selected"] for r in rows))),
+                                   / sum(r["selected"] for r in rows) if any(r["selected"] for r in rows) else None),
         "selected_count": sum(r["selected"] for r in rows),
-        "directional_accuracy_nonpush": (sum(r["predicted_side"] == r["outcome"] for r in rows
-                                            if r["outcome"] != "push")
-                                          / max(1, sum(r["outcome"] != "push" for r in rows))),
-        "crps_supported_count": sum(r["crps"] is not None for r in rows),
-        "crps_mean": (sum(r["crps"] for r in rows if r["crps"] is not None)
-                      / max(1, sum(r["crps"] is not None for r in rows))),
+        "selected_nonpush_count": len(selected),
+        "selected_claimed_confidence_mean": sum(p for p, y in confident) / len(confident) if confident else None,
+        "selected_realized_hit_rate": sum(y for p, y in confident) / len(confident) if confident else None,
+        "selected_confidence_minus_hit_rate": sum(p - y for p, y in confident) / len(confident) if confident else None,
+        "selected_confidence_bands": bins,
+        "directional_accuracy_nonpush": (sum(r["predicted_side"] == r["outcome"] for r in binary)
+                                          / len(binary) if binary else None),
+        "crps_supported_count": len(crps),
+        "crps_mean": sum(crps) / len(crps) if crps else None,
     }
 
 
@@ -268,20 +299,22 @@ def bootstrap_paired(all_rows, challenger, control, seed=15026, repetitions=2000
     by_key = defaultdict(dict)
     for r in all_rows:
         by_key[r["contract_id"]][r["model_id"]] = r
+    metric = "binary_brier" if control == "market_no_vig" or challenger == "market_no_vig" else "brier3"
     pairs = [(d[challenger], d[control]) for d in by_key.values()
-             if challenger in d and control in d]
+             if challenger in d and control in d
+             and d[challenger][metric] is not None and d[control][metric] is not None]
     if not pairs:
         return {"paired_n": 0, "status": "UNAVAILABLE"}
     clusters = defaultdict(list)
     for a, b in pairs:
         if a["event_id"] != b["event_id"] or a["outcome"] != b["outcome"]:
             fail("PAIRED_CONTRACT_OR_OUTCOME_MISMATCH")
-        clusters[a["event_id"]].append(a["brier3"] - b["brier3"])
+        clusters[a["event_id"]].append(a[metric] - b[metric])
     names = sorted(clusters)
     diff = sum(sum(v) for v in clusters.values()) / sum(len(v) for v in clusters.values())
     if len(names) < 3:
         return {"paired_n": len(pairs), "game_clusters": len(names),
-                "mean_brier_difference": diff, "status": "TOO_FEW_GAME_CLUSTERS"}
+                "metric": metric, "mean_brier_difference": diff, "status": "TOO_FEW_GAME_CLUSTERS"}
     rng = random.Random(seed)
     vals = []
     for _ in range(repetitions):
@@ -335,6 +368,8 @@ def freeze(args):
         except (IntegrityError, ValueError, TypeError, KeyError) as ex:
             rejects.append({"row": i, "quote_id": qid, "reason": str(ex)})
     count_ok = len(original) == manifest["expected_contract_count"]
+    covered_games = {q["event_id"] for q in original.values()}
+    complete_events_covered = covered_games == set(events)
     source_hash = file_sha(manifest_path)
     forecasts = {}
     model_counts = Counter()
@@ -396,6 +431,16 @@ def freeze(args):
     out.mkdir(parents=True, exist_ok=False)
     dump_lines(out / "comparison_ledger.jsonl", ledger)
     dump_lines(out / "quote_rejections.jsonl", rejects)
+    source_receipts = [{"row": i, "quote_id": q.get("quote_id"),
+                        "contract_id": q.get("contract_id"),
+                        "original_archive_path": q.get("source_archive_path"),
+                        "original_content_sha256": q.get("source_sha256"),
+                        "provider_first_available_at": q.get("source_available_at"),
+                        "collector_capture_at": q.get("captured_at"),
+                        "acceptance": "STRUCTURAL_PASS" if q.get("contract_id") in original else "REJECTED",
+                        "reject_reason": next((r["reason"] for r in rejects if r.get("row") == i), None)}
+                       for i, q in enumerate(quotes)]
+    dump_lines(out / "source_receipt_ledger.jsonl", source_receipts)
     dump_lines(out / "forecast_rejections.jsonl", failures)
     register = {mid: {"rows_submitted": model_counts[mid], "versions": sorted(model_versions[mid]),
                       "valid_rows": sum((cid, mid) in forecasts for cid in original),
@@ -408,6 +453,7 @@ def freeze(args):
               "quotes_total": len(quotes), "accepted_original_contracts": len(original),
               "quote_rejections": len(rejects), "expected_contract_count": manifest["expected_contract_count"],
               "full_universe_count_matches_manifest": count_ok,
+              "all_scheduled_events_represented_by_original_contract": complete_events_covered,
               "forecast_rows_submitted": sum(model_counts.values()),
               "forecast_rows_valid_structure": len(forecasts),
               "forecast_rejections": len(failures),
@@ -423,7 +469,7 @@ def freeze(args):
         "integrity_report_sha256": file_sha(out / "integrity_report.json"),
         "classification": "SHADOW_ONLY_NOT_EXTERNALLY_CERTIFIED"})
     print(json.dumps(report, sort_keys=True))
-    return 0 if count_ok and not failures and not rejects else 2
+    return 0 if count_ok and complete_events_covered and forecasts and not failures and not rejects else 2
 
 
 def score(args):
@@ -508,6 +554,27 @@ def score(args):
                 "predicted_side": "over" if ps[0] >= ps[1] else "under",
                 "selected": m.get("selected") is True,
                 "selected_side": m.get("selected_side")})
+    # Sportsbook baseline uses ONLY compatible original two-sided prices.
+    # Treat quoted no-vig odds as conditional P(over | nonpush), never invent
+    # integer-line push probability. It participates in BINARY paired scores only.
+    for qrow in ledger:
+        q = qrow["quote"]
+        pm = qrow.get("market_no_vig_over_conditional_nonpush")
+        official = next((x for x in settled if x["contract_id"] == q["contract_id"]), None)
+        if pm is None or official is None or official["settlement"] not in ("over", "under"):
+            continue
+        actual_over = float(official["settlement"] == "over")
+        metric_rows.append({
+            "contract_id": q["contract_id"], "event_id": q["event_id"],
+            "model_id": "market_no_vig", "stat_key": q["stat_key"],
+            "date": q["event_start_at"][:10],
+            "outcome": official["settlement"], "q_over": pm, "q_under": 1 - pm,
+            "q_push": None, "brier3": None, "logloss3": None,
+            "binary_brier": (pm - actual_over) ** 2,
+            "binary_logloss": -(actual_over * math.log(max(pm, 1e-15))
+                                + (1 - actual_over) * math.log(max(1 - pm, 1e-15))),
+            "crps": None, "predicted_side": "over" if pm >= .5 else "under",
+            "selected": False, "selected_side": None})
     models = defaultdict(list)
     bymarket = defaultdict(list)
     selection = defaultdict(list)
@@ -532,6 +599,7 @@ def score(args):
               "per_market": {a + ":" + b: group_score(v) for (a, b), v in bymarket.items()},
               "selected_vs_not": {a + ":" + b: group_score(v) for (a, b), v in selection.items()},
               "matched_paired_game_clusters": paired, "evaluated_dates": dates,
+              "market_reference_semantics": "No-vig Over probability conditional on nonpush; binary comparisons only",
               "date_cluster_inference": "UNAVAILABLE_SINGLE_DATE" if len(dates) < 3 else "REQUIRES_PRECOMMITTED_DATE_BOOTSTRAP",
               "multiplicity": {"observed_model_comparisons": len(paired),
                                "promotion_inference": "PROHIBITED"},
