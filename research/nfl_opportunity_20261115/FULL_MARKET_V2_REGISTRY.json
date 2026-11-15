@@ -1,0 +1,142 @@
+{
+  "schema": "ws3-full-market-registry-v2",
+  "status": "SHADOW_ONLY_UNCERTIFIED",
+  "governing": "PA-V25-MASTER-2026-11-09/v1.1",
+  "model_equations": "unchanged v1 lower-information opportunity, share and conversion; matched component sums added",
+  "adapter": "ws1-full-market-adapter-v2.1",
+  "models": [
+    {
+      "model_id": "O1-context-volume-full-market-v2",
+      "eligibility": {},
+      "status": "TEAM_ONLY",
+      "requires": "authenticated team attempts/rushes/sacks, historical source cutoff, exact roster identity; QB requires expected starter; WR/TE rush requires actual carries; composite requires both components"
+    },
+    {
+      "model_id": "O2-position-usage-full-market-v2",
+      "eligibility": {
+        "RB": [
+          "rush_attempts",
+          "rushing_yards",
+          "receiving_targets",
+          "receptions",
+          "receiving_yards",
+          "rushing_receiving_yards"
+        ],
+        "WR": [
+          "rush_attempts",
+          "rushing_yards",
+          "receiving_targets",
+          "receptions",
+          "receiving_yards",
+          "rushing_receiving_yards"
+        ],
+        "TE": [
+          "rush_attempts",
+          "rushing_yards",
+          "receiving_targets",
+          "receptions",
+          "receiving_yards",
+          "rushing_receiving_yards"
+        ]
+      },
+      "status": "PROSPECTIVE_SHADOW",
+      "requires": "authenticated team attempts/rushes/sacks, historical source cutoff, exact roster identity; QB requires expected starter; WR/TE rush requires actual carries; composite requires both components"
+    },
+    {
+      "model_id": "O3-qb-mean-preserving-full-market-v2",
+      "eligibility": {
+        "QB": [
+          "pass_attempts",
+          "pass_completions",
+          "passing_yards",
+          "rush_attempts",
+          "rushing_yards",
+          "passing_rushing_yards"
+        ]
+      },
+      "status": "PROSPECTIVE_SHADOW",
+      "requires": "authenticated team attempts/rushes/sacks, historical source cutoff, exact roster identity; QB requires expected starter; WR/TE rush requires actual carries; composite requires both components"
+    },
+    {
+      "model_id": "O4-defensive-components-full-market-v2",
+      "eligibility": {
+        "LB": [
+          "tackles_assists"
+        ],
+        "DB": [
+          "tackles_assists"
+        ],
+        "DE": [
+          "tackles_assists"
+        ],
+        "DT": [
+          "tackles_assists"
+        ]
+      },
+      "status": "BLOCKED_OFFICIAL_COMBINED_CREDIT_ACCOUNTING",
+      "requires": "authenticated team attempts/rushes/sacks, historical source cutoff, exact roster identity; QB requires expected starter; WR/TE rush requires actual carries; composite requires both components"
+    },
+    {
+      "model_id": "O5-role-mixture-full-market-v2",
+      "eligibility": {
+        "QB": [
+          "pass_attempts",
+          "pass_completions",
+          "passing_yards",
+          "rush_attempts",
+          "rushing_yards",
+          "passing_rushing_yards"
+        ],
+        "RB": [
+          "rush_attempts",
+          "rushing_yards",
+          "receiving_targets",
+          "receptions",
+          "receiving_yards",
+          "rushing_receiving_yards"
+        ],
+        "WR": [
+          "rush_attempts",
+          "rushing_yards",
+          "receiving_targets",
+          "receptions",
+          "receiving_yards",
+          "rushing_receiving_yards"
+        ],
+        "TE": [
+          "rush_attempts",
+          "rushing_yards",
+          "receiving_targets",
+          "receptions",
+          "receiving_yards",
+          "rushing_receiving_yards"
+        ]
+      },
+      "status": "PROSPECTIVE_SHADOW",
+      "requires": "authenticated team attempts/rushes/sacks, historical source cutoff, exact roster identity; QB requires expected starter; WR/TE rush requires actual carries; composite requires both components"
+    }
+  ],
+  "frozen_role_assumptions": {
+    "weights": [
+      0.2,
+      0.6,
+      0.2
+    ],
+    "multipliers": [
+      0.6,
+      1,
+      1.25
+    ],
+    "learned": false
+  },
+  "weather_effect": "NOT_ESTIMATED",
+  "promotion_authority": false,
+  "code_sha256": {
+    "test_full_market_adapter_v2_1.py": "13156693f265fa50118eb75b9b881e84d87157e0897242cc432baad1c122a26e",
+    "ws1_full_market_adapter_v2.py": "48b7e96e6eb86d1f2432d8218b2f229cfa6281520a3e2dea42ace82f05120117",
+    "verify_full_market_v2.py": "bde7b981081c0956e8e466b0570659cd71f3a5ca0d5c91df8a0dda83a5c21db8",
+    "full_market_v2.py": "2911eea7e2568fa9a164e33237d276d45cd602cdeda5f9f485b8d32ef962ab06",
+    "test_full_market_v2.py": "d1d99104ed667cb322cf7173275d3a4d24fd8ee479506df6e406f2b54ca74f75",
+    "ws1_full_market_adapter_v2_1.py": "78e438f145f442b88a360830624013dcc70067cee79db04e99c919ee580d317c"
+  }
+}

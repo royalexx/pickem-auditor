@@ -1,0 +1,137 @@
+{
+  "upstream_ws1_run_id": "cd6e5a7d-bf05-490a-beb2-d0c2c3a3876e",
+  "status": "success",
+  "completed_at": "2026-11-15T04:33:20.115Z",
+  "capture_summary": {
+    "failures": {
+      "EVENT_IDENTITY_UNVERIFIABLE": 1845
+    },
+    "forecast_eligible": 0,
+    "games": 12,
+    "games_verified": 12,
+    "market_coverage": {
+      "completions": 67,
+      "pass attempts": 69,
+      "passing yards": 96,
+      "receiving yards": 584,
+      "receptions": 568,
+      "rush attempts": 98,
+      "rushing yards": 249,
+      "tackles + assists": 114
+    },
+    "notes": [
+      {
+        "detail": "MARKET_SOURCE_INVENTORY_JSON={\"NFL\":{\"normalized_two_sided_quote_counts\":{\"completions\":67,\"pass attempts\":69,\"passing yards\":96,\"receiving yards\":584,\"receptions\":568,\"rush attempts\":98,\"rushing yards\":249,\"tackles + assists\":114},\"pregame_event_count\":12,\"raw_bookmaker_market_counts\":{\"player_pass_attempts\":93,\"player_pass_completions\":91,\"player_pass_yds\":168,\"player_reception_yds\":1038,\"player_receptions\":868,\"player_rush_attempts\":140,\"player_rush_yds\":449,\"player_tackles_assists\":228}}}",
+        "reason": "PROPLINE_PROVIDER_NOTE"
+      }
+    ],
+    "original_quotes": 1845,
+    "receipt": {
+      "canonical_sha256": "20ed83fd40787cccc38a242a8698f0a4e09aaaa54f261b923c8a5f4aa232ed10",
+      "file_sha256": "9a7752e70db7c1d56226847df56f7985c1dd4fba79ae6c3b49acc9e7aad6c150",
+      "path": "/datasets/_deepnote_work/reports/nfl_20261115_prospective/source_control/captures/20ed83fd40787cccc38a242a8698f0a4e09aaaa54f261b923c8a5f4aa232ed10.json",
+      "schema": "nfl_20261115_source_control_v1"
+    },
+    "source_certified_quotes": 0,
+    "source_errors": [
+      {
+        "reason": "ValueError",
+        "source": "espn_ATL_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_CIN_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_CLE_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_CAR_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_BUF_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_ARI_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_DAL_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_GB_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_IND_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_DET_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_HOU_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_JAX_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_LAR_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_KC_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_MIA_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_LV_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_MIN_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_NE_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_NO_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_NYJ_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_PIT_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_SEA_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_SF_injuries"
+      },
+      {
+        "reason": "ValueError",
+        "source": "espn_TEN_injuries"
+      }
+    ],
+    "status": "CAPTURED_RESEARCH_ONLY"
+  },
+  "consumption_status": "UPSTREAM_OUTPUT_INSPECTED; WS3_NATIVE_BYTE_CONSUMPTION_NOT_EXECUTED"
+}

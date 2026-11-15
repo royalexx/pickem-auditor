@@ -1,0 +1,23 @@
+test_direct_constructor_cannot_bypass_future_or_cutoff_gate (research.nfl_opportunity_20261115.test_models.AdditionalIntegrityTests.test_direct_constructor_cannot_bypass_future_or_cutoff_gate) ... ok
+test_exact_duplicate_rejected_but_distinct_book_preserved (research.nfl_opportunity_20261115.test_models.AdditionalIntegrityTests.test_exact_duplicate_rejected_but_distinct_book_preserved) ... ok
+test_fractional_official_component_and_wrong_game_join_rejected (research.nfl_opportunity_20261115.test_models.AdditionalIntegrityTests.test_fractional_official_component_and_wrong_game_join_rejected) ... ok
+test_all_models_end_to_end_and_no_baseline_mutation (research.nfl_opportunity_20261115.test_models.ModelTests.test_all_models_end_to_end_and_no_baseline_mutation) ... ok
+test_backups_never_eligible_even_if_history_present (research.nfl_opportunity_20261115.test_models.ModelTests.test_backups_never_eligible_even_if_history_present) ... ok
+test_conservation_mixture_and_determinism (research.nfl_opportunity_20261115.test_models.ModelTests.test_conservation_mixture_and_determinism) ... ok
+test_dnp_unknown_and_injury_reduction (research.nfl_opportunity_20261115.test_models.ModelTests.test_dnp_unknown_and_injury_reduction) ... ok
+test_forbidden_final_script_and_table_tampering (research.nfl_opportunity_20261115.test_models.ModelTests.test_forbidden_final_script_and_table_tampering) ... ok
+test_future_weeks_target_ids_duplicate_and_ranges (research.nfl_opportunity_20261115.test_models.ModelTests.test_future_weeks_target_ids_duplicate_and_ranges) ... ok
+test_immutable_output (research.nfl_opportunity_20261115.test_models.ModelTests.test_immutable_output) ... ok
+test_pregame_gate_hashes_and_clocks (research.nfl_opportunity_20261115.test_models.ModelTests.test_pregame_gate_hashes_and_clocks) ... ok
+test_probability_side_reverse_push_and_zero_receiving (research.nfl_opportunity_20261115.test_models.ModelTests.test_probability_side_reverse_push_and_zero_receiving) ... ok
+test_qb_beta_expectation_independent_numeric_control (research.nfl_opportunity_20261115.test_models.ModelTests.test_qb_beta_expectation_independent_numeric_control) ... ok
+test_source_after_training_cutoff_and_kickoff (research.nfl_opportunity_20261115.test_models.ModelTests.test_source_after_training_cutoff_and_kickoff) ... ok
+test_three_components_and_fail_closed_missing (research.nfl_opportunity_20261115.test_models.ModelTests.test_three_components_and_fail_closed_missing) ... ok
+test_native_corrupt_source_not_recertified (research.nfl_opportunity_20261115.test_models.NativeHandoffTests.test_native_corrupt_source_not_recertified) ... ok
+test_native_rows_all_preserved_and_unfrozen_controls_stay_null (research.nfl_opportunity_20261115.test_models.NativeHandoffTests.test_native_rows_all_preserved_and_unfrozen_controls_stay_null) ... ok
+test_strict_json_rejects_duplicate_keys_and_nonfinite (research.nfl_opportunity_20261115.test_models.NativeHandoffTests.test_strict_json_rejects_duplicate_keys_and_nonfinite) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.593s
+
+OK

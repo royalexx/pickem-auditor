@@ -1,0 +1,591 @@
+{
+  "feature_pin": "c3ec93c78fcae413f66afe431f817f4d986f0fd1e884c665caefc5c7a3ed230c",
+  "parent_feature_pin": "35a1bf7fe16acca1e115c7be7bcad2c2464ec27cdf7e799df4f2b31adba24c2a",
+  "sources": [
+    {
+      "path": "reports/nfl_20261115_prospective/source_control/feature_store/events_f8129cf073847ca5b4ec69908647d620531eb3902ca947ae09d74bcd1b6ba705.jsonl",
+      "received_at": null,
+      "sha256": "f8129cf073847ca5b4ec69908647d620531eb3902ca947ae09d74bcd1b6ba705"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/source_control/feature_store/historical_statistical_priors_7ccc578d146817b4360b5c42066e0c683d3f37a4e2fdb56c53eae99be330b9f5.jsonl",
+      "received_at": null,
+      "sha256": "7ccc578d146817b4360b5c42066e0c683d3f37a4e2fdb56c53eae99be330b9f5"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/source_control/feature_store/original_contracts_89220d59109d4fe253334ea548bfa845e17229ce725ead2b6aa02ed86482adc4.jsonl",
+      "received_at": null,
+      "sha256": "89220d59109d4fe253334ea548bfa845e17229ce725ead2b6aa02ed86482adc4"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/source_control/feature_store/per_game_market_dfa8620b83036f9000437b961a14a2a69bfe1f661eb19c922c548c07b8e54d0a.jsonl",
+      "received_at": null,
+      "sha256": "dfa8620b83036f9000437b961a14a2a69bfe1f661eb19c922c548c07b8e54d0a"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/source_control/feature_store/player_history_last10_by_contract_19f40626a6874541196ff5dde49215c5096d23af966922f974c4ece68139c428.jsonl",
+      "received_at": null,
+      "sha256": "19f40626a6874541196ff5dde49215c5096d23af966922f974c4ece68139c428"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/source_control/feature_store/pregame_roster_availability_a8401eea1a59e2ff162db560661ba0e06668d22616f54b62a9bf2c0b49011d67.jsonl",
+      "received_at": null,
+      "sha256": "a8401eea1a59e2ff162db560661ba0e06668d22616f54b62a9bf2c0b49011d67"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/source_control/feature_store/team_history_ed9d35178462fd95d4087dc1a3bd31644307cd1156fa5920dbd8dc4b969363e1.jsonl",
+      "received_at": null,
+      "sha256": "ed9d35178462fd95d4087dc1a3bd31644307cd1156fa5920dbd8dc4b969363e1"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/source_control/feature_store/ws1-nfl-pregame-opportunity-v1_95f1f79a7c47981923099756ffb4ef57e182c8820199c93cbdc2f48085d2412f.jsonl",
+      "received_at": null,
+      "sha256": "95f1f79a7c47981923099756ffb4ef57e182c8820199c93cbdc2f48085d2412f"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2016.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "9361b65b37ea7dfa9cc0c72296ee62ab654fb01ce1985f854d2ddb8bcd217e8c"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2016.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "8fe79990fb4843588394a6577c9d147990d721beaa26d025f6538504318e8288"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2017.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "17174cff1054c4dc19572ee8d74a1b1565689fc00de856666bf58b9b0113e3a4"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2017.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "0050cec44cea86e18f5b2df22773bca41395b5814b1fe179c9c259cd73ba47c6"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2018.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "95501dc235c62ddda87d6665b4ac851a3378a94b0c77ddfdaaf47e02f4802f68"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2018.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "10c4712a49579a39f8d91131417414221a8d2f5a80321ea543166956f7e3468d"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2019.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "567bb6cacdae07d04410739a2788607b653cbec593fce9a40f57678e39a4b2fd"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2019.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "03466e8c4b276267f0ac45ce0eb8c208bde6c2d62f3f516271d2cf74c020be0e"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2020.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "c74b9a821e7afbcac4ede12c9e2c49bd6c43524ad64550c3e53fbb8575a644fe"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2020.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "2eecd294ce8004655b6754dc0a09535604874911976655a098b5269cdf1c27d5"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2021.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "34e92e71f339753f51f31ed8a6d5eee5d3ed6623c601976e8e3f20b7fe610e74"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2021.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "528de159b44424bb52339d50b5147c2a320a2921a7f1be4509735ed2a57d9f90"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2022.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "02b6e6ee6a4836c394bf5eb6148f1655a0b77d33be568eca81b5a990b04d04dd"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2022.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "5f3539369d05826480c93e053f3b73fbafd3b4e2bd8740e5b1114a6caf4a73b5"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2023.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "ac756a7a5611a79b74be0dc5c99ba276f48fdeb794886110c11d0774e341486c"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2023.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "45b7113aa8deed667bcffb9f8225d423fe267a7205c73f21c7b4b26341f284ef"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2024.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "20653f302100328b20404a2a1316149163c4bd5f0ba4a3de47410073382c58c4"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2024.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "58556541f2cef893c4c35c0a47cc58508be98c9a0fd25d2773c741b824b76e17"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2025.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "57dada4fd4528701be86ec907917299265fad2780ace49c7bc57c1db94a7fe84"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2025.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "ba1169df7f3a41b486f33b839cc0870f65f30ffac2e29978ea031d7350b3a1bb"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/source_control/feature_source_receipts/raw/acdf054288a5c500178ba2022c6e1d9f62214eaca46897412b17130cfc3fa2db.csv",
+      "received_at": "2026-11-15T14:26:51.670585Z",
+      "sha256": "acdf054288a5c500178ba2022c6e1d9f62214eaca46897412b17130cfc3fa2db"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/source_control/feature_source_receipts/raw/a8a86df9be83cdf88d0dadb47f09fb4a3c5db326e19b46cf20bdade38e3e024d.csv",
+      "received_at": "2026-11-15T14:26:44.880155Z",
+      "sha256": "a8a86df9be83cdf88d0dadb47f09fb4a3c5db326e19b46cf20bdade38e3e024d"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/source_control/feature_source_receipts/raw/ba54197d9e1e9a5473153f984f4880e736020c9e20565d1df246bf1e62714866.csv",
+      "received_at": "2026-11-15T14:26:53.696892Z",
+      "sha256": "ba54197d9e1e9a5473153f984f4880e736020c9e20565d1df246bf1e62714866"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/source_control/feature_source_receipts/raw/a7f51400624ae41f38db1395122115ff653231789ed0a840a3a7fae9e3bc977a.csv",
+      "received_at": "2026-11-15T14:26:49.153068Z",
+      "sha256": "a7f51400624ae41f38db1395122115ff653231789ed0a840a3a7fae9e3bc977a"
+    },
+    {
+      "path": "source_control/raw/6e00e8265a7689a30d6de78ffc5020883ac62c0894516c9714589db7615f0697.bin",
+      "received_at": "2026-11-15T04:32:42.748527Z",
+      "sha256": "6e00e8265a7689a30d6de78ffc5020883ac62c0894516c9714589db7615f0697"
+    },
+    {
+      "path": "source_control/raw/7fa48c6147557129527d3f843543c9ace60d7f6d5aec4dee4c6988deb95c9652.bin",
+      "received_at": "2026-11-15T04:32:41.238701Z",
+      "sha256": "7fa48c6147557129527d3f843543c9ace60d7f6d5aec4dee4c6988deb95c9652"
+    },
+    {
+      "path": "source_control/raw/53517bbf30db7c90ad40333e8ad813a8582ada6631a5368684b00a65374f437d.bin",
+      "received_at": "2026-11-15T04:32:46.118765Z",
+      "sha256": "53517bbf30db7c90ad40333e8ad813a8582ada6631a5368684b00a65374f437d"
+    },
+    {
+      "path": "source_control/raw/91db3112c7aa8f148ed224f2dd218e6da9505ae3636396b54e9950ea9a27539e.bin",
+      "received_at": "2026-11-15T04:32:41.370058Z",
+      "sha256": "91db3112c7aa8f148ed224f2dd218e6da9505ae3636396b54e9950ea9a27539e"
+    },
+    {
+      "path": "source_control/raw/f8eec39f80fd8161bd408fe2993b9eb6a1b83d65a74b06840dc010028d2c304e.bin",
+      "received_at": "2026-11-15T04:32:44.671313Z",
+      "sha256": "f8eec39f80fd8161bd408fe2993b9eb6a1b83d65a74b06840dc010028d2c304e"
+    },
+    {
+      "path": "source_control/raw/e786ffce89e3d407cb1c34292259998407e80cc5077b8c79e07ac6e91f30c7f6.bin",
+      "received_at": "2026-11-15T04:32:41.334599Z",
+      "sha256": "e786ffce89e3d407cb1c34292259998407e80cc5077b8c79e07ac6e91f30c7f6"
+    },
+    {
+      "path": "source_control/raw/e31d6ed822fc759a989f2526a8fd8e032bb0a1a689c5ecfecce50ef3ac42442f.bin",
+      "received_at": "2026-11-15T04:32:43.197871Z",
+      "sha256": "e31d6ed822fc759a989f2526a8fd8e032bb0a1a689c5ecfecce50ef3ac42442f"
+    },
+    {
+      "path": "source_control/raw/4cb64fafdbe0ddef7e765c28e0fbc617c664e996b9dc1a8b0298a004c533b524.bin",
+      "received_at": "2026-11-15T04:32:41.276746Z",
+      "sha256": "4cb64fafdbe0ddef7e765c28e0fbc617c664e996b9dc1a8b0298a004c533b524"
+    },
+    {
+      "path": "source_control/raw/b84b5136afaabd0264a6f6df4c547c62c0b0d865752f7d494dfc248b3d4fea97.bin",
+      "received_at": "2026-11-15T04:32:43.931570Z",
+      "sha256": "b84b5136afaabd0264a6f6df4c547c62c0b0d865752f7d494dfc248b3d4fea97"
+    },
+    {
+      "path": "source_control/raw/f25d3f741289fbe2ee17391f03d107351d4192758c0b3963be30df9718eee753.bin",
+      "received_at": "2026-11-15T04:32:41.302941Z",
+      "sha256": "f25d3f741289fbe2ee17391f03d107351d4192758c0b3963be30df9718eee753"
+    },
+    {
+      "path": "source_control/raw/7356b3f7b9700f065aaafcfe453c12bd06ec7ca1097eb6e7a45d54a48bd8589f.bin",
+      "received_at": "2026-11-15T04:32:45.371213Z",
+      "sha256": "7356b3f7b9700f065aaafcfe453c12bd06ec7ca1097eb6e7a45d54a48bd8589f"
+    },
+    {
+      "path": "source_control/raw/337871ac504e1a6165b0668285fa60896021588e3211294f22c03de3efd49527.bin",
+      "received_at": "2026-11-15T04:32:41.355739Z",
+      "sha256": "337871ac504e1a6165b0668285fa60896021588e3211294f22c03de3efd49527"
+    },
+    {
+      "path": "source_control/raw/975ae0bf67c42f53caccff8057a9bc9230bce7f2509936942aebf411a8d40f3a.bin",
+      "received_at": "2026-11-15T04:32:52.439480Z",
+      "sha256": "975ae0bf67c42f53caccff8057a9bc9230bce7f2509936942aebf411a8d40f3a"
+    },
+    {
+      "path": "source_control/raw/557148805512c07e45714a9da2348d3c17b056f47ef077bd439b8d00aa11bbf1.bin",
+      "received_at": "2026-11-15T04:32:51.114609Z",
+      "sha256": "557148805512c07e45714a9da2348d3c17b056f47ef077bd439b8d00aa11bbf1"
+    },
+    {
+      "path": "source_control/raw/ca5646099d02cbf375e41256b5e22a604f168db9a312924f7276a0e24d53e0c7.bin",
+      "received_at": "2026-11-15T04:32:53.802494Z",
+      "sha256": "ca5646099d02cbf375e41256b5e22a604f168db9a312924f7276a0e24d53e0c7"
+    },
+    {
+      "path": "source_control/raw/3f2b90e3bc29e1179b7fe27d187d093306899f86e2dcda2f7b3265e4e78ba24b.bin",
+      "received_at": "2026-11-15T04:32:51.304678Z",
+      "sha256": "3f2b90e3bc29e1179b7fe27d187d093306899f86e2dcda2f7b3265e4e78ba24b"
+    },
+    {
+      "path": "source_control/raw/1bff3b108fb87baa6ffe8179d188311ac3447a3194f665a875eb3933415cd9d9.bin",
+      "received_at": "2026-11-15T04:32:54.486368Z",
+      "sha256": "1bff3b108fb87baa6ffe8179d188311ac3447a3194f665a875eb3933415cd9d9"
+    },
+    {
+      "path": "source_control/raw/8ab1970ebc15ec3e3e66b4264f6af23353015c40048e3f7dabe5c1d0532f73c2.bin",
+      "received_at": "2026-11-15T04:32:51.348296Z",
+      "sha256": "8ab1970ebc15ec3e3e66b4264f6af23353015c40048e3f7dabe5c1d0532f73c2"
+    },
+    {
+      "path": "source_control/raw/5c430e5b743fcad5a280eb07018bf9ade713ac46554c2a1af5dad788f89e69fa.bin",
+      "received_at": "2026-11-15T04:32:55.228634Z",
+      "sha256": "5c430e5b743fcad5a280eb07018bf9ade713ac46554c2a1af5dad788f89e69fa"
+    },
+    {
+      "path": "source_control/raw/f57e338869ced758d74aadff6bd93c5ce44c9323170be3ef02b06f265afffcf2.bin",
+      "received_at": "2026-11-15T04:32:51.376665Z",
+      "sha256": "f57e338869ced758d74aadff6bd93c5ce44c9323170be3ef02b06f265afffcf2"
+    },
+    {
+      "path": "source_control/raw/5fc30246f8a2b68b097c9044c1898a9f5275e48d10f1bf82c8b3d2282bf8d31e.bin",
+      "received_at": "2026-11-15T04:32:53.148151Z",
+      "sha256": "5fc30246f8a2b68b097c9044c1898a9f5275e48d10f1bf82c8b3d2282bf8d31e"
+    },
+    {
+      "path": "source_control/raw/ea38983b304485a8a95ae6dd6f0dd42b193e3b9e7d1e9d1c442e84170fa365e3.bin",
+      "received_at": "2026-11-15T04:32:51.265132Z",
+      "sha256": "ea38983b304485a8a95ae6dd6f0dd42b193e3b9e7d1e9d1c442e84170fa365e3"
+    },
+    {
+      "path": "source_control/raw/b8493b103ceb8440b86b9373a1394dd0894841fb08d2f322ab3e856b4ef01c74.bin",
+      "received_at": "2026-11-15T04:32:55.921988Z",
+      "sha256": "b8493b103ceb8440b86b9373a1394dd0894841fb08d2f322ab3e856b4ef01c74"
+    },
+    {
+      "path": "source_control/raw/aed31c1d53bdbb199559269511ca2ff857568f86cf4d34012c741813b6653bfa.bin",
+      "received_at": "2026-11-15T04:32:51.588694Z",
+      "sha256": "aed31c1d53bdbb199559269511ca2ff857568f86cf4d34012c741813b6653bfa"
+    },
+    {
+      "path": "source_control/raw/bc49962d404963ac567c42f2ce2e66ac9fb1f9bfb10b10b72c2a895b655ce90b.bin",
+      "received_at": "2026-11-15T04:33:01.127938Z",
+      "sha256": "bc49962d404963ac567c42f2ce2e66ac9fb1f9bfb10b10b72c2a895b655ce90b"
+    },
+    {
+      "path": "source_control/raw/ce65095ec986b6d598992bafda0be3813a46b7ccfcebd6c363730e83fc404429.bin",
+      "received_at": "2026-11-15T04:32:59.529416Z",
+      "sha256": "ce65095ec986b6d598992bafda0be3813a46b7ccfcebd6c363730e83fc404429"
+    },
+    {
+      "path": "source_control/raw/9308592b7f2ab879dce78a857b4409ae860c0939b837e10ae0bf07f971464339.bin",
+      "received_at": "2026-11-15T04:33:01.756912Z",
+      "sha256": "9308592b7f2ab879dce78a857b4409ae860c0939b837e10ae0bf07f971464339"
+    },
+    {
+      "path": "source_control/raw/90f34ba6f341ac5ddddad841643dc528fef9ea3ee0407aa928268a7257172e15.bin",
+      "received_at": "2026-11-15T04:32:59.957032Z",
+      "sha256": "90f34ba6f341ac5ddddad841643dc528fef9ea3ee0407aa928268a7257172e15"
+    },
+    {
+      "path": "source_control/raw/2d03facce271458fccc2a81fac5fd300f75611dbf6ede4884a4d0f890894202c.bin",
+      "received_at": "2026-11-15T04:33:02.639357Z",
+      "sha256": "2d03facce271458fccc2a81fac5fd300f75611dbf6ede4884a4d0f890894202c"
+    },
+    {
+      "path": "source_control/raw/244bbf5f004159f584a3ccb65e197a53c8447ae4fb55f547a8d349648fef889f.bin",
+      "received_at": "2026-11-15T04:32:59.983086Z",
+      "sha256": "244bbf5f004159f584a3ccb65e197a53c8447ae4fb55f547a8d349648fef889f"
+    },
+    {
+      "path": "source_control/raw/58e60b067537a237c8f55d1b4fd53ec53db08da63e2523838fc49fdc5b1e79ea.bin",
+      "received_at": "2026-11-15T04:33:03.251068Z",
+      "sha256": "58e60b067537a237c8f55d1b4fd53ec53db08da63e2523838fc49fdc5b1e79ea"
+    },
+    {
+      "path": "source_control/raw/0ba7d4e666a165697bfe93ed7bd2de4d7377c10b70676b104afc9ae2cf3d7a72.bin",
+      "received_at": "2026-11-15T04:33:00.066332Z",
+      "sha256": "0ba7d4e666a165697bfe93ed7bd2de4d7377c10b70676b104afc9ae2cf3d7a72"
+    },
+    {
+      "path": "source_control/raw/5031d294ce85c0b15caa48179db030ca1e74dff378c00ba05402e42a75e2bcc7.bin",
+      "received_at": "2026-11-15T04:33:03.946361Z",
+      "sha256": "5031d294ce85c0b15caa48179db030ca1e74dff378c00ba05402e42a75e2bcc7"
+    },
+    {
+      "path": "source_control/raw/8b657b2e2998a41812d31a95b7d7d2454028de2d01c61473bd521ddcabb0dbf4.bin",
+      "received_at": "2026-11-15T04:33:00.230678Z",
+      "sha256": "8b657b2e2998a41812d31a95b7d7d2454028de2d01c61473bd521ddcabb0dbf4"
+    },
+    {
+      "path": "source_control/raw/c7f2b8518f0dd904a85071645b6436866e72413baa917472c5f82fde8868e960.bin",
+      "received_at": "2026-11-15T04:33:05.778727Z",
+      "sha256": "c7f2b8518f0dd904a85071645b6436866e72413baa917472c5f82fde8868e960"
+    },
+    {
+      "path": "source_control/raw/01d0c8579eac499594726fe95bca7b62de50ee1eb4e47a6519e26d070c92a229.bin",
+      "received_at": "2026-11-15T04:33:02.255206Z",
+      "sha256": "01d0c8579eac499594726fe95bca7b62de50ee1eb4e47a6519e26d070c92a229"
+    },
+    {
+      "path": "source_control/raw/cedde33497e930f3b845c5bac7151865d3c18ea8260a7007bbaa6d33b9f0df10.bin",
+      "received_at": "2026-11-15T04:33:09.385646Z",
+      "sha256": "cedde33497e930f3b845c5bac7151865d3c18ea8260a7007bbaa6d33b9f0df10"
+    },
+    {
+      "path": "source_control/raw/d54ca8ca2ff73228fd033d19c4c97a4b2fc2eac7ba10f295e1e9de0784cec971.bin",
+      "received_at": "2026-11-15T04:33:07.463321Z",
+      "sha256": "d54ca8ca2ff73228fd033d19c4c97a4b2fc2eac7ba10f295e1e9de0784cec971"
+    },
+    {
+      "path": "source_control/raw/c932c154adbc0ee8b95748b8aedcbe93a63dba76580db0ae9f496f98b51ce3ac.bin",
+      "received_at": "2026-11-15T04:33:10.001593Z",
+      "sha256": "c932c154adbc0ee8b95748b8aedcbe93a63dba76580db0ae9f496f98b51ce3ac"
+    },
+    {
+      "path": "source_control/raw/ff0f4f66f070c305f34d52c33caebb1b8bacc300852a53f9d742830676fc42a7.bin",
+      "received_at": "2026-11-15T04:33:07.495223Z",
+      "sha256": "ff0f4f66f070c305f34d52c33caebb1b8bacc300852a53f9d742830676fc42a7"
+    },
+    {
+      "path": "source_control/raw/1f7875c7c227fe0c77d8a4f6a3d23d4f96628c8703ad0ca937af56ebd7cc8da6.bin",
+      "received_at": "2026-11-15T04:33:10.802364Z",
+      "sha256": "1f7875c7c227fe0c77d8a4f6a3d23d4f96628c8703ad0ca937af56ebd7cc8da6"
+    },
+    {
+      "path": "source_control/raw/77ef1fdffaff30dc92cb5fbbd04e5722563d453e77e83cfb16b2ca1a92934cb0.bin",
+      "received_at": "2026-11-15T04:33:08.299147Z",
+      "sha256": "77ef1fdffaff30dc92cb5fbbd04e5722563d453e77e83cfb16b2ca1a92934cb0"
+    },
+    {
+      "path": "source_control/raw/c41e9c9ae19f2f030f0bd09d628c71926e63a06242b904fb212f630de83c25da.bin",
+      "received_at": "2026-11-15T04:33:11.586660Z",
+      "sha256": "c41e9c9ae19f2f030f0bd09d628c71926e63a06242b904fb212f630de83c25da"
+    },
+    {
+      "path": "source_control/raw/e2731711fda8d10f7c08638654d2623429e79df0f5b5c07d3a5a8f8c079748e9.bin",
+      "received_at": "2026-11-15T04:33:08.313584Z",
+      "sha256": "e2731711fda8d10f7c08638654d2623429e79df0f5b5c07d3a5a8f8c079748e9"
+    },
+    {
+      "path": "source_control/raw/e228d5f9a2c0387203e463dbddce06ea1169af3794c5a0f1b331e8dd5cd3f2d3.bin",
+      "received_at": "2026-11-15T04:33:12.750932Z",
+      "sha256": "e228d5f9a2c0387203e463dbddce06ea1169af3794c5a0f1b331e8dd5cd3f2d3"
+    },
+    {
+      "path": "source_control/raw/af52a7cf3fb3c72a2b9192231b1ab638028d37aa71a4a640ae49b5bd0dba9ca2.bin",
+      "received_at": "2026-11-15T04:33:09.837110Z",
+      "sha256": "af52a7cf3fb3c72a2b9192231b1ab638028d37aa71a4a640ae49b5bd0dba9ca2"
+    },
+    {
+      "path": "source_control/raw/99441ac1825f7245ebd9e89e8011d87258dfc060e0ee1a90857809323afc8638.bin",
+      "received_at": "2026-11-15T04:33:14.644072Z",
+      "sha256": "99441ac1825f7245ebd9e89e8011d87258dfc060e0ee1a90857809323afc8638"
+    },
+    {
+      "path": "source_control/raw/84155fbf54e34f7c0dc3fb6594181ae8a4e1c6141634b76af7205e7d6f0683ed.bin",
+      "received_at": "2026-11-15T04:33:11.248145Z",
+      "sha256": "84155fbf54e34f7c0dc3fb6594181ae8a4e1c6141634b76af7205e7d6f0683ed"
+    },
+    {
+      "path": "source_control/raw/b9d720253f1e35b306867f4ebbbbfafc175f614da8e98ecda134f51027441471.bin",
+      "received_at": "2026-11-15T04:32:35.138839Z",
+      "sha256": "b9d720253f1e35b306867f4ebbbbfafc175f614da8e98ecda134f51027441471"
+    },
+    {
+      "path": "source_control/raw/6993a07ebce5001a55729ff556765bff388bc91cb5235416af9cd26401ede14a.bin",
+      "received_at": "2026-11-15T04:32:39.016077Z",
+      "sha256": "6993a07ebce5001a55729ff556765bff388bc91cb5235416af9cd26401ede14a"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/crosswalk_c928cb1c0292ac192423f4a729800496784475dcc3344a173d41be6919f4fab2.jsonl",
+      "received_at": null,
+      "sha256": "c928cb1c0292ac192423f4a729800496784475dcc3344a173d41be6919f4fab2"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/historical_identity_rejections_8e741a99d2ee79ff453b4e701efdffc14d6d0df80d78a5a01db2ca07ec5d03ae.jsonl",
+      "received_at": null,
+      "sha256": "8e741a99d2ee79ff453b4e701efdffc14d6d0df80d78a5a01db2ca07ec5d03ae"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/internal_tackle_evidence_b518e5c8fade986e8a0390eba7da3afa401a434c7ae365d63af3db91b1146b7d.jsonl",
+      "received_at": null,
+      "sha256": "b518e5c8fade986e8a0390eba7da3afa401a434c7ae365d63af3db91b1146b7d"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/original_contracts_002312b480ac5cbc281c275d52c9c63e230c7c6c06abb94b03fa714c90810403.jsonl",
+      "received_at": null,
+      "sha256": "002312b480ac5cbc281c275d52c9c63e230c7c6c06abb94b03fa714c90810403"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/paired_history_4ff38b3ea3b404aaed5e1e511ca18ecf85f8a2fc5e280636bba6683a9e999210.jsonl",
+      "received_at": null,
+      "sha256": "4ff38b3ea3b404aaed5e1e511ca18ecf85f8a2fc5e280636bba6683a9e999210"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/player_stats_d3319f57c221badec04bee2d2385b4100b60c6ad8d9d604e70580ab45e7056aa.jsonl",
+      "received_at": null,
+      "sha256": "d3319f57c221badec04bee2d2385b4100b60c6ad8d9d604e70580ab45e7056aa"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/EXPANDED_MANIFEST_1977685e911b2a9650afde55f5eb7b580d7f8fdc931bf39fad47b1c344c2a46b.json",
+      "received_at": null,
+      "sha256": "1977685e911b2a9650afde55f5eb7b580d7f8fdc931bf39fad47b1c344c2a46b"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2016.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "9361b65b37ea7dfa9cc0c72296ee62ab654fb01ce1985f854d2ddb8bcd217e8c"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2016.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "8fe79990fb4843588394a6577c9d147990d721beaa26d025f6538504318e8288"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2017.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "17174cff1054c4dc19572ee8d74a1b1565689fc00de856666bf58b9b0113e3a4"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2017.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "0050cec44cea86e18f5b2df22773bca41395b5814b1fe179c9c259cd73ba47c6"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2018.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "95501dc235c62ddda87d6665b4ac851a3378a94b0c77ddfdaaf47e02f4802f68"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2018.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "10c4712a49579a39f8d91131417414221a8d2f5a80321ea543166956f7e3468d"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2019.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "567bb6cacdae07d04410739a2788607b653cbec593fce9a40f57678e39a4b2fd"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2019.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "03466e8c4b276267f0ac45ce0eb8c208bde6c2d62f3f516271d2cf74c020be0e"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2020.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "c74b9a821e7afbcac4ede12c9e2c49bd6c43524ad64550c3e53fbb8575a644fe"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2020.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "2eecd294ce8004655b6754dc0a09535604874911976655a098b5269cdf1c27d5"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2021.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "34e92e71f339753f51f31ed8a6d5eee5d3ed6623c601976e8e3f20b7fe610e74"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2021.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "528de159b44424bb52339d50b5147c2a320a2921a7f1be4509735ed2a57d9f90"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2022.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "02b6e6ee6a4836c394bf5eb6148f1655a0b77d33be568eca81b5a990b04d04dd"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2022.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "5f3539369d05826480c93e053f3b73fbafd3b4e2bd8740e5b1114a6caf4a73b5"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2023.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "ac756a7a5611a79b74be0dc5c99ba276f48fdeb794886110c11d0774e341486c"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2023.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "45b7113aa8deed667bcffb9f8225d423fe267a7205c73f21c7b4b26341f284ef"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2024.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "20653f302100328b20404a2a1316149163c4bd5f0ba4a3de47410073382c58c4"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2024.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "58556541f2cef893c4c35c0a47cc58508be98c9a0fd25d2773c741b824b76e17"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2025.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "57dada4fd4528701be86ec907917299265fad2780ace49c7bc57c1db94a7fe84"
+    },
+    {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2025.json.gz",
+      "received_at": "2026-11-11T18:30:57.993938+00:00",
+      "sha256": "ba1169df7f3a41b486f33b839cc0870f65f30ffac2e29978ea031d7350b3a1bb"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/source_control/feature_source_receipts/raw/ffb6d7379af1f8f5ec3bcb3b73c09509e2710c21fcb4389a02e5e11d9090903a.csv",
+      "received_at": "2026-11-15T16:16:09.167154Z",
+      "sha256": "ffb6d7379af1f8f5ec3bcb3b73c09509e2710c21fcb4389a02e5e11d9090903a"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/source_control/feature_source_receipts/raw/f82e52fd3d9b0976ad3756dc5ea32a4dbc10650d0a5fed993f9218a850fa944a.csv",
+      "received_at": "2026-11-15T16:16:06.187629Z",
+      "sha256": "f82e52fd3d9b0976ad3756dc5ea32a4dbc10650d0a5fed993f9218a850fa944a"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/source_control/feature_source_receipts/raw/ba54197d9e1e9a5473153f984f4880e736020c9e20565d1df246bf1e62714866.csv",
+      "received_at": "2026-11-15T16:16:10.135200Z",
+      "sha256": "ba54197d9e1e9a5473153f984f4880e736020c9e20565d1df246bf1e62714866"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/source_control/feature_source_receipts/raw/a7f51400624ae41f38db1395122115ff653231789ed0a840a3a7fae9e3bc977a.csv",
+      "received_at": "2026-11-15T16:16:08.127226Z",
+      "sha256": "a7f51400624ae41f38db1395122115ff653231789ed0a840a3a7fae9e3bc977a"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/source_control/feature_source_receipts/raw/ffb6d7379af1f8f5ec3bcb3b73c09509e2710c21fcb4389a02e5e11d9090903a.csv",
+      "received_at": "2026-11-15T16:16:09.167154Z",
+      "sha256": "ffb6d7379af1f8f5ec3bcb3b73c09509e2710c21fcb4389a02e5e11d9090903a"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/source_control/feature_source_receipts/raw/f82e52fd3d9b0976ad3756dc5ea32a4dbc10650d0a5fed993f9218a850fa944a.csv",
+      "received_at": "2026-11-15T16:16:06.187629Z",
+      "sha256": "f82e52fd3d9b0976ad3756dc5ea32a4dbc10650d0a5fed993f9218a850fa944a"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/source_control/feature_source_receipts/raw/ba54197d9e1e9a5473153f984f4880e736020c9e20565d1df246bf1e62714866.csv",
+      "received_at": "2026-11-15T16:16:10.135200Z",
+      "sha256": "ba54197d9e1e9a5473153f984f4880e736020c9e20565d1df246bf1e62714866"
+    },
+    {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/source_control/feature_source_receipts/raw/a7f51400624ae41f38db1395122115ff653231789ed0a840a3a7fae9e3bc977a.csv",
+      "received_at": "2026-11-15T16:16:08.127226Z",
+      "sha256": "a7f51400624ae41f38db1395122115ff653231789ed0a840a3a7fae9e3bc977a"
+    }
+  ]
+}

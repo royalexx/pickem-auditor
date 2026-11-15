@@ -1,0 +1,32 @@
+{
+  "created_at": "2026-11-15T04:43:30.224370+00:00",
+  "later_requests": "Rate limit exceeded. Please retry later.",
+  "missing_inputs": [
+    "source-owned frozen historical team/player opportunity inputs",
+    "quantified pregame participation probabilities",
+    "authentic starter probabilities",
+    "original frozen comparison probabilities",
+    "verified product DNP/settlement terms"
+  ],
+  "no_backdating": true,
+  "no_baseline_change": true,
+  "no_new_collector": true,
+  "schema": "ws3-nfl-live-execution-dependency-v1",
+  "status": "BLOCKED_BY_DATA_AND_DEEPNOTE_RUNTIME",
+  "unexecuted_tasks": [
+    "byte-consume native WS1 manifest on Deepnote",
+    "generate real per-contract abstention rows",
+    "forecast real eligible contracts after model dependencies supplied"
+  ],
+  "ws1_original_canonical_sha256": "20ed83fd40787cccc38a242a8698f0a4e09aaaa54f261b923c8a5f4aa232ed10",
+  "ws1_original_contract_rows_reported": 1845,
+  "ws1_original_file_sha256": "9a7752e70db7c1d56226847df56f7985c1dd4fba79ae6c3b49acc9e7aad6c150",
+  "ws1_original_source_certified_reported": 0,
+  "ws1_run": "cd6e5a7d-bf05-490a-beb2-d0c2c3a3876e",
+  "ws3_live_abstention_rows_materialized": 0,
+  "ws3_live_contract_attempts": 0,
+  "ws3_live_forecasts": 0,
+  "ws3_notebook_id": "9f674337fc5f461b87279f03f231a614",
+  "ws3_run_id": "79d5ceb0-43f7-4f8a-ad92-ed633fdc71fd",
+  "ws3_run_status": "stopped before any output; no error reason returned"
+}

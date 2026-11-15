@@ -1,0 +1,49 @@
+{
+  "automatic_scheduling": false,
+  "baseline": "frozen_60_40 unchanged",
+  "deepnote_execution": "79d5ceb0-43f7-4f8a-ad92-ed633fdc71fd stopped before output; later requests rate-limited",
+  "draws": 8192,
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "models": [
+    "O1-context-volume-v1",
+    "O2-position-usage-v1",
+    "O3-qb-mean-preserving-v1",
+    "O4-defensive-components-v1",
+    "O5-role-mixture-v1"
+  ],
+  "production_or_tier_promotion": false,
+  "real_contract_forecasts": 0,
+  "role_sensitivity": {
+    "evidence": "frozen development assumptions",
+    "multipliers": [
+      0.6,
+      1,
+      1.25
+    ],
+    "weights": [
+      0.2,
+      0.6,
+      0.2
+    ]
+  },
+  "schema": "ws3-nfl-opportunity-registry-v1",
+  "source_certification": "not granted",
+  "source_code_sha256": {
+    "research/nfl_opportunity_20261115/__init__.py": "12abdd1b518cd3d48476b5d28f18e7f49e3a18541a5b338b3237ee044005e240",
+    "research/nfl_opportunity_20261115/models.py": "54175541f90ac68b36afd9d0766b790dbacb0a6e01903627e5fafb404ff157cb",
+    "research/nfl_opportunity_20261115/native_ws1.py": "c949bbed2ecdc3689ea911b3fe174a08788e8d02725ed79e7abf2ffc29b0d26b",
+    "research/nfl_opportunity_20261115/numerical_review.py": "8a529a9c2a4cbe3d7123dca5ad201a78444a05527de10384d1bcacb1326c60dd",
+    "research/nfl_opportunity_20261115/test_models.py": "dc91679438123baf4f2f5ea375ad2148ad1457fb78b8ea1b4f6b87782c992c98"
+  },
+  "source_collection": "none",
+  "status": "SHADOW_ONLY; FIXTURE_TESTED; LIVE_DATA_BLOCKED",
+  "supersedes_registry_snapshot": "model_registry.json; previous development snapshot retained unchanged",
+  "target_day": "2026-11-15",
+  "tests": {
+    "existing_tackles_passed": 26,
+    "new_passed": 18,
+    "numerical_distributions_checked": 52,
+    "synthetic_draws": 8192
+  },
+  "training": "no expensive fitting; empirical prior histories only when source-owned and cutoff-verified"
+}
