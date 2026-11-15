@@ -150,21 +150,34 @@ def roster_athletes(payload):
     return found
 
 def depth_qb(payload):
+    """Use only ESPN's first listed QB in its independently sourced depth order.
+
+    ESPN's live /depthcharts API uses "depthchart" and nested "qb" entries.
+    It has no explicit rank field: index zero is expected QB1, NOT verified
+    game-day participation. Multiple disagreeing QB1 entries fail closed.
+    """
     first = []
-    for chart in payload.get("depthCharts") or []:
-        positions = chart.get("positions") or {}
-        for key, pos in positions.items():
-            if key not in ("quarterback", "QB"):
+    charts = payload.get("depthchart") or payload.get("depthCharts") or []
+    if not isinstance(charts, list):
+        return None
+    for chart in charts:
+        if not isinstance(chart, dict):
+            continue
+        for key, pos in (chart.get("positions") or {}).items():
+            if str(key).lower() not in ("qb", "quarterback"):
                 continue
-            for node in pos.get("athletes") or []:
-                if node.get("rank") not in (1, "1"):
-                    continue
-                player = node.get("athlete") or {}
-                if player.get("id"):
-                    first.append({"espn_player_id": str(player["id"]),
-                                  "source": "ESPN_DEPTH_CHART_QB1",
-                                  "source_only_expected": True})
-    return first[0] if len(first) == 1 else None
+            ordered = pos.get("athletes") or []
+            if not isinstance(ordered, list) or not ordered:
+                continue
+            head = ordered[0]
+            player = head.get("athlete") or head
+            if player.get("id"):
+                first.append(str(player["id"]))
+    if len(set(first)) != 1 or not first:
+        return None
+    return {"espn_player_id": first[0],
+            "source": "ESPN_FIRST_LISTED_QB_DEPTH_ORDER",
+            "source_only_expected": True}
 
 def injuries_by_player(payload):
     out = {}
