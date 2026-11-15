@@ -338,6 +338,8 @@ def run(root, out, code_commit):
     old_index=root/'reports/nfl_20261115_prospective/simple_models/sunday_first_forecasts_v1/INDEX.json'
     old_index_hash=sha(old_index.read_bytes())
     old_pop=old_index.parent/'first_forecast_population.jsonl'; old_pop_hash=sha(old_pop.read_bytes())
+    if old_index_hash!='cc8049b9335b09d578b9ecae8982616e88c8f0208f06114ab720291413ec85a4' or old_pop_hash!='766245a051b4b3247009040a0c28df82fde285fb237ab40087d510bcfd4efd5d':
+        raise ValueError('FROZEN_BASELINE_BYTES_CHANGED')
     now=datetime.now(timezone.utc).isoformat()
     code_hashes={str(Path(__file__).name):sha(Path(__file__).read_bytes()),
                  'nfl_marginal_shadow.py':sha(Path(__file__).with_name('nfl_marginal_shadow.py').read_bytes())}
