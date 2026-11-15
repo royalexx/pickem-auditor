@@ -1,6 +1,46 @@
 # WS3 full-market v2 contract and execution
 
-Status: implemented and unit-tested; prospective receipts and numerical results below are required before treating execution as verified. Governing plan: PA-V25-MASTER-2026-11-09 / v1.1. Bounded user-authorized Phase 2/3 shadow extension; no model promotion, training restart or schedules changed.
+Status: implemented, tested, prospectively executed and arithmetically verified; shadow-only. Final adapter v2.1 results are the current issuance; earlier issuance evidence is retained below. Governing plan: PA-V25-MASTER-2026-11-09 / v1.1. Bounded user-authorized Phase 2/3 shadow extension; no model promotion, training restart or schedules changed.
+
+## Final adapter v2.1 issuance — verified before kickoff
+
+Run `abfe0b90-d718-43b5-b715-d503d5a92589` succeeded, including a new genuine single-player canary, full execution, frozen-input replay and immutable WS6 index. Canary freeze: `2026-11-15T16:43:15.370933Z`; full forecast completed `16:44:15.529088Z`, frozen `16:44:23.438525Z`. Remaining kickoffs begin at 18:00 UTC. DET–NE receives explicit abstentions; no new probabilities were constructed for it.
+
+Final neutral counts: **22 O1 team records; 1,001 O2 stat distributions; 102 O3 QB distributions; 0 O4 distributions; 1,103 O5 distributions**. Total 2,206 player-stat distributions. Weather forecasts: **0**, with `WEATHER_EFFECT_NOT_ESTIMATED`. This operationalizes ten of eleven markets; T+A remains blocked by unauthenticated credit semantics and defensive exposure. The earlier 16 v1 O4 contract forecasts remain preserved, not recertified.
+
+| Market | O1 player | O2 | O3 | O4 | O5 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| pass_attempts | 0 | 0 | 17 | 0 | 17 |
+| pass_completions | 0 | 0 | 17 | 0 | 17 |
+| passing_yards | 0 | 0 | 17 | 0 | 17 |
+| rush_attempts | 0 | 111 | 17 | 0 | 128 |
+| rushing_yards | 0 | 109 | 17 | 0 | 126 |
+| receiving_targets | 0 | 231 | 0 | 0 | 231 |
+| receptions | 0 | 226 | 0 | 0 | 226 |
+| receiving_yards | 0 | 221 | 0 | 0 | 221 |
+| tackles_assists | 0 | 0 | 0 | 0 | 0 |
+| rushing_receiving_yards | 0 | 103 | 0 | 0 | 103 |
+| passing_rushing_yards | 0 | 0 | 17 | 0 | 17 |
+
+O1 has 22 distributions of each of accounting opportunities, passing attempts, rushing attempts and internal sacks, across eleven games. Seconds-per-play pace remains unestimated; shared game-volume uncertainty is modeled. O1 has zero player forecasts by design.
+
+Eligible stat abstentions: O2 1,715; O3 42; O4 908; O5 1,757. Source-ready rows can still abstain on missing current-team history, stale role, zero historical conversion exposure or missing composite components. Unverified starters remain excluded. Full per-market counts and precise reason combinations are in [the final handoff](FULL_MARKET_V2_1_HANDOFF.json). WR/TE rushing eligibility includes genuine carry evidence and preserves a residual pool.
+
+All 1,845 authentic original observations are retained in 9,225 model-contract evaluations: 2,854 forecasts and 6,371 abstentions. Forecasts cover 1,427 distinct original contracts; 418 receive no player forecast. O2 evaluates 1,191 forecast contracts, O3 236 and O5 1,427; O1 and O4 have zero. Targets and both composite markets have zero authentic original quotes in this source package; their statistical distributions are emitted without lines. No quotes or thresholds are synthesized.
+
+Validation: **45 local tests pass**, 42 earlier full-suite tests passed on Deepnote, and the supplemental arithmetic pass replayed **all 2,206 distributions exactly**. It checked **240 matched composite identities**, exact probability normalization and mass/mean/variance reconstruction, **117 input/source checks**, historical cutoff, real freeze-before-kickoff and zero maximum team conservation error. Five actual-packet corruptions fail closed. The old v1 handoff rehashed unchanged. This is author-performed separate arithmetic verification, not independent human review; prospective accuracy and calibrated participation/weather effects remain unmeasured.
+
+| Final artifact | SHA-256 |
+| --- | --- |
+| Full report | `2ee80d736157c32a67a8a4e3c3c4e97c1d7009b0f2d8caa46dfe3d0fcb7ac454` |
+| Canary report | `9b04940a141d4b1e1e5e5e68043ac6450bca2b1c252700f2cf67bca096d41a3a` |
+| Frozen input packet | `c330b7be4d17b280f4d33b115f5b3e93fb926a74c5bc3dcfe31493f810bf77cd` |
+| Player-stat JSONL | `3b34dc439c5822d62c3259ff13a57725069056c4ea7c881c7a6f674b8d748d2f` |
+| Original-contract JSONL | `5225c3435c7883e76a3924a982e67f36dda3bbc2bfa26307e2698fa48c66e903` |
+| WS6 handoff index (original Deepnote bytes) | `a8bab73d4949a29312e6e169561318764a948931a90927065e6d0e79df036bfe` |
+| Source hash index (original Deepnote bytes) | `d8706c540f80c15a927d5978d94606e6a54061c23712a2a9e9b79c2cdc7c6a72` |
+
+Immutable Deepnote directory: `reports/nfl_20261115_prospective/opportunity_models/full_market_v2/2ee80d736157c32a67a8a4e3c3c4e97c1d7009b0f2d8caa46dfe3d0fcb7ac454/`. [Final handoff and audit](FULL_MARKET_V2_1_HANDOFF.json) and [verified source hash/clock index](FULL_MARKET_V2_1_SOURCES.json) are readable repository copies; their JSON is formatted for review, so original-byte hashes refer to Deepnote originals. Report code hashes bind the exact model/adapter sources independently of later documentation commits. Adapter v2.1 source receipt is included in the registry. Preserve every issuance; source/roster changes can change downstream allocation draws and do not amend earlier forecasts.
 
 ## Scientific contract
 
