@@ -162,8 +162,8 @@ class Workstream6AuditTests(unittest.TestCase):
         s = audit.load_json(self.root / "settlement/score_report.json")
         m = s["model_metrics"]["challenger2"]
         self.assertEqual(m["binary_nonpush_count"], 0)
-        self.assertAlmostEqual(m["multiclass_brier_half"], 0.64)
-        self.assertAlmostEqual(m["crps_mean"], 0.8)
+        self.assertAlmostEqual(m["multiclass_brier_half"], 0.48)
+        self.assertAlmostEqual(m["crps_mean"], 0.32)
 
     def test_over_and_under_share_one_contract(self):
         self.assertEqual(self.freeze(), 0)
@@ -191,6 +191,29 @@ class Workstream6AuditTests(unittest.TestCase):
 
     def test_crps_one_atom(self):
         self.assertEqual(audit.crps_discrete({"kind": "discrete", "masses": [[7, 1]]}, 5), 2)
+
+    def test_market_baseline_conditional_nonpush(self):
+        self.assertEqual(self.freeze(), 0)
+        self.assertEqual(self.settled(actual=6), 0)
+        s = audit.load_json(self.root / "settlement/score_report.json")
+        self.assertEqual(s["model_metrics"]["market_no_vig"]["binary_nonpush_count"], 1)
+        self.assertIsNone(s["model_metrics"]["market_no_vig"]["multiclass_brier_half"])
+        self.assertEqual(s["matched_paired_game_clusters"]["challenger2__vs_market_no_vig"]["paired_n"], 1)
+
+    def test_all_events_must_be_represented(self):
+        self.m["events"].append({"event_id": "event2", "start_at": "2026-11-15T20:00:00Z",
+                                 "home_id": "team3", "away_id": "team4"})
+        self.prepare()
+        self.assertEqual(self.freeze(), 2)
+        self.assertFalse(audit.load_json(self.root / "frozen/integrity_report.json")[
+            "all_scheduled_events_represented_by_original_contract"])
+
+    def test_integer_line_market_never_invents_push(self):
+        self.assertEqual(self.freeze(), 0)
+        self.assertEqual(self.settled(actual=5), 0)
+        s = audit.load_json(self.root / "settlement/score_report.json")
+        self.assertEqual(s["model_metrics"].get("market_no_vig"), None)
+        self.assertEqual(s["model_metrics"]["challenger2"]["three_way_count"], 1)
 
 
 if __name__ == "__main__":
