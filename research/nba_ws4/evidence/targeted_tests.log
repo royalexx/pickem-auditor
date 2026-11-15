@@ -1,6 +1,7 @@
 test_all_challengers_run_only_older_oof (tests.nba_ws4.test_evaluator.CalibrationTests.test_all_challengers_run_only_older_oof) ... ok
 test_calibration_target_game_and_in_sample_fail_closed (tests.nba_ws4.test_evaluator.CalibrationTests.test_calibration_target_game_and_in_sample_fail_closed) ... ok
 test_future_labels_excluded_not_backdated (tests.nba_ws4.test_evaluator.CalibrationTests.test_future_labels_excluded_not_backdated) ... ok
+test_isotonic_ties_pool_and_monotonicity_analytic (tests.nba_ws4.test_evaluator.CalibrationTests.test_isotonic_ties_pool_and_monotonicity_analytic) ... ok
 test_sparse_and_wrong_market_not_universal_correction (tests.nba_ws4.test_evaluator.CalibrationTests.test_sparse_and_wrong_market_not_universal_correction) ... ok
 test_target_labels_cannot_change_fitted_predictions (tests.nba_ws4.test_evaluator.CalibrationTests.test_target_labels_cannot_change_fitted_predictions) ... ok
 test_untouched_calibration_acceptance_and_insufficient_dates (tests.nba_ws4.test_evaluator.CalibrationTests.test_untouched_calibration_acceptance_and_insufficient_dates) ... ok
@@ -83,6 +84,6 @@ test_teams_and_start_required_for_match (tests.test_v25_official_capture.Officia
 test_wrong_team_forecast_quarantined_without_discarding_valid_game (tests.test_v25_official_capture.OfficialFinalGateTests.test_wrong_team_forecast_quarantined_without_discarding_valid_game) ... ok
 
 ----------------------------------------------------------------------
-Ran 83 tests in 1.121s
+Ran 84 tests in 0.997s
 
 OK

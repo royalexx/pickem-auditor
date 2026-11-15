@@ -11,8 +11,8 @@
     "-v"
   ],
   "exit_code": 0,
-  "max_child_rss_kib_linux": 117940,
-  "new_ws4_test_methods": 32,
-  "test_methods": 83,
-  "wall_seconds": 1.4514911280000433
+  "max_child_rss_kib_linux": 86232,
+  "new_ws4_test_methods": 33,
+  "test_methods": 84,
+  "wall_seconds": 1.352335112000219
 }

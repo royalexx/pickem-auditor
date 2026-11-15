@@ -32,7 +32,7 @@ new WS1–WS3 scientific acceptance and pick'em economics remain unproven.
 independently parsed settlements and raw-source hashes. Complete attempt and
 per-model rejection ledgers and common-support comparisons accompany the CSV.
 
-83 targeted unittest methods pass, including 32 new WS4 methods with mutation
+84 targeted unittest methods pass, including 33 new WS4 methods with mutation
 subtests. The original-source replay is deterministic across two v2 executions;
 local score construction is also byte deterministic. Synthetic boundary fixture
 checks shared state, overtime, participation, team minutes and same-player combos.
@@ -43,8 +43,8 @@ Final hardened source replay: `80055a03-da33-444b-908c-283c3a78bb8b`.
 
 ## Findings requiring review
 
-1. Current Phase 1 scored report bytes hash to `3f417d0e...`, matching the later
-   original-sidecar v3 receipt, while the forensic markdown prints `c6811beb...`.
+1. Current Phase 1 scored report bytes hash to `3f417d0e9ba271ca95fd0dcec5e1a4291d84099a6bb50a48077ffbafe9bcb474`, matching the later
+   original-sidecar v3 receipt, while the forensic markdown prints `c6811bebc6cf125211f994ba0228ce9638d2022b428ac9dde60567b295cd3d6c`.
    No old file or published pin was overwritten; reconciliation remains open.
 2. The separate original morning file has no canonical player/event/hash IDs;
    its alias pairs are diagnostic only. NBA online Bayesian A/B are
@@ -65,3 +65,5 @@ build a full joint simulator from code-completion status.
 Rollback: stop invoking the package and close this draft. If merged as research
 later, revert its audit commit. Production has no dependency on this package;
 no operational migration is required. No model is promoted by this PR.
+
+Full offline regression after CI compatibility repairs: **1,644 tests pass, nine skipped**; optional PyMC/NUTS sampling was absent. The initial CI run exposed a missing optional calibration dependency and a historical source-label text-scan conflict. Isotonic now uses weighted SciPy PAVA; the original attempt ledger is stored in verified lossless gzip. No workflow/production rule was changed. See `evidence/full_offline_execution.json` and `evidence/attempt_ledger_archive_receipt.json`.

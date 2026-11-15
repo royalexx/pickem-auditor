@@ -47,9 +47,14 @@ def fit_predict(prior, targets, *, method, model, stat, policy):
     if len(eligible)<minimum or result['dates']<policy['min_dates'] or len({r['y'] for r in eligible})<2:return result
     ps=[r['p'] for r in eligible]; ys=np.asarray([r['y'] for r in eligible],dtype=float)
     if method=='isotonic':
-        from sklearn.isotonic import IsotonicRegression
-        fitted=IsotonicRegression(out_of_bounds='clip',y_min=1e-8,y_max=1-1e-8).fit(ps,ys)
-        preds=fitted.predict(base); params={'x':fitted.X_thresholds_.tolist(),'y':fitted.y_thresholds_.tolist()}
+        from scipy.optimize import isotonic_regression
+        # Pool tied probabilities before weighted PAVA; interpolation and bounds
+        # are deterministic. SciPy is already in the lightweight audit stack.
+        xs,inverse,counts=np.unique(np.asarray(ps),return_inverse=True,return_counts=True)
+        positives=np.zeros(len(xs));np.add.at(positives,inverse,ys)
+        fitted=isotonic_regression(positives/counts,weights=counts,increasing=True).x
+        fitted=np.clip(fitted,1e-8,1-1e-8)
+        preds=np.interp(base,xs,fitted);params={'x':xs.tolist(),'y':fitted.tolist()}
     else:
         from scipy.optimize import minimize
         from scipy.special import expit

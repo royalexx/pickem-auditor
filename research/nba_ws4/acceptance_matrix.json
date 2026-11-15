@@ -31,7 +31,7 @@
     },
     {
       "acceptance_requirement": "One-contract outcomes, full ledger, chronology, complementarity, negative controls and append-only artifacts",
-      "evidence": "evidence/test_execution.json; 83 targeted tests; tests/nba_ws4/test_evaluator.py",
+      "evidence": "evidence/test_execution.json; 84 targeted tests; tests/nba_ws4/test_evaluator.py",
       "gate": "Standalone evaluation engineering",
       "scope": "WS4",
       "status": "PASSED"

@@ -214,6 +214,13 @@ class CalibrationTests(unittest.TestCase):
         for method in policy['methods']:
             r=fit_predict(prior,targets,method=method,model='control',stat='points',policy=policy)
             self.assertIsNotNone(r['predictions']);self.assertFalse(r['integration_allowed'])
+    def test_isotonic_ties_pool_and_monotonicity_analytic(self):
+        prior,targets,policy=cal_fixture();policy.update(min_isotonic=1,min_dates=1)
+        for i,r in enumerate(prior):
+            r['p']=.2 if i<40 else .8;r['y']=1 if i<40 else 0
+        targets=[dict(targets[0],contract_id='t'+str(i),p=p) for i,p in enumerate([0.,.2,.5,.8,1.])]
+        r=fit_predict(prior,targets,method='isotonic',model='control',stat='points',policy=policy)
+        self.assertEqual(r['predictions'],[.5]*5)
     def test_target_labels_cannot_change_fitted_predictions(self):
         prior,targets,policy=cal_fixture();targets[0]['y']=0
         a=fit_predict(prior,targets,method='platt',model='control',stat='points',policy=policy)

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-q"
+  ],
+  "exit_code": 0,
+  "max_child_rss_kib_linux": 148364,
+  "pymc_absent_no_nuts_sampling": true,
+  "skipped": 9,
+  "test_methods": 1644,
+  "wall_seconds": 25.265139090000048
+}

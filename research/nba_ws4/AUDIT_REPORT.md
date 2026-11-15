@@ -35,7 +35,7 @@ All five provider boxscore byte hashes, file paths and producer/data-branch revi
 - Bayesian A: 221/250 available, 29 negative-support abstentions; Bayesian B: 225/250 available, 25 negative-support abstentions. Strict NUTS: 0/250.
 - Engine A: 250 probabilities, 249 selected sides and one exact 0.5 tie; Engine B: 250 probabilities/selected sides. Exact games/dates/players/contracts/selected IDs for every population and top-k are in the machine score receipt.
 
-`evidence/original_attempt_ledger.json` preserves every attempted side and original rejection reason. `evidence/scored_v3/contract_comparison.csv` retains the familiar per-contract control columns, separate first-book and median-market references, and explicit unavailable WS2/WS3 cells.
+`evidence/original_attempt_ledger.json.gz` preserves every attempted side and original rejection reason. `evidence/scored_v3/contract_comparison.csv` retains the familiar per-contract control columns, separate first-book and median-market references, and explicit unavailable WS2/WS3 cells.
 
 ## Independent proper-score reproduction
 
@@ -98,7 +98,7 @@ NBA online Bayesian A fails complementarity on **441/441** available diagnostic 
 
 Current repository notebook cell 9 already calls `scripts/morning_contract_metrics.py`, makes contract scores the primary metrics, labels raw both-side summaries as prohibited for selection accuracy, and exports original identity hashes. This is a verified current-code finding, not a claim about a scheduled live editor deployment. The new WS4 implementation remains standalone and adds explicit push/void/pending, registered universe, full-law checks, calibration/selection clock checks and immutable-stage artifacts. No scheduled morning notebook was edited.
 
-**83 targeted tests pass**, including 32 new WS4 test methods with mutation subtests. The suite covers current-game minutes, same/future rolling results, postgame injuries/lineups, wrong trade teams, source/fit clocks, reversed sides, duplicate contracts, exact line/period, push/void/DNP, negative/unnormalized mass, row-bootstrap prohibition, selected-vs-eligible bias, target-game calibration, retrospective rebranding and outcome-dependent model choice. Synthetic no-signal/selection outcome-flip controls verify the selected IDs cannot change after results; the disabled-dispersion control is specified for the future model experiment, since no new outcome model is built here.
+**84 targeted tests pass**, including 33 new WS4 test methods with mutation subtests. The suite covers current-game minutes, same/future rolling results, postgame injuries/lineups, wrong trade teams, source/fit clocks, reversed sides, duplicate contracts, exact line/period, push/void/DNP, negative/unnormalized mass, row-bootstrap prohibition, selected-vs-eligible bias, target-game calibration, retrospective rebranding and outcome-dependent model choice. Synthetic no-signal/selection outcome-flip controls verify the selected IDs cannot change after results; the disabled-dispersion control is specified for the future model experiment, since no new outcome model is built here.
 
 ## Uncertainty, calibration and six separate verdicts
 
@@ -125,7 +125,7 @@ Every WS1/WS2/WS3 gate is recorded individually in `ACCEPTANCE_MATRIX.md` and `a
 
 ## Runtime, reproducibility and rollback
 
-Local 83-test execution: about **1.45 seconds**, peak child RSS **117,940 KiB**. Local original-row score construction: about **1.08 seconds**, process peak RSS **82,676 KiB**; identical score payload on repeat. Measurements are environment-specific and describe evaluation only, not joint-simulation cost. Environment/package versions and file hashes are in the manifest.
+Local 84-test execution: about **1.35 seconds**, peak child RSS **86,232 KiB**. Local original-row score construction: about **1.08 seconds**, process peak RSS **82,676 KiB**; identical score payload on repeat. Measurements are environment-specific and describe evaluation only, not joint-simulation cost. Environment/package versions and file hashes are in the manifest.
 
 Follow `README.md` commands to regenerate scores or rerun against original Deepnote files. The primary report is `evidence/scored_v3/scores.json`. `evidence/scored_v3/contract_comparison.csv` is the familiar row comparison. Raw-byte replay requires original source mounts; the compact source-matched rows allow offline rescoring immediately.
 
@@ -134,3 +134,5 @@ GitHub workflow source remains manually dispatched/paused for expensive training
 Rollback: stop invoking the standalone package; close the draft audit PR. If later merged for research, revert its audit commit. Retain all failed and successful receipts and frozen legacy controls. No production migration is needed because the package has no scheduled wiring.
 
 This is independent replay of other model authors’ artifacts. The new evaluator’s tests and mathematical review were performed by the same author in separate passes; a separate external code reviewer has not approved it. Do not treat self-run tests as independent release approval.
+
+Full offline regression after CI compatibility repairs: **1,644 tests pass, nine skipped**; optional PyMC/NUTS sampling was absent. The initial CI run exposed a missing optional calibration dependency and a historical source-label text-scan conflict. Isotonic now uses weighted SciPy PAVA; the original attempt ledger is stored in verified lossless gzip. No workflow/production rule was changed. See `evidence/full_offline_execution.json` and `evidence/attempt_ledger_archive_receipt.json`.
