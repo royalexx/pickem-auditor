@@ -380,7 +380,7 @@ def main():
         q["abstentions"]+=int(c["status"]["ABSTAIN"])
         q["reasons"].update(c["abstention_reasons"])
     coverage=[{"event_id":event,"stat":market,**{k:(dict(sorted(v.items())) if k=="reasons" else v)
-                  for k,v in values.items()}} for (event,market),values in sorted(by_gm.items())]
+                  for k,v in values.items()}} for (event,market),values in sorted(by_gm.items(), key=lambda item:(str(item[0][0] or ""),str(item[0][1])))]
     cb=b"".join(canonical(x) for x in coverage)
     coverage_path=root/("per_game_market_"+sha(cb)+".jsonl")
     unchanged(coverage_path,cb)
