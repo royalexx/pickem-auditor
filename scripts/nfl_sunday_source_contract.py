@@ -165,6 +165,8 @@ def frozen_control():
             for model in LEGACY_MODELS}
 
 def normalize_roster_status(status):
+    if isinstance(status, dict):
+        status = status.get("type") or status.get("name") or status.get("description")
     return str(status or "").strip().lower()
 
 def eligibility(player, stat, qb1=None, injury_status=None):
@@ -173,7 +175,7 @@ def eligibility(player, stat, qb1=None, injury_status=None):
         return "IDENTITY_UNVERIFIABLE", None, "PLAYER_ID_UNVERIFIED"
     injury = normalize_roster_status(injury_status)
     roster = normalize_roster_status(player.get("roster_status"))
-    if injury in ("out", "inactive", "injured reserve", "ir") or roster in ("inactive", "injured reserve"):
+    if injury in ("out", "inactive", "injured reserve", "ir") or roster in ("inactive", "injured reserve", "injured-reserve", "suspended", "practice-squad"):
         return "VERIFIED_OUT", 1.0, "PREGAME_OUT_SOURCE"
     if stat in QB_STATS and player.get("position") == "QB":
         if qb1 is None or qb1.get("espn_player_id") is None:
