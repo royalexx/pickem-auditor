@@ -1,0 +1,29 @@
+{
+  "schema": "v25_sog_s1_preregistration_clarification_v1",
+  "experiment_id": "EXP-V25-NHL-SOG-RATE-SHRINKAGE-PROSPECTIVE-001",
+  "original_registration_commit": "abc2a5c825ec4271d2034769fc013fdee52e12dc",
+  "original_registration_file_sha256": "0d6f0766e832442a2f7c8c98b0d8e853e6b53231fb52560a21cb5733fed4c876",
+  "motivation": "Outcome-blind clarification of first source selection and predeclared calibration/coverage safety thresholds, before any eligible November 15 target",
+  "no_original_spec_mutation": true,
+  "no_results_seen": true,
+  "not_a_parameter_search": true,
+  "source_policy": {
+    "first_completed_definition": "First terminal, fully written C03 daily_research_generation_manifest.json by UTC timestamp encoded in its immutable folder name, regardless of SUCCESS/BLOCKED status. Do not skip failed batches to choose later easier candidates.",
+    "all_original_stage_denominators_preserved": true,
+    "primary_universe_limit": "Only source-native original C03 successfully frozen Gamma research player-games that can be independently reverified before target start, max 4 C03 forecasts/day; model outcomes and original trial settlements are not used for candidate selection.",
+    "coverage_caveat": "M2 source gating inherited. No claim of standalone S1 coverage advantage on Gamma-abstained cases; those remain separate research-source failures until independently preregistered prospective S1-only source pipeline exists.",
+    "eligible_after_local_date": "2026-11-15",
+    "eligible_before_or_on_local_date": "2027-04-20"
+  },
+  "guardrails": {
+    "point_estimate_calibration_residual": "Abs(mean predicted P(SOG=0) minus observed zero incidence) <= 0.06 in matched played cohort; report date-cluster uncertainty and position slices.",
+    "tail6_residual": "Abs(mean predicted P(SOG>=6) minus observed tail6 incidence) <= 0.035 in matched played cohort; report exact event count, date-cluster uncertainty.",
+    "central_90pct_interval_coverage": "Empirical matched played-game coverage between 0.80 and 0.98 under prespecified shortest central 90% interval algorithm; disclose discreteness and nominal exceedance.",
+    "critical_source_time_violations": 0,
+    "matched_forecast_population": "No model-specific missing scores; all M0/S1/M2 comparisons on exactly same played player-games, with all abstains and no-played recorded outside scored denominator.",
+    "decision": "Any required primary or safety check that cannot be evaluated with adequate data => INCONCLUSIVE, not NONINFERIOR. Scientific and release gates separate."
+  },
+  "power_note": "60 slate dates and 16 weeks are an enrollment floor, NOT 80% power. Under independent-date Normal approximation and effect delta=0, SD=0.003 needs ~71 dates; SD=0.005 needs ~197; 7-day block dependence generally increases uncertainty. Fixed horizon and no early stopping unchanged.",
+  "change_control": "Clarification binding is append-only and source-hash locked; any further substantive change requires a new experiment ID and future cohort, no silent replace.",
+  "no_tier_or_production": true
+}
