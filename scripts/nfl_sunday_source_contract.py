@@ -152,7 +152,7 @@ def tackle_total(source):
         value = source.get(key)
         if isinstance(value, bool) or not isinstance(value, (int, float)):
             return None
-        if not math.isfinite(value) or not value.is_integer() if isinstance(value, float) else False:
+        if not math.isfinite(value) or not float(value).is_integer():
             return None
         if value < 0 or value > 200:
             return None
@@ -215,15 +215,22 @@ def build_universe(*, events, quotes, quote_receipts, rosters,
         event = event_by_pair.get((team, opponent))
         if event is None:
             reason = reason or "EVENT_IDENTITY_UNVERIFIABLE"
+        elif not event.get("schedule_verified") or not event.get("espn_event_id"):
+            reason = reason or "SCHEDULE_SOURCE_UNVERIFIED"
         elif raw.get("event_start") and instant(raw["event_start"]) != instant(event["scheduled_kickoff"]):
             reason = reason or "EVENT_KICKOFF_CONFLICT"
         stat = str(raw.get("stat") or "")
         if stat not in SUPPORTED:
             reason = reason or "MARKET_UNSUPPORTED_BY_SOURCE_CONTRACT"
-        if raw.get("line") is None or not isinstance(raw.get("line"), (int, float)):
+        if (raw.get("line") is None or isinstance(raw.get("line"), bool)
+                or not isinstance(raw.get("line"), (int, float))
+                or not math.isfinite(raw.get("line")) or raw.get("line") < 0):
             reason = reason or "LINE_INVALID"
         if any(raw.get(k) is None for k in ("book", "over_odds", "under_odds", "event_id")):
             reason = reason or "QUOTE_IDENTITY_OR_PRICES_MISSING"
+        if not all(isinstance(raw.get(k), (int, float)) and not isinstance(raw.get(k), bool)
+                   and math.isfinite(raw[k]) for k in ("over_odds", "under_odds")):
+            reason = reason or "INVALID_QUOTE_ODDS"
         # A single original bulk provider response is the root for all quotes.
         receipt = quote_receipts.get(original_offer_source)
         problem = (_validate_receipt(receipt, freeze_at, event["scheduled_kickoff"])
@@ -249,6 +256,8 @@ def build_universe(*, events, quotes, quote_receipts, rosters,
         qbid = depth_qbs.get(team)
         inj = injuries.get(team, {}).get(str(player.get("espn_player_id"))) if player else None
         elig, participation_risk, elig_reason = eligibility(player, stat, qbid, inj)
+        if stat in QB_STATS and player is not None and player.get("position") != "QB":
+            reason = reason or "QB_STAT_ON_NONQB_IDENTITY"
         hist = stats_by_key.get((team, _name(raw.get("player"))), [])
         hist_match = hist[0] if len(hist) == 1 else None
         if hist_match and hist_match.get("stat") != stat:
@@ -296,6 +305,8 @@ def build_universe(*, events, quotes, quote_receipts, rosters,
             "eligibility_reason": elig_reason,
             "source_validation_failure": reason,
             "source_certified": reason is None,
+            "availability_certified": False,
+            "c03_strict_source_applied": False,
             "forecast_eligible": False,
             "forecast_eligibility_reason": reason or elig_reason or "MODEL_AND_TRAINING_CUTOFF_NOT_FROZEN",
             "research_only": True,
