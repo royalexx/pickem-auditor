@@ -90,3 +90,35 @@ class LiveAdapter(unittest.TestCase):
    receipt=freeze(Path(d),b'source',run(s,p),{'created_at':NOW.isoformat()})
    self.assertEqual(receipt['input_contracts'],1)
    self.assertIn('UNKNOWN',receipt['per_kickoff_window'])
+ def test_cli_real_population_shape_missing_pin_and_missing_kickoff(self):
+  import contextlib,io,json
+  from unittest.mock import patch
+  from scripts import nfl_ws2_live as live
+  s,p=fixture();s['candidates'].append({**s['candidates'][0], 'candidate_id':'rejected',
+   'source_certified':False,'event_start_at':None})
+  with tempfile.TemporaryDirectory() as d:
+   root=Path(d);control=root/'source_control';control.mkdir()
+   raw=canonical(s)+b'\n';(control/'source.json').write_bytes(raw)
+   (control/'HANDOFF_PIN.json').write_text(json.dumps({'source_control_manifest_sha256':digest(raw),
+    'source_control_manifest_relative_path':'source_control/source.json'}))
+   output=io.StringIO()
+   with patch.object(live,'SOURCE_SHA',digest(raw)),patch('sys.argv',['live','--source-root',d,
+     '--out-root',str(root/'output'),'--code-commit','test-fixture']),contextlib.redirect_stdout(output):
+    live.main()
+   receipt=json.loads(output.getvalue())
+   self.assertEqual(receipt['input_contracts'],2)
+   self.assertEqual(receipt['per_model'][MODEL_IDS[0]]['unavailable'],2)
+   self.assertIsNone(receipt['feature_freeze_at'])
+   self.assertEqual(digest(Path(receipt['index_path']).read_bytes()),receipt['index_sha256'])
+ def test_actual_ws1_feature_schema_s2_and_unknown_zeros(self):
+  s,p=fixture();c=s['candidates'][0]
+  bound={**c,'gsis_player_id':'00-1','status':{'CONDITIONAL_ON_APPEARANCE_FORECASTABLE':True}}
+  history=[dict(candidate_id='c',gsis_id='00-1',game_id=f'g{i}',game_date=f'2025-11-0{i+1}',
+   source_available_at='2026-11-11T18:30:00Z',receptions=v,targets=2) for i,v in enumerate([0,2,4])]
+  packet={'native_ws1_feature_v1':True,'contracts':[bound],'history':history}
+  r=run(s,packet);self.assertEqual(audit(r)['probability_rows_checked'],1)
+  self.assertEqual(r[0]['models'][MODEL_IDS[1]]['mean'],r[0]['models'][MODEL_IDS[1]]['mean'])
+  history[0]['targets']=0
+  self.assertEqual(run(s,packet)[0]['models'][MODEL_IDS[1]]['reason'],'insufficient_player_appearances')
+  history[0]['targets']=2;history[0]['gsis_id']='wrong'
+  self.assertEqual(audit(run(s,packet))['probability_rows_checked'],0)

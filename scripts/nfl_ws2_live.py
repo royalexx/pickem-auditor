@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from v2.contracts import utc, finite
 from v2.stat_registry import canonical_stat
 from v2.nfl_marginal_shadow import MODEL_IDS, PARAMETERS, fit_laws, fixed_logit, probability_only
-from scripts.nfl_ws2_ws1_adapter import canonical, digest, normalize_ws1_tables
+from scripts.nfl_ws2_ws1_adapter import canonical, digest, normalize_ws1_tables, native_feature_history
 
 SOURCE_SHA = '5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71'
 
@@ -27,7 +27,7 @@ def read_bound(root, ref):
     return json.loads(raw)
 
 def stat_key(stat):
-    return canonical_stat('NFL', {'rushing attempts':'carries', 'passing attempts':'pass attempts',
+    return canonical_stat('NFL', {'rushing attempts':'carries', 'rush attempts':'carries', 'passing attempts':'pass attempts',
         'passing completions':'completions'}.get(stat,stat), 'full').key
 
 def histories(candidate, packet, cutoff, target_events):
@@ -61,7 +61,7 @@ def histories(candidate, packet, cutoff, target_events):
         ended=utc(row.get('game_end_at'),'game_end_at')
         available=utc(row.get('available_at'),'available_at')
         received=utc(row.get('source_received_at'),'source_received_at')
-        if not ended<=available<=cutoff or received>cutoff:
+        if not ended<=available<=cutoff or not ended<=received<=cutoff:
             raise ValueError('HISTORY_AFTER_CUTOFF_OR_UNVERIFIED_AVAILABILITY')
         if row.get('appearance')!='appeared':
             excluded[row.get('appearance') or 'unknown']+=1;continue
@@ -124,14 +124,20 @@ def execute(source, *, packet, now, feature_freeze=None):
             try:row['models'].update(original_comparators(c,packet,feature_freeze,now))
             except (ValueError,KeyError,TypeError) as exc:
                 for m in MODEL_IDS[5:]:row['models'][m]=missing(str(exc))
-            cutoff=utc(packet['model_training_cutoff_at'],'model_training_cutoff_at')
+            if packet.get('native_ws1_feature_v1'):
+                own,lineage=native_feature_history(c,packet['contracts'],packet['history'],feature_freeze)
+                peers=[]
+                cutoff=feature_freeze
+            else:
+                cutoff=utc(packet['model_training_cutoff_at'],'model_training_cutoff_at')
             if cutoff>feature_freeze:raise ValueError('TRAINING_AFTER_FEATURE_FREEZE')
-            own,peers,lineage=histories(c,packet,cutoff,target_events)
+            if not packet.get('native_ws1_feature_v1'):
+                own,peers,lineage=histories(c,packet,cutoff,target_events)
             row['history_lineage']=lineage
             laws,reasons,diag=fit_laws(own,peers,stat=stat_key(c['stat']))
             row['sample_diagnostics']=diag
             for m in MODEL_IDS[:5]:
-                row['models'][m]={'status':'forecast',**laws[m].record(c['line'])} if m in laws else missing(reasons.get(m,'NOT_APPLICABLE'))
+                row['models'][m]={'status':'forecast',**laws[m].record(c['line'])} if m in laws else missing(('WS1_NO_SOURCE_BOUND_ROLE_PEERS' if packet.get('native_ws1_feature_v1') and m!=MODEL_IDS[1] else reasons.get(m,'NOT_APPLICABLE')))
         except (ValueError,KeyError,TypeError) as exc:
             for m in MODEL_IDS[:5]:row['models'][m]=missing(str(exc))
         # S6/S7 require an original production comparator. They never use a newly
@@ -160,6 +166,8 @@ def audit(rows):
             if r['models'][a]['status']==r['models'][b]['status']=='forecast':
                 assert r['models'][a]['mean']==r['models'][b]['mean']
             checks+=1
+    for counts in list(coverage.values())+[c for markets in by_market.values() for c in markets.values()]:
+        counts.setdefault('forecast',0);counts.setdefault('unavailable',0)
     return json.loads(json.dumps({'per_model':coverage,'per_market':by_market,'failure_reasons':reasons,'probability_rows_checked':checks}))
 
 def freeze(root, source_raw, rows, provenance):
@@ -196,22 +204,42 @@ def main():
                 raise ValueError('ORIGINAL_QUOTE_SOURCE_BYTES_CHANGED')
             verified[ref]=expected
     packet=None;feature_freeze=None;feature_provenance={'feature_freeze_at':None,'model_training_cutoff_at':None,'feature_pin_sha256':None}
-    fp=root/'source_control/FORECAST_FEATURE_PIN.json'
+    fp=root/'FORECAST_FEATURE_PIN.json'
+    if not fp.exists():fp=root/'source_control/FORECAST_FEATURE_PIN.json'
     if fp.exists():
         fraw=fp.read_bytes();fpin=json.loads(fraw)
-        if fpin.get('source_manifest_sha256')!=SOURCE_SHA:raise ValueError('FEATURE_PIN_WRONG_SOURCE')
-        packet=read_bound(root,fpin['feature_packet'])
-        if packet.get('owner')!='workstream1':raise ValueError('FEATURE_PACKET_NOT_WS1')
-        if 'historical_players' in packet:packet=normalize_ws1_tables(packet)
-        feature_freeze=utc(packet['input_freeze_at'],'feature_freeze')
-        feature_provenance={'feature_pin_sha256':digest(fraw),'feature_packet':fpin['feature_packet'],
-            'feature_freeze_at':feature_freeze.isoformat(),'model_training_cutoff_at':packet['model_training_cutoff_at']}
+        if fpin.get('schema')=='ws1_nfl_sunday_immutable_forecast_feature_pin_v1':
+            if fpin['canonical_source_manifest_file_sha256']!=SOURCE_SHA:raise ValueError('FEATURE_PIN_WRONG_SOURCE')
+            def table(label):
+                ref=fpin['tables'][label];path=Path(ref['path'])
+                if path.is_absolute():
+                    if not path.resolve().is_relative_to(root.resolve()):raise ValueError('FEATURE_PATH_ESCAPE')
+                else:
+                    # WS1 paths are relative to the project, beginning reports/.
+                    path=root.parent.parent/path
+                data=path.read_bytes()
+                if digest(data)!=ref['sha256']:raise ValueError('FEATURE_BYTES_HASH_MISMATCH')
+                return [json.loads(x) for x in data.splitlines() if x]
+            packet={'native_ws1_feature_v1':True,'contracts':table('original_contracts'),
+                'history':table('player_history_last10_by_contract')}
+            feature_freeze=utc(fpin['feature_freeze_at'],'feature_freeze')
+            feature_provenance={'feature_pin_sha256':digest(fraw),'feature_freeze_at':feature_freeze.isoformat(),
+                'model_training_cutoff_at':feature_freeze.isoformat(),'feature_tables':fpin['tables']}
+        else:
+            if fpin.get('source_manifest_sha256')!=SOURCE_SHA:raise ValueError('FEATURE_PIN_WRONG_SOURCE')
+            packet=read_bound(root,fpin['feature_packet'])
+            if packet.get('owner')!='workstream1':raise ValueError('FEATURE_PACKET_NOT_WS1')
+            if 'historical_players' in packet:packet=normalize_ws1_tables(packet)
+            feature_freeze=utc(packet['input_freeze_at'],'feature_freeze')
+            feature_provenance={'feature_pin_sha256':digest(fraw),'feature_packet':fpin['feature_packet'],
+                'feature_freeze_at':feature_freeze.isoformat(),'model_training_cutoff_at':packet['model_training_cutoff_at']}
     now=datetime.now(timezone.utc)
     rows=execute(json.loads(raw),packet=packet,now=now,feature_freeze=feature_freeze)
     # Stamp and revalidate at completion, never label time before computation.
     completed=datetime.now(timezone.utc)
     for r in rows:
         r['forecast_created_at']=completed.isoformat()
+        if not any(p['status']=='forecast' for p in r['models'].values()):continue
         try:
             if completed>=utc(r['original_contract'].get('event_start_at'),'event_start_at'):
                 r['models']={m:missing('FORECAST_NOT_PREGAME') for m in MODEL_IDS}

@@ -170,3 +170,53 @@ def normalize_ws1_tables(packet):
                 'historical_source_sha256':player.get('source_sha256'),
             })
     return {**packet,'players':observations,'table_adapter_exclusions':dict(excluded)}
+
+
+def native_feature_history(candidate, contracts, history, feature_freeze):
+    """Actual WS1 feature-store v1 tables: own recent form, no role peers invented.
+
+    A nonzero official stat in any recorded category proves an appearance.
+    All-zero rows without independently joined snaps remain unknown, not zeros.
+    Actual source ingestion proves availability today; no historical pregame
+    timestamp or exact game-final clock is reconstructed.
+    """
+    from v2.contracts import utc
+    matches=[c for c in contracts if c['candidate_id']==candidate['candidate_id']]
+    if len(matches)!=1:raise ValueError('WS1_FEATURE_CONTRACT_MISSING_OR_AMBIGUOUS')
+    bound=matches[0]
+    for k in ('quote_id','event_id','player_id','stat','period','line','book','team','source_sha256'):
+        if bound.get(k)!=candidate.get(k):raise ValueError('WS1_FEATURE_EXACT_CONTRACT_MISMATCH:'+k)
+    if not bound['status'].get('CONDITIONAL_ON_APPEARANCE_FORECASTABLE'):
+        raise ValueError('WS1_FEATURE_ABSTAIN:'+','.join(bound.get('abstention_reasons',[])))
+    if not bound.get('gsis_player_id'):raise ValueError('VERIFIED_GSIS_CROSSWALK_MISSING')
+    fields={'pass attempts':'attempts','completions':'completions','passing yards':'passing_yards',
+        'rush attempts':'carries','rushing yards':'rushing_yards','receptions':'receptions',
+        'receiving yards':'receiving_yards'}
+    known=('attempts','completions','passing_yards','carries','rushing_yards','receptions',
+        'receiving_yards','targets','def_tackles_solo','def_tackles_with_assist','def_tackle_assists')
+    values=[];seen=set();excluded=Counter();ids=[];cutoffs=[]
+    for h in history:
+        if h['candidate_id']!=candidate['candidate_id']:continue
+        if h['gsis_id']!=bound['gsis_player_id']:raise ValueError('HISTORICAL_PLAYER_ID_MISMATCH')
+        gid=h['game_id']
+        if gid in seen:raise ValueError('DUPLICATE_HISTORY_PLAYER_EVENT_STAT')
+        seen.add(gid)
+        if h['game_date'][:10]>='2026-11-15':raise ValueError('TARGET_OR_FUTURE_GAME_IN_HISTORY')
+        available=utc(h['source_available_at'],'source_available_at')
+        if available>feature_freeze:raise ValueError('HISTORICAL_SOURCE_AFTER_FEATURE_FREEZE')
+        if h['game_date'][:10]>available.date().isoformat():raise ValueError('HISTORY_GAME_AFTER_SOURCE_RECEIPT')
+        if not any(h.get(k) is not None and h[k]!=0 for k in known):
+            excluded['ALL_ZERO_APPEARANCE_UNKNOWN_NO_JOINED_SNAPS']+=1;continue
+        if candidate['stat']=='tackles + assists':
+            parts=[h.get(k) for k in ('def_tackles_solo','def_tackles_with_assist','def_tackle_assists')]
+            value=None if any(v is None for v in parts) else sum(parts)
+        else:value=h.get(fields[candidate['stat']])
+        if value is None:excluded['MISSING_STAT_VALUE']+=1;continue
+        values.append((h['game_date'],gid,value));ids.append([gid,h['gsis_id']]);cutoffs.append(available)
+    values.sort()
+    return [v[2] for v in values], {'eligible_observation_identities':ids,
+        'excluded_appearance_counts':dict(excluded),'historical_cutoff':max(cutoffs).isoformat() if cutoffs else None,
+        'appearance_evidence':'nonzero official stat in at least one source category; all-zero unknown excluded',
+        'history_scope':'WS1 last ten recorded player-games; no unobserved zeros or historical roles invented',
+        'game_final_at':None,'historical_pregame_availability_claimed':False,
+        'peer_status':'WS1_V1_HAS_NO_SOURCE_BOUND_ROLE_PEER_TABLE'}
