@@ -1,0 +1,92 @@
+"""Numerical/adversarial extension tests; fabricated fixtures, never forecasts."""
+import copy,pathlib,sys,unittest,tempfile,json,hashlib
+import numpy as np
+sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]/'joint_models'))
+from all_market_v04.conditional import allocations,covariance,extend_game,verify,MARKETS
+from all_market_v04.execute import parameterize,summarize,roles
+from test_joint_models import fixture
+
+
+def event():
+    e=fixture()['events'][0];e['all_market_parameters']={}
+    for t in e['teams']:
+        ps=[]
+        for p in t['players']:
+            if p['role']=='DEFENDER':continue
+            ps.append(dict(player_id=p['player_id'],target_share=0 if p['role']=='QB' else .2,
+             rush_share=.1,catch_alpha=7,catch_beta=3,receiving_marks=[-2,8,20],rushing_marks=[-1,3,7]))
+        e['all_market_parameters'][t['team_id']]=dict(players=ps,allocation_concentration=28,
+          residual=dict(catch_alpha=1,catch_beta=4,receiving_marks=[-1,10],rushing_marks=[-1,5]))
+    return e
+
+class AllMarket(unittest.TestCase):
+    def test_11_markets_only(self):
+        self.assertEqual(len(MARKETS),11)
+        self.assertFalse(any('solo' in s or 'td' in s for s in MARKETS))
+    def test_games_conserve_and_no_forbidden_outputs(self):
+        for model in ('J1','J2'):
+            rng=np.random.default_rng(98)
+            for _ in range(100):
+                s,st=extend_game(event(),rng,model,'neutral');verify(s,st,event())
+                self.assertTrue(set(k for p,k in s)<=set(MARKETS))
+    def test_no_j3_without_source(self):
+        with self.assertRaisesRegex(ValueError,'J3_SOURCE'):extend_game(event(),np.random.default_rng(2),'J3','neutral')
+    def test_bad_budget(self):
+        for w in ([.8,.8],[-.1,1.1],[float('nan'),1]):
+            with self.assertRaises(ValueError):allocations(np.random.default_rng(),30,w,False,28)
+    def test_composite_covariance(self):
+        x=np.arange(100);y=-x
+        r=covariance(x,y);self.assertEqual(r['variance_sum'],0);self.assertAlmostEqual(r['correlation'],-1)
+        r=covariance(x,x);self.assertAlmostEqual(r['variance_sum'],4*np.var(x))
+    def test_invalid_covariance(self):
+        for x,y in [([1,2],[3]),([1,float('nan')],[1,2]),([],[])]:
+            with self.assertRaises(ValueError):covariance(x,y)
+    def test_tamper_counts(self):
+        e=event();s,st=extend_game(e,np.random.default_rng(1),'J2','neutral');st['H']['residual_targets']+=1
+        with self.assertRaisesRegex(ValueError,'TARGET_ACCOUNTING'):verify(s,st,e)
+    def test_tamper_composite(self):
+        e=event();s,st=extend_game(e,np.random.default_rng(1),'J2','neutral');s[('HQ','passing_rushing_yards')]+=1
+        with self.assertRaisesRegex(ValueError,'COMPOSITE'):verify(s,st,e)
+    def test_exact_contract_and_mc(self):
+        r=summarize([0,1,2,3],'rushing_attempts',1)
+        self.assertEqual(r['p_over']+r['p_under']+r['p_push'],1)
+        self.assertEqual(r['p_push'],.25);self.assertEqual(r['effective_simulation_draws'],4)
+    def test_roster_parse(self):
+        self.assertEqual(roles({'athletes':[{'items':[{'id':'123','position':{'abbreviation':'QB'}}]}]}),{'123':'QB'})
+    def test_duplicate_player_join_audit(self):
+        from audit_all_market_v04 import audit
+        e={'event_start_at':'2027-01-01T00:00:00Z','all_market_parameters':{
+          t:{'players':[{'player_id':'same','gsis_id':'same'}]} for t in ('A','B')}}
+        o={'forecast_created_at':'2026-01-01T00:00:00Z','input_packet':{'events':[e],'model_training_cutoff_at':'2025-12-31T00:00:00Z'}}
+        raw=json.dumps(o).encode()
+        with tempfile.TemporaryDirectory() as d:
+            f=pathlib.Path(d)/(hashlib.sha256(raw).hexdigest()+'.json');f.write_bytes(raw)
+            with self.assertRaisesRegex(AssertionError,'PLAYER_TEAM_JOIN_COLLISION'):audit(f)
+    def test_current_history_training_cutoff_audit(self):
+        from audit_all_market_v04 import audit
+        e={'all_market_parameters':{'A':{'current_source_receipts':[{'available_at':'2026-11-15T16:00:00Z'}]}}}
+        o={'input_packet':{'events':[e],'model_training_cutoff_at':'2026-11-11T00:00:00Z'}}
+        raw=json.dumps(o).encode()
+        with tempfile.TemporaryDirectory() as d:
+            f=pathlib.Path(d)/(hashlib.sha256(raw).hexdigest()+'.json');f.write_bytes(raw)
+            with self.assertRaisesRegex(AssertionError,'CURRENT_HISTORY_AFTER_TRAINING_CUTOFF'):audit(f)
+    def test_missing_qb_rush_history_keeps_passing_pool(self):
+        from unittest.mock import patch
+        from all_market_v04 import execute
+        h=[]
+        for i in range(3):
+            for pid,pos,att,tar,rec,ca in [('old','QB',10,0,0,2),('r','RB',0,3,2,4)]:
+                h.append(dict(team='H',player_id=pid,position=pos,game_id=str(i),attempts=att,
+                  targets=tar,receptions=rec,carries=ca,receiving_yards=rec*7,rushing_yards=ca*3))
+        with patch.object(execute,'ALLOW_PARTIAL_QB',True,create=True):
+            par,rejected=parameterize({'team_id':'H','starter_qb_id':'q'},
+              {'q':'QB','r':'RB'},{'q':{'new'},'r':{'r'}},h)
+        q=next(p for p in par['players'] if p['player_id']=='q')
+        self.assertTrue(q['partial_qb']);self.assertEqual(q['n_history_games'],0)
+        self.assertEqual(q['rush_share'],0)
+        self.assertLess(sum(p['rush_share'] for p in par['players']),1)
+        self.assertIn('QB_RUSH_HISTORY_UNAVAILABLE_PASSING_FROM_SHARED_POOL',[r[2] for r in rejected])
+    def test_wrong_team_join_abstains(self):
+        t={'team_id':'H','starter_qb_id':'q'}
+        h=[dict(team='A',position='QB',player_id='g')]
+        with self.assertRaisesRegex(ValueError,'NO_TEAM'):parameterize(t,{'q':'QB'},{'q':{'g'}},h)

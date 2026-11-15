@@ -1,0 +1,25 @@
+{
+  "schema": "PA_WS4_EXP_CARD_v1",
+  "date": "2026-11-14",
+  "governing_plan": "PA-V25-MASTER-2026-11-09/v1.1",
+  "research_only": true,
+  "dataset": "SYNTHETIC_FIXTURE (one invented game, 30 contracts)",
+  "prospective_research_candidate": "J1 conservative joint vs J2 uncertainty-corrected vs J3 predeclared scenario mixture; J4 correlation diagnostics",
+  "baseline_historical": "V3 and frozen V5.6 independent 175-week audit (not re-fitted)",
+  "hypotheses": [
+    "Shared finite opportunity accounting can pass zero physics failures without automatic calibration authority",
+    "J2 additional game, share and conversion uncertainty may reduce high-confidence tail misspecification relative to J1",
+    "J3 predeclared game-script scenario family may improve independent conditional calibration on source-certified game cohorts",
+    "Native scenario dependence may outperform independent marginals on matched two-player and multivariate score families"
+  ],
+  "predeclared_primary_metrics": ["matched binary Brier", "matched log loss", "paired game-clustered difference"],
+  "secondary_metrics": ["three-way Brier", "count CRPS", "zero/tail calibration", "mean drift J2-J1", "Energy Score", "Variogram Score(0.5)", "dependence event calibration", "full eligible coverage", "runtime"],
+  "negative_controls": ["duplicate offers", "future sources", "bad starter", "wrong game/team", "complementarity", "unmatched baseline", "incorrect push", "independent-marginal correlation null"],
+  "historical_exposure": "V5.6 2016-2025 fully exposed through prior reported research; not a fresh blind holdout",
+  "real_nfl_manifest_state": "NOT_AVAILABLE_AT_INITIAL_REVIEW",
+  "training_policy": "No fitting or training; source means currently synthetic and unverified",
+  "scenario_weights": {"neutral": 0.5, "pass_heavy_underdog": 0.2, "run_heavy_favorite": 0.2, "low_tempo": 0.1},
+  "draw_budget": {"smoke": 128, "numerical": 512, "maximum_per_model_event": 4096},
+  "release_rule": "NEVER_PROMOTE_FROM_FIXTURE_OR_SINGLE_SUNDAY",
+  "rollback": "Discard separate shadow branch; immutable production configuration and original sources unchanged"
+}
