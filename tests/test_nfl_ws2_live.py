@@ -122,3 +122,28 @@ class LiveAdapter(unittest.TestCase):
   self.assertEqual(run(s,packet)[0]['models'][MODEL_IDS[1]]['reason'],'insufficient_player_appearances')
   history[0]['targets']=2;history[0]['gsis_id']='wrong'
   self.assertEqual(audit(run(s,packet))['probability_rows_checked'],0)
+ def test_archived_adapter_nonfinite_not_appearance_evidence(self):
+  from scripts.nfl_ws2_archived_history import number
+  for x in ('nan','inf','',None,'NA'):self.assertIsNone(number(x))
+  self.assertEqual(number('-2'),-2)
+ def test_archived_csv_adapter_completed_games_only_and_hashes(self):
+  import csv,io,json
+  from scripts.nfl_ws2_archived_history import derive
+  s,_=fixture();s['candidates'][0]['player']='Example Receiver'
+  with tempfile.TemporaryDirectory() as d:
+   root=Path(d);folder=root/'source_control/feature_source_receipts';folder.mkdir(parents=True)
+   datasets={'players':[{'espn_id':'own','gsis_id':'00-1','display_name':'Example Receiver'}],
+    'games2026':[{'season':'2026','game_type':'REG','gameday':f'2026-11-{day:02}',
+     'result':'1','week':str(i),'home_team':'DET','away_team':'NE','game_id':f'g{i}'} for i,day in [(1,1),(2,8),(3,15)]],
+    'stats2026':[{'season':'2026','season_type':'REG','week':str(i),'team':'DET',
+     'player_id':'00-1','receptions':str(i),'targets':'4'} for i in (1,2,3)]}
+   for label,rows in datasets.items():
+    out=io.StringIO();w=csv.DictWriter(out,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+    raw=out.getvalue().encode();path=folder/(label+'.csv');path.write_bytes(raw)
+    (folder/(label+'_CAPTURE.json')).write_text(json.dumps({'raw_path':str(path),
+      'sha256':digest(raw),'observed_received_at':'2026-11-15T14:00:00Z'}))
+   packet,at,provenance=derive(root,s)
+   self.assertEqual(len(packet['history']),2)
+   self.assertEqual({h['game_id'] for h in packet['history']},{'g1','g2'})
+   (folder/'players.csv').write_text('tampered')
+   with self.assertRaises(ValueError):derive(root,s)

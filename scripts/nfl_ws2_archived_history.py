@@ -1,5 +1,5 @@
 """Read already captured WS1 raw CSVs. Never fetch or alter WS1 files."""
-import csv,io,json,re,unicodedata
+import csv,io,json,re,unicodedata,math
 from pathlib import Path
 from datetime import datetime,timezone
 from scripts.nfl_ws2_ws1_adapter import digest
@@ -8,7 +8,9 @@ from v2.contracts import utc
 def norm(s):
  return re.sub('[^a-z0-9]','',unicodedata.normalize('NFKD',str(s or '')).encode('ascii','ignore').decode().casefold())
 def number(v):
- try:return float(v) if v not in ('',None) else None
+ try:
+  n=float(v) if v not in ('',None) else None
+  return n if n is not None and math.isfinite(n) else None
  except (ValueError,TypeError):return None
 
 def derive(root,source):
@@ -20,7 +22,7 @@ def derive(root,source):
   if not p.resolve().is_relative_to(root.resolve()):raise ValueError('ARCHIVED_WS1_PATH_ESCAPE')
   raw=p.read_bytes()
   if digest(raw)!=rec['sha256']:raise ValueError('ARCHIVED_WS1_SOURCE_HASH_MISMATCH')
-  receipts[label]={**rec,'receipt_file_sha256':digest(rb)}
+  receipts[label]={**{k:rec[k] for k in ('source','requested_url','observed_received_at','sha256','raw_path','row_count') if k in rec},'receipt_file_sha256':digest(rb)}
   datasets[label]=list(csv.DictReader(io.StringIO(raw.decode('utf-8-sig'))))
  freeze=datetime.now(timezone.utc)
  available=max(utc(r['observed_received_at'],'observed_received_at') for r in receipts.values())
