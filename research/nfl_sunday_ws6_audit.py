@@ -275,7 +275,8 @@ def group_score(rows):
             "observed_rate": sum(y for p, y in bucket) / len(bucket) if bucket else None}
     return {
         "count": n, "three_way_count": len(tri),
-        "multiclass_brier_half": sum(r["brier3"] for r in tri) / len(tri) if tri else None,
+        "multiclass_brier": sum(r["brier3"] for r in tri) / len(tri) if tri else None,
+        "multiclass_brier_half": sum(r["brier3"] for r in tri) / (2 * len(tri)) if tri else None,
         "multiclass_logloss": sum(r["logloss3"] for r in tri) / len(tri) if tri else None,
         "binary_nonpush_count": len(binary),
         "binary_nonpush_brier": sum(r["binary_brier"] for r in binary) / len(binary) if binary else None,
@@ -485,6 +486,29 @@ def score(args):
     ledger = load_jsonl(ledger_file)
     outcomes_file = root / args.outcomes
     outcome_sha = file_sha(outcomes_file)
+    completion = load_json(root / args.completion)
+    required(completion, ("slate_date", "outcomes_sha256", "event_finals",
+                          "assembled_at", "official_completion_reviewed"))
+    if (completion["slate_date"] != SLATE or completion["outcomes_sha256"] != outcome_sha
+            or completion["official_completion_reviewed"] is not True):
+        fail("FULL_SLATE_COMPLETION_UNVERIFIED")
+    expected_events = {r["quote"]["event_id"] for r in ledger}
+    final_events = {}
+    for e in completion["event_finals"]:
+        required(e, ("event_id", "status", "game_final_at",
+                     "official_receipt_path", "official_receipt_sha256"))
+        if e["event_id"] in final_events or e["status"] != "final":
+            fail("GAME_NOT_OFFICIALLY_FINAL")
+        start = next(instant(r["quote"]["event_start_at"], "event_start_at")
+                     for r in ledger if r["quote"]["event_id"] == e["event_id"])
+        if instant(e["game_final_at"], "game_final_at") <= start:
+            fail("GAME_FINAL_CLOCK_INVALID")
+        if instant(completion["assembled_at"], "assembled_at") < instant(e["game_final_at"], "game_final_at"):
+            fail("COMPLETION_ASSEMBLED_PREMATURELY")
+        checked_source(root, e["official_receipt_path"], e["official_receipt_sha256"])
+        final_events[e["event_id"]] = e
+    if set(final_events) != expected_events:
+        fail("SCHEDULED_EVENTS_NOT_ALL_OFFICIALLY_FINAL")
     outcomes, invalid = {}, []
     for i, o in enumerate(load_jsonl(outcomes_file)):
         try:
@@ -535,7 +559,7 @@ def score(args):
             ps = (m["q_over"], m["q_under"], m["q_push"])
             outcome_idx = {"over": 0, "under": 1, "push": 2}[status]
             y = tuple(float(i == outcome_idx) for i in range(3))
-            brier3 = 0.5 * sum((p - t) ** 2 for p, t in zip(ps, y))
+            brier3 = sum((p - t) ** 2 for p, t in zip(ps, y))
             loss3 = -math.log(max(1e-15, ps[outcome_idx]))
             mass = ps[0] + ps[1]
             binary_brier = binary_logloss = None
@@ -595,7 +619,9 @@ def score(args):
     dump_lines(out / "settlement_ledger.jsonl", settled)
     dump_lines(out / "invalid_official_outcomes.jsonl", invalid)
     report = {"slate": SLATE, "frozen_comparison_sha256": idx["comparison_ledger_sha256"],
-              "official_input_sha256": outcome_sha, "original_contracts": len(ledger),
+              "official_input_sha256": outcome_sha,
+              "official_completion_sha256": file_sha(root / args.completion),
+              "original_contracts": len(ledger),
               "settled_over_under_push": dict(Counter(x["settlement"] for x in settled)),
               "invalid_official_rows": len(invalid), "model_metrics": {k: group_score(v) for k, v in models.items()},
               "per_market": {a + ":" + b: group_score(v) for (a, b), v in bymarket.items()},
@@ -608,7 +634,7 @@ def score(args):
               "source_certification": "UNVERIFIED_PREGAME_ATTESTATION",
               "official_settlement_certification": "REQUIRES_INDEPENDENT_PROVIDER_REVIEW",
               "research_only": True, "tier_release": False,
-              "notes": "Push excluded only from binary nonpush metrics, retained in three-class score. Half-Brier uses 0.5 sum_k(p_k-y_k)^2. One Sunday cannot support promotion."}
+              "notes": "Push excluded only from binary nonpush metrics, retained in three-class score. Multiclass Brier uses sum_k(p_k-y_k)^2 as in v2/evaluation.py; half-Brier divides by two. One Sunday cannot support promotion."}
     dump(out / "score_report.json", report)
     dump(out / "score_index.json", {"frozen_comparison_sha256": idx["comparison_ledger_sha256"],
                                     "official_input_sha256": outcome_sha,
@@ -633,6 +659,8 @@ def main(argv=None):
     s.add_argument("--root", required=True)
     s.add_argument("--frozen", required=True)
     s.add_argument("--outcomes", required=True)
+    s.add_argument("--completion", required=True,
+                   help="Official source-backed event finals for every game, after completion")
     s.add_argument("--output", required=True)
     args = p.parse_args(argv)
     try:
