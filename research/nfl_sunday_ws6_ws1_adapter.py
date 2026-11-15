@@ -32,6 +32,12 @@ def convert(root, ws1_file, output):
     root, ws1_file, output = Path(root), Path(ws1_file), Path(output)
     if output.exists():
         fail("DERIVED_OUTPUT_ALREADY_EXISTS")
+    # A WS1 capture stores receipt paths relative to its own out-root, NOT
+    # relative to the enclosing Deepnote project. Prevent false 0/N SHA audits.
+    if (ws1_file.parent.name == "captures" and
+            ws1_file.parent.parent.name == "source_control" and
+            root.resolve() != ws1_file.parent.parent.parent.resolve()):
+        fail("WS1_ARCHIVE_ROOT_MISMATCH_USE_CAPTURE_OUT_ROOT")
     original_sha = file_sha(ws1_file)
     original = json.loads(ws1_file.read_text(encoding="utf8"))
     if original.get("schema") != WS1 or original.get("date") != "2026-11-15":
