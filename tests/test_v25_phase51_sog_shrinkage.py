@@ -27,6 +27,41 @@ def model():
         "gamma_parameterization":"shape_rate"
     }
 def stamp(t):return t.isoformat().replace("+00:00","Z")
+
+def signed_history_fixture(root):
+    """205 purely synthetic prior-only signed record fixtures (never source evidence)."""
+    from collections import defaultdict
+    m=model()
+    receipts=[];own=[];peer=[]
+    for i in range(205):
+        is_own=i<5
+        pid="8482001" if is_own else str(8500000+(i-5)//10)
+        eid="prior_synthetic_"+str(i)
+        w=0.05 if i==0 else 10.0
+        doc={"schema":"v25_nhl_sog_observation_v1","player_id":pid,
+             "event_id":eid,"event_ended_at":"2026-11-14T23:00:00Z",
+             "position_group":"F","played":True,"toi_minutes":w,
+             "shots_on_goal":1}
+        content=json.dumps(doc,sort_keys=True,separators=(",",":")).encode()
+        digest=hashlib.sha256(content).hexdigest()
+        rel="signed/"+digest+".json"
+        f=root/rel;f.parent.mkdir(parents=True,exist_ok=True);f.write_bytes(content)
+        receipt={"archive_path":rel,"content_sha256":digest,"player_id":pid,
+                 "event_id":eid,"received_at":"2026-11-15T16:00:00Z"}
+        receipts.append(receipt)
+        (own if is_own else peer).append((1,w))
+    m.update(source_manifest=receipts,
+             own_source_sha256=[x["content_sha256"] for x in receipts[:5]],
+             peer_source_sha256=[x["content_sha256"] for x in receipts[5:]],
+             own_played_games=5,peer_games=200,peer_players=20,
+             peer_rate=0.1,
+             rate_a=60*0.1+5,
+             rate_b=60+sum(w for y,w in own),
+             plugin_exposure=10.,
+             plugin_rate=5/sum(w for y,w in own),
+             fit_data_cutoff_at="2026-11-15T16:00:00Z")
+    return m
+
 class MathTests(unittest.TestCase):
     def test_s1_mean_variance(self):
         x=s1.build_paired_distributions(model(),forecast_at="2026-11-16T18:00:00Z",
@@ -141,5 +176,49 @@ class MathTests(unittest.TestCase):
         x=s1.build_paired_distributions(model(),forecast_at="2026-11-16T18:00:00Z",
             code_sha="a"*40,expected_event_id="2026020555",expected_player_id="8482001")
         self.assertNotIn("actual_sog",json.dumps(x))
+
+
+    def test_recompute_signed_prior_source(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);m=signed_history_fixture(root)
+            result=s1._recompute_posterior_from_signed_sources(m,root)
+            self.assertEqual(result["signed_own_games"],5)
+            self.assertEqual(result["signed_peer_games"],200)
+            self.assertEqual(result["signed_peer_players"],20)
+            self.assertEqual(result["raw_short_positive_toi_count"],1)
+    def test_signed_observation_sha_tamper(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);m=signed_history_fixture(root)
+            f=root/m["source_manifest"][0]["archive_path"]
+            f.write_bytes(f.read_bytes()+b" ")
+            with self.assertRaises(s1.S1Blocked):
+                s1._recompute_posterior_from_signed_sources(m,root)
+    def test_signed_source_current_game_injected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);m=signed_history_fixture(root)
+            entry=m["source_manifest"][0]
+            f=root/entry["archive_path"];doc=json.loads(f.read_bytes())
+            doc["event_id"]=m["target_event_id"]
+            content=json.dumps(doc,sort_keys=True,separators=(",",":")).encode()
+            newhash=hashlib.sha256(content).hexdigest()
+            newfile=root/"signed"/(newhash+".json");newfile.write_bytes(content)
+            entry.update(archive_path=str(newfile.relative_to(root)),
+                         content_sha256=newhash,event_id=m["target_event_id"])
+            m["own_source_sha256"][0]=newhash
+            with self.assertRaises(s1.S1Blocked):
+                s1._recompute_posterior_from_signed_sources(m,root)
+    def test_signed_source_posterior_parameter_tamper(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);m=signed_history_fixture(root)
+            m["rate_a"]+=1
+            with self.assertRaises(s1.S1Blocked):
+                s1._recompute_posterior_from_signed_sources(m,root)
+    def test_signed_source_duplicate_prior_event(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);m=signed_history_fixture(root)
+            m["source_manifest"][1]=dict(m["source_manifest"][0])
+            m["own_source_sha256"][1]=m["own_source_sha256"][0]
+            with self.assertRaises(s1.S1Blocked):
+                s1._recompute_posterior_from_signed_sources(m,root)
 
 if __name__=="__main__":unittest.main()
