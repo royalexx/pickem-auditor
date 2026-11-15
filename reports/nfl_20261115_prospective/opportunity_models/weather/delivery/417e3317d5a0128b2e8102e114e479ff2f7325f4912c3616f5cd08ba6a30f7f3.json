@@ -1,0 +1,453 @@
+{
+  "schema": "ws3-weather-v25-delivery-20261115",
+  "status": "IMPLEMENTED_TESTED_SHADOW_ONLY_BLOCKED_BY_DATA",
+  "repository": "royalexx/pickem-auditor",
+  "branch": "research/nfl-20261115-opportunity-models",
+  "pr": 134,
+  "draft": true,
+  "merged": false,
+  "neutral_and_production_modified": false,
+  "independent_source_requests": 0,
+  "governing_version": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "neutral_forecasts": 0,
+  "fitted_weather_forecasts": 0,
+  "unchanged_fallback_forecasts": 0,
+  "fitted_weather_coefficients": 0,
+  "matched_pairs": 0,
+  "estimated_model_sha256": null,
+  "estimation_cutoff": null,
+  "parameters_sha256": "82e2bba3355815ddbb39e70356b9ece8e1ca1db01c74879e30e4ae5f96d0bd95",
+  "feature_audit_summary": {
+    "schema": "ws3-weather-native-feature-audit-v1",
+    "status": "BLOCKED_BY_DATA",
+    "audit_at": "2026-11-15T15:49:57.303006+00:00",
+    "forecast_at": null,
+    "release_authority": false,
+    "canonical_source_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+    "feature_pin_sha256": "35a1bf7fe16acca1e115c7be7bcad2c2464ec27cdf7e799df4f2b31adba24c2a",
+    "neutral_forecasts": 0,
+    "fitted_weather_forecasts": 0,
+    "unchanged_fallback_forecasts": 0,
+    "fitted_weather_coefficients": 0,
+    "matched_pairs": 0,
+    "original_contracts": 1845,
+    "upcoming_contracts": 1641,
+    "abstained_model_contract_rows": 9225,
+    "neutral_versions": [
+      "O1-context-volume-v1",
+      "O2-position-usage-v1",
+      "O3-qb-mean-preserving-v1",
+      "O4-defensive-components-v1",
+      "O5-role-mixture-v1"
+    ],
+    "reason_counts_contracts": {
+      "INCOMPLETE_TEAM_PLAYS_AND_SACKS_HISTORY": 1767,
+      "KICKOFF_PASSED": 126,
+      "MISSING_PARTICIPATION_PROBABILITY": 1845,
+      "PRODUCT_SPECIFIC_DNP_AND_SETTLEMENT_RULES_UNVERIFIED": 1731,
+      "INSUFFICIENT_RECENT_VERIFIED_PLAYER_HISTORY": 133,
+      "INDEPENDENT_NAME_ID_MISMATCH": 12,
+      "CROSS_TEAM_ROSTER_IDENTITY_UNVERIFIABLE": 78,
+      "ESPN_GSIS_CROSSWALK_UNAVAILABLE": 78,
+      "KICKOFF_PASSED_OR_BAD_CAPTURE_CLOCK": 78,
+      "MISSING_VERIFIED_EVENT_IDENTITY": 78,
+      "PLAYER_ID_UNVERIFIED": 78,
+      "WS1_QUOTE_NOT_SOURCE_CERTIFIED": 78,
+      "QB_STARTER_NOT_SOURCE_BACKED": 16,
+      "DEPTH_CHART_NOT_QB1": 14,
+      "QB_BACKUP_EXCLUDED": 14
+    },
+    "feature_freeze_at": "2026-11-15T14:29:58.659490Z",
+    "historical_evidence": {
+      "max_game_date": "2026-11-12",
+      "original_pregame_availability_verified": false,
+      "historical_manifest_sha256": "9895ccbd271456590d5b1f3ee07befcb156e552835b62f3405884ac9b58a6421",
+      "verified_source_files": [
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2016.json.gz",
+          "sha256": "9361b65b37ea7dfa9cc0c72296ee62ab654fb01ce1985f854d2ddb8bcd217e8c"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2017.json.gz",
+          "sha256": "17174cff1054c4dc19572ee8d74a1b1565689fc00de856666bf58b9b0113e3a4"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2018.json.gz",
+          "sha256": "95501dc235c62ddda87d6665b4ac851a3378a94b0c77ddfdaaf47e02f4802f68"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2019.json.gz",
+          "sha256": "567bb6cacdae07d04410739a2788607b653cbec593fce9a40f57678e39a4b2fd"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2020.json.gz",
+          "sha256": "c74b9a821e7afbcac4ede12c9e2c49bd6c43524ad64550c3e53fbb8575a644fe"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2021.json.gz",
+          "sha256": "34e92e71f339753f51f31ed8a6d5eee5d3ed6623c601976e8e3f20b7fe610e74"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2022.json.gz",
+          "sha256": "02b6e6ee6a4836c394bf5eb6148f1655a0b77d33be568eca81b5a990b04d04dd"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2023.json.gz",
+          "sha256": "ac756a7a5611a79b74be0dc5c99ba276f48fdeb794886110c11d0774e341486c"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2024.json.gz",
+          "sha256": "20653f302100328b20404a2a1316149163c4bd5f0ba4a3de47410073382c58c4"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/games_2025.json.gz",
+          "sha256": "57dada4fd4528701be86ec907917299265fad2780ace49c7bc57c1db94a7fe84"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/qb_depth_2016.json.gz",
+          "sha256": "b284c928ca191a8e437710ae88ae9b171f12a068f30af6862fdd666653de80c6"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/qb_depth_2017.json.gz",
+          "sha256": "c2274dcb83f236021aa14a09910ffa4f96676c9e4736b608b8c62158a1b57b70"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/qb_depth_2018.json.gz",
+          "sha256": "a8a9db7ece024147af55d999b09a7bc0e02f6fe2fa9549cf05e514386f9942e6"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/qb_depth_2019.json.gz",
+          "sha256": "39851c7c21b105c02f9126b6b8a368c8647ab2500eb989c290c0ed06445ae484"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/qb_depth_2020.json.gz",
+          "sha256": "4969471d5edf2ac387597ce8c5718af46eddfe9b64cb0bf2a377493ff56cabe4"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/qb_depth_2021.json.gz",
+          "sha256": "f1d2edfbd0475e7bab8ff76ed329ac4bdfd06ac71441c3b7dea63a82f855014b"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/qb_depth_2022.json.gz",
+          "sha256": "76fac9ddfd7b871ab07210ddc92c391e94741515caf8e1c03ce2a8d0b57ad306"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/qb_depth_2023.json.gz",
+          "sha256": "34a9c933fee154132b4887ea95f76f09accb7866e3f20c2eec96a2af40f5d3b3"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/qb_depth_2024.json.gz",
+          "sha256": "2610cc06489f443ba600ab2db1c74123448209988af796ea18b6fe3aebd8cac6"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/qb_depth_2025.json.gz",
+          "sha256": "1af23510276faee7ebb1ce6e1252e884a70cedc23398ad6bb41e5aa7c98e26d8"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2014.json.gz",
+          "sha256": "6eb7908619f1afcfd8473588235d3463eb11809c0c4e190caa084fe4fc5b4285"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2015.json.gz",
+          "sha256": "63a5655b6222e37a04f749a42b7d99bafc69e37f869bbdedd03a0690eb8f0d81"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2016.json.gz",
+          "sha256": "8fe79990fb4843588394a6577c9d147990d721beaa26d025f6538504318e8288"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2017.json.gz",
+          "sha256": "0050cec44cea86e18f5b2df22773bca41395b5814b1fe179c9c259cd73ba47c6"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2018.json.gz",
+          "sha256": "10c4712a49579a39f8d91131417414221a8d2f5a80321ea543166956f7e3468d"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2019.json.gz",
+          "sha256": "03466e8c4b276267f0ac45ce0eb8c208bde6c2d62f3f516271d2cf74c020be0e"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2020.json.gz",
+          "sha256": "2eecd294ce8004655b6754dc0a09535604874911976655a098b5269cdf1c27d5"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2021.json.gz",
+          "sha256": "528de159b44424bb52339d50b5147c2a320a2921a7f1be4509735ed2a57d9f90"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2022.json.gz",
+          "sha256": "5f3539369d05826480c93e053f3b73fbafd3b4e2bd8740e5b1114a6caf4a73b5"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2023.json.gz",
+          "sha256": "45b7113aa8deed667bcffb9f8225d423fe267a7205c73f21c7b4b26341f284ef"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2024.json.gz",
+          "sha256": "58556541f2cef893c4c35c0a47cc58508be98c9a0fd25d2773c741b824b76e17"
+        },
+        {
+          "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2025.json.gz",
+          "sha256": "ba1169df7f3a41b486f33b839cc0870f65f30ffac2e29978ea031d7350b3a1bb"
+        }
+      ],
+      "tables": [
+        {
+          "table": "events",
+          "rows": 12,
+          "sha256": "f8129cf073847ca5b4ec69908647d620531eb3902ca947ae09d74bcd1b6ba705"
+        },
+        {
+          "table": "historical_statistical_priors",
+          "rows": 1712,
+          "sha256": "7ccc578d146817b4360b5c42066e0c683d3f37a4e2fdb56c53eae99be330b9f5"
+        },
+        {
+          "table": "original_contracts",
+          "rows": 1845,
+          "sha256": "89220d59109d4fe253334ea548bfa845e17229ce725ead2b6aa02ed86482adc4"
+        },
+        {
+          "table": "per_game_market",
+          "rows": 104,
+          "sha256": "dfa8620b83036f9000437b961a14a2a69bfe1f661eb19c922c548c07b8e54d0a"
+        },
+        {
+          "table": "player_history_last10_by_contract",
+          "rows": 16603,
+          "sha256": "19f40626a6874541196ff5dde49215c5096d23af966922f974c4ece68139c428"
+        },
+        {
+          "table": "pregame_roster_availability",
+          "rows": 1845,
+          "sha256": "a8401eea1a59e2ff162db560661ba0e06668d22616f54b62a9bf2c0b49011d67"
+        },
+        {
+          "table": "team_history",
+          "rows": 5552,
+          "sha256": "ed9d35178462fd95d4087dc1a3bd31644307cd1156fa5920dbd8dc4b969363e1"
+        },
+        {
+          "table": "ws1-nfl-pregame-opportunity-v1",
+          "rows": 1845,
+          "sha256": "95f1f79a7c47981923099756ffb4ef57e182c8820199c93cbdc2f48085d2412f"
+        }
+      ],
+      "team_rows_missing_plays_or_sacks": 5552
+    },
+    "weather_pin_paths": [
+      "reports/nfl_20261115_prospective/weather_v2/WEATHER_FEATURE_PIN.json"
+    ],
+    "missing_feature_source_hashes": {
+      "roster_receipt_sha256": 78
+    },
+    "weather_effect_status": "WEATHER_EFFECT_NOT_ESTIMATED",
+    "weather_reason": "NO_VALIDATED_POINT_IN_TIME_WEATHER_TRAINING_PACKET",
+    "model_code_sha256": {
+      "models.py": "54175541f90ac68b36afd9d0766b790dbacb0a6e01903627e5fafb404ff157cb",
+      "native_ws1.py": "c949bbed2ecdc3689ea911b3fe174a08788e8d02725ed79e7abf2ffc29b0d26b",
+      "weather.py": "56266cf6484f4be8c83c8c2a3396f8f76953e6afff79ab49c68f6a53ed562974",
+      "weather_run.py": "56dc30ee72324711b95edb4dcbe5872157406309fb0a493f5d079d6c50776ee2",
+      "feature_handoff_audit.py": "fa71addf5241d30c007e2936ecfe3c606b0f32656f361a48cf23514285589e9f"
+    },
+    "paired_validation": {
+      "status": "UNAVAILABLE_NO_FITTED_PAIRS",
+      "folds": 0,
+      "brier": null,
+      "log_loss": null,
+      "crps": null,
+      "calibration": null,
+      "directional_bias": null,
+      "mean_error": null,
+      "dispersion_error": null,
+      "coverage": 0,
+      "paired_uncertainty": null,
+      "weather_exposure_scores": null
+    },
+    "component_effects": {
+      "volume": null,
+      "allocation": null,
+      "efficiency": null,
+      "role_uncertainty": null
+    }
+  },
+  "feature_audit_receipt": {
+    "directory": "reports/nfl_20261115_prospective/opportunity_models/weather/native_feature_audit/72df389e5a0158e8237743a1e73ec41a8fbc4b6153602addb5497360522637a5",
+    "schema": "nfl-opportunity-20261115-v1",
+    "report_sha256": "72df389e5a0158e8237743a1e73ec41a8fbc4b6153602addb5497360522637a5",
+    "report_bytes": 720863,
+    "status": "BLOCKED_BY_DATA",
+    "created_at": "2026-11-15T15:50:41.121701+00:00"
+  },
+  "weather_audit_summary": {
+    "schema": "ws3-native-weather-v2-audit-v1",
+    "status": "WEATHER_EFFECT_NOT_ESTIMATED",
+    "audit_at": "2026-11-15T15:53:33.784803+00:00",
+    "weather_pin_sha256": "273da5a6f5456e99e9b5bd4f2172abce1bf77c7bfbe82d38199886fcad612807",
+    "canonical_source_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+    "feature_pin_sha256": "35a1bf7fe16acca1e115c7be7bcad2c2464ec27cdf7e799df4f2b31adba24c2a",
+    "summary_original": {
+      "already_started": 1,
+      "complete_native_fields": 2,
+      "partial_weather": 0,
+      "roof_uncertainty": 4,
+      "total_events": 12,
+      "verified_weather": 11
+    },
+    "historical_weather_original": {
+      "authentic_training_rows": 0,
+      "observations_and_reconstruction_excluded": true,
+      "status": "BLOCKED_NO_AUTHORIZED_VINTAGE_ARCHIVE_IDENTIFIED"
+    },
+    "event_checks": [
+      {
+        "game_id": "401873058",
+        "exposure": "RETRACTABLE_ROOF_STATUS_UNKNOWN",
+        "status": "VERIFIED_FORECAST",
+        "freeze_at": "2026-11-15T15:40:52.576203Z",
+        "kickoff_at": "2026-11-15T18:00:00Z"
+      },
+      {
+        "game_id": "401873056",
+        "exposure": "EXPOSED_OUTDOOR",
+        "status": "VERIFIED_FORECAST",
+        "freeze_at": "2026-11-15T15:41:00.189247Z",
+        "kickoff_at": "2026-11-15T18:00:00Z"
+      },
+      {
+        "game_id": "401873060",
+        "exposure": "EXPOSED_OUTDOOR",
+        "status": "VERIFIED_FORECAST",
+        "freeze_at": "2026-11-15T15:41:07.819573Z",
+        "kickoff_at": "2026-11-15T18:00:00Z"
+      },
+      {
+        "game_id": "401873059",
+        "exposure": "EXPOSURE_UNVERIFIED",
+        "status": "VERIFIED_FORECAST",
+        "freeze_at": "2026-11-15T15:41:17.594356Z",
+        "kickoff_at": "2026-11-15T18:00:00Z"
+      },
+      {
+        "game_id": "401873055",
+        "exposure": "EXPOSURE_UNVERIFIED",
+        "status": "VERIFIED_FORECAST",
+        "freeze_at": "2026-11-15T15:41:25.497693Z",
+        "kickoff_at": "2026-11-15T18:00:00Z"
+      },
+      {
+        "game_id": "401873054",
+        "exposure": "EXPOSED_OUTDOOR",
+        "status": "VERIFIED_FORECAST",
+        "freeze_at": "2026-11-15T15:41:33.537260Z",
+        "kickoff_at": "2026-11-15T18:00:00Z"
+      },
+      {
+        "game_id": "401873057",
+        "exposure": "EXPOSED_OUTDOOR",
+        "status": "VERIFIED_FORECAST",
+        "freeze_at": "2026-11-15T15:41:42.320565Z",
+        "kickoff_at": "2026-11-15T18:00:00Z"
+      },
+      {
+        "game_id": "401873061",
+        "exposure": "RETRACTABLE_ROOF_STATUS_UNKNOWN",
+        "status": "VERIFIED_FORECAST",
+        "freeze_at": "2026-11-15T15:41:50.555996Z",
+        "kickoff_at": "2026-11-15T21:05:00Z"
+      },
+      {
+        "game_id": "401873062",
+        "exposure": "EXPOSURE_UNVERIFIED",
+        "status": "VERIFIED_FORECAST",
+        "freeze_at": "2026-11-15T15:41:58.724529Z",
+        "kickoff_at": "2026-11-15T21:05:00Z"
+      },
+      {
+        "game_id": "401873063",
+        "exposure": "RETRACTABLE_ROOF_STATUS_UNKNOWN",
+        "status": "VERIFIED_FORECAST",
+        "freeze_at": "2026-11-15T15:42:06.260619Z",
+        "kickoff_at": "2026-11-15T21:25:00Z"
+      },
+      {
+        "game_id": "401873064",
+        "exposure": "EXPOSED_OUTDOOR",
+        "status": "VERIFIED_FORECAST",
+        "freeze_at": "2026-11-15T15:42:13.749279Z",
+        "kickoff_at": "2026-11-16T01:20:00Z"
+      }
+    ],
+    "exposure_counts": {
+      "EXPOSURE_UNVERIFIED": 4,
+      "RETRACTABLE_ROOF_STATUS_UNKNOWN": 3,
+      "EXPOSED_OUTDOOR": 5
+    },
+    "checksum_files_checked": 96,
+    "checksum_failures": [],
+    "producer_code_sha256": "c06e8a224c55bd05576efd6751ae03594ee3b119d1152059c698ee159e24e64f",
+    "audit_code_sha256": "06167cfffe0422a29539e5d1be7a03bcbb17c6bb97c8ac0d8a5c7efaad208861",
+    "neutral_forecasts": 0,
+    "fitted_weather_forecasts": 0,
+    "unchanged_fallback_forecasts": 0,
+    "matched_pairs": 0,
+    "fitted_coefficients": 0,
+    "release_authority": false,
+    "reason": "CURRENT_FORECAST_VINTAGES_ARE_NOT_HISTORICAL_TRAINING_DATA"
+  },
+  "weather_audit_receipt": {
+    "directory": "reports/nfl_20261115_prospective/opportunity_models/weather/native_weather_v2_audit/718e1d81b12448abf72a2c15066c2cbea31fb671dd89f1db995d001d9495b244",
+    "schema": "nfl-opportunity-20261115-v1",
+    "report_sha256": "718e1d81b12448abf72a2c15066c2cbea31fb671dd89f1db995d001d9495b244",
+    "report_bytes": 4074,
+    "status": "WEATHER_EFFECT_NOT_ESTIMATED",
+    "created_at": "2026-11-15T15:53:39.311007+00:00"
+  },
+  "tests": {
+    "local_passed": 34,
+    "deepnote_passed": 34,
+    "evidence": "Synthetic development and negative controls only; never actual forecasts."
+  },
+  "deepnote": {
+    "project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "feature_notebook": "306198977dcd4845bfea45ad3c11cc4c",
+    "weather_notebook": "b0e3994e7d614996a14aa9b70cc67e38",
+    "runs": [
+      {
+        "id": "5bec00ce-4f1c-4992-94bf-549fb24dead2",
+        "status": "error",
+        "reason": "Audit assumed rejected candidates have event IDs; corrected."
+      },
+      {
+        "id": "af2b48da-8f13-4535-865a-5a4549c4c607",
+        "status": "error",
+        "reason": "Null roster receipt hashes needed explicit missingness; corrected."
+      },
+      {
+        "id": "3fbf886a-0e37-4236-ba09-1ca07c9bf2a8",
+        "status": "success",
+        "result": "34 tests passed; original feature/source audit BLOCKED_BY_DATA."
+      },
+      {
+        "id": "e3739e73-5e27-4761-8bec-92ce3e265930",
+        "status": "success",
+        "result": "96 weather checksum entries pass; zero authentic historical training rows."
+      }
+    ],
+    "run_creation_errors_without_ids": [
+      "Rate limit exceeded. Please retry later.",
+      "Team Trial limit of 5 parallel running projects."
+    ]
+  },
+  "limitations": [
+    "No fitted coefficients, full distributions or scores are invented.",
+    "11 VERIFIED_FORECAST weather rows are current source records, not weather-adjusted model forecasts.",
+    "1641 upcoming contracts are source records, not forecast-ready neutral inputs.",
+    "No chronological fitted validation folds exist; all scores and component effects remain null.",
+    "Per-contract reason counts overlap. 78 unknown event IDs and 126 known expired contracts are retained.",
+    "No independently verified predictive improvement or promotion claimed."
+  ],
+  "next_dependency": "WS1 original forecast-vintage historical weather plus conserving team plays/sacks, authentic participation inputs and compatible contract rules. Existing neutral runner remains independent of weather.",
+  "rollback": "Discard additions on draft PR134; retain all original neutral, production and append-only evidence."
+}

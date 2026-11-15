@@ -46,3 +46,22 @@ A separate unscheduled Deepnote notebook runs the original tests and original-by
 audit and writes only create-once research receipts. Preserve failed runs as well
 as successful runs. Rollback: discard the additions on the unmerged PR branch;
 source, neutral, production and previous receipts remain unchanged.
+
+## Newly published weather v2
+
+A later runtime scan discovered WS1's `weather_v2/WEATHER_FEATURE_PIN.json`
+(SHA-256 `273da5a6f5456e99e9b5bd4f2172abce1bf77c7bfbe82d38199886fcad612807`).
+The separate `weather_native_audit.py` reads that actual v2 schema, checks its
+source/dependency/table hashes, original event identity and clocks, forecast valid
+intervals and unit normalization. It invokes only pure WS1 helper functions;
+it never calls the collector. Ancillary checksum failures are retained separately.
+The producer explicitly reports zero authentic historical weather training rows.
+Current Sunday forecast vintages cannot substitute for prior-game training data.
+See the delivery receipt for exact coverage and run statuses.
+
+Verified execution: feature audit run `3fbf886a-0e37-4236-ba09-1ca07c9bf2a8`
+passed 34 synthetic tests and retained 1,845 contracts / 9,225 model-contract
+abstentions (1,641 verified upcoming contracts). Weather audit run
+`e3739e73-5e27-4761-8bec-92ce3e265930` verified 96 checksum entries with zero
+failures and 11 current forecast weather records. Neither run generated neutral
+or weather model forecasts. Delivery receipt: `reports/nfl_20261115_prospective/opportunity_models/weather/delivery/417e3317d5a0128b2e8102e114e479ff2f7325f4912c3616f5cd08ba6a30f7f3.json`.
