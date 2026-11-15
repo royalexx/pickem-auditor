@@ -122,6 +122,21 @@ class NumericalAndPhysics(unittest.TestCase):
         self.assertTrue(all(r['status']=='FORECAST' for r in x['contracts']))
         self.assertTrue(all(abs(r['p_over']+r['p_under']+r['p_push']-1)<1e-12 for r in x['contracts']))
         self.assertFalse(any(r['classification']=='CERTIFIED_SHADOW' for r in x['contracts']))
+    def test_rb_targets_receptions_are_supported_without_changing_carries(self):
+        x=fixture()
+        rb=x['events'][0]['teams'][0]['players'][1]
+        assert rb['role']=='RB'
+        for stat,line in (('targets',2.5),('receptions',1.5),('receiving_yards',14.5),('receiving_tds',0)):
+            x['contracts'].append(dict(contract_id='rb_receiving_'+stat,original_quote_id='TEST_'+stat,
+                                     event_id=x['events'][0]['event_id'],team_id='H',player_id='HR',
+                                     stat_key=stat,line=line,period='full_game_including_overtime'))
+        y=run_manifest(x,96,('J1',))
+        by_stat={r['stat_key']:r for r in y['contracts'] if r['contract_id'].startswith('rb_receiving_')}
+        self.assertEqual(set(by_stat),{'targets','receptions','receiving_yards','receiving_tds'})
+        self.assertTrue(all(r['status']=='FORECAST' for r in by_stat.values()))
+        self.assertGreater(by_stat['targets']['mean'],0)
+        self.assertLessEqual(by_stat['receptions']['mean'],by_stat['targets']['mean'])
+        self.assertGreaterEqual(by_stat['receiving_tds']['mean'],0)
     def test_unavailable_abstention(self):
         x=fixture();x['contracts'].append(dict(x['contracts'][0]));x['contracts'][-1]['contract_id']='nonroster';x['contracts'][-1]['player_id']='UNKNOWN'
         y=run_manifest(x,2,('J1',))
