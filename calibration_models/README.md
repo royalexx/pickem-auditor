@@ -351,3 +351,13 @@ file without its INDEX marker cannot be consumed. At 14:23 UTC, the latest
 WS2 attempt `8446ae88-6876-4f26-bcaa-3ae672fe5502` failed before producing an
 INDEX because an original rejected contract had no event-start timestamp.
 This does not affect the already-frozen C2 ledger.
+
+## V2.5 eleven-market original-contract audit
+
+See [MARKET_BENCHMARK_V1.md](MARKET_BENCHMARK_V1.md). The separate
+`market_benchmark.py` consumer preserves WS1's November 15 eight-market
+source manifest and consumes the immutable v2.5.1 eleven-market feature pin.
+It emits linked full-universe availability, original quote and exact-line
+coverage tables. Uncertified settlement and period terms block numerical
+benchmarks; raw original odds and their implied weights remain inspectable.
+This version does not alter the prior C2 freeze or infer missing offers.
