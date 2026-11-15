@@ -49,6 +49,7 @@ def derive(root,source):
   gsis=r.get('player_id') or r.get('gsis_id')
   if not gsis:continue
   gid,day=match
+  if r.get('game_id') and r['game_id']!=gid:raise ValueError('HISTORICAL_STAT_SCHEDULE_GAME_MISMATCH')
   h={'gsis_id':gsis,'game_id':gid,'game_date':day,'source_available_at':available.isoformat(),
    'source_sha256':receipts['stats2026']['sha256'],**{k:number(r.get(k)) for k in fields}}
   players.setdefault(gsis,[]).append(h)
