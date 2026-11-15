@@ -17,7 +17,7 @@ from typing import Any
 import numpy as np
 
 SCHEMA = "PA_WS4_JOINT_INPUT_v1"
-VERSION = "ws4_j1234_v0.1.0"
+VERSION = "ws4_j1234_v0.2.0"
 COUNT_STATS = {"pass_attempts", "completions", "passing_tds", "qb_rushing_attempts",
                "carries", "targets", "receptions", "receiving_tds", "rushing_tds",
                "solo_tackles", "tackle_assists", "tackles_assists"}
@@ -223,7 +223,7 @@ def game_once(event: dict, rng: np.random.Generator, model: str, script: str) ->
         snap_probability_by_team[team["team_id"]] = game_snap
         game_alloc = {}
         game_catch_rates={}
-        receivers=[p for p in players if p["role"] == "RECEIVER"]
+        receivers=[p for p in players if p["role"] in ("RECEIVER", "RB")]
         backs=[p for p in players if p["role"] == "RB"]
         for recv in receivers:
             rate=prob(recv.get("catch_rate",.66),"catch_rate")
@@ -408,7 +408,7 @@ def run_manifest(manifest:dict,draws:int=512, models:tuple[str,...]=("J1","J2","
                 elif c["stat_key"].startswith("qb_") and player[0]["role"]!="QB":reason="STAT_ROLE_MISMATCH"
                 elif c["stat_key"] in ("pass_attempts","passing_yards","passing_tds","completions") and player[0]["role"]!="QB":reason="STAT_ROLE_MISMATCH"
                 elif c["stat_key"] in ("solo_tackles","tackle_assists","tackles_assists") and player[0]["role"]!="DEFENDER":reason="STAT_ROLE_MISMATCH"
-                elif c["stat_key"] in ("targets","receptions","receiving_yards","receiving_tds") and player[0]["role"]!="RECEIVER":reason="STAT_ROLE_MISMATCH"
+                elif c["stat_key"] in ("targets","receptions","receiving_yards","receiving_tds") and player[0]["role"] not in ("RECEIVER", "RB"):reason="STAT_ROLE_MISMATCH"
                 elif c["stat_key"] == "carries" and player[0]["role"]!="RB":reason="STAT_ROLE_MISMATCH"
                 elif c["stat_key"] == "rushing_yards" and player[0]["role"]!="RB":reason="STAT_ROLE_MISMATCH"
                 # Original quote and period identity are retained unmodified.
