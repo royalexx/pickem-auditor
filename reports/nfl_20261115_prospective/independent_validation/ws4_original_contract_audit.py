@@ -10,6 +10,7 @@ import hashlib
 import json
 import math
 import pathlib
+import tempfile
 from collections import Counter
 
 SOURCE_SHA = "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71"
@@ -172,17 +173,18 @@ def adversarial_cases(raw_file, ws1_file):
     def altered(mutate):
         d=json.loads(json.dumps(original))
         mutate(d)
-        tmp=pathlib.Path(str(raw_file)+".adversarial_TEMP_DO_NOT_KEEP")
-        try:
-            # Audit rejects tampering at the file-hash layer before any deep checks.
-            tmp.write_bytes(compact(d)+b"\n")
+        # Recompute the internal output SHA before each test so controls reach
+        # original identity, temporal or numerical gates, not just a hash mismatch.
+        d["model_output"]["output_sha256"]=h(compact({k:v for k,v in d["model_output"].items() if k!="output_sha256"}))
+        raw=compact(d)+b"\n"
+        with tempfile.TemporaryDirectory(prefix="ws4_adversarial_") as scratch:
+            tmp=pathlib.Path(scratch)/(h(raw)+".json")
+            tmp.write_bytes(raw)
             try:
                 verify(tmp,ws1_file)
             except AuditFailure:
                 return True
             raise AuditFailure("NEGATIVE_CONTROL_NOT_REJECTED")
-        finally:
-            tmp.unlink(missing_ok=True)
     # No persisted negative-control alteration of any real forecast or WS1 manifest.
     tests={
         "changed_line":lambda d:d["model_output"]["contracts"][0].update(line=99.5),
