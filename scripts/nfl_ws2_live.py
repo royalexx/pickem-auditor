@@ -178,6 +178,7 @@ def freeze(root, source_raw, rows, provenance):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--code-commit', help='Verified pinned archive commit when runtime has no .git')
     p.add_argument('--source-root',type=Path,required=True)
     p.add_argument('--out-root',type=Path,required=True)
     args=p.parse_args();root=args.source_root
@@ -216,7 +217,7 @@ def main():
     repo=Path(__file__).resolve().parents[1]
     provenance={'created_at':completed.isoformat(),'attempt_started_at':now.isoformat(),
         'quote_freeze_at':json.loads(raw)['input_freeze_at'],**feature_provenance,
-        'code_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),
+        'code_commit':args.code_commit or subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),
         'model_code_sha256':{x:digest((repo/x).read_bytes()) for x in
             ('scripts/nfl_ws2_live.py','scripts/nfl_ws2_ws1_adapter.py','scripts/nfl_ws2_shadow.py','v2/nfl_marginal_shadow.py','v2/contracts.py','v2/stat_registry.py')},
         'parameters':PARAMETERS,'verified_quote_archives':verified,'status':'UNCERTIFIED_SHADOW'}
