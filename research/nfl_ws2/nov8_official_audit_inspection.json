@@ -1,0 +1,25 @@
+{
+  "pinned_receipt_file_sha256": "cc938d2ddd73010050e0288d637dd934795a0574b5f9d210305ab9efdbcf1caf",
+  "settlement_file_sha256": "5838b4854763f078c150829708ed6440da71ef3b62cbfd56bb4645a21f617f99",
+  "expected_settlement_sha256": "5838b4854763f078c150829708ed6440da71ef3b62cbfd56bb4645a21f617f99",
+  "settlement_hash_matches_pin": true,
+  "counts": {
+    "excluded": {
+      "unverified": 4
+    },
+    "seen_settlement_contracts": 257,
+    "verified_contracts": 253
+  },
+  "consensus_original_metrics": {
+    "actual_over_share": 0.5223880597014925,
+    "brier": 0.26551531878194906,
+    "directional_accuracy": 0.373134328358209,
+    "hits": 25,
+    "log_loss": 0.7237886959764084,
+    "mean_preferred_probability": 0.5680721549726415,
+    "n": 67,
+    "predicted_over_share": 0.31343283582089554
+  },
+  "source_completeness": false,
+  "evidence_class": "previously inspected official settlement audit; retrospective QA only; no reforecast"
+}

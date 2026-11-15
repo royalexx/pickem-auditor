@@ -1,0 +1,118 @@
+{
+  "state_path": "data/online_bayes/states/2026-11-13-b59c791956c0c7cb8aac0f1b1508a586e2c3be32038ee4008868495da4ff0807.json.gz",
+  "ref_commit": "ba5922d5c368775f9946694a83bac5ed949efb35",
+  "actual_sha256": "b59c791956c0c7cb8aac0f1b1508a586e2c3be32038ee4008868495da4ff0807",
+  "through": "2026-11-13",
+  "source_days": [
+    "2026-11-05",
+    "2026-11-06",
+    "2026-11-07",
+    "2026-11-08",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12",
+    "2026-11-13"
+  ],
+  "nfl_calibration_records": {
+    "NFL|completions|bayesian_a": {
+      "events": 2,
+      "days": 2
+    },
+    "NFL|completions|bayesian_b": {
+      "events": 2,
+      "days": 2
+    },
+    "NFL|pass attempts|bayesian_a": {
+      "events": 2,
+      "days": 2
+    },
+    "NFL|pass attempts|bayesian_b": {
+      "events": 2,
+      "days": 2
+    },
+    "NFL|passing yards|bayesian_a": {
+      "events": 2,
+      "days": 2
+    },
+    "NFL|passing yards|bayesian_b": {
+      "events": 2,
+      "days": 2
+    },
+    "NFL|receiving yards|bayesian_a": {
+      "events": 30,
+      "days": 3
+    },
+    "NFL|receiving yards|bayesian_a|canonical_over_v2": {
+      "events": 6,
+      "days": 1
+    },
+    "NFL|receiving yards|bayesian_b": {
+      "events": 29,
+      "days": 3
+    },
+    "NFL|receiving yards|bayesian_b|canonical_over_v2": {
+      "events": 6,
+      "days": 1
+    },
+    "NFL|receptions|bayesian_a": {
+      "events": 30,
+      "days": 3
+    },
+    "NFL|receptions|bayesian_a|canonical_over_v2": {
+      "events": 6,
+      "days": 1
+    },
+    "NFL|receptions|bayesian_b": {
+      "events": 29,
+      "days": 3
+    },
+    "NFL|receptions|bayesian_b|canonical_over_v2": {
+      "events": 6,
+      "days": 1
+    },
+    "NFL|rush attempts|bayesian_a": {
+      "events": 7,
+      "days": 3
+    },
+    "NFL|rush attempts|bayesian_a|canonical_over_v2": {
+      "events": 1,
+      "days": 1
+    },
+    "NFL|rush attempts|bayesian_b": {
+      "events": 8,
+      "days": 3
+    },
+    "NFL|rush attempts|bayesian_b|canonical_over_v2": {
+      "events": 2,
+      "days": 1
+    },
+    "NFL|rushing yards|bayesian_a": {
+      "events": 10,
+      "days": 3
+    },
+    "NFL|rushing yards|bayesian_a|canonical_over_v2": {
+      "events": 2,
+      "days": 1
+    },
+    "NFL|rushing yards|bayesian_b": {
+      "events": 9,
+      "days": 3
+    },
+    "NFL|rushing yards|bayesian_b|canonical_over_v2": {
+      "events": 2,
+      "days": 1
+    },
+    "NFL|tackles + assists|bayesian_a": {
+      "events": 14,
+      "days": 2
+    },
+    "NFL|tackles + assists|bayesian_b": {
+      "events": 14,
+      "days": 2
+    }
+  },
+  "max_days_any_calibrator": 7,
+  "minimum_days_required": 14,
+  "receipt_authentication": "source_days are downstream digests, not original publisher authentication; no WS2 calibration admitted"
+}
