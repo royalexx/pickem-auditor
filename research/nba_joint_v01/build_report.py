@@ -95,7 +95,7 @@ def main():
     (base/'REPORT.md').write_text('\n'.join(lines),encoding='utf-8')
     fields=['cohort','model','stat','n','crps','absolute_error','bias','variance','squared_error','cover50','cover80','cover90','zero_residual','upper_tail_residual','empirical_nlpd_infinite_count']
     with (root/'comparison.csv').open('w',newline='') as f:
-        writer=csv.DictWriter(f,fieldnames=fields);writer.writeheader()
+        writer=csv.DictWriter(f,fieldnames=fields,lineterminator='\n');writer.writeheader()
         for cohort,res in result.items():
             for m,stats in res['distribution'].items():
                 for stat,v in stats.items():writer.writerow({'cohort':cohort,'model':m,'stat':stat,**{k:v[k] for k in fields[3:]}})
