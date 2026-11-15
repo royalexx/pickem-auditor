@@ -29,6 +29,9 @@ def audit(path):
         seen.add(key)
         if r['status']=='abstention':reasons[r['abstention_reason']]+=1;continue
         assert instant(r['historical_input_availability'])<=instant(r['training_data_cutoff'])<=instant(r['forecast_at'])<instant(r['kickoff_at'])
+        encoded=json.dumps(dict(pmf=r['pmf'],joint_outcomes=r['joint_outcomes']),sort_keys=True,
+                           separators=(',',':'),ensure_ascii=False,allow_nan=False).encode()
+        assert digest(encoded)==r['distribution_sha256'],'DISTRIBUTION_SHA256'
         pmf=dict(r['pmf']);joint=defaultdict(float)
         for x in r['joint_outcomes']:
             assert sum(x['components'].values())==x['value'],'COMPOSITE_IDENTITY'

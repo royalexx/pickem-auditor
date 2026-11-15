@@ -236,5 +236,43 @@ class RawSourceTests(unittest.TestCase):
             root=Path(td);packet=self.packet(root,at='2026-11-15T17:00:00Z')
             with self.assertRaisesRegex(ValueError,'RAW_SOURCE_AFTER'):v.verify_sources(root,*packet)
 
-if __name__=='__main__':unittest.main()
 
+class LedgerReplayTests(unittest.TestCase):
+    def packet(self,root):
+        from scripts.nfl_ws2_volume_audit import audit
+        d=v.distribution(player(),history(),v.EW,NOW,FREEZE)
+        d['model_sha256']='model'
+        c=v.contract_probabilities(d,contract(d,1),NOW)
+        records={'distributions_and_abstentions':[d],'original_contract_evaluations':[c],'canaries':[d]}
+        m=dict(model_sha256='model',artifacts={})
+        for name,rows in records.items():
+            raw=b''.join(v.canonical(r)+b'\n' for r in rows);p=root/(name+'.jsonl');p.write_bytes(raw)
+            m['artifacts'][name]=dict(path=str(p),sha256=v.sha(raw),rows=len(rows))
+        p=root/'HANDOFF_WS6.json';p.write_bytes(v.canonical(m))
+        return p,m,records,audit
+
+    def test_replay_of_saved_distribution_and_real_line_interface(self):
+        with tempfile.TemporaryDirectory() as td:
+            p,m,rows,audit=self.packet(Path(td));r=audit(p)
+            self.assertEqual(r['distribution_rows'],1)
+            self.assertEqual(r['contract_probability_rows'],1)
+
+    def test_rehashed_but_corrupted_law_still_fails(self):
+        with tempfile.TemporaryDirectory() as td:
+            p,m,rows,audit=self.packet(Path(td));name='distributions_and_abstentions'
+            rows[name][0]['joint_outcomes'][0]['value']=999
+            raw=b''.join(v.canonical(r)+b'\n' for r in rows[name])
+            Path(m['artifacts'][name]['path']).write_bytes(raw);m['artifacts'][name]['sha256']=v.sha(raw)
+            p.write_bytes(v.canonical(m))
+            with self.assertRaisesRegex(AssertionError,'DISTRIBUTION_SHA256'):audit(p)
+
+    def test_rehashed_wrong_push_probability_fails(self):
+        with tempfile.TemporaryDirectory() as td:
+            p,m,rows,audit=self.packet(Path(td));name='original_contract_evaluations'
+            rows[name][0]['q_push']=0
+            raw=b''.join(v.canonical(r)+b'\n' for r in rows[name])
+            Path(m['artifacts'][name]['path']).write_bytes(raw);m['artifacts'][name]['sha256']=v.sha(raw)
+            p.write_bytes(v.canonical(m))
+            with self.assertRaises(AssertionError):audit(p)
+
+if __name__=='__main__':unittest.main()
