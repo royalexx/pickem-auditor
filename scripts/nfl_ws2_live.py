@@ -186,6 +186,7 @@ def freeze(root, source_raw, rows, provenance):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--ws1-archived-only-fallback',action='store_true')
     p.add_argument('--code-commit', help='Verified pinned archive commit when runtime has no .git')
     p.add_argument('--source-root',type=Path,required=True)
     p.add_argument('--out-root',type=Path,required=True)
@@ -233,6 +234,9 @@ def main():
             feature_freeze=utc(packet['input_freeze_at'],'feature_freeze')
             feature_provenance={'feature_pin_sha256':digest(fraw),'feature_packet':fpin['feature_packet'],
                 'feature_freeze_at':feature_freeze.isoformat(),'model_training_cutoff_at':packet['model_training_cutoff_at']}
+    if packet is None and args.ws1_archived_only_fallback:
+        from scripts.nfl_ws2_archived_history import derive
+        packet,feature_freeze,feature_provenance=derive(root,source)
     now=datetime.now(timezone.utc)
     rows=execute(json.loads(raw),packet=packet,now=now,feature_freeze=feature_freeze)
     # Stamp and revalidate at completion, never label time before computation.
@@ -253,7 +257,7 @@ def main():
         'quote_freeze_at':json.loads(raw)['input_freeze_at'],**feature_provenance,
         'code_commit':args.code_commit or subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),
         'model_code_sha256':{x:digest((repo/x).read_bytes()) for x in
-            ('scripts/nfl_ws2_live.py','scripts/nfl_ws2_ws1_adapter.py','scripts/nfl_ws2_shadow.py','v2/nfl_marginal_shadow.py','v2/contracts.py','v2/stat_registry.py')},
+            ('scripts/nfl_ws2_live.py','scripts/nfl_ws2_archived_history.py','scripts/nfl_ws2_ws1_adapter.py','scripts/nfl_ws2_shadow.py','v2/nfl_marginal_shadow.py','v2/contracts.py','v2/stat_registry.py')},
         'parameters':PARAMETERS,'verified_quote_archives':verified,'status':'UNCERTIFIED_SHADOW'}
     print(json.dumps(freeze(args.out_root,raw,rows,provenance),sort_keys=True))
 
