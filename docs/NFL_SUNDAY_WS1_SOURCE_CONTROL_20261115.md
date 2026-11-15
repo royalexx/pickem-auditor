@@ -79,3 +79,24 @@ In the authenticated connected Deepnote Basic CPU checkout at the exact code com
 This uses one quota-guarded NFL bulk original-offer fetch; run **only through WS1**, never concurrently with the normal daily afternoon notebook or other Deepnote jobs. The source-control lock denies simultaneous capture in the same root. Do not use GitHub Actions training, paid services or the Dell.
 
 One dedicated Sunday pregame capture may be scheduled ahead of 09:30 a.m. ET, with a pinned notebook/code SHA, provided it does not conflict with the enabled 06:00 morning settlement or afternoon NHL captures. The disabled standard afternoon-slate automation must remain disabled. If a safe one-shot cannot be established, label the future run UNARMED and use the above manual command. Research source preservation is not evidence of validated models, live executable prices, payout-compatible edges, or Tier authorization.
+
+
+## Final certified SOURCE handoff (Saturday night, November 14)
+
+**One canonical source snapshot has now been frozen and validated for the three parallel research workstreams.** This is SOURCE-level and research-shadow eligibility, not completed model forecast certification.
+
+- Repair/replay pinned code: d623f7560243fc26b607185ec38abc0fcc928edf.
+- Detached replay and full-slate independent source audit: cabc6de4-3ce3-41e2-8bbd-016d65ef7ee4.
+- Tests: 55/55 source control and handoff tests passed, plus independent 12-game raw-receipt coverage audit with 0 critical errors.
+- Canonical filename: source_control/captures/ab2eebf29ea0dfcf9b2cc4ff5287b898e6b7b15238ea059a11df3ac399ccc6c8.json.
+- Canonical file SHA-256: 5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71.
+- Separate independent coverage report: independent_validation/coverage_ab2eebf29ea0dfcf9b2cc4ff5287b898e6b7b15238ea059a11df3ac399ccc6c8.json.
+- Coverage report SHA-256: 2bec43d5dfad53ddb9b662643776db8291b53442a8c42f6f022f9a9d521516a5.
+- Original quotes retained: 1,845. Source-certified quote identities: 1,767. Independently source-bound research shadow eligible: 1,753. **Identity abstentions: 78**. Full forecast eligible: **0**. These are distinct status counts, not additive disjoint populations.
+- All 12 games had original quote and source-bound research shadow coverage; 289 identified players, four books, eight supported markets, 50 verified raw source receipts.
+- Sole-owner immutable pointer: source_control/HANDOFF_PIN.json.
+- Immutable HANDOFF_PIN file SHA-256: 8f8a8a823747ce20a5e7f3879cf386d6d1887a8d5b07703d8299cee3405fd28b.
+- One-shot Sunday collection automation: 6af93a451f948191a381939249715729, set for 08:00 America/Toronto Sunday November 15; safety: abstain if a competing Deepnote source job is running or kickoff boundary cannot be met. It must not rewrite this canonical comparison pointer. New original receipts, if captured, form a **separate timestamped version** not automatically eligible for mixing with WS2/3/4 outputs.
+- Research PR: https://github.com/royalexx/pickem-auditor/pull/133, draft only, no merge or production deployment.
+
+**Action for Workstreams 2, 3, 4, and independent WS6:** Early read-only notebooks may still target the original 20ed83fd snapshot (0 source-certified); do not evaluate the canonical source cohort from that initial failure manifest. Resolve HANDOFF_PIN.json and verify the corrected 5e17ff... file SHA, then use the exact same original contract IDs in every independent output. Do not re-fetch originals. The parent original snapshot remains archived for provenance. Nothing in this note authorizes Tier, payout claims, or model promotion.
