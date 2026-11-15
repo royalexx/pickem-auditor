@@ -209,7 +209,7 @@ def qb_starter_share(team_name, qb_gsis, historical):
     }
 
 
-def build_canary(source_root=ROOT):
+def build_canary(source_root=ROOT, exclude_event_ids=(), include_all_qb_quotes=False):
     m, ids, hist, teams_hist, cross_receipt, teams_sha = load_inputs(source_root)
     frozen_at = now()
     recorded_at = frozen_at.isoformat()
@@ -243,6 +243,8 @@ def build_canary(source_root=ROOT):
     errors = []
     for _, ix, c in available:
         eid = c["event_id"]
+        if eid in set(exclude_event_ids):
+            continue
         event = event_map[eid]
         try:
             team_packets = []
@@ -324,6 +326,38 @@ def build_canary(source_root=ROOT):
                     "line": float(c["line"]),
                 }],
             }
+            if include_all_qb_quotes:
+                qb_identifiers = {(t["team_id"], t["starter_qb_id"]) for t in team_packets}
+                expanded = []
+                eligible_keys = set()
+                for j, q in enumerate(m["candidates"]):
+                    if (q.get("event_id") != eid or q.get("stat") != "pass attempts"
+                            or not q.get("source_certified") or not q.get("research_shadow_eligible")
+                            or q.get("eligibility_status") != "EXPECTED_STARTER_SOURCE_BACKED"
+                            or (q.get("team"), q.get("player_id")) not in qb_identifiers
+                            or not q.get("source_received_at")
+                            or parse_time(q["source_received_at"]) > frozen_at):
+                        continue
+                    expanded.append({
+                        "contract_id": q["candidate_id"],
+                        "original_quote_id": q["quote_id"],
+                        "original_quote_at": q["source_received_at"],
+                        "original_quote_receipt_sha256": q["source_sha256"],
+                        "event_id": q["event_id"],
+                        "team_id": q["team"],
+                        "player_id": q["player_id"],
+                        "stat_key": "pass_attempts",
+                        "period": q["period"],
+                        "line": float(q["line"]),
+                    })
+                    eligible_keys.add(q["candidate_id"])
+                if not expanded:
+                    raise AdapterError("NO_ORIGINAL_QB_ATTEMPT_QUOTES_FOR_EVENT")
+                input_packet["contracts"] = expanded
+                for row in ledger:
+                    if row["candidate_id"] in eligible_keys:
+                        row["status"] = "READY_J1_J2"
+                        row["reason"] = "SOURCE_BOUND_ORIGINAL_QB_PASS_ATTEMPT_CONDITIONAL"
             input_packet["input_manifest_sha256"] = digest(canonical(input_packet))
             if parse_time(input_packet["input_freeze_at"]) >= parse_time(event["scheduled_kickoff"]):
                 raise AdapterError("POST_KICKOFF_INPUT")
@@ -338,6 +372,7 @@ def build_canary(source_root=ROOT):
                 "parameters": param_receipts,
                 "ledger": ledger,
                 "selected_original_index": ix,
+                "selected_original_indices": [j for j, row in enumerate(ledger) if row["status"] in ("READY_J1_J2", "READY_J1_ONLY")],
                 "selected_event_start": event["scheduled_kickoff"],
                 "data_receipts": {
                     "ws1_manifest_file_sha256": CANONICAL_WS1,
