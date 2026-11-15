@@ -1,0 +1,23 @@
+{
+  "C2_market_references_total": 1767,
+  "C2_original_WS5_ledger_sha256": "4bde5ffe88aabfbfe563b57835889dce88e1df56fff703faa6c3b56a132a927e",
+  "S2_first_assembly_index_sha256": "cc8049b9335b09d578b9ecae8982616e88c8f0208f06114ab720291413ec85a4",
+  "S2_first_original_population_sha256": "766245a051b4b3247009040a0c28df82fde285fb237ab40087d510bcfd4efd5d",
+  "S2_player_forecasts_total": 1672,
+  "artifacts": {
+    "comparison_ledger_1845.jsonl": "2fff057f2f3ed136136844bd61533fa68d20f41eb836b154bb95732dad77e101",
+    "independent_join_audit_report.json": "357896df66bc3bbe6c7543ffff3d7499cd339409346c0afc90a7f3cfd5d7285b"
+  },
+  "canonical_manifest_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+  "created_at": "2026-11-15T15:00:18.920841+00:00",
+  "features_source_pin_sha256": "35a1bf7fe16acca1e115c7be7bcad2c2464ec27cdf7e799df4f2b31adba24c2a",
+  "fully_certified": false,
+  "matched_S2_C2": 1672,
+  "no_original_input_overwritten": true,
+  "original_contracts": 1845,
+  "postgame_scoring": false,
+  "production_promotion": false,
+  "rejected_and_abstained_retained": true,
+  "schema": "ws6_sunday_s2_c2_original_contract_immutable_freeze_v1",
+  "status": "SEALED_RESEARCH_FIRST_FORECAST_COMPARISON_ONLY"
+}
