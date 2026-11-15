@@ -1,0 +1,24 @@
+{
+  "C2_market_only": 1767,
+  "J1": 58,
+  "J2": 58,
+  "J3": 0,
+  "S2": 1672,
+  "WS4_independent_audit_sha256": "8076017e5012af8d4a51e367bd0ce3ea85a83d619ee574bbab695c36a97d1449",
+  "canonical_source_manifest_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+  "child_files": {
+    "comparison_ledger_1845.jsonl": "242c4404a6b1505844528ee7096f86060f459df6517f0420f618deef8888fbba",
+    "independent_join_audit_report.json": "efc012e0ae6e322b04798e8557704bdcf7ecac55b810017fc7200d0a895ccfc9",
+    "ws4_individual_event_file_receipts.json": "519631bab6de9a9c685ba12652316a2e134667a797f5e9f7aa2f35ce8c7dae34"
+  },
+  "created_at": "2026-11-15T15:17:49.180638+00:00",
+  "exact_S2_C2_J1_J2_intersection": 49,
+  "no_postgame_scores": true,
+  "no_production_promotion": true,
+  "not_full_certified": true,
+  "original_observations": 1845,
+  "original_source_and_model_artifacts_unchanged": true,
+  "prior_S2_C2_ledger_sha256": "2fff057f2f3ed136136844bd61533fa68d20f41eb836b154bb95732dad77e101",
+  "schema": "WS6_20261115_IMMUTABLE_S2_C2_J1_J2_FREEZE_INDEX_V1",
+  "status": "RESEARCH_ONLY_VERIFIED_S2_C2_J1_J2_ORIGINAL_CONTRACTS"
+}

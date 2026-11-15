@@ -1,0 +1,171 @@
+{
+  "C2_market_nonpush_references": 1767,
+  "J1_J2_C2_without_S2": 9,
+  "J1_J2_first_genuine_timestamp": "2026-11-15T14:54:22.857760+00:00",
+  "J1_J2_last_genuine_timestamp": "2026-11-15T14:55:06.282472+00:00",
+  "J3_abstention_reason": "NO_CERTIFIED_PREGAME_SPREAD",
+  "J4_status": "DEPENDENCE_DIAGNOSTIC_ONLY",
+  "S2_C2_J1_J2_exact_matched": 49,
+  "S2_C2_exact_matched": 1672,
+  "S2_C2_without_J1_J2": 1623,
+  "S2_forecasts": 1672,
+  "WS4_67_test_run": "b55d19c9-fc2a-4850-b653-bab309daf318",
+  "WS4_J1_forecasts": 58,
+  "WS4_J2_forecasts": 58,
+  "WS4_J3_forecasts": 0,
+  "WS4_distinct_original_contracts": 58,
+  "WS4_existing_independent_audit_sha256": "8076017e5012af8d4a51e367bd0ce3ea85a83d619ee574bbab695c36a97d1449",
+  "WS4_independent_numeric_run": "0d255b78-fcf9-4c0f-ac2d-60cd933b6c56",
+  "WS4_individual_forecast_file_counts": 11,
+  "WS4_model_execution_run": "33231250-59f2-4859-9e8f-94adaa06db4e",
+  "WS4_numerical_identity_rejections": 0,
+  "WS4_original_files_11_immutable_sha_bytes_verified": true,
+  "WS4_recomputed_116_exact_probabilities_PMF_mean_variance": true,
+  "WS4_source_readiness_and_model_event_timestamps_all_verified": true,
+  "all_model_record_counts": {
+    "C2": 1767,
+    "J1_J2_C2_NO_S2": 9,
+    "J1_J2_DISTINCT_CONTRACTS": 58,
+    "S2": 1672,
+    "S2_C2": 1672,
+    "S2_C2_J1_J2_EXACT_INTERSECTION": 49,
+    "S2_NO_JOINT": 1623
+  },
+  "by_kickoff": {
+    "2026-11-15T14:30:00Z": {
+      "C2": 126,
+      "J1": 0,
+      "J2": 0,
+      "S2": 126,
+      "S2_C2_J1_J2": 0,
+      "original": 126
+    },
+    "2026-11-15T18:00:00Z": {
+      "C2": 1019,
+      "J1": 37,
+      "J2": 37,
+      "S2": 978,
+      "S2_C2_J1_J2": 34,
+      "original": 1076
+    },
+    "2026-11-15T21:05:00Z": {
+      "C2": 324,
+      "J1": 9,
+      "J2": 9,
+      "S2": 270,
+      "S2_C2_J1_J2": 3,
+      "original": 335
+    },
+    "2026-11-15T21:25:00Z": {
+      "C2": 144,
+      "J1": 6,
+      "J2": 6,
+      "S2": 144,
+      "S2_C2_J1_J2": 6,
+      "original": 152
+    },
+    "2026-11-16T01:20:00Z": {
+      "C2": 154,
+      "J1": 6,
+      "J2": 6,
+      "S2": 154,
+      "S2_C2_J1_J2": 6,
+      "original": 156
+    }
+  },
+  "by_market": {
+    "completions": {
+      "C2": 65,
+      "J1": 0,
+      "J2": 0,
+      "S2": 54,
+      "S2_C2_J1_J2": 0,
+      "original": 67
+    },
+    "pass attempts": {
+      "C2": 67,
+      "J1": 58,
+      "J2": 58,
+      "S2": 55,
+      "S2_C2_J1_J2": 49,
+      "original": 69
+    },
+    "passing yards": {
+      "C2": 94,
+      "J1": 0,
+      "J2": 0,
+      "S2": 78,
+      "S2_C2_J1_J2": 0,
+      "original": 96
+    },
+    "receiving yards": {
+      "C2": 564,
+      "J1": 0,
+      "J2": 0,
+      "S2": 547,
+      "S2_C2_J1_J2": 0,
+      "original": 584
+    },
+    "receptions": {
+      "C2": 549,
+      "J1": 0,
+      "J2": 0,
+      "S2": 532,
+      "S2_C2_J1_J2": 0,
+      "original": 568
+    },
+    "rush attempts": {
+      "C2": 91,
+      "J1": 0,
+      "J2": 0,
+      "S2": 88,
+      "S2_C2_J1_J2": 0,
+      "original": 98
+    },
+    "rushing yards": {
+      "C2": 233,
+      "J1": 0,
+      "J2": 0,
+      "S2": 216,
+      "S2_C2_J1_J2": 0,
+      "original": 249
+    },
+    "tackles + assists": {
+      "C2": 104,
+      "J1": 0,
+      "J2": 0,
+      "S2": 102,
+      "S2_C2_J1_J2": 0,
+      "original": 114
+    }
+  },
+  "canonical_original_observations": 1845,
+  "historical_2024_2025_rate_calibration_proven": false,
+  "historical_source_receipts": {
+    "crosswalk": {
+      "path": "reports/nfl_20261115_prospective/joint_models/historical_sources/nflverse_players_a8a86df9be83cdf88d0dadb47f09fb4a3c5db326e19b46cf20bdade38e3e024d.csv",
+      "sha256": "a8a86df9be83cdf88d0dadb47f09fb4a3c5db326e19b46cf20bdade38e3e024d"
+    },
+    "qb_stats_2025": {
+      "path": "reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle/stats_2025.json.gz",
+      "sha256": "ba1169df7f3a41b486f33b839cc0870f65f30ffac2e29978ea031d7350b3a1bb"
+    },
+    "team_2024": {
+      "path": "pickem_runs/blind_historical_campaign_20261109/2024/source_bundles.json",
+      "sha256": "4a70391b28826053b45979c15c18fa23590e994e701fb0c2eab98cc182436066"
+    }
+  },
+  "original_denominator_preserved_per_WS4_event_file": true,
+  "parent_S2_C2_freeze_index_sha256": "682e9c7f341959b6c9fd913358de44e1f4f358df9b39e0d10c8959a7e5e8610f",
+  "parent_S2_C2_ledger_sha256": "2fff057f2f3ed136136844bd61533fa68d20f41eb836b154bb95732dad77e101",
+  "performance_comparison_performed": false,
+  "production_promotion_allowed": false,
+  "provider_terms_certified": false,
+  "research_eligible": 1753,
+  "schema": "WS6_NFL_20261115_S2_C2_J1_J2_INDEPENDENT_JOIN_V1",
+  "source_code_not_modified": true,
+  "source_manifest_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+  "source_verified": 1767,
+  "status": "IMMUTABLE_RESEARCH_FORECAST_ONLY_NOT_FULLY_CERTIFIED",
+  "unconfirmed_2026_starter_active": true
+}

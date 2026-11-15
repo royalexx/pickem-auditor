@@ -1,0 +1,514 @@
+{
+  "snapshot_at": "2026-11-15T15:42:09Z",
+  "project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+  "file_count": 10336,
+  "weather_files": [
+    {
+      "name": "audit_weather_gate.py",
+      "path": "reports/nfl_20261115_prospective/joint_models/weather_v1/audit_weather_gate.py",
+      "type": "file",
+      "size": 8297,
+      "updatedAt": "2026-11-15T15:40:04.000Z"
+    },
+    {
+      "name": "test_audit_weather_gate.py",
+      "path": "reports/nfl_20261115_prospective/joint_models/weather_v1/test_audit_weather_gate.py",
+      "type": "file",
+      "size": 2747,
+      "updatedAt": "2026-11-15T15:39:39.000Z"
+    },
+    {
+      "name": "77cafef1de283810cff6c93400fd536c703ad4bca27ed43b990b7a9fbfae4501.json",
+      "path": "reports/nfl_20261115_prospective/opportunity_models/weather/delivery/77cafef1de283810cff6c93400fd536c703ad4bca27ed43b990b7a9fbfae4501.json",
+      "type": "file",
+      "size": 10915,
+      "updatedAt": "2026-11-15T14:29:57.000Z"
+    },
+    {
+      "name": "probe_dalroof.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/probe_dalroof.bin",
+      "type": "file",
+      "size": 119589,
+      "updatedAt": "2026-11-15T15:37:46.000Z"
+    },
+    {
+      "name": "probe_dalroof_receipt.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/probe_dalroof_receipt.json",
+      "type": "file",
+      "size": 1225,
+      "updatedAt": "2026-11-15T15:37:48.000Z"
+    },
+    {
+      "name": "probe_grid.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/probe_grid.bin",
+      "type": "file",
+      "size": 240244,
+      "updatedAt": "2026-11-15T15:37:46.000Z"
+    },
+    {
+      "name": "probe_grid_receipt.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/probe_grid_receipt.json",
+      "type": "file",
+      "size": 975,
+      "updatedAt": "2026-11-15T15:37:48.000Z"
+    },
+    {
+      "name": "probe_venue.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/probe_venue.bin",
+      "type": "file",
+      "size": 565,
+      "updatedAt": "2026-11-15T15:37:46.000Z"
+    },
+    {
+      "name": "probe_venue_receipt.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/probe_venue_receipt.json",
+      "type": "file",
+      "size": 630,
+      "updatedAt": "2026-11-15T15:37:48.000Z"
+    },
+    {
+      "name": "0cbbc45655cd112874e395091e1e609739f82bc6ecf492cc0f452c43b39ea5eb.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/0cbbc45655cd112874e395091e1e609739f82bc6ecf492cc0f452c43b39ea5eb.bin",
+      "type": "file",
+      "size": 3909,
+      "updatedAt": "2026-11-15T15:41:06.000Z"
+    },
+    {
+      "name": "208b8550e9e4eda7cd379a72600b9864109e0ba9e9835d8622e5d289204d1e6c.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/208b8550e9e4eda7cd379a72600b9864109e0ba9e9835d8622e5d289204d1e6c.bin",
+      "type": "file",
+      "size": 223824,
+      "updatedAt": "2026-11-15T15:41:08.000Z"
+    },
+    {
+      "name": "2b5af6d7e0e89698f87abeb3abe56c17e9458db476c08892576608655ceafc4e.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/2b5af6d7e0e89698f87abeb3abe56c17e9458db476c08892576608655ceafc4e.bin",
+      "type": "file",
+      "size": 237004,
+      "updatedAt": "2026-11-15T15:40:53.000Z"
+    },
+    {
+      "name": "3d7f5154a641628d741ad0f5ef40ef2867ee7cdde8b362addd85e6226b3a3565.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/3d7f5154a641628d741ad0f5ef40ef2867ee7cdde8b362addd85e6226b3a3565.bin",
+      "type": "file",
+      "size": 3916,
+      "updatedAt": "2026-11-15T15:40:51.000Z"
+    },
+    {
+      "name": "401331bd0f3dd7b73b6ff14c023242871f655ef493099e7440263f294f5214e3.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/401331bd0f3dd7b73b6ff14c023242871f655ef493099e7440263f294f5214e3.bin",
+      "type": "file",
+      "size": 50286,
+      "updatedAt": "2026-11-15T15:41:29.000Z"
+    },
+    {
+      "name": "41cf36a21dd7dfe9c4b8c095bceaaa6b44b8f02a287823bf4a9edf8e24ed60bd.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/41cf36a21dd7dfe9c4b8c095bceaaa6b44b8f02a287823bf4a9edf8e24ed60bd.bin",
+      "type": "file",
+      "size": 42335,
+      "updatedAt": "2026-11-15T15:41:21.000Z"
+    },
+    {
+      "name": "45d832ba102e01f6f2ad34020e6d67799b93a291a870f5799a5ad9fde1df025f.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/45d832ba102e01f6f2ad34020e6d67799b93a291a870f5799a5ad9fde1df025f.bin",
+      "type": "file",
+      "size": 360714,
+      "updatedAt": "2026-11-15T15:41:03.000Z"
+    },
+    {
+      "name": "624495f58985ecdc4a0a9cbf57c211c6e815f300c7b70781251d9a76c6765204.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/624495f58985ecdc4a0a9cbf57c211c6e815f300c7b70781251d9a76c6765204.bin",
+      "type": "file",
+      "size": 211946,
+      "updatedAt": "2026-11-15T15:41:18.000Z"
+    },
+    {
+      "name": "63f2a9932ae6a662f8d1c9786b39fcc085673c24d81bfdae4c29a08761190d40.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/63f2a9932ae6a662f8d1c9786b39fcc085673c24d81bfdae4c29a08761190d40.bin",
+      "type": "file",
+      "size": 531,
+      "updatedAt": "2026-11-15T15:40:57.000Z"
+    },
+    {
+      "name": "774d90123a665efb634672fca059886b399c2c28fc76e28cf1f965baa04ebfb9.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/774d90123a665efb634672fca059886b399c2c28fc76e28cf1f965baa04ebfb9.bin",
+      "type": "file",
+      "size": 194525,
+      "updatedAt": "2026-11-15T15:41:26.000Z"
+    },
+    {
+      "name": "78157a3c2ddfb82c3184c057c33b1d2fa56f2c766891b3e8af3eea3c0cc53e43.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/78157a3c2ddfb82c3184c057c33b1d2fa56f2c766891b3e8af3eea3c0cc53e43.bin",
+      "type": "file",
+      "size": 138892,
+      "updatedAt": "2026-11-15T15:40:47.000Z"
+    },
+    {
+      "name": "7fba7e72fc5e1cb0bded4b506f6ef246871869d52d3fec090daa532001dead4c.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/7fba7e72fc5e1cb0bded4b506f6ef246871869d52d3fec090daa532001dead4c.bin",
+      "type": "file",
+      "size": 524,
+      "updatedAt": "2026-11-15T15:41:22.000Z"
+    },
+    {
+      "name": "7fcef1059f8d6b44e10fdc82dde05b4e6a2647a30396564e6098fcd129073c9b.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/7fcef1059f8d6b44e10fdc82dde05b4e6a2647a30396564e6098fcd129073c9b.bin",
+      "type": "file",
+      "size": 265002,
+      "updatedAt": "2026-11-15T15:41:13.000Z"
+    },
+    {
+      "name": "81e07ecd42d07492b17c7ad3210f47e407c1ffa38fd0a11bad6d4207bade9b50.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/81e07ecd42d07492b17c7ad3210f47e407c1ffa38fd0a11bad6d4207bade9b50.bin",
+      "type": "file",
+      "size": 3918,
+      "updatedAt": "2026-11-15T15:40:59.000Z"
+    },
+    {
+      "name": "86006035743f1442446459f322e2f7003f2edd0fb2d7a4e3c948172bc91ed849.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/86006035743f1442446459f322e2f7003f2edd0fb2d7a4e3c948172bc91ed849.bin",
+      "type": "file",
+      "size": 539,
+      "updatedAt": "2026-11-15T15:41:15.000Z"
+    },
+    {
+      "name": "8b67d699cfb3cf70f9d61a2b7f577b1cb4d3c53681937e36aa04fdd0b8a22e87.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/8b67d699cfb3cf70f9d61a2b7f577b1cb4d3c53681937e36aa04fdd0b8a22e87.bin",
+      "type": "file",
+      "size": 3960,
+      "updatedAt": "2026-11-15T15:41:41.000Z"
+    },
+    {
+      "name": "98ce3879451cfcbb7ad161da8adabd8258800602c86704ff17711b8083a6dbd6.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/98ce3879451cfcbb7ad161da8adabd8258800602c86704ff17711b8083a6dbd6.bin",
+      "type": "file",
+      "size": 534,
+      "updatedAt": "2026-11-15T15:40:50.000Z"
+    },
+    {
+      "name": "9a2be62ed4d9c008ded1209e3587a640b4045a2a608fc56f64d1466d641430b3.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/9a2be62ed4d9c008ded1209e3587a640b4045a2a608fc56f64d1466d641430b3.bin",
+      "type": "file",
+      "size": 3948,
+      "updatedAt": "2026-11-15T15:41:16.000Z"
+    },
+    {
+      "name": "a5a0dae28ab24e4e11c808942aa159e244d16026f4393fd50e63e48798f6b256.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/a5a0dae28ab24e4e11c808942aa159e244d16026f4393fd50e63e48798f6b256.bin",
+      "type": "file",
+      "size": 309191,
+      "updatedAt": "2026-11-15T15:41:43.000Z"
+    },
+    {
+      "name": "a9ecf71638845234bd33ce4f05b693355573e74e80567b690e1a4592a19a4203.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/a9ecf71638845234bd33ce4f05b693355573e74e80567b690e1a4592a19a4203.bin",
+      "type": "file",
+      "size": 198153,
+      "updatedAt": "2026-11-15T15:41:34.000Z"
+    },
+    {
+      "name": "acb50d4dab1337dab160d9553484fffcb3f128c5de310c7d3214b60ff4db783b.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/acb50d4dab1337dab160d9553484fffcb3f128c5de310c7d3214b60ff4db783b.bin",
+      "type": "file",
+      "size": 321854,
+      "updatedAt": "2026-11-15T15:41:37.000Z"
+    },
+    {
+      "name": "b42f375aeea57f38fcb428cca021ff424797f8c24603fe4e545291f8d63b97bc.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/b42f375aeea57f38fcb428cca021ff424797f8c24603fe4e545291f8d63b97bc.bin",
+      "type": "file",
+      "size": 527,
+      "updatedAt": "2026-11-15T15:41:39.000Z"
+    },
+    {
+      "name": "b5bd9d088afa37259e4955579d7696612911ef994cd35c262612f1d63287d1ae.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/b5bd9d088afa37259e4955579d7696612911ef994cd35c262612f1d63287d1ae.bin",
+      "type": "file",
+      "size": 511,
+      "updatedAt": "2026-11-15T15:41:30.000Z"
+    },
+    {
+      "name": "b8aa1f6efd3a8ba9da839bc5d5a0556a93d95227cd33a97f040b766e12b033e9.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/b8aa1f6efd3a8ba9da839bc5d5a0556a93d95227cd33a97f040b766e12b033e9.bin",
+      "type": "file",
+      "size": 240244,
+      "updatedAt": "2026-11-15T15:41:00.000Z"
+    },
+    {
+      "name": "be3ee442276c81331d70586b246419c8e78cf058eba1bb9e4909be75e53d4288.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/be3ee442276c81331d70586b246419c8e78cf058eba1bb9e4909be75e53d4288.bin",
+      "type": "file",
+      "size": 496,
+      "updatedAt": "2026-11-15T15:41:05.000Z"
+    },
+    {
+      "name": "c2189653e90de33bc8c3afd9ab7cc7e65a6b809fee852340356bc24934880860.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/c2189653e90de33bc8c3afd9ab7cc7e65a6b809fee852340356bc24934880860.bin",
+      "type": "file",
+      "size": 295146,
+      "updatedAt": "2026-11-15T15:40:55.000Z"
+    },
+    {
+      "name": "c4217535412b1d01d7a8026d9f9598ac22d411d8cef4aeeef272c6cf1ae44622.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/c4217535412b1d01d7a8026d9f9598ac22d411d8cef4aeeef272c6cf1ae44622.bin",
+      "type": "file",
+      "size": 3915,
+      "updatedAt": "2026-11-15T15:41:24.000Z"
+    },
+    {
+      "name": "da366d6681da251893e4f783690df5e08e9e196f5a17810948e6bfc3c703ed4e.bin",
+      "path": "reports/nfl_20261115_prospective/weather_v2/raw/da366d6681da251893e4f783690df5e08e9e196f5a17810948e6bfc3c703ed4e.bin",
+      "type": "file",
+      "size": 3924,
+      "updatedAt": "2026-11-15T15:41:32.000Z"
+    },
+    {
+      "name": "401873054_coordinates.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873054_coordinates.json",
+      "type": "file",
+      "size": 1123,
+      "updatedAt": "2026-11-15T15:41:31.000Z"
+    },
+    {
+      "name": "401873054_grid.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873054_grid.json",
+      "type": "file",
+      "size": 1148,
+      "updatedAt": "2026-11-15T15:41:34.000Z"
+    },
+    {
+      "name": "401873054_points.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873054_points.json",
+      "type": "file",
+      "size": 1100,
+      "updatedAt": "2026-11-15T15:41:32.000Z"
+    },
+    {
+      "name": "401873054_stadium.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873054_stadium.json",
+      "type": "file",
+      "size": 476,
+      "updatedAt": "2026-11-15T15:41:29.000Z"
+    },
+    {
+      "name": "401873055_coordinates.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873055_coordinates.json",
+      "type": "file",
+      "size": 1120,
+      "updatedAt": "2026-11-15T15:41:23.000Z"
+    },
+    {
+      "name": "401873055_grid.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873055_grid.json",
+      "type": "file",
+      "size": 1147,
+      "updatedAt": "2026-11-15T15:41:26.000Z"
+    },
+    {
+      "name": "401873055_points.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873055_points.json",
+      "type": "file",
+      "size": 1098,
+      "updatedAt": "2026-11-15T15:41:24.000Z"
+    },
+    {
+      "name": "401873055_stadium.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873055_stadium.json",
+      "type": "file",
+      "size": 481,
+      "updatedAt": "2026-11-15T15:41:21.000Z"
+    },
+    {
+      "name": "401873056_coordinates.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873056_coordinates.json",
+      "type": "file",
+      "size": 1124,
+      "updatedAt": "2026-11-15T15:40:57.000Z"
+    },
+    {
+      "name": "401873056_grid.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873056_grid.json",
+      "type": "file",
+      "size": 1147,
+      "updatedAt": "2026-11-15T15:41:00.000Z"
+    },
+    {
+      "name": "401873056_points.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873056_points.json",
+      "type": "file",
+      "size": 1100,
+      "updatedAt": "2026-11-15T15:40:59.000Z"
+    },
+    {
+      "name": "401873056_stadium.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873056_stadium.json",
+      "type": "file",
+      "size": 467,
+      "updatedAt": "2026-11-15T15:40:56.000Z"
+    },
+    {
+      "name": "401873057_coordinates.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873057_coordinates.json",
+      "type": "file",
+      "size": 1111,
+      "updatedAt": "2026-11-15T15:41:39.000Z"
+    },
+    {
+      "name": "401873057_grid.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873057_grid.json",
+      "type": "file",
+      "size": 1148,
+      "updatedAt": "2026-11-15T15:41:43.000Z"
+    },
+    {
+      "name": "401873057_points.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873057_points.json",
+      "type": "file",
+      "size": 1100,
+      "updatedAt": "2026-11-15T15:41:41.000Z"
+    },
+    {
+      "name": "401873057_stadium.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873057_stadium.json",
+      "type": "file",
+      "size": 473,
+      "updatedAt": "2026-11-15T15:41:38.000Z"
+    },
+    {
+      "name": "401873058_coordinates.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873058_coordinates.json",
+      "type": "file",
+      "size": 1126,
+      "updatedAt": "2026-11-15T15:40:50.000Z"
+    },
+    {
+      "name": "401873058_grid.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873058_grid.json",
+      "type": "file",
+      "size": 1147,
+      "updatedAt": "2026-11-15T15:40:53.000Z"
+    },
+    {
+      "name": "401873058_points.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873058_points.json",
+      "type": "file",
+      "size": 1100,
+      "updatedAt": "2026-11-15T15:40:51.000Z"
+    },
+    {
+      "name": "401873058_stadium.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873058_stadium.json",
+      "type": "file",
+      "size": 2164,
+      "updatedAt": "2026-11-15T15:40:48.000Z"
+    },
+    {
+      "name": "401873059_coordinates.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873059_coordinates.json",
+      "type": "file",
+      "size": 1128,
+      "updatedAt": "2026-11-15T15:41:15.000Z"
+    },
+    {
+      "name": "401873059_grid.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873059_grid.json",
+      "type": "file",
+      "size": 1147,
+      "updatedAt": "2026-11-15T15:41:18.000Z"
+    },
+    {
+      "name": "401873059_points.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873059_points.json",
+      "type": "file",
+      "size": 1099,
+      "updatedAt": "2026-11-15T15:41:16.000Z"
+    },
+    {
+      "name": "401873059_stadium.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873059_stadium.json",
+      "type": "file",
+      "size": 1508,
+      "updatedAt": "2026-11-15T15:41:13.000Z"
+    },
+    {
+      "name": "401873060_coordinates.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873060_coordinates.json",
+      "type": "file",
+      "size": 1109,
+      "updatedAt": "2026-11-15T15:41:05.000Z"
+    },
+    {
+      "name": "401873060_grid.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873060_grid.json",
+      "type": "file",
+      "size": 1147,
+      "updatedAt": "2026-11-15T15:41:08.000Z"
+    },
+    {
+      "name": "401873060_points.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873060_points.json",
+      "type": "file",
+      "size": 1099,
+      "updatedAt": "2026-11-15T15:41:07.000Z"
+    },
+    {
+      "name": "401873060_stadium.json",
+      "path": "reports/nfl_20261115_prospective/weather_v2/receipts/401873060_stadium.json",
+      "type": "file",
+      "size": 1227,
+      "updatedAt": "2026-11-15T15:41:03.000Z"
+    },
+    {
+      "name": "WEATHER.md",
+      "path": "research/nfl_opportunity_20261115/WEATHER.md",
+      "type": "file",
+      "size": 7497,
+      "updatedAt": "2026-11-15T14:28:29.000Z"
+    },
+    {
+      "name": "test_weather.py",
+      "path": "research/nfl_opportunity_20261115/test_weather.py",
+      "type": "file",
+      "size": 10822,
+      "updatedAt": "2026-11-15T14:28:18.000Z"
+    },
+    {
+      "name": "weather.py",
+      "path": "research/nfl_opportunity_20261115/weather.py",
+      "type": "file",
+      "size": 12916,
+      "updatedAt": "2026-11-15T14:27:59.000Z"
+    },
+    {
+      "name": "weather_run.py",
+      "path": "research/nfl_opportunity_20261115/weather_run.py",
+      "type": "file",
+      "size": 5703,
+      "updatedAt": "2026-11-15T14:28:09.000Z"
+    },
+    {
+      "name": "nfl_sunday_weather.py",
+      "path": "scripts/nfl_sunday_weather.py",
+      "type": "file",
+      "size": 18014,
+      "updatedAt": "2026-11-15T15:41:25.000Z"
+    },
+    {
+      "name": "nfl_sunday_weather_v2.py",
+      "path": "scripts/nfl_sunday_weather_v2.py",
+      "type": "file",
+      "size": 16213,
+      "updatedAt": "2026-11-15T15:39:51.000Z"
+    },
+    {
+      "name": "test_nfl_sunday_weather.py",
+      "path": "tests/test_nfl_sunday_weather.py",
+      "type": "file",
+      "size": 3139,
+      "updatedAt": "2026-11-15T15:41:30.000Z"
+    }
+  ],
+  "weather_pin_matches": [],
+  "weather_model_forecast_files": [],
+  "limitation": "Inventory snapshot; source acquisition in progress. Missing pin is not proof no future pin will exist."
+}

@@ -1,0 +1,29 @@
+{
+  "classification": "PREGAME_C2_MARKET_REFERENCE_ONLY",
+  "created_by_WS6_at": "2026-11-15T14:41:48.973317+00:00",
+  "file_hashes_verified": true,
+  "independent_row_sha256": {
+    "c2_market_only_excluded_player_contracts.jsonl": "57a866dbe53e3ff72577ba0ab0c3a6b64676e632d2d16b9bb20b1c170ae30528",
+    "c2_original_source_rejections.jsonl": "377a6e2d880f87bf0b80ee38f8a3d7e0cdafed7fd899e5cf93f0290f52f3a58b",
+    "comparison_ledger.jsonl": "2f6229f126ac8b110798401d491920233fc9ea7525e341ae70f79a35d1a3404b",
+    "independent_integrity_report.json": "0c9180f06d5594f8eed4d50f5155628c99c9e94188efc57b0310062e4b48c55a"
+  },
+  "market_reference_matched_player_eligible_rows": 1753,
+  "market_reference_rejected_rows": 78,
+  "market_reference_rows": 1767,
+  "market_reference_source_verified_but_player_excluded": 14,
+  "no_implicit_push_mass": true,
+  "no_retroactive_creation_of_market_reference": true,
+  "not_a_statistical_model_certification": true,
+  "production_release": false,
+  "read_only_original_ws5_file": true,
+  "row_count": 1845,
+  "schema": "ws6_c2_immutable_market_benchmark_freeze_index_v1",
+  "source_manifest_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+  "source_publication_not_fully_certified": true,
+  "statistical_model_forecast_rows": 0,
+  "ws5_original_ledger_relative_path": "calibration_models/sunday_20261115T141848783858Z.json",
+  "ws5_original_ledger_sha256": "4bde5ffe88aabfbfe563b57835889dce88e1df56fff703faa6c3b56a132a927e",
+  "ws5_original_market_reference_freeze_at": "2026-11-15T14:18:48.776849+00:00",
+  "ws5_original_run_id": "11d1d944-1fcc-4192-925a-aeed8c89802e"
+}

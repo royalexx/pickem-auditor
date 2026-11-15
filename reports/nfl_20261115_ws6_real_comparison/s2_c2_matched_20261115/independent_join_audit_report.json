@@ -1,0 +1,174 @@
+{
+  "C2_market_only_nonpush_binary_semantics": true,
+  "C2_market_reference_first_at": "2026-11-15T14:18:48.776849+00:00",
+  "C2_market_reference_last_at": "2026-11-15T14:18:48.776849+00:00",
+  "C2_only_count": 95,
+  "C2_player_excluded_market_reference_count": 14,
+  "C2_player_research_eligible_count": 1753,
+  "C2_source_derived_ledger_sha256": "2f6229f126ac8b110798401d491920233fc9ea7525e341ae70f79a35d1a3404b",
+  "C2_unconditional_push_or_threeway_assigned": false,
+  "C2_verified_market_conditional_nonpush_count": 1767,
+  "S2_C2_matched_conditional_on_playing_count": 1672,
+  "S2_C2_matched_exact_original_contract_count": 1672,
+  "S2_abstentions_per_original_reason": {
+    "CROSS_TEAM_ROSTER_IDENTITY_UNVERIFIABLE": 78,
+    "RESEARCH_SHADOW_ABSTAIN": 14,
+    "WS1_FEATURE_ABSTAIN:INDEPENDENT_NAME_ID_MISMATCH": 12,
+    "WS1_FEATURE_ABSTAIN:INSUFFICIENT_RECENT_VERIFIED_PLAYER_HISTORY": 55,
+    "insufficient_player_appearances": 14
+  },
+  "S2_forecast_first_at": "2026-11-15T14:29:18.370098+00:00",
+  "S2_forecast_last_at": "2026-11-15T14:32:41.529073+00:00",
+  "S2_only_count": 0,
+  "S2_origin_index_sha256": "cc8049b9335b09d578b9ecae8982616e88c8f0208f06114ab720291413ec85a4",
+  "S2_origin_population_sha256": "766245a051b4b3247009040a0c28df82fde285fb237ab40087d510bcfd4efd5d",
+  "S2_verified_player_stat_forecast_count": 1672,
+  "WS1_canonical_manifest_file_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+  "WS1_feature_pin_sha256": "35a1bf7fe16acca1e115c7be7bcad2c2464ec27cdf7e799df4f2b31adba24c2a",
+  "WS5_C2_original_sha256": "4bde5ffe88aabfbfe563b57835889dce88e1df56fff703faa6c3b56a132a927e",
+  "WS6_independent_C2_freeze_index_sha256": "03f4f5d6e8dac6c7e608d1afb160638966509934cab88366648c59e6c80ff5e0",
+  "WS6_independent_S2_freeze_index_sha256": "2d865b17e36c73c732dcca9598df7a936ab7c56da961feaec29fef24b8a809e2",
+  "by_market": {
+    "completions": {
+      "C2": 65,
+      "S2": 54,
+      "S2_C2_intersection": 54,
+      "original": 67,
+      "research_shadow_eligible": 62,
+      "source_verified": 65
+    },
+    "pass attempts": {
+      "C2": 67,
+      "S2": 55,
+      "S2_C2_intersection": 55,
+      "original": 69,
+      "research_shadow_eligible": 64,
+      "source_verified": 67
+    },
+    "passing yards": {
+      "C2": 94,
+      "S2": 78,
+      "S2_C2_intersection": 78,
+      "original": 96,
+      "research_shadow_eligible": 90,
+      "source_verified": 94
+    },
+    "receiving yards": {
+      "C2": 564,
+      "S2": 547,
+      "S2_C2_intersection": 547,
+      "original": 584,
+      "research_shadow_eligible": 564,
+      "source_verified": 564
+    },
+    "receptions": {
+      "C2": 549,
+      "S2": 532,
+      "S2_C2_intersection": 532,
+      "original": 568,
+      "research_shadow_eligible": 549,
+      "source_verified": 549
+    },
+    "rush attempts": {
+      "C2": 91,
+      "S2": 88,
+      "S2_C2_intersection": 88,
+      "original": 98,
+      "research_shadow_eligible": 91,
+      "source_verified": 91
+    },
+    "rushing yards": {
+      "C2": 233,
+      "S2": 216,
+      "S2_C2_intersection": 216,
+      "original": 249,
+      "research_shadow_eligible": 229,
+      "source_verified": 233
+    },
+    "tackles + assists": {
+      "C2": 104,
+      "S2": 102,
+      "S2_C2_intersection": 102,
+      "original": 114,
+      "research_shadow_eligible": 104,
+      "source_verified": 104
+    }
+  },
+  "by_window_utc": {
+    "2026-11-15T14:30:00Z": {
+      "C2": 126,
+      "S2": 126,
+      "S2_C2_intersection": 126,
+      "original": 126,
+      "research_shadow_eligible": 126,
+      "source_verified": 126
+    },
+    "2026-11-15T18:00:00Z": {
+      "C2": 1019,
+      "S2": 978,
+      "S2_C2_intersection": 978,
+      "original": 1076,
+      "research_shadow_eligible": 1019,
+      "source_verified": 1019
+    },
+    "2026-11-15T21:05:00Z": {
+      "C2": 324,
+      "S2": 270,
+      "S2_C2_intersection": 270,
+      "original": 335,
+      "research_shadow_eligible": 310,
+      "source_verified": 324
+    },
+    "2026-11-15T21:25:00Z": {
+      "C2": 144,
+      "S2": 144,
+      "S2_C2_intersection": 144,
+      "original": 152,
+      "research_shadow_eligible": 144,
+      "source_verified": 144
+    },
+    "2026-11-16T01:20:00Z": {
+      "C2": 154,
+      "S2": 154,
+      "S2_C2_intersection": 154,
+      "original": 156,
+      "research_shadow_eligible": 154,
+      "source_verified": 154
+    }
+  },
+  "errors": [],
+  "model_code_lineage_C2": {
+    "code_commit": "81049c04359f609986c6e76813daee81a0295954",
+    "model_id": "C2:32f05d479a99021680f7d9467910c34af4ced553c76a065b42944a5e1df8eedc",
+    "model_version": "nfl-ws5-calibration/1.0.0"
+  },
+  "model_code_lineage_S2": {
+    "cdf2e8c9029217ee26fb28d21f7ecd6e8aaeeb81": 1635,
+    "d926113b63e0207693aed70774844299b467a8dc": 37
+  },
+  "model_promotion": false,
+  "neither_count": 78,
+  "original_denominator": 1845,
+  "postgame_scoring": false,
+  "production_release": false,
+  "rejection_counts": {
+    "C2_missing_on_source_verified": 0,
+    "C2_missing_total": 78,
+    "S2_genuine_missing_total": 173,
+    "S2_research_ready_but_missing": 81,
+    "backup_qb_excluded_from_research": 14,
+    "cross_model_identity_or_numerical_errors": 0,
+    "source_rejected": 78
+  },
+  "research_eligible": 1753,
+  "schema": "ws6_nfl_sunday_s2_c2_independent_comparison_v1",
+  "source_certified": 1767,
+  "status": "IMMUTABLE_RESEARCH_COMPARISON_PREGAME_CONDITIONAL_NOT_FULLY_CERTIFIED",
+  "uncertainties": [
+    "Participation/DNP conditioning unresolved",
+    "Sportsbook book-specific settlement terms unverified",
+    "Market C2 is binary conditional on nonpush, cannot invent 3-way push mass",
+    "2026 source publication truth not independently certified from archive possession time",
+    "Historical source original pregame capture proof not available for every vintage season"
+  ]
+}

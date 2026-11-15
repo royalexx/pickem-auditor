@@ -1,0 +1,178 @@
+{
+  "C2_conditional_nonpush_market_references": 1767,
+  "C2_is_unconditional_threeway": false,
+  "PR": 135,
+  "PR_draft_unmerged": true,
+  "WS3_delivery_bytes_independently_rehashed": true,
+  "WS3_delivery_sha256": "77cafef1de283810cff6c93400fd536c703ad4bca27ed43b990b7a9fbfae4501",
+  "actual_unchanged_fallback_forecasts": 0,
+  "as_of": "2026-11-15T15:42:09Z",
+  "components": {
+    "conditional_efficiency": {
+      "Brier_delta": null,
+      "CRPS_delta": null,
+      "distribution_delta": null,
+      "game_clustered_interval": null,
+      "legitimate_matched_pairs": 0,
+      "log_loss_delta": null,
+      "status": "WEATHER_EFFECT_NOT_ESTIMATED"
+    },
+    "defensive_involvement": {
+      "Brier_delta": null,
+      "CRPS_delta": null,
+      "distribution_delta": null,
+      "game_clustered_interval": null,
+      "legitimate_matched_pairs": 0,
+      "log_loss_delta": null,
+      "status": "WEATHER_EFFECT_NOT_ESTIMATED"
+    },
+    "joint_simulation": {
+      "Brier_delta": null,
+      "CRPS_delta": null,
+      "distribution_delta": null,
+      "game_clustered_interval": null,
+      "legitimate_matched_pairs": 0,
+      "log_loss_delta": null,
+      "status": "WEATHER_EFFECT_NOT_ESTIMATED"
+    },
+    "pass_run_allocation": {
+      "Brier_delta": null,
+      "CRPS_delta": null,
+      "distribution_delta": null,
+      "game_clustered_interval": null,
+      "legitimate_matched_pairs": 0,
+      "log_loss_delta": null,
+      "status": "WEATHER_EFFECT_NOT_ESTIMATED"
+    },
+    "player_usage": {
+      "Brier_delta": null,
+      "CRPS_delta": null,
+      "distribution_delta": null,
+      "game_clustered_interval": null,
+      "legitimate_matched_pairs": 0,
+      "log_loss_delta": null,
+      "status": "WEATHER_EFFECT_NOT_ESTIMATED"
+    },
+    "role_game_state_uncertainty": {
+      "Brier_delta": null,
+      "CRPS_delta": null,
+      "distribution_delta": null,
+      "game_clustered_interval": null,
+      "legitimate_matched_pairs": 0,
+      "log_loss_delta": null,
+      "status": "WEATHER_EFFECT_NOT_ESTIMATED"
+    },
+    "team_opportunity_volume": {
+      "Brier_delta": null,
+      "CRPS_delta": null,
+      "distribution_delta": null,
+      "game_clustered_interval": null,
+      "legitimate_matched_pairs": 0,
+      "log_loss_delta": null,
+      "status": "WEATHER_EFFECT_NOT_ESTIMATED"
+    }
+  },
+  "counts_scope": "Weather counts are delivered/authenticated artifacts visible by audit cutoff. Prior model counts inherited from authoritative WS6 audit, not a new raw-byte verification.",
+  "deepnote": {
+    "WS3_v2_error": "KeyError None on event identity after 31 passing tests; no successful forecast audit",
+    "WS3_v2_run": "5bec00ce-4f1c-4992-94bf-549fb24dead2",
+    "WS3_v2_status": "error",
+    "WS4_status_last_seen": "running",
+    "WS4_weather_inspection_run": "7d72644f-da42-423d-92cf-fb14125a7577",
+    "WS6_notebook": "502eb773a98c49bdaed45a6016fe8353",
+    "WS6_run_id": null,
+    "WS6_run_status": "CREATE_REJECTED_RATE_LIMIT",
+    "prior_WS6_join_run": "27267e1d-377c-40a8-a566-47a297fb4eeb"
+  },
+  "forecast_timestamps": {
+    "C2": "2026-11-15T14:18:48.776849Z",
+    "J1_J2_first": "2026-11-15T14:54:22.857760Z",
+    "J1_J2_last": "2026-11-15T14:55:06.282472Z",
+    "S2_first": "2026-11-15T14:29:18.370098Z",
+    "S2_last": "2026-11-15T14:32:41.529073Z",
+    "weather": null
+  },
+  "full_parent_materialization_performed": false,
+  "governing_version": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "independent_local_tests": {
+    "WS3_neutral_weather_regressions": 31,
+    "WS6_existing": 29,
+    "WS6_new_append_only_adversarial": 8,
+    "failed": 0,
+    "passed": 68,
+    "type": "Synthetic/offline integrity evidence; not forecast accuracy"
+  },
+  "neutral_counts_from_authoritative_prior_audit": {
+    "J1": 58,
+    "J2": 58,
+    "J3": 0,
+    "O1": 0,
+    "O2": 0,
+    "O3": 0,
+    "O4": 0,
+    "O5": 0,
+    "S2": 1672
+  },
+  "new_source_chronology_finding": {
+    "claimed_raw_sha256": "0d5ef4af9c82a8f340158f31019df7e9608351e937f0435a1e015ccf6800374a",
+    "decision": "REJECT_FOR_ALL_EXISTING_ORIGINAL_S2_J1_J2_FREEZES; any later fit and prediction needs a new genuine pregame version",
+    "path": "reports/nfl_20261115_prospective/weather_v2/probe_grid.bin",
+    "raw_bytes_independently_rehashed": false,
+    "retrieved_at": "2026-11-15T15:37:42.707016+00:00"
+  },
+  "original_model_artifacts_modified": false,
+  "original_observations": 1845,
+  "parent_bytes_rehashed_this_audit": false,
+  "parent_freeze_index_sha256": "30fa5583a3583e2c01427bcd3bdbf4460be50a1ff664e84b3fd5594c1a5a119d",
+  "parent_ledger_sha256": "242c4404a6b1505844528ee7096f86060f459df6517f0420f618deef8888fbba",
+  "postgame_scoring": {
+    "performed": false,
+    "reason": "No authenticated weather pairs or source-certified applicable official outcomes were delivered to this audit.",
+    "requirements": [
+      "Official source SHA and final status",
+      "Exact contract, original model and applicable settlement conditions",
+      "Keep push, DNP, void and unknown distinct",
+      "Brier/log loss on matched three-way distributions; C2 conditional nonpush only",
+      "CRPS only for complete predictive distribution",
+      "Calibration bands, directional skew, mean/dispersion errors, coverage and abstentions",
+      "Exposure-stratified matched comparisons and paired game-cluster bootstrap",
+      "One Sunday cannot establish statistical winner or production promotion"
+    ],
+    "score_differences": null
+  },
+  "preserved_rejections_abstentions": {
+    "C2_missing": 78,
+    "J1_abstained": 1787,
+    "J2_abstained": 1787,
+    "J3_abstained": 1845,
+    "O1_to_O5_no_forecast_each": 1845,
+    "S2_abstained": 173,
+    "note": "Overlapping model denominators, not unique additional rejected contracts. No absent forecast converted to fallback.",
+    "source_rejected": 78,
+    "weather_variants_no_forecast_each": 1845
+  },
+  "prior_S2_C2_J1_J2_exact_matched": 49,
+  "production_promotion": false,
+  "resume": "Authenticate completed WS1 weather pin and raw archives, then genuine separately frozen fitted WS3/WS4 outputs. Run WS6 offline audit and materialize with --parent only when exact authoritative parent bytes are accessible; never regenerate forecasts.",
+  "schema": "WS6_INDEPENDENT_WEATHER_EFFECT_AUDIT_V1",
+  "source_certification": "Not performed: WS1 source acquisition in progress; no WEATHER_FEATURE_PIN delivered in cutoff inventory; raw source integrity, issuance, valid time, location and roof cannot all be authenticated.",
+  "status": "BLOCKED_BY_DATA_SHADOW_ONLY",
+  "training_cutoffs": {
+    "J1_J2": "2026-11-11T18:30:57.993938+00:00",
+    "O1_to_O5": null,
+    "S2": "Inherited per original forecast in parent; not newly inspected",
+    "weather": null
+  },
+  "training_performed": false,
+  "weather_collection_performed_by_WS6": false,
+  "weather_conditioned_genuine_forecasts": 0,
+  "weather_effect_status": "WEATHER_EFFECT_NOT_ESTIMATED",
+  "weather_exposure": {
+    "certified_original_observations": 0,
+    "independently_certified_events": 0,
+    "original_observations": 1845,
+    "scheduled_events": 12,
+    "unknown_original_observations": 1845
+  },
+  "weather_neutral_exact_pairs": 0
+}

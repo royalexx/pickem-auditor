@@ -1,0 +1,20 @@
+{
+  "artifacts": {
+    "README.md": "64ecdc825cd3e40ed0d89800bf3fd784f2e96098b624b48723509d224bbc81c1",
+    "audit_report_input.json": "cc2c9725161e21416ef7955624759b820432e482419cbe3088dcc38ef178b4e1",
+    "available_weather_source_receipts.json": "fa2b58cf41a1533d779635cd96a1e04d3cbec08457d884e8cf3bb53a88161335",
+    "events_original.jsonl": "f8129cf073847ca5b4ec69908647d620531eb3902ca947ae09d74bcd1b6ba705",
+    "freeze/comparison_reference_ledger_1845.jsonl": "4c60e0c21125010487c772ce222a6abc1ea441a87c8eed16c43dce1467b69dfd",
+    "freeze/freeze_index.json": "1e683c58cd4bae99221eb23a1dd26283962670b5a1c12ac53f96b5d82c9fde11",
+    "freeze/independent_weather_audit_report.json": "46fdcb1bd353477f8d7846c8ebf30d90743f7de8e700c0abcbc4918ac8f228f3",
+    "inventory_final_154209.json": "db69d635bd5bdcde9f40ad0187ddd8f0fbb1a539e0129b1007b442975e01f87c",
+    "inventory_refresh_153909.json": "3aa79087cec9f2926657ce822ec6a0d0c4ed5033f9d0a28edabc5762b9c13580",
+    "per_event_source_model_references.json": "1a4f52052ceab98a5d04f4cc77dd39c2ad24ad1f35d118107a039d8dc4140bfd",
+    "ws1_probe_dalroof_receipt.json": "6076c569523558f7a9655d58678f32de6f6d6bff2ae33d330f0750dfc420edcd",
+    "ws1_probe_grid_receipt.json": "43c058f311e1441d09c1e965c557d866f265fc10eae010b827fb7fd978a2a060",
+    "ws1_probe_venue_receipt.json": "68fa8d195a4fd1d6fed680ad2564a75363fa8d0e89790d6b33bc30bf1d674536",
+    "ws3_delivery_original.json": "77cafef1de283810cff6c93400fd536c703ad4bca27ed43b990b7a9fbfae4501"
+  },
+  "comparison_freeze_index_sha256": "1e683c58cd4bae99221eb23a1dd26283962670b5a1c12ac53f96b5d82c9fde11",
+  "schema": "WS6_WEATHER_AUDIT_EVIDENCE_INDEX_V1"
+}

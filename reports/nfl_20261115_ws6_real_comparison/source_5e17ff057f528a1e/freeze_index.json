@@ -1,0 +1,142 @@
+{
+  "schema": "pa_v25_ws6_sunday_corrected_handoff_preflight_v1",
+  "classification": "SOURCE_HANDOFF_VERIFIED_BUT_NO_REAL_MODEL_FORECASTS",
+  "date": "2026-11-15",
+  "timezone": "America/Toronto",
+  "branch": "audit/nfl-sunday-ws6-20261115",
+  "pr": 135,
+  "owner": "WS6_INDEPENDENT_VALIDATION",
+  "original_source_root": "reports/nfl_20261115_prospective",
+  "handoff_pin": "reports/nfl_20261115_prospective/source_control/HANDOFF_PIN.json",
+  "handoff_pin_sha256": "8f8a8a823747ce20a5e7f3879cf386d6d1887a8d5b07703d8299cee3405fd28b",
+  "authoritative_manifest": "reports/nfl_20261115_prospective/source_control/captures/ab2eebf29ea0dfcf9b2cc4ff5287b898e6b7b15238ea059a11df3ac399ccc6c8.json",
+  "authoritative_manifest_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+  "canonical_object_sha256": "ab2eebf29ea0dfcf9b2cc4ff5287b898e6b7b15238ea059a11df3ac399ccc6c8",
+  "coverage_report": "reports/nfl_20261115_prospective/independent_validation/coverage_ab2eebf29ea0dfcf9b2cc4ff5287b898e6b7b15238ea059a11df3ac399ccc6c8.json",
+  "coverage_report_sha256": "2bec43d5dfad53ddb9b662643776db8291b53442a8c42f6f022f9a9d521516a5",
+  "source_replay_commit_sha": "d623f7560243fc26b607185ec38abc0fcc928edf",
+  "ws6_code_commit_sha": "a34bce884c0a761b6ccaf6aa4045838aa087a3fc",
+  "counts": {
+    "original_observations": 1845,
+    "distinct_candidate_ids_recorded_in_original_capture": 1804,
+    "duplicate_excess_candidate_id_observations": 41,
+    "duplicate_excess_classification": "UNRESOLVED_REQUIRES_ROW_LEVEL_VERIFICATION",
+    "source_certified": 1767,
+    "cross_team_identity_rejected": 78,
+    "qb_backup_excluded_within_source_certified": 14,
+    "research_shadow_eligible": 1753,
+    "source_receipt_bytes_pinned_ws1_verified": 50,
+    "official_scheduled_games": 12,
+    "feature_manifest_verified": 0,
+    "forecast_ready_original_contracts_verified": 0,
+    "real_pregame_probabilities_verified_total": 0
+  },
+  "by_market": {
+    "completions": {
+      "original": 67,
+      "source_verified": 65,
+      "research_eligible": 62
+    },
+    "pass_attempts": {
+      "original": 69,
+      "source_verified": 67,
+      "research_eligible": 64
+    },
+    "passing_yards": {
+      "original": 96,
+      "source_verified": 94,
+      "research_eligible": 90
+    },
+    "receiving_yards": {
+      "original": 584,
+      "source_verified": 564,
+      "research_eligible": 564
+    },
+    "receptions": {
+      "original": 568,
+      "source_verified": 549,
+      "research_eligible": 549
+    },
+    "rush_attempts": {
+      "original": 98,
+      "source_verified": 91,
+      "research_eligible": 91
+    },
+    "rushing_yards": {
+      "original": 249,
+      "source_verified": 233,
+      "research_eligible": 229
+    },
+    "tackles_and_assists": {
+      "original": 114,
+      "source_verified": 104,
+      "research_eligible": 104
+    }
+  },
+  "per_model_real_forecast_count_verified": {
+    "S1": 0,
+    "S2": 0,
+    "S3": 0,
+    "S4": 0,
+    "S5": 0,
+    "S6": 0,
+    "S7": 0,
+    "O1": 0,
+    "O2": 0,
+    "O3": 0,
+    "O4": 0,
+    "O5": 0,
+    "J1": 0,
+    "J2": 0,
+    "J3": 0,
+    "J4_diagnostics": null,
+    "C1": 0,
+    "C2": 0,
+    "C3": 0,
+    "C4": 0,
+    "C5": 0,
+    "C6": 0,
+    "C7": 0,
+    "engine_a": 0,
+    "engine_b": 0,
+    "bayesian_a": 0,
+    "bayesian_b": 0,
+    "strict_nuts": 0,
+    "frozen_60_40": 0,
+    "market_conditional_nonpush_verified": 0
+  },
+  "time_windows_utc": [
+    "2026-11-15T14:30:00Z",
+    "2026-11-15T18:00:00Z",
+    "2026-11-15T21:05:00Z",
+    "2026-11-15T21:25:00Z",
+    "2026-11-16T01:20:00Z"
+  ],
+  "first_genuine_forecast_at": null,
+  "last_genuine_forecast_at": null,
+  "feature_sha256": null,
+  "comparison_ledger_sha256": null,
+  "comparison_ledger_exists": false,
+  "pre_kickoff_model_forecast_seal": "NOT_POSSIBLE_NO_AUTHENTIC_MODEL_INPUTS_OR_OUTPUTS",
+  "model_input_rejections": "NOT_MEASURED_PER_ROW_NO_SUBMITTED_REAL_FORECASTS",
+  "test_evidence": {
+    "ws6_original_fixture_run_id": "66791a40-0629-4702-a8cb-2c22445f65c5",
+    "ws6_original_fixture_test_count": 29,
+    "ws6_original_fixture_status": "PASS_PREVIOUS_EXECUTION_SYNTHETIC_ONLY",
+    "ws1_canonical_pin_run_id": "cb93979c-0fd3-460f-b3b3-ab5bf0de0706",
+    "ws1_canonical_rebind_run_id": "cabc6de4-3ce3-41e2-8bbd-016d65ef7ee4",
+    "ws4_source_coverage_run_id": "66d3e578-15ef-4cd4-92bc-6d654aaf361e",
+    "ws6_corrected_reexecution": "BLOCKED_DEEPNOTE_RATE_LIMIT"
+  },
+  "legacy_original_attempted_universe_sha256": "0faa133410964e674f7bc4a6e4d4c74583a078d230a165af618123966e0e225c",
+  "legacy_original_attempted_universe_classification": "IMMUTABLE_SUPERSEDED_REJECTED_ARCHIVE",
+  "source_publication_clock_independently_certified": false,
+  "market_no_vig_full_three_way_available": false,
+  "event_specific_model_deadline": "forecast_attested_at < actual kickoff; no backfill for started games",
+  "fully_certified_count": 0,
+  "release_allowed": false,
+  "model_promotion_allowed": false,
+  "tiers_allowed": false,
+  "freeze_index_status": "BLOCKED_SOURCE_HANDOFF_PRECHECK_ONLY_NOT_A_REAL_FORECAST_FREEZE",
+  "note": "This index records an audit/preflight state, not a generated, accepted or sealed real-forecast cohort. No missing probabilities may be reconstructed."
+}

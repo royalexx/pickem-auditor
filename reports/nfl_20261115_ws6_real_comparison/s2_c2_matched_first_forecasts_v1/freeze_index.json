@@ -1,0 +1,30 @@
+{
+  "c2_conditional_market_references": 1767,
+  "c2_only": 95,
+  "classified_as": "RESEARCH_ONLY_PLAYER_S2_PLUS_MARKET_C2_NOT_FULL_CERTIFIED",
+  "created_at": "2026-11-15T14:53:39.163046+00:00",
+  "file_sha256": {
+    "c2_only_original_contracts.jsonl": "02df380c72cceeea63e84d6b0b34857dfe03e2bf9e4f23f554878ac2d89a632e",
+    "comparison_ledger.jsonl": "acb22acc34f2d4ef7241c86e18c31b8140db315e11c37739c51f6e80d0f02019",
+    "independent_integrity_report.json": "e160e9e736c09b29155937dd507078d15693cb344b678fc4ce2e023577caf5fc",
+    "matched_original_contracts.jsonl": "24c98cae4c8ceed92e470190d6ee0c7967c835f1f63ed382f7a04c1a579b7fd3",
+    "neither_source_original_contracts.jsonl": "6c52ff1600019bdd39e2cfdcdd90ee48b02e93fdef76dcef5d4d831178a231ab"
+  },
+  "market_probabilities_not_three_way": true,
+  "matched_s2_c2": 1672,
+  "neither": 78,
+  "no_betting_advice_or_production_promotion": true,
+  "no_retroactive_feature_pin_for_early_ws2": true,
+  "original_contract_rows": 1845,
+  "s2_first_and_last_forecast": [
+    "2026-11-15T14:29:18.370098+00:00",
+    "2026-11-15T14:32:41.529073+00:00"
+  ],
+  "s2_statistical_forecasts": 1672,
+  "schema": "ws6_s2_c2_first_forecast_immutable_index_v1",
+  "source_artifacts_not_rewritten": true,
+  "ws1_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+  "ws2_index_sha256": "cc8049b9335b09d578b9ecae8982616e88c8f0208f06114ab720291413ec85a4",
+  "ws2_population_sha256": "766245a051b4b3247009040a0c28df82fde285fb237ab40087d510bcfd4efd5d",
+  "ws5_c2_sha256": "4bde5ffe88aabfbfe563b57835889dce88e1df56fff703faa6c3b56a132a927e"
+}

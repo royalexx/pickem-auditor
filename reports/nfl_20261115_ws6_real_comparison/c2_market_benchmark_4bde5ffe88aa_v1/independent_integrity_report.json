@@ -1,0 +1,116 @@
+{
+  "C2_market_only_no_unconditional_mass": true,
+  "all_C2_recorded_freezes_before_individual_kickoff": true,
+  "book_product_terms_fully_certified": false,
+  "canonical_ws1_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+  "first_market_reference_forecast_at": "2026-11-15T14:18:48.776849+00:00",
+  "full_statistical_forecast_count_from_C2": 0,
+  "independent_check_run_kind": "archived_source_bytes+exact_contract_identity+math+chronology",
+  "last_market_reference_forecast_at": "2026-11-15T14:18:48.776849+00:00",
+  "market_numerical_identity_all_passed": true,
+  "model_code_sha": "81049c04359f609986c6e76813daee81a0295954",
+  "model_id": "C2:32f05d479a99021680f7d9467910c34af4ced553c76a065b42944a5e1df8eedc",
+  "model_promotion": false,
+  "model_version": "nfl-ws5-calibration/1.0.0",
+  "original_prop_line_receipt_sha256": "6993a07ebce5001a55729ff556765bff388bc91cb5235416af9cd26401ede14a",
+  "original_sportsbook_observations": 1845,
+  "original_ws5_c2_ledger": "calibration_models/sunday_20261115T141848783858Z.json",
+  "original_ws5_c2_sha256": "4bde5ffe88aabfbfe563b57835889dce88e1df56fff703faa6c3b56a132a927e",
+  "original_ws5_receipt_sha256": "fc56f0d9f93fa3922ea45a597c77e8b946d5a9ed3a77c74c0695cbf3ae2b4075",
+  "per_kickoff": {
+    "2026-11-15T14:30:00Z": {
+      "C2_MARKET_BENCHMARK": 126,
+      "CONDITIONAL_ON_PLAYING": 126
+    },
+    "2026-11-15T18:00:00Z": {
+      "C2_MARKET_BENCHMARK": 1019,
+      "CONDITIONAL_ON_PLAYING": 1019,
+      "REJECTED": 57
+    },
+    "2026-11-15T21:05:00Z": {
+      "ABSTAIN": 14,
+      "C2_MARKET_BENCHMARK": 324,
+      "CONDITIONAL_ON_PLAYING": 310,
+      "REJECTED": 11
+    },
+    "2026-11-15T21:25:00Z": {
+      "C2_MARKET_BENCHMARK": 144,
+      "CONDITIONAL_ON_PLAYING": 144,
+      "REJECTED": 8
+    },
+    "2026-11-16T01:20:00Z": {
+      "C2_MARKET_BENCHMARK": 154,
+      "CONDITIONAL_ON_PLAYING": 154,
+      "REJECTED": 2
+    }
+  },
+  "per_market": {
+    "completions": {
+      "ABSTAIN": 3,
+      "C2_MARKET_BENCHMARK": 65,
+      "CONDITIONAL_ON_PLAYING": 62,
+      "REJECTED": 2
+    },
+    "pass attempts": {
+      "ABSTAIN": 3,
+      "C2_MARKET_BENCHMARK": 67,
+      "CONDITIONAL_ON_PLAYING": 64,
+      "REJECTED": 2
+    },
+    "passing yards": {
+      "ABSTAIN": 4,
+      "C2_MARKET_BENCHMARK": 94,
+      "CONDITIONAL_ON_PLAYING": 90,
+      "REJECTED": 2
+    },
+    "receiving yards": {
+      "C2_MARKET_BENCHMARK": 564,
+      "CONDITIONAL_ON_PLAYING": 564,
+      "REJECTED": 20
+    },
+    "receptions": {
+      "C2_MARKET_BENCHMARK": 549,
+      "CONDITIONAL_ON_PLAYING": 549,
+      "REJECTED": 19
+    },
+    "rush attempts": {
+      "C2_MARKET_BENCHMARK": 91,
+      "CONDITIONAL_ON_PLAYING": 91,
+      "REJECTED": 7
+    },
+    "rushing yards": {
+      "ABSTAIN": 4,
+      "C2_MARKET_BENCHMARK": 233,
+      "CONDITIONAL_ON_PLAYING": 229,
+      "REJECTED": 16
+    },
+    "tackles + assists": {
+      "C2_MARKET_BENCHMARK": 104,
+      "CONDITIONAL_ON_PLAYING": 104,
+      "REJECTED": 10
+    }
+  },
+  "research_only": true,
+  "run_execution_source": "Deepnote Basic CPU, detached, independent WS6 auditor",
+  "schema": "ws6_original_c2_independent_market_integration_v1",
+  "settlement_started": false,
+  "source_cohort": "AUTHORITATIVE_WS1_20261115",
+  "source_first_publication_certified": false,
+  "source_hash_inventory_mapped": 50,
+  "status": "MARKET_BENCHMARK_ACCEPTED_CONDITIONAL_NONPUSH_NOT_PLAYER_MODEL",
+  "ws1_research_eligible": 1753,
+  "ws1_source_certified": 1767,
+  "ws1_ws5_rejected_contract_id_sets_identical": true,
+  "ws5_c2_matched_research_eligible": 1753,
+  "ws5_c2_price_references_on_excluded_backup_QBs": 14,
+  "ws5_c2_probabilities_verified": 1767,
+  "ws5_c2_rejected": 78,
+  "ws5_c2_rejection_reasons": {
+    "CROSS_TEAM_ROSTER_IDENTITY_UNVERIFIABLE": 54,
+    "duplicate_or_conflicting_exact_contract": 24
+  },
+  "ws5_deepnote_run_completed_at": "2026-11-15T14:18:53.662Z",
+  "ws5_deepnote_run_created_at": "2026-11-15T14:17:55.370Z",
+  "ws5_original_capture_at": "2026-11-15T14:18:48.776849+00:00",
+  "ws5_original_deepnote_run": "11d1d944-1fcc-4192-925a-aeed8c89802e"
+}
