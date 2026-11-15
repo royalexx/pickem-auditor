@@ -112,7 +112,6 @@ def validate(payload: dict) -> tuple[str, dt.datetime]:
         players = set()
         for team in teams:
             positive(team["plays_mean"], "plays_mean")
-            if not fixture: prob(team["starter_attempt_share"], "starter_attempt_share")
             prob(team["pass_rate"], "pass_rate")
             prob(team.get("sack_rate", .065), "sack_rate")
             if team["pass_rate"] + team.get("sack_rate", .065) >= 1:
@@ -151,6 +150,10 @@ def validate(payload: dict) -> tuple[str, dt.datetime]:
             if utc(c["original_quote_at"]) > freeze: raise ContractError("POST_FREEZE_QUOTE")
             if not c.get("original_quote_receipt_sha256") or len(c["original_quote_receipt_sha256"]) != 64:
                 raise ContractError("QUOTE_RECEIPT_MISSING")
+    if not fixture:
+        for event in payload["events"]:
+            for team in event["teams"]:
+                prob(team.get("starter_attempt_share"), "starter_attempt_share")
     return ("SYNTHETIC_FIXTURE" if fixture else ("UNCERTIFIED_SHADOW" if payload.get("source_certification_status") == "SOURCE_CERTIFIED_RESEARCH_SHADOW" else "CERTIFIED_SHADOW")), freeze
 
 
