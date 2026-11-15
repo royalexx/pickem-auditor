@@ -7,6 +7,7 @@ NFL rows require genuine observed offensive snaps. No guessed targets,
 yards or defensive tackle exposure.
 """
 from __future__ import annotations
+from nfl_stat_definitions import combined_tackles_assists
 import re
 import math
 import unicodedata
@@ -154,12 +155,7 @@ def normalize_season(stats,snaps,schedule,season,*,cutoff):
                     "tackle assists","qb hits","passes defended"):
                 continue
             if stat=="tackles + assists":
-                components=(row.get("def_tackles_solo"),row.get("def_tackles_with_assist"),
-                            row.get("def_tackle_assists"))
-                if any(v is None or isinstance(v,bool) or
-                       not isinstance(v,(float,int)) or not float(v).is_integer() for v in components):
-                    continue
-                v=sum(components)
+                v=combined_tackles_assists(row)
             else:
                 v=row.get(column)
             if isinstance(v,bool) or not isinstance(v,(int,float)) or v is None:

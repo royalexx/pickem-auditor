@@ -10,10 +10,11 @@ import json
 import re
 from collections import Counter, defaultdict
 from pathlib import Path
+from nfl_stat_definitions import combined_tackles_assists, VERSION as STAT_VERSION
 from nfl_sunday_feature_store import (ROOT, ARCHIVE, canonical, sha, stamp, now,
     numeric, norm, rows_json_gz, unchanged)
 
-VERSION = 'ws1-nfl-market-taxonomy-v2.5.1'
+VERSION = 'ws1-nfl-market-taxonomy-v2.5.2'
 OLD_SOURCE = '5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71'
 OLD_FEATURE = '35a1bf7fe16acca1e115c7be7bcad2c2464ec27cdf7e799df4f2b31adba24c2a'
 FIELDS = {
@@ -21,7 +22,7 @@ FIELDS = {
     'passing_yards': ('passing_yards',), 'rush_attempts': ('carries',),
     'rushing_yards': ('rushing_yards',), 'receiving_targets': ('targets',),
     'receptions': ('receptions',), 'receiving_yards': ('receiving_yards',),
-    'tackles_assists': ('tackles_combined',),
+    'tackles_assists': ('def_tackles_solo','def_tackles_with_assist','def_tackle_assists'),
     'rushing_receiving_yards': ('rushing_yards', 'receiving_yards'),
     'passing_rushing_yards': ('passing_yards', 'rushing_yards'),
 }
@@ -50,11 +51,11 @@ def identity(pid):
 def value(row, key):
     """All components come from ONE official player-game record, full game.
 
-    Combined tackles deliberately fail closed until independent provider accounting
-    evidence is supplied. Old three-field sums are not recertified by this extension.
+    Source counts and sportsbook certification are separate. This calculation
+    does not attest to sportsbook settlement equivalence.
     """
     key=market(key)
-    if key == 'tackles_assists': return None
+    if key == 'tackles_assists': return combined_tackles_assists(row)
     parts=[numeric(row.get(k)) for k in FIELDS[key]]
     return None if any(v is None for v in parts) else sum(parts)
 
@@ -201,7 +202,6 @@ def _build():
                     if norm(p.get('fullName'))!=norm(names.get((eid,gid))):reasons.append('INDEPENDENT_NAME_ID_MISMATCH')
                     if stamp(event['scheduled_kickoff'])<=stamp(freeze):reasons.append('KICKOFF_PASSED')
                     if len(valid)<2:reasons.append('INSUFFICIENT_OBSERVED_HISTORY')
-                    if key=='tackles_assists':reasons.append('TACKLE_ACCOUNTING_NOT_INDEPENDENTLY_CERTIFIED')
                     if str(status).lower() in {'inactive','injured reserve','suspended','practice-squad'}:reasons.append('NONPARTICIPANT_OR_INACTIVE_ROSTER_STATUS')
                     for rec in (rr,dr if pos=='QB' else rr):
                         if rec and stamp(rec['source_received_at'])>stamp(freeze):reasons.append('FUTURE_ROLE_SOURCE')
@@ -243,7 +243,9 @@ def _build():
     for pid in sorted(defenders):
         for r in by_player.get(pid.removeprefix('gsis:'),[])[-10:]:
             tackle_internal.append({'player_id':pid,'game_id':r['game_id'],'game_date':r['game_date'],
-                'period':'full_game','combined_total':None,'accounting_status':'UNVERIFIED_COMPONENT_SEMANTICS',
+                'period':'full_game','combined_total':combined_tackles_assists(r),
+                'definition_version':STAT_VERSION,'sportsbook_equivalence_verified':False,
+                'accounting_status':'SOURCE_COMPONENT_SUM_ONLY',
                 'internal_components':{f:numeric(r.get(f)) for f in ('def_tackles_solo','def_tackles_with_assist','def_tackle_assists')},
                 'source_available_at':r['source_available_at'],'source_sha256':r['source_sha256'],'source_file':r['source_file']})
     tables={'original_contracts':table(out,'original_contracts',contracts),
