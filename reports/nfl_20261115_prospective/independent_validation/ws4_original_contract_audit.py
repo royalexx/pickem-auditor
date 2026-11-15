@@ -47,7 +47,7 @@ def verify(raw_file:pathlib.Path, raw_ws1_file:pathlib.Path):
     require(raw_file.stem == digest, "IMMUTABLE_FORECAST_FILENAME_CONTENT_HASH")
     forecast = json.loads(original)
     require(original == compact(forecast)+b"\n", "NONCANONICAL_FORECAST_BYTES")
-    require(forecast["schema"] == "PA_WS4_REAL_ORIGINAL_CONTRACT_V03_v1", "FORECAST_SCHEMA")
+    require(forecast["schema"] in ("PA_WS4_REAL_ORIGINAL_CONTRACT_V03_v1", "PA_WS4_REAL_ORIGINAL_CONTRACT_EVENT_V031_v1"), "FORECAST_SCHEMA")
     require(forecast["canonical_ws1_sha256"] == SOURCE_SHA, "WRONG_WS1_PIN")
     source_bytes = raw_ws1_file.read_bytes()
     require(h(source_bytes) == SOURCE_SHA, "WS1_SOURCE_BYTES_MISMATCH")
