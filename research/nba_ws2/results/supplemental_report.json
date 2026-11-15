@@ -1,0 +1,189 @@
+{
+  "audit_notes": [
+    "ESPN source responses fetched now may differ from archived source digests; this is reconstruction, never retrocertification",
+    "All sampled margins and starters enter reporting only, never feature matrices"
+  ],
+  "clean_franchise_population_rows": 52540,
+  "conditional_played_variability": {
+    "definition": "Descriptive positive played observations only; between-role composition and within-player variation remain separate from unobserved participation uncertainty.",
+    "mean_player_minutes_sd": 6.842846119206853,
+    "median_player_minutes_sd": 6.73952580332558,
+    "overall_minutes_sd": 10.907891533730329
+  },
+  "context_metrics": {
+    "bench_outcome_sample": {
+      "games": 32,
+      "mean_actual_minutes": 15.087912087912088,
+      "models": {
+        "M0": {
+          "cover50": 0.5494505494505495,
+          "cover80": 0.8351648351648352,
+          "cover90": 0.9368131868131868,
+          "crps": 3.7704217686248516,
+          "mae": 5.346163039806797,
+          "nlpd_rounded_bin": 3.443008493228382,
+          "point_mae": 4.925824175824176
+        },
+        "M1": {
+          "cover50": 0.5631868131868132,
+          "cover80": 0.8571428571428571,
+          "cover90": 0.9478021978021978,
+          "crps": 3.4046290984783933,
+          "mae": 4.77057015740426,
+          "nlpd_rounded_bin": 3.1762803406047575,
+          "point_mae": 4.936740639081186
+        },
+        "M2": {
+          "cover50": 0.5494505494505495,
+          "cover80": 0.8406593406593407,
+          "cover90": 0.9395604395604396,
+          "crps": 3.2956007842425046,
+          "mae": 4.667515630854988,
+          "nlpd_rounded_bin": 3.1531317740613627,
+          "point_mae": 4.762248838968802
+        }
+      },
+      "n": 364
+    },
+    "closer_game_outcome_lt20_sample": {
+      "games": 24,
+      "mean_actual_minutes": 22.9438877755511,
+      "models": {
+        "M0": {
+          "cover50": 0.5771543086172345,
+          "cover80": 0.845691382765531,
+          "cover90": 0.9238476953907816,
+          "crps": 3.6704483222949476,
+          "mae": 5.11853201418069,
+          "nlpd_rounded_bin": 3.3504382004798643,
+          "point_mae": 4.845691382765531
+        },
+        "M1": {
+          "cover50": 0.5511022044088176,
+          "cover80": 0.8336673346693386,
+          "cover90": 0.9278557114228457,
+          "crps": 3.3418975075694903,
+          "mae": 4.665505524112618,
+          "nlpd_rounded_bin": 3.1766002433651526,
+          "point_mae": 4.716325457485431
+        },
+        "M2": {
+          "cover50": 0.5350701402805611,
+          "cover80": 0.8276553106212425,
+          "cover90": 0.9238476953907816,
+          "crps": 3.248500987273224,
+          "mae": 4.55978897385953,
+          "nlpd_rounded_bin": 3.1523710475274207,
+          "point_mae": 4.595153962497858
+        }
+      },
+      "n": 499
+    },
+    "starter_outcome_sample": {
+      "games": 32,
+      "mean_actual_minutes": 30.468553459119498,
+      "models": {
+        "M0": {
+          "cover50": 0.5566037735849056,
+          "cover80": 0.8427672955974843,
+          "cover90": 0.9150943396226415,
+          "crps": 3.5349139728186856,
+          "mae": 4.89716514389512,
+          "nlpd_rounded_bin": 3.2526538528297193,
+          "point_mae": 4.735849056603773
+        },
+        "M1": {
+          "cover50": 0.5157232704402516,
+          "cover80": 0.8207547169811321,
+          "cover90": 0.9150943396226415,
+          "crps": 3.3206790835536424,
+          "mae": 4.678252640343716,
+          "nlpd_rounded_bin": 3.176071608214198,
+          "point_mae": 4.618618614464028
+        },
+        "M2": {
+          "cover50": 0.550314465408805,
+          "cover80": 0.8270440251572327,
+          "cover90": 0.9150943396226415,
+          "crps": 3.1754361881072506,
+          "mae": 4.447424980942749,
+          "nlpd_rounded_bin": 3.14123446524663,
+          "point_mae": 4.416515605623393
+        }
+      },
+      "n": 318
+    },
+    "substantial_blowout_outcome_ge20_sample": {
+      "games": 8,
+      "mean_actual_minutes": 20.39344262295082,
+      "models": {
+        "M0": {
+          "cover50": 0.48633879781420764,
+          "cover80": 0.819672131147541,
+          "cover90": 0.9344262295081968,
+          "crps": 3.6337839033366612,
+          "mae": 5.186635995476275,
+          "nlpd_rounded_bin": 3.364646746970104,
+          "point_mae": 4.814207650273224
+        },
+        "M1": {
+          "cover50": 0.5136612021857924,
+          "cover80": 0.8579234972677595,
+          "cover90": 0.9453551912568307,
+          "crps": 3.429803738464577,
+          "mae": 4.89663726990304,
+          "nlpd_rounded_bin": 3.1750453221477355,
+          "point_mae": 4.984961249944709
+        },
+        "M2": {
+          "cover50": 0.5901639344262295,
+          "cover80": 0.8524590163934426,
+          "cover90": 0.9398907103825137,
+          "crps": 3.21522076848655,
+          "mae": 4.578809484235541,
+          "nlpd_rounded_bin": 3.1345320928447076,
+          "point_mae": 4.617096790636347
+        }
+      },
+      "n": 183
+    }
+  },
+  "evidence": "RETROSPECTIVE_POSTGAME_DESCRIPTIVE_ONLY",
+  "explicit_dnp_entries": 148,
+  "franchise_identity_exclusions": 68,
+  "matched_conditional_played_entries": 682,
+  "not_measured": [
+    "True early exits: no injury/ejection timing labels; low-minutes proxy only",
+    "Teammate absence effects: no authenticated historical pregame availability matrix",
+    "Starter role changes as pregame inputs: sampled starters are postgame outcomes only",
+    "Actual team back-to-back/rest: model uses days between player appearances; missing games conflate absence and rest",
+    "Official OT periods: minute-total proxy only; summary status omits period",
+    "Market ablation and team strength: no authenticated game spread archive",
+    "Participation FPR/FNR: postgame DNP sample is not a frozen pregame eligible universe"
+  ],
+  "population_raw_including_exhibitions": {
+    "exact_team_total_fraction": 0.43471208434712083,
+    "games": 2466,
+    "integer_minute_fraction": 1.0,
+    "max_absolute_team_rounding_error": 190.0,
+    "minutes_quantiles": {
+      "0.01": 1.0,
+      "0.05": 3.0,
+      "0.1": 6.0,
+      "0.25": 15.0,
+      "0.5": 24.0,
+      "0.75": 31.0,
+      "0.9": 36.0,
+      "0.95": 38.0,
+      "0.99": 42.0
+    },
+    "players": 693,
+    "rows": 52608,
+    "team_games": 4932,
+    "team_rounding_error_mae": 0.9014598540145985
+  },
+  "postgame_roster_entries": 861,
+  "sample_design": "32 equally spaced games by chronological date/game ID; selected without model scores; no context fed to model",
+  "source_games_attempted": 32,
+  "source_games_retrieved": 32
+}

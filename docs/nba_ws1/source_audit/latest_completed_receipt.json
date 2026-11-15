@@ -1,0 +1,76 @@
+{
+  "event_count": 5,
+  "events": [
+    {
+      "event_id": "401909980",
+      "start_at": "2026-11-15T00:00Z",
+      "status": {
+        "completed": true,
+        "description": "Final",
+        "detail": "Final",
+        "id": "3",
+        "name": "STATUS_FINAL",
+        "shortDetail": "Final",
+        "state": "post"
+      }
+    },
+    {
+      "event_id": "401909981",
+      "start_at": "2026-11-15T00:30Z",
+      "status": {
+        "completed": true,
+        "description": "Final",
+        "detail": "Final",
+        "id": "3",
+        "name": "STATUS_FINAL",
+        "shortDetail": "Final",
+        "state": "post"
+      }
+    },
+    {
+      "event_id": "401909982",
+      "start_at": "2026-11-15T01:00Z",
+      "status": {
+        "completed": true,
+        "description": "Final",
+        "detail": "Final",
+        "id": "3",
+        "name": "STATUS_FINAL",
+        "shortDetail": "Final",
+        "state": "post"
+      }
+    },
+    {
+      "event_id": "401909983",
+      "start_at": "2026-11-15T01:00Z",
+      "status": {
+        "completed": true,
+        "description": "Final",
+        "detail": "Final",
+        "id": "3",
+        "name": "STATUS_FINAL",
+        "shortDetail": "Final",
+        "state": "post"
+      }
+    },
+    {
+      "event_id": "401909984",
+      "start_at": "2026-11-15T01:00Z",
+      "status": {
+        "completed": true,
+        "description": "Final",
+        "detail": "Final",
+        "id": "3",
+        "name": "STATUS_FINAL",
+        "shortDetail": "Final",
+        "state": "post"
+      }
+    }
+  ],
+  "not_a_forecast_input": true,
+  "origin": "retrospective_retrieval",
+  "path": "latest_completed_scoreboard_20261114_5e610bc25a9f035f.json.gz",
+  "raw_sha256": "5e610bc25a9f035f9d9f6d1bfc8f3f1309b9764c281bf66cae09f1c91fe27109",
+  "retrieved_at": "2026-11-15T19:15:42.167157Z",
+  "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261114&limit=100"
+}
