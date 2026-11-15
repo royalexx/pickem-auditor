@@ -332,8 +332,8 @@ def run(root, out, code_commit):
     # Every original offer is bound to its archived provider bytes, even when unmodeled.
     original=json.loads(bound(root,pin['previous_canonical_manifest']))
     source_by_hash={r['sha256']:r for r in original['sources'].values() if r.get('archive_path')}
-    for c in tables['original_contracts']:
-        rec=source_by_hash[c['original_record']['source_sha256']]
+    for digest in {c['original_record']['source_sha256'] for c in tables['original_contracts']}:
+        rec=source_by_hash[digest]
         bound(root,dict(path='reports/nfl_20261115_prospective/'+rec['archive_path'],sha256=rec['sha256']))
     old_index=root/'reports/nfl_20261115_prospective/simple_models/sunday_first_forecasts_v1/INDEX.json'
     old_index_hash=sha(old_index.read_bytes())
