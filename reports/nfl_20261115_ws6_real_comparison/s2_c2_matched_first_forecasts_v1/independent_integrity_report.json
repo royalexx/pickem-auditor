@@ -1,0 +1,162 @@
+{
+  "C2_conditional_on_nonpush": true,
+  "C2_forecast_at": "2026-11-15T14:18:48.776849+00:00",
+  "C2_unknown_push_mass_null": true,
+  "S2_abstentions_by_reason": {
+    "CROSS_TEAM_ROSTER_IDENTITY_UNVERIFIABLE": 78,
+    "RESEARCH_SHADOW_ABSTAIN": 14,
+    "WS1_FEATURE_ABSTAIN:INDEPENDENT_NAME_ID_MISMATCH": 12,
+    "WS1_FEATURE_ABSTAIN:INSUFFICIENT_RECENT_VERIFIED_PLAYER_HISTORY": 55,
+    "insufficient_player_appearances": 14
+  },
+  "S2_all_empirical_pmf_math_checked": true,
+  "S2_feature_freeze_version_counts": {
+    "2026-11-15T14:29:15.089813+00:00": 1635,
+    "2026-11-15T14:29:58.659490+00:00": 37
+  },
+  "S2_first_forecast_at": "2026-11-15T14:29:18.370098+00:00",
+  "S2_forecasts_by_original_run": {
+    "reports/nfl_20261115_prospective/simple_models/live/2026-11-15T142918.370098_0000/INDEX.json": 1635,
+    "reports/nfl_20261115_prospective/simple_models/live/2026-11-15T143241.529073_0000/INDEX.json": 37
+  },
+  "S2_last_forecast_at": "2026-11-15T14:32:41.529073+00:00",
+  "S2_training_lineage_source_antecedent_checked": true,
+  "assembly_not_forecast_creation": true,
+  "conditional_on_appearance": true,
+  "event_deadlines_independently_checked": true,
+  "exact_contract_identity_and_original_model_version_checked": true,
+  "first_population_assembled_at": "2026-11-15T14:36:18.989246+00:00",
+  "fully_certified": false,
+  "n_C2_accepted_market_conditional_nonpush_references": 1767,
+  "n_C2_backup_player_excluded": 14,
+  "n_C2_only": 95,
+  "n_C2_only_backup_excluded": 14,
+  "n_C2_only_eligible_player_without_S2": 81,
+  "n_C2_player_eligible": 1753,
+  "n_C2_source_rejections": 78,
+  "n_S2_abstentions": 173,
+  "n_S2_accepted_statistical_player_forecasts": 1672,
+  "n_S2_only": 0,
+  "n_intersection_S2_C2": 1672,
+  "n_neither": 78,
+  "n_original_observations": 1845,
+  "no_recomputed_forecast_probabilities": true,
+  "no_training_replay": true,
+  "per_book": {
+    "BetMGM": {
+      "C2_ONLY": 26,
+      "NEITHER": 14,
+      "S2_AND_C2": 364
+    },
+    "DraftKings": {
+      "C2_ONLY": 33,
+      "NEITHER": 29,
+      "S2_AND_C2": 540
+    },
+    "FanDuel": {
+      "C2_ONLY": 16,
+      "NEITHER": 15,
+      "S2_AND_C2": 364
+    },
+    "Pinnacle": {
+      "C2_ONLY": 20,
+      "NEITHER": 20,
+      "S2_AND_C2": 404
+    }
+  },
+  "per_kickoff_window": {
+    "2026-11-15T14:30:00Z": {
+      "S2_AND_C2": 126
+    },
+    "2026-11-15T18:00:00Z": {
+      "C2_ONLY": 41,
+      "NEITHER": 57,
+      "S2_AND_C2": 978
+    },
+    "2026-11-15T21:05:00Z": {
+      "C2_ONLY": 54,
+      "NEITHER": 11,
+      "S2_AND_C2": 270
+    },
+    "2026-11-15T21:25:00Z": {
+      "NEITHER": 8,
+      "S2_AND_C2": 144
+    },
+    "2026-11-16T01:20:00Z": {
+      "NEITHER": 2,
+      "S2_AND_C2": 154
+    }
+  },
+  "per_market": {
+    "completions": {
+      "C2_ONLY": 11,
+      "NEITHER": 2,
+      "S2_AND_C2": 54
+    },
+    "pass attempts": {
+      "C2_ONLY": 12,
+      "NEITHER": 2,
+      "S2_AND_C2": 55
+    },
+    "passing yards": {
+      "C2_ONLY": 16,
+      "NEITHER": 2,
+      "S2_AND_C2": 78
+    },
+    "receiving yards": {
+      "C2_ONLY": 17,
+      "NEITHER": 20,
+      "S2_AND_C2": 547
+    },
+    "receptions": {
+      "C2_ONLY": 17,
+      "NEITHER": 19,
+      "S2_AND_C2": 532
+    },
+    "rush attempts": {
+      "C2_ONLY": 3,
+      "NEITHER": 7,
+      "S2_AND_C2": 88
+    },
+    "rushing yards": {
+      "C2_ONLY": 17,
+      "NEITHER": 16,
+      "S2_AND_C2": 216
+    },
+    "tackles + assists": {
+      "C2_ONLY": 2,
+      "NEITHER": 10,
+      "S2_AND_C2": 102
+    }
+  },
+  "production_modified": false,
+  "schema": "ws6_s2_c2_verified_first_original_contract_comparison_v1",
+  "settlement_run": false,
+  "status": "VERIFIED_RESEARCH_S2_AND_C2_MATCHED_CONDITIONAL_NOT_CERTIFIED",
+  "ws1_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+  "ws2_early_historical_pregame_publication_verified": false,
+  "ws2_early_run_excludes_later_ws1_feature_pin": true,
+  "ws2_early_source_receipts_independently_rehashed": {
+    "games2026": {
+      "available_at": "2026-11-15T14:26:51.670585Z",
+      "raw_path": "reports/nfl_20261115_prospective/source_control/feature_source_receipts/raw/acdf054288a5c500178ba2022c6e1d9f62214eaca46897412b17130cfc3fa2db.csv",
+      "sha256": "acdf054288a5c500178ba2022c6e1d9f62214eaca46897412b17130cfc3fa2db"
+    },
+    "players": {
+      "available_at": "2026-11-15T14:26:44.880155Z",
+      "raw_path": "reports/nfl_20261115_prospective/source_control/feature_source_receipts/raw/a8a86df9be83cdf88d0dadb47f09fb4a3c5db326e19b46cf20bdade38e3e024d.csv",
+      "sha256": "a8a86df9be83cdf88d0dadb47f09fb4a3c5db326e19b46cf20bdade38e3e024d"
+    },
+    "stats2026": {
+      "available_at": "2026-11-15T14:26:49.153068Z",
+      "raw_path": "reports/nfl_20261115_prospective/source_control/feature_source_receipts/raw/a7f51400624ae41f38db1395122115ff653231789ed0a840a3a7fae9e3bc977a.csv",
+      "sha256": "a7f51400624ae41f38db1395122115ff653231789ed0a840a3a7fae9e3bc977a"
+    }
+  },
+  "ws2_early_source_verified_count": 3,
+  "ws2_first_index_sha256": "cc8049b9335b09d578b9ecae8982616e88c8f0208f06114ab720291413ec85a4",
+  "ws2_first_population_sha256": "766245a051b4b3247009040a0c28df82fde285fb237ab40087d510bcfd4efd5d",
+  "ws2_later_feature_pin_sha256": "35a1bf7fe16acca1e115c7be7bcad2c2464ec27cdf7e799df4f2b31adba24c2a",
+  "ws5_c2_original_sha256": "4bde5ffe88aabfbfe563b57835889dce88e1df56fff703faa6c3b56a132a927e",
+  "ws6_c2_accepted_ledger_sha256": "2f6229f126ac8b110798401d491920233fc9ea7525e341ae70f79a35d1a3404b"
+}
