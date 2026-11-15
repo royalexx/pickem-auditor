@@ -1,0 +1,71 @@
+{
+  "independent_review": "PENDING_EXTERNAL_REVIEW",
+  "initial_failing_tests_preserved": true,
+  "suites": {
+    "joint": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "db2f410ec4655e5bdfb2b17dded65577bdd50444fd13c2b066637c401520264b",
+      "passed": 63,
+      "run": 63,
+      "skipped": 0
+    },
+    "official_capture": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "4c4a72dfbf994ae8b765401f554076c5d840dc86243ab82fa34ecee86f697f11",
+      "passed": 13,
+      "run": 13,
+      "skipped": 0
+    },
+    "phase1": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "c7a94751727e8955f51ae546f094ce44181e0e98b964c9445303254f5fa42ed7",
+      "passed": 11,
+      "run": 11,
+      "skipped": 0
+    },
+    "phase6": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "61bb50792447a8df9da172b546a0a246942333eab92eda5fcbc1eeab9f0c7eca",
+      "passed": 26,
+      "run": 26,
+      "skipped": 0
+    },
+    "population": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "70bcf3c9b5790fffe82bfc1f48111112b491cbd47770b94509388b3b1f3ebbf4",
+      "passed": 9,
+      "run": 9,
+      "skipped": 0
+    },
+    "ws1": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "e759e87bf7533634fee8b751748a47612cef4a2a69eb4fa9b54efb4c92cee0ae",
+      "passed": 25,
+      "run": 25,
+      "skipped": 0
+    },
+    "ws2": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "ff93d4d5a9496700f008fea9988d0c9abd16dd837be09c2fc7a08127545bc2e0",
+      "passed": 25,
+      "run": 25,
+      "skipped": 0
+    },
+    "ws4": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "f1cf5568ab0a82d328e89b94c6db7973da531cda3ae4cb8e87c40e1fd3c32dc5",
+      "passed": 33,
+      "run": 33,
+      "skipped": 0
+    }
+  },
+  "total_passed": 205
+}

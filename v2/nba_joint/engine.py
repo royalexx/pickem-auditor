@@ -37,7 +37,21 @@ def validate(game,model,n):
         validate_prospective(game,model)
 
 
-def simulate(game,model,*,n=128,seed=20261115,exposure='M0',dependence='J2',state_kind='G1'):
+def simulate(game,model,*,n=128,seed=20261115,exposure='M0',dependence='J2',state_kind='G1',research_minutes=None):
+    # Explicit diagnostic injection reuses this exact event mechanism. It is
+    # forbidden for prospective inputs and cannot be exported as a forecast.
+    diagnostic=None
+    if research_minutes is not None:
+        if game['mode'] not in ('historical','synthetic') or not game['conditional_on_roster']:
+            raise ValueError('RESEARCH_EXPOSURE_MODE')
+        if dependence!='J2' or exposure!='M0':raise ValueError('RESEARCH_EXPOSURE_REQUIRES_FROZEN_J2_M0')
+        diagnostic=research_minutes['kind']
+        if diagnostic not in ('raw_m0_diagnostic','postgame_appearance_oracle'):raise ValueError('RESEARCH_EXPOSURE_KIND')
+        if research_minutes['parent_input_sha256']!=sha(game):raise ValueError('RESEARCH_EXPOSURE_PARENT')
+        for key in ('minutes','raw_minutes'):
+            x=np.asarray(research_minutes[key])
+            if x.shape!=(n,len(game['players'])) or np.any(~np.isfinite(x)) or np.any(x<0):raise ValueError('RESEARCH_EXPOSURE_ARRAY')
+        if diagnostic=='raw_m0_diagnostic' and not np.array_equal(research_minutes['minutes'],research_minutes['raw_minutes']):raise ValueError('RAW_EXPOSURE_CHANGED')
     validate(game,model,n)
     if dependence not in ('J1','J2'):raise ValueError('UNKNOWN_DEPENDENCE')
     start=time.perf_counter();players=game['players'];np_=len(players)
@@ -52,7 +66,18 @@ def simulate(game,model,*,n=128,seed=20261115,exposure='M0',dependence='J2',stat
         t=time.perf_counter()
         for team,i in zip(game['teams'],ix):
             try:
-                m[i],raw[i],seg,active=allocate([players[k] for k in i],model,state,rng_for(seed,game['game_id'],j,'minutes/'+team),name=exposure,constrained=dependence=='J2',conditional=game['conditional_on_roster'])
+                if diagnostic is None:
+                    m[i],raw[i],seg,active=allocate([players[k] for k in i],model,state,rng_for(seed,game['game_id'],j,'minutes/'+team),name=exposure,constrained=dependence=='J2',conditional=game['conditional_on_roster'])
+                else:
+                    from v2.nba_opportunity import lineup_segments
+                    m[i]=np.asarray(research_minutes['minutes'])[j,i]
+                    raw[i]=np.asarray(research_minutes['raw_minutes'])[j,i]
+                    if np.any(m[i]>state['duration']+1e-8) or np.any(raw[i]>state['duration']+1e-8):raise ValueError('RESEARCH_EXPOSURE_CAP')
+                    for k in i:
+                        if (players[k]['eligible'] is False or players[k].get('participation_probability')==0) and (m[k]!=0 or raw[k]!=0):raise ValueError('RESEARCH_INACTIVE_EXPOSURE')
+                        cap=players[k].get('scenario_exit_cap')
+                        if cap is not None and m[k]>cap+1e-8:raise ValueError('RESEARCH_EXIT_CAP')
+                    seg=lineup_segments(m[i],state['duration']) if diagnostic=='postgame_appearance_oracle' else []
             except ValueError as exc:
                 raise ValueError(f'{exc};scenario={sid};attempted={j+1};completed={j};no_partial_forecast') from exc
             segments.append(seg)
@@ -82,7 +107,11 @@ def simulate(game,model,*,n=128,seed=20261115,exposure='M0',dependence='J2',stat
              completed_game_conditioning={'law':'aggregate events conditional on unequal final scores','event_attempts':n+len(event_rejections),'rejected_event_draws':len(event_rejections),'rejections':event_rejections,'mean_absolute_marginal_change':conditioning_change,'regulation_score_path':'not modeled; overtime is an empirical shared duration latent'},
              timing={**timing,'wall_seconds':time.perf_counter()-start},attempted_scenarios=n,rejected_scenarios=0)
     out['output_sha256']=sha({'input':out['input_sha256'],'model':out['model_sha256'],'seed':seed,'exposure':exposure,'dependence':dependence,'state_kind':state_kind,'state':{k:v.tolist() for k,v in out['state'].items()},'minutes':out['minutes'].tolist(),'stats':{k:v.tolist() for k,v in counts.items()},'event_ledgers':ledgers,'completed_game_conditioning':out['completed_game_conditioning']})
-    if dependence=='J2':
+    if diagnostic is not None:
+        out['research_opportunity']={'kind':diagnostic,'forecast_export_blocked':True,'rotation_required':diagnostic=='postgame_appearance_oracle',
+            'minute_draws_sha256':sha({'minutes':out['minutes'].tolist(),'raw_minutes':out['independent_minutes'].tolist()})}
+        out['output_sha256']=sha({'underlying_output':out['output_sha256'],'research_opportunity':out['research_opportunity']})
+    if dependence=='J2' and diagnostic!='raw_m0_diagnostic':
         from .invariants import audit
         audit(out)
     return out

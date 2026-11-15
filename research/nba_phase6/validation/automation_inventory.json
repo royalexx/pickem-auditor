@@ -1,0 +1,125 @@
+{
+  "checked_at": "2026-11-15",
+  "automations": [
+    {
+      "id": "6af480bda1448191b892f43091479f8d",
+      "title": "NHL SOG shadow capture",
+      "is_enabled": true,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261111T173000\nRRULE:FREQ=DAILY\nEND:VEVENT",
+      "last_run_time": "2026-11-14T22:33:59.535984+00:00"
+    },
+    {
+      "id": "Automation_a72c5bb65dfc8191afce31c0c58aa16d",
+      "title": "NHL SOG Gamma–Poisson capture",
+      "is_enabled": true,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261113T164500\nRRULE:FREQ=DAILY\nEND:VEVENT",
+      "last_run_time": "2026-11-14T21:50:28.218166+00:00"
+    },
+    {
+      "id": "Automation_12f6ba43eb748191a213917780254329",
+      "title": "Pick’em morning settlement",
+      "is_enabled": true,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261106T060000\nRRULE:FREQ=DAILY\nEND:VEVENT",
+      "last_run_time": "2026-11-15T10:57:26.698626+00:00"
+    },
+    {
+      "id": "6af9c876f1808191b28894acd8c52562",
+      "title": "Sunday noon forecast audit",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261115T120000\nEND:VEVENT",
+      "last_run_time": "2026-11-15T17:03:12.338602+00:00"
+    },
+    {
+      "id": "6af93a451f948191a381939249715729",
+      "title": "NFL Sunday source capture",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261115T080000\nEND:VEVENT",
+      "last_run_time": "2026-11-15T13:14:30.684549+00:00"
+    },
+    {
+      "id": "Automation_4f26c27ac4e481918b1b54d38c6e6e93",
+      "title": "Pick’em afternoon slate",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261106T160000\nRRULE:FREQ=DAILY\nEND:VEVENT",
+      "last_run_time": "2026-11-13T21:03:25.065866+00:00"
+    },
+    {
+      "id": "6af5f6432f548191a8c5fa5d48151cf9",
+      "title": "V5.6 replay recovery",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261112T130000\nRRULE:FREQ=HOURLY;COUNT=12\nEND:VEVENT",
+      "last_run_time": "2026-11-12T20:03:22.259943+00:00"
+    },
+    {
+      "id": "6af2863a3d3081919a557d78ac8e5544",
+      "title": "Run NFL Phase 0R",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261112T150000\nEND:VEVENT",
+      "last_run_time": null
+    },
+    {
+      "id": "6af1b3981778819196b189f1890de763",
+      "title": "Pick’em blind validation campaign",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261109T115148Z\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+      "last_run_time": "2026-11-09T11:52:36.961059+00:00"
+    },
+    {
+      "id": "6ae94cfc9628819194b71ccdccf44694",
+      "title": "Pickem frozen training recovery",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T220000\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+      "last_run_time": "2026-11-08T23:03:15.345218+00:00"
+    },
+    {
+      "id": "Automation_8bc53518dce48191a0ff8da3e1ccb272",
+      "title": "Sunday NFL provisional validation",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261108T070000\nEND:VEVENT",
+      "last_run_time": "2026-11-08T11:59:30.683666+00:00"
+    },
+    {
+      "id": "Automation_bc37af2d00e88191b81e4fe221fc2b92",
+      "title": "Deepnote five-minute check",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261106T002432Z\nEND:VEVENT",
+      "last_run_time": "2026-11-06T00:22:45.624090+00:00"
+    },
+    {
+      "id": "Automation_99ac1ec2c77c8191a9193bcedfe22e9c",
+      "title": "Deepnote slate run result",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261106T001802Z\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+      "last_run_time": null
+    },
+    {
+      "id": "6ae3f5096a4c8191b8d3277df5187616",
+      "title": "NHL Bayesian training completion",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261030T013917Z\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+      "last_run_time": "2026-10-30T22:39:35.103681+00:00"
+    },
+    {
+      "id": "6ae3793e13788191a8c0e8d65f37af6e",
+      "title": "Bayesian fit results",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261029T165106Z\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+      "last_run_time": "2026-10-29T21:38:45.286509+00:00"
+    },
+    {
+      "id": "6adfc1e228088191bff4c67976ca1a8b",
+      "title": "Pickem afternoon collection",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261027T160000\nRRULE:FREQ=DAILY;BYHOUR=16;BYMINUTE=0;BYSECOND=0\nEND:VEVENT",
+      "last_run_time": null
+    },
+    {
+      "id": "6adfc1e35c088191857a3c5451be9256",
+      "title": "Pickem morning history",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261027T060000\nRRULE:FREQ=DAILY;BYHOUR=6;BYMINUTE=0;BYSECOND=0\nEND:VEVENT",
+      "last_run_time": "2026-10-27T16:28:38.111990+00:00"
+    }
+  ],
+  "mutations_performed": false
+}

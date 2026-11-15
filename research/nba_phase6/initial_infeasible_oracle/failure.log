@@ -1,0 +1,14 @@
+401704627 matched 16 DNP_or_nonappearance 14
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/work/phase6/research/nba_phase6/run.py", line 184, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/work/phase6/research/nba_phase6/run.py", line 71, in main
+    C_m=project(C_raw,duration,ix,mask=mask)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/phase6/research/nba_phase6/run.py", line 40, in project
+    if active.sum()<5:raise ValueError('ORACLE_FEWER_THAN_FIVE_SUPPORTED_PARTICIPANTS')
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: ORACLE_FEWER_THAN_FIVE_SUPPORTED_PARTICIPANTS

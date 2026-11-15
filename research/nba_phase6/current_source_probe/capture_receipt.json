@@ -1,0 +1,88 @@
+{
+  "errors": [],
+  "forecast_at": "2026-11-15T21:09:45.619693Z",
+  "game": {
+    "away_team_id": "espn:team:30",
+    "event_start_at": "2026-11-15T21:30:00.000000Z",
+    "game_id": "espn:game:401909987",
+    "home_team_id": "espn:team:12",
+    "status": "scheduled",
+    "venue": "Intuit Dome"
+  },
+  "snapshot_hash": "84e51e5887a05e050656aea5c2e94c440f9364af9a98a57223751cef069c4045",
+  "snapshot_path": "snapshots/84e51e5887a05e050656aea5c2e94c440f9364af9a98a57223751cef069c4045.json",
+  "sources": [
+    {
+      "bytes": 173080,
+      "encoding": "gzip",
+      "path": "sources/70ae65adfa5477a97cb30585456c07884764ba2ad13f315f30d12b0a8a696559.json.gz",
+      "raw_sha256": "70ae65adfa5477a97cb30585456c07884764ba2ad13f315f30d12b0a8a696559",
+      "receipt_id": "8af03020fd530d07e1225fba7aa58ba4c27afbe391f80e35037fd92bca16814b"
+    },
+    {
+      "bytes": 125058,
+      "encoding": "gzip",
+      "path": "sources/c04a5f7168ef16bf7aea9e61bc7872a4285767c12f10b5617933d460d689aec5.json.gz",
+      "raw_sha256": "c04a5f7168ef16bf7aea9e61bc7872a4285767c12f10b5617933d460d689aec5",
+      "receipt_id": "85194cdfcfad49ea52d5b62c014e4d08b8ba511c0c6e6d73184ba3275a81e0a6"
+    },
+    {
+      "bytes": 99911,
+      "encoding": "gzip",
+      "path": "sources/d07373fc959a693135d167a10d35b0144f456cf8e81caad8a03f713b878f7906.json.gz",
+      "raw_sha256": "d07373fc959a693135d167a10d35b0144f456cf8e81caad8a03f713b878f7906",
+      "receipt_id": "f3d7abf34cba332231fbc197fb37a08b445e19a75480769340df5042252a029b"
+    },
+    {
+      "bytes": 889755,
+      "encoding": "gzip",
+      "path": "sources/14b1a268568ed8b06ac254e5ae8a1e583f302dbbe8930b3de6b51489f94fe333.json.gz",
+      "raw_sha256": "14b1a268568ed8b06ac254e5ae8a1e583f302dbbe8930b3de6b51489f94fe333",
+      "receipt_id": "b8f1e37c0ea3f8e000224b3a04be5ad2bc4f0a24d7a9c4d5696e999e10fa3fcd"
+    },
+    {
+      "bytes": 90314,
+      "encoding": "gzip",
+      "path": "sources/f9bb873790cde432c85816541fc3e77910ef7df1d3dddaf96c0133563660b0c9.json.gz",
+      "raw_sha256": "f9bb873790cde432c85816541fc3e77910ef7df1d3dddaf96c0133563660b0c9",
+      "receipt_id": "3cbeff220561e8d11a3f4d6f527069e6856628cdbdebe4da570f36d4fd536754"
+    },
+    {
+      "bytes": 889480,
+      "encoding": "gzip",
+      "path": "sources/0d64cda2ba842a5abce89be26e91e1f1a18579c9163dd566c272bdfb151342b8.json.gz",
+      "raw_sha256": "0d64cda2ba842a5abce89be26e91e1f1a18579c9163dd566c272bdfb151342b8",
+      "receipt_id": "1f13122a124397e9457818db9efe4197fd0d9a23cf1a9a5d967d425f58e4a52f"
+    },
+    {
+      "bytes": 462365,
+      "encoding": "gzip",
+      "path": "sources/b545942740173067badc93c9256eea4568424d65c2ce371f2882a6f611480ac9.json.gz",
+      "raw_sha256": "b545942740173067badc93c9256eea4568424d65c2ce371f2882a6f611480ac9",
+      "receipt_id": "700184fc0e2bef998b69ec109b5c78dbb3d7f9c768324bb1266dde20b3578a8e"
+    },
+    {
+      "bytes": 400645,
+      "encoding": "gzip",
+      "path": "sources/b2199a142fc9121ab2e2e364684169c20d38240fa2112dae199447cd079d1f24.json.gz",
+      "raw_sha256": "b2199a142fc9121ab2e2e364684169c20d38240fa2112dae199447cd079d1f24",
+      "receipt_id": "1ab99435bbd842237f1acb0a379c8ec3b3f36f5d788c78cdf4458126dfc588e0"
+    },
+    {
+      "bytes": 424438,
+      "encoding": "gzip",
+      "path": "sources/dca36a46cc7cd837e8b74df26cacb2830a4b5daec203b064a69d62862f41153e.json.gz",
+      "raw_sha256": "dca36a46cc7cd837e8b74df26cacb2830a4b5daec203b064a69d62862f41153e",
+      "receipt_id": "f21689b5b9aaa6828e8a0edf555f28af1ba472a5d483c1ca7616a36329e934a9"
+    },
+    {
+      "bytes": 442500,
+      "encoding": "gzip",
+      "path": "sources/0421fef14f64b7197857bb97166164f9ed362c39e0f1c4c143f2afb2e12882a5.json.gz",
+      "raw_sha256": "0421fef14f64b7197857bb97166164f9ed362c39e0f1c4c143f2afb2e12882a5",
+      "receipt_id": "a2e91508d5c799a08e7b412cdedc4a7da3f553fc8f6433e9a6d08d7bd1da185c"
+    }
+  ],
+  "status": "captured_partial_shadow",
+  "training_cutoff_semantics": "consumer upper-bound only; no statistical model fitted"
+}

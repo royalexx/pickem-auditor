@@ -1,0 +1,14 @@
+test_generic_model_prep_and_publication_veto (test_population_multisport.MultiSportSources.test_generic_model_prep_and_publication_veto) ... ok
+test_multisport_nhl_cursor_restart_after_partial_source_failure (test_population_multisport.MultiSportSources.test_multisport_nhl_cursor_restart_after_partial_source_failure) ... ok
+test_nba_minutes_and_combinations (test_population_multisport.MultiSportSources.test_nba_minutes_and_combinations) ... ok
+test_nfl_real_snaps_no_fabricated_workload (test_population_multisport.MultiSportSources.test_nfl_real_snaps_no_fabricated_workload) ... ok
+test_nfl_verified_defensive_snaps_and_combined_tackles (test_population_multisport.MultiSportSources.test_nfl_verified_defensive_snaps_and_combined_tackles) ... ok
+test_nhl_four_volume_stats_and_goalie_position (test_population_multisport.MultiSportSources.test_nhl_four_volume_stats_and_goalie_position) ... ok
+test_nhl_scoreboard_identity_and_atomic_multigame_date (test_population_multisport.MultiSportSources.test_nhl_scoreboard_identity_and_atomic_multigame_date) ... ok
+test_structural_zero_nfl_markets_removed_without_history_rewrite (test_population_multisport.MultiSportSources.test_structural_zero_nfl_markets_removed_without_history_rewrite) ... ok
+test_supported_families_and_storage_immutability (test_population_multisport.MultiSportSources.test_supported_families_and_storage_immutability) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.016s
+
+OK

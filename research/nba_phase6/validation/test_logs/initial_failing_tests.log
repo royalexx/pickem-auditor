@@ -1,0 +1,107 @@
+test_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) ... 
+  test_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) (change='negative') ... ERROR
+  test_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) (change='nan') ... ERROR
+  test_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) (change='cap') ... ERROR
+  test_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) (change='shape') ... ERROR
+  test_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) (change='unknown_kind') ... ERROR
+test_default_unchanged (test_exposure.ExposureTests.test_default_unchanged) ... ok
+test_oracle_requires_valid_witness (test_exposure.ExposureTests.test_oracle_requires_valid_witness) ... ERROR
+test_parent_identity_fails (test_exposure.ExposureTests.test_parent_identity_fails) ... ERROR
+test_prospective_injection_fails (test_exposure.ExposureTests.test_prospective_injection_fails) ... ERROR
+test_raw_cannot_be_reallocated (test_exposure.ExposureTests.test_raw_cannot_be_reallocated) ... ERROR
+test_raw_keeps_event_mechanism_and_draws (test_exposure.ExposureTests.test_raw_keeps_event_mechanism_and_draws) ... ERROR
+
+======================================================================
+ERROR: test_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) (change='negative')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/phase6/tests/nba_phase6/test_exposure.py", line 35, in test_bad_exposure_fails
+    with self.subTest(change=change),self.assertRaises(ValueError):simulate(self.g,self.m,n=8,research_minutes=p)
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: simulate() got an unexpected keyword argument 'research_minutes'
+
+======================================================================
+ERROR: test_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) (change='nan')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/phase6/tests/nba_phase6/test_exposure.py", line 35, in test_bad_exposure_fails
+    with self.subTest(change=change),self.assertRaises(ValueError):simulate(self.g,self.m,n=8,research_minutes=p)
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: simulate() got an unexpected keyword argument 'research_minutes'
+
+======================================================================
+ERROR: test_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) (change='cap')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/phase6/tests/nba_phase6/test_exposure.py", line 35, in test_bad_exposure_fails
+    with self.subTest(change=change),self.assertRaises(ValueError):simulate(self.g,self.m,n=8,research_minutes=p)
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: simulate() got an unexpected keyword argument 'research_minutes'
+
+======================================================================
+ERROR: test_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) (change='shape')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/phase6/tests/nba_phase6/test_exposure.py", line 35, in test_bad_exposure_fails
+    with self.subTest(change=change),self.assertRaises(ValueError):simulate(self.g,self.m,n=8,research_minutes=p)
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: simulate() got an unexpected keyword argument 'research_minutes'
+
+======================================================================
+ERROR: test_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) (change='unknown_kind')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/phase6/tests/nba_phase6/test_exposure.py", line 35, in test_bad_exposure_fails
+    with self.subTest(change=change),self.assertRaises(ValueError):simulate(self.g,self.m,n=8,research_minutes=p)
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: simulate() got an unexpected keyword argument 'research_minutes'
+
+======================================================================
+ERROR: test_oracle_requires_valid_witness (test_exposure.ExposureTests.test_oracle_requires_valid_witness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/phase6/tests/nba_phase6/test_exposure.py", line 41, in test_oracle_requires_valid_witness
+    with self.assertRaises(ValueError):simulate(self.g,self.m,n=8,research_minutes=p)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: simulate() got an unexpected keyword argument 'research_minutes'
+
+======================================================================
+ERROR: test_parent_identity_fails (test_exposure.ExposureTests.test_parent_identity_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/phase6/tests/nba_phase6/test_exposure.py", line 26, in test_parent_identity_fails
+    with self.assertRaisesRegex(ValueError,'RESEARCH_EXPOSURE_PARENT'):simulate(self.g,self.m,n=8,research_minutes=p)
+                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: simulate() got an unexpected keyword argument 'research_minutes'
+
+======================================================================
+ERROR: test_prospective_injection_fails (test_exposure.ExposureTests.test_prospective_injection_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/phase6/tests/nba_phase6/test_exposure.py", line 23, in test_prospective_injection_fails
+    with self.assertRaisesRegex(ValueError,'RESEARCH_EXPOSURE_MODE'):simulate(g,self.m,n=8,research_minutes=self.plan())
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: simulate() got an unexpected keyword argument 'research_minutes'
+
+======================================================================
+ERROR: test_raw_cannot_be_reallocated (test_exposure.ExposureTests.test_raw_cannot_be_reallocated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/phase6/tests/nba_phase6/test_exposure.py", line 38, in test_raw_cannot_be_reallocated
+    with self.assertRaisesRegex(ValueError,'RAW_EXPOSURE_CHANGED'):simulate(self.g,self.m,n=8,research_minutes=p)
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: simulate() got an unexpected keyword argument 'research_minutes'
+
+======================================================================
+ERROR: test_raw_keeps_event_mechanism_and_draws (test_exposure.ExposureTests.test_raw_keeps_event_mechanism_and_draws)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/phase6/tests/nba_phase6/test_exposure.py", line 14, in test_raw_keeps_event_mechanism_and_draws
+    d=simulate(self.g,self.m,n=8,research_minutes=self.plan())
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: simulate() got an unexpected keyword argument 'research_minutes'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.111s
+
+FAILED (errors=10)
