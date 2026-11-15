@@ -23,6 +23,7 @@ def audit(o):
         check(all(np.all(v[m[:,i]==0,i]==0) for v in c.values()),'ZERO_MINUTES_EVENTS')
     for j,ledger in enumerate(o['event_ledgers']):
         a=np.asarray(ledger['assist_matrix']);check(np.trace(a)==0,'SELF_ASSIST')
+        check(np.all(a[np.ix_(o['team_indices'][0],o['team_indices'][1])]==0) and np.all(a[np.ix_(o['team_indices'][1],o['team_indices'][0])]==0),'OPPONENT_ASSIST')
         check(np.array_equal(a.sum(axis=1),c['assists'][j]),'ASSIST_ACCOUNTING')
         check(np.all(a.sum(axis=0)<=c['two_pm'][j]+c['threes'][j]),'ASSIST_SCORER_CAP')
         for t,ix in enumerate(o['team_indices']):

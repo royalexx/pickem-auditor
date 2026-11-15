@@ -63,6 +63,7 @@ def main():
     score_rows=[];joint_rows=[];ledgers=[];distortion=[];states=[];hashes=[];market_rows=[];team_scores=[];dependence=[];minute_scores=[]
     ws4=json.loads(Path('work/ws4_original_replay.json').read_text())
     official={h:Path(path).name.split('_')[1] for path,h in ws4['source_hashes'].items() if '/official_source_raw/nba_' in path and 'boxscore' in path}
+    gzfreeze(dest/'population_exclusions.json.gz',pop_exclusions)
     for target in [r for r in manifest['raw'] if r['split']!='train']:
         if 'error' in target:
             ledgers.append({**target,'status':'BLOCKED_SOURCE'});continue
@@ -86,6 +87,8 @@ def main():
                     player_mean_shift=(o['minutes'].mean(axis=0)-o['independent_minutes'].mean(axis=0)).tolist(),
                     player_variance_shift=(o['minutes'].var(axis=0)-o['independent_minutes'].var(axis=0)).tolist()))
         ensembles['J0_shuffle']=independent_permutation(ensembles['J2'],game['game_id'],20261115)
+        g0=simulate(game,model,n=a.scenarios,seed=20261115,state_kind='G0')
+        outputs['J2_G0']=g0;ensembles['J2_G0']=g0['stats'];hashes.append(dict(game_id=game['game_id'],model='J2_G0',input_sha256=g0['input_sha256'],output_sha256=g0['output_sha256'],timing=g0['timing']))
         o=outputs['J2'];gzfreeze(dest/'scenarios'/(game['game_id']+'.json.gz'),o)
         forecasts=[extract_forecast(o,i,k) for i in range(len(game['players'])) for k in STATS]
         gzfreeze(dest/('forecasts_'+game['game_id']+'.json.gz'),forecasts)
@@ -128,6 +131,7 @@ def main():
             x=observed['totals'][team];proxy.append((x['two_pa']+x['three_pa']+.44*x['fta']-x['oreb']+x['tov'])*48/duration);points.append(x['points'])
         states.append(dict(game_id=game['game_id'],date=game['game_date'],split=target['split'],observed_proxy=float(np.mean(proxy)),G0_mean=model['state']['pace_mean'],G0_variance=0.,G1_mean=float(o['state']['regulation_possession_proxy'].mean()),G1_variance=float(o['state']['regulation_possession_proxy'].var()),
             overtime_actual=int(duration>48),overtime_probability=float(np.mean(o['state']['overtime']>0)),observed_team_points=points,predicted_team_points=[float(o['stats']['points'][:,ix].sum(axis=1).mean()) for ix in o['team_indices']],
+            G0_predicted_team_points=[float(g0['stats']['points'][:,ix].sum(axis=1).mean()) for ix in g0['team_indices']],
             scenario_runtime=time.perf_counter()-ensemble_start))
         if target['split']=='original':
             pid_index={p['player_id']:i for i,p in enumerate(game['players'])}
@@ -153,7 +157,8 @@ def main():
         joint={label:{metric:float(np.mean([r[metric] for r in js if r['model']==label])) for metric in ('energy','variogram','joint_event_brier','joint_event_probability','joint_event_outcome')} for label in sorted({r['model'] for r in js})}
         joint_paired={label:{metric:paired_ci(js,'J0',label,metric) for metric in ('energy','variogram','joint_event_brier')} for label in ('J1','J2','J0_shuffle')}
         opportunity_ablation={label:{stat:paired_ci([r for r in subset if r['stat']==stat],'J2',label) for stat in STATS} for label in ('J2_M1','J2_M2')}
-        summary[split]=dict(distribution=metrics,paired_vs_J0=paired,joint=joint,joint_paired=joint_paired,opportunity_ablation=opportunity_ablation,
+        dependence_control={metric:paired_ci(js,'J0_shuffle','J2',metric) for metric in ('energy','variogram','joint_event_brier')}
+        summary[split]=dict(distribution=metrics,paired_vs_J0=paired,joint=joint,joint_paired=joint_paired,opportunity_ablation=opportunity_ablation,exact_marginal_dependence_control=dependence_control,
             player_games=len({(r['game_id'],r['player_id']) for r in subset}),players=len({r['player_id'] for r in subset}),games=len({r['game_id'] for r in subset}),dates=len({r['date'] for r in subset}),acceptance='INCONCLUSIVE')
     gzfreeze(dest/'scores.json.gz',score_rows);gzfreeze(dest/'joint_scores.json.gz',joint_rows);gzfreeze(dest/'original_market_diagnostic.json.gz',market_rows);gzfreeze(dest/'minute_scores.json.gz',minute_scores)
     freeze(dest/'results.json',summary);freeze(dest/'denominator_ledger.json',ledgers);freeze(dest/'opportunity_distortion.json',distortion);freeze(dest/'state_diagnostics.json',states);freeze(dest/'dependence.json',dependence);freeze(dest/'team_pair_scores.json',team_scores);freeze(dest/'scenario_hashes.json',hashes)
@@ -161,7 +166,7 @@ def main():
     receipt=dict(schema='NBAJointExperimentRun/1',evaluator=VERSION,generated_at=generated,code_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         executed_source_hashes={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for folder in ('v2/nba_joint','research/nba_joint_v01') for p in sorted(Path(folder).glob('*.py'))},
         model_sha256=sha(model),scenario_count=a.scenarios,seed=20261115,wall_seconds=time.perf_counter()-started,cpu_seconds=time.process_time()-cpu,peak_rss_mib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024,
-        population_rows=len(rows),excluded_nonfranchise_stat_rows=len(pop_exclusions),files={str(p.relative_to(dest)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(dest.rglob('*')) if p.is_file()},
+        population_rows=len(rows),excluded_scope_stat_rows=len(pop_exclusions),files={str(p.relative_to(dest)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(dest.rglob('*')) if p.is_file()},
         independent_review='WS4 original benchmark verified; new joint adapter and engine acceptance pending external review',production_promotion_authorized=False)
     freeze(dest/'run_receipt.json',receipt);print(json.dumps({k:receipt[k] for k in ('wall_seconds','cpu_seconds','peak_rss_mib','code_commit')}))
 

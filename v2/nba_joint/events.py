@@ -17,8 +17,9 @@ def weights(v):
 def sample_events(players, minutes, team_indices, state, model, rng, *, constrained=True):
     e=model['events'];n=len(players)
     p2,p3,pft=e['p2'],e['p3'],e['pft']
-    for k in ('p2','p3','pft','ft_share','rebound_credit','offensive_rebound_share','assist_fraction'):
+    for k in ('p2','p3','pft','ft_share','rebound_credit','offensive_rebound_share','assist_fraction','terminal_ft_fraction'):
         if not np.isfinite(e[k]) or not 0<=e[k]<=1:raise ValueError('INVALID_EVENT_PROBABILITY:'+k)
+    if min(p2,p3,pft)<=0:raise ValueError('ZERO_CONVERSION_REQUIRES_DIFFERENT_AGGREGATE_RATE_ADAPTER')
     counts={k:np.zeros(n,dtype=np.int64) for k in ('two_pa','two_pm','three_pa','threes','fta','ftm','points','oreb','dreb','rebounds','assists')}
     budgets=[];unassisted=[];assist_matrix=np.zeros((n,n),dtype=np.int64)
     for t,ix in enumerate(team_indices):

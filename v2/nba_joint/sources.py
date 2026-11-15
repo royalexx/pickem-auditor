@@ -25,17 +25,20 @@ def derive_players(data,model,participation_evidence,source_bytes_hex):
         raw=bytes.fromhex(source_bytes_hex.get(evidence['sha256'],''))
         if digest(raw)!=evidence['sha256']:raise ValueError('PARTICIPATION_SOURCE_HASH')
         prob=json.loads(raw)['probability']
-        result.append(dict(player_id=p['player_id'],team_id=p['team_id'],opponent_id=p['opponent_id'],position='ALL',eligible=True,participation_probability=prob,
+        inactive=any(r['status'].lower() in ('out','inactive','suspended','unavailable','confirmed_inactive') for r in p['availability'])
+        if inactive and prob!=0:raise ValueError('SOURCE_INACTIVE_PARTICIPATION_CONFLICT')
+        result.append(dict(player_id=p['player_id'],team_id=p['team_id'],opponent_id=p['opponent_id'],position='ALL',eligible=not inactive,participation_probability=prob,
             minute_features=features,last_observation_date=h[-1]['game_date'],history_game_ids=[r['game_id'] for r in recent],rates=rates,
             history_stats={k:[r['stats'][k] for r in recent] for k in rates},availability='supplied_source_evidence'))
     return result
 
 
 def adapt_snapshot(snapshot_json,model,source_bytes_hex,participation_evidence):
+    from zoneinfo import ZoneInfo
     snap=NBAPregameFeatureSnapshot.from_json(snapshot_json)
     d=snap.require_usable(required_player_features=['ELIGIBILITY_UNCERTAIN','AVAILABILITY_UNAVAILABLE'])
     g=d['game'];game=dict(schema='NBAJointInput/1',game_id=g['game_id'],teams=[g['home_team_id'],g['away_team_id']],
-        game_date=instant(g['event_start_at']).date().isoformat(),event_start_at=g['event_start_at'],analysis_cutoff_at=d['input_freeze_at'],input_freeze_at=d['input_freeze_at'],forecast_at=d['forecast_at'],
+        game_date=instant(g['event_start_at']).astimezone(ZoneInfo('America/Toronto')).date().isoformat(),event_start_at=g['event_start_at'],analysis_cutoff_at=d['input_freeze_at'],input_freeze_at=d['input_freeze_at'],forecast_at=d['forecast_at'],
         mode='prospective',conditional_on_roster=False,source_hashes=[r['raw_sha256'] for r in d['receipts']],source_cutoffs={'available_at':d['source_available_at'],'input_freeze_at':d['input_freeze_at']},
         ws1_snapshot_json=snapshot_json,source_bytes_hex=source_bytes_hex,participation_evidence=participation_evidence,
         players=derive_players(d,model,participation_evidence,source_bytes_hex))
@@ -44,6 +47,8 @@ def adapt_snapshot(snapshot_json,model,source_bytes_hex,participation_evidence):
 
 
 def validate_prospective(game,model):
+    from datetime import datetime,timezone
+    from zoneinfo import ZoneInfo
     if 'ws1_snapshot_json' not in game:raise ValueError('SOURCE_CERTIFIED_WS1_PACKAGE_REQUIRED')
     snap=NBAPregameFeatureSnapshot.from_json(game['ws1_snapshot_json'])
     data=snap.require_usable(required_player_features=['ELIGIBILITY_UNCERTAIN','AVAILABILITY_UNAVAILABLE','PLAYER_HISTORY_UNAVAILABLE','ROSTER_TRANSITION_REQUIRES_REVIEW'])
@@ -55,6 +60,9 @@ def validate_prospective(game,model):
         actual=g[field] if field=='event_start_at' else data[field]
         if instant(game.get(field,''))!=instant(actual):raise ValueError('SOURCE_CLOCK_MISMATCH')
     if instant(game['forecast_at'])>=instant(g['event_start_at']):raise ValueError('POST_EVENT_FORECAST')
+    if datetime.now(timezone.utc)>=instant(g['event_start_at']):raise ValueError('PROSPECTIVE_WINDOW_CLOSED')
+    if instant(game['analysis_cutoff_at'])!=instant(data['input_freeze_at']):raise ValueError('SOURCE_ANALYSIS_CUTOFF_MISMATCH')
+    if game['game_date']!=instant(g['event_start_at']).astimezone(ZoneInfo('America/Toronto')).date().isoformat():raise ValueError('SOURCE_GAME_DATE_MISMATCH')
     if instant(model['training_cutoff_at'])>instant(data['model_training_cutoff_at']):raise ValueError('MODEL_CUTOFF_MISMATCH')
     if game['conditional_on_roster']:raise ValueError('UNCONDITIONAL_PARTICIPATION_REQUIRED_FOR_PROSPECTIVE')
     pmap={p['player_id']:p for p in data['players']}

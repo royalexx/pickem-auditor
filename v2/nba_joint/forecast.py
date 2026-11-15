@@ -1,5 +1,8 @@
 """Versioned empirical distributions; push is separate from DNP/product void."""
 from pathlib import Path
+import gzip
+import hashlib
+import json
 import numpy as np
 from scipy.stats import beta
 from .common import VERSION, STATS, canonical, sha
@@ -20,6 +23,7 @@ def extract_forecast(out,player_index,stat,*,line=None):
         hits={'over':int(np.sum(x>line)),'under':int(np.sum(x<line)),'push':int(np.sum(x==line))}
         probs={k:v/n for k,v in hits.items()}
         mc={k:{'se':float(np.sqrt(v/n*(1-v/n)/n)),'ci95':binomial_interval(v,n)} for k,v in hits.items()}
+        if float(line)%1:mc['push']={'se':0.,'ci95':[0.,0.]}
     g=out['game'];model=out['model']
     f=dict(schema=VERSION,game_id=g['game_id'],player_id=p['player_id'],team_id=p['team_id'],opponent_id=p['opponent_id'],stat=stat,
         mode=out['mode'],status='UNCERTIFIED/SHADOW',certified=False,eligibility=p['eligible'],participation_probability=p.get('participation_probability'),
@@ -40,3 +44,13 @@ def freeze(path,payload):
     raw=canonical(payload)+'\n'
     with path.open('x',encoding='utf-8') as handle:handle.write(raw)
     return sha(payload)
+
+
+def freeze_scenarios(path,out):
+    def serial(v):
+        if isinstance(v,np.ndarray):return v.tolist()
+        if isinstance(v,np.generic):return v.item()
+        raise TypeError(type(v).__name__)
+    raw=json.dumps(out,default=serial,sort_keys=True,separators=(',',':'),allow_nan=False).encode()
+    with Path(path).open('xb') as f:f.write(gzip.compress(raw,mtime=0))
+    return hashlib.sha256(raw).hexdigest()

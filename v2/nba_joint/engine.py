@@ -12,6 +12,7 @@ from .events import sample_events
 
 
 def validate(game,model,n):
+    from v2.nba_opportunity import FEATURES
     if type(n)!=int or n<1:raise ValueError('INVALID_SCENARIO_COUNT')
     if game['mode'] not in ('synthetic','historical','prospective'):raise ValueError('INVALID_MODE')
     if len(game['teams'])!=2 or len(set(game['teams']))!=2:raise ValueError('TEAM_IDENTITY')
@@ -23,8 +24,10 @@ def validate(game,model,n):
     for p in players:
         if p['team_id'] not in game['teams'] or p['opponent_id']!=next(t for t in game['teams'] if t!=p['team_id']):raise ValueError('PLAYER_TEAM_IDENTITY')
         if p['last_observation_date']>=game['game_date']:raise ValueError('FUTURE_PLAYER_FEATURE')
+        if instant(p['last_observation_date']+'T23:59:59.999999Z')>=cutoff:raise ValueError('FUTURE_FEATURE_AFTER_ANALYSIS_CUTOFF')
         if game['game_id'] in p['history_game_ids']:raise ValueError('SAME_GAME_OUTCOME')
         if set(p['rates'])!=set(STATS[:4]) or any(not np.isfinite(v) or v<0 for v in p['rates'].values()):raise ValueError('INVALID_PLAYER_RATE')
+        if set(p['minute_features'])!=set(FEATURES) or any(not np.isfinite(v) for v in p['minute_features'].values()):raise ValueError('INVALID_MINUTE_FEATURE_OR_POSTGAME_FIELD')
         probability=p.get('participation_probability')
         if probability is not None and (isinstance(probability,bool) or not np.isfinite(probability) or not 0<=probability<=1):raise ValueError('INVALID_PARTICIPATION_PROBABILITY')
         if p.get('eligible') is False and probability not in (0,None):raise ValueError('INACTIVE_PARTICIPATION_CONFLICT')

@@ -16,9 +16,12 @@ FRANCHISES = set('ATL BOS BKN CHA CHI CLE DAL DEN DET GS HOU IND LAC LAL MEM MIA
 def population(folder):
     rows = {}
     ledger = []
+    quarantine={r['game_id'] for r in json.loads(Path('docs/nba_ws1/coverage.json').read_text())['quarantine']}
     for path in sorted(Path(folder).glob('*.jsonl.gz')):
         for line in gzip.open(path, 'rt'):
             r = json.loads(line)
+            if r['game_id'] in quarantine:
+                ledger.append({'game_id':r['game_id'],'player_id':r['player_id'],'stat':r['stat'],'reason':'WS1_SCOPE_QUARANTINE'});continue
             if r['team'] not in FRANCHISES or r['opponent'] not in FRANCHISES:
                 ledger.append({'game_id': r['game_id'], 'player_id': r['player_id'], 'stat': r['stat'], 'reason': 'NON_FRANCHISE'}); continue
             k = (r['game_id'], r['player_id'])

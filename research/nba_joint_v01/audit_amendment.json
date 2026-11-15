@@ -1,0 +1,11 @@
+{
+  "schema": "NBAJointAuditAmendment/1",
+  "timing": "After initial 24-date scores were observed; all following evidence remains development-exposed and exploratory.",
+  "initial_run": "work/joint_run_initial, code bf887d71eadf7f7f1ac8cc477ce4fee32e99a4b9",
+  "initial_findings": "J2 M0 regressed versus simple J0 marginals on points, rebounds, assists and Energy Score. No adoption.",
+  "source_fix": "WS1 quarantined Cup-final game IDs were excluded from selected game lists but initially still entered prior feature/rate histories. Apply the exact WS1 quarantine before all historical features, preserving an exclusion ledger and original initial results. Do not change WS2 historical artifacts.",
+  "provider_fix": "Initial original-market canary incorrectly submitted original provider IDs as ESPN IDs, producing five bounded 404s. Preserve initial manifest. Correct only through WS4 verified official-source SHA256 to path mapping, then fetch five ESPN boxes. Total unique logical input attempts 66, successful boxes 61; initial failed IDs retried once, so 71 input HTTP attempts before the independent prospective canary.",
+  "additional_checks": "Add explicit G0 event ablation, exact-marginal shuffle joint comparison, conversion/covariance/support validation and reference-score tests. No tuning or model selection on test outcomes.",
+  "scope": "Five corrective ESPN reads plus existing WS1 one-event prospective capture. No broader collection or model escalation.",
+  "decision": "Retain M0; no statistical or production adoption regardless of amended scores. External independent joint review pending."
+}

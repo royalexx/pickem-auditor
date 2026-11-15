@@ -5,6 +5,7 @@ from pathlib import Path
 from . import synthetic_fixture,simulate,audit,extract_forecast,freeze
 from .common import sha,STATS
 from .sources import canary
+from .forecast import freeze_scenarios
 
 
 def main():
@@ -22,8 +23,9 @@ def main():
         out=simulate(game,model,n=a.scenarios,seed=a.seed)
         check=audit(out)
         forecasts=[extract_forecast(out,i,k) for i in range(len(game['players'])) for k in STATS]
+        scenario_bytes_hash=freeze_scenarios(dest/'scenarios.json.gz',out)
         freeze(dest/'forecasts.json',forecasts)
-        freeze(dest/'manifest.json',dict(schema='NBAJointResearchRun/1',status='UNCERTIFIED/SHADOW',input_sha256=out['input_sha256'],model_sha256=out['model_sha256'],output_sha256=out['output_sha256'],audit=check,timing=out['timing'],source_ledger=game.get('source_ledger'),certified=0,promotion_authorized=False))
+        freeze(dest/'manifest.json',dict(schema='NBAJointResearchRun/1',status='UNCERTIFIED/SHADOW',input_sha256=out['input_sha256'],model_sha256=out['model_sha256'],output_sha256=out['output_sha256'],scenario_artifact='scenarios.json.gz',scenario_bytes_sha256=scenario_bytes_hash,audit=check,timing=out['timing'],source_ledger=game.get('source_ledger'),certified=0,promotion_authorized=False))
         print(json.dumps({'output':str(dest),'output_sha256':out['output_sha256'],'audit':check}))
     except (ValueError,KeyError) as exc:
         freeze(dest/'blocked.json',dict(status='BLOCKED',reason=str(exc),input_sha256=sha(game),model_sha256=sha(model),accepted=0,attempted_players=len(game.get('players',[])),attempted_scenarios=a.scenarios))

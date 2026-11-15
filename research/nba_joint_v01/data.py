@@ -108,8 +108,10 @@ def reconstruct(target,rows,model,generated_at):
     # Holdout actuals returned separately and never attached to game input.
     actual={p['player_id']:p for p in b['players'] if p['minutes']>0}
     roster={p['player_id'] for p in game['players']}
+    correct={p['player_id'] for p in game['players'] if p['player_id'] in actual and actual[p['player_id']]['team']==p['team_id']}
     ledger=dict(game_id=b['game_id'],game_date=day,attempted_candidates=len(game['players'])+len(rejected),accepted_conditional_candidates=len(game['players']),rejected_candidates=rejected,
-        observed_appearances=len(actual),matched_appearances=len(roster & actual.keys()),unforecasted_appearances=sorted(actual.keys()-roster),
+        observed_appearances=len(actual),matched_appearances=len(correct),unforecasted_appearances=sorted(actual.keys()-correct),
         roster_without_observed_appearance=sorted(roster-actual.keys()),authentic_unconditional_forecasts=0,
+        team_identity_rejections=[{'player_id':p['player_id'],'prior_team':p['team_id'],'observed_team':actual[p['player_id']]['team']} for p in game['players'] if p['player_id'] in actual and p['player_id'] not in correct],
         caveats=['prior appearance union is not authenticated game roster','conditional cohort scoring excludes DNP outcomes; complete missingness retained','round-trip game schedule is retrospective, never canonical pregame evidence'])
     return game,actual,b,ledger

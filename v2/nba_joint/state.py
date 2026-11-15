@@ -4,12 +4,14 @@ import numpy as np
 
 def sample_state(parameters, rng, *, kind='G1'):
     if kind not in ('G0','G1'):raise ValueError('UNKNOWN_GAME_STATE')
+    if not np.isfinite(parameters['pace_mean']) or parameters['pace_mean']<=0:raise ValueError('INVALID_PACE')
+    if not 0<=parameters['ot_probability']<1 or not 0<parameters['ot_continuation']<1:raise ValueError('INVALID_OVERTIME_PROBABILITY')
     if kind=='G0':
         overtime=0; latent=np.zeros(3)
     else:
         overtime=int(rng.geometric(1-parameters['ot_continuation'])) if rng.random()<parameters['ot_probability'] else 0
         cov=np.asarray(parameters['log_cov'],dtype=float)
-        if cov.shape!=(3,3) or not np.all(np.isfinite(cov)) or np.linalg.eigvalsh(cov).min() < -1e-10:
+        if cov.shape!=(3,3) or not np.all(np.isfinite(cov)) or not np.allclose(cov,cov.T,atol=1e-12,rtol=0) or np.linalg.eigvalsh(cov).min() < -1e-10:
             raise ValueError('INVALID_STATE_COVARIANCE')
         latent=rng.multivariate_normal(-np.diag(cov)/2,cov)
     duration=48.+5*overtime
