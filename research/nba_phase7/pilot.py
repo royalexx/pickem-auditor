@@ -73,7 +73,7 @@ def capture_slot(slot,output,*,fixture=False,fixture_fetch=None,fixture_clock=No
             receipt['ws1_capture_attempted']=1
             model=json.loads(Path('research/nba_joint_v01/results/model.json').read_text())
             cap=capture(slot['toronto_date'],attempt/'ws1',game_id=slot['game']['game_id'],freeze_deadline_at=slot['scheduled_freeze_at'],model_training_cutoff_at=model['training_cutoff_at'],
-                expected_game=slot['game'],fixture=fixture,fetch_bytes=fixture_fetch,clock=fixture_clock)
+                expected_game=slot['game'],fixture=fixture,fetch_bytes=fixture_fetch,clock=fixture_clock,history_games_per_team=10)
             receipt['capture_receipt']=str((attempt/'ws1/capture_receipt.json').relative_to(root))
             if cap['status']=='blocked':receipt.update(status='BLOCKED_CAPTURE',reasons=cap['errors'])
             else:

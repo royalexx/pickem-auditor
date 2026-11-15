@@ -19,8 +19,9 @@ def now():return datetime.now(timezone.utc).isoformat(timespec='microseconds').r
 
 
 def capture(day,output,*,game_id=None,freeze_deadline_at=None,model_training_cutoff_at=None,
-            fetch_bytes=None,clock=None,fixture=False,expected_game=None):
+            fetch_bytes=None,clock=None,fixture=False,expected_game=None,history_games_per_team=2):
     if (fetch_bytes is not None or clock is not None) and not fixture:raise ValueError('FIXTURE_TRANSPORT_REQUIRED')
+    if type(history_games_per_team)!=int or not 1<=history_games_per_team<=10:raise ValueError('HISTORY_LOOKBACK_BOUND')
     clock=clock or now
     output=Path(output);output.mkdir(parents=True,exist_ok=False);sources=output/'sources';sources.mkdir()
     receipts=[];manifest=[];records=[];errors=[]
@@ -57,7 +58,7 @@ def capture(day,output,*,game_id=None,freeze_deadline_at=None,model_training_cut
             # Only discover past event IDs; do not use future season stats in features.
             schedule,sr=fetch('/teams/'+tid.split(':')[-1]+'/schedule?season='+str(int(day[:4])+(int(day[5:7])>=10))+'&seasontype=2','retrospective_retrieval')
             past=[e for e in schedule.get('events',[]) if instant(e['date'])<instant(clock()) and e.get('competitions',[{}])[0].get('status',{}).get('type',{}).get('completed') is True]
-            past_ids.update(e['id'] for e in sorted(past,key=lambda e:e['date'])[-2:])
+            past_ids.update(e['id'] for e in sorted(past,key=lambda e:e['date'])[-history_games_per_team:])
         for event_id in sorted(past_ids):
             box,r=fetch('/summary?event='+event_id,'retrospective_retrieval')
             records.extend(espn_boxscore_records(box,r));records.extend(espn_team_records(box,r))
@@ -74,6 +75,7 @@ def capture(day,output,*,game_id=None,freeze_deadline_at=None,model_training_cut
     if game_id is not None:report['requested_game_id']=game_id
     if freeze_deadline_at is not None:report['freeze_deadline_at']=freeze_deadline_at
     if fixture:report['evidence_kind']='synthetic_fixture_never_original'
+    if history_games_per_team!=2:report['history_games_per_team']=history_games_per_team
     with (output/'capture_receipt.json').open('x') as f:json.dump(report,f,sort_keys=True,indent=2);f.write('\n')
     print(canonical({k:v for k,v in report.items() if k!='sources'}))
     return report
@@ -81,7 +83,7 @@ def capture(day,output,*,game_id=None,freeze_deadline_at=None,model_training_cut
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--day',required=True);p.add_argument('--output',required=True,type=Path)
-    p.add_argument('--game-id');p.add_argument('--freeze-deadline-at');p.add_argument('--model-training-cutoff-at');a=p.parse_args()
-    capture(a.day,a.output,game_id=a.game_id,freeze_deadline_at=a.freeze_deadline_at,model_training_cutoff_at=a.model_training_cutoff_at)
+    p.add_argument('--game-id');p.add_argument('--freeze-deadline-at');p.add_argument('--model-training-cutoff-at');p.add_argument('--history-games-per-team',type=int,default=2);a=p.parse_args()
+    capture(a.day,a.output,game_id=a.game_id,freeze_deadline_at=a.freeze_deadline_at,model_training_cutoff_at=a.model_training_cutoff_at,history_games_per_team=a.history_games_per_team)
 
 if __name__=='__main__':main()

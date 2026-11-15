@@ -1,0 +1,69 @@
+{
+  "independent_statistical_approval": false,
+  "suites": {
+    "Phase1": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "e14929755c8f0800f5e21605f9d4ae22264f24e7a0da75edfbe64f39fd82661c",
+      "passed": 11,
+      "skipped": 0
+    },
+    "Phase6": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "0c33ea27d4764716711fcedddfadadb76400775411829858590506bdd0544983",
+      "passed": 26,
+      "skipped": 0
+    },
+    "Phase7": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "69bbeec40c6f09a3130df6b59c6cd95b3e6b79cc3d8bcc696f06bd55e0a11994",
+      "passed": 42,
+      "skipped": 0
+    },
+    "WS1": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "d912cf1762d7642eeabe604299e2995974576f5d48077ee11f708c25fc6dde64",
+      "passed": 25,
+      "skipped": 0
+    },
+    "WS2": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "4e78e1eeef23ebfb1ed200639a4bc9d483db6a4fe5e7f10a9c28dfe31bb23747",
+      "passed": 25,
+      "skipped": 0
+    },
+    "WS4": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "c8e87dd9fc1b805552e560e4bf0c763fc5b5e630be4324b9fd59b166fd641e36",
+      "passed": 33,
+      "skipped": 0
+    },
+    "joint": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "922309a3199da3bbbde243266293cef4acf802d93608d231d967972b43525f18",
+      "passed": 63,
+      "skipped": 0
+    },
+    "official": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "4c4a72dfbf994ae8b765401f554076c5d840dc86243ab82fa34ecee86f697f11",
+      "passed": 13,
+      "skipped": 0
+    },
+    "population": {
+      "errors": 0,
+      "failed": 0,
+      "log_sha256": "10d4b6f4e14b332b2d59efc3cd20de8b1a5acac8fb62a2757d3f9d6d2bd2260e",
+      "passed": 9,
+      "skipped": 0
+    }
+  },
+  "total_passed": 247
+}

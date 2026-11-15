@@ -1,0 +1,24 @@
+test_injected_transport_cannot_claim_original (test_capture.CaptureTests.test_injected_transport_cannot_claim_original) ... ERROR
+test_missed_deadline_no_network (test_capture.CaptureTests.test_missed_deadline_no_network) ... ERROR
+
+======================================================================
+ERROR: test_injected_transport_cannot_claim_original (test_capture.CaptureTests.test_injected_transport_cannot_claim_original)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/phase6/tests/nba_phase7/test_capture.py", line 17, in test_injected_transport_cannot_claim_original
+    capture('2026-11-16',Path(d)/'capture',fetch_bytes=lambda u:b'{}')
+TypeError: capture() got an unexpected keyword argument 'fetch_bytes'
+
+======================================================================
+ERROR: test_missed_deadline_no_network (test_capture.CaptureTests.test_missed_deadline_no_network)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/phase6/tests/nba_phase7/test_capture.py", line 11, in test_missed_deadline_no_network
+    r=capture('2026-11-16',Path(d)/'capture',game_id='espn:game:2',freeze_deadline_at='2026-11-16T23:30:00Z',
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: capture() got an unexpected keyword argument 'game_id'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (errors=2)

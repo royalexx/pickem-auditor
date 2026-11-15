@@ -40,3 +40,9 @@ class IdentityTests(unittest.TestCase):
         root=Path('research/nba_phase6/official_source_probe');meta=json.loads((root/'official_injury_pdf_receipt.json').read_text());raw=(root/meta['path']).read_bytes()
         r=Receipt.capture(raw,source=meta['receipt']['source'],observed_at='2026-11-15T20:00:00Z',origin='fixture')
         with self.assertRaisesRegex(ValueError,'FUTURE_INJURY_PUBLICATION'):injury_pdf(raw,r,freeze_at='2026-11-15T22:00:00Z')
+    def test_raw_team_identity_overrides_old_narrative(self):
+        root=Path('research/nba_phase6/current_source_probe');cap=json.loads((root/'capture_receipt.json').read_text());teams={}
+        for source in cap['sources']:
+            raw=json.loads(gzip.decompress((root/source['path']).read_bytes()))
+            if 'athletes' in raw:teams[str(raw['team']['id'])]=raw['team']['abbreviation']
+        self.assertEqual(teams['30'],'CHA');self.assertEqual(teams['12'],'LAC')

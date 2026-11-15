@@ -49,7 +49,7 @@ def main():
         crosswalk_entries=len(walk['entries']),crosswalk_unresolved=len(walk['unresolved']),official_pdf_rows=len(report['rows']),independent_text_rows=len(enumeration),
         resolved_official_rows=availability['resolved_count'],unresolved_official_rows=availability['unresolved_count'],
         original_phase6_snapshot_not_recertified=True,legitimate_pregame_forecasts_generated=0,
-        reason='New crosswalk first observed after the original Warriors-Clippers freeze and tipoff. Official report matchup labels must also agree with the registered schedule; identity repair alone grants no game binding.',
+        reason='New crosswalk first observed after the original Charlotte-Clippers freeze and tipoff; the official report matchup agrees with the retained ESPN team identities. Identity repair does not backdate evidence.',
         current_source_probes=records,new_source_receipts=[asdict(r) for raw,r,item in sources]))
     print(json.dumps({'crosswalk':len(walk['entries']),'unresolved_crosswalk':len(walk['unresolved']),'pdf_rows':len(report['rows']),'resolved_rows':availability['resolved_count'],'unresolved_rows':availability['unresolved_count']}))
 

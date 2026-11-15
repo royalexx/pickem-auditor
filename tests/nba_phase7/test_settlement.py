@@ -37,3 +37,7 @@ class SettlementTests(unittest.TestCase):
         self.assertEqual(out['source_receipt']['origin'],'fixture')
         ledger['input_freeze_at']='2026-11-15T22:00:00Z'
         with self.assertRaisesRegex(ValueError,'RETROSPECTIVE_CAPTURE_NOT_ORIGINAL'):settle_original(ledger,raw,r)
+
+    def test_null_DNP_terms_block(self):
+        c=self.contract();c['payout_terms']=None
+        with self.assertRaisesRegex(ValueError,'DNP_SETTLEMENT_TERMS_UNAVAILABLE'):market_settlement(c,self.observation('dnp'))

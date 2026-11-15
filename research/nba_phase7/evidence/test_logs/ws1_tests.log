@@ -1,0 +1,30 @@
+test_box_extracts_attempts_starts_zero_and_dnp (test_adapters.AdapterTests.test_box_extracts_attempts_starts_zero_and_dnp) ... ok
+test_crosswalk_collision_expiry_and_future (test_adapters.AdapterTests.test_crosswalk_collision_expiry_and_future) ... ok
+test_legacy_scope_fail_closed (test_adapters.AdapterTests.test_legacy_scope_fail_closed) ... ok
+test_live_box_rejected (test_adapters.AdapterTests.test_live_box_rejected) ... ok
+test_overtime_is_observed_history_only (test_adapters.AdapterTests.test_overtime_is_observed_history_only) ... ok
+test_player_cross_team_collision (test_adapters.AdapterTests.test_player_cross_team_collision) ... ok
+test_postponed_and_cancelled_schedule_never_outcomes (test_adapters.AdapterTests.test_postponed_and_cancelled_schedule_never_outcomes) ... ok
+test_saved_sources_rebuild_byte_identical_package (test_sample.RealPregameSampleTests.test_saved_sources_rebuild_byte_identical_package) ... ok
+test_append_only_write (test_store.StoreTests.test_append_only_write) ... ok
+test_blocked_snapshot_cannot_be_consumed (test_store.StoreTests.test_blocked_snapshot_cannot_be_consumed) ... ok
+test_correction_retains_versions_asof (test_store.StoreTests.test_correction_retains_versions_asof) ... ok
+test_correction_roundtrip_keeps_both_input_versions (test_store.StoreTests.test_correction_roundtrip_keeps_both_input_versions) ... ok
+test_crosswalk_and_trade (test_store.StoreTests.test_crosswalk_and_trade) ... ok
+test_deterministic_roundtrip_and_immutable (test_store.StoreTests.test_deterministic_roundtrip_and_immutable) ... ok
+test_duplicate_and_stale_quotes (test_store.StoreTests.test_duplicate_and_stale_quotes) ... ok
+test_hash_tamper (test_store.StoreTests.test_hash_tamper) ... ok
+test_invalid_cutoffs (test_store.StoreTests.test_invalid_cutoffs) ... ok
+test_later_correction_cannot_rewrite_past_freeze (test_store.StoreTests.test_later_correction_cannot_rewrite_past_freeze) ... ok
+test_receipt_late_even_with_early_published_clock (test_store.StoreTests.test_receipt_late_even_with_early_published_clock) ... ok
+test_rehashed_forged_feature_rejected_on_load (test_store.StoreTests.test_rehashed_forged_feature_rejected_on_load) ... ok
+test_same_game_and_future_are_ledgered (test_store.StoreTests.test_same_game_and_future_are_ledgered) ... ok
+test_source_bytes_checked (test_store.StoreTests.test_source_bytes_checked) ... ok
+test_team_same_game_rejected (test_store.StoreTests.test_team_same_game_rejected) ... ok
+test_unknown_fields_rejected (test_store.StoreTests.test_unknown_fields_rejected) ... ok
+test_zero_played_and_dnp_distinct (test_store.StoreTests.test_zero_played_and_dnp_distinct) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.230s
+
+OK

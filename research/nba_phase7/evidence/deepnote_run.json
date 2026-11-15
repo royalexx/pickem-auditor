@@ -1,0 +1,36 @@
+{
+  "run": {
+    "runId": "69d58a26-c4f5-487a-8f55-088bfbb9e562",
+    "notebookId": "c9ed15840a87432a9b97691336b74b43",
+    "status": "success",
+    "snapshotStatus": "available",
+    "snapshotContent": null,
+    "snapshotDownloadUrl": null,
+    "snapshotExpiresAt": "2026-12-15T22:49:21.942Z",
+    "snapshotBlocks": [
+      {
+        "id": "06633eea7dc84bfab7c04a244d777ba6",
+        "type": "code",
+        "outputs": [
+          {
+            "name": "stdout",
+            "text": "{\"captured_at\":\"2026-11-16T23:31:00Z\",\"errors\":[{\"code\":\"ValueError\",\"detail\":\"FREEZE_DEADLINE_MISSED\"}],\"evidence_kind\":\"synthetic_fixture_never_original\",\"freeze_deadline_at\":\"2026-11-16T23:30:00Z\",\"requested_game_id\":\"espn:game:2\",\"status\":\"blocked\"}\n{\"captured_at\":\"2026-11-17T01:00:00Z\",\"errors\":[{\"code\":\"ValueError\",\"detail\":\"EXACT_REGISTERED_GAME_NOT_PREGAME\"}],\"evidence_kind\":\"synthetic_fixture_never_original\",\"requested_game_id\":\"espn:game:2\",\"status\":\"blocked\"}\n{\"errors\":[],\"evidence_kind\":\"synthetic_fixture_never_original\",\"forecast_at\":\"2026-11-16T23:25:00Z\",\"game\":{\"away_team_id\":\"espn:team:2\",\"event_start_at\":\"2026-11-17T00:00:00.000000Z\",\"game_id\":\"espn:game:2\",\"home_team_id\":\"espn:team:1\",\"status\":\"scheduled\",\"venue\":null},\"requested_game_id\":\"espn:game:2\",\"snapshot_hash\":\"515f48236aaab065eee4a8143230826ab4c9271c5c5d302ff1a66eceeefd76fa\",\"snapshot_path\":\"snapshots/515f48236aaab065eee4a8143230826ab4c9271c5c5d302ff1a66eceeefd76fa.json\",\"status\":\"captured_partial_shadow\",\"training_cutoff_semantics\":\"consumer upper-bound only; no statistical model fitted\"}\n{\"errors\":[],\"evidence_kind\":\"synthetic_fixture_never_original\",\"forecast_at\":\"2026-11-16T23:25:00Z\",\"freeze_deadline_at\":\"2026-11-16T23:30:00Z\",\"game\":{\"away_team_id\":\"espn:team:2\",\"event_start_at\":\"2026-11-17T00:00:00.000000Z\",\"game_id\":\"espn:game:2\",\"home_team_id\":\"espn:team:1\",\"status\":\"scheduled\",\"venue\":null},\"requested_game_id\":\"espn:game:2\",\"snapshot_hash\":\"5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b\",\"snapshot_path\":\"snapshots/5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b.json\",\"status\":\"captured_partial_shadow\",\"training_cutoff_semantics\":\"supplied frozen model cutoff\"}\n{\"captured_at\":\"2026-11-16T23:31:00Z\",\"errors\":[{\"code\":\"ValueError\",\"detail\":\"FREEZE_DEADLINE_MISSED_AFTER_RECEIPT\"}],\"evidence_kind\":\"synthetic_fixture_never_original\",\"freeze_deadline_at\":\"2026-11-16T23:30:00Z\",\"requested_game_id\":\"espn:game:2\",\"status\":\"blocked\"}\n{\"errors\":[],\"evidence_kind\":\"synthetic_fixture_never_original\",\"forecast_at\":\"2026-11-16T23:25:00Z\",\"freeze_deadline_at\":\"2026-11-16T23:30:00Z\",\"game\":{\"away_team_id\":\"espn:team:2\",\"event_start_at\":\"2026-11-17T00:00:00.000000Z\",\"game_id\":\"espn:game:2\",\"home_team_id\":\"espn:team:1\",\"status\":\"scheduled\",\"venue\":null},\"requested_game_id\":\"espn:game:2\",\"snapshot_hash\":\"5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b\",\"snapshot_path\":\"snapshots/5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b.json\",\"status\":\"captured_partial_shadow\",\"training_cutoff_semantics\":\"supplied frozen model cutoff\"}\n{\"captured_at\":\"2026-11-16T23:25:00Z\",\"errors\":[{\"code\":\"ValueError\",\"detail\":\"REGISTERED_SCHEDULE_CHANGED\"}],\"evidence_kind\":\"synthetic_fixture_never_original\",\"requested_game_id\":\"espn:game:2\",\"status\":\"blocked\"}\nPHASE7_TEST_RECEIPT {\"errors\": 0, \"failures\": 0, \"pdf_checks_unavailable\": [\"test_identity.IdentityTests.test_future_official_report_rejected\", \"test_identity.IdentityTests.test_original_official_pdf_parse_and_preserve_unresolved\"], \"pdftotext_available\": false, \"run\": 37}\n\n.....................................\n----------------------------------------------------------------------\nRan 37 tests in 0.367s\n\nOK\n\nPHASE7_DEEPNOTE_FIXTURE {\"independent_statistical_approval\": false, \"new_source_requests\": 0, \"pdf_available\": false, \"pin\": \"af8c0893429034924be40f02aea62582e284bfec\", \"smoke\": {\"cpu_seconds\": 0.5831625509999999, \"model_sha256\": \"e424c7f98bba50315dfde81a60978855d6ceb8c72aba8ad0af310eb31283326f\", \"output_sha256\": \"7d5d4b07c09a5bd7b4189fd82a8b5b299fbd89486a4d1c553208e82b33c47d26\", \"peak_process_rss_mib\": 497.17578125, \"scenarios\": 128, \"status\": \"PASSED_FIXTURE_ONLY\", \"violations\": 0, \"wall_seconds\": 0.7017491449951194}, \"source_qualified_forecasts\": 0, \"storage\": \"read-only project; temporary fixture files only\"}\n",
+            "output_type": "stream"
+          }
+        ],
+        "metadata": {
+          "execution_start": 1794782952765,
+          "execution_millis": 8590,
+          "execution_context_id": "9bd2160a-4436-4d3b-a164-a4a9a00cb6e6",
+          "source_block_id": "06633eea7dc84bfab7c04a244d777ba6"
+        },
+        "outputHead": null,
+        "outputTail": null,
+        "contentHash": "sha256:dcb4b31e461c3026eec336c140f1b647b3ccce9d4fd6cc4e64868ea955b873c0"
+      }
+    ],
+    "error": null,
+    "createdAt": "2026-11-15T22:48:56.803Z",
+    "completedAt": "2026-11-15T22:49:21.736Z"
+  }
+}

@@ -1,0 +1,54 @@
+test_history_lookback_is_bounded (test_capture.CaptureTests.test_history_lookback_is_bounded) ... ok
+test_injected_transport_cannot_claim_original (test_capture.CaptureTests.test_injected_transport_cannot_claim_original) ... ok
+test_missed_deadline_no_network (test_capture.CaptureTests.test_missed_deadline_no_network) ... ok
+test_duplicate_identity_fails_closed (test_identity.IdentityTests.test_duplicate_identity_fails_closed) ... ok
+test_future_mapping_rejected (test_identity.IdentityTests.test_future_mapping_rejected) ... ok
+test_future_official_report_rejected (test_identity.IdentityTests.test_future_official_report_rejected) ... ok
+test_name_DOB_team_bridge (test_identity.IdentityTests.test_name_DOB_team_bridge) ... ok
+test_name_alone_is_insufficient (test_identity.IdentityTests.test_name_alone_is_insufficient) ... ok
+test_original_official_pdf_parse_and_preserve_unresolved (test_identity.IdentityTests.test_original_official_pdf_parse_and_preserve_unresolved) ... ok
+test_raw_source_tampering_rejected (test_identity.IdentityTests.test_raw_source_tampering_rejected) ... ok
+test_raw_team_identity_overrides_old_narrative (test_identity.IdentityTests.test_raw_team_identity_overrides_old_narrative) ... ok
+test_two_same_name_birthdates_ambiguous (test_identity.IdentityTests.test_two_same_name_birthdates_ambiguous) ... ok
+test_wrong_team_rejected (test_identity.IdentityTests.test_wrong_team_rejected) ... ok
+test_available_never_means_probability_one (test_layer.LayerTests.test_available_never_means_probability_one) ... ok
+test_conflicting_status_blocks (test_layer.LayerTests.test_conflicting_status_blocks) ... ok
+test_fixture_cannot_support_real_exclusion (test_layer.LayerTests.test_fixture_cannot_support_real_exclusion) ... ok
+test_late_injury_rejected (test_layer.LayerTests.test_late_injury_rejected) ... ok
+test_verified_out_exclusion_keeps_eligibility_unknown (test_layer.LayerTests.test_verified_out_exclusion_keeps_eligibility_unknown) ... ok
+test_wrong_game_not_inactive_input (test_layer.LayerTests.test_wrong_game_not_inactive_input) ... ok
+test_all_real_methods_remain_blocked (test_participation.ParticipationTests.test_all_real_methods_remain_blocked) ... ok
+test_fixture_cannot_label_real (test_participation.ParticipationTests.test_fixture_cannot_label_real) ... ok
+test_full_fixture_uses_unchanged_model (test_participation.ParticipationTests.test_full_fixture_uses_unchanged_model) ... ok
+test_inactive_nonzero_rejected (test_participation.ParticipationTests.test_inactive_nonzero_rejected) ... ok
+test_inactive_zero_minutes_and_events (test_participation.ParticipationTests.test_inactive_zero_minutes_and_events) ... ok
+test_missing_law_rejected (test_participation.ParticipationTests.test_missing_law_rejected) ... ok
+test_underfilled_sets_abort_no_rejection_conditioning (test_participation.ParticipationTests.test_underfilled_sets_abort_no_rejection_conditioning) ... ok
+test_unknown_never_certain (test_participation.ParticipationTests.test_unknown_never_certain) ... ok
+test_capture_after_tipoff_never_backfilled (test_pilot.PilotTests.test_capture_after_tipoff_never_backfilled) ... ok
+test_exact_second_game_no_earliest_substitution (test_pilot.PilotTests.test_exact_second_game_no_earliest_substitution) ... ok
+test_first_capture_not_replaced_by_second_invocation (test_pilot.PilotTests.test_first_capture_not_replaced_by_second_invocation) ... ok
+test_late_response_preserves_raw_receipt (test_pilot.PilotTests.test_late_response_preserves_raw_receipt) ... ok
+test_nonproduction_capture_to_ledger (test_pilot.PilotTests.test_nonproduction_capture_to_ledger) ... ok
+test_original_ten_registrations (test_pilot.PilotTests.test_original_ten_registrations) ... ok
+test_schedule_change_blocks (test_pilot.PilotTests.test_schedule_change_blocks) ... ok
+test_window_boundaries (test_pilot.PilotTests.test_window_boundaries) ... ok
+test_explicit_DNP_is_void_not_under_or_push (test_settlement.SettlementTests.test_explicit_DNP_is_void_not_under_or_push) ... ok
+test_missing_DNP_terms_block (test_settlement.SettlementTests.test_missing_DNP_terms_block) ... ok
+test_null_DNP_terms_block (test_settlement.SettlementTests.test_null_DNP_terms_block) ... ok
+test_official_final_independent_parser (test_settlement.SettlementTests.test_official_final_independent_parser) ... ok
+test_original_contract_mismatch_block (test_settlement.SettlementTests.test_original_contract_mismatch_block) ... ok
+test_push_requires_played_outcome (test_settlement.SettlementTests.test_push_requires_played_outcome) ... ok
+test_unknown_status_not_scored (test_settlement.SettlementTests.test_unknown_status_not_scored) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 0.226s
+
+OK
+{"captured_at":"2026-11-16T23:31:00Z","errors":[{"code":"ValueError","detail":"FREEZE_DEADLINE_MISSED"}],"evidence_kind":"synthetic_fixture_never_original","freeze_deadline_at":"2026-11-16T23:30:00Z","requested_game_id":"espn:game:2","status":"blocked"}
+{"captured_at":"2026-11-17T01:00:00Z","errors":[{"code":"ValueError","detail":"EXACT_REGISTERED_GAME_NOT_PREGAME"}],"evidence_kind":"synthetic_fixture_never_original","requested_game_id":"espn:game:2","status":"blocked"}
+{"errors":[],"evidence_kind":"synthetic_fixture_never_original","forecast_at":"2026-11-16T23:25:00Z","game":{"away_team_id":"espn:team:2","event_start_at":"2026-11-17T00:00:00.000000Z","game_id":"espn:game:2","home_team_id":"espn:team:1","status":"scheduled","venue":null},"requested_game_id":"espn:game:2","snapshot_hash":"515f48236aaab065eee4a8143230826ab4c9271c5c5d302ff1a66eceeefd76fa","snapshot_path":"snapshots/515f48236aaab065eee4a8143230826ab4c9271c5c5d302ff1a66eceeefd76fa.json","status":"captured_partial_shadow","training_cutoff_semantics":"consumer upper-bound only; no statistical model fitted"}
+{"errors":[],"evidence_kind":"synthetic_fixture_never_original","forecast_at":"2026-11-16T23:25:00Z","freeze_deadline_at":"2026-11-16T23:30:00Z","game":{"away_team_id":"espn:team:2","event_start_at":"2026-11-17T00:00:00.000000Z","game_id":"espn:game:2","home_team_id":"espn:team:1","status":"scheduled","venue":null},"history_games_per_team":10,"requested_game_id":"espn:game:2","snapshot_hash":"5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b","snapshot_path":"snapshots/5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b.json","status":"captured_partial_shadow","training_cutoff_semantics":"supplied frozen model cutoff"}
+{"captured_at":"2026-11-16T23:31:00Z","errors":[{"code":"ValueError","detail":"FREEZE_DEADLINE_MISSED_AFTER_RECEIPT"}],"evidence_kind":"synthetic_fixture_never_original","freeze_deadline_at":"2026-11-16T23:30:00Z","requested_game_id":"espn:game:2","status":"blocked"}
+{"errors":[],"evidence_kind":"synthetic_fixture_never_original","forecast_at":"2026-11-16T23:25:00Z","freeze_deadline_at":"2026-11-16T23:30:00Z","game":{"away_team_id":"espn:team:2","event_start_at":"2026-11-17T00:00:00.000000Z","game_id":"espn:game:2","home_team_id":"espn:team:1","status":"scheduled","venue":null},"history_games_per_team":10,"requested_game_id":"espn:game:2","snapshot_hash":"5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b","snapshot_path":"snapshots/5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b.json","status":"captured_partial_shadow","training_cutoff_semantics":"supplied frozen model cutoff"}
+{"captured_at":"2026-11-16T23:25:00Z","errors":[{"code":"ValueError","detail":"REGISTERED_SCHEDULE_CHANGED"}],"evidence_kind":"synthetic_fixture_never_original","requested_game_id":"espn:game:2","status":"blocked"}

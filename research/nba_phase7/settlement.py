@@ -72,7 +72,7 @@ def market_settlement(contract,observation):
     if contract['game_id']!=observation['game_id'] or contract['player_id']!=observation['player_id'] or contract['team_id']!=observation['team_id']:raise ValueError('ORIGINAL_CONTRACT_IDENTITY_MISMATCH')
     if contract.get('period')!='full_game_including_overtime':raise ValueError('UNSUPPORTED_OR_UNSPECIFIED_PERIOD')
     if observation['participation']=='dnp':
-        if contract.get('payout_terms',{}).get('dnp')!='void':raise ValueError('DNP_SETTLEMENT_TERMS_UNAVAILABLE')
+        if (contract.get('payout_terms') or {}).get('dnp')!='void':raise ValueError('DNP_SETTLEMENT_TERMS_UNAVAILABLE')
         return 'void'
     if observation['participation']!='played':raise ValueError('PARTICIPATION_UNRESOLVED')
     value=observation['stats'].get(contract['stat'])

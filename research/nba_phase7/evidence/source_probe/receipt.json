@@ -1,0 +1,35 @@
+[
+  {
+    "url": "https://www.nba.com/team/1610612746/clippers",
+    "used_for_forecast": false,
+    "http_status": 200,
+    "sha256": "1a7ea5931f0fe0778b68c986d700bf84f633c0c4d77da9602a95d70b59ac1d9a",
+    "path": "1a7ea5931f0fe0778b68c986d700bf84f633c0c4d77da9602a95d70b59ac1d9a.gz",
+    "retrieved_at": "2026-11-15T22:32:00.557752+00:00",
+    "bytes": 570185
+  },
+  {
+    "url": "https://cdn.nba.com/static/json/staticData/playerIndex.json",
+    "used_for_forecast": false,
+    "error": "HTTPError",
+    "detail": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://www.nba.com/players",
+    "used_for_forecast": false,
+    "http_status": 200,
+    "sha256": "8b0d767921fca994c3b4ec1d6b4ce792f7364ca270140a0fff3718ab41523593",
+    "path": "8b0d767921fca994c3b4ec1d6b4ce792f7364ca270140a0fff3718ab41523593.gz",
+    "retrieved_at": "2026-11-15T22:32:00.383640+00:00",
+    "bytes": 577859
+  },
+  {
+    "url": "https://www.nba.com/player/203078/bradley-beal",
+    "used_for_forecast": false,
+    "http_status": 200,
+    "sha256": "4ec9e2a11989ec0c8637caa26d3a0873ac11e3ca2b72427fb2e41833a729f439",
+    "path": "4ec9e2a11989ec0c8637caa26d3a0873ac11e3ca2b72427fb2e41833a729f439.gz",
+    "retrieved_at": "2026-11-15T22:32:00.731957+00:00",
+    "bytes": 330842
+  }
+]

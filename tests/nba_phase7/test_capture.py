@@ -15,3 +15,8 @@ class CaptureTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             with self.assertRaisesRegex(ValueError,'FIXTURE_TRANSPORT_REQUIRED'):
                 capture('2026-11-16',Path(d)/'capture',fetch_bytes=lambda u:b'{}')
+    def test_history_lookback_is_bounded(self):
+        with tempfile.TemporaryDirectory() as d:
+            for value in (0,11,True):
+                with self.subTest(value=value),self.assertRaisesRegex(ValueError,'HISTORY_LOOKBACK_BOUND'):
+                    capture('2026-11-16',Path(d)/'capture',history_games_per_team=value)

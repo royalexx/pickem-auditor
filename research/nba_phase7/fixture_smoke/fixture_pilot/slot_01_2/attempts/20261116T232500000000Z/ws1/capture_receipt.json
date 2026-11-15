@@ -1,0 +1,63 @@
+{
+  "errors": [],
+  "evidence_kind": "synthetic_fixture_never_original",
+  "forecast_at": "2026-11-16T23:25:00Z",
+  "freeze_deadline_at": "2026-11-16T23:30:00Z",
+  "game": {
+    "away_team_id": "espn:team:2",
+    "event_start_at": "2026-11-17T00:00:00.000000Z",
+    "game_id": "espn:game:2",
+    "home_team_id": "espn:team:1",
+    "status": "scheduled",
+    "venue": null
+  },
+  "requested_game_id": "espn:game:2",
+  "snapshot_hash": "5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b",
+  "snapshot_path": "snapshots/5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b.json",
+  "sources": [
+    {
+      "bytes": 592,
+      "encoding": "gzip",
+      "path": "sources/a83d95ed92a0b0badd1b9ccbc63afb5a68651133cf11423073c8da4fa6b61582.json.gz",
+      "raw_sha256": "a83d95ed92a0b0badd1b9ccbc63afb5a68651133cf11423073c8da4fa6b61582",
+      "receipt_id": "82f2c503370ab86d15a0cffab372a216be6c6535bfe3792d849215221ff7be34"
+    },
+    {
+      "bytes": 15,
+      "encoding": "gzip",
+      "path": "sources/194c8f0a2db1656e81f81eab8238c2b14a7628211b1ef1072d339277b9be74ae.json.gz",
+      "raw_sha256": "194c8f0a2db1656e81f81eab8238c2b14a7628211b1ef1072d339277b9be74ae",
+      "receipt_id": "052b896d5a6447c0222b85d336a9766c5ff354b1d40720cf78be8a430acc9bfc"
+    },
+    {
+      "bytes": 641,
+      "encoding": "gzip",
+      "path": "sources/f0b8d2ec3b866cf855bc937e791b00380cfa95899b2ea6f923b343a2e37d18a9.json.gz",
+      "raw_sha256": "f0b8d2ec3b866cf855bc937e791b00380cfa95899b2ea6f923b343a2e37d18a9",
+      "receipt_id": "e1989538aa4a6c7c3fb37716cca2c11fcd8ec95db9a3c611abaacbc744079620"
+    },
+    {
+      "bytes": 13,
+      "encoding": "gzip",
+      "path": "sources/24de1c4a19c43ad41b013f13dcd858c17b0daa7f33a53f19913e5b11366d1c2e.json.gz",
+      "raw_sha256": "24de1c4a19c43ad41b013f13dcd858c17b0daa7f33a53f19913e5b11366d1c2e",
+      "receipt_id": "fe6cec433719ee3161ede8ba982fefabc29380e0ee73c6c8e206c3adf9bc7b69"
+    },
+    {
+      "bytes": 641,
+      "encoding": "gzip",
+      "path": "sources/df7f6a94d4b9e6df9da3af011e4df02e9e2d44f8648ba798f7b1abb580cde576.json.gz",
+      "raw_sha256": "df7f6a94d4b9e6df9da3af011e4df02e9e2d44f8648ba798f7b1abb580cde576",
+      "receipt_id": "2ec3c866466833f2fe93b41f88852a09a125b7f43f8db362d8ec10e9ba29f6a5"
+    },
+    {
+      "bytes": 13,
+      "encoding": "gzip",
+      "path": "sources/24de1c4a19c43ad41b013f13dcd858c17b0daa7f33a53f19913e5b11366d1c2e.json.gz",
+      "raw_sha256": "24de1c4a19c43ad41b013f13dcd858c17b0daa7f33a53f19913e5b11366d1c2e",
+      "receipt_id": "5fc5a391fb4eb18c43f420c96e22100db9d657549ef25e649b0f6c6b38ce4f1c"
+    }
+  ],
+  "status": "captured_partial_shadow",
+  "training_cutoff_semantics": "supplied frozen model cutoff"
+}
