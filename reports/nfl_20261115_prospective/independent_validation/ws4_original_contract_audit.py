@@ -72,7 +72,7 @@ def verify(raw_file:pathlib.Path, raw_ws1_file:pathlib.Path):
     created = timestamp(meta["forecast_created_at"])
     kickoff = timestamp(inp["events"][0]["event_start_at"])
     require(model_date <= freeze <= created < kickoff, "POSTKICKOFF_OR_TRAINING_LEAKAGE")
-    require(len(inp["events"])==1 and len(inp["contracts"])==1, "CANARY_SCOPE_CHANGED")
+    require(len(inp["events"])==1 and len(inp["contracts"])>=1, "CANARY_SCOPE_CHANGED")
     require(len({x["event_id"] for x in inp["events"]})==1, "EVENT_DUPLICATE")
     for event in inp["events"]:
         for kind in ("source_receipts","scenario_source_receipts"):
@@ -80,21 +80,26 @@ def verify(raw_file:pathlib.Path, raw_ws1_file:pathlib.Path):
             for r in event[kind]:
                 require(len(str(r.get("sha256",""))) == 64 and r.get("source_uri"), "MALFORMED_SOURCE_RECEIPT")
                 require(timestamp(r["available_at"])<=freeze, "POSTFREEZE_SOURCE")
+    offered_by_id={}
+    for c in inp["contracts"]:
+        selected = [x for x in ws1["candidates"] if x["candidate_id"] == c["contract_id"]]
+        require(len(selected)==1, "WS1_ORIGINAL_CONTRACT_ID_NOT_UNIQUE")
+        orig=selected[0]
+        require(orig["source_certified"] and orig["research_shadow_eligible"], "INELIGIBLE_ORIGINAL_QUOTE")
+        for old,new in (("quote_id","original_quote_id"),("event_id","event_id"),
+                        ("player_id","player_id"),("team","team_id"),
+                        ("line","line"),("period","period"),("source_sha256","original_quote_receipt_sha256")):
+            require(orig[old]==c[new], "ALTERED_ORIGINAL_CONTRACT:"+old)
+        require(timestamp(orig["source_received_at"]) == timestamp(c["original_quote_at"]),
+                "QUOTE_TIME_IDENTITY_CHANGED")
+        require(timestamp(c["original_quote_at"])<=freeze, "QUOTE_NOT_AVAILABLE")
+        require(orig["stat"]=="pass attempts" and c["stat_key"]=="pass_attempts", "STAT_IDENTITY_MISMATCH")
+        require(orig["position"]=="QB" and orig["eligibility_status"]=="EXPECTED_STARTER_SOURCE_BACKED",
+                "EXPECTED_QB_PROVENANCE_MISSING")
+        require(c["contract_id"] not in offered_by_id,"DUPLICATE_ORIGINAL_CONTRACT")
+        offered_by_id[c["contract_id"]]=c
     c=inp["contracts"][0]
-    selected = [x for x in ws1["candidates"] if x["candidate_id"] == c["contract_id"]]
-    require(len(selected)==1, "WS1_ORIGINAL_CONTRACT_ID_NOT_UNIQUE")
-    orig=selected[0]
-    require(orig["source_certified"] and orig["research_shadow_eligible"], "INELIGIBLE_ORIGINAL_QUOTE")
-    for old,new in (("quote_id","original_quote_id"),("event_id","event_id"),
-                    ("player_id","player_id"),("team","team_id"),
-                    ("line","line"),("period","period"),("source_sha256","original_quote_receipt_sha256")):
-        require(orig[old]==c[new], "ALTERED_ORIGINAL_CONTRACT:"+old)
-    require(timestamp(orig["source_received_at"]) == timestamp(c["original_quote_at"]),
-            "QUOTE_TIME_IDENTITY_CHANGED")
-    require(timestamp(c["original_quote_at"])<=freeze, "QUOTE_NOT_AVAILABLE")
-    require(orig["stat"]=="pass attempts" and c["stat_key"]=="pass_attempts", "STAT_IDENTITY_MISMATCH")
-    require(orig["position"]=="QB" and orig["eligibility_status"]=="EXPECTED_STARTER_SOURCE_BACKED",
-            "EXPECTED_QB_PROVENANCE_MISSING")
+    orig=next(x for x in ws1["candidates"] if x["candidate_id"]==c["contract_id"])
     for t in inp["events"][0]["teams"]:
         require(t["starter_status"]=="EXPECTED_STARTER_SOURCE_BACKED" and
                 isinstance(t["starter_source_receipts"],list) and t["starter_source_receipts"],
@@ -108,12 +113,15 @@ def verify(raw_file:pathlib.Path, raw_ws1_file:pathlib.Path):
     original_ids=[x["candidate_id"] for x in ws1["candidates"]]
     ledger_ids=[x["candidate_id"] for x in forecast["original_denominator_ledger"]]
     require(ledger_ids==original_ids, "LEDGER_ORIGINAL_ORDER_OR_IDENTITY_CHANGED")
-    require(sum(x["status"]=="READY_J1_ONLY" for x in forecast["original_denominator_ledger"])==1,
+    require(sum(x["status"] in ("READY_J1_ONLY","READY_J1_J2") for x in forecast["original_denominator_ledger"])==len(inp["contracts"]),
             "CANARY_ELIGIBILITY_COUNT_CHANGED")
     require(set(forecast["abstained_models"])=={"J3","J4"}, "MISSING_J3_J4_ABSTENTION")
     rows=meta["contracts"]
-    require(len(rows)==2 and {x["model_id"] for x in rows}==EXPECTED_MODELS, "MODEL_COVERAGE_CHANGED")
+    require(len(rows)==2*len(inp["contracts"]) and {x["model_id"] for x in rows}==EXPECTED_MODELS, "MODEL_COVERAGE_CHANGED")
+    require(len({(x["model_id"],x["contract_id"]) for x in rows}) == len(rows), "DUPLICATE_MODEL_ORIGINAL_CONTRACT")
     for row in rows:
+        c=offered_by_id.get(row["contract_id"])
+        require(c is not None,"UNKNOWN_SIMULATED_CONTRACT_ID")
         require(row["status"]=="FORECAST" and row["classification"]=="UNCERTIFIED_SHADOW",
                 "MODEL_PROMOTED_OR_NOT_PROSPECTIVE")
         require(row["draws"]==4096, "SIMULATION_DRAW_COUNT_CHANGED")
@@ -157,10 +165,11 @@ def verify(raw_file:pathlib.Path, raw_ws1_file:pathlib.Path):
       "original_book":orig["book"],
       "original_line":orig["line"],
       "model_forecasts":len(rows),
+      "distinct_original_contracts":len(inp["contracts"]),
       "draws_per_model":4096,
-      "eligible_canary_contracts":1,
+      "eligible_canary_contracts":len(inp["contracts"]),
       "original_quote_observations":len(ledger_ids),
-      "original_coverage_abstentions":len(ledger_ids)-1,
+      "original_coverage_abstentions":len(ledger_ids)-len(inp["contracts"]),
       "uncertified":True,
       "model_ids":sorted(x["model_id"] for x in rows),
       "no_market_skill_or_calibration_claim":True,
