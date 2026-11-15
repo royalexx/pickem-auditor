@@ -1,0 +1,429 @@
+{
+  "contracts": [
+    {
+      "contract_id": "fixture:H:HQ:pass_attempts:24.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 24.5,
+      "original_quote_id": "F-0",
+      "period": "full_game_including_overtime",
+      "player_id": "HQ",
+      "stat_key": "pass_attempts",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HQ:completions:18.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 18.5,
+      "original_quote_id": "F-1",
+      "period": "full_game_including_overtime",
+      "player_id": "HQ",
+      "stat_key": "completions",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HQ:passing_yards:240.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 240.5,
+      "original_quote_id": "F-2",
+      "period": "full_game_including_overtime",
+      "player_id": "HQ",
+      "stat_key": "passing_yards",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HQ:passing_tds:1",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 1,
+      "original_quote_id": "F-3",
+      "period": "full_game_including_overtime",
+      "player_id": "HQ",
+      "stat_key": "passing_tds",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HQ:qb_rushing_attempts:2",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 2,
+      "original_quote_id": "F-4",
+      "period": "full_game_including_overtime",
+      "player_id": "HQ",
+      "stat_key": "qb_rushing_attempts",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HR:carries:18.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 18.5,
+      "original_quote_id": "F-5",
+      "period": "full_game_including_overtime",
+      "player_id": "HR",
+      "stat_key": "carries",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HR:rushing_yards:70.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 70.5,
+      "original_quote_id": "F-6",
+      "period": "full_game_including_overtime",
+      "player_id": "HR",
+      "stat_key": "rushing_yards",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HR:rushing_tds:0",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 0,
+      "original_quote_id": "F-7",
+      "period": "full_game_including_overtime",
+      "player_id": "HR",
+      "stat_key": "rushing_tds",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HW:targets:6.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 6.5,
+      "original_quote_id": "F-8",
+      "period": "full_game_including_overtime",
+      "player_id": "HW",
+      "stat_key": "targets",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HW:receptions:4",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 4,
+      "original_quote_id": "F-9",
+      "period": "full_game_including_overtime",
+      "player_id": "HW",
+      "stat_key": "receptions",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HW:receiving_yards:49.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 49.5,
+      "original_quote_id": "F-10",
+      "period": "full_game_including_overtime",
+      "player_id": "HW",
+      "stat_key": "receiving_yards",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HW:receiving_tds:0",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 0,
+      "original_quote_id": "F-11",
+      "period": "full_game_including_overtime",
+      "player_id": "HW",
+      "stat_key": "receiving_tds",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HD:solo_tackles:3.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 3.5,
+      "original_quote_id": "F-12",
+      "period": "full_game_including_overtime",
+      "player_id": "HD",
+      "stat_key": "solo_tackles",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HD:tackle_assists:2",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 2,
+      "original_quote_id": "F-13",
+      "period": "full_game_including_overtime",
+      "player_id": "HD",
+      "stat_key": "tackle_assists",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:H:HD:tackles_assists:5.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 5.5,
+      "original_quote_id": "F-14",
+      "period": "full_game_including_overtime",
+      "player_id": "HD",
+      "stat_key": "tackles_assists",
+      "team_id": "H"
+    },
+    {
+      "contract_id": "fixture:A:AQ:pass_attempts:24.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 24.5,
+      "original_quote_id": "F-15",
+      "period": "full_game_including_overtime",
+      "player_id": "AQ",
+      "stat_key": "pass_attempts",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AQ:completions:18.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 18.5,
+      "original_quote_id": "F-16",
+      "period": "full_game_including_overtime",
+      "player_id": "AQ",
+      "stat_key": "completions",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AQ:passing_yards:240.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 240.5,
+      "original_quote_id": "F-17",
+      "period": "full_game_including_overtime",
+      "player_id": "AQ",
+      "stat_key": "passing_yards",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AQ:passing_tds:1",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 1,
+      "original_quote_id": "F-18",
+      "period": "full_game_including_overtime",
+      "player_id": "AQ",
+      "stat_key": "passing_tds",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AQ:qb_rushing_attempts:2",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 2,
+      "original_quote_id": "F-19",
+      "period": "full_game_including_overtime",
+      "player_id": "AQ",
+      "stat_key": "qb_rushing_attempts",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AR:carries:18.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 18.5,
+      "original_quote_id": "F-20",
+      "period": "full_game_including_overtime",
+      "player_id": "AR",
+      "stat_key": "carries",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AR:rushing_yards:70.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 70.5,
+      "original_quote_id": "F-21",
+      "period": "full_game_including_overtime",
+      "player_id": "AR",
+      "stat_key": "rushing_yards",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AR:rushing_tds:0",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 0,
+      "original_quote_id": "F-22",
+      "period": "full_game_including_overtime",
+      "player_id": "AR",
+      "stat_key": "rushing_tds",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AW:targets:6.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 6.5,
+      "original_quote_id": "F-23",
+      "period": "full_game_including_overtime",
+      "player_id": "AW",
+      "stat_key": "targets",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AW:receptions:4",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 4,
+      "original_quote_id": "F-24",
+      "period": "full_game_including_overtime",
+      "player_id": "AW",
+      "stat_key": "receptions",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AW:receiving_yards:49.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 49.5,
+      "original_quote_id": "F-25",
+      "period": "full_game_including_overtime",
+      "player_id": "AW",
+      "stat_key": "receiving_yards",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AW:receiving_tds:0",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 0,
+      "original_quote_id": "F-26",
+      "period": "full_game_including_overtime",
+      "player_id": "AW",
+      "stat_key": "receiving_tds",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AD:solo_tackles:3.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 3.5,
+      "original_quote_id": "F-27",
+      "period": "full_game_including_overtime",
+      "player_id": "AD",
+      "stat_key": "solo_tackles",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AD:tackle_assists:2",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 2,
+      "original_quote_id": "F-28",
+      "period": "full_game_including_overtime",
+      "player_id": "AD",
+      "stat_key": "tackle_assists",
+      "team_id": "A"
+    },
+    {
+      "contract_id": "fixture:A:AD:tackles_assists:5.5",
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "line": 5.5,
+      "original_quote_id": "F-29",
+      "period": "full_game_including_overtime",
+      "player_id": "AD",
+      "stat_key": "tackles_assists",
+      "team_id": "A"
+    }
+  ],
+  "events": [
+    {
+      "event_id": "SYNTHETIC_2026_NFL_001",
+      "event_start_at": "2026-11-15T18:00:00Z",
+      "teams": [
+        {
+          "pass_rate": 0.56,
+          "players": [
+            {
+              "participation": 1,
+              "player_id": "HQ",
+              "role": "QB",
+              "rush_share": 0.1,
+              "yards_per_carry": 4
+            },
+            {
+              "participation": 1,
+              "player_id": "HR",
+              "role": "RB",
+              "rush_share": 2.6,
+              "share": 1,
+              "yards_per_carry": 4.5
+            },
+            {
+              "catch_rate": 0.68,
+              "participation": 1,
+              "player_id": "HW",
+              "role": "RECEIVER",
+              "share": 1.65,
+              "yards_per_catch": 10.2
+            },
+            {
+              "catch_rate": 0.74,
+              "participation": 1,
+              "player_id": "HT",
+              "role": "RECEIVER",
+              "share": 1.15,
+              "yards_per_catch": 8.3
+            },
+            {
+              "participation": 1,
+              "player_id": "HD",
+              "role": "DEFENDER",
+              "share": 2,
+              "snap_share": 0.9
+            },
+            {
+              "participation": 1,
+              "player_id": "HE",
+              "role": "DEFENDER",
+              "share": 1.5,
+              "snap_share": 0.8
+            }
+          ],
+          "plays_mean": 66,
+          "pregame_game_role": "FAVORITE",
+          "sack_rate": 0.06,
+          "starter_qb_id": "HQ",
+          "starter_status": "CONFIRMED_PREGAME",
+          "team_id": "H"
+        },
+        {
+          "pass_rate": 0.54,
+          "players": [
+            {
+              "participation": 1,
+              "player_id": "AQ",
+              "role": "QB",
+              "rush_share": 0.1,
+              "yards_per_carry": 4
+            },
+            {
+              "participation": 1,
+              "player_id": "AR",
+              "role": "RB",
+              "rush_share": 2.6,
+              "share": 1,
+              "yards_per_carry": 4.5
+            },
+            {
+              "catch_rate": 0.68,
+              "participation": 1,
+              "player_id": "AW",
+              "role": "RECEIVER",
+              "share": 1.65,
+              "yards_per_catch": 10.2
+            },
+            {
+              "catch_rate": 0.74,
+              "participation": 1,
+              "player_id": "AT",
+              "role": "RECEIVER",
+              "share": 1.15,
+              "yards_per_catch": 8.3
+            },
+            {
+              "participation": 1,
+              "player_id": "AD",
+              "role": "DEFENDER",
+              "share": 2,
+              "snap_share": 0.9
+            },
+            {
+              "participation": 1,
+              "player_id": "AE",
+              "role": "DEFENDER",
+              "share": 1.5,
+              "snap_share": 0.8
+            }
+          ],
+          "plays_mean": 68,
+          "pregame_game_role": "UNDERDOG",
+          "sack_rate": 0.06,
+          "starter_qb_id": "AQ",
+          "starter_status": "CONFIRMED_PREGAME",
+          "team_id": "A"
+        }
+      ]
+    }
+  ],
+  "input_freeze_at": "2026-11-14T22:00:00Z",
+  "model_training_cutoff_at": "2026-11-14T20:00:00Z",
+  "schema": "PA_WS4_JOINT_INPUT_v1",
+  "source_certification_status": "SYNTHETIC_FIXTURE",
+  "synthetic_fixture": true
+}
