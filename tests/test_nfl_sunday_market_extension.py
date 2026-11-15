@@ -24,7 +24,7 @@ def test_signed_composites_and_missing_zero():
     assert m.value({'rushing_yards':0},'rushing_receiving_yards') is None
     assert m.value({'rushing_yards':0,'receiving_yards':None},'rushing_receiving_yards') is None
     assert m.value({'rushing_yards':0,'receiving_yards':0},'rushing_receiving_yards')==0
-    assert m.value({'def_tackles_solo':3,'def_tackles_with_assist':2,'def_tackle_assists':2},'tackles_assists') is None
+    assert m.value({'def_tackles_solo':3,'def_tackles_with_assist':2,'def_tackle_assists':2},'tackles_assists')==7
 
 def test_same_game_pairing_and_conflicts():
     a={'gsis_id':'00-0036963','game_id':'A','rushing_yards':4}

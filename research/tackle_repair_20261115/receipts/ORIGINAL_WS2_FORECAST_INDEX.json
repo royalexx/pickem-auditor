@@ -1,0 +1,909 @@
+{
+  "_public_copy_redaction": {
+    "original_sha256": "13d29d98f0081d929c907f32526e93fb11e5d7b38cc7e1a523a0268af7ec9d42",
+    "policy": "Signed URL query strings removed from this public derivative. Original bytes preserved in Deepnote and the local non-Git receipt backup. Content hashes in upstream receipts refer to original hosted bytes, not this redacted copy."
+  },
+  "archived_ws1_receipts": {
+    "games2026": {
+      "earliest_forecaster_availability_at": "2026-11-15T14:26:51.670585Z",
+      "headers_not_publication_proof": {
+        "Content-Type": "application/octet-stream",
+        "ETag": "\"0x8DF4323119967E1\"",
+        "Last-Modified": "Sun, 15 Nov 2026 14:16:40 GMT"
+      },
+      "observed_received_at": "2026-11-15T14:26:51.670585Z",
+      "raw_path": "reports/nfl_20261115_prospective/source_control/feature_source_receipts/raw/acdf054288a5c500178ba2022c6e1d9f62214eaca46897412b17130cfc3fa2db.csv",
+      "receipt_file_sha256": "a2696018cefc4d59790eb6d7c0f376c5bcc0460f7c442cfa1332138a6bc972d4",
+      "requested_url": "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv",
+      "resolved_url": "https://release-assets.githubusercontent.com/github-production-release-asset/452908115/4c84031e-ad5c-451e-99a2-4a445c893c5b#SIGNED_QUERY_REDACTED",
+      "row_count": 7548,
+      "schema_columns": [
+        "game_id",
+        "season",
+        "game_type",
+        "week",
+        "gameday",
+        "weekday",
+        "gametime",
+        "away_team",
+        "away_score",
+        "home_team",
+        "home_score",
+        "location",
+        "result",
+        "total",
+        "overtime",
+        "old_game_id",
+        "gsis",
+        "nfl_detail_id",
+        "pfr",
+        "pff",
+        "espn",
+        "ftn",
+        "away_rest",
+        "home_rest",
+        "away_moneyline",
+        "home_moneyline",
+        "spread_line",
+        "away_spread_odds",
+        "home_spread_odds",
+        "total_line",
+        "under_odds",
+        "over_odds",
+        "div_game",
+        "roof",
+        "surface",
+        "temp",
+        "wind",
+        "away_qb_id",
+        "home_qb_id",
+        "away_qb_name",
+        "home_qb_name",
+        "away_coach",
+        "home_coach",
+        "referee",
+        "stadium_id",
+        "stadium"
+      ],
+      "sha256": "acdf054288a5c500178ba2022c6e1d9f62214eaca46897412b17130cfc3fa2db",
+      "size_bytes": 2190032,
+      "source": "games2026",
+      "upstream_publication_verified": false
+    },
+    "players": {
+      "earliest_forecaster_availability_at": "2026-11-15T14:26:44.880155Z",
+      "headers_not_publication_proof": {
+        "Content-Type": "application/octet-stream",
+        "ETag": "\"0x8DF425D94D57C93\"",
+        "Last-Modified": "Sat, 14 Nov 2026 14:43:00 GMT"
+      },
+      "observed_received_at": "2026-11-15T14:26:44.880155Z",
+      "raw_path": "reports/nfl_20261115_prospective/source_control/feature_source_receipts/raw/a8a86df9be83cdf88d0dadb47f09fb4a3c5db326e19b46cf20bdade38e3e024d.csv",
+      "receipt_file_sha256": "07f0fa3e61d3f892d0467fdc4d2a6c6bc7bc6ff705172abd1781f7b99574f8a0",
+      "requested_url": "https://github.com/nflverse/nflverse-data/releases/download/players/players.csv",
+      "resolved_url": "https://release-assets.githubusercontent.com/github-production-release-asset/452908115/f410586e-7399-4802-916d-752d097dab07#SIGNED_QUERY_REDACTED",
+      "row_count": 24869,
+      "schema_columns": [
+        "gsis_id",
+        "display_name",
+        "common_first_name",
+        "first_name",
+        "last_name",
+        "short_name",
+        "football_name",
+        "suffix",
+        "esb_id",
+        "nfl_id",
+        "pfr_id",
+        "pff_id",
+        "otc_id",
+        "espn_id",
+        "smart_id",
+        "birth_date",
+        "position_group",
+        "position",
+        "ngs_position_group",
+        "ngs_position",
+        "height",
+        "weight",
+        "headshot",
+        "college_name",
+        "college_conference",
+        "jersey_number",
+        "rookie_season",
+        "last_season",
+        "latest_team",
+        "status",
+        "ngs_status",
+        "ngs_status_short_description",
+        "years_of_experience",
+        "pff_position",
+        "pff_status",
+        "draft_year",
+        "draft_round",
+        "draft_pick",
+        "draft_team"
+      ],
+      "sha256": "a8a86df9be83cdf88d0dadb47f09fb4a3c5db326e19b46cf20bdade38e3e024d",
+      "size_bytes": 7308552,
+      "source": "players",
+      "upstream_publication_verified": false
+    },
+    "stats2026": {
+      "earliest_forecaster_availability_at": "2026-11-15T14:26:49.153068Z",
+      "headers_not_publication_proof": {
+        "Content-Type": "application/octet-stream",
+        "ETag": "\"0x8DF43000F161E8C\"",
+        "Last-Modified": "Sun, 15 Nov 2026 10:06:04 GMT"
+      },
+      "observed_received_at": "2026-11-15T14:26:49.153068Z",
+      "raw_path": "reports/nfl_20261115_prospective/source_control/feature_source_receipts/raw/a7f51400624ae41f38db1395122115ff653231789ed0a840a3a7fae9e3bc977a.csv",
+      "receipt_file_sha256": "abbac7b65a71f90ee58163627c1f73ebb8ec977d8981e6dcdd6fb73aaf4fbc1c",
+      "requested_url": "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2026.csv",
+      "resolved_url": "https://release-assets.githubusercontent.com/github-production-release-asset/452908115/57459ff2-e635-4834-9755-834f6248ad5f#SIGNED_QUERY_REDACTED",
+      "row_count": 9534,
+      "schema_columns": [
+        "player_id",
+        "player_name",
+        "player_display_name",
+        "position",
+        "position_group",
+        "headshot_url",
+        "season",
+        "week",
+        "season_type",
+        "game_id",
+        "team",
+        "opponent_team",
+        "completions",
+        "attempts",
+        "passing_yards",
+        "passing_tds",
+        "passing_interceptions",
+        "sacks_suffered",
+        "sack_yards_lost",
+        "sack_fumbles",
+        "sack_fumbles_lost",
+        "passing_air_yards",
+        "passing_yards_after_catch",
+        "passing_first_downs",
+        "passing_epa",
+        "passing_cpoe",
+        "passing_2pt_conversions",
+        "pacr",
+        "passing_10",
+        "passing_16",
+        "passing_20",
+        "passing_40",
+        "carries",
+        "rushing_yards",
+        "rushing_tds",
+        "rushing_fumbles",
+        "rushing_fumbles_lost",
+        "rushing_first_downs",
+        "rushing_epa",
+        "rushing_2pt_conversions",
+        "rushing_10",
+        "rushing_12",
+        "rushing_20",
+        "rushing_40",
+        "receptions",
+        "targets",
+        "receiving_yards",
+        "receiving_tds",
+        "receiving_fumbles",
+        "receiving_fumbles_lost",
+        "receiving_air_yards",
+        "receiving_yards_after_catch",
+        "receiving_first_downs",
+        "receiving_epa",
+        "receiving_2pt_conversions",
+        "receiving_10",
+        "receiving_16",
+        "receiving_20",
+        "receiving_40",
+        "racr",
+        "target_share",
+        "air_yards_share",
+        "wopr",
+        "special_teams_tds",
+        "def_tackles_solo",
+        "def_tackles_with_assist",
+        "def_tackle_assists",
+        "def_tackles_for_loss",
+        "def_tackles_for_loss_yards",
+        "def_fumbles_forced",
+        "def_sacks",
+        "def_sack_yards",
+        "def_qb_hits",
+        "def_interceptions",
+        "def_interception_yards",
+        "def_pass_defended",
+        "def_tds",
+        "def_fumbles",
+        "def_safeties",
+        "def_punt_blocks",
+        "def_pat_blocks",
+        "def_fg_blocks",
+        "def_2pt_atts",
+        "def_2pt_made",
+        "misc_yards",
+        "fumble_recovery_own",
+        "fumble_recovery_yards_own",
+        "fumble_recovery_opp",
+        "fumble_recovery_yards_opp",
+        "fumble_recovery_tds",
+        "penalties",
+        "penalty_yards",
+        "fumbles_forced_by_opp",
+        "fumbles_not_forced",
+        "fumbles_out_of_bounds",
+        "fumbles_total",
+        "fumbles_lost_total",
+        "punt_returns",
+        "punt_return_yards",
+        "kickoff_returns",
+        "kickoff_return_yards",
+        "fg_made",
+        "fg_att",
+        "fg_missed",
+        "fg_blocked",
+        "fg_long",
+        "fg_pct",
+        "fg_made_0_19",
+        "fg_made_20_29",
+        "fg_made_30_39",
+        "fg_made_40_49",
+        "fg_made_50_59",
+        "fg_made_60_",
+        "fg_missed_0_19",
+        "fg_missed_20_29",
+        "fg_missed_30_39",
+        "fg_missed_40_49",
+        "fg_missed_50_59",
+        "fg_missed_60_",
+        "fg_made_list",
+        "fg_missed_list",
+        "fg_blocked_list",
+        "fg_made_distance",
+        "fg_missed_distance",
+        "fg_blocked_distance",
+        "pat_made",
+        "pat_att",
+        "pat_missed",
+        "pat_blocked",
+        "pat_pct",
+        "gwfg_made",
+        "gwfg_att",
+        "gwfg_missed",
+        "gwfg_blocked",
+        "gwfg_distance",
+        "pt_att",
+        "pt_blocked",
+        "pt_long",
+        "pt_yards",
+        "pt_inside_20",
+        "pt_out_of_bounds",
+        "pt_downed",
+        "pt_touchback",
+        "pt_fair_caught",
+        "pt_returned",
+        "pt_return_yards",
+        "pt_return_tds",
+        "pt_net_yards",
+        "fantasy_points",
+        "fantasy_points_ppr"
+      ],
+      "sha256": "a7f51400624ae41f38db1395122115ff653231789ed0a840a3a7fae9e3bc977a",
+      "size_bytes": 4241495,
+      "source": "stats2026",
+      "upstream_publication_verified": false
+    }
+  },
+  "attempt_started_at": "2026-11-15T14:29:15.536731+00:00",
+  "code_commit": "cdf2e8c9029217ee26fb28d21f7ecd6e8aaeeb81",
+  "created_at": "2026-11-15T14:29:18.370098+00:00",
+  "failure_reasons": {
+    "S1-role-eb-empirical-v1": {
+      "CROSS_TEAM_ROSTER_IDENTITY_UNVERIFIABLE": 78,
+      "RESEARCH_SHADOW_ABSTAIN": 14,
+      "WS1_FEATURE_ABSTAIN:INDEPENDENT_NAME_ID_MISMATCH": 12,
+      "WS1_NO_SOURCE_BOUND_ROLE_PEERS": 1635,
+      "insufficient_player_appearances": 106
+    },
+    "S2-ew-empirical-hl4-v1": {
+      "CROSS_TEAM_ROSTER_IDENTITY_UNVERIFIABLE": 78,
+      "RESEARCH_SHADOW_ABSTAIN": 14,
+      "WS1_FEATURE_ABSTAIN:INDEPENDENT_NAME_ID_MISMATCH": 12,
+      "insufficient_player_appearances": 106
+    },
+    "S3-eb-poisson-v1": {
+      "CROSS_TEAM_ROSTER_IDENTITY_UNVERIFIABLE": 78,
+      "RESEARCH_SHADOW_ABSTAIN": 14,
+      "WS1_FEATURE_ABSTAIN:INDEPENDENT_NAME_ID_MISMATCH": 12,
+      "WS1_NO_SOURCE_BOUND_ROLE_PEERS": 1635,
+      "insufficient_player_appearances": 106
+    },
+    "S4-eb-gamma-poisson-v1": {
+      "CROSS_TEAM_ROSTER_IDENTITY_UNVERIFIABLE": 78,
+      "RESEARCH_SHADOW_ABSTAIN": 14,
+      "WS1_FEATURE_ABSTAIN:INDEPENDENT_NAME_ID_MISMATCH": 12,
+      "WS1_NO_SOURCE_BOUND_ROLE_PEERS": 1635,
+      "insufficient_player_appearances": 106
+    },
+    "S5-hurdle-geometric-v1": {
+      "CROSS_TEAM_ROSTER_IDENTITY_UNVERIFIABLE": 78,
+      "RESEARCH_SHADOW_ABSTAIN": 14,
+      "WS1_FEATURE_ABSTAIN:INDEPENDENT_NAME_ID_MISMATCH": 12,
+      "WS1_NO_SOURCE_BOUND_ROLE_PEERS": 1635,
+      "insufficient_player_appearances": 106
+    },
+    "S6-fixed-market-logit-v1": {
+      "ORIGINAL_FROZEN_60_40_NOT_AVAILABLE": 1845
+    },
+    "S7-neutral-10-v1": {
+      "ORIGINAL_FROZEN_60_40_NOT_AVAILABLE": 1845
+    },
+    "S7-neutral-25-v1": {
+      "ORIGINAL_FROZEN_60_40_NOT_AVAILABLE": 1845
+    }
+  },
+  "feature_freeze_at": "2026-11-15T14:29:15.089813+00:00",
+  "feature_pin_sha256": null,
+  "forecast_rows_sha256": "b233619c05f3877323b77dde106faca6299c52135877b0045d314025249e72de",
+  "input_contracts": 1845,
+  "input_mode": "WS2_READ_ONLY_ADAPTER_OF_ALREADY_ARCHIVED_WS1_SOURCES",
+  "model_code_sha256": {
+    "scripts/nfl_ws2_archived_history.py": "3aaced790d5c195876fb1d4c0bb68cc36784156685ce0214cc0e2664ef1c4632",
+    "scripts/nfl_ws2_live.py": "4a70d50f1b1c0e6b6d317cd4238478dd3d126abf5a36071125a35fee21913b82",
+    "scripts/nfl_ws2_shadow.py": "fb3a728519f38343d89c288ce10b23557a28402548323e5f58a4627920cfe8be",
+    "scripts/nfl_ws2_ws1_adapter.py": "f0e0a19708fe55a7c94cf7ab4a3d618f69d59350dd344983eedf8bc97e104bdc",
+    "v2/contracts.py": "b93c7c4365641e026cca1eb0409d5a81472bb93b9a82ecd048cbc092b0195b72",
+    "v2/nfl_marginal_shadow.py": "9bc325fd0afa239a2abff78108ffdb0eb64d4e024bda49949a23b6b06aa35e74",
+    "v2/stat_registry.py": "452f68817c36a90f2fd5f8500943a863f8f31a5d281fb1859bd6f2a0b9f2d5ca"
+  },
+  "model_training_cutoff_at": "2026-11-15T14:26:51.670585+00:00",
+  "original_quotes_preserved": true,
+  "parameters": {
+    "empirical_strength": 4.0,
+    "ew_window": 20,
+    "gamma_strength_max": 12.0,
+    "gamma_strength_min": 2.0,
+    "half_life": 4.0,
+    "hurdle_strength": 4.0,
+    "hurdle_zero_threshold": 0.25,
+    "logit_clip": 1e-09,
+    "max_history": 40,
+    "min_peer_games": 3,
+    "min_peers": 5,
+    "min_player": 3,
+    "shrinkage": [
+      0.1,
+      0.25
+    ]
+  },
+  "per_kickoff_window": {
+    "2026-11-15T14:30:00Z": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 126
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 126,
+        "unavailable": 0
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 126
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 126
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 126
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 126
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 126
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 126
+      }
+    },
+    "2026-11-15T18:00:00Z": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 1019
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 956,
+        "unavailable": 63
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 1019
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 1019
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 1019
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 1019
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 1019
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 1019
+      }
+    },
+    "2026-11-15T21:05:00Z": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 324
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 255,
+        "unavailable": 69
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 324
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 324
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 324
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 324
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 324
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 324
+      }
+    },
+    "2026-11-15T21:25:00Z": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 144
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 144,
+        "unavailable": 0
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 144
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 144
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 144
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 144
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 144
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 144
+      }
+    },
+    "2026-11-16T01:20:00Z": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 154
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 154,
+        "unavailable": 0
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 154
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 154
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 154
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 154
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 154
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 154
+      }
+    },
+    "UNKNOWN": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 78
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 0,
+        "unavailable": 78
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 78
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 78
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 78
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 78
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 78
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 78
+      }
+    }
+  },
+  "per_market": {
+    "completions": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 67
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 54,
+        "unavailable": 13
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 67
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 67
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 67
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 67
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 67
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 67
+      }
+    },
+    "pass attempts": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 69
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 55,
+        "unavailable": 14
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 69
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 69
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 69
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 69
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 69
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 69
+      }
+    },
+    "passing yards": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 96
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 78,
+        "unavailable": 18
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 96
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 96
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 96
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 96
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 96
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 96
+      }
+    },
+    "receiving yards": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 584
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 533,
+        "unavailable": 51
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 584
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 584
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 584
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 584
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 584
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 584
+      }
+    },
+    "receptions": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 568
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 518,
+        "unavailable": 50
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 568
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 568
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 568
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 568
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 568
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 568
+      }
+    },
+    "rush attempts": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 98
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 85,
+        "unavailable": 13
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 98
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 98
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 98
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 98
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 98
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 98
+      }
+    },
+    "rushing yards": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 249
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 210,
+        "unavailable": 39
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 249
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 249
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 249
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 249
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 249
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 249
+      }
+    },
+    "tackles + assists": {
+      "S1-role-eb-empirical-v1": {
+        "forecast": 0,
+        "unavailable": 114
+      },
+      "S2-ew-empirical-hl4-v1": {
+        "forecast": 102,
+        "unavailable": 12
+      },
+      "S3-eb-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 114
+      },
+      "S4-eb-gamma-poisson-v1": {
+        "forecast": 0,
+        "unavailable": 114
+      },
+      "S5-hurdle-geometric-v1": {
+        "forecast": 0,
+        "unavailable": 114
+      },
+      "S6-fixed-market-logit-v1": {
+        "forecast": 0,
+        "unavailable": 114
+      },
+      "S7-neutral-10-v1": {
+        "forecast": 0,
+        "unavailable": 114
+      },
+      "S7-neutral-25-v1": {
+        "forecast": 0,
+        "unavailable": 114
+      }
+    }
+  },
+  "per_model": {
+    "S1-role-eb-empirical-v1": {
+      "forecast": 0,
+      "unavailable": 1845
+    },
+    "S2-ew-empirical-hl4-v1": {
+      "forecast": 1635,
+      "unavailable": 210
+    },
+    "S3-eb-poisson-v1": {
+      "forecast": 0,
+      "unavailable": 1845
+    },
+    "S4-eb-gamma-poisson-v1": {
+      "forecast": 0,
+      "unavailable": 1845
+    },
+    "S5-hurdle-geometric-v1": {
+      "forecast": 0,
+      "unavailable": 1845
+    },
+    "S6-fixed-market-logit-v1": {
+      "forecast": 0,
+      "unavailable": 1845
+    },
+    "S7-neutral-10-v1": {
+      "forecast": 0,
+      "unavailable": 1845
+    },
+    "S7-neutral-25-v1": {
+      "forecast": 0,
+      "unavailable": 1845
+    }
+  },
+  "probability_rows_checked": 1635,
+  "production_modified": false,
+  "quote_freeze_at": "2026-11-15T04:33:16.852853Z",
+  "research_only": true,
+  "source_manifest_sha256": "5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71",
+  "status": "UNCERTIFIED_SHADOW",
+  "verified_quote_archives": {
+    "source_control/raw/6993a07ebce5001a55729ff556765bff388bc91cb5235416af9cd26401ede14a.bin": "6993a07ebce5001a55729ff556765bff388bc91cb5235416af9cd26401ede14a"
+  },
+  "ws1_feature_pin_absent": true
+}

@@ -28,9 +28,10 @@ import math
 from pathlib import Path
 from typing import Mapping
 
-VERSION = "nfl-source-stat-v2-three-component-tackles"
-TACKLE_DERIVED_CACHE_SCHEMA = "nfl-tackles-assists-derived-v2"
+VERSION = "nfl-source-stat-v2.1-three-component-tackles"
+TACKLE_DERIVED_CACHE_SCHEMA = "nfl-tackles-assists-derived-v2.1"
 STALE_TACKLE_CACHE_SCHEMAS = frozenset({
+    "nfl-tackles-assists-derived-v2",
     "nfl-tackles-assists-derived-v1",
     "nfl-source-stat-challenger-v1",
 })

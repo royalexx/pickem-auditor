@@ -20,6 +20,8 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
+from nfl_stat_definitions import combined_tackles_assists
+
 ROOT = Path("reports/nfl_20261115_prospective")
 ARCHIVE = Path("reports/NFL_2016_2025_DECADE_PREQUENTIAL_RESEARCH_20261111/source_bundle")
 PUBLIC = {
@@ -122,9 +124,7 @@ def self_test():
     return 8
 def count_stat(row,stat):
     if stat=="tackles + assists":
-        values=[numeric(row.get(k)) for k in
-                ("def_tackles_solo","def_tackles_with_assist","def_tackle_assists")]
-        return None if any(v is None for v in values) else sum(values)
+        return combined_tackles_assists(row)
     return numeric(row.get(STATS[stat]))
 def ready_clock(row,freeze):
     try:
