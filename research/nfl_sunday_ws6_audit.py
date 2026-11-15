@@ -212,6 +212,8 @@ def verify_forecast(f, q, root, source_hash):
     required(f, ("model_id", "model_version", "model_code_commit", "model_artifact_sha256",
                  "input_manifest_sha256", "forecast_at", "input_freeze_at",
                  "model_training_cutoff_at", "forecast_attested_at"))
+    if f["model_id"] == "market_no_vig":
+        fail("RESERVED_MARKET_ONLY_SOURCE_DERIVED_CONTROL")
     if key_of(f) != key_of(q):
         fail("FORECAST_CONTRACT_IDENTITY_MISMATCH")
     if f["input_manifest_sha256"] != source_hash:
