@@ -1,0 +1,32 @@
+{
+  "experiment_id": "NFL-WS2-MARGINAL-20261115-v1",
+  "authority": "PA-V25-MASTER-2026-11-09/v1.1; explicit user Workstream 2 authorization",
+  "status": "shadow-only; no release or production changes",
+  "target_date": "2026-11-15",
+  "hypothesis": "Cheap prior-shrunk marginal laws and fixed probability sensitivities may improve future same-contract proper scores without a joint game simulator.",
+  "parameters": {
+    "min_player_appearances": 3,
+    "min_peer_players": 5,
+    "min_peer_appearances": 3,
+    "max_history_appearances": 40,
+    "empirical_prior_equivalent_games": 4.0,
+    "gamma_prior_equivalent_games": [2.0, 12.0],
+    "ew_half_life_appearances": 4.0,
+    "ew_max_appearances": 20,
+    "hurdle_min_zero_fraction": 0.25,
+    "hurdle_beta_prior_equivalent_games": 4.0,
+    "hurdle_positive_prior_equivalent_games": 4.0,
+    "logit_probability_clip": 1e-9,
+    "market_logit_model_weight": 0.5,
+    "neutral_probability_shrinkage": [0.1, 0.25],
+    "neutral_baseline": 0.5
+  },
+  "primary_metric": "per-market matched conditional-no-push Brier, versus frozen 60/40 and coherent original no-vig market",
+  "secondary_metrics": ["per-market count CRPS", "three-outcome Brier", "log loss", "signed Over residual", "zero and tail mass", "coverage", "runtime"],
+  "cluster_unit": "event_id within slate; future multi-slate inference by slate date; no IID prop confidence intervals",
+  "selection": "all original contracts; no top-k or agreement filter",
+  "evidence": "2016-2025 and Nov8 are exposed retrospective QA; only future source-bound pregame freezes can supply prospective evidence",
+  "calibration": "no fitted calibrator accepted without independently verified original chronological training receipts; none admitted in v1",
+  "promotion": "forbidden in this workstream; no fitted parameter optimization on Nov15 outcomes",
+  "rollback": "remove standalone runner/module; legacy code and weights are untouched"
+}

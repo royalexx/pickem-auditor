@@ -1,0 +1,42 @@
+{
+  "actual_live_per_game_eligibility_not_independently_certified": true,
+  "all_individual_preweek_forecast_settlement_SHA_verified": true,
+  "all_persisted_team_game_state_pool_conservation_checked": true,
+  "checked_weeks": 175,
+  "elapsed_seconds": 397.5,
+  "final_report_self_sha256_verified": true,
+  "individual_offered_probability_equals_joint_CDF_checked": true,
+  "model_code_frozen": true,
+  "model_did_not_use_V3_scenario_substitution": true,
+  "no_future_week_data_in_history_packet_verified": true,
+  "no_original_source_timestamp_authentication": true,
+  "no_prospective_betting_price_validation": true,
+  "notes": [
+    "Validates only the frozen recorded inputs and outputs; cannot authenticate external data's original first-seen time.",
+    "All 175 weekly forecast packets exclude current/future week rows by season/week labels.",
+    "The selected synthetic contract population can depend on postgame observed player appearance, a retrospective cohort bias.",
+    "V5.6 fully coherent internal box-score pools do not establish realistic empirical behavior or prop calibration.",
+    "V4.1 later post-hoc QB share repair may violate full physical conservation and is not a coherent joint baseline."
+  ],
+  "original_runner_code_frozen": true,
+  "preweek_weight_equals_previous_actual_settlement_verified": true,
+  "qb1_only_all_forecast_markets_checked": true,
+  "reference_final_report_sha256": "b18b2aaa42cd477588e053d09fe0ec4afa712cb100f8189c2e148cd63f17be04",
+  "schema": "NFL_V56_175_WEEK_ADVERSARIAL_FROZEN_GAME_AUDIT_v1",
+  "single_mask_for_both_offenses_and_defenses": true,
+  "stats": {
+    "conserved_team_scenarios": 675072,
+    "eligible_qb1_market_offers": 23555,
+    "forecast_offers": 556094,
+    "frozen_prior_history_rows": 628732,
+    "frozen_prior_pbp_rows": 738808,
+    "joint_game_scenarios": 337536,
+    "negative_yard_component_values": 101918,
+    "settled_paired_contracts": 407476,
+    "settled_weeks": 175,
+    "team_state_negative_yard_components": 10668,
+    "two_team_games": 2637
+  },
+  "status": "PASS_RESEARCH_ONLY",
+  "synthetic_offer_cohort_post_hoc_selection_bias_not_resolved": true
+}

@@ -1,0 +1,189 @@
+{
+  "diagnostics": {
+    "empirical_prior_weight": 0.3333333333333333,
+    "ew_kish_ess": 6.942256209459894,
+    "gamma_prior": {
+      "alpha0": 19.200000000000003,
+      "beta0": 12.0,
+      "between_variance": 1e-09,
+      "peer_mean": 1.6,
+      "peer_players": 5
+    },
+    "peer_players": 5,
+    "player_n": 8,
+    "posterior_rate": {
+      "alpha": 26.200000000000003,
+      "beta": 20.0,
+      "own_n": 8,
+      "prior_mean_weight": 0.6
+    }
+  },
+  "evidence_class": "synthetic_mathematical_QA_only_not_Sunday_forecasts",
+  "laws": {
+    "S1-role-eb-empirical-v1": {
+      "conditioning": "eligible_appearance; binary probability additionally conditions on Y != original line",
+      "count_crps_at_synthetic_y2": {
+        "crps": 0.7356111111111105,
+        "tail_error_upper_bound": 0.0,
+        "terms": 8
+      },
+      "distribution_sha256": "4e37dd79c3a6ee23a582e92b8691414581c453eec9fcc54d89f290e6953942d4",
+      "kind": "empirical",
+      "mean": 1.1166666666666667,
+      "p_over_given_no_push": 0.3913043478260871,
+      "parameter_version": "nfl-ws2-marginal-v1",
+      "parameters": {
+        "masses": [
+          [
+            0,
+            0.4666666666666664
+          ],
+          [
+            1,
+            0.23333333333333334
+          ],
+          [
+            2,
+            0.15
+          ],
+          [
+            3,
+            0.09666666666666666
+          ],
+          [
+            4,
+            0.013333333333333334
+          ],
+          [
+            5,
+            0.013333333333333334
+          ],
+          [
+            6,
+            0.013333333333333334
+          ],
+          [
+            7,
+            0.013333333333333334
+          ]
+        ]
+      },
+      "q_over": 0.3,
+      "q_push": 0.23333333333333334,
+      "q_under": 0.4666666666666664,
+      "tail_over_5_5": 0.02666666666666667,
+      "tail_policy": "observed_support_only",
+      "variance": 2.1363888888888884
+    },
+    "S2-ew-empirical-hl4-v1": {
+      "conditioning": "eligible_appearance; binary probability additionally conditions on Y != original line",
+      "count_crps_at_synthetic_y2": {
+        "crps": 0.865368560804242,
+        "tail_error_upper_bound": 0.0,
+        "terms": 4
+      },
+      "distribution_sha256": "063d8aa69db608b3b08f858996739275ff8c4ebc68e538ce6e9f0a6a4a767258",
+      "kind": "empirical",
+      "mean": 0.823871650709213,
+      "p_over_given_no_push": 0.3110146034906661,
+      "parameter_version": "nfl-ws2-marginal-v1",
+      "parameters": {
+        "masses": [
+          [
+            0,
+            0.5144045389543149
+          ],
+          [
+            1,
+            0.2533883278796807
+          ],
+          [
+            2,
+            0.1261380766684807
+          ],
+          [
+            3,
+            0.10606905649752363
+          ]
+        ]
+      },
+      "q_over": 0.23220713316600433,
+      "q_push": 0.2533883278796807,
+      "q_under": 0.5144045389543149,
+      "tail_over_5_5": 0.0,
+      "tail_policy": "observed_support_only",
+      "variance": 1.0337976461889926
+    },
+    "S3-eb-poisson-v1": {
+      "conditioning": "eligible_appearance; binary probability additionally conditions on Y != original line",
+      "count_crps_at_synthetic_y2": {
+        "crps": 0.484439407818917,
+        "tail_error_upper_bound": 1.689719000283839e-11,
+        "terms": 15
+      },
+      "distribution_sha256": "4396237c27cae028c30f0e3edbead000b12d0185489eea253cc8c5de0f0f9cab",
+      "kind": "poisson",
+      "mean": 1.31,
+      "p_over_given_no_push": 0.5826679865051965,
+      "parameter_version": "nfl-ws2-marginal-v1",
+      "parameters": {
+        "rate": 1.31
+      },
+      "q_over": 0.37671566975137327,
+      "q_push": 0.3534642738639398,
+      "q_under": 0.26982005638468687,
+      "tail_over_5_5": 0.0023161363761098246,
+      "tail_policy": "analytic_unbounded_count",
+      "variance": 1.31
+    },
+    "S4-eb-gamma-poisson-v1": {
+      "conditioning": "eligible_appearance; binary probability additionally conditions on Y != original line",
+      "count_crps_at_synthetic_y2": {
+        "crps": 0.49413466420121455,
+        "tail_error_upper_bound": 3.2833299305933754e-11,
+        "terms": 16
+      },
+      "distribution_sha256": "c430bad4b221e1acde51d34aaf77da6368702d5b9a0567aee4e10b946f7c091d",
+      "kind": "gamma_poisson",
+      "mean": 1.31,
+      "p_over_given_no_push": 0.5731821550985061,
+      "parameter_version": "nfl-ws2-marginal-v1",
+      "parameters": {
+        "alpha": 26.200000000000003,
+        "beta": 20.0
+      },
+      "q_over": 0.3740162372835243,
+      "q_push": 0.34747403777906094,
+      "q_under": 0.27850972493741494,
+      "tail_over_5_5": 0.0031713794114520775,
+      "tail_policy": "analytic_unbounded_count",
+      "variance": 1.3755000000000002
+    },
+    "S5-hurdle-geometric-v1": {
+      "conditioning": "eligible_appearance; binary probability additionally conditions on Y != original line",
+      "count_crps_at_synthetic_y2": {
+        "crps": 0.7556837279064617,
+        "tail_error_upper_bound": 7.025916095697645e-11,
+        "terms": 39
+      },
+      "distribution_sha256": "e40e7655bc02428444db0fdc02393815a88fe72989a090aa430fbfddef2ac978",
+      "kind": "hurdle_geometric",
+      "mean": 1.177777777777778,
+      "p_over_given_no_push": 0.3847429519071311,
+      "parameter_version": "nfl-ws2-marginal-v1",
+      "parameters": {
+        "p_zero": 0.4666666666666666,
+        "positive_success": 0.45283018867924524
+      },
+      "q_over": 0.2918238993710693,
+      "q_push": 0.24150943396226418,
+      "q_under": 0.4666666666666666,
+      "tail_over_5_5": 0.02615829115754406,
+      "tail_policy": "analytic_unbounded_count",
+      "variance": 2.6369135802469144
+    }
+  },
+  "peer_players": 5,
+  "player_n": 8,
+  "unavailable": {}
+}
