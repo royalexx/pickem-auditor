@@ -1,7 +1,7 @@
 # Corrected WS1 feature handoff audit — November 15, 2026
 
-Status: implemented and locally tested; scientific weather fitting remains blocked
-pending the original-byte audit receipt. Research only under
+Status: implemented and locally tested; scientific weather fitting remains blocked.
+See the append-only delivery receipt for runtime verification and failures. Research only under
 PA-V25-MASTER-2026-11-09 / v1.1. No production or neutral parameter changes.
 
 `feature_handoff_audit.audit(project_root)` consumes the immutable native

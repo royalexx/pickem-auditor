@@ -74,10 +74,14 @@ def audit(root, now=None):
         require(len(rows) == desc['rows'], 'table_row_count:' + name)
         tables[name] = rows
         table_checks.append({'table': name, 'rows': len(rows), 'sha256': desc['sha256']})
+    missing_feature_sources = Counter()
     def verify_row_sources(value):
         if isinstance(value, dict):
             for key, item in value.items():
                 if key in ('source_sha256', 'source_sha256s', 'roster_receipt_sha256'):
+                    if item is None:
+                        missing_feature_sources[key] += 1
+                        continue
                     hashes = [item] if isinstance(item, str) else item
                     require(isinstance(hashes, list) and set(hashes) <= verified_sources,
                             'unbound_feature_source:' + key)
@@ -165,6 +169,7 @@ def audit(root, now=None):
                 'verified_source_files': history_checks, 'tables': table_checks,
                 'team_rows_missing_plays_or_sacks': team_missing},
             'native_source_checks': native['source_checks'], 'weather_pin_paths': weather_pins,
+            'missing_feature_source_hashes': dict(missing_feature_sources),
             'weather_effect_status': 'WEATHER_EFFECT_NOT_ESTIMATED',
             'weather_reason': 'NO_VALIDATED_POINT_IN_TIME_WEATHER_TRAINING_PACKET',
             'model_code_sha256': {name: digest_file(code_dir/name) for name in
