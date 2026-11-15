@@ -1,0 +1,112 @@
+{
+    "@context": [
+        "https://geojson.org/geojson-ld/geojson-context.jsonld",
+        {
+            "@version": "1.1",
+            "wx": "https://api.weather.gov/ontology#",
+            "s": "https://schema.org/",
+            "geo": "http://www.opengis.net/ont/geosparql#",
+            "unit": "http://codes.wmo.int/common/unit/",
+            "@vocab": "https://api.weather.gov/ontology#",
+            "geometry": {
+                "@id": "s:GeoCoordinates",
+                "@type": "geo:wktLiteral"
+            },
+            "city": "s:addressLocality",
+            "state": "s:addressRegion",
+            "distance": {
+                "@id": "s:Distance",
+                "@type": "s:QuantitativeValue"
+            },
+            "bearing": {
+                "@type": "s:QuantitativeValue"
+            },
+            "value": {
+                "@id": "s:value"
+            },
+            "unitCode": {
+                "@id": "s:unitCode",
+                "@type": "@id"
+            },
+            "forecastOffice": {
+                "@type": "@id"
+            },
+            "forecastGridData": {
+                "@type": "@id"
+            },
+            "publicZone": {
+                "@type": "@id"
+            },
+            "county": {
+                "@type": "@id"
+            }
+        }
+    ],
+    "id": "https://api.weather.gov/points/44.501,-88.062",
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -88.062,
+            44.501
+        ]
+    },
+    "properties": {
+        "@id": "https://api.weather.gov/points/44.501,-88.062",
+        "@type": "wx:Point",
+        "cwa": "GRB",
+        "type": "land",
+        "forecastOffice": "https://api.weather.gov/offices/GRB",
+        "gridId": "GRB",
+        "gridX": 78,
+        "gridY": 31,
+        "forecast": "https://api.weather.gov/gridpoints/GRB/78,31/forecast",
+        "forecastHourly": "https://api.weather.gov/gridpoints/GRB/78,31/forecast/hourly",
+        "forecastGridData": "https://api.weather.gov/gridpoints/GRB/78,31",
+        "observationStations": "https://api.weather.gov/gridpoints/GRB/78,31/stations",
+        "relativeLocation": {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -87.9865684,
+                    44.5215424
+                ]
+            },
+            "properties": {
+                "city": "Green Bay",
+                "state": "WI",
+                "distance": {
+                    "unitCode": "wmoUnit:m",
+                    "value": 0
+                },
+                "bearing": {
+                    "unitCode": "wmoUnit:degree_(angle)",
+                    "value": 0
+                }
+            }
+        },
+        "forecastZone": "https://api.weather.gov/zones/forecast/WIZ039",
+        "county": "https://api.weather.gov/zones/county/WIC009",
+        "fireWeatherZone": "https://api.weather.gov/zones/fire/WIZ039",
+        "timeZone": "America/Chicago",
+        "radarStation": "KGRB",
+        "astronomicalData": {
+            "sunrise": "2026-11-15T06:48:52-06:00",
+            "sunset": "2026-11-15T16:24:52-06:00",
+            "transit": "2026-11-15T11:36:52-06:00",
+            "civilTwilightBegin": "2026-11-15T06:17:30-06:00",
+            "civilTwilightEnd": "2026-11-15T16:56:14-06:00",
+            "nauticalTwilightBegin": "2026-11-15T05:42:14-06:00",
+            "nauticalTwilightEnd": "2026-11-15T17:31:30-06:00",
+            "astronomicalTwilightBegin": "2026-11-15T05:07:53-06:00",
+            "astronomicalTwilightEnd": "2026-11-15T18:05:51-06:00"
+        },
+        "nwr": {
+            "transmitter": "KIG65",
+            "sameCode": "055009",
+            "areaBroadcast": "https://api.weather.gov/radio/KIG65/broadcast",
+            "pointBroadcast": "https://api.weather.gov/points/44.501,-88.062/radio"
+        }
+    }
+}

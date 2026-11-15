@@ -1,0 +1,80 @@
+{
+  "schema": "ws1-market-extension-handoff-v1",
+  "consumer": "WS4",
+  "feature_pin": {
+    "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/FEATURE_PIN.json",
+    "sha256": "c3ec93c78fcae413f66afe431f817f4d986f0fd1e884c665caefc5c7a3ed230c"
+  },
+  "expanded_manifest": {
+    "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/EXPANDED_MANIFEST_1977685e911b2a9650afde55f5eb7b580d7f8fdc931bf39fad47b1c344c2a46b.json",
+    "sha256": "1977685e911b2a9650afde55f5eb7b580d7f8fdc931bf39fad47b1c344c2a46b",
+    "size": 23657
+  },
+  "audit": {
+    "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/AUDIT_38aabd19546ee7b8131ffe6c1f311d0b8444210b7ef68e37eb884f99a3d3f92c.json",
+    "sha256": "38aabd19546ee7b8131ffe6c1f311d0b8444210b7ef68e37eb884f99a3d3f92c"
+  },
+  "tables": {
+    "crosswalk": {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/crosswalk_c928cb1c0292ac192423f4a729800496784475dcc3344a173d41be6919f4fab2.jsonl",
+      "rows": 1845,
+      "sha256": "c928cb1c0292ac192423f4a729800496784475dcc3344a173d41be6919f4fab2",
+      "size": 448166
+    },
+    "historical_identity_rejections": {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/historical_identity_rejections_8e741a99d2ee79ff453b4e701efdffc14d6d0df80d78a5a01db2ca07ec5d03ae.jsonl",
+      "rows": 185,
+      "sha256": "8e741a99d2ee79ff453b4e701efdffc14d6d0df80d78a5a01db2ca07ec5d03ae",
+      "size": 67593
+    },
+    "internal_tackle_evidence": {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/internal_tackle_evidence_b518e5c8fade986e8a0390eba7da3afa401a434c7ae365d63af3db91b1146b7d.jsonl",
+      "rows": 7057,
+      "sha256": "b518e5c8fade986e8a0390eba7da3afa401a434c7ae365d63af3db91b1146b7d",
+      "size": 4025537
+    },
+    "original_contracts": {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/original_contracts_002312b480ac5cbc281c275d52c9c63e230c7c6c06abb94b03fa714c90810403.jsonl",
+      "rows": 1845,
+      "sha256": "002312b480ac5cbc281c275d52c9c63e230c7c6c06abb94b03fa714c90810403",
+      "size": 6860579
+    },
+    "paired_history": {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/paired_history_4ff38b3ea3b404aaed5e1e511ca18ecf85f8a2fc5e280636bba6683a9e999210.jsonl",
+      "rows": 20068,
+      "sha256": "4ff38b3ea3b404aaed5e1e511ca18ecf85f8a2fc5e280636bba6683a9e999210",
+      "size": 11187181
+    },
+    "player_stats": {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/player_stats_d3319f57c221badec04bee2d2385b4100b60c6ad8d9d604e70580ab45e7056aa.jsonl",
+      "rows": 3570,
+      "sha256": "d3319f57c221badec04bee2d2385b4100b60c6ad8d9d604e70580ab45e7056aa",
+      "size": 3781790
+    }
+  },
+  "provider_metadata_tables": {
+    "quote_metadata_crosswalk": {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/quote_metadata_crosswalk_71d661422fdc122da398fb713242ba450022f659ab004eeb2268ac6abddd653c.jsonl",
+      "rows": 1845,
+      "sha256": "71d661422fdc122da398fb713242ba450022f659ab004eeb2268ac6abddd653c",
+      "size": 518445
+    },
+    "raw_market_catalog": {
+      "path": "reports/nfl_20261115_prospective/market_extension_v2_5_1/raw_market_catalog_a6dc1df790946d166339694087fd47d6b2d9e695e1cdaa6a0b4c846ca96a4650.jsonl",
+      "rows": 3296,
+      "sha256": "a6dc1df790946d166339694087fd47d6b2d9e695e1cdaa6a0b4c846ca96a4650",
+      "size": 9506749
+    }
+  },
+  "required_gates": [
+    "Verify exact pin and table byte hashes",
+    "Use normalized_market taxonomy v2.5.1 and gsis namespace",
+    "Select model_input_ready rows; all conditional on appearance",
+    "Recheck forecast_at < event_start_at; no NE–DET new pregame forecasts",
+    "Use exact original_record for book, threshold and prices",
+    "Unmatched contracts retained, never guessed",
+    "No independent combined tackle certification",
+    "Stamp actual downstream model training cutoff and forecast time"
+  ],
+  "release_authority": false
+}
