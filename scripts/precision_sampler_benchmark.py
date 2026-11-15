@@ -47,11 +47,27 @@ def validate_options(opts):
 
 
 def select_data(opts):
+    def show_progress(event):
+        if event["event"]=="shard_start":
+            print(f"HISTORY_LOAD starting {event['shard']}", flush=True)
+        elif event["event"]=="shard_progress":
+            print(f"HISTORY_LOAD {event['shard']} validated {event['validated_rows']} rows", flush=True)
+        elif event["event"]=="shard_done":
+            print(f"HISTORY_LOAD finished {event['shard']}: "
+                  f"{event['validated_rows']} validated, {event['selected_rows']} eligible "
+                  f"in {event['seconds']}s", flush=True)
+    print("HISTORY_LOAD starting verified NHL history; sampling has NOT started",
+          flush=True)
     rows = history.read(ROOT, sport="NHL", stat=opts.stat,
                         before=opts.as_of, after="2018-10-01",
-                        max_seasons=12, min_records=2000)
+                        max_seasons=12, min_records=2000,
+                        progress=show_progress)
+    print(f"HISTORY_LOAD complete: {len(rows)} eligible rows; selecting cohort",
+          flush=True)
     cohort = joint.training_only_subset(rows, max_per_position=opts.max_per_position)
     data = joint.prepare(cohort, min_rows=300)
+    print(f"HISTORY_LOAD model input ready: {data['rows']} rows / "
+          f"{len(data['players'])} players", flush=True)
     return data
 
 
@@ -115,6 +131,12 @@ def execute(opts):
         report["backend_approved"] = False  # Pilot never qualifies production
         report["production_use"] = False
         return 0
+    except KeyboardInterrupt:
+        report["status"] = "interrupted"
+        report["error"] = ("KeyboardInterrupt: the process was stopped during "
+                           "history loading or sampling; no benchmark speedup was measured")
+        report["traceback"] = traceback.format_exc()[-6000:]
+        return 130
     except Exception as exc:
         report["error"] = f"{type(exc).__name__}: {exc}"[:600]
         report["traceback"] = traceback.format_exc()[-6000:]
