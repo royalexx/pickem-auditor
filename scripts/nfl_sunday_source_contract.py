@@ -40,6 +40,9 @@ QB_STATS = frozenset((
     "pass attempts", "completions", "passing yards", "passing touchdowns",
     "rush attempts", "rushing yards", "rushing touchdowns",
 ))
+QB_ONLY_STATS = frozenset((
+    "pass attempts", "completions", "passing yards", "passing touchdowns",
+))
 LEGACY_MODELS = (
     "Engine_A", "Engine_B", "Bayesian_A", "Bayesian_B",
     "NUTS_strict", "Consensus_60_40", "Market",
@@ -275,8 +278,8 @@ def build_universe(*, events, quotes, quote_receipts, rosters,
         qbid = depth_qbs.get(team)
         inj = injuries.get(team, {}).get(str(player.get("espn_player_id"))) if player else None
         elig, participation_risk, elig_reason = eligibility(player, stat, qbid, inj)
-        if stat in QB_STATS and player is not None and player.get("position") != "QB":
-            reason = reason or "QB_STAT_ON_NONQB_IDENTITY"
+        if stat in QB_ONLY_STATS and player is not None and player.get("position") != "QB":
+            reason = reason or "PASSING_STAT_ON_NONQB_IDENTITY"
         hist = stats_by_key.get((team, _name(raw.get("player"))), [])
         hist_match = hist[0] if len(hist) == 1 else None
         if hist_match and hist_match.get("stat") != stat:
