@@ -14,6 +14,7 @@ def binomial_interval(hits,n,alpha=.05):
 
 
 def extract_forecast(out,player_index,stat,*,line=None):
+    if out.get('research_opportunity') is not None:raise ValueError('DIAGNOSTIC_NOT_FORECAST')
     if stat not in STATS:raise ValueError('UNSUPPORTED_MARKET')
     p=out['players'][player_index];x=out['stats'][stat][:,player_index];n=len(x)
     values,counts=np.unique(x,return_counts=True)
