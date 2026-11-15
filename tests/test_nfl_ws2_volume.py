@@ -176,4 +176,65 @@ class VolumeTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'MODEL_NOT_ACTIVATED'):
                 v.distribution(player(),history(),model,NOW,FREEZE)
 
+
+class RawSourceTests(unittest.TestCase):
+    def packet(self,root,*,targets=3,receptions=2,attempts=12,components=None,at='2026-11-14T00:00:00Z'):
+        def put(name,obj,gz=False):
+            import gzip
+            raw=v.canonical(obj)
+            if gz:raw=gzip.compress(raw,mtime=0)
+            (root/name).write_bytes(raw)
+            return dict(path=name,sha256=v.sha(raw),source_available_at=at)
+        g=dict(game_id='old0',gameday='2026-10-01',home_qb_id='00-0000001',away_qb_id='00-0000002')
+        stats=dict(player_id='00-0000001',game_id='old0',team='A',targets=targets,receptions=receptions,
+                   attempts=attempts,completions=2)
+        gr=put('games.gz',dict(rows=[g]),True);sr=put('stats.gz',dict(rows=[stats]),True)
+        er=put('eligibility',{})
+        archive='reports/nfl_20261115_prospective'
+        (root/archive).mkdir(parents=True)
+        (root/archive/'eligibility').write_bytes((root/'eligibility').read_bytes())
+        original=dict(sources={'roster':dict(sha256=er['sha256'],archive_path='eligibility',source_received_at=at)})
+        old=put('old',original)
+        pin=dict(source_evidence=[gr,sr],previous_canonical_manifest=old,feature_freeze_at=FREEZE)
+        p=player();p['identity_source_sha256']=er['sha256'];p['role_source_sha256']=None
+        h=history(values=(targets,))[0];h['source_sha256']=sr['sha256']
+        if components is not None:h['components']=components
+        return pin,[p],[h]
+
+    def test_raw_target_opportunity_and_zero_verification(self):
+        for target in (0,3):
+            with tempfile.TemporaryDirectory() as td:
+                root=Path(td);packet=self.packet(root,targets=target,receptions=min(target,2))
+                starters,audit=v.verify_sources(root,*packet)
+                self.assertEqual(audit['target_opportunity_checks'],1)
+                self.assertIn(('old0','gsis:00-0000001'),starters)
+
+    def test_receptions_cannot_exceed_official_targets(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);packet=self.packet(root,targets=1,receptions=2)
+            with self.assertRaisesRegex(ValueError,'RECEPTIONS_TARGETS'):v.verify_sources(root,*packet)
+
+    def test_targets_cannot_exceed_verified_pass_opportunities(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);packet=self.packet(root,targets=14)
+            with self.assertRaisesRegex(ValueError,'TARGETS_PASSING'):v.verify_sources(root,*packet)
+
+    def test_missing_exposure_disclosed_without_invented_rate_model(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);packet=self.packet(root,attempts=None)
+            _,audit=v.verify_sources(root,*packet)
+            self.assertEqual(audit['target_exposure_unavailable'],1)
+            self.assertEqual(audit['target_opportunity_checks'],0)
+
+    def test_raw_component_tamper_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);packet=self.packet(root,components={'targets':7})
+            with self.assertRaisesRegex(ValueError,'RAW_COMPONENT'):v.verify_sources(root,*packet)
+
+    def test_raw_source_after_freeze_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);packet=self.packet(root,at='2026-11-15T17:00:00Z')
+            with self.assertRaisesRegex(ValueError,'RAW_SOURCE_AFTER'):v.verify_sources(root,*packet)
+
 if __name__=='__main__':unittest.main()
+

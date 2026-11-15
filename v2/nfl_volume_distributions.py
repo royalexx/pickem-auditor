@@ -329,6 +329,12 @@ def run(root, out, code_commit):
     starters,source_audit=verify_sources(root,pin,players,histories)
     by_stat=defaultdict(list)
     for r in histories: by_stat[r['player_stat_id']].append(r)
+    # Every original offer is bound to its archived provider bytes, even when unmodeled.
+    original=json.loads(bound(root,pin['previous_canonical_manifest']))
+    source_by_hash={r['sha256']:r for r in original['sources'].values() if r.get('archive_path')}
+    for c in tables['original_contracts']:
+        rec=source_by_hash[c['original_record']['source_sha256']]
+        bound(root,dict(path='reports/nfl_20261115_prospective/'+rec['archive_path'],sha256=rec['sha256']))
     old_index=root/'reports/nfl_20261115_prospective/simple_models/sunday_first_forecasts_v1/INDEX.json'
     old_index_hash=sha(old_index.read_bytes())
     old_pop=old_index.parent/'first_forecast_population.jsonl'; old_pop_hash=sha(old_pop.read_bytes())
@@ -337,6 +343,17 @@ def run(root, out, code_commit):
                  'nfl_marginal_shadow.py':sha(Path(__file__).with_name('nfl_marginal_shadow.py').read_bytes())}
     model_sha=sha(canonical(dict(config=CONFIG,code=code_hashes,models=ACTIVE)))
     rows=[];canaries=[];canary_markets=set();matrix=defaultdict(Counter)
+    # Genuine first-player canaries run before bulk generation. T+A remains explicit abstention.
+    for p in players:
+        if p['normalized_market'] in canary_markets: continue
+        try: hs,excluded=select_history(p,by_stat[p['player_stat_id']],pin['feature_freeze_at'],now,starters)
+        except ValueError: continue
+        r=distribution(p,hs,EW,now,pin['feature_freeze_at'])
+        assert abs(sum(w for _,w in r['pmf'])-1)<1e-12
+        assert all(x['value']==sum(x['components'].values()) for x in r['joint_outcomes'])
+        r['model_sha256']=model_sha;r['source_pin_sha256']=PIN_SHA
+        r['canary_checked_at']=datetime.now(timezone.utc).isoformat()
+        canaries.append(r);canary_markets.add(p['normalized_market'])
     for p in players:
         reason=None;hs=[];excluded=0
         try: hs,excluded=select_history(p,by_stat[p['player_stat_id']],pin['feature_freeze_at'],now,starters)
@@ -344,7 +361,10 @@ def run(root, out, code_commit):
         for model in (*ACTIVE,*UNAVAILABLE):
             r=dict(game_id=p['game_id'],player_id=p['player_id'],player=p['player'],
                 player_stat_id=p['player_stat_id'],normalized_market=p['normalized_market'],period=p['period'],
-                model_version=model,forecast_at=now,status='abstention',research_only=True)
+                model_version=model,forecast_at=now,status='abstention',research_only=True,
+                training_data_cutoff=pin['feature_freeze_at'],source_pin_sha256=PIN_SHA,
+                model_sha256=model_sha,model_input_fingerprint=sha(canonical(dict(player=p,history=by_stat[p['player_stat_id']],model=model,config=CONFIG))),
+                eligibility=p['eligibility_status'],conditional_participation='starting_and_appearing' if p['position']=='QB' else 'appearing')
             why=reason
             if model in UNAVAILABLE:
                 why=('ORIGINAL_FROZEN_PRODUCTION_CONTROL_NOT_AVAILABLE' if model.startswith(('S6','S7')) else
@@ -355,11 +375,6 @@ def run(root, out, code_commit):
                 r=distribution(p,hs,model,now,pin['feature_freeze_at'])
                 r['historical_nonstarter_games_excluded']=excluded
                 r['model_sha256']=model_sha;r['source_pin_sha256']=PIN_SHA
-                # A genuine first-player canary for each supported market precedes bulk persistence.
-                if model==EW and p['normalized_market'] not in canary_markets:
-                    assert abs(sum(w for _,w in r['pmf'])-1)<1e-12
-                    assert all(x['value']==sum(x['components'].values()) for x in r['joint_outcomes'])
-                    canaries.append(r);canary_markets.add(p['normalized_market'])
             rows.append(r);matrix[(model,p['normalized_market'])][r['status']]+=1
     ds={(r['player_stat_id'],r['model_version']):r for r in rows if r['status']=='distribution'}
     contracts=[];contract_seen=set()
