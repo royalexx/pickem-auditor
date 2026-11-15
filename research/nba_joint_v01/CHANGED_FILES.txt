@@ -24,6 +24,8 @@ docs/nba_ws1/source_audit/latest_completed_receipt.json
 docs/nba_ws1/source_audit/latest_completed_scoreboard_20261114_5e610bc25a9f035f.json.gz
 docs/nba_ws1/source_audit/manifest.json
 research/nba_joint_v01/CHANGED_FILES.txt
+research/nba_joint_v01/DELIVERABLES/nba_joint_v01_evidence.zip
+research/nba_joint_v01/DELIVERABLES/receipt.json
 research/nba_joint_v01/INTEGRATION.md
 research/nba_joint_v01/README.md
 research/nba_joint_v01/REPORT.md
