@@ -262,3 +262,81 @@ WS1 run snapshot, not independent WS5 verification of the full raw bundle.
 The saved local model registry is specification-only. C5/C6 have no fitted
 parameters. Resume the saved notebook when the service permits execution;
 current WS1 failures must remain abstentions.
+
+## November 15 Sunday execution amendment
+
+The preceding initial-capture blockage is historical. The corrected canonical
+WS1 manifest is now consumed by `native_ws1.py`; its CLI requires file SHA-256
+`5e17ff057f528a1ee049d38cde80aa3ce295eec15fff7c051ab37508157a5e71`.
+It verifies all archived bytes, native quote/candidate identity hashes, paired
+raw outcomes within the same book/market/period/player/line, schedule identity,
+source receipt timestamps and each game's kickoff. Duplicate exact contracts
+poison every copy. Original provider-reported times remain explicitly unverified;
+actual archived receipt times establish source availability. Missing player
+activity confirmation does not suppress a conditional nonpush sportsbook
+reference. No sportsbook payout, DNP terms or push mass is invented.
+
+The first real C2 freeze succeeded in Deepnote run
+`11d1d944-1fcc-4192-925a-aeed8c89802e`, notebook
+`266c60b16cc944e48eccf33bb30eb8a0`, from code commit
+`81049c04359f609986c6e76813daee81a0295954`. Actual emission was
+`2026-11-15T14:18:48.776849+00:00`, before the earliest 14:30 UTC game.
+Of 1,845 original rows, 1,767 C2 references were frozen across 12 games;
+54 roster-identity failures and 24 duplicate/conflicting exact identities
+abstained. All original controls were null. Every C3/C4/C7 configuration
+therefore produced zero forecasts. C5/C6 each abstained on all 1,845 rows,
+including 1,767 training-gate abstentions and the 78 source/identity failures.
+No training rows were admitted; original 300/20-date training and
+100/20-date validation gates remain unchanged. The pinned run passed 64 tests.
+
+The immutable project ledger is
+`calibration_models/sunday_20261115T141848783858Z.json`, 14,976,415 bytes,
+SHA-256 `4bde5ffe88aabfbfe563b57835889dce88e1df56fff703faa6c3b56a132a927e`.
+Its accompanying `_receipt.json` contains all model IDs, source/code hashes,
+source inventory, coverage, registry, dependency graph and test outputs.
+The C2 model ID is
+`C2:32f05d479a99021680f7d9467910c34af4ced553c76a065b42944a5e1df8eedc`.
+The original quote-source SHA-256 is
+`6993a07ebce5001a55729ff556765bff388bc91cb5235416af9cd26401ede14a`.
+The source freeze was `2026-11-15T04:33:16.852853Z` and quote bytes were
+received at `2026-11-15T04:32:39.016077Z`. This establishes archived availability,
+not independent proof of the bookmaker's publication time or executable price.
+
+At freeze, WS2 supplied no actual forecast file. WS3 supplied delivery/review
+and execution-blocker receipts, not actual frozen probability rows. No WS1
+forecast-feature handoff or authentic historical calibration packet was found.
+No separately registered WS2/market research forecasts were manufactured.
+The ledger remains in Deepnote; automated approval review blocked exporting
+its compressed bytes and companion artifacts to the research branch pending
+specific user authorization. This export failure does not undo the pregame freeze.
+
+`score.py` now reports standalone and candidate/baseline pairwise conditional
+scores without requiring C1. The original three-way common-cohort comparisons
+remain separately available. Push, void and DNP remain exclusions.
+
+### Late-arriving statistical forecasts
+
+`frozen_research.py` accepts a hash-pinned **bound export**, schema
+`ws5-bound-statistical-forecast-v1`, with `source_manifest_sha256` equal to
+the corrected canonical hash, `feature_sha256`, and `forecasts`.
+This is an explicit interchange interface, not a claim that existing WS2/WS3
+reports already emit it. Each row must carry `contract_id`, every native
+exact identity field (`event_id`, `book`, `player_id`, `stat`, `line`, `period`,
+`quote_id`), `event_start_at`, `family` (`WS2_S2` or `WS3_OPPORTUNITY`),
+`model_id`, `forecast_id`, `forecast_at`, `input_freeze_at`,
+`model_training_cutoff_at`, `feature_available_at`, `feature_sha256`,
+`conditional_no_push={over,under}`, and optional `unconditional={over,under,push}`
+and `stat_support`. A bound export must preserve the upstream probabilities,
+identities and timestamps, and disclose its conversion lineage; missing exact
+identity binding is a blocker, never a fuzzy player-name join.
+
+Supply the actual forecast file, actual feature manifest and prior C2 ledger
+with their exact SHA-256 hashes to `python -m calibration_models.frozen_research`.
+The five unfitted transformations are separately registered by upstream model,
+family, artifact and feature hashes. They preserve genuine push mass and leave
+unconditional probabilities unavailable for binary-only inputs. The CLI checks
+the real clock before saving a new exclusive ledger; it cannot update the first
+freeze or create a candidate after its kickoff. No live upstream model was
+available to exercise this interface today; its tests are synthetic engineering
+checks only. Original C1/C3 retain their existing production-only input contract
+in `shadow.py`; new research outputs are never relabeled as production controls.

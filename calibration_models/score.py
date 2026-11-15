@@ -14,7 +14,7 @@ def compare(report, settlements):
         if key in indexed:
             raise ValueError("duplicate_settlement")
         indexed[key] = value
-    names = list(report.get("registry", CONFIG))
+    names = list(dict.fromkeys([*CONFIG, *report.get("registry", {})]))
     predictions = {name: {} for name in names}
     excluded = Counter()
     for row in report["forecasts"]:
