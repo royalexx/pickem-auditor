@@ -242,7 +242,7 @@ def game_once(event: dict, rng: np.random.Generator, model: str, script: str) ->
             qb_attempts=0
         # Two QB origin classes ensure starter comps/yards/TD <= team totals.
         receptions_per_player=defaultdict(int)
-        for qb_origin,natt in (("STARTER",qb_attempts),("RELIEF",pass_attempts-qb_attempts)):
+        for qb_origin,natt in ((("STARTER",qb_attempts),("RELIEF",pass_attempts-qb_attempts)) if receivers else ()):
             for _ in range(natt):
                 idx=pick_index(rng,receivers,"share",selected,j2,game_alloc,"receivers")
                 chosen = receivers[idx] if idx < len(receivers) else None
@@ -277,7 +277,7 @@ def game_once(event: dict, rng: np.random.Generator, model: str, script: str) ->
         if qb_id: outputs[(qb_id,"pass_attempts")]+=qb_attempts
         # All rushing-play carry allocation is one categorical draw, not independent player counts.
         rush_items=backs+([next(p for p in players if p["player_id"]==qb_id)] if qb_id else [])
-        for _ in range(rush_attempts):
+        for _ in range(rush_attempts if any(float(p.get("rush_share",0))>0 for p in rush_items) else 0):
             idx=pick_index(rng,rush_items,"rush_share",selected,j2,game_alloc,"rushers")
             chosen=rush_items[idx] if idx<len(rush_items) else None
             if chosen:
@@ -406,7 +406,7 @@ def run_manifest(manifest:dict,draws:int=512, models:tuple[str,...]=("J1","J2","
                 elif c.get("period") not in SUPPORTED_PERIODS:reason="UNSUPPORTED_PERIOD"
                 elif player[0]["role"]=="QB" and player[0]["player_id"]!=player[1].get("starter_qb_id"):
                     reason="BACKUP_QB_INELIGIBLE"
-                elif player[0]["role"]=="QB" and player[1].get("starter_status")!="CONFIRMED_PREGAME":
+                elif player[0]["role"]=="QB" and player[1].get("starter_status")!="CONFIRMED_PREGAME" and not (status=="UNCERTIFIED_SHADOW" and player[1].get("starter_status")=="EXPECTED_STARTER_SOURCE_BACKED"):
                     reason="QB_STARTER_UNCONFIRMED"
                 elif c["stat_key"].startswith("qb_") and player[0]["role"]!="QB":reason="STAT_ROLE_MISMATCH"
                 elif c["stat_key"] in ("pass_attempts","passing_yards","passing_tds","completions") and player[0]["role"]!="QB":reason="STAT_ROLE_MISMATCH"
