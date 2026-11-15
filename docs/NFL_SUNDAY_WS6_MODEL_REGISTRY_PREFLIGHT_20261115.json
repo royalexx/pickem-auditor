@@ -12,7 +12,12 @@
     "ws1_source_certified_quote_count": 0,
     "ws1_forecast_eligible_count": 0,
     "raw_receipts_recorded": 50,
-    "independent_raw_receipt_hash_status": "PENDING_CORRECT_ROOT_AUDIT"
+    "independent_raw_receipt_hash_status": "VERIFIED_50_OF_50_CORRECT_SOURCE_ROOT",
+    "independent_receipt_count": 50,
+    "independent_receipt_verified_count": 50,
+    "independent_receipt_review_path": "reports/nfl_20261115_ws6_audit/ws1_9a7752e70db7c1d56226_rootverified/source_receipts_independent_review.jsonl",
+    "derived_quotes_sha256": "9d1d1d2061ab92ae043bf55644d71e942a1f0144f6841be92fcf09933939a861",
+    "derived_manifest_sha256": "e0deabc878de9d5211f3d019584122c6e9b5a87344802ce78851aae0da6d1ff2"
   },
   "control_integrity": {
     "legacy_engine_60_40": "FROZEN_NO_SUBSTITUTION",
