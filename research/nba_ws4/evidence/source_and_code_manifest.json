@@ -1,0 +1,126 @@
+{
+  "base_sha": "912bc7010058092ea735dcda0aa941429194474b",
+  "branch": "audit/v25-nba-ws4-validation-20261115",
+  "files": {
+    "research/nba_ws4/ACCEPTANCE_MATRIX.md": {
+      "bytes": 7201,
+      "sha256": "04cbc45959e16e111523a1108ccbcfc4c2cddf081299826731d99da0575c2cc8"
+    },
+    "research/nba_ws4/AUDIT_REPORT.md": {
+      "bytes": 17526,
+      "sha256": "f56acbc69dc88a702c4b8cc5560fffec338a5aa7f8602fa18ee31b1f6291c0b3"
+    },
+    "research/nba_ws4/JOINT_ENGINE_READINESS_V1.md": {
+      "bytes": 9910,
+      "sha256": "210200184c60fcc6277f37548495579143460eac9ad8b2274ceeac320c30983d"
+    },
+    "research/nba_ws4/NEXT_EXPERIMENT.md": {
+      "bytes": 6212,
+      "sha256": "a8f3aff77a9bc3a4384b9d39a6625ff1a588107f434b387b87f6f3c016daf672"
+    },
+    "research/nba_ws4/PR_BODY.md": {
+      "bytes": 4057,
+      "sha256": "32e8fe602b98d8dbad8c737051901dc7e058bc85389224565fb26d5c8c1b5fc6"
+    },
+    "research/nba_ws4/README.md": {
+      "bytes": 11107,
+      "sha256": "0915957b05885be7990b04be0e662153a6e7578a57fd94e8c186c09add8f12a5"
+    },
+    "research/nba_ws4/STATUS_LEDGER.md": {
+      "bytes": 1779,
+      "sha256": "0865aa9d88486e307c5fa1cdcf9e06774efb1a8f56b145baba2dda1a20c8ecc3"
+    },
+    "research/nba_ws4/__init__.py": {
+      "bytes": 73,
+      "sha256": "0cfb4472d32ee70160997913a5eb97bd697977ef7ac12c54a405c95c17089d1e"
+    },
+    "research/nba_ws4/__main__.py": {
+      "bytes": 1110,
+      "sha256": "c7788ef067e1f1f2477528b05693ecb2a42ec749ee55265f9ed79e8cc773bd85"
+    },
+    "research/nba_ws4/acceptance_matrix.json": {
+      "bytes": 10432,
+      "sha256": "5165e4b2eb1f614ef5a84276f871b332753837e3800f1ac934b990680f7e93d0"
+    },
+    "research/nba_ws4/audit_morning_original.py": {
+      "bytes": 2615,
+      "sha256": "a34da29720e2392063232d9fda7065910b106915dfd283fa25e0b80514f19dec"
+    },
+    "research/nba_ws4/calibration.py": {
+      "bytes": 7541,
+      "sha256": "e93a5a5b3694c578fc91f6ea74550a2bf11abfbad120fad9304cf06cee409fe2"
+    },
+    "research/nba_ws4/evaluator.py": {
+      "bytes": 13122,
+      "sha256": "6b6ed73132c8e9b44ce20f5f0b21e97c739b211a930c9ea05a3c65a80ae5ded9"
+    },
+    "research/nba_ws4/evidence/morning_diagnostic.json": {
+      "bytes": 2527,
+      "sha256": "37d2fc3be346d0a7e6de2399ae3038333e7a9243a9e3f29b06022879815b4a2b"
+    },
+    "research/nba_ws4/evidence/original_attempt_ledger.json": {
+      "bytes": 334347,
+      "sha256": "acb6de539408a0a80c38db20208234046980a1fb77fc64334109d90ee0c8bc41"
+    },
+    "research/nba_ws4/evidence/original_replay_v2.json": {
+      "bytes": 426326,
+      "sha256": "991085121022ad014b6c29830ba0d3f52db27ca0005bb3ab3230e54d4bd96455"
+    },
+    "research/nba_ws4/evidence/replay_execution.json": {
+      "bytes": 856,
+      "sha256": "84f5c59bc95a9fb26b8cf52a2e50f581d60fc089f304179947a814074998b4d5"
+    },
+    "research/nba_ws4/evidence/scored_v3/contract_comparison.csv": {
+      "bytes": 111648,
+      "sha256": "6d311b11464daf326f9e4d566ad476e0f00f45501fdbc66e6b918add3e468983"
+    },
+    "research/nba_ws4/evidence/scored_v3/scores.json": {
+      "bytes": 616335,
+      "sha256": "eb1233a6ca452d8ef77eaf8ff8e09c1680752495896152bc79e82a61f2258871"
+    },
+    "research/nba_ws4/evidence/targeted_tests.log": {
+      "bytes": 12712,
+      "sha256": "8943764f6669a917cb52ad1fb87908cfec28cb8e0eb2fd67252cac1afc239974"
+    },
+    "research/nba_ws4/evidence/test_execution.json": {
+      "bytes": 406,
+      "sha256": "b64e684bdb222ae2503db56652b02008c43779d55c18520173795c09c6cd38dc"
+    },
+    "research/nba_ws4/joint_contract.py": {
+      "bytes": 4118,
+      "sha256": "2abf3c3e89bbda8403bf5bdf8d1f50ea14c671278f01b961bedfe0f011d248d7"
+    },
+    "research/nba_ws4/metrics.py": {
+      "bytes": 7797,
+      "sha256": "6e5acb75c8ecc055ee8bdf185fb0ee95aafd842832b6b5e0a59213a351b866d8"
+    },
+    "research/nba_ws4/replay_original.py": {
+      "bytes": 10734,
+      "sha256": "7431a9af4c80466e8e83994da047f8540ce83909c66ee189ff80bfa17cfe4267"
+    },
+    "research/nba_ws4/report.py": {
+      "bytes": 4393,
+      "sha256": "c374f87946da5581b52f4f01030e0262703ad36ffa6c773305c2d624491cdfd0"
+    },
+    "research/nba_ws4/sample_joint_fixture.json": {
+      "bytes": 5260,
+      "sha256": "904fd6d317420a4ce0cfb30d9d1aee085529e36eced199dcd47e485f62a41057"
+    },
+    "tests/nba_ws4/__init__.py": {
+      "bytes": 56,
+      "sha256": "53b21d6be151162aac6ee36d996851844b13985c558314fbea792e736a5f0047"
+    },
+    "tests/nba_ws4/test_evaluator.py": {
+      "bytes": 19125,
+      "sha256": "88ba4b0a2b1df691715b798e2114630bedf7cda048d81d78f4948d7875f77463"
+    }
+  },
+  "packages": {
+    "numpy": "2.3.5",
+    "scikit-learn": "1.8.0",
+    "scipy": "1.17.0"
+  },
+  "python": "3.12.14",
+  "schema": "nba-ws4-file-manifest-v1",
+  "scope": "independent research; no source authentication or model release reissued"
+}

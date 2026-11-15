@@ -1,0 +1,231 @@
+{
+  "evidence_kind": "synthetic_contract_test_only",
+  "ws1": {
+    "artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "code_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "event_id": "fixture-game",
+    "event_start": "2026-11-15T23:00:00Z",
+    "input_freeze_at": "2026-11-15T20:00:00Z",
+    "market_anchor": "none",
+    "scenario_id": "s000",
+    "schema": "nba-joint-readiness-v1",
+    "seed": 5324424672785351905,
+    "source_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "team_ids": [
+      "TOR",
+      "BOS"
+    ],
+    "training_cutoff": "2026-11-14T00:00:00Z"
+  },
+  "ws2": {
+    "artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "code_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "event_id": "fixture-game",
+    "input_freeze_at": "2026-11-15T20:00:00Z",
+    "overtime_periods": 0,
+    "players": [
+      {
+        "active": true,
+        "minutes": 48,
+        "player_id": "TOR0",
+        "team_id": "TOR"
+      },
+      {
+        "active": true,
+        "minutes": 48,
+        "player_id": "TOR1",
+        "team_id": "TOR"
+      },
+      {
+        "active": true,
+        "minutes": 48,
+        "player_id": "TOR2",
+        "team_id": "TOR"
+      },
+      {
+        "active": true,
+        "minutes": 48,
+        "player_id": "TOR3",
+        "team_id": "TOR"
+      },
+      {
+        "active": true,
+        "minutes": 48,
+        "player_id": "TOR4",
+        "team_id": "TOR"
+      },
+      {
+        "active": true,
+        "minutes": 48,
+        "player_id": "BOS0",
+        "team_id": "BOS"
+      },
+      {
+        "active": true,
+        "minutes": 48,
+        "player_id": "BOS1",
+        "team_id": "BOS"
+      },
+      {
+        "active": true,
+        "minutes": 48,
+        "player_id": "BOS2",
+        "team_id": "BOS"
+      },
+      {
+        "active": true,
+        "minutes": 48,
+        "player_id": "BOS3",
+        "team_id": "BOS"
+      },
+      {
+        "active": true,
+        "minutes": 48,
+        "player_id": "BOS4",
+        "team_id": "BOS"
+      }
+    ],
+    "scenario_id": "s000",
+    "schema": "nba-joint-readiness-v1",
+    "seed": 5324424672785351905,
+    "source_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "training_cutoff": "2026-11-14T00:00:00Z"
+  },
+  "ws3": {
+    "artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "code_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "event_id": "fixture-game",
+    "input_freeze_at": "2026-11-15T20:00:00Z",
+    "players": [
+      {
+        "assists": 1,
+        "fga": 2,
+        "fgm": 1,
+        "fta": 0,
+        "ftm": 0,
+        "player_id": "TOR0",
+        "points": 2,
+        "rebounds": 1,
+        "team_id": "TOR",
+        "threes": 0
+      },
+      {
+        "assists": 1,
+        "fga": 2,
+        "fgm": 1,
+        "fta": 0,
+        "ftm": 0,
+        "player_id": "TOR1",
+        "points": 2,
+        "rebounds": 1,
+        "team_id": "TOR",
+        "threes": 0
+      },
+      {
+        "assists": 1,
+        "fga": 2,
+        "fgm": 1,
+        "fta": 0,
+        "ftm": 0,
+        "player_id": "TOR2",
+        "points": 2,
+        "rebounds": 1,
+        "team_id": "TOR",
+        "threes": 0
+      },
+      {
+        "assists": 1,
+        "fga": 2,
+        "fgm": 1,
+        "fta": 0,
+        "ftm": 0,
+        "player_id": "TOR3",
+        "points": 2,
+        "rebounds": 1,
+        "team_id": "TOR",
+        "threes": 0
+      },
+      {
+        "assists": 1,
+        "fga": 2,
+        "fgm": 1,
+        "fta": 0,
+        "ftm": 0,
+        "player_id": "TOR4",
+        "points": 2,
+        "rebounds": 1,
+        "team_id": "TOR",
+        "threes": 0
+      },
+      {
+        "assists": 1,
+        "fga": 2,
+        "fgm": 1,
+        "fta": 0,
+        "ftm": 0,
+        "player_id": "BOS0",
+        "points": 2,
+        "rebounds": 1,
+        "team_id": "BOS",
+        "threes": 0
+      },
+      {
+        "assists": 1,
+        "fga": 2,
+        "fgm": 1,
+        "fta": 0,
+        "ftm": 0,
+        "player_id": "BOS1",
+        "points": 2,
+        "rebounds": 1,
+        "team_id": "BOS",
+        "threes": 0
+      },
+      {
+        "assists": 1,
+        "fga": 2,
+        "fgm": 1,
+        "fta": 0,
+        "ftm": 0,
+        "player_id": "BOS2",
+        "points": 2,
+        "rebounds": 1,
+        "team_id": "BOS",
+        "threes": 0
+      },
+      {
+        "assists": 1,
+        "fga": 2,
+        "fgm": 1,
+        "fta": 0,
+        "ftm": 0,
+        "player_id": "BOS3",
+        "points": 2,
+        "rebounds": 1,
+        "team_id": "BOS",
+        "threes": 0
+      },
+      {
+        "assists": 1,
+        "fga": 2,
+        "fgm": 1,
+        "fta": 0,
+        "ftm": 0,
+        "player_id": "BOS4",
+        "points": 2,
+        "rebounds": 1,
+        "team_id": "BOS",
+        "threes": 0
+      }
+    ],
+    "scenario_id": "s000",
+    "schema": "nba-joint-readiness-v1",
+    "seed": 5324424672785351905,
+    "source_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "team_points": {
+      "BOS": 10,
+      "TOR": 10
+    },
+    "training_cutoff": "2026-11-14T00:00:00Z"
+  }
+}
