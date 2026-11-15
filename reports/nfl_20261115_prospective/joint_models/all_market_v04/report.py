@@ -16,7 +16,9 @@ def report():
         if o.get('schema')=='PA_WS4_ALL_MARKET_EVENT_v04':objs.append((p,o))
     # Latest prospective version per event; keep earlier canary bytes intact.
     latest={}
+    rejected_versions={'ws4_all_market_v0.4.1':'CURRENT_HISTORY_TRAINING_CUTOFF_METADATA_NOT_ADVANCED'}
     for p,o in objs:
+        if o.get('model_version') in rejected_versions:continue
         eid=o['input_packet']['events'][0]['event_id']
         if eid not in latest or o['forecast_created_at']>latest[eid][1]['forecast_created_at']:latest[eid]=(p,o)
     m=ad.load_inputs(ad.ROOT)[0]
@@ -39,7 +41,7 @@ def report():
                 row['original_record']=c['original_quote']
                 e=o['input_packet']['events'][0]
                 row['gsis_id']=next((p['gsis_id'] for par in e['all_market_parameters'].values() for p in par['players'] if p['player_id']==c['player_id']),None)
-            else:row['reason']='NO_CERTIFIED_PREGAME_GAME_SCRIPT_PARAMETERS' if model=='J3' else ('KICKOFF_ALREADY_CLOSED' if ad.parse_time(c['event_start_at'])<=ad.now() else 'NO_VALID_EVENT_ROLE_PARAMETERS')
+            else:row['reason']='NO_CERTIFIED_PREGAME_GAME_SCRIPT_PARAMETERS' if model=='J3' else ('MISSING_EVENT_START' if not c.get('event_start_at') else ('KICKOFF_ALREADY_CLOSED' if ad.parse_time(c['event_start_at'])<=ad.now() else 'NO_VALID_EVENT_ROLE_PARAMETERS'))
             rows.append(row)
         for market in MARKETS:
             cs=[r for r in rows if r['model_id']==model and r['normalized_market']==NORMAL.get(market,market)]
@@ -49,7 +51,7 @@ def report():
                original_contracts=len(cs),contract_forecasts=sum(r['status']=='FORECAST' for r in cs),contract_abstentions=sum(r['status']!='FORECAST' for r in cs)))
     report=dict(schema='PA_WS4_WS6_ALL_MARKET_HANDOFF_v04.1',generated_at=ad.now().isoformat(),classification='UNCERTIFIED_SHADOW',
       forecast_files=[dict(path=str(p.relative_to(J)),sha256=p.stem,created_at=o['forecast_created_at'],kickoff=o['input_packet']['events'][0]['event_start_at']) for p,o in latest.values()],
-      coverage=coverage,composite_diagnostics=composites,weather_neutral_distributions=sum(distribution_counts.values()),weather_estimated_distributions=0,
+      rejected_versions=rejected_versions,rejected_files=[dict(path=str(p.relative_to(J)),sha256=p.stem,reason=rejected_versions[o['model_version']]) for p,o in objs if o.get('model_version') in rejected_versions],coverage=coverage,composite_diagnostics=composites,weather_neutral_distributions=sum(distribution_counts.values()),weather_estimated_distributions=0,
       original_contract_observations=len(original),contract_model_rows=len(rows),original_event_exclusions=['401873053'],
       limitations=['J3 and defensive T+A blocked by missing evidence','No marginal or joint accuracy promotion evidence','Existing v031 predictions remain separately frozen controls'],
       frozen_v031_files={str(p.relative_to(J)):ad.digest(p.read_bytes()) for p in (J/'real_original_qb_attempts_multievent_v031').glob('*.json')})
@@ -57,6 +59,11 @@ def report():
         raw=ad.canonical(obj)+b'\n';p=root/(ad.digest(raw)+suffix)
         with p.open('xb') as f:f.write(raw)
         return dict(path=str(p.relative_to(J)),sha256=ad.digest(raw))
+    cov=seal(report.pop('composite_diagnostics'),'.covariance.json');report['composite_covariance_file']=cov
+    report['source_hashes']={'ws1':ad.CANONICAL_WS1,'stats2025':ad.HISTORY_2025_SHA,'crosswalk':ad.CROSSWALK_SHA}
+    report['model_versions']=sorted({o['model_version'] for p,o in latest.values()})
+    report['team_draw_conservation_checks']=sum(d['conservation_checks'] for p,o in latest.values() for d in o['draw_records'].values())
+    report['parameter_versions']=[dict(event_id=o['input_packet']['events'][0]['event_id'],sha256=o.get('parameter_sha256'),model_version=o['model_version']) for p,o in latest.values()]
     ledger=seal(rows,'.ledger.json');report['original_contract_ledger']=ledger
     receipt=seal(report,'.summary.json')
     print(json.dumps(dict(receipt=receipt,coverage=coverage,files=len(latest),weather_neutral=report['weather_neutral_distributions'],weather_estimated=0)))

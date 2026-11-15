@@ -8,7 +8,14 @@ def audit(path):
     assert hashlib.sha256(raw).hexdigest()==pathlib.Path(path).stem
     e=o['input_packet']['events'][0]
     from datetime import datetime
+    cutoff=datetime.fromisoformat(o['input_packet']['model_training_cutoff_at'].replace('Z','+00:00'))
+    for par in e['all_market_parameters'].values():
+        for receipt in par.get('current_source_receipts',[]):
+            assert datetime.fromisoformat(receipt['available_at'].replace('Z','+00:00'))<=cutoff, 'CURRENT_HISTORY_AFTER_TRAINING_CUTOFF'
     assert datetime.fromisoformat(o['forecast_created_at'].replace('Z','+00:00'))<datetime.fromisoformat(e['event_start_at'].replace('Z','+00:00'))
+    pids=[p['player_id'] for par in e['all_market_parameters'].values() for p in par['players']]
+    gids=[p['gsis_id'] for par in e['all_market_parameters'].values() for p in par['players']]
+    assert len(pids)==len(set(pids)) and len(gids)==len(set(gids)), 'PLAYER_TEAM_JOIN_COLLISION'
     checks=0;maxse=0.;composites=[]
     for model,d in o['draw_records'].items():
         series={k:np.asarray(v) for k,v in d['series'].items()}
@@ -29,7 +36,9 @@ def audit(path):
                 assert np.isclose(cov,diag['covariance'])
                 assert np.isclose(a.var(),x.var()+y.var()+2*cov)
                 if diag['correlation'] is not None:assert abs(diag['correlation'])<=1+1e-12
-                composites.append(dict(model=model,player_id=pid,stat=stat,**diag))
+                permuted=np.random.default_rng(20261115).permutation(y)
+                nullcov=float(np.cov(x,permuted,ddof=0)[0,1])
+                composites.append(dict(model=model,player_id=pid,stat=stat,independent_permutation_covariance=nullcov,independent_permutation_variance=float(np.var(x+permuted)),**diag))
             checks+=1
         for c in o['contracts']:
             if c['model_id']!=model or c['status']!='FORECAST':continue

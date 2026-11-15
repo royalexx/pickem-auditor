@@ -152,7 +152,7 @@ def run(limit=None,draws=4096):
               model_abstentions={'J3':'NO_CERTIFIED_PREGAME_GAME_SCRIPT_PARAMETERS','J4':'DIAGNOSTIC_ONLY'},
               weather_estimated_count=0,weather_neutral_count=len(results),
               limitations=['No authenticated game-day active confirmation; all outputs conditional on participation',
-               '2024 team volumes and 2025 player history are stale versus 2026',
+               globals().get('HISTORY_DESCRIPTION','2024 team volumes and 2025 player history are stale versus 2026'),
                'Per-game average signed yard marks are not play-level gain distributions; tails unvalidated',
                'J2 concentration 28 and pace Gamma 25 are sensitivity assumptions, not calibrated',
                'Scrambles and kneels included in official carries; spikes/throwaways in residual attempts; sacks excluded from attempts',

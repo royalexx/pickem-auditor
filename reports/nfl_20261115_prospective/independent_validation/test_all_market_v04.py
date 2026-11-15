@@ -1,5 +1,5 @@
 """Numerical/adversarial extension tests; fabricated fixtures, never forecasts."""
-import copy,pathlib,sys,unittest
+import copy,pathlib,sys,unittest,tempfile,json,hashlib
 import numpy as np
 sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]/'joint_models'))
 from all_market_v04.conditional import allocations,covariance,extend_game,verify,MARKETS
@@ -53,6 +53,23 @@ class AllMarket(unittest.TestCase):
         self.assertEqual(r['p_push'],.25);self.assertEqual(r['effective_simulation_draws'],4)
     def test_roster_parse(self):
         self.assertEqual(roles({'athletes':[{'items':[{'id':'123','position':{'abbreviation':'QB'}}]}]}),{'123':'QB'})
+    def test_duplicate_player_join_audit(self):
+        from audit_all_market_v04 import audit
+        e={'event_start_at':'2027-01-01T00:00:00Z','all_market_parameters':{
+          t:{'players':[{'player_id':'same','gsis_id':'same'}]} for t in ('A','B')}}
+        o={'forecast_created_at':'2026-01-01T00:00:00Z','input_packet':{'events':[e],'model_training_cutoff_at':'2025-12-31T00:00:00Z'}}
+        raw=json.dumps(o).encode()
+        with tempfile.TemporaryDirectory() as d:
+            f=pathlib.Path(d)/(hashlib.sha256(raw).hexdigest()+'.json');f.write_bytes(raw)
+            with self.assertRaisesRegex(AssertionError,'PLAYER_TEAM_JOIN_COLLISION'):audit(f)
+    def test_current_history_training_cutoff_audit(self):
+        from audit_all_market_v04 import audit
+        e={'all_market_parameters':{'A':{'current_source_receipts':[{'available_at':'2026-11-15T16:00:00Z'}]}}}
+        o={'input_packet':{'events':[e],'model_training_cutoff_at':'2026-11-11T00:00:00Z'}}
+        raw=json.dumps(o).encode()
+        with tempfile.TemporaryDirectory() as d:
+            f=pathlib.Path(d)/(hashlib.sha256(raw).hexdigest()+'.json');f.write_bytes(raw)
+            with self.assertRaisesRegex(AssertionError,'CURRENT_HISTORY_AFTER_TRAINING_CUTOFF'):audit(f)
     def test_wrong_team_join_abstains(self):
         t={'team_id':'H','starter_qb_id':'q'}
         h=[dict(team='A',position='QB',player_id='g')]
