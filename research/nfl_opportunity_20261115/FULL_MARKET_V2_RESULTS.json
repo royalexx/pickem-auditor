@@ -1,0 +1,300 @@
+{
+  "completed_at": "2026-11-15T16:36:29.759812+00:00",
+  "contract_forecasts": {
+    "O2-position-usage-full-market-v2": 1191,
+    "O3-qb-mean-preserving-full-market-v2": 236,
+    "O5-role-mixture-full-market-v2": 1427
+  },
+  "counts": [
+    {
+      "market": "receiving_targets",
+      "model": "O2-position-usage-full-market-v2",
+      "n": 358,
+      "status": "abstain"
+    },
+    {
+      "market": "receiving_targets",
+      "model": "O2-position-usage-full-market-v2",
+      "n": 140,
+      "status": "forecast"
+    },
+    {
+      "market": "receiving_yards",
+      "model": "O2-position-usage-full-market-v2",
+      "n": 359,
+      "status": "abstain"
+    },
+    {
+      "market": "receiving_yards",
+      "model": "O2-position-usage-full-market-v2",
+      "n": 139,
+      "status": "forecast"
+    },
+    {
+      "market": "receptions",
+      "model": "O2-position-usage-full-market-v2",
+      "n": 358,
+      "status": "abstain"
+    },
+    {
+      "market": "receptions",
+      "model": "O2-position-usage-full-market-v2",
+      "n": 140,
+      "status": "forecast"
+    },
+    {
+      "market": "rush_attempts",
+      "model": "O2-position-usage-full-market-v2",
+      "n": 196,
+      "status": "abstain"
+    },
+    {
+      "market": "rush_attempts",
+      "model": "O2-position-usage-full-market-v2",
+      "n": 73,
+      "status": "forecast"
+    },
+    {
+      "market": "rushing_receiving_yards",
+      "model": "O2-position-usage-full-market-v2",
+      "n": 426,
+      "status": "abstain"
+    },
+    {
+      "market": "rushing_receiving_yards",
+      "model": "O2-position-usage-full-market-v2",
+      "n": 72,
+      "status": "forecast"
+    },
+    {
+      "market": "rushing_yards",
+      "model": "O2-position-usage-full-market-v2",
+      "n": 196,
+      "status": "abstain"
+    },
+    {
+      "market": "rushing_yards",
+      "model": "O2-position-usage-full-market-v2",
+      "n": 73,
+      "status": "forecast"
+    },
+    {
+      "market": "pass_attempts",
+      "model": "O3-qb-mean-preserving-full-market-v2",
+      "n": 7,
+      "status": "abstain"
+    },
+    {
+      "market": "pass_attempts",
+      "model": "O3-qb-mean-preserving-full-market-v2",
+      "n": 17,
+      "status": "forecast"
+    },
+    {
+      "market": "pass_completions",
+      "model": "O3-qb-mean-preserving-full-market-v2",
+      "n": 7,
+      "status": "abstain"
+    },
+    {
+      "market": "pass_completions",
+      "model": "O3-qb-mean-preserving-full-market-v2",
+      "n": 17,
+      "status": "forecast"
+    },
+    {
+      "market": "passing_rushing_yards",
+      "model": "O3-qb-mean-preserving-full-market-v2",
+      "n": 7,
+      "status": "abstain"
+    },
+    {
+      "market": "passing_rushing_yards",
+      "model": "O3-qb-mean-preserving-full-market-v2",
+      "n": 17,
+      "status": "forecast"
+    },
+    {
+      "market": "passing_yards",
+      "model": "O3-qb-mean-preserving-full-market-v2",
+      "n": 7,
+      "status": "abstain"
+    },
+    {
+      "market": "passing_yards",
+      "model": "O3-qb-mean-preserving-full-market-v2",
+      "n": 17,
+      "status": "forecast"
+    },
+    {
+      "market": "rush_attempts",
+      "model": "O3-qb-mean-preserving-full-market-v2",
+      "n": 7,
+      "status": "abstain"
+    },
+    {
+      "market": "rush_attempts",
+      "model": "O3-qb-mean-preserving-full-market-v2",
+      "n": 17,
+      "status": "forecast"
+    },
+    {
+      "market": "rushing_yards",
+      "model": "O3-qb-mean-preserving-full-market-v2",
+      "n": 7,
+      "status": "abstain"
+    },
+    {
+      "market": "rushing_yards",
+      "model": "O3-qb-mean-preserving-full-market-v2",
+      "n": 17,
+      "status": "forecast"
+    },
+    {
+      "market": "tackles_assists",
+      "model": "O4-defensive-components-full-market-v2",
+      "n": 908,
+      "status": "abstain"
+    },
+    {
+      "market": "pass_attempts",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 7,
+      "status": "abstain"
+    },
+    {
+      "market": "pass_attempts",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 17,
+      "status": "forecast"
+    },
+    {
+      "market": "pass_completions",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 7,
+      "status": "abstain"
+    },
+    {
+      "market": "pass_completions",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 17,
+      "status": "forecast"
+    },
+    {
+      "market": "passing_rushing_yards",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 7,
+      "status": "abstain"
+    },
+    {
+      "market": "passing_rushing_yards",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 17,
+      "status": "forecast"
+    },
+    {
+      "market": "passing_yards",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 7,
+      "status": "abstain"
+    },
+    {
+      "market": "passing_yards",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 17,
+      "status": "forecast"
+    },
+    {
+      "market": "receiving_targets",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 358,
+      "status": "abstain"
+    },
+    {
+      "market": "receiving_targets",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 140,
+      "status": "forecast"
+    },
+    {
+      "market": "receiving_yards",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 359,
+      "status": "abstain"
+    },
+    {
+      "market": "receiving_yards",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 139,
+      "status": "forecast"
+    },
+    {
+      "market": "receptions",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 358,
+      "status": "abstain"
+    },
+    {
+      "market": "receptions",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 140,
+      "status": "forecast"
+    },
+    {
+      "market": "rush_attempts",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 203,
+      "status": "abstain"
+    },
+    {
+      "market": "rush_attempts",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 90,
+      "status": "forecast"
+    },
+    {
+      "market": "rushing_receiving_yards",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 426,
+      "status": "abstain"
+    },
+    {
+      "market": "rushing_receiving_yards",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 72,
+      "status": "forecast"
+    },
+    {
+      "market": "rushing_yards",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 203,
+      "status": "abstain"
+    },
+    {
+      "market": "rushing_yards",
+      "model": "O5-role-mixture-full-market-v2",
+      "n": 90,
+      "status": "forecast"
+    }
+  ],
+  "handoff_files": {
+    "original_contract_evaluations.jsonl": "56d067306d224ff88dd6a8ab8a591abbf31289b3f6631ffac07327c771e57fe1",
+    "player_stat_distributions.jsonl": "2de14164e7346edb024a86d8824212e52e75019ba95a5b848a5d239fed87bbb3"
+  },
+  "neutral_stat_forecasts": {
+    "O2-position-usage-full-market-v2": 637,
+    "O3-qb-mean-preserving-full-market-v2": 102,
+    "O5-role-mixture-full-market-v2": 739
+  },
+  "receipt": {
+    "created_at": "2026-11-15T16:36:35.236647+00:00",
+    "directory": "/work/reports/nfl_20261115_prospective/opportunity_models/full_market_v2/ee8f497169684f4f00844a8e42c9628449461908169e283738d5b6b57e11d699",
+    "report_bytes": 27060223,
+    "report_sha256": "ee8f497169684f4f00844a8e42c9628449461908169e283738d5b6b57e11d699",
+    "schema": "nfl-opportunity-20261115-v1",
+    "status": "SHADOW_ONLY_UNCERTIFIED"
+  },
+  "teams": 22,
+  "unique_contracts_forecast": 1427,
+  "weather_forecasts": 0
+}
