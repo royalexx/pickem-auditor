@@ -1,0 +1,17 @@
+[
+  {
+    "path": "FINAL_HANDOFF_PIN.json",
+    "original_sha256": "1c199b3930737ccfe60dc70b56afbaff0b640a88e6ae1603988a4a64e397dd5f",
+    "public_derivative_sha256": "553e83ca7dc4cb69ae31be001652fd8d4e96fda075ac30bacc5d8c0df3f24f34"
+  },
+  {
+    "path": "HANDOFF_PIN.json",
+    "original_sha256": "b1c7fbefb919565b1e27ab14bec10fffaa51d71d612ec8e214154960ab6f9aeb",
+    "public_derivative_sha256": "915ee395bf076fb7d5be179abea5654809d985901a864b996038b31e83d529a0"
+  },
+  {
+    "path": "ORIGINAL_WS2_FORECAST_INDEX.json",
+    "original_sha256": "13d29d98f0081d929c907f32526e93fb11e5d7b38cc7e1a523a0268af7ec9d42",
+    "public_derivative_sha256": "eb6685aac1bd7f6aae67cc075e341ed018d160778c1e7dc7989883bd12283c6a"
+  }
+]
