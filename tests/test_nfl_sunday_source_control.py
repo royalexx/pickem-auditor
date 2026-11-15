@@ -201,6 +201,19 @@ class QuotedUniverseTests(unittest.TestCase):
         self.assertEqual(r["eligibility_status"],"STARTER_UNVERIFIABLE")
         self.assertIsNone(r["participation_risk_probability"])
         self.assertFalse(r["forecast_eligible"])
+    def test_source_backed_rb_rush_attempts_not_qb_gated(self):
+        p=setup()
+        p["quotes"][0]["stat"]="rush attempts"
+        p["rosters"]["KC"]["athletes"][0]["position"]={"abbreviation":"RB"}
+        m=build_universe(**p)
+        r=m["candidates"][0]
+        self.assertTrue(r["source_certified"])
+        self.assertTrue(r["research_shadow_eligible"])
+        self.assertEqual(r["eligibility_status"],"ROSTER_MEMBER_GAME_ACTIVE_UNCONFIRMED")
+    def test_non_qb_cannot_take_passing_attempts(self):
+        p=setup()
+        p["rosters"]["KC"]["athletes"][0]["position"]={"abbreviation":"RB"}
+        self.assertEqual(build_universe(**p)["failures"]["PASSING_STAT_ON_NONQB_IDENTITY"],1)
     def test_verified_backup_excluded(self):
         p=setup(depth_qbs={"KC":{"espn_player_id":"another-id"}})
         r=build_universe(**p)["candidates"][0]
