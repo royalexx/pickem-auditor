@@ -1,0 +1,33 @@
+# Bounded, authorized engineering check. Project storage remains read-only.
+import hashlib, io, json, os, pathlib, subprocess, sys, tempfile, time, urllib.request, zipfile
+PIN = "b0e6ffb027b74be2bd2f003708885af9a6e994f2"
+root = pathlib.Path(tempfile.mkdtemp(prefix="nba_ws5_"))
+req = urllib.request.Request("https://codeload.github.com/royalexx/pickem-auditor/zip/"+PIN, headers={"User-Agent":"NBA-WS5-Pinned-Engineering"})
+with urllib.request.urlopen(req, timeout=90) as response:
+    archive = zipfile.ZipFile(io.BytesIO(response.read()))
+for item in archive.infolist():
+    parts = pathlib.PurePosixPath(item.filename).parts
+    if len(parts)<2 or ".." in parts: continue
+    path = root.joinpath(*parts[1:])
+    if item.is_dir(): path.mkdir(parents=True, exist_ok=True)
+    else:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(archive.read(item))
+env={**os.environ,"OPENBLAS_NUM_THREADS":"1","PYTHONDONTWRITEBYTECODE":"1"}
+counts=[]
+for test_dir,pattern in [("tests/nba_ws1","test_*.py"),("tests","test_nba_opportunity.py"),("tests","test_nba_joint*.py")]:
+    proc=subprocess.run([sys.executable,"-B","-m","unittest","discover","-s",test_dir,"-p",pattern,"-v"],cwd=root,env=env,text=True,capture_output=True,timeout=120)
+    print(proc.stdout[-1000:]);print(proc.stderr[-1000:])
+    assert proc.returncode==0, "PINNED_TEST_FAILURE"
+    counts.append({"suite":test_dir+"/"+pattern,"summary":proc.stderr.splitlines()[-4:]})
+script="""import json,numpy,scipy,sys
+from v2.nba_joint import synthetic_fixture,simulate,audit
+from v2.nba_joint.common import sha
+g,m=synthetic_fixture()
+o=simulate(g,m,n=128,seed=20261115)
+print(json.dumps({"audit":audit(o),"scenario_sha256":o["output_sha256"],"counts_sha256":sha({k:v.tolist() for k,v in o["stats"].items()}),"numpy":numpy.__version__,"scipy":scipy.__version__,"python":sys.version,"timing":o["timing"]},sort_keys=True))
+"""
+proc=subprocess.run([sys.executable,"-B","-c",script],cwd=root,env=env,text=True,capture_output=True,timeout=60)
+assert proc.returncode==0, proc.stderr[-2000:]
+print("WS5_RECEIPT",json.dumps({"pin":PIN,"tests":counts,"fixture":json.loads(proc.stdout),"project_storage":"readonly","promotion":False},sort_keys=True))
+

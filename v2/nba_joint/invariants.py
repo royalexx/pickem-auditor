@@ -14,6 +14,9 @@ def audit(o):
     check(np.allclose(length,48+5*o['state']['overtime'],atol=1e-10),'OVERTIME')
     for i in o['team_indices']:check(np.allclose(m[:,i].sum(axis=1),5*length,atol=1e-7,rtol=0),'TEAM_MINUTES')
     for k,v in c.items():check(v.shape==m.shape and np.issubdtype(v.dtype,np.integer) and np.all(v>=0),'COUNT_SUPPORT:'+k)
+    check(np.all(c['points'][:,o['team_indices'][0]].sum(axis=1)!=c['points'][:,o['team_indices'][1]].sum(axis=1)),'TIED_FINAL_SCORE')
+    cond=o['completed_game_conditioning']
+    check(cond['event_attempts']==n+len(cond['rejections']) and cond['rejected_event_draws']==len(cond['rejections']),'EVENT_REJECTION_DENOMINATOR')
     check(np.array_equal(c['points'],2*c['two_pm']+3*c['threes']+c['ftm']),'POINTS_IDENTITY')
     check(np.all(c['two_pm']<=c['two_pa']) and np.all(c['threes']<=c['three_pa']) and np.all(c['ftm']<=c['fta']),'CONVERSIONS')
     for k,parts in {'pr':['points','rebounds'],'pa':['points','assists'],'ra':['rebounds','assists'],'pra':['points','rebounds','assists']}.items():check(np.array_equal(c[k],sum(c[x] for x in parts)),'COMBO:'+k)

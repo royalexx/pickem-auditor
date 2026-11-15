@@ -46,6 +46,7 @@ def engineering():
         f=extract_forecast(out,1,'pra',line=40.5)
         tail=extract_forecast(out,1,'points',line=60.5)
         results.append(dict(n=n,seed=out['seed'],audit=a,input_sha256=out['input_sha256'],output_sha256=out['output_sha256'],
+            conditioning_rejected_event_draws=out['completed_game_conditioning']['rejected_event_draws'],conditioning_marginal_change=out['completed_game_conditioning']['mean_absolute_marginal_change'],
             overtime_scenarios=int(np.sum(out['state']['overtime']>0)),max_ot=int(out['state']['overtime'].max()),
             independent_team_minutes_mae=float(total_errors.mean()),allocated_team_minutes_max_abs_error=float(max(np.abs(m[:,ix].sum(axis=1)-5*out['state']['duration']).max() for ix in out['team_indices'])),
             marginal_projection_mean_absolute_change=float(np.abs(m-raw).mean()),combo_probability=f['probabilities'],combo_mc=f['monte_carlo'],rare_tail_probability=tail['probabilities'],rare_tail_mc=tail['monte_carlo']))
@@ -81,7 +82,7 @@ def main():
             except ValueError as exc:
                 freeze(dest/('failed_'+game['game_id']+'_'+label+'.json'),dict(reason=str(exc),input_sha256=sha(game),model_sha256=sha(model),attempted=a.scenarios,certified=0))
                 raise
-            outputs[label]=o;ensembles[label]=o['stats'];hashes.append(dict(game_id=game['game_id'],model=label,input_sha256=o['input_sha256'],output_sha256=o['output_sha256'],timing=o['timing']))
+            outputs[label]=o;ensembles[label]=o['stats'];hashes.append(dict(game_id=game['game_id'],model=label,input_sha256=o['input_sha256'],output_sha256=o['output_sha256'],timing=o['timing'],conditioning_rejected_events=o['completed_game_conditioning']['rejected_event_draws'],conditioning_marginal_change=o['completed_game_conditioning']['mean_absolute_marginal_change']))
             if dep=='J2':
                 distortion.append(dict(game_id=game['game_id'],date=game['game_date'],model=name,mean_absolute_minute_change=float(np.abs(o['minutes']-o['independent_minutes']).mean()),
                     player_mean_shift=(o['minutes'].mean(axis=0)-o['independent_minutes'].mean(axis=0)).tolist(),

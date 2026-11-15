@@ -44,7 +44,7 @@ def simulate(game,model,*,n=128,seed=20261115,exposure='M0',dependence='J2',stat
     ix=[np.array([i for i,p in enumerate(players) if p['team_id']==team]) for team in game['teams']]
     if any(len(i)<5 for i in ix):raise ValueError('FEWER_THAN_FIVE_CANDIDATES')
     minutes=[];desired=[];states=[];stats=[];witnesses=[];ledgers=[];scenario_ids=[]
-    timing={'state':0.,'opportunity':0.,'events':0.}
+    timing={'state':0.,'opportunity':0.,'events':0.};event_rejections=[];conditioning_change={k:0. for k in STATS[:4]}
     for j in range(n):
         sid=f'{game["game_id"]}/{seed}/{j}';scenario_ids.append(sid)
         t=time.perf_counter();state=sample_state(model['state'],rng_for(seed,game['game_id'],j,'state'),kind=state_kind);timing['state']+=time.perf_counter()-t
@@ -57,7 +57,21 @@ def simulate(game,model,*,n=128,seed=20261115,exposure='M0',dependence='J2',stat
                 raise ValueError(f'{exc};scenario={sid};attempted={j+1};completed={j};no_partial_forecast') from exc
             segments.append(seg)
         timing['opportunity']+=time.perf_counter()-t
-        t=time.perf_counter();c,ledger=sample_events(players,m,ix,state,model,rng_for(seed,game['game_id'],j,'events'),constrained=dependence=='J2');timing['events']+=time.perf_counter()-t
+        t=time.perf_counter()
+        first=None
+        for attempt in range(50):
+            stream='events' if attempt==0 else 'events/retry'+str(attempt)
+            c,ledger=sample_events(players,m,ix,state,model,rng_for(seed,game['game_id'],j,stream),constrained=dependence=='J2')
+            if first is None:first={k:c[k].copy() for k in STATS[:4]}
+            totals=[int(c['points'][i].sum()) for i in ix]
+            if totals[0]!=totals[1]:break
+            # Exact rejection sampling of the aggregate event law conditional on
+            # completed NBA games having unequal final scores. No counts repaired,
+            # no game scenarios dropped; every rejected event draw is retained.
+            event_rejections.append(dict(scenario_id=sid,event_attempt=attempt,reason='TIED_COMPLETED_GAME_SCORE',team_points=totals,counts={k:v.tolist() for k,v in c.items()},ledger=ledger))
+        else:raise ValueError(f'COMPLETED_GAME_CONDITIONING_EXHAUSTED;scenario={sid};event_attempts=50;no_partial_forecast')
+        for k in STATS[:4]:conditioning_change[k]+=float(np.abs(c[k]-first[k]).sum())/(n*np_)
+        timing['events']+=time.perf_counter()-t
         stats.append(c);states.append(state);minutes.append(m);desired.append(raw);witnesses.append(segments);ledgers.append(ledger)
     counts={k:np.stack([c[k] for c in stats]) for k in stats[0]};combos(counts)
     out=dict(schema='NBAJointScenarios/1.0.0',mode=game['mode'],conditional_on_roster=game['conditional_on_roster'],game=copy.deepcopy(game),model=copy.deepcopy(model),players=copy.deepcopy(players),
@@ -65,8 +79,9 @@ def simulate(game,model,*,n=128,seed=20261115,exposure='M0',dependence='J2',stat
              scenario_ids=scenario_ids,minutes=np.asarray(minutes),independent_minutes=np.asarray(desired),stats=counts,
              state={k:np.asarray([s[k] for s in states]) for k in ('duration','overtime','regulation_possession_proxy','team_possession_proxy','offensive_effect')},
              team_indices=[i.tolist() for i in ix],lineup_segments=witnesses,event_ledgers=ledgers,
+             completed_game_conditioning={'law':'aggregate events conditional on unequal final scores','event_attempts':n+len(event_rejections),'rejected_event_draws':len(event_rejections),'rejections':event_rejections,'mean_absolute_marginal_change':conditioning_change,'regulation_score_path':'not modeled; overtime is an empirical shared duration latent'},
              timing={**timing,'wall_seconds':time.perf_counter()-start},attempted_scenarios=n,rejected_scenarios=0)
-    out['output_sha256']=sha({'input':out['input_sha256'],'model':out['model_sha256'],'seed':seed,'exposure':exposure,'dependence':dependence,'state_kind':state_kind,'state':{k:v.tolist() for k,v in out['state'].items()},'minutes':out['minutes'].tolist(),'stats':{k:v.tolist() for k,v in counts.items()},'event_ledgers':ledgers})
+    out['output_sha256']=sha({'input':out['input_sha256'],'model':out['model_sha256'],'seed':seed,'exposure':exposure,'dependence':dependence,'state_kind':state_kind,'state':{k:v.tolist() for k,v in out['state'].items()},'minutes':out['minutes'].tolist(),'stats':{k:v.tolist() for k,v in counts.items()},'event_ledgers':ledgers,'completed_game_conditioning':out['completed_game_conditioning']})
     if dependence=='J2':
         from .invariants import audit
         audit(out)

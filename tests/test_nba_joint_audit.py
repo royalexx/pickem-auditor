@@ -65,6 +65,8 @@ class AdversarialTests(unittest.TestCase):
     def test_scenario_denominator(self):self.broken(lambda o:o.__setitem__('attempted_scenarios',9),'SCENARIO_DENOMINATOR')
     def test_four_on_court(self):self.broken(lambda o:o['lineup_segments'][0][0][0]['player_indices'].pop(),'FIVE_ON_COURT')
     def test_ot_increment_corruption(self):self.broken(lambda o:o['state']['overtime'].__setitem__(0,99),'OVERTIME')
+    def test_final_tied_scores_rejected(self):self.broken(lambda o:o['stats']['points'].__setitem__(slice(None),0),'TIED_FINAL_SCORE')
+    def test_event_rejection_denominator(self):self.broken(lambda o:o['completed_game_conditioning'].__setitem__('event_attempts',0),'EVENT_REJECTION_DENOMINATOR')
 
     def test_infeasible_exit_caps_fail_closed(self):
         g,m=synthetic_fixture()
