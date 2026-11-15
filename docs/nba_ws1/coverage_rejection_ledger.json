@@ -1,0 +1,134 @@
+{
+  "base_sha": "912bc7010058092ea735dcda0aa941429194474b",
+  "full_schedule_reconciliation": {
+    "attempted_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20181001-20191001&limit=2000",
+    "error": "HTTP 400 Bad Request; no all-season schedule denominator obtained; no repeated bulk requests",
+    "status": "blocked"
+  },
+  "historical_original_availability_authenticated": false,
+  "identity_collisions": 0,
+  "independent_reviewer": "not performed; sequential self-audit and separate runtime existing-evaluator replay only",
+  "quarantine_by_reason": {
+    "NBA_CUP_FINAL_NOT_REGULAR_SEASON": {
+      "games": 3,
+      "rows": 759
+    },
+    "NON_FRANCHISE_EXHIBITION": {
+      "games": 15,
+      "rows": 3179
+    }
+  },
+  "quarantined_games": 18,
+  "quarantined_rows": 3938,
+  "release_approved": false,
+  "rows_scanned": 2249104,
+  "schema": "nba-ws1-coverage-rejection-abstention/1",
+  "status": "shadow_only_not_data_certified",
+  "structurally_invalid_rows": 0,
+  "uncollected_dates": [
+    "2026-11-01",
+    "2026-11-02",
+    "2026-11-03",
+    "2026-11-04",
+    "2026-11-05",
+    "2026-11-06",
+    "2026-11-07",
+    "2026-11-08",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12",
+    "2026-11-13",
+    "2026-11-14"
+  ],
+  "upcoming_package": {
+    "errors": [],
+    "forecast_at": "2026-11-15T19:09:58.797255Z",
+    "game": {
+      "away_team_id": "espn:team:13",
+      "event_start_at": "2026-11-15T21:00:00.000000Z",
+      "game_id": "espn:game:401909986",
+      "home_team_id": "espn:team:21",
+      "status": "scheduled",
+      "venue": "Mortgage Matchup Center"
+    },
+    "input_freeze_at": "2026-11-15T19:02:12.757146Z",
+    "snapshot_hash": "a0532e8c6f26ea47102a9a6867f7c030c9914a79999d6124481066d779a4cf13",
+    "snapshot_path": "snapshots/a0532e8c6f26ea47102a9a6867f7c030c9914a79999d6124481066d779a4cf13.json",
+    "sources": [
+      {
+        "bytes": 173592,
+        "encoding": "gzip",
+        "path": "sources/4f4f011f41fe5e5e84e4f8cc120cabce41916840c3f0297a4f5a23ae5f1bd538.json.gz",
+        "raw_sha256": "4f4f011f41fe5e5e84e4f8cc120cabce41916840c3f0297a4f5a23ae5f1bd538",
+        "receipt_id": "5f6ef90d8becc94c16ea1f8d79b872f373ee7adbd1532fb1c45588dce2236664"
+      },
+      {
+        "bytes": 126877,
+        "encoding": "gzip",
+        "path": "sources/88982ecfdd5517393333526d34ee14a5aabdc338ac4306924d4bb2cfac7a133f.json.gz",
+        "raw_sha256": "88982ecfdd5517393333526d34ee14a5aabdc338ac4306924d4bb2cfac7a133f",
+        "receipt_id": "0bfb9817f57f251b4967772ab4dd61aa018ec9188a0dd4b02b1bd1633b725b15"
+      },
+      {
+        "bytes": 84407,
+        "encoding": "gzip",
+        "path": "sources/567b2140b1443dac80ba0f17a2734ae77a123aa98884441ccdc787609c09988e.json.gz",
+        "raw_sha256": "567b2140b1443dac80ba0f17a2734ae77a123aa98884441ccdc787609c09988e",
+        "receipt_id": "a05b8af2ef3ae27441d53c960e3181b87dfc155e83c18cf51cbb913ba5c6251e"
+      },
+      {
+        "bytes": 900328,
+        "encoding": "gzip",
+        "path": "sources/2252a01493710b61cb7695c2397ef7991217f62ffba03ecb5ee4bcedfad145ef.json.gz",
+        "raw_sha256": "2252a01493710b61cb7695c2397ef7991217f62ffba03ecb5ee4bcedfad145ef",
+        "receipt_id": "17f10a376b75417421616864ac970f5bdee9c0d38def63a202865c93c93b1fae"
+      },
+      {
+        "bytes": 92911,
+        "encoding": "gzip",
+        "path": "sources/1e3a0394f477ee6c4c891dbb2299b983ef736e990b6f319137abd3f2ee6e65da.json.gz",
+        "raw_sha256": "1e3a0394f477ee6c4c891dbb2299b983ef736e990b6f319137abd3f2ee6e65da",
+        "receipt_id": "d3bc12fe9eedf0774b922f902b5c4886587dd45f205a17291bca3867165a7d14"
+      },
+      {
+        "bytes": 923317,
+        "encoding": "gzip",
+        "path": "sources/177010f27aa5b9c3637850d44daa16a3de8799b0556d593d0b2625cf603975bb.json.gz",
+        "raw_sha256": "177010f27aa5b9c3637850d44daa16a3de8799b0556d593d0b2625cf603975bb",
+        "receipt_id": "6daa2988421b252423e75e3840a5b9dd391a4c223722ff29617263fc9606da79"
+      },
+      {
+        "bytes": 435091,
+        "encoding": "gzip",
+        "path": "sources/31776e9864d6208bf65f1535612d9276e49684a68f7a0bfa5a4fbef0f494106a.json.gz",
+        "raw_sha256": "31776e9864d6208bf65f1535612d9276e49684a68f7a0bfa5a4fbef0f494106a",
+        "receipt_id": "cb9ea68be72a4622af0d2cba5bc774f975549c62af78ec0ca0feb866f52e225c"
+      },
+      {
+        "bytes": 426357,
+        "encoding": "gzip",
+        "path": "sources/0a1ea7eaab3aff7fc0c5b08309f4cc5d10aadde2f7885fe6f2bcc647745ebe30.json.gz",
+        "raw_sha256": "0a1ea7eaab3aff7fc0c5b08309f4cc5d10aadde2f7885fe6f2bcc647745ebe30",
+        "receipt_id": "e37fee41b6a9e43e9d97bae8afe8d620aa29a7d426fe5d69675bcbd5b6116bc3"
+      },
+      {
+        "bytes": 491284,
+        "encoding": "gzip",
+        "path": "sources/98b284b5f34e63b0cd1cba6fa31c5d0c83584fbf50d5da1da752de113393440c.json.gz",
+        "raw_sha256": "98b284b5f34e63b0cd1cba6fa31c5d0c83584fbf50d5da1da752de113393440c",
+        "receipt_id": "d759a2b9bae8fed872642dcc5555c4a2aeef50ad74861f6763019301ca0a804e"
+      },
+      {
+        "bytes": 444419,
+        "encoding": "gzip",
+        "path": "sources/1786b987850535319ce157e79af93a1d69f283a9657b36cac678925ad6e9a341.json.gz",
+        "raw_sha256": "1786b987850535319ce157e79af93a1d69f283a9657b36cac678925ad6e9a341",
+        "receipt_id": "56f22f42e4f885d4550d254d8c8abfb958c9e2e6a3a32c5f7b6163e4208c319c"
+      }
+    ],
+    "status": "captured_partial_shadow",
+    "training_cutoff_semantics": "consumer upper-bound only; no statistical model fitted"
+  },
+  "warehouse_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24"
+}

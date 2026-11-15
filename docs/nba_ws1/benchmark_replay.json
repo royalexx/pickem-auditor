@@ -1,0 +1,30 @@
+{
+  "base_sha": "912bc7010058092ea735dcda0aa941429194474b",
+  "by_sport": {
+    "NBA": 250,
+    "NHL": 106
+  },
+  "deterministic_rerun": true,
+  "input_hashes": {
+    "all_prepared_props_attempts.json": "b57eb04ba8bdeca2b7c40adde2fcebabb1ff98ee5a6938baf88b3a32c89eb2d2",
+    "live_pool_2026-11-10_afternoon_76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6.json.gz": "76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6",
+    "official_settlements.json": "7f61d5933b714756e7f7d5561a2b0ca226cecaaff5b801d5567dc56a2f9970b3"
+  },
+  "original_forecast_rows": 712,
+  "output_bytes_sha256": "b438345979353e9c421c440c9bd39f0202994a3e94925a5416b904279b0c617d",
+  "prepared_attempt_count": 1314,
+  "report_sha256": "3ea0ad878b7bf775045b6ee5f7f617e4d83759a2a56b2f5ac120dd4a99a2658e",
+  "retained_paired_contracts": 356,
+  "settlement_states": {
+    "over": 160,
+    "pending_official_settlement": 2,
+    "under": 194
+  },
+  "deepnote_run_id": "c4ca630e-64d3-47e5-bed4-cc00ac333f93",
+  "notebook_id": "8a9945f8c0cb470fb750f78535f49f07",
+  "first_run_failure": {
+    "run_id": "e7d4d033-3bb6-40ad-a1c8-b3abc21e2b46",
+    "reason": "official_settlement_source_archive_unverified",
+    "resolution": "Pass existing official_source_raw subdirectory as settlement archive root; no archived files changed."
+  }
+}

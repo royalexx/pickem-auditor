@@ -1,0 +1,38 @@
+{
+  "sources": [
+    {
+      "article_headline": "Anthony Davis leads Lakers to NBA In-Season Tournament title, 123-109 over Pacers",
+      "event_id": "401607495",
+      "game_note": "NBA In-Season Tournament Championship",
+      "origin": "retrospective_retrieval",
+      "original_capture_at": null,
+      "path": "cup_401607495_4b84f4272f4f9104.json.gz",
+      "raw_sha256": "4b84f4272f4f91046032e9621cd8b7cc05673c873eaaae934773eb6385640d69",
+      "season_type": 2,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401607495"
+    },
+    {
+      "article_headline": "Giannis, Bucks use 3-point barrage to beat Thunder 97-81 for NBA Cup title",
+      "event_id": "401734908",
+      "game_note": "NBA Cup Championship",
+      "origin": "retrospective_retrieval",
+      "original_capture_at": null,
+      "path": "cup_401734908_ee88a9b537fa653f.json.gz",
+      "raw_sha256": "ee88a9b537fa653f8267c4402dd017cfd7abb0a27052d723aa1d5475172c1fac",
+      "season_type": 2,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401734908"
+    },
+    {
+      "article_headline": "Knicks win NBA Cup after rallying to beat Spurs 124-113",
+      "event_id": "401809839",
+      "game_note": "NBA Cup Championship",
+      "origin": "retrospective_retrieval",
+      "original_capture_at": null,
+      "path": "cup_401809839_f4b6fb0629361f3e.json.gz",
+      "raw_sha256": "f4b6fb0629361f3edb6c9ef2a03e6f828fe9b3ae6fd6b0da62a6e2f169ccdf11",
+      "season_type": 2,
+      "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401809839"
+    }
+  ],
+  "status": "competition_classification_evidence_not_pregame_features"
+}
