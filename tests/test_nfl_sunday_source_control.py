@@ -64,6 +64,39 @@ class SundayScheduleTests(unittest.TestCase):
             instant("not-a-date")
 
 class QuotedUniverseTests(unittest.TestCase):
+
+    def test_team_derived_only_from_unique_verified_game_roster(self):
+        p=setup()
+        p["quotes"][0].update(team="",opponent="",event_teams=["ATL","KC"])
+        m=build_universe(**p)
+        r=m["candidates"][0]
+        self.assertEqual((r["team"],r["opponent"]),("KC","ATL"))
+        self.assertEqual(r["team_identity_basis"],
+                         "independent_unique_espn_roster_on_provider_event_pair")
+        self.assertTrue(r["source_certified"])
+        self.assertEqual(r["original_quote"]["team"],"")
+    def test_same_name_on_both_event_rosters_abstains(self):
+        p=setup()
+        p["quotes"][0].update(team="",opponent="",event_teams=["ATL","KC"])
+        p["rosters"]["ATL"]={"receipt_sha256":"c"*64,
+           "athletes":[{"id":"9999","fullName":"Test Player",
+                        "position":{"abbreviation":"QB"}}]}
+        m=build_universe(**p)
+        self.assertEqual(m["source_certified_quotes"],0)
+        self.assertEqual(m["failures"]["CROSS_TEAM_ROSTER_IDENTITY_UNVERIFIABLE"],1)
+    def test_claimed_team_not_in_event_pair_abstains(self):
+        p=setup()
+        p["quotes"][0].update(team="KC",opponent="ATL",event_teams=["NYJ","BUF"])
+        m=build_universe(**p)
+        self.assertEqual(m["source_certified_quotes"],0)
+        self.assertIn("PROVIDER_TEAM_EVENT_PAIR_CONFLICT",m["failures"])
+    def test_no_espn_player_has_unverifiable_source_status(self):
+        p=setup()
+        p["quotes"][0].update(team="",opponent="",event_teams=["ATL","KC"])
+        p["rosters"]={}
+        m=build_universe(**p)
+        self.assertEqual(m["source_certified_quotes"],0)
+        self.assertFalse(m["candidates"][0]["forecast_eligible"])
     def test_single_offer_preserves_original_prices(self):
         m=run()
         self.assertEqual(m["attempted_contracts"], 1)
@@ -229,6 +262,48 @@ class StatAndManifestTests(unittest.TestCase):
         ok,reason=validate_frozen_forecast(dict(candidate_id="1"))
         self.assertFalse(ok)
         self.assertIn("MISSING_FORECAST_FIELDS",reason)
+
+
+class LiveSourceAdapterTests(unittest.TestCase):
+    def test_espn_depth_order_first_qb_no_fake_rank(self):
+        from nfl_sunday_capture import depth_qb
+        payload={"depthchart":[{"name":"3WR 1TE","positions":{
+            "qb":{"athletes":[{"id":"12345"},{"id":"222"}]}}}]}
+        x=depth_qb(payload)
+        self.assertEqual(x["espn_player_id"],"12345")
+        self.assertTrue(x["source_only_expected"])
+    def test_conflicting_qb_depth_orders_abstains(self):
+        from nfl_sunday_capture import depth_qb
+        payload={"depthchart":[
+            {"positions":{"qb":{"athletes":[{"id":"12345"}]}}},
+            {"positions":{"qb":{"athletes":[{"id":"999"}]}}}
+        ]}
+        self.assertIsNone(depth_qb(payload))
+    def test_injured_reserve_structured_status_ineligible(self):
+        from nfl_sunday_source_contract import eligibility
+        player=dict(espn_player_id="12345",position="QB",
+                    roster_status={"type":"injured-reserve","name":"Injured Reserve"})
+        label,risk,_=eligibility(player,"pass attempts",{"espn_player_id":"12345"})
+        self.assertEqual((label,risk),("VERIFIED_OUT",1.0))
+    def test_protected_raw_sha_mismatch_rejected(self):
+        from nfl_sunday_rebind import load_raw
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            (root/"raw").mkdir()
+            body=b'{"safe":true}'
+            (root/"raw/source.bin").write_bytes(body)
+            receipt={"archive_path":"raw/source.bin",
+                     "sha256":"0"*64,"size_bytes":len(body),
+                     "source_bytes_verified":True}
+            with self.assertRaisesRegex(ValueError,"RAW_SOURCE_SHA_MISMATCH"):
+                load_raw(root,receipt)
+    def test_raw_archive_path_traversal_rejected(self):
+        from nfl_sunday_rebind import load_raw
+        with tempfile.TemporaryDirectory() as d:
+            receipt={"archive_path":"../x","sha256":SHA,"size_bytes":1,
+                     "source_bytes_verified":True}
+            with self.assertRaisesRegex(ValueError,"RAW_SOURCE_PATH_UNSAFE"):
+                load_raw(d,receipt)
 
 if __name__ == "__main__":
     unittest.main()
