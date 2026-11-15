@@ -1,3 +1,6 @@
 * text=auto eol=lf
 
 *.sqlite3 binary
+
+# Immutable original WS1 source responses must never undergo newline conversion.
+reports/nfl_20261115_prospective/**/*.bin binary
