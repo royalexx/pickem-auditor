@@ -127,7 +127,7 @@ class QuotedUniverseTests(unittest.TestCase):
         p["quote_receipts"]["propline"]["source_received_at"]="2026-11-15T06:00:00Z"
         self.assertEqual(build_universe(**p)["failures"]["SOURCE_AFTER_FREEZE"],1)
     def test_started_game_fail(self):
-        p=setup(freeze_at="2026-11-15T15:00:00Z")
+        p=setup(freeze_at="2026-11-15T19:00:00Z")
         self.assertEqual(build_universe(**p)["failures"]["EVENT_STARTED"],1)
     def test_source_missing_event_mapped_failure(self):
         p=setup()
