@@ -373,7 +373,13 @@ def freeze(args):
     count_ok = len(original) == manifest["expected_contract_count"]
     covered_games = {q["event_id"] for q in original.values()}
     complete_events_covered = covered_games == set(events)
-    source_hash = file_sha(manifest_path)
+    derived_manifest_sha = file_sha(manifest_path)
+    source_hash = manifest.get("original_ws1_sha256") or derived_manifest_sha
+    digest(source_hash, "input_source_manifest")
+    if manifest.get("original_ws1_sha256"):
+        ws1_original = Path(manifest.get("original_ws1_manifest_path") or "")
+        if not ws1_original.is_file() or file_sha(ws1_original) != source_hash:
+            fail("ORIGINAL_WS1_SOURCE_MANIFEST_HASH_OR_PATH_UNVERIFIED")
     forecasts = {}
     model_counts = Counter()
     model_versions = defaultdict(set)
@@ -451,6 +457,7 @@ def freeze(args):
                       "classification": "PROSPECTIVE_SHADOW_UNCERTIFIED"} for mid in sorted(configured)}
     dump(out / "model_registry.json", register)
     report = {"slate": SLATE, "source_manifest_sha256": source_hash,
+              "derived_adapter_manifest_sha256": derived_manifest_sha,
               "source_quote_file_sha256": file_sha(quote_path),
               "forecast_input_sha256": files, "event_count": len(events),
               "quotes_total": len(quotes), "accepted_original_contracts": len(original),
