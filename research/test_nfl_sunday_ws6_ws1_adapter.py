@@ -95,6 +95,15 @@ class WS1NativeAdapterTests(unittest.TestCase):
         with self.assertRaises(main_audit.IntegrityError):
             adapter.convert(self.root, self.ws1, self.root / "adapted")
 
+    def test_capture_relative_root_guard_rejects_wrong_project_root(self):
+        nested = self.root / "reports/nfl_20261115_prospective/source_control/captures"
+        nested.mkdir(parents=True)
+        capture = nested / "canonical.json"
+        capture.write_text(self.ws1.read_text())
+        with self.assertRaisesRegex(main_audit.IntegrityError, "WS1_ARCHIVE_ROOT_MISMATCH"):
+            adapter.convert(self.root, capture, self.root / "derived")
+        self.assertFalse((self.root / "derived").exists())
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
