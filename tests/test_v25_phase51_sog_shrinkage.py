@@ -39,10 +39,10 @@ class MathTests(unittest.TestCase):
         self.assertAlmostEqual(x["S1"]["pmf"][0],math.exp(-1.12))
         self.assertAlmostEqual(sum(x["S1"]["pmf"]),1.,places=10)
     def test_gamma_parameterization(self):
-        m=model();m["rate_b"]=0.01
+        m=model();m["rate_b"]=10.0
         x=s1.build_paired_distributions(m,forecast_at="2026-11-16T18:00:00Z",
              code_sha="a"*40,expected_event_id="2026020555",expected_player_id="8482001")
-        self.assertAlmostEqual(x["S1"]["mean"],11200.)
+        self.assertAlmostEqual(x["S1"]["mean"],11.2)
     def test_integer_line_push(self):
         pmf=s1.poisson_pmf(1.3)
         p=s1.exact_contract_probs(pmf,2)
