@@ -1,0 +1,16 @@
+{
+  "allowed_upstream_change": "v2/nba_ws1/capture.py only, optional bounded acquisition arguments; builder/parser/source contract unchanged",
+  "checks": {
+    ".github": [],
+    ".training-control": [],
+    "config": [],
+    "research/nba_joint_v01": [],
+    "research/nba_phase6": [],
+    "research/nba_ws2": [],
+    "scripts": [],
+    "v2/nba_joint": [],
+    "v2/nba_opportunity.py": []
+  },
+  "parent": "4f509d4b9817a130ab78e2d24a03321459cb452d",
+  "protected_trees_unchanged": true
+}

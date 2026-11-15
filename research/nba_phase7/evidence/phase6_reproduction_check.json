@@ -1,0 +1,12 @@
+{
+  "status": "PASSED",
+  "checks": {
+    "summary.json": true,
+    "count_scores.json.gz": true,
+    "minute_scores.json.gz": true,
+    "candidate_ledger.json.gz": true,
+    "C_oracle_abstentions.json": true,
+    "scenario_science": true
+  },
+  "parent": "4f509d4b9817a130ab78e2d24a03321459cb452d"
+}
