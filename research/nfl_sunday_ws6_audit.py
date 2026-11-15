@@ -22,6 +22,7 @@ LEGACY = ("engine_a", "engine_b", "bayesian_a", "bayesian_b",
           "nuts", "frozen_60_40", "market_no_vig")
 EXPECTED_SCHEMA = "nfl_sunday_ws1_original_v1"
 VALID_FINAL = {"official_final", "dnp", "void", "unmatched", "source_rejected"}
+LOG_LOSS_EPSILON = 1e-12  # Agree with existing v2/evaluation.py implementation.
 SHA = re.compile(r"^[a-f0-9]{64}$")
 COMMIT = re.compile(r"^[a-f0-9]{40}$")
 
@@ -250,6 +251,11 @@ def crps_discrete(distribution, observed):
         cum += p
         weighted += p * x
     return max(0.0, first - pair)
+
+
+def binary_log_loss(prob_over, over_outcome):
+    q = max(LOG_LOSS_EPSILON, min(1 - LOG_LOSS_EPSILON, prob_over))
+    return -math.log(q) if over_outcome else -math.log1p(-q)
 
 
 def group_score(rows):
@@ -506,6 +512,8 @@ def score(args):
                      "official_receipt_path", "official_receipt_sha256"))
         if e["event_id"] in final_events or e["status"] != "final":
             fail("GAME_NOT_OFFICIALLY_FINAL")
+        if e["event_id"] not in expected_events:
+            fail("EXTRANEOUS_COMPLETION_EVENT")
         start = next(instant(r["quote"]["event_start_at"], "event_start_at")
                      for r in ledger if r["quote"]["event_id"] == e["event_id"])
         if instant(e["game_final_at"], "game_final_at") <= start:
@@ -533,6 +541,8 @@ def score(args):
                 number(o["actual_stat"], "actual_stat")
                 if instant(o["official_final_at"], "official_final_at") <= instant(o["event_start_at"], "event_start_at"):
                     fail("OFFICIAL_FINAL_BEFORE_EVENT")
+                if instant(o["official_retrieved_at"], "official_retrieved_at") < instant(o["official_final_at"], "official_final_at"):
+                    fail("OFFICIAL_RESULT_RETRIEVED_BEFORE_FINAL")
             checked_source(root, o["official_source_path"], o["official_source_sha256"])
             k = (o["event_id"], o["player_id"], o["stat_key"], o["period"])
             if k in outcomes:
@@ -567,15 +577,14 @@ def score(args):
             outcome_idx = {"over": 0, "under": 1, "push": 2}[status]
             y = tuple(float(i == outcome_idx) for i in range(3))
             brier3 = sum((p - t) ** 2 for p, t in zip(ps, y))
-            loss3 = -math.log(max(1e-15, ps[outcome_idx]))
+            loss3 = -math.log(max(LOG_LOSS_EPSILON, ps[outcome_idx]))
             mass = ps[0] + ps[1]
             binary_brier = binary_logloss = None
             if status != "push" and mass > 0:
                 pp = ps[0] / mass
                 yy = float(status == "over")
                 binary_brier = (pp - yy) ** 2
-                binary_logloss = -(yy * math.log(max(pp, 1e-15))
-                                   + (1 - yy) * math.log(max(1 - pp, 1e-15)))
+                binary_logloss = binary_log_loss(pp, bool(yy))
             metric_rows.append({
                 "contract_id": q["contract_id"], "event_id": q["event_id"],
                 "model_id": mid, "stat_key": q["stat_key"],
@@ -604,8 +613,7 @@ def score(args):
             "outcome": official["settlement"], "q_over": pm, "q_under": 1 - pm,
             "q_push": None, "brier3": None, "logloss3": None,
             "binary_brier": (pm - actual_over) ** 2,
-            "binary_logloss": -(actual_over * math.log(max(pm, 1e-15))
-                                + (1 - actual_over) * math.log(max(1 - pm, 1e-15))),
+            "binary_logloss": binary_log_loss(pm, bool(actual_over)),
             "crps": None, "predicted_side": "over" if pm >= .5 else "under",
             "selected": False, "selected_side": None})
     models = defaultdict(list)
