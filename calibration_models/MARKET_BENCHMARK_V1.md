@@ -37,3 +37,30 @@ An immutable `LEDGER_<sha256>.json` binds all three table paths, exact byte hash
 `python -m unittest discover -s calibration_models -t . -q`: 47 tests pass, including 16 expansion tests. Exact rational expectations cover odds conversion and margin removal. Adversarial fixtures cover all eleven IDs, exclusions, pushes, differing lines, duplicates, identity/period/settlement conflicts, incomplete prices, hashes, chronology, false composite reconstruction, missing offers and immutability. Fixtures are synthetic engineering checks, not source coverage.
 
 `audit_market_benchmark.py` separately recomputes rational raw price conversions and verifies output hashes, row accounting, joins, threshold isolation and null probability requirements on actual source outputs. Automated audit is not independent human/scientific approval. No profitability, market edge, Tier, or production promotion is claimed.
+
+## Executed source audit and WS6 receipt
+
+Successful live Basic CPU run `3300732b-b1aa-411e-9595-acca13b6a4b7` completed 2026-11-15T16:40:57.240Z. No shared machine restart, stop or reconfiguration occurred. The initial detached failure and rate/trial-limit request failures remain visible in the execution history. The missing kickoff defect was fixed before the successful run.
+
+New immutable ledger SHA-256: `7b584f9190861f4b799c0fe1af725e7d0b0a07617e8d10a42ba8456c48dca2ca`. Its exact-byte copy and `WS6_MARKET_HANDOFF_V1.json` are included here; bulk output tables remain in Deepnote under `calibration_models/market_benchmarks_v1/`. The receipt pins all three exact byte hashes. A separate rational arithmetic and accounting audit passed **15,913 assertions**. Original quote receipt: `2026-11-15T04:32:39.016077Z`, raw source SHA-256 `6993a07ebce5001a55729ff556765bff388bc91cb5235416af9cd26401ede14a`.
+
+| Market | Original quotes | Player-stat rows without contract | Original line groups | Eligible numerical benchmarks |
+|---|---:|---:|---:|---:|
+| pass_attempts | 69 | 1 | 38 | 0 |
+| pass_completions | 67 | 1 | 36 | 0 |
+| passing_yards | 96 | 1 | 74 | 0 |
+| rush_attempts | 98 | 221 | 54 | 0 |
+| rushing_yards | 249 | 196 | 143 | 0 |
+| receiving_targets | 0 | 511 | 0 | 0 |
+| receptions | 568 | 360 | 171 | 0 |
+| receiving_yards | 584 | 360 | 356 | 0 |
+| tackles_assists | 114 | 804 | 110 | 0 |
+| rushing_receiving_yards | 0 | 511 | 0 | 0 |
+| passing_rushing_yards | 0 | 24 | 0 | 0 |
+| Total | 1845 | 2990 | 982 | 0 |
+
+All 1,845 original quote records contain convertible price pairs; raw implied weights were verified independently with Fraction arithmetic. **Zero benchmark probabilities are eligible.** All 1,845 have uncertified settlement terms and null raw provider period. 1,767 preserve source_certified=true from WS1; 78 retain original source rejection and invalid chronology. Source certification does not certify the new benchmark.
+
+Critically, **1,599 WS1 quote-to-metadata links do not reproduce the original player/line/price pair**. For example, first original quote `c17463d28c3e364ec125afb405341180d68e5a631ce913b3bcf234818e7ac159` is Amon-Ra St. Brown receiving yards 82.5, but the supplied metadata crosswalk points to Rhamondre Stevenson receiving-yard milestones. That linked provider description is preserved as unverified *claimed* metadata, not a certified label for the original quote. This is a source metadata join failure, not evidence that the preserved original quote was fabricated. WS5 neither repairs WS1 records nor substitutes another offer. WS1 must issue a corrected immutable crosswalk before these links can be accepted.
+
+Other overlapping blockers: 114 combined-tackle accounting failures, 92 absent eligible player-stat crosswalks, and 126 quotes for a game already started at the research cutoff. Mutually exclusive primary quote states: 1,626 SOURCE_REJECTED_OR_STALE, 209 ORIGINAL_OFFER_UNCERTIFIED, 10 UNSUPPORTED_SETTLEMENT_DEFINITION. None of these states is silently counted as certified numerical coverage. No claim of stale quotes specifically is made from the aggregate state name; detailed reason arrays are authoritative.
