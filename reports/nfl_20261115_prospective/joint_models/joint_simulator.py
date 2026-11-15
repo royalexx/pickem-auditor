@@ -17,13 +17,13 @@ from typing import Any
 import numpy as np
 
 SCHEMA = "PA_WS4_JOINT_INPUT_v1"
-VERSION = "ws4_j1234_v0.2.0"
+VERSION = "ws4_j1234_v0.3.0"
 COUNT_STATS = {"pass_attempts", "completions", "passing_tds", "qb_rushing_attempts",
                "carries", "targets", "receptions", "receiving_tds", "rushing_tds",
                "solo_tackles", "tackle_assists", "tackles_assists"}
 YARD_STATS = {"passing_yards", "qb_rushing_yards", "rushing_yards", "receiving_yards"}
 STATS = COUNT_STATS | YARD_STATS
-SUPPORTED_PERIODS = {"full_game_including_overtime"}
+SUPPORTED_PERIODS = {"full_game_including_overtime", "full_game"}
 SCENARIOS = {
     "neutral": (0.0, 0.0, 0.50),
     "pass_heavy_underdog": (0.24, 0.10, 0.20),
@@ -71,7 +71,7 @@ def validate(payload: dict) -> tuple[str, dt.datetime]:
     if payload.get("schema") != SCHEMA:
         raise ContractError("UNRECOGNIZED_CANONICAL_ADAPTER_SCHEMA")
     fixture = payload.get("synthetic_fixture") is True
-    if not fixture and payload.get("source_certification_status") != "CERTIFIED":
+    if not fixture and payload.get("source_certification_status") not in ("CERTIFIED", "SOURCE_CERTIFIED_RESEARCH_SHADOW"):
         raise ContractError("SOURCE_MANIFEST_NOT_CERTIFIED")
     freeze = utc(payload["input_freeze_at"])
     train = utc(payload["model_training_cutoff_at"])
@@ -112,6 +112,7 @@ def validate(payload: dict) -> tuple[str, dt.datetime]:
         players = set()
         for team in teams:
             positive(team["plays_mean"], "plays_mean")
+            if not fixture: prob(team["starter_attempt_share"], "starter_attempt_share")
             prob(team["pass_rate"], "pass_rate")
             prob(team.get("sack_rate", .065), "sack_rate")
             if team["pass_rate"] + team.get("sack_rate", .065) >= 1:
@@ -129,7 +130,7 @@ def validate(payload: dict) -> tuple[str, dt.datetime]:
                     positive(pl.get("share", 0), "share", allow_zero=True)
                 if pl["role"] == "DEFENDER": prob(pl.get("snap_share", 0.8), "snap_share")
             starters = [p for p in team["players"] if p["role"] == "QB" and p["player_id"] == qb]
-            if qb and (len(starters) != 1 or team.get("starter_status") != "CONFIRMED_PREGAME"):
+            if qb and (len(starters) != 1 or not (team.get("starter_status") == "CONFIRMED_PREGAME" or (payload.get("source_certification_status") == "SOURCE_CERTIFIED_RESEARCH_SHADOW" and team.get("starter_status") == "EXPECTED_STARTER_SOURCE_BACKED" and team.get("starter_source_receipts")))):
                 raise ContractError("UNVERIFIED_STARTER")
             if not fixture and not qb: raise ContractError("STARTER_IDENTITY_MISSING")
             team_seen.add((eid, team["team_id"]))
@@ -150,7 +151,7 @@ def validate(payload: dict) -> tuple[str, dt.datetime]:
             if utc(c["original_quote_at"]) > freeze: raise ContractError("POST_FREEZE_QUOTE")
             if not c.get("original_quote_receipt_sha256") or len(c["original_quote_receipt_sha256"]) != 64:
                 raise ContractError("QUOTE_RECEIPT_MISSING")
-    return ("SYNTHETIC_FIXTURE" if fixture else "CERTIFIED_SHADOW"), freeze
+    return ("SYNTHETIC_FIXTURE" if fixture else ("UNCERTIFIED_SHADOW" if payload.get("source_certification_status") == "SOURCE_CERTIFIED_RESEARCH_SHADOW" else "CERTIFIED_SHADOW")), freeze
 
 
 def pick_index(rng: np.random.Generator, items: list[dict], field: str, selected: dict, j2: bool,
@@ -236,7 +237,7 @@ def game_once(event: dict, rng: np.random.Generator, model: str, script: str) ->
             exit_p=float(team.get("qb_verified_exit_probability",0)) if j2 else 0.0
             prob(exit_p,"qb_verified_exit_probability")
             starter_fraction=float(rng.beta(3,5)) if j2 and rng.random()<exit_p else 1.0
-            qb_attempts=int(rng.binomial(pass_attempts,starter_fraction))
+            qb_attempts=int(rng.binomial(pass_attempts,float(team.get("starter_attempt_share", 1.0))*starter_fraction))
         else:
             qb_attempts=0
         # Two QB origin classes ensure starter comps/yards/TD <= team totals.
@@ -364,6 +365,8 @@ def describe(arr:np.ndarray,line:float,stat:str) -> dict:
 
 def run_manifest(manifest:dict,draws:int=512, models:tuple[str,...]=("J1","J2","J3")) -> dict:
     status,freeze=validate(manifest)
+    if status != "SYNTHETIC_FIXTURE" and any(dt.datetime.now(dt.timezone.utc) >= utc(e["event_start_at"]) for e in manifest["events"]):
+        raise ContractError("PREDICTION_CREATED_AFTER_KICKOFF")
     frozen_id=manifest.get("input_manifest_sha256") or sha(manifest)
     events={e["event_id"]:e for e in manifest["events"]}
     available=defaultdict(list)
@@ -468,6 +471,10 @@ def run_manifest(manifest:dict,draws:int=512, models:tuple[str,...]=("J1","J2","
             "scenarios":{k:{"pass_logit_offset":v[0],"pace_log_offset":v[1],"weight":v[2]} for k,v in SCENARIOS.items()},
             "denominators":dict(counts),"contracts":results,"dependence_diagnostics":diagnostics,
             "warning":"Unvalidated research candidate; no production picks or profitability claims."}
+    output["forecast_created_at"]=dt.datetime.now(dt.timezone.utc).isoformat()
+    if status != "SYNTHETIC_FIXTURE" and any(utc(output["forecast_created_at"]) >= utc(e["event_start_at"]) for e in manifest["events"]):
+        raise ContractError("FORECAST_FINISHED_AFTER_KICKOFF")
+    output["original_period_policy"]="original_full_game_retained_product_specific_settlement_unverified"
     output["output_sha256"]=sha(output)
     return output
 
