@@ -14,7 +14,8 @@ def compare(report, settlements):
         if key in indexed:
             raise ValueError("duplicate_settlement")
         indexed[key] = value
-    predictions = {name: {} for name in CONFIG}
+    names = list(report.get("registry", CONFIG))
+    predictions = {name: {} for name in names}
     excluded = Counter()
     for row in report["forecasts"]:
         if row["status"] != "forecast":
@@ -37,7 +38,7 @@ def compare(report, settlements):
             "game_id": row["event_id"], "y": int(outcome == "over"),
             "p": row["conditional_no_push"]["over"], "gap": row["model_market_gap"]}
     comparisons = {}
-    for candidate in CONFIG:
+    for candidate in names:
         keys = sorted(set(predictions[candidate]) & set(predictions["C1"]) & set(predictions["C2"]))
         rows = []
         for key in keys:
@@ -69,7 +70,22 @@ def compare(report, settlements):
                 if r["gap"] is not None and low <= r["gap"] < high]
         gap_slices[label] = {"metrics": calibration.metric(rows, "C1"),
                             "games": len({r["game_id"] for r in rows}), "dates": len({r["date"] for r in rows})}
-    return {"comparisons": comparisons, "C1_disagreement_reliability": gap_slices,
+    standalone = {}
+    paired = {}
+    for name in predictions:
+        own = [{**r, "predictions": {name: r["p"]}} for r in predictions[name].values()]
+        standalone[name] = calibration.metric(own, name)
+        standalone[name]["reliability_over"] = reliability_bins([(r["p"], r["y"]) for r in own])
+        standalone[name]["reliability_under"] = reliability_bins([(1-r["p"], 1-r["y"]) for r in own])
+        paired[name] = {}
+        for baseline in ("C1", "C2"):
+            keys = sorted(set(predictions[name]) & set(predictions[baseline]))
+            rows = [{**predictions[name][key], "predictions": {
+                name: predictions[name][key]["p"], baseline: predictions[baseline][key]["p"]}} for key in keys]
+            paired[name][baseline] = {"matched_contracts": len(keys), "metrics": {
+                model: calibration.metric(rows, model) for model in {name, baseline}}}
+    return {"standalone_conditional_nonpush": standalone, "pairwise_comparisons": paired,
+            "comparisons": comparisons, "C1_disagreement_reliability": gap_slices,
             "excluded_candidate_records": dict(excluded), "settlement_rows": len(settlements),
             "unmatched_settlement_contracts": sorted(set(indexed)-{r["contract_id"] for r in report["forecasts"]}),
             "interpretation": "descriptive_binary_nonpush_one_contract_once_no_promotion"}

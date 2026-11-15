@@ -387,6 +387,25 @@ def write_exclusive(path, payload):
     return sha(raw)
 
 
+def finalize_emission(report):
+    """Recheck the real clock immediately before append-only persistence."""
+    emission = datetime.now(timezone.utc)
+    report["capture_at"] = emission.isoformat()
+    for row in report["forecasts"]:
+        if row["status"] != "forecast":
+            continue
+        if emission >= timestamp(row["event_start_at"]):
+            row.update(status="abstain", reason="started_before_immutable_write")
+            row.pop("conditional_no_push", None)
+            row.pop("unconditional", None)
+            count = report["coverage"][row["candidate"]]
+            count["forecast_contracts"] -= 1
+            reasons = count["abstentions"]
+            reasons[row["reason"]] = reasons.get(row["reason"], 0)+1
+        else:
+            row["forecast_at"] = emission.isoformat()
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--manifest", type=Path, required=True)
