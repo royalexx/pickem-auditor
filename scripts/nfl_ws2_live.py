@@ -170,7 +170,7 @@ def freeze(root, source_raw, rows, provenance):
     with (out/'forecast_rows.json').open('xb') as f:f.write(raw)
     report={**provenance,'source_manifest_sha256':digest(source_raw),
         'forecast_rows_sha256':digest(raw),'input_contracts':len(rows),**audit(rows),
-        'per_kickoff_window':{w:audit([r for r in rows if r['original_contract']['event_start_at']==w])['per_model'] for w in sorted({r['original_contract']['event_start_at'] for r in rows})},
+        'per_kickoff_window':{w:audit([r for r in rows if (r['original_contract'].get('event_start_at') or 'UNKNOWN')==w])['per_model'] for w in sorted({r['original_contract'].get('event_start_at') or 'UNKNOWN' for r in rows})},
         'original_quotes_preserved':True,'research_only':True,'production_modified':False}
     body=canonical(report)+b'\n'
     with (out/'INDEX.json').open('xb') as f:f.write(body)
@@ -212,8 +212,11 @@ def main():
     completed=datetime.now(timezone.utc)
     for r in rows:
         r['forecast_created_at']=completed.isoformat()
-        if completed>=utc(r['original_contract']['event_start_at'],'event_start_at'):
-            r['models']={m:missing('FORECAST_NOT_PREGAME') for m in MODEL_IDS}
+        try:
+            if completed>=utc(r['original_contract'].get('event_start_at'),'event_start_at'):
+                r['models']={m:missing('FORECAST_NOT_PREGAME') for m in MODEL_IDS}
+        except ValueError as exc:
+            r['models']={m:missing(str(exc)) for m in MODEL_IDS}
     if src.read_bytes()!=raw:raise ValueError('ORIGINAL_SOURCE_CHANGED_DURING_EXECUTION')
     for ref,expected in verified.items():
         if digest((root/ref).read_bytes())!=expected:raise ValueError('ORIGINAL_QUOTE_SOURCE_MUTATED_DURING_RUN')

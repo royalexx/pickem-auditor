@@ -84,3 +84,9 @@ class LiveAdapter(unittest.TestCase):
   self.assertEqual(out['players'][0]['player_id'],'espn1')
   packet['player_crosswalk'][0]['verified']=False
   with self.assertRaises(ValueError):normalize_ws1_tables(packet)
+ def test_source_rejected_without_kickoff_preserved(self):
+  s,p=fixture();s['candidates'][0].update(source_certified=False,event_start_at=None)
+  with tempfile.TemporaryDirectory() as d:
+   receipt=freeze(Path(d),b'source',run(s,p),{'created_at':NOW.isoformat()})
+   self.assertEqual(receipt['input_contracts'],1)
+   self.assertIn('UNKNOWN',receipt['per_kickoff_window'])
