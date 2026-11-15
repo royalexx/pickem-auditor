@@ -184,6 +184,7 @@ def main():
     for name,url in PUBLIC.items():
         data,receipt=fetch_public(name,url)
         dataset[name]=data;new_receipts[name]=receipt
+    freeze=now()
     # Official 2026 weekly history: join only completed pre-today scheduled
     # games and retain the exact source retrieval time. Never use today's scores.
     g2026={}
@@ -191,7 +192,7 @@ def main():
         for g in dataset["games2026"]:
             if str(g.get("season"))!="2026" or str(g.get("game_type"))!="REG":continue
             day=str(g.get("gameday") or "")
-            if not day or day[:10]>="2026-11-15" or not numeric(g.get("result")) is not None:continue
+            if not day or day[:10]>="2026-11-15" or numeric(g.get("result")) is None:continue
             gid=str(g.get("game_id") or "")
             if not gid:continue
             g2026[(str(g.get("week")),str(g.get("home_team")))] = (gid,day,g)
