@@ -1,5 +1,6 @@
 """WS2 temporal, conditioning and adversarial team conservation tests."""
 import copy
+import importlib.util
 from dataclasses import replace
 import tempfile
 from pathlib import Path
@@ -10,6 +11,9 @@ from v2.nba_opportunity import (FEATURES, MinuteLaw, MinutesModel,
     PregameOpportunityInput, capped_allocation, causal_features, freeze_shadow,
     lineup_segments, sample_team)
 
+
+REPLAY_DEPS = all(importlib.util.find_spec(name) is not None for name in ('pandas','sklearn'))
+REPLAY_DEPS_REASON = 'Optional WS2 replay checks require pandas/scikit-learn; full checks run in pinned research environment and Deepnote'
 
 def fixture_model():
     return MinutesModel({'ALL':{'mean':24.,'variance':64.}},
@@ -105,6 +109,7 @@ class MinuteDistributionTests(unittest.TestCase):
         self.assertGreater(1-float(law.cdf(48)),0)
         self.assertTrue(any(l>65 for l,w in law.ot_components()))
 
+    @unittest.skipUnless(REPLAY_DEPS, REPLAY_DEPS_REASON)
     def test_crps_integration_independent_reference(self):
         # Test numerical replay score against quadrature with discontinuity split.
         from research.nba_ws2.run_experiment import score
@@ -207,6 +212,7 @@ class TeamConservationTests(unittest.TestCase):
         np.testing.assert_allclose(s['minutes'],[48]*5)
 
 
+@unittest.skipUnless(REPLAY_DEPS, REPLAY_DEPS_REASON)
 class ReplayAdapterTests(unittest.TestCase):
     def test_positions_use_prior_appearance_only(self):
         from research.nba_ws2.run_experiment import build_table

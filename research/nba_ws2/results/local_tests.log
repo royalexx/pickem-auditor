@@ -25,6 +25,6 @@ test_underfilled_roster_retained_not_forced (test_nba_opportunity.TeamConservati
 test_unusual_independent_draws_still_respect_game_length (test_nba_opportunity.TeamConservationTests.test_unusual_independent_draws_still_respect_game_length) ... ok
 
 ----------------------------------------------------------------------
-Ran 25 tests in 2.412s
+Ran 25 tests in 2.900s
 
 OK

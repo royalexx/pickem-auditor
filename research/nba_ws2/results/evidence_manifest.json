@@ -1,4 +1,5 @@
 {
+  "ci_optional_dependency_note": "Four replay tests require optional pandas/scikit-learn; full 25-test suite passes locally and in Deepnote; minimal shared CI runs core tests and explicitly skips four research checks.",
   "experiment": "NBA-WS2-20261115-v1",
   "files": {
     "research/nba_ws2/.gitignore": {
@@ -10,8 +11,8 @@
       "sha256": "e65b7bef5484d983d91e5ab96ec489604038ecf785a920a3f91321ad03d247d2"
     },
     "research/nba_ws2/REPORT.md": {
-      "bytes": 17688,
-      "sha256": "0410a2db2e8250949e0079cd27e3872d7c8198f10ab907ac0cc257b9bc343e7f"
+      "bytes": 17912,
+      "sha256": "d52dd9c2bd7a3638ad38fd81107a1cc04d8f244e55e67c6f6636ed5ab415952a"
     },
     "research/nba_ws2/audit_results.py": {
       "bytes": 4656,
@@ -83,7 +84,7 @@
     },
     "research/nba_ws2/results/local_tests.log": {
       "bytes": 3638,
-      "sha256": "305096944db654364577101d8eae2f64d4e303fb221f86f306adfa4ea166d356"
+      "sha256": "532d4895b33762368416ea85eea042de4b487c389756a8239f5feb09abe0093e"
     },
     "research/nba_ws2/results/matched_predictions.csv.gz": {
       "bytes": 10300922,
@@ -142,12 +143,12 @@
       "sha256": "651b702e0e610b68599f8daa673efbbf4e78d37151b8ed7fd917991a63893e68"
     },
     "research/nba_ws2/write_report.py": {
-      "bytes": 19538,
-      "sha256": "84aca7c11e5c657794d21e3d3e3b9c0c06296cf7f100ca3a7b06108e53aa6ab0"
+      "bytes": 19762,
+      "sha256": "67ae79dd85279dfcb721939d92399ad6e2acc63dd498295b5a9001c187fa6a0a"
     },
     "tests/test_nba_opportunity.py": {
-      "bytes": 13581,
-      "sha256": "03b906164ce7930fbd03a42c164ded80655ce7314f865f120631d14f774bc72d"
+      "bytes": 13950,
+      "sha256": "6499ff42f78c2fa9557940106bf748d22b81ece483dd41ce1fb0d4a8c2db277f"
     },
     "v2/nba_opportunity.py": {
       "bytes": 21480,
