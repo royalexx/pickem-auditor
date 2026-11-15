@@ -244,6 +244,30 @@ class Workstream6AuditTests(unittest.TestCase):
                                      "--completion", "absent.json",
                                      "--output", str(self.root / "blocked")]), 2)
 
+    def test_official_result_retrieved_before_final_is_rejected(self):
+        self.assertEqual(self.freeze(), 0)
+        self.assertEqual(self.settled(actual=6), 0)
+        f = self.root / "official.jsonl"
+        row = audit.load_jsonl(f)[0]
+        row["official_retrieved_at"] = "2026-11-15T21:00:00Z"
+        f.write_bytes(enc(row))
+        c = audit.load_json(self.root / "completion.json")
+        c["outcomes_sha256"] = audit.file_sha(f)
+        (self.root / "completion.json").write_bytes(enc(c))
+        self.assertEqual(audit.main(["score", "--root", str(self.root),
+                                     "--frozen", str(self.root / "frozen"),
+                                     "--outcomes", "official.jsonl",
+                                     "--completion", "completion.json",
+                                     "--output", str(self.root / "rejected_late")]), 2)
+        check = audit.load_json(self.root / "rejected_late/score_report.json")
+        self.assertEqual(check["invalid_official_rows"], 1)
+        self.assertEqual(check["model_metrics"], {})
+
+    def test_binary_log_loss_agrees_with_production_epsilon(self):
+        self.assertAlmostEqual(audit.binary_log_loss(0.8, True), -__import__("math").log(0.8))
+        self.assertAlmostEqual(audit.binary_log_loss(0.8, False), -__import__("math").log(0.2))
+        self.assertGreater(audit.binary_log_loss(1, False), 20)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
