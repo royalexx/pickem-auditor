@@ -340,3 +340,14 @@ freeze or create a candidate after its kickoff. No live upstream model was
 available to exercise this interface today; its tests are synthetic engineering
 checks only. Original C1/C3 retain their existing production-only input contract
 in `shadow.py`; new research outputs are never relabeled as production controls.
+
+`frozen_research.bind_ws2(index_path, index_sha256, source_root=...)` also
+reads the actual native `nfl_ws2_live.py` create-once `INDEX.json` and
+`forecast_rows.json` interface. It verifies the index, original row-file and
+WS1 feature-packet hashes before binding S2 rows. Its row IDs are explicitly
+content-addressed original WS2 records. The returned bound packet retains the
+full upstream index/model-code/parameter provenance. A failed WS2 run or a row
+file without its INDEX marker cannot be consumed. At 14:23 UTC, the latest
+WS2 attempt `8446ae88-6876-4f26-bcaa-3ae672fe5502` failed before producing an
+INDEX because an original rejected contract had no event-start timestamp.
+This does not affect the already-frozen C2 ledger.

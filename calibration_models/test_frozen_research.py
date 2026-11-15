@@ -42,3 +42,26 @@ class ResearchTests(unittest.TestCase):
         self.assertTrue(all(r['status']=='abstain' for r in f.transform(p,m,now='2026-11-15T07:00:00Z')['forecasts']))
         p,m=self.fixture()
         self.assertTrue(all(r['status']=='abstain' for r in f.transform(p,m,now='2026-11-15T18:00:00Z')['forecasts']))
+
+class NativeWS2BindingTests(unittest.TestCase):
+    def test_actual_index_rows_and_feature_hash_binding(self):
+        import json
+        import tempfile
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            feature=s.canonical(dict(owner='workstream1',input_freeze_at='2026-11-15T05:00:00Z'))
+            (root/'features.json').write_bytes(feature)
+            native=dict(original_contract=dict(candidate_id='c',event_id='g',event_start_at='2026-11-15T18:00:00Z'),
+                forecast_created_at='2026-11-15T06:00:00Z',models={'S2-ew-empirical-hl4-v1':dict(status='forecast',q_over=.72,q_under=.18,q_push=.1,p_over_given_no_push=.8)})
+            rows=s.canonical([native]);(root/'forecast_rows.json').write_bytes(rows)
+            index=dict(source_manifest_sha256=f.CANONICAL_SHA,forecast_rows_sha256=s.sha(rows),
+                feature_packet=dict(path='features.json',sha256=s.sha(feature)),feature_freeze_at='2026-11-15T05:00:00+00:00',
+                model_training_cutoff_at='2026-11-14T00:00:00Z',model_code_sha256={'module':'hash'},parameters={'half_life':4})
+            raw=s.canonical(index);path=root/'INDEX.json';path.write_bytes(raw)
+            bound=f.bind_ws2(path,s.sha(raw),source_root=root)
+            self.assertEqual(bound['forecasts'][0]['unconditional']['push'],.1)
+            self.assertEqual(bound['upstream_index']['parameters'],{'half_life':4})
+            (root/'forecast_rows.json').write_bytes(b'[]')
+            with self.assertRaisesRegex(ValueError,'rows_hash_mismatch'):
+                f.bind_ws2(path,s.sha(raw),source_root=root)

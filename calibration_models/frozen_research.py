@@ -26,6 +26,68 @@ def load(path, expected_sha, *, feature_path, feature_sha):
     return packet
 
 
+def bind_ws2(index_path, expected_sha, *, source_root):
+    """Read actual nfl_ws2_live INDEX/forecast_rows, preserving native provenance.
+
+    INDEX is WS2's create-once commit marker. Partial writes are never admitted.
+    A content-addressed row ID is disclosed as such, not an originally assigned ID.
+    """
+    root = Path(source_root).resolve()
+    path = Path(index_path).resolve()
+    raw = path.read_bytes()
+    if s.sha(raw) != expected_sha:
+        raise ValueError('WS2_index_hash_mismatch')
+    index = json.loads(raw)
+    if index.get('source_manifest_sha256') != CANONICAL_SHA:
+        raise ValueError('WS2_wrong_canonical_source')
+    rows_raw = (path.parent/'forecast_rows.json').read_bytes()
+    if s.sha(rows_raw) != index['forecast_rows_sha256']:
+        raise ValueError('WS2_forecast_rows_hash_mismatch')
+    ref = index['feature_packet']
+    feature_path = (root/ref['path']).resolve()
+    if not feature_path.is_relative_to(root):
+        raise ValueError('WS2_feature_path_escape')
+    feature_raw = feature_path.read_bytes()
+    if s.sha(feature_raw) != ref['sha256']:
+        raise ValueError('WS2_feature_packet_hash_mismatch')
+    feature = json.loads(feature_raw)
+    if feature.get('owner') != 'workstream1' or feature['input_freeze_at'] != index['feature_freeze_at']:
+        # Compare instants, since WS2 normalizes UTC spelling.
+        if feature.get('owner') != 'workstream1' or s.timestamp(feature['input_freeze_at']) != s.timestamp(index['feature_freeze_at']):
+            raise ValueError('WS2_feature_freeze_conflict')
+    model = 'S2-ew-empirical-hl4-v1'
+    bound = []
+    for native in json.loads(rows_raw):
+        pred = native['models'].get(model, {})
+        if pred.get('status') != 'forecast':
+            continue
+        c = native['original_contract']
+        triple = {k:pred.get('q_'+k) for k in ('over','under','push')}
+        if all(v is None for v in triple.values()):
+            triple = None
+        conditional = pred['p_over_given_no_push']
+        # Statistical raw records are immutable dependencies, not 60/40 controls.
+        bound.append({**{k:c.get(k) for k in (*EXACT,'quote_id')},
+            'contract_id':c['candidate_id'],'event_start_at':c['event_start_at'],
+            'family':'WS2_S2','model_id':model,
+            'forecast_id':'sha256:'+s.sha(s.canonical(native)),
+            'forecast_id_semantics':'content_addressed_original_WS2_row',
+            'forecast_at':native['forecast_created_at'],
+            'input_freeze_at':index['feature_freeze_at'],
+            'feature_available_at':feature['input_freeze_at'],
+            'feature_sha256':ref['sha256'],
+            'model_training_cutoff_at':index['model_training_cutoff_at'],
+            'conditional_no_push':{'over':conditional,'under':1-conditional},
+            'unconditional':triple,'stat_support':'integer',
+            'upstream_model_code_sha256':index['model_code_sha256'],
+            'upstream_parameters':index['parameters']})
+    return {'schema':'ws5-bound-statistical-forecast-v1',
+        'artifact_sha256':s.sha(rows_raw),'feature_sha256':ref['sha256'],
+        'source_manifest_sha256':CANONICAL_SHA,'forecasts':bound,
+        'upstream_index_sha256':expected_sha,'upstream_index':index,
+        'binding_code_sha256':s.sha(Path(__file__).read_bytes())}
+
+
 def transform(packet, market_report, *, now):
     """Return a NEW ledger. Never modify the previously frozen C2 ledger."""
     clock = s.timestamp(now)
@@ -33,6 +95,7 @@ def transform(packet, market_report, *, now):
     report['registry'] = {}
     report['forecasts'] = []
     report['dependency_graph'] = {}
+    report['upstream_provenance'] = {k:v for k,v in packet.items() if k != 'forecasts'}
     market = {r['contract_id']: r for r in market_report['forecasts']
               if r['candidate'] == 'C2' and r['status'] == 'forecast'}
     records = packet['forecasts']
@@ -50,7 +113,8 @@ def transform(packet, market_report, *, now):
                       'upstream_family': family, 'production_control': False}
             model_hash = s.sha(s.canonical({'configuration':config,'sources':report['source_code_sha256'],
                 'transform_code_sha256':s.sha(Path(__file__).read_bytes()),
-                'upstream_artifact_sha256':packet['artifact_sha256'],'feature_sha256':packet['feature_sha256']}))
+                'upstream_artifact_sha256':packet['artifact_sha256'],'feature_sha256':packet['feature_sha256'],
+                'upstream_index_sha256':packet.get('upstream_index_sha256')}))
             registry_key = name+'_'+s.sha(model.encode())[:12]
             report['registry'][registry_key] = {'model_id':name+':'+model_hash,'configuration':config}
             result = dict(candidate=registry_key,model_id=name+':'+model_hash,
