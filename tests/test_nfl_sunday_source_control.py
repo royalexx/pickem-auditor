@@ -173,7 +173,7 @@ class QuotedUniverseTests(unittest.TestCase):
     def test_event_collision_wrong_opponent_reject(self):
         p=setup()
         p["quotes"][0]["opponent"]="NYJ"
-        self.assertEqual(build_universe(**p)["failures"]["EVENT_IDENTITY_UNVERIFIABLE"],1)
+        self.assertEqual(build_universe(**p)["failures"]["PROVIDER_OPPONENT_EVENT_PAIR_CONFLICT"],1)
     def test_missing_tackle_book_settlement_not_certified(self):
         p=setup()
         p["quotes"][0]["stat"]="tackles + assists"
