@@ -1,0 +1,21 @@
+test_activation (unittest.loader._FailedTest.test_activation) ... ERROR
+
+======================================================================
+ERROR: test_activation (unittest.loader._FailedTest.test_activation)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_activation
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/pickem-auditor/tests/nba_phase8a/test_activation.py", line 6, in <module>
+    from research.nba_phase8a.dataset import candidate_table
+ModuleNotFoundError: No module named 'research.nba_phase8a.dataset'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

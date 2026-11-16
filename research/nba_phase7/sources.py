@@ -29,7 +29,7 @@ def acquire_supplements(output,board_event,*,deadline_at):
     try:
         raw,_=fetch('nba_player_directory','https://www.nba.com/players');directory=page_data(raw)['players']
         for comp in board_event['competitions'][0]['competitors']:
-            expected=comp['team']['displayName'];teams={(str(p['TEAM_ID']),p['TEAM_SLUG']) for p in directory if norm(p['TEAM_CITY']+' '+p['TEAM_NAME'])==norm(expected)}
+            expected=comp['team']['displayName'];teams={(str(p['TEAM_ID']),p['TEAM_SLUG']) for p in directory if p.get('TEAM_CITY') and p.get('TEAM_NAME') and p.get('TEAM_ID') and p.get('TEAM_SLUG') and norm(p['TEAM_CITY']+' '+p['TEAM_NAME'])==norm(expected)}
             if len(teams)!=1:errors.append(dict(code='NBA_TEAM_DIRECTORY_UNRESOLVED',team=expected));continue
             tid,slug=next(iter(teams));fetch('nba_team_roster','https://www.nba.com/team/'+tid+'/'+slug)
         raw,_=fetch('official_injury_index','https://official.nba.com/nba-injury-report-2026-27-season/')
@@ -79,7 +79,7 @@ def build_game_ledger(capture_folder,supplement_folder,model):
     for report in reports:
         result=resolve_injuries(report,walks,freeze_at=at);resolved+=result['resolved'];unresolved+=result['unresolved'];gaps+=result['submission_gaps']
     availability=dict(resolved=resolved,unresolved=unresolved,submission_gaps=gaps)
-    abbr=[json.loads(e)['team']['abbreviation'] for e,er in espn]
+    abbr=[next((entry['team_abbreviation'] for w in walks for entry in w['entries'] if entry['espn_team_id']=='espn:team:'+str(json.loads(e)['team']['id'])),json.loads(e)['team']['abbreviation']) for e,er in espn]
     participation=participation_layer(roster,availability,game_abbreviations=abbr)
     pmap={p['player_id']:p for p in snap['players']};supported=0;missing=[]
     from v2.nba_opportunity import causal_features
@@ -89,7 +89,7 @@ def build_game_ledger(capture_folder,supplement_folder,model):
         try:causal_features(h,game_date=day,team=p['team_id'],home=p['home'])
         except ValueError as exc:row['M0_usable']=False;row['M0_abstention']=str(exc);missing.append(p['player_id'])
         else:row['M0_usable']=True;supported+=1
-    return dict(schema='NBAPhase7GameDayLedger/1.0.0',game=snap['game'],input_freeze_at=at,
+    ledger=dict(schema='NBAPhase7GameDayLedger/1.0.0',game=snap['game'],input_freeze_at=at,
         model_sha256=roster['model_sha256'],ws1_snapshot_content_hash=snap['content_hash'],roster_contract=roster,
         identity_crosswalks=walks,official_injury_reports=reports,availability=availability,participation=participation,
         denominators=dict(original_candidate_players=len(snap['players']),confirmed_eligible=0,confirmed_ineligible=0,
@@ -100,3 +100,12 @@ def build_game_ledger(capture_folder,supplement_folder,model):
         errors=errors+supplement['errors'],F_status='BLOCKED-BY-DATA',market_status='BLOCKED-BY-DATA',
         reasons=['COMPLETE_GAME_DAY_ELIGIBILITY_UNAVAILABLE','VALIDATED_POSITIVE_PARTICIPATION_UNAVAILABLE'],
         scoring_status='pending future official settlement; no conditional score claimed as participation calibration')
+
+    from research.nba_phase8a.dataset import candidate_table
+    ledger['candidate_research_table']=candidate_table(ledger,snap)
+    from .participation import require_participation_ready
+    try:require_participation_ready(participation)
+    except ValueError as exc:handoff_reason=str(exc)
+    else:raise ValueError('UNEXPECTED_READY_PARTICIPATION_REQUIRES_REVIEW')
+    ledger['handoff_readiness']=dict(source='partial' if ledger['errors'] else 'observed',identity_resolved=sum(w['verified_identity_count'] for w in walks),eligibility='BLOCKED-BY-DATA',participation_model='UNFITTED',M0_supported=supported,M0_missing=len(missing),scenario_feasibility='NOT_ATTEMPTED_UNSUPPORTED_PROBABILITIES',original_contracts=ledger['denominators']['original_contracts'],accepted_forecasts=0,rejected_forecasts=len(snap['players']),handoff_rejection=handoff_reason)
+    return ledger
