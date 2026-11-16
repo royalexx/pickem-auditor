@@ -279,6 +279,14 @@ def build_historical_pregame(*, game_id, team_ids, event_start_at,
         base_name = ("player:" + data["player_id"] if record["kind"] == "player_game"
                      else "team:" + data["team_id"])
         fields = dict(data["stats"])
+        # Preserve prior-game identity/role and defensive context without
+        # assuming a historical team abbreviation is a verified numeric ID.
+        fields["prior_game_id"] = data["game_id"]
+        fields["historical_team_id"] = data["team_id"]
+        fields["historical_opponent_id"] = data["opponent_id"]
+        if record["kind"] == "team_game":
+            for key, value in sorted(data["opponent_stats"].items()):
+                fields["opponent_" + key] = value
         if record["kind"] == "player_game":
             fields["participation"] = (
                 "PLAYED_ZERO_MINUTES" if data["participation"] == "played"
@@ -297,6 +305,9 @@ def build_historical_pregame(*, game_id, team_ids, event_start_at,
                 available_at=None,
                 measurement_units=("minutes" if name == "minutes" else
                                    "possessions_per_48" if name == "pace_per_48"
+                                   else "identity" if name in (
+                                       "prior_game_id", "historical_team_id",
+                                       "historical_opponent_id")
                                    else "status" if name == "participation"
                                    else "boolean" if name == "starter"
                                    else "count")))
