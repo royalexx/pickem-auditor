@@ -1,0 +1,62 @@
+{
+  "manifest_id": "NBA-V25-P0-G0-2026-11-16",
+  "contract_version": "nba-sojc-contract/1.0.0",
+  "status": "FAIL_PENDING_INDEPENDENT_ACCEPTANCE",
+  "base_main_commit": "912bc7010058092ea735dcda0aa941429194474b",
+  "research_branch": "research/nba-p0-sojc-architecture-g0-20261116",
+  "handoff_owners": [
+    "WS1",
+    "S",
+    "O",
+    "G/J",
+    "C",
+    "independent_reviewer",
+    "release_custodian"
+  ],
+  "family_graph": [
+    "WS1 -> S",
+    "WS1 -> G",
+    "WS1 + G -> O",
+    "S + G + O -> J",
+    "S/J -> probabilities",
+    "probabilities -> C -> release"
+  ],
+  "immutable_legacy": [
+    "Engine A",
+    "Engine B",
+    "Bayesian A",
+    "Bayesian B",
+    "NUTS",
+    "60/40"
+  ],
+  "release_authority": false,
+  "training_performed": false,
+  "optimization_performed": false,
+  "cryptographic_signature": "NOT_AVAILABLE",
+  "signed_off_by": "NBA V2.5 lead architecture integrator (ChatGPT); procedural attestation, not cryptographic identity proof",
+  "blocked_reasons": [
+    "Named P0 source packet not found in supplied project files",
+    "Independent G0 acceptance/signature and team adapter acknowledgments not obtained",
+    "WS1 source/event/eligibility certification incomplete",
+    "WS2 P1/P2 participation unfitted; Phase 7/8 game-active eligible roster incomplete",
+    "Standalone NBA WS3 outcome family absent; J2 historical regression and no prospective adoption",
+    "Outstanding PR stack unmerged; branch compatibility must be verified"
+  ],
+  "test_results": "pending_executable_run",
+  "refs": {
+    "ws1": "#137",
+    "ws2": "#138",
+    "C": "#139",
+    "J": "#140",
+    "phase6": "#141",
+    "phase7": "#142",
+    "phase8a": "#143",
+    "phase8c": "#144",
+    "morning": "#145",
+    "latest": "#146"
+  },
+  "tamper_evidence": {
+    "manifest_sha256": "derived_from_git_blob_sha_after_publication",
+    "commit_sha": "derive_from_GitHub_PR_after_publication"
+  }
+}

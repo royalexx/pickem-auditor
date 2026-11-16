@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/royalexx/pickem-auditor/blob/research/nba-p0-sojc-architecture-g0-20261116/v2/nba_architecture/schema-1.0.0.json",
+  "title": "NBA S/O/J/C envelope contract",
+  "description": "Structural schema; Python validators additionally enforce time, hash, probability, legal roster and physical constraints.",
+  "$defs": {
+    "sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|\\+00:00)$"
+    },
+    "base": {
+      "type": "object",
+      "required": [
+        "schema",
+        "family",
+        "event_id",
+        "source_snapshot_sha256",
+        "model_id",
+        "model_version",
+        "code_sha256",
+        "artifact_sha256",
+        "model_training_cutoff_at"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/1.0.0"
+        },
+        "family": {
+          "enum": [
+            "S",
+            "O",
+            "G",
+            "J"
+          ]
+        },
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_snapshot_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "model_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "artifact_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "model_training_cutoff_at": {
+          "$ref": "#/$defs/utc"
+        }
+      }
+    },
+    "pregame": {
+      "type": "object",
+      "required": [
+        "schema",
+        "record_type",
+        "content_hash",
+        "event_id",
+        "home_team_id",
+        "away_team_id",
+        "event_start_at",
+        "forecast_at",
+        "input_freeze_at",
+        "model_training_cutoff_at",
+        "sources",
+        "players"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/1.0.0"
+        },
+        "record_type": {
+          "const": "pregame"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "event_id": {
+          "type": "string"
+        },
+        "home_team_id": {
+          "type": "string"
+        },
+        "away_team_id": {
+          "type": "string"
+        },
+        "event_start_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "forecast_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "input_freeze_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "model_training_cutoff_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "source_id",
+              "raw_sha256",
+              "source_available_at",
+              "observed_at",
+              "origin"
+            ]
+          }
+        },
+        "players": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "player_id",
+              "team_id",
+              "availability",
+              "legal_eligibility"
+            ]
+          }
+        }
+      }
+    },
+    "statistical": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "family": {
+              "const": "S"
+            }
+          },
+          "required": [
+            "stat",
+            "support",
+            "pmf",
+            "conditioning"
+          ]
+        }
+      ]
+    },
+    "opportunity": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "family": {
+              "const": "O"
+            }
+          },
+          "required": [
+            "players",
+            "roster_certified"
+          ]
+        }
+      ]
+    },
+    "game_state": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "family": {
+              "const": "G"
+            }
+          },
+          "required": [
+            "scenarios"
+          ]
+        }
+      ]
+    },
+    "joint": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "family": {
+              "const": "J"
+            }
+          },
+          "required": [
+            "scenarios",
+            "opportunity_id",
+            "game_state_id"
+          ]
+        }
+      ]
+    },
+    "forecast": {
+      "type": "object",
+      "required": [
+        "schema",
+        "record_type",
+        "content_hash",
+        "event_id",
+        "forecast_at",
+        "model_training_cutoff_at",
+        "source_snapshot_sha256",
+        "distribution_id",
+        "contract",
+        "probabilities",
+        "status",
+        "p_market"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/1.0.0"
+        },
+        "record_type": {
+          "const": "forecast"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "probabilities": {
+          "type": "object",
+          "required": [
+            "over",
+            "under",
+            "push"
+          ],
+          "properties": {
+            "over": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "under": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "push": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "status": {
+          "enum": [
+            "UNCERTIFIED_SHADOW",
+            "CERTIFICATION_PENDING"
+          ]
+        }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "required": [
+        "schema",
+        "record_type",
+        "content_hash",
+        "forecast_hash",
+        "contract_id",
+        "status",
+        "actual",
+        "evaluated_at",
+        "cohort_status",
+        "settlement_version"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/1.0.0"
+        },
+        "record_type": {
+          "const": "evaluation"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "settled",
+            "push",
+            "void"
+          ]
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/pregame"
+    },
+    {
+      "$ref": "#/$defs/statistical"
+    },
+    {
+      "$ref": "#/$defs/opportunity"
+    },
+    {
+      "$ref": "#/$defs/game_state"
+    },
+    {
+      "$ref": "#/$defs/joint"
+    },
+    {
+      "$ref": "#/$defs/forecast"
+    },
+    {
+      "$ref": "#/$defs/evaluation"
+    }
+  ]
+}
