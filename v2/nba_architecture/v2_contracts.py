@@ -327,7 +327,7 @@ def validate_distribution(d, p, scenarios=None):
             req(lineage[name] is None or (name == "G" and mode == "S_O"
                 and component(lineage[name])), "UNDECLARED_DEPENDENCY")
     req(d["forecast_at"] == p["forecast_at"], "FORECAST_TIME_JOIN")
-    req(instant(d["frozen_at"]) <= instant(p["event_start_at"]) and
+    req(instant(d["frozen_at"]) < instant(p["event_start_at"]) and
         instant(d["frozen_at"]) >= instant(d["forecast_at"]),
         "FORECAST_FREEZE_TIME")
     req(type(d["rng_seed"]) is int and d["rng_seed"] >= 0, "INVALID_SEED")
