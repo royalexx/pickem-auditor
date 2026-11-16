@@ -134,6 +134,40 @@ class TestExperiment(unittest.TestCase):
                                sum(s.crps(self.rows[i]["pipelines"]["S0"]["pmf"],0)
                                    for i in range(5))/5,places=12)
 
+    def test_w2_independent_brute_grid_reference(self):
+        # Independent scorer, not cached CDF Gram code, evaluates every
+        # weight combination on a predeclared 0.025 simplex lattice.
+        lam=.07
+        got=e.w2_global(self.cache,lam=lam)
+        weights=[got[k] for k in self.cache.pipeline_ids]
+        anchor=1/len(weights)
+        def independent_objective(ws):
+            total=0
+            for row in self.rows:
+                mixture={}
+                for weight,name in zip(ws,self.cache.pipeline_ids):
+                    for value,mass in row["pipelines"][name]["pmf"].items():
+                        mixture[value]=mixture.get(value,0)+weight*mass
+                total+=s.crps(mixture,row["actual"])
+            return total/len(self.rows)+lam*sum((w-anchor)**2 for w in ws)
+        best=float("inf")
+        for a in range(41):
+            for b in range(41-a):
+                trial=(a/40,b/40,(40-a-b)/40)
+                best=min(best,independent_objective(trial))
+        self.assertLessEqual(independent_objective(weights),best+1e-8)
+
+    def test_precision_probe_diagnostics(self):
+        r=e.mc_precision_probe({0:.2,3:.3,15:.5},seed=9,
+                               outcome=3,tail_threshold=10)
+        self.assertEqual(r["exact_reference"]["zero_mass"],.2)
+        self.assertEqual(r["exact_reference"]["upper_tail_mass"],.5)
+        self.assertEqual(r["exact_reference"]["median"],3)
+        self.assertAlmostEqual(r["exact_reference"]["crps"],
+                               s.crps({0:.2,3:.3,15:.5},3))
+        self.assertGreaterEqual(r["absolute_crps_error_20000"],0)
+        self.assertIn("upper_tail_mass",r["estimates_5000"])
+
     def test_w3_shrinkage(self):
         global_w=e.w2_global(self.cache,lam=.1)
         out=e.w3_by_stat(self.rows,global_weights=global_w,lam=2,min_games=3)
