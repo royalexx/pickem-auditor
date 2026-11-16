@@ -121,6 +121,7 @@ def _model_rows(out,discovery):
                 continue
             if (contract["event_id"]!=row["event_id"] or contract["player_id"]!=row["player_id"]
                 or contract["stat"]!=row["stat"] or contract.get("original_quote_id")!=row.get("original_quote_id")
+                or contract.get("original_quote_source_sha256")!=row.get("original_quote_source_sha256")
                 or float(contract["line"])!=float(row["line"])
                 or (row.get("book") is not None and contract["book"]!=row["book"])):
                 annotations.append({**common,"status":"ORIGINAL_NFL_IDENTITY_COLLISION"})
@@ -142,6 +143,9 @@ def _model_rows(out,discovery):
             candidate=nba_index.get((row.get("game_id"),row["player_id"],row.get("team_id")))
             if not candidate:
                 annotations.append({**common,"status":"ORIGINAL_CANDIDATE_MISSING_OR_UNSETTLED"})
+                continue
+            if row["source_sha256"] not in candidate.get("original_candidate_source_hashes",[]):
+                annotations.append({**common,"status":"NBA_ORIGINAL_SOURCE_RECEIPT_MISMATCH"})
                 continue
             if candidate["status"]!="PLAYED":
                 annotations.append({**common,"status":"CONDITIONAL_FORECAST_DNP_OR_UNRESOLVED",
