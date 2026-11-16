@@ -1,6 +1,6 @@
 """WS6 independent postgame rescore. Research-only; never edits frozen inputs."""
 from __future__ import annotations
-import collections, csv, datetime as dt, hashlib, json, math, pathlib, random, re
+import collections, csv, datetime as dt, hashlib, io, json, math, pathlib, random, re
 import numpy as np
 import requests
 
@@ -350,8 +350,10 @@ def main():
     dump(OUT/"source_manifest.json",source_manifest)
     dump(OUT/"independent_scorecard.json",audit)
     dump(OUT/"duplicate_conflicts.json",conflicts)
-    with (OUT/"top25_errors.csv").open("x",newline="") as fd:
-        w=csv.DictWriter(fd,fieldnames=list(errors[0]) if errors else ["model"]);w.writeheader();w.writerows(errors[:25])
+    fd=io.StringIO(newline="")
+    w=csv.DictWriter(fd,fieldnames=list(errors[0]) if errors else ["model"])
+    w.writeheader();w.writerows(errors[:25])
+    frozen_write(OUT/"top25_errors.csv",fd.getvalue().encode())
     print(json.dumps({"artifacts":{p.name:h(p.read_bytes()) for p in OUT.iterdir() if p.is_file()},
       "official_final":len(files),"source_sha":source(COMPARE),"joint_sha":source(jpath),
       "scored_by_model":{m:{k:v for k,v in s.items() if k in ("scored","brier","logloss","high_conf_n","high_conf_hits","duplicate_quote_excess","quote_level_forecasts","exclusions","intervals","crps")} for m,s in summary.items()},
