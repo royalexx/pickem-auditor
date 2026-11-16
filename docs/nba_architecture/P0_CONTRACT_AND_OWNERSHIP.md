@@ -21,7 +21,7 @@ G is a shared internal game-state input, not a fourth voting model. An S distrib
 
 - pregame: original receipts, available/freeze/forecast/training clocks, game/team/player IDs, uncertainty and full attempted-source coverage. Source hash is raw bytes, not interpreted data. Hashes are not signatures or trustworthy timestamps.
 - S: immutable full nonnegative integer PMF for one named player, team, statistic and period, explicit unconditional versus played-conditional status, provenance and model/artifact version. Derived stat combos must not be added as independent component votes.
-- O: explicit legal roster eligibility (nullable), P(participation) (nullable), played-conditional minutes law moments, scenario participation and conserved team opportunities. Unknown cannot silently become 0 or 1.
+- O: explicit legal roster eligibility (nullable), P(participation) (nullable), played-conditional minutes law, exact G-bound scenario-level minutes/participation draws and conserved team opportunities. J must consume those exact draws without resampling the O pool. Unknown cannot silently become 0 or 1.
 - G: game-wide scenario IDs, duration/overtime, pace, team possessions, score-state and shared weights; draw once per game/scenario.
 - J: player and team scenario outcomes referencing exact G/O IDs, constrained physical accounting. Same draw supplies points, assists, rebounds, threes, PR/PA/RA/PRA.
 - forecast: exact contract identity and raw quote binding to an offer retained in the immutable WS1 pregame offer list; player-bound statistic distribution; one coherent Over/Under/Push triplet, explicit unverified status and no invented market price.

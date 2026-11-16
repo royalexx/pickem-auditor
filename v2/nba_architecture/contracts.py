@@ -216,7 +216,7 @@ def validate_statistical(s, pregame):
     return True
 
 
-def validate_opportunity(o, pregame):
+def validate_opportunity(o, pregame, game_state=None):
     validate_pregame(pregame)
     common(o, "O", pregame["content_hash"], pregame["event_id"])
     require(instant(o["model_training_cutoff_at"]) <=
@@ -245,6 +245,41 @@ def validate_opportunity(o, pregame):
     require(o["roster_certified"] is False or
             all(p["legal_eligibility"] is not None for p in pregame["players"]),
             "UNSUPPORTED_ROSTER_CERTIFICATION")
+    nonempty(o["game_state_id"])
+    if game_state is not None:
+        validate_game_state(game_state, pregame)
+        require(o["game_state_id"] == game_state["model_id"],
+                "OPPORTUNITY_GAME_STATE_JOIN")
+        reference = {sc["scenario_id"]: sc for sc in game_state["scenarios"]}
+        allocations = o["scenario_allocations"]
+        require(len(allocations) == len(reference), "OPPORTUNITY_SCENARIO_COVERAGE")
+        seen = set()
+        for sc in allocations:
+            sid = sc["scenario_id"]
+            require(sid in reference and sid not in seen, "OPPORTUNITY_SCENARIO_JOIN")
+            seen.add(sid)
+            ot = reference[sid]["overtime_periods"]
+            require(sc["overtime_periods"] == ot, "OPPORTUNITY_OT_MISMATCH")
+            duration = 48 + 5 * ot
+            allocations_by_player = {x["player_id"]: x for x in sc["players"]}
+            require(len(sc["players"]) == len(known)
+                    and len(allocations_by_player) == len(known)
+                    and set(allocations_by_player) == set(known),
+                    "OPPORTUNITY_ALLOCATION_ROSTER")
+            for player in sc["players"]:
+                pid = player["player_id"]
+                require(player["team_id"] == known[pid]["team_id"],
+                        "OPPORTUNITY_ALLOCATION_TEAM")
+                require(type(player["participated"]) is bool,
+                        "OPPORTUNITY_ALLOCATION_PARTICIPATION")
+                number(player["minutes"], low=0)
+                require(player["minutes"] <= duration, "OPPORTUNITY_PLAYER_CAP")
+                if not player["participated"] or known[pid]["legal_eligibility"] is False:
+                    require(player["minutes"] == 0, "INACTIVE_OPPORTUNITY")
+            for team in identity_ids(pregame):
+                require(abs(sum(x["minutes"] for x in sc["players"]
+                                if x["team_id"] == team) - 5 * duration) < 1e-7,
+                        "OPPORTUNITY_TEAM_MINUTES")
     return True
 
 
@@ -270,7 +305,7 @@ def validate_game_state(g, pregame):
 
 
 def validate_joint(j, pregame, opportunity, game_state):
-    validate_opportunity(opportunity, pregame)
+    validate_opportunity(opportunity, pregame, game_state)
     validate_game_state(game_state, pregame)
     common(j, "J", pregame["content_hash"], pregame["event_id"])
     require(instant(j["model_training_cutoff_at"]) <=
@@ -282,6 +317,7 @@ def validate_joint(j, pregame, opportunity, game_state):
             and len(set(j["outcome_model_ids"])) == len(j["outcome_model_ids"]),
             "OUTCOME_FAMILY_MISSING")
     state_by_id = {s["scenario_id"]: s for s in game_state["scenarios"]}
+    opportunity_by_id = {s["scenario_id"]: s for s in opportunity["scenario_allocations"]}
     require(len(j["scenarios"]) == len(state_by_id), "SCENARIO_COVERAGE")
     roster = {p["player_id"]: p for p in pregame["players"]}
     team_ids = identity_ids(pregame)
@@ -295,6 +331,8 @@ def validate_joint(j, pregame, opportunity, game_state):
                 "INDEPENDENT_GAME_STATE")
         nmins = 48 + 5 * state["overtime_periods"]
         rows = sc["players"]
+        expected_minutes = {p["player_id"]: p for p in
+                            opportunity_by_id[sid]["players"]}
         require(len(rows) == len(roster), "INCOMPLETE_JOINT_ROSTER")
         ids = [p["player_id"] for p in rows]
         require(set(ids) == set(roster) and len(ids) == len(set(ids)),
@@ -307,6 +345,9 @@ def validate_joint(j, pregame, opportunity, game_state):
             pid = p["player_id"]
             require(p["team_id"] == roster[pid]["team_id"],
                     "CROSS_TEAM_OUTCOME")
+            require(p["minutes"] == expected_minutes[pid]["minutes"] and
+                    p["participated"] == expected_minutes[pid]["participated"],
+                    "OPPORTUNITY_JOINT_DRAW_MISMATCH")
             number(p["minutes"], low=0)
             require(p["minutes"] <= nmins, "PLAYER_MINUTE_CAP")
             require(type(p["participated"]) is bool, "INVALID_PLAYED_FLAG")
@@ -446,10 +487,13 @@ def validate_bundle(bundle):
     validate_pregame(pregame)
     for item in bundle.get("statistical", []):
         validate_statistical(item, pregame)
-    for item in bundle.get("opportunities", []):
-        validate_opportunity(item, pregame)
     for item in bundle.get("game_states", []):
         validate_game_state(item, pregame)
+    for item in bundle.get("opportunities", []):
+        game_state = next((g for g in bundle["game_states"]
+                           if g["model_id"] == item["game_state_id"]), None)
+        require(game_state is not None, "MISSING_G_DEPENDENCY")
+        validate_opportunity(item, pregame, game_state)
     for item in bundle.get("joint", []):
         o = next((x for x in bundle["opportunities"]
                   if x["model_id"] == item["opportunity_id"]), None)

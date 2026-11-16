@@ -53,6 +53,13 @@ def fixture():
              support="nonnegative_integer", conditioning="unconditional",
              pmf=[{"value": 0, "mass": 0.25}, {"value": 2, "mass": 0.75}]))
     o = seal(dict(base, family="O", model_id="O-fixture", roster_certified=True,
+             game_state_id="G-fixture",
+             scenario_allocations=[{"scenario_id": "draw-1", "overtime_periods": 0,
+                                    "players": [{"player_id": p["player_id"],
+                                                 "team_id": p["team_id"],
+                                                 "minutes": 48.0,
+                                                 "participated": True}
+                                                for p in players]}],
              players=[{"player_id": p["player_id"],
                        "participation_probability": 1.0,
                        "participation_status": "reported_active",
@@ -268,6 +275,29 @@ class ContractTests(unittest.TestCase):
         self.assert_code("MISSING_S_DEPENDENCY", validate_bundle,
                          dict(pregame=p, statistical=[s], opportunities=[o],
                               game_states=[g], joint=[seal(j)], forecasts=[f]))
+
+    def test_cross_family_minutes_draw_mismatch(self):
+        p, s, o, g, j, f, e = fixture()
+        j.pop("content_hash")
+        a = j["scenarios"][0]["players"]
+        a[0]["minutes"] = 47.0
+        a[1]["minutes"] = 49.0
+        self.assert_code("OPPORTUNITY_JOINT_DRAW_MISMATCH",
+                         validate_joint, seal(j), p, o, g)
+
+    def test_opportunity_missing_allocation(self):
+        p, s, o, g, j, f, e = fixture()
+        o.pop("content_hash")
+        o["scenario_allocations"][0]["players"].pop()
+        self.assert_code("OPPORTUNITY_ALLOCATION_ROSTER",
+                         validate_opportunity, seal(o), p, g)
+
+    def test_opportunity_future_independent_ot(self):
+        p, s, o, g, j, f, e = fixture()
+        o.pop("content_hash")
+        o["scenario_allocations"][0]["overtime_periods"] = 1
+        self.assert_code("OPPORTUNITY_OT_MISMATCH",
+                         validate_opportunity, seal(o), p, g)
 
     def test_joint_same_draw_pmf(self):
         p, s, o, g, j, f, e = fixture()

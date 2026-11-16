@@ -209,11 +209,51 @@
           "properties": {
             "family": {
               "const": "O"
+            },
+            "game_state_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "scenario_allocations": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": [
+                  "scenario_id",
+                  "overtime_periods",
+                  "players"
+                ],
+                "properties": {
+                  "scenario_id": {
+                    "type": "string"
+                  },
+                  "overtime_periods": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "players": {
+                    "type": "array",
+                    "minItems": 10,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "player_id",
+                        "team_id",
+                        "minutes",
+                        "participated"
+                      ]
+                    }
+                  }
+                }
+              }
             }
           },
           "required": [
             "players",
-            "roster_certified"
+            "roster_certified",
+            "game_state_id",
+            "scenario_allocations"
           ]
         }
       ]
