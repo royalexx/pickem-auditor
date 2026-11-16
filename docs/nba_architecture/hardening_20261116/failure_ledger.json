@@ -1,0 +1,130 @@
+{
+  "version": "1.0.0",
+  "issues": [
+    {
+      "id": "A",
+      "severity": "HIGH",
+      "contract": "O/J",
+      "exact_invalid_input": "verified_out,p=0,PLAYED48",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_verified_zero_probability_cannot_play_48_minutes",
+      "positive_test": "positive synthetic control",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "B",
+      "severity": "HIGH",
+      "contract": "O/J",
+      "exact_invalid_input": "p=1,DNP at weight .4",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_certain_participation_cannot_dnp_with_positive_weight",
+      "positive_test": "played-zero and interior enumeration",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "C",
+      "severity": "HIGH",
+      "contract": "pregame/O/J",
+      "exact_invalid_input": "availability=out,PLAYED48",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_pregame_out_cannot_be_represented_as_played",
+      "positive_test": "unknown availability synthetic control",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "D",
+      "severity": "HIGH",
+      "contract": "J",
+      "exact_invalid_input": "duplicate opportunity witness player",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_duplicate_opportunity_witness",
+      "positive_test": "unchanged witness control",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "E",
+      "severity": "HIGH",
+      "contract": "all schema objects",
+      "exact_invalid_input": "nested target_actual_minutes field",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_nested_future_payload",
+      "positive_test": "original golden",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "F",
+      "severity": "HIGH",
+      "contract": "J",
+      "exact_invalid_input": "conditioning=arbitrary",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_unknown_conditioning",
+      "positive_test": "unconditional golden",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "G",
+      "severity": "HIGH",
+      "contract": "O",
+      "exact_invalid_input": "synthetic minute median=-1",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_invalid_minutes_law_support",
+      "positive_test": "median48 golden",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "H",
+      "severity": "HIGH",
+      "contract": "source",
+      "exact_invalid_input": "revision2 missing predecessor bytes",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_missing_receipt_parent",
+      "positive_test": "existing included revision chain",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "I",
+      "severity": "HIGH",
+      "contract": "O",
+      "exact_invalid_input": "unregistered negative support family",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_unregistered_minutes_law",
+      "positive_test": "registered synthetic family",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    }
+  ],
+  "unresolved_verification": [
+    "full manual registry coverage audit",
+    "complete planned second adversarial sweep",
+    "source-bound roster attribution semantics",
+    "conditional-law-to-draw reconciliation review",
+    "settlement correction predecessor verification review"
+  ],
+  "historical_classes": "Seven prior closure tests and five independent_final repairs retained unchanged; see prior receipts and test_inventory.json"
+}

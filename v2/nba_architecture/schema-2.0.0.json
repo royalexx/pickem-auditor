@@ -157,6 +157,7 @@
         "eligibility_evidence": {
           "type": [
             "string",
+            "object",
             "null"
           ]
         },
@@ -166,6 +167,12 @@
             "active_reported",
             "questionable",
             "unknown"
+          ]
+        },
+        "availability_evidence": {
+          "type": [
+            "object",
+            "null"
           ]
         }
       },
@@ -305,7 +312,8 @@
             "minimum": 0,
             "maximum": 1
           }
-        }
+        },
+        "additionalProperties": false
       }
     },
     "pregame": {
@@ -551,7 +559,8 @@
                 }
               ]
             }
-          }
+          },
+          "additionalProperties": false
         },
         "forecast_at": {
           "$ref": "#/$defs/utc"
@@ -635,7 +644,8 @@
               "minimum": 0,
               "maximum": 1
             }
-          }
+          },
+          "additionalProperties": false
         },
         "pmf": {
           "$ref": "#/$defs/pmf"
@@ -725,7 +735,8 @@
             "J": {
               "$ref": "#/$defs/component"
             }
-          }
+          },
+          "additionalProperties": false
         },
         "conditioning": {
           "enum": [
@@ -794,10 +805,12 @@
                     "stats": {
                       "type": "object"
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 }
               }
-            }
+            },
+            "additionalProperties": false
           }
         },
         "game_state_witness": {
@@ -1212,7 +1225,8 @@
                   "tied"
                 ]
               }
-            }
+            },
+            "additionalProperties": false
           }
         }
       },
@@ -1296,7 +1310,8 @@
                   "units"
                 ]
               }
-            }
+            },
+            "additionalProperties": false
           }
         },
         "scenarios": {
@@ -1332,10 +1347,31 @@
                     "team_id",
                     "minutes",
                     "participation"
-                  ]
+                  ],
+                  "properties": {
+                    "player_id": {
+                      "type": "string"
+                    },
+                    "team_id": {
+                      "type": "string"
+                    },
+                    "minutes": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "participation": {
+                      "enum": [
+                        "DNP",
+                        "PLAYED_ZERO_MINUTES",
+                        "PLAYED"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
                 }
               }
-            }
+            },
+            "additionalProperties": false
           }
         }
       },

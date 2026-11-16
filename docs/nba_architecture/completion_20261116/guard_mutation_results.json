@@ -1,0 +1,26 @@
+[
+  {
+    "disabled_guard": "ZERO_PROBABILITY_PARTICIPATION",
+    "exit": 1,
+    "killed": true,
+    "unexpected_import_error": false
+  },
+  {
+    "disabled_guard": "CERTAIN_PARTICIPATION_DNP",
+    "exit": 1,
+    "killed": true,
+    "unexpected_import_error": false
+  },
+  {
+    "disabled_guard": "CONDITIONAL_TARGET_DNP",
+    "exit": 1,
+    "killed": true,
+    "unexpected_import_error": false
+  },
+  {
+    "disabled_guard": "O_DRAW_OUTSIDE_MINUTES_SUPPORT",
+    "exit": 1,
+    "killed": true,
+    "unexpected_import_error": false
+  }
+]

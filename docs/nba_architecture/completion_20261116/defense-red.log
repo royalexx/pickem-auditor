@@ -1,0 +1,46 @@
+test_boolean_team_score (test_g0_completion_20261116.CompletionAttacks.test_boolean_team_score) ... ok
+test_conditional_marginal_cannot_include_target_dnp (test_g0_completion_20261116.CompletionAttacks.test_conditional_marginal_cannot_include_target_dnp) ... ok
+test_correction_parent_required_as_object (test_g0_completion_20261116.CompletionAttacks.test_correction_parent_required_as_object) ... ok
+test_empty_probability_zero_bin_is_permissible (test_g0_completion_20261116.CompletionAttacks.test_empty_probability_zero_bin_is_permissible) ... ok
+test_extra_team_total (test_g0_completion_20261116.CompletionAttacks.test_extra_team_total) ... ok
+test_feature_prior_date_bound_to_receipt (test_g0_completion_20261116.CompletionAttacks.test_feature_prior_date_bound_to_receipt) ... ok
+test_nonvoid_cannot_carry_void_basis (test_g0_completion_20261116.CompletionAttacks.test_nonvoid_cannot_carry_void_basis) ... ok
+test_offer_free_contract_line_rejected (test_g0_completion_20261116.CompletionAttacks.test_offer_free_contract_line_rejected) ... ok
+test_prior_stat_cannot_use_quote_receipt (test_g0_completion_20261116.CompletionAttacks.test_prior_stat_cannot_use_quote_receipt) ... ok
+test_revision_gap (test_g0_completion_20261116.CompletionAttacks.test_revision_gap) ... ok
+test_scenario_reorder_preserves_marginal (test_g0_completion_20261116.CompletionAttacks.test_scenario_reorder_preserves_marginal) ... ok
+test_submicrosecond_timestamp_cannot_silently_reverse_order (test_g0_completion_20261116.CompletionAttacks.test_submicrosecond_timestamp_cannot_silently_reverse_order) ... ok
+test_weights_tiny_roundoff_and_reorder (test_g0_completion_20261116.CompletionAttacks.test_weights_tiny_roundoff_and_reorder) ... ok
+test_witness_hidden_feature (test_g0_completion_20261116.CompletionAttacks.test_witness_hidden_feature) ... ok
+test_model_fit_after_declared_data_cutoff (test_g0_completion_20261116.DataBoundaryAttack.test_model_fit_after_declared_data_cutoff) ... ok
+test_block_requires_opponent_missed_fga (test_g0_completion_20261116.DefensiveAccountingAttacks.test_block_requires_opponent_missed_fga) ... FAIL
+test_steal_requires_opponent_turnover (test_g0_completion_20261116.DefensiveAccountingAttacks.test_steal_requires_opponent_turnover) ... FAIL
+test_duplicate_json_keys_and_nonfinite (test_g0_completion_20261116.IngestionAndTransitionMatrix.test_duplicate_json_keys_and_nonfinite) ... ok
+test_full_transition_matrix (test_g0_completion_20261116.IngestionAndTransitionMatrix.test_full_transition_matrix) ... ok
+test_minutes_law_support_physically_bounded (test_g0_completion_20261116.LastBoundaryAttacks.test_minutes_law_support_physically_bounded) ... ok
+test_opportunity_player_hidden_payload (test_g0_completion_20261116.LastBoundaryAttacks.test_opportunity_player_hidden_payload) ... ok
+test_superseded_feature_revision (test_g0_completion_20261116.LastBoundaryAttacks.test_superseded_feature_revision) ... ok
+test_threshold_rejects_negative_mass (test_g0_completion_20261116.LastBoundaryAttacks.test_threshold_rejects_negative_mass) ... ok
+
+======================================================================
+FAIL: test_block_requires_opponent_missed_fga (test_g0_completion_20261116.DefensiveAccountingAttacks.test_block_requires_opponent_missed_fga)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 115, in test_block_requires_opponent_missed_fga
+    with self.assertRaises(ContractError):validate_scenarios(j,c['pregame'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_steal_requires_opponent_turnover (test_g0_completion_20261116.DefensiveAccountingAttacks.test_steal_requires_opponent_turnover)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 118, in test_steal_requires_opponent_turnover
+    with self.assertRaises(ContractError):validate_scenarios(j,c['pregame'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 23 tests in 5.288s
+
+FAILED (failures=2)

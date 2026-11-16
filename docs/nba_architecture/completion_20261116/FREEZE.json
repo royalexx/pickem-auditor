@@ -1,0 +1,24 @@
+{
+  "decision": "G0 CANDIDATE READY FOR INDEPENDENT REVIEW",
+  "implementation_commit": "3cbd234c22096da5f858f7be81adbbb3d31796fa",
+  "independent_acceptance": false,
+  "critical_or_high_known_g0_issues": [],
+  "tests": 242,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "original_reviewed_source_sha256": {
+    "v2/nba_architecture/v2_contracts.py": "ccf81b28eb15c180b8d0497f600f4b2aac855a88f6e839914b7cc2bb23beda38",
+    "v2/nba_architecture/families_v2.py": "21ee19e33b140e498fe15f7abe3ddae15c47008b844cd0e16132494ebfa4908f",
+    "v2/nba_architecture/schema-2.0.0.json": "2246933d9efafc9fa45a7e6856ae7ea9b3f3777dbb0bcfdba3fdde13641a1edc"
+  },
+  "reviewed_code_matches_qa_parent": true,
+  "receipt_sha256": "59c08c0c015b6197b672e34a3a354ffcab6df69662aa83caadf6e030a2bb100e",
+  "source_authenticity_certified": false,
+  "model_fit_certified": false,
+  "G1": "NOT_ACCEPTED",
+  "G2": "NOT_ACCEPTED",
+  "production_authorized": false,
+  "rollback": "Close draft PR; separate detached checkout c53a725 or 18bd569; preserve every receipt",
+  "handoff": "DECISION.md; full validation entry points are mandatory for integrated acceptance"
+}

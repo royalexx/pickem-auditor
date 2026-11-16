@@ -5,7 +5,7 @@ consume their identical scenario/player draws and identity-bound content hashes.
 """
 from __future__ import annotations
 from .v2_contracts import (
-    VERSION, ContractError, req, num, ident, instant, sha, check_schema,
+    structural_boundary, participation_state, VERSION, ContractError, req, num, ident, instant, sha, check_schema,
     validate_pregame, validate_scenarios, component, seal, strict_keys,
 )
 
@@ -70,6 +70,9 @@ def validate_opportunity(o, p, g):
             req(prob is not None and 0 <= num(prob) <= 1, "O_PROBABILITY")
         if x["participation_evidence"] == "verified_out":
             req(prob == 0, "O_OUT_NOT_ZERO")
+            req(roster[x["player_id"]]["availability"] == "out" or
+                roster[x["player_id"]]["legal_eligibility"] is False,
+                "O_UNBOUND_VERIFIED_OUT")
         if roster[x["player_id"]]["legal_eligibility"] is False:
             req(prob in (None, 0), "O_INELIGIBLE_PROBABILITY")
         law = x["minutes_law"]
@@ -77,6 +80,31 @@ def validate_opportunity(o, p, g):
             isinstance(law["family"], str) and bool(law["family"]) and
             isinstance(law["parameters"], dict) and
             law["units"] == "minutes", "O_MINUTES_LAW")
+        if roster[x["player_id"]]["availability"] == "out":
+            req(prob in (None, 0), "O_OUT_PROBABILITY")
+        strict_keys(law, ("family", "parameters", "conditioning", "units"))
+        req(law["family"] in ("synthetic_point_mass", "discrete_minutes"),
+            "O_UNREGISTERED_MINUTES_LAW")
+        if law["family"] == "discrete_minutes":
+            import math
+            strict_keys(law["parameters"], ("support",))
+            support = law["parameters"]["support"]
+            req(isinstance(support, list) and bool(support), "O_MINUTES_SUPPORT")
+            seen_minutes = set()
+            for atom in support:
+                strict_keys(atom, ("minutes", "mass"))
+                mn = num(atom["minutes"]); mass = num(atom["mass"])
+                req(mn <= max(48 + 5*sc["overtime_periods"] for sc in g["scenarios"]
+                              if sc["weight"] > 0), "O_LAW_PHYSICAL_SUPPORT")
+                req(mn not in seen_minutes and mass > 0, "O_MINUTES_ATOM")
+                seen_minutes.add(mn)
+            req(abs(math.fsum(a["mass"] for a in support)-1) <= 1e-12,
+                "O_MINUTES_MASS")
+        if law["family"] == "synthetic_point_mass":
+            req(set(law["parameters"]) == {"median"}, "O_POINT_MASS_PARAMETERS")
+            num(law["parameters"]["median"])
+    laws = {x["player_id"]: x["minutes_law"] for x in persons}
+    estimates = {x["player_id"]: x["participation_probability"] for x in persons}
     scenarios = o["scenarios"]
     req(len(scenarios) == len(prior), "O_SCENARIO_COVERAGE")
     seen = set()
@@ -105,6 +133,11 @@ def validate_opportunity(o, p, g):
                 req(mn > 0, "O_PLAYED_ZERO_MINUTES")
             else:
                 req(mn == 0, "O_DNP_EXPOSURE")
+            participation_state(roster[pid], status, mn, estimates[pid], sc["weight"])
+            law = laws[pid]
+            if law["family"] == "discrete_minutes" and status != "DNP" and sc["weight"] > 0:
+                req(any(a["minutes"] == mn for a in law["parameters"]["support"]),
+                    "O_DRAW_OUTSIDE_MINUTES_SUPPORT")
             if roster[pid]["legal_eligibility"] is False:
                 req(status == "DNP", "O_INELIGIBLE_PLAYED")
         for team in p["team_ids"]:
@@ -123,6 +156,8 @@ def validate_integration(j, p, g, o):
         j["lineage"]["O"] == o["model"], "J_G_O_MODEL_JOIN")
     expected_g = {x["scenario_id"]: x for x in g["scenarios"]}
     expected_o = {x["scenario_id"]: x for x in o["scenarios"]}
+    req({sc["scenario_id"] for sc in j["scenarios"]} == set(expected_g),
+        "J_G_O_EXACT_SCENARIO_COVERAGE")
     for sc in j["scenarios"]:
         sid = sc["scenario_id"]
         req(sid in expected_g and sid in expected_o, "J_G_O_SCENARIO_JOIN")
@@ -138,4 +173,52 @@ def validate_integration(j, p, g, o):
             req(x["minutes"] == y["minutes"] and
                 x["participation"] == y["participation"] and
                 x["team_id"] == y["team_id"], "J_RESAMPLED_OPPORTUNITY")
+    return True
+
+
+validate_game_state = structural_boundary(validate_game_state)
+validate_opportunity = structural_boundary(validate_opportunity)
+
+
+def validate_forecast(d, p, *, g=None, o=None, scenarios=None):
+    """Complete pipeline boundary; component validators alone do not certify a pipeline.
+
+    Retrieve immutable G/O/J objects before calling. No global lookup or self-reported
+    digest is substituted for those objects. S_ONLY remains market independent.
+    """
+    from .v2_contracts import validate_distribution
+    validate_distribution(d, p, scenarios)
+    if d['pipeline_mode'] == 'S_ONLY':
+        req(g is None and o is None and scenarios is None, 'UNDECLARED_PIPELINE_CONTEXT')
+        return True
+    req(g is not None and o is not None, 'FORECAST_OPPORTUNITY_CONTEXT_REQUIRED')
+    validate_opportunity(o, p, g)
+    req(d['opportunity_output_sha256'] == o['content_hash'], 'FORECAST_O_HASH')
+    req(d['lineage']['O'] == o['model'], 'FORECAST_O_MODEL')
+    req(d['lineage']['G'] == g['model'], 'FORECAST_G_MODEL')
+    req(all(x['minutes_law']['family'] != 'synthetic_point_mass' for x in o['players']),
+        'DIAGNOSTIC_MINUTES_NOT_FORECAST_LAW')
+    if d['pipeline_mode'] == 'S_O_J':
+        validate_integration(scenarios, p, g, o)
+    return True
+
+
+def validate_settlement(e, d, p, *, view=None, quote=None, g=None, o=None,
+                        scenarios=None, history=()):
+    """C boundary: validate frozen forecast, original offer and full correction chain."""
+    from .v2_contracts import validate_offer_view, validate_evaluation, verify
+    validate_forecast(d, p, g=g, o=o, scenarios=scenarios)
+    req((view is None) == (quote is None), 'SETTLEMENT_ORIGINAL_OFFER_CONTEXT')
+    if view is not None:
+        validate_offer_view(view, d, quote, p, scenarios)
+    previous = None
+    seen = set()
+    for record in [*history, e]:
+        h = verify(record)
+        req(h not in seen, 'DUPLICATE_SETTLEMENT')
+        seen.add(h)
+        req(record['revision'] == (1 if previous is None else previous['revision']+1),
+            'SETTLEMENT_COMPLETE_HISTORY_REQUIRED')
+        validate_evaluation(record, d, view, previous=previous)
+        previous = record
     return True

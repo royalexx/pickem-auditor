@@ -1,0 +1,149 @@
+test_boolean_team_score (test_g0_completion_20261116.CompletionAttacks.test_boolean_team_score) ... FAIL
+test_conditional_marginal_cannot_include_target_dnp (test_g0_completion_20261116.CompletionAttacks.test_conditional_marginal_cannot_include_target_dnp) ... FAIL
+test_correction_parent_required_as_object (test_g0_completion_20261116.CompletionAttacks.test_correction_parent_required_as_object) ... FAIL
+test_empty_probability_zero_bin_is_permissible (test_g0_completion_20261116.CompletionAttacks.test_empty_probability_zero_bin_is_permissible) ... ERROR
+test_extra_team_total (test_g0_completion_20261116.CompletionAttacks.test_extra_team_total) ... FAIL
+test_feature_prior_date_bound_to_receipt (test_g0_completion_20261116.CompletionAttacks.test_feature_prior_date_bound_to_receipt) ... FAIL
+test_nonvoid_cannot_carry_void_basis (test_g0_completion_20261116.CompletionAttacks.test_nonvoid_cannot_carry_void_basis) ... FAIL
+test_offer_free_contract_line_rejected (test_g0_completion_20261116.CompletionAttacks.test_offer_free_contract_line_rejected) ... FAIL
+test_prior_stat_cannot_use_quote_receipt (test_g0_completion_20261116.CompletionAttacks.test_prior_stat_cannot_use_quote_receipt) ... FAIL
+test_revision_gap (test_g0_completion_20261116.CompletionAttacks.test_revision_gap) ... FAIL
+test_scenario_reorder_preserves_marginal (test_g0_completion_20261116.CompletionAttacks.test_scenario_reorder_preserves_marginal) ... ok
+test_submicrosecond_timestamp_cannot_silently_reverse_order (test_g0_completion_20261116.CompletionAttacks.test_submicrosecond_timestamp_cannot_silently_reverse_order) ... FAIL
+test_weights_tiny_roundoff_and_reorder (test_g0_completion_20261116.CompletionAttacks.test_weights_tiny_roundoff_and_reorder) ... ERROR
+test_witness_hidden_feature (test_g0_completion_20261116.CompletionAttacks.test_witness_hidden_feature) ... FAIL
+
+======================================================================
+ERROR: test_empty_probability_zero_bin_is_permissible (test_g0_completion_20261116.CompletionAttacks.test_empty_probability_zero_bin_is_permissible)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 41, in test_empty_probability_zero_bin_is_permissible
+    self.assertTrue(validate_distribution(d,self.p,self.j))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/g0/v2/nba_architecture/v2_contracts.py", line 835, in checked
+    result = validator(obj, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/g0/v2/nba_architecture/v2_contracts.py", line 460, in validate_distribution
+    req({x["value"]: x["mass"] for x in pmf} == pmf_actual,
+  File "/workspace/g0/v2/nba_architecture/v2_contracts.py", line 36, in req
+    raise ContractError(code)
+v2.nba_architecture.v2_contracts.ContractError: J_MARGINAL_NOT_FROM_DRAWS
+
+======================================================================
+ERROR: test_weights_tiny_roundoff_and_reorder (test_g0_completion_20261116.CompletionAttacks.test_weights_tiny_roundoff_and_reorder)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 66, in test_weights_tiny_roundoff_and_reorder
+    d=marginal_from_joint(j,self.p,self.p['players'][0]['player_id'],'points','2026-11-16T23:03:00Z',42)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/g0/v2/nba_architecture/v2_contracts.py", line 623, in marginal_from_joint
+    "max_probability_se": max(math.sqrt(x["mass"]*(1-x["mass"]) /
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/g0/v2/nba_architecture/v2_contracts.py", line 623, in <genexpr>
+    "max_probability_se": max(math.sqrt(x["mass"]*(1-x["mass"]) /
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: math domain error
+
+======================================================================
+FAIL: test_boolean_team_score (test_g0_completion_20261116.CompletionAttacks.test_boolean_team_score)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 29, in test_boolean_team_score
+    with self.assertRaises(ContractError):validate_scenarios(j,self.p)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_conditional_marginal_cannot_include_target_dnp (test_g0_completion_20261116.CompletionAttacks.test_conditional_marginal_cannot_include_target_dnp)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 38, in test_conditional_marginal_cannot_include_target_dnp
+    with self.assertRaises(ContractError):marginal_from_joint(j,self.p,self.p['players'][5]['player_id'],'points','2026-11-16T23:03:00Z',42)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_correction_parent_required_as_object (test_g0_completion_20261116.CompletionAttacks.test_correction_parent_required_as_object)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 49, in test_correction_parent_required_as_object
+    with self.assertRaises(ContractError):validate_evaluation(e,c['distribution'],c['offer_view'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_extra_team_total (test_g0_completion_20261116.CompletionAttacks.test_extra_team_total)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 32, in test_extra_team_total
+    with self.assertRaises(ContractError):validate_scenarios(j,self.p)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_feature_prior_date_bound_to_receipt (test_g0_completion_20261116.CompletionAttacks.test_feature_prior_date_bound_to_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 20, in test_feature_prior_date_bound_to_receipt
+    with self.assertRaises(ContractError):validate_pregame(edit(p,lambda x:x['features'][0].update(prior_game_date='2022-10-16')))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_nonvoid_cannot_carry_void_basis (test_g0_completion_20261116.CompletionAttacks.test_nonvoid_cannot_carry_void_basis)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 55, in test_nonvoid_cannot_carry_void_basis
+    with self.assertRaises(ContractError):validate_evaluation(edit(e,lambda x:x.update(void_basis='made up')),c['distribution'],c['offer_view'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_offer_free_contract_line_rejected (test_g0_completion_20261116.CompletionAttacks.test_offer_free_contract_line_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 52, in test_offer_free_contract_line_rejected
+    with self.assertRaises(ContractError):validate_evaluation(e,c['distribution'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_prior_stat_cannot_use_quote_receipt (test_g0_completion_20261116.CompletionAttacks.test_prior_stat_cannot_use_quote_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 23, in test_prior_stat_cannot_use_quote_receipt
+    with self.assertRaises(ContractError):validate_pregame(edit(p,lambda x:None))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_revision_gap (test_g0_completion_20261116.CompletionAttacks.test_revision_gap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 26, in test_revision_gap
+    with self.assertRaises(ContractError):validate_pregame(edit(p,lambda x:x['sources'].append(new)))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_submicrosecond_timestamp_cannot_silently_reverse_order (test_g0_completion_20261116.CompletionAttacks.test_submicrosecond_timestamp_cannot_silently_reverse_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 17, in test_submicrosecond_timestamp_cannot_silently_reverse_order
+    with self.assertRaises(ContractError): instant('2026-11-16T23:00:00.0000009Z')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_witness_hidden_feature (test_g0_completion_20261116.CompletionAttacks.test_witness_hidden_feature)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 35, in test_witness_hidden_feature
+    with self.assertRaises(ContractError):validate_scenarios(j,self.p)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 14 tests in 1.822s
+
+FAILED (failures=11, errors=2)

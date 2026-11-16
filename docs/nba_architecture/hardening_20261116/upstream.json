@@ -1,0 +1,90 @@
+[
+  {
+    "label": "WS1",
+    "sha": "53c01a9eabb9ed09b5c3186eae0d086b07bcc891",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_ws1",
+      "-v"
+    ],
+    "exit": 0,
+    "summary": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 25 tests in 0.891s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "label": "WS2",
+    "sha": "02426dd1b9c2b0cca28eaf69888adadc0021afa5",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_nba_opportunity.py",
+      "-v"
+    ],
+    "exit": 0,
+    "summary": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 25 tests in 4.861s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "label": "WS4",
+    "sha": "9821694260edb08b7414f02adea8c1fb3fd3b13c",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_ws4",
+      "-v"
+    ],
+    "exit": 0,
+    "summary": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 33 tests in 1.820s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "label": "WS5",
+    "sha": "cdf926f56e86bc9d25576acff61fd6f091313159",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_nba_joint*.py",
+      "-v"
+    ],
+    "exit": 0,
+    "summary": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 63 tests in 2.257s",
+      "",
+      "OK"
+    ]
+  }
+]

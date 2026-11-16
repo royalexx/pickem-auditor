@@ -1,0 +1,59 @@
+test_boolean_team_score (test_g0_completion_20261116.CompletionAttacks.test_boolean_team_score) ... ok
+test_conditional_marginal_cannot_include_target_dnp (test_g0_completion_20261116.CompletionAttacks.test_conditional_marginal_cannot_include_target_dnp) ... ok
+test_correction_parent_required_as_object (test_g0_completion_20261116.CompletionAttacks.test_correction_parent_required_as_object) ... ok
+test_empty_probability_zero_bin_is_permissible (test_g0_completion_20261116.CompletionAttacks.test_empty_probability_zero_bin_is_permissible) ... ok
+test_extra_team_total (test_g0_completion_20261116.CompletionAttacks.test_extra_team_total) ... ok
+test_feature_prior_date_bound_to_receipt (test_g0_completion_20261116.CompletionAttacks.test_feature_prior_date_bound_to_receipt) ... ok
+test_nonvoid_cannot_carry_void_basis (test_g0_completion_20261116.CompletionAttacks.test_nonvoid_cannot_carry_void_basis) ... ok
+test_offer_free_contract_line_rejected (test_g0_completion_20261116.CompletionAttacks.test_offer_free_contract_line_rejected) ... ok
+test_prior_stat_cannot_use_quote_receipt (test_g0_completion_20261116.CompletionAttacks.test_prior_stat_cannot_use_quote_receipt) ... ok
+test_revision_gap (test_g0_completion_20261116.CompletionAttacks.test_revision_gap) ... ok
+test_scenario_reorder_preserves_marginal (test_g0_completion_20261116.CompletionAttacks.test_scenario_reorder_preserves_marginal) ... ok
+test_submicrosecond_timestamp_cannot_silently_reverse_order (test_g0_completion_20261116.CompletionAttacks.test_submicrosecond_timestamp_cannot_silently_reverse_order) ... ok
+test_weights_tiny_roundoff_and_reorder (test_g0_completion_20261116.CompletionAttacks.test_weights_tiny_roundoff_and_reorder) ... ok
+test_witness_hidden_feature (test_g0_completion_20261116.CompletionAttacks.test_witness_hidden_feature) ... ok
+test_minutes_law_support_physically_bounded (test_g0_completion_20261116.LastBoundaryAttacks.test_minutes_law_support_physically_bounded) ... FAIL
+test_opportunity_player_hidden_payload (test_g0_completion_20261116.LastBoundaryAttacks.test_opportunity_player_hidden_payload) ... FAIL
+test_superseded_feature_revision (test_g0_completion_20261116.LastBoundaryAttacks.test_superseded_feature_revision) ... FAIL
+test_threshold_rejects_negative_mass (test_g0_completion_20261116.LastBoundaryAttacks.test_threshold_rejects_negative_mass) ... FAIL
+
+======================================================================
+FAIL: test_minutes_law_support_physically_bounded (test_g0_completion_20261116.LastBoundaryAttacks.test_minutes_law_support_physically_bounded)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 81, in test_minutes_law_support_physically_bounded
+    with self.assertRaises(ContractError):validate_opportunity(o,c['pregame'],c['game_state'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_opportunity_player_hidden_payload (test_g0_completion_20261116.LastBoundaryAttacks.test_opportunity_player_hidden_payload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 72, in test_opportunity_player_hidden_payload
+    with self.assertRaises(ContractError):validate_opportunity(o,c['pregame'],c['game_state'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_superseded_feature_revision (test_g0_completion_20261116.LastBoundaryAttacks.test_superseded_feature_revision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 75, in test_superseded_feature_revision
+    with self.assertRaises(ContractError):validate_pregame(edit(p,lambda x:x['sources'].append(new)))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_threshold_rejects_negative_mass (test_g0_completion_20261116.LastBoundaryAttacks.test_threshold_rejects_negative_mass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 77, in test_threshold_rejects_negative_mass
+    with self.assertRaises(ContractError):threshold_triplet([{'value':0,'mass':-1},{'value':1,'mass':2}],.5)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 18 tests in 6.899s
+
+FAILED (failures=4)
