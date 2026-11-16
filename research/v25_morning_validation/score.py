@@ -315,6 +315,8 @@ def nfl_validation(storage, output, fetch=None):
                 "player_id": str(row.get("player_id", "")), "stat": row.get("stat"),
                 "line": row.get("line"), "book": row.get("book"),
                 "original_quote_id": row.get("original_quote_id"),
+                "original_contract_id": row.get("original_candidate_id"),
+                "team_id": row.get("team"),
                 "joint_status": row.get("joint_status"),
                 "source_certified": row.get("fully_certified") is True}
         if source["status"] != "FINAL":
@@ -367,6 +369,7 @@ def nba_validation(storage, output, fetch=None):
     capture_root = storage / NBA_ROOT
     state = Counter()
     reports = []
+    candidate_rows = []
     for slot in slots:
         gid = slot["game"]["game_id"].split(":")[-1]
         root = capture_root / ("slot_%02d_" % slot["slot"] + gid)
@@ -405,14 +408,19 @@ def nba_validation(storage, output, fetch=None):
                 reports.append(record);state[record["status"]] += 1
                 continue
             source = result["source"]
-            receipt = Receipt.capture(json.dumps(result["data"]).encode(),
-                                      source=ESPN_NBA + gid, observed_at=source["retrieved_at"],
+            # Retain original ESPN response bytes; don't reserialize into an
+            # invented original source receipt.
+            final_raw = gzip.decompress(Path(source["archive"]).read_bytes())
+            if h(final_raw) != source["raw_sha256"]:
+                raise ValueError("ESPN_FINAL_ORIGINAL_RAW_HASH_CONFLICT")
+            receipt = Receipt.capture(final_raw, source=ESPN_NBA + gid,
+                                      observed_at=source["retrieved_at"],
                                       origin="original_capture")
-            # Use exactly original fetched raw data bytes as receipt; JSON serialization
-            # is a new postgame representation (not identical original response bytes).
-            # Avoid false raw SHA equivalence by storing a separate normalized source.
-            record["normalized_settlement_receipt"] = receipt.raw_sha256
-            outcome = settle_original(ledger, json.dumps(result["data"]).encode(), receipt)
+            outcome = settle_original(ledger, final_raw, receipt)
+            for candidate in outcome["candidate_rows"]:
+                candidate_rows.append({"slot":slot["slot"],"event_id":gid,
+                    "game_id":slot["game"]["game_id"],"original_ledger_sha256":h(raw),
+                    "outcome_source_sha256":h(final_raw),**candidate})
             record.update(status="SOURCE_QUALIFIED_POSTGAME_CANDIDATE_OBSERVATIONS",
                           participation=outcome["denominator"],
                           source=source,
@@ -422,9 +430,13 @@ def nba_validation(storage, output, fetch=None):
             record.update(status="BLOCKED_INVALID_ORIGINAL_OR_SETTLEMENT",
                           reason=type(exc).__name__ + ":" + str(exc))
         reports.append(record);state[record["status"]] += 1
+    with (output / "nba_settled_candidates.jsonl").open("xb") as out:
+        for candidate in candidate_rows:
+            out.write((json.dumps(candidate,sort_keys=True,allow_nan=False)+"\\n").replace("\\n","\n").encode())
     make_once(output / "nba_participation_audit.json", {
         "schema": "NBA_V25_Phase8C_ProspectiveParticipationAudit/1",
         "original_slots": 10, "states": dict(state), "slots": reports,
+        "frozen_candidate_outcomes":len(candidate_rows),
         "positive_participation_model_fitted": False,
         "F_acceptance_not_inferred": True,
         "candidate_universe_not_legal_active_list": True})
