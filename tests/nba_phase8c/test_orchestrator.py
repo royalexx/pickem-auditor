@@ -108,6 +108,29 @@ class NBADailyOrchestrationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "FROZEN_MODEL_CHANGED"):
                 daily.safe_pregame_preflight(Path("/work/fixture_root_unused"))
 
+    def test_missing_official_pdf_parser_keeps_original_espn_ledger_eligible_for_capture(self):
+        class FakeReceipt:
+            receipt_id = "original_byte_receipt"
+        errors = []
+        with patch.object(sources, "injury_pdf", side_effect=FileNotFoundError("pdftotext")):
+            result = sources._read_optional_official_injury(
+                b"%PDF-1.7", FakeReceipt(), "2026-11-16T18:25:00-05:00", errors)
+        self.assertIsNone(result)
+        self.assertEqual(errors[0]["code"], "OFFICIAL_INJURY_PARSER_UNAVAILABLE")
+        self.assertTrue(errors[0]["no_eligibility_inference"])
+
+    def test_official_pdf_timeout_is_explicitly_retained(self):
+        import subprocess
+        class FakeReceipt:
+            receipt_id = "original_byte_receipt"
+        errors = []
+        with patch.object(sources, "injury_pdf",
+                          side_effect=subprocess.TimeoutExpired("pdftotext", 15)):
+            result = sources._read_optional_official_injury(
+                b"%PDF-1.7", FakeReceipt(), "2026-11-16T18:25:00-05:00", errors)
+        self.assertIsNone(result)
+        self.assertIn("TimeoutExpired", errors[0]["cause"])
+
     def test_data_sources_explicitly_distinguish_eligibility(self):
         plan = run(day="2026-11-18", dry_run=True)
         self.assertIn("boxscores", plan["sources"]["ESPN"])
