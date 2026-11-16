@@ -72,7 +72,7 @@ def execute(input_path, output_path, *, source_root=None):
         source_receipts=len(obj["sources"]), players=len(obj["players"]),
         features=len(obj["features"]),
         source_original_bytes_verified=sum(
-            "Original bytes independently verified." in r["asof_limitations"]
+            "Supplied source bytes match their source SHA;" in r["asof_limitations"]
             for r in obj["sources"]),
         original_offers=0, forecast_scoring_performed=False)
 
