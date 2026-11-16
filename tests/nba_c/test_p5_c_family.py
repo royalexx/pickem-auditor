@@ -235,6 +235,41 @@ class TestExperiment(unittest.TestCase):
             e.make_walk_forward_folds(meta,min_train_dates=2)
 
 
+class TestCalibration(unittest.TestCase):
+    def test_calibration_coverage_zero_tails_and_denominators(self):
+        from v2.nba_c.calibration import calibration_summary
+        rows=[]
+        for i, y in enumerate([0,3,15,3]):
+            d=s.diagnostics({0:.2,3:.3,15:.5},y,seed=i,
+                            central=.8,tail_threshold=10)
+            rows.append({**d,"scored":True,"game_id":f"nba:cal{i//2}"})
+        rows.append({"scored":False,"reason":"DNP_UNKNOWN"})
+        out=calibration_summary(rows,pit_bins=5)
+        self.assertEqual(out["n_forecast_rows"],4)
+        self.assertEqual(out["n_distinct_games"],2)
+        self.assertEqual(out["n_input_rows"],5)
+        self.assertEqual(out["not_scored_by_reason"],{"DNP_UNKNOWN":1})
+        self.assertEqual(sum(out["pit_histogram"]),4)
+        self.assertAlmostEqual(out["zero_probability_mean"],.2)
+        self.assertAlmostEqual(out["zero_frequency"],.25)
+        self.assertAlmostEqual(out["tail_probability_mean"],.5)
+        self.assertAlmostEqual(out["tail_frequency"],.25)
+        self.assertEqual(out["quantile_coverage"]["0.8"]["n_rows"],4)
+
+    def test_calibration_rejects_zero_game_and_bad_pit(self):
+        from v2.nba_c.calibration import calibration_summary
+        with self.assertRaises(s.ScoreError):
+            calibration_summary([{"scored":False,"reason":"MISSING"}])
+        d=s.diagnostics({0:.5,1:.5},1,seed=9)
+        record={**d,"scored":True,"game_id":"nba:cal"}
+        record["pit"]=1.5
+        with self.assertRaises(s.ScoreError):
+            calibration_summary([record])
+        record["pit"]=.5
+        with self.assertRaises(s.ScoreError):
+            calibration_summary([record],min_report_games=2)
+
+
 class TestImmutableStore(unittest.TestCase):
     def test_write_once_and_collision(self):
         with tempfile.TemporaryDirectory() as root:
