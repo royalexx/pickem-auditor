@@ -140,7 +140,7 @@ def _roster_entries(data):
     for item in athletes:
         p=item.get("athlete",item)
         pid=str(p.get("id") or "")
-        if pid and p.get("displayName") or p.get("fullName"):
+        if pid and (p.get("displayName") or p.get("fullName")):
             out.setdefault(_name(p.get("fullName") or p.get("displayName")),[]).append(pid)
     return out
 
@@ -210,12 +210,16 @@ def capture_game(game,day,root,quote,*,fetch=None,at=None):
                                 "line":obj["line"],"over":obj["over_odds"],
                                 "under":obj["under_odds"],"raw_first":quote["receipts"][0]["original_raw_sha256"]
                                 if quote["receipts"] else None},sort_keys=True)
-                quotes.append({"contract_id":sha(key.encode()),"event_id":game["event_id"],
+                quote_id=sha(json.dumps(obj,sort_keys=True,default=str).encode())
+                quotes.append({"contract_id":sha(key.encode()),"original_quote_id":quote_id,
+                               "event_id":game["event_id"],
                                "team":team,"player_id":player,
                                "stat":obj["stat"],"book":obj["book"],
                                "line":obj["line"],"over_odds":obj["over_odds"],
                                "under_odds":obj["under_odds"],"original_offer":obj,
                                "original_offer_source_sha256":quote["receipts"][0]["original_raw_sha256"]
+                               if quote["receipts"] else None,
+                               "original_offer_first_received_at":quote["receipts"][0]["received_at"]
                                if quote["receipts"] else None})
         captured_at=now()
         if captured_at>=start-HARD_FREEZE_GAP:
