@@ -70,8 +70,12 @@ def original_input(path, expected):
 
 def fetch_final(url, event_id, kickoff_at, folder, *, fetch=None):
     """Verify ESPN's event identity/status and archive the actual outcome bytes."""
-    if utcnow() <= instant(kickoff_at):
-        return {"status": "NOT_YET_STARTED"}
+    try:
+        if utcnow() <= instant(kickoff_at):
+            return {"status": "NOT_YET_STARTED"}
+    except (ValueError, TypeError):
+        return {"status": "MISSING_OR_INVALID_ORIGINAL_KICKOFF",
+                "event_id": str(event_id)}
     fetch = fetch or _fetch
     try:
         raw = fetch(url)
@@ -293,10 +297,15 @@ def nfl_validation(storage, output, fetch=None):
         by_game[str(row["event_id"])].append(row)
     sources = {}
     for gid, game_rows in sorted(by_game.items()):
-        kickoff = game_rows[0]["event_start_at"]
-        if any(r["event_start_at"] != kickoff for r in game_rows):
+        original_starts = {r.get("event_start_at") for r in game_rows
+                           if r.get("source_identity_verified") is True
+                           and isinstance(r.get("event_start_at"), str)}
+        if len(original_starts) > 1:
             sources[gid] = {"status": "CONFLICTING_KICKOFF_IDENTITY"}
+        elif not original_starts:
+            sources[gid] = {"status": "NO_VALID_ORIGINAL_SOURCE_KICKOFF"}
         else:
+            kickoff = next(iter(original_starts))
             sources[gid] = fetch_final(ESPN_NFL + gid, gid, kickoff, output / "nfl_sources", fetch=fetch)
     scored = []
     for row in rows:
