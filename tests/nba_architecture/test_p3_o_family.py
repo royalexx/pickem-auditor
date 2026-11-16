@@ -257,5 +257,22 @@ class OpportunityTests(unittest.TestCase):
                                      receipt["receipt_sha256"])
 
 
+    def test_prior_manifest_replays_and_detects_mutation(self):
+        p,g,o,side=build("O2",seed=62)
+        replay_o,replay_side=build_opportunity(
+            p,g,side["prior_manifest"],model=side["model"],
+            seed=side["seed"],variant=side["variant"],
+            home_team_id=side["home_team_id"],
+            home_team_source_receipt_sha256=
+            side["home_team_source_receipt_sha256"])
+        self.assertEqual(o["content_hash"],replay_o["content_hash"])
+        self.assertEqual(side["content_hash"],replay_side["content_hash"])
+        wrong=copy.deepcopy(side)
+        wrong["prior_manifest"]["espn:player:15"]["scenario_participation_prior"] = .1
+        wrong=seal({k:v for k,v in wrong.items() if k!="content_hash"})
+        with self.assertRaisesRegex(ContractError,"O_PRIOR_MANIFEST_HASH"):
+            validate_sidecar(wrong,p,g,o)
+
+
 if __name__=="__main__":
     unittest.main()
