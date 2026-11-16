@@ -244,8 +244,8 @@ class V2Tests(unittest.TestCase):
     def test_joint_same_draw_golden(self):
         x = self.goldens["joint_same_draw"]
         self.assertTrue(validate_scenarios(x["scenarios"], x["pregame"]))
-        self.assertTrue(validate_distribution(x["points"], x["pregame"]))
-        self.assertTrue(validate_distribution(x["pra"], x["pregame"]))
+        self.assertTrue(validate_distribution(x["points"], x["pregame"], x["scenarios"]))
+        self.assertTrue(validate_distribution(x["pra"], x["pregame"], x["scenarios"]))
         self.assertEqual(x["pra"]["pmf"], x["points"]["pmf"])
 
     def test_j_threes_from_same_scenario(self):
@@ -420,7 +420,8 @@ class V2Tests(unittest.TestCase):
         j = j_scenarios(p)
         d = marginal_from_joint(j, p, p["players"][0]["player_id"], "points",
                                 "2026-11-16T23:03:00Z", 100)
-        self.assertTrue(validate_distribution(d, p))
+        self.failcode("J_SCENARIO_CONTEXT_REQUIRED", validate_distribution, d, p)
+        self.assertTrue(validate_distribution(d, p, j))
         self.assertEqual(d["scenario_bundle_sha256"], j["content_hash"])
 
     def test_s_o_requires_opportunity_lineage(self):
@@ -725,7 +726,8 @@ class V2Tests(unittest.TestCase):
         x = self.goldens["historical_offer_free"]
         e = evaluation(x["distribution"], status="void", actual=None,
                        participation="DNP")
-        self.assertTrue(validate_evaluation(e, x["distribution"]))
+        self.failcode("VOID_ORIGINAL_TERMS_REQUIRED", validate_evaluation,
+                      e, x["distribution"])
 
     def test_settlement_dnp_outcome_not_imputed(self):
         x = self.goldens["historical_offer_free"]

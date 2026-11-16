@@ -1,0 +1,82 @@
+{
+  "record_type": "NBA_V25_G0_ADVERSARIAL_REMEDIATION_REPORT",
+  "record_version": "1.0.0",
+  "recorded_date": "2026-11-16",
+  "candidate_contract_version": "nba-sojc-contract/2.0.0",
+  "initial_candidate_commit": "3f38ef9d1f6f2e50623a5623fb5826efc67cf7b2",
+  "initial_adversarial_branch": "research/nba-p0i-adversarial-review-20261116",
+  "initial_test_commit": "89140aa71947d384fe0f5d5e929da048e6fb7441",
+  "initial_test_run": "557f1ed4-f29d-4d76-bbf2-a7bfad382b31",
+  "initial_tests": {
+    "original_passed": 136,
+    "adversarial_passed": 21,
+    "adversarial_failed": 7,
+    "combined_total": 164
+  },
+  "remedial_branch": "research/nba-g0-p0r-adversarial-fixes-20261116",
+  "retested_implementation_commit": "04779fc671ac7d2b533e328a29c48822b4d1db82",
+  "retested_run": "f8836fff-7697-4920-8a1b-0167434ba8ba",
+  "retested_environment": {
+    "execution": "Deepnote detached readonly fresh ephemeral original source",
+    "python": "3.12.16",
+    "numpy": "1.26.4",
+    "scipy": "1.15.3",
+    "jsonschema": "4.23.0"
+  },
+  "retested_counts": {
+    "preexisting_v1": 31,
+    "preexisting_v2": 105,
+    "adversarial": 28,
+    "remedial_regressions": 8,
+    "passed": 172,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "source_sha256": {
+    "contract": "30aa669f5e6fdcafb82d42127850bd752be6dff6503e877c3fb28887bd52b7d1",
+    "families_unchanged": "21ee19e33b140e498fe15f7abe3ddae15c47008b844cd0e16132494ebfa4908f",
+    "schema_v2": "2246933d9efafc9fa45a7e6856ae7ea9b3f3777dbb0bcfdba3fdde13641a1edc",
+    "adversarial_tests": "7ef5da14487942de0e8e82f45e6048890361f320eba2e59c532a2cde0310cc35",
+    "remedial_tests": "3e5f12794d7ec4c8df37bc704ec3f34d19049b8fafe6a3770969a7f345eb77d8"
+  },
+  "golden_sha256": {
+    "historical": "da214db2678cea1893a05242b44d710a8c8cb9d931c3f3bc30b6d5801bb84d99",
+    "original_offer_synthetic": "27c4e5c61c17a3b67885dfc9fb3f33d726c9fd521ce2e81fb4fec8c28096e7fb",
+    "joint": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b"
+  },
+  "closed_negative_cases": [
+    "09 offer_view game_id must equal distribution+quote game_id",
+    "11 J PMF requires actual scenario context; a claimed scenario SHA alone is insufficient",
+    "17 global own/opponent missed-shot upper bounds for offensive/defensive rebounds",
+    "21 DNP/unknown cannot be evaluated as settled observed count",
+    "22 push requires original offer view plus nonnull quote line",
+    "23 evaluation contract_line equals hash-bound offer_view line, which equals original quote",
+    "24 void requires nonempty original product terms hash plus exact hash-bound void_basis"
+  ],
+  "test_command": "python -m unittest discover -s tests/nba_architecture -p 'test_*.py' -v",
+  "schema_check": "Draft202012Validator.check_schema PASS",
+  "fixture_reproduction": "all three fixtures exactly equal regenerated canonical JSON bytes",
+  "scope_limitations": [
+    "New adversarial suite authored and executed by same ChatGPT implementation coordinator; IT IS NOT a separate independent reviewer",
+    "No external reviewer identity, signature, independent PR review or acceptance recorded",
+    "The seven negative cases have been addressed; this is not an exhaustive proof of absence of defects",
+    "Rebound checks are necessary maxima, not full NBA possession-by-possession accounting",
+    "Void term hash binding establishes recorded source identity, not substantive legal interpretation or authenticity of sportsbook terms",
+    "Sources and historical as-of truth remain unverified beyond structural synthetics",
+    "Real P1/WS1 S O G J C v2 adapters remain G1 requirements, not accepted in this repair",
+    "Original upstream 146 regression run remains prior evidence; upstream models were not changed here",
+    "The exact Parallel Architecture packet and G0 Recovery addendum were not available for byte-exact conformance review"
+  ],
+  "independent_auditor": "NOT_ASSIGNED",
+  "independent_approval": false,
+  "owner_design_approval_previous": true,
+  "tested_candidate_engineering": "P0R_REMEDIATION_TESTS_PASS",
+  "formal_g0_status": "G0_BLOCKED_PENDING_SEPARATE_INDEPENDENT_REVIEW",
+  "authorized_workstreams": [],
+  "merge_authorized": false,
+  "production_changes": false,
+  "original_historical_FAIL_preserved": true,
+  "previous_P0I_failing_Snapshot_preserved": true,
+  "signature": null
+}
