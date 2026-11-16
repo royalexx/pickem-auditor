@@ -101,6 +101,8 @@ def validate_row(row, manifest):
     if row["sport"] == "NFL" and row.get("status") == "forecast":
         if not row.get("original_contract_id") or row.get("line") is None or not row.get("original_quote_id"):
             raise ValueError("NFL_CONTRACT_IDENTITY_MISSING")
+        if not isinstance(row.get("original_quote_source_sha256"),str) or not _SHA.fullmatch(row["original_quote_source_sha256"]):
+            raise ValueError("NFL_ORIGINAL_QUOTE_SOURCE_SHA_REQUIRED")
         _num(row["line"])
     if row["sport"] == "NBA" and row.get("status") == "forecast":
         if not row.get("team_id") or not row.get("game_id"):
