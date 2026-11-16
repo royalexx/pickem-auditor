@@ -67,6 +67,12 @@ class P1HistoryTest(unittest.TestCase):
         self.assertTrue(all(f["prior_game_date"] == "2022-10-21" for f in item["features"]))
         self.assertTrue(all(f["available_at"] is None for f in item["features"]))
 
+    def test_v2_frozen_synthetic_golden_sha(self):
+        snapshot = build([make_entry()])
+        self.assertEqual(
+            snapshot["content_hash"],
+            "c89ecf2c376a5372cb40aed57fd89ba0b00387ce38d7ec4724882c2c45b0115e")
+
     def test_no_real_snapshot_classification(self):
         item = build([make_entry()])
         self.assertEqual(item["sources"][0]["origin"], "retrospective_retrieval")
