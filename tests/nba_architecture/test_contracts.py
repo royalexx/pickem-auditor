@@ -198,7 +198,7 @@ class ContractTests(unittest.TestCase):
         row = j["scenarios"][0]["players"][0]
         row["participated"] = False
         row["stats"]["fga"] = 1
-        self.assert_code("INACTIVE_OUTCOME", validate_joint, seal(j), p, o, g)
+        self.assert_code("OPPORTUNITY_JOINT_DRAW_MISMATCH", validate_joint, seal(j), p, o, g)
 
     def test_joint_wrong_scenario(self):
         p, s, o, g, j, *_ = fixture()
