@@ -1,7 +1,7 @@
 """Adversarial independent WS6 postgame scoring tests (no original artifacts changed)."""
 import json, math, unittest
 from research.ws6_nfl_sunday_20261115.independent_postgame_20261116 import (
-    assess, crps_sample, dedup, get_stat, interval_draw, norm, parse_boxscore, utc, paired
+    assess, crps_sample, dedup, get_stat, interval_draw, norm, parse_boxscore, utc, paired, verify_joint_contract_identity
 )
 class TestIndependentPostgame(unittest.TestCase):
     def test_over_under_swap_detected(self):
@@ -29,6 +29,16 @@ class TestIndependentPostgame(unittest.TestCase):
         self.assertEqual(len(bad),0)
         good,bad=dedup([dict(base),dict(base,p_over=.5)])
         self.assertEqual(len(good),0);self.assertEqual(len(bad),1)
+    def test_joint_original_contract_identity_red_team(self):
+        original={"quote_id":"x","event_id":"game1","stat":"receptions","line":4.5,"player":"Player A"}
+        good={"quote_id":"x","event_id":"game1","normalized_market":"receptions","period":"full_game","line":4.5,"original_record":{"player":"Player A"}}
+        self.assertTrue(verify_joint_contract_identity(original,good))
+        for field,wrong in (("quote_id","y"),("event_id","game2"),("normalized_market","receiving_yards"),("period","first_half"),("line",5.5)):
+            with self.subTest(field=field),self.assertRaises(ValueError):
+                verify_joint_contract_identity(original,dict(good,**{field:wrong}))
+        with self.assertRaises(ValueError):
+            verify_joint_contract_identity(original,dict(good,original_record={"player":"Player B"}))
+
     def test_wrong_game_cannot_match(self):
         fixtures={"1":{"_ids":{"a":{"id":"a","name":"Player A","team":"NE","stats":{"receptions":5},"present_categories":["receiving"],"defensive_parity_ok":True}},"_names":{norm("Player A"):{"a"}}}}
         self.assertEqual(get_stat("2","a","Player A","receptions",fixtures)[1],"EVENT_MISSING")
