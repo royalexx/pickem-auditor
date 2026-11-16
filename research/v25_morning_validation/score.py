@@ -313,6 +313,7 @@ def nfl_validation(storage, output, fetch=None):
         gid = str(row["event_id"])
         source = sources[gid]
         base = {"observation_index": row["observation_index"], "event_id": gid,
+                "event_start_at":row.get("event_start_at"),
                 "player_id": str(row.get("player_id", "")), "stat": row.get("stat"),
                 "line": row.get("line"), "book": row.get("book"),
                 "original_quote_id": row.get("original_quote_id"),
@@ -420,7 +421,9 @@ def nba_validation(storage, output, fetch=None):
             outcome = settle_original(ledger, final_raw, receipt)
             for candidate in outcome["candidate_rows"]:
                 candidate_rows.append({"slot":slot["slot"],"event_id":gid,
-                    "game_id":slot["game"]["game_id"],"original_ledger_sha256":h(raw),
+                    "game_id":slot["game"]["game_id"],
+                    "event_start_at":slot["game"]["event_start_at"],
+                    "original_ledger_sha256":h(raw),
                     "outcome_source_sha256":h(final_raw),**candidate})
             record.update(status="SOURCE_QUALIFIED_POSTGAME_CANDIDATE_OBSERVATIONS",
                           participation=outcome["denominator"],
@@ -433,7 +436,7 @@ def nba_validation(storage, output, fetch=None):
         reports.append(record);state[record["status"]] += 1
     with (output / "nba_settled_candidates.jsonl").open("xb") as out:
         for candidate in candidate_rows:
-            out.write((json.dumps(candidate,sort_keys=True,allow_nan=False)+"\\n").replace("\\n","\n").encode())
+            out.write((json.dumps(candidate,sort_keys=True,allow_nan=False)+"\n").encode())
     make_once(output / "nba_participation_audit.json", {
         "schema": "NBA_V25_Phase8C_ProspectiveParticipationAudit/1",
         "original_slots": 10, "states": dict(state), "slots": reports,
