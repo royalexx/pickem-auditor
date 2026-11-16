@@ -212,5 +212,62 @@ class TestImmutableStore(unittest.TestCase):
             self.assertEqual(path.read_bytes(),b"frozen")
 
 
+
+class TestG0FullIntegration(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        import json
+        path=Path("docs/nba_architecture/completion_20261116/coherent_joint.json")
+        cls.fixture=json.loads(path.read_text())
+
+    def _evaluation(self, distribution, count):
+        from v2.nba_architecture.v2_contracts import seal, VERSION
+        return seal({"schema":VERSION,"kind":"evaluation",
+                     "distribution_sha256":distribution["content_hash"],
+                     "offer_view_sha256":None,"status":"settled","actual":count,
+                     "revision":1,"supersedes_evaluation_sha256":None,
+                     "official_source_sha256":"a"*64,"participation":"PLAYED",
+                     "void_basis":None,"contract_line":None,
+                     "game_id":distribution["game_id"],
+                     "event_start_at":distribution["event_start_at"],
+                     "evaluated_at":"2026-11-18T00:00:00Z"})
+
+    def test_full_g0_immutable_warehouse(self):
+        from v2.nba_c.warehouse import ForecastWarehouse, OutcomeVault
+        from v2.nba_c.scoring import score_official
+        o=self.fixture
+        with tempfile.TemporaryDirectory() as root:
+            store=ForecastWarehouse(root)
+            key=store.put(o["pregame"],o["points"],scenarios=o["scenarios"],
+                          game_state=o["game_state"],opportunity=o["opportunity"])
+            self.assertEqual(key,store.put(o["pregame"],o["points"],scenarios=o["scenarios"],
+                                           game_state=o["game_state"],opportunity=o["opportunity"]))
+            manifest,objs=store.get(key)
+            self.assertEqual(objs["distribution"]["content_hash"],o["points"]["content_hash"])
+            actual=o["scenarios"]["scenarios"][0]["players"][0]["stats"]["points"]
+            evaluation=self._evaluation(o["points"],actual)
+            vault=OutcomeVault(root)
+            evhash=vault.put(evaluation,o["points"])
+            self.assertEqual(vault.get(evhash),evaluation)
+            scored=score_official(o["points"],o["pregame"],evaluation,scenarios=o["scenarios"])
+            self.assertTrue(scored["scored"])
+            self.assertEqual(scored["game_id"],o["pregame"]["game_id"])
+            self.assertFalse(scored["original_pregame_certified"])
+
+    def test_g0_joint_same_draw_score(self):
+        from v2.nba_c.scoring import joint_score_official
+        o=self.fixture
+        pid=o["points"]["player_id"]
+        player=next(p for p in o["scenarios"]["scenarios"][0]["players"]
+                    if p["player_id"]==pid)
+        ds={(pid,"points"):o["points"],(pid,"pra"):o["pra"]}
+        es={(pid,s):self._evaluation(d,player["stats"][s]) for (pid,s),d in ds.items()}
+        result=joint_score_official(o["scenarios"],o["pregame"],es,ds,
+                                    components=[(pid,"points"),(pid,"pra")])
+        self.assertGreaterEqual(result["energy"],-1e-10)
+        self.assertGreaterEqual(result["variogram_0_5"],0)
+        self.assertEqual(result["n_official_games"],1)
+        self.assertEqual(result["scenario_paths_are_not_games"],2)
+
 if __name__=="__main__":
     unittest.main()
