@@ -464,6 +464,8 @@ def validate_evaluation(e, forecast, pregame, distribution):
                 "INVALID_SETTLED_COUNT")
         if e["status"] == "push":
             require(e["actual"] == forecast["contract"]["line"], "FALSE_PUSH")
+        else:
+            require(e["actual"] != forecast["contract"]["line"], "MISLABELED_PUSH")
     else:
         require(e["actual"] is None, "UNVERIFIED_OUTCOME")
     require(e.get("source_receipt_sha256") is not None or
@@ -475,6 +477,8 @@ def validate_evaluation(e, forecast, pregame, distribution):
     require(type(e["settlement_version"]) is int and
             e["settlement_version"] >= 1, "INVALID_SETTLEMENT_VERSION")
     if e["settlement_version"] > 1:
+        require(e.get("supersedes_evaluation_hash") is not None,
+                "UNLINKED_SETTLEMENT_REVISION")
         sha(e["supersedes_evaluation_hash"])
     else:
         require(e.get("supersedes_evaluation_hash") is None,

@@ -231,6 +231,19 @@ class ContractTests(unittest.TestCase):
         e["status"] = "push"
         self.assert_code("FALSE_PUSH", validate_evaluation, seal(e), f, p, s)
 
+    def test_settled_equal_integer_threshold_is_push(self):
+        p, s, o, g, j, f, e = fixture()
+        e.pop("content_hash")
+        e["actual"] = 1
+        self.assert_code("MISLABELED_PUSH", validate_evaluation, seal(e), f, p, s)
+
+    def test_corrected_settlement_needs_predecessor(self):
+        p, s, o, g, j, f, e = fixture()
+        e.pop("content_hash")
+        e["settlement_version"] = 2
+        self.assert_code("UNLINKED_SETTLEMENT_REVISION",
+                         validate_evaluation, seal(e), f, p, s)
+
     def test_duplicate_freeze_no_overwrite(self):
         p, *_ = fixture()
         with tempfile.TemporaryDirectory() as td:
