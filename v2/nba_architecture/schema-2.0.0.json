@@ -577,7 +577,10 @@
             "method",
             "scenario_count",
             "max_probability_se",
-            "tail_mass_upper_bound"
+            "tail_mass_upper_bound",
+            "effective_sample_size",
+            "uncertainty_basis",
+            "zero_event_95_upper_bound"
           ],
           "properties": {
             "method": {
@@ -603,6 +606,27 @@
             },
             "tail_mass_upper_bound": {
               "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "effective_sample_size": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "uncertainty_basis": {
+              "enum": [
+                "analytic_exact_or_bound",
+                "heuristic_weighted_ess"
+              ]
+            },
+            "zero_event_95_upper_bound": {
+              "type": [
+                "number",
+                "null"
+              ],
               "minimum": 0,
               "maximum": 1
             }

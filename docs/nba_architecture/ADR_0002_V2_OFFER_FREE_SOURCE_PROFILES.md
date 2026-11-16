@@ -66,3 +66,6 @@ No unsupported universal ordering is imposed between separately logged retrieved
 ## Safety / review / rollback
 
 All v1 records, historical evidence and original 60/40/Engine A/B/Bayesian A/B/NUTS benchmarks stay frozen. P0R creates no trainer, original collector, scheduler, production integration or backtest. Close PR #147 to roll back. Independent reviewer must replay exact v2 SHA and can veto G0. No independent reviewer is represented by this author.
+
+## P0R tightened safeguards before final freeze
+A later revision of the same source_id must preserve monotone actual retrieval, collector-observation and ingestion clocks; corrections cannot silently backdate an earlier snapshot. Optional G lineage in S+O is also subject to the fitted-model cutoff. A quote's observation clock must equal its referenced source receipt's observed clock, and its own claimed quoted_at may not postdate that observation. Empirical weighted-J marginals report scenario count, heuristic ESS = 1/sum(w^2), ESS-based maximum standard-error proxy and a nonzero zero-event upper-bound heuristic; this is **not** an exact interval, replacement for prospective validation, or independence certification.

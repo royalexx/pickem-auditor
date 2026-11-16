@@ -98,6 +98,50 @@ class V2Tests(unittest.TestCase):
         self.failcode("PMF_NOT_NORMALIZED", validate_distribution, d,
                       x["pregame"], x["scenarios"])
 
+    def test_source_revision_backdating_rejected(self):
+        p = pregame()
+        def m(x):
+            prior = x["sources"][0]
+            x["sources"].append(reissue(prior, source_revision=2,
+                supersedes_receipt_sha256=prior["receipt_sha256"],
+                collector_observed_at="2025-01-01T00:00:00Z"))
+        self.failcode("BACKDATED_SOURCE_CORRECTION", validate_pregame, edited(p,m))
+
+    def test_optional_g_cannot_use_future_fit(self):
+        p = pregame()
+        d = distribution(p, mode="S_O")
+        d = edited(d, lambda x: x["lineage"].update(G={
+            "model_id": "research:G:v2", "version":"v2.fixture",
+            "artifact_sha256": H, "code_sha256": H,
+            "training_cutoff_at": P_EVENT}))
+        self.failcode("FUTURE_OPTIONAL_GAME_STATE", validate_distribution, d, p)
+
+    def test_offer_observation_must_match_receipt(self):
+        p = pregame("original_prospective", with_offer=True)
+        q = original_offer(p)
+        self.failcode("QUOTE_OBSERVATION_NOT_RECEIPT", validate_offer,
+            edited(q, lambda x: x.update(observed_at=P_FREEZE)), p)
+
+    def test_quote_cannot_be_timestamped_after_observation(self):
+        p = pregame("original_prospective", with_offer=True)
+        q = original_offer(p)
+        self.failcode("QUOTE_TIMESTAMP_AFTER_OBSERVATION", validate_offer,
+            edited(q, lambda x: x.update(quoted_at="2026-11-16T22:50:00Z")), p)
+
+    def test_weighted_mc_effective_sample_size(self):
+        x = self.goldens["joint_same_draw"]
+        n = x["points"]["numerical"]
+        self.assertAlmostEqual(n["effective_sample_size"], 1/.52, places=8)
+        self.assertGreater(n["zero_event_95_upper_bound"], .5)
+        self.assertEqual(n["uncertainty_basis"], "heuristic_weighted_ess")
+
+    def test_bad_weighted_mc_zero_bound(self):
+        x = self.goldens["joint_same_draw"]
+        d = edited(x["points"], lambda y: y["numerical"].update(
+            zero_event_95_upper_bound=0.0))
+        self.failcode("MC_ZERO_TAIL_UNCERTAINTY", validate_distribution,
+                      d, x["pregame"])
+
     def test_historical_offer_free_golden(self):
         x = self.goldens["historical_offer_free"]
         self.assertTrue(validate_pregame(x["pregame"]))

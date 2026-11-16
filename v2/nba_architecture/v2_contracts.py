@@ -223,6 +223,10 @@ def validate_pregame(p):
                 req(r["source_revision"] > ordered[i-1]["source_revision"] and
                     r["supersedes_receipt_sha256"] == ordered[i-1]["receipt_sha256"],
                     "SOURCE_REVISION_CHAIN")
+                prior = ordered[i-1]
+                for clock in ("retrieved_at", "collector_observed_at", "ingested_at"):
+                    req(instant(r[clock]) >= instant(prior[clock]),
+                        "BACKDATED_SOURCE_CORRECTION")
             elif r["source_revision"] != 1:
                 # When the preceding receipt is external, the predecessor is
                 # independently referenced by digest but must be auditable.
@@ -326,6 +330,9 @@ def validate_distribution(d, p, scenarios=None):
         else:
             req(lineage[name] is None or (name == "G" and mode == "S_O"
                 and component(lineage[name])), "UNDECLARED_DEPENDENCY")
+            if lineage[name] is not None:
+                req(instant(lineage[name]["training_cutoff_at"]) <=
+                    instant(p["input_freeze_at"]), "FUTURE_OPTIONAL_GAME_STATE")
     req(d["forecast_at"] == p["forecast_at"], "FORECAST_TIME_JOIN")
     req(instant(d["frozen_at"]) < instant(p["event_start_at"]) and
         instant(d["frozen_at"]) >= instant(d["forecast_at"]),
@@ -350,9 +357,20 @@ def validate_distribution(d, p, scenarios=None):
             and numerical["scenario_count"] > 0, "MC_COUNT_REQUIRED")
         num(numerical["max_probability_se"])
         req(numerical["max_probability_se"] <= .5, "MC_SE_INVALID")
+        ess = num(numerical["effective_sample_size"])
+        req(1.0 <= ess <= numerical["scenario_count"] + 1e-9, "MC_EFFECTIVE_SAMPLE_SIZE")
+        req(numerical["uncertainty_basis"] == "heuristic_weighted_ess",
+            "MC_UNCERTAINTY_LABEL")
+        bound = num(numerical["zero_event_95_upper_bound"])
+        req(0 < bound <= 1, "MC_ZERO_TAIL_UNCERTAINTY")
+        req(abs(bound - (1 - .05 ** (1 / ess))) < 1e-9, "MC_ZERO_TAIL_BOUND")
     else:
         req(numerical["scenario_count"] is None and
-            numerical["max_probability_se"] is None, "ANALYTIC_MC_CONFLICT")
+            numerical["max_probability_se"] is None and
+            numerical["effective_sample_size"] is None and
+            numerical["zero_event_95_upper_bound"] is None and
+            numerical["uncertainty_basis"] == "analytic_exact_or_bound",
+            "ANALYTIC_MC_CONFLICT")
     if mode == "S_O_J":
         sha(d["scenario_bundle_sha256"])
         req(numerical["method"] == "empirical_mc", "J_REQUIRES_EMPIRICAL_PMF")
@@ -492,9 +510,16 @@ def marginal_from_joint(s, p, player_id, stat, frozen_at, rng_seed,
         val = player["stats"][stat]
         bins[val] = bins.get(val, 0.0) + sc["weight"]
     pmf = [{"value": k, "mass": bins[k]} for k in sorted(bins)]
+    # For weighted scenarios, n is not the effective number of independent
+    # Monte Carlo draws. A declared ESS-based standard error is a heuristic,
+    # not an exact confidence interval or a scientific skill certificate.
+    ess = 1.0 / sum(sc["weight"] ** 2 for sc in s["scenarios"])
     numerical = {"method": "empirical_mc", "scenario_count": len(s["scenarios"]),
+                 "effective_sample_size": ess,
+                 "uncertainty_basis": "heuristic_weighted_ess",
                  "max_probability_se": max(math.sqrt(x["mass"]*(1-x["mass"]) /
-                     len(s["scenarios"])) for x in pmf),
+                     ess) for x in pmf),
+                 "zero_event_95_upper_bound": 1 - .05 ** (1 / ess),
                  "tail_mass_upper_bound": 0.0}
     # Winning probability is conditioned exactly as J was, not inferred from a quote.
     d = seal(dict(schema=VERSION, kind="distribution",
@@ -543,6 +568,11 @@ def validate_offer(q, p):
     r = refs[q["source_receipt_sha256"]]
     req(r["scope"] == "original_offer" and r["raw_sha256"] == q["raw_quote_sha256"],
         "OFFER_BYTES_MISMATCH")
+    req(p["original_offer_count"] > 0, "OFFER_UNREGISTERED")
+    req(q["observed_at"] == r["collector_observed_at"],
+        "QUOTE_OBSERVATION_NOT_RECEIPT")
+    req(instant(q["quoted_at"]) <= instant(q["observed_at"]),
+        "QUOTE_TIMESTAMP_AFTER_OBSERVATION")
     req(instant(q["quoted_at"]) <= instant(p["input_freeze_at"]) and
         instant(q["observed_at"]) <= instant(p["input_freeze_at"]),
         "POSTFREEZE_OFFER")

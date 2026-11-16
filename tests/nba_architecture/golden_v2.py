@@ -110,7 +110,10 @@ def distribution(p, stat="points", mode="S_ONLY", value=2):
         "rng_seed": 42, "scenario_bundle_sha256": None,
         "derivation": "synthetic_analytic_fixture" if mode != "S_O" else "synthetic_opportunity_fixture",
         "numerical": {"method": "analytic", "scenario_count": None,
-                      "max_probability_se": None, "tail_mass_upper_bound": 0.0},
+                      "max_probability_se": None, "tail_mass_upper_bound": 0.0,
+                      "effective_sample_size": None,
+                      "uncertainty_basis": "analytic_exact_or_bound",
+                      "zero_event_95_upper_bound": None},
         "pmf": [{"value": 0, "mass": .25}, {"value": value, "mass": .75}],
         "historical_asof_limitations": p["historical_asof_limitations"]
     })
