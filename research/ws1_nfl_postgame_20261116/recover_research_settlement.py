@@ -11,9 +11,9 @@ from research.ws6_nfl_sunday_20261115.independent_postgame_20261116 import (
     MAP, assess, get_stat, official_sources, rows as readrows,
     verify_joint_contract_identity, frozen_write
 )
-VERSION="PA_WS1_FROZEN_RESEARCH_SETTLEMENT_ROUTER_V1"
+VERSION="PA_WS1_FROZEN_RESEARCH_SETTLEMENT_ROUTER_V2"
 R=pathlib.Path("reports/nfl_20261115_prospective")
-OUT=R/"ws1_postgame_recovery_20261116_v1"
+OUT=R/"ws1_postgame_recovery_20261116_v2"
 QUOTES=R/"ensemble_20261115_research_shadow/comparison_original_quotes_1845.jsonl"
 PIN=R/"source_control/HANDOFF_PIN.json"
 CAPTURE=R/"source_control/captures/ab2eebf29ea0dfcf9b2cc4ff5287b898e6b7b15238ea059a11df3ac399ccc6c8.json"
@@ -141,6 +141,7 @@ def main():
             verify_joint_contract_identity(byqid[qid],x)
             new_j[qid].append(x)
     if len(source_by_id)!=1845:raise RuntimeError("MISSING_CANONICAL_SOURCE_CROSSWALK")
+    new_j_event_ids={str(r["event_id"]) for r in jr if r.get("model_id")=="J1" and r.get("status")=="FORECAST"}
     forecast_receipts={}
     for item in handoff["forecast_files"]:
         p=JDIR/pathlib.Path(item["path"]).name
@@ -220,7 +221,9 @@ def main():
         ko=iso(orig.get("kickoff_utc")); recv=iso(source.get("source_received_at"))
         for model,m in sorted(attempts.items()):
             t=iso(m.get("forecast_at"))
-            if not ko or not recv or not t or not recv<=t<ko:
+            if model in ("J1_original","J2_original") and event in new_j_event_ids:
+                state="SUPERSEDED_OLDER_J_VERSION_NOT_SCORED"
+            elif not ko or not recv or not t or not recv<=t<ko:
                 state="FORECAST_TIME_OR_SOURCE_NOT_PREGAME"
             elif orig.get("missing",{}).get(model):
                 state="MODEL_FLAGGED_UNAVAILABLE"
@@ -282,7 +285,8 @@ def main():
             "original_raw_quote_body":str(RAW),"ws5_market_audit":str(WS5),
             "ws4_canonical_joint_ledger":str(jpath),"original_tackle_repair_commit":str(TACKLE)},
         "authoritative_joint_versions":"ws4_all_market_v0.4.2_or_0.4.3",
-        "superseded_joint_versions_excluded":True,"j3_all_market_forecasts":0,
+        "superseded_joint_versions_excluded":True,
+        "older_j_original_rows_retained_but_not_scored_where_v04_available":True,"j3_all_market_forecasts":0,
         "separate_s2_o_tackle_composite_existence_not_market_certification":True,
         "official_final_evidence_source":"ESPN_FINAL_RAW_ARCHIVED_IN_DEEPNOTE",
         "source_side_odds_reconstructed":False,"research_only":True,"automatic_settlement_to_legacy_disabled":True,
