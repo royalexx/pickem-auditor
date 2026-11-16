@@ -1,0 +1,210 @@
+{
+  "record_type": "NBA_P6_INDEPENDENT_G1_FIVE_OWNER_RECHECK_V2",
+  "date_utc": "2026-11-16",
+  "accepted_g0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "qa_branch": "audit/nba-p6-g1-five-owner-recheck-20261116",
+  "qa_script_commit": "31a6ef8e35351e9f8875a759ff474109c7c01418",
+  "overall_verdict": "G1_NO_GO",
+  "gate_status": {
+    "G0": "PASS_PINNED",
+    "P1": "FAIL_SYNTHETIC_ACCOUNTING_ACCEPTANCE_AND_BLOCKED_SOURCE",
+    "P2": "BLOCKED_MULTI_OT_COVERAGE_AND_DATA",
+    "P3": "SYNTHETIC_TEST_PASS_G1_BLOCKED",
+    "P4": "SYNTHETIC_TEST_PASS_G1_BLOCKED",
+    "P5": "FAIL_SYNTHETIC_HOLDOUT_DATE_GUARD",
+    "P6": "QA_HARNESS_PASS",
+    "G2": "NOT_AUTHORIZED"
+  },
+  "test_execution": {
+    "run_id": "a8cbdc84-70d4-44f8-afb9-bf44df26f6a9",
+    "notebook_id": "8b1cf45f0c2541068aa606359d386cfb",
+    "storage_mode": "detached_readonly",
+    "results_manifest_sha256": "9bcb46c2659f41b5f885ae4916e03e600c03096e500702094c9073cb5f877ba8",
+    "environment": {
+      "python": "3.12.16",
+      "numpy": "2.3.5",
+      "scipy": "1.17.0",
+      "jsonschema": "4.26.0"
+    },
+    "families": {
+      "P1": {
+        "branch": "research/nba-p1-canonical-history-g1-20261116",
+        "head_sha": "e0b8703887d327c8d8ac34807078e75e7b59a540",
+        "p6_controls_copied_sha256": {
+          "test_p6_g1_specificity_and_scores.py": "cb8340930193fe14cd6e2a6f51ebd90e4d2672e1d40f5ee08c84720bd67c7379",
+          "test_p6_independent_controls.py": "8cdb7a8b013ee3f9e44122e90263cc83befbd835a79740ee6d578dbe60cf0802",
+          "test_p6_math_references.py": "316e41d3a6bf6f1c2587daef94a3933e94e02b02b3078a3728614c55069f1e5b",
+          "test_p6_post_g0_reference_and_boundaries.py": "03459760f1d829c63afcf892be35c5b74cdc277360d37f63fa556b62b0d7401e",
+          "test_p6_red_counterexamples.py": "a1974d20dd8f5a40493a06cd2ce349f2a2b7a3da9131a21aebddb1a56bc6e5d1"
+        },
+        "source_raw_sha256": {
+          "v2/nba_architecture/p1_history.py": "297750ce2251da07e7d1c8ec48980c5cf7b9aa87dfab7e939104b5da9ec517f9",
+          "v2/nba_architecture/p1_vault.py": "ed398dd8333c84ab3e3738bf6f733ed403655ff86dc544bad0302573dab3e61b"
+        },
+        "tests": {
+          "G0_plus_owner_plus_P6": {
+            "count": 380,
+            "exit": 0,
+            "last": "\n----------------------------------------------------------------------\nRan 380 tests in 8.075s\n\nOK\n",
+            "log_sha256": "c515541f58c111ba5b1982b867681a120125d82c08a03a07aa7a9140033d7749",
+            "seconds": 8.351
+          },
+          "P1_preflight": {
+            "count": 9,
+            "exit": 0,
+            "last": "\n----------------------------------------------------------------------\nRan 9 tests in 0.075s\n\nOK\n",
+            "log_sha256": "878cf4b82e8b3a2ae8287856b1c87ad1ef90721a6abb75ebc661bbef8e78e345",
+            "seconds": 0.137
+          }
+        },
+        "version_output": "NUMPY 2.3.5 SCIPY 1.17.0 JSONSCHEMA 4.26.0\n\n<string>:1: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version."
+      },
+      "P2": {
+        "branch": "research/nba-p2-s-family-g1-20261116",
+        "head_sha": "96d210a6100085640e7e82928ab1c864839fc454",
+        "p6_controls_copied_sha256": {
+          "test_p6_g1_specificity_and_scores.py": "cb8340930193fe14cd6e2a6f51ebd90e4d2672e1d40f5ee08c84720bd67c7379",
+          "test_p6_independent_controls.py": "8cdb7a8b013ee3f9e44122e90263cc83befbd835a79740ee6d578dbe60cf0802",
+          "test_p6_math_references.py": "316e41d3a6bf6f1c2587daef94a3933e94e02b02b3078a3728614c55069f1e5b",
+          "test_p6_post_g0_reference_and_boundaries.py": "03459760f1d829c63afcf892be35c5b74cdc277360d37f63fa556b62b0d7401e",
+          "test_p6_red_counterexamples.py": "a1974d20dd8f5a40493a06cd2ce349f2a2b7a3da9131a21aebddb1a56bc6e5d1"
+        },
+        "source_raw_sha256": {
+          "v2/nba_s_family/model.py": "3fb8ab1c81d1f47a85d022cd4280dfeca92b13f7fbbf4af98d6d1760b1ed921b"
+        },
+        "tests": {
+          "G0_plus_owner_plus_P6": {
+            "count": 350,
+            "exit": 0,
+            "last": "\n----------------------------------------------------------------------\nRan 350 tests in 7.668s\n\nOK\n",
+            "log_sha256": "a4396a782cc376da2e3a87196c373f9b5b251fc307b8b7ba77f7cc0fdb687de9",
+            "seconds": 7.899
+          },
+          "S_family": {
+            "count": 22,
+            "exit": 0,
+            "last": "\n----------------------------------------------------------------------\nRan 22 tests in 0.187s\n\nOK\n",
+            "log_sha256": "7ecad87d9cc00aaad8a5aa630ab259c01a081cbda7b81fe61c4ba32e2dd04497",
+            "seconds": 1.165
+          }
+        },
+        "version_output": "NUMPY 2.3.5 SCIPY 1.17.0 JSONSCHEMA 4.26.0\n\n<string>:1: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version."
+      },
+      "P3": {
+        "branch": "research/nba-p3-o-family-g1-20261116",
+        "head_sha": "80dbed35f983839f962250ad1c0236061dc6ee00",
+        "p6_controls_copied_sha256": {
+          "test_p6_g1_specificity_and_scores.py": "cb8340930193fe14cd6e2a6f51ebd90e4d2672e1d40f5ee08c84720bd67c7379",
+          "test_p6_independent_controls.py": "8cdb7a8b013ee3f9e44122e90263cc83befbd835a79740ee6d578dbe60cf0802",
+          "test_p6_math_references.py": "316e41d3a6bf6f1c2587daef94a3933e94e02b02b3078a3728614c55069f1e5b",
+          "test_p6_post_g0_reference_and_boundaries.py": "03459760f1d829c63afcf892be35c5b74cdc277360d37f63fa556b62b0d7401e",
+          "test_p6_red_counterexamples.py": "a1974d20dd8f5a40493a06cd2ce349f2a2b7a3da9131a21aebddb1a56bc6e5d1"
+        },
+        "source_raw_sha256": {
+          "v2/nba_o_family.py": "984914556741462aa6c5d62a628d39a1313fcbd2e9962639f48d4e62f326277d"
+        },
+        "tests": {
+          "G0_plus_owner_plus_P6": {
+            "count": 366,
+            "exit": 0,
+            "last": "\n----------------------------------------------------------------------\nRan 366 tests in 7.397s\n\nOK\n",
+            "log_sha256": "99b982d417f54643dfa11f67ec54a68b229108ede63f3d2d854cc3d4b977c0eb",
+            "seconds": 8.08
+          }
+        },
+        "version_output": "NUMPY 2.3.5 SCIPY 1.17.0 JSONSCHEMA 4.26.0\n\n<string>:1: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version."
+      },
+      "P4": {
+        "branch": "research/nba-p4-j-family-g1-20261116",
+        "head_sha": "b3729c53509cb063e2e451b7e4feb0ac2c6a9552",
+        "p6_controls_copied_sha256": {
+          "test_p6_g1_specificity_and_scores.py": "cb8340930193fe14cd6e2a6f51ebd90e4d2672e1d40f5ee08c84720bd67c7379",
+          "test_p6_independent_controls.py": "8cdb7a8b013ee3f9e44122e90263cc83befbd835a79740ee6d578dbe60cf0802",
+          "test_p6_math_references.py": "316e41d3a6bf6f1c2587daef94a3933e94e02b02b3078a3728614c55069f1e5b",
+          "test_p6_post_g0_reference_and_boundaries.py": "03459760f1d829c63afcf892be35c5b74cdc277360d37f63fa556b62b0d7401e",
+          "test_p6_red_counterexamples.py": "a1974d20dd8f5a40493a06cd2ce349f2a2b7a3da9131a21aebddb1a56bc6e5d1"
+        },
+        "source_raw_sha256": {
+          "v2/nba_joint/p4.py": "02368ba14dac206657ad75dee821735dc68f636cad7ceb1c75e4fda926a74a30"
+        },
+        "tests": {
+          "G0_plus_owner_plus_P6": {
+            "count": 370,
+            "exit": 0,
+            "last": "\n----------------------------------------------------------------------\nRan 370 tests in 10.353s\n\nOK\n",
+            "log_sha256": "f9c96be0455688e5f1a25791a646bd712635c88b89a2528065aeee97450436b4",
+            "seconds": 11.412
+          }
+        },
+        "version_output": "NUMPY 2.3.5 SCIPY 1.17.0 JSONSCHEMA 4.26.0\n\n<string>:1: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version."
+      },
+      "P5": {
+        "branch": "research/nba-p5-c-scoring-optimization-g1-20261116",
+        "head_sha": "1d7b8471a85e9d3dafaf809acacfeca6e980dc81",
+        "p6_controls_copied_sha256": {
+          "test_p6_g1_specificity_and_scores.py": "cb8340930193fe14cd6e2a6f51ebd90e4d2672e1d40f5ee08c84720bd67c7379",
+          "test_p6_independent_controls.py": "8cdb7a8b013ee3f9e44122e90263cc83befbd835a79740ee6d578dbe60cf0802",
+          "test_p6_math_references.py": "316e41d3a6bf6f1c2587daef94a3933e94e02b02b3078a3728614c55069f1e5b",
+          "test_p6_post_g0_reference_and_boundaries.py": "03459760f1d829c63afcf892be35c5b74cdc277360d37f63fa556b62b0d7401e",
+          "test_p6_red_counterexamples.py": "a1974d20dd8f5a40493a06cd2ce349f2a2b7a3da9131a21aebddb1a56bc6e5d1"
+        },
+        "source_raw_sha256": {
+          "v2/nba_c/experiment.py": "e98d5b1ce0059283d7ca6919d4eb906256f9a3ef4f9be4f7acb7c0a74ca967f9",
+          "v2/nba_c/scores.py": "8cf97413361f40dd146e8713163fdcbcae91c7efefa386dab30fbcdd0a58fa25",
+          "v2/nba_c/scoring.py": "dd98a02334c43b37e8be23ea1c3019333fd45096d2d74c5687fc1922476e967d"
+        },
+        "tests": {
+          "C_family": {
+            "count": 31,
+            "exit": 0,
+            "last": "\n----------------------------------------------------------------------\nRan 31 tests in 0.292s\n\nOK\n",
+            "log_sha256": "197ef51d5215d5b88103cab152d5a6ecd0bb9202c129ede74de9e12756d3cacb",
+            "seconds": 1.264
+          },
+          "G0_plus_owner_plus_P6": {
+            "count": 350,
+            "exit": 0,
+            "last": "\n----------------------------------------------------------------------\nRan 350 tests in 8.042s\n\nOK\n",
+            "log_sha256": "6f7e6868f5a8a0c8dccbf1c3b14d7ea3d4ef983cf77daef422d985b6460c7901",
+            "seconds": 8.286
+          }
+        },
+        "version_output": "NUMPY 2.3.5 SCIPY 1.17.0 JSONSCHEMA 4.26.0\n\n<string>:1: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version."
+      }
+    }
+  },
+  "adversarial_execution": {
+    "run_id": "048f7dee-f17c-4491-bbf6-f403be5f96ad",
+    "notebook_id": "bd76f801c93c483ca4dfca7ab4c42c81",
+    "storage_mode": "detached_readonly",
+    "probe_script_raw_sha256": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52",
+    "probe_summary_sha256": "613f12817383b329d155528eb686c0ea3c0926c4f2d9b4a971e22be1ac27c14a",
+    "probes": {
+      "P1": {
+        "exit": 2,
+        "output": "{\"cases\": [{\"case\": \"zero_minutes_positive_box\", \"certification\": \"HISTORICAL_RECONSTRUCTION_UNCERTIFIED\", \"family\": \"P1\", \"raw_minutes\": 0, \"retained_minutes\": 0, \"status\": \"ACCEPTED_SUSPECT_INPUT\"}, {\"case\": \"900_minutes_without_game_duration\", \"certification\": \"HISTORICAL_RECONSTRUCTION_UNCERTIFIED\", \"family\": \"P1\", \"raw_minutes\": 900, \"retained_minutes\": 900, \"status\": \"ACCEPTED_SUSPECT_INPUT\"}, {\"case\": \"zero_minute_positive_official_vault\", \"family\": \"P1\", \"snapshot_sha256\": \"6b67a3144319dab363c9791bf427cb391c3802e8c5ce4e42142135b8d6a1dbfb\", \"status\": \"ACCEPTED_SUSPECT_INPUT\"}], \"family\": \"P1\", \"suite\": \"nba-p6-g1-owner-negative-20261116\"}\n\n",
+        "sha256": "682324964ad642dbf55785a120f23fbf37c88d71726e37c32f00e84d56727c3c"
+      },
+      "P2": {
+        "exit": 0,
+        "output": "{\"cases\": [{\"case\": \"56_minute_two_OT_training_exposure\", \"code\": \"HISTORICAL_EXPOSURE_PHYSICS\", \"family\": \"P2\", \"limitation\": \"Historical fit schema lacks official OT count\", \"status\": \"REJECTED_POTENTIALLY_VALID_MULTI_OT\"}], \"family\": \"P2\", \"suite\": \"nba-p6-g1-owner-negative-20261116\"}\n\n",
+        "sha256": "7742bacb597810c116a7121e873364538cccc92f2e005edb867ef9fe2e3c22e8"
+      },
+      "P5": {
+        "exit": 2,
+        "output": "{\"cases\": [{\"case\": \"proper_2023_24_date\", \"chronological_fold_check\": \"REJECTED:2023_24_HOLDOUT_QUARANTINED\", \"code\": \"2023_24_HOLDOUT_QUARANTINED\", \"family\": \"P5\", \"status\": \"REJECTED\"}, {\"case\": \"backdated_2022_date_with_2023_24_game\", \"chronological_fold_check\": \"REJECTED:INVALID_CHRONOLOGY\", \"family\": \"P5\", \"game_count\": 1, \"status\": \"ACCEPTED_HOLDOUT_GUARD_BYPASS\"}, {\"case\": \"independent_math_oracles\", \"family\": \"P5\", \"status\": \"PASS\", \"values\": [0.47622238819739127, 0.962962962962963, 1.2928932188134525, 2.0000000000000004]}], \"family\": \"P5\", \"suite\": \"nba-p6-g1-owner-negative-20261116\"}\n\n",
+        "sha256": "0bbab29d45f0848afb8d6a476b7e817ebff4beb6a5f00871bbbbe4094507cd6a"
+      }
+    }
+  },
+  "limitations": [
+    "Synthetic probes do not prove real archives contain corrupt rows",
+    "G1 owner branches are isolated and not integrated in one G2 run",
+    "P1 99/99 historical shard source-byte integrity is owner-reported, not independently rerun in this five-owner pass",
+    "P3/P4 real S/O/G/P1 original-source adapters remain missing",
+    "P5 synthetic-only cohort disallows actual historical fitting; temporal bypass not observed as actual holdout leakage",
+    "No historical model predictions were scored or weights fitted",
+    "NO production or collector changes"
+  ],
+  "rollback": "Close draft QA PR; preserve accepted G0, owner branches and immutable previous findings"
+}
