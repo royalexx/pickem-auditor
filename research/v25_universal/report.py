@@ -92,11 +92,10 @@ def _model_line(sport, identity, row, actual, line, *, provenance):
 
 
 def _model_rows(out,discovery):
-    nfl=_load_lines(out/"nfl_contract_audit.json")
     nba=_load_lines(out/"nba_settled_candidates.jsonl")
     # The NFL contract audit is a JSON object, not JSONL.
     nfl_dict=json.loads((out/"nfl_contract_audit.json").read_text()) if (out/"nfl_contract_audit.json").is_file() else {}
-    nfl=nfl_dict.get("rows",[])
+    nfl=nfl_dict.get("rows",[]) + _load_lines(out/"nfl_forward_contract_outcomes.jsonl")
     nba_index={(r["game_id"],r["player_id"],r["team_id"]):r for r in nba}
     nfl_index={r.get("original_contract_id"):r for r in nfl if r.get("original_contract_id")}
     annotations, matched=[],set()
@@ -258,6 +257,8 @@ def _report(items,denominators):
 def build(storage,output):
     """Run after NFL/ NBA original outcome audits and before final manifest."""
     storage=Path(storage);output=Path(output)
+    from research.v25_forward.scoring import forward_outcomes
+    forward=forward_outcomes(storage,output)
     discovery=discover(storage)
     nfl,nba,annotations=_model_rows(output,discovery)
     with (output/"registered_model_scoring.jsonl").open("xb") as f:
@@ -272,9 +273,11 @@ def build(storage,output):
                            "registered_validation_states":dict(noforecast),
                            "invalid_registry_rows":len(discovery["rejected"])})
     summary["discovery"]={k:v for k,v in discovery.items() if k!="forecasts"}
+    summary["forward_original_collection"]=forward
     make_once(output/"unified_model_comparison.json",summary)
     return { "status":"UNIFIED_DESCRIPTIVE_ONLY",
              "registry_forecasts":len(discovery["forecasts"]),
              "registry_rejections":len(discovery["rejected"]),
              "scored_model_metric_groups":len(summary["models"]),
-             "paired_metric_groups":len(summary["paired"])}
+             "paired_metric_groups":len(summary["paired"]),
+             "NFL_forward_original_contracts":forward["original_contracts"]}
