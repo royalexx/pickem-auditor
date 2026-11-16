@@ -1,0 +1,38 @@
+{
+  "benchmark": [
+    {
+      "conditional_500_seconds": 1.1407812090001244,
+      "fit_seconds": 0.0008206659999814292,
+      "mean_seconds": 0.0022815624180002486,
+      "stat": "points",
+      "tail_last": 1.7494984606272907e-14
+    },
+    {
+      "conditional_500_seconds": 1.1271473710000919,
+      "fit_seconds": 0.00065171599999303,
+      "mean_seconds": 0.002254294742000184,
+      "stat": "rebounds",
+      "tail_last": 1.988055227194916e-13
+    },
+    {
+      "conditional_500_seconds": 1.117606725999849,
+      "fit_seconds": 0.0006084519998239557,
+      "mean_seconds": 0.002235213451999698,
+      "stat": "assists",
+      "tail_last": 1.988055227194916e-13
+    },
+    {
+      "conditional_500_seconds": 1.0854184219999752,
+      "fit_seconds": 0.0006712550000429474,
+      "mean_seconds": 0.0021708368439999504,
+      "stat": "threes",
+      "tail_last": 6.620529855212516e-13
+    }
+  ],
+  "disclaimer": "Wall-clock results depend on machine; does not imply predictive speed for authentic model fitting or historical accuracy.",
+  "hardware": "",
+  "peak_python_tracemalloc_bytes": 4906781,
+  "per_stat_calls": 500,
+  "python": "3.13.5",
+  "runtime": "local Python; synthetic P1-like rows, no real NBA"
+}
