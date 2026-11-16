@@ -79,6 +79,9 @@ class OfficialOutcomeVault:
             except (ValueError, UnicodeDecodeError) as exc:
                 raise HistoryIntegrityError("VAULT_CORRUPTED_JSON") from exc
             _validate(v)
+            origin = self.root / "sources" / (v["source_raw_sha256"] + ".raw")
+            if not origin.is_file() or hashlib.sha256(origin.read_bytes()).hexdigest() != v["source_raw_sha256"]:
+                fail("VAULT_ORIGINAL_SOURCE_MISSING_OR_TAMPERED")
             if path.name != v["content_hash"] + ".json":
                 fail("VAULT_FILENAME_SHA_MISMATCH")
             if raw != canonical(v) + b"\n":
@@ -118,6 +121,23 @@ class OfficialOutcomeVault:
             if prior["team_id"] != team_id:
                 fail("VAULT_CORRECTION_TEAM_CONFLICT")
         self.root.mkdir(parents=True, exist_ok=True)
+        originals = self.root / "sources"
+        originals.mkdir(parents=True, exist_ok=True)
+        source_path = originals / (payload["source_raw_sha256"] + ".raw")
+        if source_path.exists():
+            if source_path.read_bytes() != source_bytes:
+                fail("VAULT_SOURCE_BYTES_CONFLICT")
+        else:
+            try:
+                raw_fd = os.open(source_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+            except FileExistsError:
+                if source_path.read_bytes() != source_bytes:
+                    fail("VAULT_SOURCE_BYTES_CONFLICT")
+            else:
+                with os.fdopen(raw_fd, "wb") as original_stream:
+                    original_stream.write(source_bytes)
+                    original_stream.flush()
+                    os.fsync(original_stream.fileno())
         path = self.root / (payload["content_hash"] + ".json")
         raw = canonical(payload) + b"\n"
         # Exclusive creation: never replace an existing outcome or correction.
