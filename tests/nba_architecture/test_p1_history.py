@@ -119,7 +119,7 @@ class P1HistoryTest(unittest.TestCase):
         e = make_entry()
         p = build([e], verified_source_bytes={
             e["receipt"]["receipt_id"]: b"raw-retrospective-summary-fixture"})
-        self.assertIn("independently verified", p["sources"][0]["asof_limitations"])
+        self.assertIn("match their source SHA", p["sources"][0]["asof_limitations"])
 
     def test_dnp_not_played_zero(self):
         e = make_entry(status="dnp", minutes=None, stats={})
