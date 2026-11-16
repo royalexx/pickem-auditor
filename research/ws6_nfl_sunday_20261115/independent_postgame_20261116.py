@@ -138,6 +138,22 @@ def get_stat(event,plid,name,market,files):
         return None,"TACKLE_INTERNAL_PARITY",player
     return float(value),"OBSERVED",player
 
+def verify_joint_contract_identity(original, joint):
+    """Reject cross-game/market/period/line corruption before any scoring."""
+    if original.get("quote_id") != joint.get("quote_id"):
+        raise ValueError("QUOTE_IDENTITY_MISMATCH")
+    if str(original.get("event_id")) != str(joint.get("event_id")):
+        raise ValueError("GAME_IDENTITY_MISMATCH")
+    if MAP.get(original.get("stat")) != joint.get("normalized_market"):
+        raise ValueError("MARKET_IDENTITY_MISMATCH")
+    if joint.get("period") != "full_game":
+        raise ValueError("MARKET_PERIOD_MISMATCH")
+    if float(original.get("line")) != float(joint.get("line")):
+        raise ValueError("MARKET_LINE_MISMATCH")
+    if original.get("player") and joint.get("original_record",{}).get("player") and norm(original["player"])!=norm(joint["original_record"]["player"]):
+        raise ValueError("MARKET_PLAYER_MISMATCH")
+    return True
+
 def assess(p,push,y,line):
     if any(x is None or not math.isfinite(x) for x in [p,push,y,line]):return None
     under=1-p-push
@@ -238,6 +254,7 @@ def main():
         if r.get("model_id") not in ("J1","J2") or r.get("status")!="FORECAST":continue
         orig=quote_index.get(r.get("quote_id"))
         if orig is None: raise RuntimeError("J_QUOTE_NOT_IN_FROZEN_UNIVERSE")
+        verify_joint_contract_identity(orig,r)
         fn=JR/(r["forecast_file_sha256"]+".json")
         if str(fn) not in frozen_files:
             source(fn,r["forecast_file_sha256"])
