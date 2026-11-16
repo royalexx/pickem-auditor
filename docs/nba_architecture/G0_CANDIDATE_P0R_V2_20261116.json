@@ -1,0 +1,120 @@
+{
+  "record_type": "G0_P0R_CANDIDATE_V2",
+  "record_version": "1.0.0",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "contract_version": "nba-sojc-contract/2.0.0",
+  "branch": "research/nba-p0-sojc-architecture-g0-20261116",
+  "pr_number": 147,
+  "tested_implementation_commit": "35281d369ece4016fc6e6a5af8e938e04cc2ec30",
+  "base_main_commit": "912bc7010058092ea735dcda0aa941429194474b",
+  "historical_g0_fail": {
+    "path": "docs/nba_architecture/G0_HANDOFF.json",
+    "blob_sha": "48933082f0cf89ec1dc473fd0e10c1ac64e5d01d",
+    "preserved_unchanged": true
+  },
+  "preserved_v1_schema_and_tests": true,
+  "source_sha256": {
+    "contract": "f3a111af16f6f55f871999d583bbda7feabce85e0ae0446715ad9e2da0f91574",
+    "families": "21ee19e33b140e498fe15f7abe3ddae15c47008b844cd0e16132494ebfa4908f",
+    "schema": "97aedd0958b19f2bd3a49e2c257957fe07f4fc2bb942dffdaba6f9aa83f6d3e0",
+    "tests": "b1a33c2212eabe2c0483378315bc243dee2e950d1d8234e677cc81e5534ae4bd"
+  },
+  "tested_in_deepnote": {
+    "project": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "notebook": "947a0ceac5694f01bc7d4ef57b40946a",
+    "run": "94c6e777-9961-4b70-9249-87f2b0ddd532",
+    "finished_at_utc": "2026-11-16T15:12:31.140Z",
+    "mode": "detached_readonly",
+    "command": "python -m unittest discover -s tests/nba_architecture -p 'test_*.py' -v",
+    "tests_passed": 136,
+    "tests_failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "json_schema_draft_2020_12": "PASS",
+    "golden_schema_checks": 3,
+    "golden_regenerated_byte_checks": 3,
+    "python": "3.12.16",
+    "numpy": "1.26.4",
+    "scipy": "1.15.3",
+    "jsonschema": "4.23.0"
+  },
+  "upstream_regression": {
+    "deepnote_notebook": "e5953d6b14384a76a2e1f1efd6d0b854",
+    "run": "6502f8aa-6b78-450d-9388-363e79ba85ca",
+    "mode": "detached_readonly_separate_upstream_exact_SHA_checkouts",
+    "families": [
+      {
+        "team": "WS1",
+        "pr": 137,
+        "sha": "53c01a9eabb9ed09b5c3186eae0d086b07bcc891",
+        "tests": 25,
+        "command": "python -m unittest discover -s tests/nba_ws1 -p 'test_*.py' -v"
+      },
+      {
+        "team": "WS2",
+        "pr": 138,
+        "sha": "02426dd1b9c2b0cca28eaf69888adadc0021afa5",
+        "tests": 25,
+        "command": "python -m unittest discover -s tests -p test_nba_opportunity.py -v"
+      },
+      {
+        "team": "WS4",
+        "pr": 139,
+        "sha": "9821694260edb08b7414f02adea8c1fb3fd3b13c",
+        "tests": 33,
+        "command": "python -m unittest discover -s tests/nba_ws4 -p 'test_*.py' -v"
+      },
+      {
+        "team": "WS5",
+        "pr": 140,
+        "sha": "cdf926f56e86bc9d25576acff61fd6f091313159",
+        "tests": 63,
+        "command": "python -m unittest discover -s tests -p 'test_nba_joint*.py' -v"
+      }
+    ],
+    "tests_passed": 146,
+    "failures": 0,
+    "errors": 0,
+    "v2_adapters_accepted": false
+  },
+  "golden_sha256": {
+    "historical_offer_free": "da214db2678cea1893a05242b44d710a8c8cb9d931c3f3bc30b6d5801bb84d99",
+    "synthetic_original_offer": "08e1a7ebe70eb487b435bb9f21ea7cce6085da312528b0e2baea22985459c7db",
+    "synthetic_joint_same_draw": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b"
+  },
+  "contract_boundaries": [
+    "historical_reconstruction",
+    "original_prospective",
+    "original_raw_receipts_and_source_revisions",
+    "provider_publication_claim_nullable",
+    "separate_retrieval_observation_ingestion",
+    "offer_free_full_PTS_REB_AST_3PM_PMF",
+    "S_ONLY_S_O_S_O_J_pipeline_lineage",
+    "G_and_O_exact_scenario_sha",
+    "J_same_draw_PR_PA_RA_PRA",
+    "weighted_MC_effective_sample_size_and_zero_tail_uncertainty",
+    "optional_source_exact_offer_triplet",
+    "DNP_vs_played_zero_vs_push_vs_void",
+    "append_only_settlement_corrections",
+    "closed_envelope_fields"
+  ],
+  "source_packet_missing": [
+    "NBA Parallel Architecture and Monte Carlo Execution Prompts",
+    "NBA G0 Recovery addendum"
+  ],
+  "limitations": [
+    "golden prospective original-source shape is synthetic, not a real captured offer",
+    "original collector truth and historical as-of source availability not independently certified",
+    "no v2 owner adapters accepted",
+    "no independent reviewer or independent tests"
+  ],
+  "no_training": true,
+  "no_predictive_validation": true,
+  "no_weights_optimization": true,
+  "no_production_or_main_merge": true,
+  "author_attestation": "ChatGPT implementation coordinator; procedural self-report only, not independent or cryptographically signed",
+  "independent_reviewer": null,
+  "cryptographic_signature": null,
+  "G0_PASS": false,
+  "P1_P6_authorized": false
+}

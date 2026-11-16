@@ -1,0 +1,106 @@
+{
+  "manifest_id": "NBA-V25-P0-G0-2026-11-16",
+  "contract_version": "nba-sojc-contract/1.0.0",
+  "status": "FAIL",
+  "base_main_commit": "912bc7010058092ea735dcda0aa941429194474b",
+  "research_branch": "research/nba-p0-sojc-architecture-g0-20261116",
+  "handoff_owners": [
+    "WS1",
+    "S",
+    "O",
+    "G/J",
+    "C",
+    "independent_reviewer",
+    "release_custodian"
+  ],
+  "family_graph": [
+    "WS1 -> S",
+    "WS1 -> G",
+    "WS1 + G -> O",
+    "S + G + O -> J",
+    "S/J -> probabilities",
+    "probabilities -> C -> release"
+  ],
+  "immutable_legacy": [
+    "Engine A",
+    "Engine B",
+    "Bayesian A",
+    "Bayesian B",
+    "NUTS",
+    "60/40"
+  ],
+  "release_authority": false,
+  "training_performed": false,
+  "optimization_performed": false,
+  "cryptographic_signature": null,
+  "signed_off_by": "NBA V2.5 lead architecture integrator (ChatGPT); procedural attestation, not cryptographic identity proof",
+  "blocked_reasons": [
+    "Named P0 source packet not found in supplied project files",
+    "Independent G0 acceptance/signature and team adapter acknowledgments not obtained",
+    "WS1 source/event/eligibility certification incomplete",
+    "WS2 P1/P2 participation unfitted; Phase 7/8 game-active eligible roster incomplete",
+    "Standalone NBA WS3 outcome family absent; J2 historical regression and no prospective adoption",
+    "Outstanding PR stack unmerged; branch compatibility must be verified"
+  ],
+  "test_results": {
+    "status": "PASS_ENGINEERING_SCOPE_ONLY",
+    "tested_commit": "52f4fd7606d5548e78c5e4a79f753bcf39884ad0",
+    "deepnote_notebook_id": "5429ea77f5f54ccdb83e996fba072996",
+    "deepnote_run_id": "f5c2419d-fe7f-4776-a66d-d8c77762508a",
+    "deepnote_completed_at_utc": "2026-11-16T14:19:33.644Z",
+    "execution_mode": "detached_readonly",
+    "suite": "python -m unittest discover -s tests/nba_architecture -v",
+    "tests_passed": 31,
+    "tests_failed": 0,
+    "tests_errors": 0,
+    "json_schema_draft_2020_12_check": "PASS",
+    "source_file_sha256": {
+      "v2/nba_architecture/contracts.py": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+      "v2/nba_architecture/schema-1.0.0.json": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+      "tests/nba_architecture/test_contracts.py": "b882ed962a010388d07a4a6e1ef724217d026b02bc430cd6f4c24f8c31d9cad3"
+    },
+    "predictive_validation_performed": false,
+    "tested_statistical_ability": false,
+    "existing_PR_suite_not_reexecuted": true
+  },
+  "refs": {
+    "ws1": "#137",
+    "ws2": "#138",
+    "C": "#139",
+    "J": "#140",
+    "phase6": "#141",
+    "phase7": "#142",
+    "phase8a": "#143",
+    "phase8c": "#144",
+    "morning": "#145",
+    "latest": "#146"
+  },
+  "tamper_evidence": {
+    "tested_commit": "52f4fd7606d5548e78c5e4a79f753bcf39884ad0",
+    "source_hashes_in_test_receipt": true,
+    "record_integrity": "Git-tracked file + SHA-pinned Deepnote run; no signature over final manifest claimed"
+  },
+  "decision": "G0 FAIL — engineering contracts tested, external/independent acceptance not obtained",
+  "procedural_signoff": {
+    "signed_off_by": "NBA V2.5 lead architecture integrator (ChatGPT-controlled P0 session)",
+    "role": "author and handoff preparer, not independent reviewer",
+    "status": "SELF_ATTESTED_G0_FAIL",
+    "signed_at_reference": "Deepnote completed 2026-11-16T14:19:33.644Z",
+    "signature_kind": "recorded role attestation; no user identity proof or cryptographic signature",
+    "independent_reviewer_signature": null,
+    "ws_team_acknowledgements": {}
+  },
+  "gate_evaluation": {
+    "contract_schema_versioned": "PASS",
+    "cross_family_contract_tests": "PASS",
+    "capability_inventory": "PASS_WITH_VERIFIED_GAPS",
+    "source_integrity_independent_certification": "FAIL",
+    "participation_and_legal_eligibility": "FAIL",
+    "dedicated_NBA_WS3_outcome_model": "FAIL",
+    "cross_team_adapters_accepted": "FAIL",
+    "independent_G0_signoff": "FAIL",
+    "exact_named_packet_available": "FAIL",
+    "predictive_skill_validation": "NOT_IN_SCOPE"
+  },
+  "next_unblock_ticket": "Have each owner accept v1.0 boundary or supply a failing adapter fixture; independent auditor verifies WS1/original timestamps, O participation and J draw binding, then signs a new append-only G0-v2 receipt. Preserve this FAIL manifest."
+}

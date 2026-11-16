@@ -1,0 +1,42 @@
+{
+  "record_type": "G0_P0I_INDEPENDENT_ACCEPTANCE_STATUS_V2",
+  "record_version": "1.0.0",
+  "decision": "G0_BLOCKED",
+  "contract_version": "nba-sojc-contract/2.0.0",
+  "candidate_reference": "docs/nba_architecture/G0_CANDIDATE_P0R_V2_20261116.json",
+  "tested_source_sha": "35281d369ece4016fc6e6a5af8e938e04cc2ec30",
+  "prior_historical_g0_FAIL_preserved": "docs/nba_architecture/G0_HANDOFF.json",
+  "cause": "Engineering candidate tested by author; no genuinely independent reviewer, independent positive/negative case suite, or six-team v2 acceptance attestations.",
+  "pr_147_submitted_reviews_at_inspection": 0,
+  "independent_review": "UNASSIGNED",
+  "independent_auditor_identity": null,
+  "independent_execution_receipt": null,
+  "independent_attestation": null,
+  "cryptographic_signature": null,
+  "owner_conformance": {
+    "P1_WS1": "BLOCKED_v2_adapter_not_accepted",
+    "P2_S": "BLOCKED_v2_adapter_not_accepted",
+    "P3_O": "BLOCKED_v2_adapter_not_accepted",
+    "P4_G_J": "BLOCKED_v2_adapter_not_accepted",
+    "P5_C": "BLOCKED_v2_adapter_not_accepted",
+    "P6_QA": "BLOCKED_independent_audit_absent"
+  },
+  "criteria": {
+    "v2_contract_tested_by_author": true,
+    "source_receipt_truth_independent": false,
+    "owner_adapters_accepted": false,
+    "external_review_signed": false
+  },
+  "G1_G2_only_not_G0": [
+    "P1/P2 fit and participation probability validation",
+    "dedicated outcome model fit",
+    "J2 predictive superiority",
+    "historical or prospective predictive accuracy",
+    "integrated pipeline acceptance"
+  ],
+  "author_status": "P0R_COORDINATOR_ATTESTATION_NOT_INDEPENDENT",
+  "release_authorized": false,
+  "P1_to_P6_authorized": false,
+  "P8_to_P11_authorized": false,
+  "next_action": "Separate auditor reviews final PR SHA and independently authors adversarial tests; team owners supply precise v2 adapter conformance; publish new append-only signed technical decision."
+}
