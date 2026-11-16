@@ -1,0 +1,12 @@
+test_all_source_clocks_cross_freeze (test_g0_mutation_sweep_20261116.MutationSweep.test_all_source_clocks_cross_freeze) ... ok
+test_consistent_player_rename_preserves_forecast (test_g0_mutation_sweep_20261116.MutationSweep.test_consistent_player_rename_preserves_forecast) ... ok
+test_every_closed_object_rejects_added_field (test_g0_mutation_sweep_20261116.MutationSweep.test_every_closed_object_rejects_added_field) ... ok
+test_every_physical_stat_identity_mutated (test_g0_mutation_sweep_20261116.MutationSweep.test_every_physical_stat_identity_mutated) ... ok
+test_every_top_level_required_field_deleted (test_g0_mutation_sweep_20261116.MutationSweep.test_every_top_level_required_field_deleted) ... ok
+test_legal_overtime_and_early_exit_positive (test_g0_mutation_sweep_20261116.MutationSweep.test_legal_overtime_and_early_exit_positive) ... ok
+test_numerical_boundary_mutations (test_g0_mutation_sweep_20261116.MutationSweep.test_numerical_boundary_mutations) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.368s
+
+OK

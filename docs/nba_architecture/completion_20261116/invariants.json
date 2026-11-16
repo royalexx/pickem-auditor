@@ -1,0 +1,627 @@
+{
+  "registry_version": "1.1.0",
+  "contract_version": "nba-sojc-contract/2.0.0",
+  "scope": "complete forecast/settlement boundaries plus component structural interfaces",
+  "invariants": [
+    {
+      "id": "SOURCE_CLOCKS",
+      "requirement": "Publication/observation/retrieval/ingestion <= freeze for prospective inputs; all UTC clocks retain microsecond order; historical retrieval remains explicitly uncertified.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_receipt",
+        "instant",
+        "validate_pregame"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_mutation_sweep_20261116.py::test_all_source_clocks_cross_freeze",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_submicrosecond_timestamp_cannot_silently_reverse_order",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_local_date_cannot_be_unrelated_to_freeze"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_prospective_missing_quote_is_valid"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "SOURCE_REVISION",
+      "requirement": "Included source chains start at revision 1, advance consecutively, bind predecessor bytes and never backdate; features use the unsuperseded revision.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_pregame"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_hardening_20261116.py::test_missing_receipt_parent",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_revision_gap",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_superseded_feature_revision"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_source_revision_supersession_chain"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "FEATURE_SCOPE",
+      "requirement": "Features bind source receipt, prior-game date and allowed source scope; no target-game field enters closed objects. Semantic falsehood in externally supplied bytes is not authenticated by SHA.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_pregame"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_feature_prior_date_bound_to_receipt",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_prior_stat_cannot_use_quote_receipt",
+        "tests/nba_architecture/test_g0_hardening_20261116.py::test_nested_future_payload"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_four_primitive_stats_offer_free"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "ROSTER_SOURCE",
+      "requirement": "Reported availability and prospective legal eligibility require source-bound matching game/player/field/value claims; uncertain status does not imply certainty.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "_roster_evidence",
+        "validate_pregame"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_source_bound_out_still_rejects_played"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_source_bound_uncertain_roster",
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_verified_out_has_legal_dnp_path"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "IDENTITY",
+      "requirement": "Game/player/team/stat/period joins stay coherent; row reorder and consistent player renaming are permitted; names do not establish external identity.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_pregame",
+        "validate_distribution",
+        "validate_offer",
+        "validate_integration"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_offer_wrong_player_team",
+        "tests/nba_architecture/test_v2_contracts.py::test_roster_wrong_team"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_mutation_sweep_20261116.py::test_consistent_player_rename_preserves_forecast"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "PARTICIPATION",
+      "requirement": "DNP differs from played-zero; legal exclusion forces DNP, positive-weight p=0 forces DNP, p=1 forbids DNP. Interior probabilities need no finite frequency equality.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "participation_state",
+        "validate_opportunity",
+        "validate_scenarios"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_full_transition_matrix",
+        "tests/nba_architecture/test_g0_hardening_20261116.py::test_endpoint_transition_enumeration"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_verified_out_has_legal_dnp_path"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "MINUTES_LAW",
+      "requirement": "Normalized finite discrete law has nonnegative physically bounded support; played and played-zero positive-weight draws lie in support; legacy synthetic descriptor cannot certify full pipeline.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_opportunity",
+        "validate_forecast"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_conditional_support_rejected",
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_discrete_law_mass_rejected",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_minutes_law_support_physically_bounded",
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_diagnostic_law_not_complete_forecast"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_complete_joint_pipeline"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "MINUTE_CONSERVATION",
+      "requirement": "Each team allocates 240+25*OT minutes; each player exposure <=48+5*OT; aggregate witness is not chronological rotation proof.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_opportunity",
+        "validate_scenarios"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_o_missing_player",
+        "tests/nba_architecture/test_v2_contracts.py::test_j_zero_minutes_played_stats"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_mutation_sweep_20261116.py::test_legal_overtime_and_early_exit_positive",
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_full_pipeline_early_exit_exposure"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "EXACT_G_O_J",
+      "requirement": "Retrieve original G/O/J objects; compare original output hashes, model lineage, exact scenario IDs, weights, OT and player allocation; resealing never authorizes drift.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_forecast",
+        "validate_integration"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_correctly_resealed_false_o_hash_rejected",
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_j_without_original_o_rejected"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_complete_joint_pipeline",
+        "tests/nba_architecture/test_g0_hardening_20261116.py::test_player_reordering_preserves_integration"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "WITNESSES",
+      "requirement": "Witness roster cardinality is exact, all fields closed and scenario coverage exact; team totals keyed only by the game teams.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_scenarios"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_hardening_20261116.py::test_duplicate_opportunity_witness",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_witness_hidden_feature",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_extra_team_total"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_complete_joint_pipeline"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "STAT_ACCOUNTING",
+      "requirement": "Nonnegative integer counts, FGM=2PM+3PM, FGA=2PA+3PA, points=2*2PM+3*3PM+FTM, conversions <=attempts, REB=OREB+DREB, same-draw combinations.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_scenarios"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_mutation_sweep_20261116.py::test_every_physical_stat_identity_mutated",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_boolean_team_score"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_joint_same_draw_golden"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "SHARED_OPPORTUNITY",
+      "requirement": "Own OREB plus opposing DREB <= own missed FGA+FTA; team assists <=team FGM and each assist claimant <=teammate FGM. Necessary aggregate bounds, not event-level realizability.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_scenarios"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_independent_final_20261116.py::test_shared_miss_cannot_generate_two_rebounds",
+        "tests/nba_architecture/test_independent_final_20261116.py::test_assist_cannot_be_on_own_only_field_goal"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_joint_same_draw_golden"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "DEFENSIVE_OPPORTUNITY",
+      "requirement": "Blocks <= opposing missed FGA and steals <= opposing player turnovers; these are conservative aggregate bounds, not event-level proof.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_scenarios"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_block_requires_opponent_missed_fga",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_steal_requires_opponent_turnover"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_block_and_steal_with_opportunities"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "PMF_SUPPORT",
+      "requirement": "PMF integer nonnegative unique support, finite nonnegative mass, normalized total, explicit zero bins allowed and numerical tail upper bound <=1e-8.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_distribution",
+        "threshold_triplet"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_threshold_rejects_negative_mass",
+        "tests/nba_architecture/test_v2_contracts.py::test_negative_mass"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_empty_probability_zero_bin_is_permissible"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "CONDITIONING",
+      "requirement": "J marginal conditioning equals the attached bundle; participation-conditional target never DNP in positive-weight rows. Declared-roster conditioning references frozen p.players, not certainty of appearances.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_distribution"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_conditional_marginal_cannot_include_target_dnp"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_complete_joint_pipeline"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "MARGINALS",
+      "requirement": "Same-draw primitive/composite mixture recomputed from J; compare with absolute 1e-12 summation tolerance, not independent marginal multiplication.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_distribution",
+        "marginal_from_joint"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_p0i_adversarial_20261116.py::test_11_j_pmf_cannot_change_without_scenario_reconciliation"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_scenario_reorder_preserves_marginal",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_weights_tiny_roundoff_and_reorder"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "MC_INTEGRITY",
+      "requirement": "Unique scenarios and normalized nonnegative weights; actual count, 1/sum(w^2) ESS, marginal SE and zero-event bound reconcile. ESS is heuristic precision, not independent observed games.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_scenarios",
+        "validate_distribution"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_bad_weighted_mc_zero_bound"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_weighted_mc_effective_sample_size",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_weights_tiny_roundoff_and_reorder"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "LINEAGE_CUTOFF",
+      "requirement": "All component artifact/code/model/version claims remain bound; fit cutoff <= freeze and <=declared data cutoff. Neither digest authenticates actual model training.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "component",
+        "structural_boundary"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_model_fit_after_declared_data_cutoff",
+        "tests/nba_architecture/test_v2_contracts.py::test_s_model_trained_future",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_keyword_context_cannot_bypass_model_cutoff"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_complete_joint_pipeline"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "ORIGINAL_OFFER",
+      "requirement": "Offer-free forecasts legal; real offers bind frozen original game/player/team/stat/period/line/raw quote/source/terms; quotes must precede freeze and observation.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_offer",
+        "validate_offer_view"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_offer_wrong_player_team",
+        "tests/nba_architecture/test_v2_contracts.py::test_original_offer_stale_quote_timestamp"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_prospective_original_offer_golden"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "SETTLEMENT",
+      "requirement": "C validates full forecast, original quote and view; DNP not numerical zero, push uses frozen line even if repeated line null; void requires bound terms; offer-free line and nonvoid void-basis rejected.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_settlement",
+        "validate_evaluation"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_forged_view_terms_rejected_at_c",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_offer_free_contract_line_rejected",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_nonvoid_cannot_carry_void_basis"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_quote_free_full_settlement"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "CORRECTIONS",
+      "requirement": "C requires complete ordered evaluation history beginning at revision1; correction digest, adjacent revision, forecast/offer/game identity and nonbackdated clock all bind.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_settlement",
+        "validate_evaluation"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_correction_parent_required_as_object"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_full_offer_settlement_corrections"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "IMMUTABILITY",
+      "requirement": "Exclusive-create frozen records reject changed bytes; old FAIL/BLOCKED/golden bytes preserved; external store global duplicate index and external signatures are G1 obligations.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "freeze_once",
+        "verify",
+        "parse_contract"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_frozen_conflicting_bytes_rejected",
+        "tests/nba_architecture/test_g0_completion_20261116.py::test_duplicate_json_keys_and_nonfinite"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_v2_contracts.py::test_frozen_bytes_idempotent"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "ARCHITECTURE",
+      "requirement": "S_ONLY/S_O/S_O_J are complete pipeline modes; G/O/J are dependent components, not votes; full boundary requires actual declared upstream context.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "validate_forecast",
+        "validate_settlement"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_j_without_original_o_rejected"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_complete_joint_pipeline",
+        "tests/nba_architecture/test_v2_contracts.py::test_four_primitive_stats_offer_free"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    },
+    {
+      "id": "STRUCTURE",
+      "requirement": "Closed fields, required fields, typed inputs and strict duplicate-key JSON parsing; canonical serialization rejects nonfinite values.",
+      "objects_and_fields": "See executable validator expressions in check_inventory.json",
+      "producer": "P1 source, P2 S, P3 O, P4 G/J, P5 C as applicable",
+      "validators": [
+        "structural_boundary",
+        "parse_contract"
+      ],
+      "gate": "G0",
+      "dependencies": [
+        "pregame snapshot",
+        "frozen model/source hashes"
+      ],
+      "rejection": "ContractError; cannot certify full pipeline with component-only validation",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_mutation_sweep_20261116.py::test_every_top_level_required_field_deleted",
+        "tests/nba_architecture/test_g0_mutation_sweep_20261116.py::test_every_closed_object_rejects_added_field",
+        "tests/nba_architecture/test_g0_mutation_sweep_20261116.py::test_numerical_boundary_mutations"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_pipeline_completion_20261116.py::test_complete_joint_pipeline"
+      ],
+      "resealing": "All semantic attack fixtures correctly resealed; SHA consistency alone never sufficient",
+      "audit_status": "REVIEWED_ENGINEERING_EVIDENCE_NOT_INDEPENDENT_ACCEPTANCE"
+    }
+  ],
+  "boundaries": {
+    "G1": [
+      "external raw-source authenticity and source truth",
+      "real producer adapter conformance and fit",
+      "external append-only store uniqueness/index and access controls",
+      "event-level rotation/possession witnesses"
+    ],
+    "G2": [
+      "integrated fitted pipeline acceptance",
+      "chronological historical/predictive validation under separate authorization"
+    ]
+  },
+  "unresolved_g0": []
+}

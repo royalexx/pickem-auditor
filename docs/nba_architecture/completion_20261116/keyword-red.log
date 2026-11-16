@@ -1,0 +1,15 @@
+test_keyword_context_cannot_bypass_model_cutoff (test_g0_completion_20261116.CallingConventionMetamorphic.test_keyword_context_cannot_bypass_model_cutoff) ... FAIL
+
+======================================================================
+FAIL: test_keyword_context_cannot_bypass_model_cutoff (test_g0_completion_20261116.CallingConventionMetamorphic.test_keyword_context_cannot_bypass_model_cutoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 130, in test_keyword_context_cannot_bypass_model_cutoff
+    with self.assertRaises(ContractError):validate_distribution(d,p=c['pregame'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.213s
+
+FAILED (failures=1)

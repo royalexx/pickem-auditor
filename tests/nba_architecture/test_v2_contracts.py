@@ -372,6 +372,7 @@ class V2Tests(unittest.TestCase):
             prior = x["sources"][0]
             x["sources"].append(reissue(prior, source_revision=2,
                   supersedes_receipt_sha256=prior["receipt_sha256"]))
+            x["features"][0]["source_receipt_sha256"] = x["sources"][-1]["receipt_sha256"]
         self.assertTrue(validate_pregame(edited(p, m)))
 
     def test_source_revision_wrong_parent(self):
@@ -707,7 +708,7 @@ class V2Tests(unittest.TestCase):
         corrected = evaluation(x["distribution"], x["offer_view"],
              revision=2, previous=first["content_hash"], actual=3)
         self.assertTrue(validate_evaluation(first, x["distribution"], x["offer_view"]))
-        self.assertTrue(validate_evaluation(corrected, x["distribution"], x["offer_view"]))
+        self.assertTrue(validate_evaluation(corrected, x["distribution"], x["offer_view"], previous=first))
         self.assertNotEqual(first["content_hash"], corrected["content_hash"])
 
     def test_settlement_correction_missing_parent(self):

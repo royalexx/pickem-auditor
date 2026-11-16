@@ -1,0 +1,15 @@
+test_local_date_cannot_be_unrelated_to_freeze (test_g0_completion_20261116.CalendarBoundaryAttack.test_local_date_cannot_be_unrelated_to_freeze) ... FAIL
+
+======================================================================
+FAIL: test_local_date_cannot_be_unrelated_to_freeze (test_g0_completion_20261116.CalendarBoundaryAttack.test_local_date_cannot_be_unrelated_to_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_completion_20261116.py", line 140, in test_local_date_cannot_be_unrelated_to_freeze
+    with self.assertRaises(ContractError):validate_pregame(edit(p,lambda x:x.update(decision_local_date='2030-01-01')))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.281s
+
+FAILED (failures=1)

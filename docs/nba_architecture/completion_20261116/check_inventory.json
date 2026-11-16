@@ -1,0 +1,3547 @@
+[
+  {
+    "validator": "sha",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SHA256_REQUIRED'",
+    "requirement": "isinstance(value, str) and len(value) == 64 and all((c in '0123456789abcdef' for c in value))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IMMUTABILITY"
+    ]
+  },
+  {
+    "validator": "seal",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNSEALED_REQUIRED'",
+    "requirement": "isinstance(payload, dict) and 'content_hash' not in payload",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IMMUTABILITY"
+    ]
+  },
+  {
+    "validator": "verify",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CONTENT_HASH_MISSING'",
+    "requirement": "isinstance(payload, dict) and 'content_hash' in payload",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IMMUTABILITY"
+    ]
+  },
+  {
+    "validator": "verify",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CONTENT_HASH_MISMATCH'",
+    "requirement": "digest(obj) == actual",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IMMUTABILITY"
+    ]
+  },
+  {
+    "validator": "freeze_once",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'IMMUTABLE_CONFLICT'",
+    "requirement": "path.read_bytes() == raw",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IMMUTABILITY"
+    ]
+  },
+  {
+    "validator": "instant",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TIMESTAMP_REQUIRED'",
+    "requirement": "isinstance(value, str) and 'T' in value",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "instant",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UTC_TIMESTAMP_REQUIRED'",
+    "requirement": "x.tzinfo is not None and x.utcoffset().total_seconds() == 0 and (value.endswith('Z') or value.endswith('+00:00'))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "instant",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TIMESTAMP_PRECISION_OR_FORMAT'",
+    "requirement": "re.fullmatch('\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}(?:\\\\.\\\\d{1,6})?(?:Z|\\\\+00:00)', value) is not None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "calendar",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CALENDAR_DATE_REQUIRED'",
+    "requirement": "isinstance(value, str)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "calendar",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CALENDAR_DATE_REQUIRED'",
+    "requirement": "x.isoformat() == value",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "num",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FINITE_NUMBER_REQUIRED'",
+    "requirement": "type(x) is int or (type(x) is float and math.isfinite(x))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PMF_SUPPORT"
+    ]
+  },
+  {
+    "validator": "num",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'NUMBER_BELOW_MINIMUM'",
+    "requirement": "x >= minimum",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PMF_SUPPORT"
+    ]
+  },
+  {
+    "validator": "ident",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'NAMESPACED_ID_REQUIRED'",
+    "requirement": "isinstance(x, str) and x.strip() == x and bool(x) and (':' in x)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "strict_keys",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNEXPECTED_FIELDS'",
+    "requirement": "isinstance(d, dict) and set(d) == set(keys)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "STRUCTURE"
+    ]
+  },
+  {
+    "validator": "check_schema",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SCHEMA_VERSION_OR_KIND'",
+    "requirement": "isinstance(obj, dict) and obj.get('schema') == VERSION and (obj.get('kind') == kind)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "STRUCTURE"
+    ]
+  },
+  {
+    "validator": "participation_state",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PARTICIPATION_STATE'",
+    "requirement": "state in ('DNP', 'PLAYED_ZERO_MINUTES', 'PLAYED')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION"
+    ]
+  },
+  {
+    "validator": "participation_state",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PARTICIPATION_MINUTES'",
+    "requirement": "state == 'PLAYED' and minutes > 0 or (state != 'PLAYED' and minutes == 0)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION"
+    ]
+  },
+  {
+    "validator": "participation_state",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'EXCLUDED_PARTICIPATION'",
+    "requirement": "state == 'DNP'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION"
+    ]
+  },
+  {
+    "validator": "participation_state",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'ZERO_PROBABILITY_PARTICIPATION'",
+    "requirement": "probability != 0 or state == 'DNP'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION"
+    ]
+  },
+  {
+    "validator": "participation_state",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CERTAIN_PARTICIPATION_DNP'",
+    "requirement": "probability != 1 or state != 'DNP'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION"
+    ]
+  },
+  {
+    "validator": "receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'RECEIPT_UNSEALED_REQUIRED'",
+    "requirement": "isinstance(payload, dict) and 'receipt_sha256' not in payload",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_REVISION"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'RECEIPT_MISSING'",
+    "requirement": "isinstance(r, dict) and 'receipt_sha256' in r",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'RECEIPT_HASH_MISMATCH'",
+    "requirement": "digest({k: v for k, v in r.items() if k != 'receipt_sha256'}) == actual",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SOURCE_REVISION'",
+    "requirement": "type(r['source_revision']) is int and r['source_revision'] >= 1",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'INVALID_SOURCE_SCOPE'",
+    "requirement": "r['scope'] in ('prior_game', 'pregame_context', 'original_offer')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TARGET_GAME_LEAKAGE'",
+    "requirement": "r['contains_target_final'] is False",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNLINKED_FIRST_REVISION'",
+    "requirement": "r.get('supersedes_receipt_sha256') is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PUBLICATION_EVIDENCE_REQUIRED'",
+    "requirement": "r['publication_evidence'] in ('source_header_claim', 'verified')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNKNOWN_PUBLICATION_INFERRED'",
+    "requirement": "r['publication_evidence'] == 'unknown'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PROSPECTIVE_SOURCE_REQUIRED'",
+    "requirement": "r['origin'] == 'original_capture' and r['asof_basis'] == 'observed_before_freeze'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'POSTFREEZE_SOURCE'",
+    "requirement": "all((t <= freeze_at for t in (observed, retrieved, ingested)))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PROSPECTIVE_DATE_PROXY_FORBIDDEN'",
+    "requirement": "r['historical_game_date'] is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'HISTORICAL_PROXY_DISCLOSURE'",
+    "requirement": "r['origin'] == 'retrospective_retrieval' and r['asof_basis'] == 'prior_game_date_only' and bool(r['asof_limitations'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'RETROSPECTIVE_CONTEXT_NOT_PROVEN'",
+    "requirement": "r['scope'] == 'prior_game'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'HISTORICAL_PRIOR_DATE_REQUIRED'",
+    "requirement": "r['historical_game_date'] is not None and calendar(r['historical_game_date']) < local_day",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PUBLICATION_AFTER_RETRIEVAL'",
+    "requirement": "pub <= retrieved",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PUBLICATION_CLAIM_AFTER_FREEZE'",
+    "requirement": "instant(published) <= freeze_at",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_receipt",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FUTURE_PUBLISHED_SOURCE'",
+    "requirement": "instant(r['provider_published_at']) <= freeze_at",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SOURCE_PROFILE'",
+    "requirement": "profile in PROFILES",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TWO_TEAMS_REQUIRED'",
+    "requirement": "isinstance(teams, list) and len(teams) == 2 and (len(set(teams)) == 2)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PREGAME_CLOCK_ORDER'",
+    "requirement": "cutoff <= freeze <= decision < event",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'LOCAL_DATE_FREEZE_MISMATCH'",
+    "requirement": "abs((local_day - freeze.date()).days) <= 1",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SOURCE_RECEIPTS_REQUIRED'",
+    "requirement": "isinstance(sources, list) and len(sources) > 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'ROSTER_REQUIRED'",
+    "requirement": "isinstance(p['players'], list) and bool(p['players'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_COUNT_INVALID'",
+    "requirement": "p['original_offer_count'] >= 0 and type(p['original_offer_count']) is int",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'RETROSPECTIVE_CERTIFICATION_FORBIDDEN'",
+    "requirement": "p['certification'] == 'HISTORICAL_RECONSTRUCTION_UNCERTIFIED'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PROSPECTIVE_CERTIFICATION_FORBIDDEN'",
+    "requirement": "p['certification'] == 'ORIGINAL_SOURCE_SHADOW'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'DUPLICATE_SOURCE_REVISION'",
+    "requirement": "len({x['source_revision'] for x in ordered}) == len(ordered)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNEXPECTED_FIELDS'",
+    "requirement": "set(player) in ({'player_id', 'team_id', 'legal_eligibility', 'eligibility_evidence', 'availability'}, {'player_id', 'team_id', 'legal_eligibility', 'eligibility_evidence', 'availability', 'availability_evidence'})",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'DUPLICATE_PLAYER'",
+    "requirement": "pid not in ids",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PLAYER_TEAM_MISMATCH'",
+    "requirement": "player['team_id'] in teams",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'INVALID_ELIGIBILITY'",
+    "requirement": "player['legal_eligibility'] in (True, False, None)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'INVALID_AVAILABILITY'",
+    "requirement": "player['availability'] in ('out', 'active_reported', 'questionable', 'unknown')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNKNOWN_ELIGIBILITY_EVIDENCE'",
+    "requirement": "player['legal_eligibility'] is not None or player['eligibility_evidence'] is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FEATURE_SOURCE_UNKNOWN'",
+    "requirement": "feature['source_id'] in by_source",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FEATURE_REVISION_UNBOUND'",
+    "requirement": "feature['source_receipt_sha256'] in {r['receipt_sha256'] for r in by_source[feature['source_id']]}",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SUPERSEDED_FEATURE_SOURCE'",
+    "requirement": "feature['source_receipt_sha256'] == max(by_source[feature['source_id']], key=lambda r: r['source_revision'])['receipt_sha256']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FEATURE_SOURCE_SCOPE'",
+    "requirement": "bound_source['scope'] != 'original_offer'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FEATURE_NAME_LEAKAGE'",
+    "requirement": "isinstance(feature['name'], str) and bool(feature['name']) and (not any((bad in feature['name'].lower() for bad in ('target', 'final', 'actual', 'postgame', 'future', 'result', 'same_game', 'samegame'))))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNTYPED_FEATURE_PAYLOAD'",
+    "requirement": "type(feature['value']) in (str, int, float, bool, type(None)) or (isinstance(feature['value'], list) and all((type(v) in (int, float) and math.isfinite(v) for v in feature['value'])))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FEATURE_UNIT_REQUIRED'",
+    "requirement": "isinstance(feature['measurement_units'], str) and bool(feature['measurement_units'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TARGET_GAME_FEATURE_LEAK'",
+    "requirement": "feature['target_game_outcome'] is False and feature['kind'] != 'target_game_result'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNKNOWN_FEATURE_KIND'",
+    "requirement": "feature['kind'] in ('prior_boxscore', 'schedule', 'pregame_availability', 'pregame_team_context')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'HISTORICAL_AVAILABILITY_UNPROVEN'",
+    "requirement": "profile == 'original_prospective'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNKNOWN_AVAILABILITY_EVIDENCE'",
+    "requirement": "player.get('availability_evidence') is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'HISTORICAL_ELIGIBILITY_LEAK'",
+    "requirement": "player['legal_eligibility'] is None or player['eligibility_evidence'] == 'prior_dated_record'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'NONPRIOR_FEATURE_DATE'",
+    "requirement": "feature['prior_game_date'] is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'HISTORICAL_FEATURE_LEAK'",
+    "requirement": "feature['kind'] == 'prior_boxscore' and calendar(feature['prior_game_date']) < local_day and (feature['asof_basis'] == 'prior_game_date_only')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FUTURE_FEATURE'",
+    "requirement": "feature['asof_basis'] == 'original_capture' and instant(feature['available_at']) <= freeze",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SOURCE_REVISION_CHAIN'",
+    "requirement": "r['source_revision'] == ordered[i - 1]['source_revision'] + 1 and r['supersedes_receipt_sha256'] == ordered[i - 1]['receipt_sha256']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FEATURE_PRIOR_DATE'",
+    "requirement": "feature['prior_game_date'] is not None and calendar(feature['prior_game_date']) < local_day",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FEATURE_SOURCE_DATE_MISMATCH'",
+    "requirement": "feature['prior_game_date'] == bound_source['historical_game_date']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'BACKDATED_SOURCE_CORRECTION'",
+    "requirement": "instant(r[clock]) >= instant(prior[clock])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "validate_pregame",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'MISSING_SOURCE_PREDECESSOR'",
+    "requirement": "False",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SOURCE_CLOCKS",
+      "SOURCE_REVISION",
+      "FEATURE_SCOPE",
+      "ROSTER_SOURCE",
+      "IDENTITY"
+    ]
+  },
+  {
+    "validator": "_roster_evidence",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'ROSTER_EVIDENCE_IDENTITY'",
+    "requirement": "evidence['player_id'] == player['player_id'] and evidence['game_id'] == p['game_id'] and (evidence['field'] == field) and (type(evidence['value']) is type(value)) and (evidence['value'] == value)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ROSTER_SOURCE"
+    ]
+  },
+  {
+    "validator": "_roster_evidence",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'ROSTER_EVIDENCE_SOURCE'",
+    "requirement": "source is not None and source['scope'] == 'pregame_context'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ROSTER_SOURCE"
+    ]
+  },
+  {
+    "validator": "component",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'MODEL_COMPONENT_REQUIRED'",
+    "requirement": "isinstance(c, dict)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "LINEAGE_CUTOFF"
+    ]
+  },
+  {
+    "validator": "component",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'MODEL_VERSION'",
+    "requirement": "isinstance(c['version'], str) and bool(c['version'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "LINEAGE_CUTOFF"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SOURCE_LINEAGE'",
+    "requirement": "d['source_snapshot_sha256'] == p['content_hash']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'GAME_IDENTITY'",
+    "requirement": "d['game_id'] == p['game_id']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'DISTRIBUTION_EVENT_START'",
+    "requirement": "d['event_start_at'] == p['event_start_at']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'STAT_PLAYER_TEAM_MISMATCH'",
+    "requirement": "d['player_id'] in ids and ids[d['player_id']] == d['team_id']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'STAT_PERIOD'",
+    "requirement": "d['stat'] in STATS and d['period'] == 'full_game_including_ot'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PROFILE_MISMATCH'",
+    "requirement": "d['source_profile'] == p['source_profile']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'STATUS_NOT_RELEASED'",
+    "requirement": "d['status'] == ('RESEARCH_RECONSTRUCTION' if p['source_profile'] == 'historical_reconstruction' else 'UNCERTIFIED_SHADOW')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'STAT_SUPPORT'",
+    "requirement": "d['support'] == 'nonnegative_integer'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PIPELINE_MODE'",
+    "requirement": "mode in ('S_ONLY', 'S_O', 'S_O_J')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CONDITIONING_REQUIRED'",
+    "requirement": "d['conditioning'] in ('unconditional', 'conditional_on_participation', 'conditional_on_declared_roster')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PIPELINE_FAMILY_LINEAGE'",
+    "requirement": "set(lineage) == {'S', 'O', 'G', 'J'}",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FORECAST_TIME_JOIN'",
+    "requirement": "d['forecast_at'] == p['forecast_at']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FORECAST_FREEZE_TIME'",
+    "requirement": "instant(d['frozen_at']) < instant(p['event_start_at']) and instant(d['frozen_at']) >= instant(d['forecast_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'INVALID_SEED'",
+    "requirement": "type(d['rng_seed']) is int and d['rng_seed'] >= 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PMF_EMPTY'",
+    "requirement": "isinstance(pmf, list) and bool(pmf)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PMF_NOT_NORMALIZED'",
+    "requirement": "abs(total - 1.0) <= 1e-10",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TRUNCATED_LAW_UNCERTIFIED'",
+    "requirement": "numerical['tail_mass_upper_bound'] <= 1e-08",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'NUMERICAL_METHOD'",
+    "requirement": "numerical['method'] in ('analytic', 'empirical_mc')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PMF_SUPPORT'",
+    "requirement": "type(row['value']) is int and row['value'] >= 0 and (row['value'] not in values)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'MC_COUNT_REQUIRED'",
+    "requirement": "type(numerical['scenario_count']) is int and numerical['scenario_count'] > 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'MC_SE_INVALID'",
+    "requirement": "numerical['max_probability_se'] <= 0.5",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'MC_EFFECTIVE_SAMPLE_SIZE'",
+    "requirement": "1.0 <= ess <= numerical['scenario_count'] + 1e-09",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'MC_UNCERTAINTY_LABEL'",
+    "requirement": "numerical['uncertainty_basis'] == 'heuristic_weighted_ess'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'MC_ZERO_TAIL_UNCERTAINTY'",
+    "requirement": "0 < bound <= 1",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'MC_ZERO_TAIL_BOUND'",
+    "requirement": "abs(bound - (1 - 0.05 ** (1 / ess))) < 1e-09",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'ANALYTIC_MC_CONFLICT'",
+    "requirement": "numerical['scenario_count'] is None and numerical['max_probability_se'] is None and (numerical['effective_sample_size'] is None) and (numerical['zero_event_95_upper_bound'] is None) and (numerical['uncertainty_basis'] == 'analytic_exact_or_bound')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'INDEPENDENT_S_NO_OPPORTUNITY_OUTPUT'",
+    "requirement": "d['opportunity_output_sha256'] is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'J_REQUIRES_EMPIRICAL_PMF'",
+    "requirement": "numerical['method'] == 'empirical_mc'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'J_SCENARIO_CONTEXT_REQUIRED'",
+    "requirement": "scenarios is not None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNEXPECTED_J_SCENARIOS'",
+    "requirement": "d['scenario_bundle_sha256'] is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'COMPOSITE_J_DERIVATION'",
+    "requirement": "d['derivation'] == 'same_draw_primitive_sum'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SCENARIOS_ONLY_FOR_J'",
+    "requirement": "mode == 'S_O_J'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'J_SCENARIO_BINDING'",
+    "requirement": "d['scenario_bundle_sha256'] == scenarios['content_hash']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'J_OPPORTUNITY_OUTPUT_BINDING'",
+    "requirement": "d['opportunity_output_sha256'] == scenarios['opportunity_sha256']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'J_CONDITIONING_MISMATCH'",
+    "requirement": "d['conditioning'] == scenarios['conditioning']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'J_NUMERICAL_DRAW_MISMATCH'",
+    "requirement": "numerical['scenario_count'] == len(weights) and abs(numerical['effective_sample_size'] - ess_actual) < 1e-09",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'J_NUMERICAL_SE_MISMATCH'",
+    "requirement": "abs(numerical['max_probability_se'] - expected_se) < 1e-09",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'J_MARGINAL_NOT_FROM_DRAWS'",
+    "requirement": "math.fsum((abs(declared.get(k, 0.0) - pmf_actual.get(k, 0.0)) for k in set(declared) | set(pmf_actual))) <= 1e-12",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'J_LINEAGE_MISMATCH'",
+    "requirement": "d['lineage'] == scenarios['lineage']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'HISTORICAL_LIMITATION_LOST'",
+    "requirement": "d['historical_asof_limitations'] == p['historical_asof_limitations'] and bool(d['historical_asof_limitations'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FUTURE_MODEL_FIT'",
+    "requirement": "instant(lineage[name]['training_cutoff_at']) <= instant(p['input_freeze_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNDECLARED_DEPENDENCY'",
+    "requirement": "lineage[name] is None or (name == 'G' and mode == 'S_O' and component(lineage[name]))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FUTURE_OPTIONAL_GAME_STATE'",
+    "requirement": "instant(lineage[name]['training_cutoff_at']) <= instant(p['input_freeze_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_distribution",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CONDITIONAL_TARGET_DNP'",
+    "requirement": "player['participation'] != 'DNP'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "PMF_SUPPORT",
+      "CONDITIONING",
+      "MARGINALS",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SCENARIO_SOURCE_JOIN'",
+    "requirement": "s['source_snapshot_sha256'] == p['content_hash'] and s['game_id'] == p['game_id']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'NOT_J_SCENARIOS'",
+    "requirement": "s['pipeline_mode'] == 'S_O_J'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SCENARIO_LINEAGE'",
+    "requirement": "all((k in s['lineage'] for k in ('S', 'O', 'G', 'J')))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SCENARIOS_EMPTY'",
+    "requirement": "isinstance(rows, list) and bool(rows)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SCENARIO_WEIGHTS'",
+    "requirement": "abs(probs - 1.0) <= 1e-10",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SCENARIO_MODEL_FUTURE'",
+    "requirement": "instant(s['lineage'][name]['training_cutoff_at']) <= instant(p['input_freeze_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'DUPLICATE_SCENARIO'",
+    "requirement": "sid not in ids",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'INVALID_OVERTIME'",
+    "requirement": "type(ot) is int and ot >= 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'INCOMPLETE_J_ROSTER'",
+    "requirement": "len(parts) == len(universe)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'J_ROSTER_IDENTITY'",
+    "requirement": "len(pids) == len(set(pids)) and set(pids) == set(universe)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TIED_FINAL_SCORE'",
+    "requirement": "scenario['team_points'][p['team_ids'][0]] != scenario['team_points'][p['team_ids'][1]]",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TEAM_TOTAL_IDENTITY'",
+    "requirement": "set(scenario['team_points']) == set(p['team_ids'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TEAM_TOTAL_COUNT'",
+    "requirement": "all((type(v) is int and v >= 0 for v in scenario['team_points'].values()))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SCENARIO_WITNESS_COVERAGE'",
+    "requirement": "set(witness) == ids",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'INDEPENDENT_GAME_STATE_DRAW'",
+    "requirement": "g['overtime_periods'] == expected['overtime_periods'] and abs(g['weight'] - expected['weight']) <= 1e-12",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OPPORTUNITY_WITNESS_ROSTER'",
+    "requirement": "len(s['opportunity_witness'][sid]) == len(universe) and set(a) == set(universe)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TEAM_MINUTES_CONSERVATION'",
+    "requirement": "abs(sum((num(x['minutes']) for x in members)) - 5 * duration) < 1e-07",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TEAM_POINTS_CONSERVATION'",
+    "requirement": "sum((x['stats']['points'] for x in members)) == scenario['team_points'][team]",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TEAM_ASSISTS_CAP'",
+    "requirement": "sum((x['stats']['assists'] for x in members)) <= sum((x['stats']['fgm'] for x in members))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SCENARIO_TEAM_MISMATCH'",
+    "requirement": "x['team_id'] == universe[pid]['team_id']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PLAYER_MINUTES_CAP'",
+    "requirement": "minutes <= duration",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PARTICIPATION_STATE'",
+    "requirement": "state in ('DNP', 'PLAYED_ZERO_MINUTES', 'PLAYED')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FULL_STAT_VECTOR_REQUIRED'",
+    "requirement": "set(stats) == set(PHYSICAL)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SHOT_CONVERSIONS'",
+    "requirement": "stats['two_pm'] <= stats['two_pa'] and stats['threes'] <= stats['three_pa']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FG_ACCOUNTING'",
+    "requirement": "stats['fgm'] == stats['two_pm'] + stats['threes'] and stats['fga'] == stats['two_pa'] + stats['three_pa']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FT_CONVERSION'",
+    "requirement": "stats['ftm'] <= stats['fta']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'POINTS_ACCOUNTING'",
+    "requirement": "stats['points'] == 2 * stats['two_pm'] + 3 * stats['threes'] + stats['ftm']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SELF_ASSIST_IMPOSSIBLE'",
+    "requirement": "stats['assists'] <= teammate_fgm",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'REBOUND_ACCOUNTING'",
+    "requirement": "stats['rebounds'] == stats['oreb'] + stats['dreb']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SHARED_REBOUND_OPPORTUNITIES'",
+    "requirement": "claimed <= missed_by_team[shooting_team]",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'BLOCK_OPPORTUNITIES'",
+    "requirement": "sum((x['blocks'] for x in defenders)) <= sum((x['fga'] - x['fgm'] for x in opponents))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'STEAL_OPPORTUNITIES'",
+    "requirement": "sum((x['steals'] for x in defenders)) <= sum((x['turnovers'] for x in opponents))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFENSIVE_REBOUND_OPPORTUNITIES'",
+    "requirement": "offensive <= missed_by_team[team]",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'DEFENSIVE_REBOUND_OPPORTUNITIES'",
+    "requirement": "defensive <= missed_by_team[opponent]",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OPPORTUNITY_DRAW_CHANGED'",
+    "requirement": "b['team_id'] == x['team_id'] and b['participation'] == x['participation'] and (b['minutes'] == x['minutes'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PLAYED_REQUIRES_MINUTES'",
+    "requirement": "minutes > 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'NONPLAYED_MINUTES'",
+    "requirement": "minutes == 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'INELIGIBLE_PLAYED'",
+    "requirement": "state == 'DNP'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'INVALID_COUNT_' + name",
+    "requirement": "type(stats[name]) is int and stats[name] >= 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'COMBO_ACCOUNTING_' + combo",
+    "requirement": "stats[combo] == sum((stats[k] for k in keys))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "validate_scenarios",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'ZERO_MINUTE_STATS'",
+    "requirement": "all((val == 0 for val in stats.values()))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTE_CONSERVATION",
+      "WITNESSES",
+      "STAT_ACCOUNTING",
+      "SHARED_OPPORTUNITY",
+      "DEFENSIVE_OPPORTUNITY",
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "marginal_from_joint",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNSUPPORTED_STAT'",
+    "requirement": "stat in STATS",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "MARGINALS"
+    ]
+  },
+  {
+    "validator": "marginal_from_joint",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNKNOWN_PLAYER'",
+    "requirement": "player_id in universe",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "MARGINALS"
+    ]
+  },
+  {
+    "validator": "threshold_triplet",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PMF_EMPTY'",
+    "requirement": "isinstance(pmf, list) and bool(pmf)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PMF_SUPPORT"
+    ]
+  },
+  {
+    "validator": "threshold_triplet",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PMF_NOT_NORMALIZED'",
+    "requirement": "abs(math.fsum((r['mass'] for r in pmf)) - 1) <= 1e-10",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PMF_SUPPORT"
+    ]
+  },
+  {
+    "validator": "threshold_triplet",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PMF_SUPPORT'",
+    "requirement": "type(row['value']) is int and row['value'] >= 0 and (row['value'] not in seen)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PMF_SUPPORT"
+    ]
+  },
+  {
+    "validator": "threshold_triplet",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PMF_MASS'",
+    "requirement": "num(row['mass']) <= 1",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PMF_SUPPORT"
+    ]
+  },
+  {
+    "validator": "validate_offer",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'HISTORICAL_OFFER_NOT_ORIGINAL'",
+    "requirement": "p['source_profile'] == 'original_prospective'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_SNAPSHOT_JOIN'",
+    "requirement": "q['source_snapshot_sha256'] == p['content_hash']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_GAME_JOIN'",
+    "requirement": "q['game_id'] == p['game_id']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_PLAYER_JOIN'",
+    "requirement": "q['player_id'] in people and people[q['player_id']] == q['team_id']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_STAT_PERIOD'",
+    "requirement": "q['stat'] in STATS and q['period'] == 'full_game_including_ot'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNBOUND_ORIGINAL_OFFER'",
+    "requirement": "q['source_receipt_sha256'] in refs",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_BYTES_MISMATCH'",
+    "requirement": "r['scope'] == 'original_offer' and r['raw_sha256'] == q['raw_quote_sha256']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_UNREGISTERED'",
+    "requirement": "p['original_offer_count'] > 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'QUOTE_OBSERVATION_NOT_RECEIPT'",
+    "requirement": "q['observed_at'] == r['collector_observed_at']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'POSTFREEZE_OFFER'",
+    "requirement": "instant(q['quoted_at']) <= instant(p['input_freeze_at']) and instant(q['observed_at']) <= instant(p['input_freeze_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'QUOTE_TIMESTAMP_AFTER_OBSERVATION'",
+    "requirement": "instant(q['quoted_at']) <= instant(q['observed_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_ID_REQUIRED'",
+    "requirement": "isinstance(q[key], str) and bool(q[key])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'DISTRIBUTION_OFFER_IDENTITY'",
+    "requirement": "q['player_id'] == d['player_id'] and q['team_id'] == d['team_id'] and (q['stat'] == d['stat']) and (q['period'] == d['period'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_VIEW_FREEZE'",
+    "requirement": "instant(frozen_at) >= instant(d['frozen_at']) and instant(frozen_at) < instant(p['event_start_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'DISTRIBUTION_OFFER_IDENTITY'",
+    "requirement": "q['game_id'] == d['game_id'] and q['player_id'] == d['player_id'] and (q['team_id'] == d['team_id']) and (q['stat'] == d['stat']) and (q['period'] == d['period'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_VIEW_GAME_MISMATCH'",
+    "requirement": "v['game_id'] == d['game_id']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_VIEW_LINEAGE'",
+    "requirement": "v['distribution_sha256'] == d['content_hash'] and v['original_offer_sha256'] == q['content_hash'] and (v['contract_id'] == q['contract_id']) and (v['quote_id'] == q['quote_id']) and (v['quote_source_receipt'] == q['source_receipt_sha256'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_VIEW_CONTRACT_LINE_MISMATCH'",
+    "requirement": "v['contract_line'] == q['line']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_VIEW_PRODUCT_TERMS_MISMATCH'",
+    "requirement": "v['product_terms_sha256'] == expected_terms_sha",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_VIEW_RELEASE_BLOCKED'",
+    "requirement": "v['status'] == 'UNCERTIFIED_SHADOW'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_VIEW_TIME'",
+    "requirement": "instant(v['frozen_at']) < instant(p['event_start_at']) and instant(v['frozen_at']) >= instant(d['frozen_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TRIPLET_REQUIRED'",
+    "requirement": "set(probabilities) == {'over', 'under', 'push'}",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TRIPLET_NOT_COMPLEMENTARY'",
+    "requirement": "abs(sum(probabilities.values()) - 1) < 1e-10",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'DNP_VOID_INFERRED'",
+    "requirement": "v['product_void_semantics'] == 'requires_original_product_terms'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_offer_view",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'TRIPLET_MISMATCH'",
+    "requirement": "abs(num(probabilities[name]) - expected[name]) < 1e-10",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "ORIGINAL_OFFER"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SETTLEMENT_DISTRIBUTION'",
+    "requirement": "e['distribution_sha256'] == verify(distribution)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SETTLEMENT_STATUS'",
+    "requirement": "status in ('pending', 'settled', 'push', 'void', 'unmatched')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SETTLEMENT_REVISION'",
+    "requirement": "type(e['revision']) is int and e['revision'] >= 1",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'EVALUATED_BEFORE_EVENT'",
+    "requirement": "instant(e['evaluated_at']) >= instant(e['event_start_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'EVAL_GAME_MISMATCH'",
+    "requirement": "e['game_id'] == distribution['game_id']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'EVAL_EVENT_START_MISMATCH'",
+    "requirement": "e['event_start_at'] == distribution['event_start_at']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SETTLEMENT_PARTICIPATION'",
+    "requirement": "e['participation'] in ('unknown', 'DNP', 'PLAYED_ZERO_MINUTES', 'PLAYED')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'UNKNOWN_OFFER_VIEW'",
+    "requirement": "e['offer_view_sha256'] is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFER_FREE_LINE'",
+    "requirement": "e['contract_line'] is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SETTLEMENT_OFFER_VIEW'",
+    "requirement": "e['offer_view_sha256'] == verify(offer)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SETTLEMENT_OFFER_IDENTITY'",
+    "requirement": "offer['game_id'] == distribution['game_id'] and offer['distribution_sha256'] == distribution['content_hash']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CORRECTION_PREDECESSOR_MISSING'",
+    "requirement": "e['supersedes_evaluation_sha256'] is not None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CORRECTION_CONTEXT_REQUIRED'",
+    "requirement": "previous is not None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CORRECTION_PARENT_SCHEMA'",
+    "requirement": "next(_structural_validator().iter_errors(previous), None) is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CORRECTION_CHAIN'",
+    "requirement": "verify(previous) == e['supersedes_evaluation_sha256'] and previous['revision'] + 1 == e['revision']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CORRECTION_IDENTITY'",
+    "requirement": "all((previous[k] == e[k] for k in ('distribution_sha256', 'offer_view_sha256', 'game_id', 'event_start_at')))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'CORRECTION_BACKDATED'",
+    "requirement": "instant(previous['evaluated_at']) <= instant(e['evaluated_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FIRST_SETTLEMENT_HAS_PARENT'",
+    "requirement": "e['supersedes_evaluation_sha256'] is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'DNP_CANNOT_HAVE_SETTLED_COUNT'",
+    "requirement": "e['participation'] in ('PLAYED', 'PLAYED_ZERO_MINUTES')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'PUSH_REQUIRES_ORIGINAL_QUOTE'",
+    "requirement": "offer is not None and e['contract_line'] is not None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OUTCOME_MUST_BE_NULL'",
+    "requirement": "e['actual'] is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'OFFICIAL_COUNT_REQUIRED'",
+    "requirement": "type(e['actual']) is int and e['actual'] >= 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'NONVOID_BASIS'",
+    "requirement": "e['void_basis'] is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'VOID_ORIGINAL_TERMS_REQUIRED'",
+    "requirement": "offer is not None and offer['product_terms_sha256'] is not None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'VOID_TERMS_HASH_MISMATCH'",
+    "requirement": "e['void_basis'] == 'original_terms_sha256:' + offer['product_terms_sha256']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'SETTLEMENT_CONTRACT_LINE_MISMATCH'",
+    "requirement": "e['contract_line'] == offer['contract_line']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'ZERO_MINUTE_POSITIVE_COUNT'",
+    "requirement": "e['actual'] == 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'FALSE_PUSH'",
+    "requirement": "e['actual'] == line",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "validate_evaluation",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'MISLABELED_PUSH'",
+    "requirement": "e['actual'] != line",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS"
+    ]
+  },
+  {
+    "validator": "seed_for",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'INVALID_SEED'",
+    "requirement": "type(master) is int and master >= 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "seed_for",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'AMBIGUOUS_SEED'",
+    "requirement": "isinstance(value, str) and value and ('|' not in value)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "MC_INTEGRITY"
+    ]
+  },
+  {
+    "validator": "structural_boundary",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'JSON_SCHEMA_VIOLATION'",
+    "requirement": "next(_structural_validator().iter_errors(obj), None) is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "LINEAGE_CUTOFF",
+      "STRUCTURE"
+    ]
+  },
+  {
+    "validator": "structural_boundary",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'MODEL_AFTER_DATA_CUTOFF'",
+    "requirement": "instant(model['training_cutoff_at']) <= instant(p['training_cutoff_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "LINEAGE_CUTOFF",
+      "STRUCTURE"
+    ]
+  },
+  {
+    "validator": "parse_contract",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'DUPLICATE_JSON_KEY'",
+    "requirement": "key not in result",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IMMUTABILITY",
+      "STRUCTURE"
+    ]
+  },
+  {
+    "validator": "checked",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'JSON_SCHEMA_VIOLATION'",
+    "requirement": "next(_structural_validator().iter_errors(obj), None) is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "LINEAGE_CUTOFF"
+    ]
+  },
+  {
+    "validator": "checked",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'MODEL_AFTER_DATA_CUTOFF'",
+    "requirement": "instant(model['training_cutoff_at']) <= instant(p['training_cutoff_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "LINEAGE_CUTOFF"
+    ]
+  },
+  {
+    "validator": "pairs",
+    "file": "v2/nba_architecture/v2_contracts.py",
+    "code": "'DUPLICATE_JSON_KEY'",
+    "requirement": "key not in result",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "STRUCTURE"
+    ]
+  },
+  {
+    "validator": "validate_game_state",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'G_SOURCE_JOIN'",
+    "requirement": "g['source_snapshot_sha256'] == p['content_hash'] and g['game_id'] == p['game_id']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_game_state",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'G_FUTURE_MODEL'",
+    "requirement": "instant(g['model']['training_cutoff_at']) <= instant(p['input_freeze_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_game_state",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'G_SEED'",
+    "requirement": "type(g['rng_seed']) is int and g['rng_seed'] >= 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_game_state",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'G_EMPTY_SCENARIOS'",
+    "requirement": "isinstance(scenarios, list) and bool(scenarios)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_game_state",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'G_WEIGHT_SUM'",
+    "requirement": "abs(weight - 1) <= 1e-10",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_game_state",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'G_DUPLICATE_SCENARIO'",
+    "requirement": "sid not in ids",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_game_state",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'G_OVERTIME'",
+    "requirement": "type(sc['overtime_periods']) is int and sc['overtime_periods'] >= 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_game_state",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'G_SCORE_STATE'",
+    "requirement": "sc['score_state'] in ('home_leading', 'away_leading', 'tied')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_G_SOURCE_JOIN'",
+    "requirement": "o['source_snapshot_sha256'] == p['content_hash'] and o['game_id'] == p['game_id'] and (o['game_state_sha256'] == g['content_hash'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_FUTURE_MODEL'",
+    "requirement": "instant(o['model']['training_cutoff_at']) <= instant(p['input_freeze_at'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_ROSTER_COVERAGE'",
+    "requirement": "len(persons) == len(roster) and len({x['player_id'] for x in persons}) == len(roster)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_SCENARIO_COVERAGE'",
+    "requirement": "len(scenarios) == len(prior)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_PLAYER_TEAM'",
+    "requirement": "x['player_id'] in roster and x['team_id'] == roster[x['player_id']]['team_id']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_PARTICIPATION_EVIDENCE'",
+    "requirement": "x['participation_evidence'] in ('unknown', 'verified_out', 'independently_estimated')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_MINUTES_LAW'",
+    "requirement": "law['conditioning'] == 'given_played' and isinstance(law['family'], str) and bool(law['family']) and isinstance(law['parameters'], dict) and (law['units'] == 'minutes')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_UNREGISTERED_MINUTES_LAW'",
+    "requirement": "law['family'] in ('synthetic_point_mass', 'discrete_minutes')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_SCENARIO_JOIN'",
+    "requirement": "sid in prior and sid not in seen",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_INDEPENDENT_G_DRAW'",
+    "requirement": "sc['overtime_periods'] == ot and abs(sc['weight'] - prior[sid]['weight']) < 1e-12",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_SCENARIO_ROSTER'",
+    "requirement": "len(participants) == len(roster) and set(by_id) == set(roster)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_UNKNOWN_PARTICIPATION'",
+    "requirement": "prob is None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_PROBABILITY'",
+    "requirement": "prob is not None and 0 <= num(prob) <= 1",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_OUT_NOT_ZERO'",
+    "requirement": "prob == 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_UNBOUND_VERIFIED_OUT'",
+    "requirement": "roster[x['player_id']]['availability'] == 'out' or roster[x['player_id']]['legal_eligibility'] is False",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_INELIGIBLE_PROBABILITY'",
+    "requirement": "prob in (None, 0)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_OUT_PROBABILITY'",
+    "requirement": "prob in (None, 0)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_MINUTES_SUPPORT'",
+    "requirement": "isinstance(support, list) and bool(support)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_MINUTES_MASS'",
+    "requirement": "abs(math.fsum((a['mass'] for a in support)) - 1) <= 1e-12",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_POINT_MASS_PARAMETERS'",
+    "requirement": "set(law['parameters']) == {'median'}",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_TEAM_IDENTITY'",
+    "requirement": "person['team_id'] == roster[pid]['team_id']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_PLAYER_MINUTES_CAP'",
+    "requirement": "mn <= duration",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_PARTICIPATION_STATE'",
+    "requirement": "status in ('DNP', 'PLAYED_ZERO_MINUTES', 'PLAYED')",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_TEAM_MINUTE_CONSERVATION'",
+    "requirement": "abs(total - 5 * duration) < 1e-07",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_LAW_PHYSICAL_SUPPORT'",
+    "requirement": "mn <= max((48 + 5 * sc['overtime_periods'] for sc in g['scenarios'] if sc['weight'] > 0))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_MINUTES_ATOM'",
+    "requirement": "mn not in seen_minutes and mass > 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_PLAYED_ZERO_MINUTES'",
+    "requirement": "mn > 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_DNP_EXPOSURE'",
+    "requirement": "mn == 0",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_DRAW_OUTSIDE_MINUTES_SUPPORT'",
+    "requirement": "any((a['minutes'] == mn for a in law['parameters']['support']))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_opportunity",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'O_INELIGIBLE_PLAYED'",
+    "requirement": "status == 'DNP'",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "PARTICIPATION",
+      "MINUTES_LAW",
+      "MINUTE_CONSERVATION"
+    ]
+  },
+  {
+    "validator": "validate_integration",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'J_G_O_HASH_JOIN'",
+    "requirement": "j['game_state_sha256'] == g['content_hash'] and j['opportunity_sha256'] == o['content_hash']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_integration",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'J_G_O_MODEL_JOIN'",
+    "requirement": "j['lineage']['G'] == g['model'] and j['lineage']['O'] == o['model']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_integration",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'J_G_O_EXACT_SCENARIO_COVERAGE'",
+    "requirement": "{sc['scenario_id'] for sc in j['scenarios']} == set(expected_g)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_integration",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'J_G_O_SCENARIO_JOIN'",
+    "requirement": "sid in expected_g and sid in expected_o",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_integration",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'J_GAME_STATE_CHANGED'",
+    "requirement": "sc['overtime_periods'] == gg['overtime_periods'] and abs(sc['weight'] - gg['weight']) < 1e-12",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_integration",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'J_OPPORTUNITY_STATE_CHANGED'",
+    "requirement": "sc['overtime_periods'] == oo['overtime_periods'] and abs(sc['weight'] - oo['weight']) < 1e-12",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_integration",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'J_RESAMPLED_OPPORTUNITY'",
+    "requirement": "x['minutes'] == y['minutes'] and x['participation'] == y['participation'] and (x['team_id'] == y['team_id'])",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "IDENTITY",
+      "EXACT_G_O_J"
+    ]
+  },
+  {
+    "validator": "validate_forecast",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'FORECAST_OPPORTUNITY_CONTEXT_REQUIRED'",
+    "requirement": "g is not None and o is not None",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "MINUTES_LAW",
+      "EXACT_G_O_J",
+      "ARCHITECTURE"
+    ]
+  },
+  {
+    "validator": "validate_forecast",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'FORECAST_O_HASH'",
+    "requirement": "d['opportunity_output_sha256'] == o['content_hash']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "MINUTES_LAW",
+      "EXACT_G_O_J",
+      "ARCHITECTURE"
+    ]
+  },
+  {
+    "validator": "validate_forecast",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'FORECAST_O_MODEL'",
+    "requirement": "d['lineage']['O'] == o['model']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "MINUTES_LAW",
+      "EXACT_G_O_J",
+      "ARCHITECTURE"
+    ]
+  },
+  {
+    "validator": "validate_forecast",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'FORECAST_G_MODEL'",
+    "requirement": "d['lineage']['G'] == g['model']",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "MINUTES_LAW",
+      "EXACT_G_O_J",
+      "ARCHITECTURE"
+    ]
+  },
+  {
+    "validator": "validate_forecast",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'DIAGNOSTIC_MINUTES_NOT_FORECAST_LAW'",
+    "requirement": "all((x['minutes_law']['family'] != 'synthetic_point_mass' for x in o['players']))",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "MINUTES_LAW",
+      "EXACT_G_O_J",
+      "ARCHITECTURE"
+    ]
+  },
+  {
+    "validator": "validate_forecast",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'UNDECLARED_PIPELINE_CONTEXT'",
+    "requirement": "g is None and o is None and (scenarios is None)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "MINUTES_LAW",
+      "EXACT_G_O_J",
+      "ARCHITECTURE"
+    ]
+  },
+  {
+    "validator": "validate_settlement",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'SETTLEMENT_ORIGINAL_OFFER_CONTEXT'",
+    "requirement": "(view is None) == (quote is None)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS",
+      "ARCHITECTURE"
+    ]
+  },
+  {
+    "validator": "validate_settlement",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'DUPLICATE_SETTLEMENT'",
+    "requirement": "h not in seen",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS",
+      "ARCHITECTURE"
+    ]
+  },
+  {
+    "validator": "validate_settlement",
+    "file": "v2/nba_architecture/families_v2.py",
+    "code": "'SETTLEMENT_COMPLETE_HISTORY_REQUIRED'",
+    "requirement": "record['revision'] == (1 if previous is None else previous['revision'] + 1)",
+    "ownership": "G0 structural/semantic contract; external truth not attested",
+    "registry_groups": [
+      "SETTLEMENT",
+      "CORRECTIONS",
+      "ARCHITECTURE"
+    ]
+  }
+]

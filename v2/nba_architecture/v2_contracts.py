@@ -9,6 +9,8 @@ from pathlib import Path
 import hashlib
 import json
 import math
+import re
+import inspect
 from functools import lru_cache, wraps
 from jsonschema import Draft202012Validator, FormatChecker
 
@@ -88,6 +90,7 @@ def instant(value):
     req(x.tzinfo is not None and x.utcoffset().total_seconds() == 0
         and (value.endswith("Z") or value.endswith("+00:00")),
         "UTC_TIMESTAMP_REQUIRED")
+    req(re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|\+00:00)", value) is not None, "TIMESTAMP_PRECISION_OR_FORMAT")
     return x.astimezone(timezone.utc)
 
 
@@ -102,7 +105,7 @@ def calendar(value):
 
 
 def num(x, minimum=0):
-    req(type(x) in (int, float) and math.isfinite(x), "FINITE_NUMBER_REQUIRED")
+    req(type(x) is int or (type(x) is float and math.isfinite(x)), "FINITE_NUMBER_REQUIRED")
     req(x >= minimum, "NUMBER_BELOW_MINIMUM")
     return x
 
@@ -240,6 +243,7 @@ def validate_pregame(p):
     cutoff = instant(p["training_cutoff_at"])
     req(cutoff <= freeze <= decision < event, "PREGAME_CLOCK_ORDER")
     local_day = calendar(p["decision_local_date"])
+    req(abs((local_day - freeze.date()).days) <= 1, "LOCAL_DATE_FREEZE_MISMATCH")
     # Provided local date must be independently sourced; do not derive timezone from UTC.
     if profile == "historical_reconstruction":
         req(p["certification"] == "HISTORICAL_RECONSTRUCTION_UNCERTIFIED",
@@ -259,7 +263,7 @@ def validate_pregame(p):
             "DUPLICATE_SOURCE_REVISION")
         for i, r in enumerate(ordered):
             if i:
-                req(r["source_revision"] > ordered[i-1]["source_revision"] and
+                req(r["source_revision"] == ordered[i-1]["source_revision"] + 1 and
                     r["supersedes_receipt_sha256"] == ordered[i-1]["receipt_sha256"],
                     "SOURCE_REVISION_CHAIN")
                 prior = ordered[i-1]
@@ -273,8 +277,10 @@ def validate_pregame(p):
     ids = {}
     req(isinstance(p["players"], list) and bool(p["players"]), "ROSTER_REQUIRED")
     for player in p["players"]:
-        strict_keys(player, ("player_id","team_id","legal_eligibility",
-                             "eligibility_evidence","availability"))
+        req(set(player) in (
+            {"player_id", "team_id", "legal_eligibility", "eligibility_evidence", "availability"},
+            {"player_id", "team_id", "legal_eligibility", "eligibility_evidence", "availability", "availability_evidence"}),
+            "UNEXPECTED_FIELDS")
         pid = ident(player["player_id"])
         req(pid not in ids, "DUPLICATE_PLAYER")
         ids[pid] = player["team_id"]
@@ -283,6 +289,17 @@ def validate_pregame(p):
             "INVALID_ELIGIBILITY")
         req(player["availability"] in ("out", "active_reported", "questionable", "unknown"),
             "INVALID_AVAILABILITY")
+        req(player["legal_eligibility"] is not None or player["eligibility_evidence"] is None,
+            "UNKNOWN_ELIGIBILITY_EVIDENCE")
+        if player["availability"] != "unknown":
+            req(profile == "original_prospective", "HISTORICAL_AVAILABILITY_UNPROVEN")
+            _roster_evidence(player.get("availability_evidence"), p, player,
+                             "availability", player["availability"])
+        else:
+            req(player.get("availability_evidence") is None, "UNKNOWN_AVAILABILITY_EVIDENCE")
+        if profile == "original_prospective" and player["legal_eligibility"] is not None:
+            _roster_evidence(player["eligibility_evidence"], p, player,
+                             "legal_eligibility", player["legal_eligibility"])
         if profile == "historical_reconstruction":
             req(player["legal_eligibility"] is None
                 or player["eligibility_evidence"] == "prior_dated_record",
@@ -295,6 +312,19 @@ def validate_pregame(p):
         req(feature["source_receipt_sha256"] in
             {r["receipt_sha256"] for r in by_source[feature["source_id"]]},
             "FEATURE_REVISION_UNBOUND")
+        req(feature["source_receipt_sha256"] == max(by_source[feature["source_id"]], key=lambda r: r["source_revision"])["receipt_sha256"], "SUPERSEDED_FEATURE_SOURCE")
+        bound_source = next(r for r in by_source[feature["source_id"]]
+                            if r["receipt_sha256"] == feature["source_receipt_sha256"])
+        req(bound_source["scope"] != "original_offer", "FEATURE_SOURCE_SCOPE")
+        if feature["kind"] == "prior_boxscore":
+            if profile != "historical_reconstruction":
+                req(feature["prior_game_date"] is not None and
+                    calendar(feature["prior_game_date"]) < local_day, "FEATURE_PRIOR_DATE")
+            if profile == "historical_reconstruction" and calendar(feature["prior_game_date"]) < local_day:
+                req(feature["prior_game_date"] == bound_source["historical_game_date"],
+                    "FEATURE_SOURCE_DATE_MISMATCH")
+        else:
+            req(feature["prior_game_date"] is None, "NONPRIOR_FEATURE_DATE")
         req(isinstance(feature["name"], str) and
             bool(feature["name"]) and
             not any(bad in feature["name"].lower() for bad in
@@ -326,6 +356,18 @@ def validate_pregame(p):
     req(p["original_offer_count"] >= 0 and type(p["original_offer_count"]) is int,
         "OFFER_COUNT_INVALID")
     return True
+
+
+def _roster_evidence(evidence, p, player, field, value):
+    strict_keys(evidence, ("source_receipt_sha256", "player_id", "game_id", "field", "value"))
+    req(evidence["player_id"] == player["player_id"] and
+        evidence["game_id"] == p["game_id"] and evidence["field"] == field and
+        type(evidence["value"]) is type(value) and evidence["value"] == value,
+        "ROSTER_EVIDENCE_IDENTITY")
+    source = next((r for r in p["sources"]
+                   if r["receipt_sha256"] == evidence["source_receipt_sha256"]), None)
+    req(source is not None and source["scope"] == "pregame_context",
+        "ROSTER_EVIDENCE_SOURCE")
 
 
 def component(c):
@@ -448,7 +490,7 @@ def validate_distribution(d, p, scenarios=None):
         req(numerical["scenario_count"] == len(weights) and
             abs(numerical["effective_sample_size"] - ess_actual) < 1e-9,
             "J_NUMERICAL_DRAW_MISMATCH")
-        expected_se = max(math.sqrt(row["mass"] * (1-row["mass"]) / ess_actual)
+        expected_se = max(math.sqrt(max(0., row["mass"] * (1-row["mass"])) / ess_actual)
                           for row in pmf)
         req(abs(numerical["max_probability_se"] - expected_se) < 1e-9,
             "J_NUMERICAL_SE_MISMATCH")
@@ -456,8 +498,13 @@ def validate_distribution(d, p, scenarios=None):
         for sc in scenarios["scenarios"]:
             player = next(x for x in sc["players"] if x["player_id"] == d["player_id"])
             key = player["stats"][d["stat"]]
-            pmf_actual[key] = pmf_actual.get(key, 0) + sc["weight"]
-        req({x["value"]: x["mass"] for x in pmf} == pmf_actual,
+            if d["conditioning"] == "conditional_on_participation" and sc["weight"] > 0:
+                req(player["participation"] != "DNP", "CONDITIONAL_TARGET_DNP")
+            pmf_actual.setdefault(key, []).append(sc["weight"])
+        pmf_actual = {k: math.fsum(v) for k, v in pmf_actual.items()}
+        declared = {x["value"]: x["mass"] for x in pmf}
+        req(math.fsum(abs(declared.get(k, 0.) - pmf_actual.get(k, 0.))
+                      for k in set(declared) | set(pmf_actual)) <= 1e-12,
             "J_MARGINAL_NOT_FROM_DRAWS")
         req(d["lineage"] == scenarios["lineage"], "J_LINEAGE_MISMATCH")
     if p["source_profile"] == "historical_reconstruction":
@@ -505,6 +552,9 @@ def validate_scenarios(s, p):
             "J_ROSTER_IDENTITY")
         req(scenario["team_points"][p["team_ids"][0]] !=
             scenario["team_points"][p["team_ids"][1]], "TIED_FINAL_SCORE")
+        req(set(scenario["team_points"]) == set(p["team_ids"]), "TEAM_TOTAL_IDENTITY")
+        req(all(type(v) is int and v >= 0 for v in scenario["team_points"].values()),
+            "TEAM_TOTAL_COUNT")
         for team in p["team_ids"]:
             members = [x for x in parts if x["team_id"] == team]
             req(abs(sum(num(x["minutes"]) for x in members) - 5*duration) < 1e-7,
@@ -570,6 +620,12 @@ def validate_scenarios(s, p):
             req(claimed <= missed_by_team[shooting_team],
                 "SHARED_REBOUND_OPPORTUNITIES")
         for team, opponent in ((home, away), (away, home)):
+            defenders = [x["stats"] for x in parts if x["team_id"] == team]
+            opponents = [x["stats"] for x in parts if x["team_id"] == opponent]
+            req(sum(x["blocks"] for x in defenders) <=
+                sum(x["fga"]-x["fgm"] for x in opponents), "BLOCK_OPPORTUNITIES")
+            req(sum(x["steals"] for x in defenders) <=
+                sum(x["turnovers"] for x in opponents), "STEAL_OPPORTUNITIES")
             offensive = sum(x["stats"]["oreb"] for x in parts
                             if x["team_id"] == team)
             defensive = sum(x["stats"]["dreb"] for x in parts
@@ -585,6 +641,7 @@ def validate_scenarios(s, p):
     for sid in ids:
         expected = lookup[sid]
         g = s["game_state_witness"][sid]
+        strict_keys(g, ("overtime_periods", "weight"))
         req(g["overtime_periods"] == expected["overtime_periods"] and
             abs(g["weight"] - expected["weight"]) <= 1e-12,
             "INDEPENDENT_GAME_STATE_DRAW")
@@ -593,6 +650,7 @@ def validate_scenarios(s, p):
             set(a) == set(universe), "OPPORTUNITY_WITNESS_ROSTER")
         for x in expected["players"]:
             b = a[x["player_id"]]
+            strict_keys(b, ("player_id", "team_id", "participation", "minutes"))
             req(b["team_id"] == x["team_id"] and
                 b["participation"] == x["participation"] and
                 b["minutes"] == x["minutes"], "OPPORTUNITY_DRAW_CHANGED")
@@ -611,8 +669,8 @@ def marginal_from_joint(s, p, player_id, stat, frozen_at, rng_seed,
     for sc in s["scenarios"]:
         player = next(x for x in sc["players"] if x["player_id"] == player_id)
         val = player["stats"][stat]
-        bins[val] = bins.get(val, 0.0) + sc["weight"]
-    pmf = [{"value": k, "mass": bins[k]} for k in sorted(bins)]
+        bins.setdefault(val, []).append(sc["weight"])
+    pmf = [{"value": k, "mass": min(1., math.fsum(bins[k]))} for k in sorted(bins)]
     # For weighted scenarios, n is not the effective number of independent
     # Monte Carlo draws. A declared ESS-based standard error is a heuristic,
     # not an exact confidence interval or a scientific skill certificate.
@@ -620,7 +678,7 @@ def marginal_from_joint(s, p, player_id, stat, frozen_at, rng_seed,
     numerical = {"method": "empirical_mc", "scenario_count": len(s["scenarios"]),
                  "effective_sample_size": ess,
                  "uncertainty_basis": "heuristic_weighted_ess",
-                 "max_probability_se": max(math.sqrt(x["mass"]*(1-x["mass"]) /
+                 "max_probability_se": max(math.sqrt(max(0., x["mass"]*(1-x["mass"])) /
                      ess) for x in pmf),
                  "zero_event_95_upper_bound": 1 - .05 ** (1 / ess),
                  "tail_mass_upper_bound": 0.0}
@@ -645,7 +703,17 @@ def marginal_from_joint(s, p, player_id, stat, frozen_at, rng_seed,
 
 def threshold_triplet(pmf, line):
     num(line)
-    return {name: sum(x["mass"] for x in pmf if predicate(x["value"], line))
+    req(isinstance(pmf, list) and bool(pmf), "PMF_EMPTY")
+    seen = set()
+    for row in pmf:
+        strict_keys(row, ("value", "mass"))
+        req(type(row["value"]) is int and row["value"] >= 0 and row["value"] not in seen,
+            "PMF_SUPPORT")
+        seen.add(row["value"])
+        req(num(row["mass"]) <= 1, "PMF_MASS")
+    req(abs(math.fsum(r["mass"] for r in pmf)-1) <= 1e-10, "PMF_NOT_NORMALIZED")
+    return {name: (math.fsum(x["mass"] for x in pmf if predicate(x["value"], line))
+                   if any(predicate(x["value"], line) for x in pmf) else 0)
             for name, predicate in (("over", lambda x, y: x > y),
                                     ("under", lambda x, y: x < y),
                                     ("push", lambda x, y: x == y))}
@@ -752,7 +820,7 @@ def validate_offer_view(v, d, q, p, scenarios=None):
     return True
 
 
-def validate_evaluation(e, distribution, offer=None):
+def validate_evaluation(e, distribution, offer=None, previous=None):
     strict_keys(e, ("schema","kind","content_hash","distribution_sha256",
                     "offer_view_sha256","status","actual","revision",
                     "supersedes_evaluation_sha256","official_source_sha256",
@@ -762,6 +830,7 @@ def validate_evaluation(e, distribution, offer=None):
     req(e["distribution_sha256"] == verify(distribution), "SETTLEMENT_DISTRIBUTION")
     if offer is None:
         req(e["offer_view_sha256"] is None, "UNKNOWN_OFFER_VIEW")
+        req(e["contract_line"] is None, "OFFER_FREE_LINE")
     else:
         req(e["offer_view_sha256"] == verify(offer), "SETTLEMENT_OFFER_VIEW")
         req(offer["game_id"] == distribution["game_id"] and
@@ -779,6 +848,17 @@ def validate_evaluation(e, distribution, offer=None):
         req(e["supersedes_evaluation_sha256"] is not None,
             "CORRECTION_PREDECESSOR_MISSING")
         sha(e["supersedes_evaluation_sha256"])
+        req(previous is not None, "CORRECTION_CONTEXT_REQUIRED")
+        check_schema(previous, "evaluation")
+        req(next(_structural_validator().iter_errors(previous), None) is None,
+            "CORRECTION_PARENT_SCHEMA")
+        req(verify(previous) == e["supersedes_evaluation_sha256"] and
+            previous["revision"] + 1 == e["revision"], "CORRECTION_CHAIN")
+        req(all(previous[k] == e[k] for k in
+                ("distribution_sha256", "offer_view_sha256", "game_id", "event_start_at")),
+            "CORRECTION_IDENTITY")
+        req(instant(previous["evaluated_at"]) <= instant(e["evaluated_at"]),
+            "CORRECTION_BACKDATED")
     else:
         req(e["supersedes_evaluation_sha256"] is None,
             "FIRST_SETTLEMENT_HAS_PARENT")
@@ -810,6 +890,8 @@ def validate_evaluation(e, distribution, offer=None):
                 req(e["actual"] != line, "MISLABELED_PUSH")
     req(e["participation"] in ("unknown", "DNP", "PLAYED_ZERO_MINUTES", "PLAYED"),
         "SETTLEMENT_PARTICIPATION")
+    if status != "void":
+        req(e["void_basis"] is None, "NONVOID_BASIS")
     if status == "void":
         req(offer is not None and offer["product_terms_sha256"] is not None,
             "VOID_ORIGINAL_TERMS_REQUIRED")
@@ -829,14 +911,26 @@ def seed_for(master, event_id, scenario_id, component_version):
 
 def structural_boundary(validator):
     """Preserve semantic error codes, then reject all schema violations."""
+    signature = inspect.signature(validator)
+    first_name = next(iter(signature.parameters))
     @wraps(validator)
-    def checked(obj, *args, **kwargs):
+    def checked(*args, **kwargs):
         try:
-            result = validator(obj, *args, **kwargs)
+            bound = signature.bind(*args, **kwargs)
+            obj = bound.arguments[first_name]
+            result = validator(*args, **kwargs)
         except (KeyError, TypeError, IndexError, AttributeError) as exc:
             raise ContractError("MALFORMED_CONTRACT") from exc
         req(next(_structural_validator().iter_errors(obj), None) is None,
             "JSON_SCHEMA_VIOLATION")
+        p = bound.arguments.get("p")
+        if isinstance(p, dict) and p.get("kind") == "pregame":
+            models = (obj.get("lineage", {}).values() if "lineage" in obj
+                      else [obj.get("model")])
+            for model in models:
+                if model is not None:
+                    req(instant(model["training_cutoff_at"]) <= instant(p["training_cutoff_at"]),
+                        "MODEL_AFTER_DATA_CUTOFF")
         return result
     return checked
 
@@ -844,3 +938,28 @@ def structural_boundary(validator):
 for _name in ("validate_pregame", "validate_distribution", "validate_scenarios",
               "validate_offer", "validate_offer_view", "validate_evaluation"):
     globals()[_name] = structural_boundary(globals()[_name])
+
+
+def parse_contract(raw):
+    """Strict JSON ingestion: duplicate keys and nonfinite constants fail closed."""
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            req(key not in result, 'DUPLICATE_JSON_KEY')
+            result[key] = value
+        return result
+    def constant(value):
+        raise ContractError('NONFINITE_JSON_CONSTANT')
+    try:
+        obj = json.loads(raw, object_pairs_hook=pairs, parse_constant=constant)
+    except (ValueError, UnicodeError, TypeError) as exc:
+        if isinstance(exc, ContractError):
+            raise
+        raise ContractError('MALFORMED_JSON') from exc
+    try:
+        verify(obj)
+    except (ValueError, TypeError, OverflowError) as exc:
+        if isinstance(exc, ContractError):
+            raise
+        raise ContractError('MALFORMED_JSON') from exc
+    return obj

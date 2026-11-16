@@ -1,0 +1,508 @@
+{
+  "version": "1.1.0",
+  "prior_campaign_issues": [
+    {
+      "id": "A",
+      "severity": "HIGH",
+      "contract": "O/J",
+      "exact_invalid_input": "verified_out,p=0,PLAYED48",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_verified_zero_probability_cannot_play_48_minutes",
+      "positive_test": "positive synthetic control",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "B",
+      "severity": "HIGH",
+      "contract": "O/J",
+      "exact_invalid_input": "p=1,DNP at weight .4",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_certain_participation_cannot_dnp_with_positive_weight",
+      "positive_test": "played-zero and interior enumeration",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "C",
+      "severity": "HIGH",
+      "contract": "pregame/O/J",
+      "exact_invalid_input": "availability=out,PLAYED48",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_pregame_out_cannot_be_represented_as_played",
+      "positive_test": "unknown availability synthetic control",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "D",
+      "severity": "HIGH",
+      "contract": "J",
+      "exact_invalid_input": "duplicate opportunity witness player",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_duplicate_opportunity_witness",
+      "positive_test": "unchanged witness control",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "E",
+      "severity": "HIGH",
+      "contract": "all schema objects",
+      "exact_invalid_input": "nested target_actual_minutes field",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_nested_future_payload",
+      "positive_test": "original golden",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "F",
+      "severity": "HIGH",
+      "contract": "J",
+      "exact_invalid_input": "conditioning=arbitrary",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_unknown_conditioning",
+      "positive_test": "unconditional golden",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "G",
+      "severity": "HIGH",
+      "contract": "O",
+      "exact_invalid_input": "synthetic minute median=-1",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_invalid_minutes_law_support",
+      "positive_test": "median48 golden",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "H",
+      "severity": "HIGH",
+      "contract": "source",
+      "exact_invalid_input": "revision2 missing predecessor bytes",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_missing_receipt_parent",
+      "positive_test": "existing included revision chain",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    },
+    {
+      "id": "I",
+      "severity": "HIGH",
+      "contract": "O",
+      "exact_invalid_input": "unregistered negative support family",
+      "original_behavior": "accepted correctly resealed contradiction",
+      "correct_behavior": "ContractError",
+      "root_cause": "missing semantic or structural boundary check",
+      "repair_location": "v2/nba_architecture/v2_contracts.py and families_v2.py; schema-2.0.0.json",
+      "negative_test": "test_unregistered_minutes_law",
+      "positive_test": "registered synthetic family",
+      "final_result": "PASS in full 194-test run; not independent acceptance"
+    }
+  ],
+  "continuation_observed_failures": [
+    {
+      "id": "G0-COMPLETION-test_block_requires_opponent_missed_fga",
+      "severity": "HIGH",
+      "affected_contract": "test_block_requires_opponent_missed_fga",
+      "exact_invalid_input_or_valid_counterpart": "def test_block_requires_opponent_missed_fga(self):\n  c=golden_cases()['joint_same_draw'];j=edit(c['scenarios'],lambda x:x['scenarios'][0]['players'][1]['stats'].update(blocks=1))\n  with self.assertRaises(ContractError):validate_scenarios(j,c['pregame'])",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent block requires opponent missed fga invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_block_requires_opponent_missed_fga",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_boolean_team_score",
+      "severity": "HIGH",
+      "affected_contract": "test_boolean_team_score",
+      "exact_invalid_input_or_valid_counterpart": "def test_boolean_team_score(self):\n  j=edit(self.j,lambda x:x['scenarios'][0]['team_points'].update({'espn:team:2':False}))\n  with self.assertRaises(ContractError):validate_scenarios(j,self.p)",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent boolean team score invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_boolean_team_score",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_conditional_marginal_cannot_include_target_dnp",
+      "severity": "HIGH",
+      "affected_contract": "test_conditional_marginal_cannot_include_target_dnp",
+      "exact_invalid_input_or_valid_counterpart": "def test_conditional_marginal_cannot_include_target_dnp(self):\n  j=edit(self.j,lambda x:x.update(conditioning='conditional_on_participation'))\n  with self.assertRaises(ContractError):marginal_from_joint(j,self.p,self.p['players'][5]['player_id'],'points','2026-11-16T23:03:00Z',42)",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent conditional marginal cannot include target dnp invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_conditional_marginal_cannot_include_target_dnp",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_correction_parent_required_as_object",
+      "severity": "HIGH",
+      "affected_contract": "test_correction_parent_required_as_object",
+      "exact_invalid_input_or_valid_counterpart": "def test_correction_parent_required_as_object(self):\n  c=golden_cases()['prospective_original_offer'];e=evaluation(c['distribution'],c['offer_view'],revision=2,previous='f'*64)\n  with self.assertRaises(ContractError):validate_evaluation(e,c['distribution'],c['offer_view'])",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent correction parent required as object invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_correction_parent_required_as_object",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_empty_probability_zero_bin_is_permissible",
+      "severity": "HIGH",
+      "affected_contract": "test_empty_probability_zero_bin_is_permissible",
+      "exact_invalid_input_or_valid_counterpart": "def test_empty_probability_zero_bin_is_permissible(self):\n  d=edit(self.c['points'],lambda x:x['pmf'].append({'value':999,'mass':0.}))\n  self.assertTrue(validate_distribution(d,self.p,self.j))",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent empty probability zero bin is permissible invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_empty_probability_zero_bin_is_permissible",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_extra_team_total",
+      "severity": "HIGH",
+      "affected_contract": "test_extra_team_total",
+      "exact_invalid_input_or_valid_counterpart": "def test_extra_team_total(self):\n  j=edit(self.j,lambda x:x['scenarios'][0]['team_points'].update({'espn:team:extra':0}))\n  with self.assertRaises(ContractError):validate_scenarios(j,self.p)",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent extra team total invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_extra_team_total",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_feature_prior_date_bound_to_receipt",
+      "severity": "HIGH",
+      "affected_contract": "test_feature_prior_date_bound_to_receipt",
+      "exact_invalid_input_or_valid_counterpart": "def test_feature_prior_date_bound_to_receipt(self):\n  p=pregame()\n  with self.assertRaises(ContractError):validate_pregame(edit(p,lambda x:x['features'][0].update(prior_game_date='2022-10-16')))",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent feature prior date bound to receipt invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_feature_prior_date_bound_to_receipt",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_keyword_context_cannot_bypass_model_cutoff",
+      "severity": "HIGH",
+      "affected_contract": "test_keyword_context_cannot_bypass_model_cutoff",
+      "exact_invalid_input_or_valid_counterpart": "def test_keyword_context_cannot_bypass_model_cutoff(self):\n  c=golden_cases()['prospective_original_offer'];d=edit(c['distribution'],lambda x:x['lineage']['S'].update(training_cutoff_at='2026-11-16T21:00:00Z'))\n  with self.assertRaises(ContractError):validate_distribution(d,p=c['pregame'])",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent keyword context cannot bypass model cutoff invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_keyword_context_cannot_bypass_model_cutoff",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_local_date_cannot_be_unrelated_to_freeze",
+      "severity": "HIGH",
+      "affected_contract": "test_local_date_cannot_be_unrelated_to_freeze",
+      "exact_invalid_input_or_valid_counterpart": "def test_local_date_cannot_be_unrelated_to_freeze(self):\n  p=pregame('original_prospective')\n  with self.assertRaises(ContractError):validate_pregame(edit(p,lambda x:x.update(decision_local_date='2030-01-01')))",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent local date cannot be unrelated to freeze invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_local_date_cannot_be_unrelated_to_freeze",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_minutes_law_support_physically_bounded",
+      "severity": "HIGH",
+      "affected_contract": "test_minutes_law_support_physically_bounded",
+      "exact_invalid_input_or_valid_counterpart": "def test_minutes_law_support_physically_bounded(self):\n  from test_g0_pipeline_completion_20261116 import coherent_case\n  c=coherent_case();o=edit(c['opportunity'],lambda x:x['players'][0]['minutes_law']['parameters'].update(support=[{'minutes':48.,'mass':.5},{'minutes':100.,'mass':.5}]))\n  with self.assertRaises(ContractError):validate_opportunity(o,c['pregame'],c['game_state'])",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent minutes law support physically bounded invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_minutes_law_support_physically_bounded",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_model_fit_after_declared_data_cutoff",
+      "severity": "HIGH",
+      "affected_contract": "test_model_fit_after_declared_data_cutoff",
+      "exact_invalid_input_or_valid_counterpart": "def test_model_fit_after_declared_data_cutoff(self):\n  c=golden_cases()['prospective_original_offer'];d=edit(c['distribution'],lambda x:x['lineage']['S'].update(training_cutoff_at='2026-11-16T21:00:00Z'))\n  with self.assertRaises(ContractError):validate_distribution(d,c['pregame'])",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent model fit after declared data cutoff invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_model_fit_after_declared_data_cutoff",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_nonvoid_cannot_carry_void_basis",
+      "severity": "HIGH",
+      "affected_contract": "test_nonvoid_cannot_carry_void_basis",
+      "exact_invalid_input_or_valid_counterpart": "def test_nonvoid_cannot_carry_void_basis(self):\n  c=golden_cases()['prospective_original_offer'];e=evaluation(c['distribution'],c['offer_view'])\n  with self.assertRaises(ContractError):validate_evaluation(edit(e,lambda x:x.update(void_basis='made up')),c['distribution'],c['offer_view'])",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent nonvoid cannot carry void basis invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_nonvoid_cannot_carry_void_basis",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_offer_free_contract_line_rejected",
+      "severity": "HIGH",
+      "affected_contract": "test_offer_free_contract_line_rejected",
+      "exact_invalid_input_or_valid_counterpart": "def test_offer_free_contract_line_rejected(self):\n  c=golden_cases()['historical_offer_free'];e=evaluation(c['distribution'],line=2.5)\n  with self.assertRaises(ContractError):validate_evaluation(e,c['distribution'])",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent offer free contract line rejected invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_offer_free_contract_line_rejected",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_opportunity_player_hidden_payload",
+      "severity": "HIGH",
+      "affected_contract": "test_opportunity_player_hidden_payload",
+      "exact_invalid_input_or_valid_counterpart": "def test_opportunity_player_hidden_payload(self):\n  c=golden_cases()['joint_same_draw'];o=edit(c['opportunity'],lambda x:x['scenarios'][0]['players'][0].update(actual_stats=100))\n  with self.assertRaises(ContractError):validate_opportunity(o,c['pregame'],c['game_state'])",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent opportunity player hidden payload invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_opportunity_player_hidden_payload",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_prior_stat_cannot_use_quote_receipt",
+      "severity": "HIGH",
+      "affected_contract": "test_prior_stat_cannot_use_quote_receipt",
+      "exact_invalid_input_or_valid_counterpart": "def test_prior_stat_cannot_use_quote_receipt(self):\n  p=copy.deepcopy(self.p); r=p['sources'][1];p['features'][0].update(source_id=r['source_id'],source_receipt_sha256=r['receipt_sha256'],kind='prior_boxscore',prior_game_date='2026-11-15')\n  with self.assertRaises(ContractError):validate_pregame(edit(p,lambda x:None))",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent prior stat cannot use quote receipt invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_prior_stat_cannot_use_quote_receipt",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_revision_gap",
+      "severity": "HIGH",
+      "affected_contract": "test_revision_gap",
+      "exact_invalid_input_or_valid_counterpart": "def test_revision_gap(self):\n  p=pregame();r=p['sources'][0];new=reissue(r,source_revision=3,supersedes_receipt_sha256=r['receipt_sha256'])\n  with self.assertRaises(ContractError):validate_pregame(edit(p,lambda x:x['sources'].append(new)))",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent revision gap invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_revision_gap",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_steal_requires_opponent_turnover",
+      "severity": "HIGH",
+      "affected_contract": "test_steal_requires_opponent_turnover",
+      "exact_invalid_input_or_valid_counterpart": "def test_steal_requires_opponent_turnover(self):\n  c=golden_cases()['joint_same_draw'];j=edit(c['scenarios'],lambda x:x['scenarios'][0]['players'][1]['stats'].update(steals=1))\n  with self.assertRaises(ContractError):validate_scenarios(j,c['pregame'])",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent steal requires opponent turnover invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_steal_requires_opponent_turnover",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_submicrosecond_timestamp_cannot_silently_reverse_order",
+      "severity": "HIGH",
+      "affected_contract": "test_submicrosecond_timestamp_cannot_silently_reverse_order",
+      "exact_invalid_input_or_valid_counterpart": "def test_submicrosecond_timestamp_cannot_silently_reverse_order(self):\n  with self.assertRaises(ContractError): instant('2026-11-16T23:00:00.0000009Z')",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent submicrosecond timestamp cannot silently reverse order invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_submicrosecond_timestamp_cannot_silently_reverse_order",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_superseded_feature_revision",
+      "severity": "HIGH",
+      "affected_contract": "test_superseded_feature_revision",
+      "exact_invalid_input_or_valid_counterpart": "def test_superseded_feature_revision(self):\n  p=pregame();r=p['sources'][0];new=reissue(r,source_revision=2,supersedes_receipt_sha256=r['receipt_sha256'])\n  with self.assertRaises(ContractError):validate_pregame(edit(p,lambda x:x['sources'].append(new)))",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent superseded feature revision invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_superseded_feature_revision",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_threshold_rejects_negative_mass",
+      "severity": "HIGH",
+      "affected_contract": "test_threshold_rejects_negative_mass",
+      "exact_invalid_input_or_valid_counterpart": "def test_threshold_rejects_negative_mass(self):\n  with self.assertRaises(ContractError):threshold_triplet([{'value':0,'mass':-1},{'value':1,'mass':2}],.5)",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent threshold rejects negative mass invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_threshold_rejects_negative_mass",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_weights_tiny_roundoff_and_reorder",
+      "severity": "HIGH",
+      "affected_contract": "test_weights_tiny_roundoff_and_reorder",
+      "exact_invalid_input_or_valid_counterpart": "def test_weights_tiny_roundoff_and_reorder(self):\n  # 32 deterministic mixtures expose float summation artifacts at marginal checks.\n  rng=random.Random(20261116)\n  for _ in range(32):\n   weights=[rng.random() for i in range(7)];total=math.fsum(weights);weights=[w/total for w in weights]\n   j=copy.deepcopy(self.j);template=copy.deepcopy(j['scenarios'][0]);j['scenarios']=[];j['game_state_witness']={};j['opportunity_witness']={}\n   for i,w in enumerate(weights):\n    row=copy.deepcopy(template);sid=f'synthetic:draw:{i}';row.update(scenario_id=sid,weight=w);j['scenarios'].append(row)\n    j['game_state_witness'][sid]={'weight':w,'overtime_periods':0};j['opportunity_witness'][sid]=[{k:p[k] for k in ('player_id','team_id','minutes','participation')} for p in row['players']]\n   j=edit(j,lambda x:None)\n   d=marginal_from_joint(j,self.p,self.p['players'][0]['player_id'],'points','2026-11-16T23:03:00Z',42)\n   self.assertTrue(validate_distribution(d,self.p,j))",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent weights tiny roundoff and reorder invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_weights_tiny_roundoff_and_reorder",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    },
+    {
+      "id": "G0-COMPLETION-test_witness_hidden_feature",
+      "severity": "HIGH",
+      "affected_contract": "test_witness_hidden_feature",
+      "exact_invalid_input_or_valid_counterpart": "def test_witness_hidden_feature(self):\n  j=edit(self.j,lambda x:x['game_state_witness']['synthetic:draw:0'].update(actual_rotation=48))\n  with self.assertRaises(ContractError):validate_scenarios(j,self.p)",
+      "original_behavior": "FAIL/ERROR reproduced before repair; see discovery logs. These continuation logs are working-tree evidence, not independently frozen executions.",
+      "correct_behavior": "Reject invalid resealed input, or accept legitimate numerical counterpart",
+      "root_cause": "Absent witness hidden feature invariant",
+      "repair_location": [
+        "v2/nba_architecture/v2_contracts.py",
+        "v2/nba_architecture/families_v2.py",
+        "v2/nba_architecture/schema-2.0.0.json"
+      ],
+      "reproducer": "tests/nba_architecture/test_g0_completion_20261116.py::test_witness_hidden_feature",
+      "positive_counterparts": "invariants.json positive_tests and coherent_joint.json",
+      "final_result": "Closed by final exact-SHA suite; not independent approval"
+    }
+  ],
+  "new_complete_boundaries": [
+    "validate_forecast requires original G/O/J objects",
+    "validate_settlement requires original quote/view and complete correction history"
+  ],
+  "historical_twelve_repairs": {
+    "seven": "docs/nba_architecture/G0_REMEDIATION_20261116.json",
+    "five": "docs/nba_architecture/independent_final_20261116/DECISION.md",
+    "executable_inventory": "test_inventory.json"
+  },
+  "unresolved_critical_or_high_g0": []
+}
