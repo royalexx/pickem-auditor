@@ -172,6 +172,64 @@ class P1HistoryTest(unittest.TestCase):
             build([make_entry()], team_ids=("espn:team:8", "espn:team:9"))
 
 
+    def test_prior_player_identity_features(self):
+        p = build([make_entry()])
+        f = {row["name"].rsplit(":", 1)[-1]: row for row in p["features"]}
+        self.assertEqual(f["prior_game_id"]["value"], "espn:game:prior-1")
+        self.assertEqual(f["historical_team_id"]["value"], "espn:team:1")
+        self.assertEqual(f["historical_opponent_id"]["value"], "espn:team:2")
+        self.assertEqual(f["historical_team_id"]["measurement_units"], "identity")
+        self.assertNotIn("target_game_id", f)
+
+    def test_team_defense_history_is_explicit(self):
+        e = make_entry()
+        team_data = dict(
+            game_id="espn:game:prior-team", team_id="espn:team:1",
+            opponent_id="espn:team:2", game_date="2022-10-21",
+            possessions=None, pace_per_48=None,
+            stats={"points": 105, "rebounds": 43},
+            opponent_stats={"points": 109, "rebounds": 45})
+        e["record"]["kind"] = "team_game"
+        e["record"]["payload"] = canonical(team_data).decode("utf-8")
+        e["record"]["record_id"] = digest({
+            k: e["record"][k] for k in
+            ("kind", "receipt_id", "payload", "revision", "supersedes")})
+        p = build([make_entry(), e])
+        d = [f for f in p["features"] if f["name"] == "team:espn:team:1:opponent_points"]
+        self.assertEqual(len(d), 1)
+        self.assertEqual(d[0]["value"], 109)
+        self.assertIsNone(next(f["value"] for f in p["features"]
+                               if f["name"] == "team:espn:team:1:possessions"))
+
+    def test_cli_offline_write_once(self):
+        from scripts.nba_p1_build_pregame import execute
+        manifest = dict(
+            schedule={
+                "game_id": GAME, "team_ids": list(TEAMS),
+                "event_start_at": "2023-02-10T01:00:00Z",
+                "input_freeze_at": "2023-02-09T23:45:00Z",
+                "forecast_at": "2023-02-09T23:50:00Z",
+                "training_cutoff_at": "2023-02-08T00:00:00Z",
+                "decision_local_date": "2023-02-09"},
+            entries=[make_entry()], ingested_at=INGEST, original_bytes={})
+        with tempfile.TemporaryDirectory() as td:
+            inp, out = Path(td) / "manifest.json", Path(td) / "snapshot.json"
+            inp.write_text(json.dumps(manifest, sort_keys=True))
+            first = execute(inp, out)
+            raw = out.read_bytes()
+            second = execute(inp, out)
+            self.assertEqual(first, second)
+            self.assertEqual(raw, out.read_bytes())
+            self.assertEqual(first["status"], "HISTORICAL_RECONSTRUCTION_UNCERTIFIED")
+            self.assertEqual(first["source_original_bytes_verified"], 0)
+            self.assertFalse(first["forecast_scoring_performed"])
+
+    def test_ingestion_cannot_precede_observation(self):
+        with self.assertRaisesRegex(HistoryIntegrityError, "INGESTION_CLOCK_BACKDATED"):
+            build([make_entry()], ingested_at="2026-11-15T18:00:00Z")
+
+
+
 class P1VaultTest(unittest.TestCase):
     def _put(self, vault, **kw):
         defaults = dict(
