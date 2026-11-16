@@ -201,9 +201,14 @@ class P0IAdversarial(unittest.TestCase):
         o=opportunity(p,g,j)
         self.assertTrue(validate_integration(j,p,g,o))
         def change(x):
-            x["scenarios"][0]["players"][0]["minutes"]=40.0
-            x["scenarios"][0]["players"][1]["minutes"]=56.0
-        self.rejects(validate_integration,j,p,g,mutate(o,change))
+            # A *physically legal* different O draw, not an illegal >48min assignment.
+            rows=x["scenarios"][0]["players"]
+            rows[0]["minutes"]=43.0
+            rows[5]["minutes"]=5.0
+            rows[5]["participation"]="PLAYED"
+        different_o=mutate(o,change)
+        self.assertTrue(validate_opportunity(different_o,p,g))
+        self.rejects(validate_integration,j,p,g,different_o)
 
     def test_20_o_unknown_participation_is_not_zero(self):
         p=pregame("original_prospective")
@@ -251,8 +256,10 @@ class P0IAdversarial(unittest.TestCase):
             path=Path(folder)/"snap.json"
             freeze_once(path,p)
             raw=path.read_bytes()
-            self.assertEqual(hashlib.sha256(raw).hexdigest(),
-                             hashlib.sha256(raw).hexdigest())
+            expected=hashlib.sha256(json.dumps(
+                p,sort_keys=True,ensure_ascii=False,
+                separators=(",",":"),allow_nan=False).encode()+b"\n").hexdigest()
+            self.assertEqual(hashlib.sha256(raw).hexdigest(),expected)
             self.assertEqual(freeze_once(path,p),p["content_hash"])
             alternate=mutate(p,lambda x:x.update(original_offer_count=1))
             self.rejects(freeze_once,path,alternate)
