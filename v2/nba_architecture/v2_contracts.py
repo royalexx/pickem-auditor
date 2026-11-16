@@ -160,6 +160,8 @@ def validate_receipt(r, profile, freeze_at, local_day):
         "INVALID_SOURCE_SCOPE")
     req(r["contains_target_final"] is False, "TARGET_GAME_LEAKAGE")
     if profile == "original_prospective":
+        if published is not None:
+            req(instant(published) <= freeze_at, "PUBLICATION_CLAIM_AFTER_FREEZE")
         req(r["origin"] == "original_capture" and
             r["asof_basis"] == "observed_before_freeze",
             "PROSPECTIVE_SOURCE_REQUIRED")
@@ -242,7 +244,26 @@ def validate_pregame(p):
                 or player["eligibility_evidence"] == "prior_dated_record",
                 "HISTORICAL_ELIGIBILITY_LEAK")
     for feature in p["features"]:
+        strict_keys(feature, ("source_id","source_receipt_sha256","name","value",
+                              "kind","asof_basis","target_game_outcome",
+                              "prior_game_date","available_at","measurement_units"))
         req(feature["source_id"] in by_source, "FEATURE_SOURCE_UNKNOWN")
+        req(feature["source_receipt_sha256"] in
+            {r["receipt_sha256"] for r in by_source[feature["source_id"]]},
+            "FEATURE_REVISION_UNBOUND")
+        req(isinstance(feature["name"], str) and
+            bool(feature["name"]) and
+            not any(bad in feature["name"].lower() for bad in
+                ("target","final","actual","postgame","future","result",
+                 "same_game","samegame")), "FEATURE_NAME_LEAKAGE")
+        req(type(feature["value"]) in (str, int, float, bool, type(None))
+            or (isinstance(feature["value"], list)
+                and all(type(v) in (int,float) and math.isfinite(v)
+                        for v in feature["value"])), "UNTYPED_FEATURE_PAYLOAD")
+        if type(feature["value"]) in (int, float):
+            num(feature["value"], minimum=-math.inf)
+        req(isinstance(feature["measurement_units"], str)
+            and bool(feature["measurement_units"]), "FEATURE_UNIT_REQUIRED")
         req(feature["target_game_outcome"] is False
             and feature["kind"] != "target_game_result",
             "TARGET_GAME_FEATURE_LEAK")
@@ -273,7 +294,7 @@ def component(c):
     return True
 
 
-def validate_distribution(d, p):
+def validate_distribution(d, p, scenarios=None):
     validate_pregame(p)
     check_schema(d, "distribution")
     req(d["source_snapshot_sha256"] == p["content_hash"], "SOURCE_LINEAGE")
@@ -338,6 +359,19 @@ def validate_distribution(d, p):
         req(d["scenario_bundle_sha256"] is None, "UNEXPECTED_J_SCENARIOS")
     if d["stat"] in COMPOSITES and mode == "S_O_J":
         req(d["derivation"] == "same_draw_primitive_sum", "COMPOSITE_J_DERIVATION")
+    if scenarios is not None:
+        req(mode == "S_O_J", "SCENARIOS_ONLY_FOR_J")
+        validate_scenarios(scenarios, p)
+        req(d["scenario_bundle_sha256"] == scenarios["content_hash"],
+            "J_SCENARIO_BINDING")
+        pmf_actual = {}
+        for sc in scenarios["scenarios"]:
+            player = next(x for x in sc["players"] if x["player_id"] == d["player_id"])
+            key = player["stats"][d["stat"]]
+            pmf_actual[key] = pmf_actual.get(key, 0) + sc["weight"]
+        req({x["value"]: x["mass"] for x in pmf} == pmf_actual,
+            "J_MARGINAL_NOT_FROM_DRAWS")
+        req(d["lineage"] == scenarios["lineage"], "J_LINEAGE_MISMATCH")
     if p["source_profile"] == "historical_reconstruction":
         req(d["historical_asof_limitations"] == p["historical_asof_limitations"]
             and bool(d["historical_asof_limitations"]),
@@ -375,6 +409,8 @@ def validate_scenarios(s, p):
         pids = [x["player_id"] for x in parts]
         req(len(pids) == len(set(pids)) and set(pids) == set(universe),
             "J_ROSTER_IDENTITY")
+        req(scenario["team_points"][p["team_ids"][0]] !=
+            scenario["team_points"][p["team_ids"][1]], "TIED_FINAL_SCORE")
         for team in p["team_ids"]:
             members = [x for x in parts if x["team_id"] == team]
             req(abs(sum(num(x["minutes"]) for x in members) - 5*duration) < 1e-7,
@@ -533,6 +569,11 @@ def validate_offer_view(v, d, q, p):
     validate_distribution(d, p)
     validate_offer(q, p)
     check_schema(v, "offer_view")
+    req(q["game_id"] == d["game_id"] and
+        q["player_id"] == d["player_id"] and
+        q["team_id"] == d["team_id"] and
+        q["stat"] == d["stat"] and q["period"] == d["period"],
+        "DISTRIBUTION_OFFER_IDENTITY")
     req(v["distribution_sha256"] == d["content_hash"] and
         v["original_offer_sha256"] == q["content_hash"] and
         v["contract_id"] == q["contract_id"] and
@@ -575,6 +616,9 @@ def validate_evaluation(e, distribution, offer=None):
     else:
         req(e["supersedes_evaluation_sha256"] is None,
             "FIRST_SETTLEMENT_HAS_PARENT")
+    req(instant(e["evaluated_at"]) >= instant(e["event_start_at"]),
+        "EVALUATED_BEFORE_EVENT")
+    req(e["game_id"] == distribution["game_id"], "EVAL_GAME_MISMATCH")
     if status in ("pending", "unmatched", "void"):
         req(e["actual"] is None, "OUTCOME_MUST_BE_NULL")
     else:

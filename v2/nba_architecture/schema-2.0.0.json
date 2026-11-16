@@ -177,7 +177,11 @@
         "asof_basis",
         "target_game_outcome",
         "prior_game_date",
-        "available_at"
+        "available_at",
+        "source_receipt_sha256",
+        "name",
+        "value",
+        "measurement_units"
       ],
       "properties": {
         "source_id": {
@@ -215,8 +219,42 @@
               "type": "null"
             }
           ]
+        },
+        "source_receipt_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          ]
+        },
+        "measurement_units": {
+          "type": "string",
+          "minLength": 1
         }
-      }
+      },
+      "additionalProperties": false
     },
     "component": {
       "type": "object",
@@ -923,7 +961,10 @@
         "official_source_sha256",
         "participation",
         "void_basis",
-        "contract_line"
+        "contract_line",
+        "game_id",
+        "event_start_at",
+        "evaluated_at"
       ],
       "properties": {
         "schema": {
@@ -1007,6 +1048,15 @@
             "number",
             "null"
           ]
+        },
+        "game_id": {
+          "type": "string"
+        },
+        "event_start_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "evaluated_at": {
+          "$ref": "#/$defs/utc"
         }
       }
     }

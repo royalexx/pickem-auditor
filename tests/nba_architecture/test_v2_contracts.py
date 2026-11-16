@@ -41,6 +41,8 @@ def evaluation(d, offer=None, *, status="settled", actual=2, revision=1,
         "participation": participation, "void_basis":
             "source:original_terms" if status == "void" else None,
         "contract_line": line,
+        "game_id": d["game_id"], "event_start_at": P_EVENT,
+        "evaluated_at": "2026-11-17T03:00:00Z",
     })
 
 
@@ -53,6 +55,47 @@ class V2Tests(unittest.TestCase):
         with self.assertRaises(ContractError) as c:
             fn(*a)
         self.assertEqual(c.exception.code, code)
+
+    def test_four_primitive_stats_offer_free(self):
+        x = self.goldens["historical_offer_free"]
+        self.assertEqual(set(x["four_stats"]),
+                         {"points","rebounds","assists","threes"})
+        for stat, law in x["four_stats"].items():
+            self.assertEqual(law["stat"], stat)
+            self.assertTrue(validate_distribution(law, x["pregame"]))
+            self.assertIsNone(law["scenario_bundle_sha256"])
+
+    def test_adversarial_hidden_actual_feature(self):
+        p = pregame()
+        self.failcode("UNEXPECTED_FIELDS", validate_pregame,
+            edited(p, lambda x: x["features"][0].update(actual_minutes=30)))
+
+    def test_adversarial_source_receipt_join(self):
+        p = pregame()
+        self.failcode("FEATURE_REVISION_UNBOUND", validate_pregame,
+            edited(p, lambda x: x["features"][0].update(
+                source_receipt_sha256="f"*64)))
+
+    def test_prospective_late_publication_claim(self):
+        p = pregame("original_prospective")
+        def m(x):
+            x["sources"][0] = reissue(x["sources"][0],
+                provider_published_at=P_EVENT,
+                publication_evidence="source_header_claim")
+            x["features"][0]["source_receipt_sha256"] = x["sources"][0]["receipt_sha256"]
+        self.failcode("PUBLICATION_CLAIM_AFTER_FREEZE",
+                      validate_pregame, edited(p, m))
+
+    def test_j_marginal_crosschecked_against_scenarios(self):
+        x = self.goldens["joint_same_draw"]
+        self.assertTrue(validate_distribution(x["points"], x["pregame"],
+                                              x["scenarios"]))
+
+    def test_j_marginal_cannot_swap_weights(self):
+        x = self.goldens["joint_same_draw"]
+        d = edited(x["points"], lambda y: y["pmf"][0].update(mass=.6))
+        self.failcode("PMF_NOT_NORMALIZED", validate_distribution, d,
+                      x["pregame"], x["scenarios"])
 
     def test_historical_offer_free_golden(self):
         x = self.goldens["historical_offer_free"]
@@ -302,7 +345,7 @@ class V2Tests(unittest.TestCase):
         p = pregame()
         d = distribution(p)
         self.failcode("FORECAST_FREEZE_TIME", validate_distribution,
-            edited(d, lambda x: x.update(frozen_at=p["event_start_at"]+"x")), p)
+            edited(d, lambda x: x.update(frozen_at=p["event_start_at"])), p)
 
     def test_finite_mc_uncertainty_required(self):
         p = pregame()
@@ -519,6 +562,13 @@ class V2Tests(unittest.TestCase):
 
     def test_ambiguous_scenario_seed(self):
         self.failcode("AMBIGUOUS_SEED", seed_for, 1, "game|id", "s", "S")
+
+    def test_evaluation_too_early(self):
+        x = self.goldens["prospective_original_offer"]
+        e = evaluation(x["distribution"], x["offer_view"])
+        self.failcode("EVALUATED_BEFORE_EVENT", validate_evaluation,
+             edited(e, lambda y: y.update(evaluated_at=P_FREEZE)),
+             x["distribution"], x["offer_view"])
 
     def test_settlement_corrected_append_only(self):
         x = self.goldens["prospective_original_offer"]

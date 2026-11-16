@@ -68,6 +68,10 @@ def pregame(profile="historical_reconstruction", with_offer=False):
         "historical_asof_limitations": limitations,
         "sources": s, "players": pts, "original_offer_count": 1 if with_offer else 0,
         "features": [{"source_id": s[0]["source_id"],
+                      "source_receipt_sha256": s[0]["receipt_sha256"],
+                      "name": "prior_points" if hist else "scheduled_game",
+                      "value": 7 if hist else "scheduled",
+                      "measurement_units": "count" if hist else "status",
                       "kind": "prior_boxscore" if hist else "schedule",
                       "asof_basis": "prior_game_date_only" if hist else "original_capture",
                       "target_game_outcome": False,
@@ -188,6 +192,8 @@ def golden_cases():
                                 "pra", "2026-11-16T23:03:00Z", 42)
     return {
         "historical_offer_free": {"pregame": historical, "distribution": hdist,
+            "four_stats": {stat: distribution(historical, stat) for stat in
+                           ("points","rebounds","assists","threes")},
             "fixture_provenance": "SYNTHETIC_RESEARCH_PROXY_NO_ORIGINAL_HISTORICAL_CAPTURE"},
         "prospective_original_offer": {"pregame": prospective, "distribution": pdist,
             "offer": offer, "offer_view": view,
