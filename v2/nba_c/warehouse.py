@@ -120,7 +120,7 @@ class ForecastWarehouse:
         logical_key=digest(logical)
         _write_once(self.root/"logical_identity"/logical_key[:2]/
                     (logical_key+".json"),
-                    canonical({"logical":logical,"manifest_sha256":key})+b"\\n")
+                    canonical({"logical":logical,"manifest_sha256":key})+b"\n")
         return key
 
     def get(self,manifest_sha):
