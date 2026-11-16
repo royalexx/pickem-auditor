@@ -104,7 +104,7 @@ def enforce_population(morning_docs, day, *, validator=None, quarantine_dir=None
             dest = Path(quarantine_dir)
             dest.mkdir(parents=True, exist_ok=True)
             path = dest / (day + "-" + report["report_sha256"] + ".json")
-            data = (json.dumps(report,sort_keys=True,indent=2,allow_nan=False)+"\\n").replace("\\\\n","\\n").encode("utf-8")
+            data = (json.dumps(report, sort_keys=True, indent=2, allow_nan=False) + "\n").encode("utf-8")
             try:
                 with path.open("xb") as fp:
                     fp.write(data)
