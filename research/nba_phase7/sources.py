@@ -5,6 +5,7 @@ import gzip
 import json
 from pathlib import Path
 import re
+import subprocess
 from urllib.request import Request,urlopen
 from v2.nba_ws1.capture import now
 from v2.nba_ws1.store import Receipt,digest,instant
@@ -85,6 +86,20 @@ def acquire_supplements(output,board_event,*,deadline_at):
     freeze(root/'receipt.json',report);return report
 
 
+
+def _read_optional_official_injury(raw,receipt,freeze_at,errors):
+    """A missing optional PDF parser must not discard the original ESPN universe."""
+    try:
+        return injury_pdf(raw,receipt,freeze_at=freeze_at)
+    except (ValueError, FileNotFoundError, subprocess.TimeoutExpired,
+            subprocess.CalledProcessError) as exc:
+        errors.append(dict(code='OFFICIAL_INJURY_PARSER_UNAVAILABLE',
+                           cause=type(exc).__name__+':'+str(exc),
+                           receipt_id=receipt.receipt_id,
+                           no_eligibility_inference=True))
+        return None
+
+
 def read_supplement(folder,item):
     root=Path(folder).resolve();path=(root/item['path']).resolve()
     if not path.is_relative_to(root):raise ValueError('SUPPLEMENT_PATH_ESCAPE')
@@ -112,8 +127,8 @@ def build_game_ledger(capture_folder,supplement_folder,model):
                     if str(exc)!='CROSS_PROVIDER_TEAM_UNRESOLVED':errors.append(dict(code=str(exc),receipt_id=r.receipt_id))
                 else:walks.append(w)
         if item['kind']=='official_injury_pdf':
-            try:reports.append(injury_pdf(raw,r,freeze_at=at))
-            except ValueError as exc:errors.append(dict(code=str(exc),receipt_id=r.receipt_id))
+            report=_read_optional_official_injury(raw,r,at,errors)
+            if report is not None:reports.append(report)
     resolved=[];unresolved=[];gaps=[]
     for report in reports:
         result=resolve_injuries(report,walks,freeze_at=at);resolved+=result['resolved'];unresolved+=result['unresolved'];gaps+=result['submission_gaps']
