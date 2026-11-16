@@ -18,6 +18,9 @@ Thus NBA.com is not globally unavailable; the **directory page specifically fail
 
 Source handling: the collector now retrieves fresh NBA team roster pages by **source-bound prior NBA team page URLs** from immutable Phase 8A identity evidence (route/navigation evidence only). It no longer depends on the blocked `nba.com/players` directory. A failed NBA roster or injury source creates explicit supplemental rejection receipts and **does not prevent ESPN WS1** from capturing original player candidates, scheduled games, historical player stats and game box scores. The existing ESPN FINAL summary remains the canonical settlement source. No name-only crosswalk or invented legal eligibility/appearance probability is authorized.
 
+
+If Poppler provisioning fails, the daily worker permits a **hash-verified ESPN-only** candidate capture rather than discarding the entire original slot. The official injury parser then remains unavailable and its failure is retained; the worker does not infer verified inactivity, game-active eligibility, or positive appearance probabilities from ESPN membership.
+
 A source-fallback capture means **ESPN candidate records only**, not league-certified legal game-active eligibility. J2 F, P1/P2 and original market-edge claims stay BLOCKED-BY-DATA.
 
 ## Daily execution design
