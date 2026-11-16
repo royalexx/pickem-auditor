@@ -14,3 +14,6 @@ Conformance is not assumed from passing old synthetic suites; this file enumerat
 Real original branches/heads: #137 53c01a9eabb9ed09b5c3186eae0d086b07bcc891; #138 02426dd1b9c2b0cca28eaf69888adadc0021afa5; #139 9821694260edb08b7414f02adea8c1fb3fd3b13c; #140 cdf926f56e86bc9d25576acff61fd6f091313159; Phases #141–#144 remain stacked drafts. Inspect their actual heads on resumption.
 
 These are interface conformance **blockers**, not synthetic-test failures. They do not preclude a G0 acceptance if a separate reviewer agrees the v2 contract is technically coherent and documented adapter gaps properly allocated to G1; they preclude any G1 or G2 claim.
+
+## Actual pinned upstream regression evidence (not v2 adapters)
+Deepnote run `6502f8aa-6b78-450d-9388-363e79ba85ca`: WS1 #137 25/25, WS2 #138 25/25, WS4 #139 33/33, WS5 #140 63/63 in separate SHA-pinned read-only checkouts. Common architecture tested SHA `35281d369ece4016fc6e6a5af8e938e04cc2ec30` passed 136/136. These prove old-version regression health, **not** source/feature conversion to v2, owner acceptance or independent G0. All owner-conformance blockers in the table remain active.
