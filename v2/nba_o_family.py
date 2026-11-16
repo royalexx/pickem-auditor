@@ -274,14 +274,22 @@ def validate_sidecar(sidecar,p,g,o):
         sidecar["game_state_sha256"]==g["content_hash"] and
         sidecar["source_snapshot_sha256"]==p["content_hash"],
         "O_SIDECAR_JOIN")
+    req(sidecar["variant"] in VARIANTS and sidecar["model"]==o["model"] and
+        sidecar["home_team_id"] in p["team_ids"] and
+        sidecar["home_team_source_receipt_sha256"] in
+        {r["receipt_sha256"] for r in p["sources"]},
+        "O_SIDECAR_METADATA")
     g_by_id={x["scenario_id"]:x for x in g["scenarios"]}
     o_by_id={x["scenario_id"]:x for x in o["scenarios"]}
-    req(set(x["scenario_id"] for x in sidecar["scenarios"])==set(g_by_id),
+    req(len(sidecar["scenarios"])==len(g_by_id) and
+        set(x["scenario_id"] for x in sidecar["scenarios"])==set(g_by_id),
         "O_SIDECAR_COVERAGE")
     for sc in sidecar["scenarios"]:
         sid=sc["scenario_id"]
-        req(abs(sc["weight"]-g_by_id[sid]["weight"])<=1e-12,
+        req(abs(sc["weight"]-g_by_id[sid]["weight"])<=1e-12 and
+            sc["overtime_periods"]==g_by_id[sid]["overtime_periods"],
             "O_SIDECAR_WEIGHT")
+        req(set(sc["teams"])==set(p["team_ids"]), "O_SIDECAR_TEAM_COVERAGE")
         o_players={x["player_id"]:x for x in o_by_id[sid]["players"]}
         req(set(x["player_id"] for x in sc["players"])==set(o_players),
             "O_SIDECAR_ROSTER")
@@ -291,6 +299,18 @@ def validate_sidecar(sidecar,p,g,o):
                 x["participation"]==w["participation"],"O_SIDECAR_PLAYER_JOIN")
         for team,info in sc["teams"].items():
             chosen=[x for x in sc["players"] if o_players[x["player_id"]]["team_id"]==team]
+            expected_pool=(g_by_id[sid]["possessions_home"] if
+                           team==sidecar["home_team_id"] else
+                           g_by_id[sid]["possessions_away"])
+            req(info["team_id"]==team and
+                info["projected_possessions"]==expected_pool,
+                "O_GAME_POSSESSION_JOIN")
+            req(all(math.isfinite(x["possession_share"]) and
+                    math.isfinite(x["projected_possession_opportunity"]) and
+                    x["possession_share"]>=0 and
+                    x["projected_possession_opportunity"]>=0 and
+                    (x["minutes"]>0 or x["possession_share"]==0)
+                    for x in chosen), "O_INVALID_SHARE_OR_DNP")
             req(abs(math.fsum(x["possession_share"] for x in chosen)-1)<1e-10,
                 "O_SHARE_CONSERVATION")
             req(abs(math.fsum(x["projected_possession_opportunity"] for x in chosen)-
@@ -301,6 +321,12 @@ def validate_sidecar(sidecar,p,g,o):
                 "O_LINEUP_CLOCK_COVERAGE")
             req(all(len(x["player_indices"])==5 for x in segments),
                 "O_FIVE_ON_COURT")
+            team_players=sorted((x for x in o_by_id[sid]["players"]
+                                 if x["team_id"]==team),
+                                key=lambda x:x["player_id"])
+            expected_segments=lineup_segments(
+                [x["minutes"] for x in team_players],length)
+            req(segments==expected_segments,"O_LINEUP_WITNESS_MISMATCH")
     return True
 
 
