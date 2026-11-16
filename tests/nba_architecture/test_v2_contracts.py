@@ -142,6 +142,31 @@ class V2Tests(unittest.TestCase):
         self.failcode("MC_ZERO_TAIL_UNCERTAINTY", validate_distribution,
                       d, x["pregame"])
 
+    def test_top_level_hidden_postgame_feature_rejected(self):
+        p = pregame()
+        self.failcode("UNEXPECTED_FIELDS", validate_pregame,
+            edited(p, lambda x: x.update(target_game_final_boxscore={"points":28})))
+
+    def test_receipt_hidden_revision_payload_rejected(self):
+        p = pregame()
+        def m(x):
+            source = x["sources"][0]
+            x["sources"][0] = reissue(source, target_final_stat={"points": 35})
+        self.failcode("UNEXPECTED_FIELDS", validate_pregame, edited(p,m))
+
+    def test_stat_distribution_extra_metric_rejected(self):
+        p = pregame()
+        d = distribution(p)
+        self.failcode("UNEXPECTED_FIELDS", validate_distribution,
+            edited(d, lambda x: x.update(hidden_future_points=50)), p)
+
+    def test_model_provenance_extra_field_rejected(self):
+        p = pregame()
+        d = distribution(p)
+        self.failcode("UNEXPECTED_FIELDS", validate_distribution,
+            edited(d, lambda x: x["lineage"]["S"].update(
+                target_game_minutes=42)), p)
+
     def test_historical_offer_free_golden(self):
         x = self.goldens["historical_offer_free"]
         self.assertTrue(validate_pregame(x["pregame"]))

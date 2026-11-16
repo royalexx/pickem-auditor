@@ -6,11 +6,13 @@ consume their identical scenario/player draws and identity-bound content hashes.
 from __future__ import annotations
 from .v2_contracts import (
     VERSION, ContractError, req, num, ident, instant, sha, check_schema,
-    validate_pregame, validate_scenarios, component, seal,
+    validate_pregame, validate_scenarios, component, seal, strict_keys,
 )
 
 
 def validate_game_state(g, p):
+    strict_keys(g, ("schema","kind","content_hash","source_snapshot_sha256",
+                    "game_id","model","rng_seed","scenarios"))
     validate_pregame(p)
     check_schema(g, "game_state")
     req(g["source_snapshot_sha256"] == p["content_hash"] and
@@ -39,6 +41,8 @@ def validate_game_state(g, p):
 
 
 def validate_opportunity(o, p, g):
+    strict_keys(o, ("schema","kind","content_hash","source_snapshot_sha256",
+                    "game_id","model","game_state_sha256","players","scenarios"))
     validate_game_state(g, p)
     check_schema(o, "opportunity")
     req(o["source_snapshot_sha256"] == p["content_hash"] and

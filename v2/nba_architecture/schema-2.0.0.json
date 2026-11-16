@@ -127,7 +127,8 @@
             }
           ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "player": {
       "type": "object",
@@ -167,7 +168,8 @@
             "unknown"
           ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "feature": {
       "type": "object",
@@ -281,7 +283,8 @@
         "training_cutoff_at": {
           "$ref": "#/$defs/utc"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "pmf": {
       "type": "array",
@@ -407,7 +410,8 @@
           "type": "integer",
           "minimum": 0
         }
-      }
+      },
+      "additionalProperties": false
     },
     "distribution": {
       "type": "object",
@@ -650,7 +654,8 @@
         "event_start_at": {
           "$ref": "#/$defs/utc"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "scenarios": {
       "type": "object",
@@ -796,7 +801,8 @@
         "opportunity_sha256": {
           "$ref": "#/$defs/sha"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "original_offer": {
       "type": "object",
@@ -898,7 +904,8 @@
             "null"
           ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "offer_view": {
       "type": "object",
@@ -980,7 +987,8 @@
         "product_void_semantics": {
           "const": "requires_original_product_terms"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "evaluation": {
       "type": "object",
@@ -1094,7 +1102,8 @@
         "evaluated_at": {
           "$ref": "#/$defs/utc"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "game_state": {
       "type": "object",
@@ -1179,7 +1188,8 @@
             }
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "opportunity": {
       "type": "object",
@@ -1301,7 +1311,8 @@
             }
           }
         }
-      }
+      },
+      "additionalProperties": false
     }
   },
   "oneOf": [

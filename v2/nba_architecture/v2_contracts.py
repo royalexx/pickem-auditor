@@ -129,6 +129,12 @@ def receipt(payload):
 
 
 def validate_receipt(r, profile, freeze_at, local_day):
+    strict_keys(r, ("source_id","source_revision","supersedes_receipt_sha256",
+                    "receipt_sha256","raw_sha256","origin","scope",
+                    "contains_target_final","provider_published_at",
+                    "publication_evidence","collector_observed_at",
+                    "retrieved_at","ingested_at","asof_basis",
+                    "historical_game_date","asof_limitations"))
     req(isinstance(r, dict) and "receipt_sha256" in r, "RECEIPT_MISSING")
     actual = sha(r["receipt_sha256"])
     req(digest({k: v for k, v in r.items() if k != "receipt_sha256"}) == actual,
@@ -186,6 +192,11 @@ def validate_receipt(r, profile, freeze_at, local_day):
 
 
 def validate_pregame(p):
+    strict_keys(p, ("schema","kind","content_hash","source_profile","game_id",
+                    "team_ids","event_start_at","input_freeze_at","forecast_at",
+                    "training_cutoff_at","decision_local_date","certification",
+                    "historical_asof_limitations","sources","players","features",
+                    "original_offer_count"))
     check_schema(p, "pregame")
     profile = p["source_profile"]
     req(profile in PROFILES, "SOURCE_PROFILE")
@@ -235,6 +246,8 @@ def validate_pregame(p):
     ids = {}
     req(isinstance(p["players"], list) and bool(p["players"]), "ROSTER_REQUIRED")
     for player in p["players"]:
+        strict_keys(player, ("player_id","team_id","legal_eligibility",
+                             "eligibility_evidence","availability"))
         pid = ident(player["player_id"])
         req(pid not in ids, "DUPLICATE_PLAYER")
         ids[pid] = player["team_id"]
@@ -290,6 +303,8 @@ def validate_pregame(p):
 
 def component(c):
     req(isinstance(c, dict), "MODEL_COMPONENT_REQUIRED")
+    strict_keys(c, ("model_id","version","artifact_sha256",
+                    "code_sha256","training_cutoff_at"))
     ident(c["model_id"])
     req(isinstance(c["version"], str) and bool(c["version"]), "MODEL_VERSION")
     sha(c["artifact_sha256"])
@@ -299,6 +314,12 @@ def component(c):
 
 
 def validate_distribution(d, p, scenarios=None):
+    strict_keys(d, ("schema","kind","content_hash","source_profile","game_id",
+                    "player_id","team_id","stat","period","support",
+                    "pipeline_mode","conditioning","status",
+                    "source_snapshot_sha256","lineage","event_start_at",
+                    "forecast_at","frozen_at","rng_seed","scenario_bundle_sha256",
+                    "derivation","numerical","pmf","historical_asof_limitations"))
     validate_pregame(p)
     check_schema(d, "distribution")
     req(d["source_snapshot_sha256"] == p["content_hash"], "SOURCE_LINEAGE")
@@ -399,6 +420,10 @@ def validate_distribution(d, p, scenarios=None):
 
 
 def validate_scenarios(s, p):
+    strict_keys(s, ("schema","kind","content_hash","source_snapshot_sha256",
+                    "game_id","pipeline_mode","conditioning","lineage",
+                    "scenarios","game_state_witness","opportunity_witness",
+                    "game_state_sha256","opportunity_sha256"))
     validate_pregame(p)
     check_schema(s, "scenarios")
     req(s["source_snapshot_sha256"] == p["content_hash"]
@@ -548,6 +573,11 @@ def threshold_triplet(pmf, line):
 
 
 def validate_offer(q, p):
+    strict_keys(q, ("schema","kind","content_hash","source_snapshot_sha256",
+                    "game_id","player_id","team_id","stat","period",
+                    "contract_id","quote_id","book","product_type","line",
+                    "raw_quote_sha256","source_receipt_sha256","quoted_at",
+                    "observed_at","payout_terms"))
     validate_pregame(p)
     check_schema(q, "original_offer")
     req(p["source_profile"] == "original_prospective",
@@ -599,6 +629,10 @@ def offer_view(d, q, p, frozen_at):
 
 
 def validate_offer_view(v, d, q, p):
+    strict_keys(v, ("schema","kind","content_hash","game_id","distribution_sha256",
+                    "original_offer_sha256","contract_id","quote_id",
+                    "quote_source_receipt","probabilities","status","frozen_at",
+                    "product_void_semantics"))
     validate_distribution(d, p)
     validate_offer(q, p)
     check_schema(v, "offer_view")
@@ -631,6 +665,11 @@ def validate_offer_view(v, d, q, p):
 
 
 def validate_evaluation(e, distribution, offer=None):
+    strict_keys(e, ("schema","kind","content_hash","distribution_sha256",
+                    "offer_view_sha256","status","actual","revision",
+                    "supersedes_evaluation_sha256","official_source_sha256",
+                    "participation","void_basis","contract_line","game_id",
+                    "event_start_at","evaluated_at"))
     check_schema(e, "evaluation")
     req(e["distribution_sha256"] == verify(distribution), "SETTLEMENT_DISTRIBUTION")
     if offer is None:
