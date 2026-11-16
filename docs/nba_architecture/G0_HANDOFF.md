@@ -5,10 +5,10 @@
 ## Reproducible engineering evidence
 
 - Repository: `royalexx/pickem-auditor`; branch: `research/nba-p0-sojc-architecture-g0-20261116`; base `main` commit `912bc7010058092ea735dcda0aa941429194474b`.
-- Code and schema test commit: `cc760b9ea2c32db7655d6dc573d09fa6d5910488`.
-- Deepnote project: `9cc31536-93be-44db-bdeb-06fba3f61410`; unscheduled notebook `5429ea77f5f54ccdb83e996fba072996`; detached **read-only** run `44dc42f2-2a73-45d9-bec0-d4065a17704a`.
-- Final test: **29/29 Python unittest methods passed**, **0 failures/errors**, JSON Schema Draft 2020–12 structural check **PASS**. Actual files were read by exact Git commit and SHA256-printed in the run; hashes are in `G0_HANDOFF.json`.
-- Regression history: initial 21/21; strengthened 25/26 and 28/29 test passes exposed two failure-reason/order mismatches, both corrected; final run 29/29. This is **not** a predictive validation or a complete existing-repository regression test.
+- Code and schema test commit: `52f4fd7606d5548e78c5e4a79f753bcf39884ad0`.
+- Deepnote project: `9cc31536-93be-44db-bdeb-06fba3f61410`; unscheduled notebook `5429ea77f5f54ccdb83e996fba072996`; detached **read-only** run `f5c2419d-fe7f-4776-a66d-d8c77762508a`.
+- Final test: **31/31 Python unittest methods passed**, **0 failures/errors**, JSON Schema Draft 2020–12 structural check **PASS**. Actual files were read by exact Git commit and SHA256-printed in the run; hashes are in `G0_HANDOFF.json`.
+- Regression history: initial 21/21; strengthened 25/26 and 28/29 test passes exposed two failure-reason/order mismatches, both corrected; final run 31/31, including corrected-settlement and exact push-label guards. This is **not** a predictive validation or a complete existing-repository regression test.
 
 ## Ownership and graph
 

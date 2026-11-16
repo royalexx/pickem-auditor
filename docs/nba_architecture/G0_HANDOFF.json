@@ -44,20 +44,20 @@
   ],
   "test_results": {
     "status": "PASS_ENGINEERING_SCOPE_ONLY",
-    "tested_commit": "cc760b9ea2c32db7655d6dc573d09fa6d5910488",
+    "tested_commit": "52f4fd7606d5548e78c5e4a79f753bcf39884ad0",
     "deepnote_notebook_id": "5429ea77f5f54ccdb83e996fba072996",
-    "deepnote_run_id": "44dc42f2-2a73-45d9-bec0-d4065a17704a",
-    "deepnote_completed_at_utc": "2026-11-16T14:16:24.826Z",
+    "deepnote_run_id": "f5c2419d-fe7f-4776-a66d-d8c77762508a",
+    "deepnote_completed_at_utc": "2026-11-16T14:19:33.644Z",
     "execution_mode": "detached_readonly",
     "suite": "python -m unittest discover -s tests/nba_architecture -v",
-    "tests_passed": 29,
+    "tests_passed": 31,
     "tests_failed": 0,
     "tests_errors": 0,
     "json_schema_draft_2020_12_check": "PASS",
     "source_file_sha256": {
-      "v2/nba_architecture/contracts.py": "be0dacb1b6ba79bd7e71c347a8daa811912da3065c1cacff19d20f611059a43e",
+      "v2/nba_architecture/contracts.py": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
       "v2/nba_architecture/schema-1.0.0.json": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
-      "tests/nba_architecture/test_contracts.py": "a3e14ddda23ccc1d49dd1e2b310d24ae65ca62c28a28675e66d8c99d5ada1d67"
+      "tests/nba_architecture/test_contracts.py": "b882ed962a010388d07a4a6e1ef724217d026b02bc430cd6f4c24f8c31d9cad3"
     },
     "predictive_validation_performed": false,
     "tested_statistical_ability": false,
@@ -76,7 +76,7 @@
     "latest": "#146"
   },
   "tamper_evidence": {
-    "tested_commit": "cc760b9ea2c32db7655d6dc573d09fa6d5910488",
+    "tested_commit": "52f4fd7606d5548e78c5e4a79f753bcf39884ad0",
     "source_hashes_in_test_receipt": true,
     "record_integrity": "Git-tracked file + SHA-pinned Deepnote run; no signature over final manifest claimed"
   },
@@ -85,7 +85,7 @@
     "signed_off_by": "NBA V2.5 lead architecture integrator (ChatGPT-controlled P0 session)",
     "role": "author and handoff preparer, not independent reviewer",
     "status": "SELF_ATTESTED_G0_FAIL",
-    "signed_at_reference": "Deepnote completed 2026-11-16T14:16:24.826Z",
+    "signed_at_reference": "Deepnote completed 2026-11-16T14:19:33.644Z",
     "signature_kind": "recorded role attestation; no user identity proof or cryptographic signature",
     "independent_reviewer_signature": null,
     "ws_team_acknowledgements": {}
