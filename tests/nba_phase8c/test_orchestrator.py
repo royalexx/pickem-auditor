@@ -87,6 +87,27 @@ class NBADailyOrchestrationTests(unittest.TestCase):
         self.assertEqual({r["slot"] for r in rows}, {1, 2})
         self.assertTrue(all(r["status"] == "MOCKED" for r in rows))
 
+    def test_missing_optional_pdf_never_destroys_espn_capture_readiness(self):
+        from research.nba_phase8c import daily
+        with patch.object(daily, "preflight", side_effect=ValueError("PDF_RUNTIME_UNAVAILABLE")):
+            ready = daily.safe_pregame_preflight(Path("/work/fixture_root_unused"))
+        self.assertEqual(ready["status"], "ESPN_ONLY_OPTIONAL_PDF_PARSER_UNAVAILABLE")
+        self.assertIn("legal eligibility", ready["restrictions"])
+
+    def test_timed_out_optional_pdf_never_destroys_espn_readiness(self):
+        from research.nba_phase8c import daily
+        import subprocess
+        with patch.object(daily, "preflight", side_effect=subprocess.TimeoutExpired("pdftotext -v", 10)):
+            ready = daily.safe_pregame_preflight(Path("/work/fixture_root_unused"))
+        self.assertEqual(ready["status"], "ESPN_ONLY_OPTIONAL_PDF_PARSER_UNAVAILABLE")
+        self.assertIn("TimeoutExpired", ready["optional_pdf_failure"])
+
+    def test_nonpdf_preflight_failure_must_remain_blocked(self):
+        from research.nba_phase8c import daily
+        with patch.object(daily, "preflight", side_effect=ValueError("FROZEN_MODEL_CHANGED")):
+            with self.assertRaisesRegex(ValueError, "FROZEN_MODEL_CHANGED"):
+                daily.safe_pregame_preflight(Path("/work/fixture_root_unused"))
+
     def test_data_sources_explicitly_distinguish_eligibility(self):
         plan = run(day="2026-11-18", dry_run=True)
         self.assertIn("boxscores", plan["sources"]["ESPN"])
