@@ -5,6 +5,7 @@ import gzip
 import json
 from pathlib import Path
 import re
+import subprocess
 from urllib.request import Request,urlopen
 from v2.nba_ws1.capture import now
 from v2.nba_ws1.store import Receipt,digest,instant
@@ -15,7 +16,38 @@ from .evidence import injury_pdf,build_crosswalk,resolve_injuries,page_data,norm
 from .participation import participation_layer
 
 
+def _source_bound_team_route(comp):
+    """Reuse only the observed NBA team-page ROUTE; acquire new game-day roster bytes.
+
+    Phase 8A original team-ID/route receipts are a navigation aid, NEVER a
+    source of new-player availability or an as-of roster identity.
+    """
+    from urllib.parse import urlsplit
+    team=comp['team'];espn_id=str(team['id'])
+    path=Path('research/nba_phase8a/evidence/identity_final/team_'+espn_id+'.json')
+    if not path.is_file():raise ValueError('NBA_TEAM_ROUTE_EVIDENCE_MISSING')
+    doc=json.loads(path.read_text())
+    entries=[p for p in doc.get('entries',[])
+             if p.get('espn_team_id')=='espn:team:'+espn_id
+             and norm(p.get('official_team_name',''))==norm(team['displayName'])]
+    if not entries:raise ValueError('NBA_TEAM_ROUTE_IDENTITY_MISMATCH')
+    urls={r['source'] for p in entries for r in p['evidence']
+          if urlsplit(r['source']).hostname=='www.nba.com'
+          and re.fullmatch(r'/team/\d+/[a-z0-9-]+',urlsplit(r['source']).path)}
+    if len(urls)!=1:raise ValueError('NBA_TEAM_ROUTE_AMBIGUOUS')
+    url=next(iter(urls))
+    tid=urlsplit(url).path.split('/')[2]
+    if any(p['nba_team_id']!='nba:team:'+tid for p in entries):
+        raise ValueError('NBA_TEAM_ROUTE_PROVIDER_COLLISION')
+    return url
+
+
 def acquire_supplements(output,board_event,*,deadline_at):
+    """Independent source attempts: blocked directory cannot suppress valid NBA/PDF sources.
+
+    ESPN source capture is performed by unchanged WS1. If any NBA source
+    fails, the output is partial and all identities/eligibility stay unknown.
+    """
     root=Path(output);root.mkdir(parents=True,exist_ok=False);items=[];errors=[]
     def fetch(kind,url):
         if instant(now())>instant(deadline_at):raise ValueError('SUPPLEMENT_FREEZE_DEADLINE_MISSED')
@@ -26,24 +58,46 @@ def acquire_supplements(output,board_event,*,deadline_at):
         items.append(dict(kind=kind,receipt=asdict(r),path=filename))
         if instant(r.observed_at)>instant(deadline_at):raise ValueError('SUPPLEMENT_LATE_RECEIPT')
         return raw,r
+    for comp in board_event['competitions'][0]['competitors']:
+        team=comp['team']
+        try:
+            url=_source_bound_team_route(comp)
+            fetch('nba_team_roster',url)
+        except Exception as exc:
+            errors.append(dict(code='TEAM_SUPPLEMENT_UNAVAILABLE',
+                               espn_team_id=str(team.get('id')),
+                               detail=type(exc).__name__+':'+str(exc)))
     try:
-        raw,_=fetch('nba_player_directory','https://www.nba.com/players');directory=page_data(raw)['players']
-        for comp in board_event['competitions'][0]['competitors']:
-            expected=comp['team']['displayName'];teams={(str(p['TEAM_ID']),p['TEAM_SLUG']) for p in directory if p.get('TEAM_CITY') and p.get('TEAM_NAME') and p.get('TEAM_ID') and p.get('TEAM_SLUG') and norm(p['TEAM_CITY']+' '+p['TEAM_NAME'])==norm(expected)}
-            if len(teams)!=1:errors.append(dict(code='NBA_TEAM_DIRECTORY_UNRESOLVED',team=expected));continue
-            tid,slug=next(iter(teams));fetch('nba_team_roster','https://www.nba.com/team/'+tid+'/'+slug)
         raw,_=fetch('official_injury_index','https://official.nba.com/nba-injury-report-2026-27-season/')
         candidates=[]
-        for url in re.findall(r'href=["\x27]([^"\x27]+)',raw.decode()):
+        for url in re.findall(r'href="([^"]+)"',raw.decode())+re.findall(r"href='([^']+)'",raw.decode()):
             m=re.search(r'Injury-Report_(\d{4}-\d{2}-\d{2})_(\d{2})_(\d{2})(AM|PM)\.pdf$',url)
             if m:
                 claimed=datetime.strptime(' '.join(m.groups()),'%Y-%m-%d %I %M %p').replace(tzinfo=__import__('zoneinfo').ZoneInfo('America/Toronto'))
                 if claimed<=instant(now()) and claimed<=instant(deadline_at):candidates.append((claimed,url))
         if not candidates:raise ValueError('ORIGINAL_OFFICIAL_PDF_UNAVAILABLE')
         fetch('official_injury_pdf',max(candidates)[1])
-    except Exception as exc:errors.append(dict(code=type(exc).__name__,detail=str(exc)))
-    report=dict(schema='NBAPhase7SupplementCapture/1',items=items,errors=errors,captured_at=now(),status='captured_partial' if items else 'blocked',used_for_model=False)
+    except Exception as exc:errors.append(dict(code='INJURY_SUPPLEMENT_UNAVAILABLE',detail=type(exc).__name__+':'+str(exc)))
+    report=dict(schema='NBAPhase7SupplementCapture/1',items=items,errors=errors,captured_at=now(),
+                source_route_method='source-bound prior NBA team route; fresh NBA roster and independent official PDF',
+                blocked_directory_page='www.nba.com/players is not required; Deepnote returned HTTP 403',
+                status='captured_partial' if errors else 'captured',
+                used_for_model=False)
     freeze(root/'receipt.json',report);return report
+
+
+
+def _read_optional_official_injury(raw,receipt,freeze_at,errors):
+    """A missing optional PDF parser must not discard the original ESPN universe."""
+    try:
+        return injury_pdf(raw,receipt,freeze_at=freeze_at)
+    except (ValueError, FileNotFoundError, subprocess.TimeoutExpired,
+            subprocess.CalledProcessError) as exc:
+        errors.append(dict(code='OFFICIAL_INJURY_PARSER_UNAVAILABLE',
+                           cause=type(exc).__name__+':'+str(exc),
+                           receipt_id=receipt.receipt_id,
+                           no_eligibility_inference=True))
+        return None
 
 
 def read_supplement(folder,item):
@@ -73,8 +127,8 @@ def build_game_ledger(capture_folder,supplement_folder,model):
                     if str(exc)!='CROSS_PROVIDER_TEAM_UNRESOLVED':errors.append(dict(code=str(exc),receipt_id=r.receipt_id))
                 else:walks.append(w)
         if item['kind']=='official_injury_pdf':
-            try:reports.append(injury_pdf(raw,r,freeze_at=at))
-            except ValueError as exc:errors.append(dict(code=str(exc),receipt_id=r.receipt_id))
+            report=_read_optional_official_injury(raw,r,at,errors)
+            if report is not None:reports.append(report)
     resolved=[];unresolved=[];gaps=[]
     for report in reports:
         result=resolve_injuries(report,walks,freeze_at=at);resolved+=result['resolved'];unresolved+=result['unresolved'];gaps+=result['submission_gaps']
