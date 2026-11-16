@@ -56,7 +56,7 @@ def minutes_continuous_scores(parameters, minutes):
     def evaluate(n):
         xx=np.sort(np.unique(np.concatenate((np.linspace(0,cap,n),[float(minutes)]))))
         ff=law.cdf(xx)
-        return float(np.trapezoid((ff-(xx>=minutes))**2,xx))
+        return float(np.trapz((ff-(xx>=minutes))**2,xx))
     first=evaluate(2049)
     second=evaluate(4097)
     if not math.isfinite(second) or abs(first-second)>0.03:
