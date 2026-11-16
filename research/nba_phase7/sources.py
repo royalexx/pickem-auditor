@@ -69,7 +69,7 @@ def acquire_supplements(output,board_event,*,deadline_at):
     try:
         raw,_=fetch('official_injury_index','https://official.nba.com/nba-injury-report-2026-27-season/')
         candidates=[]
-        for url in re.findall(r'href=["\\x27]([^"\\x27]+)',raw.decode()):
+        for url in re.findall(r'href="([^"]+)"',raw.decode())+re.findall(r"href='([^']+)'",raw.decode()):
             m=re.search(r'Injury-Report_(\d{4}-\d{2}-\d{2})_(\d{2})_(\d{2})(AM|PM)\.pdf$',url)
             if m:
                 claimed=datetime.strptime(' '.join(m.groups()),'%Y-%m-%d %I %M %p').replace(tzinfo=__import__('zoneinfo').ZoneInfo('America/Toronto'))
