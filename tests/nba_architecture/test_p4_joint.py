@@ -130,6 +130,43 @@ class P4JointTests(unittest.TestCase):
                 if x["participation"] != "PLAYED":
                     self.assertTrue(all(val == 0 for val in v.values()))
 
+    def test_overtime_265_minutes_and_five_on_court_witness(self):
+        p, g, o, s = fixture()
+        gd = {k: deepcopy(v) for k, v in g.items() if k != "content_hash"}
+        gd["scenarios"][0]["overtime_periods"] = 1
+        gd["scenarios"][0]["possessions_home"] = 113.
+        gd["scenarios"][0]["possessions_away"] = 112.
+        g2 = seal(gd)
+        od = {k: deepcopy(v) for k, v in o.items() if k != "content_hash"}
+        od["game_state_sha256"] = g2["content_hash"]
+        od["scenarios"][0]["overtime_periods"] = 1
+        for player in od["scenarios"][0]["players"]:
+            if player["participation"] == "PLAYED":
+                player["minutes"] = 53.0
+        for player in od["players"]:
+            if player["minutes_law"]["parameters"]["support"][0]["minutes"] != 0:
+                player["minutes_law"]["parameters"]["support"] = [
+                    {"minutes": 48.0, "mass": 0.5},
+                    {"minutes": 53.0, "mass": 0.5}]
+        o2 = seal(od)
+        j = simulate_p4(p, g2, o2, s, variant="J1", seed=42,
+                        event_parameters=PARAMETERS)
+        self.assertTrue(validate_integration(j["bundle"], p, g2, o2))
+        for sc in j["bundle"]["scenarios"]:
+            required = 265. if sc["overtime_periods"] == 1 else 240.
+            for team in p["team_ids"]:
+                actual = sum(x["minutes"] for x in sc["players"]
+                             if x["team_id"] == team)
+                self.assertAlmostEqual(actual, required, places=7)
+        self.assertTrue(all(row["five_on_court"] for row in j["audit_rows"]))
+
+    def test_overtime_g_and_o_mismatch_rejected(self):
+        p, g, o, s = fixture()
+        bad_g = reseal(g, lambda x:
+                       x["scenarios"][0].update(overtime_periods=1))
+        self.error("O_INDEPENDENT_G_DRAW", simulate_p4,
+                   p, bad_g, o, s, event_parameters=PARAMETERS)
+
     def test_pmfs_exactly_from_same_draw(self):
         pms = scenario_pmfs(self.j, self.p, frozen_at="2026-11-16T23:03:00Z",
                             seed=42)
