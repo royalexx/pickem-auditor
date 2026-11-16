@@ -43,10 +43,13 @@ class RegistryTests(unittest.TestCase):
 
     def test_reject_postgame_first_archive(self):
         past=(datetime.now(timezone.utc)-timedelta(hours=1)).isoformat()
+        earlier=(datetime.now(timezone.utc)-timedelta(hours=2)).isoformat()
         with tempfile.TemporaryDirectory() as tmp:
             with self.assertRaisesRegex(ValueError,"FIRST_MANIFEST_ARCHIVE_AFTER_GAME_STARTED"):
                 registry.create_manifest(tmp,"postgame","NFL","NovelO6",[
-                    future_row(event_start_at=past)])
+                    future_row(event_start_at=past,source_received_at=earlier,
+                        input_freeze_at=earlier,forecast_at=earlier,
+                        model_training_cutoff_at=earlier)])
 
     def test_reject_future_feature_and_training_leak(self):
         r=future_row();r["source_received_at"]=r["event_start_at"]
