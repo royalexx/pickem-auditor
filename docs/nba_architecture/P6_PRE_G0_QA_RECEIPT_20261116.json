@@ -1,0 +1,100 @@
+{
+  "record_type": "NBA_P6_INDEPENDENT_PRE_G0_QA_RECEIPT",
+  "date_utc": "2026-11-16",
+  "audit_role": "separate ChatGPT QA execution session; independent test author relative to P0R candidate; not a cryptographically signed external certification",
+  "base_contract_commit_sha": "3f38ef9d1f6f2e50623a5623fb5826efc67cf7b2",
+  "tested_qa_commit_sha": "d234e004444be4c34b0dbe6d400b9ba7493d75ea",
+  "contract_version": "nba-sojc-contract/2.0.0",
+  "source_sha256": {
+    "v2/nba_architecture/v2_contracts.py": "f3a111af16f6f55f871999d583bbda7feabce85e0ae0446715ad9e2da0f91574",
+    "v2/nba_architecture/families_v2.py": "21ee19e33b140e498fe15f7abe3ddae15c47008b844cd0e16132494ebfa4908f",
+    "tests/nba_architecture/test_p6_independent_controls.py": "8cdb7a8b013ee3f9e44122e90263cc83befbd835a79740ee6d578dbe60cf0802",
+    "tests/nba_architecture/test_p6_math_references.py": "316e41d3a6bf6f1c2587daef94a3933e94e02b02b3078a3728614c55069f1e5b",
+    "tests/nba_architecture/test_p6_red_counterexamples.py": "a1974d20dd8f5a40493a06cd2ce349f2a2b7a3da9131a21aebddb1a56bc6e5d1"
+  },
+  "test_environment": {
+    "python": "3.12.16",
+    "runtime": "Deepnote isolated detached read-only",
+    "url": "https://deepnote.com",
+    "project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "notebook_id": "3ee864052c29492c80d8bcb7e267869c",
+    "run_id": "6246bed9-6015-4161-bf7d-983c7844565a"
+  },
+  "results": {
+    "existing_contract": {
+      "pass": 105,
+      "fail": 0,
+      "errors": 0
+    },
+    "new_controls": {
+      "pass": 25,
+      "fail": 0,
+      "errors": 0
+    },
+    "independent_mathematical_references": {
+      "pass": 11,
+      "fail": 0,
+      "errors": 0
+    },
+    "intentionally_red_counterexamples": {
+      "expected_rejections": 4,
+      "missing_rejections": 4,
+      "errors": 0
+    }
+  },
+  "counterexamples": [
+    {
+      "id": "QA-G0-01",
+      "owner": "P0/P1 source",
+      "symptom": "source revision 2 without locally auditable predecessor is accepted",
+      "test": "test_revision_two_without_verifiable_parent_must_not_pass",
+      "status": "FAIL",
+      "qualifier": "may be resolved by external immutable predecessor ledger proof"
+    },
+    {
+      "id": "QA-G0-02",
+      "owner": "P3 O/P4 J",
+      "symptom": "availability out permits played J draw",
+      "test": "test_out_player_must_not_appear_in_joint_draw",
+      "status": "FAIL",
+      "qualifier": "availability out must have typed verified vs unverified semantics"
+    },
+    {
+      "id": "QA-G0-03",
+      "owner": "P4 J/P5 C",
+      "symptom": "altered J PMF accepted when scenarios optional",
+      "test": "test_joint_distribution_must_not_pass_without_same_draw_witness",
+      "status": "FAIL"
+    },
+    {
+      "id": "QA-G0-04",
+      "owner": "P1 outcomes/P5 C",
+      "symptom": "DNP with 12 settled actual points accepted",
+      "test": "test_postgame_dnp_must_not_be_a_settled_played_count",
+      "status": "FAIL"
+    }
+  ],
+  "family_readiness": {
+    "P1_source": "BLOCKED_VERSION_2_ADAPTER_NOT_ACCEPTED",
+    "P2_S": "BLOCKED_NO_ACCEPTED_COMPLETE_DISTRIBUTION_PRODUCER",
+    "P3_O": "BLOCKED_PARTICIPATION_AND_SCENARIO_BRIDGE",
+    "P4_G_J": "FAIL_CONTRACT_COUNTEREXAMPLES_AND_BLOCKED_REAL_S_INTEGRATION",
+    "P5_C": "BLOCKED_NO_VERSION_2_OPTIMIZER_OR_INDEPENDENT_REAL_INTEGRATION",
+    "P6_QA": "SHADOW_TESTS_EXECUTED_NOT_G1_ACCEPTED"
+  },
+  "non_executed": [
+    "historical predictive validation",
+    "scenario precision 5000/20000 integration",
+    "real event boxscore audit",
+    "source raw byte vault audit",
+    "game-level duplicate registry audit",
+    "continuous five-on-court timeline",
+    "real optimizer weight fitting",
+    "production changes"
+  ],
+  "recommendation": "G0_TECHNICAL_FAIL_FOR_TESTED_CONTRACT_UNTIL_TRIAGED; P6_G1_NO_GO",
+  "G0_formal_acceptance": false,
+  "G1_authorized": false,
+  "G2_authorized": false,
+  "signature": null
+}
