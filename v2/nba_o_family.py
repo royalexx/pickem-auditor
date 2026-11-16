@@ -311,3 +311,99 @@ def freeze_outputs(folder,p,g,o,sidecar):
     root=Path(folder)
     return (freeze_once(root/(o["content_hash"]+".json"),o),
             freeze_once(root/(sidecar["content_hash"]+".json"),sidecar))
+
+
+def ws2_priors_from_forecasts(p, forecasts, *, source_receipt_sha256,
+                              participation_prior_overrides=None):
+    """Strict, fail-closed bridge from WS2 v1 conditional forecasts to G0 P3.
+
+    Raw SHA domain and source clocks must match the accepted P snapshot.
+    The WS2 forecast does NOT prove fitted participation probabilities. Every
+    imported probability remains 'historical_prior', hence reported q is
+    unknown even though shadow scenarios can be sampled. There is no
+    pregame injury adjustment or inferred eligibility in this adapter.
+
+    Optional missing-participation overrides must themselves carry a matched
+    source receipt, availability timestamp and a finite probability. A caller
+    must explicitly supply them; never substitute an invented 0 or 1.
+    """
+    validate_pregame(p)
+    req(isinstance(forecasts, (list,tuple)), "O_WS2_FORECASTS_REQUIRED")
+    all_receipts={r["receipt_sha256"]:r for r in p["sources"]}
+    req(source_receipt_sha256 in all_receipts, "O_WS2_RECEIPT_MISSING")
+    source=all_receipts[source_receipt_sha256]
+    freeze=instant(p["input_freeze_at"])
+    roster={r["player_id"]:r for r in p["players"]}
+    fs={}
+    for f in forecasts:
+        req(isinstance(f,dict) and f.get("schema")=="NBAOpportunityForecast/1.0.0",
+            "O_WS2_SCHEMA")
+        pid=f.get("player_id")
+        req(pid in roster and pid not in fs, "O_WS2_ROSTER_IDENTITY")
+        req(f.get("game_id")==p["game_id"] and
+            f.get("team_id")==roster[pid]["team_id"] and
+            f.get("event_start_at")==p["event_start_at"] and
+            f.get("input_freeze_at")==p["input_freeze_at"],
+            "O_WS2_GAME_CLOCK_IDENTITY")
+        req(f.get("source_sha256")==source["raw_sha256"],
+            "O_WS2_RAW_SOURCE_SHA_MISMATCH")
+        req(f.get("status")=="UNCERTIFIED/SHADOW", "O_WS2_UNSAFE_PROMOTION")
+        for clock in ("source_available_at","source_ingested_at",
+                      "forecast_at","training_cutoff_at"):
+            req(f.get(clock) is not None, "O_WS2_CLOCK_MISSING")
+        req(max(instant(f["source_available_at"]),
+                instant(f["source_ingested_at"]),
+                instant(source["collector_observed_at"]),
+                instant(source["ingested_at"]))<=freeze,
+            "O_WS2_POSTFREEZE_SOURCE")
+        req(instant(f["training_cutoff_at"])<=freeze and
+            instant(f["forecast_at"])<=instant(p["forecast_at"]),
+            "O_WS2_FUTURE_MODEL_OR_FORECAST")
+        req(f.get("active_roster_eligible") is not False or
+            roster[pid]["legal_eligibility"] is False,
+            "O_WS2_ROSTER_ASSERTION_NOT_SOURCE_BOUND")
+        req(f.get("participation_status")!="confirmed_inactive" or
+            roster[pid]["availability"]=="out" or
+            roster[pid]["legal_eligibility"] is False,
+            "O_WS2_INACTIVE_ASSERTION_NOT_SOURCE_BOUND")
+        fs[pid]=f
+    req(set(fs)==set(roster), "O_WS2_MISSING_ROSTER_FORECAST")
+    overrides=participation_prior_overrides or {}
+    req(set(overrides).issubset(roster), "O_WS2_UNKNOWN_OVERRIDE_PLAYER")
+    result={}
+    for pid,r in roster.items():
+        f=fs[pid]
+        q=f.get("participation_probability")
+        available=instant(f["source_available_at"])
+        if q is None:
+            override=overrides.get(pid)
+            req(isinstance(override,dict) and set(override)==
+                {"probability","source_receipt_sha256","available_at"},
+                "O_PARTICIPATION_PRIOR_REQUIRED")
+            req(override["source_receipt_sha256"] in all_receipts,
+                "O_PARTICIPATION_PRIOR_SOURCE")
+            available=max(available,instant(override["available_at"]))
+            q=override["probability"]
+        q=num(q)
+        req(q<=1, "O_PARTICIPATION_PRIOR_RANGE")
+        if r["legal_eligibility"] is False or r["availability"]=="out":
+            req(q==0, "O_WS2_EXCLUDED_PARTICIPATION")
+        result[pid]={
+            "source_snapshot_sha256":p["content_hash"],
+            "source_receipt_sha256":source_receipt_sha256,
+            "available_at":available.isoformat().replace("+00:00","Z"),
+            "training_cutoff_at":f["training_cutoff_at"],
+            "scenario_participation_prior":float(q),
+            "participation_basis":"historical_prior",
+            "minutes_distribution":deepcopy(f["distribution"]),
+            "played_zero_probability":0.,
+            "early_exit_probability":0.,
+            "early_exit_fraction":1.,
+            "role_states":[{"probability":1.,"minutes_multiplier":1.}],
+            "possession_intensity":1.,
+            "usage_concentration":30.,
+            "uncertainty_flags":["WS2_SHADOW","PARTICIPATION_UNVERIFIED",
+                                 "NEUTRAL_USAGE_NOT_FITTED"],
+        }
+    validate_priors(p,result,variant="O1")
+    return result
