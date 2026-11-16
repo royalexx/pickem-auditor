@@ -1,0 +1,42 @@
+{
+  "source_commit": "8474ee55ff926e1f8c0b83e5b3c9a77c4c03516a",
+  "python": "3.12.14",
+  "packages": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "jsonschema": "4.26.0"
+  },
+  "raw_file_sha256": {
+    "tests/nba_architecture/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/nba_architecture/golden_v2.py": "e4840cc06e699e0e4acd18f6d38445b98078ec34d8e90d8fc4b5da4ad4426bb4",
+    "tests/nba_architecture/test_contracts.py": "b882ed962a010388d07a4a6e1ef724217d026b02bc430cd6f4c24f8c31d9cad3",
+    "tests/nba_architecture/test_independent_final_20261116.py": "4721168790148f62cb65ac97fe6d8fcefe586a0296ad347eec9e464da6870432",
+    "tests/nba_architecture/test_p0i_adversarial_20261116.py": "7ef5da14487942de0e8e82f45e6048890361f320eba2e59c532a2cde0310cc35",
+    "tests/nba_architecture/test_p0r_regression_closure_20261116.py": "3e5f12794d7ec4c8df37bc704ec3f34d19049b8fafe6a3770969a7f345eb77d8",
+    "tests/nba_architecture/test_v2_contracts.py": "7e3e440d7e58db6e0abe1bc5d7e6ead471cf8aeba8e4f881056ddddd2c73656b",
+    "v2/nba_architecture/__init__.py": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+    "v2/nba_architecture/contracts.py": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+    "v2/nba_architecture/families_v2.py": "21ee19e33b140e498fe15f7abe3ddae15c47008b844cd0e16132494ebfa4908f",
+    "v2/nba_architecture/schema-1.0.0.json": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+    "v2/nba_architecture/schema-2.0.0.json": "2246933d9efafc9fa45a7e6856ae7ea9b3f3777dbb0bcfdba3fdde13641a1edc",
+    "v2/nba_architecture/v2_contracts.py": "ccf81b28eb15c180b8d0497f600f4b2aac855a88f6e839914b7cc2bb23beda38"
+  },
+  "golden_raw_sha256": {
+    "historical_offer_free": "da214db2678cea1893a05242b44d710a8c8cb9d931c3f3bc30b6d5801bb84d99",
+    "prospective_original_offer": "27c4e5c61c17a3b67885dfc9fb3f33d726c9fd521ce2e81fb4fec8c28096e7fb",
+    "joint_same_draw": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b"
+  },
+  "schema": "Draft 2020-12 schema + all golden object instances PASS",
+  "test_exit": 0,
+  "test_log_sha256": "332fa4d2b458b530bd1309cd89edd0c535ca7bdfa04295c0480d70c358bad81d",
+  "test_summary": [
+    "----------------------------------------------------------------------",
+    "Ran 181 tests in 1.226s",
+    "",
+    "OK"
+  ],
+  "preserved_raw_sha256": {
+    "docs/nba_architecture/G0_HANDOFF.json": "7e84f6d916e70a76dd4a5b20146922c077e591d4d8c32bcb732a9f0fdceae4fa",
+    "docs/nba_architecture/G0_P0I_BLOCKED_V2_20261116.json": "e2acf7513fd607afa1f1ba308e3dc81da5d32582bc584a75da699eda47abdce9"
+  }
+}

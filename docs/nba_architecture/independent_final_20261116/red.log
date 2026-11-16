@@ -1,0 +1,60 @@
+test_assist_cannot_be_on_own_only_field_goal (test_independent_final_20261116.IndependentFinal.test_assist_cannot_be_on_own_only_field_goal) ... FAIL
+test_joint_conditioning_cannot_be_relabeled (test_independent_final_20261116.IndependentFinal.test_joint_conditioning_cannot_be_relabeled) ... FAIL
+test_joint_ess_cannot_be_inflated (test_independent_final_20261116.IndependentFinal.test_joint_ess_cannot_be_inflated) ... FAIL
+test_push_cannot_hide_by_omitting_line (test_independent_final_20261116.IndependentFinal.test_push_cannot_hide_by_omitting_line) ... FAIL
+test_shared_miss_cannot_generate_two_rebounds (test_independent_final_20261116.IndependentFinal.test_shared_miss_cannot_generate_two_rebounds) ... FAIL
+test_valid_same_draw_remains_valid (test_independent_final_20261116.IndependentFinal.test_valid_same_draw_remains_valid) ... ok
+
+======================================================================
+FAIL: test_assist_cannot_be_on_own_only_field_goal (test_independent_final_20261116.IndependentFinal.test_assist_cannot_be_on_own_only_field_goal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/nba-g0/tests/nba_architecture/test_independent_final_20261116.py", line 39, in test_assist_cannot_be_on_own_only_field_goal
+    self.reject_scenario(change)
+  File "/workspace/nba-g0/tests/nba_architecture/test_independent_final_20261116.py", line 24, in reject_scenario
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_joint_conditioning_cannot_be_relabeled (test_independent_final_20261116.IndependentFinal.test_joint_conditioning_cannot_be_relabeled)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/nba-g0/tests/nba_architecture/test_independent_final_20261116.py", line 45, in test_joint_conditioning_cannot_be_relabeled
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_joint_ess_cannot_be_inflated (test_independent_final_20261116.IndependentFinal.test_joint_ess_cannot_be_inflated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/nba-g0/tests/nba_architecture/test_independent_final_20261116.py", line 54, in test_joint_ess_cannot_be_inflated
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_push_cannot_hide_by_omitting_line (test_independent_final_20261116.IndependentFinal.test_push_cannot_hide_by_omitting_line)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/nba-g0/tests/nba_architecture/test_independent_final_20261116.py", line 62, in test_push_cannot_hide_by_omitting_line
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_shared_miss_cannot_generate_two_rebounds (test_independent_final_20261116.IndependentFinal.test_shared_miss_cannot_generate_two_rebounds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/nba-g0/tests/nba_architecture/test_independent_final_20261116.py", line 33, in test_shared_miss_cannot_generate_two_rebounds
+    self.reject_scenario(change)
+  File "/workspace/nba-g0/tests/nba_architecture/test_independent_final_20261116.py", line 24, in reject_scenario
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.016s
+
+FAILED (failures=5)

@@ -415,6 +415,16 @@ def validate_distribution(d, p, scenarios=None):
             "J_SCENARIO_BINDING")
         req(d["opportunity_output_sha256"] == scenarios["opportunity_sha256"],
             "J_OPPORTUNITY_OUTPUT_BINDING")
+        req(d["conditioning"] == scenarios["conditioning"], "J_CONDITIONING_MISMATCH")
+        weights = [sc["weight"] for sc in scenarios["scenarios"]]
+        ess_actual = 1.0 / sum(w*w for w in weights)
+        req(numerical["scenario_count"] == len(weights) and
+            abs(numerical["effective_sample_size"] - ess_actual) < 1e-9,
+            "J_NUMERICAL_DRAW_MISMATCH")
+        expected_se = max(math.sqrt(row["mass"] * (1-row["mass"]) / ess_actual)
+                          for row in pmf)
+        req(abs(numerical["max_probability_se"] - expected_se) < 1e-9,
+            "J_NUMERICAL_SE_MISMATCH")
         pmf_actual = {}
         for sc in scenarios["scenarios"]:
             player = next(x for x in sc["players"] if x["player_id"] == d["player_id"])
@@ -503,6 +513,10 @@ def validate_scenarios(s, p):
             req(stats["ftm"] <= stats["fta"], "FT_CONVERSION")
             req(stats["points"] == 2*stats["two_pm"] + 3*stats["threes"] +
                 stats["ftm"], "POINTS_ACCOUNTING")
+            teammate_fgm = sum(y["stats"]["fgm"] for y in parts
+                               if y["team_id"] == x["team_id"] and
+                               y["player_id"] != pid)
+            req(stats["assists"] <= teammate_fgm, "SELF_ASSIST_IMPOSSIBLE")
             req(stats["rebounds"] == stats["oreb"] + stats["dreb"],
                 "REBOUND_ACCOUNTING")
             for combo, keys in COMPOSITES.items():
@@ -520,6 +534,13 @@ def validate_scenarios(s, p):
                       for x in parts if x["team_id"] == team)
             for team in (home, away)
         }
+        for shooting_team, defending_team in ((home, away), (away, home)):
+            claimed = sum(x["stats"]["oreb"] for x in parts
+                          if x["team_id"] == shooting_team) + sum(
+                          x["stats"]["dreb"] for x in parts
+                          if x["team_id"] == defending_team)
+            req(claimed <= missed_by_team[shooting_team],
+                "SHARED_REBOUND_OPPORTUNITIES")
         for team, opponent in ((home, away), (away, home)):
             offensive = sum(x["stats"]["oreb"] for x in parts
                             if x["team_id"] == team)
@@ -751,11 +772,13 @@ def validate_evaluation(e, distribution, offer=None):
         sha(e["official_source_sha256"])
         if e["participation"] == "PLAYED_ZERO_MINUTES":
             req(e["actual"] == 0, "ZERO_MINUTE_POSITIVE_COUNT")
-        if offer is not None and e["contract_line"] is not None:
+        if offer is not None:
+            # A null repeated line never suppresses the frozen quote's semantics.
+            line = offer["contract_line"]
             if status == "push":
-                req(e["actual"] == e["contract_line"], "FALSE_PUSH")
+                req(e["actual"] == line, "FALSE_PUSH")
             else:
-                req(e["actual"] != e["contract_line"], "MISLABELED_PUSH")
+                req(e["actual"] != line, "MISLABELED_PUSH")
     req(e["participation"] in ("unknown", "DNP", "PLAYED_ZERO_MINUTES", "PLAYED"),
         "SETTLEMENT_PARTICIPATION")
     if status == "void":
