@@ -10,7 +10,8 @@ Input: original frozen J ledger SHA `759dc467ef3bdc589b3588c7adb59254076e5d071db
 
 Standardized error is `(official_result - pregame_mean)/sqrt(pregame_variance)`, with variance read from the original SHA-checked J2 simulation. Largest absolute standardized residual first. Positive means the model underpredicted; negative means the model overpredicted.
 
-| Rank | ESPN event | Player | Market | Frozen J2 mean | ESPN final | Actual − predicted | Standardized error |\n|---:|---|---|---|---:|---:|---:|---:|
+| Rank | ESPN event | Player | Market | Frozen J2 mean | ESPN final | Actual − predicted | Standardized error |
+|---:|---|---|---|---:|---:|---:|---:|
 | 1 | 401873058 | Emmett Johnson | rush_attempts | 3.18 | 22 | 18.82 | 7.41 |
 | 2 | 401873061 | Devin Duvernay | receiving_yards | 1.74 | 35 | 33.26 | 7.25 |
 | 3 | 401873057 | Tony Pollard | receiving_yards | 6.79 | 66 | 59.21 | 7.11 |
@@ -41,7 +42,8 @@ Standardized error is `(official_result - pregame_mean)/sqrt(pregame_variance)`,
 
 Absolute differences mix yards and counts and must **not** be interpreted as directly comparable model failures; this table is an artifact-discovery aid. Compare within a single market before prioritizing mechanisms.
 
-| Rank | ESPN event | Player | Market | Frozen J2 mean | ESPN final | Actual − predicted | Standardized error |\n|---:|---|---|---|---:|---:|---:|---:|
+| Rank | ESPN event | Player | Market | Frozen J2 mean | ESPN final | Actual − predicted | Standardized error |
+|---:|---|---|---|---:|---:|---:|---:|
 | 1 | 401873064 | Ja'Marr Chase | receiving_yards | 77.35 | 231 | 153.65 | 3.58 |
 | 2 | 401873064 | Joe Burrow | passing_yards | 265.99 | 409 | 143.01 | 1.64 |
 | 3 | 401873063 | Brock Purdy | passing_yards | 259.98 | 389 | 129.02 | 1.44 |
