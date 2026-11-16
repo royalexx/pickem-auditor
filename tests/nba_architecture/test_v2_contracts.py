@@ -420,7 +420,8 @@ class V2Tests(unittest.TestCase):
         j = j_scenarios(p)
         d = marginal_from_joint(j, p, p["players"][0]["player_id"], "points",
                                 "2026-11-16T23:03:00Z", 100)
-        self.assertTrue(validate_distribution(d, p))
+        self.failcode("J_SCENARIO_CONTEXT_REQUIRED", validate_distribution, d, p)
+        self.assertTrue(validate_distribution(d, p, j))
         self.assertEqual(d["scenario_bundle_sha256"], j["content_hash"])
 
     def test_s_o_requires_opportunity_lineage(self):
