@@ -571,11 +571,11 @@ def validate_offer(q, p):
     req(p["original_offer_count"] > 0, "OFFER_UNREGISTERED")
     req(q["observed_at"] == r["collector_observed_at"],
         "QUOTE_OBSERVATION_NOT_RECEIPT")
-    req(instant(q["quoted_at"]) <= instant(q["observed_at"]),
-        "QUOTE_TIMESTAMP_AFTER_OBSERVATION")
     req(instant(q["quoted_at"]) <= instant(p["input_freeze_at"]) and
         instant(q["observed_at"]) <= instant(p["input_freeze_at"]),
         "POSTFREEZE_OFFER")
+    req(instant(q["quoted_at"]) <= instant(q["observed_at"]),
+        "QUOTE_TIMESTAMP_AFTER_OBSERVATION")
     return True
 
 
