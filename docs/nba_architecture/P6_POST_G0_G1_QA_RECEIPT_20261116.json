@@ -1,0 +1,63 @@
+{
+  "record_type": "NBA_V25_P6_POST_G0_INDEPENDENT_G1_QA",
+  "audited_utc": "2026-11-16",
+  "verdict": {
+    "g0": "PASS_INDEPENDENTLY_ACCEPTED",
+    "p6_test_harness": "PASS",
+    "g1_family_engineering": "NO_GO_BLOCKED",
+    "g2": "NOT_AUTHORIZED"
+  },
+  "accepted_g0_source_commit": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "g0_acceptance_receipt_sha256": "a90dbe624b44013d6eaf03163726fcfe1cd9f7055b2d657a7d3fed100d3f519d",
+  "qa_branch": "audit/nba-p6-post-g0-independent-g1-20261116",
+  "exactly_tested_qa_commit": "27990afa4f1c8736d89358ab883e029539453582",
+  "preceding_qa_tested_commit": "5ce05bf31b6efc3b70114be56a496fb74c00d649",
+  "environment": {
+    "python": "3.12.16",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "jsonschema": "4.26.0",
+    "source_checkout": "ephemeral_exact_git_clone",
+    "dependency_install": "isolated_target",
+    "project_storage": "readonly"
+  },
+  "deepnote": {
+    "project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "notebook_id": "ba96223e01ae4d03aedf6f85ddb73d2e",
+    "run_id": "7e29e3e7-abb5-43d0-b63a-69d4702cfc2a",
+    "run_status": "success"
+  },
+  "test_command": "python -m unittest discover -s tests/nba_architecture -p 'test_*.py' -q",
+  "outcome": {
+    "tests": 350,
+    "passing": 350,
+    "new_post_g0_tests": 23,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "exit_code": 0,
+    "wall_seconds": 7.26,
+    "test_log_sha256": "426ac54995817052cffe6a5a87278df36cdb0aef7c354d75ca7f3577eb77ae43"
+  },
+  "raw_sha256": {
+    "v2/nba_architecture/v2_contracts.py": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+    "v2/nba_architecture/families_v2.py": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+    "v2/nba_architecture/exposure_v2.py": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+    "v2/nba_architecture/schema-2.0.0.json": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+    "tests/nba_architecture/test_p6_post_g0_reference_and_boundaries.py": "03459760f1d829c63afcf892be35c5b74cdc277360d37f63fa556b62b0d7401e",
+    "tests/nba_architecture/test_p6_independent_controls.py": "8cdb7a8b013ee3f9e44122e90263cc83befbd835a79740ee6d578dbe60cf0802",
+    "tests/nba_architecture/test_p6_math_references.py": "316e41d3a6bf6f1c2587daef94a3933e94e02b02b3078a3728614c55069f1e5b",
+    "tests/nba_architecture/test_p6_red_counterexamples.py": "a1974d20dd8f5a40493a06cd2ce349f2a2b7a3da9131a21aebddb1a56bc6e5d1",
+    "tests/nba_architecture/test_p6_g1_specificity_and_scores.py": "cb8340930193fe14cd6e2a6f51ebd90e4d2672e1d40f5ee08c84720bd67c7379"
+  },
+  "author_status": "QA_ONLY_NOT_EXTERNAL_CERTIFICATION",
+  "limitations": [
+    "P1-P5 real owner G1 artifacts unavailable at inspection",
+    "exact NBA parallel packet not attached among accessible files",
+    "no historical predictive validation",
+    "no actual C optimizer executed",
+    "five-on-court interval witness missing",
+    "no model training or Monte Carlo weight fitting",
+    "no production merge"
+  ]
+}
