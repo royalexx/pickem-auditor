@@ -64,3 +64,31 @@ class IndependentFinal(unittest.TestCase):
 
     def test_valid_same_draw_remains_valid(self):
         self.assertTrue(validate_scenarios(self.j, self.p))
+
+    def test_reference_poisson_and_negative_binomial_triplets(self):
+        import math
+        from scipy.stats import poisson, nbinom
+        from v2.nba_architecture.v2_contracts import threshold_triplet
+        laws = [([math.exp(-2)*2**k/math.factorial(k) for k in range(40)], poisson(2)),
+                ([(k+1)*.4**2*.6**k for k in range(100)], nbinom(2, .4))]
+        for masses, law in laws:
+            pmf = [{'value': k, 'mass': m} for k, m in enumerate(masses)]
+            for line in (0, 2, 2.5):
+                got = threshold_triplet(pmf, line)
+                self.assertAlmostEqual(got['under'], law.cdf(math.ceil(line)-1), places=12)
+                self.assertAlmostEqual(got['over'], law.sf(math.floor(line)), places=12)
+                self.assertAlmostEqual(got['push'], law.pmf(line) if line == int(line) else 0, places=12)
+
+    def test_single_rebound_and_teammate_assist_are_feasible(self):
+        def change(j):
+            sc = j['scenarios'][0]
+            st = sc['players'][1]['stats']
+            st.update(two_pa=1, fga=1, oreb=1, rebounds=1, assists=1,
+                      pr=1, pa=1, ra=2, pra=2)
+        self.assertTrue(validate_scenarios(edit(self.j, change), self.p))
+
+    def test_joint_standard_error_cannot_be_zeroed(self):
+        d = marginal_from_joint(self.j, self.p, self.p['players'][0]['player_id'],
+                                'points', '2026-11-16T23:03:00Z', 42)
+        with self.assertRaises(ContractError):
+            validate_distribution(edit(d, lambda x: x['numerical'].update(max_probability_se=0)), self.p, self.j)
