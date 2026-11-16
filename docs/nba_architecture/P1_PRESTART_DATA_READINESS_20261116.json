@@ -1,0 +1,122 @@
+{
+  "record_type": "NBA_V25_P1_PRESTART_READONLY_SOURCE_GATE",
+  "record_version": "1.0.0",
+  "audit_date": "2026-11-16",
+  "status": "G1_BLOCKED_NO_P1_IMPLEMENTATION",
+  "contract": "nba-sojc-contract/2.0.0",
+  "change_scope": "AUDIT_ONLY_NO_PRODUCTION_OR_MODEL_CHANGES",
+  "authority": {
+    "master": "PA-V25-MASTER-2026-11-09/v1.1",
+    "g0_status": "G0_BLOCKED",
+    "g0_independent_acceptance": false,
+    "owner_design_accepted": true,
+    "review_issue": 149,
+    "contract_pr": 147,
+    "p1_authorized_under_g0": false
+  },
+  "references": {
+    "main_sha": "912bc7010058092ea735dcda0aa941429194474b",
+    "g0_branch_sha": "3f38ef9d1f6f2e50623a5623fb5826efc67cf7b2",
+    "warehouse_branch": "data/bayesian-history",
+    "warehouse_commit_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
+    "ws1_pr": 137,
+    "ws1_head_sha": "53c01a9eabb9ed09b5c3186eae0d086b07bcc891",
+    "ws1_coverage_json_blob_sha1": "77a9e3a2c0a049f1169dccc3f0591ed08d85dac6",
+    "ws1_recorded_source_manifest_sha256": "1cea946b2ea00ecc2ac302b2fb5a5821984be61bd6ef7cd6575e23ff98fd3f9e",
+    "v2_contracts_git_blob_sha1": "2e99fe2be24198dff407a23e297eececa8ea359a",
+    "v2_schema_git_blob_sha1": "3b82cebe7369e94092395f6ecac952e282065383"
+  },
+  "checks": {
+    "live_git_metadata": {
+      "listed_stat_categories": 11,
+      "seasons": 9,
+      "object_paths": 99,
+      "matched_report_paths": 99,
+      "matched_compressed_byte_sizes": 99,
+      "missing_paths": 0,
+      "extra_paths": 0,
+      "size_mismatches": 0,
+      "status": "PATH_SIZE_METADATA_VERIFIED"
+    },
+    "source_sha256_bytes": {
+      "real_shards_computed": 0,
+      "status": "NOT_EXECUTED_ARCHIVE_BYTES_UNMOUNTED"
+    },
+    "synthetic_preflight_unit_tests": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "status": "TESTED_OFFLINE_NOT_G0_ACCEPTANCE"
+    }
+  },
+  "historical_coverage_from_ws1_report": {
+    "provenance": "PR137 prior WS1 archive audit, not independently reprocessed by this preflight",
+    "training_pre2022": {
+      "seasons": [
+        "2018-19",
+        "2019-20",
+        "2020-21",
+        "2021-22"
+      ],
+      "games_after_quarantine": 4599,
+      "stat_rows_after_quarantine": 1070036,
+      "unique_player_games_after_quarantine": 97276
+    },
+    "development_2022_23": {
+      "games_after_quarantine": 1230,
+      "stat_rows_after_quarantine": 283998,
+      "unique_player_games_after_quarantine": 25818
+    },
+    "forward_validation_2023_24": {
+      "games_after_quarantine": 1230,
+      "stat_rows_after_quarantine": 289113,
+      "unique_player_games_after_quarantine": 26283
+    },
+    "all_seasons_before_quarantine": {
+      "stat_rows": 2249104,
+      "unique_player_games": 204464,
+      "games": 9625
+    },
+    "quarantined": {
+      "games": 18,
+      "stat_rows": 3938,
+      "exhibitions": {
+        "games": 15,
+        "rows": 3179
+      },
+      "nba_cup_finals": {
+        "games": 3,
+        "rows": 759
+      }
+    },
+    "official_schedule_parity_certified": false
+  },
+  "profiles": {
+    "historical": "HISTORICAL_RECONSTRUCTION_UNCERTIFIED",
+    "original_prospective": "ORIGINAL_SOURCE_SHADOW"
+  },
+  "blocked_inputs": [
+    "independent_G0_adversarial_acceptance",
+    "WS1_v2_adapter_conformance",
+    "historic_original_source_availability",
+    "dated_player_team_crosswalk",
+    "pregame_legal_active_eligibility",
+    "complete_official_schedule_and_stat_correction_reconciliation",
+    "separate_versioned_official_outcome_vault",
+    "full_raw_source_sha256_verification"
+  ],
+  "forbidden_claims": [
+    "G0_PASS",
+    "G1_PASS",
+    "certified_historical_pregame_capture",
+    "full_boxscore_outcome_coverage",
+    "predictive_accuracy",
+    "market_edge"
+  ],
+  "signoff": {
+    "kind": "ENGINEERING_BLOCKER_RECEIPT",
+    "technical_G1_approval": false,
+    "independent_review_signature": null,
+    "cryptographic_signature": null
+  }
+}
