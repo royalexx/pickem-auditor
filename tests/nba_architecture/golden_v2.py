@@ -97,6 +97,7 @@ def distribution(p, stat="points", mode="S_ONLY", value=2):
         "schema": VERSION, "kind": "distribution",
         "source_profile": p["source_profile"],
         "source_snapshot_sha256": p["content_hash"], "game_id": p["game_id"],
+        "event_start_at": p["event_start_at"],
         "player_id": p["players"][0]["player_id"], "team_id": p["players"][0]["team_id"],
         "stat": stat, "period": "full_game_including_ot",
         "support": "nonnegative_integer", "pipeline_mode": mode,
@@ -138,6 +139,36 @@ def zero_stats():
     return {key: 0 for key in keys}
 
 
+def game_state(p, joint):
+    return seal({"schema": VERSION, "kind": "game_state",
+        "source_snapshot_sha256": p["content_hash"], "game_id": p["game_id"],
+        "model": model("G", p), "rng_seed": 42,
+        "scenarios": [{"scenario_id": sc["scenario_id"], "weight": sc["weight"],
+            "overtime_periods": sc["overtime_periods"], "pace_regulation": 98.0,
+            "possessions_home": 100., "possessions_away": 100.,
+            "score_state": "home_leading"} for sc in joint["scenarios"]]})
+
+
+def opportunity(p, game_state_obj, joint):
+    return seal({"schema": VERSION, "kind": "opportunity",
+        "source_snapshot_sha256": p["content_hash"], "game_id": p["game_id"],
+        "model": model("O", p), "game_state_sha256": game_state_obj["content_hash"],
+        "players": [{"player_id": x["player_id"], "team_id": x["team_id"],
+                     "participation_probability": None,
+                     "participation_evidence": "unknown",
+                     "minutes_law": {"family": "synthetic_point_mass",
+                                     "parameters": {"median": 48.0},
+                                     "conditioning": "given_played",
+                                     "units": "minutes"}}
+                    for x in p["players"]],
+        "scenarios": [{"scenario_id": sc["scenario_id"], "weight": sc["weight"],
+                       "overtime_periods": sc["overtime_periods"],
+                       "players": [{k: x[k] for k in
+                           ("player_id","team_id","minutes","participation")}
+                           for x in sc["players"]]}
+                      for sc in joint["scenarios"]]})
+
+
 def j_scenarios(p):
     scenarios = []
     g = {}
@@ -170,11 +201,17 @@ def j_scenarios(p):
         g[sid] = {"overtime_periods": 0, "weight": weight}
         o[sid] = [{k: row[k] for k in ("player_id", "team_id", "minutes", "participation")}
                   for row in rows]
-    return seal({"schema": VERSION, "kind": "scenarios",
-                 "source_snapshot_sha256": p["content_hash"], "game_id": p["game_id"],
-                 "pipeline_mode": "S_O_J", "conditioning": "unconditional",
-                 "lineage": {k: model(k, p) for k in ("S","O","G","J")},
-                 "scenarios": scenarios, "game_state_witness": g, "opportunity_witness": o})
+    draft = {"schema": VERSION, "kind": "scenarios",
+             "source_snapshot_sha256": p["content_hash"], "game_id": p["game_id"],
+             "pipeline_mode": "S_O_J", "conditioning": "unconditional",
+             "lineage": {k: model(k, p) for k in ("S","O","G","J")},
+             "scenarios": scenarios, "game_state_witness": g,
+             "opportunity_witness": o}
+    game_obj = game_state(p, draft)
+    opportunity_obj = opportunity(p, game_obj, draft)
+    draft["game_state_sha256"] = game_obj["content_hash"]
+    draft["opportunity_sha256"] = opportunity_obj["content_hash"]
+    return seal(draft)
 
 
 def golden_cases():
@@ -186,6 +223,8 @@ def golden_cases():
     from v2.nba_architecture.v2_contracts import offer_view
     view = offer_view(pdist, offer, prospective, "2026-11-16T23:03:00Z")
     joint = j_scenarios(prospective)
+    game_obj = game_state(prospective, joint)
+    opportunity_obj = opportunity(prospective, game_obj, joint)
     m_pts = marginal_from_joint(joint, prospective, prospective["players"][0]["player_id"],
                                 "points", "2026-11-16T23:03:00Z", 42)
     m_pra = marginal_from_joint(joint, prospective, prospective["players"][0]["player_id"],
@@ -199,6 +238,7 @@ def golden_cases():
             "offer": offer, "offer_view": view,
             "fixture_provenance": "SYNTHETIC_ORIGINAL_RECEIPT_SHAPE_NOT_REAL_SOURCE"},
         "joint_same_draw": {"pregame": prospective, "scenarios": joint,
+            "game_state": game_obj, "opportunity": opportunity_obj,
             "points": m_pts, "pra": m_pra,
             "fixture_provenance": "SYNTHETIC_PHYSICS_ONLY_NO_FIT"},
     }

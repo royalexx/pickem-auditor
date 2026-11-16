@@ -299,6 +299,7 @@ def validate_distribution(d, p, scenarios=None):
     check_schema(d, "distribution")
     req(d["source_snapshot_sha256"] == p["content_hash"], "SOURCE_LINEAGE")
     req(d["game_id"] == p["game_id"], "GAME_IDENTITY")
+    req(d["event_start_at"] == p["event_start_at"], "DISTRIBUTION_EVENT_START")
     ids = {x["player_id"]: x["team_id"] for x in p["players"]}
     req(d["player_id"] in ids and ids[d["player_id"]] == d["team_id"],
         "STAT_PLAYER_TEAM_MISMATCH")
@@ -385,6 +386,8 @@ def validate_scenarios(s, p):
     req(s["source_snapshot_sha256"] == p["content_hash"]
         and s["game_id"] == p["game_id"], "SCENARIO_SOURCE_JOIN")
     req(s["pipeline_mode"] == "S_O_J", "NOT_J_SCENARIOS")
+    sha(s["game_state_sha256"])
+    sha(s["opportunity_sha256"])
     req(all(k in s["lineage"] for k in ("S", "O", "G", "J")),
         "SCENARIO_LINEAGE")
     for name in ("S", "O", "G", "J"):
@@ -502,7 +505,7 @@ def marginal_from_joint(s, p, player_id, stat, frozen_at, rng_seed,
         status="RESEARCH_RECONSTRUCTION" if p["source_profile"] ==
           "historical_reconstruction" else "UNCERTIFIED_SHADOW",
         source_snapshot_sha256=p["content_hash"], lineage=s["lineage"],
-        forecast_at=p["forecast_at"], frozen_at=frozen_at, rng_seed=rng_seed,
+        event_start_at=p["event_start_at"], forecast_at=p["forecast_at"], frozen_at=frozen_at, rng_seed=rng_seed,
         scenario_bundle_sha256=s["content_hash"], derivation=
           "same_draw_primitive_sum" if stat in COMPOSITES else "same_draw_primitive",
         numerical=numerical, pmf=pmf,
@@ -619,6 +622,8 @@ def validate_evaluation(e, distribution, offer=None):
     req(instant(e["evaluated_at"]) >= instant(e["event_start_at"]),
         "EVALUATED_BEFORE_EVENT")
     req(e["game_id"] == distribution["game_id"], "EVAL_GAME_MISMATCH")
+    req(e["event_start_at"] == distribution["event_start_at"],
+        "EVAL_EVENT_START_MISMATCH")
     if status in ("pending", "unmatched", "void"):
         req(e["actual"] is None, "OUTCOME_MUST_BE_NULL")
     else:

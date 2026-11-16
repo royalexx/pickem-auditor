@@ -6,7 +6,8 @@ import unittest
 from pathlib import Path
 
 from golden_v2 import (golden_cases, pregame, distribution, original_offer,
-                       j_scenarios, source, players, H, P_FREEZE, P_EVENT)
+                       j_scenarios, game_state, opportunity, source, players,
+                       H, P_FREEZE, P_EVENT)
 from v2.nba_architecture.v2_contracts import (
     VERSION, ContractError, seal, receipt, verify, freeze_once,
     validate_pregame, validate_distribution, validate_scenarios,
@@ -41,7 +42,7 @@ def evaluation(d, offer=None, *, status="settled", actual=2, revision=1,
         "participation": participation, "void_basis":
             "source:original_terms" if status == "void" else None,
         "contract_line": line,
-        "game_id": d["game_id"], "event_start_at": P_EVENT,
+        "game_id": d["game_id"], "event_start_at": d["event_start_at"],
         "evaluated_at": "2026-11-17T03:00:00Z",
     })
 
@@ -110,6 +111,53 @@ class V2Tests(unittest.TestCase):
         self.assertTrue(validate_offer(x["offer"], x["pregame"]))
         self.assertTrue(validate_offer_view(x["offer_view"], x["distribution"],
                                             x["offer"], x["pregame"]))
+
+    def test_g_o_j_independent_envelopes_are_coherent(self):
+        x = self.goldens["joint_same_draw"]
+        from v2.nba_architecture.families_v2 import (
+            validate_game_state, validate_opportunity, validate_integration)
+        self.assertTrue(validate_game_state(x["game_state"], x["pregame"]))
+        self.assertTrue(validate_opportunity(x["opportunity"], x["pregame"],
+                                              x["game_state"]))
+        self.assertTrue(validate_integration(x["scenarios"], x["pregame"],
+                                             x["game_state"], x["opportunity"]))
+
+    def test_g_state_bad_weights(self):
+        from v2.nba_architecture.families_v2 import validate_game_state
+        x = self.goldens["joint_same_draw"]
+        g = edited(x["game_state"], lambda q: q["scenarios"][0].update(weight=.3))
+        self.failcode("G_WEIGHT_SUM", validate_game_state, g, x["pregame"])
+
+    def test_o_unknown_participation_must_not_be_one(self):
+        from v2.nba_architecture.families_v2 import validate_opportunity
+        x = self.goldens["joint_same_draw"]
+        o = edited(x["opportunity"], lambda q: q["players"][0].update(
+              participation_probability=1.0))
+        self.failcode("O_UNKNOWN_PARTICIPATION", validate_opportunity, o,
+                      x["pregame"], x["game_state"])
+
+    def test_o_missing_player(self):
+        from v2.nba_architecture.families_v2 import validate_opportunity
+        x = self.goldens["joint_same_draw"]
+        o = edited(x["opportunity"], lambda q: q["players"].pop())
+        self.failcode("O_ROSTER_COVERAGE", validate_opportunity, o,
+                      x["pregame"], x["game_state"])
+
+    def test_j_cannot_change_g_hash(self):
+        from v2.nba_architecture.families_v2 import validate_integration
+        x = self.goldens["joint_same_draw"]
+        j = edited(x["scenarios"], lambda q: q.update(game_state_sha256="f"*64))
+        self.failcode("J_G_O_HASH_JOIN", validate_integration, j,
+                      x["pregame"], x["game_state"], x["opportunity"])
+
+    def test_j_cannot_reseed_o_draw(self):
+        from v2.nba_architecture.families_v2 import validate_integration
+        x = self.goldens["joint_same_draw"]
+        o = edited(x["opportunity"], lambda q: q["scenarios"][0]["players"][0].update(
+             participation="DNP",minutes=0.))
+        # Conserved minutes fail before the attempt to pass a tampered J.
+        self.failcode("O_TEAM_MINUTE_CONSERVATION", validate_integration,
+                      x["scenarios"], x["pregame"], x["game_state"], o)
 
     def test_joint_same_draw_golden(self):
         x = self.goldens["joint_same_draw"]

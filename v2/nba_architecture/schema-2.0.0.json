@@ -434,7 +434,8 @@
         "numerical",
         "pmf",
         "historical_asof_limitations",
-        "status"
+        "status",
+        "event_start_at"
       ],
       "properties": {
         "schema": {
@@ -621,6 +622,9 @@
             "RESEARCH_RECONSTRUCTION",
             "UNCERTIFIED_SHADOW"
           ]
+        },
+        "event_start_at": {
+          "$ref": "#/$defs/utc"
         }
       }
     },
@@ -637,7 +641,9 @@
         "scenarios",
         "conditioning",
         "game_state_witness",
-        "opportunity_witness"
+        "opportunity_witness",
+        "game_state_sha256",
+        "opportunity_sha256"
       ],
       "properties": {
         "schema": {
@@ -759,6 +765,12 @@
         },
         "opportunity_witness": {
           "type": "object"
+        },
+        "game_state_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "opportunity_sha256": {
+          "$ref": "#/$defs/sha"
         }
       }
     },
@@ -1059,6 +1071,213 @@
           "$ref": "#/$defs/utc"
         }
       }
+    },
+    "game_state": {
+      "type": "object",
+      "required": [
+        "schema",
+        "kind",
+        "content_hash",
+        "source_snapshot_sha256",
+        "game_id",
+        "model",
+        "rng_seed",
+        "scenarios"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/2.0.0"
+        },
+        "kind": {
+          "const": "game_state"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "source_snapshot_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "game_id": {
+          "type": "string"
+        },
+        "model": {
+          "$ref": "#/$defs/component"
+        },
+        "rng_seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scenarios": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "scenario_id",
+              "weight",
+              "overtime_periods",
+              "pace_regulation",
+              "possessions_home",
+              "possessions_away",
+              "score_state"
+            ],
+            "properties": {
+              "scenario_id": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "number",
+                "minimum": 0
+              },
+              "overtime_periods": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "pace_regulation": {
+                "type": "number",
+                "minimum": 0
+              },
+              "possessions_home": {
+                "type": "number",
+                "minimum": 0
+              },
+              "possessions_away": {
+                "type": "number",
+                "minimum": 0
+              },
+              "score_state": {
+                "enum": [
+                  "home_leading",
+                  "away_leading",
+                  "tied"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "opportunity": {
+      "type": "object",
+      "required": [
+        "schema",
+        "kind",
+        "content_hash",
+        "source_snapshot_sha256",
+        "game_id",
+        "model",
+        "game_state_sha256",
+        "players",
+        "scenarios"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/2.0.0"
+        },
+        "kind": {
+          "const": "opportunity"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "source_snapshot_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "game_id": {
+          "type": "string"
+        },
+        "model": {
+          "$ref": "#/$defs/component"
+        },
+        "game_state_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "players": {
+          "type": "array",
+          "minItems": 10,
+          "items": {
+            "type": "object",
+            "required": [
+              "player_id",
+              "team_id",
+              "participation_probability",
+              "participation_evidence",
+              "minutes_law"
+            ],
+            "properties": {
+              "player_id": {
+                "type": "string"
+              },
+              "team_id": {
+                "type": "string"
+              },
+              "participation_probability": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 1
+              },
+              "participation_evidence": {
+                "enum": [
+                  "unknown",
+                  "verified_out",
+                  "independently_estimated"
+                ]
+              },
+              "minutes_law": {
+                "type": "object",
+                "required": [
+                  "family",
+                  "parameters",
+                  "conditioning",
+                  "units"
+                ]
+              }
+            }
+          }
+        },
+        "scenarios": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "scenario_id",
+              "weight",
+              "overtime_periods",
+              "players"
+            ],
+            "properties": {
+              "scenario_id": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "number",
+                "minimum": 0
+              },
+              "overtime_periods": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "players": {
+                "type": "array",
+                "minItems": 10,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "player_id",
+                    "team_id",
+                    "minutes",
+                    "participation"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "oneOf": [
@@ -1079,6 +1298,12 @@
     },
     {
       "$ref": "#/$defs/evaluation"
+    },
+    {
+      "$ref": "#/$defs/game_state"
+    },
+    {
+      "$ref": "#/$defs/opportunity"
     }
   ]
 }
