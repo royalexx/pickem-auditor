@@ -19,7 +19,7 @@ For each team, let x[g,a] be joint mass of conserving allocation a in G overtime
 - The player's DNP marginal is 1-q[i]. The zero-minute played atom retains its own q[i] * f[i,0] mass.
 - Every allocation conserves 240+25*OT team minutes, and every individual state respects the corresponding 48+5*OT cap.
 
-This is a finite linear feasibility problem. SciPy HiGHS is used to find and numerically verify a feasible joint measure, not to fit model weights, alter forecasts or optimize historical performance. No independence between players is assumed. Checking both teams against the same G-state probabilities permits a global coupling conditional on G.
+G weights are the supplied finite shared game-state mixture for this compatibility check. Their accuracy as a model of real games is not certified here; the realized O/J exposure frequencies are not substituted for their declared laws. This is a finite linear feasibility problem. SciPy HiGHS is used to find and numerically verify a feasible joint measure, not to fit model weights, alter forecasts or optimize historical performance. No independence between players is assumed. Checking both teams against the same G-state probabilities permits a global coupling conditional on G.
 
 Every positive-weight O witness must have positive probability in at least one compatible coupling. Separate witness-support solutions can be averaged: linear constraints are preserved, and all finitely many observed states then have positive probability simultaneously. **Their empirical frequencies are never equated to the declared law probabilities.** This catches a joint state whose minutes conserve locally but whose DNP label is impossible under all compatible marginal laws.
 

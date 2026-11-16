@@ -1,0 +1,19 @@
+{
+  "engineering_state": "G0 CANDIDATE READY FOR INDEPENDENT REVIEW",
+  "implementation_commit": "30d4d1729273f765c3df38a4bd0496e516cb801d",
+  "rejected_parent": "e1983b2d0b94742dfb1bf411694dc46c7cad1ac6",
+  "test_count": 267,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "reported_findings_repaired": [
+    "F1 conserving minute-law compatibility",
+    "F2 zero-exposure and positive-count support"
+  ],
+  "independent_acceptance": false,
+  "formal_g0": "NOT_APPROVED_OR_CLOSED",
+  "receipt_sha256": "b6377c85f1958bed27b1ba50967552dd09e67f71bd472b051a61998fa4be3a89",
+  "mutation_checks": "both repaired boundaries disabled in temporary copies; both detected",
+  "production_authorized": false,
+  "rollback": "Close new draft; inspect rejected e1983b2 in separate detached checkout; retain every receipt"
+}
