@@ -86,7 +86,7 @@ class NumericalReferences(unittest.TestCase):
         m,mae,rmse,bias=moments(pmf,0)
         self.assertAlmostEqual(m,r*(1-p)/p,places=11)
         self.assertAlmostEqual(mae,2,places=11)
-        self.assertAlmostEqual(rmse,math.sqrt(6),places=11)
+        self.assertAlmostEqual(rmse,math.sqrt(8),places=11)
         self.assertAlmostEqual(bias,2,places=11)
 
     def test_negative_binomial_crps_cdf_and_pairwise_independent(self):
