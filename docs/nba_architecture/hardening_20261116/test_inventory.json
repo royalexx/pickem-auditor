@@ -1,0 +1,778 @@
+[
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_four_primitive_stats_offer_free"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_adversarial_hidden_actual_feature"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_adversarial_source_receipt_join"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_prospective_late_publication_claim"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_marginal_crosschecked_against_scenarios"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_marginal_cannot_swap_weights"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_source_revision_backdating_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_optional_g_cannot_use_future_fit"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_offer_observation_must_match_receipt"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_quote_cannot_be_timestamped_after_observation"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_weighted_mc_effective_sample_size"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_bad_weighted_mc_zero_bound"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_top_level_hidden_postgame_feature_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_receipt_hidden_revision_payload_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_stat_distribution_extra_metric_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_model_provenance_extra_field_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_so_requires_exact_opportunity_output_sha"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_rejects_different_opportunity_hash"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_historical_offer_free_golden"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_prospective_original_offer_golden"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_g_o_j_independent_envelopes_are_coherent"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_g_state_bad_weights"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_o_unknown_participation_must_not_be_one"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_o_missing_player"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_cannot_change_g_hash"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_cannot_reseed_o_draw"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_joint_same_draw_golden"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_threes_from_same_scenario"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_source_retrieved_years_after_historical_event"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_historical_publication_unknown_not_invented"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_historical_no_original_line"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_historical_no_target_game_data"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_historical_feature_current_game_not_allowed"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_historical_source_after_date_proxy"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_historical_archive_rebranded_original"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_prospective_retrieval_after_freeze"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_prospective_ingest_after_freeze"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_prospective_observation_after_freeze"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_original_source_cannot_be_retrospective"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_timestamp_order_model_after_freeze"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_timestamp_order_forecast_after_event"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_timestamp_non_utc"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_publication_unknown_with_nonnull_claim_fails"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_verified_publication_after_retrieval_fails"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_source_hash_tampering_fails"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_source_receipt_bad_hash_fails"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_source_revision_supersession_chain"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_source_revision_wrong_parent"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_source_revision_conflict"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_missing_eligibility_allowed"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_disallowed_eligibility_assumption_historical"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_roster_wrong_team"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_duplicate_player"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_s_only_full_distribution"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_s_o_full_distribution"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_s_o_j_full_distribution"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_s_o_requires_opportunity_lineage"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_pipeline_mode_cannot_forge_j"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_s_model_trained_future"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_discrete_pmf_normalized"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_duplicate_mass_point"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_negative_mass"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_unsupported_stat"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_unknown_player_distribution"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_distribution_freeze_after_tipoff"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_finite_mc_uncertainty_required"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_analytic_cannot_claim_mc_uncertainty"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_truncated_distribution_bound"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_historical_limitations_persist"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_prospective_missing_quote_is_valid"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_original_offer_stale_quote_timestamp"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_original_offer_source_hash_mismatch"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_offer_wrong_player_team"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_offer_view_exact_probability_triplet"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_integer_push_exact"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_corrupt_offer_view_triplet"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_offer_view_cannot_infer_void"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_scenarios_distinguish_dnp_zero"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_scenario_player_missing"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_scenario_team_wrong"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_minutes_not_conserved"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_dnp_nonzero_stats"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_zero_minutes_played_stats"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_overtime_conservation"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_opportunity_witness_drift"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_game_state_mismatch"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_scenario_duplicate_ids"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_scenario_bad_weights"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_scoring_points_identity"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_three_attempts_constraint"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_rebound_identity"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_combo_identity"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_wrong_source_snapshot"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_j_marginal_lineage_is_stable"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_frozen_bytes_idempotent"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_frozen_conflicting_bytes_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_deterministic_seed"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_ambiguous_scenario_seed"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_evaluation_too_early"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_settlement_corrected_append_only"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_settlement_correction_missing_parent"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_settlement_push_label_mismatch"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_settlement_void_kept_distinct"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_settlement_dnp_outcome_not_imputed"
+  },
+  {
+    "file": "tests/nba_architecture/test_v2_contracts.py",
+    "test": "test_golden_files_match_generated_if_present"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_independent_participation_red_20261116.py",
+    "test": "test_synthetic_control_passes"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_independent_participation_red_20261116.py",
+    "test": "test_verified_zero_probability_cannot_play_48_minutes"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_independent_participation_red_20261116.py",
+    "test": "test_certain_participation_cannot_dnp_with_positive_weight"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_independent_participation_red_20261116.py",
+    "test": "test_pregame_out_cannot_be_represented_as_played"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+    "test": "test_original_quote_line_is_a_required_offer_view_field"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+    "test": "test_original_quote_line_swap_is_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+    "test": "test_valid_quote_bound_push_does_not_override_original_line"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+    "test": "test_attached_original_product_terms_allow_explicit_hash_bound_void"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+    "test": "test_original_product_terms_hash_swap_is_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+    "test": "test_void_mismatched_product_terms_digest_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+    "test": "test_played_zero_minute_settled_zero_is_not_dnp"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+    "test": "test_j_derived_offer_view_requires_real_scenario_bundle"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_01_historical_proxy_cannot_promote_to_original"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_02_historical_target_game_same_date_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_03_original_future_retrieval_not_authorized"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_04_unknown_publication_remains_null_and_admitted"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_05_training_cutoff_after_input_freeze_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_06_late_source_revision_cannot_backdate_clock"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_07_offer_free_four_stats_are_complete"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_08_original_offer_rejects_raw_sha_swap"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_09_offer_view_rejects_wrong_game_id_even_resealed"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_10_threshold_half_point_independent_reference"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_11_j_pmf_cannot_change_without_scenario_reconciliation"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_12_j_pmf_forgery_is_detected_if_bundle_is_supplied"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_13_monte_carlo_uncertainty_ess_reference"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_14_negative_probability_mass_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_15_duplicated_player_in_shared_game_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_16_illegal_overtime_team_minutes_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_17_physical_rebounds_with_zero_missed_shots_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_18_negative_shooting_account_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_19_g_o_j_exact_draw_linkage_rejects_resampling"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_20_o_unknown_participation_is_not_zero"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_21_settled_dnp_cannot_be_misclassified_as_played_zero"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_22_push_requires_original_offer_and_contract_line"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_23_push_must_match_exact_contract_line"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_24_void_requires_original_product_terms"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_25_immutable_byte_store_detects_conflicting_writes"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_26_invalid_seed_and_determinism"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_27_historical_corrections_cannot_relabel_as_original"
+  },
+  {
+    "file": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+    "test": "test_28_j_derivations_are_not_independent_family_votes"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_hardening_20261116.py",
+    "test": "test_endpoint_transition_enumeration"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_hardening_20261116.py",
+    "test": "test_out_rejected_by_standalone_j"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_hardening_20261116.py",
+    "test": "test_duplicate_opportunity_witness"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_hardening_20261116.py",
+    "test": "test_nested_future_payload"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_hardening_20261116.py",
+    "test": "test_unknown_conditioning"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_hardening_20261116.py",
+    "test": "test_invalid_minutes_law_support"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_hardening_20261116.py",
+    "test": "test_unregistered_minutes_law"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_hardening_20261116.py",
+    "test": "test_player_reordering_preserves_integration"
+  },
+  {
+    "file": "tests/nba_architecture/test_g0_hardening_20261116.py",
+    "test": "test_missing_receipt_parent"
+  },
+  {
+    "file": "tests/nba_architecture/test_independent_final_20261116.py",
+    "test": "test_shared_miss_cannot_generate_two_rebounds"
+  },
+  {
+    "file": "tests/nba_architecture/test_independent_final_20261116.py",
+    "test": "test_assist_cannot_be_on_own_only_field_goal"
+  },
+  {
+    "file": "tests/nba_architecture/test_independent_final_20261116.py",
+    "test": "test_joint_conditioning_cannot_be_relabeled"
+  },
+  {
+    "file": "tests/nba_architecture/test_independent_final_20261116.py",
+    "test": "test_joint_ess_cannot_be_inflated"
+  },
+  {
+    "file": "tests/nba_architecture/test_independent_final_20261116.py",
+    "test": "test_push_cannot_hide_by_omitting_line"
+  },
+  {
+    "file": "tests/nba_architecture/test_independent_final_20261116.py",
+    "test": "test_valid_same_draw_remains_valid"
+  },
+  {
+    "file": "tests/nba_architecture/test_independent_final_20261116.py",
+    "test": "test_reference_poisson_and_negative_binomial_triplets"
+  },
+  {
+    "file": "tests/nba_architecture/test_independent_final_20261116.py",
+    "test": "test_single_rebound_and_teammate_assist_are_feasible"
+  },
+  {
+    "file": "tests/nba_architecture/test_independent_final_20261116.py",
+    "test": "test_joint_standard_error_cannot_be_zeroed"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_valid_bundle"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_frozen_hash_tamper"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_feature_future_leak"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_future_source"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_retrospective_source_rejected"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_training_future"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_nonutc"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_duplicate_players"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_masses_not_normalized"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_threshold_push"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_unknown_participation_cannot_impute"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_fake_roster_cert"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_wrong_team_minutes"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_inactive_player_scored"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_joint_wrong_scenario"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_forecast_inconsistent_side"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_future_quote"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_market_inference_blocked"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_void_cannot_be_push"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_settled_equal_integer_threshold_is_push"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_corrected_settlement_needs_predecessor"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_duplicate_freeze_no_overwrite"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_seed_is_stable_and_unambiguous"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_stat_distribution_wrong_player"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_forecast_wrong_player_distribution"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_forecast_offer_substitution"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_no_unregistered_outcome_family"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_cross_family_minutes_draw_mismatch"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_opportunity_missing_allocation"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_opportunity_future_independent_ot"
+  },
+  {
+    "file": "tests/nba_architecture/test_contracts.py",
+    "test": "test_joint_same_draw_pmf"
+  }
+]

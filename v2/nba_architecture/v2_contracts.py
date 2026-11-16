@@ -9,6 +9,8 @@ from pathlib import Path
 import hashlib
 import json
 import math
+from functools import lru_cache, wraps
+from jsonschema import Draft202012Validator, FormatChecker
 
 VERSION = "nba-sojc-contract/2.0.0"
 PROFILES = ("historical_reconstruction", "original_prospective")
@@ -118,7 +120,33 @@ def strict_keys(d, keys):
 def check_schema(obj, kind):
     req(isinstance(obj, dict) and obj.get("schema") == VERSION
         and obj.get("kind") == kind, "SCHEMA_VERSION_OR_KIND")
-    return verify(obj)
+    verify(obj)
+    return obj["content_hash"]
+
+
+@lru_cache(maxsize=1)
+def _structural_validator():
+    schema = json.loads(Path(__file__).with_name("schema-2.0.0.json").read_text())
+    Draft202012Validator.check_schema(schema)
+    return Draft202012Validator(schema, format_checker=FormatChecker())
+
+
+def participation_state(roster, state, minutes, probability=None, weight=1):
+    """OUT is authoritative exclusion in v2; played-zero is participation.
+
+    Interior probabilities do not constrain finite Monte Carlo frequencies.
+    Endpoint checks apply only to positive-weight draws; legal exclusions always apply.
+    """
+    req(state in ("DNP", "PLAYED_ZERO_MINUTES", "PLAYED"), "PARTICIPATION_STATE")
+    num(minutes)
+    req((state == "PLAYED" and minutes > 0) or
+        (state != "PLAYED" and minutes == 0), "PARTICIPATION_MINUTES")
+    excluded = roster["legal_eligibility"] is False or roster["availability"] == "out"
+    if excluded:
+        req(state == "DNP", "EXCLUDED_PARTICIPATION")
+    if weight > 0 and probability is not None:
+        req(probability != 0 or state == "DNP", "ZERO_PROBABILITY_PARTICIPATION")
+        req(probability != 1 or state != "DNP", "CERTAIN_PARTICIPATION_DNP")
 
 
 def receipt(payload):
@@ -239,10 +267,9 @@ def validate_pregame(p):
                     req(instant(r[clock]) >= instant(prior[clock]),
                         "BACKDATED_SOURCE_CORRECTION")
             elif r["source_revision"] != 1:
-                # When the preceding receipt is external, the predecessor is
-                # independently referenced by digest but must be auditable.
-                req(r["supersedes_receipt_sha256"] is not None,
-                    "MISSING_SOURCE_PREDECESSOR")
+                # A digest cannot establish existence or validity of an external
+                # predecessor. Supply the complete chain in this snapshot.
+                req(False, "MISSING_SOURCE_PREDECESSOR")
     ids = {}
     req(isinstance(p["players"], list) and bool(p["players"]), "ROSTER_REQUIRED")
     for player in p["players"]:
@@ -500,6 +527,7 @@ def validate_scenarios(s, p):
                 req(minutes == 0, "NONPLAYED_MINUTES")
             if universe[pid]["legal_eligibility"] is False:
                 req(state == "DNP", "INELIGIBLE_PLAYED")
+            participation_state(universe[pid], state, minutes, weight=scenario["weight"])
             stats = x["stats"]
             req(set(stats) == set(PHYSICAL), "FULL_STAT_VECTOR_REQUIRED")
             for name in PHYSICAL:
@@ -561,7 +589,8 @@ def validate_scenarios(s, p):
             abs(g["weight"] - expected["weight"]) <= 1e-12,
             "INDEPENDENT_GAME_STATE_DRAW")
         a = {x["player_id"]: x for x in s["opportunity_witness"][sid]}
-        req(set(a) == set(universe), "OPPORTUNITY_WITNESS_ROSTER")
+        req(len(s["opportunity_witness"][sid]) == len(universe) and
+            set(a) == set(universe), "OPPORTUNITY_WITNESS_ROSTER")
         for x in expected["players"]:
             b = a[x["player_id"]]
             req(b["team_id"] == x["team_id"] and
@@ -796,3 +825,22 @@ def seed_for(master, event_id, scenario_id, component_version):
             "AMBIGUOUS_SEED")
     raw = "|".join((VERSION, str(master), event_id, scenario_id, component_version))
     return int.from_bytes(hashlib.sha256(raw.encode("utf-8")).digest()[:8], "big")
+
+
+def structural_boundary(validator):
+    """Preserve semantic error codes, then reject all schema violations."""
+    @wraps(validator)
+    def checked(obj, *args, **kwargs):
+        try:
+            result = validator(obj, *args, **kwargs)
+        except (KeyError, TypeError, IndexError, AttributeError) as exc:
+            raise ContractError("MALFORMED_CONTRACT") from exc
+        req(next(_structural_validator().iter_errors(obj), None) is None,
+            "JSON_SCHEMA_VIOLATION")
+        return result
+    return checked
+
+
+for _name in ("validate_pregame", "validate_distribution", "validate_scenarios",
+              "validate_offer", "validate_offer_view", "validate_evaluation"):
+    globals()[_name] = structural_boundary(globals()[_name])

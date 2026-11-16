@@ -305,7 +305,8 @@
             "minimum": 0,
             "maximum": 1
           }
-        }
+        },
+        "additionalProperties": false
       }
     },
     "pregame": {
@@ -551,7 +552,8 @@
                 }
               ]
             }
-          }
+          },
+          "additionalProperties": false
         },
         "forecast_at": {
           "$ref": "#/$defs/utc"
@@ -635,7 +637,8 @@
               "minimum": 0,
               "maximum": 1
             }
-          }
+          },
+          "additionalProperties": false
         },
         "pmf": {
           "$ref": "#/$defs/pmf"
@@ -725,7 +728,8 @@
             "J": {
               "$ref": "#/$defs/component"
             }
-          }
+          },
+          "additionalProperties": false
         },
         "conditioning": {
           "enum": [
@@ -794,10 +798,12 @@
                     "stats": {
                       "type": "object"
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 }
               }
-            }
+            },
+            "additionalProperties": false
           }
         },
         "game_state_witness": {
@@ -1212,7 +1218,8 @@
                   "tied"
                 ]
               }
-            }
+            },
+            "additionalProperties": false
           }
         }
       },
@@ -1296,7 +1303,8 @@
                   "units"
                 ]
               }
-            }
+            },
+            "additionalProperties": false
           }
         },
         "scenarios": {
@@ -1335,7 +1343,8 @@
                   ]
                 }
               }
-            }
+            },
+            "additionalProperties": false
           }
         }
       },

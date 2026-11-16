@@ -1,0 +1,15 @@
+test_unregistered_negative_support_minutes_law (__main__.Unresolved.test_unregistered_negative_support_minutes_law) ... FAIL
+
+======================================================================
+FAIL: test_unregistered_negative_support_minutes_law (__main__.Unresolved.test_unregistered_negative_support_minutes_law)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/docs/nba_architecture/hardening_20261116/unresolved_tests.py", line 14, in test_unregistered_negative_support_minutes_law
+    with self.assertRaises(ContractError):validate_opportunity(o,c['pregame'],c['game_state'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.219s
+
+FAILED (failures=1)

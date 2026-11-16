@@ -1,0 +1,22 @@
+test_duplicate_opportunity_witness (test_g0_hardening_20261116.Hardening.test_duplicate_opportunity_witness) ... ok
+test_endpoint_transition_enumeration (test_g0_hardening_20261116.Hardening.test_endpoint_transition_enumeration) ... ok
+test_invalid_minutes_law_support (test_g0_hardening_20261116.Hardening.test_invalid_minutes_law_support) ... ok
+test_nested_future_payload (test_g0_hardening_20261116.Hardening.test_nested_future_payload) ... ok
+test_out_rejected_by_standalone_j (test_g0_hardening_20261116.Hardening.test_out_rejected_by_standalone_j) ... ok
+test_player_reordering_preserves_integration (test_g0_hardening_20261116.Hardening.test_player_reordering_preserves_integration) ... ok
+test_unknown_conditioning (test_g0_hardening_20261116.Hardening.test_unknown_conditioning) ... ok
+test_missing_receipt_parent (test_g0_hardening_20261116.RevisionClosure.test_missing_receipt_parent) ... FAIL
+
+======================================================================
+FAIL: test_missing_receipt_parent (test_g0_hardening_20261116.RevisionClosure.test_missing_receipt_parent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_hardening_20261116.py", line 64, in test_missing_receipt_parent
+    with self.assertRaises(ContractError): validate_pregame(reseal(p))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 8 tests in 4.769s
+
+FAILED (failures=1)

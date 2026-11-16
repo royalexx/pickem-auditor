@@ -1,0 +1,2358 @@
+{
+  "version": "1.0.0",
+  "status": "IN_PROGRESS_NOT_FULLY_AUDITED",
+  "invariants": [
+    {
+      "id": "SHA256_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:sha",
+      "requirement": "isinstance(value, str) and len(value) == 64 and all((c in '0123456789abcdef' for c in value))",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UNSEALED_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:seal",
+      "requirement": "isinstance(payload, dict) and 'content_hash' not in payload",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "CONTENT_HASH_MISSING",
+      "validator": "v2/nba_architecture/v2_contracts.py:verify",
+      "requirement": "isinstance(payload, dict) and 'content_hash' in payload",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "CONTENT_HASH_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:verify",
+      "requirement": "digest(obj) == actual",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "IMMUTABLE_CONFLICT",
+      "validator": "v2/nba_architecture/v2_contracts.py:freeze_once",
+      "requirement": "path.read_bytes() == raw",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "TIMESTAMP_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:instant",
+      "requirement": "isinstance(value, str) and 'T' in value",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UTC_TIMESTAMP_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:instant",
+      "requirement": "x.tzinfo is not None and x.utcoffset().total_seconds() == 0 and (value.endswith('Z') or value.endswith('+00:00'))",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "CALENDAR_DATE_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:calendar",
+      "requirement": "isinstance(value, str)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "CALENDAR_DATE_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:calendar",
+      "requirement": "x.isoformat() == value",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FINITE_NUMBER_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:num",
+      "requirement": "type(x) in (int, float) and math.isfinite(x)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "NUMBER_BELOW_MINIMUM",
+      "validator": "v2/nba_architecture/v2_contracts.py:num",
+      "requirement": "x >= minimum",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "NAMESPACED_ID_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:ident",
+      "requirement": "isinstance(x, str) and x.strip() == x and bool(x) and (':' in x)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UNEXPECTED_FIELDS",
+      "validator": "v2/nba_architecture/v2_contracts.py:strict_keys",
+      "requirement": "isinstance(d, dict) and set(d) == set(keys)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SCHEMA_VERSION_OR_KIND",
+      "validator": "v2/nba_architecture/v2_contracts.py:check_schema",
+      "requirement": "isinstance(obj, dict) and obj.get('schema') == VERSION and (obj.get('kind') == kind)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PARTICIPATION_STATE",
+      "validator": "v2/nba_architecture/v2_contracts.py:participation_state",
+      "requirement": "state in ('DNP', 'PLAYED_ZERO_MINUTES', 'PLAYED')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PARTICIPATION_MINUTES",
+      "validator": "v2/nba_architecture/v2_contracts.py:participation_state",
+      "requirement": "state == 'PLAYED' and minutes > 0 or (state != 'PLAYED' and minutes == 0)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "EXCLUDED_PARTICIPATION",
+      "validator": "v2/nba_architecture/v2_contracts.py:participation_state",
+      "requirement": "state == 'DNP'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "ZERO_PROBABILITY_PARTICIPATION",
+      "validator": "v2/nba_architecture/v2_contracts.py:participation_state",
+      "requirement": "probability != 0 or state == 'DNP'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "CERTAIN_PARTICIPATION_DNP",
+      "validator": "v2/nba_architecture/v2_contracts.py:participation_state",
+      "requirement": "probability != 1 or state != 'DNP'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "RECEIPT_UNSEALED_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:receipt",
+      "requirement": "isinstance(payload, dict) and 'receipt_sha256' not in payload",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "RECEIPT_MISSING",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "isinstance(r, dict) and 'receipt_sha256' in r",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "RECEIPT_HASH_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "digest({k: v for k, v in r.items() if k != 'receipt_sha256'}) == actual",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SOURCE_REVISION",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "type(r['source_revision']) is int and r['source_revision'] >= 1",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "INVALID_SOURCE_SCOPE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "r['scope'] in ('prior_game', 'pregame_context', 'original_offer')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "TARGET_GAME_LEAKAGE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "r['contains_target_final'] is False",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UNLINKED_FIRST_REVISION",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "r.get('supersedes_receipt_sha256') is None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PUBLICATION_EVIDENCE_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "r['publication_evidence'] in ('source_header_claim', 'verified')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UNKNOWN_PUBLICATION_INFERRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "r['publication_evidence'] == 'unknown'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PROSPECTIVE_SOURCE_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "r['origin'] == 'original_capture' and r['asof_basis'] == 'observed_before_freeze'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "POSTFREEZE_SOURCE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "all((t <= freeze_at for t in (observed, retrieved, ingested)))",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PROSPECTIVE_DATE_PROXY_FORBIDDEN",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "r['historical_game_date'] is None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "HISTORICAL_PROXY_DISCLOSURE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "r['origin'] == 'retrospective_retrieval' and r['asof_basis'] == 'prior_game_date_only' and bool(r['asof_limitations'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "RETROSPECTIVE_CONTEXT_NOT_PROVEN",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "r['scope'] == 'prior_game'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "HISTORICAL_PRIOR_DATE_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "r['historical_game_date'] is not None and calendar(r['historical_game_date']) < local_day",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PUBLICATION_AFTER_RETRIEVAL",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "pub <= retrieved",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PUBLICATION_CLAIM_AFTER_FREEZE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "instant(published) <= freeze_at",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FUTURE_PUBLISHED_SOURCE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_receipt",
+      "requirement": "instant(r['provider_published_at']) <= freeze_at",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SOURCE_PROFILE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "profile in PROFILES",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "TWO_TEAMS_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "isinstance(teams, list) and len(teams) == 2 and (len(set(teams)) == 2)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PREGAME_CLOCK_ORDER",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "cutoff <= freeze <= decision < event",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SOURCE_RECEIPTS_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "isinstance(sources, list) and len(sources) > 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "ROSTER_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "isinstance(p['players'], list) and bool(p['players'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_COUNT_INVALID",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "p['original_offer_count'] >= 0 and type(p['original_offer_count']) is int",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "RETROSPECTIVE_CERTIFICATION_FORBIDDEN",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "p['certification'] == 'HISTORICAL_RECONSTRUCTION_UNCERTIFIED'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PROSPECTIVE_CERTIFICATION_FORBIDDEN",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "p['certification'] == 'ORIGINAL_SOURCE_SHADOW'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "DUPLICATE_SOURCE_REVISION",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "len({x['source_revision'] for x in ordered}) == len(ordered)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "DUPLICATE_PLAYER",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "pid not in ids",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PLAYER_TEAM_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "player['team_id'] in teams",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "INVALID_ELIGIBILITY",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "player['legal_eligibility'] in (True, False, None)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "INVALID_AVAILABILITY",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "player['availability'] in ('out', 'active_reported', 'questionable', 'unknown')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FEATURE_SOURCE_UNKNOWN",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "feature['source_id'] in by_source",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FEATURE_REVISION_UNBOUND",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "feature['source_receipt_sha256'] in {r['receipt_sha256'] for r in by_source[feature['source_id']]}",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FEATURE_NAME_LEAKAGE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "isinstance(feature['name'], str) and bool(feature['name']) and (not any((bad in feature['name'].lower() for bad in ('target', 'final', 'actual', 'postgame', 'future', 'result', 'same_game', 'samegame'))))",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UNTYPED_FEATURE_PAYLOAD",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "type(feature['value']) in (str, int, float, bool, type(None)) or (isinstance(feature['value'], list) and all((type(v) in (int, float) and math.isfinite(v) for v in feature['value'])))",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FEATURE_UNIT_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "isinstance(feature['measurement_units'], str) and bool(feature['measurement_units'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "TARGET_GAME_FEATURE_LEAK",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "feature['target_game_outcome'] is False and feature['kind'] != 'target_game_result'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UNKNOWN_FEATURE_KIND",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "feature['kind'] in ('prior_boxscore', 'schedule', 'pregame_availability', 'pregame_team_context')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "HISTORICAL_ELIGIBILITY_LEAK",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "player['legal_eligibility'] is None or player['eligibility_evidence'] == 'prior_dated_record'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "HISTORICAL_FEATURE_LEAK",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "feature['kind'] == 'prior_boxscore' and calendar(feature['prior_game_date']) < local_day and (feature['asof_basis'] == 'prior_game_date_only')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FUTURE_FEATURE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "feature['asof_basis'] == 'original_capture' and instant(feature['available_at']) <= freeze",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SOURCE_REVISION_CHAIN",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "r['source_revision'] > ordered[i - 1]['source_revision'] and r['supersedes_receipt_sha256'] == ordered[i - 1]['receipt_sha256']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "BACKDATED_SOURCE_CORRECTION",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "instant(r[clock]) >= instant(prior[clock])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "MISSING_SOURCE_PREDECESSOR",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_pregame",
+      "requirement": "False",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "MODEL_COMPONENT_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:component",
+      "requirement": "isinstance(c, dict)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "MODEL_VERSION",
+      "validator": "v2/nba_architecture/v2_contracts.py:component",
+      "requirement": "isinstance(c['version'], str) and bool(c['version'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SOURCE_LINEAGE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['source_snapshot_sha256'] == p['content_hash']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "GAME_IDENTITY",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['game_id'] == p['game_id']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "DISTRIBUTION_EVENT_START",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['event_start_at'] == p['event_start_at']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "STAT_PLAYER_TEAM_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['player_id'] in ids and ids[d['player_id']] == d['team_id']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "STAT_PERIOD",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['stat'] in STATS and d['period'] == 'full_game_including_ot'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PROFILE_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['source_profile'] == p['source_profile']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "STATUS_NOT_RELEASED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['status'] == ('RESEARCH_RECONSTRUCTION' if p['source_profile'] == 'historical_reconstruction' else 'UNCERTIFIED_SHADOW')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "STAT_SUPPORT",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['support'] == 'nonnegative_integer'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PIPELINE_MODE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "mode in ('S_ONLY', 'S_O', 'S_O_J')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "CONDITIONING_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['conditioning'] in ('unconditional', 'conditional_on_participation', 'conditional_on_declared_roster')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PIPELINE_FAMILY_LINEAGE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "set(lineage) == {'S', 'O', 'G', 'J'}",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FORECAST_TIME_JOIN",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['forecast_at'] == p['forecast_at']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FORECAST_FREEZE_TIME",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "instant(d['frozen_at']) < instant(p['event_start_at']) and instant(d['frozen_at']) >= instant(d['forecast_at'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "INVALID_SEED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "type(d['rng_seed']) is int and d['rng_seed'] >= 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PMF_EMPTY",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "isinstance(pmf, list) and bool(pmf)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PMF_NOT_NORMALIZED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "abs(total - 1.0) <= 1e-10",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "TRUNCATED_LAW_UNCERTIFIED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "numerical['tail_mass_upper_bound'] <= 1e-08",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "NUMERICAL_METHOD",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "numerical['method'] in ('analytic', 'empirical_mc')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PMF_SUPPORT",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "type(row['value']) is int and row['value'] >= 0 and (row['value'] not in values)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "MC_COUNT_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "type(numerical['scenario_count']) is int and numerical['scenario_count'] > 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "MC_SE_INVALID",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "numerical['max_probability_se'] <= 0.5",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "MC_EFFECTIVE_SAMPLE_SIZE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "1.0 <= ess <= numerical['scenario_count'] + 1e-09",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "MC_UNCERTAINTY_LABEL",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "numerical['uncertainty_basis'] == 'heuristic_weighted_ess'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "MC_ZERO_TAIL_UNCERTAINTY",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "0 < bound <= 1",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "MC_ZERO_TAIL_BOUND",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "abs(bound - (1 - 0.05 ** (1 / ess))) < 1e-09",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "ANALYTIC_MC_CONFLICT",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "numerical['scenario_count'] is None and numerical['max_probability_se'] is None and (numerical['effective_sample_size'] is None) and (numerical['zero_event_95_upper_bound'] is None) and (numerical['uncertainty_basis'] == 'analytic_exact_or_bound')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "INDEPENDENT_S_NO_OPPORTUNITY_OUTPUT",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['opportunity_output_sha256'] is None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_REQUIRES_EMPIRICAL_PMF",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "numerical['method'] == 'empirical_mc'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_SCENARIO_CONTEXT_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "scenarios is not None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UNEXPECTED_J_SCENARIOS",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['scenario_bundle_sha256'] is None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "COMPOSITE_J_DERIVATION",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['derivation'] == 'same_draw_primitive_sum'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SCENARIOS_ONLY_FOR_J",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "mode == 'S_O_J'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_SCENARIO_BINDING",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['scenario_bundle_sha256'] == scenarios['content_hash']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_OPPORTUNITY_OUTPUT_BINDING",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['opportunity_output_sha256'] == scenarios['opportunity_sha256']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_CONDITIONING_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['conditioning'] == scenarios['conditioning']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_NUMERICAL_DRAW_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "numerical['scenario_count'] == len(weights) and abs(numerical['effective_sample_size'] - ess_actual) < 1e-09",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_NUMERICAL_SE_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "abs(numerical['max_probability_se'] - expected_se) < 1e-09",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_MARGINAL_NOT_FROM_DRAWS",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "{x['value']: x['mass'] for x in pmf} == pmf_actual",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_LINEAGE_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['lineage'] == scenarios['lineage']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "HISTORICAL_LIMITATION_LOST",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "d['historical_asof_limitations'] == p['historical_asof_limitations'] and bool(d['historical_asof_limitations'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FUTURE_MODEL_FIT",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "instant(lineage[name]['training_cutoff_at']) <= instant(p['input_freeze_at'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UNDECLARED_DEPENDENCY",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "lineage[name] is None or (name == 'G' and mode == 'S_O' and component(lineage[name]))",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FUTURE_OPTIONAL_GAME_STATE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_distribution",
+      "requirement": "instant(lineage[name]['training_cutoff_at']) <= instant(p['input_freeze_at'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SCENARIO_SOURCE_JOIN",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "s['source_snapshot_sha256'] == p['content_hash'] and s['game_id'] == p['game_id']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "NOT_J_SCENARIOS",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "s['pipeline_mode'] == 'S_O_J'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SCENARIO_LINEAGE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "all((k in s['lineage'] for k in ('S', 'O', 'G', 'J')))",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SCENARIOS_EMPTY",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "isinstance(rows, list) and bool(rows)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SCENARIO_WEIGHTS",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "abs(probs - 1.0) <= 1e-10",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SCENARIO_MODEL_FUTURE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "instant(s['lineage'][name]['training_cutoff_at']) <= instant(p['input_freeze_at'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "DUPLICATE_SCENARIO",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "sid not in ids",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "INVALID_OVERTIME",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "type(ot) is int and ot >= 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "INCOMPLETE_J_ROSTER",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "len(parts) == len(universe)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_ROSTER_IDENTITY",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "len(pids) == len(set(pids)) and set(pids) == set(universe)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "TIED_FINAL_SCORE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "scenario['team_points'][p['team_ids'][0]] != scenario['team_points'][p['team_ids'][1]]",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SCENARIO_WITNESS_COVERAGE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "set(witness) == ids",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "INDEPENDENT_GAME_STATE_DRAW",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "g['overtime_periods'] == expected['overtime_periods'] and abs(g['weight'] - expected['weight']) <= 1e-12",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OPPORTUNITY_WITNESS_ROSTER",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "len(s['opportunity_witness'][sid]) == len(universe) and set(a) == set(universe)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "TEAM_MINUTES_CONSERVATION",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "abs(sum((num(x['minutes']) for x in members)) - 5 * duration) < 1e-07",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "TEAM_POINTS_CONSERVATION",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "sum((x['stats']['points'] for x in members)) == scenario['team_points'][team]",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "TEAM_ASSISTS_CAP",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "sum((x['stats']['assists'] for x in members)) <= sum((x['stats']['fgm'] for x in members))",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SCENARIO_TEAM_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "x['team_id'] == universe[pid]['team_id']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PLAYER_MINUTES_CAP",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "minutes <= duration",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PARTICIPATION_STATE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "state in ('DNP', 'PLAYED_ZERO_MINUTES', 'PLAYED')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FULL_STAT_VECTOR_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "set(stats) == set(PHYSICAL)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SHOT_CONVERSIONS",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "stats['two_pm'] <= stats['two_pa'] and stats['threes'] <= stats['three_pa']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FG_ACCOUNTING",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "stats['fgm'] == stats['two_pm'] + stats['threes'] and stats['fga'] == stats['two_pa'] + stats['three_pa']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FT_CONVERSION",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "stats['ftm'] <= stats['fta']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "POINTS_ACCOUNTING",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "stats['points'] == 2 * stats['two_pm'] + 3 * stats['threes'] + stats['ftm']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SELF_ASSIST_IMPOSSIBLE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "stats['assists'] <= teammate_fgm",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "REBOUND_ACCOUNTING",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "stats['rebounds'] == stats['oreb'] + stats['dreb']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SHARED_REBOUND_OPPORTUNITIES",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "claimed <= missed_by_team[shooting_team]",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFENSIVE_REBOUND_OPPORTUNITIES",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "offensive <= missed_by_team[team]",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "DEFENSIVE_REBOUND_OPPORTUNITIES",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "defensive <= missed_by_team[opponent]",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OPPORTUNITY_DRAW_CHANGED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "b['team_id'] == x['team_id'] and b['participation'] == x['participation'] and (b['minutes'] == x['minutes'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PLAYED_REQUIRES_MINUTES",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "minutes > 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "NONPLAYED_MINUTES",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "minutes == 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "INELIGIBLE_PLAYED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "state == 'DNP'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "ZERO_MINUTE_STATS",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_scenarios",
+      "requirement": "all((val == 0 for val in stats.values()))",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UNSUPPORTED_STAT",
+      "validator": "v2/nba_architecture/v2_contracts.py:marginal_from_joint",
+      "requirement": "stat in STATS",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UNKNOWN_PLAYER",
+      "validator": "v2/nba_architecture/v2_contracts.py:marginal_from_joint",
+      "requirement": "player_id in universe",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "HISTORICAL_OFFER_NOT_ORIGINAL",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer",
+      "requirement": "p['source_profile'] == 'original_prospective'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_SNAPSHOT_JOIN",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer",
+      "requirement": "q['source_snapshot_sha256'] == p['content_hash']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_GAME_JOIN",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer",
+      "requirement": "q['game_id'] == p['game_id']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_PLAYER_JOIN",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer",
+      "requirement": "q['player_id'] in people and people[q['player_id']] == q['team_id']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_STAT_PERIOD",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer",
+      "requirement": "q['stat'] in STATS and q['period'] == 'full_game_including_ot'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UNBOUND_ORIGINAL_OFFER",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer",
+      "requirement": "q['source_receipt_sha256'] in refs",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_BYTES_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer",
+      "requirement": "r['scope'] == 'original_offer' and r['raw_sha256'] == q['raw_quote_sha256']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_UNREGISTERED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer",
+      "requirement": "p['original_offer_count'] > 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "QUOTE_OBSERVATION_NOT_RECEIPT",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer",
+      "requirement": "q['observed_at'] == r['collector_observed_at']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "POSTFREEZE_OFFER",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer",
+      "requirement": "instant(q['quoted_at']) <= instant(p['input_freeze_at']) and instant(q['observed_at']) <= instant(p['input_freeze_at'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "QUOTE_TIMESTAMP_AFTER_OBSERVATION",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer",
+      "requirement": "instant(q['quoted_at']) <= instant(q['observed_at'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_ID_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer",
+      "requirement": "isinstance(q[key], str) and bool(q[key])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "DISTRIBUTION_OFFER_IDENTITY",
+      "validator": "v2/nba_architecture/v2_contracts.py:offer_view",
+      "requirement": "q['player_id'] == d['player_id'] and q['team_id'] == d['team_id'] and (q['stat'] == d['stat']) and (q['period'] == d['period'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_VIEW_FREEZE",
+      "validator": "v2/nba_architecture/v2_contracts.py:offer_view",
+      "requirement": "instant(frozen_at) >= instant(d['frozen_at']) and instant(frozen_at) < instant(p['event_start_at'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "DISTRIBUTION_OFFER_IDENTITY",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer_view",
+      "requirement": "q['game_id'] == d['game_id'] and q['player_id'] == d['player_id'] and (q['team_id'] == d['team_id']) and (q['stat'] == d['stat']) and (q['period'] == d['period'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_VIEW_GAME_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer_view",
+      "requirement": "v['game_id'] == d['game_id']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_VIEW_LINEAGE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer_view",
+      "requirement": "v['distribution_sha256'] == d['content_hash'] and v['original_offer_sha256'] == q['content_hash'] and (v['contract_id'] == q['contract_id']) and (v['quote_id'] == q['quote_id']) and (v['quote_source_receipt'] == q['source_receipt_sha256'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_VIEW_CONTRACT_LINE_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer_view",
+      "requirement": "v['contract_line'] == q['line']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_VIEW_PRODUCT_TERMS_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer_view",
+      "requirement": "v['product_terms_sha256'] == expected_terms_sha",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_VIEW_RELEASE_BLOCKED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer_view",
+      "requirement": "v['status'] == 'UNCERTIFIED_SHADOW'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFER_VIEW_TIME",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer_view",
+      "requirement": "instant(v['frozen_at']) < instant(p['event_start_at']) and instant(v['frozen_at']) >= instant(d['frozen_at'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "TRIPLET_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer_view",
+      "requirement": "set(probabilities) == {'over', 'under', 'push'}",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "TRIPLET_NOT_COMPLEMENTARY",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer_view",
+      "requirement": "abs(sum(probabilities.values()) - 1) < 1e-10",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "DNP_VOID_INFERRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer_view",
+      "requirement": "v['product_void_semantics'] == 'requires_original_product_terms'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "TRIPLET_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_offer_view",
+      "requirement": "abs(num(probabilities[name]) - expected[name]) < 1e-10",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SETTLEMENT_DISTRIBUTION",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['distribution_sha256'] == verify(distribution)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SETTLEMENT_STATUS",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "status in ('pending', 'settled', 'push', 'void', 'unmatched')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SETTLEMENT_REVISION",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "type(e['revision']) is int and e['revision'] >= 1",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "EVALUATED_BEFORE_EVENT",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "instant(e['evaluated_at']) >= instant(e['event_start_at'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "EVAL_GAME_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['game_id'] == distribution['game_id']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "EVAL_EVENT_START_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['event_start_at'] == distribution['event_start_at']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SETTLEMENT_PARTICIPATION",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['participation'] in ('unknown', 'DNP', 'PLAYED_ZERO_MINUTES', 'PLAYED')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "UNKNOWN_OFFER_VIEW",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['offer_view_sha256'] is None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SETTLEMENT_OFFER_VIEW",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['offer_view_sha256'] == verify(offer)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SETTLEMENT_OFFER_IDENTITY",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "offer['game_id'] == distribution['game_id'] and offer['distribution_sha256'] == distribution['content_hash']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "CORRECTION_PREDECESSOR_MISSING",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['supersedes_evaluation_sha256'] is not None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FIRST_SETTLEMENT_HAS_PARENT",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['supersedes_evaluation_sha256'] is None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "DNP_CANNOT_HAVE_SETTLED_COUNT",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['participation'] in ('PLAYED', 'PLAYED_ZERO_MINUTES')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "PUSH_REQUIRES_ORIGINAL_QUOTE",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "offer is not None and e['contract_line'] is not None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OUTCOME_MUST_BE_NULL",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['actual'] is None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "OFFICIAL_COUNT_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "type(e['actual']) is int and e['actual'] >= 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "VOID_ORIGINAL_TERMS_REQUIRED",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "offer is not None and offer['product_terms_sha256'] is not None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "VOID_TERMS_HASH_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['void_basis'] == 'original_terms_sha256:' + offer['product_terms_sha256']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "SETTLEMENT_CONTRACT_LINE_MISMATCH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['contract_line'] == offer['contract_line']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "ZERO_MINUTE_POSITIVE_COUNT",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['actual'] == 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "FALSE_PUSH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['actual'] == line",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "MISLABELED_PUSH",
+      "validator": "v2/nba_architecture/v2_contracts.py:validate_evaluation",
+      "requirement": "e['actual'] != line",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "INVALID_SEED",
+      "validator": "v2/nba_architecture/v2_contracts.py:seed_for",
+      "requirement": "type(master) is int and master >= 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "AMBIGUOUS_SEED",
+      "validator": "v2/nba_architecture/v2_contracts.py:seed_for",
+      "requirement": "isinstance(value, str) and value and ('|' not in value)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "JSON_SCHEMA_VIOLATION",
+      "validator": "v2/nba_architecture/v2_contracts.py:structural_boundary",
+      "requirement": "next(_structural_validator().iter_errors(obj), None) is None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "JSON_SCHEMA_VIOLATION",
+      "validator": "v2/nba_architecture/v2_contracts.py:checked",
+      "requirement": "next(_structural_validator().iter_errors(obj), None) is None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "G_SOURCE_JOIN",
+      "validator": "v2/nba_architecture/families_v2.py:validate_game_state",
+      "requirement": "g['source_snapshot_sha256'] == p['content_hash'] and g['game_id'] == p['game_id']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "G_FUTURE_MODEL",
+      "validator": "v2/nba_architecture/families_v2.py:validate_game_state",
+      "requirement": "instant(g['model']['training_cutoff_at']) <= instant(p['input_freeze_at'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "G_SEED",
+      "validator": "v2/nba_architecture/families_v2.py:validate_game_state",
+      "requirement": "type(g['rng_seed']) is int and g['rng_seed'] >= 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "G_EMPTY_SCENARIOS",
+      "validator": "v2/nba_architecture/families_v2.py:validate_game_state",
+      "requirement": "isinstance(scenarios, list) and bool(scenarios)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "G_WEIGHT_SUM",
+      "validator": "v2/nba_architecture/families_v2.py:validate_game_state",
+      "requirement": "abs(weight - 1) <= 1e-10",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "G_DUPLICATE_SCENARIO",
+      "validator": "v2/nba_architecture/families_v2.py:validate_game_state",
+      "requirement": "sid not in ids",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "G_OVERTIME",
+      "validator": "v2/nba_architecture/families_v2.py:validate_game_state",
+      "requirement": "type(sc['overtime_periods']) is int and sc['overtime_periods'] >= 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "G_SCORE_STATE",
+      "validator": "v2/nba_architecture/families_v2.py:validate_game_state",
+      "requirement": "sc['score_state'] in ('home_leading', 'away_leading', 'tied')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_G_SOURCE_JOIN",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "o['source_snapshot_sha256'] == p['content_hash'] and o['game_id'] == p['game_id'] and (o['game_state_sha256'] == g['content_hash'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_FUTURE_MODEL",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "instant(o['model']['training_cutoff_at']) <= instant(p['input_freeze_at'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_ROSTER_COVERAGE",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "len(persons) == len(roster) and len({x['player_id'] for x in persons}) == len(roster)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_SCENARIO_COVERAGE",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "len(scenarios) == len(prior)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_PLAYER_TEAM",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "x['player_id'] in roster and x['team_id'] == roster[x['player_id']]['team_id']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_PARTICIPATION_EVIDENCE",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "x['participation_evidence'] in ('unknown', 'verified_out', 'independently_estimated')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_MINUTES_LAW",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "law['conditioning'] == 'given_played' and isinstance(law['family'], str) and bool(law['family']) and isinstance(law['parameters'], dict) and (law['units'] == 'minutes')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_UNREGISTERED_MINUTES_LAW",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "law['family'] == 'synthetic_point_mass'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_SCENARIO_JOIN",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "sid in prior and sid not in seen",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_INDEPENDENT_G_DRAW",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "sc['overtime_periods'] == ot and abs(sc['weight'] - prior[sid]['weight']) < 1e-12",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_SCENARIO_ROSTER",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "len(participants) == len(roster) and set(by_id) == set(roster)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_UNKNOWN_PARTICIPATION",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "prob is None",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_PROBABILITY",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "prob is not None and 0 <= num(prob) <= 1",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_OUT_NOT_ZERO",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "prob == 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_INELIGIBLE_PROBABILITY",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "prob in (None, 0)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_OUT_PROBABILITY",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "prob in (None, 0)",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_POINT_MASS_PARAMETERS",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "set(law['parameters']) == {'median'}",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_TEAM_IDENTITY",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "person['team_id'] == roster[pid]['team_id']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_PLAYER_MINUTES_CAP",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "mn <= duration",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_PARTICIPATION_STATE",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "status in ('DNP', 'PLAYED_ZERO_MINUTES', 'PLAYED')",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_TEAM_MINUTE_CONSERVATION",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "abs(total - 5 * duration) < 1e-07",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_PLAYED_ZERO_MINUTES",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "mn > 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_DNP_EXPOSURE",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "mn == 0",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "O_INELIGIBLE_PLAYED",
+      "validator": "v2/nba_architecture/families_v2.py:validate_opportunity",
+      "requirement": "status == 'DNP'",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_G_O_HASH_JOIN",
+      "validator": "v2/nba_architecture/families_v2.py:validate_integration",
+      "requirement": "j['game_state_sha256'] == g['content_hash'] and j['opportunity_sha256'] == o['content_hash']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_G_O_MODEL_JOIN",
+      "validator": "v2/nba_architecture/families_v2.py:validate_integration",
+      "requirement": "j['lineage']['G'] == g['model'] and j['lineage']['O'] == o['model']",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_G_O_SCENARIO_JOIN",
+      "validator": "v2/nba_architecture/families_v2.py:validate_integration",
+      "requirement": "sid in expected_g and sid in expected_o",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_GAME_STATE_CHANGED",
+      "validator": "v2/nba_architecture/families_v2.py:validate_integration",
+      "requirement": "sc['overtime_periods'] == gg['overtime_periods'] and abs(sc['weight'] - gg['weight']) < 1e-12",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_OPPORTUNITY_STATE_CHANGED",
+      "validator": "v2/nba_architecture/families_v2.py:validate_integration",
+      "requirement": "sc['overtime_periods'] == oo['overtime_periods'] and abs(sc['weight'] - oo['weight']) < 1e-12",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    },
+    {
+      "id": "J_RESAMPLED_OPPORTUNITY",
+      "validator": "v2/nba_architecture/families_v2.py:validate_integration",
+      "requirement": "x['minutes'] == y['minutes'] and x['participation'] == y['participation'] and (x['team_id'] == y['team_id'])",
+      "gate": "G0",
+      "producer": "contract caller",
+      "rejection": "ContractError",
+      "resealing_bypass": "must reject semantic contradiction after reseal",
+      "coverage_status": "PENDING_MANUAL_AUDIT"
+    }
+  ],
+  "boundaries": {
+    "G1": [
+      "source authenticity",
+      "fitted participation",
+      "actual adapters",
+      "event-level rotation witness"
+    ],
+    "G2": [
+      "integrated fitted pipeline",
+      "chronological leakage-certified replay"
+    ]
+  }
+}

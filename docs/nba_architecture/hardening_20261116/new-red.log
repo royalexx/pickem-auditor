@@ -1,0 +1,87 @@
+test_duplicate_opportunity_witness (test_g0_hardening_20261116.Hardening.test_duplicate_opportunity_witness) ... FAIL
+test_endpoint_transition_enumeration (test_g0_hardening_20261116.Hardening.test_endpoint_transition_enumeration) ... 
+  test_endpoint_transition_enumeration (test_g0_hardening_20261116.Hardening.test_endpoint_transition_enumeration) (prob=0.0, index=0) ... FAIL
+  test_endpoint_transition_enumeration (test_g0_hardening_20261116.Hardening.test_endpoint_transition_enumeration) (prob=0.0, index=5) ... FAIL
+  test_endpoint_transition_enumeration (test_g0_hardening_20261116.Hardening.test_endpoint_transition_enumeration) (prob=1.0, index=5) ... FAIL
+test_invalid_minutes_law_support (test_g0_hardening_20261116.Hardening.test_invalid_minutes_law_support) ... FAIL
+test_nested_future_payload (test_g0_hardening_20261116.Hardening.test_nested_future_payload) ... FAIL
+test_out_rejected_by_standalone_j (test_g0_hardening_20261116.Hardening.test_out_rejected_by_standalone_j) ... FAIL
+test_player_reordering_preserves_integration (test_g0_hardening_20261116.Hardening.test_player_reordering_preserves_integration) ... ok
+test_unknown_conditioning (test_g0_hardening_20261116.Hardening.test_unknown_conditioning) ... FAIL
+
+======================================================================
+FAIL: test_duplicate_opportunity_witness (test_g0_hardening_20261116.Hardening.test_duplicate_opportunity_witness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_hardening_20261116.py", line 36, in test_duplicate_opportunity_witness
+    with self.assertRaises(ContractError): validate_scenarios(reseal(j),self.p)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_endpoint_transition_enumeration (test_g0_hardening_20261116.Hardening.test_endpoint_transition_enumeration) (prob=0.0, index=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_hardening_20261116.py", line 26, in test_endpoint_transition_enumeration
+    with self.assertRaises(ContractError): validate_opportunity(o,self.p,self.g)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_endpoint_transition_enumeration (test_g0_hardening_20261116.Hardening.test_endpoint_transition_enumeration) (prob=0.0, index=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_hardening_20261116.py", line 26, in test_endpoint_transition_enumeration
+    with self.assertRaises(ContractError): validate_opportunity(o,self.p,self.g)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_endpoint_transition_enumeration (test_g0_hardening_20261116.Hardening.test_endpoint_transition_enumeration) (prob=1.0, index=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_hardening_20261116.py", line 26, in test_endpoint_transition_enumeration
+    with self.assertRaises(ContractError): validate_opportunity(o,self.p,self.g)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_invalid_minutes_law_support (test_g0_hardening_20261116.Hardening.test_invalid_minutes_law_support)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_hardening_20261116.py", line 48, in test_invalid_minutes_law_support
+    with self.assertRaises(ContractError): validate_opportunity(reseal(o),self.p,self.g)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_nested_future_payload (test_g0_hardening_20261116.Hardening.test_nested_future_payload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_hardening_20261116.py", line 40, in test_nested_future_payload
+    with self.assertRaises(ContractError): validate_scenarios(reseal(j),self.p)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_out_rejected_by_standalone_j (test_g0_hardening_20261116.Hardening.test_out_rejected_by_standalone_j)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_hardening_20261116.py", line 31, in test_out_rejected_by_standalone_j
+    with self.assertRaises(ContractError): validate_scenarios(j_scenarios(p),p)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_unknown_conditioning (test_g0_hardening_20261116.Hardening.test_unknown_conditioning)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_hardening_20261116.py", line 44, in test_unknown_conditioning
+    with self.assertRaises(ContractError): validate_scenarios(reseal(j),self.p)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.113s
+
+FAILED (failures=8)

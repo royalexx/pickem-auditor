@@ -5,7 +5,7 @@ consume their identical scenario/player draws and identity-bound content hashes.
 """
 from __future__ import annotations
 from .v2_contracts import (
-    VERSION, ContractError, req, num, ident, instant, sha, check_schema,
+    structural_boundary, participation_state, VERSION, ContractError, req, num, ident, instant, sha, check_schema,
     validate_pregame, validate_scenarios, component, seal, strict_keys,
 )
 
@@ -77,6 +77,13 @@ def validate_opportunity(o, p, g):
             isinstance(law["family"], str) and bool(law["family"]) and
             isinstance(law["parameters"], dict) and
             law["units"] == "minutes", "O_MINUTES_LAW")
+        if roster[x["player_id"]]["availability"] == "out":
+            req(prob in (None, 0), "O_OUT_PROBABILITY")
+        req(law["family"] == "synthetic_point_mass", "O_UNREGISTERED_MINUTES_LAW")
+        if law["family"] == "synthetic_point_mass":
+            req(set(law["parameters"]) == {"median"}, "O_POINT_MASS_PARAMETERS")
+            num(law["parameters"]["median"])
+    estimates = {x["player_id"]: x["participation_probability"] for x in persons}
     scenarios = o["scenarios"]
     req(len(scenarios) == len(prior), "O_SCENARIO_COVERAGE")
     seen = set()
@@ -105,6 +112,7 @@ def validate_opportunity(o, p, g):
                 req(mn > 0, "O_PLAYED_ZERO_MINUTES")
             else:
                 req(mn == 0, "O_DNP_EXPOSURE")
+            participation_state(roster[pid], status, mn, estimates[pid], sc["weight"])
             if roster[pid]["legal_eligibility"] is False:
                 req(status == "DNP", "O_INELIGIBLE_PLAYED")
         for team in p["team_ids"]:
@@ -139,3 +147,7 @@ def validate_integration(j, p, g, o):
                 x["participation"] == y["participation"] and
                 x["team_id"] == y["team_id"], "J_RESAMPLED_OPPORTUNITY")
     return True
+
+
+validate_game_state = structural_boundary(validate_game_state)
+validate_opportunity = structural_boundary(validate_opportunity)
