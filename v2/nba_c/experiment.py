@@ -13,7 +13,7 @@ import json
 import math
 import numpy as np
 from scipy.optimize import minimize
-from .scores import ScoreError, validate_pmf, crps
+from .scores import ScoreError, validate_pmf, crps, quantile
 
 
 class ExperimentError(ValueError):
@@ -261,7 +261,7 @@ def explore_simplex(cache, *, trials=1000, seed=20261116, alpha=1.0):
             "game_count":cache.game_count,"date_count":cache.date_count}
 
 
-def mc_precision_probe(pmf, *, seed=20261116, n_small=5000, n_large=20000):
+def mc_precision_probe(pmf, *, seed=20261116, n_small=5000, n_large=20000, outcome=0, tail_threshold=None):
     """Independent seeded sampling precision *diagnostic*, not fit/evidence."""
     if n_small!=5000 or n_large!=20000:
         raise ExperimentError("PRE_REGISTERED_MC_SIZES")
@@ -277,9 +277,27 @@ def mc_precision_probe(pmf, *, seed=20261116, n_small=5000, n_large=20000):
     se20=np.sqrt(masses*(1-masses)/n_large)
     combined=np.sqrt(se5**2+se20**2)
     z=np.divide(abs(p5-p20),combined,out=np.zeros_like(combined),where=combined>0)
+    small_pmf=dict(zip(values.tolist(),p5.tolist()))
+    large_pmf=dict(zip(values.tolist(),p20.tolist()))
+    true_pmf=dict(rows)
+    tail_threshold=max(values) if tail_threshold is None else tail_threshold
+    def diag(distribution):
+        return {"crps":crps(distribution,outcome),
+                "mean":sum(k*p for k,p in distribution.items()),
+                "zero_mass":distribution.get(0,0.0),
+                "upper_tail_mass":sum(p for k,p in distribution.items()
+                                      if k>=tail_threshold),
+                "median":quantile(distribution,.5)}
+    exact=diag(true_pmf)
+    five=diag(small_pmf)
+    twenty=diag(large_pmf)
     return {"seed":seed,"counts":[n_small,n_large],
-            "probabilities_5000":dict(zip(values.tolist(),p5.tolist())),
-            "probabilities_20000":dict(zip(values.tolist(),p20.tolist())),
+            "probabilities_5000":small_pmf,
+            "probabilities_20000":large_pmf,
+            "exact_reference":exact,
+            "estimates_5000":five,"estimates_20000":twenty,
+            "absolute_crps_error_5000":abs(five["crps"]-exact["crps"]),
+            "absolute_crps_error_20000":abs(twenty["crps"]-exact["crps"]),
             "maximum_standardized_difference":float(z.max()),
             "se_ratio_nonzero":2.0,"draws_are_not_independent_games":True}
 
