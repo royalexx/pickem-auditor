@@ -1,11 +1,17 @@
 """WS6 secondary source/role and per-stat research diagnostics; add-only."""
 from __future__ import annotations
 import collections,csv,hashlib,io,json,math,pathlib
+from functools import lru_cache
 import numpy as np
 from research.ws6_nfl_sunday_20261115.independent_postgame_20261116 import (
     OUT,JR,COMPARE,EPSN,MAP,load,rows,official_sources,get_stat,crps_sample,interval_draw,source,frozen_write,dump
 )
 THIS=OUT/"secondary_diagnostics_v1.json"
+@lru_cache(maxsize=32)
+def cached_verified_simulation(path_string,sha):
+    path=pathlib.Path(path_string)
+    source(path,sha)
+    return load(path)
 JLEDGER=JR/"759dc467ef3bdc589b3588c7adb59254076e5d071dbf35bf167c408447e56431.ledger.json"
 def score():
     c=rows(COMPARE);orig={r["quote_id"]:r for r in c}
@@ -33,8 +39,7 @@ def score():
             if len(missing_detail)<30:missing_detail.append({"event":event,"player":o["player"],"stat":stat,"reason":status})
             continue
         fn=JR/(r["forecast_file_sha256"]+".json")
-        source(fn,r["forecast_file_sha256"])
-        obj=load(fn)
+        obj=cached_verified_simulation(str(fn),r["forecast_file_sha256"])
         series=obj["draw_records"]["J2"]["series"]
         key="|".join((r["team"],str(r["player_id"]),stat))
         points=series.get(key)
