@@ -148,7 +148,7 @@ def discover(root, *, max_manifests=150):
             for index, row in enumerate(lines):
                 identity = (sport, engine, str(row.get("event_id")), str(row.get("player_id")),
                             str(row.get("stat")), str(row.get("original_contract_id") or ""),
-                            str(row.get("game_id") or ""), str(row.get("forecast_at")))
+                            str(row.get("game_id") or ""))
                 if identity in seen:
                     rejected.append({"manifest": entry["manifest"], "index": index,
                                      "reason": "DUPLICATE_ENGINE_ORIGINAL_FORECAST"})
