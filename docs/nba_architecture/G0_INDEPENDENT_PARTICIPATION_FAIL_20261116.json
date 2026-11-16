@@ -1,0 +1,68 @@
+{
+  "record_type": "NBA_G0_INDEPENDENT_ADVERSARIAL_DECISION",
+  "reviewed_at": "2026-11-16",
+  "reviewer": "Separate ChatGPT G0 QA review session; no implementation changes",
+  "decision": "G0_FAIL",
+  "audited_pr": "https://github.com/royalexx/pickem-auditor/pull/154",
+  "substantive_code_sha": "8474ee55ff926e1f8c0b83e5b3c9a77c4c03516a",
+  "audited_pr_head": "bfc70fbb2ca80c085401e82a092125b12ddc1189",
+  "deepnote_notebook_id": "d2e90e24af9f47338ee57faa113a128c",
+  "deepnote_detached_readonly_run": "fe1f51ac-2634-47c2-8749-03ac4040a5a7",
+  "deepnote_run_status": "success",
+  "existing_tests": {
+    "run_count": 181,
+    "passed": 181,
+    "failed": 0
+  },
+  "findings": [
+    {
+      "id": "G0-A01",
+      "severity": "BLOCKING",
+      "vector": "O participation_evidence=verified_out, participation_probability=0 while same 48-minute PLAYED rows persist in both J draws; resealed O and J",
+      "result": "validate_opportunity and validate_integration both accepted invalid states",
+      "expected": "Reject hard-zero participation against positive minutes and played states"
+    },
+    {
+      "id": "G0-A02",
+      "severity": "BLOCKING",
+      "vector": "O independently_estimated participation_probability=1 with scenario 0 DNP at weight=0.4; resealed O and J",
+      "result": "validate_opportunity and validate_integration both accepted invalid states",
+      "expected": "Reject DNP in positive-weight scenario when participation is certain"
+    },
+    {
+      "id": "G0-A03",
+      "severity": "BLOCKING",
+      "vector": "Pregame availability=out while J assigns 48 positive minutes; regenerate and reseal S/O/G/J synthetic fixtures consistently",
+      "result": "validate_pregame, validate_game_state, validate_opportunity, validate_scenarios, and validate_integration accepted",
+      "expected": "Reconcile confirmed-out status against scenario participation or explicitly define an evidentiary distinction that prevents contradictory states"
+    }
+  ],
+  "reviewed_families": {
+    "repository_and_lineage": "EXERCISED existing immutable receipt and history checks; no mutation",
+    "original_source_provenance": "EXERCISED existing checks; real source authenticity remains G1",
+    "identity_and_temporal": "EXERCISED existing checks; not a real-data certification",
+    "full_predictive_pmf": "EXERCISED existing checks; full predictive fit remains G1",
+    "pipeline_layering": "G0 architecture coherent in structure; fail on opportunity consistency",
+    "participation_and_minutes": "FAIL: 0/1 probabilities and pregame OUT inconsistent with scenario states",
+    "joint_physics": "FAIL: J accepts internally impossible participation conditional states",
+    "settlement_and_quote": "EXERCISED existing suite; no new blocker independently established",
+    "numerical_reference": "EXERCISED existing suite, not proof of predictive accuracy",
+    "downstream_conformance": "G1/G2 BLOCKED; no fitted adapter asserted"
+  },
+  "minimum_remediation": [
+    "Enforce probability 0 and probability 1 participation endpoint constraints at O scenario allocation and J integration, with negative and legitimate positive cases",
+    "Define and enforce whether pregame availability OUT is authoritative or uncertain; ensure source evidence and scenario semantics are consistent",
+    "Rerun complete 181-case suite, fresh independent negative suite, schema/immutable goldens, and all applicable source/provenance checks on exact repaired SHA",
+    "Retain prior G0 FAIL and BLOCKED receipts unchanged; require a different auditor to review any substantive repair"
+  ],
+  "gate_decisions": {
+    "G0": "FAIL",
+    "P1_to_P6": "BLOCKED",
+    "G1": "NOT_ATTEMPTED",
+    "G2": "NOT_ATTEMPTED",
+    "P8_to_P11": "BLOCKED",
+    "production": "NOT_AUTHORIZED"
+  },
+  "source_integrity_note": "Source SHA refers to Git commit; raw source content hashes recorded by independent Deepnote run; resealing tests authenticates only synthetic payload self-consistency.",
+  "cryptographic_signature": null
+}
