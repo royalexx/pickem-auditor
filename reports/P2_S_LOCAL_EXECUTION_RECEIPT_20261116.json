@@ -1,0 +1,33 @@
+{
+  "G1": "NOT_ASSERTED",
+  "P1_source_authenticity": "NOT_AVAILABLE",
+  "P3_O_true_pregame_law": "NOT_AVAILABLE",
+  "P4_J_integration": "NOT_RUN",
+  "accepted_g0_implementation_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "branch": "research/nba-p2-s-family-g1-20261116",
+  "code_sha256": {
+    "docs/nba_architecture/P2_S_FAMILY_HANDOFF_20261116.md": "5d6d04274c35e9089bb52fd450d86cdb95e0704daaa0acf75093de516f1edb0d",
+    "reports/p2_synthetic_example_output.json": "7c9c04ddec0e4b30bd76e1e55e49392a1303cc925dc5a30a509cf1cc7b171a53",
+    "scripts/nba_p2_s_family_example.py": "0782fbea866797893d01d4ca9ae0f4f25138ece360d8ab6f557b34ed488545aa",
+    "tests/nba_s_family/test_statistical.py": "cf0c38b1622cb0d7ad0bbd389ecadd11ee0f7a26c6cd09c7a2d6c1d2791bd474",
+    "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
+    "v2/nba_s_family/model.py": "3fb8ab1c81d1f47a85d022cd4280dfeca92b13f7fbbf4af98d6d1760b1ed921b"
+  },
+  "critical_caveat": "Local stand-in validators are insufficient for G0 conformance; actual repo tests must run on accepted G0 SHA.",
+  "date_utc": "2026-11-16",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.13.5",
+    "scipy": "1.17.0"
+  },
+  "errors": 0,
+  "failures": 0,
+  "historical_accuracy": "NOT_RUN_OUT_OF_SCOPE",
+  "independent_external_review": "PENDING_P6",
+  "kind": "p2_S_local_engineering_receipt",
+  "remote_exact_g0_test": "BLOCKED_DEEPNOTE_RATE_LIMIT",
+  "runtime": "local container; local stub G0 validators ONLY; NOT accepted-contract test",
+  "test_command": "PYTHONPATH=/mnt/data/nba_p2_s_family python -m unittest discover -s /mnt/data/nba_p2_s_family/tests/nba_s_family -p test_*.py -v",
+  "tests_passed": 22
+}
