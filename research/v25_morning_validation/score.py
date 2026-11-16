@@ -317,6 +317,7 @@ def nfl_validation(storage, output, fetch=None):
                 "player_id": str(row.get("player_id", "")), "stat": row.get("stat"),
                 "line": row.get("line"), "book": row.get("book"),
                 "original_quote_id": row.get("original_quote_id"),
+                "original_quote_source_sha256":row.get("source_sha256"),
                 "original_contract_id": row.get("original_candidate_id"),
                 "team_id": row.get("team"),
                 "joint_status": row.get("joint_status"),
@@ -419,8 +420,12 @@ def nba_validation(storage, output, fetch=None):
                                       observed_at=source["retrieved_at"],
                                       origin="original_capture")
             outcome = settle_original(ledger, final_raw, receipt)
+            provenance={p["player_id"]: sorted({r.get("raw_sha256") for r in p.get("original_raw_source_receipts",[])
+                if isinstance(r,dict) and r.get("raw_sha256")}) for p in
+                ledger.get("candidate_research_table",{}).get("rows",[])}
             for candidate in outcome["candidate_rows"]:
                 candidate_rows.append({"slot":slot["slot"],"event_id":gid,
+                    "original_candidate_source_hashes":provenance.get(candidate["player_id"],[]),
                     "game_id":slot["game"]["game_id"],
                     "event_start_at":slot["game"]["event_start_at"],
                     "original_ledger_sha256":h(raw),
