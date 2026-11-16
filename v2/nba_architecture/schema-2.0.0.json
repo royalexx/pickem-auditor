@@ -930,6 +930,8 @@
         "contract_id",
         "quote_id",
         "quote_source_receipt",
+        "contract_line",
+        "product_terms_sha256",
         "probabilities",
         "status",
         "frozen_at",
@@ -997,6 +999,20 @@
         },
         "product_void_semantics": {
           "const": "requires_original_product_terms"
+        },
+        "contract_line": {
+          "type": "number",
+          "minimum": 0
+        },
+        "product_terms_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false

@@ -401,6 +401,9 @@ def validate_distribution(d, p, scenarios=None):
     if mode == "S_O_J":
         sha(d["scenario_bundle_sha256"])
         req(numerical["method"] == "empirical_mc", "J_REQUIRES_EMPIRICAL_PMF")
+        # A caller cannot certify a J marginal from its self-reported bundle
+        # hash alone: require the actual verified scenario bundle, fail closed.
+        req(scenarios is not None, "J_SCENARIO_CONTEXT_REQUIRED")
     else:
         req(d["scenario_bundle_sha256"] is None, "UNEXPECTED_J_SCENARIOS")
     if d["stat"] in COMPOSITES and mode == "S_O_J":
@@ -507,6 +510,23 @@ def validate_scenarios(s, p):
                     "COMBO_ACCOUNTING_" + combo)
             if state != "PLAYED":
                 req(all(val == 0 for val in stats.values()), "ZERO_MINUTE_STATS")
+        # Every rebound must arise from a missed FGA/FTA somewhere in this
+        # same game. These are conservative upper bounds: not every missed FT
+        # is live/reboundable, which can only reduce permissible rebounds.
+        home, away = p["team_ids"]
+        missed_by_team = {
+            team: sum(x["stats"]["fga"] - x["stats"]["fgm"] +
+                      x["stats"]["fta"] - x["stats"]["ftm"]
+                      for x in parts if x["team_id"] == team)
+            for team in (home, away)
+        }
+        for team, opponent in ((home, away), (away, home)):
+            offensive = sum(x["stats"]["oreb"] for x in parts
+                            if x["team_id"] == team)
+            defensive = sum(x["stats"]["dreb"] for x in parts
+                            if x["team_id"] == team)
+            req(offensive <= missed_by_team[team], "OFFENSIVE_REBOUND_OPPORTUNITIES")
+            req(defensive <= missed_by_team[opponent], "DEFENSIVE_REBOUND_OPPORTUNITIES")
     req(abs(probs - 1.0) <= 1e-10, "SCENARIO_WEIGHTS")
     # The shared state and O values are checked against their provided witnesses.
     for source_name in ("game_state_witness", "opportunity_witness"):
@@ -569,7 +589,7 @@ def marginal_from_joint(s, p, player_id, stat, frozen_at, rng_seed,
           "same_draw_primitive_sum" if stat in COMPOSITES else "same_draw_primitive",
         numerical=numerical, pmf=pmf,
         historical_asof_limitations=p["historical_asof_limitations"]))
-    validate_distribution(d, p)
+    validate_distribution(d, p, s)
     return d
 
 
@@ -618,8 +638,8 @@ def validate_offer(q, p):
     return True
 
 
-def offer_view(d, q, p, frozen_at):
-    validate_distribution(d, p)
+def offer_view(d, q, p, frozen_at, scenarios=None):
+    validate_distribution(d, p, scenarios)
     validate_offer(q, p)
     req(q["player_id"] == d["player_id"] and q["team_id"] == d["team_id"] and
         q["stat"] == d["stat"] and q["period"] == d["period"],
@@ -630,19 +650,21 @@ def offer_view(d, q, p, frozen_at):
     raw = seal(dict(schema=VERSION, kind="offer_view", game_id=d["game_id"],
         distribution_sha256=d["content_hash"], original_offer_sha256=q["content_hash"],
         contract_id=q["contract_id"], quote_id=q["quote_id"], quote_source_receipt=q["source_receipt_sha256"],
+        contract_line=q["line"],
+        product_terms_sha256=digest(q["payout_terms"]) if isinstance(q["payout_terms"], dict) and q["payout_terms"] else None,
         probabilities=threshold_triplet(d["pmf"], q["line"]),
         status="UNCERTIFIED_SHADOW", frozen_at=frozen_at,
         product_void_semantics="requires_original_product_terms"))
-    validate_offer_view(raw, d, q, p)
+    validate_offer_view(raw, d, q, p, scenarios)
     return raw
 
 
-def validate_offer_view(v, d, q, p):
+def validate_offer_view(v, d, q, p, scenarios=None):
     strict_keys(v, ("schema","kind","content_hash","game_id","distribution_sha256",
                     "original_offer_sha256","contract_id","quote_id",
-                    "quote_source_receipt","probabilities","status","frozen_at",
-                    "product_void_semantics"))
-    validate_distribution(d, p)
+                    "quote_source_receipt","contract_line","product_terms_sha256",
+                    "probabilities","status","frozen_at","product_void_semantics"))
+    validate_distribution(d, p, scenarios)
     validate_offer(q, p)
     check_schema(v, "offer_view")
     req(q["game_id"] == d["game_id"] and
@@ -650,12 +672,19 @@ def validate_offer_view(v, d, q, p):
         q["team_id"] == d["team_id"] and
         q["stat"] == d["stat"] and q["period"] == d["period"],
         "DISTRIBUTION_OFFER_IDENTITY")
+    req(v["game_id"] == d["game_id"], "OFFER_VIEW_GAME_MISMATCH")
     req(v["distribution_sha256"] == d["content_hash"] and
         v["original_offer_sha256"] == q["content_hash"] and
         v["contract_id"] == q["contract_id"] and
         v["quote_id"] == q["quote_id"] and
         v["quote_source_receipt"] == q["source_receipt_sha256"],
         "OFFER_VIEW_LINEAGE")
+    req(v["contract_line"] == q["line"], "OFFER_VIEW_CONTRACT_LINE_MISMATCH")
+    expected_terms_sha = (digest(q["payout_terms"])
+                          if isinstance(q["payout_terms"], dict) and q["payout_terms"]
+                          else None)
+    req(v["product_terms_sha256"] == expected_terms_sha,
+        "OFFER_VIEW_PRODUCT_TERMS_MISMATCH")
     req(v["status"] == "UNCERTIFIED_SHADOW", "OFFER_VIEW_RELEASE_BLOCKED")
     req(instant(v["frozen_at"]) < instant(p["event_start_at"]) and
         instant(v["frozen_at"]) >= instant(d["frozen_at"]),
@@ -685,6 +714,12 @@ def validate_evaluation(e, distribution, offer=None):
         req(e["offer_view_sha256"] is None, "UNKNOWN_OFFER_VIEW")
     else:
         req(e["offer_view_sha256"] == verify(offer), "SETTLEMENT_OFFER_VIEW")
+        req(offer["game_id"] == distribution["game_id"] and
+            offer["distribution_sha256"] == distribution["content_hash"],
+            "SETTLEMENT_OFFER_IDENTITY")
+        if e["contract_line"] is not None:
+            req(e["contract_line"] == offer["contract_line"],
+                "SETTLEMENT_CONTRACT_LINE_MISMATCH")
     status = e["status"]
     req(status in ("pending", "settled", "push", "void", "unmatched"),
         "SETTLEMENT_STATUS")
@@ -702,12 +737,20 @@ def validate_evaluation(e, distribution, offer=None):
     req(e["game_id"] == distribution["game_id"], "EVAL_GAME_MISMATCH")
     req(e["event_start_at"] == distribution["event_start_at"],
         "EVAL_EVENT_START_MISMATCH")
+    if status in ("settled", "push"):
+        req(e["participation"] in ("PLAYED", "PLAYED_ZERO_MINUTES"),
+            "DNP_CANNOT_HAVE_SETTLED_COUNT")
+    if status == "push":
+        req(offer is not None and e["contract_line"] is not None,
+            "PUSH_REQUIRES_ORIGINAL_QUOTE")
     if status in ("pending", "unmatched", "void"):
         req(e["actual"] is None, "OUTCOME_MUST_BE_NULL")
     else:
         req(type(e["actual"]) is int and e["actual"] >= 0,
             "OFFICIAL_COUNT_REQUIRED")
         sha(e["official_source_sha256"])
+        if e["participation"] == "PLAYED_ZERO_MINUTES":
+            req(e["actual"] == 0, "ZERO_MINUTE_POSITIVE_COUNT")
         if offer is not None and e["contract_line"] is not None:
             if status == "push":
                 req(e["actual"] == e["contract_line"], "FALSE_PUSH")
@@ -716,7 +759,10 @@ def validate_evaluation(e, distribution, offer=None):
     req(e["participation"] in ("unknown", "DNP", "PLAYED_ZERO_MINUTES", "PLAYED"),
         "SETTLEMENT_PARTICIPATION")
     if status == "void":
-        req(e["void_basis"] is not None, "VOID_TERMS_UNVERIFIED")
+        req(offer is not None and offer["product_terms_sha256"] is not None,
+            "VOID_ORIGINAL_TERMS_REQUIRED")
+        req(e["void_basis"] == "original_terms_sha256:" + offer["product_terms_sha256"],
+            "VOID_TERMS_HASH_MISMATCH")
     return True
 
 
