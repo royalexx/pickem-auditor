@@ -108,6 +108,7 @@ def distribution(p, stat="points", mode="S_ONLY", value=2):
         "frozen_at": ("2022-10-19T23:02:00Z" if p["source_profile"] ==
                       "historical_reconstruction" else "2026-11-16T23:02:00Z"),
         "rng_seed": 42, "scenario_bundle_sha256": None,
+        "opportunity_output_sha256": H if mode == "S_O" else None,
         "derivation": "synthetic_analytic_fixture" if mode != "S_O" else "synthetic_opportunity_fixture",
         "numerical": {"method": "analytic", "scenario_count": None,
                       "max_probability_se": None, "tail_mass_upper_bound": 0.0,

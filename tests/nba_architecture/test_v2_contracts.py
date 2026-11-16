@@ -167,6 +167,19 @@ class V2Tests(unittest.TestCase):
             edited(d, lambda x: x["lineage"]["S"].update(
                 target_game_minutes=42)), p)
 
+    def test_so_requires_exact_opportunity_output_sha(self):
+        p = pregame()
+        d = distribution(p, mode="S_O")
+        self.failcode("SHA256_REQUIRED", validate_distribution,
+            edited(d, lambda x: x.update(opportunity_output_sha256=None)), p)
+
+    def test_j_rejects_different_opportunity_hash(self):
+        x = self.goldens["joint_same_draw"]
+        d = edited(x["points"], lambda y: y.update(
+            opportunity_output_sha256="f"*64))
+        self.failcode("J_OPPORTUNITY_OUTPUT_BINDING", validate_distribution,
+                      d, x["pregame"], x["scenarios"])
+
     def test_historical_offer_free_golden(self):
         x = self.goldens["historical_offer_free"]
         self.assertTrue(validate_pregame(x["pregame"]))

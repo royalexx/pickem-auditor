@@ -439,7 +439,8 @@
         "pmf",
         "historical_asof_limitations",
         "status",
-        "event_start_at"
+        "event_start_at",
+        "opportunity_output_sha256"
       ],
       "properties": {
         "schema": {
@@ -653,6 +654,16 @@
         },
         "event_start_at": {
           "$ref": "#/$defs/utc"
+        },
+        "opportunity_output_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false

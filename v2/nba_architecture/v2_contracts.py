@@ -319,7 +319,8 @@ def validate_distribution(d, p, scenarios=None):
                     "pipeline_mode","conditioning","status",
                     "source_snapshot_sha256","lineage","event_start_at",
                     "forecast_at","frozen_at","rng_seed","scenario_bundle_sha256",
-                    "derivation","numerical","pmf","historical_asof_limitations"))
+                    "opportunity_output_sha256","derivation","numerical","pmf",
+                    "historical_asof_limitations"))
     validate_pregame(p)
     check_schema(d, "distribution")
     req(d["source_snapshot_sha256"] == p["content_hash"], "SOURCE_LINEAGE")
@@ -392,6 +393,11 @@ def validate_distribution(d, p, scenarios=None):
             numerical["zero_event_95_upper_bound"] is None and
             numerical["uncertainty_basis"] == "analytic_exact_or_bound",
             "ANALYTIC_MC_CONFLICT")
+    if mode == "S_ONLY":
+        req(d["opportunity_output_sha256"] is None,
+            "INDEPENDENT_S_NO_OPPORTUNITY_OUTPUT")
+    else:
+        sha(d["opportunity_output_sha256"])
     if mode == "S_O_J":
         sha(d["scenario_bundle_sha256"])
         req(numerical["method"] == "empirical_mc", "J_REQUIRES_EMPIRICAL_PMF")
@@ -404,6 +410,8 @@ def validate_distribution(d, p, scenarios=None):
         validate_scenarios(scenarios, p)
         req(d["scenario_bundle_sha256"] == scenarios["content_hash"],
             "J_SCENARIO_BINDING")
+        req(d["opportunity_output_sha256"] == scenarios["opportunity_sha256"],
+            "J_OPPORTUNITY_OUTPUT_BINDING")
         pmf_actual = {}
         for sc in scenarios["scenarios"]:
             player = next(x for x in sc["players"] if x["player_id"] == d["player_id"])
@@ -556,7 +564,8 @@ def marginal_from_joint(s, p, player_id, stat, frozen_at, rng_seed,
           "historical_reconstruction" else "UNCERTIFIED_SHADOW",
         source_snapshot_sha256=p["content_hash"], lineage=s["lineage"],
         event_start_at=p["event_start_at"], forecast_at=p["forecast_at"], frozen_at=frozen_at, rng_seed=rng_seed,
-        scenario_bundle_sha256=s["content_hash"], derivation=
+        scenario_bundle_sha256=s["content_hash"],
+        opportunity_output_sha256=s["opportunity_sha256"], derivation=
           "same_draw_primitive_sum" if stat in COMPOSITES else "same_draw_primitive",
         numerical=numerical, pmf=pmf,
         historical_asof_limitations=p["historical_asof_limitations"]))
