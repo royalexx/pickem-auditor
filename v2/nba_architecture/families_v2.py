@@ -144,6 +144,8 @@ def validate_opportunity(o, p, g):
             total = sum(x["minutes"] for x in participants
                         if x["team_id"] == team)
             req(abs(total - 5*duration) < 1e-7, "O_TEAM_MINUTE_CONSERVATION")
+    from .exposure_v2 import validate_exposure_coupling
+    validate_exposure_coupling(o, p, g)
     return True
 
 
@@ -188,6 +190,14 @@ def validate_forecast(d, p, *, g=None, o=None, scenarios=None):
     """
     from .v2_contracts import validate_distribution
     validate_distribution(d, p, scenarios)
+    import math
+    roster = next(x for x in p['players'] if x['player_id'] == d['player_id'])
+    excluded = roster['legal_eligibility'] is False or roster['availability'] == 'out'
+    if excluded:
+        req(d['conditioning'] != 'conditional_on_participation',
+            'FORECAST_IMPOSSIBLE_PARTICIPATION_CONDITION')
+        req(math.fsum(r['mass'] for r in d['pmf'] if r['value'] > 0) == 0,
+            'FORECAST_EXCLUDED_POSITIVE_COUNT')
     if d['pipeline_mode'] == 'S_ONLY':
         req(g is None and o is None and scenarios is None, 'UNDECLARED_PIPELINE_CONTEXT')
         return True
@@ -198,6 +208,21 @@ def validate_forecast(d, p, *, g=None, o=None, scenarios=None):
     req(d['lineage']['G'] == g['model'], 'FORECAST_G_MODEL')
     req(all(x['minutes_law']['family'] != 'synthetic_point_mass' for x in o['players']),
         'DIAGNOSTIC_MINUTES_NOT_FORECAST_LAW')
+    from .exposure_v2 import positive_exposure_bound, validate_exposure_coupling, MASS_TOLERANCE
+    person = next(x for x in o['players'] if x['player_id'] == d['player_id'])
+    compatible_bounds = validate_exposure_coupling(o, p, g)[d['player_id']]
+    bound = positive_exposure_bound(person, roster, d['conditioning'], compatible_bounds)
+    positive_count = math.fsum(r['mass'] for r in d['pmf'] if r['value'] > 0)
+    # Interior analytic probabilities obey the true exposure bound. Empirical
+    # MC frequencies can exceed it by finite sampling, so only hard-zero support
+    # is deterministic for those marginals (including J-derived distributions).
+    if d['numerical']['method'] == 'analytic':
+        req(positive_count <= bound + MASS_TOLERANCE, 'FORECAST_COUNT_EXCEEDS_EXPOSURE')
+        if d['conditioning'] != 'conditional_on_participation' and positive_count > 0:
+            validate_exposure_coupling(o, p, g,
+                                      required_positive=(d['player_id'], positive_count))
+    if bound == 0:
+        req(positive_count == 0, 'FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT')
     if d['pipeline_mode'] == 'S_O_J':
         validate_integration(scenarios, p, g, o)
     return True

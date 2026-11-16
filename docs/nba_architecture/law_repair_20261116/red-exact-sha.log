@@ -1,0 +1,219 @@
+test_f1_unattainable_minute_atom_rejected_at_all_boundaries (test_g0_law_repair_20261116.IndependentReportRegressions.test_f1_unattainable_minute_atom_rejected_at_all_boundaries) ... 
+  test_f1_unattainable_minute_atom_rejected_at_all_boundaries (test_g0_law_repair_20261116.IndependentReportRegressions.test_f1_unattainable_minute_atom_rejected_at_all_boundaries) (boundary='O') ... FAIL
+  test_f1_unattainable_minute_atom_rejected_at_all_boundaries (test_g0_law_repair_20261116.IndependentReportRegressions.test_f1_unattainable_minute_atom_rejected_at_all_boundaries) (boundary='forecast') ... FAIL
+  test_f1_unattainable_minute_atom_rejected_at_all_boundaries (test_g0_law_repair_20261116.IndependentReportRegressions.test_f1_unattainable_minute_atom_rejected_at_all_boundaries) (boundary='C') ... FAIL
+test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) ... 
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='assists', boundary='forecast') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='assists', boundary='C') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='pa', boundary='forecast') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='pa', boundary='C') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='points', boundary='forecast') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='points', boundary='C') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='pr', boundary='forecast') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='pr', boundary='C') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='pra', boundary='forecast') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='pra', boundary='C') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='ra', boundary='forecast') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='ra', boundary='C') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='rebounds', boundary='forecast') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='rebounds', boundary='C') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='threes', boundary='forecast') ... FAIL
+  test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='threes', boundary='C') ... FAIL
+test_f2_zero_count_positive_counterparts_all_markets (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_zero_count_positive_counterparts_all_markets) ... ok
+test_feasible_exchange_without_empirical_frequency_equality (test_g0_law_repair_20261116.LawCouplingControls.test_feasible_exchange_without_empirical_frequency_equality) ... ok
+test_marginal_masses_incompatible_even_when_each_atom_attainable (test_g0_law_repair_20261116.LawCouplingControls.test_marginal_masses_incompatible_even_when_each_atom_attainable) ... FAIL
+test_nonzero_count_mass_cannot_exceed_positive_exposure_mass (test_g0_law_repair_20261116.LawCouplingControls.test_nonzero_count_mass_cannot_exceed_positive_exposure_mass) ... FAIL
+
+======================================================================
+FAIL: test_f1_unattainable_minute_atom_rejected_at_all_boundaries (test_g0_law_repair_20261116.IndependentReportRegressions.test_f1_unattainable_minute_atom_rejected_at_all_boundaries) (boundary='O')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 53, in test_f1_unattainable_minute_atom_rejected_at_all_boundaries
+    with self.assertRaises(ContractError): call()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f1_unattainable_minute_atom_rejected_at_all_boundaries (test_g0_law_repair_20261116.IndependentReportRegressions.test_f1_unattainable_minute_atom_rejected_at_all_boundaries) (boundary='forecast')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 53, in test_f1_unattainable_minute_atom_rejected_at_all_boundaries
+    with self.assertRaises(ContractError): call()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f1_unattainable_minute_atom_rejected_at_all_boundaries (test_g0_law_repair_20261116.IndependentReportRegressions.test_f1_unattainable_minute_atom_rejected_at_all_boundaries) (boundary='C')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 53, in test_f1_unattainable_minute_atom_rejected_at_all_boundaries
+    with self.assertRaises(ContractError): call()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='assists', boundary='forecast')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 63, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_forecast(d,c['pregame'],g=c['game_state'],o=c['opportunity'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='assists', boundary='C')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 65, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_settlement(e,d,c['pregame'],g=c['game_state'],o=c['opportunity'],view=v,quote=q)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='pa', boundary='forecast')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 63, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_forecast(d,c['pregame'],g=c['game_state'],o=c['opportunity'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='pa', boundary='C')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 65, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_settlement(e,d,c['pregame'],g=c['game_state'],o=c['opportunity'],view=v,quote=q)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='points', boundary='forecast')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 63, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_forecast(d,c['pregame'],g=c['game_state'],o=c['opportunity'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='points', boundary='C')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 65, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_settlement(e,d,c['pregame'],g=c['game_state'],o=c['opportunity'],view=v,quote=q)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='pr', boundary='forecast')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 63, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_forecast(d,c['pregame'],g=c['game_state'],o=c['opportunity'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='pr', boundary='C')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 65, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_settlement(e,d,c['pregame'],g=c['game_state'],o=c['opportunity'],view=v,quote=q)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='pra', boundary='forecast')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 63, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_forecast(d,c['pregame'],g=c['game_state'],o=c['opportunity'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='pra', boundary='C')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 65, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_settlement(e,d,c['pregame'],g=c['game_state'],o=c['opportunity'],view=v,quote=q)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='ra', boundary='forecast')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 63, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_forecast(d,c['pregame'],g=c['game_state'],o=c['opportunity'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='ra', boundary='C')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 65, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_settlement(e,d,c['pregame'],g=c['game_state'],o=c['opportunity'],view=v,quote=q)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='rebounds', boundary='forecast')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 63, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_forecast(d,c['pregame'],g=c['game_state'],o=c['opportunity'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='rebounds', boundary='C')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 65, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_settlement(e,d,c['pregame'],g=c['game_state'],o=c['opportunity'],view=v,quote=q)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='threes', boundary='forecast')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 63, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_forecast(d,c['pregame'],g=c['game_state'],o=c['opportunity'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) (stat='threes', boundary='C')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 65, in test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c
+    with self.assertRaises(ContractError):validate_settlement(e,d,c['pregame'],g=c['game_state'],o=c['opportunity'],view=v,quote=q)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_marginal_masses_incompatible_even_when_each_atom_attainable (test_g0_law_repair_20261116.LawCouplingControls.test_marginal_masses_incompatible_even_when_each_atom_attainable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 98, in test_marginal_masses_incompatible_even_when_each_atom_attainable
+    with self.assertRaises(ContractError):validate_opportunity(c['opportunity'],c['pregame'],c['game_state'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_nonzero_count_mass_cannot_exceed_positive_exposure_mass (test_g0_law_repair_20261116.LawCouplingControls.test_nonzero_count_mass_cannot_exceed_positive_exposure_mass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/g0-law-rejected-9ebo19v7/checkout/tests/nba_architecture/test_g0_law_repair_20261116.py", line 103, in test_nonzero_count_mass_cannot_exceed_positive_exposure_mass
+    with self.assertRaises(ContractError):validate_forecast(d,c['pregame'],g=c['game_state'],o=c['opportunity'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.436s
+
+FAILED (failures=21)

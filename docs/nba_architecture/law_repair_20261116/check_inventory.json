@@ -1,0 +1,905 @@
+{
+  "parent_inventory": "docs/nba_architecture/completion_20261116/check_inventory.json",
+  "current_checks": [
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team",
+      "line": 70,
+      "requirement": "len(players) <= MAX_TEAM_VARIABLES and len(groups) <= MAX_OVERTIME_GROUPS",
+      "code": "'O_COUPLING_VERIFICATION_BUDGET'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team",
+      "line": 88,
+      "requirement": "all(choices)",
+      "code": "'O_LAW_NO_PHYSICAL_STATE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team.enumerate_allocations",
+      "line": 97,
+      "requirement": "nodes <= MAX_SEARCH_NODES",
+      "code": "'O_COUPLING_VERIFICATION_BUDGET'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team.enumerate_allocations",
+      "line": 103,
+      "requirement": "len(allocations) <= MAX_ALLOCATIONS",
+      "code": "'O_COUPLING_VERIFICATION_BUDGET'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team",
+      "line": 109,
+      "requirement": "bool(allocations)",
+      "code": "'O_MINUTE_LAWS_INCOMPATIBLE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team",
+      "line": 132,
+      "requirement": "bool(matching)",
+      "code": "'O_G_STATE_LAW_INCOMPATIBLE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team",
+      "line": 144,
+      "requirement": "bool(matching) or zero",
+      "code": "'O_MINUTE_LAW_ATOM_UNATTAINABLE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team",
+      "line": 145,
+      "requirement": "target > 0 or zero",
+      "code": "'O_COUPLING_NUMERICAL_UNCERTIFIED'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team",
+      "line": 163,
+      "requirement": "positive_given_played > 0 or mass == 0",
+      "code": "'FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team",
+      "line": 166,
+      "requirement": "lower <= 1 + MASS_TOLERANCE",
+      "code": "'FORECAST_COUNT_EXCEEDS_EXPOSURE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team.solve",
+      "line": 173,
+      "requirement": "result.status != 2",
+      "code": "'O_MINUTE_LAWS_INCOMPATIBLE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team.solve",
+      "line": 174,
+      "requirement": "result.success and result.x is not None",
+      "code": "'O_COUPLING_SOLVER_UNCERTIFIED'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team.solve",
+      "line": 175,
+      "requirement": "np.all(np.isfinite(result.x)) and np.max(np.abs(matrix @ result.x - target), initial=0.0) <= MASS_TOLERANCE and (np.min(result.x, initial=0.0) >= -MASS_TOLERANCE) and (np.max(result.x, initial=1.0) <= 1 + MASS_TOLERANCE)",
+      "code": "'O_COUPLING_RESIDUAL_UNCERTIFIED'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team",
+      "line": 189,
+      "requirement": "witness in lookup",
+      "code": "'O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team",
+      "line": 193,
+      "requirement": "solves <= MAX_WITNESS_SOLVES",
+      "code": "'O_COUPLING_VERIFICATION_BUDGET'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "_check_team",
+      "line": 196,
+      "requirement": "alternative[j] > 0",
+      "code": "'O_DRAW_ZERO_COMPATIBLE_PROBABILITY'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/exposure_v2.py",
+      "validator": "positive_exposure_bound",
+      "line": 217,
+      "requirement": "q != 0 and compatible_bounds[0] > 0",
+      "code": "'FORECAST_IMPOSSIBLE_PARTICIPATION_CONDITION'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_game_state",
+      "line": 18,
+      "requirement": "g['source_snapshot_sha256'] == p['content_hash'] and g['game_id'] == p['game_id']",
+      "code": "'G_SOURCE_JOIN'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_game_state",
+      "line": 21,
+      "requirement": "instant(g['model']['training_cutoff_at']) <= instant(p['input_freeze_at'])",
+      "code": "'G_FUTURE_MODEL'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_game_state",
+      "line": 23,
+      "requirement": "type(g['rng_seed']) is int and g['rng_seed'] >= 0",
+      "code": "'G_SEED'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_game_state",
+      "line": 25,
+      "requirement": "isinstance(scenarios, list) and bool(scenarios)",
+      "code": "'G_EMPTY_SCENARIOS'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_game_state",
+      "line": 29,
+      "requirement": "sid not in ids",
+      "code": "'G_DUPLICATE_SCENARIO'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_game_state",
+      "line": 32,
+      "requirement": "type(sc['overtime_periods']) is int and sc['overtime_periods'] >= 0",
+      "code": "'G_OVERTIME'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_game_state",
+      "line": 37,
+      "requirement": "sc['score_state'] in ('home_leading', 'away_leading', 'tied')",
+      "code": "'G_SCORE_STATE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_game_state",
+      "line": 39,
+      "requirement": "abs(weight - 1) <= 1e-10",
+      "code": "'G_WEIGHT_SUM'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 48,
+      "requirement": "o['source_snapshot_sha256'] == p['content_hash'] and o['game_id'] == p['game_id'] and (o['game_state_sha256'] == g['content_hash'])",
+      "code": "'O_G_SOURCE_JOIN'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 52,
+      "requirement": "instant(o['model']['training_cutoff_at']) <= instant(p['input_freeze_at'])",
+      "code": "'O_FUTURE_MODEL'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 57,
+      "requirement": "len(persons) == len(roster) and len({x['player_id'] for x in persons}) == len(roster)",
+      "code": "'O_ROSTER_COVERAGE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 61,
+      "requirement": "x['player_id'] in roster and x['team_id'] == roster[x['player_id']]['team_id']",
+      "code": "'O_PLAYER_TEAM'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 64,
+      "requirement": "x['participation_evidence'] in ('unknown', 'verified_out', 'independently_estimated')",
+      "code": "'O_PARTICIPATION_EVIDENCE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 68,
+      "requirement": "prob is None",
+      "code": "'O_UNKNOWN_PARTICIPATION'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 70,
+      "requirement": "prob is not None and 0 <= num(prob) <= 1",
+      "code": "'O_PROBABILITY'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 72,
+      "requirement": "prob == 0",
+      "code": "'O_OUT_NOT_ZERO'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 73,
+      "requirement": "roster[x['player_id']]['availability'] == 'out' or roster[x['player_id']]['legal_eligibility'] is False",
+      "code": "'O_UNBOUND_VERIFIED_OUT'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 77,
+      "requirement": "prob in (None, 0)",
+      "code": "'O_INELIGIBLE_PROBABILITY'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 79,
+      "requirement": "law['conditioning'] == 'given_played' and isinstance(law['family'], str) and bool(law['family']) and isinstance(law['parameters'], dict) and (law['units'] == 'minutes')",
+      "code": "'O_MINUTES_LAW'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 84,
+      "requirement": "prob in (None, 0)",
+      "code": "'O_OUT_PROBABILITY'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 86,
+      "requirement": "law['family'] in ('synthetic_point_mass', 'discrete_minutes')",
+      "code": "'O_UNREGISTERED_MINUTES_LAW'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 92,
+      "requirement": "isinstance(support, list) and bool(support)",
+      "code": "'O_MINUTES_SUPPORT'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 97,
+      "requirement": "mn <= max((48 + 5 * sc['overtime_periods'] for sc in g['scenarios'] if sc['weight'] > 0))",
+      "code": "'O_LAW_PHYSICAL_SUPPORT'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 99,
+      "requirement": "mn not in seen_minutes and mass > 0",
+      "code": "'O_MINUTES_ATOM'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 101,
+      "requirement": "abs(math.fsum((a['mass'] for a in support)) - 1) <= 1e-12",
+      "code": "'O_MINUTES_MASS'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 104,
+      "requirement": "set(law['parameters']) == {'median'}",
+      "code": "'O_POINT_MASS_PARAMETERS'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 109,
+      "requirement": "len(scenarios) == len(prior)",
+      "code": "'O_SCENARIO_COVERAGE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 113,
+      "requirement": "sid in prior and sid not in seen",
+      "code": "'O_SCENARIO_JOIN'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 116,
+      "requirement": "sc['overtime_periods'] == ot and abs(sc['weight'] - prior[sid]['weight']) < 1e-12",
+      "code": "'O_INDEPENDENT_G_DRAW'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 121,
+      "requirement": "len(participants) == len(roster) and set(by_id) == set(roster)",
+      "code": "'O_SCENARIO_ROSTER'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 126,
+      "requirement": "person['team_id'] == roster[pid]['team_id']",
+      "code": "'O_TEAM_IDENTITY'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 128,
+      "requirement": "mn <= duration",
+      "code": "'O_PLAYER_MINUTES_CAP'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 130,
+      "requirement": "status in ('DNP', 'PLAYED_ZERO_MINUTES', 'PLAYED')",
+      "code": "'O_PARTICIPATION_STATE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 133,
+      "requirement": "mn > 0",
+      "code": "'O_PLAYED_ZERO_MINUTES'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 135,
+      "requirement": "mn == 0",
+      "code": "'O_DNP_EXPOSURE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 139,
+      "requirement": "any((a['minutes'] == mn for a in law['parameters']['support']))",
+      "code": "'O_DRAW_OUTSIDE_MINUTES_SUPPORT'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 142,
+      "requirement": "status == 'DNP'",
+      "code": "'O_INELIGIBLE_PLAYED'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_opportunity",
+      "line": 146,
+      "requirement": "abs(total - 5 * duration) < 1e-07",
+      "code": "'O_TEAM_MINUTE_CONSERVATION'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_integration",
+      "line": 155,
+      "requirement": "j['game_state_sha256'] == g['content_hash'] and j['opportunity_sha256'] == o['content_hash']",
+      "code": "'J_G_O_HASH_JOIN'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_integration",
+      "line": 157,
+      "requirement": "j['lineage']['G'] == g['model'] and j['lineage']['O'] == o['model']",
+      "code": "'J_G_O_MODEL_JOIN'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_integration",
+      "line": 161,
+      "requirement": "{sc['scenario_id'] for sc in j['scenarios']} == set(expected_g)",
+      "code": "'J_G_O_EXACT_SCENARIO_COVERAGE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_integration",
+      "line": 165,
+      "requirement": "sid in expected_g and sid in expected_o",
+      "code": "'J_G_O_SCENARIO_JOIN'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_integration",
+      "line": 167,
+      "requirement": "sc['overtime_periods'] == gg['overtime_periods'] and abs(sc['weight'] - gg['weight']) < 1e-12",
+      "code": "'J_GAME_STATE_CHANGED'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_integration",
+      "line": 170,
+      "requirement": "sc['overtime_periods'] == oo['overtime_periods'] and abs(sc['weight'] - oo['weight']) < 1e-12",
+      "code": "'J_OPPORTUNITY_STATE_CHANGED'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_integration",
+      "line": 175,
+      "requirement": "x['minutes'] == y['minutes'] and x['participation'] == y['participation'] and (x['team_id'] == y['team_id'])",
+      "code": "'J_RESAMPLED_OPPORTUNITY'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_forecast",
+      "line": 197,
+      "requirement": "d['conditioning'] != 'conditional_on_participation'",
+      "code": "'FORECAST_IMPOSSIBLE_PARTICIPATION_CONDITION'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_forecast",
+      "line": 199,
+      "requirement": "math.fsum((r['mass'] for r in d['pmf'] if r['value'] > 0)) == 0",
+      "code": "'FORECAST_EXCLUDED_POSITIVE_COUNT'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_forecast",
+      "line": 202,
+      "requirement": "g is None and o is None and (scenarios is None)",
+      "code": "'UNDECLARED_PIPELINE_CONTEXT'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_forecast",
+      "line": 204,
+      "requirement": "g is not None and o is not None",
+      "code": "'FORECAST_OPPORTUNITY_CONTEXT_REQUIRED'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_forecast",
+      "line": 206,
+      "requirement": "d['opportunity_output_sha256'] == o['content_hash']",
+      "code": "'FORECAST_O_HASH'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_forecast",
+      "line": 207,
+      "requirement": "d['lineage']['O'] == o['model']",
+      "code": "'FORECAST_O_MODEL'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_forecast",
+      "line": 208,
+      "requirement": "d['lineage']['G'] == g['model']",
+      "code": "'FORECAST_G_MODEL'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_forecast",
+      "line": 209,
+      "requirement": "all((x['minutes_law']['family'] != 'synthetic_point_mass' for x in o['players']))",
+      "code": "'DIAGNOSTIC_MINUTES_NOT_FORECAST_LAW'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_forecast",
+      "line": 220,
+      "requirement": "positive_count <= bound + MASS_TOLERANCE",
+      "code": "'FORECAST_COUNT_EXCEEDS_EXPOSURE'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_forecast",
+      "line": 225,
+      "requirement": "positive_count == 0",
+      "code": "'FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_settlement",
+      "line": 236,
+      "requirement": "(view is None) == (quote is None)",
+      "code": "'SETTLEMENT_ORIGINAL_OFFER_CONTEXT'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_settlement",
+      "line": 243,
+      "requirement": "h not in seen",
+      "code": "'DUPLICATE_SETTLEMENT'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    },
+    {
+      "file": "v2/nba_architecture/families_v2.py",
+      "validator": "validate_settlement",
+      "line": 245,
+      "requirement": "record['revision'] == (1 if previous is None else previous['revision'] + 1)",
+      "code": "'SETTLEMENT_COMPLETE_HISTORY_REQUIRED'",
+      "registry_groups": [
+        "CONSERVING_LAW_COUPLING",
+        "EXPOSURE_COUNT_DOMINANCE",
+        "COUPLING_CERTIFICATION"
+      ]
+    }
+  ]
+}

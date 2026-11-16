@@ -1,0 +1,19 @@
+{
+  "implementation_sha": "e1983b2d0b94742dfb1bf411694dc46c7cad1ac6",
+  "added_test": "tests/nba_architecture/test_g0_law_repair_20261116.py",
+  "added_test_raw_sha256": "9246bb9a38f4238ed4518a52f8b0adb8f55abf3e91624a76f7aab3301b0fa9fc",
+  "command": [
+    "python",
+    "-m",
+    "unittest",
+    "test_g0_law_repair_20261116.IndependentReportRegressions",
+    "test_g0_law_repair_20261116.LawCouplingControls",
+    "-v"
+  ],
+  "expected_red_assertions": 21,
+  "test_methods": 6,
+  "unexpected_errors": 0,
+  "log_sha256": "bf4ffc08105ba918ec28a0f26332e7f860a51d8afc40cb04e6db561dc06e8be6",
+  "original_baseline": "baseline.log: 242/242 PASS",
+  "independent_review": false
+}

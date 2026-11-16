@@ -1,0 +1,15 @@
+test_tiny_positive_overtime_state_cannot_be_dropped (test_g0_law_repair_20261116.UnknownParticipationPositive.test_tiny_positive_overtime_state_cannot_be_dropped) ... FAIL
+
+======================================================================
+FAIL: test_tiny_positive_overtime_state_cannot_be_dropped (test_g0_law_repair_20261116.UnknownParticipationPositive.test_tiny_positive_overtime_state_cannot_be_dropped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_law_repair_20261116.py", line 199, in test_tiny_positive_overtime_state_cannot_be_dropped
+    with self.assertRaises(ContractError):_check_team(players,((0,1.),(1,1e-20)),())
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 1.136s
+
+FAILED (failures=1)
