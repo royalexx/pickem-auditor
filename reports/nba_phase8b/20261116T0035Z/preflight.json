@@ -1,0 +1,77 @@
+{
+  "checked_at": "2026-11-16T00:34:37.375391Z",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "packages": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0"
+  },
+  "pdftotext": "/usr/bin/pdftotext",
+  "poppler_version": "pdftotext version 25.03.0",
+  "registration_sha256": "ab7795753e5ff0e98a4cbaa988897b95c2dc4d6e8371865f3af80cd9167bdf54",
+  "model_sha256": "e424c7f98bba50315dfde81a60978855d6ceb8c72aba8ad0af310eb31283326f",
+  "slots": [
+    {
+      "slot": 1,
+      "game_id": "espn:game:401909994",
+      "state": "NOT_DUE",
+      "claim_exists": false
+    },
+    {
+      "slot": 2,
+      "game_id": "espn:game:401909995",
+      "state": "NOT_DUE",
+      "claim_exists": false
+    },
+    {
+      "slot": 3,
+      "game_id": "espn:game:401910002",
+      "state": "NOT_DUE",
+      "claim_exists": false
+    },
+    {
+      "slot": 4,
+      "game_id": "espn:game:401910003",
+      "state": "NOT_DUE",
+      "claim_exists": false
+    },
+    {
+      "slot": 5,
+      "game_id": "espn:game:401910007",
+      "state": "NOT_DUE",
+      "claim_exists": false
+    },
+    {
+      "slot": 6,
+      "game_id": "espn:game:401910008",
+      "state": "NOT_DUE",
+      "claim_exists": false
+    },
+    {
+      "slot": 7,
+      "game_id": "espn:game:401910019",
+      "state": "NOT_DUE",
+      "claim_exists": false
+    },
+    {
+      "slot": 8,
+      "game_id": "espn:game:401910020",
+      "state": "NOT_DUE",
+      "claim_exists": false
+    },
+    {
+      "slot": 9,
+      "game_id": "espn:game:401909305",
+      "state": "NOT_DUE",
+      "claim_exists": false
+    },
+    {
+      "slot": 10,
+      "game_id": "espn:game:401909306",
+      "state": "NOT_DUE",
+      "claim_exists": false
+    }
+  ],
+  "network": "requires game-day source recheck",
+  "storage": "exclusive local writes; not WORM; archive originals after each attempt",
+  "scheduler": false
+}

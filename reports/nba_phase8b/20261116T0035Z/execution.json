@@ -1,0 +1,47 @@
+{
+  "schema": "NBAPhase8BExecution/1",
+  "governance": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "checked_at": "2026-11-16T00:36:02.377173+00:00",
+  "pinned_head": "1c78600b612f8c6bb9c3eb3c5649123706f4a78a",
+  "pr": 143,
+  "main": "912bc7010058092ea735dcda0aa941429194474b",
+  "due_slots": [],
+  "slot_status": {
+    "1": "NOT_DUE",
+    "2": "NOT_DUE",
+    "3": "NOT_DUE",
+    "4": "NOT_DUE",
+    "5": "NOT_DUE",
+    "6": "NOT_DUE",
+    "7": "NOT_DUE",
+    "8": "NOT_DUE",
+    "9": "NOT_DUE",
+    "10": "NOT_DUE"
+  },
+  "capture_commands_executed": [],
+  "settlement_commands_executed": [],
+  "capture_attempts": 0,
+  "missed_deadlines": 0,
+  "source_qualified_F": 0,
+  "candidate_appearance_DNP_denominators": null,
+  "candidate_identity_eligibility_M0_forecast_abstention_coverage": null,
+  "source_chronology_violations": null,
+  "storage_inventory": {
+    "checkout_pilot_root_exists": false,
+    "deepnote_project": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "deepnote_files_inspected": 10782,
+    "matching_claim_capture_settlement_paths": [],
+    "authoritative_first_capture_tree": "not yet established; no registered capture exists in inspected stores"
+  },
+  "source_status": "Cloud ESPN/NBA/official index/PDF HTTP 200; Deepnote not retested or approved",
+  "first_next_window_toronto": "2026-11-16 18:20\u201318:30, slots 1 and 2 independently",
+  "blockers": [
+    "All ten windows future",
+    "No genuine pregame ledgers or candidate/outcome denominator",
+    "Legal eligibility and positive participation unsupported; P1/P2 unfitted; F blocked",
+    "Game-day sources and existing authoritative tree must be rechecked/restored before capture",
+    "No scheduler created; session does not continue after termination"
+  ],
+  "scientific_controls": "unchanged; no model/code/config/workflow changes",
+  "advance_pdf_note": "PDF is a linked advance sample selected lexically for parser connectivity only; not latest-report certification, not future game-day availability evidence"
+}

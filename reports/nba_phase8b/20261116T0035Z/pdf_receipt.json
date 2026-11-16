@@ -1,0 +1,11 @@
+{
+  "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_45PM.pdf",
+  "started_at": "2026-11-16T00:35:32.154911+00:00",
+  "purpose": "advance runtime PDF verification, not game-day evidence",
+  "http_status": 200,
+  "retrieved_at": "2026-11-16T00:35:32.522508+00:00",
+  "sha256": "2a40a7d62fbbc7d3feef95f670b7576bb160a0fbee6a5b00cf5d8e8bc2a3adf6",
+  "bytes": 98546,
+  "extraction_exit": 0,
+  "extraction_error": ""
+}

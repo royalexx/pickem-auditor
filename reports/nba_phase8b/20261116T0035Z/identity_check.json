@@ -1,0 +1,60 @@
+[
+  {
+    "slot": 1,
+    "game_id": "401909994",
+    "start": "2026-11-17T00:00Z",
+    "teams": {
+      "home": "espn:team:2",
+      "away": "espn:team:19"
+    },
+    "team_names": [
+      "Boston Celtics",
+      "Orlando Magic"
+    ],
+    "identity_match": true,
+    "registered_start": "2026-11-17T00:00:00.000000Z",
+    "status": {
+      "clock": 0.0,
+      "displayClock": "0.0",
+      "period": 0,
+      "type": {
+        "id": "1",
+        "name": "STATUS_SCHEDULED",
+        "state": "pre",
+        "completed": false,
+        "description": "Scheduled",
+        "detail": "Mon, November 16th at 7:00 PM EST",
+        "shortDetail": "11/16 - 7:00 PM EST"
+      }
+    }
+  },
+  {
+    "slot": 2,
+    "game_id": "401909995",
+    "start": "2026-11-17T00:00Z",
+    "teams": {
+      "home": "espn:team:5",
+      "away": "espn:team:4"
+    },
+    "team_names": [
+      "Cleveland Cavaliers",
+      "Chicago Bulls"
+    ],
+    "identity_match": true,
+    "registered_start": "2026-11-17T00:00:00.000000Z",
+    "status": {
+      "clock": 0.0,
+      "displayClock": "0.0",
+      "period": 0,
+      "type": {
+        "id": "1",
+        "name": "STATUS_SCHEDULED",
+        "state": "pre",
+        "completed": false,
+        "description": "Scheduled",
+        "detail": "Mon, November 16th at 7:00 PM EST",
+        "shortDetail": "11/16 - 7:00 PM EST"
+      }
+    }
+  }
+]

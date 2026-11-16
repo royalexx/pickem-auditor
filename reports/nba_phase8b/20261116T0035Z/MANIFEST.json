@@ -1,0 +1,17 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "REPORT.md": "e69400f94fbafd1bd899e31fde22a20285eb6e6fcbc6787f8753bccd9074845f",
+    "espn.raw.gz": "9571bcfbfb72d643051ffd106d5c2f1df77115cc5510df5d784641feb49a0c02",
+    "execution.json": "ed868a5e40879fa532dfeddf743f65234d6d2c1c0baff9ea034420712fb9f78e",
+    "identity_check.json": "88c47dd82bdde6bc8d405c1b988784cfb1108aa9b091dfd861158c6342d60e79",
+    "nba.raw.gz": "f7bbf126ed4c5e6e14df4a5da753ede89437172d406393c7758dcaf0c7885d70",
+    "network.json": "292a4d37a75b4f6fe7057864c410ebb392f5faee22050865045532e9471d1f18",
+    "official.raw.gz": "b22d72cd912f4a4488525ef1e6e2c1e3e260a10b1571850de004610e8bf716b8",
+    "original.pdf": "2a40a7d62fbbc7d3feef95f670b7576bb160a0fbee6a5b00cf5d8e8bc2a3adf6",
+    "original_integrity.json": "93bfdb1200aeee9362af883af8eb6fac2505b3f94a0d8c75c45de69210121821",
+    "original_pdf.txt": "78196c536a254cb7c1218c748c99ce0d0f7596d9b7d9584321940c6606c02fef",
+    "pdf_receipt.json": "a1943f8303abb18d48ec30c6622689ccc05a9575cfbb112ffcd8b81896be1316",
+    "preflight.json": "1f8499a1bae54bf0ada89274b3c9029a49fdea99f092364e05319be27796c09f"
+  }
+}
