@@ -260,10 +260,24 @@ class TestG0FullIntegration(unittest.TestCase):
         pid=o["points"]["player_id"]
         player=next(p for p in o["scenarios"]["scenarios"][0]["players"]
                     if p["player_id"]==pid)
-        ds={(pid,"points"):o["points"],(pid,"pra"):o["pra"]}
+        from v2.nba_architecture.v2_contracts import seal, ContractError
+        # The fixture PRA belongs to a DIFFERENT J bundle: fail closed.
+        with self.assertRaises(ContractError):
+            joint_score_official(o["scenarios"],o["pregame"],
+                {(pid,"points"):self._evaluation(o["points"],player["stats"]["points"]),
+                 (pid,"pra"):self._evaluation(o["pra"],player["stats"]["pra"])},
+                {(pid,"points"):o["points"],(pid,"pra"):o["pra"]},
+                components=[(pid,"points"),(pid,"pra")])
+        # Construct an independent verified ASSISTS marginal from SAME J draws.
+        new={k:v for k,v in o["points"].items() if k!="content_hash"}
+        new["stat"]="assists"
+        new["pmf"]=[{"value":0,"mass":1.0}]
+        new["numerical"]={**new["numerical"],"max_probability_se":0.0}
+        assists=seal(new)
+        ds={(pid,"points"):o["points"],(pid,"assists"):assists}
         es={(pid,s):self._evaluation(d,player["stats"][s]) for (pid,s),d in ds.items()}
         result=joint_score_official(o["scenarios"],o["pregame"],es,ds,
-                                    components=[(pid,"points"),(pid,"pra")])
+                                    components=[(pid,"points"),(pid,"assists")])
         self.assertGreaterEqual(result["energy"],-1e-10)
         self.assertGreaterEqual(result["variogram_0_5"],0)
         self.assertEqual(result["n_official_games"],1)
