@@ -17,6 +17,7 @@ import json
 import os
 from pathlib import Path
 import time
+import subprocess
 from zoneinfo import ZoneInfo
 
 from research.nba_phase7.pilot import registered_slots, capture_slot, REGISTRY_SHA
@@ -167,8 +168,8 @@ def run(day=None, root="/work", dry_run=False, no_wait=False):
     try:
         try:
             ready = preflight(output=str(capture_root))
-        except ValueError as exc:
-            if str(exc) != "PDF_RUNTIME_UNAVAILABLE":
+        except (ValueError, subprocess.TimeoutExpired, subprocess.CalledProcessError) as exc:
+            if isinstance(exc, ValueError) and str(exc) != "PDF_RUNTIME_UNAVAILABLE":
                 raise
             # A failed optional PDF parser must NOT suppress a genuine ESPN
             # game-day candidate/boxscore capture. Verify model manually.
@@ -181,7 +182,8 @@ def run(day=None, root="/work", dry_run=False, no_wait=False):
                      "checked_at": clock().isoformat(),
                      "model_sha256": MODEL_HASH,
                      "registration_sha256": REGISTRY_SHA,
-                     "restrictions": "no verified official injuries or legal eligibility"}
+                     "restrictions": "no verified official injuries or legal eligibility",
+                     "optional_pdf_failure": type(exc).__name__ + ": " + str(exc)}
         write_once(report_root / "preflight.json", ready)
         # Previous genuine FINAL games are settled independently from pregame capture.
         settlements = settle_prior(slots, capture_root, settlement_root, day)
