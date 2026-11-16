@@ -8,6 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 from collections import defaultdict
+from pathlib import Path
 
 SCHEMA = "PA_WS1_POPULATION_QUARANTINE_V1"
 KEY_FIELDS = ("sport", "stat", "game_id", "player_id")
@@ -96,10 +97,24 @@ def reconcile_population(morning_docs, day, *, validator=None):
     metadata["report_sha256"] = digest(metadata)
     return accepted, metadata
 
-def enforce_population(morning_docs, day, *, validator=None):
+def enforce_population(morning_docs, day, *, validator=None, quarantine_dir=None):
     accepted, report = reconcile_population(morning_docs, day, validator=validator)
     if report["status"] != "ACCEPTED_EXACT_RETRIES_IDEMPOTENT":
-        raise ValueError("CONFLICTING_OR_UNCERTIFIED_POPULATION_OBSERVATIONS:"
+        if quarantine_dir is not None:
+            dest = Path(quarantine_dir)
+            dest.mkdir(parents=True, exist_ok=True)
+            path = dest / (day + "-" + report["report_sha256"] + ".json")
+            data = (json.dumps(report,sort_keys=True,indent=2,allow_nan=False)+"\\n").replace("\\\\n","\\n").encode("utf-8")
+            try:
+                with path.open("xb") as fp:
+                    fp.write(data)
+            except FileExistsError:
+                if path.read_bytes() != data:
+                    raise ValueError("IMMUTABLE_QUARANTINE_REPORT_CONFLICT")
+        if report["conflicting_identity_count"]:
+            raise ValueError("CONFLICTING_DUPLICATE_POPULATION_OBSERVATION:"
+                             + report["report_sha256"])
+        raise ValueError("MORNING_SOURCES_INCOMPLETE_OR_INVALID_DO_NOT_UPDATE_POSTERIOR:"
                          + report["report_sha256"])
     return accepted
 
