@@ -103,6 +103,24 @@ class ForecastWarehouse:
         mraw=canonical(manifest)+b"\n"
         key=hashlib.sha256(mraw).hexdigest()
         _write_once(self.root/"manifests"/key[:2]/(key+".json"),mraw)
+        # Freeze one immutable meaning for a logical forecast identity.
+        # Do NOT include its PMF/source/artifact SHA in this key: otherwise a
+        # post hoc replacement could masquerade as a distinct forecast.
+        models={stage:(None if m is None else [m["model_id"],m["version"]])
+                for stage,m in distribution["lineage"].items()}
+        logical={"game_id":distribution["game_id"],
+                 "player_id":distribution["player_id"],"stat":distribution["stat"],
+                 "period":distribution["period"],
+                 "mode":distribution["pipeline_mode"],
+                 "conditioning":distribution["conditioning"],
+                 "forecast_at":distribution["forecast_at"],
+                 "frozen_at":distribution["frozen_at"],
+                 "source_profile":distribution["source_profile"],
+                 "models":models}
+        logical_key=digest(logical)
+        _write_once(self.root/"logical_identity"/logical_key[:2]/
+                    (logical_key+".json"),
+                    canonical({"logical":logical,"manifest_sha256":key})+b"\\n")
         return key
 
     def get(self,manifest_sha):
