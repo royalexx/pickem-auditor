@@ -24,7 +24,7 @@ import numpy as np
 from scipy.stats import betabinom, nbinom, poisson
 
 from v2.nba_architecture.v2_contracts import (
-    VERSION, ContractError, instant, seal, threshold_triplet,
+    VERSION, ContractError, instant, seal, verify, threshold_triplet,
     validate_pregame, validate_distribution,
 )
 
@@ -211,6 +211,7 @@ def _rate_parameters(artifact, player_id, role):
     alpha=prior_minutes*max(peer_rate,1e-10)+math.fsum(r['count'] for r in own)
     beta=prior_minutes+math.fsum(r['minutes'] for r in own)
     return {'alpha':alpha, 'beta':beta, 'rate_mean':alpha/beta,
+            'rate_posterior_sd':math.sqrt(alpha)/beta,
             'peer_rate':peer_rate,'player_games':len(own),'peer_games':len(peers),
             'historical_teams':sorted({r['team_id'] for r in own})}
 
@@ -229,6 +230,7 @@ def _conversion_parameters(artifact, player_id, role):
     alpha=n*max(q,1e-9)+sum(r['count'] for r in own)
     beta=n*max(1-q,1e-9)+sum(r['three_attempts']-r['count'] for r in own)
     return {'alpha':alpha,'beta':beta,'success_mean':alpha/(alpha+beta),
+            'success_probability_posterior_sd':math.sqrt(alpha*beta/((alpha+beta)**2*(alpha+beta+1))),
             'player_games':len(own),'peer_games':len(peers)}
 
 
@@ -290,6 +292,8 @@ def conditional_pmf(artifact, *, player_id, role, opportunity,
     a=artifact.data if isinstance(artifact,FittedS) else None
     if a is None or artifact.artifact_sha256!=digest(artifact.payload):
         raise SFError("MODEL_ARTIFACT_INVALID")
+    if a.get('code_sha256') != digest(Path(__file__).read_bytes()):
+        raise SFError("MODEL_CODE_VERSION_DRIFT")
     if statistic is not None and statistic!=a['stat']:
         raise SFError("STAT_IDENTITY_MISMATCH")
     if a['family']=='S0':
@@ -341,8 +345,11 @@ def predict(fitted, *, frozen_pregame, target_player_id, role,
         if conditioning not in ('unconditional','conditional_on_participation'):
             raise SFError('UNSUPPORTED_CONDITIONING')
         a=fitted.data
+        if a.get('code_sha256') != digest(Path(__file__).read_bytes()):
+            raise SFError('MODEL_CODE_VERSION_DRIFT')
         validate_pregame(frozen_pregame)
         p=frozen_pregame
+        verify(p)  # independently protect bytes even if a caller skips validation
         if utc(a['training_cutoff_at'])>utc(p['input_freeze_at']):
             raise SFError('MODEL_FIT_AFTER_FREEZE')
         if any(r['game_id']==p['game_id'] for r in a['training_rows']):
@@ -374,6 +381,8 @@ def predict(fitted, *, frozen_pregame, target_player_id, role,
             mode='S_ONLY'
         else:
             from v2.nba_architecture.families_v2 import validate_opportunity
+            verify(game_state)
+            verify(opportunity)
             validate_opportunity(opportunity,p,game_state)
             if any(x['minutes_law']['family']!='discrete_minutes' for x in opportunity['players']):
                 raise SFError('DIAGNOSTIC_MINUTES_NOT_FORECAST_LAW')
@@ -447,6 +456,11 @@ def predict(fitted, *, frozen_pregame, target_player_id, role,
                      'retained_variance':math.fsum((i**2)*x for i,x in enumerate(mass))-
                                          math.fsum(i*x for i,x in enumerate(mass))**2,
                      'tail_mass_upper_bound':tail,
+                     'rate_posterior_sd':params.get('rate_posterior_sd'),
+                     'opportunity_scenario_ess':(
+                         1. / math.fsum(float(sc['weight'])**2 for sc in opportunity['scenarios'])
+                         if opportunity is not None else None),
+                     'opportunity_scenario_law_is_input_not_independent_vote':True,
                      'source_certification':p['certification'],
                      'epistemic_basis':'shrinkage_parameters_or_unmeasured_role',
                      'not_predictive_accuracy_evidence':True}
