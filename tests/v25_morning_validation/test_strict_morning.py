@@ -80,6 +80,11 @@ class StrictMorningTests(unittest.TestCase):
             outcome = m.nfl_validation(Path(tmp), Path(tmp))
         self.assertEqual(outcome["status"], "BLOCKED_MISSING_ORIGINAL_WS6_LEDGER")
 
+    def test_missing_kickoff_preserves_rejection_not_exception(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            r=m.fetch_final("https://example.test","missing",None,Path(tmp))
+            self.assertEqual(r["status"],"MISSING_OR_INVALID_ORIGINAL_KICKOFF")
+
     def test_first_original_capture_not_backfilled(self):
         # The NBA candidate denominator remains absent without FIRST_CAPTURE.
         with tempfile.TemporaryDirectory() as tmp:
