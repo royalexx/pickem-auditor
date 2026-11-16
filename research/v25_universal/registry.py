@@ -143,6 +143,7 @@ def discover(root, *, max_manifests=150):
                 raise ValueError("FORECAST_DENOMINATOR_MISMATCH")
             if len(lines) > 20000:
                 raise ValueError("FORECAST_ROWS_EXCEED_BOUND")
+            registered_at = instant(document["first_archived_at"])
             accepted = 0
             for index, row in enumerate(lines):
                 identity = (sport, engine, str(row.get("event_id")), str(row.get("player_id")),
@@ -155,6 +156,8 @@ def discover(root, *, max_manifests=150):
                 seen.add(identity)
                 try:
                     normalized = validate_row(row, document)
+                    if registered_at >= instant(row["event_start_at"]):
+                        raise ValueError("FIRST_ARCHIVE_AFTER_EVENT_STARTED")
                     valid.append({**normalized, "registry_manifest": entry["manifest"],
                                   "registry_manifest_forecast_sha256": expected})
                     accepted += 1
@@ -172,21 +175,27 @@ def discover(root, *, max_manifests=150):
 
 
 def create_manifest(root, batch, sport, engine, rows):
-    """Explicit pregame handoff: exclusive files; do not create from postgame replay."""
-    root = Path(root)
-    if not _NAME.fullmatch(engine) or sport not in _ALLOWED_SPORTS:
+    """Create exactly once while every game is still future; no retrospective backfill."""
+    root=Path(root)
+    if not isinstance(batch,str) or not _NAME.fullmatch(batch):
+        raise ValueError("BAD_MANIFEST_BATCH")
+    if not isinstance(engine,str) or not _NAME.fullmatch(engine) or sport not in _ALLOWED_SPORTS:
         raise ValueError("BAD_MANIFEST_ID")
-    dest = root / ROOT / batch
-    dest.mkdir(parents=True, exist_ok=False)
-    document = {"schema": SCHEMA, "sport": sport, "engine": engine,
-                "forecast_rows_path": "forecasts.jsonl", "expected_rows": len(rows)}
-    raw = b"".join((json.dumps(r, sort_keys=True, allow_nan=False)+"\n").encode() for r in rows)
-    document["forecast_rows_sha256"] = digest(raw)
+    if not rows or len(rows)>20000:
+        raise ValueError("EMPTY_OR_OVERSIZED_PROSPECTIVE_SUBMISSION")
+    now=datetime.now(timezone.utc)
+    document={"schema":SCHEMA,"sport":sport,"engine":engine,
+              "first_archived_at":now.isoformat(),
+              "forecast_rows_path":"forecasts.jsonl","expected_rows":len(rows)}
     for row in rows:
-        validate_row(row, document)
-    with (dest/"forecasts.jsonl").open("xb") as f:
-        f.write(raw)
+        validate_row(row,document)
+        if now>=instant(row["event_start_at"]):
+            raise ValueError("FIRST_MANIFEST_ARCHIVE_AFTER_GAME_STARTED")
+    raw=b"".join((json.dumps(r,sort_keys=True,allow_nan=False)+"\n").encode() for r in rows)
+    document["forecast_rows_sha256"]=digest(raw)
+    dest=root/ROOT/batch
+    dest.mkdir(parents=True,exist_ok=False)
+    with (dest/"forecasts.jsonl").open("xb") as f:f.write(raw)
     with (dest/"manifest.json").open("x") as f:
-        json.dump(document, f, sort_keys=True, indent=2)
-        f.write("\n")
+        json.dump(document,f,sort_keys=True,indent=2);f.write("\n")
     return document
