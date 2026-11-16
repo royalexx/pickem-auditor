@@ -22,3 +22,4 @@ Even if synthetic scorers pass, the complete C research family is not scientific
 
 ## Rollback
 Close isolated draft PR or delete research branch. No production collectors, frozen legacy weights, existing source archives, runtime schedules or historical training artifacts changed.
+\n## Executed P5 evidence (author-side; independent G1 signoff pending)\n\n- Exact code SHA tested: `82875e24aadb5f71433badfafa054f066a61a33f`. Deepnote live, isolated, clean-checkout run `e934a7a3-7470-49d1-a2a5-5e91f57ab65d`: **31 P5 PASS, 267 accepted G0 regressions PASS**, zero failures/errors/skips. No real historical results loaded.\n- Raw SHA-256 of all implementation, test and protocol files; frozen G0 synthetic fixture SHA-256; and test run identity: `docs/nba_c/P5_EXECUTION_RECEIPT_20261116.json`.\n- Independent P6 audit and G1 acceptance remain PENDING; exact tests verify engineering behavior on synthetic input, not forecasting accuracy or market edge.\n
