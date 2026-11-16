@@ -235,7 +235,8 @@ def _model_distributions(row, outcome, line):
                 metrics["crps"] = discrete_crps(model["distribution_support_mass"], outcome)
             elif name in ("J1", "J2"):
                 metrics["crps"] = discrete_crps([(float(x), val) for x, val in model["pmf"].items()], outcome)
-            result[name] = {"status": "SCORED" if metrics else "PUSH_ONLY", "metrics": metrics}
+            result[name] = {"status": "SCORED" if metrics else "PUSH_ONLY",
+                            "metrics": metrics, "p_over_given_no_push": p}
         except (ValueError, TypeError, KeyError) as exc:
             result[name] = {"status": "MODEL_BLOCKED",
                             "reason": type(exc).__name__ + ":" + str(exc)}
@@ -312,9 +313,13 @@ def nfl_validation(storage, output, fetch=None):
         gid = str(row["event_id"])
         source = sources[gid]
         base = {"observation_index": row["observation_index"], "event_id": gid,
+                "event_start_at":row.get("event_start_at"),
                 "player_id": str(row.get("player_id", "")), "stat": row.get("stat"),
                 "line": row.get("line"), "book": row.get("book"),
                 "original_quote_id": row.get("original_quote_id"),
+                "original_quote_source_sha256":row.get("source_sha256"),
+                "original_contract_id": row.get("original_candidate_id"),
+                "team_id": row.get("team"),
                 "joint_status": row.get("joint_status"),
                 "source_certified": row.get("fully_certified") is True}
         if source["status"] != "FINAL":
@@ -367,6 +372,7 @@ def nba_validation(storage, output, fetch=None):
     capture_root = storage / NBA_ROOT
     state = Counter()
     reports = []
+    candidate_rows = []
     for slot in slots:
         gid = slot["game"]["game_id"].split(":")[-1]
         root = capture_root / ("slot_%02d_" % slot["slot"] + gid)
@@ -405,14 +411,25 @@ def nba_validation(storage, output, fetch=None):
                 reports.append(record);state[record["status"]] += 1
                 continue
             source = result["source"]
-            receipt = Receipt.capture(json.dumps(result["data"]).encode(),
-                                      source=ESPN_NBA + gid, observed_at=source["retrieved_at"],
+            # Retain original ESPN response bytes; don't reserialize into an
+            # invented original source receipt.
+            final_raw = gzip.decompress(Path(source["archive"]).read_bytes())
+            if h(final_raw) != source["raw_sha256"]:
+                raise ValueError("ESPN_FINAL_ORIGINAL_RAW_HASH_CONFLICT")
+            receipt = Receipt.capture(final_raw, source=ESPN_NBA + gid,
+                                      observed_at=source["retrieved_at"],
                                       origin="original_capture")
-            # Use exactly original fetched raw data bytes as receipt; JSON serialization
-            # is a new postgame representation (not identical original response bytes).
-            # Avoid false raw SHA equivalence by storing a separate normalized source.
-            record["normalized_settlement_receipt"] = receipt.raw_sha256
-            outcome = settle_original(ledger, json.dumps(result["data"]).encode(), receipt)
+            outcome = settle_original(ledger, final_raw, receipt)
+            provenance={p["player_id"]: sorted({r.get("raw_sha256") for r in p.get("original_raw_source_receipts",[])
+                if isinstance(r,dict) and r.get("raw_sha256")}) for p in
+                ledger.get("candidate_research_table",{}).get("rows",[])}
+            for candidate in outcome["candidate_rows"]:
+                candidate_rows.append({"slot":slot["slot"],"event_id":gid,
+                    "original_candidate_source_hashes":provenance.get(candidate["player_id"],[]),
+                    "game_id":slot["game"]["game_id"],
+                    "event_start_at":slot["game"]["event_start_at"],
+                    "original_ledger_sha256":h(raw),
+                    "outcome_source_sha256":h(final_raw),**candidate})
             record.update(status="SOURCE_QUALIFIED_POSTGAME_CANDIDATE_OBSERVATIONS",
                           participation=outcome["denominator"],
                           source=source,
@@ -422,9 +439,13 @@ def nba_validation(storage, output, fetch=None):
             record.update(status="BLOCKED_INVALID_ORIGINAL_OR_SETTLEMENT",
                           reason=type(exc).__name__ + ":" + str(exc))
         reports.append(record);state[record["status"]] += 1
+    with (output / "nba_settled_candidates.jsonl").open("xb") as out:
+        for candidate in candidate_rows:
+            out.write((json.dumps(candidate,sort_keys=True,allow_nan=False)+"\n").encode())
     make_once(output / "nba_participation_audit.json", {
         "schema": "NBA_V25_Phase8C_ProspectiveParticipationAudit/1",
         "original_slots": 10, "states": dict(state), "slots": reports,
+        "frozen_candidate_outcomes":len(candidate_rows),
         "positive_participation_model_fitted": False,
         "F_acceptance_not_inferred": True,
         "candidate_universe_not_legal_active_list": True})
@@ -470,6 +491,12 @@ def main(storage="/work", date=None):
         summary["NBA"] = nba_validation(base, result_dir)
     except Exception as exc:
         summary["NBA"] = {"status": "BLOCKED", "error": type(exc).__name__ + ":" + str(exc)}
+    try:
+        from research.v25_universal.report import build as unified_comparison
+        summary["UNIFIED"] = unified_comparison(base, result_dir)
+    except Exception as exc:
+        summary["UNIFIED"] = {"status": "BLOCKED",
+                              "error": type(exc).__name__ + ":" + str(exc)}
     manifest = []
     for file in sorted(result_dir.rglob("*")):
         if file.is_file():
