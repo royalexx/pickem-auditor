@@ -1,0 +1,14 @@
+test_concurrent_capture_single_owner (test_activation.ActivationTests.test_concurrent_capture_single_owner) ... ok
+test_dataset_no_outcomes_and_full_denominator (test_activation.ActivationTests.test_dataset_no_outcomes_and_full_denominator) ... ok
+test_deadline_after_ledger_blocks_pointer (test_activation.ActivationTests.test_deadline_after_ledger_blocks_pointer) ... ok
+test_missing_poppler_is_explicit_failure (test_activation.ActivationTests.test_missing_poppler_is_explicit_failure) ... ok
+test_null_team_directory_record_is_ignored (test_activation.ActivationTests.test_null_team_directory_record_is_ignored) ... ok
+test_postgame_feature_injection_rejected (test_activation.ActivationTests.test_postgame_feature_injection_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.097s
+
+OK
+{"errors":[],"evidence_kind":"synthetic_fixture_never_original","forecast_at":"2026-11-16T23:25:00Z","freeze_deadline_at":"2026-11-16T23:30:00Z","game":{"away_team_id":"espn:team:2","event_start_at":"2026-11-17T00:00:00.000000Z","game_id":"espn:game:2","home_team_id":"espn:team:1","status":"scheduled","venue":null},"history_games_per_team":10,"requested_game_id":"espn:game:2","snapshot_hash":"5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b","snapshot_path":"snapshots/5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b.json","status":"captured_partial_shadow","training_cutoff_semantics":"supplied frozen model cutoff"}
+{"errors":[],"evidence_kind":"synthetic_fixture_never_original","forecast_at":"2026-11-16T23:25:00Z","freeze_deadline_at":"2026-11-16T23:30:00Z","game":{"away_team_id":"espn:team:2","event_start_at":"2026-11-17T00:00:00.000000Z","game_id":"espn:game:2","home_team_id":"espn:team:1","status":"scheduled","venue":null},"history_games_per_team":10,"requested_game_id":"espn:game:2","snapshot_hash":"5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b","snapshot_path":"snapshots/5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b.json","status":"captured_partial_shadow","training_cutoff_semantics":"supplied frozen model cutoff"}
+{"errors":[],"evidence_kind":"synthetic_fixture_never_original","forecast_at":"2026-11-16T23:25:00Z","freeze_deadline_at":"2026-11-16T23:30:00Z","game":{"away_team_id":"espn:team:2","event_start_at":"2026-11-17T00:00:00.000000Z","game_id":"espn:game:2","home_team_id":"espn:team:1","status":"scheduled","venue":null},"history_games_per_team":10,"requested_game_id":"espn:game:2","snapshot_hash":"5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b","snapshot_path":"snapshots/5b603105475b0dee709ad24e817de9abc25734df9249be48ad105fc837ba528b.json","status":"captured_partial_shadow","training_cutoff_semantics":"supplied frozen model cutoff"}

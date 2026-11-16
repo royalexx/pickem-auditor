@@ -16,7 +16,10 @@ import xml.etree.ElementTree as ET
 from zoneinfo import ZoneInfo
 from v2.nba_ws1.store import Receipt,canonical,digest,instant
 
-VERSION='NBAPregameIdentityEvidence/1.0.0'
+VERSION='NBAPregameIdentityEvidence/1.1.0'
+# Verified in Phase 8A retained official team pages and ESPN roster bytes.
+# Provider team codes differ; these exact source IDs are not player aliases.
+SOURCE_TEAM_CODE_PAIRS={('1610612752','18','NYK','NY'),('1610612744','9','GSW','GS')}
 
 
 def norm(value):return ' '.join(unicodedata.normalize('NFKC',value).casefold().split())
@@ -38,7 +41,8 @@ def build_crosswalk(nba_raw,nba_receipt,espn_raw,espn_receipt,*,freeze_at):
     validate_receipt(nba_raw,nba_receipt,freeze_at,'www.nba.com');validate_receipt(espn_raw,espn_receipt,freeze_at,'site.api.espn.com')
     nba=page_data(nba_raw)['team'];espn=json.loads(espn_raw);info=nba['info'];team=espn['team']
     if str(nba['id'])!=str(info['TEAM_ID']):raise ValueError('NBA_TEAM_ID_COLLISION')
-    if norm(info['TEAM_CITY']+' '+info['TEAM_NAME'])!=norm(team['displayName']) or info['TEAM_ABBREVIATION']!=team['abbreviation']:raise ValueError('CROSS_PROVIDER_TEAM_UNRESOLVED')
+    if norm(info['TEAM_CITY']+' '+info['TEAM_NAME'])!=norm(team['displayName']):raise ValueError('CROSS_PROVIDER_TEAM_UNRESOLVED')
+    if info['TEAM_ABBREVIATION']!=team['abbreviation'] and (str(info['TEAM_ID']),str(team['id']),info['TEAM_ABBREVIATION'],team['abbreviation']) not in SOURCE_TEAM_CODE_PAIRS:raise ValueError('CROSS_PROVIDER_TEAM_UNRESOLVED')
     if '/team/'+str(info['TEAM_ID'])+'/' not in urlsplit(nba_receipt.source).path:raise ValueError('NBA_TEAM_ROUTE_MISMATCH')
     if not urlsplit(espn_receipt.source).path.endswith('/teams/'+str(team['id'])+'/roster'):raise ValueError('ESPN_TEAM_ROUTE_MISMATCH')
     effective=max(instant(nba_receipt.observed_at),instant(espn_receipt.observed_at)).isoformat()
@@ -59,10 +63,10 @@ def build_crosswalk(nba_raw,nba_receipt,espn_raw,espn_receipt,*,freeze_at):
         if str(p['id']) in espn_seen:raise ValueError('CROSSWALK_MANY_TO_ONE')
         espn_seen.add(str(p['id']));seen.add(str(player['PLAYER_ID']))
         entries.append(dict(nba_player_id='nba:player:'+str(player['PLAYER_ID']),espn_player_id='espn:player:'+str(p['id']),
-            nba_team_id='nba:team:'+str(info['TEAM_ID']),espn_team_id='espn:team:'+str(team['id']),official_team_name=info['TEAM_CITY']+' '+info['TEAM_NAME'],team_abbreviation=info['TEAM_ABBREVIATION'],
+            nba_team_id='nba:team:'+str(info['TEAM_ID']),espn_team_id='espn:team:'+str(team['id']),official_team_name=info['TEAM_CITY']+' '+info['TEAM_NAME'],team_abbreviation=info['TEAM_ABBREVIATION'],espn_team_abbreviation=team['abbreviation'],
             official_name=player['PLAYER'],espn_name=p['fullName'],birth_date=dob,nba_jersey=player.get('NUM'),espn_jersey=p.get('jersey'),
             valid_from=effective,valid_until=(instant(effective)+timedelta(hours=24)).isoformat(),
-            evidence=[asdict(nba_receipt),asdict(espn_receipt)],method='exact_team_name_abbreviation_and_name_DOB_v1',eligibility=None,
+            evidence=[asdict(nba_receipt),asdict(espn_receipt)],method='exact_team_full_name_provider_routes_and_name_DOB_v2',eligibility=None,
             evidence_kind='fixture' if any(r.origin=='fixture' for r in (nba_receipt,espn_receipt)) else 'original_source_identity_bridge'))
     for p in espn.get('athletes',[]):
         if str(p['id']) not in espn_seen:unresolved.append(dict(espn_player_id='espn:player:'+str(p['id']),reason='NO_UNIQUE_NBA_ROSTER_BRIDGE'))

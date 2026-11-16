@@ -77,7 +77,9 @@ def capture_slot(slot,output,*,fixture=False,fixture_fetch=None,fixture_clock=No
             receipt['capture_receipt']=str((attempt/'ws1/capture_receipt.json').relative_to(root))
             if cap['status']=='blocked':receipt.update(status='BLOCKED_CAPTURE',reasons=cap['errors'])
             else:
-                ledger=build_game_ledger(attempt/'ws1',supplement,model);freeze(attempt/'game_day_ledger.json',ledger)
+                ledger=build_game_ledger(attempt/'ws1',supplement,model)
+                freeze(attempt/'game_day_ledger.json',ledger)
+                if instant(clock())>instant(slot['scheduled_freeze_at']):raise ValueError('LEDGER_COMPLETED_AFTER_DEADLINE')
                 receipt.update(status='CAPTURED_F_BLOCKED',actual_input_freeze_at=ledger['input_freeze_at'],denominators=ledger['denominators'],
                     ledger_sha256=digest((attempt/'game_day_ledger.json').read_bytes()),reasons=ledger['reasons'])
                 freeze(root/'FIRST_CAPTURE.json',dict(attempt=str(attempt.relative_to(root)),receipt_kind='fixture' if fixture else 'original_capture',ledger_sha256=receipt['ledger_sha256'],

@@ -1,0 +1,132 @@
+[
+  {
+    "run": {
+      "runId": "3e232e62-77d2-4571-8224-156f0730b9a0",
+      "notebookId": "08f2f3d6c9e84f1d9b84c9bf78af9cfd",
+      "status": "error",
+      "snapshotStatus": "available",
+      "snapshotContent": null,
+      "snapshotDownloadUrl": null,
+      "snapshotExpiresAt": "2026-12-16T00:00:32.354Z",
+      "snapshotBlocks": [
+        {
+          "id": "f74810c4114e42c4b2a90274de3633a4",
+          "type": "code",
+          "outputs": [
+            {
+              "name": "stdout",
+              "text": "APT 100 E: Unable to locate package poppler-utils\n\n",
+              "output_type": "stream"
+            },
+            {
+              "output_type": "error",
+              "ename": "AssertionError",
+              "evalue": "",
+              "traceback": [
+                "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
+                "\u001b[31mAssertionError\u001b[39m                            Traceback (most recent call last)",
+                "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[1]\u001b[39m\u001b[32m, line 13\u001b[39m\n\u001b[32m      9\u001b[39m prefix=root/\u001b[33m'poppler'\u001b[39m;prefix.mkdir()\n\u001b[32m     10\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28;01mnot\u001b[39;00m shutil.which(\u001b[33m'pdftotext'\u001b[39m):\n\u001b[32m     11\u001b[39m     p=subprocess.run([\u001b[33m'apt-get'\u001b[39m,\u001b[33m'download'\u001b[39m,\u001b[33m'poppler-utils'\u001b[39m],cwd=root,capture_output=\u001b[38;5;28;01mTrue\u001b[39;00m,text=\u001b[38;5;28;01mTrue\u001b[39;00m,timeout=\u001b[32m60\u001b[39m)\n\u001b[32m     12\u001b[39m     print(\u001b[33m'APT'\u001b[39m,p.returncode,p.stderr[-\u001b[32m1000\u001b[39m:])\n\u001b[32m---> \u001b[39m\u001b[32m13\u001b[39m     \u001b[38;5;28;01massert\u001b[39;00m p.returncode==\u001b[32m0\u001b[39m\n\u001b[32m     14\u001b[39m     \u001b[38;5;28;01mfor\u001b[39;00m deb \u001b[38;5;28;01min\u001b[39;00m root.glob(\u001b[33m'*.deb'\u001b[39m):\n\u001b[32m     15\u001b[39m         subprocess.run([\u001b[33m'dpkg-deb'\u001b[39m,\u001b[33m'-x'\u001b[39m,str(deb),str(prefix)],check=\u001b[38;5;28;01mTrue\u001b[39;00m,timeout=\u001b[32m30\u001b[39m)\n\u001b[32m     16\u001b[39m     env[\u001b[33m'PATH'\u001b[39m]=str(prefix/\u001b[33m'usr/bin'\u001b[39m)+\u001b[33m':'\u001b[39m+env[\u001b[33m'PATH'\u001b[39m]\n",
+                "\u001b[31mAssertionError\u001b[39m: "
+              ]
+            }
+          ],
+          "metadata": {
+            "execution_start": 1794787225316,
+            "execution_millis": 6730,
+            "execution_context_id": "abadfe2a-f419-45b0-813b-7d6fada37cbf",
+            "source_block_id": "f74810c4114e42c4b2a90274de3633a4"
+          },
+          "outputHead": null,
+          "outputTail": null,
+          "contentHash": "sha256:58bf1ec598784611fa74ecd52c981b0f5f39ac360767001df67c29a23f51a497"
+        }
+      ],
+      "error": "AssertionError (block f74810c4114e42c4b2a90274de3633a4)",
+      "createdAt": "2026-11-16T00:00:07.872Z",
+      "completedAt": "2026-11-16T00:00:32.229Z"
+    }
+  },
+  {
+    "run": {
+      "runId": "092e0a76-09c7-4493-805f-3c09cac98573",
+      "notebookId": "08f2f3d6c9e84f1d9b84c9bf78af9cfd",
+      "status": "error",
+      "snapshotStatus": "available",
+      "snapshotContent": null,
+      "snapshotDownloadUrl": null,
+      "snapshotExpiresAt": "2026-12-16T00:02:32.475Z",
+      "snapshotBlocks": [
+        {
+          "id": "f74810c4114e42c4b2a90274de3633a4",
+          "type": "code",
+          "outputs": [
+            {
+              "name": "stdout",
+              "text": "LOCAL_APT_UPDATE 0 W: Download is performed unsandboxed as root as file '/tmp/nba_phase8a_7dhmx1fy/apt-lists/partial/deb.debian.org_debian_dists_bookworm_InRelease' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)\n\nAPT 0 W: Download is performed unsandboxed as root as file '/tmp/nba_phase8a_7dhmx1fy/poppler-utils_22.12.0-2+deb12u3_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)\n\nLDD \tlinux-vdso.so.1 (0x00007f16c9d94000)\n\tlibpoppler.so.126 => not found\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f16c9b5e000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f16c997c000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f16c989c000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f16c9d96000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f16c987c000)\n\nLIB 0 W: Download is performed unsandboxed as root as file '/tmp/nba_phase8a_7dhmx1fy/libpoppler126_22.12.0-2+deb12u3_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)\n\npdftotext: error while loading shared libraries: libnss3.so: cannot open shared object file: No such file or directory\n\n",
+              "output_type": "stream"
+            },
+            {
+              "output_type": "error",
+              "ename": "AssertionError",
+              "evalue": "",
+              "traceback": [
+                "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
+                "\u001b[31mAssertionError\u001b[39m                            Traceback (most recent call last)",
+                "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[1]\u001b[39m\u001b[32m, line 33\u001b[39m\n\u001b[32m     29\u001b[39m         print(\u001b[33m'LIB'\u001b[39m,p.returncode,p.stderr[-\u001b[32m1000\u001b[39m:])\n\u001b[32m     30\u001b[39m         \u001b[38;5;28;01massert\u001b[39;00m p.returncode==\u001b[32m0\u001b[39m\n\u001b[32m     31\u001b[39m         \u001b[38;5;28;01mfor\u001b[39;00m deb \u001b[38;5;28;01min\u001b[39;00m root.glob(\u001b[33m'*.deb'\u001b[39m):subprocess.run([\u001b[33m'dpkg-deb'\u001b[39m,\u001b[33m'-x'\u001b[39m,str(deb),str(prefix)],check=\u001b[38;5;28;01mTrue\u001b[39;00m)\n\u001b[32m     32\u001b[39m     env[\u001b[33m'LD_LIBRARY_PATH'\u001b[39m]=str(prefix/\u001b[33m'usr/lib/x86_64-linux-gnu'\u001b[39m)+\u001b[33m':'\u001b[39m+env.get(\u001b[33m'LD_LIBRARY_PATH'\u001b[39m,\u001b[33m''\u001b[39m)\n\u001b[32m---> \u001b[39m\u001b[32m33\u001b[39m p=subprocess.run([\u001b[33m'pdftotext'\u001b[39m,\u001b[33m'-v'\u001b[39m],env=env,text=\u001b[38;5;28;01mTrue\u001b[39;00m,capture_output=\u001b[38;5;28;01mTrue\u001b[39;00m);print(p.stderr);\u001b[38;5;28;01massert\u001b[39;00m p.returncode==\u001b[32m0\u001b[39m\n\u001b[32m     34\u001b[39m \u001b[38;5;28;01mfor\u001b[39;00m suite \u001b[38;5;28;01min\u001b[39;00m (\u001b[33m'tests/nba_phase6'\u001b[39m,\u001b[33m'tests/nba_phase7'\u001b[39m):\n\u001b[32m     35\u001b[39m     p=subprocess.run([sys.executable,\u001b[33m'-B'\u001b[39m,\u001b[33m'-m'\u001b[39m,\u001b[33m'unittest'\u001b[39m,\u001b[33m'discover'\u001b[39m,\u001b[33m'-s'\u001b[39m,suite,\u001b[33m'-v'\u001b[39m],cwd=repo,env=env,text=\u001b[38;5;28;01mTrue\u001b[39;00m,capture_output=\u001b[38;5;28;01mTrue\u001b[39;00m,timeout=\u001b[32m120\u001b[39m)\n\u001b[32m     36\u001b[39m     print(suite,p.returncode,p.stderr[-\u001b[32m5000\u001b[39m:]);\u001b[38;5;28;01massert\u001b[39;00m p.returncode==\u001b[32m0\u001b[39m\n",
+                "\u001b[31mAssertionError\u001b[39m: "
+              ]
+            }
+          ],
+          "metadata": {
+            "execution_start": 1794787327249,
+            "execution_millis": 24643,
+            "execution_context_id": "d2851725-15d3-4e46-a539-30d71aa60dfd",
+            "source_block_id": "f74810c4114e42c4b2a90274de3633a4"
+          },
+          "outputHead": null,
+          "outputTail": null,
+          "contentHash": "sha256:0f2961a92a12e8ea77a8e9040746f8824616dbc9e0f633c076b3f25562f2fa71"
+        }
+      ],
+      "error": "AssertionError (block f74810c4114e42c4b2a90274de3633a4)",
+      "createdAt": "2026-11-16T00:01:51.194Z",
+      "completedAt": "2026-11-16T00:02:32.326Z"
+    }
+  },
+  {
+    "run": {
+      "runId": "2a6b1aeb-c671-4017-93d8-84580c8e194c",
+      "notebookId": "08f2f3d6c9e84f1d9b84c9bf78af9cfd",
+      "status": "success",
+      "snapshotStatus": "available",
+      "snapshotContent": null,
+      "snapshotDownloadUrl": null,
+      "snapshotExpiresAt": "2026-12-16T00:03:51.691Z",
+      "snapshotBlocks": [
+        {
+          "id": "f74810c4114e42c4b2a90274de3633a4",
+          "type": "code",
+          "outputs": [
+            {
+              "name": "stdout",
+              "text": "LOCAL_APT_UPDATE 0 W: Download is performed unsandboxed as root as file '/tmp/nba_phase8a_w89qzw3t/apt-lists/partial/deb.debian.org_debian_dists_bookworm_InRelease' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)\n\nAPT 0 W: Download is performed unsandboxed as root as file '/tmp/nba_phase8a_w89qzw3t/poppler-utils_22.12.0-2+deb12u3_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)\n\nLDD \tlinux-vdso.so.1 (0x00007f1761a84000)\n\tlibpoppler.so.126 => not found\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f176184e000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f176166c000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f176158c000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f1761a86000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f176156c000)\n\nLIB 0 W: Download is performed unsandboxed as root as file '/tmp/nba_phase8a_w89qzw3t/libnspr4_2%3a4.35-1_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)\n\npdftotext version 22.12.0\nCopyright 2005-2022 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC\n\ntests/nba_phase6 0 test_event_parameters_never_tuned_by_project (test_adversarial.AdversarialTests.test_event_parameters_never_tuned_by_project) ... ok\ntest_future_injury_announcement (test_adversarial.AdversarialTests.test_future_injury_announcement) ... ok\ntest_inactive_player_cannot_receive_injected_minutes (test_adversarial.AdversarialTests.test_inactive_player_cannot_receive_injected_minutes) ... ok\ntest_oracle_exports_blocked_and_rotation_audited (test_adversarial.AdversarialTests.test_oracle_exports_blocked_and_rotation_audited) ... ok\ntest_original_bytes_tamper (test_adversarial.AdversarialTests.test_original_bytes_tamper) ... ok\ntest_overtime_mismatch_fails_closed (test_adversarial.AdversarialTests.test_overtime_mismatch_fails_closed) ... ok\ntest_partial_oracle_cannot_credit_missing_player_opportunity (test_adversarial.AdversarialTests.test_partial_oracle_cannot_credit_missing_player_opportunity) ... ok\ntest_postfreeze_roster_change (test_adversarial.AdversarialTests.test_postfreeze_roster_change) ... ok\ntest_underfilled_oracle_abstains (test_adversarial.AdversarialTests.test_underfilled_oracle_abstains) ... ok\ntest_unresolved_pool_conserves_without_fake_players (test_adversarial.AdversarialTests.test_unresolved_pool_conserves_without_fake_players) ... ok\ntest_wrong_team_does_not_complete_oracle (test_adversarial.AdversarialTests.test_wrong_team_does_not_complete_oracle) ... ok\ntest_wrong_team_identity (test_adversarial.AdversarialTests.test_wrong_team_identity) ... ok\ntest_oracle_never_enters_real_metrics (test_adversarial.MetricSeparationTests.test_oracle_never_enters_real_metrics) ... ok\ntest_retrospective_not_real_by_renaming (test_adversarial.MetricSeparationTests.test_retrospective_not_real_by_renaming) ... ok\ntest_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) ... ok\ntest_default_unchanged (test_exposure.ExposureTests.test_default_unchanged) ... ok\ntest_oracle_requires_valid_witness (test_exposure.ExposureTests.test_oracle_requires_valid_witness) ... ok\ntest_parent_identity_fails (test_exposure.ExposureTests.test_parent_identity_fails) ... ok\ntest_prospective_injection_fails (test_exposure.ExposureTests.test_prospective_injection_fails) ... ok\ntest_raw_cannot_be_reallocated (test_exposure.ExposureTests.test_raw_cannot_be_reallocated) ... ok\ntest_raw_keeps_event_mechanism_and_draws (test_exposure.ExposureTests.test_raw_keeps_event_mechanism_and_draws) ... ok\ntest_future_model_rejected (test_roster.RosterTests.test_future_model_rejected) ... ok\ntest_invented_probability_rejected (test_roster.RosterTests.test_invented_probability_rejected) ... ok\ntest_mutation_does_not_grant_readiness (test_roster.RosterTests.test_mutation_does_not_grant_readiness) ... ok\ntest_original_raw_replay_remains_blocked (test_roster.RosterTests.test_original_raw_replay_remains_blocked) ... ok\ntest_stale_roster_preserved_and_blocked (test_roster.RosterTests.test_stale_roster_preserved_and_blocked) ... ok\n\n----------------------------------------------------------------------\nRan 26 tests in 2.422s\n\nOK\n\ntests/nba_phase7 0 test_history_lookback_is_bounded (test_capture.CaptureTests.test_history_lookback_is_bounded) ... ok\ntest_injected_transport_cannot_claim_original (test_capture.CaptureTests.test_injected_transport_cannot_claim_original) ... ok\ntest_missed_deadline_no_network (test_capture.CaptureTests.test_missed_deadline_no_network) ... ok\ntest_duplicate_identity_fails_closed (test_identity.IdentityTests.test_duplicate_identity_fails_closed) ... ok\ntest_future_mapping_rejected (test_identity.IdentityTests.test_future_mapping_rejected) ... ok\ntest_future_official_report_rejected (test_identity.IdentityTests.test_future_official_report_rejected) ... ok\ntest_name_DOB_team_bridge (test_identity.IdentityTests.test_name_DOB_team_bridge) ... ok\ntest_name_alone_is_insufficient (test_identity.IdentityTests.test_name_alone_is_insufficient) ... ok\ntest_original_official_pdf_parse_and_preserve_unresolved (test_identity.IdentityTests.test_original_official_pdf_parse_and_preserve_unresolved) ... ok\ntest_raw_source_tampering_rejected (test_identity.IdentityTests.test_raw_source_tampering_rejected) ... ok\ntest_raw_team_identity_overrides_old_narrative (test_identity.IdentityTests.test_raw_team_identity_overrides_old_narrative) ... ok\ntest_two_same_name_birthdates_ambiguous (test_identity.IdentityTests.test_two_same_name_birthdates_ambiguous) ... ok\ntest_wrong_team_rejected (test_identity.IdentityTests.test_wrong_team_rejected) ... ok\ntest_available_never_means_probability_one (test_layer.LayerTests.test_available_never_means_probability_one) ... ok\ntest_conflicting_status_blocks (test_layer.LayerTests.test_conflicting_status_blocks) ... ok\ntest_fixture_cannot_support_real_exclusion (test_layer.LayerTests.test_fixture_cannot_support_real_exclusion) ... ok\ntest_late_injury_rejected (test_layer.LayerTests.test_late_injury_rejected) ... ok\ntest_verified_out_exclusion_keeps_eligibility_unknown (test_layer.LayerTests.test_verified_out_exclusion_keeps_eligibility_unknown) ... ok\ntest_wrong_game_not_inactive_input (test_layer.LayerTests.test_wrong_game_not_inactive_input) ... ok\ntest_all_real_methods_remain_blocked (test_participation.ParticipationTests.test_all_real_methods_remain_blocked) ... ok\ntest_fixture_cannot_label_real (test_participation.ParticipationTests.test_fixture_cannot_label_real) ... ok\ntest_full_fixture_uses_unchanged_model (test_participation.ParticipationTests.test_full_fixture_uses_unchanged_model) ... ok\ntest_inactive_nonzero_rejected (test_participation.ParticipationTests.test_inactive_nonzero_rejected) ... ok\ntest_inactive_zero_minutes_and_events (test_participation.ParticipationTests.test_inactive_zero_minutes_and_events) ... ok\ntest_missing_law_rejected (test_participation.ParticipationTests.test_missing_law_rejected) ... ok\ntest_underfilled_sets_abort_no_rejection_conditioning (test_participation.ParticipationTests.test_underfilled_sets_abort_no_rejection_conditioning) ... ok\ntest_unknown_never_certain (test_participation.ParticipationTests.test_unknown_never_certain) ... ok\ntest_capture_after_tipoff_never_backfilled (test_pilot.PilotTests.test_capture_after_tipoff_never_backfilled) ... ok\ntest_exact_second_game_no_earliest_substitution (test_pilot.PilotTests.test_exact_second_game_no_earliest_substitution) ... ok\ntest_first_capture_not_replaced_by_second_invocation (test_pilot.PilotTests.test_first_capture_not_replaced_by_second_invocation) ... ok\ntest_late_response_preserves_raw_receipt (test_pilot.PilotTests.test_late_response_preserves_raw_receipt) ... ok\ntest_nonproduction_capture_to_ledger (test_pilot.PilotTests.test_nonproduction_capture_to_ledger) ... ok\ntest_original_ten_registrations (test_pilot.PilotTests.test_original_ten_registrations) ... ok\ntest_schedule_change_blocks (test_pilot.PilotTests.test_schedule_change_blocks) ... ok\ntest_window_boundaries (test_pilot.PilotTests.test_window_boundaries) ... ok\ntest_explicit_DNP_is_void_not_under_or_push (test_settlement.SettlementTests.test_explicit_DNP_is_void_not_under_or_push) ... ok\ntest_missing_DNP_terms_block (test_settlement.SettlementTests.test_missing_DNP_terms_block) ... ok\ntest_null_DNP_terms_block (test_settlement.SettlementTests.test_null_DNP_terms_block) ... ok\ntest_official_final_independent_parser (test_settlement.SettlementTests.test_official_final_independent_parser) ... ok\ntest_original_contract_mismatch_block (test_settlement.SettlementTests.test_original_contract_mismatch_block) ... ok\ntest_push_requires_played_outcome (test_settlement.SettlementTests.test_push_requires_played_outcome) ... ok\ntest_unknown_status_not_scored (test_settlement.SettlementTests.test_unknown_status_not_scored) ... ok\n\n----------------------------------------------------------------------\nRan 42 tests in 1.241s\n\nOK\n\nRUNTIME {\"pin\": \"81ba79c5367f54f102d46533501a8caac600be09\", \"archive_sha256\": \"8202f4135aae820be49d518a68af7a94d68c2d1d9c640214d1d13cc23ea385b0\", \"python\": \"3.12.16 (main, Oct 28 2026, 14:28:18) [GCC 12.2.0]\", \"poppler_local_only\": true, \"project_storage\": \"readonly\", \"genuine_pilot_captures\": 0, \"scheduler_created\": false}\n",
+              "output_type": "stream"
+            }
+          ],
+          "metadata": {
+            "execution_start": 1794787395301,
+            "execution_millis": 35745,
+            "execution_context_id": "bd7c5642-7e2b-4902-9b8a-e83ea764668b",
+            "source_block_id": "f74810c4114e42c4b2a90274de3633a4"
+          },
+          "outputHead": null,
+          "outputTail": null,
+          "contentHash": "sha256:96ed342f0cf4dc7e8c713dd2ea26f25166f9a9890b758984bee5af27a7338dad"
+        }
+      ],
+      "error": null,
+      "createdAt": "2026-11-16T00:02:58.761Z",
+      "completedAt": "2026-11-16T00:03:51.490Z"
+    }
+  }
+]

@@ -1,0 +1,31 @@
+test_event_parameters_never_tuned_by_project (test_adversarial.AdversarialTests.test_event_parameters_never_tuned_by_project) ... ok
+test_future_injury_announcement (test_adversarial.AdversarialTests.test_future_injury_announcement) ... ok
+test_inactive_player_cannot_receive_injected_minutes (test_adversarial.AdversarialTests.test_inactive_player_cannot_receive_injected_minutes) ... ok
+test_oracle_exports_blocked_and_rotation_audited (test_adversarial.AdversarialTests.test_oracle_exports_blocked_and_rotation_audited) ... ok
+test_original_bytes_tamper (test_adversarial.AdversarialTests.test_original_bytes_tamper) ... ok
+test_overtime_mismatch_fails_closed (test_adversarial.AdversarialTests.test_overtime_mismatch_fails_closed) ... ok
+test_partial_oracle_cannot_credit_missing_player_opportunity (test_adversarial.AdversarialTests.test_partial_oracle_cannot_credit_missing_player_opportunity) ... ok
+test_postfreeze_roster_change (test_adversarial.AdversarialTests.test_postfreeze_roster_change) ... ok
+test_underfilled_oracle_abstains (test_adversarial.AdversarialTests.test_underfilled_oracle_abstains) ... ok
+test_unresolved_pool_conserves_without_fake_players (test_adversarial.AdversarialTests.test_unresolved_pool_conserves_without_fake_players) ... ok
+test_wrong_team_does_not_complete_oracle (test_adversarial.AdversarialTests.test_wrong_team_does_not_complete_oracle) ... ok
+test_wrong_team_identity (test_adversarial.AdversarialTests.test_wrong_team_identity) ... ok
+test_oracle_never_enters_real_metrics (test_adversarial.MetricSeparationTests.test_oracle_never_enters_real_metrics) ... ok
+test_retrospective_not_real_by_renaming (test_adversarial.MetricSeparationTests.test_retrospective_not_real_by_renaming) ... ok
+test_bad_exposure_fails (test_exposure.ExposureTests.test_bad_exposure_fails) ... ok
+test_default_unchanged (test_exposure.ExposureTests.test_default_unchanged) ... ok
+test_oracle_requires_valid_witness (test_exposure.ExposureTests.test_oracle_requires_valid_witness) ... ok
+test_parent_identity_fails (test_exposure.ExposureTests.test_parent_identity_fails) ... ok
+test_prospective_injection_fails (test_exposure.ExposureTests.test_prospective_injection_fails) ... ok
+test_raw_cannot_be_reallocated (test_exposure.ExposureTests.test_raw_cannot_be_reallocated) ... ok
+test_raw_keeps_event_mechanism_and_draws (test_exposure.ExposureTests.test_raw_keeps_event_mechanism_and_draws) ... ok
+test_future_model_rejected (test_roster.RosterTests.test_future_model_rejected) ... ok
+test_invented_probability_rejected (test_roster.RosterTests.test_invented_probability_rejected) ... ok
+test_mutation_does_not_grant_readiness (test_roster.RosterTests.test_mutation_does_not_grant_readiness) ... ok
+test_original_raw_replay_remains_blocked (test_roster.RosterTests.test_original_raw_replay_remains_blocked) ... ok
+test_stale_roster_preserved_and_blocked (test_roster.RosterTests.test_stale_roster_preserved_and_blocked) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 1.211s
+
+OK
