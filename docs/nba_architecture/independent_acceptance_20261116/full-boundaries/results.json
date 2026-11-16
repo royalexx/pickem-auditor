@@ -1,0 +1,1396 @@
+{
+  "source_commit": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "total_cases": 198,
+  "matched": 198,
+  "expected_accept": 99,
+  "expected_reject": 99,
+  "mismatches": [],
+  "records": [
+    {
+      "name": "three_actor_feasible_at_O",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "three_actor_feasible_at_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "three_actor_feasible_at_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "same_mean_impossible_joint_at_O",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "same_mean_impossible_joint_at_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "same_mean_impossible_joint_at_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "points_unconditional_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "points_unconditional_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "points_unconditional_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "points_unconditional_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "points_unconditional_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "points_unconditional_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "points_unconditional_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "points_unconditional_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_participation_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_participation_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_participation_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_participation_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_participation_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_participation_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_participation_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_participation_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_declared_roster_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_declared_roster_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_declared_roster_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_declared_roster_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_declared_roster_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_declared_roster_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_declared_roster_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "points_conditional_on_declared_roster_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "rebounds_unconditional_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "rebounds_unconditional_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "rebounds_unconditional_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "rebounds_unconditional_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "rebounds_unconditional_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "rebounds_unconditional_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "rebounds_unconditional_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "rebounds_unconditional_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_participation_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_participation_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_participation_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_participation_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_participation_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_participation_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_participation_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_participation_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_declared_roster_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_declared_roster_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_declared_roster_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_declared_roster_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_declared_roster_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_declared_roster_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_declared_roster_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "rebounds_conditional_on_declared_roster_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "assists_unconditional_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "assists_unconditional_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "assists_unconditional_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "assists_unconditional_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "assists_unconditional_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "assists_unconditional_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "assists_unconditional_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "assists_unconditional_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_participation_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_participation_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_participation_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_participation_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_participation_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_participation_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_participation_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_participation_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_declared_roster_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_declared_roster_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_declared_roster_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_declared_roster_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_declared_roster_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_declared_roster_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_declared_roster_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "assists_conditional_on_declared_roster_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "threes_unconditional_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "threes_unconditional_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "threes_unconditional_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "threes_unconditional_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "threes_unconditional_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "threes_unconditional_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "threes_unconditional_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "threes_unconditional_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_participation_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_participation_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_participation_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_participation_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_participation_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_participation_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_participation_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_participation_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_declared_roster_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_declared_roster_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_declared_roster_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_declared_roster_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_declared_roster_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_declared_roster_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_declared_roster_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "threes_conditional_on_declared_roster_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pr_unconditional_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pr_unconditional_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pr_unconditional_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pr_unconditional_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pr_unconditional_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pr_unconditional_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pr_unconditional_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pr_unconditional_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_participation_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_participation_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_participation_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_participation_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_participation_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_participation_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_participation_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_participation_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_declared_roster_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_declared_roster_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_declared_roster_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_declared_roster_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_declared_roster_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_declared_roster_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_declared_roster_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pr_conditional_on_declared_roster_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pa_unconditional_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pa_unconditional_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pa_unconditional_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pa_unconditional_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pa_unconditional_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pa_unconditional_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pa_unconditional_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pa_unconditional_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_participation_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_participation_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_participation_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_participation_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_participation_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_participation_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_participation_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_participation_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_declared_roster_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_declared_roster_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_declared_roster_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_declared_roster_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_declared_roster_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_declared_roster_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_declared_roster_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pa_conditional_on_declared_roster_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "ra_unconditional_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ra_unconditional_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ra_unconditional_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "ra_unconditional_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "ra_unconditional_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ra_unconditional_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ra_unconditional_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "ra_unconditional_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_participation_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_participation_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_participation_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_participation_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_participation_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_participation_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_participation_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_participation_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_declared_roster_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_declared_roster_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_declared_roster_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_declared_roster_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_declared_roster_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_declared_roster_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_declared_roster_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "ra_conditional_on_declared_roster_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pra_unconditional_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pra_unconditional_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pra_unconditional_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pra_unconditional_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pra_unconditional_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pra_unconditional_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pra_unconditional_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pra_unconditional_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_participation_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_participation_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_participation_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_participation_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_participation_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_participation_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_participation_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_participation_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_declared_roster_analytic_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_declared_roster_analytic_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_declared_roster_analytic_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_declared_roster_analytic_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_COUNT_EXCEEDS_EXPOSURE",
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_declared_roster_empirical_mc_0.0_forecast",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_declared_roster_empirical_mc_0.0_C",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_declared_roster_empirical_mc_0.125_forecast",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    },
+    {
+      "name": "pra_conditional_on_declared_roster_empirical_mc_0.125_C",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "FORECAST_ZERO_EXPOSURE_POSITIVE_COUNT",
+      "matched": true
+    }
+  ]
+}

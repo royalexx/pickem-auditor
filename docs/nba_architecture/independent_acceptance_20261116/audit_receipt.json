@@ -1,0 +1,92 @@
+{
+  "record_type": "INDEPENDENT_TECHNICAL_G0_ACCEPTANCE",
+  "reviewed_pr": "https://github.com/royalexx/pickem-auditor/pull/157",
+  "source_commit": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "reviewed_date": "2026-11-16",
+  "reviewer": "Independent ChatGPT/Codex audit session; no implementation repairs",
+  "decision": "TECHNICAL_G0_PASS",
+  "technical_g0_closed_for_exact_sha": true,
+  "unresolved_material_G0_findings": [],
+  "rejected_parent": "e1983b2d0b94742dfb1bf411694dc46c7cad1ac6",
+  "rejected_parent_decision": "G0_FAIL_RETAINED",
+  "prior_findings": {
+    "F1": "INDEPENDENTLY_VERIFIED_REPAIRED",
+    "F2": "INDEPENDENTLY_VERIFIED_REPAIRED"
+  },
+  "candidate_tests": {
+    "tests": 267,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "log_sha256": "03f441cb1de9c0eb3e3c37de35edbe2e2073f4019288d2a6db3a75266904cd82"
+  },
+  "independent_cases": {
+    "total": 1305,
+    "expected_accept": 653,
+    "expected_reject": 652,
+    "matched": 1305,
+    "mismatches": 0,
+    "previous_campaign": 47,
+    "new_rational_oracles": 1060,
+    "new_full_boundary": 198,
+    "seeds": [
+      42,
+      20261116,
+      15720261116
+    ]
+  },
+  "upstream": {
+    "tests": 146,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "evidence": "Pinned v1 regression only; not G1 conformance"
+  },
+  "old_sha_red": {
+    "test_methods": 6,
+    "expected_failing_assertions": 21,
+    "unexpected_errors": 0
+  },
+  "mutation_sensitivity": {
+    "boundaries": 2,
+    "killed": 2,
+    "unexpected_import_errors": 0
+  },
+  "schema": "Draft202012 and all five golden cases PASS",
+  "preserved_prior_files": 93,
+  "registry_groups": 27,
+  "candidate_clean": true,
+  "implementation_changed": false,
+  "core_raw_sha256": {
+    "v2/nba_architecture/exposure_v2.py": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+    "v2/nba_architecture/families_v2.py": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+    "v2/nba_architecture/v2_contracts.py": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+    "v2/nba_architecture/schema-2.0.0.json": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58"
+  },
+  "main_observed": "912bc7010058092ea735dcda0aa941429194474b",
+  "python": "3.12.14",
+  "packages": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "jsonschema": "4.26.0",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1"
+  },
+  "restrictions": {
+    "G1": "NOT_ACCEPTED",
+    "G2": "NOT_ACCEPTED",
+    "P8_to_P11": "BLOCKED_PENDING_G1_G2",
+    "production": "NOT_AUTHORIZED",
+    "merge": "NOT_AUTHORIZED",
+    "training": "NOT_AUTHORIZED",
+    "historical_performance_scoring": "NOT_AUTHORIZED",
+    "model_or_forecast_weight_optimization": "NOT_AUTHORIZED",
+    "deployment": "NOT_AUTHORIZED"
+  },
+  "remote_writes": false,
+  "notebook_or_schedule_changes": false,
+  "cryptographic_signature": null,
+  "artifact_manifest_sha256": "44d7667eb04fa1782d55f9c63ecaff4c5d939d53e0d57c2f76b6e93e34703e3c",
+  "artifact_delivery": "Configured /codex output mount unavailable; acceptance record provided inline.",
+  "receipt_sha256": "a90dbe624b44013d6eaf03163726fcfe1cd9f7055b2d657a7d3fed100d3f519d"
+}

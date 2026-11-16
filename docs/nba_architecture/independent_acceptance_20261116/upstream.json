@@ -1,0 +1,38 @@
+[
+  {
+    "label": "WS1",
+    "source_commit": "53c01a9eabb9ed09b5c3186eae0d086b07bcc891",
+    "tests": 25,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "log_sha256": "17a8bbe6ff0bc3ba038725a6aef52db5801110998aa4ff9e1e37dc759f8e2fcf"
+  },
+  {
+    "label": "WS2",
+    "source_commit": "02426dd1b9c2b0cca28eaf69888adadc0021afa5",
+    "tests": 25,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "log_sha256": "52ae39e9b691f45a48df833f24ec0b063394d5b8bdc117e6a3517dc41efad73f"
+  },
+  {
+    "label": "WS4",
+    "source_commit": "9821694260edb08b7414f02adea8c1fb3fd3b13c",
+    "tests": 33,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "log_sha256": "c269841ff35b7705ed6a9f21850f4149429debc7e42fb55b24410277f77fd356"
+  },
+  {
+    "label": "WS5",
+    "source_commit": "cdf926f56e86bc9d25576acff61fd6f091313159",
+    "tests": 63,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "log_sha256": "74821212d9774143572c1d0ee2fc1d8dca6ddb268f0880fcde06c40f5fdb4737"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "source_commit": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "total_cases": 47,
+  "matched": 47,
+  "accepted_violations": [],
+  "execution_errors": [],
+  "decision": "PRIOR_CAMPAIGN_ALL_EXPECTATIONS_MET",
+  "implementation_changed": false
+}

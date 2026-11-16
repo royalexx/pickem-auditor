@@ -1,0 +1,52 @@
+[
+  {
+    "family": "repository_and_preservation",
+    "decision": "PASS",
+    "evidence_and_limits": "Exact reviewed SHA, raw source hashes, 93 preserved files, unchanged implementation on publication."
+  },
+  {
+    "family": "source_profiles_and_time",
+    "decision": "PASS_CONTRACT_ONLY",
+    "evidence_and_limits": "Historical/prospective, source revision, cutoff and strict-ingestion tests; real source truth remains G1."
+  },
+  {
+    "family": "identity_and_lineage",
+    "decision": "PASS_CONTRACT_ONLY",
+    "evidence_and_limits": "Player/team/game/stat/period and original G/O/J model/output joins; external identity authenticity remains G1."
+  },
+  {
+    "family": "full_predictive_distributions",
+    "decision": "PASS_CONTRACT_ONLY",
+    "evidence_and_limits": "All eight markets, PMF normalization/support and conditioning; fitted predictive skill remains unaccepted."
+  },
+  {
+    "family": "pipeline_architecture",
+    "decision": "PASS_CONTRACT_ONLY",
+    "evidence_and_limits": "S_ONLY/S_O/S_O_J dependency modes and complete forecast/settlement boundaries; no dependent-stage voting."
+  },
+  {
+    "family": "participation_and_exposure",
+    "decision": "PASS_CONTRACT_ONLY",
+    "evidence_and_limits": "F1/F2 repaired; 1,060 exact rational-oracle and 198 additional complete-boundary checks; DNP/played-zero and finite-sampling semantics retained."
+  },
+  {
+    "family": "joint_physical_accounting",
+    "decision": "PASS_AGGREGATE_ONLY",
+    "evidence_and_limits": "Minute, shot, point/composite, shared rebound, assist and defensive-opportunity regressions; chronological rotation/possession witnesses remain G1/G2."
+  },
+  {
+    "family": "quote_settlement_and_corrections",
+    "decision": "PASS_CONTRACT_ONLY",
+    "evidence_and_limits": "Actual original quote/view context, push/void semantics and complete three-record correction histories; official source/product interpretation remains G1."
+  },
+  {
+    "family": "numerical_and_failure_boundaries",
+    "decision": "PASS_WITH_DOCUMENTED_LIMITS",
+    "evidence_and_limits": "Rational probability references, MC/ESS integrity, tiny atoms, solver/residual failure and finite verification budgets; no epistemic certainty or defect-free claim."
+  },
+  {
+    "family": "family_conformance_and_downstream",
+    "decision": "G1_G2_NOT_ACCEPTED",
+    "evidence_and_limits": "146 original-version regressions passed; actual version-2 owner adapters and integrated acceptance remain required. G0-only work-start blocker removed."
+  }
+]

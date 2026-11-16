@@ -1,0 +1,50 @@
+{
+  "record_type": "INDEPENDENT_G0_ACCEPTANCE_AND_USER_DOWNSTREAM_AUTHORIZATION",
+  "date": "2026-11-16",
+  "governing_authority": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "accepted_pr": "https://github.com/royalexx/pickem-auditor/pull/157",
+  "accepted_implementation_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "G0": "TECHNICAL_PASS_FOR_EXACT_SHA",
+  "independent_review_receipt_sha256": "a90dbe624b44013d6eaf03163726fcfe1cd9f7055b2d657a7d3fed100d3f519d",
+  "evidence": {
+    "candidate_tests_passed": 267,
+    "candidate_test_failures_errors_skips": 0,
+    "independent_checks_matched": 1305,
+    "independent_check_mismatches": 0,
+    "pinned_upstream_tests_passed": 146,
+    "golden_cases_reproduced": 5,
+    "prior_files_preserved": 93,
+    "new_boundary_mutants_detected": 2
+  },
+  "rejected_parent_sha": "e1983b2d0b94742dfb1bf411694dc46c7cad1ac6",
+  "rejected_parent_status": "G0_FAIL_RETAINED",
+  "user_request_verbatim": "unlock progress for G2-G6",
+  "authorized_progress": {
+    "scope": "Downstream engineering and conformance verification toward G2 under the existing gate definitions",
+    "G0_only_start_blocker_for_P1_to_P6": "REMOVED",
+    "G1": "WORK_MAY_PROCEED; FAMILY_ACCEPTANCE_NOT_YET_ESTABLISHED",
+    "G2": "PREPARATION_MAY_PROCEED; INTEGRATED_ACCEPTANCE_REQUIRES_ALL_SIX_FAMILIES_TO_PASS_G1",
+    "G3_to_G6": "UNDEFINED_IN_CURRENT_PLAN; USER_CLARIFICATION_PENDING"
+  },
+  "required_family_evidence": {
+    "P1_WS1": "Genuine source, revision, identity and as-of adapters without fabricated missing timestamps",
+    "P2_S": "Canonical full distributions with real model and artifact lineage",
+    "P3_O": "Participation and conditional-minute outputs conforming to the accepted conservation and exposure contracts",
+    "P4_G_J": "Source-consistent shared state, exact opportunity joins and coherent same-draw outcomes",
+    "P5_C": "Immutable forecast consumption, official settlement, full correction history and evaluator conformance",
+    "P6_QA": "Independent exact-SHA adversarial verification of the actual family adapters"
+  },
+  "preserved_restrictions": {
+    "G1_acceptance": "NOT_ASSERTED",
+    "G2_acceptance": "NOT_ASSERTED",
+    "P8_to_P11": "BLOCKED_PENDING_APPLICABLE_GATES_AND_SEPARATE_AUTHORIZATION",
+    "training": "NOT_AUTHORIZED_BY_THIS_RECORD",
+    "historical_performance_scoring": "NOT_AUTHORIZED_BY_THIS_RECORD",
+    "model_or_forecast_weight_optimization": "NOT_AUTHORIZED_BY_THIS_RECORD",
+    "merge_or_deployment": "NOT_AUTHORIZED_BY_THIS_RECORD",
+    "production_or_tier_release": "NOT_AUTHORIZED_BY_THIS_RECORD",
+    "archives_notebooks_schedules": "PRESERVE; NO_OPERATIONAL_CHANGE_AUTHORIZED_BY_THIS_RECORD"
+  },
+  "contract_change_policy": "Substantive changes to the accepted contract require affected checks and renewed independent G0 review",
+  "publication_scope": "User-authorized GitHub publication on a documentation-only branch, linked from current PR/issue statuses; reviewed implementation SHA remains unchanged."
+}

@@ -1,0 +1,7431 @@
+{
+  "source_commit": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "seed": 15720261116,
+  "total_cases": 1060,
+  "expected_accept": 533,
+  "expected_reject": 527,
+  "matched": 1060,
+  "mismatches": [],
+  "records": [
+    {
+      "name": "three_player_arbitrary_marginals_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_6",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_7",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_8",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_9",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_10",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_11",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_12",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_13",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_14",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_15",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_16",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_17",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_18",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_19",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_20",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_21",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_22",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_23",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_24",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_25",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_26",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_27",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_28",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_29",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_30",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_31",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_32",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_33",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_34",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_35",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_36",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_37",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_38",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_39",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_40",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_41",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_42",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_43",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_44",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_45",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_46",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_47",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_48",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_49",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_50",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_51",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_52",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_53",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_54",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_55",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_56",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_57",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_58",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_59",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_60",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_61",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_62",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_63",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_64",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_65",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_66",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_67",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_68",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_69",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_70",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_71",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_72",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_73",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_74",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_75",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_76",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_77",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_78",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_79",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_80",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_81",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_82",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_83",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_84",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_85",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_86",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_87",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_88",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_89",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_90",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_91",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_92",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_93",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_94",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_95",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_96",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_97",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_98",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_99",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_100",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_101",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_102",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_103",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_104",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_105",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_106",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_107",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_108",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_109",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_110",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_111",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_112",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_113",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_114",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_115",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_116",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_117",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_118",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_119",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_120",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_121",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_122",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_123",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_124",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_125",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_126",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_127",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_128",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_129",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_130",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_131",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_132",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_133",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_134",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_135",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_136",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_137",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_138",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_139",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_140",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_141",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_142",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_143",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_144",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_145",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_146",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_147",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_148",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_149",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_150",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_151",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_152",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_153",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_154",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_155",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_156",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_157",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_158",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_159",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_160",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_161",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_162",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_163",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_164",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_165",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_166",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_167",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_168",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_169",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_170",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_171",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_172",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_173",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_174",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_175",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_176",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_177",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_178",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_179",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_180",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_181",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_182",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_183",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_184",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_185",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_186",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_187",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_188",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_189",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_190",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_191",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_192",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_193",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_194",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_195",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_196",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_197",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_198",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_199",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_200",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_201",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_202",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_203",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_204",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_205",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_206",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_207",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_208",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_209",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_210",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_211",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_212",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_213",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_214",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_215",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_216",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_217",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_218",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_219",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_220",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_221",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_222",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_223",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_224",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_225",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_226",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_227",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_228",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_229",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_230",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_231",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_232",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_233",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_234",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_235",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_236",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_237",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_238",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_239",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_240",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_241",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_242",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_243",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_244",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_245",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_246",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_247",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_248",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_249",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_250",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_251",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_252",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_253",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_254",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_255",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_256",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_257",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_258",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_259",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_260",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_261",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_262",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_263",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_264",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_265",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_266",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_267",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_268",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_269",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_270",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_271",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_272",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_273",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_274",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_275",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_276",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_277",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_278",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_279",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_280",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_281",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_282",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_283",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_284",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_285",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_286",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_287",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_288",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_289",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_290",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_291",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_292",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_293",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_294",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_295",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_296",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_297",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_298",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "three_player_arbitrary_marginals_299",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_0_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_0_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_0_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_0_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_0_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_0_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_1_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_1_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_1_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_1_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_1_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_1_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_2_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_2_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_2_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_2_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_2_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_2_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_3_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_3_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_3_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_3_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_3_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_3_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_4_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_4_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_4_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_4_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_4_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_4_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_5_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_5_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_5_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_5_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_5_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_5_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_6",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_6_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_6_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_6_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_6_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_6_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_6_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_7",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_7_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_7_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_7_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_7_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_7_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_7_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_8",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_8_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_8_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_8_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_8_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_8_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_8_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_9",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_9_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_9_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_9_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_9_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_9_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_9_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_10",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_10_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_10_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_10_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_10_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_10_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_10_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_11",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_11_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_11_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_11_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_11_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_11_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_11_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_12",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_12_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_12_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_12_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_12_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_12_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_12_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_13",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_13_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_13_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_13_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_13_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_13_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_13_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_14",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_14_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_14_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_14_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_14_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_14_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_14_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_15",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_15_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_15_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_15_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_15_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_15_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_15_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_16",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_16_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_16_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_16_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_16_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_16_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_16_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_17",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_17_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_17_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_17_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_17_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_17_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_17_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_18",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_18_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_18_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_18_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_18_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_18_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_18_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_19",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_19_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_19_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_19_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_19_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_19_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_19_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_20",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_20_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_20_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_20_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_20_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_20_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_20_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_21",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_21_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_21_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_21_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_21_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_21_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_21_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_22",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_22_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_22_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_22_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_22_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_22_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_22_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_23",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_23_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_23_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_23_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_23_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_23_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_23_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_24",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_24_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_24_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_24_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_24_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_24_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_24_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_25",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_25_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_25_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_25_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_25_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_25_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_25_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_26",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_26_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_26_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_26_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_26_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_26_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_26_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_27",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_27_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_27_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_27_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_27_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_27_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_27_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_28",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_28_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_28_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_28_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_28_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_28_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_28_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_29",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_29_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_29_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_29_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_29_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_29_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_29_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_30",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_30_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_30_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_30_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_30_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_30_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_30_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_31",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_31_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_31_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_31_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_31_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_31_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_31_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_32",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_32_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_32_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_32_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_32_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_32_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_32_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_33",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_33_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_33_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_33_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_33_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_33_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_33_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_34",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_34_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_34_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_34_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_34_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_34_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_34_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_35",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_35_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_35_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_35_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_35_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_35_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_35_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_36",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_36_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_36_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_36_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_36_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_36_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_36_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_37",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_37_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_37_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_37_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_37_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_37_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_37_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_38",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_38_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_38_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_38_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_38_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_38_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_38_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_39",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_39_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_39_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_39_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_39_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_39_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_39_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_40",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_40_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_40_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_40_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_40_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_40_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_40_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_41",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_41_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_41_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_41_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_41_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_41_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_41_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_42",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_42_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_42_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_42_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_42_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_42_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_42_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_43",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_43_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_43_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_43_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_43_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_43_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_43_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_44",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_44_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_44_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_44_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_44_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_44_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_44_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_45",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_45_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_45_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_45_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_45_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_45_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_45_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_46",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_46_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_46_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_46_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_46_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_46_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_46_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_47",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_47_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_47_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_47_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_47_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_47_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_47_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_48",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_48_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_48_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_48_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_48_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_48_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_48_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_49",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_49_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_49_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_49_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_49_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_49_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_49_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_50",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_50_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_50_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_50_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_50_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_50_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_50_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_51",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_51_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_51_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_51_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_51_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_51_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_51_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_52",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_52_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_52_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_52_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_52_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_52_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_52_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_53",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_53_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_53_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_53_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_53_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_53_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_53_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_54",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_54_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_54_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_54_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_54_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_54_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_54_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_55",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_55_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_55_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_55_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_55_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_55_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_55_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_56",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_56_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_56_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_56_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_56_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_56_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_56_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_57",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_57_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_57_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_57_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_57_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_57_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_57_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_58",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_58_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_58_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_58_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_58_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_58_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_58_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_59",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_59_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_59_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_59_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_59_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_59_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_59_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_60",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_60_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_60_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_60_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_60_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_60_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_60_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_61",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_61_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_61_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_61_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_61_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_61_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_61_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_62",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_62_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_62_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_62_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_62_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_62_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_62_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_63",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_63_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_63_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_63_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_63_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_63_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_63_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_64",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_64_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_64_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_64_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_64_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_64_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_64_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_65",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_65_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_65_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_65_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_65_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_65_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_65_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_66",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_66_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_66_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_66_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_66_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_66_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_66_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_67",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_67_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_67_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_67_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_67_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_67_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_67_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_68",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_68_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_68_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_68_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_68_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_68_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_68_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_69",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_69_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_69_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_69_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_69_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_69_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_69_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_70",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_70_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_70_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_70_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_70_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_70_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_70_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_71",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_71_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_71_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_71_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_71_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_71_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_71_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_72",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_72_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_72_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_72_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_72_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_72_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_72_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_73",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_73_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_73_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_73_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_73_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_73_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_73_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_74",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_74_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_74_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_74_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_74_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_74_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_74_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_75",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_75_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_75_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_75_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_75_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_75_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_ZERO_COMPATIBLE_PROBABILITY",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_75_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_76",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_76_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_76_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_76_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_76_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_76_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_76_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_77",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_77_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_77_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_77_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_77_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_77_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_77_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_78",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_78_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_78_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_78_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_78_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_78_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_78_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "constructed_three_player_law_79",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_79_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_79_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_79_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_DRAW_OUTSIDE_CONSERVING_LAW_SUPPORT",
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_79_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_79_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "exact_joint_witness_79_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_0",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_6",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_7",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_8",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_9",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_10",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_11",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_12",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_13",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_14",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_15",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_16",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_17",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_18",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_19",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_20",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_21",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_22",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_23",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_24",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_25",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_26",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_27",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_28",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_29",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_30",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_31",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_32",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_33",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_34",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_35",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_36",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_37",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_38",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_39",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_40",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_41",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_42",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_43",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_44",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_45",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_46",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_47",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_48",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_49",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_50",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_51",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_52",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_53",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_54",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_55",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_56",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_57",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_58",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_59",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_60",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_61",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_62",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_63",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_64",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_65",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_66",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_67",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_68",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_69",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_70",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_71",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_72",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_73",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_74",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_75",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_76",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_77",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_78",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_79",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_80",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_81",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_82",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_83",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_84",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_85",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_86",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_87",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_88",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_89",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_90",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_91",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_92",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_93",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_94",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_95",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_96",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_97",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_98",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_99",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_100",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_101",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_102",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_103",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_104",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_105",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_106",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_107",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_108",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_109",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_110",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_111",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_112",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_113",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_114",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_115",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_116",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_117",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_118",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_119",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_120",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_121",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_122",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_123",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_124",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_125",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_126",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_127",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_128",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_129",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_130",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_131",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_132",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_133",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_134",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_135",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_136",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_137",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_138",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_139",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_140",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_141",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_142",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_143",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_144",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_145",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_146",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_147",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_148",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "unknown_participation_interval_149",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAW_ATOM_UNATTAINABLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_1",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_2",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_3",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_4",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_5",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_6",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_6",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_7",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_7",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_8",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_8",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_9",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_9",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_10",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_10",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_11",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_11",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_12",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_12",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_13",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_13",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_14",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_14",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "ot_mixture_rational_15",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "ot_one_player_probability_drift_15",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "code": "O_MINUTE_LAWS_INCOMPATIBLE",
+      "matched": true
+    },
+    {
+      "name": "permutation_0",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_1",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_2",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_3",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_4",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_5",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_6",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_7",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_8",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_9",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_10",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_11",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_12",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_13",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_14",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_15",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_16",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_17",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_18",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    },
+    {
+      "name": "permutation_19",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "code": null,
+      "matched": true
+    }
+  ]
+}
