@@ -72,9 +72,10 @@ def reconcile_population(morning_docs, day, *, validator=None):
     for key, variants in sorted(by_key.items()):
         if len(variants) > 1:
             originals = list(variants.values())
-            changed = sorted(set().union(*(r.keys() for r in originals)) -
-                             {k for k in set().intersection(*(set(r.keys()) for r in originals))
-                              if all(r.get(k)==originals[0].get(k) for r in originals)})
+            all_keys = set().union(*(r.keys() for r in originals))
+            changed = sorted(k for k in all_keys if any(
+                (k not in r) != (k not in originals[0]) or r.get(k) != originals[0].get(k)
+                for r in originals[1:]))
             collisions.append({
                 "identity": dict(zip(KEY_FIELDS, key)),
                 "variant_sha256": sorted(variants),
