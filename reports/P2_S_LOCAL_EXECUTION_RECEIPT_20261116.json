@@ -6,9 +6,9 @@
   "accepted_g0_implementation_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
   "branch": "research/nba-p2-s-family-g1-20261116",
   "code_sha256": {
-    "docs/nba_architecture/P2_S_FAMILY_HANDOFF_20261116.md": "5d6d04274c35e9089bb52fd450d86cdb95e0704daaa0acf75093de516f1edb0d",
+    "docs/nba_architecture/P2_S_FAMILY_HANDOFF_20261116.md": "c850f078648c51c8220d616e9a561e2b4980e14aee8f60403f34e8a053737d6f",
     "reports/p2_synthetic_example_output.json": "7c9c04ddec0e4b30bd76e1e55e49392a1303cc925dc5a30a509cf1cc7b171a53",
-    "scripts/nba_p2_s_family_example.py": "0782fbea866797893d01d4ca9ae0f4f25138ece360d8ab6f557b34ed488545aa",
+    "scripts/nba_p2_s_family_example.py": "42e192c50e10054178c4043b69f83e288e83315c4e915259b9f11cb8124fcab5",
     "tests/nba_s_family/test_statistical.py": "cf0c38b1622cb0d7ad0bbd389ecadd11ee0f7a26c6cd09c7a2d6c1d2791bd474",
     "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
     "v2/nba_s_family/model.py": "3fb8ab1c81d1f47a85d022cd4280dfeca92b13f7fbbf4af98d6d1760b1ed921b"
@@ -26,7 +26,36 @@
   "historical_accuracy": "NOT_RUN_OUT_OF_SCOPE",
   "independent_external_review": "PENDING_P6",
   "kind": "p2_S_local_engineering_receipt",
-  "remote_exact_g0_test": "BLOCKED_DEEPNOTE_RATE_LIMIT",
+  "local_benchmark_sha256": "afcfab5917f17a2dee783ef537cac02a5c19d677025a880631827eff5419398a",
+  "local_test_log_sha256": "19debc27181a4b9d0f103b5c82c12742c1946e6b202ec20d2198806df170bb0e",
+  "note": "The full G0 regression ran green before a script-only import-path fix; model.py and S tests byte-identical since that green run. A final-head full remote rerun is pending capacity.",
+  "remote_exact_g0_test": {
+    "duration_seconds": 7.828,
+    "errors": 0,
+    "failed": 0,
+    "head": "f3a249258f72dea900a74b7061d4e78c19992a2b",
+    "run_id": "26c33ec8-b1a1-4121-a430-f709dfb2c8fd",
+    "scope": "actual accepted G0 code on PR branch; no model.py changes since tested head",
+    "status": "PASS_AT_CODE_COMMIT_BEFORE_EXAMPLE_ONLY_CHANGE",
+    "tests": 267
+  },
+  "remote_example_first_run": {
+    "final_commit_remote_rerun": "WAITING_DEEPNOTE_RUN_RATE_LIMIT",
+    "local_script_smoke": "PASS",
+    "reason": "direct path execution did not include repository root in sys.path",
+    "repaired_script_commit": "229a53d316cb9aec68f21ad8cc697075bbef4d8b",
+    "repaired_script_sha256": "42e192c50e10054178c4043b69f83e288e83315c4e915259b9f11cb8124fcab5",
+    "status": "FAIL_FIXED"
+  },
+  "remote_p2_test": {
+    "duration_seconds": 1.024,
+    "errors": 0,
+    "failed": 0,
+    "head": "f3a249258f72dea900a74b7061d4e78c19992a2b",
+    "run_id": "10143798-7d8b-434c-a255-0a0bab82f106",
+    "status": "PASS",
+    "tests": 22
+  },
   "runtime": "local container; local stub G0 validators ONLY; NOT accepted-contract test",
   "test_command": "PYTHONPATH=/mnt/data/nba_p2_s_family python -m unittest discover -s /mnt/data/nba_p2_s_family/tests/nba_s_family -p test_*.py -v",
   "tests_passed": 22
