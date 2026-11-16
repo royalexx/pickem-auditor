@@ -263,6 +263,7 @@ def build_opportunity(p, g, priors, *, model, seed, variant="O1",
                   "home_team_source_receipt_sha256":home_team_source_receipt_sha256,
                   "source_status":"SHADOW_NOT_CERTIFIED",
                   "scenario_sampling":"participation-conditioned-on-feasible-team-rotation",
+                  "prior_sha256":digest(priors),"prior_manifest":deepcopy(priors),
                   "scenarios":supplementary})
     validate_sidecar(sidecar,p,g,o)
     return o,sidecar
@@ -270,6 +271,9 @@ def build_opportunity(p, g, priors, *, model, seed, variant="O1",
 
 def validate_sidecar(sidecar,p,g,o):
     verify(sidecar)
+    req(sidecar["prior_sha256"]==digest(sidecar["prior_manifest"]),
+        "O_PRIOR_MANIFEST_HASH")
+    validate_priors(p,sidecar["prior_manifest"],variant=sidecar["variant"])
     req(sidecar["opportunity_sha256"]==o["content_hash"] and
         sidecar["game_state_sha256"]==g["content_hash"] and
         sidecar["source_snapshot_sha256"]==p["content_hash"],
