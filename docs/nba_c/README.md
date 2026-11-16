@@ -13,3 +13,4 @@ Run: `python -m unittest discover -s tests/nba_c -p 'test_*.py' -v` from repo ro
 `CachedCohort` intentionally accepts only `authorization='SYNTHETIC_UNIT_TEST'` plus `source_profile='SYNTHETIC'`. Historical real-result weight fitting is NOT implemented/authorized by P5. Before future P8/P9, a reviewed authorization boundary must be added, not bypassed. Do not blend primitive S, O, or J stage outputs as independent models.
 
 Independent engineering QA/P6 signoff is not represented by author tests. No production or Tier authority.
+\nAdditional `calibration.py` summarizes official postgame PIT histograms, quantile coverage, zero/tail residuals and unscored denominators without fitting a calibrator.\n\nExact tested-source SHA-256 receipts and 298 passing unit/regression tests are frozen in `P5_EXECUTION_RECEIPT_20261116.json`; the receipt pins the tested code commit rather than claiming a self-referential documentation commit SHA.\n
