@@ -246,7 +246,7 @@ def capture_game(game,day,root,quote,*,fetch=None,at=None):
         return result
 
 
-def run(day=None,storage="/work",dry_run=False,wait=True,fetch=None):
+def run(day=None,storage="/work",dry_run=False,wait=True,fetch=None,resume=False):
     at=now();day=day or at.astimezone(TZ).date().isoformat()
     if not dry_run and day != at.astimezone(TZ).date().isoformat():
         raise ValueError("LIVE_DATE_CANNOT_BE_BACKDATED")
@@ -260,10 +260,22 @@ def run(day=None,storage="/work",dry_run=False,wait=True,fetch=None):
     if not Path(storage).resolve().is_relative_to(Path("/work")):
         raise ValueError("NFL_DURABLE_STORAGE_NOT_ATTESTED")
     if out.exists():
-        return {"status":"ALREADY_CLAIMED_DAY","day":day}
-    out.mkdir(parents=True,exist_ok=False)
-    once(out/"day_start.json",{"started_at":at.isoformat(),"day":day,
-                              "status":"one original forward research run, no backfill"})
+        if (out/"day_final.json").exists():
+            return {"status":"ALREADY_FINISHED_DAY","day":day}
+        if not resume:
+            return {"status":"ALREADY_CLAIMED_DAY","day":day}
+        if os.environ.get("NFL_FORWARD_PRIOR_WORKER_INACTIVE_VERIFIED")!="1":
+            raise ValueError("RESUME_REQUIRES_INDEPENDENT_INACTIVE_WORKER_VERIFICATION")
+        if not (out/"day_start.json").is_file():
+            raise ValueError("INCOMPLETE_DAY_WITHOUT_ORIGINAL_START")
+        once(out/("resume_"+at.strftime("%Y%m%dT%H%M%S%fZ")+".json"),
+             {"resumed_at":at.isoformat(),"previous_worker_inactive_verified_by_caller":True,
+              "original_first_claims_never_replaced":True})
+    else:
+        if resume:raise ValueError("CANNOT_RESUME_NONEXISTENT_DAY")
+        out.mkdir(parents=True,exist_ok=False)
+        once(out/"day_start.json",{"started_at":at.isoformat(),"day":day,
+                                  "status":"one original forward research run, no backfill"})
     board,first_receipt=board_for_day(day,out/"advance_sources",fetch=fetch)
     if not board:
         once(out/"day_final.json",{"status":"NO_SCHEDULED_NFL_EVENTS","day":day})
@@ -283,9 +295,18 @@ def run(day=None,storage="/work",dry_run=False,wait=True,fetch=None):
             while now()<earliest:
                 time.sleep(min(20,max(.1,(earliest-now()).total_seconds())))
         if quotes is None:
-            quotes=safe_original_quote_snapshot(day,out/"offer_sources",fetch=fetch)
-            once(out/"original_offer_ledger.json",
-                 {k:v for k,v in quotes.items() if k!="quotes"} | {"quotes":quotes["quotes"]})
+            prev=out/"original_offer_ledger.json"
+            if prev.is_file():
+                quotes=json.loads(prev.read_text())
+                # Resumed jobs MUST reuse original quote bytes/receipts, not
+                # swap odds retrospectively for a quote that has already frozen.
+                for receipt in quotes.get("receipts",[]):
+                    raw=out/"offer_sources"/(receipt["original_raw_sha256"]+".json.gz")
+                    if sha(gzip.decompress(raw.read_bytes()))!=receipt["original_raw_sha256"]:
+                        raise ValueError("RESUMED_ORIGINAL_ODDS_BYTES_CHANGED")
+            else:
+                quotes=safe_original_quote_snapshot(day,out/"offer_sources",fetch=fetch)
+                once(prev,{k:v for k,v in quotes.items() if k!="quotes"} | {"quotes":quotes["quotes"]})
         states.append(capture_game(game,day,out,quotes,fetch=fetch))
         once(out/("event_"+game["event_id"]+"_execution.json"),states[-1])
     summary={"day":day,"status":"ORIGINAL_FORWARD_RESEARCH_COLLECTION_WITH_ABSTENTIONS",
@@ -302,8 +323,9 @@ def main():
     p.add_argument("--storage",default="/work")
     p.add_argument("--day")
     p.add_argument("--dry-run",action="store_true")
+    p.add_argument("--resume",action="store_true",help="only after independent prior worker-stop verification")
     args=p.parse_args()
-    print(json.dumps(run(args.day,args.storage,args.dry_run),sort_keys=True),flush=True)
+    print(json.dumps(run(args.day,args.storage,args.dry_run,resume=args.resume),sort_keys=True),flush=True)
 
 if __name__=="__main__":
     main()
