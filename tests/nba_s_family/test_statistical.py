@@ -179,8 +179,8 @@ class SFamilyTests(unittest.TestCase):
         with self.assertRaises(SFError):self.fitter(rows=rows)
 
     def test_reproducible_content_bytes_and_seed(self):
-        first=self.fitter(rows=histories())
-        second=self.fitter(rows=list(reversed(histories())))
+        first=self.fitter(rows=histories(),family='S0')
+        second=self.fitter(rows=list(reversed(histories())),family='S0')
         self.assertEqual(first.payload,second.payload)
         self.assertEqual(first.artifact_sha256,second.artifact_sha256)
         p=frozen_pregame_with_active()
@@ -217,6 +217,68 @@ class SFamilyTests(unittest.TestCase):
         self.assertAlmostEqual(sum(p.values()) if isinstance(p,dict) else sum(p),1.)
         q=exact_triplet(mass,1.5)
         self.assertAlmostEqual(sum(q.values()) if isinstance(q,dict) else sum(q),1.)
+
+    def test_independent_gamma_poisson_probability_recurrence(self):
+        f=self.fitter(family='S1')
+        mass,_,p=conditional_pmf(f,player_id='espn:player:10',role='wing',opportunity=20.)
+        a,b=p['alpha'],p['beta']
+        p0=(b/(b+20.))**a
+        self.assertAlmostEqual(mass[0],p0,places=10)
+        for k in range(5):
+            recurrence=mass[k]*(k+a)/(k+1)*20./(b+20.)
+            self.assertAlmostEqual(mass[k+1],recurrence,places=10)
+
+    def test_verified_source_manifest_missing_naive_or_late(self):
+        for bad in [dict(raw_sha256=RAW_HASH,available_at='2022-10-11T00:00:00Z',status='P1_VERIFIED'),
+                    dict(raw_sha256=RAW_HASH,available_at='2022-10-07T00:00:00',status='P1_VERIFIED'),
+                    dict(raw_sha256=RAW_HASH,available_at=SRC_TIME,status='UNVERIFIED')]:
+            with self.subTest(bad=bad):
+                with self.assertRaises(SFError):
+                    fit(histories(),asof_cutoff_utc=CUTOFF,source_manifest={SRC_HASH:bad},stat='points')
+
+    def test_impossible_three_makes_and_bad_attempts(self):
+        rows=histories('threes');rows[0]['three_attempts']=0
+        with self.assertRaisesRegex(SFError,'THREES_EXCEED_ATTEMPTS'):
+            self.fitter(stat='threes',family='S3',rows=rows)
+        p=self.fitter(stat='threes',family='S3')
+        r=predict_conditional(p,player_id='espn:player:10',role='wing',projected_exposure=4097)
+        self.assertEqual(r.abstain_reason,'PROJECTED_3PA_OUT_OF_RANGE')
+
+    def test_zero_minutes_count_degenerate(self):
+        for family in ('S1','S2'):
+            f=self.fitter(family=family)
+            m,tail,_=conditional_pmf(f,player_id='espn:player:10',role='wing',opportunity=0.)
+            self.assertEqual(m,[1.]);self.assertEqual(tail,0.)
+
+    def test_s_only_rejects_future_model_training_and_game_mutation(self):
+        p=frozen_pregame_with_active();f=self.fitter(family='S0')
+        mutated=copy.deepcopy(p)
+        if mutated['features']:
+            mutated['features'][0]['name']='actual_minutes'
+        else:
+            mutated['features'].append({'name':'actual_minutes'})
+        r=predict(f,frozen_pregame=mutated,target_player_id=p['players'][0]['player_id'],role='wing')
+        self.assertIsNotNone(r.abstain_reason)
+        from v2.nba_s_family.model import FittedS,canonical
+        modified=f.data;modified['training_cutoff_at']='2026-11-17T00:00:00Z'
+        bad=FittedS(canonical(modified))
+        r=predict(bad,frozen_pregame=p,target_player_id=p['players'][0]['player_id'],role='wing')
+        self.assertEqual(r.abstain_reason,'MODEL_FIT_AFTER_FREEZE')
+
+    def test_unchanged_g0_shas_and_supplementary_lineage(self):
+        p=pregame();g,o=opportunity_fixture(p);f=self.fitter()
+        a=predict(f,frozen_pregame=p,target_player_id=p['players'][0]['player_id'],
+                  role='wing',opportunity=o,game_state=g)
+        self.assertEqual(a.distribution['lineage']['S']['artifact_sha256'],f.artifact_sha256)
+        self.assertEqual(a.distribution['lineage']['O'],o['model'])
+        self.assertEqual(a.distribution['lineage']['G'],g['model'])
+        self.assertIsNone(a.distribution['lineage']['J'])
+        self.assertAlmostEqual(sum(x['mass'] for x in a.distribution['pmf']),1.,places=12)
+
+    def test_s3_predict_requires_predeclared_attempt_scenarios(self):
+        f=self.fitter(stat='threes',family='S3');p=pregame()
+        r=predict(f,frozen_pregame=p,target_player_id=p['players'][0]['player_id'],role='wing')
+        self.assertEqual(r.abstain_reason,'S3_REQUIRES_PREDECLARED_3PA_J_OPPORTUNITIES')
 
     def test_runtime_receipt_nonbinding(self):
         start=time.perf_counter();f=self.fitter()
