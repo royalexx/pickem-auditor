@@ -104,8 +104,10 @@ def validate_ws1_envelope(record, source, *, require_source_bytes=None):
         fail("WS1_RECORD_FIELDS")
     if record["kind"] not in ALLOWED:
         fail("WS1_OUTCOME_KIND_NOT_PERMITTED")
-    if record["revision"] != 1 or record["supersedes"] is not None:
+    if type(record["revision"]) is not int or record["revision"] != 1 or record["supersedes"] is not None:
         fail("CORRECTED_RECORD_REQUIRES_EXPLICIT_CHAIN")
+    if not isinstance(source, dict):
+        fail("WS1_RECEIPT_FIELDS")
     if record["receipt_id"] != source.get("receipt_id"):
         fail("WS1_RECEIPT_IDENTITY")
     if not isinstance(record["payload"], str):
@@ -196,6 +198,8 @@ def build_historical_pregame(*, game_id, team_ids, event_start_at,
         fail("HISTORY_INPUTS_MISSING")
     cutoff_date = date.fromisoformat(decision_local_date)
     ingestion = _utc(ingested_at)
+    if not isinstance(verified_source_bytes, (dict, type(None))):
+        fail("SOURCE_BYTE_MAPPING_INVALID")
     record_rows = []
     seen = set()
     source_bytes = verified_source_bytes or {}
@@ -205,6 +209,8 @@ def build_historical_pregame(*, game_id, team_ids, event_start_at,
         record, src = item["record"], item["receipt"]
         data, original_verified = validate_ws1_envelope(
             record, src, require_source_bytes=source_bytes.get(src["receipt_id"]))
+        if ingestion < _utc(src["observed_at"]):
+            fail("INGESTION_CLOCK_BACKDATED")
         if data["game_id"] == game_id:
             fail("TARGET_GAME_OUTCOME_ACCESS")
         if date.fromisoformat(data["game_date"]) >= cutoff_date:
@@ -267,7 +273,7 @@ def build_historical_pregame(*, game_id, team_ids, event_start_at,
             asof_basis="prior_game_date_only",
             historical_game_date=data["game_date"],
             asof_limitations=ASOF_WARNING + (
-                " Original bytes independently verified."
+                " Supplied source bytes match their source SHA; independent source authenticity not proven."
                 if original_verified else " Original provider bytes not supplied.")))
         sources.append(source_obj)
         base_name = ("player:" + data["player_id"] if record["kind"] == "player_game"
