@@ -112,7 +112,7 @@ class OpportunityTests(unittest.TestCase):
     def test_unknowable_roster_cannot_be_forced_active(self):
         def update(p):
             for pid,x in p.items():
-                x["scenario_participation_prior"]=int(pid.split(":")[-1][-1])<4
+                x["scenario_participation_prior"]=float(int(pid.split(":")[-1][-1])<4)
         with self.assertRaisesRegex(ContractError,
             "O_INFEASIBLE_PARTICIPATION_OR_ROTATION"):
             build(change=update)
