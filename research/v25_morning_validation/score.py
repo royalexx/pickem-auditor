@@ -235,7 +235,8 @@ def _model_distributions(row, outcome, line):
                 metrics["crps"] = discrete_crps(model["distribution_support_mass"], outcome)
             elif name in ("J1", "J2"):
                 metrics["crps"] = discrete_crps([(float(x), val) for x, val in model["pmf"].items()], outcome)
-            result[name] = {"status": "SCORED" if metrics else "PUSH_ONLY", "metrics": metrics}
+            result[name] = {"status": "SCORED" if metrics else "PUSH_ONLY",
+                            "metrics": metrics, "p_over_given_no_push": p}
         except (ValueError, TypeError, KeyError) as exc:
             result[name] = {"status": "MODEL_BLOCKED",
                             "reason": type(exc).__name__ + ":" + str(exc)}
@@ -482,6 +483,12 @@ def main(storage="/work", date=None):
         summary["NBA"] = nba_validation(base, result_dir)
     except Exception as exc:
         summary["NBA"] = {"status": "BLOCKED", "error": type(exc).__name__ + ":" + str(exc)}
+    try:
+        from research.v25_universal.report import build as unified_comparison
+        summary["UNIFIED"] = unified_comparison(base, result_dir)
+    except Exception as exc:
+        summary["UNIFIED"] = {"status": "BLOCKED",
+                              "error": type(exc).__name__ + ":" + str(exc)}
     manifest = []
     for file in sorted(result_dir.rglob("*")):
         if file.is_file():
