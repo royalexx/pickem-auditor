@@ -3,5 +3,5 @@ from .contracts import (
     VERSION, ContractError, seal, verify_seal, freeze_once, seed_for,
     validate_pregame, validate_statistical, validate_opportunity,
     validate_game_state, validate_joint, validate_forecast,
-    validate_evaluation, validate_bundle, threshold_triplet,
+    validate_evaluation, validate_bundle, threshold_triplet, joint_stat_pmf,
 )

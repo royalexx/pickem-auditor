@@ -24,7 +24,8 @@
         "model_version",
         "code_sha256",
         "artifact_sha256",
-        "model_training_cutoff_at"
+        "model_training_cutoff_at",
+        "content_hash"
       ],
       "properties": {
         "schema": {
@@ -61,6 +62,9 @@
         },
         "model_training_cutoff_at": {
           "$ref": "#/$defs/utc"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
         }
       }
     },
@@ -78,7 +82,8 @@
         "input_freeze_at",
         "model_training_cutoff_at",
         "sources",
-        "players"
+        "players",
+        "offers"
       ],
       "properties": {
         "schema": {
@@ -136,6 +141,28 @@
               "legal_eligibility"
             ]
           }
+        },
+        "offers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "contract_id",
+              "quote_id",
+              "event_id",
+              "player_id",
+              "team_id",
+              "stat",
+              "period",
+              "line",
+              "quote_at",
+              "quote_sha256",
+              "source_id",
+              "book",
+              "product_type",
+              "payout_terms"
+            ]
+          }
         }
       }
     },
@@ -149,13 +176,25 @@
           "properties": {
             "family": {
               "const": "S"
+            },
+            "player_id": {
+              "type": "string"
+            },
+            "team_id": {
+              "type": "string"
+            },
+            "period": {
+              "const": "full_game_including_ot"
             }
           },
           "required": [
             "stat",
             "support",
             "pmf",
-            "conditioning"
+            "conditioning",
+            "player_id",
+            "team_id",
+            "period"
           ]
         }
       ]
@@ -212,7 +251,8 @@
           "required": [
             "scenarios",
             "opportunity_id",
-            "game_state_id"
+            "game_state_id",
+            "outcome_model_ids"
           ]
         }
       ]
@@ -231,7 +271,8 @@
         "contract",
         "probabilities",
         "status",
-        "p_market"
+        "p_market",
+        "conditioning"
       ],
       "properties": {
         "schema": {

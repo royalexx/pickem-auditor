@@ -20,12 +20,12 @@ G is a shared internal game-state input, not a fourth voting model. An S distrib
 ## Versioned envelopes (Python + JSON Schema)
 
 - pregame: original receipts, available/freeze/forecast/training clocks, game/team/player IDs, uncertainty and full attempted-source coverage. Source hash is raw bytes, not interpreted data. Hashes are not signatures or trustworthy timestamps.
-- S: full nonnegative integer PMF for one statistic, explicit unconditional versus played-conditional status, provenance, parameters/version. Derived stat combos must not be added as independent component votes.
+- S: immutable full nonnegative integer PMF for one named player, team, statistic and period, explicit unconditional versus played-conditional status, provenance and model/artifact version. Derived stat combos must not be added as independent component votes.
 - O: explicit legal roster eligibility (nullable), P(participation) (nullable), played-conditional minutes law moments, scenario participation and conserved team opportunities. Unknown cannot silently become 0 or 1.
 - G: game-wide scenario IDs, duration/overtime, pace, team possessions, score-state and shared weights; draw once per game/scenario.
 - J: player and team scenario outcomes referencing exact G/O IDs, constrained physical accounting. Same draw supplies points, assists, rebounds, threes, PR/PA/RA/PRA.
-- forecast: original contract ID, stat, period, line, quote timestamp and raw quote hash, one distribution pointer, one coherent Over/Under/Push triplet, explicit unverified status.
-- evaluation: exact frozen forecast hash, original contract/settlement link, correction version, actual official source receipt, valid pending/settled/push/void semantics and matched/unmatched cohort retention.
+- forecast: exact contract identity and raw quote binding to an offer retained in the immutable WS1 pregame offer list; player-bound statistic distribution; one coherent Over/Under/Push triplet, explicit unverified status and no invented market price.
+- evaluation: exact frozen forecast hash, original contract/settlement link, monotonic correction version with predecessor hash, actual official source receipt, valid pending/settled/push/void semantics and matched/unmatched cohort retention.
 
 The v1 pure-Python validators enforce times, source hashes, mass normalization, seed determinism, roster/member joins, player/team exposure, count support, points/rebound/assists/combo invariants and freeze immutability. JSON Schema provides machine-readable shape. These are minimum boundaries, not a claim that upstream data are authenticated or that all basketball physics are represented. A production-grade J implementation still needs lineup witnesses, missed-shot/rebound ledgers, shot/FT opportunities and detailed substitution/clock consistency.
 

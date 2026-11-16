@@ -120,6 +120,7 @@ def seed_for(master, event_id, scenario_id, component_version):
 
 
 def common(obj, family, source_hash, event_id):
+    verify_seal(obj)
     require(obj["schema"] == VERSION and obj["family"] == family, "SCHEMA_OR_FAMILY")
     require(obj["source_snapshot_sha256"] == source_hash, "SOURCE_LINEAGE_MISMATCH")
     require(obj["event_id"] == event_id, "EVENT_ID_MISMATCH")
@@ -162,6 +163,25 @@ def validate_pregame(p):
                 "INVALID_ELIGIBILITY")
     ids = [x["player_id"] for x in p["players"]]
     require(len(ids) == len(set(ids)), "DUPLICATE_PLAYER")
+    offers = p["offers"]
+    offer_ids = []
+    for quote in offers:
+        offer_ids.append(nonempty(quote["contract_id"]))
+        require(quote["event_id"] == p["event_id"], "QUOTE_EVENT_MISMATCH")
+        require(quote["player_id"] in ids, "QUOTE_PLAYER_MISMATCH")
+        require(quote["team_id"] == next(x["team_id"] for x in p["players"]
+                                         if x["player_id"] == quote["player_id"]),
+                "QUOTE_TEAM_MISMATCH")
+        require(quote["stat"] in STATS and quote["period"] == "full_game_including_ot",
+                "QUOTE_STAT_OR_PERIOD")
+        number(quote["line"], low=0)
+        sha(quote["quote_sha256"])
+        nonempty(quote["quote_id"])
+        nonempty(quote["book"])
+        nonempty(quote["product_type"])
+        require(quote["source_id"] in names, "UNBACKED_QUOTE")
+        require(instant(quote["quote_at"]) <= freeze, "FUTURE_QUOTE")
+    require(len(set(offer_ids)) == len(offer_ids), "DUPLICATE_CONTRACT_ID")
     for feature in p.get("features", []):
         require(feature["source_id"] in names, "UNBACKED_FEATURE")
         require(instant(feature["available_at"]) <= freeze, "FUTURE_FEATURE")
@@ -176,6 +196,10 @@ def validate_statistical(s, pregame):
     require(instant(s["model_training_cutoff_at"]) <=
             instant(pregame["input_freeze_at"]), "TRAINING_AFTER_FREEZE")
     require(s["stat"] in STATS, "INVALID_STAT")
+    require(s["period"] == "full_game_including_ot", "INVALID_STAT_PERIOD")
+    roster = {p["player_id"]: p for p in pregame["players"]}
+    require(s["player_id"] in roster and
+            roster[s["player_id"]]["team_id"] == s["team_id"], "STAT_PLAYER_JOIN")
     require(s["support"] == "nonnegative_integer", "INVALID_SUPPORT")
     masses = s["pmf"]
     require(isinstance(masses, list) and bool(masses), "EMPTY_PMF")
@@ -212,6 +236,11 @@ def validate_opportunity(o, pregame):
         if player["participation_status"] == "unknown":
             require(p is None, "UNKNOWN_AS_CERTAIN")
         number(player["mean_minutes_given_played"], low=0)
+        law = player["minutes_law"]
+        require(isinstance(law, dict) and
+                isinstance(law.get("family"), str) and law["family"] and
+                isinstance(law.get("parameters"), dict) and
+                law.get("overtime_coupled") is True, "MINUTES_LAW_REQUIRED")
         require(player["conditioning"] == "given_played", "MINUTES_CONDITIONING")
     require(o["roster_certified"] is False or
             all(p["legal_eligibility"] is not None for p in pregame["players"]),
@@ -248,6 +277,10 @@ def validate_joint(j, pregame, opportunity, game_state):
             instant(pregame["input_freeze_at"]), "TRAINING_AFTER_FREEZE")
     require(j["opportunity_id"] == opportunity["model_id"], "OPPORTUNITY_JOIN")
     require(j["game_state_id"] == game_state["model_id"], "STATE_JOIN")
+    require(isinstance(j["outcome_model_ids"], list)
+            and bool(j["outcome_model_ids"])
+            and len(set(j["outcome_model_ids"])) == len(j["outcome_model_ids"]),
+            "OUTCOME_FAMILY_MISSING")
     state_by_id = {s["scenario_id"]: s for s in game_state["scenarios"]}
     require(len(j["scenarios"]) == len(state_by_id), "SCENARIO_COVERAGE")
     roster = {p["player_id"]: p for p in pregame["players"]}
@@ -305,6 +338,21 @@ def validate_joint(j, pregame, opportunity, game_state):
     return True
 
 
+def joint_stat_pmf(j, game_state, player_id, stat):
+    """Weighted same-scenario marginal; combos come from same J primitive draws."""
+    require(stat in STATS, "INVALID_STAT")
+    states = {x["scenario_id"]: x for x in game_state["scenarios"]}
+    masses = {}
+    require({x["scenario_id"] for x in j["scenarios"]} == set(states),
+            "SCENARIO_JOIN")
+    for sc in j["scenarios"]:
+        candidates = [p for p in sc["players"] if p["player_id"] == player_id]
+        require(len(candidates) == 1, "PLAYER_SCENARIO_COVERAGE")
+        val = candidates[0]["stats"][stat]
+        masses[val] = masses.get(val, 0.0) + states[sc["scenario_id"]]["weight"]
+    return [{"value": v, "mass": masses[v]} for v in sorted(masses)]
+
+
 def threshold_triplet(pmf, line):
     number(line, low=0)
     over = sum(x["mass"] for x in pmf if x["value"] > line)
@@ -328,6 +376,11 @@ def validate_forecast(f, pregame, distribution):
             instant(pregame["input_freeze_at"]), "FORECAST_TRAINING_LEAK")
     quote = f["contract"]
     require(quote["stat"] == distribution["stat"], "CONTRACT_STAT_MISMATCH")
+    require(quote["player_id"] == distribution["player_id"] and
+            quote["team_id"] == distribution["team_id"] and
+            quote["period"] == distribution["period"], "CONTRACT_DISTRIBUTION_JOIN")
+    matches = [q for q in pregame["offers"] if q["contract_id"] == quote["contract_id"]]
+    require(len(matches) == 1 and matches[0] == quote, "CONTRACT_BINDING_MISMATCH")
     require(quote["event_id"] == pregame["event_id"], "CONTRACT_EVENT_MISMATCH")
     require(quote["player_id"] in {p["player_id"] for p in pregame["players"]},
             "CONTRACT_PLAYER_MISMATCH")
@@ -336,6 +389,10 @@ def validate_forecast(f, pregame, distribution):
             "FUTURE_QUOTE")
     sha(quote["quote_sha256"])
     probs = threshold_triplet(distribution["pmf"], quote["line"])
+    require(set(f["probabilities"]) == {"over", "under", "push"},
+            "PROBABILITY_KEYS")
+    require(f["conditioning"] == distribution["conditioning"],
+            "CONDITIONING_MISMATCH")
     for key in probs:
         require(abs(probs[key] - number(f["probabilities"][key], low=0)) <= 1e-10,
                 "PROBABILITY_LAW_MISMATCH")
@@ -347,8 +404,8 @@ def validate_forecast(f, pregame, distribution):
     return True
 
 
-def validate_evaluation(e, forecast, pregame):
-    validate_forecast(forecast, pregame, e["distribution"])
+def validate_evaluation(e, forecast, pregame, distribution):
+    validate_forecast(forecast, pregame, distribution)
     verify_seal(e)
     require(e["schema"] == VERSION and e["record_type"] == "evaluation",
             "EVALUATION_SCHEMA")
@@ -372,6 +429,13 @@ def validate_evaluation(e, forecast, pregame):
         sha(e["source_receipt_sha256"])
     require("cohort_status" in e and "settlement_version" in e,
             "EVALUATION_DENOMINATOR")
+    require(type(e["settlement_version"]) is int and
+            e["settlement_version"] >= 1, "INVALID_SETTLEMENT_VERSION")
+    if e["settlement_version"] > 1:
+        sha(e["supersedes_evaluation_hash"])
+    else:
+        require(e.get("supersedes_evaluation_hash") is None,
+                "UNLINKED_SETTLEMENT_REVISION")
     return True
 
 
@@ -390,6 +454,8 @@ def validate_bundle(bundle):
         g = next((x for x in bundle["game_states"]
                   if x["model_id"] == item["game_state_id"]), None)
         require(o is not None and g is not None, "MISSING_J_DEPENDENCY")
+        require(all(any(s["model_id"] == sid for s in bundle["statistical"])
+                    for sid in item["outcome_model_ids"]), "MISSING_S_DEPENDENCY")
         validate_joint(item, pregame, o, g)
     for item in bundle.get("forecasts", []):
         d = next((x for x in bundle["statistical"]
