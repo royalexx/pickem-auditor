@@ -68,6 +68,25 @@ class NBADailyOrchestrationTests(unittest.TestCase):
         self.assertTrue(any(i["kind"] == "official_injury_index" for i in report["items"]))
         self.assertNotIn("https://www.nba.com/players", urls)
 
+    def test_late_runner_does_not_invoke_real_capture(self):
+        from research.nba_phase8c import daily
+        slot = self.slots[0]
+        late = datetime.fromisoformat(slot["scheduled_freeze_at"]) + timedelta(seconds=1)
+        with patch.object(daily, "clock", return_value=late):
+            with patch.object(daily, "capture_slot", side_effect=AssertionError("LATE_CAPTURE")):
+                rows = daily.run_group([slot], Path("/tmp/test_only_unused"), late)
+        self.assertEqual(rows[0]["status"], "MISSED_FREEZE")
+
+    def test_simultaneous_games_dispatch_independently(self):
+        from research.nba_phase8c import daily
+        pair = self.slots[:2]
+        early = datetime.fromisoformat(pair[0]["scheduled_freeze_at"]) - timedelta(minutes=7)
+        with patch.object(daily, "clock", return_value=early):
+            with patch.object(daily, "capture_slot", side_effect=lambda s, out: {"slot": s["slot"], "status": "MOCKED"}):
+                rows = daily.run_group(pair, Path("/tmp/test_only_unused"), early)
+        self.assertEqual({r["slot"] for r in rows}, {1, 2})
+        self.assertTrue(all(r["status"] == "MOCKED" for r in rows))
+
     def test_data_sources_explicitly_distinguish_eligibility(self):
         plan = run(day="2026-11-18", dry_run=True)
         self.assertIn("boxscores", plan["sources"]["ESPN"])
