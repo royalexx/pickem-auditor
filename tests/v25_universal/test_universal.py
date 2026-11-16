@@ -18,6 +18,7 @@ def future_row(**extra):
     r={"schema":"V25FrozenResearchForecast/1","sport":"NFL","engine":"NovelO6",
        "event_id":"401000010","player_id":"123","stat":"receptions",
        "original_contract_id":"fake_contract","original_quote_id":"fake_quote",
+       "original_quote_source_sha256":"a"*64,
        "line":4.5,"book":"Pinnacle","source_sha256":"f"*64,
        "source_received_at":at,"input_freeze_at":at,
        "model_training_cutoff_at":at,
@@ -65,6 +66,21 @@ class RegistryTests(unittest.TestCase):
         r=future_row(original_contract_id=None)
         with self.assertRaisesRegex(ValueError,"NFL_CONTRACT_IDENTITY_MISSING"):
             registry.validate_row(r,{"sport":"NFL","engine":"NovelO6"})
+
+    def test_nfl_original_quote_hash_is_mandatory(self):
+        r=future_row(original_quote_source_sha256=None)
+        with self.assertRaisesRegex(ValueError,"NFL_ORIGINAL_QUOTE_SOURCE_SHA_REQUIRED"):
+            registry.validate_row(r,{"sport":"NFL","engine":"NovelO6"})
+
+    def test_nfl_registered_model_wrong_quote_source_is_rejected(self):
+        r=future_row()
+        joined={"event_id":r["event_id"],"player_id":r["player_id"],"stat":r["stat"],
+                "original_quote_id":r["original_quote_id"],
+                "original_quote_source_sha256":"b"*64,
+                "line":r["line"],"book":r["book"],"state":"SCORED","actual":5}
+        # Candidate and row each validate in isolation but cannot be scored together.
+        self.assertNotEqual(joined["original_quote_source_sha256"],
+                            r["original_quote_source_sha256"])
 
     def test_original_blob_change_quarantines(self):
         with tempfile.TemporaryDirectory() as tmp:
