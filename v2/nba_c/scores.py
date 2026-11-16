@@ -5,6 +5,7 @@ finite PMF is not silently renormalized and sparse support is retained.
 """
 from __future__ import annotations
 from collections import defaultdict
+from numbers import Real
 import math
 import random
 
@@ -24,7 +25,7 @@ def validate_pmf(pmf):
     for value, mass in rows:
         if type(value) is not int or value < 0 or value in seen:
             raise ScoreError("INVALID_PMF_SUPPORT")
-        if type(mass) not in (int, float) or not math.isfinite(mass) or mass < 0:
+        if isinstance(mass, bool) or not isinstance(mass, Real) or not math.isfinite(float(mass)) or mass < 0:
             raise ScoreError("INVALID_PMF_MASS")
         seen.add(value)
         clean.append((value, float(mass)))
