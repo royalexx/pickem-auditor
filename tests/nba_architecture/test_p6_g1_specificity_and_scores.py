@@ -175,6 +175,24 @@ class IndependentProperScoreSemantics(unittest.TestCase):
         self.assertAlmostEqual(math.sqrt(variance+(mu-actual)**2), math.sqrt(8))
         self.assertAlmostEqual(-math.log(success_p**r), math.log(4))
 
+    def test_nb_crps_known_exact_rational(self):
+        # NB(r=2, p=.5): P(X>k)=(k+3)/2**(k+2); y=0.
+        # CRPS = sum_{k>=0} survival(k)^2
+        #      = [sum k^2/4^k + 6 sum k/4^k + 9 sum 1/4^k]/16
+        r=.25
+        infinite_sum=(r*(1+r)/(1-r)**3 +
+                      6*r/(1-r)**2 + 9/(1-r))/16
+        self.assertAlmostEqual(infinite_sum, 26/27, places=14)
+        cdf=0.
+        p=.25
+        cdf=0.
+        numerical=0.
+        for k in range(120):
+            # P(X=k)=(k+1)/2**(k+2)
+            cdf+=(k+1)/2**(k+2)
+            numerical+=(1-cdf)**2
+        self.assertAlmostEqual(numerical, 26/27, places=13)
+
     def test_multi_game_point_rmse_aggregates_observation_errors(self):
         predicted_means = [1., 3., 4.]
         outcomes = [0, 4, 1]
