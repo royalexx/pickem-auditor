@@ -379,6 +379,8 @@ def validate_forecast(f, pregame, distribution):
     require(quote["player_id"] == distribution["player_id"] and
             quote["team_id"] == distribution["team_id"] and
             quote["period"] == distribution["period"], "CONTRACT_DISTRIBUTION_JOIN")
+    require(instant(quote["quote_at"]) <= instant(f["forecast_at"]),
+            "FUTURE_QUOTE")
     matches = [q for q in pregame["offers"] if q["contract_id"] == quote["contract_id"]]
     require(len(matches) == 1 and matches[0] == quote, "CONTRACT_BINDING_MISMATCH")
     require(quote["event_id"] == pregame["event_id"], "CONTRACT_EVENT_MISMATCH")
