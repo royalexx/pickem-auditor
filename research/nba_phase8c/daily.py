@@ -165,7 +165,23 @@ def run(day=None, root="/work", dry_run=False, no_wait=False):
     write_once(report_root / "start.json", first)
     records = []
     try:
-        ready = preflight(output=str(capture_root))
+        try:
+            ready = preflight(output=str(capture_root))
+        except ValueError as exc:
+            if str(exc) != "PDF_RUNTIME_UNAVAILABLE":
+                raise
+            # A failed optional PDF parser must NOT suppress a genuine ESPN
+            # game-day candidate/boxscore capture. Verify model manually.
+            from research.nba_phase7.participation import MODEL_HASH
+            from v2.nba_joint.common import sha
+            model = json.loads(Path("research/nba_joint_v01/results/model.json").read_text())
+            if sha(model) != MODEL_HASH:
+                raise ValueError("FROZEN_MODEL_CHANGED")
+            ready = {"status": "ESPN_ONLY_OPTIONAL_PDF_PARSER_UNAVAILABLE",
+                     "checked_at": clock().isoformat(),
+                     "model_sha256": MODEL_HASH,
+                     "registration_sha256": REGISTRY_SHA,
+                     "restrictions": "no verified official injuries or legal eligibility"}
         write_once(report_root / "preflight.json", ready)
         # Previous genuine FINAL games are settled independently from pregame capture.
         settlements = settle_prior(slots, capture_root, settlement_root, day)
