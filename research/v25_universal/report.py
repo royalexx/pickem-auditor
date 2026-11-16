@@ -14,6 +14,15 @@ from research.v25_morning_validation.score import (
     score_probability, discrete_crps, make_once, h,
 )
 from research.v25_universal.registry import discover
+from v2.nba_ws1.store import instant
+from zoneinfo import ZoneInfo
+_TZ=ZoneInfo("America/Toronto")
+
+def _event_date(value):
+    if not value:return "UNKNOWN"
+    try:return instant(value).astimezone(_TZ).date().isoformat()
+    except (TypeError,ValueError):return "UNKNOWN"
+
 
 def mean(xs):
     return math.fsum(xs) / len(xs) if xs else None
@@ -104,7 +113,7 @@ def _model_rows(out,discovery):
                 "player_id":row["player_id"],"stat":row["stat"],
                 "source_manifest":row["registry_manifest"],
                 "conditioning":row["conditioning"],
-                "forecast_at":row["forecast_at"]}
+                "forecast_at":row["forecast_at"],"event_start_at":row["event_start_at"]}
         if row["sport"] == "NFL":
             contract=nfl_index.get(row.get("original_contract_id"))
             if not contract:
@@ -168,6 +177,7 @@ def _as_metrics(nfl,annotations):
             items.append({"sport":"NFL","event_id":r["event_id"],"player_id":r["player_id"],
                           "stat":r["stat"],"engine":model,"conditioning":"given_played" if model!="C2" else "conditional_nonpush",
                           "contract_key":r["original_contract_id"],"actual":r["actual"],
+                          "event_date":_event_date(r.get("event_start_at")),
                           "line":r["line"],"metrics":values,
                           "binary_y":int(r["actual"]>r["line"]) if r["actual"]!=r["line"] else None,
                           "p_over":result.get("p_over_given_no_push")})
@@ -185,6 +195,7 @@ def _as_metrics(nfl,annotations):
         items.append({"sport":row["sport"],"event_id":row["event_id"],"player_id":row["player_id"],
                       "stat":row["stat"],"engine":row["engine"],"conditioning":row["conditioning"],
                       "contract_key":str(key),"actual":actual,"line":line,"metrics":metrics,
+                      "event_date":_event_date(row.get("event_start_at")),
                       "binary_y":int(actual>line) if line is not None and actual!=line else None,
                       "p_over":metrics.get("p_over")})
     return items
@@ -210,7 +221,7 @@ def _report(items,denominators):
                  if any(metric in r["metrics"] for r in rows)}
         model_metrics.append(dict(zip(("sport","market","engine","conditioning"),key),
             original_contracts_scored=len(rows),distinct_games=len(games),
-            distinct_game_dates=len({r["event_id"][:10] if "-" in r["event_id"] else "UNKNOWN" for r in rows}),
+            distinct_game_dates=len({r.get("event_date","UNKNOWN") for r in rows}),
             metrics=metrics,calibration_deciles=bins,
             calibration_status="PROVISIONAL_DESCRIPTIVE" if len(games)<30 else "REVIEW_REQUIRED"))
     # Compute paired loss on the *identical* original contract, with clustering
@@ -233,7 +244,8 @@ def _report(items,denominators):
         intervals=None
         # Games alone, even 11 in the same date, are not multi-day research.
         # Present no CI until multiple genuinely prospective date clusters accrue.
-        if len(groups)>=20:
+        dates={r.get("event_date","UNKNOWN") for r in items if r["event_id"] in groups}
+        if len(groups)>=20 and len(dates)>=5:
             rng=random.Random(20261115)
             vals=list(groups.values());sims=[]
             for _ in range(800):
