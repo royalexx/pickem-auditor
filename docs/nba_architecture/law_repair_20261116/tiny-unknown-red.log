@@ -1,0 +1,15 @@
+test_unattainable_tiny_atom_forces_unknown_participation_to_zero (test_g0_law_repair_20261116.TinyConditionalAtomUnknownProbability.test_unattainable_tiny_atom_forces_unknown_participation_to_zero) ... FAIL
+
+======================================================================
+FAIL: test_unattainable_tiny_atom_forces_unknown_participation_to_zero (test_g0_law_repair_20261116.TinyConditionalAtomUnknownProbability.test_unattainable_tiny_atom_forces_unknown_participation_to_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_law_repair_20261116.py", line 219, in test_unattainable_tiny_atom_forces_unknown_participation_to_zero
+    with self.assertRaises(ContractError):_check_team(players,((0,1.),),())
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.800s
+
+FAILED (failures=1)

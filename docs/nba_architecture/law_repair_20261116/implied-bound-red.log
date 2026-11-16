@@ -1,0 +1,15 @@
+test_positive_counterfactual_support_can_be_forced_out_by_team_pool (test_g0_law_repair_20261116.ImpliedExposureBound.test_positive_counterfactual_support_can_be_forced_out_by_team_pool) ... FAIL
+
+======================================================================
+FAIL: test_positive_counterfactual_support_can_be_forced_out_by_team_pool (test_g0_law_repair_20261116.ImpliedExposureBound.test_positive_counterfactual_support_can_be_forced_out_by_team_pool)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/g0/tests/nba_architecture/test_g0_law_repair_20261116.py", line 182, in test_positive_counterfactual_support_can_be_forced_out_by_team_pool
+    with self.assertRaises(ContractError):validate_forecast(d,c['pregame'],g=c['game_state'],o=c['opportunity'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.975s
+
+FAILED (failures=1)

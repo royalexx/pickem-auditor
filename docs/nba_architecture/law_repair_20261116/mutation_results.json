@@ -1,0 +1,48 @@
+[
+  {
+    "disabled_boundary": "O_COUPLING",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_architecture",
+      "-p",
+      "test_g0_law_repair*",
+      "-v"
+    ],
+    "exit": 1,
+    "killed": true,
+    "import_error": false,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 21 tests in 9.525s",
+      "",
+      "FAILED (failures=2)"
+    ]
+  },
+  {
+    "disabled_boundary": "FORECAST_EXPOSURE",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_architecture",
+      "-p",
+      "test_g0_law_repair*",
+      "-v"
+    ],
+    "exit": 1,
+    "killed": true,
+    "import_error": false,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 21 tests in 4.943s",
+      "",
+      "FAILED (failures=21)"
+    ]
+  }
+]

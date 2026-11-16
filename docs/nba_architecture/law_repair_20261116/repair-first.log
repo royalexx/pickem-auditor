@@ -1,0 +1,11 @@
+test_f1_unattainable_minute_atom_rejected_at_all_boundaries (test_g0_law_repair_20261116.IndependentReportRegressions.test_f1_unattainable_minute_atom_rejected_at_all_boundaries) ... ok
+test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c) ... ok
+test_f2_zero_count_positive_counterparts_all_markets (test_g0_law_repair_20261116.IndependentReportRegressions.test_f2_zero_count_positive_counterparts_all_markets) ... ok
+test_feasible_exchange_without_empirical_frequency_equality (test_g0_law_repair_20261116.LawCouplingControls.test_feasible_exchange_without_empirical_frequency_equality) ... ok
+test_marginal_masses_incompatible_even_when_each_atom_attainable (test_g0_law_repair_20261116.LawCouplingControls.test_marginal_masses_incompatible_even_when_each_atom_attainable) ... ok
+test_nonzero_count_mass_cannot_exceed_positive_exposure_mass (test_g0_law_repair_20261116.LawCouplingControls.test_nonzero_count_mass_cannot_exceed_positive_exposure_mass) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 2.303s
+
+OK

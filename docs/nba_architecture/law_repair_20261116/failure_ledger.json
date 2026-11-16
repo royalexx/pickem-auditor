@@ -1,0 +1,59 @@
+{
+  "version": "1.2.0",
+  "independent_report": "INDEPENDENT_FAIL.txt",
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "HIGH",
+      "rejected_sha": "e1983b2d0b94742dfb1bf411694dc46c7cad1ac6",
+      "exact_invalid_inputs": [
+        "def test_f1_unattainable_minute_atom_rejected_at_all_boundaries(self):\n        c = coherent_case()\n        law(c['opportunity']['players'][0], [(0., .5), (48., .5)])\n        refresh(c)\n        for name, call in [\n            ('O', lambda: validate_opportunity(c['opportunity'], c['pregame'], c['game_state'])),\n            ('forecast', lambda: validate_forecast(c['points'], c['pregame'], g=c['game_state'], o=c['opportunity'], scenarios=c['scenarios'])),\n            ('C', lambda: validate_settlement(evaluation(c['points']), c['points'], c['pregame'], g=c['game_state'], o=c['opportunity'], scenarios=c['scenarios']))]:\n            with self.subTest(boundary=name):\n                with self.assertRaises(ContractError): call()"
+      ],
+      "original_behavior": "Accepted at the report boundaries; fresh red.log reproduces",
+      "required_behavior": "ContractError at O/full forecast/C for F1 and full forecast/C for F2",
+      "root_cause": "Individually normalized conditional laws were checked separately from the conserved joint pool.",
+      "repair_location": "exposure_v2.validate_exposure_coupling / _check_team; families_v2.validate_opportunity",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_law_repair_20261116.py::test_f1_unattainable_minute_atom_rejected_at_all_boundaries"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_law_repair_20261116.py::test_feasible_exchange_without_empirical_frequency_equality",
+        "tests/nba_architecture/test_g0_law_repair_20261116.py::test_exact_two_player_exchange_grid",
+        "tests/nba_architecture/test_g0_law_repair_20261116.py::test_empirical_joint_frequency_need_not_equal_law_mass"
+      ],
+      "final_status": "REPAIRED; exact-SHA author verification required; independent acceptance pending"
+    },
+    {
+      "id": "F2",
+      "severity": "HIGH",
+      "rejected_sha": "e1983b2d0b94742dfb1bf411694dc46c7cad1ac6",
+      "exact_invalid_inputs": [
+        "def test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c(self):\n        c = coherent_case()\n        for stat in sorted(STATS):\n            d = exposure_distribution(c, stat=stat)\n            q = original_offer(c['pregame']); q.update(player_id=d['player_id'], stat=stat); q=reseal(q)\n            v = offer_view(d,q,c['pregame'],'2026-11-16T23:04:00Z')\n            e = evaluation(d,v,actual=0,participation='PLAYED_ZERO_MINUTES')\n            with self.subTest(stat=stat,boundary='forecast'):\n                with self.assertRaises(ContractError):validate_forecast(d,c['pregame'],g=c['game_state'],o=c['opportunity'])\n            with self.subTest(stat=stat,boundary='C'):\n                with self.assertRaises(ContractError):validate_settlement(e,d,c['pregame'],g=c['game_state'],o=c['opportunity'],view=v,quote=q)"
+      ],
+      "original_behavior": "Accepted at the report boundaries; fresh red.log reproduces",
+      "required_behavior": "ContractError at O/full forecast/C for F1 and full forecast/C for F2",
+      "root_cause": "Hash/lineage joins did not constrain S_O count support using the opportunity law.",
+      "repair_location": "families_v2.validate_forecast; exposure_v2.positive_exposure_bound",
+      "negative_tests": [
+        "tests/nba_architecture/test_g0_law_repair_20261116.py::test_f2_all_eight_markets_zero_exposure_rejected_at_forecast_and_c"
+      ],
+      "positive_tests": [
+        "tests/nba_architecture/test_g0_law_repair_20261116.py::test_f2_zero_count_positive_counterparts_all_markets",
+        "tests/nba_architecture/test_g0_law_repair_20261116.py::test_conditional_and_unconditional_count_bounds_differ",
+        "tests/nba_architecture/test_g0_law_repair_20261116.py::test_empirical_s_o_interior_frequency_is_not_a_hard_endpoint"
+      ],
+      "final_status": "REPAIRED; exact-SHA author verification required; independent acceptance pending"
+    }
+  ],
+  "adjacent_classes_closed": [
+    "attainable atoms with incompatible marginal masses",
+    "unattainable tiny atoms with known/unknown participation",
+    "positive OT state dropped by solver tolerance",
+    "joint DNP state with zero compatible probability",
+    "analytic count constraint erasing observed support",
+    "inferred zero exposure despite positive counterfactual support"
+  ],
+  "debugging_false_alarm": "The initial implied-bound fixture left starter participation unknown. Its rejection expectation was incorrect; fixed certain-participation fixture and preserved valid unknown-participation counterpart are documented in DECISION.md.",
+  "unresolved_report_findings": [],
+  "independent_acceptance": false
+}
