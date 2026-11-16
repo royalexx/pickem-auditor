@@ -275,20 +275,15 @@ def settled_matches(afternoon,morning,day):
     return list(chosen.items())
 
 def population_rows(morning,day):
-    seen={}
-    for doc in morning:
-        receipt=doc.get("population_collection_receipt")
-        if not isinstance(receipt,dict) or receipt.get("status")!="complete":
-            raise ValueError("MORNING_SOURCES_INCOMPLETE_DO_NOT_UPDATE_POSTERIOR")
-        for row in doc.get("population",[]):
-            history.validate(row)
-            if row["game_date"]!=day:raise ValueError("POPULATION_GAME_DATE_CONFLICT")
-            key=(row["sport"],row["stat"],str(row["game_id"]),str(row["player_id"]))
-            prior=seen.get(key)
-            if prior is not None and prior!=row:
-                raise ValueError("CONFLICTING_DUPLICATE_POPULATION_OBSERVATION")
-            seen[key]=row
-    return [seen[k] for k in sorted(seen)]
+    """Validate all original completed-game rows before ANY posterior mutation.
+
+    Exact retried observations are idempotent; conflicting originals stay in
+    a content-addressed local rejection receipt and block the whole day.
+    Does not modify the connected NHL/NBA collectors or training parameters.
+    """
+    from population_replay_guard import enforce_population
+    return enforce_population(morning,day,validator=history.validate,
+        quarantine_dir=Path("reports/population_replay_quarantine"))
 
 def bootstrap_history(token, *,before,lookback_days=520):
     """Read verified 2024+ population shards from a PINNED historical Git commit.
