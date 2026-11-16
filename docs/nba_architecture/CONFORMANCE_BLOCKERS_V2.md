@@ -1,0 +1,16 @@
+# Live downstream conformance, inspected November 16, 2026
+
+Conformance is not assumed from passing old synthetic suites; this file enumerates the exact adapter bridges.
+
+| Owner | Inspected original implementation | Requirements for v2 adapter | Current decision |
+|---|---|---|---|
+| WS1 / P1 | PR #137 \`v2.nba_ws1\`, \`nba-pregame-feature-snapshot/1.0.0\`, hash-bearing source receipts | Original raw-source SHA and independently observed raw bytes; correct source profile; actual distinct \`retrieved_at\` and \`ingested_at\` without backdating; as-of historical prior dates; roster/quote source identity | BLOCKED: v1 WS1 receipt only supplies \`observed_at\` and \`source_available_at\`, not independently proven retrieval+ingestion times. Do not map unknown fields to those clocks |
+| S / P2 | Historical \`scripts/bayesian_engine.py\`, \`scripts/nba_prior_bridge.py\`, legacy A/B | Freeze full eight-market primitive/combination PMF by stat+player without any bookmaker requirement; carry trained-artifact manifest, error bounds and real fit cutoff | BLOCKED: prior-bridge is an early-season historical shadow, not a canonical v2 S distribution producer |
+| O / P3 | PR #138 \`v2/nba_opportunity.py\` M0/M1/M2; PR #142 P0 exclusions | Emit explicit legal eligibility/P1/P2 missingness, played-conditional minute law and scenario-keyed participation+exact minutes witness bound to G's scenario ID | BLOCKED: P1/P2 real participation unfitted, precise G scenario witness bridge not accepted; historical conditional M0 is reusable |
+| G/J / P4 | PR #140 \`v2/nba_joint\` J0/J1/J2 scenarios/physical ledger; Phase 6–8 | Populate v2 complete NBA stat vector (including shot/FT accounting), original G state ID and O immutable draw witnesses, full S conditional lineage, same-draw PR/PA/RA/PRA; provide physical invariants | BLOCKED: engine accepts separate v1 source/model structure and has no independent accepted S outcome model; historical J2 regression downstream validation only |
+| C / P5 | PR #139 \`research/nba_ws4\` baseline and readiness evaluator | Consume immutable v2 distribution IDs independently of offers; only derive original quote O/U/P when quote exists; reference official settlement with correction and DNP rules; protect retrospective study from fabricated line | BLOCKED: no version-2 bridge; v1 original contract evaluator assumes actual offered contract |
+| QA / P6 | PR #139 WS4 adversarial tests, v2 G0 suite | Independently constructed positive/negative vectors, schema and chronological as-of gates, exact file/branch SHA, signed technical decision | BLOCKED: no independent owner reviewer acceptance |
+
+Real original branches/heads: #137 53c01a9eabb9ed09b5c3186eae0d086b07bcc891; #138 02426dd1b9c2b0cca28eaf69888adadc0021afa5; #139 9821694260edb08b7414f02adea8c1fb3fd3b13c; #140 cdf926f56e86bc9d25576acff61fd6f091313159; Phases #141–#144 remain stacked drafts. Inspect their actual heads on resumption.
+
+These are interface conformance **blockers**, not synthetic-test failures. They do not preclude a G0 acceptance if a separate reviewer agrees the v2 contract is technically coherent and documented adapter gaps properly allocated to G1; they preclude any G1 or G2 claim.
