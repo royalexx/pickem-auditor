@@ -146,8 +146,8 @@ class P4JointTests(unittest.TestCase):
         for player in od["players"]:
             if player["minutes_law"]["parameters"]["support"][0]["minutes"] != 0:
                 player["minutes_law"]["parameters"]["support"] = [
-                    {"minutes": 48.0, "mass": 0.5},
-                    {"minutes": 53.0, "mass": 0.5}]
+                    {"minutes": 48.0, "mass": 0.6},
+                    {"minutes": 53.0, "mass": 0.4}]
         o2 = seal(od)
         j = simulate_p4(p, g2, o2, s, variant="J1", seed=42,
                         event_parameters=PARAMETERS)
@@ -164,8 +164,18 @@ class P4JointTests(unittest.TestCase):
         p, g, o, s = fixture()
         bad_g = reseal(g, lambda x:
                        x["scenarios"][0].update(overtime_periods=1))
-        self.error("O_INDEPENDENT_G_DRAW", simulate_p4,
+        self.error("O_G_SOURCE_JOIN", simulate_p4,
                    p, bad_g, o, s, event_parameters=PARAMETERS)
+
+    def test_o_law_incompatible_with_joint_team_minutes_rejected(self):
+        p, g, o, s = fixture()
+        def corrupt(x):
+            x["players"][0]["minutes_law"]["parameters"]["support"] = [
+                {"minutes": 47.0, "mass": 0.5},
+                {"minutes": 48.0, "mass": 0.5}]
+        bad = reseal(o, corrupt)
+        self.error("O_MINUTE_LAWS_INCOMPATIBLE", simulate_p4,
+                   p, g, bad, s, event_parameters=PARAMETERS)
 
     def test_pmfs_exactly_from_same_draw(self):
         pms = scenario_pmfs(self.j, self.p, frozen_at="2026-11-16T23:03:00Z",
