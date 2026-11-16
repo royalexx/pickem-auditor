@@ -1,0 +1,20 @@
+{
+  "record_type": "CURRENT_P0_G0_STATUS",
+  "date": "2026-11-16",
+  "P0": "GO_FOR_CONTRACT_ENGINEERING",
+  "G0": "INDEPENDENT_TECHNICAL_PASS",
+  "accepted_implementation_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "accepted_pr": 157,
+  "acceptance_receipt": "independent_acceptance_20261116/audit_receipt.json",
+  "acceptance_receipt_sha256": "a90dbe624b44013d6eaf03163726fcfe1cd9f7055b2d657a7d3fed100d3f519d",
+  "authorization_record": "G0_ACCEPTANCE_AND_DOWNSTREAM_AUTHORIZATION_20261116.json",
+  "P1_to_P6": "AUTHORIZED_TO_PROCEED_WITH_ENGINEERING_AND_CONFORMANCE_WORK",
+  "G1": "ACCEPTANCE_PENDING_FAMILY_EVIDENCE",
+  "G2": "PREPARATION_AUTHORIZED; INTEGRATED_ACCEPTANCE_REQUIRES_G1",
+  "P8_to_P11": "BLOCKED_PENDING_APPLICABLE_GATES_AND_SEPARATE_AUTHORIZATION",
+  "production": "NOT_AUTHORIZED",
+  "training_historical_scoring_weight_fitting_deployment": "NOT_AUTHORIZED_BY_THIS_RECORD",
+  "rejected_parent_sha": "e1983b2d0b94742dfb1bf411694dc46c7cad1ac6",
+  "rejected_parent_status": "FAIL_RETAINED",
+  "historical_receipts": "Preserve all earlier FAIL/BLOCKED and pre-review author receipts unchanged; use this current status for the accepted candidate."
+}

@@ -1,0 +1,27 @@
+{
+  "source_commit": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "independent_cases": 1305,
+  "matched": 1305,
+  "runs": [
+    {
+      "script": "prior_campaign.py",
+      "source_script_sha256": "5a4ac46e15a11e4b552c1df2db504918f8288de513d9fde1f4467913caa7c1ea",
+      "cases": 47,
+      "matched": 47
+    },
+    {
+      "script": "new_oracles.py",
+      "source_script_sha256": "7390cbe77843ff3b4fce6eb0280f229355bdadd1966c0cde88e423df44cfdc11",
+      "cases": 1060,
+      "matched": 1060
+    },
+    {
+      "script": "full_boundary_cases.py",
+      "source_script_sha256": "3153b20ea995331f45f1235ec9ed175e97b229c440237cf9b793e31633bf850b",
+      "cases": 198,
+      "matched": 198
+    }
+  ],
+  "implementation_changed": false,
+  "output_directory": "/workspace/work/publication-verification-157"
+}

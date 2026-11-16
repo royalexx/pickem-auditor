@@ -1,0 +1,9 @@
+{
+  "source_commit": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "seed": 15720261116,
+  "total_cases": 1060,
+  "expected_accept": 533,
+  "expected_reject": 527,
+  "matched": 1060,
+  "mismatches": []
+}

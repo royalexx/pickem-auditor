@@ -1,0 +1,29 @@
+{
+  "source_commit": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "dirty": "",
+  "core_raw_sha256": {
+    "v2/nba_architecture/exposure_v2.py": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+    "v2/nba_architecture/families_v2.py": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+    "v2/nba_architecture/v2_contracts.py": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+    "v2/nba_architecture/schema-2.0.0.json": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58"
+  },
+  "source_test_paths_compared": 24,
+  "all_source_test_hashes_match": true,
+  "old_preserved_paths": 93,
+  "registry_groups": 27,
+  "current_req_expressions": 75,
+  "current_check_inventory_exact_multiset": true,
+  "independent_checks": 1305,
+  "independent_expected_accept": 653,
+  "independent_expected_reject": 652,
+  "independent_mismatches": 0,
+  "freeze_to_head_diff": [
+    "docs/nba_architecture/law_repair_20261116/DECISION.md",
+    "docs/nba_architecture/law_repair_20261116/FREEZE.json",
+    "docs/nba_architecture/law_repair_20261116/exact-sha.log",
+    "docs/nba_architecture/law_repair_20261116/mutant-FORECAST_EXPOSURE.log",
+    "docs/nba_architecture/law_repair_20261116/mutant-O_COUPLING.log",
+    "docs/nba_architecture/law_repair_20261116/mutation_results.json",
+    "docs/nba_architecture/law_repair_20261116/receipt.json"
+  ]
+}

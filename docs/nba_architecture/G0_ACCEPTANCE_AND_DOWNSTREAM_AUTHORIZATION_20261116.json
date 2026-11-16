@@ -46,5 +46,5 @@
     "archives_notebooks_schedules": "PRESERVE; NO_OPERATIONAL_CHANGE_AUTHORIZED_BY_THIS_RECORD"
   },
   "contract_change_policy": "Substantive changes to the accepted contract require affected checks and renewed independent G0 review",
-  "publication_scope": "Local documentation branch only; no remote gate service or GitHub status changed"
+  "publication_scope": "User-authorized GitHub publication on a documentation-only branch, linked from current PR/issue statuses; reviewed implementation SHA remains unchanged."
 }
