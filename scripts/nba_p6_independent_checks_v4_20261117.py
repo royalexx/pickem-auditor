@@ -381,10 +381,20 @@ def incompatibility(a):
         classification='MATERIAL_VERSIONED_CONSTRAINED_LAW_REQUIRED_NOT_A_SOURCE_OR_SOFTWARE_CERTIFICATE',proposal_accepted=False)
 
 
+def discovery(a):
+    # Dedicated-suite PYTHONPATH may mask golden_v2 root import defects.
+    # Remove it before spawning the root-discovery regression and its children.
+    env=dict(os.environ,OPENBLAS_NUM_THREADS='1');env.pop('PYTHONPATH',None)
+    cmd=[sys.executable,'-m','unittest','discover','-s','tests','-p','test_nba_root_discovery_v4.py','-v']
+    r=subprocess.run(cmd,cwd=a.assembly,env=env,capture_output=True)
+    assert r.returncode==0,r.stdout.decode()+r.stderr.decode()
+    return dict(command=cmd,PYTHONPATH='UNSET',stdout=r.stdout.decode(),stderr=r.stderr.decode(),raw_stdout_sha256=sha(r.stdout),raw_stderr_sha256=sha(r.stderr),scope='Root IDs/imports and canonical NBA equality/duplicates only; unrelated test bodies not executed')
+
+
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--assembly',type=Path,required=True);ap.add_argument('--expected-assembly',default=ASSEMBLY);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--section',choices=['evidence','physical','scores','quarantine','cutoff','optimizer','native','joint','replay','incompatibility','all'],default='all');a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--assembly',type=Path,required=True);ap.add_argument('--expected-assembly',default=ASSEMBLY);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--section',choices=['evidence','physical','scores','quarantine','cutoff','optimizer','native','joint','replay','incompatibility','discovery','all'],default='all');a=ap.parse_args()
     sys.path[:0]=[str(a.assembly),str(a.assembly/'tests/nba_architecture')]
-    sections=['evidence','physical','scores','quarantine','cutoff','optimizer','native','joint','replay','incompatibility'] if a.section=='all' else [a.section]
+    sections=['evidence','physical','scores','quarantine','cutoff','optimizer','native','joint','replay','incompatibility','discovery'] if a.section=='all' else [a.section]
     result={'schema':'NBA_P6_INDEPENDENT_NEW_CHECKS_V4','qa_source_sha256':sha(Path(__file__).read_bytes()),'assembly':a.expected_assembly,'synthetic_only':True,'historical_outcomes_accessed':False,'sections':{}}
     for name in sections:
         try:result['sections'][name]={'status':'PASS','result':globals()[name](a)}

@@ -1,0 +1,8 @@
+{
+  "sha": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+  "test_objects": 1878,
+  "import_errors": [],
+  "error_count": 0,
+  "scope": "Import/discovery only; unrelated test bodies not executed",
+  "expected_error_count": 10
+}
