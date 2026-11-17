@@ -14,7 +14,7 @@ import types
 from v2.nba_architecture.v2_contracts import req
 
 ROOT = Path(__file__).resolve().parents[2]
-FIXTURES = ROOT / 'research/nba_p4_latest/fixtures'
+FIXTURES = ROOT / 'research/nba_p4_latest/fixtures_v2'
 REGISTRY = ROOT / 'research/nba_p4_latest/upstream_registry.json'
 
 

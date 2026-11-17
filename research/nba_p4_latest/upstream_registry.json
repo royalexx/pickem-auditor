@@ -12,11 +12,11 @@
   },
   "owners": {
     "P2": {
-      "commit": "a3513bdb5e557afce2c720a47458327c668b04ec",
+      "commit": "ac51a6263fd7993c467527e421dbf7c720082baf",
       "files": {
         "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
         "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
-        "v2/nba_s_family/model.py": "6cb9cf0616bdbdcd70d1bed9fb67ad4b727eca373cc8a1d48de51dc3a452333d"
+        "v2/nba_s_family/model.py": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6"
       }
     },
     "P3": {

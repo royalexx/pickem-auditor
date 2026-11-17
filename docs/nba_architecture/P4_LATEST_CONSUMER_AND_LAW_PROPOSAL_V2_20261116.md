@@ -66,6 +66,15 @@ their finite empirical support is not a claimed bound on the underlying
 Gamma-Poisson tail. P2 finite serialization tail bounds remain attached to
 the separate source laws and are not misapplied to J's approximation error.
 
+Exhausted executions raise the original typed `ContractError`, with an added
+sealed `failure_receipt` attribute. It records input hashes, seed, scenario,
+player where applicable, all rejected rate pairs and exact attempt counts,
+all available event counts/ledgers, and `FAILED_NO_J_RESULT_PUBLISHED`.
+The single and repeated-seed benchmark CLIs persist this receipt to a
+create-only file. A failed repeated-seed run retains its completed raw prefix
+with explicit failure status and publishes no successful pooled PMF summary.
+Budget limits, errors and model sampling laws were not weakened.
+
 ## Mathematical impossibility and distortion evidence
 
 An arbitrary pair of S marginals cannot always be physically preserved by

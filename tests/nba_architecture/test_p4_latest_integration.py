@@ -81,6 +81,14 @@ class LatestIntegrationTests(unittest.TestCase):
             artifacts['points']=p2.FittedS(p2.canonical(a))
             x=list(self.inputs);x[4]=artifacts;self.reject(x)
 
+    def test_prior_fixture_artifacts_remain_preserved_and_fail_current_code_pin(self):
+        p2,_=load_upstream(self.root)
+        original=FIXTURES.parent/'fixtures'/'points.json'
+        old=p2.FittedS(original.read_bytes())
+        self.assertNotEqual(old.data['code_sha256'],self.inputs[4]['points'].data['code_sha256'])
+        x=list(self.inputs);x[4]=dict(x[4]);x[4]['points']=old
+        self.reject(x)
+
     def test_raw_sources_and_ancestor_population_cannot_self_hash(self):
         for name in ('raw_sources.json','context.raw'):
             with self.subTest(name=name),tempfile.TemporaryDirectory() as d:
@@ -256,6 +264,48 @@ print(json.dumps(x['scenario_hashes'],sort_keys=True))
         self.assertEqual(len(result['bundle']['scenarios']),8)
         self.assertTrue(validate_integration(result['bundle'],*inputs[:3]))
         self.assertAlmostEqual(sum(x['weight'] for x in result['bundle']['scenarios']),1.)
+
+    def test_legal_eleven_ot_current_owner_contract_has_no_arbitrary_100_minute_cap(self):
+        from v2.nba_architecture.v2_contracts import seal
+        p,g,*_=self.inputs
+        data=json.loads((FIXTURES/'inputs.json').read_bytes())
+        high=deepcopy(g);high.pop('content_hash')
+        high['scenarios']=[dict(high['scenarios'][0],overtime_periods=11,weight=1.)]
+        high=seal(high)
+        _,p3=load_upstream(self.root)
+        priors=deepcopy(data['priors'])
+        o,side=p3.build_opportunity(p,high,priors,model=data['O_model'],seed=17,variant='O2',
+            home_team_id=p['team_ids'][0],home_team_source_receipt_sha256=p['sources'][0]['receipt_sha256'])
+        x=[p,high,o,side,*self.inputs[4:]]
+        result=self.run_inputs(x)
+        self.assertEqual(result['bundle']['scenarios'][0]['overtime_periods'],11)
+        p2,_=load_upstream(self.root)
+        direct=p2.predict_conditional(self.inputs[4]['points'],
+            player_id=p['players'][0]['player_id'],role=self.inputs[6][p['players'][0]['player_id']],
+            projected_exposure=103.,statistic='points')
+        self.assertIsNone(direct.abstain_reason)
+
+    def test_latest_dnp_played_zero_and_early_exit_total_cap_remain_distinct(self):
+        for status in ('DNP','PLAYED_ZERO_MINUTES'):
+            def change(priors):
+                for pid in ('espn:player:15','espn:player:25'):
+                    priors[pid]['scenario_participation_prior']=0. if status=='DNP' else 1.
+                    priors[pid]['played_zero_probability']=1. if status=='PLAYED_ZERO_MINUTES' else 0.
+            inputs=build(self.root,special=change);result=self.run_inputs(inputs)
+            for sc in result['bundle']['scenarios']:
+                for row in sc['players']:
+                    if row['player_id'] in ('espn:player:15','espn:player:25'):
+                        self.assertEqual(row['participation'],status)
+                        self.assertEqual(row['minutes'],0.)
+                        self.assertTrue(all(value==0 for value in row['stats'].values()))
+        inputs=build(self.root,special=lambda priors:priors['espn:player:10'].update(
+            early_exit_probability=1.))
+        result=self.run_inputs(inputs)
+        for sc in result['bundle']['scenarios']:
+            player=next(x for x in sc['players'] if x['player_id']=='espn:player:10')
+            self.assertLessEqual(player['minutes'],.25*(48+5*sc['overtime_periods'])+1e-9)
+        self.assertEqual(result['integration_manifest']['physical_chronology'],
+                         'AGGREGATE_ONLY_NOT_EVENT_TIME_OR_TIED_OT')
 
     def test_rate_budget_failure_preserves_every_rejected_pair_and_denominator(self):
         # Forced branch coverage only; ordinary positive execution uses actual P2.

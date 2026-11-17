@@ -20,9 +20,9 @@ from research.nba_p4_latest.benchmark import PARAMETERS
 from research.nba_p4_latest.fixture import build
 from v2.nba_architecture.v2_contracts import ContractError, digest
 from v2.nba_joint.integration_v2 import simulate_latest
-from v2.nba_joint.latest_upstream import ROOT, REGISTRY, load_upstream, prepare, raw_sha
+from v2.nba_joint.latest_upstream import ROOT, REGISTRY, load_upstream, prepare, raw_sha, registry
 
-PLAN = ROOT/'research/nba_p4_latest/repeated_seed_plan_v1.json'
+PLAN = ROOT/'research/nba_p4_latest/repeated_seed_plan_v2.json'
 STATS = ('points','rebounds','assists','threes')
 
 
@@ -57,9 +57,15 @@ def full_count_laws(inputs,p2):
 
 def plan():
     root=prepare();inputs=build(root);p,g,o,side,artifacts,*_=inputs
-    return {'schema':'NBA-P4-actual-map-repeated-seed-plan/1.0.0',
+    pins=registry()
+    return {'schema':'NBA-P4-actual-map-repeated-seed-plan/1.1.0',
         'evidence':'SYNTHETIC_ENGINEERING_ONLY','observed_games':0,
-        'upstream_registry_raw_sha256':raw_sha(REGISTRY.read_bytes()),
+        'preregistration_registry_raw_sha256':raw_sha(REGISTRY.read_bytes()),
+        'preregistration_owner_core_commits':{k:v['commit'] for k,v in pins['owners'].items()},
+        'executable_source_hashes':{k:v['files'] for k,v in pins['owners'].items()},
+        'inherited_g0_files':pins['inherited_g0_files'],
+        'reused_owner_files':pins['reused_owner_files'],
+        'metadata_successor_policy':'Only owner commit metadata may advance when all consumed executable bytes and fixed inputs match; executed registry retained separately.',
         'pregame_sha256':p['content_hash'],'G_sha256':g['content_hash'],
         'O_sha256':o['content_hash'],'O_sidecar_sha256':side['content_hash'],
         'artifacts':{k:a.artifact_sha256 for k,a in artifacts.items()},
@@ -92,7 +98,10 @@ def cluster_moments(samples):
 
 def run(output):
     declared=json.loads(PLAN.read_bytes())
-    if plan()!=declared:raise RuntimeError('PREDECLARED_INPUT_PLAN_MISMATCH')
+    current=plan()
+    metadata={'preregistration_registry_raw_sha256','preregistration_owner_core_commits'}
+    if {k:v for k,v in current.items() if k not in metadata}!={k:v for k,v in declared.items() if k not in metadata}:
+        raise RuntimeError('PREDECLARED_INPUT_PLAN_MISMATCH')
     output.mkdir(parents=True,exist_ok=False)
     root=prepare();inputs=build(root);p,g,o,side,artifacts,*_=inputs;p2,_=load_upstream(root)
     targets=full_count_laws(inputs,p2)
@@ -181,6 +190,8 @@ def run(output):
                 'batch_TV_interpretation':'independent smaller-batch diagnostic spread; not a confidence interval for pooled TV',
                 'TV_uncertainty':'descriptive finite-ensemble estimate; sampling bias not removed'})
     summary={'schema':'NBA-P4-actual-map-repeated-seed-result/1.0.0','plan':declared,
+        'executed_owner_registry':registry(),
+        'executed_registry_raw_sha256':raw_sha(REGISTRY.read_bytes()),
         'exact_tested_P4_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         'elapsed_seconds':time.perf_counter()-started,'observed_games':0,
         'independent_J_seed_repetitions':len(declared['seeds']),
