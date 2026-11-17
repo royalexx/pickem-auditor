@@ -89,6 +89,24 @@ class LatestIntegrationTests(unittest.TestCase):
         x=list(self.inputs);x[4]=dict(x[4]);x[4]['points']=old
         self.reject(x)
 
+    def test_dated_historical_team_role_change_is_valid_without_rewriting_history(self):
+        from research.nba_p4_latest.post_trade_fixture import create
+        with tempfile.TemporaryDirectory() as d:
+            profile=Path(d)/'new_synthetic_profile';inputs=create(self.root,profile)
+            with patch('v2.nba_joint.integration_v2.FIXTURES',profile):
+                result=self.run_inputs(inputs)
+            self.assertTrue(validate_integration(result['bundle'],*inputs[:3]))
+            old=inputs[4]['points'].data['training_rows'][0]
+            self.assertEqual(old['team_id'],'espn:team:former')
+            self.assertEqual(old['role'],'previous_role')
+            current=next(x for x in inputs[0]['players'] if x['player_id']==old['player_id'])
+            self.assertNotEqual(current['team_id'],old['team_id'])
+            # Wrong dated membership still rejects even in this explicitly
+            # synthetic profile; current target identity is not a substitute.
+            bad=list(inputs);bad[5]=deepcopy(inputs[5])
+            bad[5][old['source_receipt_sha256']]['games'][old['game_id']]['players'][old['player_id']]='espn:team:wrong'
+            with patch('v2.nba_joint.integration_v2.FIXTURES',profile):self.reject(bad)
+
     def test_raw_sources_and_ancestor_population_cannot_self_hash(self):
         for name in ('raw_sources.json','context.raw'):
             with self.subTest(name=name),tempfile.TemporaryDirectory() as d:

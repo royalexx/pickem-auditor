@@ -111,8 +111,10 @@ def validate_artifacts(p, artifacts, manifest, roles, *, evidence_mode):
                 'J2_TRAINING_DURATION_WITNESS')
         for player in p['players']:
             own = [r for r in a['training_rows'] if r['player_id'] == player['player_id']]
-            req(own and all(r['team_id'] == player['team_id'] and
-                r['role'] == roles[player['player_id']] for r in own), 'J2_PLAYER_TEAM_ROLE_JOIN')
+            # Historical team and role are dated training observations. Their
+            # source-bound membership above must not be replaced by today's
+            # team/role, which are independently pinned in the target roster.
+            req(bool(own), 'J2_PLAYER_HISTORY_MISSING')
     return True
 
 
