@@ -188,3 +188,18 @@ class IntegerSourceAccountingTests(unittest.TestCase):
         for stats in [dict(points=1,fieldGoalsAttempted=1,threePointersAttempted=0),dict(points=2,fieldGoalsAttempted=1,threePointersAttempted=0,freeThrowsMade=0),dict(points=11,reboundsTotal=2,reboundsOffensive=2)]:
             x=self.raw_stats(stats);r=self.inspect(x)
             self.assertEqual(r['status'],'BLOCKED');self.assertEqual(r['preserved_export']['exposure']['stats'],x['exposure']['stats'])
+
+
+class RawZeroDisplayRegressionTests(ExactSourceMinuteTests):
+    def test_raw_zero_credit_rejects_every_positive_display_and_retained_subset(self):
+        for display in (0, 5e-324, 1e-18, .25, .5):
+            for subset in (False, True):
+                x=self.minutes_export('PT0M0S',display)
+                if subset:x['exposure']['stats']={'threes':x['exposure']['stats']['threes']}
+                with self.subTest(display=display,subset=subset), self.assertRaisesRegex(SFError,'ZERO_MINUTE_CREDIT_UNRESOLVED'):
+                    inspect_p1_export(x,pregame=self.pregame(),stat='threes' if subset else 'points')
+
+    def test_positive_raw_underflow_is_still_rounded_not_true_zero(self):
+        x=self.minutes_export('PT0M0.'+'0'*399+'1S',0)
+        self.assertEqual(x['exposure']['exact_minutes'],0.)
+        self.assertEqual(self.inspect(x)['denominator']['structurally_checked'],1)

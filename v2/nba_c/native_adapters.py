@@ -172,7 +172,7 @@ def _accounting(record,node):
              "NATIVE_NONPARTICIPATION_POSITIVE_CREDIT")
         if "minutes" in rawstats:
             _req(_minute_string(rawstats["minutes"])==0,"NATIVE_NONPARTICIPATION_POSITIVE_MINUTES")
-        return game["gameTimeUTC"],None
+        return game["gameTimeUTC"],None,"NONPARTICIPATION_OR_UNKNOWN"
     _req(person.get("played")=="1","NATIVE_OFFICIAL_PARTICIPATION")
     stats=person["statistics"];exact=_minute_string(stats["minutes"])
     displayed=record["minutes"]
@@ -193,14 +193,16 @@ def _accounting(record,node):
     _box_stats(record["stats"])
     _req(all(type(value) is int and value>=0 and normalized.get(key)==value
              for key,value in record['stats'].items()),"NATIVE_OFFICIAL_STAT_JOIN")
-    if displayed==0 and any(record['stats'].values()):
+    if displayed==0 and any(normalized.values()):
         _req(0<exact<Fraction(1,2),"NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED")
     else:
         _req(displayed>=0 and abs(Fraction(str(displayed))-exact)<=Fraction(1,2),
              "NATIVE_OFFICIAL_MINUTE_JOIN")
     _req((record["state"]=="PLAYED_ZERO_MINUTES" and displayed==0) or
          (record["state"]=="PLAYED" and displayed>0),"NATIVE_PARTICIPATION_MINUTE_JOIN")
-    return game["gameTimeUTC"],float(exact)
+    return (game["gameTimeUTC"],float(exact),
+            "ADJUDICATED_ROUNDED_SUBMINUTE" if displayed==0 and any(normalized.values())
+            else "OFFICIAL_BOX_RECONCILED")
 
 
 def validate_p1_export(export, *, outcome=False):
@@ -288,7 +290,7 @@ def validate_p1_export(export, *, outcome=False):
         previous = record["content_hash"]
         latest_exact=None
         if revision["accounting_evidence"] is not None:
-            start,latest_exact=_accounting(record,revision["accounting_evidence"])
+            start,latest_exact,_=_accounting(record,revision["accounting_evidence"])
             _req(event_start is None or instant(start)==instant(event_start),
                  "NATIVE_OUTCOME_EVENT_START_CONFLICT")
             event_start=start
@@ -423,15 +425,12 @@ class NativeForecastArchive:
             def descriptor(item):
                 return {"capture":item["capture"],"prior":[descriptor(x) for x in item["prior"]]}
             state=("PLAYED_ZERO_MINUTES" if exposure["displayed_minutes"]==0 else "PLAYED") if exposure["participation"]=="played" else "DNP" if exposure["participation"]=="dnp" else "UNRESOLVED"
-            _,exact=_accounting({"accounting_evidence":descriptor(node),
+            _,exact,accounting_status=_accounting({"accounting_evidence":descriptor(node),
                 "source_raw_sha256":node["capture"]["raw_sha256"],
                 "observed_at":export["clocks"]["ingested_at"],"game_id":game_id,
                 "player_id":exposure["player_id"],"team_id":exposure["team_id"],
                 "state":state,"minutes":exposure["displayed_minutes"],"stats":exposure["stats"]},node)
             _req(exposure["exact_minutes"]==exact,"NATIVE_PRIOR_EXACT_MINUTE_JOIN")
-            accounting_status=("NONPARTICIPATION_OR_UNKNOWN" if exact is None else
-                "ADJUDICATED_ROUNDED_SUBMINUTE" if exposure["displayed_minutes"]==0 and
-                any(exposure["stats"].values()) else "OFFICIAL_BOX_RECONCILED")
             _req(exposure["accounting_status"]==accounting_status,"NATIVE_PRIOR_ACCOUNTING_STATUS_JOIN")
             _req(game_id!=pregame["game_id"] and
                  instant(game["gameTimeUTC"])<cutoff,"NATIVE_TARGET_OR_POST_CUTOFF_SOURCE")
