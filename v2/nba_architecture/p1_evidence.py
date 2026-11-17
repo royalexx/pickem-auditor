@@ -7,6 +7,7 @@ No original historical availability timestamp is inferred from a game date.
 from datetime import date
 from fractions import Fraction
 import hashlib
+import math
 import re
 from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
@@ -132,6 +133,18 @@ def adjudicate_player(data, bundle):
     A zero integer display can represent <30 seconds. Exact zero with positive
     credits remains unresolved: the box alone cannot explain dead-ball credit.
     """
+    # Direct native consumers bypass the normalized-history builder. Enforce
+    # the same participation/count/minute invariants at this shared boundary.
+    from .p1_history import _stats
+    if data.get('participation') not in ('played', 'dnp', 'unknown'):
+        _fail('INVALID_DNP_STATUS')
+    _stats(data['stats'])
+    if data['participation'] == 'played':
+        displayed = data['minutes']
+        if type(displayed) not in (int, float) or not math.isfinite(displayed) or displayed < 0:
+            _fail('INVALID_MINUTES')
+    elif data['minutes'] is not None or data['stats']:
+        _fail('DNP_UNKNOWN_NOT_ZERO')
     d = duration(bundle, game_id=data['game_id'], game_date=data['game_date'])
     g = _capture(bundle)
     teams = {'nba:team:' + str(g[k]['teamId']): g[k] for k in ('homeTeam', 'awayTeam')}
@@ -142,30 +155,38 @@ def adjudicate_player(data, bundle):
     if len(people) != 1 or people[0][0] != data['team_id']:
         _fail('OFFICIAL_PLAYER_TEAM_CONFLICT')
     p = people[0][1]
+    s = p.get('statistics', {})
+    if not isinstance(s, dict):
+        _fail('OFFICIAL_STAT_CONFLICT')
+    normalized = {k: s[v] for k, v in STAT_KEYS.items() if v in s}
+    _stats(normalized)
     if data['participation'] != 'played':
         # Nonparticipation evidence must be explicit; absence is not a DNP.
-        if data['participation'] == 'dnp' and p.get('played') != '0':
-            _fail('OFFICIAL_DNP_CONFLICT')
+        allowed = ('0',) if data['participation'] == 'dnp' else (None, 'unknown')
+        if p.get('played') not in allowed:
+            _fail('OFFICIAL_PARTICIPATION_CONFLICT')
+        source_minutes = seconds(s['minutes']) if 'minutes' in s else 0
+        if source_minutes != 0 or any(normalized.values()):
+            _fail('OFFICIAL_NONPARTICIPATION_CREDIT_UNRESOLVED')
         return d, None, 'NONPARTICIPATION_OR_UNKNOWN'
     if p.get('played') != '1':
         _fail('OFFICIAL_PARTICIPATION_CONFLICT')
-    s = p.get('statistics', {})
     exact = seconds(s.get('minutes')) / 60
     if exact > d['duration_minutes']:
         _fail('PLAYER_MINUTES_EXCEED_GAME_DURATION')
-    normalized = {k: s[v] for k, v in STAT_KEYS.items() if v in s}
     for combo, keys in {'pr': ('points', 'rebounds'), 'pa': ('points', 'assists'),
                         'ra': ('rebounds', 'assists'), 'pra': ('points', 'rebounds', 'assists')}.items():
         if all(k in normalized for k in keys):
             normalized[combo] = sum(normalized[k] for k in keys)
-    from .p1_history import _stats
     _stats(normalized)
     if any(k not in normalized or normalized[k] != v for k, v in data['stats'].items()):
         _fail('OFFICIAL_STAT_CONFLICT')
     displayed = data['minutes']
     if displayed > d['duration_minutes']:
         _fail('PLAYER_MINUTES_EXCEED_GAME_DURATION')
-    if displayed == 0 and any(data['stats'].values()):
+    if exact == 0 and any(normalized.values()):
+        _fail('ZERO_MINUTE_CREDIT_UNRESOLVED')
+    if displayed == 0 and any(normalized.values()):
         if not 0 < exact < Fraction(1, 2):
             _fail('ZERO_MINUTE_CREDIT_UNRESOLVED')
         status = 'ADJUDICATED_ROUNDED_SUBMINUTE'
