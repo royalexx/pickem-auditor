@@ -1,0 +1,50 @@
+{
+  "all_pass": true,
+  "assembly": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+  "historical_outcomes_accessed": false,
+  "qa_source_sha256": "51f38a9b4c8de80529a7bb3f0706b1645130f6168fa05705c041d1856d72adbd",
+  "schema": "NBA_P6_INDEPENDENT_NEW_CHECKS_V4",
+  "sections": {
+    "native": {
+      "result": {
+        "attacks": [
+          {
+            "attack": "forged_auth",
+            "rejection": "O_P1_NATIVE_RAW_SUMMARY_MISMATCH"
+          },
+          {
+            "attack": "posterior_frequency",
+            "rejection": "O_P1_NATIVE_RAW_SUMMARY_MISMATCH"
+          },
+          {
+            "attack": "resealed_team",
+            "rejection": "O_P1_NATIVE_RAW_SUMMARY_MISMATCH"
+          },
+          {
+            "attack": "one_microsecond_postfreeze",
+            "rejection": "O_P1_NATIVE_POSTFREEZE_OR_BACKDATED"
+          },
+          {
+            "attack": "false_full_population",
+            "rejection": "O_P1_NATIVE_DENOMINATOR_TYPE"
+          },
+          {
+            "attack": "bool_candidates",
+            "rejection": "O_P1_NATIVE_DENOMINATOR_TYPE"
+          },
+          {
+            "attack": "numeric_eligibility",
+            "rejection": "O_P1_NATIVE_SUMMARY_STATE_TYPE"
+          },
+          {
+            "attack": "wrong_raw_ancestry",
+            "rejection": "O_P1_NATIVE_RAW_SHA"
+          }
+        ],
+        "positive_unknown_preserved": true
+      },
+      "status": "PASS"
+    }
+  },
+  "synthetic_only": true
+}

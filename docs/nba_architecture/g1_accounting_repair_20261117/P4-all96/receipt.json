@@ -1,0 +1,16 @@
+{
+  "all_G0_bundles_validated": true,
+  "all_combos_same_draw": true,
+  "all_masses_normalized": true,
+  "analysis_source_sha256": "8bcd0ed59670eee534c057bddcf9a9efb5d4d49241df3d9150f4707b6dd4be16",
+  "independent_acceptance": false,
+  "observed_games": 0,
+  "pmf_raw_sha256": "58ca6665379b0b7d8a1439d94d83e6627b297ca385e6e7c9a21d1afc3ae27ff4",
+  "pmfs": 96,
+  "producer_P4_commit": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+  "raw_output_gzip_sha256": "23c64bb4fb54463ec067ab1b143c7e696f72c83d19045731901d7338b0bf21d9",
+  "raw_output_uncompressed_sha256": "7f789700293497c8606c6d5f4bcb488374bcaeef610276c5eb23c4f275bead45",
+  "scope": "POOLED_SYNTHETIC_ENGINEERING_J_REPETITIONS_NOT_A_FORECAST",
+  "seed_repetitions": 256,
+  "weighted_paths": 1024
+}

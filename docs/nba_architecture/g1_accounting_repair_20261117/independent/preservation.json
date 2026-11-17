@@ -1,0 +1,48 @@
+{
+  "base": "6dee6e09fa786479dc2e163a33e14257f207b35e",
+  "head": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+  "changed_files": [
+    {
+      "path": "research/nba_p4_latest/upstream_registry.json",
+      "before_sha256": "ecbf09c79e68954dce34108a9ff6dc454adcadcd65f50df9391e4e8e3feb99b0",
+      "after_sha256": "dc2c9047be112e2fee9c12aa3e81f01a6ac7709716c59701fdebcde9abc70f55"
+    },
+    {
+      "path": "scripts/nba_g1_repair_hidden_credit_rounding_adversary_20261117.py",
+      "before_sha256": null,
+      "after_sha256": "2ceb04c77c6aa55930c462549569944456adebc4f1cab501aadc0686b708b722"
+    },
+    {
+      "path": "scripts/nba_g1_repair_raw_display_matrix_20261117.py",
+      "before_sha256": null,
+      "after_sha256": "7371674182374b37fbaf3e4f0c6bb73955b1387e65257688e15a2df6e827967a"
+    },
+    {
+      "path": "scripts/nba_g1_repair_rounding_status_alias_adversary_20261117.py",
+      "before_sha256": null,
+      "after_sha256": "4c72d0460d556ea67bce7ed29a452134027a29e5cb20f8536c0bc1df934062a8"
+    },
+    {
+      "path": "scripts/nba_g1_repair_true_zero_display_adversary_20261117.py",
+      "before_sha256": null,
+      "after_sha256": "ae973e32512ea7f9621bcbfd387ed59768c78af192a3ffd8f1cdd5b0c3c307b4"
+    },
+    {
+      "path": "tests/nba_s_family/test_p1_native_v1.py",
+      "before_sha256": "7dbfada90c51f1fdb435591ac2a9d600fb11e60b687cda54cd9ed7a463ed1044",
+      "after_sha256": "671c068754b7d51712fbae106d1075617a0dfddb4f75e9ef60824a2f87aedcb3"
+    },
+    {
+      "path": "v2/nba_c/native_adapters.py",
+      "before_sha256": "a875ca2d819879ce0ace1083599780d42db7942a3aca4dd88bc08fb2eabed5e8",
+      "after_sha256": "cf8b316d20d3e2ed19c367765cccf931cea0c17a6d55ab8ab007bd0af2d74071"
+    },
+    {
+      "path": "v2/nba_s_family/p1_native.py",
+      "before_sha256": "372af3be16c33437272d9ee63bf37b18c581962c7566c4f64827961259e5bcc1",
+      "after_sha256": "b8bd5ac386f7358d7a913ec28e2d56ab799ef4da04ec0f7ad4958c2a2aa2399a"
+    }
+  ],
+  "canonical_G0_implementation_changed": false,
+  "audit_report_and_red_packet_changed": false
+}

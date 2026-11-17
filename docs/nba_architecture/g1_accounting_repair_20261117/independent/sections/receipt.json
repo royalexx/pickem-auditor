@@ -1,0 +1,162 @@
+[
+  {
+    "section": "physical",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/nba-remediation/scripts/nba_p6_independent_checks_v4_20261117.py",
+      "--assembly",
+      "/workspace/p6-reviewed",
+      "--expected-assembly",
+      "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "--section",
+      "physical",
+      "--output",
+      "/workspace/nba-proof/independent/sections/physical.json"
+    ],
+    "exit": 0
+  },
+  {
+    "section": "scores",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/nba-remediation/scripts/nba_p6_independent_checks_v4_20261117.py",
+      "--assembly",
+      "/workspace/p6-reviewed",
+      "--expected-assembly",
+      "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "--section",
+      "scores",
+      "--output",
+      "/workspace/nba-proof/independent/sections/scores.json"
+    ],
+    "exit": 0
+  },
+  {
+    "section": "quarantine",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/nba-remediation/scripts/nba_p6_independent_checks_v4_20261117.py",
+      "--assembly",
+      "/workspace/p6-reviewed",
+      "--expected-assembly",
+      "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "--section",
+      "quarantine",
+      "--output",
+      "/workspace/nba-proof/independent/sections/quarantine.json"
+    ],
+    "exit": 0
+  },
+  {
+    "section": "cutoff",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/nba-remediation/scripts/nba_p6_independent_checks_v4_20261117.py",
+      "--assembly",
+      "/workspace/p6-reviewed",
+      "--expected-assembly",
+      "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "--section",
+      "cutoff",
+      "--output",
+      "/workspace/nba-proof/independent/sections/cutoff.json"
+    ],
+    "exit": 0
+  },
+  {
+    "section": "optimizer",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/nba-remediation/scripts/nba_p6_independent_checks_v4_20261117.py",
+      "--assembly",
+      "/workspace/p6-reviewed",
+      "--expected-assembly",
+      "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "--section",
+      "optimizer",
+      "--output",
+      "/workspace/nba-proof/independent/sections/optimizer.json"
+    ],
+    "exit": 0
+  },
+  {
+    "section": "native",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/nba-remediation/scripts/nba_p6_independent_checks_v4_20261117.py",
+      "--assembly",
+      "/workspace/p6-reviewed",
+      "--expected-assembly",
+      "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "--section",
+      "native",
+      "--output",
+      "/workspace/nba-proof/independent/sections/native.json"
+    ],
+    "exit": 0
+  },
+  {
+    "section": "joint",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/nba-remediation/scripts/nba_p6_independent_checks_v4_20261117.py",
+      "--assembly",
+      "/workspace/p6-reviewed",
+      "--expected-assembly",
+      "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "--section",
+      "joint",
+      "--output",
+      "/workspace/nba-proof/independent/sections/joint.json"
+    ],
+    "exit": 0
+  },
+  {
+    "section": "replay",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/nba-remediation/scripts/nba_p6_independent_checks_v4_20261117.py",
+      "--assembly",
+      "/workspace/p6-reviewed",
+      "--expected-assembly",
+      "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "--section",
+      "replay",
+      "--output",
+      "/workspace/nba-proof/independent/sections/replay.json"
+    ],
+    "exit": 0
+  },
+  {
+    "section": "incompatibility",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/nba-remediation/scripts/nba_p6_independent_checks_v4_20261117.py",
+      "--assembly",
+      "/workspace/p6-reviewed",
+      "--expected-assembly",
+      "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "--section",
+      "incompatibility",
+      "--output",
+      "/workspace/nba-proof/independent/sections/incompatibility.json"
+    ],
+    "exit": 0
+  },
+  {
+    "section": "discovery",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/nba-remediation/scripts/nba_p6_independent_checks_v4_20261117.py",
+      "--assembly",
+      "/workspace/p6-reviewed",
+      "--expected-assembly",
+      "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "--section",
+      "discovery",
+      "--output",
+      "/workspace/nba-proof/independent/sections/discovery.json"
+    ],
+    "exit": 0
+  }
+]

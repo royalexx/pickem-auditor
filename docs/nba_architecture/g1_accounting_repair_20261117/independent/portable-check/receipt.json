@@ -1,0 +1,65 @@
+{
+  "schema": "NBA_P6_PORTABLE_REPAIR_REVIEW_V1",
+  "candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+  "audit_source": "b7ca2899ab8d902cda62bfb802ab74dcb5598a30",
+  "commands": [
+    {
+      "label": "expanded",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/nba-proof/independent/expanded_matrix.py",
+        "--assembly",
+        "/workspace/p6-reviewed",
+        "--output",
+        "/workspace/nba-proof/independent/portable-check/expanded.json"
+      ],
+      "exit": 0,
+      "stdout_sha256": "cbc61a73cdd227b2bd36f53e268ace59eda706dae6d84a986a89323a0085c8c0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "matrix",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/nba-remediation/scripts/nba_p6_raw_display_matrix_20261117.py",
+        "--assembly",
+        "/workspace/p6-reviewed",
+        "--output",
+        "/workspace/nba-proof/independent/portable-check/matrix.json"
+      ],
+      "exit": 0,
+      "stdout_sha256": "137e0eb760cb89094ba2ed48ba18960c51dc3955af175202ad5efbbb2a552e8a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "public",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/nba-remediation/scripts/nba_p6_hidden_credit_rounding_adversary_20261117.py",
+        "--assembly",
+        "/workspace/p6-reviewed",
+        "--output",
+        "/workspace/nba-proof/independent/portable-check/public.json"
+      ],
+      "exit": 0,
+      "stdout_sha256": "9f91cce68a34eff95d324ab366b88bb980c647a2d9fcadba75e3e4554a4f3ffb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "status",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/nba-remediation/scripts/nba_p6_rounding_status_alias_adversary_20261117.py",
+        "--assembly",
+        "/workspace/p6-reviewed",
+        "--output",
+        "/workspace/nba-proof/independent/portable-check/status.json"
+      ],
+      "exit": 0,
+      "stdout_sha256": "52c30bff24cd4267c526d583d9721ede9eadedeff1ce6b90d7346f2a3178f625",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_sha256": "0dc5437ff41248a8da540d424063b09f6bbf8e50b35b865e2c6ce9c76da2e103",
+  "all_pass": true
+}
