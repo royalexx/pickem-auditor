@@ -199,3 +199,55 @@ class ContextTests(unittest.TestCase):
         replay(p,g,result['opportunity'],result['sidecar'])
         self.assertEqual(result['status'],'SHADOW_NOT_CERTIFIED')
         self.assertTrue(all(x['participation_probability'] is None for x in result['opportunity']['players']))
+
+
+class AdditionalAdversarialTests(unittest.TestCase):
+    def test_offer_receipt_cannot_support_participation(self):
+        p,g,a=inputs();row=next(iter(a.values()))
+        row['source_bindings'].append(p['sources'][1]['receipt_sha256'])
+        with self.assertRaisesRegex(ContractError,'O_PRIOR_SOURCE_SCOPE'):
+            validate_priors(p,a,variant='O1')
+
+    def test_postfreeze_actual_injury_feature_rejected_by_p1_boundary(self):
+        from v2.nba_architecture.v2_contracts import validate_pregame
+        p,g,a=inputs()
+        p['features'].append(dict(p['features'][0],name='player:espn:player:10:injury',
+                                 kind='pregame_availability',value='out',
+                                 available_at=p['event_start_at']))
+        with self.assertRaises(ContractError):validate_pregame(reseal(p))
+
+    def test_individual_opportunity_cannot_be_redistributed_while_total_is_same(self):
+        p,g,o,s=build();bad=copy.deepcopy(s)
+        rows=bad['scenarios'][0]['players']
+        rows[0]['projected_possession_opportunity']+=1
+        rows[1]['projected_possession_opportunity']-=1
+        with self.assertRaisesRegex(ContractError,'O_PLAYER_POSSESSION_JOIN'):
+            validate_sidecar(reseal(bad),p,g,o)
+
+    def test_p4_reversed_home_order_fails_before_calling_owner(self):
+        from v2.nba_o_consumers import call_p4
+        p,g,a=inputs()
+        next(f for f in p['features'] if f['name']=='home_team_id')['value']=p['team_ids'][1]
+        p=reseal(p);g=reseal(g,source_snapshot_sha256=p['content_hash'])
+        for row in a.values():row['source_snapshot_sha256']=p['content_hash']
+        o,s=build_opportunity(p,g,a,model=g['model'],seed=1,home_team_id=p['team_ids'][1],
+            home_team_source_receipt_sha256=p['sources'][0]['receipt_sha256'])
+        with self.assertRaisesRegex(ContractError,'O_P4_HOME_ORDER_ADAPTER_REQUIRED'):
+            call_p4(p,g,o,s,simulate=lambda *args: self.fail('owner should not be called'),
+                    conditional_rates={})
+
+    def test_unknown_dnp_and_played_zero_are_distinct(self):
+        def change(a):
+            a['espn:player:15']['scenario_participation_prior']=0.
+            a['espn:player:25']['scenario_participation_prior']=1.
+            a['espn:player:25']['played_zero_probability']=1.
+        p,g,o,s=build(change=change)
+        for sc in o['scenarios']:
+            players={x['player_id']:x for x in sc['players']}
+            self.assertEqual(players['espn:player:15']['participation'],'DNP')
+            self.assertEqual(players['espn:player:25']['participation'],'PLAYED_ZERO_MINUTES')
+            self.assertEqual(players['espn:player:15']['minutes'],0.)
+            self.assertEqual(players['espn:player:25']['minutes'],0.)
+        self.assertTrue(all(x['participation_evidence']=='unknown' for x in o['players']))
+        self.assertTrue(all(x['observation_state']=='unknown' for x in
+                            consumer_fixture(p,g,o,s)['scenarios'][0]['players']))

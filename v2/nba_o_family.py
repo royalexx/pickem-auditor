@@ -50,6 +50,8 @@ def validate_priors(p, priors, *, variant):
         req(isinstance(prior["source_bindings"], list) and
             prior["source_receipt_sha256"] in prior["source_bindings"] and
             set(prior["source_bindings"]).issubset(receipt_hashes), "O_PRIOR_SOURCE_BINDINGS")
+        req(all(r["scope"] != "original_offer" for r in p["sources"]
+                if r["receipt_sha256"] in prior["source_bindings"]), "O_PRIOR_SOURCE_SCOPE")
         req(instant(prior["training_cutoff_at"]) <= instant(p["training_cutoff_at"]),
             "O_PRIOR_AFTER_P1_CUTOFF")
         if p["source_profile"] == "original_prospective":
