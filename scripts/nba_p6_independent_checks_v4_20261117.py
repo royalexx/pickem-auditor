@@ -29,7 +29,7 @@ def git(root,*args):return subprocess.check_output(['git','-C',str(root),*args])
 
 def evidence(a):
     root=a.assembly;qa=Path(__file__).resolve().parents[1]
-    assert git(root,'rev-parse','HEAD').decode().strip()==ASSEMBLY
+    assert git(root,'rev-parse','HEAD').decode().strip()==a.expected_assembly
     m=json.loads((root/'docs/nba_architecture/g1_exact_owner_assembly_v4_20261116.json').read_bytes())
     checked=[]
     for path,row in sorted(m['files'].items()):
@@ -264,11 +264,56 @@ def native(a):
     return dict(positive_unknown_preserved=True,attacks=result)
 
 
+def joint(a):
+    from research.nba_p4_latest.fixture import build
+    from research.nba_p4_latest.benchmark import PARAMETERS
+    from v2.nba_joint.latest_upstream import prepare
+    from v2.nba_joint.integration_v2 import simulate_latest
+    from v2.nba_joint.p4 import scenario_pmfs
+    from v2.nba_architecture.v2_contracts import ContractError
+    root=prepare();inputs=build(root);p,g,o=inputs[:3]
+    output=simulate_latest(*inputs,upstream_root=root,evidence_mode='latest_synthetic_engineering',event_parameters=PARAMETERS,seed=617170)
+    laws=scenario_pmfs(output,p,p['input_freeze_at'],617170)
+    weights=[x['weight'] for x in o['scenarios']];ess=1/sum(w*w for w in weights)
+    n=0
+    for player,stats in laws.items():
+        for stat,law in stats.items():
+            reference={}
+            for sc in output['bundle']['scenarios']:
+                value=next(x for x in sc['players'] if x['player_id']==player)['stats'][stat]
+                reference[value]=reference.get(value,0)+sc['weight']
+            got={x['value']:x['mass'] for x in law['pmf']}
+            assert got==reference and abs(sum(got.values())-1)<1e-12
+            assert abs(law['numerical']['effective_sample_size']-ess)<1e-12
+            assert law['numerical']['scenario_count']==len(weights)
+            n+=1
+    assert n==96
+    for actual,prior in zip(output['bundle']['scenarios'],o['scenarios']):
+        assert (actual['scenario_id'],actual['weight'])==(prior['scenario_id'],prior['weight'])
+        for player in actual['players']:
+            s=player['stats']
+            assert s['points']>=3*s['threes']
+            assert (s['pr'],s['pa'],s['ra'],s['pra'])==(s['points']+s['rebounds'],s['points']+s['assists'],s['rebounds']+s['assists'],s['points']+s['rebounds']+s['assists'])
+    controls=[]
+    for n in (4,8,32):
+        try:built=build(root,n=n,variant='O2')
+        except ContractError as exc:
+            assert n==32 and exc.code=='O_COUPLING_VERIFICATION_BUDGET'
+            controls.append(dict(n=n,status='BLOCKED',reason=exc.code))
+        else:
+            assert n!=32 and len(built[2]['scenarios'])==n
+            controls.append(dict(n=n,status='POSITIVE_SYNTHETIC_CONTROL'))
+    try:simulate_latest(*inputs,upstream_root=root,event_parameters=PARAMETERS,seed=617170)
+    except ContractError as exc:assert 'INDEPENDENT_SOURCE_AND_FIT_ADMISSION_REQUIRED' in exc.code
+    else:raise AssertionError('Real J admitted synthetic bytes')
+    return dict(complete_pmfs=96,observed_games=0,weighted_ess=ess,O2_controls=controls,bundle_sha256=output['bundle']['content_hash'],real_mode_blocked=True)
+
+
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--assembly',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--section',choices=['evidence','physical','scores','quarantine','cutoff','optimizer','native','all'],default='all');a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--assembly',type=Path,required=True);ap.add_argument('--expected-assembly',default=ASSEMBLY);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--section',choices=['evidence','physical','scores','quarantine','cutoff','optimizer','native','joint','all'],default='all');a=ap.parse_args()
     sys.path[:0]=[str(a.assembly),str(a.assembly/'tests/nba_architecture')]
-    sections=['evidence','physical','scores','quarantine','cutoff','optimizer','native'] if a.section=='all' else [a.section]
-    result={'schema':'NBA_P6_INDEPENDENT_NEW_CHECKS_V4','qa_source_sha256':sha(Path(__file__).read_bytes()),'assembly':ASSEMBLY,'synthetic_only':True,'historical_outcomes_accessed':False,'sections':{}}
+    sections=['evidence','physical','scores','quarantine','cutoff','optimizer','native','joint'] if a.section=='all' else [a.section]
+    result={'schema':'NBA_P6_INDEPENDENT_NEW_CHECKS_V4','qa_source_sha256':sha(Path(__file__).read_bytes()),'assembly':a.expected_assembly,'synthetic_only':True,'historical_outcomes_accessed':False,'sections':{}}
     for name in sections:
         try:result['sections'][name]={'status':'PASS','result':globals()[name](a)}
         except Exception as exc:
