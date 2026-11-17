@@ -13,7 +13,7 @@ from urllib.parse import urlsplit
 from v2.nba_architecture.v2_contracts import digest, instant, req, seal, validate_pregame
 from v2.nba_o_bridge import _document
 
-VERSION = 'nba-p3-p1-native-consumer/1.0.0'
+VERSION = 'nba-p3-p1-native-consumer/1.0.1'
 P1_VERSION = 'nba-p1-native-handoff/1.0.0'
 MISSING = [
     'INDEPENDENT_SOURCE_ADMISSION', 'COMPLETE_ORIGINAL_PREGAME_ROSTER',
@@ -51,6 +51,12 @@ def consume_p1_context(export, *, frozen_pregame):
         'O_P1_NATIVE_UNPROVEN_POPULATION')
     req(isinstance(export['sources'], list) and isinstance(export['players'], list),
         'O_P1_NATIVE_SOURCE_POPULATION')
+    denominator = export['candidate_denominator']
+    req(isinstance(denominator, dict) and set(denominator) ==
+        {'observed_candidates','complete_population','admitted'} and
+        all(type(denominator[key]) is int and denominator[key] >= 0
+            for key in ('observed_candidates','admitted')) and
+        denominator['complete_population'] is None, 'O_P1_NATIVE_DENOMINATOR_TYPE')
     freeze = instant(p['input_freeze_at'])
     raw_players = {}
     for source in export['sources']:
@@ -106,6 +112,9 @@ def consume_p1_context(export, *, frozen_pregame):
                 membership=None,role=None,role_evidence=None,role_uncertainty='UNKNOWN',
                 participation_probability=None,participation_authentication=None)
     expected = [raw_players[pid] for pid in sorted(raw_players)]
+    req(all(isinstance(row, dict) and
+        (row.get('legal_eligibility') is None or type(row['legal_eligibility']) is bool)
+        for row in export['players']), 'O_P1_NATIVE_SUMMARY_STATE_TYPE')
     req(export['players'] == expected, 'O_P1_NATIVE_RAW_SUMMARY_MISMATCH')
     roster = {r['player_id']:r for r in p['players']}
     req(all(pid in roster and roster[pid]['team_id'] == row['team_id']
