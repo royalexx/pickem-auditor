@@ -1,0 +1,277 @@
+"""P3 G0-v2 opportunity conformance, synthetic fixtures only."""
+import copy
+import json
+from pathlib import Path
+import tempfile
+import unittest
+
+from v2.nba_o_family import (build_opportunity, validate_sidecar,
+                              freeze_outputs, validate_priors,
+                              ws2_priors_from_forecasts)
+from v2.nba_architecture.v2_contracts import ContractError, seal
+from v2.nba_architecture.families_v2 import validate_opportunity
+
+FIXTURE = Path(__file__).parent/"golden_v2"/"joint_same_draw.json"
+
+
+def inputs():
+    base=json.loads(FIXTURE.read_text())
+    p,g=base["pregame"],base["game_state"]
+    p["features"].append(dict(p["features"][0], name="home_team_id", value=p["team_ids"][0]))
+    p=seal({k:v for k,v in p.items() if k!="content_hash"})
+    g=seal(dict({k:v for k,v in g.items() if k!="content_hash"}, source_snapshot_sha256=p["content_hash"]))
+    receipt=p["sources"][0]["receipt_sha256"]
+    law={"mean":24., "variance":25., "ot_probability":.12,
+         "ot_continuation":.25, "family":"beta"}
+    priors={}
+    for i,r in enumerate(p["players"]):
+        # First five on both teams are certain research-scenario participants;
+        # the sixth is uncertain, using a hypothetical prior, never an actual.
+        last = r["player_id"].split(":")[-1] in ("15","25")
+        priors[r["player_id"]]={
+            "team_id":r["team_id"], "source_bindings":[receipt],
+            "source_snapshot_sha256":p["content_hash"],
+            "source_receipt_sha256":receipt,
+            "available_at":p["input_freeze_at"],
+            "training_cutoff_at":p["training_cutoff_at"],
+            "scenario_participation_prior":.7 if last else 1.,
+            "participation_basis":"historical_prior",
+            "minutes_distribution":law.copy(),
+            "played_zero_probability":0.,
+            "early_exit_probability":0.,
+            "early_exit_fraction":.2,
+            "role_states":[{"probability":1.,"minutes_multiplier":1.}],
+            "possession_intensity":1.,
+            "usage_concentration":30.,
+            "uncertainty_flags":["SYNTHETIC_ONLY"],
+        }
+    return p,g,priors
+
+
+def build(variant="O1",seed=17,change=None):
+    p,g,priors=inputs()
+    if change: change(priors)
+    return p,g,*build_opportunity(p,g,priors,model=g["model"],seed=seed,
+                                  variant=variant,home_team_id=p["team_ids"][0],
+                                  home_team_source_receipt_sha256=
+                                  p["sources"][0]["receipt_sha256"])
+
+
+class OpportunityTests(unittest.TestCase):
+    def test_g0_exact_conservation_and_sidecar(self):
+        p,g,o,side=build()
+        self.assertTrue(validate_opportunity(o,p,g))
+        self.assertTrue(validate_sidecar(side,p,g,o))
+        for s in o["scenarios"]:
+            for team in p["team_ids"]:
+                self.assertAlmostEqual(sum(x["minutes"] for x in s["players"]
+                    if x["team_id"]==team),240+25*s["overtime_periods"],places=6)
+                self.assertLessEqual(max(x["minutes"] for x in s["players"]
+                    if x["team_id"]==team),48+5*s["overtime_periods"])
+
+    def test_repeated_seed_exact_hash(self):
+        a=build("O1",23)
+        b=build("O1",23)
+        self.assertEqual(a[2]["content_hash"],b[2]["content_hash"])
+        self.assertEqual(a[3]["content_hash"],b[3]["content_hash"])
+
+    def test_three_variants_generate_full_discrete_minute_laws(self):
+        for variant in ("O0","O1","O2"):
+            with self.subTest(variant=variant):
+                p,g,o,side=build(variant)
+                for player in o["players"]:
+                    law=player["minutes_law"]
+                    self.assertEqual(law["family"],"discrete_minutes")
+                    self.assertAlmostEqual(sum(x["mass"] for x in
+                        law["parameters"]["support"]),1.,places=11)
+                self.assertEqual(side["variant"],variant)
+
+    def test_unknown_probability_retained(self):
+        p,g,o,side=build()
+        self.assertTrue(all(x["participation_evidence"]=="unknown" and
+                            x["participation_probability"] is None
+                            for x in o["players"]))
+
+    def test_played_zero_distinct_from_dnp(self):
+        def update(p):
+            p["espn:player:15"]["played_zero_probability"]=1.
+            p["espn:player:15"]["scenario_participation_prior"]=1.
+        p,g,o,side=build(change=update)
+        states={x["participation"] for s in o["scenarios"] for x in s["players"]
+                 if x["player_id"]=="espn:player:15"}
+        self.assertEqual(states,{"PLAYED_ZERO_MINUTES"})
+        self.assertEqual(next(x for x in o["players"] if x["player_id"]==
+                              "espn:player:15")["minutes_law"]["parameters"]["support"],
+                         [{"minutes":0.,"mass":1.}])
+
+    def test_future_source_and_actual_input_key_fail_closed(self):
+        p,g,priors=inputs()
+        priors["espn:player:15"]["available_at"]=p["event_start_at"]
+        with self.assertRaisesRegex(ContractError,"O_PRIOR_FUTURE_DATA"):
+            validate_priors(p,priors,variant="O1")
+        p,g,priors=inputs()
+        priors["espn:player:15"]["actual_target_minutes"]=30
+        with self.assertRaisesRegex(ContractError,"O_PRIOR_FIELDS_OR_POSTGAME_LEAK"):
+            validate_priors(p,priors,variant="O1")
+
+    def test_unknowable_roster_cannot_be_forced_active(self):
+        def update(p):
+            for pid,x in p.items():
+                x["scenario_participation_prior"]=float(int(pid.split(":")[-1][-1])<4)
+        with self.assertRaisesRegex(ContractError,
+            "O_INFEASIBLE_PARTICIPATION_OR_ROTATION"):
+            build(change=update)
+
+    def test_verified_estimates_and_out_state_semantics(self):
+        def update(p):
+            for row in p.values():row["participation_basis"]="verified_pregame_fit"
+            p["espn:player:15"]["scenario_participation_prior"]=0.
+        with self.assertRaisesRegex(ContractError,
+                                   "O_INDEPENDENT_PARTICIPATION_ATTESTATION_REQUIRED"):
+            build(change=update)
+
+    def test_early_exit_caps_without_realized_minutes(self):
+        def update(p):
+            p["espn:player:15"]["scenario_participation_prior"]=1.
+            p["espn:player:10"]["early_exit_probability"]=1.
+            p["espn:player:10"]["early_exit_fraction"]=.25
+        p,g,o,side=build("O2",change=update)
+        for sc in o["scenarios"]:
+            person=next(x for x in sc["players"] if x["player_id"]=="espn:player:10")
+            self.assertLessEqual(person["minutes"],
+                                 .25*(48+5*sc["overtime_periods"])+1e-9)
+
+    def test_lineup_and_opportunity_tamper_rejected(self):
+        p,g,o,side=build("O2")
+        broken=copy.deepcopy(side)
+        broken["scenarios"][0]["players"][0]["possession_share"]=.99
+        broken=seal({k:v for k,v in broken.items() if k!="content_hash"})
+        with self.assertRaisesRegex(ContractError,"O_PLAYER_POSSESSION_JOIN|O_SHARE_CONSERVATION"):
+            validate_sidecar(broken,p,g,o)
+        broken=copy.deepcopy(side)
+        broken["scenarios"][0]["teams"][p["team_ids"][0]]["lineup_segments"][0]["player_indices"]=[]
+        broken=seal({k:v for k,v in broken.items() if k!="content_hash"})
+        with self.assertRaisesRegex(ContractError,"O_FIVE_ON_COURT"):
+            validate_sidecar(broken,p,g,o)
+
+    def test_immutability_idempotence_and_conflict(self):
+        p,g,o,side=build()
+        with tempfile.TemporaryDirectory() as d:
+            self.assertEqual(freeze_outputs(d,p,g,o,side),
+                             freeze_outputs(d,p,g,o,side))
+            path=Path(d)/(o["content_hash"]+".json")
+            path.write_text("corrupt")
+            with self.assertRaisesRegex(ContractError,"IMMUTABLE_CONFLICT"):
+                freeze_outputs(d,p,g,o,side)
+
+
+    def test_sidecar_cannot_forge_game_possessions(self):
+        p,g,o,side=build()
+        damaged=copy.deepcopy(side)
+        team=p["team_ids"][0]
+        damaged["scenarios"][0]["teams"][team]["projected_possessions"]+=1
+        damaged=seal({k:v for k,v in damaged.items() if k!="content_hash"})
+        with self.assertRaisesRegex(ContractError,"O_GAME_POSSESSION_JOIN"):
+            validate_sidecar(damaged,p,g,o)
+
+    def test_sidecar_cannot_forge_five_player_lineup_identity(self):
+        p,g,o,side=build("O2")
+        damaged=copy.deepcopy(side)
+        team=p["team_ids"][0]
+        segments=damaged["scenarios"][0]["teams"][team]["lineup_segments"]
+        seg=next(x for x in segments if 5 not in x["player_indices"])
+        seg["player_indices"]=[5]+seg["player_indices"][1:]
+        damaged=seal({k:v for k,v in damaged.items() if k!="content_hash"})
+        with self.assertRaisesRegex(ContractError,"O_LINEUP_WITNESS_MISMATCH"):
+            validate_sidecar(damaged,p,g,o)
+
+    def test_ws2_bridge_preserves_raw_sha_and_requires_missing_prior(self):
+        p,g,priors=inputs()
+        receipt=p["sources"][0]
+        fc=[]
+        overrides={}
+        for pid,r in {x["player_id"]:x for x in p["players"]}.items():
+            fc.append({"schema":"NBAOpportunityForecast/1.0.0",
+                "player_id":pid,"team_id":r["team_id"],"game_id":p["game_id"],
+                "event_start_at":p["event_start_at"],
+                "input_freeze_at":p["input_freeze_at"],
+                "forecast_at":p["forecast_at"],
+                "training_cutoff_at":p["training_cutoff_at"],
+                "source_sha256":receipt["raw_sha256"],
+                "source_available_at":p["input_freeze_at"],
+                "source_ingested_at":p["input_freeze_at"],
+                "status":"UNCERTIFIED/SHADOW",
+                "distribution":copy.deepcopy(priors[pid]["minutes_distribution"]),
+                "participation_probability":None,
+                "active_roster_eligible":None,
+                "participation_status":"unverified"})
+            overrides[pid]={"probability":priors[pid]["scenario_participation_prior"],
+                            "source_receipt_sha256":receipt["receipt_sha256"],
+                            "available_at":p["input_freeze_at"]}
+        with self.assertRaisesRegex(ContractError,"O_PARTICIPATION_PRIOR_REQUIRED"):
+            ws2_priors_from_forecasts(p,fc,source_receipt_sha256=
+                                     receipt["receipt_sha256"])
+        built=ws2_priors_from_forecasts(p,fc,
+              source_receipt_sha256=receipt["receipt_sha256"],
+              participation_prior_overrides=overrides)
+        self.assertEqual(set(built),set(priors))
+        self.assertTrue(all(x["participation_basis"]=="historical_prior"
+                            for x in built.values()))
+        o,side=build_opportunity(p,g,built,model=g["model"],seed=44,
+            home_team_id=p["team_ids"][0],
+            home_team_source_receipt_sha256=receipt["receipt_sha256"])
+        self.assertTrue(validate_opportunity(o,p,g))
+        fc[0]["source_sha256"]="f"*64
+        with self.assertRaisesRegex(ContractError,"O_WS2_RAW_SOURCE_SHA_MISMATCH"):
+            ws2_priors_from_forecasts(p,fc,source_receipt_sha256=
+                receipt["receipt_sha256"],participation_prior_overrides=overrides)
+
+    def test_ws2_bridge_rejects_forged_out_and_postfreeze(self):
+        p,g,priors=inputs()
+        receipt=p["sources"][0]
+        fs=[]
+        for pid,r in {x["player_id"]:x for x in p["players"]}.items():
+            fs.append({"schema":"NBAOpportunityForecast/1.0.0",
+                "player_id":pid,"team_id":r["team_id"],"game_id":p["game_id"],
+                "event_start_at":p["event_start_at"],
+                "input_freeze_at":p["input_freeze_at"],
+                "forecast_at":p["forecast_at"],
+                "training_cutoff_at":p["training_cutoff_at"],
+                "source_sha256":receipt["raw_sha256"],
+                "source_available_at":p["input_freeze_at"],
+                "source_ingested_at":p["input_freeze_at"],
+                "status":"UNCERTIFIED/SHADOW",
+                "distribution":copy.deepcopy(priors[pid]["minutes_distribution"]),
+                "participation_probability":1.,
+                "active_roster_eligible":None,
+                "participation_status":"unverified"})
+        fs[0]["participation_status"]="confirmed_inactive"
+        with self.assertRaisesRegex(ContractError,"O_WS2_INACTIVE_ASSERTION_NOT_SOURCE_BOUND"):
+            ws2_priors_from_forecasts(p,fs,source_receipt_sha256=
+                                     receipt["receipt_sha256"])
+        fs[0]["participation_status"]="unverified"
+        fs[0]["source_available_at"]=p["event_start_at"]
+        with self.assertRaisesRegex(ContractError,"O_WS2_POSTFREEZE_SOURCE"):
+            ws2_priors_from_forecasts(p,fs,source_receipt_sha256=
+                                     receipt["receipt_sha256"])
+
+
+    def test_prior_manifest_replays_and_detects_mutation(self):
+        p,g,o,side=build("O2",seed=62)
+        replay_o,replay_side=build_opportunity(
+            p,g,side["prior_manifest"],model=side["model"],
+            seed=side["seed"],variant=side["variant"],
+            home_team_id=side["home_team_id"],
+            home_team_source_receipt_sha256=
+            side["home_team_source_receipt_sha256"])
+        self.assertEqual(o["content_hash"],replay_o["content_hash"])
+        self.assertEqual(side["content_hash"],replay_side["content_hash"])
+        wrong=copy.deepcopy(side)
+        wrong["prior_manifest"]["espn:player:15"]["scenario_participation_prior"] = .1
+        wrong=seal({k:v for k,v in wrong.items() if k!="content_hash"})
+        with self.assertRaisesRegex(ContractError,"O_PRIOR_MANIFEST_HASH"):
+            validate_sidecar(wrong,p,g,o)
+
+
+if __name__=="__main__":
+    unittest.main()

@@ -1,0 +1,54 @@
+{
+  "cases": [
+    {
+      "case": "synthetic_P1_VERIFIED_manifest_cannot_enable_real_mode",
+      "details": "J_REAL_INTEGRATION_BLOCKED_P1_AUTHENTICATION_REGISTRY_UNAVAILABLE",
+      "status": "PASS"
+    },
+    {
+      "case": "shortened_five_on_floor_witness_with_unchanged_total_minutes",
+      "details": "O_LINEUP_CLOCK_COVERAGE",
+      "status": "PASS"
+    },
+    {
+      "case": "dictionary_order_cannot_change_joint_draws",
+      "details": "3404a7da7951a01d700a0c77be3c79cbbe480a1212243fd11f227cd8ac884f86",
+      "status": "PASS"
+    },
+    {
+      "case": "independent_weighted_histograms_including_same_draw_PRA",
+      "details": {
+        "official_games": 0,
+        "pmfs": 96,
+        "scenario_paths": 4
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "distributional_propagation_limit_preserved",
+      "details": {
+        "faithful_conditional_law_propagation": false,
+        "reason": "S1/S2 PMFs retained in audit; event generation projects means/shares. No source-backed distortion acceptance.",
+        "status": "BLOCKED"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "J_cross_process_hash_seed_independence",
+      "details": {
+        "python_hash_seeds": [
+          3,
+          8357
+        ],
+        "sha256": "e817753bb0073341d3d1c734fc341baa95b71f675ab4ea25efc2c6798aa0e4db",
+        "stdout": "3404a7da7951a01d700a0c77be3c79cbbe480a1212243fd11f227cd8ac884f86"
+      },
+      "status": "PASS"
+    }
+  ],
+  "family": "P4",
+  "numerical_references": {},
+  "owner_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+  "schema": "P6_G1_REMEDIATION_ADVERSARIAL_V3",
+  "synthetic_only": true
+}

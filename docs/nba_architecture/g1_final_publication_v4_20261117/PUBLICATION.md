@@ -1,0 +1,7 @@
+# Final remote publication receipt
+
+The independent final decision is published in draft QA [PR #172](https://github.com/royalexx/pickem-auditor/pull/172), exact publication `e7484523b2e9a5e8a79d636bb862957e88dd2b37`. It records 28 finite PASS, zero FAIL and eight substantive BLOCKED criteria: P1–P5 BLOCKED, P6 finite independent QA PASS, formal overall G1 NO-GO.
+
+The [issue #160 update](https://github.com/royalexx/pickem-auditor/issues/160#issuecomment-6949241208) is append-only. All five owner PRs and P0 PR #171 have final independent-review comments; P2/P5 metadata now describes the final repair scope and BLOCKED recommendation. Root coordination [PR #170](https://github.com/royalexx/pickem-auditor/pull/170) contains the exact-head relay and remains draft. All eight published PRs are open, draft and unmerged at this receipt's observation time.
+
+`remote_publication_receipt.json` records exact remote heads, links and comment IDs. Its PR170 head is the observed coordination snapshot before this documentation-only receipt successor. No P1–P5, P0 or independent QA implementation is changed by this publication receipt. Main remains `912bc7010058092ea735dcda0aa941429194474b`. Source/code hashes, operational protections and the verbatim per-criterion decision are recorded in the sibling `g1_final_coordination_v4_20261117` packet and in the independent QA publication. No additional acceptance is awarded by the orchestrator.

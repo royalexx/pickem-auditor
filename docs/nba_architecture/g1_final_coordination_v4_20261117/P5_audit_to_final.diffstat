@@ -1,0 +1,90 @@
+ docs/nba_c/G1_HANDOFF.md                           |   22 +
+ docs/nba_c/NATIVE_HANDOFF_CONTRACT_V1_20261117.md  |  128 +++
+ docs/nba_c/f_p5_02_evidence/P5_after.log           |   60 ++
+ .../P5_candidate_after_capture_schema.log          |   89 ++
+ .../P5_candidate_after_capture_schema_v2.log       |   74 ++
+ .../f_p5_02_evidence/P5_candidate_after_native.log |   71 ++
+ .../P5_candidate_after_native_v2.log               |   71 ++
+ .../P5_candidate_after_native_v3.log               |   71 ++
+ .../P5_candidate_after_native_v4.log               |   72 ++
+ .../P5_candidate_after_native_v5.log               |   73 ++
+ docs/nba_c/f_p5_02_evidence/before_receipt.json    |   28 +
+ .../f_p5_02_evidence/failing_inputs_before.json    |  331 ++++++
+ .../native_J_actual_source_result.json             |    1 +
+ .../f_p5_02_evidence/native_J_before_3937.json     |   94 ++
+ .../native_J_before_3937_source.py                 |  301 ++++++
+ .../native_capture_schema_before_f2f701c.log       |   36 +
+ .../native_capture_schema_before_inputs.json       |   77 ++
+ .../native_partial_integer_after.log               |    9 +
+ .../native_partial_integer_before.json             |   31 +
+ .../native_partial_integer_before_source.py        |  671 ++++++++++++
+ .../native_prior_summary_after.log                 |   19 +
+ .../native_prior_summary_before_7543a03.json       |  230 ++++
+ .../f_p5_02_evidence/native_summary_after_v1.log   |   13 +
+ .../f_p5_02_evidence/native_summary_after_v2.log   |   15 +
+ .../f_p5_02_evidence/native_summary_before.log     |  173 +++
+ .../native_summary_before_inputs.json              | 1117 ++++++++++++++++++++
+ docs/nba_c/f_p5_02_evidence/native_unit_v1.log     |   11 +
+ .../normalized_target_namespace_after.log          |   14 +
+ .../normalized_target_namespace_before.json        |  649 ++++++++++++
+ .../normalized_target_namespace_before.log         |   76 ++
+ .../p1_correction_integrity_external_before.json   |   34 +
+ .../p1_correction_integrity_valid_input.json       |  135 +++
+ docs/nba_c/f_p5_02_evidence/p6_v3_after.json       |  216 ++++
+ docs/nba_c/f_p5_02_evidence/p6_v3_before.json      |  218 ++++
+ docs/nba_c/f_p5_02_evidence/recursive_after.log    |   95 ++
+ docs/nba_c/f_p5_02_evidence/recursive_after_v2.log |   11 +
+ docs/nba_c/f_p5_02_evidence/recursive_after_v3.log |   13 +
+ docs/nba_c/f_p5_02_evidence/recursive_before.log   |  460 ++++++++
+ .../recursive_namespace_clocks_after.log           |   15 +
+ .../target_aliases_external_before.json            |  547 ++++++++++
+ .../target_aliases_local_before.log                |   86 ++
+ .../DOCUMENTATION_SETUP_NOTE.md                    |    1 +
+ .../G0_exact_791d923.log                           |  273 +++++
+ .../P5_exact_791d923.log                           |   81 ++
+ .../P6_exact_791d923.log                           |   92 ++
+ docs/nba_c/g1_remediation_v4_20261117/REPRODUCE.md |   71 ++
+ docs/nba_c/g1_remediation_v4_20261117/SHA256SUMS   |   23 +
+ .../criterion_ledger.json                          |  111 ++
+ .../integrity_comparison.json                      |   25 +
+ .../native-v1-finaldeps-provisional.stderr.log     |   10 +
+ .../native-v1-finaldeps-provisional.stdout.json    |    0
+ .../native-v1-finaldeps-provisional2.stderr.log    |    0
+ .../native-v1-finaldeps-provisional2.stdout.json   |    1 +
+ .../native_actual_P1_outcome.json                  |    1 +
+ .../native_actual_P1_prior.json                    |    1 +
+ .../native_actual_P4_result.json                   |    1 +
+ .../native_final.stderr.log                        |    0
+ .../native_final.stdout.json                       |    1 +
+ .../native_final_results.json                      |  319 ++++++
+ .../native_provisional_4685425_results.json        |  319 ++++++
+ .../original_negative_exact_791d923.json           |    1 +
+ .../p6_v3_exact_791d923.json                       |  216 ++++
+ docs/nba_c/g1_remediation_v4_20261117/receipt.json |  128 +++
+ .../source_fixture_inventory.json                  |  122 +++
+ .../synthetic_native_archive_v1.tar.gz             |  Bin 0 -> 344421 bytes
+ .../RUNNER_SETUP_NOTES.md                          |   21 +
+ .../actual_native_results_attempt6.json            |  135 +++
+ .../actual_native_results_attempt7.json            |  292 +++++
+ .../native-v1-attempt2.stderr.log                  |    9 +
+ .../native-v1-attempt2.stdout.json                 |    0
+ .../native-v1-attempt3.stderr.log                  |    9 +
+ .../native-v1-attempt3.stdout.json                 |    0
+ .../native-v1-attempt4.stderr.log                  |   20 +
+ .../native-v1-attempt4.stdout.json                 |    0
+ .../native-v1-attempt5.stderr.log                  |   13 +
+ .../native-v1-attempt5.stdout.json                 |    0
+ .../native-v1-attempt6.stderr.log                  |    0
+ .../native-v1-attempt6.stdout.json                 |    1 +
+ .../native-v1-attempt7.stderr.log                  |    0
+ .../native-v1-attempt7.stdout.json                 |    1 +
+ scripts/nba_p5_native_handoff_verify_v1.py         |  253 +++++
+ .../fixtures/native_p1_outcome_synthetic_v1.json   |    1 +
+ .../fixtures/native_p1_prior_synthetic_v1.json     |    1 +
+ tests/nba_c/test_p5_native_transport_v1.py         |  257 +++++
+ tests/nba_c/test_p5_partial_integer_counts_v1.py   |   61 ++
+ tests/nba_c/test_p5_recursive_quarantine_v2.py     |  144 +++
+ v2/nba_c/experiment.py                             |  108 +-
+ v2/nba_c/native_adapters.py                        |  685 ++++++++++++
+ v2/nba_c/physical_counts.py                        |  133 +++
+ 89 files changed, 10364 insertions(+), 34 deletions(-)

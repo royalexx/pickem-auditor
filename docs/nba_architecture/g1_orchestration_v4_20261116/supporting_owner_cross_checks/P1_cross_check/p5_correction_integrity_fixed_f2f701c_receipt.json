@@ -1,0 +1,34 @@
+{
+  "stage": "PRE_P6_IMPLEMENTATION_QUALITY_CONTROL_NOT_INDEPENDENT_ACCEPTANCE",
+  "p5_base_sha": "f2f701c40a8fd2c2e8b4a6853c17c6e12e1b6fb9",
+  "p5_native_source_raw_sha256": "5a414dfa5036c8cf4181e8bdb3af28444a478e8ac8bfc875ac001677c5236e57",
+  "p1_exact_sha": "a3263bc840c9973fddaaf9025358b7780d03664b",
+  "source_status": "SYNTHETIC_ENGINEERING_ACTUAL_P1_EXPORT",
+  "results": [
+    {
+      "case": "valid_control",
+      "accepted": true,
+      "error": null
+    },
+    {
+      "case": "backdated_correction",
+      "accepted": false,
+      "error": "WarehouseError:NATIVE_CORRECTION_IDENTITY_OR_CLOCK"
+    },
+    {
+      "case": "wrong_team_correction",
+      "accepted": false,
+      "error": "WarehouseError:NATIVE_CORRECTION_IDENTITY_OR_CLOCK"
+    },
+    {
+      "case": "statistics_disagree_with_retained_official_raw",
+      "accepted": false,
+      "error": "WarehouseError:NATIVE_OFFICIAL_STAT_JOIN"
+    },
+    {
+      "case": "accounting_bundle_not_joined_to_record_descriptor",
+      "accepted": false,
+      "error": "WarehouseError:NATIVE_ACCOUNTING_DESCRIPTOR_JOIN"
+    }
+  ]
+}

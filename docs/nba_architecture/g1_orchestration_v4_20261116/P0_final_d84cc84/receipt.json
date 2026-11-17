@@ -1,0 +1,253 @@
+{
+  "p0_sha": "d84cc84652fee0686db8dcb387041e33b87b6ede",
+  "commands": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_nba_root_discovery_v4.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        1
+      ],
+      "sha256": "7602c8addda07dfc31dec04c08c477b0da67116e05c4211ad85ff3acf467567a"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        267
+      ],
+      "sha256": "55c69f02b5782480e9ac6a92f7ed6e7cf4eb24d86d5631d070f8c5aa50aef6d7"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "compileall",
+        "-q",
+        "scripts",
+        "tests",
+        "v2"
+      ],
+      "exit": 0,
+      "tests": [],
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "bash",
+        "-n",
+        "scripts/shadow_store.sh"
+      ],
+      "exit": 0,
+      "tests": [],
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "bash",
+        "-n",
+        "scripts/history_warehouse_store.sh"
+      ],
+      "exit": 0,
+      "tests": [],
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_network_receipt.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        5
+      ],
+      "sha256": "d8a10ad7d9aeaa8d8a167b4a7c271ba99454bea36fb8515a8206701be6bbba52"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_morning_preflight_recovery.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        5
+      ],
+      "sha256": "6288d4adb9b414aaeabc0ffcad3f7f7155a73fcbbb0578847b0ee369f3f913df"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_engine_contracts.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        24
+      ],
+      "sha256": "34885fe8c83c0daf8da511455da94b4953b880ce62290bb457eb5a6829b01331"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_verify_sports.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        2
+      ],
+      "sha256": "825fb383ca9cac4c0c424ae751036a1c3557a3e95b80127015e2ff7b820032bb"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_history_bootstrap.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        3
+      ],
+      "sha256": "62397d30fa779dcaafca067486c7d9f40b29402417ebb85d03dfd045ae82aa7c"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_verify_history_invariants.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        1
+      ],
+      "sha256": "3b2f0617e73b0b881432b97f6966370d805c17ac3e634860e4fe118eb75763d9"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_afternoon_reuse.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        8
+      ],
+      "sha256": "5b383b0068bce649d32eeda7a8894db2ce1f0fe104260d64782975e008bc7141"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_auto_research.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        3
+      ],
+      "sha256": "1deff8f74b1aef5d6115308f64c997436d6ac7dd5b9f65e515ac3ffaaf67b914"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_odds_quota_guard.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        3
+      ],
+      "sha256": "f46dacbf09ed828f558205abbdc34ccae83bdff5f81e035e20915e35de750abb"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_morning_no_odds.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        2
+      ],
+      "sha256": "58ed62a8d1e4b381822e62194f006df89128b85b6595b42d580f3249965d11f1"
+    }
+  ]
+}

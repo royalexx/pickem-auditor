@@ -1,0 +1,108 @@
+{
+  "schema": "NBA_G1_FINAL_REMOTE_PUBLICATION_RECEIPT_V4",
+  "observed_at_utc": "2026-11-17 13:23:31 UTC",
+  "independent_decision_publication_sha": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+  "formal_decision_quoted_from_independent_reviewer": "NO-GO",
+  "all_prs_open_draft_unmerged": true,
+  "pr_snapshots": [
+    {
+      "pr": 167,
+      "url": "https://github.com/royalexx/pickem-auditor/pull/167",
+      "title": "[DRAFT][G1 BLOCKED] P1 source accounting, native handoffs and exact integer proof",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "head_branch": "research/nba-p1-canonical-history-g1-20261116"
+    },
+    {
+      "pr": 165,
+      "url": "https://github.com/royalexx/pickem-auditor/pull/165",
+      "title": "[DRAFT][G1 BLOCKED] P2 declared-cutoff repair and native S/O/J interfaces",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "head_branch": "research/nba-p2-s-family-g1-20261116"
+    },
+    {
+      "pr": 166,
+      "url": "https://github.com/royalexx/pickem-auditor/pull/166",
+      "title": "[DRAFT][G1 BLOCKED] P3 native P1 transport and strict scalar repair",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "head_branch": "research/nba-p3-o-family-g1-20261116"
+    },
+    {
+      "pr": 164,
+      "url": "https://github.com/royalexx/pickem-auditor/pull/164",
+      "title": "[DRAFT][G1 BLOCKED] P4 latest-owner integration and quantified constrained-law proposal",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "head_branch": "research/nba-p4-j-family-g1-20261116"
+    },
+    {
+      "pr": 163,
+      "url": "https://github.com/royalexx/pickem-auditor/pull/163",
+      "title": "[DRAFT][G1 BLOCKED] P5 recursive quarantine and immutable native handoffs",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "head_branch": "research/nba-p5-c-scoring-optimization-g1-20261116"
+    },
+    {
+      "pr": 171,
+      "url": "https://github.com/royalexx/pickem-auditor/pull/171",
+      "title": "[DRAFT][P0] Repair NBA root unittest discovery without changing G0 tests",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head_sha": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29",
+      "head_branch": "remediation/nba-p0-discovery-v4-20261116"
+    },
+    {
+      "pr": 170,
+      "url": "https://github.com/royalexx/pickem-auditor/pull/170",
+      "title": "[DRAFT][G1 NO-GO] Owner repairs and fresh independent P6 v4 decision",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head_sha": "7f69bf7ce3a68a5e68bafb544d816d4bb06b6059",
+      "head_branch": "remediation/nba-g1-orchestration-v4-20261116"
+    },
+    {
+      "pr": 172,
+      "url": "https://github.com/royalexx/pickem-auditor/pull/172",
+      "title": "P6 independent G1 v4 final review: 28 finite PASS, 8 BLOCKED — NO-GO",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head_sha": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "head_branch": "audit/nba-p6-g1-remediation-v4-independent-20261116"
+    }
+  ],
+  "issue160_append": {
+    "url": "https://github.com/royalexx/pickem-auditor/issues/160#issuecomment-6949241208",
+    "id": 6949241208,
+    "created_at": "2026-11-17T13:20:48Z",
+    "updated_at": "2026-11-17T13:20:48Z",
+    "body_verified_equal_to_prepared_append": true
+  },
+  "owner_pr_final_review_comment_ids": {
+    "163": 6949264786,
+    "164": 6949262981,
+    "165": 6949258984,
+    "166": 6949261537,
+    "167": 6949253378,
+    "171": 6949266331
+  },
+  "main_unchanged_sha": "912bc7010058092ea735dcda0aa941429194474b",
+  "coordination_receipt_commit": "7f69bf7ce3a68a5e68bafb544d816d4bb06b6059",
+  "orchestrator_awards_independent_acceptance": false
+}
+

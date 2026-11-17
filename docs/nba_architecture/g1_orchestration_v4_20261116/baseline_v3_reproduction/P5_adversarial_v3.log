@@ -1,0 +1,218 @@
+{
+  "cases": [
+    {
+      "case": "nested_target_result_and_actual_minutes_in_forecast_pipeline",
+      "error": "AssertionError",
+      "reason": "ACCEPTED_ADVERSARIAL_INPUT",
+      "status": "FAIL",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py\", line 25, in case\n    details=fn()\n            ^^^^\n  File \"/workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py\", line 233, in nested_outcome\n    return reject(lambda:e.CachedCohort([row],authorization='SYNTHETIC_UNIT_TEST'),'OUTCOME')\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py\", line 36, in reject\n    raise AssertionError('ACCEPTED_ADVERSARIAL_INPUT')\nAssertionError: ACCEPTED_ADVERSARIAL_INPUT\n"
+    },
+    {
+      "case": "nested_one_microsecond_postfreeze_evidence",
+      "details": "POST_FREEZE_SOURCE_OR_CUTOFF",
+      "status": "PASS"
+    },
+    {
+      "case": "valid_preholdout_fixture_and_historical_authorization_guards",
+      "details": [
+        "ONLY_SYNTHETIC_FITTING",
+        "HISTORICAL_WEIGHT_FIT_NOT_AUTHORIZED"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "independent_sparse_CDF_CRPS_NLPD_mean_error_zero_tail_PIT",
+      "details": [
+        {
+          "CRPS": 3.364600000000002,
+          "NLPD": 1.7719568419318752,
+          "absolute_error": 7.02,
+          "predictive_mean": 7.02,
+          "y": 0
+        },
+        {
+          "CRPS": 2.0445999999999995,
+          "NLPD": 1.171182981502945,
+          "absolute_error": 5.02,
+          "predictive_mean": 7.02,
+          "y": 2
+        },
+        {
+          "CRPS": 1.9245999999999992,
+          "NLPD": "Infinity",
+          "absolute_error": 2.0199999999999996,
+          "predictive_mean": 7.02,
+          "y": 5
+        },
+        {
+          "CRPS": 12.324600000000002,
+          "NLPD": "Infinity",
+          "absolute_error": 15.98,
+          "predictive_mean": 7.02,
+          "y": 23
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "independent_unequal_weight_three_dimensional_ES_VS",
+      "details": {
+        "ES": 2.451043183774045,
+        "VS_05": 1.4811219807550753
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "small_non_normalization_not_silently_renormalized",
+      "details": "PMF_NOT_NORMALIZED",
+      "status": "PASS"
+    },
+    {
+      "case": "independent_active_face_KKT_W2_W3_reference",
+      "details": {
+        "W2": {
+          "J0": 0.14511789086285198,
+          "S0": 0.7517198820620209,
+          "SO0": 0.10316222707512723
+        },
+        "W2_max_error": 4.221513331126303e-07,
+        "W2_reference": [
+          0.1451179849912488,
+          0.7517194599106878,
+          0.10316255509806345
+        ],
+        "W3": {
+          "points": {
+            "J0": 0.15639496915904333,
+            "S0": 0.8436050308409567,
+            "SO0": 0.0
+          },
+          "rebounds": {
+            "J0": 0.10274404467840441,
+            "S0": 0.761216476296675,
+            "SO0": 0.13603947902492067
+          }
+        },
+        "W3_max_errors": {
+          "points": 2.220446049250313e-16,
+          "rebounds": 3.299092457553776e-09
+        },
+        "historical_fitting": false,
+        "synthetic_games": 8
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "replicated_paths_cannot_inflate_distinct_game_accounting",
+      "details": [
+        {
+          "mean_crps": 0.52,
+          "n_distinct_games": 2,
+          "n_forecast_rows": 2,
+          "replication": 1
+        },
+        {
+          "mean_crps": 0.52,
+          "n_distinct_games": 2,
+          "n_forecast_rows": 10000,
+          "replication": 5000
+        },
+        {
+          "mean_crps": 0.52,
+          "n_distinct_games": 2,
+          "n_forecast_rows": 40000,
+          "replication": 20000
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "forged_twenty_thousand_ESS_on_two_joint_paths_rejected",
+      "details": "MC_EFFECTIVE_SAMPLE_SIZE",
+      "status": "PASS"
+    },
+    {
+      "case": "C_cross_process_randomized_PIT_hash_seed_independence",
+      "details": {
+        "python_hash_seeds": [
+          3,
+          8357
+        ],
+        "sha256": "940a89fb3452c7b385172bdb75499b79100893ddc63eab62a0c1ecf93a34f91f",
+        "stdout": "{\"absolute_error\": 0.019999999999999574, \"covered\": true, \"crps\": 1.8445999999999998, \"interval\": [0, 19], \"mean\": 7.02, \"nlpd\": 1.2378743560016174, \"nominal_coverage\": 0.9, \"pit\": 0.5808851488808353, \"signed_bias\": 0.019999999999999574, \"squared_error\": 0.00039999999999998294, \"tail_observed\": 0, \"tail_predicted\": 0.0, \"tail_threshold\": 30, \"variance\": 49.199600000000004, \"zero_observed\": 0, \"zero_predicted\": 0.17}"
+      },
+      "status": "PASS"
+    }
+  ],
+  "family": "P5",
+  "numerical_references": {
+    "joint_scores": {
+      "ES": 2.451043183774045,
+      "VS_05": 1.4811219807550753
+    },
+    "optimizer": {
+      "W2": {
+        "J0": 0.14511789086285198,
+        "S0": 0.7517198820620209,
+        "SO0": 0.10316222707512723
+      },
+      "W2_max_error": 4.221513331126303e-07,
+      "W2_reference": [
+        0.1451179849912488,
+        0.7517194599106878,
+        0.10316255509806345
+      ],
+      "W3": {
+        "points": {
+          "J0": 0.15639496915904333,
+          "S0": 0.8436050308409567,
+          "SO0": 0.0
+        },
+        "rebounds": {
+          "J0": 0.10274404467840441,
+          "S0": 0.761216476296675,
+          "SO0": 0.13603947902492067
+        }
+      },
+      "W3_max_errors": {
+        "points": 2.220446049250313e-16,
+        "rebounds": 3.299092457553776e-09
+      },
+      "historical_fitting": false,
+      "synthetic_games": 8
+    },
+    "sparse_full_count_scores": [
+      {
+        "CRPS": 3.364600000000002,
+        "NLPD": 1.7719568419318752,
+        "absolute_error": 7.02,
+        "predictive_mean": 7.02,
+        "y": 0
+      },
+      {
+        "CRPS": 2.0445999999999995,
+        "NLPD": 1.171182981502945,
+        "absolute_error": 5.02,
+        "predictive_mean": 7.02,
+        "y": 2
+      },
+      {
+        "CRPS": 1.9245999999999992,
+        "NLPD": "Infinity",
+        "absolute_error": 2.0199999999999996,
+        "predictive_mean": 7.02,
+        "y": 5
+      },
+      {
+        "CRPS": 12.324600000000002,
+        "NLPD": "Infinity",
+        "absolute_error": 15.98,
+        "predictive_mean": 7.02,
+        "y": 23
+      }
+    ]
+  },
+  "owner_sha": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+  "schema": "P6_G1_REMEDIATION_ADVERSARIAL_V3",
+  "synthetic_only": true
+}

@@ -1,0 +1,18 @@
+{
+  "sha": "d5cafda47a2f881a88974bfb7bcbb90372fe69c2",
+  "code_sha256": "a3ca2bf02e645ac1a142bf4daa7d2558fbbc0e72545505b6f622fb0fa2a43c71",
+  "input": {
+    "game_date": "2022-10-21",
+    "game_id": "nba:game:0022200001",
+    "minutes": 0,
+    "opponent_id": "nba:team:2",
+    "participation": "played",
+    "player_id": "nba:player:7",
+    "starter": null,
+    "stats": {},
+    "team_id": "nba:team:1"
+  },
+  "bundle_raw_base64": "eyJnYW1lIjp7ImF3YXlUZWFtIjp7InBsYXllcnMiOltdLCJ0ZWFtSWQiOjJ9LCJnYW1lQ2xvY2siOiJQVDAwTTAwLjAwUyIsImdhbWVJZCI6IjAwMjIyMDAwMDEiLCJnYW1lU3RhdHVzIjozLCJnYW1lVGltZVVUQyI6IjIwMjItMTAtMjFUMjM6MDA6MDBaIiwiaG9tZVRlYW0iOnsicGxheWVycyI6W3sicGVyc29uSWQiOjcsInBsYXllZCI6IjEiLCJzdGF0aXN0aWNzIjp7ImFzc2lzdHMiOjMsIm1pbnV0ZXMiOiJQVDAwTTBTIiwicG9pbnRzIjoxMSwicmVib3VuZHNUb3RhbCI6NSwidGhyZWVQb2ludGVyc01hZGUiOjJ9fV0sInRlYW1JZCI6MX0sInBlcmlvZCI6NH19",
+  "status": "REJECTED",
+  "output": "ZERO_MINUTE_CREDIT_UNRESOLVED"
+}

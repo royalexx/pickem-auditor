@@ -1,0 +1,41 @@
+{
+  "cases": [
+    {
+      "case": "probability_one_does_not_authenticate_participation_fit",
+      "details": "O_INDEPENDENT_PARTICIPATION_ATTESTATION_REQUIRED",
+      "status": "PASS"
+    },
+    {
+      "case": "valid_JSON_whitespace_still_changes_raw_source_digest",
+      "details": "O_RAW_BYTES_MISMATCH",
+      "status": "PASS"
+    },
+    {
+      "case": "balanced_resealed_shares_and_opportunities_fail_replay",
+      "details": "O_REPLAY_MISMATCH",
+      "status": "PASS"
+    },
+    {
+      "case": "tiny_unwitnessed_opening_clock_interval",
+      "details": "O_LINEUP_CLOCK_COVERAGE",
+      "status": "PASS"
+    },
+    {
+      "case": "O_cross_process_hash_seed_independence",
+      "details": {
+        "python_hash_seeds": [
+          3,
+          8357
+        ],
+        "sha256": "9e4474f3dc82213f859736ad21e085834c0a8cb7292b2c2d0dd5eecede7806d4",
+        "stdout": "2964a5b5e910ec94e45ed4ccae73783bdabf5269b993abcc7e278b70b9ec944d b6042552e58864d670cd2a62522d2dd850725f7f7210c9ec8a58416260b5608d"
+      },
+      "status": "PASS"
+    }
+  ],
+  "family": "P3",
+  "numerical_references": {},
+  "owner_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+  "schema": "P6_G1_REMEDIATION_ADVERSARIAL_V3",
+  "synthetic_only": true
+}

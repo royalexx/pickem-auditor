@@ -1,0 +1,33 @@
+{
+  "stage": "PRE_P6_QC_NO_INDEPENDENT_ACCEPTANCE",
+  "p5_git_base": "791d923824d488024784bc602cf44012c527c6b6",
+  "p5_raw_source_sha256": "a875ca2d819879ce0ace1083599780d42db7942a3aca4dd88bc08fb2eabed5e8",
+  "snapshot_may_be_uncommitted": true,
+  "results": [
+    {
+      "case": "valid_control",
+      "accepted": true,
+      "error": null
+    },
+    {
+      "case": "unsupported_vault_state",
+      "accepted": false,
+      "error": "WarehouseError:NATIVE_VAULT_RECORD_STATE"
+    },
+    {
+      "case": "unsupported_vault_schema",
+      "accepted": false,
+      "error": "WarehouseError:NATIVE_VAULT_RECORD_SCHEMA"
+    },
+    {
+      "case": "unsupported_vault_kind",
+      "accepted": false,
+      "error": "WarehouseError:NATIVE_VAULT_RECORD_SCHEMA"
+    },
+    {
+      "case": "raw_shooting_accounting_impossible",
+      "accepted": false,
+      "error": "WarehouseError:NATIVE_SHOOTING_ACCOUNTING"
+    }
+  ]
+}
