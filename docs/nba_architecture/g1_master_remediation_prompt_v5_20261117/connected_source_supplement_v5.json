@@ -1,0 +1,385 @@
+{
+  "schema": "NBA_G1_CONNECTED_SOURCE_SUPPLEMENT_V5",
+  "observed_at_utc": "2026-11-17 13:41:51 UTC",
+  "project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+  "project_name": "Pick'em Auditor \u2014 Daily Cloud Inference",
+  "project_file_metadata_count": 10966,
+  "project_notebook_metadata_count": 510,
+  "scheduled_notebooks_observed": 0,
+  "complete_metadata_receipt_raw_sha256": "7dcebe1cdf5fb3b25b90c6a4fee7c0b0dca6ba5934cf203018441d3a2c66843d",
+  "scope_limit": "One known original Deepnote project metadata inventory; no assertion of absence across every workspace, Library, user device or archive. No notebook run or holdout/outcome dataset read.",
+  "nba_named_nonruntime_file_metadata": [
+    {
+      "name": "NBA_four_plus_online_top10.csv",
+      "path": "pickem_runs/2026-11-05/20261105T213528Z/NBA_four_plus_online_top10.csv",
+      "type": "file",
+      "size": 374,
+      "updatedAt": "2026-11-05T21:54:54.000Z"
+    },
+    {
+      "name": "NBA_top10_four_model_research.csv",
+      "path": "pickem_runs/2026-11-05/20261105T213528Z/NBA_top10_four_model_research.csv",
+      "type": "file",
+      "size": 319,
+      "updatedAt": "2026-11-05T21:54:50.000Z"
+    },
+    {
+      "name": "NBA_four_plus_online_top10.csv",
+      "path": "pickem_runs/2026-11-05/20261105T231509Z/NBA_four_plus_online_top10.csv",
+      "type": "file",
+      "size": 374,
+      "updatedAt": "2026-11-05T23:28:31.000Z"
+    },
+    {
+      "name": "NBA_top10_four_model_research.csv",
+      "path": "pickem_runs/2026-11-05/20261105T231509Z/NBA_top10_four_model_research.csv",
+      "type": "file",
+      "size": 319,
+      "updatedAt": "2026-11-05T23:28:28.000Z"
+    },
+    {
+      "name": "NBA_four_plus_online_top10.csv",
+      "path": "pickem_runs/2026-11-05/20261106T001450Z/NBA_four_plus_online_top10.csv",
+      "type": "file",
+      "size": 3422,
+      "updatedAt": "2026-11-06T00:20:35.000Z"
+    },
+    {
+      "name": "NBA_top10_four_model_research.csv",
+      "path": "pickem_runs/2026-11-05/20261106T001450Z/NBA_top10_four_model_research.csv",
+      "type": "file",
+      "size": 3337,
+      "updatedAt": "2026-11-06T00:20:33.000Z"
+    },
+    {
+      "name": "NBA_four_plus_online_top10.csv",
+      "path": "pickem_runs/2026-11-06/20261106T205600Z/NBA_four_plus_online_top10.csv",
+      "type": "file",
+      "size": 3765,
+      "updatedAt": "2026-11-06T21:01:52.000Z"
+    },
+    {
+      "name": "NBA_top10_four_model_research.csv",
+      "path": "pickem_runs/2026-11-06/20261106T205600Z/NBA_top10_four_model_research.csv",
+      "type": "file",
+      "size": 3322,
+      "updatedAt": "2026-11-06T21:01:50.000Z"
+    },
+    {
+      "name": "NBA_four_plus_online_top10.csv",
+      "path": "pickem_runs/2026-11-07/20261107T210429Z/NBA_four_plus_online_top10.csv",
+      "type": "file",
+      "size": 3768,
+      "updatedAt": "2026-11-07T21:15:05.000Z"
+    },
+    {
+      "name": "NBA_top10_four_model_research.csv",
+      "path": "pickem_runs/2026-11-07/20261107T210429Z/NBA_top10_four_model_research.csv",
+      "type": "file",
+      "size": 3338,
+      "updatedAt": "2026-11-07T21:15:03.000Z"
+    },
+    {
+      "name": "phase0r_nov10_nhl_nba_independent_audit.json",
+      "path": "reports/phase0r_nov10_nhl_nba_independent_audit.json",
+      "type": "file",
+      "size": 1875,
+      "updatedAt": "2026-11-10T17:54:13.000Z"
+    },
+    {
+      "name": "phase15_20261111_full_independent_NBA_NHL_audit.json",
+      "path": "reports/phase15_20261111_full_independent_NBA_NHL_audit.json",
+      "type": "file",
+      "size": 54848,
+      "updatedAt": "2026-11-11T11:27:39.000Z"
+    },
+    {
+      "name": "nba_401909960_boxscore_41643ac745493e7b.json",
+      "path": "reports/phase15_Nov10_FULL_REAL_FINAL_official_capture_20261111_f3162e921187/official_source_raw/nba_401909960_boxscore_41643ac745493e7b.json",
+      "type": "file",
+      "size": 456977,
+      "updatedAt": "2026-11-11T11:21:52.000Z"
+    },
+    {
+      "name": "nba_401909961_boxscore_8b136e5b434ab503.json",
+      "path": "reports/phase15_Nov10_FULL_REAL_FINAL_official_capture_20261111_f3162e921187/official_source_raw/nba_401909961_boxscore_8b136e5b434ab503.json",
+      "type": "file",
+      "size": 397162,
+      "updatedAt": "2026-11-11T11:21:52.000Z"
+    },
+    {
+      "name": "nba_401909962_boxscore_6a357dea14b128e4.json",
+      "path": "reports/phase15_Nov10_FULL_REAL_FINAL_official_capture_20261111_f3162e921187/official_source_raw/nba_401909962_boxscore_6a357dea14b128e4.json",
+      "type": "file",
+      "size": 425323,
+      "updatedAt": "2026-11-11T11:21:53.000Z"
+    },
+    {
+      "name": "nba_401909963_boxscore_c0dbdc9b349a9c1a.json",
+      "path": "reports/phase15_Nov10_FULL_REAL_FINAL_official_capture_20261111_f3162e921187/official_source_raw/nba_401909963_boxscore_c0dbdc9b349a9c1a.json",
+      "type": "file",
+      "size": 487869,
+      "updatedAt": "2026-11-11T11:21:51.000Z"
+    },
+    {
+      "name": "nba_401909964_boxscore_ec58137e7fa3d7dd.json",
+      "path": "reports/phase15_Nov10_FULL_REAL_FINAL_official_capture_20261111_f3162e921187/official_source_raw/nba_401909964_boxscore_ec58137e7fa3d7dd.json",
+      "type": "file",
+      "size": 421788,
+      "updatedAt": "2026-11-11T11:21:53.000Z"
+    },
+    {
+      "name": "nba_schedule_eb7ee5fe6ad5ae4a.json",
+      "path": "reports/phase15_Nov10_FULL_REAL_FINAL_official_capture_20261111_f3162e921187/official_source_raw/nba_schedule_eb7ee5fe6ad5ae4a.json",
+      "type": "file",
+      "size": 139391,
+      "updatedAt": "2026-11-11T11:21:50.000Z"
+    },
+    {
+      "name": "nba_401909960_boxscore_22adcebe8a8d6531.json",
+      "path": "reports/phase15_Nov10_full_final_official_capture_20261111_8c43b0de0c8a/official_source_raw/nba_401909960_boxscore_22adcebe8a8d6531.json",
+      "type": "file",
+      "size": 456977,
+      "updatedAt": "2026-11-11T11:18:57.000Z"
+    },
+    {
+      "name": "nba_401909961_boxscore_8b136e5b434ab503.json",
+      "path": "reports/phase15_Nov10_full_final_official_capture_20261111_8c43b0de0c8a/official_source_raw/nba_401909961_boxscore_8b136e5b434ab503.json",
+      "type": "file",
+      "size": 397162,
+      "updatedAt": "2026-11-11T11:18:58.000Z"
+    },
+    {
+      "name": "nba_401909962_boxscore_d740839764405a84.json",
+      "path": "reports/phase15_Nov10_full_final_official_capture_20261111_8c43b0de0c8a/official_source_raw/nba_401909962_boxscore_d740839764405a84.json",
+      "type": "file",
+      "size": 425323,
+      "updatedAt": "2026-11-11T11:18:59.000Z"
+    },
+    {
+      "name": "nba_401909963_boxscore_c3cc7ebf81d892b0.json",
+      "path": "reports/phase15_Nov10_full_final_official_capture_20261111_8c43b0de0c8a/official_source_raw/nba_401909963_boxscore_c3cc7ebf81d892b0.json",
+      "type": "file",
+      "size": 487869,
+      "updatedAt": "2026-11-11T11:18:56.000Z"
+    },
+    {
+      "name": "nba_401909964_boxscore_64ca8395c6a3010f.json",
+      "path": "reports/phase15_Nov10_full_final_official_capture_20261111_8c43b0de0c8a/official_source_raw/nba_401909964_boxscore_64ca8395c6a3010f.json",
+      "type": "file",
+      "size": 421788,
+      "updatedAt": "2026-11-11T11:18:59.000Z"
+    },
+    {
+      "name": "nba_schedule_eb7ee5fe6ad5ae4a.json",
+      "path": "reports/phase15_Nov10_full_final_official_capture_20261111_8c43b0de0c8a/official_source_raw/nba_schedule_eb7ee5fe6ad5ae4a.json",
+      "type": "file",
+      "size": 139391,
+      "updatedAt": "2026-11-11T11:18:54.000Z"
+    },
+    {
+      "name": "nba_schedule_89289b57937c01fe.json",
+      "path": "reports/phase15_Nov10_gate_B_official_capture_83198f51e6d5/official_source_raw/nba_schedule_89289b57937c01fe.json",
+      "type": "file",
+      "size": 97164,
+      "updatedAt": "2026-11-11T02:52:01.000Z"
+    },
+    {
+      "name": "nba_schedule_86b620b28b27bb43.json",
+      "path": "reports/phase15_Nov10_gate_B_official_capture_fb28d9b214e5/official_source_raw/nba_schedule_86b620b28b27bb43.json",
+      "type": "file",
+      "size": 97476,
+      "updatedAt": "2026-11-11T02:50:20.000Z"
+    },
+    {
+      "name": "phase15_gate_E_NHL_NBA_Nov10_signed_investment.json",
+      "path": "reports/phase15_gate_E_NHL_NBA_Nov10_signed_investment.json",
+      "type": "file",
+      "size": 4634,
+      "updatedAt": "2026-11-11T03:05:04.000Z"
+    },
+    {
+      "name": "phase15_nhl_nba_20261110_certified_diagnostic_124462584508.json",
+      "path": "reports/phase15_nhl_nba_20261110_certified_diagnostic_124462584508.json",
+      "type": "file",
+      "size": 76230,
+      "updatedAt": "2026-11-10T23:04:04.000Z"
+    },
+    {
+      "name": "phase15_nhl_nba_20261110_certified_diagnostic_1f6987f8f24a.json",
+      "path": "reports/phase15_nhl_nba_20261110_certified_diagnostic_1f6987f8f24a.json",
+      "type": "file",
+      "size": 66178,
+      "updatedAt": "2026-11-10T22:54:25.000Z"
+    },
+    {
+      "name": "phase15_nhl_nba_20261110_certified_diagnostic_3bd693d4df29.json",
+      "path": "reports/phase15_nhl_nba_20261110_certified_diagnostic_3bd693d4df29.json",
+      "type": "file",
+      "size": 76230,
+      "updatedAt": "2026-11-10T22:58:01.000Z"
+    },
+    {
+      "name": "phase15_nhl_nba_20261110_independent_qa.json",
+      "path": "reports/phase15_nhl_nba_20261110_independent_qa.json",
+      "type": "file",
+      "size": 2768,
+      "updatedAt": "2026-11-10T22:59:34.000Z"
+    },
+    {
+      "name": "phase1_nhl_nba_20261110_independent_acceptance.json",
+      "path": "reports/phase1_nhl_nba_20261110_independent_acceptance.json",
+      "type": "file",
+      "size": 1234,
+      "updatedAt": "2026-11-10T19:58:47.000Z"
+    },
+    {
+      "name": "phase1_nhl_nba_20261110_independent_acceptance_postmerge.json",
+      "path": "reports/phase1_nhl_nba_20261110_independent_acceptance_postmerge.json",
+      "type": "file",
+      "size": 1234,
+      "updatedAt": "2026-11-10T20:03:35.000Z"
+    },
+    {
+      "name": "phase1_nhl_nba_certified_20261110_original_batch.json",
+      "path": "reports/phase1_nhl_nba_certified_20261110_original_batch.json",
+      "type": "file",
+      "size": 1630560,
+      "updatedAt": "2026-11-10T19:44:14.000Z"
+    },
+    {
+      "name": "phase1_nhl_nba_certified_20261110_original_batch_35edb34165a2.json",
+      "path": "reports/phase1_nhl_nba_certified_20261110_original_batch_35edb34165a2.json",
+      "type": "file",
+      "size": 1630560,
+      "updatedAt": "2026-11-10T19:54:03.000Z"
+    },
+    {
+      "name": "phase1_nhl_nba_certified_20261110_original_batch_939024a347d6.json",
+      "path": "reports/phase1_nhl_nba_certified_20261110_original_batch_939024a347d6.json",
+      "type": "file",
+      "size": 1630560,
+      "updatedAt": "2026-11-10T20:02:49.000Z"
+    },
+    {
+      "name": "phase1_nhl_nba_certified_20261110_original_batch_e95cb5009a9c.json",
+      "path": "reports/phase1_nhl_nba_certified_20261110_original_batch_e95cb5009a9c.json",
+      "type": "file",
+      "size": 1630560,
+      "updatedAt": "2026-11-10T19:55:49.000Z"
+    },
+    {
+      "name": "nba_participation_audit.json",
+      "path": "reports/v25_morning_research_validation/2026-11-17/nba_participation_audit.json",
+      "type": "file",
+      "size": 1795,
+      "updatedAt": "2026-11-17T10:59:02.000Z"
+    },
+    {
+      "name": "nba_settled_candidates.jsonl",
+      "path": "reports/v25_morning_research_validation/2026-11-17/nba_settled_candidates.jsonl",
+      "type": "file",
+      "size": 0,
+      "updatedAt": "2026-11-17T10:59:01.000Z"
+    },
+    {
+      "name": "archive_verification.json",
+      "path": "research/nba_phase8b/20261116T0035Z/archive_verification.json",
+      "type": "file",
+      "size": 516,
+      "updatedAt": "2026-11-16T00:36:30.000Z"
+    },
+    {
+      "name": "storage_probe_20261115.json",
+      "path": "research/nba_phase8c/probes/storage_probe_20261115.json",
+      "type": "file",
+      "size": 122,
+      "updatedAt": "2026-11-16T01:01:08.000Z"
+    },
+    {
+      "name": "REPORT.md",
+      "path": "research/nba_ws2/REPORT.md",
+      "type": "file",
+      "size": 17912,
+      "updatedAt": "2026-11-15T19:24:29.000Z"
+    },
+    {
+      "name": "experiment.json",
+      "path": "research/nba_ws2/experiment.json",
+      "type": "file",
+      "size": 2656,
+      "updatedAt": "2026-11-15T19:08:23.000Z"
+    },
+    {
+      "name": "deepnote_receipt.json",
+      "path": "research/nba_ws2/results/deepnote_receipt.json",
+      "type": "file",
+      "size": 1527,
+      "updatedAt": "2026-11-15T19:22:02.000Z"
+    },
+    {
+      "name": "model.json",
+      "path": "research/nba_ws2/results/model.json",
+      "type": "file",
+      "size": 2822,
+      "updatedAt": "2026-11-15T19:16:51.000Z"
+    },
+    {
+      "name": "report.json",
+      "path": "research/nba_ws2/results/report.json",
+      "type": "file",
+      "size": 19903,
+      "updatedAt": "2026-11-15T19:16:48.000Z"
+    },
+    {
+      "name": "run_experiment.py",
+      "path": "research/nba_ws2/run_experiment.py",
+      "type": "file",
+      "size": 15548,
+      "updatedAt": "2026-11-15T19:12:41.000Z"
+    },
+    {
+      "name": "test_nba_opportunity.py",
+      "path": "tests/test_nba_opportunity.py",
+      "type": "file",
+      "size": 13950,
+      "updatedAt": "2026-11-15T19:24:26.000Z"
+    },
+    {
+      "name": "nba_opportunity.py",
+      "path": "v2/nba_opportunity.py",
+      "type": "file",
+      "size": 21480,
+      "updatedAt": "2026-11-15T19:18:32.000Z"
+    }
+  ],
+  "existing_candidate_files": [
+    {
+      "path": "research/nba_ws2/experiment.json",
+      "tool_returned_utf8_sha256": "470ef7262de1a13c2075a7494577e42b6b28417fc411866cc80fc0558fc41d90",
+      "hash_domain": "TOOL_RETURNED_UTF8_PROJECT_FILE_TEXT_NOT_PROVIDER_HTTP_BYTES"
+    },
+    {
+      "path": "research/nba_ws2/results/model.json",
+      "tool_returned_utf8_sha256": "ea7eae3afc760eafda0fbf0dbdccd2cb77b31b0aca54fc3606b4b31ba90693de",
+      "hash_domain": "TOOL_RETURNED_UTF8_PROJECT_FILE_TEXT_NOT_PROVIDER_HTTP_BYTES"
+    },
+    {
+      "path": "research/nba_ws2/run_experiment.py",
+      "tool_returned_utf8_sha256": "a44bedf6c5f2adbcbfd1bf02240c92b16ac68b18f7eeca8dce79bdeed89c5b8b",
+      "hash_domain": "TOOL_RETURNED_UTF8_PROJECT_FILE_TEXT_NOT_PROVIDER_HTTP_BYTES"
+    }
+  ],
+  "candidate_admission": "UNADMITTED_CONDITIONAL_MINUTE_FIT_NOT_PARTICIPATION",
+  "model_declared_training_cutoff_at": "2024-04-15T00:00:00Z",
+  "model_recorded_code_commit": "df22657d0ee51005e0d7417a4a61468939217736",
+  "model_recorded_training_manifest_sha256": "48c272f54583c38de18d410287f319d0a9dbfc876006cd7142b8dcf5a2d4f2c4",
+  "specific_limits": [
+    "Positive observed minutes only in experiment; no complete eligible roster or explicit DNP denominator.",
+    "Participation metrics are explicitly BLOCKED.",
+    "Source code infers OT frequency from rounded training-team exposure, not official game period witnesses.",
+    "Cutoff2024 is later than2018case; cannot use for2018 or relabel date.",
+    "Source availability and fitting/authentication metadata still require independent admission; updatedAt and hashes do not establish it."
+  ],
+  "admission_awarded": false
+}

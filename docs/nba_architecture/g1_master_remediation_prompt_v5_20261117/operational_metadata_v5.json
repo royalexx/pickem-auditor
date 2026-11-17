@@ -1,0 +1,252 @@
+{
+  "schema": "NBA_G1_OPERATIONAL_METADATA_V5",
+  "observed_at_utc": "2026-11-17T13:57:51.269859+00:00",
+  "main_observed_sha": "912bc7010058092ea735dcda0aa941429194474b",
+  "training_pause": {
+    "schema": "pickem_training_pause_v1",
+    "paused": true,
+    "requested_date": "2026-11-08",
+    "reason": "User-directed pause of Bayesian/NUTS training during model reform",
+    "resume_requires_explicit_user_approval": true,
+    "preserve_existing_posteriors_and_checkpoints": true
+  },
+  "github_workflow_metadata_count": 58,
+  "github_workflow_inventory": [
+    {
+      "path": ".github/workflows/audit-afternoon.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/audit-goalie-threepoint.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/audit-joint-coverage.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/audit-joint-vs-poisson.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/audit-nba-threes-higheffort.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/audit-new-source-normalizers.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/audit-real-cli-integration.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/audit-sog-retest.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/benchmark-bayes-backends.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/cancel-obsolete-eval.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/cancel-old-pending-eval.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/cloud-slate-20261105.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/conditional-tier3-replay-temporary.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/convergence-audit.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/convergence-rebenchmark.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/evening-rerun-20261028.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/force-stop-superseded.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/full-backend-coverage.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/historical-bayes-training.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/investigator-source-smoke.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/multiseason-nfl-integration-probe.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/multisport-joint-evaluation.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/multisport-population-history.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/nfl-slate-shadow-once.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/nfl-targets-model-release.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/nhl-bayesian-history.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/nhl-cohort-preflight.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/nhl-history.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/nhl-joint-bayes-fit.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/nhl-joint-cohort-evaluation.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/nhl-joint-posthoc-audit.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/nhl-joint-subset-evaluation.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/oct29-live-preview.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/odds-key-health.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/oneoff-full-spectrum-replay.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/oneoff-official-lineup-inspection.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/oneoff-research-repair-proof.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/pickem-daily.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/population-campaign.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/population-priority-control.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/population-source-probe.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/precision-full-markets.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/precision-local-bayes.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/precision-nhl-full.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/precision-nhl-sampler-benchmark.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/precision-nhl-sampler-windows.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/pregame-verification.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/recent-population-probe.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/recover-full-backend-coverage.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/research-ranking-replay-temporary.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/stop-old-full-fit.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/temporary-source-market-audit.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/temporary-stat-screening-audit.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/tendency-real-replay-temporary.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/tonight-market-shadow.yml",
+      "state": "active"
+    },
+    {
+      "path": ".github/workflows/verify-historical-sports.yml",
+      "state": "active"
+    },
+    {
+      "path": "dynamic/agents/copilot-pull-request-reviewer",
+      "state": "active"
+    }
+  ],
+  "cron_entries_observed_in_checked_tree": 0,
+  "workflow_api_raw_sha256": "484cf899742093b96ebc2270ed055d200fd491b8a6aeeffffae476bbb2b42146",
+  "interpretation": "API active means enabled workflow, not running job or active cron. No run was dispatched, notebook executed or schedule changed. No claim about unrelated external machine processes.",
+  "deepnote_known_project_scheduled_notebooks_observed": 0
+}

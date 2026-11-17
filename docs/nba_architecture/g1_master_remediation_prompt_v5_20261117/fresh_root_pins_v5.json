@@ -1,0 +1,89 @@
+{
+  "schema": "NBA_G1_BLOCKED_FAMILY_MASTER_PROMPT_INPUT_PINS_V5",
+  "observed_at_utc": "2026-11-17 13:44:40 UTC",
+  "prs": [
+    {
+      "number": 167,
+      "head": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "branch": "research/nba-p1-canonical-history-g1-20261116",
+      "base": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "title": "[DRAFT][G1 BLOCKED] P1 source accounting, native handoffs and exact integer proof"
+    },
+    {
+      "number": 165,
+      "head": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "branch": "research/nba-p2-s-family-g1-20261116",
+      "base": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "title": "[DRAFT][G1 BLOCKED] P2 declared-cutoff repair and native S/O/J interfaces"
+    },
+    {
+      "number": 166,
+      "head": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "branch": "research/nba-p3-o-family-g1-20261116",
+      "base": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "title": "[DRAFT][G1 BLOCKED] P3 native P1 transport and strict scalar repair"
+    },
+    {
+      "number": 164,
+      "head": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "branch": "research/nba-p4-j-family-g1-20261116",
+      "base": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "title": "[DRAFT][G1 BLOCKED] P4 latest-owner integration and quantified constrained-law proposal"
+    },
+    {
+      "number": 163,
+      "head": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "branch": "research/nba-p5-c-scoring-optimization-g1-20261116",
+      "base": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "title": "[DRAFT][G1 BLOCKED] P5 recursive quarantine and immutable native handoffs"
+    },
+    {
+      "number": 170,
+      "head": "39fd26c509722bb46dc3ad6b5df22e73902e68bc",
+      "branch": "remediation/nba-g1-orchestration-v4-20261116",
+      "base": "ddc60a83f6c9a2b863f5e7a44823bffa3b01e048",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "title": "[DRAFT][G1 NO-GO] Owner repairs and fresh independent P6 v4 decision"
+    },
+    {
+      "number": 171,
+      "head": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29",
+      "branch": "remediation/nba-p0-discovery-v4-20261116",
+      "base": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "title": "[DRAFT][P0] Repair NBA root unittest discovery without changing G0 tests"
+    },
+    {
+      "number": 172,
+      "head": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "branch": "audit/nba-p6-g1-remediation-v4-independent-20261116",
+      "base": "70d37e9b2a6bbf26def4bee79161a7bd3a49d343",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "title": "P6 independent G1 v4 final review: 28 finite PASS, 8 BLOCKED — NO-GO"
+    }
+  ],
+  "main_sha": "912bc7010058092ea735dcda0aa941429194474b",
+  "accepted_g0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6"
+}
+
