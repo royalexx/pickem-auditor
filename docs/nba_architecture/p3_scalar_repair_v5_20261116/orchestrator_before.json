@@ -1,0 +1,361 @@
+{
+  "sha": "2a666106a02595c70e2e372729aeae73d337b745",
+  "code_sha256": "7510ebdfe67db32c8db6fd4a024357c390183d99c34a54ee11e8b80f7150ba67",
+  "pregame": {
+    "certification": "ORIGINAL_SOURCE_SHADOW",
+    "decision_local_date": "2026-11-16",
+    "event_start_at": "2026-11-17T00:00:00Z",
+    "features": [
+      {
+        "asof_basis": "original_capture",
+        "available_at": "2026-11-16T22:40:00Z",
+        "kind": "schedule",
+        "measurement_units": "status",
+        "name": "scheduled_game",
+        "prior_game_date": null,
+        "source_id": "espn:source:pregame",
+        "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+        "target_game_outcome": false,
+        "value": "scheduled"
+      },
+      {
+        "asof_basis": "original_capture",
+        "available_at": "2026-11-16T22:40:00Z",
+        "kind": "schedule",
+        "measurement_units": "status",
+        "name": "home_team_id",
+        "prior_game_date": null,
+        "source_id": "espn:source:pregame",
+        "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+        "target_game_outcome": false,
+        "value": "espn:team:1"
+      }
+    ],
+    "forecast_at": "2026-11-16T23:01:00Z",
+    "game_id": "espn:game:synthetic-2026",
+    "historical_asof_limitations": null,
+    "input_freeze_at": "2026-11-16T23:00:00Z",
+    "kind": "pregame",
+    "original_offer_count": 1,
+    "players": [
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:10",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:11",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:12",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:13",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:14",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:15",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:20",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:21",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:22",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:23",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:24",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:25",
+        "team_id": "espn:team:2"
+      }
+    ],
+    "schema": "nba-sojc-contract/2.0.0",
+    "source_profile": "original_prospective",
+    "sources": [
+      {
+        "asof_basis": "observed_before_freeze",
+        "asof_limitations": null,
+        "collector_observed_at": "2026-11-16T22:40:00Z",
+        "contains_target_final": false,
+        "historical_game_date": null,
+        "ingested_at": "2026-11-16T22:45:00Z",
+        "origin": "original_capture",
+        "provider_published_at": null,
+        "publication_evidence": "unknown",
+        "raw_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+        "retrieved_at": "2026-11-16T22:40:00Z",
+        "scope": "pregame_context",
+        "source_id": "espn:source:pregame",
+        "source_revision": 1,
+        "supersedes_receipt_sha256": null
+      },
+      {
+        "asof_basis": "observed_before_freeze",
+        "asof_limitations": null,
+        "collector_observed_at": "2026-11-16T22:40:00Z",
+        "contains_target_final": false,
+        "historical_game_date": null,
+        "ingested_at": "2026-11-16T22:45:00Z",
+        "origin": "original_capture",
+        "provider_published_at": null,
+        "publication_evidence": "unknown",
+        "raw_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "receipt_sha256": "a4b643883ce6e4fb01e33affc3c3f1fe2108da040df1e4bec0d6d86af9e28971",
+        "retrieved_at": "2026-11-16T22:40:00Z",
+        "scope": "original_offer",
+        "source_id": "book:source:original_quote",
+        "source_revision": 1,
+        "supersedes_receipt_sha256": null
+      }
+    ],
+    "team_ids": [
+      "espn:team:1",
+      "espn:team:2"
+    ],
+    "training_cutoff_at": "2026-11-16T20:00:00Z",
+    "content_hash": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc"
+  },
+  "input": {
+    "schema": "nba-p1-native-handoff/1.0.0",
+    "kind": "pregame_context_export",
+    "profile": "unadmitted_adapter_export",
+    "source_profile": "unadmitted_adapter_export",
+    "admission_status": "BLOCKED",
+    "missing_requirements": [
+      "INDEPENDENT_SOURCE_ADMISSION",
+      "COMPLETE_ORIGINAL_PREGAME_ROSTER",
+      "DATED_MEMBERSHIP_EVIDENCE",
+      "SOURCE_BOUND_HOME_IDENTITY",
+      "SOURCE_BOUND_ROLE_EVIDENCE",
+      "ADMISSIBLE_PARTICIPATION_AND_MINUTE_PRIORS"
+    ],
+    "game_id": "espn:game:synthetic-2026",
+    "team_ids": [
+      "espn:team:1",
+      "espn:team:2"
+    ],
+    "event_start_at": "2026-11-17T00:00:00Z",
+    "input_freeze_at": "2026-11-16T23:00:00Z",
+    "home_team_id": null,
+    "home_identity_evidence": null,
+    "players": [
+      {
+        "player_id": "espn:player:10",
+        "team_id": "espn:team:1",
+        "legal_eligibility": null,
+        "observed_availability": "unknown",
+        "availability_evidence": {
+          "raw_sha256": "fd92f8ee0d7b81cf10a57d28136f366bc7be92a553115ee6e931937ec0361ace",
+          "available_at": "2026-11-16T23:00:00Z",
+          "status": "UNADMITTED_ASSERTION"
+        },
+        "membership": null,
+        "role": null,
+        "role_evidence": null,
+        "role_uncertainty": "UNKNOWN",
+        "participation_probability": null,
+        "participation_authentication": null
+      }
+    ],
+    "sources": [
+      {
+        "provider_url": "https://site.api.espn.com/synthetic-reviewed-export",
+        "raw_sha256": "fd92f8ee0d7b81cf10a57d28136f366bc7be92a553115ee6e931937ec0361ace",
+        "raw_base64": "eyJhc3NlcnRpb25zIjpbeyJhdmFpbGFiaWxpdHkiOiJ1bmtub3duIiwiZWZmZWN0aXZlX2F0IjoiMjAyNi0xMS0xNlQyMzowMDowMFoiLCJnYW1lX2lkIjoiZXNwbjpnYW1lOnN5bnRoZXRpYy0yMDI2Iiwia2luZCI6InByZWdhbWVfcm9zdGVyIiwibGVnYWxfZWxpZ2liaWxpdHkiOm51bGwsInBsYXllcl9pZCI6ImVzcG46cGxheWVyOjEwIiwidGVhbV9pZCI6ImVzcG46dGVhbToxIn1dLCJzY2hlbWEiOiJuYmEtcDEtZGF0ZWQtY29udGV4dC8xLjAuMCJ9",
+        "hash_domain": "EXACT_SUPPLIED_EXPORT_BYTES_NOT_ORIGINAL_PROVIDER_HTTP",
+        "origin": "original_capture",
+        "admission_basis": null,
+        "admission_status": "REVIEW_REQUIRED",
+        "clocks": {
+          "provider_published_at": null,
+          "first_defensible_available_at": null,
+          "adapter_asserted_available_at": "2026-11-16T23:00:00Z",
+          "collector_observed_at": "2026-11-16T23:00:00Z",
+          "retrieved_at": null,
+          "ingested_at": "2026-11-16T23:00:00Z"
+        }
+      }
+    ],
+    "roster_completeness": {
+      "status": "UNPROVEN",
+      "proof_references": []
+    },
+    "candidate_denominator": {
+      "observed_candidates": true,
+      "complete_population": null,
+      "admitted": false
+    },
+    "source_context_status": "SOURCE_BOUND_REQUIRES_INDEPENDENT_REVIEW"
+  },
+  "status": "ACCEPTED",
+  "output": {
+    "schema": "nba-p3-p1-native-consumer/1.0.0",
+    "kind": "p3_native_input_abstention",
+    "status": "BLOCKED",
+    "reason": "INDEPENDENT_SOURCE_ADMISSION",
+    "missing_requirements": [
+      "INDEPENDENT_SOURCE_ADMISSION",
+      "COMPLETE_ORIGINAL_PREGAME_ROSTER",
+      "DATED_MEMBERSHIP_EVIDENCE",
+      "SOURCE_BOUND_HOME_IDENTITY",
+      "SOURCE_BOUND_ROLE_EVIDENCE",
+      "ADMISSIBLE_PARTICIPATION_AND_MINUTE_PRIORS"
+    ],
+    "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+    "p1_export_sha256": "063e07f676db72f61f05c5bc084094b06a7998b2143210f2d0bb60512e986cf7",
+    "p1_export": {
+      "schema": "nba-p1-native-handoff/1.0.0",
+      "kind": "pregame_context_export",
+      "profile": "unadmitted_adapter_export",
+      "source_profile": "unadmitted_adapter_export",
+      "admission_status": "BLOCKED",
+      "missing_requirements": [
+        "INDEPENDENT_SOURCE_ADMISSION",
+        "COMPLETE_ORIGINAL_PREGAME_ROSTER",
+        "DATED_MEMBERSHIP_EVIDENCE",
+        "SOURCE_BOUND_HOME_IDENTITY",
+        "SOURCE_BOUND_ROLE_EVIDENCE",
+        "ADMISSIBLE_PARTICIPATION_AND_MINUTE_PRIORS"
+      ],
+      "game_id": "espn:game:synthetic-2026",
+      "team_ids": [
+        "espn:team:1",
+        "espn:team:2"
+      ],
+      "event_start_at": "2026-11-17T00:00:00Z",
+      "input_freeze_at": "2026-11-16T23:00:00Z",
+      "home_team_id": null,
+      "home_identity_evidence": null,
+      "players": [
+        {
+          "player_id": "espn:player:10",
+          "team_id": "espn:team:1",
+          "legal_eligibility": null,
+          "observed_availability": "unknown",
+          "availability_evidence": {
+            "raw_sha256": "fd92f8ee0d7b81cf10a57d28136f366bc7be92a553115ee6e931937ec0361ace",
+            "available_at": "2026-11-16T23:00:00Z",
+            "status": "UNADMITTED_ASSERTION"
+          },
+          "membership": null,
+          "role": null,
+          "role_evidence": null,
+          "role_uncertainty": "UNKNOWN",
+          "participation_probability": null,
+          "participation_authentication": null
+        }
+      ],
+      "sources": [
+        {
+          "provider_url": "https://site.api.espn.com/synthetic-reviewed-export",
+          "raw_sha256": "fd92f8ee0d7b81cf10a57d28136f366bc7be92a553115ee6e931937ec0361ace",
+          "raw_base64": "eyJhc3NlcnRpb25zIjpbeyJhdmFpbGFiaWxpdHkiOiJ1bmtub3duIiwiZWZmZWN0aXZlX2F0IjoiMjAyNi0xMS0xNlQyMzowMDowMFoiLCJnYW1lX2lkIjoiZXNwbjpnYW1lOnN5bnRoZXRpYy0yMDI2Iiwia2luZCI6InByZWdhbWVfcm9zdGVyIiwibGVnYWxfZWxpZ2liaWxpdHkiOm51bGwsInBsYXllcl9pZCI6ImVzcG46cGxheWVyOjEwIiwidGVhbV9pZCI6ImVzcG46dGVhbToxIn1dLCJzY2hlbWEiOiJuYmEtcDEtZGF0ZWQtY29udGV4dC8xLjAuMCJ9",
+          "hash_domain": "EXACT_SUPPLIED_EXPORT_BYTES_NOT_ORIGINAL_PROVIDER_HTTP",
+          "origin": "original_capture",
+          "admission_basis": null,
+          "admission_status": "REVIEW_REQUIRED",
+          "clocks": {
+            "provider_published_at": null,
+            "first_defensible_available_at": null,
+            "adapter_asserted_available_at": "2026-11-16T23:00:00Z",
+            "collector_observed_at": "2026-11-16T23:00:00Z",
+            "retrieved_at": null,
+            "ingested_at": "2026-11-16T23:00:00Z"
+          }
+        }
+      ],
+      "roster_completeness": {
+        "status": "UNPROVEN",
+        "proof_references": []
+      },
+      "candidate_denominator": {
+        "observed_candidates": true,
+        "complete_population": null,
+        "admitted": false
+      },
+      "source_context_status": "SOURCE_BOUND_REQUIRES_INDEPENDENT_REVIEW"
+    },
+    "players": [
+      {
+        "player_id": "espn:player:10",
+        "team_id": "espn:team:1",
+        "legal_eligibility": null,
+        "observed_availability": "unknown",
+        "availability_evidence": {
+          "raw_sha256": "fd92f8ee0d7b81cf10a57d28136f366bc7be92a553115ee6e931937ec0361ace",
+          "available_at": "2026-11-16T23:00:00Z",
+          "status": "UNADMITTED_ASSERTION"
+        },
+        "membership": null,
+        "role": null,
+        "role_evidence": null,
+        "role_uncertainty": "UNKNOWN",
+        "participation_probability": null,
+        "participation_authentication": null
+      }
+    ],
+    "roster_completeness": {
+      "status": "UNPROVEN",
+      "proof_references": []
+    },
+    "source_status": "BYTES_BOUND_AUTHENTICITY_UNADMITTED",
+    "original_http_bytes_authenticated": false,
+    "scenario_generation": "NOT_ATTEMPTED",
+    "content_hash": "241f6db13c081f05c112de8db3ffa5565ae16f320fa2070d51065752156118ad"
+  }
+}

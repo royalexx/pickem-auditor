@@ -1,0 +1,36 @@
+{
+  "G0_budgets_changed": false,
+  "adaptation": "SYNTHETIC_TEAM_SOURCE_HOME_FIELDS_ONLY",
+  "independently_accepted": false,
+  "latest_interface_adapter": true,
+  "owner_sha": "df57b3aebbd55112b6cd008013759ca797322ba6",
+  "results": [
+    {
+      "elapsed_seconds": 0.2147072190000472,
+      "error": null,
+      "input_raw_sha256": "715718eea52fa7dfd69547e7b9e49f8c72f5b7ce8a85c7794ae3a43ca41c79a3",
+      "n": 4,
+      "owner_sha": "df57b3aebbd55112b6cd008013759ca797322ba6",
+      "status": "PASS_FINITE_SYNTHETIC_ONLY"
+    },
+    {
+      "elapsed_seconds": 0.1804286910000883,
+      "error": null,
+      "input_raw_sha256": "fd6cba2062f8185911de34a19a39d83916941751cad2dc4039a3debc913bd53d",
+      "n": 8,
+      "owner_sha": "df57b3aebbd55112b6cd008013759ca797322ba6",
+      "status": "PASS_FINITE_SYNTHETIC_ONLY"
+    },
+    {
+      "elapsed_seconds": 0.17888080499994885,
+      "error": "O_COUPLING_VERIFICATION_BUDGET",
+      "input_raw_sha256": "d23340288fc66f1e3135cc626ce6768a928d47114ecb91989bb7b59acc73c579",
+      "n": 32,
+      "owner_sha": "df57b3aebbd55112b6cd008013759ca797322ba6",
+      "status": "BLOCKED"
+    }
+  ],
+  "scenarios_discarded": false,
+  "schema": "nba-p3-coupling-probe/1.1.0",
+  "source": "EXACT_P4_SYNTHETIC_ENGINEERING_FIXTURE"
+}

@@ -1,0 +1,18 @@
+test_bool_float_and_invalid_count_types_rejected (test_p3_native_scalar_v5.NativeScalarControls.test_bool_float_and_invalid_count_types_rejected) ... ok
+test_count_shape_rejects_missing_extra_and_nonobject (test_p3_native_scalar_v5.NativeScalarControls.test_count_shape_rejects_missing_extra_and_nonobject) ... ok
+test_exact_bool_and_null_eligibility_positive (test_p3_native_scalar_v5.NativeScalarControls.test_exact_bool_and_null_eligibility_positive) ... ok
+test_exact_nonnegative_integer_count_positive (test_p3_native_scalar_v5.NativeScalarControls.test_exact_nonnegative_integer_count_positive) ... ok
+test_numeric_eligibility_raw_assertion_cannot_claim_bool (test_p3_native_scalar_v5.NativeScalarControls.test_numeric_eligibility_raw_assertion_cannot_claim_bool) ... ok
+test_numeric_eligibility_summary_cannot_equal_raw_bool (test_p3_native_scalar_v5.NativeScalarControls.test_numeric_eligibility_summary_cannot_equal_raw_bool) ... ok
+test_corrupt_raw_or_resealed_summary_does_not_pass (test_p3_p1_native_v4.NativeP1Boundary.test_corrupt_raw_or_resealed_summary_does_not_pass) ... ok
+test_exact_bound_native_candidates_preserve_unknown_and_block (test_p3_p1_native_v4.NativeP1Boundary.test_exact_bound_native_candidates_preserve_unknown_and_block) ... ok
+test_forged_admission_and_false_participation_reject (test_p3_p1_native_v4.NativeP1Boundary.test_forged_admission_and_false_participation_reject) ... ok
+test_missing_population_is_explicit_and_no_sampling_occurs (test_p3_p1_native_v4.NativeP1Boundary.test_missing_population_is_explicit_and_no_sampling_occurs) ... ok
+test_postfreeze_and_wrong_target_identity_reject (test_p3_p1_native_v4.NativeP1Boundary.test_postfreeze_and_wrong_target_identity_reject) ... ok
+test_declared_model_cutoff_before_equal_and_one_microsecond_after (test_p3_remediation_v4.ModelCutoffControls.test_declared_model_cutoff_before_equal_and_one_microsecond_after) ... ok
+test_declared_prior_cutoff_before_equal_and_one_microsecond_after (test_p3_remediation_v4.ModelCutoffControls.test_declared_prior_cutoff_before_equal_and_one_microsecond_after) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.487s
+
+OK

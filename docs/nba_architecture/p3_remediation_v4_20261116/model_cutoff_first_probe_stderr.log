@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "<stdin>", line 7, in <module>
+  File "/workspace/work/p3/v2/nba_o_family.py", line 272, in build_opportunity
+    validate_opportunity(o,p,g)
+  File "/workspace/work/p3/v2/nba_architecture/v2_contracts.py", line 932, in checked
+    req(instant(model["training_cutoff_at"]) <= instant(p["training_cutoff_at"]),
+  File "/workspace/work/p3/v2/nba_architecture/v2_contracts.py", line 38, in req
+    raise ContractError(code)
+v2.nba_architecture.v2_contracts.ContractError: MODEL_AFTER_DATA_CUTOFF
