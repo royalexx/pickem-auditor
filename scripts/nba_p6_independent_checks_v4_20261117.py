@@ -61,7 +61,25 @@ def evidence(a):
             assert sha((qa/path).read_bytes())==expected,(name,path)
             n+=1
         manifests.append(dict(path=name,sha256=sha((qa/name).read_bytes()),entries=n))
-    return dict(exact_source_files=checked,inherited_g0_files=len(inherited),operational=operational,manifests=manifests,probe_raw_sha256=sha(probe.read_bytes()))
+    inventory_path=root/'docs/nba_architecture/p1_native_handoff_20261117_v1/source_inventory.json'
+    inventory=json.loads(inventory_path.read_bytes())
+    for source in inventory['available_source_objects']:
+        raw=(root/source['path']).read_bytes()
+        assert len(raw)==source['bytes'] and sha(raw)==source['raw_sha256']
+        assert source['admission_status']=='UNADMITTED' and source['original_pregame_available_at'] is None
+    assert len(inventory['missing_populations'])==8 and inventory['synthetic_fixtures_are_official_evidence'] is False
+    attempted=root/'docs/nba_architecture/p1_native_handoff_20261117_v1/nba_0021800001_attempt_1.receipt.json'
+    capture=json.loads(attempted.read_bytes());raw=(attempted.parent/capture['raw_path']).read_bytes()
+    assert sha(raw)==capture['raw_sha256'] and len(raw)==capture['bytes'] and capture['http_status']==403 and capture['admitted'] is False
+    receipt=root/'docs/nba_architecture/p3_remediation_v4_20261116/documentation_receipt_v2.json'
+    doc=json.loads(receipt.read_bytes())
+    assert sha((root/doc['document']).read_bytes())==doc['exact_document_raw_sha256']
+    assert sha((root/doc['original_receipt']).read_bytes())==doc['original_receipt_raw_sha256']
+    assert (root/doc['document']).read_bytes()==git(root,'show',doc['owner_sha']+':'+doc['document'])
+    assert (root/doc['original_receipt']).read_bytes()==git(root,'show',doc['owner_sha']+':'+doc['original_receipt'])
+    return dict(exact_source_files=checked,inherited_g0_files=len(inherited),operational=operational,manifests=manifests,probe_raw_sha256=sha(probe.read_bytes()),
+        source_population_review=dict(inventory_raw_sha256=sha(inventory_path.read_bytes()),known_source_objects=len(inventory['available_source_objects']),missing_populations=inventory['missing_populations'],official_attempt_http_status=403,admission='BLOCKED_NO_AUTHENTICITY_INFERRED'),
+        P3_documentation_receipt=dict(receipt_raw_sha256=sha(receipt.read_bytes()),exact_document_raw_sha256=doc['exact_document_raw_sha256'],original_receipt_preserved=True))
 
 
 def physical(a):
