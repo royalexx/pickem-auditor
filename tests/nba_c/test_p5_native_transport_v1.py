@@ -226,6 +226,22 @@ class NativeTransportControlsV1(unittest.TestCase):
             with self.subTest(attack=attack),self.assertRaises(WarehouseError):
                 validate_p1_export(bad)
 
+    def test_actual_prior_opponent_uncertainty_and_missing_evidence_remain_bound(self):
+        prior=json.loads(Path("tests/nba_c/fixtures/native_p1_prior_synthetic_v1.json").read_bytes())
+        p=json.loads(Path("docs/nba_architecture/completion_20261116/coherent_joint.json").read_bytes())["pregame"]
+        with tempfile.TemporaryDirectory() as root:
+            store=NativeForecastArchive(root)
+            artifact={"training_cutoff_at":"2022-11-01T00:00:00Z"}
+            store._source_attachment(prior,p,artifact)
+            for attack in ("opponent","uncertainty","missing_requirements","accounting_status"):
+                bad=deepcopy(prior)
+                if attack=="opponent":bad["exposure"]["opponent_id"]="nba:team:999"
+                if attack=="uncertainty":bad["uncertainty"]["source_admission"]="VERIFIED"
+                if attack=="missing_requirements":bad["missing_requirements"]=[]
+                if attack=="accounting_status":bad["exposure"]["accounting_status"]="OFFICIALLY_ACCEPTED"
+                with self.subTest(attack=attack),self.assertRaises(WarehouseError):
+                    store._source_attachment(bad,p,artifact)
+
     def test_stored_outcome_tampering_detected(self):
         with tempfile.TemporaryDirectory() as root:
             archive=NativeOutcomeArchive(root)

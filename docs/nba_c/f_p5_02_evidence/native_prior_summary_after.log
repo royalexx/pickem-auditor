@@ -1,0 +1,19 @@
+test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) ... ok
+test_actual_prior_opponent_uncertainty_and_missing_evidence_remain_bound (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_prior_opponent_uncertainty_and_missing_evidence_remain_bound) ... ok
+test_exact_raw_ancestor_corruption_and_orphan_revision_reject (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_exact_raw_ancestor_corruption_and_orphan_revision_reject) ... ok
+test_false_admission_or_scoring_authority_rejected (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_false_admission_or_scoring_authority_rejected) ... ok
+test_missing_outcome_is_immutable_separate_and_unscored (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_missing_outcome_is_immutable_separate_and_unscored) ... ok
+test_nonplayed_raw_credits_minutes_and_unknown_participation_are_not_erased (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_nonplayed_raw_credits_minutes_and_unknown_participation_are_not_erased) ... ok
+test_outcome_export_cannot_enter_forecast_source_argument (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_outcome_export_cannot_enter_forecast_source_argument) ... ok
+test_raw_duration_and_subminute_decisions_precede_float_rounding (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_raw_duration_and_subminute_decisions_precede_float_rounding) ... ok
+test_real_outcome_and_forecast_intake_fail_closed (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_real_outcome_and_forecast_intake_fail_closed) ... ok
+test_resealed_correction_cannot_change_source_clock_team_stats_descriptor (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_resealed_correction_cannot_change_source_clock_team_stats_descriptor) ... ok
+test_source_capture_schema_is_closed_not_caller_certifiable (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_source_capture_schema_is_closed_not_caller_certifiable) ... ok
+test_stored_outcome_tampering_detected (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_stored_outcome_tampering_detected) ... ok
+test_summary_boolean_numeric_equivalence_is_not_admission (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_summary_boolean_numeric_equivalence_is_not_admission) ... ok
+test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.020s
+
+OK

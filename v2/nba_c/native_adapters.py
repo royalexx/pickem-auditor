@@ -394,6 +394,14 @@ class NativeForecastArchive:
                  instant(export["clocks"]["ingested_at"])>=instant(node["capture"]["retrieved_at"]),
                  "NATIVE_PRIOR_RETRIEVAL_CLOCK")
             exposure=export["exposure"]
+            teams={"nba:team:"+str(game[k]["teamId"]) for k in ("homeTeam","awayTeam")}
+            _req(exposure["team_id"] in teams and exposure["opponent_id"] in teams and
+                 exposure["team_id"]!=exposure["opponent_id"],"NATIVE_PRIOR_OPPONENT_IDENTITY")
+            _req(export["uncertainty"]=={"participation":exposure["participation"],
+                 "source_admission":"UNKNOWN","role":"UNKNOWN"} and
+                 export["missing_requirements"]==["INDEPENDENT_SOURCE_ADMISSION",
+                     "ORIGINAL_OR_FIRST_DEFENSIBLE_AVAILABILITY","SOURCE_BOUND_OUTCOME_RELEASE_CLOCK",
+                     "DATED_ROLE_EVIDENCE"],"NATIVE_PRIOR_UNCERTAINTY_OR_MISSING_EVIDENCE")
             _req(_nullable_number(exposure["exact_minutes"]) and
                  type(exposure["overtime_periods"]) is int and
                  type(exposure["duration_minutes"]) in (int,float) and
@@ -421,6 +429,10 @@ class NativeForecastArchive:
                 "player_id":exposure["player_id"],"team_id":exposure["team_id"],
                 "state":state,"minutes":exposure["displayed_minutes"],"stats":exposure["stats"]},node)
             _req(exposure["exact_minutes"]==exact,"NATIVE_PRIOR_EXACT_MINUTE_JOIN")
+            accounting_status=("NONPARTICIPATION_OR_UNKNOWN" if exact is None else
+                "ADJUDICATED_ROUNDED_SUBMINUTE" if exposure["displayed_minutes"]==0 and
+                any(exposure["stats"].values()) else "OFFICIAL_BOX_RECONCILED")
+            _req(exposure["accounting_status"]==accounting_status,"NATIVE_PRIOR_ACCOUNTING_STATUS_JOIN")
             _req(game_id!=pregame["game_id"] and
                  instant(game["gameTimeUTC"])<cutoff,"NATIVE_TARGET_OR_POST_CUTOFF_SOURCE")
             for name in ("provider_published_at","first_defensible_available_at","outcome_available_at"):
