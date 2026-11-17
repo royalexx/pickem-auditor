@@ -114,6 +114,9 @@ def bind_p1_priors(p, priors, *, raw_sources, home_team_id, home_receipt):
         pid = player['player_id']; prior = priors[pid]
         receipt = prior['source_receipt_sha256']
         req(receipt in raw_sources, 'O_RAW_SOURCE_REQUIRED')
+        for supporting_receipt in prior['source_bindings']:
+            req(supporting_receipt in raw_sources, 'O_RAW_SOURCE_REQUIRED')
+            source_bytes(p, supporting_receipt, raw_sources[supporting_receipt])
         source = source_bytes(p, receipt, raw_sources[receipt])
         req(source['scope'] == 'pregame_context', 'O_PRIOR_CONTEXT_SOURCE_REQUIRED')
         matches = [f for f in p['features']
@@ -125,8 +128,6 @@ def bind_p1_priors(p, priors, *, raw_sources, home_team_id, home_receipt):
         body = {k:v for k,v in prior.items() if k != 'source_snapshot_sha256'}
         expected = dict(player_id=pid, team_id=player['team_id'], prior=body)
         document = _document(raw_sources[receipt])
-        req(set(document.get('opportunity_priors', {})) == set(priors),
-            'O_RAW_PRIOR_ROSTER_COVERAGE')
         raw_expected = dict(player_id=pid, team_id=player['team_id'],
                             prior={k:v for k,v in body.items() if k not in
                                    ('source_receipt_sha256', 'source_bindings')})

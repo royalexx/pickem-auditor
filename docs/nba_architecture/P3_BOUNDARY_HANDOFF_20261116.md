@@ -80,7 +80,7 @@ For future original-source input, P1 must supply:
    canonical JSON `{player_id, team_id, prior}`. The prior excludes only the
    circular P snapshot hash. Its receipt and available timestamp match the feature.
 4. Exact receipted P1 model-input documents containing an `opportunity_priors`
-   map with complete player coverage. Each value has `{player_id, team_id, prior}`;
+   map; the documents jointly cover every player. Each value has `{player_id, team_id, prior}`;
    the raw prior excludes circular snapshot and receipt/source_bindings hashes.
    This is a **proposed P1 export interface**, not a claim ESPN publishes models.
 5. A separately reviewed participation-fit authentication/training manifest API
