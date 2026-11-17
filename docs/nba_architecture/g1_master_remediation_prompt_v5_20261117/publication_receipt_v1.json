@@ -1,0 +1,68 @@
+{
+  "schema": "NBA_G1_FRESH_AUDIT_AND_MASTER_PROMPT_PUBLICATION_V1",
+  "observed_at_utc": "2026-11-17 14:13:50 UTC",
+  "independent_audit_publication_sha": "b7ca2899ab8d902cda62bfb802ab74dcb5598a30",
+  "master_prompt_publication_commit": "c92c5619c8a65a111f89234348d19ad34bd1c274",
+  "master_prompt_raw_sha256": "e5a3db195ccf53cba3afb0a9abcc414da42f2d9ab276b2488cc2f45a8ff9da08",
+  "independent_disposition": {
+    "PASS": 26,
+    "FAIL": 2,
+    "BLOCKED": 8,
+    "criteria": 36,
+    "overall_G1": "NO-GO"
+  },
+  "issue160_append": {
+    "id": 6950492694,
+    "url": "https://github.com/royalexx/pickem-auditor/issues/160#issuecomment-6950492694"
+  },
+  "owner_red_comment_ids": {
+    "P2": 6950494490,
+    "P5": 6950500193
+  },
+  "pr_snapshots": [
+    {
+      "number": 173,
+      "url": "https://github.com/royalexx/pickem-auditor/pull/173",
+      "head_sha": "b7ca2899ab8d902cda62bfb802ab74dcb5598a30",
+      "title": "P6 fresh full G1 audit: reopen P2/P5 accounting defects; NO-GO",
+      "draft": true,
+      "state": "open",
+      "merged": false
+    },
+    {
+      "number": 174,
+      "url": "https://github.com/royalexx/pickem-auditor/pull/174",
+      "head_sha": "c92c5619c8a65a111f89234348d19ad34bd1c274",
+      "title": "[DRAFT][G1 NO-GO] Fresh full audit and master remediation prompt",
+      "draft": true,
+      "state": "open",
+      "merged": false
+    },
+    {
+      "number": 165,
+      "url": "https://github.com/royalexx/pickem-auditor/pull/165",
+      "head_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "title": "[DRAFT][G1 FAIL] P2 native S interfaces; raw-zero credit repair required",
+      "draft": true,
+      "state": "open",
+      "merged": false
+    },
+    {
+      "number": 163,
+      "url": "https://github.com/royalexx/pickem-auditor/pull/163",
+      "head_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "title": "[DRAFT][G1 FAIL] P5 immutable handoffs; raw-credit rounding repair required",
+      "draft": true,
+      "state": "open",
+      "merged": false
+    }
+  ],
+  "owner_implementation_changes_performed": false,
+  "known_software_failures_preserved_for_master_prompt_execution": [
+    "F-P2-07",
+    "F-P5-05"
+  ],
+  "initial_packet_manifest": "SHA256SUMS (unchanged; belongs to c92c5619c8a65a111f89234348d19ad34bd1c274)",
+  "publication_receipt_successor": "Documentation-only append; source/master prompt and original manifests unchanged.",
+  "orchestrator_awards_independent_acceptance": false
+}
