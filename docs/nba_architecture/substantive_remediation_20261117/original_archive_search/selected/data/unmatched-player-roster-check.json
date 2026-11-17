@@ -1,0 +1,342 @@
+[
+  {
+    "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/gs/roster",
+    "retrieved_at": "2026-10-26T21:37:40Z",
+    "matches": [
+      {
+        "id": "4709138",
+        "uid": "s:40~l:46~a:4709138",
+        "guid": "60bcccd8-d8f6-336b-903e-1b7ee3d1aa3e",
+        "alternateIds": {
+          "sdr": "4709138"
+        },
+        "firstName": "Brandin",
+        "lastName": "Podziemski",
+        "fullName": "Brandin Podziemski",
+        "displayName": "Brandin Podziemski",
+        "shortName": "B. Podziemski",
+        "weight": 205.0,
+        "displayWeight": "205 lbs",
+        "height": 76.0,
+        "displayHeight": "6' 4\"",
+        "age": 23,
+        "dateOfBirth": "2003-02-25T08:00Z",
+        "links": [
+          {
+            "language": "en-US",
+            "rel": [
+              "playercard",
+              "desktop",
+              "athlete"
+            ],
+            "href": "https://www.espn.com/nba/player/_/id/4709138/brandin-podziemski",
+            "text": "Player Card",
+            "shortText": "Player Card",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "stats",
+              "desktop",
+              "athlete"
+            ],
+            "href": "https://www.espn.com/nba/player/stats/_/id/4709138/brandin-podziemski",
+            "text": "Stats",
+            "shortText": "Stats",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "stats",
+              "sportscenter",
+              "app",
+              "athlete"
+            ],
+            "href": "sportscenter://x-callback-url/showClubhouse?uid=s:40~l:46~a:4709138&section=stats",
+            "text": "Stats",
+            "shortText": "Stats",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "splits",
+              "desktop",
+              "athlete"
+            ],
+            "href": "https://www.espn.com/nba/player/splits/_/id/4709138/brandin-podziemski",
+            "text": "Splits",
+            "shortText": "Splits",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "gamelog",
+              "desktop",
+              "athlete"
+            ],
+            "href": "https://www.espn.com/nba/player/gamelog/_/id/4709138/brandin-podziemski",
+            "text": "Game Log",
+            "shortText": "Game Log",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "gamelog",
+              "sportscenter",
+              "app",
+              "athlete"
+            ],
+            "href": "sportscenter://x-callback-url/showClubhouse?uid=s:40~l:46~a:4709138&section=gamelog",
+            "text": "Game Log",
+            "shortText": "Game Log",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "news",
+              "desktop",
+              "athlete"
+            ],
+            "href": "https://www.espn.com/nba/player/news/_/id/4709138/brandin-podziemski",
+            "text": "News",
+            "shortText": "News",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "news",
+              "sportscenter",
+              "app",
+              "athlete"
+            ],
+            "href": "sportscenter://x-callback-url/showClubhouse?uid=s:40~l:46~a:4709138&section=news",
+            "text": "News",
+            "shortText": "News",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "bio",
+              "desktop",
+              "athlete"
+            ],
+            "href": "https://www.espn.com/nba/player/bio/_/id/4709138/brandin-podziemski",
+            "text": "Bio",
+            "shortText": "Bio",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "bio",
+              "sportscenter",
+              "app",
+              "athlete"
+            ],
+            "href": "sportscenter://x-callback-url/showClubhouse?uid=s:40~l:46~a:4709138&section=bio",
+            "text": "Bio",
+            "shortText": "Bio",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "overview",
+              "desktop",
+              "athlete"
+            ],
+            "href": "https://www.espn.com/nba/player/_/id/4709138/brandin-podziemski",
+            "text": "Overview",
+            "shortText": "Overview",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "overview",
+              "sportscenter",
+              "app",
+              "athlete"
+            ],
+            "href": "sportscenter://x-callback-url/showClubhouse?uid=s:40~l:46~a:4709138",
+            "text": "Overview",
+            "shortText": "Overview",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "advancedstats",
+              "desktop",
+              "athlete"
+            ],
+            "href": "https://www.espn.com/nba/player/advancedstats/_/id/4709138/brandin-podziemski",
+            "text": "Advanced Stats",
+            "shortText": "Advanced Stats",
+            "isExternal": false,
+            "isPremium": false
+          }
+        ],
+        "birthPlace": {
+          "city": "Greenfield",
+          "state": "WI",
+          "country": "USA"
+        },
+        "college": {
+          "id": "2541",
+          "guid": "eb16b247-c82a-3020-9057-c94540adae0f",
+          "mascot": "Broncos",
+          "name": "Santa Clara",
+          "shortName": "Santa Clara",
+          "abbrev": "SCU",
+          "logos": [
+            {
+              "href": "https://a.espncdn.com/i/teamlogos/ncaa/500/2541.png",
+              "width": 500,
+              "height": 500,
+              "alt": "",
+              "rel": [
+                "full",
+                "default"
+              ],
+              "lastUpdated": "2023-01-23T20:42Z"
+            },
+            {
+              "href": "https://a.espncdn.com/i/teamlogos/ncaa/500-dark/2541.png",
+              "width": 500,
+              "height": 500,
+              "alt": "",
+              "rel": [
+                "full",
+                "dark"
+              ],
+              "lastUpdated": "2023-01-23T20:43Z"
+            }
+          ]
+        },
+        "slug": "brandin-podziemski",
+        "headshot": {
+          "href": "https://a.espncdn.com/i/headshots/nba/players/full/4709138.png",
+          "alt": "Brandin Podziemski"
+        },
+        "jersey": "2",
+        "hand": {
+          "type": "RIGHT",
+          "abbreviation": "R",
+          "displayValue": "Right"
+        },
+        "position": {
+          "id": "3",
+          "name": "Guard",
+          "displayName": "Guard",
+          "abbreviation": "G",
+          "leaf": false
+        },
+        "injuries": [],
+        "teams": [
+          {
+            "$ref": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2027/teams/9?lang=en&region=us"
+          }
+        ],
+        "contracts": [
+          {
+            "salary": 5679458,
+            "season": {
+              "year": 2027,
+              "startDate": "2026-09-30T07:00Z",
+              "endDate": "2027-06-26T06:59Z"
+            }
+          },
+          {
+            "salary": 3687960,
+            "season": {
+              "year": 2026,
+              "startDate": "2025-10-01T07:00Z",
+              "endDate": "2026-06-27T06:59Z"
+            }
+          },
+          {
+            "salary": 3519960,
+            "season": {
+              "year": 2025,
+              "startDate": "2024-09-24T07:00Z",
+              "endDate": "2025-06-27T06:59Z"
+            }
+          },
+          {
+            "salary": 3352440,
+            "season": {
+              "year": 2024,
+              "startDate": "2023-10-05T07:00Z",
+              "endDate": "2024-06-21T06:59Z"
+            }
+          }
+        ],
+        "experience": {
+          "years": 4
+        },
+        "contract": {
+          "birdStatus": 0,
+          "baseYearCompensation": {
+            "active": false
+          },
+          "poisonPillProvision": {
+            "active": false
+          },
+          "incomingTradeValue": 5679458,
+          "outgoingTradeValue": 5679458,
+          "minimumSalaryException": false,
+          "optionType": 0,
+          "salary": 5679458,
+          "salaryRemaining": 0,
+          "yearsRemaining": 1,
+          "season": {
+            "year": 2027,
+            "startDate": "2026-09-30T07:00Z",
+            "endDate": "2027-06-26T06:59Z"
+          },
+          "tradeKicker": {
+            "active": false,
+            "percentage": 0.0,
+            "value": 0,
+            "tradeValue": 0
+          },
+          "tradeRestriction": false,
+          "unsignedForeignPick": false,
+          "active": true
+        },
+        "status": {
+          "id": "1",
+          "name": "Active",
+          "type": "active",
+          "abbreviation": "Active"
+        }
+      }
+    ]
+  },
+  {
+    "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/den/roster",
+    "retrieved_at": "2026-10-26T21:37:45Z",
+    "matches": []
+  }
+]

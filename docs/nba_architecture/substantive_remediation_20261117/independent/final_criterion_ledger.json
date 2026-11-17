@@ -1,0 +1,543 @@
+{
+  "schema": "NBA_P6_SUBSTANTIVE_SCOPED_REMEDIATION_DECISION_V1",
+  "reviewer": "/root/p6_independent",
+  "implementation_authored_by_reviewer": false,
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "accepted_G0": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "reviewed_final_executable_head": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+  "scope": "Incremental independent engineering/content review, not a repeat of every original auditworkflow or family acceptance.",
+  "counts": {
+    "PASS": 29,
+    "FAIL": 0,
+    "BLOCKED": 7
+  },
+  "family_recommendations": {
+    "P1": "BLOCKED",
+    "P2": "BLOCKED",
+    "P3": "BLOCKED",
+    "P4": "BLOCKED",
+    "P5": "BLOCKED",
+    "P6": "PASS_FINITE_SCOPED_INDEPENDENT_QA"
+  },
+  "overall_G1": "NO-GO",
+  "requested_all_blockers_unblocked": false,
+  "G2": "NOT_ACCEPTED",
+  "criteria": [
+    {
+      "id": "F-P2-02",
+      "owner": "P2",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P5-02",
+      "owner": "P5",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "B-P1-01",
+      "owner": "P1",
+      "prior_status": "BLOCKED",
+      "status": "BLOCKED",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "blocker_class": "UNAVAILABLE_SOURCE_EVIDENCE",
+      "disposition": "BLOCKED despite recovered and independently bounded-admitted official2018printedcontent: exactPDF finalbox26rows/duration/DNProws and game-only ESPNidentityjoin exist. Original availability, complete eligible/active/inactive populations, dated membership/trades and correction ancestry remain unproven. Identityjoin is unadmitted; no future roster inference.",
+      "remaining_requirement": "P1 must obtain independently admissible original or explicitly acceptable reconstructed source populations with honest clocks, dated mappings, complete schedule/roster/result/participation denominators and correction ancestry. Archive integrity does not supply authentication.",
+      "evidence": [
+        "gamebook_approval.json",
+        "final-source-confirmation.json",
+        "gamebook-probes.json"
+      ]
+    },
+    {
+      "id": "B-P1-02",
+      "owner": "P1",
+      "prior_status": "BLOCKED",
+      "status": "BLOCKED",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "blocker_class": "UNAVAILABLE_SOURCE_EVIDENCE",
+      "disposition": "BLOCKED with genuine progress: official2018first-page FINALBOX establishes48printedgame-minutes/0OT and listed seconds/statistics. ExactPDF3contentcapabilities admitted. Full-game rounded-display-zero minute exception and complete correction evidence remain absent/unadmitted; BradWanamaker49seconds2PTS is not such an exception, and Pritchard4seconds3PTS is quarter-only (fullgame1:25).",
+      "remaining_requirement": "P1 must obtain authentic prior-game official duration/OT/stat/correction bytes and independently accepted minute-exception evidence. Preserve unresolved true-zero positive credits; synthetic fixtures cannot establish an exception.",
+      "evidence": [
+        "gamebook_approval.json",
+        "gamebook-probes.json",
+        "final-source-confirmation.json"
+      ]
+    },
+    {
+      "id": "B-P2-01",
+      "owner": "P2",
+      "prior_status": "BLOCKED",
+      "status": "BLOCKED",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "blocker_class": "UNIMPLEMENTED_ADMISSION_PROTOCOL_AND_UNADMITTED_FIT_EVIDENCE",
+      "disposition": "BLOCKED: three admitted historical printedcontent capabilities do not admit trainingrows, sourceavailability/datedrole evidence or existing fitted artifacts at lawful cutoffs. Existing2024conditionalminute fit is present but unadmitted and not a genuineparticipationartifact or lawful2018fit. No new admitted Sreader or historicalreplacement fitting supplied.",
+      "remaining_requirement": "Latest P1/P3 native transport is structurally implemented and independently verified. Remaining: independently admitted duration/source/clock/role evidence and admissible existing fitted artifacts at lawful cutoffs, without target outcomes or unauthorized historical fitting."
+    },
+    {
+      "id": "B-P3-01",
+      "owner": "P3",
+      "prior_status": "BLOCKED",
+      "status": "BLOCKED",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "blocker_class": "UNAVAILABLE_SOURCE_EVIDENCE_AND_UNIMPLEMENTED_ADMITTED_READER",
+      "disposition": "BLOCKED: bounded newP3 coupling works, and game-only26row identityhelper exists unadmitted. No complete authentic pregame eligible/active roster, datedmembership/home/role population or independently admitted participation/minute priors; genuineq remainsnull.",
+      "remaining_requirement": "Latest P1 export consumer is implemented and preserves uncertainty. Remaining: independently admissible original roster/context, dated membership, source-bound home/roles, genuine participation and minute-prior authentication with lawful model cutoffs."
+    },
+    {
+      "id": "B-P4-01",
+      "owner": "P4",
+      "prior_status": "BLOCKED",
+      "status": "BLOCKED",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "blocker_class": "UNIMPLEMENTED_AUTHENTIC_ADMISSION_READER",
+      "disposition": "BLOCKED: bounded opt-in newP3 full-law certificate is separately accepted, but latestP4 nativeadoption of that newprotocol is not demonstrated here. Authentic source/fittedartifact admission and coordinated admitted readers remain unavailable/unimplemented; existing P4realmode remainsclosed.",
+      "remaining_requirement": "Latest actual P2/P3 versioned consumer is implemented and independently verified for synthetic engineering. Remaining: independently accepted authentic source/fitted-artifact admission and trust population with exact source/code/cutoff/identity/scenario binding; real mode stays closed."
+    },
+    {
+      "id": "B-P4-02",
+      "owner": "P4",
+      "prior_status": "BLOCKED",
+      "status": "BLOCKED",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "blocker_class": "UNIMPLEMENTED_AND_UNACCEPTED_PHYSICAL_LAW_CONTRACT_AND_PROOF",
+      "disposition": "BLOCKED: no implemented/accepted constrained event-time physical-law contract with predeclared acceptable tail/distortion and possession/FT/rebound/assist/copresence/OT/earlyexit semantics. Existing standalone P2marginal incompatibility and large repeatedstudy distortions remain; aggregate minute coupling does not resolve them.",
+      "remaining_requirement": "P4/P0 must prepare and obtain separate independent acceptance of a versioned constrained physical-law contract with satisfactory distortion/tail limits and event-time possession/FT/rebound/assist/co-presence, possession-unit, OT, early-exit and genuine participation semantics. Proposal0.1.0 is not accepted for G1; accepted G0 is not amended."
+    },
+    {
+      "id": "B-P4-03",
+      "owner": "P4",
+      "prior_status": "BLOCKED",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "blocker_class": "UNIMPLEMENTED_SCALABLE_FULL_LAW_PROOF",
+      "disposition": "PASS for precisely bounded opt-in full-marginal certificate1.0.0: sufficient simultaneousunknownq1 measure under exact canonical decimal normalized masses and inherited1e-7minute conservation tolerance; explicit unchanged completeLP fallback, unsupportedcases unresolved. Not a general sparsemax-qoracle, oldG0budgetrepair, genuineqestimate or demonstrated latestP4nativeadoption.",
+      "remaining_requirement": "P0/P3/P4 must establish a scalable verifier preserving accepted full-law coupling/max-q semantics, or obtain separate independent acceptance of a precisely bounded operating contract. Finite positive n4/n8 cases do not prove a generally valid range; no budget increase, scenario discard or O0 substitution.",
+      "evidence": [
+        "COUPLING_DECISION.md",
+        "coupling_decision.json",
+        "probes.json",
+        "final-coupling-probes.json",
+        "source_receipt.json",
+        "final-source-confirmation.json",
+        "final-architecture.stderr"
+      ]
+    },
+    {
+      "id": "B-P5-01",
+      "owner": "P5",
+      "prior_status": "BLOCKED",
+      "status": "BLOCKED",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "blocker_class": "UNAVAILABLE_OUTCOME_EVIDENCE_AND_UNIMPLEMENTED_COORDINATED_ADMISSION",
+      "disposition": "BLOCKED: officialPDF3printedcontent capabilities do not supply original outcomeevent/end/release/correction evidence or externalidentity/source/fit/Jadmission. OutcomeAPI separation and uncertified/scoringblocked dispositions remain; no coordinated new admitted Creader supplied.",
+      "remaining_requirement": "Actual native P1/P4 intake and all96 distribution handoffs are implemented and independently verified for synthetic engineering. Remaining: independently admitted source/roster/identity and official event/end/release/correction evidence, admissible existing fits and independently accepted P4 physical-law contract. Forecast/outcome APIs remain separate."
+    },
+    {
+      "id": "F-DISCOVERY-01",
+      "owner": "P0/repository test custodian",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P1-01",
+      "owner": "P1",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P2-01",
+      "owner": "P2",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P5-01",
+      "owner": "P5",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "R-P3-DOC-01",
+      "owner": "P3",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P1-NATIVE-01",
+      "owner": "P1",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P1-NATIVE-02",
+      "owner": "P1",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P1-NATIVE-03",
+      "owner": "P1",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P1-NATIVE-04",
+      "owner": "P1",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P1-NATIVE-05",
+      "owner": "P1",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P2-03",
+      "owner": "P2",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P2-04",
+      "owner": "P2",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P2-05",
+      "owner": "P2",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P2-06",
+      "owner": "P2",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P2-07",
+      "owner": "P2",
+      "prior_status": "FAIL",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Exact-SHA source review, original224matrix, independent3360matrix and public/status archives pass. Expanded matrix detects original defects at exact6dee. Finite engineering repair accepted.",
+      "evidence": [
+        "exact/receipt.json",
+        "exact/expanded.json",
+        "exact/matrix.json",
+        "exact/public.json",
+        "exact/status.json",
+        "expanded-red.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P2-08",
+      "owner": "P2",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P3-NATIVE-01",
+      "owner": "P3",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P4-NATIVE-01",
+      "owner": "P4",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P4-NATIVE-02",
+      "owner": "P4",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P4-NATIVE-03",
+      "owner": "P4",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P5-03",
+      "owner": "P5",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P5-04",
+      "owner": "P5",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P5-05",
+      "owner": "P5",
+      "prior_status": "FAIL",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Exact-SHA source review, original224matrix, independent3360matrix and public/status archives pass. Expanded matrix detects original defects at exact6dee. Finite engineering repair accepted.",
+      "evidence": [
+        "exact/receipt.json",
+        "exact/expanded.json",
+        "exact/matrix.json",
+        "exact/public.json",
+        "exact/status.json",
+        "expanded-red.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P5-06",
+      "owner": "P5",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-DISCOVERY-02",
+      "owner": "P0",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    },
+    {
+      "id": "F-P0-ASSEMBLY-01",
+      "owner": "P0/orchestrator publication",
+      "prior_status": "PASS",
+      "status": "PASS",
+      "reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+      "disposition": "Prior accepted finite criterion retained after exact8-file delta review, architecture513/S68/C76 and ten independent section regressions. Prior complete execution remains at immutableb7ca289; this is a scoped fresh repair review, not a rerun of all prior workflows.",
+      "evidence": [
+        "preservation.json",
+        "exact/receipt.json",
+        "sections/receipt.json"
+      ],
+      "evidence_scope": "Accounting finite repair acceptance retained from prior independentbafbcf2areview; final added-module review and unchanged original implementations do not reinterpret old synthetic controls as real admission."
+    }
+  ],
+  "independently_accepted_new_scope": [
+    "Bounded opt-in full-law primal certificate1.0.0 and explicit completeLPfallback",
+    "ExactofficialPDF/capture/reader3printedcontentcapabilities only"
+  ],
+  "executions": [
+    "Fullarchitecture521atc296706d",
+    "Fullarchitecture527atb70d6b0",
+    "Exactfinal9e814597eightgamebookidentityrootmethods; onlytwo testmethods added fromb70, noimplementationchanges",
+    "Independent knownq=.5/excludedq0/n128/tinyatom/requiredpositive/separateextrema-versus-commonprimal probes",
+    "Independent officialPDF HTTP200 byteidentical refetch and visual26rowminute/pointoracle",
+    "13isolated gamebook/admissionprobes and actual installedroot threepublicAPIcapabilities"
+  ],
+  "scope_limits": [
+    "All coupling cases are synthetic; observedgames0. OfficialPDFcontentreview is realsourcecontent, not predictive/economic validation.",
+    "No general sparsefull-law solver accepted; oldG0core/budgets preserved. No latestP4nativeadoption shown.",
+    "Game-specific ESPNjoin remainsunadmitted and doesnotexpand threeapproved capabilities.",
+    "No full new independentcurrent24/historical32/256seed/99archive campaign or repository-wideCI in this incrementalreview.",
+    "No historical training/evaluation, warehouse decompression, weightfitting, NUTSrestart, schedules, merge, deployment or Tierpromotion."
+  ]
+}

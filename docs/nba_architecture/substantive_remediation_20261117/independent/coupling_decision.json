@@ -1,0 +1,30 @@
+{
+  "schema": "NBA_P6_BOUNDED_COUPLING_PROTOCOL_DECISION_V1",
+  "reviewer": "/root/p6_independent",
+  "implementation_authored_by_reviewer": false,
+  "candidate": "c296706d2c5e84b6140ac18141718300362ccf38",
+  "criterion": "B-P4-03",
+  "decision": "PASS_FOR_PRECISELY_BOUNDED_OPT_IN_PROTOCOL_1_0_0",
+  "accepted_G0": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "numeric_contract": "EXACT_CANONICAL_DECIMAL_MASSES_WITH_DECLARED_1E_7_MINUTE_TOLERANCE",
+  "scope": "Full supplied positive-column measure with every full-law marginal exact, knownq preserved, every unknownq simultaneously attaining1. Other cases explicitly identified complete oldLP fallback or unresolved.",
+  "general_sparse_max_q_algorithm_accepted": false,
+  "genuine_participation_inferred": false,
+  "source_admission": false,
+  "chronological_physics_accepted": false,
+  "latest_P4_adoption_demonstrated": false,
+  "old_n32_budget_red_preserved": true,
+  "architecture": {
+    "tests": 521,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "evidence": [
+    "probes.json",
+    "probe_coupling.py",
+    "architecture.stdout",
+    "architecture.stderr",
+    "source_receipt.json"
+  ]
+}
