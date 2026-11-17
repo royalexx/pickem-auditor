@@ -1,0 +1,15 @@
+{
+  "all_pass": false,
+  "assembly": "d46f5322b47367ba601b05197cef8404758da23d",
+  "historical_outcomes_accessed": false,
+  "qa_source_sha256": "7b1635c0f7af33a51c04fcbc503044f14368515b924dab100cc828fa5defa4c2",
+  "schema": "NBA_P6_INDEPENDENT_NEW_CHECKS_V4",
+  "sections": {
+    "incompatibility": {
+      "error": "",
+      "status": "FAIL",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/work/p6_v4_independent/qa/scripts/nba_p6_independent_checks_v4_20261117.py\", line 367, in main\n    try:result['sections'][name]={'status':'PASS','result':globals()[name](a)}\n                                                           ^^^^^^^^^^^^^^^^^^\n  File \"/workspace/work/p6_v4_independent/qa/scripts/nba_p6_independent_checks_v4_20261117.py\", line 355, in incompatibility\n    assert gap>0 and gap>1000*sum(mp.mpf(str(y['serialization_bound'])) for y in parameters.values())\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    }
+  },
+  "synthetic_only": true
+}

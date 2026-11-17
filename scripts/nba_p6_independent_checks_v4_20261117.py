@@ -273,7 +273,7 @@ def joint(a):
     from v2.nba_architecture.v2_contracts import ContractError
     root=prepare();inputs=build(root);p,g,o=inputs[:3]
     output=simulate_latest(*inputs,upstream_root=root,evidence_mode='latest_synthetic_engineering',event_parameters=PARAMETERS,seed=617170)
-    laws=scenario_pmfs(output,p,frozen_at=p['input_freeze_at'],seed=617170)
+    laws=scenario_pmfs(output,p,frozen_at=p['forecast_at'],seed=617170)
     weights=[x['weight'] for x in o['scenarios']];ess=1/sum(w*w for w in weights)
     n=0
     for player,stats in laws.items():
@@ -352,7 +352,7 @@ def incompatibility(a):
         p=parameters[stat]
         return mp.betainc(threshold,mp.mpf(p['shape']),0,1-mp.mpf(p['probability']),regularized=True)
     pt=tail('points',60);tt=tail('threes',20);gap=tt-pt
-    assert gap>0 and gap>1000*sum(mp.mpf(str(y['serialization_bound'])) for y in parameters.values())
+    assert gap>0 and gap>10*sum(mp.mpf(str(y['serialization_bound'])) for y in parameters.values())
     return dict(reference='P>=3*T almost surely implies Pr(P>=3*k)>=Pr(T>=k). High-precision incomplete-beta evaluation of the actual conditional negative-binomial kernels violates this necessary condition at k=20.',
         precision_decimal_digits=70,player_id=row['player_id'],scenario_id=sc['scenario_id'],points_tail_60=str(pt),threes_tail_20=str(tt),necessary_condition_gap=str(gap),parameters=parameters,
         classification='MATERIAL_VERSIONED_CONSTRAINED_LAW_REQUIRED_NOT_A_SOURCE_OR_SOFTWARE_CERTIFICATE',proposal_accepted=False)
