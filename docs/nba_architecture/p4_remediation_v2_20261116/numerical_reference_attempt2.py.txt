@@ -1,0 +1,63 @@
+"""Independent analytical synthetic references for the proposed rate law.
+
+This does not fit forecasts or read historical outcomes. Mixed-Poisson
+identities are integrated directly rather than calling P2's PMF builder.
+"""
+import json
+import math
+
+import numpy as np
+from scipy.integrate import quad
+from scipy.stats import gamma, nbinom, poisson
+
+
+def references():
+    checks = []
+    for label, shape, scale, exposure in [('S1', 2.75, .04, 37.25), ('S2', 4., .15, 37.25)]:
+        direct = [quad(lambda rate: poisson.pmf(y, rate*exposure)*gamma.pdf(rate, shape, scale=scale),
+                       0, np.inf, epsabs=1e-12)[0] for y in range(80)]
+        analytic = nbinom.pmf(np.arange(80), shape, 1/(1+scale*exposure))
+        error = max(abs(np.asarray(direct)-analytic))
+        checks.append({'family': label, 'maximum_pmf_error': float(error),
+            'rate_mean': shape*scale, 'rate_variance': shape*scale**2,
+            'predictive_mean': exposure*shape*scale,
+            'predictive_variance': exposure*shape*scale + exposure**2*shape*scale**2,
+            'pass': error < 2e-11})
+    # X,Y iid Gamma(2,1). X>=3Y iff X/(X+Y)>=3/4.
+    # Beta(2,2) has density 6z(1-z); the acceptance is exactly 5/32.
+    acceptance = quad(lambda y: gamma.sf(3*y, 2)*gamma.pdf(y,2), 0, np.inf, epsabs=1e-13)[0]
+    mean_x_num = quad(lambda y: 2*gamma.sf(3*y, 3)*gamma.pdf(y,2), 0, np.inf, epsabs=1e-13)[0]
+    mean_y_num = quad(lambda y: y*gamma.sf(3*y,2)*gamma.pdf(y,2), 0, np.inf, epsabs=1e-13)[0]
+    conditioned = {'law': 'X,Y iid Gamma(2,1); condition X>=3Y',
+        'acceptance': acceptance, 'analytic_acceptance': 5/32,
+        'rejection_probability': 1-acceptance,
+        'conditional_point_rate_mean': mean_x_num/acceptance,
+        'conditional_three_rate_mean': mean_y_num/acceptance,
+        'unconditional_each_rate_mean': 2.,
+        'pass': abs(acceptance-5/32) < 1e-12}
+    # No coupling can preserve these two Poisson(1) marginals and points>=3*3PM.
+    # The event inclusion {3PM>=1} subset {PTS>=3} yields an exact contradiction.
+    three_event = poisson.sf(0,1)
+    point_event = poisson.sf(2,1)
+    incompatibility = {'point_law': 'Poisson(1)', 'three_law': 'Poisson(1)',
+        'physical_constraint': 'PTS >= 3*3PM',
+        'Pr_3PM_ge_1': float(three_event), 'Pr_PTS_ge_3': float(point_event),
+        'minimum_sum_of_marginal_TV_distortions': float(three_event-point_event),
+        'mean_contradiction': 'E[PTS]=1 < 3*E[3PM]=3',
+        'pass': bool(three_event > point_event)}
+    # Finite exposure/possession caps also preclude exact unbounded Poisson tails.
+    tail = {'law': 'Poisson(1)', 'finite_count_cap': 5,
+        'minimum_marginal_TV_distortion': float(poisson.sf(5,1)),
+        'pass': bool(poisson.sf(5,1) > 0)}
+    return {'scope': 'ANALYTICAL_SYNTHETIC_ONLY', 'mixed_poisson_references': checks,
+        'conditioning_distortion_reference': conditioned,
+        'exact_marginal_incompatibility': incompatibility, 'finite_cap_tail_reference': tail,
+        'all_pass': all(x['pass'] for x in checks+[conditioned,incompatibility,tail]),
+        'contract_acceptance': 'PENDING_INDEPENDENT_REVIEW',
+        'physical_event_chronology': 'NOT_ESTABLISHED_BY_THESE_REFERENCES'}
+
+
+if __name__ == '__main__':
+    result = references()
+    print(json.dumps(result, sort_keys=True, indent=2, allow_nan=False))
+    raise SystemExit(0 if result['all_pass'] else 2)
