@@ -120,11 +120,26 @@ contract, rather than a validator relaxation:
    and finite event mechanisms require accepted distortion tolerances and a
    sufficiently precise synthetic engineering study. The four-path packet
    cannot award that acceptance.
+6. Participation: the inherited structural G0 J envelope uses the word
+   `unconditional`, while the actual P3 producer retains null unverified
+   participation probabilities and samples a finite prior ensemble conditional
+   on feasible rotation. The wrapper records this conditioning and remains a
+   synthetic proposed scenario law. It must not be interpreted as an admitted
+   unconditional participation forecast. Changing that envelope's meaning
+   requires a separately accepted versioned contract; no nullable probability
+   is silently converted into a source-certified 0 or 1.
 
 These are material distribution/physical-model decisions requiring independent
 review, not missing software checks that can be closed by assertions. The
 proposal remains explicitly blocked until the reviewer accepts a bounded
 contract or specifies the required separately versioned forward model.
+
+The new native wrapper also validates complete raw count support, makes versus
+attempts, points/rebound arithmetic and team/matrix population before publishing
+the raw event audit. A narrow old audit-validator counterexample (+1 supplied
+point with unchanged shot counts) is retained at exact 93e9c89; the complete
+G0 bundle already rejected that mutation. The additional validator closes this
+raw evidence seam without changing the WS5 generator or G0 semantics.
 
 ## O2 scaling and preserved failure
 
@@ -142,6 +157,7 @@ independent acceptance. B-P4-03 remains BLOCKED pending that decision.
 From this owner checkout, using Python 3.12, NumPy 2.3.5 and SciPy 1.17.0:
 
 ```bash
+python -c "import json,subprocess; p=json.load(open('research/nba_p4_latest/upstream_registry.json')); subprocess.run(['git','fetch','origin',*[x['commit'] for x in p['owners'].values()]],check=True)"
 PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests/nba_architecture -p test_p4_latest_integration.py -v
 OPENBLAS_NUM_THREADS=1 python -m research.nba_p4_latest.numerical_reference
 OPENBLAS_NUM_THREADS=1 python -m research.nba_p4_latest.benchmark --output work/new-p4-latest-benchmark

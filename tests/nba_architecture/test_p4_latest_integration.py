@@ -250,5 +250,46 @@ print(json.dumps(x['scenario_hashes'],sort_keys=True))
         with self.assertRaisesRegex(ContractError,'O_COUPLING_VERIFICATION_BUDGET'):
             build(self.root,n=32,variant='O2')
 
+    def test_actual_stochastic_o2_n8_positive_operating_control(self):
+        inputs=build(self.root,n=8,variant='O2')
+        result=self.run_inputs(inputs)
+        self.assertEqual(len(result['bundle']['scenarios']),8)
+        self.assertTrue(validate_integration(result['bundle'],*inputs[:3]))
+        self.assertAlmostEqual(sum(x['weight'] for x in result['bundle']['scenarios']),1.)
+
+    def test_rate_budget_failure_preserves_every_rejected_pair_and_denominator(self):
+        # Forced branch coverage only; ordinary positive execution uses actual P2.
+        with patch('v2.nba_joint.integration_v2.draw_mixing_rate',return_value=1.):
+            with self.assertRaises(ContractError) as exc:self.run_inputs(self.inputs)
+        receipt=exc.exception.failure_receipt
+        self.assertEqual(exc.exception.code,'J2_RATE_COMPATIBILITY_EXHAUSTED')
+        self.assertEqual(receipt['rate_pair_attempts'],4096)
+        self.assertEqual(receipt['rejected_pair_count'],4096)
+        self.assertEqual(len(receipt['rejected_rate_pairs']),4096)
+        self.assertEqual(receipt['accepted_pair_count'],0)
+        self.assertEqual(receipt['rejected_pairs_sha256'],digest(receipt['rejected_rate_pairs']))
+        self.assertEqual(receipt['seed'],42)
+        self.assertEqual(receipt['input_shas']['O'],self.inputs[2]['content_hash'])
+        json.dumps(receipt,allow_nan=False)
+
+    def test_tied_event_exhaustion_preserves_raw_draws_and_no_success_bundle(self):
+        n=len(self.inputs[0]['players'])
+        keys=('two_pa','two_pm','three_pa','threes','fta','ftm','points','oreb','dreb','rebounds','assists')
+        counts={k:np.zeros(n,dtype=np.int64) for k in keys}
+        ledger={'assist_matrix':np.zeros((n,n),dtype=np.int64).tolist(),'unassisted':[0,0],
+            'team_budgets':[{k:0 for k in ('two_pa','two_pm','three_pa','threes','fta','ftm')} for _ in range(2)],
+            'rebounds':[{k:0 for k in ('fg_misses','terminal_ft','available','credited','offensive','defensive','unattributed')} for _ in range(2)]}
+        # Forced zero-score kernel branch; never substituted for green integration.
+        with patch('v2.nba_joint.integration_v2.LegacyPrepared.sample_events',
+                   return_value=(counts,ledger)):
+            with self.assertRaises(ContractError) as exc:self.run_inputs(self.inputs,max_event_attempts=2)
+        receipt=exc.exception.failure_receipt
+        self.assertEqual(exc.exception.code,'P4_TIED_COMPLETED_GAME_EXHAUSTED')
+        self.assertEqual(receipt['event_attempts'],2)
+        self.assertEqual(receipt['rejected_tied_event_draws'],2)
+        self.assertEqual(receipt['accepted_event_draws'],0)
+        self.assertEqual(len(receipt['event_draws_by_scenario'][receipt['scenario_id']]),2)
+        self.assertEqual(receipt['status'],'FAILED_NO_J_RESULT_PUBLISHED')
+
 
 if __name__=='__main__':unittest.main()

@@ -10,6 +10,7 @@ from research.nba_p4_latest.numerical_reference import references
 from v2.nba_joint.integration_v2 import simulate_latest
 from v2.nba_joint.latest_upstream import prepare
 from v2.nba_joint.p4 import scenario_pmfs
+from v2.nba_architecture.v2_contracts import ContractError
 
 PARAMETERS = {'p2': .54, 'p3': .36, 'pft': .78, 'ft_share': .2,
     'rebound_credit': .88, 'offensive_rebound_share': .23,
@@ -21,8 +22,14 @@ def main():
     args=parser.parse_args();output=Path(args.output);output.mkdir(parents=True,exist_ok=False)
     root=prepare();inputs=build(root)
     p,g,o,side,artifacts,manifest,roles=inputs
-    result=simulate_latest(*inputs,upstream_root=root,evidence_mode='latest_synthetic_engineering',
-        event_parameters=PARAMETERS,seed=42)
+    try:
+        result=simulate_latest(*inputs,upstream_root=root,evidence_mode='latest_synthetic_engineering',
+            event_parameters=PARAMETERS,seed=42)
+    except ContractError as error:
+        raw=(json.dumps(getattr(error,'failure_receipt',{'error_code':error.code}),
+            sort_keys=True,indent=2,allow_nan=False)+'\n').encode()
+        with (output/'failed_execution_receipt.json').open('xb') as handle:handle.write(raw)
+        raise
     pmfs=scenario_pmfs(result,p,frozen_at='2026-11-16T23:03:00Z',seed=42)
     # Four finite paths are a compatibility diagnostic. They cannot establish
     # approximation adequacy, calibrated marginals or predictive accuracy.

@@ -11,7 +11,7 @@ from pathlib import Path
 
 import numpy as np
 
-from v2.nba_architecture.v2_contracts import digest, instant, req
+from v2.nba_architecture.v2_contracts import ContractError, digest, instant, req, seal
 from v2.nba_architecture.families_v2 import validate_opportunity
 from v2.nba_joint.common import rng_for
 from v2.nba_joint.integration import (_Prepared as LegacyPrepared,
@@ -135,6 +135,7 @@ class Prepared(LegacyPrepared):
         self.artifacts, self.roles, self.p2, self.seed = artifacts, roles, p2, seed
         self.home_team_id = sidecar['home_team_id']
         self._audits, self._sid = {}, None
+        self._event_draws, self._current_player_audits = {}, {}
         self.manifest = {'version': VERSION, 'owner_registry': registry(),
             'owner_registry_raw_sha256': raw_sha(REGISTRY.read_bytes()),
             'consumer_code_files': {path: raw_sha((ROOT/path).read_bytes()) for path in (
@@ -151,11 +152,22 @@ class Prepared(LegacyPrepared):
             'rate_rejection_limit': RATE_REJECTION_LIMIT,
             'conditioning': 'P3-feasible-rotation;rate-compatibility;completed-score-not-tied'}
 
+    def failure_receipt(self, code, **witness):
+        return seal({'schema':'NBA-J-failed-execution/1.0.0','status':'FAILED_NO_J_RESULT_PUBLISHED',
+            'error_code':code,'game_id':self.p['game_id'],'scenario_id':self._sid,'seed':self.seed,
+            'input_shas':{'pregame':self.p['content_hash'],'G':self.g['content_hash'],
+                'O':self.o['content_hash'],'O_sidecar':self.sidecar['content_hash']},
+            'integration_manifest':self.manifest,
+            'completed_player_rate_audits':deepcopy(self._current_player_audits),
+            'event_draws_by_scenario':deepcopy(self._event_draws),
+            'completed_scenario_rate_audits':deepcopy(self._audits),**witness})
+
     def players(self, sid, events):
         self._sid = sid
         sc = next(x for x in self.sidecar['scenarios'] if x['scenario_id'] == sid)
         by_id = {x['player_id']: x for x in sc['players']}
         out, audits = [], {}
+        self._current_player_audits = audits
         for player in self.p['players']:
             pid, team = player['player_id'], player['team_id']
             x = by_id[pid]
@@ -180,7 +192,14 @@ class Prepared(LegacyPrepared):
                      for stat in PRIMITIVES} if minutes else {stat: 0. for stat in PRIMITIVES}
             while rates['points'] < 3 * rates['threes']:
                 rejected.append({'points': rates['points'], 'threes': rates['threes']})
-                req(len(rejected) < RATE_REJECTION_LIMIT, 'J2_RATE_COMPATIBILITY_EXHAUSTED')
+                if len(rejected) >= RATE_REJECTION_LIMIT:
+                    error=ContractError('J2_RATE_COMPATIBILITY_EXHAUSTED')
+                    error.failure_receipt=self.failure_receipt(error.code,player_id=pid,
+                        rate_pair_attempts=len(rejected),rejected_pair_count=len(rejected),
+                        accepted_pair_count=0,rejection_limit=RATE_REJECTION_LIMIT,
+                        sampled_other_rates={k:v for k,v in rates.items() if k not in ('points','threes')},
+                        rejected_rate_pairs=deepcopy(rejected),rejected_pairs_sha256=digest(rejected))
+                    raise error
                 for stat in ('points','threes'):
                     rates[stat] = draw_mixing_rate(params[stat], self.artifacts[stat].data['family'], rng)
             sampled_rates = dict(rates)
@@ -208,6 +227,9 @@ class Prepared(LegacyPrepared):
 
     def sample_events(self, players, minutes, ix, state, spec, rng, *, constrained):
         counts,ledger=super().sample_events(players,minutes,ix,state,spec,rng,constrained=constrained)
+        self._event_draws.setdefault(self._sid,[]).append({
+            'event_attempt':len(self._event_draws.get(self._sid,[])),
+            'counts':{k:v.tolist() for k,v in counts.items()},'ledger':deepcopy(ledger)})
         validate_event_counts(counts,ledger,ix)
         return counts,ledger
 
@@ -233,9 +255,17 @@ def simulate_latest(p, g, o, sidecar, artifacts, source_manifest, roles, *,
     model = {'model_id': 'research:nba:P2-to-J-latest', 'version': VERSION,
         'artifact_sha256': digest(prepared.manifest), 'code_sha256': raw_sha(Path(__file__).read_bytes()),
         'training_cutoff_at': p['training_cutoff_at']}
-    result = _simulate_p4(p, g, o, {'model': model, 'content_hash': digest(prepared.manifest),
-        'players': [{'player_id': r['player_id'], 'rates': {k:0. for k in PRIMITIVES}}
-                    for r in p['players']]}, _integration=prepared, seed=seed, **kwargs)
+    try:
+        result = _simulate_p4(p, g, o, {'model': model, 'content_hash': digest(prepared.manifest),
+            'players': [{'player_id': r['player_id'], 'rates': {k:0. for k in PRIMITIVES}}
+                        for r in p['players']]}, _integration=prepared, seed=seed, **kwargs)
+    except ContractError as error:
+        if not hasattr(error,'failure_receipt'):
+            draws=prepared._event_draws.get(prepared._sid,[])
+            error.failure_receipt=prepared.failure_receipt(error.code,event_attempts=len(draws),
+                rejected_tied_event_draws=(len(draws) if error.code=='P4_TIED_COMPLETED_GAME_EXHAUSTED' else None),
+                accepted_event_draws=0)
+        raise
     result['integration_manifest'] = deepcopy(prepared.manifest)
     result['input_shas']['O_sidecar'] = sidecar['content_hash']
     result['status'] = 'SYNTHETIC_PROPOSED_CONSTRAINED_LAW_PENDING_INDEPENDENT_ACCEPTANCE_REAL_BLOCKED'
