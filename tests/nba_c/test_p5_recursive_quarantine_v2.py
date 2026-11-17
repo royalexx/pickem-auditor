@@ -107,6 +107,17 @@ class RecursiveForecastQuarantineV2(unittest.TestCase):
         with self.assertRaisesRegex(e.ExperimentError,"LINKED_IDENTITY_MISMATCH"):
             self.cache(row)
 
+    def test_normalized_source_clocks_preserve_valid_controls(self):
+        for key in ("SourceAvailableAt","TRAINING_CUTOFF_AT","source available at"):
+            row=fixture();row["pipelines"]["S0"]["model_inputs"]=[[{key:"2022-10-20T16:00:00Z"}]]
+            self.assertEqual(self.cache(row).game_count,1)
+            row["pipelines"]["S0"]["model_inputs"][0][0][key]="2022-10-20T18:00:00Z"
+            with self.subTest(key=key),self.assertRaisesRegex(e.ExperimentError,"POST_FREEZE"):
+                self.cache(row)
+        row=fixture();row["pipelines"]["S0"]["model_inputs"]=[[{"UnreviewedAt":"2022-10-20T16:00:00Z"}]]
+        with self.assertRaisesRegex(e.ExperimentError,"UNSUPPORTED_TIME_FIELD"):
+            self.cache(row)
+
     def test_cycles_reject_but_shared_pregame_substructures_are_legal(self):
         row = fixture()
         cyclic = []

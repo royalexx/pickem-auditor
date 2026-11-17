@@ -49,3 +49,25 @@ W0–W3 complete-pipeline mathematics, W4 prohibition, full-count marginal score
 proper coherent joint scores, block bootstrap and 5,000/20,000 numerical-precision
 controls remain intact. Rollback is a revert of the isolated P5 remediation
 commits or closure of draft PR #163, preserving the audit record.
+
+## G1 remediation orchestration v4 — append-only P5 receipt
+
+F-P5-02 and newly found recursive clock/identity, reserved target-namespace and
+native transport validation defects have separate permanent regressions and
+immutable red receipts. The historical negative probe and F-P5-01 fixture were
+preserved. New native transport is versioned separately in
+`NATIVE_HANDOFF_CONTRACT_V1_20261117.md`; it invokes actual P2 and latest P4 owner
+APIs and preserves original P1 source/outcome exports, uncertainty and correction
+versions. It cannot grant source authenticity or score missing native outcome
+clocks. P4's constrained-law proposal remains pending independent acceptance.
+
+The new exact partial-count validator has independent exhaustive synthetic
+primitive references and no float tolerance or arbitrary count cap. Native raw
+source checks preserve source chronology, typed identities, participation,
+exact/display minute distinctions, legal game-specific OT limits and all failed
+inputs. Documentation and execution receipts below the new evidence directories
+are additive; earlier reports are not rewritten. Final tested SHAs, commands,
+hashes and independent reviewer dispositions belong to the new execution receipt
+and independent P6 packet, never this owner assertion. B-P5-01 remains BLOCKED
+without an admitted authentic upstream population and independently accepted
+latest native law/interface contracts. G2 and P8–P11 remain closed.
