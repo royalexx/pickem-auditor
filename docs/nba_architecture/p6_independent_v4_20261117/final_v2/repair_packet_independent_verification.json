@@ -1,0 +1,116 @@
+{
+  "exact_source_commit": "4d4d594fd7c88cdb3149cafd35515d5a65412b87",
+  "manifest_raw_sha256": "cff5ad5d2df55f6e38aa88fcad1aba58b0f220a9d26d7956819e4c331438fafd",
+  "entries": 27,
+  "all_pass": true,
+  "files": [
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/REPAIR_AND_REVIEW_REQUEST.md",
+      "sha256": "bc4fbef921308cd7eb76a381df4e00999afface06f4c7a240356015dab54f6e4"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/assembly_git_comparison.txt",
+      "sha256": "e22746bda102d79a39301d5a59eb5ff79a8192c771894311e229a9c1a1a402a1"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/committed_tree_after.json",
+      "sha256": "2fd608d36fda975e9fa4af4bb935cd35f5502322446a34423a8dfcc8d0d98e74"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/committed_tree_before.json",
+      "sha256": "c7e07e3bb614dda6aef6fafaad09173747bda3574e238a89ecd45ea01f0fc866"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/criterion_resolution_ledger_36_pending_p6.json",
+      "sha256": "00bf9fe04c27f0d315f5e0504b0ec4fb3fb91a05525dc4978a82bb5a320ce658"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/C_family.log",
+      "sha256": "8a8d362f9ff3a58a57275a80a024f27135b6b64445cbb95f06040066aefdf366"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/S_family.log",
+      "sha256": "d1d52aeeb5ffd0e6c2bc9222370f515177196279fee7064833b304fdd2f410ef"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/afternoon_reuse.log",
+      "sha256": "2246f7b1b57eeb5832bfd995543a017f580ca757d15f249fde9ad7526b86532a"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/all_architecture.log",
+      "sha256": "791fa61cdb6ca88a438e20acd5214aad6a97125ffac994a858ebde2d007edb97"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/auto_research.log",
+      "sha256": "1deff8f74b1aef5d6115308f64c997436d6ac7dd5b9f65e515ac3ffaaf67b914"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/bash_history.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/bash_shadow.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/engine_contracts.log",
+      "sha256": "520a07d8872f23f65c2cefe4c254f81169a9b60d6363cff364bc57be8afa5736"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/history_bootstrap.log",
+      "sha256": "f73b0ecfeb5f29c5f3cd29699c2afec4b5e72e0e32a6a9583b909074cd7e6529"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/morning_no_odds.log",
+      "sha256": "58ed62a8d1e4b381822e62194f006df89128b85b6595b42d580f3249965d11f1"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/morning_preflight_recovery.log",
+      "sha256": "6288d4adb9b414aaeabc0ffcad3f7f7155a73fcbbb0578847b0ee369f3f913df"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/network_receipt.log",
+      "sha256": "74d3214ff22adb3dcdf517b3362f6346bf18ec783f81227546841644196b6908"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/odds_quota_guard.log",
+      "sha256": "f46dacbf09ed828f558205abbdc34ccae83bdff5f81e035e20915e35de750abb"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/receipt.json",
+      "sha256": "dce3fbd3b981bb985a8fe77805d5772f91db045fa4e52d8afd93425dd8d42c56"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/root_discovery_regression.log",
+      "sha256": "2701b301a693f6bd32373df4a15ee346f8f02cec1abd4fa732d758db7b29f986"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/verify_history_invariants.log",
+      "sha256": "3b2f0617e73b0b881432b97f6966370d805c17ac3e634860e4fe118eb75763d9"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/fresh_git_shared_checks/verify_sports.log",
+      "sha256": "260ccd63f321868d8c411d949a4c0d1ea26d3c59ffdb304338b9a947b3a79cf8"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/independent_red_original.json",
+      "sha256": "6e92ee5c63b1d318980adb5f4da405656e947eb424e21c0b59fd7386b72c10d6"
+    },
+    {
+      "path": "docs/nba_architecture/g1_assembly_publication_repair_r3_20261117/repair_receipt.json",
+      "sha256": "641bb4dd5b1bc4c01f6edb8b557fe66459b57dc021504e40fe18d82c579fd7f4"
+    },
+    {
+      "path": "scripts/nba_g1_assemble_exact_owners_v4_20261116.py",
+      "sha256": "792aceaf48630fc3cea980ff096c0a67f20ab20b19eafc276742642496636417"
+    },
+    {
+      "path": "scripts/nba_g1_verify_assembly_publication_v4_20261116.py",
+      "sha256": "28ddcceb53e4f320ec080f618d382ac4349602dba5fbc4636c757976e314ab70"
+    }
+  ]
+}

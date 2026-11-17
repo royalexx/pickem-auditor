@@ -1,0 +1,319 @@
+{
+  "G1_acceptance": "NOT_AWARDED_OWNER_EXECUTION",
+  "cases": [
+    {
+      "case": "actual_P1_context_and_P2_S_ONLY_immutable_intake",
+      "detail": {
+        "distribution_sha256": "5c104f3e7b9a023fa066e762430e944c20dcdcb716b5d56797a4534c72a2910a",
+        "intake_sha256": "e80214fd0f7f22b52aeee0bc2d64af8d1b4f29e6a248c450d73b92e6457a26e7",
+        "real_source_admitted": false,
+        "source_profile": "original_prospective"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "real_S_intake_stays_closed",
+      "detail": {
+        "rejection": "NATIVE_REAL_ADMISSION_REGISTRY_UNAVAILABLE"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "source_manifest_tamper_rejects",
+      "detail": {
+        "rejection": "NATIVE_S_SOURCE_MANIFEST_JOIN"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "outcome_export_cannot_be_forecast_input",
+      "detail": {
+        "rejection": "NATIVE_OUTCOME_IN_FORECAST_SOURCE"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "actual_P3_O2_to_P2_S_O_to_C_conditional",
+      "detail": {
+        "G": "2fb21b0b239a9bde45bdde4e14250fb31ca70ad2876bfdb1e0084ce31cea7e73",
+        "O": "2964a5b5e910ec94e45ed4ccae73783bdabf5269b993abcc7e278b70b9ec944d",
+        "conditioning": "conditional_on_participation",
+        "distribution_sha256": "19c04e1b057b8e8512da76566db95ba6d5d1af1c0e6945da0a63a31945131edf",
+        "intake_sha256": "6aedf32997dcf724c6b634c2170c81b0601ed8c4d04c4253109f583ffcd2fa12",
+        "scenario_ids": [
+          "synthetic:draw:0",
+          "synthetic:draw:1"
+        ],
+        "scenario_weights": [
+          0.4,
+          0.6
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "actual_unknown_participation_abstention_retained",
+      "detail": {
+        "abstain_reason": "UNKNOWN_APPEARANCE_PROBABILITY",
+        "abstained": 1,
+        "attempted": 1,
+        "intake_sha256": "a15e572e5379d2c2751f52f8d72bc99cc142e4c4dbd898d6b1c466a06442c6d0",
+        "produced": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "actual_P1_vault_two_revisions_preserve_raw_and_no_score",
+      "detail": {
+        "correction_version": 2,
+        "missing_requirements": [
+          "INDEPENDENT_SOURCE_ADMISSION",
+          "SOURCE_BOUND_EVENT_END",
+          "SOURCE_BOUND_OUTCOME_RELEASE_CLOCK"
+        ],
+        "native_outcome_sha256": "d73730d0a5c923c41555e85722c35e318545f16e6c591d396b1e1caaf4630fdb",
+        "scored": false,
+        "vault_unchanged": true
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "actual_P1_missing_outcome_remains_unresolved",
+      "detail": {
+        "correction_version": null,
+        "missing_prerequisites": [
+          "INDEPENDENT_SOURCE_ADMISSION",
+          "SOURCE_BOUND_EVENT_END",
+          "SOURCE_BOUND_OUTCOME_RELEASE_CLOCK",
+          "OFFICIAL_OUTCOME_MISSING"
+        ],
+        "participation": "UNRESOLVED",
+        "reason": "P1_NATIVE_OUTCOME_NOT_INDEPENDENTLY_ADMITTED",
+        "scored": false,
+        "source_profile": "unadmitted_isolated_outcome_vault",
+        "status": "BLOCKED"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "actual_prior_source_transport_keeps_missing_availability",
+      "detail": {
+        "admission_status": "BLOCKED",
+        "original_availability": null
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "target_game_prior_source_attachment_rejects",
+      "detail": {
+        "rejection": "NATIVE_TARGET_OR_POST_CUTOFF_SOURCE"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "post_model_cutoff_prior_source_attachment_rejects",
+      "detail": {
+        "rejection": "NATIVE_TARGET_OR_POST_CUTOFF_SOURCE"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "prior_source_cannot_acquire_optimistic_original_clock",
+      "detail": {
+        "rejection": "NATIVE_PRIOR_UNSUPPORTED_AVAILABILITY"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "prior_source_bool_denominator_cannot_equal_zero",
+      "detail": {
+        "rejection": "NATIVE_PRIOR_DENOMINATOR"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "prior_source_bool_exact_minutes_rejects",
+      "detail": {
+        "rejection": "NATIVE_PRIOR_EXPOSURE_SUMMARY_JOIN"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "actual_latest_P4_joint_to_C_all_eight_stats_and_pending_contract",
+      "detail": {
+        "complete_distributions": 96,
+        "intake_sha256": "f07fd9de1e0a44151611e85a90a483a4759ce426f4d80eb5f2ca23b7fdd21262",
+        "native_status": "SYNTHETIC_PROPOSED_CONSTRAINED_LAW_PENDING_INDEPENDENT_ACCEPTANCE_REAL_BLOCKED",
+        "outcome_accessed": false,
+        "upstream_manifest": {
+          "artifacts": {
+            "assists": "42b6da6a9f055fd0be0b0a6d558a7c303db06b9e82e4edb67289a2b068d7c7e2",
+            "points": "662cc75155f2fd26e42c7b177df396a61acf7b8f0505a3479a314cf6feebf96f",
+            "rebounds": "871c56743647998807c8bd9aa90a5c208ce20b86e23cb9f15e46cd7567d772c2",
+            "three_conversion": "6f5f4aa5c77c5fb22b41c9f87a37f0d0b9a37cbebee6db8dc41008e88cbf12ca",
+            "threes": "e47d009dbc167b0b9b8a28a4555061b730f51d3763fa3e139c484c7214fdce1c"
+          },
+          "conditioning": "P3-feasible-rotation;rate-compatibility;completed-score-not-tied",
+          "consumer_code_files": {
+            "v2/nba_joint/common.py": "35df67a2e76cad1f978f35693924ba6c63c43ec7b519c93289a3c8e13a912478",
+            "v2/nba_joint/events.py": "40334862379548ac9efd562640580b20e419455728850f2ea6125d1447b1ebec",
+            "v2/nba_joint/integration.py": "83e4e8a140afbae07ad18d8f0e9b6838a9bed63a19a85d587a80f8538fde8948",
+            "v2/nba_joint/integration_v2.py": "c6423278b2d71d2d1a47ef6f8c38e49f01437679c15d0bdca6dd7787f2868abd",
+            "v2/nba_joint/latest_upstream.py": "88841f8eb75d37beb3fb4e597f45791b854af99a0f7f192807abaaa0aaa54353",
+            "v2/nba_joint/p4.py": "03d4b9c7cac0645212a1660826b71949af226b512adb6d55156c37e6b62ca3bd"
+          },
+          "evidence_mode": "latest_synthetic_engineering",
+          "independent_acceptance": "PENDING",
+          "law_contract": "NBA-J-CONSTRAINED-LATENT-RATE/0.1.0-PROPOSAL",
+          "law_mapping": "P2-Gamma-mixing-conditioned-on-point-three-rate-compatibility-then-WS5",
+          "owner_registry": {
+            "accepted_g0": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+            "inherited_g0_files": {
+              "v2/nba_architecture/__init__.py": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+              "v2/nba_architecture/contracts.py": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+              "v2/nba_architecture/exposure_v2.py": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+              "v2/nba_architecture/families_v2.py": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+              "v2/nba_architecture/requirements.txt": "ab29270f01c750d5312219f91a2362d711959ae4eafd1d4349ac7017a2f8f267",
+              "v2/nba_architecture/schema-1.0.0.json": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+              "v2/nba_architecture/schema-2.0.0.json": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+              "v2/nba_architecture/v2_contracts.py": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4"
+            },
+            "owners": {
+              "P2": {
+                "commit": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+                "files": {
+                  "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
+                  "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
+                  "v2/nba_s_family/model.py": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6"
+                },
+                "inventory_files": {
+                  "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
+                  "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
+                  "v2/nba_s_family/model.py": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+                  "v2/nba_s_family/p1_native.py": "372af3be16c33437272d9ee63bf37b18c581962c7566c4f64827961259e5bcc1",
+                  "v2/nba_s_family/source_accounting.py": "8e7803471e520366a068bf79d52dcf8f95f955b338770ad5c4fa6af18ece08f6"
+                }
+              },
+              "P3": {
+                "commit": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+                "files": {
+                  "v2/nba_o_bridge.py": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
+                  "v2/nba_o_consumers.py": "26fa725e35a6f3a8796afad941fcef60e51e6586f9260f2c5d48965e8c3ac61e",
+                  "v2/nba_o_family.py": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e"
+                },
+                "inventory_files": {
+                  "v2/nba_o_bridge.py": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
+                  "v2/nba_o_consumers.py": "26fa725e35a6f3a8796afad941fcef60e51e6586f9260f2c5d48965e8c3ac61e",
+                  "v2/nba_o_family.py": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e",
+                  "v2/nba_o_p1_native.py": "1f35d1f37c57b42b9595151b6c9b46b671d7f4f2edb6da8b7ee04e008c0deb52"
+                }
+              }
+            },
+            "reused_owner_files": {
+              "v2/nba_joint/common.py": "35df67a2e76cad1f978f35693924ba6c63c43ec7b519c93289a3c8e13a912478",
+              "v2/nba_joint/events.py": "40334862379548ac9efd562640580b20e419455728850f2ea6125d1447b1ebec",
+              "v2/nba_opportunity.py": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30"
+            },
+            "schema": "NBA-J-latest-owner-registry/1.0.0",
+            "source_authentication": false
+          },
+          "owner_registry_raw_sha256": "ecbf09c79e68954dce34108a9ff6dc454adcadcd65f50df9391e4e8e3feb99b0",
+          "physical_chronology": "AGGREGATE_ONLY_NOT_EVENT_TIME_OR_TIED_OT",
+          "rate_rejection_limit": 4096,
+          "real_integration": "BLOCKED",
+          "roles_sha256": "3f876c3f4e34709f19741c880fee7fb2a6c757600c5e213d36ef96afcd75fa11",
+          "sidecar_sha256": "34a853bfd96d1e80e9fa4ac04c25afae95accb30ab4cebd2c4547e5684b3028a",
+          "source_manifest_sha256": "73554f4b5a707c5de7e407e9f5fac90695f2b09200492e02426954a524973079",
+          "version": "NBA-P2-P3-to-J/2.0.0"
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "native_J_tamper_empty_manifest",
+      "detail": {
+        "rejection": "NATIVE_J_UNSUPPORTED_ACCEPTANCE_OR_VERSION"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "native_J_tamper_claimed_pass",
+      "detail": {
+        "rejection": "NATIVE_J_UNSUPPORTED_ACCEPTANCE_OR_VERSION"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "native_J_tamper_changed_version",
+      "detail": {
+        "rejection": "NATIVE_J_UNSUPPORTED_ACCEPTANCE_OR_VERSION"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "native_J_tamper_scenario_hash",
+      "detail": {
+        "rejection": "NATIVE_J_SCENARIO_HASH_JOIN"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "native_J_tamper_audit_ledger",
+      "detail": {
+        "rejection": "NATIVE_J_AUDIT_SCENARIO_JOIN"
+      },
+      "status": "PASS"
+    },
+    {
+      "case": "real_native_J_intake_stays_closed",
+      "detail": {
+        "rejection": "NATIVE_REAL_ADMISSION_REGISTRY_UNAVAILABLE"
+      },
+      "status": "PASS"
+    }
+  ],
+  "fail": 0,
+  "historical_fitting": false,
+  "historical_scoring": false,
+  "pass": 21,
+  "pins": {
+    "p1": {
+      "archive_raw_sha256": "4f48a000f48d94f6947d2df6726bec57dd37db0934b420b9255453162750fb77",
+      "commit": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "paths": [
+        "v2/nba_architecture",
+        "tests/nba_architecture/test_p1_remediation.py",
+        "tests/nba_architecture/test_p1_history.py"
+      ]
+    },
+    "p2": {
+      "archive_raw_sha256": "c892cacc434224fe1d28035971df91affd99325aedd88d92d721f5984658c958",
+      "commit": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "paths": [
+        "v2/nba_s_family",
+        "tests/nba_s_family/test_statistical.py"
+      ]
+    },
+    "p3": {
+      "archive_raw_sha256": "3ccce86e2cd85b7b779a1ad41aed6461dfe3e56b006a04e17e934a6fa0c8e080",
+      "commit": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "paths": [
+        "v2/nba_o_family.py",
+        "v2/nba_o_bridge.py",
+        "v2/nba_opportunity.py",
+        "tests/nba_architecture/test_p3_o_family.py",
+        "tests/nba_architecture/golden_v2/joint_same_draw.json"
+      ]
+    },
+    "p4": {
+      "archive_raw_sha256": "92086c78cd0d5cd7e2d905625e4c6a23bbea670b30b54eb05c41f7ff3ddff016",
+      "commit": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "paths": [
+        "v2",
+        "research/nba_p4_latest"
+      ]
+    }
+  },
+  "schema": "nba-p5-native-owner-verification/1.0.0",
+  "scope": "SYNTHETIC_ENGINEERING_ONLY"
+}

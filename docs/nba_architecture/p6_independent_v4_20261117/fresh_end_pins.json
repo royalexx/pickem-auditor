@@ -1,0 +1,70 @@
+{
+  "schema": "NBA_P6_INDEPENDENT_FINAL_FRESH_GITHUB_PR_PINS",
+  "checked_at_utc": "2026-11-17 04:20:11 UTC",
+  "rows": [
+    {
+      "pr": 167,
+      "sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "branch": "research/nba-p1-canonical-history-g1-20261116",
+      "draft": true,
+      "state": "open",
+      "initial_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "unchanged": true
+    },
+    {
+      "pr": 165,
+      "sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "branch": "research/nba-p2-s-family-g1-20261116",
+      "draft": true,
+      "state": "open",
+      "initial_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "unchanged": true
+    },
+    {
+      "pr": 166,
+      "sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "branch": "research/nba-p3-o-family-g1-20261116",
+      "draft": true,
+      "state": "open",
+      "initial_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "unchanged": true
+    },
+    {
+      "pr": 164,
+      "sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "branch": "research/nba-p4-j-family-g1-20261116",
+      "draft": true,
+      "state": "open",
+      "initial_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "unchanged": true
+    },
+    {
+      "pr": 163,
+      "sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "branch": "research/nba-p5-c-scoring-optimization-g1-20261116",
+      "draft": true,
+      "state": "open",
+      "initial_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "unchanged": true
+    },
+    {
+      "pr": 171,
+      "sha": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29",
+      "branch": "remediation/nba-p0-discovery-v4-20261116",
+      "draft": true,
+      "state": "open",
+      "initial_sha": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29",
+      "unchanged": true
+    },
+    {
+      "pr": 169,
+      "sha": "ddc60a83f6c9a2b863f5e7a44823bffa3b01e048",
+      "branch": "audit/nba-p6-g1-remediation-recheck-v3-20261116",
+      "draft": true,
+      "state": "open",
+      "initial_sha": "ddc60a83f6c9a2b863f5e7a44823bffa3b01e048",
+      "unchanged": true
+    }
+  ],
+  "no_head_drift": true
+}

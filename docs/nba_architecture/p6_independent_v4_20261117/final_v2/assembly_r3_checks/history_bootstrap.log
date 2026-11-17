@@ -1,0 +1,10 @@
+test_missing_forecast_rows_rejected (test_history_bootstrap.Bootstrapping.test_missing_forecast_rows_rejected) ... ok
+test_modified_archive_rejected (test_history_bootstrap.Bootstrapping.test_modified_archive_rejected) ... ok
+test_restore_and_idempotent (test_history_bootstrap.Bootstrapping.test_restore_and_idempotent) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.212s
+
+OK
+{"schema": "pickem-history-full-v1", "archive_sha256": "e94d2c4103636d7d776b5d570872a6a9f68ff3dbd0933a6c65d9701eb2fb89cc", "forecast_rows_original": 1492, "existing_files_preserved": 0, "files_restored": 5, "seeded_from_2026_10_26": true}
+{"schema": "pickem-history-full-v1", "archive_sha256": "e94d2c4103636d7d776b5d570872a6a9f68ff3dbd0933a6c65d9701eb2fb89cc", "forecast_rows_original": 1492, "existing_files_preserved": 5, "files_restored": 0, "seeded_from_2026_10_26": true}

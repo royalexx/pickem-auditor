@@ -1,0 +1,5 @@
+{
+  "observed_origin_main": "912bc7010058092ea735dcda0aa941429194474b\trefs/heads/main",
+  "owner_production_pause_workflow_diffs": "See new_checks_r3_v2.json evidence.operational: zero differences from accepted G0 for all six owner pins.",
+  "no_merge_or_runtime_mutations": true
+}

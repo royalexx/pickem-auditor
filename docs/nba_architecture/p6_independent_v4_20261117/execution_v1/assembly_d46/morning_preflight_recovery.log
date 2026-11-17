@@ -1,0 +1,10 @@
+test_missing_nhl_api_but_espn_ready_keeps_other_sources (test_morning_preflight_recovery.RecoveryTests.test_missing_nhl_api_but_espn_ready_keeps_other_sources) ... ok
+test_no_odds_while_sources_ready_is_blocked_for_snapshot (test_morning_preflight_recovery.RecoveryTests.test_no_odds_while_sources_ready_is_blocked_for_snapshot) ... ok
+test_no_provider_reachability_is_blocked (test_morning_preflight_recovery.RecoveryTests.test_no_provider_reachability_is_blocked) ... ok
+test_optional_nhlpy_does_not_block_nhl_and_odds (test_morning_preflight_recovery.RecoveryTests.test_optional_nhlpy_does_not_block_nhl_and_odds) ... ok
+test_settle_outage_is_structured_and_preserves_history (test_morning_preflight_recovery.RecoveryTests.test_settle_outage_is_structured_and_preserves_history) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.038s
+
+OK

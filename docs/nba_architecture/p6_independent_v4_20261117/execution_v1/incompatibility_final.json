@@ -1,0 +1,36 @@
+{
+  "all_pass": true,
+  "assembly": "d46f5322b47367ba601b05197cef8404758da23d",
+  "historical_outcomes_accessed": false,
+  "qa_source_sha256": "b8ccd1421b0ece1a06c15fe76bf06f4c18cc7c84362bddfff8c772b19b2a6746",
+  "schema": "NBA_P6_INDEPENDENT_NEW_CHECKS_V4",
+  "sections": {
+    "incompatibility": {
+      "result": {
+        "classification": "MATERIAL_VERSIONED_CONSTRAINED_LAW_REQUIRED_NOT_A_SOURCE_OR_SOFTWARE_CERTIFICATE",
+        "necessary_condition_gap": "0.0000000002010205420623040034776387723656167110424315108655869329202532650755529",
+        "parameters": {
+          "points": {
+            "probability": "0.8832531344597385107200077443610522512975993872476102393864339241882061",
+            "serialization_bound": 1.5827033841531117e-15,
+            "shape": "162.0"
+          },
+          "threes": {
+            "probability": "0.8832531344597385107200077443610522512975993872476102393864339241882061",
+            "serialization_bound": 4.172812227150845e-12,
+            "shape": "18.0"
+          }
+        },
+        "player_id": "espn:player:15",
+        "points_tail_60": "0.0000000002758872905048670051813109112983107252555167183489791078628682412102758",
+        "precision_decimal_digits": 70,
+        "proposal_accepted": false,
+        "reference": "P>=3*T almost surely implies Pr(P>=3*k)>=Pr(T>=k). High-precision incomplete-beta evaluation of the actual conditional negative-binomial kernels violates this necessary condition at k=20.",
+        "scenario_id": "synthetic:latest:0",
+        "threes_tail_20": "0.0000000004769078325671710086589496836639274362979482292145660407831215062858287"
+      },
+      "status": "PASS"
+    }
+  },
+  "synthetic_only": true
+}

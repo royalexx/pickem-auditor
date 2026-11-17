@@ -1,0 +1,1095 @@
+{
+  "schema": "NBA_G1_PRE_P6_QC_V4",
+  "independent_acceptance": false,
+  "runner_raw_sha256": "d5ec75fdbfd8f8e57ee0e197184f9a508d6f4f1321d1bc5328f327f7b21261f2",
+  "qa_code_commit": "70d37e9b2a6bbf26def4bee79161a7bd3a49d343",
+  "pins": {
+    "P1": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+    "P2": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+    "P3": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+    "P4": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+    "P5": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+    "P0": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29"
+  },
+  "commands": [
+    {
+      "label": "P1_adversarial_v3",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p6_v4_independent/qa/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "log": "P1_adversarial_v3.log",
+      "raw_sha256": "184517f2d2af83e707fa635af32bff3fdb6d1661ad9e64ac846a5e09ecacb091",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P1_architecture",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        377
+      ],
+      "log": "P1_architecture.log",
+      "raw_sha256": "7bf824ba72353eaa4bedc0047f1c0198dbc75461349ef1341ff77d7b1ebd3109",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P1_original_probe",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p6_v4_independent/qa/scripts/nba_p6_g1_owner_negative_probes_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "log": "P1_original_probe.log",
+      "raw_sha256": "113e7ceebbd638dbbb4d94a8a640040958ed85f9ed6248ef79e1709c0c66a1e0",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P1_preflight",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_nba_p1_source_preflight.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        9
+      ],
+      "log": "P1_preflight.log",
+      "raw_sha256": "be34741a16b0441b049c9f119f3b8be6babeacf731df18ebf98a2705844e4d47",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P1_preserved_green",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p6_v4_independent/qa/scripts/nba_p6_g1_green_after_fix_v3_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "log": "P1_preserved_green.log",
+      "raw_sha256": "291dcee9188b5c7f6f4e995e206491c3a4119ac848e7e180b143c0d4015af5b7",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P1_prior_P6",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p6_v4_independent/owners/independent_prior_controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "log": "P1_prior_P6.log",
+      "raw_sha256": "551f145ee85814a87dc488440ae9b6390cecc2ba5c2b95e4e9b9deb1e9737818",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P2_adversarial_v3",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p6_v4_independent/qa/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py",
+        "P2"
+      ],
+      "exit": 0,
+      "tests": [],
+      "log": "P2_adversarial_v3.log",
+      "raw_sha256": "4256173a634dab6ed26b51b1e742eac20776667ed03a83bb32d3aad9214df7eb",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P2_architecture",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        267
+      ],
+      "log": "P2_architecture.log",
+      "raw_sha256": "6497e4dcac6f74471db5a8ab5aa7036947c727f1ce9f1ab162c2cc10cd8ea4e8",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P2_family",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_s_family",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        61
+      ],
+      "log": "P2_family.log",
+      "raw_sha256": "1dc6d872b02f8f6e3a05c6cdbe8ef7125d0ab8b2ba35fc728c3057765ca20283",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P2_original_probe",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p6_v4_independent/qa/scripts/nba_p6_g1_owner_negative_probes_20261116.py",
+        "P2"
+      ],
+      "exit": 0,
+      "tests": [],
+      "log": "P2_original_probe.log",
+      "raw_sha256": "624b208f679f48396026498f9f07bf32e42b678f0fe8c00d5ac8e532eccf6386",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P2_preserved_green",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p6_v4_independent/qa/scripts/nba_p6_g1_green_after_fix_v3_20261116.py",
+        "P2"
+      ],
+      "exit": 0,
+      "tests": [],
+      "log": "P2_preserved_green.log",
+      "raw_sha256": "c46fae743c84d62a1b83c94711b5b1afdbee6ea2b14feca5e9712828b30e3b2b",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P2_prior_P6",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p6_v4_independent/owners/independent_prior_controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "log": "P2_prior_P6.log",
+      "raw_sha256": "dd05293ef8a36da8b84966e0216a4cfac2a41f36f85c274f003d116133a4f563",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P3_adversarial_v3",
+      "owner_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p6_v4_independent/qa/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py",
+        "P3"
+      ],
+      "exit": 0,
+      "tests": [],
+      "log": "P3_adversarial_v3.log",
+      "raw_sha256": "6a9d231e0c7a17689c50062d3aa5c0e0837985eaa5920c6df3e85cf7c6e5dd03",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P3_architecture",
+      "owner_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        319
+      ],
+      "log": "P3_architecture.log",
+      "raw_sha256": "fb82b07a0b4f75c0d4f95eb2a1018e40b8116240e52ac3a7cff46714b2befa2d",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P3_prior_P6",
+      "owner_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p6_v4_independent/owners/independent_prior_controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "log": "P3_prior_P6.log",
+      "raw_sha256": "2ed90b5d655f80bbfee17f5d1f347bbef095c20b4ff9d01096582096d996b39e",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P4_adversarial_v3",
+      "owner_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p6_v4_independent/qa/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py",
+        "P4"
+      ],
+      "exit": 0,
+      "tests": [],
+      "log": "P4_adversarial_v3.log",
+      "raw_sha256": "0ac2d0fe4138671bae1a76ef57c4eea290e529f480303529af92a7c882534662",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P4_architecture",
+      "owner_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        351
+      ],
+      "log": "P4_architecture.log",
+      "raw_sha256": "535c04779ecdcc0e146e1a0dd2c6969b814eed751dd4308522f93143bca591ae",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P4_prior_P6",
+      "owner_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p6_v4_independent/owners/independent_prior_controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "log": "P4_prior_P6.log",
+      "raw_sha256": "21ca69d01dcfc173b83719622f6bc27d8acf3aa03cafe61bfc88a4b74b5c284e",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P5_adversarial_v3",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p6_v4_independent/qa/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py",
+        "P5"
+      ],
+      "exit": 0,
+      "tests": [],
+      "log": "P5_adversarial_v3.log",
+      "raw_sha256": "f0cf1e119ed550845cfd04f7d75da7d8efcc2d3660be6fad59f9fda590a589f6",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P5_architecture",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        267
+      ],
+      "log": "P5_architecture.log",
+      "raw_sha256": "9ceff6d32a9aded26aec94f76d52145a7c0bb970878c6bb0db12e6a9c08c57a7",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P5_family",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_c",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        76
+      ],
+      "log": "P5_family.log",
+      "raw_sha256": "06f8221deb4c6ea884d03c38a02d76c4aed7684c7fe354d3a7ebf9dc36cee3f3",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P5_original_probe",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p6_v4_independent/qa/scripts/nba_p6_g1_owner_negative_probes_20261116.py",
+        "P5"
+      ],
+      "exit": 0,
+      "tests": [],
+      "log": "P5_original_probe.log",
+      "raw_sha256": "134563e34669040f034206e5394c0c0691af6cc74d7bb82158f4dd76a935f77d",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P5_preserved_green",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p6_v4_independent/qa/scripts/nba_p6_g1_green_after_fix_v3_20261116.py",
+        "P5"
+      ],
+      "exit": 0,
+      "tests": [],
+      "log": "P5_preserved_green.log",
+      "raw_sha256": "d4d402bd7e81566210200871ee047ba03230cfa4a4942160d23a0d680eb99142",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    },
+    {
+      "label": "P5_prior_P6",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p6_v4_independent/owners/independent_prior_controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "log": "P5_prior_P6.log",
+      "raw_sha256": "c8d2729a4245a66e1f1b7cdb1e249a41e8306511a71d5780b83d54dc0dd7cd48",
+      "pass_check": true,
+      "tracked_source_unchanged": true
+    }
+  ],
+  "comparisons": [
+    {
+      "owner": "P1",
+      "sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "g0_inherited": [
+        {
+          "path": "tests/nba_architecture/__init__.py",
+          "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2.py",
+          "raw_sha256": "e4840cc06e699e0e4acd18f6d38445b98078ec34d8e90d8fc4b5da4ad4426bb4",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/historical_offer_free.json",
+          "raw_sha256": "da214db2678cea1893a05242b44d710a8c8cb9d931c3f3bc30b6d5801bb84d99",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/joint_same_draw.json",
+          "raw_sha256": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/prospective_original_offer.json",
+          "raw_sha256": "27c4e5c61c17a3b67885dfc9fb3f33d726c9fd521ce2e81fb4fec8c28096e7fb",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_contracts.py",
+          "raw_sha256": "b882ed962a010388d07a4a6e1ef724217d026b02bc430cd6f4c24f8c31d9cad3",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_completion_20261116.py",
+          "raw_sha256": "12bf220b1446fa8a072dceb4b17827921b193de1f884d5f5329591a0e92dd21e",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_hardening_20261116.py",
+          "raw_sha256": "20d2f62e17082016559dd33da743b490ec1ce8a053c60b6ac4c8e3389fb13660",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_independent_participation_red_20261116.py",
+          "raw_sha256": "64b14dd5fa6ab610fbb43e794537d608a79bf4538d0ce6ef743eeffd107e0d06",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_law_repair_20261116.py",
+          "raw_sha256": "9246bb9a38f4238ed4518a52f8b0adb8f55abf3e91624a76f7aab3301b0fa9fc",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_mutation_sweep_20261116.py",
+          "raw_sha256": "a8435aaf64111ddea757f09f07d9b48034ba9215e5f4148cc5c28ffb9b7f27dd",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_pipeline_completion_20261116.py",
+          "raw_sha256": "99ca9f853d3f16807ba6bf2b169c1e662a77607a1aa3bcbc92fb06b970d1091c",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_independent_final_20261116.py",
+          "raw_sha256": "4721168790148f62cb65ac97fe6d8fcefe586a0296ad347eec9e464da6870432",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+          "raw_sha256": "7ef5da14487942de0e8e82f45e6048890361f320eba2e59c532a2cde0310cc35",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+          "raw_sha256": "3e5f12794d7ec4c8df37bc704ec3f34d19049b8fafe6a3770969a7f345eb77d8",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_v2_contracts.py",
+          "raw_sha256": "23e777abad2ef59da5f5e4fb2aa5678ce48b876bb3f650fdc89973aee18a2209",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/__init__.py",
+          "raw_sha256": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/contracts.py",
+          "raw_sha256": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/exposure_v2.py",
+          "raw_sha256": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/families_v2.py",
+          "raw_sha256": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/requirements.txt",
+          "raw_sha256": "ab29270f01c750d5312219f91a2362d711959ae4eafd1d4349ac7017a2f8f267",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/schema-1.0.0.json",
+          "raw_sha256": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/schema-2.0.0.json",
+          "raw_sha256": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/v2_contracts.py",
+          "raw_sha256": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+          "match": true
+        }
+      ],
+      "changed_paths": "A\tdocs/nba_architecture/P1_G1_ENGINEERING_EVIDENCE_20261116.json\nA\tdocs/nba_architecture/P1_G1_HANDOFF_20261116.md\nA\tdocs/nba_architecture/P1_G1_REMEDIATION_HANDOFF_20261117.md\nA\tdocs/nba_architecture/P1_NATIVE_HANDOFF_CONTRACT_20261117_V1.md\nA\tdocs/nba_architecture/P1_PARTIAL_ACCOUNTING_AND_PARTICIPATION_REPAIR_20261117_V3_V4.md\nA\tdocs/nba_architecture/P1_PARTIAL_INTEGER_ACCOUNTING_CONTRACT_20261117_V5.md\nA\tdocs/nba_architecture/P1_SOURCE_CLOCK_PRECISION_REPAIR_20261117_V2.md\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/SHA256SUMS\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/after_exact_integer_hook.log\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/before_hook_and_oracle.log\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/exact_c48dc5c/P6_controls.log\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/exact_c48dc5c/architecture.log\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/exact_c48dc5c/nba_p6_g1_green_after_fix_v3_20261116.py.log\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/exact_c48dc5c/nba_p6_g1_owner_negative_probes_20261116.py.log\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/exact_c48dc5c/nba_p6_g1_remediation_adversarial_v3_20261116.py.log\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/exact_c48dc5c/preflight.log\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/exact_c48dc5c/receipt.json\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/inherited_g0_integrity.json\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/numerical_reference_results.json\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/orchestrator_red_d5cafda.json\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/qa_initial_fixture_source.py.txt\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/resolution_receipt.json\nA\tdocs/nba_architecture/p1_integer_accounting_20261117_v5/wider_primitive_reference.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/SHA256SUMS\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/after_asserted_context_clock.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/after_iterator_source_loss.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/after_native_export.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/before_asserted_context_clock.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/before_iterator_source_loss.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/before_missing_native_export.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/before_receipt.json\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/architecture.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/execution_receipt.json\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/green_after_fix.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/immutable_probe.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/p6_controls.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/preflight.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/v3_controls.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/P6_controls.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/architecture.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/controls/test_p6_g1_specificity_and_scores.py\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/controls/test_p6_independent_controls.py\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/controls/test_p6_math_references.py\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/controls/test_p6_post_g0_reference_and_boundaries.py\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/controls/test_p6_red_counterexamples.py\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/nba_p6_g1_green_after_fix_v3_20261116.py.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/nba_p6_g1_owner_negative_probes_20261116.py.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/nba_p6_g1_remediation_adversarial_v3_20261116.py.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/preflight.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/qa_tools/nba_p6_g1_green_after_fix_v3_20261116.py\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/qa_tools/nba_p6_g1_owner_negative_probes_20261116.py\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/qa_tools/nba_p6_g1_remediation_adversarial_v3_20261116.py\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/exact_67a_runner/receipt.json\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/immutable_negative_probe.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/independent_v3_controls.json\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/inherited_g0_integrity.json\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/nba_0021800001_attempt_1.receipt.json\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/nba_0021800001_attempt_1.response.raw\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/owner_architecture.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/preflight.log\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/resolution_receipt.json\nA\tdocs/nba_architecture/p1_native_handoff_20261117_v1/source_inventory.json\nA\tdocs/nba_architecture/p1_nonparticipation_20261117_v4/SHA256SUMS\nA\tdocs/nba_architecture/p1_nonparticipation_20261117_v4/after_nonparticipation.log\nA\tdocs/nba_architecture/p1_nonparticipation_20261117_v4/before_nonparticipation.log\nA\tdocs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/P6_controls.log\nA\tdocs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/architecture.log\nA\tdocs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/nba_p6_g1_green_after_fix_v3_20261116.py.log\nA\tdocs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/nba_p6_g1_owner_negative_probes_20261116.py.log\nA\tdocs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/nba_p6_g1_remediation_adversarial_v3_20261116.py.log\nA\tdocs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/preflight.log\nA\tdocs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/receipt.json\nA\tdocs/nba_architecture/p1_nonparticipation_20261117_v4/orchestrator_red_b745b04.json\nA\tdocs/nba_architecture/p1_nonparticipation_20261117_v4/resolution_receipt.json\nA\tdocs/nba_architecture/p1_partial_accounting_20261117_v3/SHA256SUMS\nA\tdocs/nba_architecture/p1_partial_accounting_20261117_v3/after_partial_accounting.log\nA\tdocs/nba_architecture/p1_partial_accounting_20261117_v3/before_partial_accounting.log\nA\tdocs/nba_architecture/p1_partial_accounting_20261117_v3/resolution_receipt.json\nA\tdocs/nba_architecture/p1_remediation_20261117/adversarial_exact.log\nA\tdocs/nba_architecture/p1_remediation_20261117/archive_preflight.json\nA\tdocs/nba_architecture/p1_remediation_20261117/archive_reconciliation.json\nA\tdocs/nba_architecture/p1_remediation_20261117/consumer_handoff.json\nA\tdocs/nba_architecture/p1_remediation_20261117/engineering_receipt.json\nA\tdocs/nba_architecture/p1_remediation_20261117/full_exact.log\nA\tdocs/nba_architecture/p1_remediation_20261117/p6_after.json\nA\tdocs/nba_architecture/p1_remediation_20261117/p6_before.json\nA\tdocs/nba_architecture/p1_remediation_20261117/p6_exact.log\nA\tdocs/nba_architecture/p1_remediation_20261117/p6_exact_probe.py\nA\tdocs/nba_architecture/p1_remediation_20261117/p6_reproducer_after.json\nA\tdocs/nba_architecture/p1_remediation_20261117/preflight_exact.log\nA\tdocs/nba_architecture/p1_remediation_20261117/real_cli_first.json\nA\tdocs/nba_architecture/p1_remediation_20261117/real_cli_second.json\nA\tdocs/nba_architecture/p1_remediation_20261117/real_cli_strict.json\nA\tdocs/nba_architecture/p1_remediation_20261117/real_ws1_manifest.json\nA\tdocs/nba_architecture/p1_remediation_20261117/real_ws1_snapshot.json\nA\tdocs/nba_architecture/p1_remediation_20261117/sources/espn_401070213.raw\nA\tdocs/nba_architecture/p1_remediation_20261117/sources/espn_schedule_20181019.raw\nA\tdocs/nba_architecture/p1_remediation_20261117/sources/nba_rule5.raw\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/SHA256SUMS\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/after_source_precision.log\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/before_source_precision.log\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/P6_controls.log\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/architecture.log\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/controls/test_p6_g1_specificity_and_scores.py\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/controls/test_p6_independent_controls.py\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/controls/test_p6_math_references.py\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/controls/test_p6_post_g0_reference_and_boundaries.py\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/controls/test_p6_red_counterexamples.py\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/nba_p6_g1_green_after_fix_v3_20261116.py.log\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/nba_p6_g1_owner_negative_probes_20261116.py.log\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/nba_p6_g1_remediation_adversarial_v3_20261116.py.log\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/preflight.log\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/qa_tools/nba_p6_g1_green_after_fix_v3_20261116.py\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/qa_tools/nba_p6_g1_owner_negative_probes_20261116.py\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/qa_tools/nba_p6_g1_remediation_adversarial_v3_20261116.py\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/exact_08eb96f/receipt.json\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/orchestrator_exact_red_a3263bc.json\nA\tdocs/nba_architecture/p1_source_precision_20261117_v2/resolution_receipt.json\nA\tscripts/nba_p1_build_pregame.py\nA\tscripts/nba_p1_native_handoff_check_20261117.py\nA\tscripts/nba_p1_reconcile_archive.py\nA\tscripts/nba_p1_source_preflight.py\nA\ttests/nba_architecture/test_p1_history.py\nA\ttests/nba_architecture/test_p1_integer_accounting_20261117.py\nA\ttests/nba_architecture/test_p1_native_handoff_20261117.py\nA\ttests/nba_architecture/test_p1_nonparticipation_20261117.py\nA\ttests/nba_architecture/test_p1_partial_accounting_20261117.py\nA\ttests/nba_architecture/test_p1_remediation.py\nA\ttests/nba_architecture/test_p1_source_precision_20261117.py\nA\ttests/test_nba_p1_source_preflight.py\nA\tv2/nba_architecture/p1-context-1.0.0.schema.json\nA\tv2/nba_architecture/p1-official-capture-1.0.0.schema.json\nA\tv2/nba_architecture/p1-vault-1.1.0.schema.json\nA\tv2/nba_architecture/p1_context.py\nA\tv2/nba_architecture/p1_evidence.py\nA\tv2/nba_architecture/p1_handoff.py\nA\tv2/nba_architecture/p1_history.py\nA\tv2/nba_architecture/p1_integer_accounting.py\nA\tv2/nba_architecture/p1_vault.py\n"
+    },
+    {
+      "owner": "P2",
+      "sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "g0_inherited": [
+        {
+          "path": "tests/nba_architecture/__init__.py",
+          "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2.py",
+          "raw_sha256": "e4840cc06e699e0e4acd18f6d38445b98078ec34d8e90d8fc4b5da4ad4426bb4",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/historical_offer_free.json",
+          "raw_sha256": "da214db2678cea1893a05242b44d710a8c8cb9d931c3f3bc30b6d5801bb84d99",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/joint_same_draw.json",
+          "raw_sha256": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/prospective_original_offer.json",
+          "raw_sha256": "27c4e5c61c17a3b67885dfc9fb3f33d726c9fd521ce2e81fb4fec8c28096e7fb",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_contracts.py",
+          "raw_sha256": "b882ed962a010388d07a4a6e1ef724217d026b02bc430cd6f4c24f8c31d9cad3",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_completion_20261116.py",
+          "raw_sha256": "12bf220b1446fa8a072dceb4b17827921b193de1f884d5f5329591a0e92dd21e",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_hardening_20261116.py",
+          "raw_sha256": "20d2f62e17082016559dd33da743b490ec1ce8a053c60b6ac4c8e3389fb13660",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_independent_participation_red_20261116.py",
+          "raw_sha256": "64b14dd5fa6ab610fbb43e794537d608a79bf4538d0ce6ef743eeffd107e0d06",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_law_repair_20261116.py",
+          "raw_sha256": "9246bb9a38f4238ed4518a52f8b0adb8f55abf3e91624a76f7aab3301b0fa9fc",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_mutation_sweep_20261116.py",
+          "raw_sha256": "a8435aaf64111ddea757f09f07d9b48034ba9215e5f4148cc5c28ffb9b7f27dd",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_pipeline_completion_20261116.py",
+          "raw_sha256": "99ca9f853d3f16807ba6bf2b169c1e662a77607a1aa3bcbc92fb06b970d1091c",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_independent_final_20261116.py",
+          "raw_sha256": "4721168790148f62cb65ac97fe6d8fcefe586a0296ad347eec9e464da6870432",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+          "raw_sha256": "7ef5da14487942de0e8e82f45e6048890361f320eba2e59c532a2cde0310cc35",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+          "raw_sha256": "3e5f12794d7ec4c8df37bc704ec3f34d19049b8fafe6a3770969a7f345eb77d8",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_v2_contracts.py",
+          "raw_sha256": "23e777abad2ef59da5f5e4fb2aa5678ce48b876bb3f650fdc89973aee18a2209",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/__init__.py",
+          "raw_sha256": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/contracts.py",
+          "raw_sha256": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/exposure_v2.py",
+          "raw_sha256": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/families_v2.py",
+          "raw_sha256": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/requirements.txt",
+          "raw_sha256": "ab29270f01c750d5312219f91a2362d711959ae4eafd1d4349ac7017a2f8f267",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/schema-1.0.0.json",
+          "raw_sha256": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/schema-2.0.0.json",
+          "raw_sha256": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/v2_contracts.py",
+          "raw_sha256": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+          "match": true
+        }
+      ],
+      "changed_paths": "A\tdocs/nba_architecture/P2_DURATION_NONPARTICIPATION_CONTRACT_V1_5_20261117.md\nA\tdocs/nba_architecture/P2_NATIVE_PRECISION_REPAIR_V1_3_20261117.md\nA\tdocs/nba_architecture/P2_NATIVE_SCALAR_REPAIR_V1_4_20261117.md\nA\tdocs/nba_architecture/P2_SOURCE_INTEGER_ACCOUNTING_V1_6_20261117.md\nA\tdocs/nba_architecture/P2_S_FAMILY_HANDOFF_20261116.md\nA\tdocs/nba_architecture/P2_S_INTERFACES_V1_1.md\nA\tdocs/nba_architecture/P2_S_INTERFACES_V1_2_20261117.md\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/before_high_ot.json\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/before_high_ot_regression.log\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/before_nonparticipation.json\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/before_nonparticipation_regression.log\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/commit_ac51a62/SHA256SUMS\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/commit_ac51a62/example.log\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/commit_ac51a62/g0.log\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/commit_ac51a62/g0_plus_unmodified_p6.log\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/commit_ac51a62/latest_interop.log\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/commit_ac51a62/original_probe.log\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/commit_ac51a62/p6_v3.log\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/commit_ac51a62/receipt.json\nA\tdocs/nba_architecture/p2_contract_v1_5_20261117/commit_ac51a62/s_all.log\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/SHA256SUMS\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/after_latest_p1_dependency.json\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/before_latest_p1_dependency.log\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/before_native_integer_physics.json\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/before_regression.log\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/implementation_verified/SHA256SUMS\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/implementation_verified/example.log\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/implementation_verified/g0.log\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/implementation_verified/g0_plus_unmodified_p6.log\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/implementation_verified/integer_reference/cases.json\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/implementation_verified/integer_reference/result.json\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/implementation_verified/latest_interop.log\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/implementation_verified/original_probe.log\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/implementation_verified/p6_v3.log\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/implementation_verified/receipt.json\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/implementation_verified/s_all.log\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/implementation_verified/source_integer_reference.log\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/runner_dependency_correction.md\nA\tdocs/nba_architecture/p2_integer_v1_6_20261117/submission_ledger.json\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/SHA256SUMS\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/before_native_precision.json\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/before_regression.log\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/commit_9747530/SHA256SUMS\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/commit_9747530/example.log\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/commit_9747530/g0.log\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/commit_9747530/g0_plus_unmodified_p6.log\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/commit_9747530/latest_interop.log\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/commit_9747530/original_probe.log\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/commit_9747530/p6_v3.log\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/commit_9747530/receipt.json\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/commit_9747530/s_all.log\nA\tdocs/nba_architecture/p2_precision_v1_3_20261117/owner_summary.json\nA\tdocs/nba_architecture/p2_remediation_v1_1/G0_plus_P6.log\nA\tdocs/nba_architecture/p2_remediation_v1_1/G0_regression.log\nA\tdocs/nba_architecture/p2_remediation_v1_1/SHA256SUMS\nA\tdocs/nba_architecture/p2_remediation_v1_1/S_all.log\nA\tdocs/nba_architecture/p2_remediation_v1_1/S_original_22.log\nA\tdocs/nba_architecture/p2_remediation_v1_1/example.log\nA\tdocs/nba_architecture/p2_remediation_v1_1/owner_interoperability.log\nA\tdocs/nba_architecture/p2_remediation_v1_1/receipt.json\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/SHA256SUMS\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/before_artifact_chronology.json\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/before_artifact_regression.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/before_cutoff_regression.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/before_p6_v3.json\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_18d11ba/SHA256SUMS\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_18d11ba/example.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_18d11ba/g0.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_18d11ba/g0_plus_unmodified_p6.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_18d11ba/latest_interop.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_18d11ba/original_probe.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_18d11ba/p6_v3.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_18d11ba/receipt.json\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_18d11ba/s_all.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_61d7fbf/g0.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_61d7fbf/original_probe.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_61d7fbf/p6_v3.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_61d7fbf/receipt.json\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/commit_61d7fbf/s_all.log\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/interop_after_harness_fix.json\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/interop_initial.json\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/interop_initial_runner.py.txt\nA\tdocs/nba_architecture/p2_remediation_v1_2_20261117/owner_summary.json\nA\tdocs/nba_architecture/p2_scalar_v1_4_20261117/before_native_scalars.json\nA\tdocs/nba_architecture/p2_scalar_v1_4_20261117/before_regression.log\nA\tdocs/nba_architecture/p2_scalar_v1_4_20261117/implementation_verified/SHA256SUMS\nA\tdocs/nba_architecture/p2_scalar_v1_4_20261117/implementation_verified/example.log\nA\tdocs/nba_architecture/p2_scalar_v1_4_20261117/implementation_verified/g0.log\nA\tdocs/nba_architecture/p2_scalar_v1_4_20261117/implementation_verified/g0_plus_unmodified_p6.log\nA\tdocs/nba_architecture/p2_scalar_v1_4_20261117/implementation_verified/latest_interop.log\nA\tdocs/nba_architecture/p2_scalar_v1_4_20261117/implementation_verified/original_probe.log\nA\tdocs/nba_architecture/p2_scalar_v1_4_20261117/implementation_verified/p6_v3.log\nA\tdocs/nba_architecture/p2_scalar_v1_4_20261117/implementation_verified/receipt.json\nA\tdocs/nba_architecture/p2_scalar_v1_4_20261117/implementation_verified/s_all.log\nA\tdocs/nba_architecture/p2_scalar_v1_4_20261117/implementation_verified_CORRECTION.md\nA\treports/P2_S_LOCAL_BENCHMARK_20261116.json\nA\treports/P2_S_LOCAL_EXECUTION_RECEIPT_20261116.json\nA\treports/P2_S_LOCAL_TEST_LOG_20261116.txt\nA\treports/p2_synthetic_example_output.json\nA\tscripts/nba_p2_integration_check.py\nA\tscripts/nba_p2_latest_interop_v1_2.py\nA\tscripts/nba_p2_remediation_evidence.py\nA\tscripts/nba_p2_s_family_example.py\nA\tscripts/nba_p2_source_integer_reference_20261117.py\nA\ttests/nba_s_family/fixtures/p1_native_synthetic_v1.json\nA\ttests/nba_s_family/test_cutoff_regression_v1_2.py\nA\ttests/nba_s_family/test_integration.py\nA\ttests/nba_s_family/test_p1_native_v1.py\nA\ttests/nba_s_family/test_source_accounting_v1.py\nA\ttests/nba_s_family/test_statistical.py\nA\tv2/nba_s_family/__init__.py\nA\tv2/nba_s_family/integration.py\nA\tv2/nba_s_family/model.py\nA\tv2/nba_s_family/p1_native.py\nA\tv2/nba_s_family/source_accounting.py\n"
+    },
+    {
+      "owner": "P3",
+      "sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "g0_inherited": [
+        {
+          "path": "tests/nba_architecture/__init__.py",
+          "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2.py",
+          "raw_sha256": "e4840cc06e699e0e4acd18f6d38445b98078ec34d8e90d8fc4b5da4ad4426bb4",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/historical_offer_free.json",
+          "raw_sha256": "da214db2678cea1893a05242b44d710a8c8cb9d931c3f3bc30b6d5801bb84d99",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/joint_same_draw.json",
+          "raw_sha256": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/prospective_original_offer.json",
+          "raw_sha256": "27c4e5c61c17a3b67885dfc9fb3f33d726c9fd521ce2e81fb4fec8c28096e7fb",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_contracts.py",
+          "raw_sha256": "b882ed962a010388d07a4a6e1ef724217d026b02bc430cd6f4c24f8c31d9cad3",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_completion_20261116.py",
+          "raw_sha256": "12bf220b1446fa8a072dceb4b17827921b193de1f884d5f5329591a0e92dd21e",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_hardening_20261116.py",
+          "raw_sha256": "20d2f62e17082016559dd33da743b490ec1ce8a053c60b6ac4c8e3389fb13660",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_independent_participation_red_20261116.py",
+          "raw_sha256": "64b14dd5fa6ab610fbb43e794537d608a79bf4538d0ce6ef743eeffd107e0d06",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_law_repair_20261116.py",
+          "raw_sha256": "9246bb9a38f4238ed4518a52f8b0adb8f55abf3e91624a76f7aab3301b0fa9fc",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_mutation_sweep_20261116.py",
+          "raw_sha256": "a8435aaf64111ddea757f09f07d9b48034ba9215e5f4148cc5c28ffb9b7f27dd",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_pipeline_completion_20261116.py",
+          "raw_sha256": "99ca9f853d3f16807ba6bf2b169c1e662a77607a1aa3bcbc92fb06b970d1091c",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_independent_final_20261116.py",
+          "raw_sha256": "4721168790148f62cb65ac97fe6d8fcefe586a0296ad347eec9e464da6870432",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+          "raw_sha256": "7ef5da14487942de0e8e82f45e6048890361f320eba2e59c532a2cde0310cc35",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+          "raw_sha256": "3e5f12794d7ec4c8df37bc704ec3f34d19049b8fafe6a3770969a7f345eb77d8",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_v2_contracts.py",
+          "raw_sha256": "23e777abad2ef59da5f5e4fb2aa5678ce48b876bb3f650fdc89973aee18a2209",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/__init__.py",
+          "raw_sha256": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/contracts.py",
+          "raw_sha256": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/exposure_v2.py",
+          "raw_sha256": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/families_v2.py",
+          "raw_sha256": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/requirements.txt",
+          "raw_sha256": "ab29270f01c750d5312219f91a2362d711959ae4eafd1d4349ac7017a2f8f267",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/schema-1.0.0.json",
+          "raw_sha256": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/schema-2.0.0.json",
+          "raw_sha256": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/v2_contracts.py",
+          "raw_sha256": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+          "match": true
+        }
+      ],
+      "changed_paths": "A\tdocs/nba_architecture/P3_BOUNDARY_HANDOFF_20261116.md\nA\tdocs/nba_architecture/P3_COUPLING_WITNESS_PROPOSAL_V1_20261116.md\nA\tdocs/nba_architecture/P3_NATIVE_HANDOFF_V4_20261116.md\nA\tdocs/nba_architecture/P3_NATIVE_SCALAR_REPAIR_V5_20261116.md\nA\tdocs/nba_architecture/P3_O_FAMILY_G1_HANDOFF_20261116.md\nA\tdocs/nba_architecture/P3_O_FAMILY_MANIFEST_20261116.json\nA\tdocs/nba_architecture/p3_boundary_review_20261116/consumer_fixture.json\nA\tdocs/nba_architecture/p3_boundary_review_20261116/execution_receipt.json\nA\tdocs/nba_architecture/p3_boundary_review_20261116/g0_p3.log\nA\tdocs/nba_architecture/p3_boundary_review_20261116/g0_p3_p6.log\nA\tdocs/nba_architecture/p3_boundary_review_20261116/handoff.log\nA\tdocs/nba_architecture/p3_boundary_review_20261116/handoff_receipt.json\nA\tdocs/nba_architecture/p3_boundary_review_20261116/p4_result.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/SHA256SUMS\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_before.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_before/O2_n32_input.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_before/O2_n32_stderr.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_before/O2_n4_input.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_before/O2_n4_stderr.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_before/O2_n8_input.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_before/O2_n8_stderr.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_before/SHA256SUMS\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_before/receipt.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_latest.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_latest/O2_n32_input.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_latest/O2_n32_stderr.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_latest/O2_n4_input.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_latest/O2_n4_output.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_latest/O2_n8_input.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_latest/O2_n8_output.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_latest/SHA256SUMS\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_latest/receipt.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/coupling_probe_first_attempt.py\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/documentation_receipt_v2.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/coupling.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/coupling/O2_n32_input.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/coupling/O2_n32_stderr.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/coupling/O2_n4_input.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/coupling/O2_n4_output.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/coupling/O2_n8_input.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/coupling/O2_n8_output.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/coupling/SHA256SUMS\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/coupling/receipt.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/g0_p3.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/g0_p3_p6.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/native_actual_owners.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/native_actual_owners/SHA256SUMS\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/native_actual_owners/p1_export.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/native_actual_owners/p3_abstention.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/native_actual_owners/receipt.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/native_actual_owners/synthetic_raw_export.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/p6_v3_p3.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/exact_df57b3a/p6_v3_p3_stderr.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/execution_receipt.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/initial_g0_p3.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/model_cutoff_before.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/model_cutoff_corrected_probe.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/model_cutoff_first_probe_stderr.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/native_actual_owner_initial.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/native_actual_owner_initial/SHA256SUMS\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/native_actual_owner_initial/p1_export.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/native_actual_owner_initial/p3_abstention.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/native_actual_owner_initial/receipt.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/native_actual_owner_initial/synthetic_raw_export.json\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/native_consumer_after.log\nA\tdocs/nba_architecture/p3_remediation_v4_20261116/native_consumer_before.log\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/SHA256SUMS\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/after_probe.json\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/after_tests.log\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/before_probe.json\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/before_tests.log\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/exact_06368f1/g0_p3.log\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/exact_06368f1/g0_p3_p6.log\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/exact_06368f1/native.log\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/exact_06368f1/native/SHA256SUMS\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/exact_06368f1/native/p1_export.json\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/exact_06368f1/native/p3_abstention.json\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/exact_06368f1/native/receipt.json\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/exact_06368f1/native/synthetic_raw_export.json\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/exact_06368f1/orchestrator_exact_after.json\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/exact_06368f1/p6_v3.json\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/exact_06368f1/p6_v3_stderr.log\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/exact_06368f1/scalar_probe.json\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/execution_receipt.json\nA\tdocs/nba_architecture/p3_scalar_repair_v5_20261116/orchestrator_before.json\nA\tscripts/nba_p3_coupling_probe_v4_20261116.py\nA\tscripts/nba_p3_handoff_check.py\nA\tscripts/nba_p3_native_handoff_check_v4_20261116.py\nA\tscripts/nba_p3_native_scalar_probe_v5_20261116.py\nA\ttests/nba_architecture/test_p3_boundaries.py\nA\ttests/nba_architecture/test_p3_native_scalar_v5.py\nA\ttests/nba_architecture/test_p3_o_family.py\nA\ttests/nba_architecture/test_p3_p1_native_v4.py\nA\ttests/nba_architecture/test_p3_remediation_v4.py\nA\tv2/nba_o_bridge.py\nA\tv2/nba_o_consumers.py\nA\tv2/nba_o_family.py\nA\tv2/nba_o_p1_native.py\nA\tv2/nba_opportunity.py\n"
+    },
+    {
+      "owner": "P4",
+      "sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "g0_inherited": [
+        {
+          "path": "tests/nba_architecture/__init__.py",
+          "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2.py",
+          "raw_sha256": "e4840cc06e699e0e4acd18f6d38445b98078ec34d8e90d8fc4b5da4ad4426bb4",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/historical_offer_free.json",
+          "raw_sha256": "da214db2678cea1893a05242b44d710a8c8cb9d931c3f3bc30b6d5801bb84d99",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/joint_same_draw.json",
+          "raw_sha256": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/prospective_original_offer.json",
+          "raw_sha256": "27c4e5c61c17a3b67885dfc9fb3f33d726c9fd521ce2e81fb4fec8c28096e7fb",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_contracts.py",
+          "raw_sha256": "b882ed962a010388d07a4a6e1ef724217d026b02bc430cd6f4c24f8c31d9cad3",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_completion_20261116.py",
+          "raw_sha256": "12bf220b1446fa8a072dceb4b17827921b193de1f884d5f5329591a0e92dd21e",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_hardening_20261116.py",
+          "raw_sha256": "20d2f62e17082016559dd33da743b490ec1ce8a053c60b6ac4c8e3389fb13660",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_independent_participation_red_20261116.py",
+          "raw_sha256": "64b14dd5fa6ab610fbb43e794537d608a79bf4538d0ce6ef743eeffd107e0d06",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_law_repair_20261116.py",
+          "raw_sha256": "9246bb9a38f4238ed4518a52f8b0adb8f55abf3e91624a76f7aab3301b0fa9fc",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_mutation_sweep_20261116.py",
+          "raw_sha256": "a8435aaf64111ddea757f09f07d9b48034ba9215e5f4148cc5c28ffb9b7f27dd",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_pipeline_completion_20261116.py",
+          "raw_sha256": "99ca9f853d3f16807ba6bf2b169c1e662a77607a1aa3bcbc92fb06b970d1091c",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_independent_final_20261116.py",
+          "raw_sha256": "4721168790148f62cb65ac97fe6d8fcefe586a0296ad347eec9e464da6870432",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+          "raw_sha256": "7ef5da14487942de0e8e82f45e6048890361f320eba2e59c532a2cde0310cc35",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+          "raw_sha256": "3e5f12794d7ec4c8df37bc704ec3f34d19049b8fafe6a3770969a7f345eb77d8",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_v2_contracts.py",
+          "raw_sha256": "23e777abad2ef59da5f5e4fb2aa5678ce48b876bb3f650fdc89973aee18a2209",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/__init__.py",
+          "raw_sha256": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/contracts.py",
+          "raw_sha256": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/exposure_v2.py",
+          "raw_sha256": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/families_v2.py",
+          "raw_sha256": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/requirements.txt",
+          "raw_sha256": "ab29270f01c750d5312219f91a2362d711959ae4eafd1d4349ac7017a2f8f267",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/schema-1.0.0.json",
+          "raw_sha256": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/schema-2.0.0.json",
+          "raw_sha256": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/v2_contracts.py",
+          "raw_sha256": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+          "match": true
+        }
+      ],
+      "changed_paths": "A\tdocs/nba_architecture/P4_G1_HANDOFF_20261116.md\nA\tdocs/nba_architecture/P4_G1_VERIFICATION_RECEIPT_20261116.json\nA\tdocs/nba_architecture/P4_G1_VERIFICATION_RECEIPT_20261116_v2.json\nA\tdocs/nba_architecture/P4_LATEST_CONSUMER_AND_LAW_PROPOSAL_V2_20261116.md\nA\tdocs/nba_architecture/P4_UPSTREAM_INTEGRATION_HANDOFF_20261117.md\nA\tdocs/nba_architecture/P4_UPSTREAM_INTEGRATION_RECEIPT_20261117.json\nA\tdocs/nba_architecture/P4_WS5_V01_REUSE_MANIFEST_20261116.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/O2_n32_before.log\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/O2_n32_latest_4685425.log\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/SHA256SUMS\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_256_seeds/SHA256SUMS\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_256_seeds/analytic_S_O_components.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_256_seeds/fixed_inputs.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_256_seeds/full_seed_outputs.jsonl.gz\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_256_seeds/metrics.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_256_seeds/per_seed_cluster_moments.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_256_seeds/pooled_complete_pmfs.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_256_seeds/rejection_denominators.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_256_seeds/summary.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_all96.log\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_all96/all_96_weighted_pmfs.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_all96/receipt.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/event_count_guard_before_93e9c89.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/exact_4685425_architecture.log\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/exact_4685425_legacy_checks.log\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/exact_4685425_numerical.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/exact_4685425_single_benchmark.log\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/execution_receipt.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/fixture_preparation_attempt1.log\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/historical_identity_join_before_38ef03d.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/inherited_g0_integrity.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/latest_benchmark/SHA256SUMS\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/latest_benchmark/analytical_references.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/latest_benchmark/benchmark.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/latest_benchmark/complete_pmfs.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/latest_benchmark/contract_inputs.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/latest_benchmark/integration_result.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/latest_benchmark/marginal_distortion.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/numerical_attempt1.log\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/numerical_attempt2.log\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/numerical_reference_attempt2.py.txt\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/p4_rate_exhaustion_after_4685425.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/p4_rate_exhaustion_after_4685425.stderr\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/p4_rate_exhaustion_before_7ea0aff.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/p4_rate_exhaustion_before_7ea0aff.py\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/p4_rate_exhaustion_before_7ea0aff.stderr\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/reference_conditioning_v1.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/reference_conditioning_v1.log\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/single_benchmark_4685425/SHA256SUMS\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/single_benchmark_4685425/analytical_references.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/single_benchmark_4685425/benchmark.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/single_benchmark_4685425/complete_pmfs.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/single_benchmark_4685425/contract_inputs.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/single_benchmark_4685425/integration_result.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/single_benchmark_4685425/marginal_distortion.json\nA\tdocs/nba_architecture/p4_remediation_v2_20261116/source_inventory.json\nA\tresearch/nba_p4_g1/benchmark.py\nA\tresearch/nba_p4_integration/benchmark.py\nA\tresearch/nba_p4_integration/checks.py\nA\tresearch/nba_p4_integration/fixture.py\nA\tresearch/nba_p4_integration/fixtures/assists.json\nA\tresearch/nba_p4_integration/fixtures/inputs.json\nA\tresearch/nba_p4_integration/fixtures/points.json\nA\tresearch/nba_p4_integration/fixtures/rebounds.json\nA\tresearch/nba_p4_integration/fixtures/three_conversion.json\nA\tresearch/nba_p4_integration/fixtures/threes.json\nA\tresearch/nba_p4_integration/fixtures/trust.json\nA\tresearch/nba_p4_integration/generate_fixtures.py\nA\tresearch/nba_p4_integration/prepare.py\nA\tresearch/nba_p4_integration/results_20261117/benchmark.json\nA\tresearch/nba_p4_integration/results_20261117/complete_pmfs.json\nA\tresearch/nba_p4_integration/results_20261117/contract_inputs.json\nA\tresearch/nba_p4_integration/results_20261117/integrated_benchmark.log\nA\tresearch/nba_p4_integration/results_20261117/joint_scenarios.json\nA\tresearch/nba_p4_integration/results_20261117/legacy_benchmark.json\nA\tresearch/nba_p4_integration/results_20261117/legacy_benchmark.log\nA\tresearch/nba_p4_integration/results_20261117/marginal_distortion.json\nA\tresearch/nba_p4_integration/results_20261117/preserved_failed_O2_scaling_0e1cac8.log\nA\tresearch/nba_p4_integration/results_20261117/tests.json\nA\tresearch/nba_p4_integration/results_20261117/tests.log\nA\tresearch/nba_p4_integration/results_20261117/ws5_canary.json\nA\tresearch/nba_p4_latest/benchmark.py\nA\tresearch/nba_p4_latest/fixture.py\nA\tresearch/nba_p4_latest/fixtures/assists.json\nA\tresearch/nba_p4_latest/fixtures/context.raw\nA\tresearch/nba_p4_latest/fixtures/inputs.json\nA\tresearch/nba_p4_latest/fixtures/points.json\nA\tresearch/nba_p4_latest/fixtures/raw_sources.json\nA\tresearch/nba_p4_latest/fixtures/rebounds.json\nA\tresearch/nba_p4_latest/fixtures/three_conversion.json\nA\tresearch/nba_p4_latest/fixtures/threes.json\nA\tresearch/nba_p4_latest/fixtures/trust.json\nA\tresearch/nba_p4_latest/fixtures_v2/assists.json\nA\tresearch/nba_p4_latest/fixtures_v2/context.raw\nA\tresearch/nba_p4_latest/fixtures_v2/inputs.json\nA\tresearch/nba_p4_latest/fixtures_v2/points.json\nA\tresearch/nba_p4_latest/fixtures_v2/raw_sources.json\nA\tresearch/nba_p4_latest/fixtures_v2/rebounds.json\nA\tresearch/nba_p4_latest/fixtures_v2/three_conversion.json\nA\tresearch/nba_p4_latest/fixtures_v2/threes.json\nA\tresearch/nba_p4_latest/fixtures_v2/trust.json\nA\tresearch/nba_p4_latest/generate.py\nA\tresearch/nba_p4_latest/numerical_reference.py\nA\tresearch/nba_p4_latest/pool_joint_outputs.py\nA\tresearch/nba_p4_latest/post_trade_fixture.py\nA\tresearch/nba_p4_latest/reference_conditioning.py\nA\tresearch/nba_p4_latest/repeated_seed_plan_v1.json\nA\tresearch/nba_p4_latest/repeated_seed_plan_v2.json\nA\tresearch/nba_p4_latest/repeated_seed_plan_v3.json\nA\tresearch/nba_p4_latest/repeated_seeds.py\nA\tresearch/nba_p4_latest/upstream_registry.json\nA\tresearch/nba_p4_latest/upstream_registry_v1_frozen_2d52093.json\nA\tresearch/nba_ws2/results/model.json\nA\ttests/nba_architecture/test_p4_joint.py\nA\ttests/nba_architecture/test_p4_latest_integration.py\nA\ttests/nba_architecture/test_p4_upstream_integration.py\nA\tv2/nba_joint/__init__.py\nA\tv2/nba_joint/__main__.py\nA\tv2/nba_joint/common.py\nA\tv2/nba_joint/engine.py\nA\tv2/nba_joint/events.py\nA\tv2/nba_joint/forecast.py\nA\tv2/nba_joint/integration.py\nA\tv2/nba_joint/integration_v2.py\nA\tv2/nba_joint/invariants.py\nA\tv2/nba_joint/latest_upstream.py\nA\tv2/nba_joint/markets.py\nA\tv2/nba_joint/opportunity.py\nA\tv2/nba_joint/p4.py\nA\tv2/nba_joint/sources.py\nA\tv2/nba_joint/state.py\nA\tv2/nba_opportunity.py\n"
+    },
+    {
+      "owner": "P5",
+      "sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "g0_inherited": [
+        {
+          "path": "tests/nba_architecture/__init__.py",
+          "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2.py",
+          "raw_sha256": "e4840cc06e699e0e4acd18f6d38445b98078ec34d8e90d8fc4b5da4ad4426bb4",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/historical_offer_free.json",
+          "raw_sha256": "da214db2678cea1893a05242b44d710a8c8cb9d931c3f3bc30b6d5801bb84d99",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/joint_same_draw.json",
+          "raw_sha256": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/golden_v2/prospective_original_offer.json",
+          "raw_sha256": "27c4e5c61c17a3b67885dfc9fb3f33d726c9fd521ce2e81fb4fec8c28096e7fb",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_contracts.py",
+          "raw_sha256": "b882ed962a010388d07a4a6e1ef724217d026b02bc430cd6f4c24f8c31d9cad3",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_completion_20261116.py",
+          "raw_sha256": "12bf220b1446fa8a072dceb4b17827921b193de1f884d5f5329591a0e92dd21e",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_hardening_20261116.py",
+          "raw_sha256": "20d2f62e17082016559dd33da743b490ec1ce8a053c60b6ac4c8e3389fb13660",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_independent_participation_red_20261116.py",
+          "raw_sha256": "64b14dd5fa6ab610fbb43e794537d608a79bf4538d0ce6ef743eeffd107e0d06",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_law_repair_20261116.py",
+          "raw_sha256": "9246bb9a38f4238ed4518a52f8b0adb8f55abf3e91624a76f7aab3301b0fa9fc",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_mutation_sweep_20261116.py",
+          "raw_sha256": "a8435aaf64111ddea757f09f07d9b48034ba9215e5f4148cc5c28ffb9b7f27dd",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_g0_pipeline_completion_20261116.py",
+          "raw_sha256": "99ca9f853d3f16807ba6bf2b169c1e662a77607a1aa3bcbc92fb06b970d1091c",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_independent_final_20261116.py",
+          "raw_sha256": "4721168790148f62cb65ac97fe6d8fcefe586a0296ad347eec9e464da6870432",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+          "raw_sha256": "7ef5da14487942de0e8e82f45e6048890361f320eba2e59c532a2cde0310cc35",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+          "raw_sha256": "3e5f12794d7ec4c8df37bc704ec3f34d19049b8fafe6a3770969a7f345eb77d8",
+          "match": true
+        },
+        {
+          "path": "tests/nba_architecture/test_v2_contracts.py",
+          "raw_sha256": "23e777abad2ef59da5f5e4fb2aa5678ce48b876bb3f650fdc89973aee18a2209",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/__init__.py",
+          "raw_sha256": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/contracts.py",
+          "raw_sha256": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/exposure_v2.py",
+          "raw_sha256": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/families_v2.py",
+          "raw_sha256": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/requirements.txt",
+          "raw_sha256": "ab29270f01c750d5312219f91a2362d711959ae4eafd1d4349ac7017a2f8f267",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/schema-1.0.0.json",
+          "raw_sha256": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/schema-2.0.0.json",
+          "raw_sha256": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+          "match": true
+        },
+        {
+          "path": "v2/nba_architecture/v2_contracts.py",
+          "raw_sha256": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+          "match": true
+        }
+      ],
+      "changed_paths": "A\tdocs/nba_c/G1_HANDOFF.md\nA\tdocs/nba_c/NATIVE_HANDOFF_CONTRACT_V1_20261117.md\nA\tdocs/nba_c/P5_EXECUTION_RECEIPT_20261116.json\nA\tdocs/nba_c/P5_EXPERIMENT_PROTOCOL.md\nA\tdocs/nba_c/P5_F_P5_01_EXECUTION_RECEIPT_20261117.json\nA\tdocs/nba_c/README.md\nA\tdocs/nba_c/f_p5_01_evidence/G0.log\nA\tdocs/nba_c/f_p5_01_evidence/P5.log\nA\tdocs/nba_c/f_p5_01_evidence/P6.log\nA\tdocs/nba_c/f_p5_01_evidence/P6_negative_probe.log\nA\tdocs/nba_c/f_p5_01_evidence/P6_negative_probe_before.log\nA\tdocs/nba_c/f_p5_01_evidence/REPRODUCE.md\nA\tdocs/nba_c/f_p5_02_evidence/P5_after.log\nA\tdocs/nba_c/f_p5_02_evidence/P5_candidate_after_capture_schema.log\nA\tdocs/nba_c/f_p5_02_evidence/P5_candidate_after_capture_schema_v2.log\nA\tdocs/nba_c/f_p5_02_evidence/P5_candidate_after_native.log\nA\tdocs/nba_c/f_p5_02_evidence/P5_candidate_after_native_v2.log\nA\tdocs/nba_c/f_p5_02_evidence/P5_candidate_after_native_v3.log\nA\tdocs/nba_c/f_p5_02_evidence/P5_candidate_after_native_v4.log\nA\tdocs/nba_c/f_p5_02_evidence/P5_candidate_after_native_v5.log\nA\tdocs/nba_c/f_p5_02_evidence/before_receipt.json\nA\tdocs/nba_c/f_p5_02_evidence/failing_inputs_before.json\nA\tdocs/nba_c/f_p5_02_evidence/native_J_actual_source_result.json\nA\tdocs/nba_c/f_p5_02_evidence/native_J_before_3937.json\nA\tdocs/nba_c/f_p5_02_evidence/native_J_before_3937_source.py\nA\tdocs/nba_c/f_p5_02_evidence/native_capture_schema_before_f2f701c.log\nA\tdocs/nba_c/f_p5_02_evidence/native_capture_schema_before_inputs.json\nA\tdocs/nba_c/f_p5_02_evidence/native_partial_integer_after.log\nA\tdocs/nba_c/f_p5_02_evidence/native_partial_integer_before.json\nA\tdocs/nba_c/f_p5_02_evidence/native_partial_integer_before_source.py\nA\tdocs/nba_c/f_p5_02_evidence/native_prior_summary_after.log\nA\tdocs/nba_c/f_p5_02_evidence/native_prior_summary_before_7543a03.json\nA\tdocs/nba_c/f_p5_02_evidence/native_summary_after_v1.log\nA\tdocs/nba_c/f_p5_02_evidence/native_summary_after_v2.log\nA\tdocs/nba_c/f_p5_02_evidence/native_summary_before.log\nA\tdocs/nba_c/f_p5_02_evidence/native_summary_before_inputs.json\nA\tdocs/nba_c/f_p5_02_evidence/native_unit_v1.log\nA\tdocs/nba_c/f_p5_02_evidence/normalized_target_namespace_after.log\nA\tdocs/nba_c/f_p5_02_evidence/normalized_target_namespace_before.json\nA\tdocs/nba_c/f_p5_02_evidence/normalized_target_namespace_before.log\nA\tdocs/nba_c/f_p5_02_evidence/p1_correction_integrity_external_before.json\nA\tdocs/nba_c/f_p5_02_evidence/p1_correction_integrity_valid_input.json\nA\tdocs/nba_c/f_p5_02_evidence/p6_v3_after.json\nA\tdocs/nba_c/f_p5_02_evidence/p6_v3_before.json\nA\tdocs/nba_c/f_p5_02_evidence/recursive_after.log\nA\tdocs/nba_c/f_p5_02_evidence/recursive_after_v2.log\nA\tdocs/nba_c/f_p5_02_evidence/recursive_after_v3.log\nA\tdocs/nba_c/f_p5_02_evidence/recursive_before.log\nA\tdocs/nba_c/f_p5_02_evidence/recursive_namespace_clocks_after.log\nA\tdocs/nba_c/f_p5_02_evidence/target_aliases_external_before.json\nA\tdocs/nba_c/f_p5_02_evidence/target_aliases_local_before.log\nA\tdocs/nba_c/g1_remediation_v4_20261117/DOCUMENTATION_SETUP_NOTE.md\nA\tdocs/nba_c/g1_remediation_v4_20261117/G0_exact_791d923.log\nA\tdocs/nba_c/g1_remediation_v4_20261117/P5_exact_791d923.log\nA\tdocs/nba_c/g1_remediation_v4_20261117/P6_exact_791d923.log\nA\tdocs/nba_c/g1_remediation_v4_20261117/REPRODUCE.md\nA\tdocs/nba_c/g1_remediation_v4_20261117/SHA256SUMS\nA\tdocs/nba_c/g1_remediation_v4_20261117/criterion_ledger.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/integrity_comparison.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/native-v1-finaldeps-provisional.stderr.log\nA\tdocs/nba_c/g1_remediation_v4_20261117/native-v1-finaldeps-provisional.stdout.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/native-v1-finaldeps-provisional2.stderr.log\nA\tdocs/nba_c/g1_remediation_v4_20261117/native-v1-finaldeps-provisional2.stdout.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/native_actual_P1_outcome.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/native_actual_P1_prior.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/native_actual_P4_result.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/native_final.stderr.log\nA\tdocs/nba_c/g1_remediation_v4_20261117/native_final.stdout.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/native_final_results.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/native_provisional_4685425_results.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/original_negative_exact_791d923.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/p6_v3_exact_791d923.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/receipt.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/source_fixture_inventory.json\nA\tdocs/nba_c/g1_remediation_v4_20261117/synthetic_native_archive_v1.tar.gz\nA\tdocs/nba_c/native_transport_v1_evidence/RUNNER_SETUP_NOTES.md\nA\tdocs/nba_c/native_transport_v1_evidence/actual_native_results_attempt6.json\nA\tdocs/nba_c/native_transport_v1_evidence/actual_native_results_attempt7.json\nA\tdocs/nba_c/native_transport_v1_evidence/native-v1-attempt2.stderr.log\nA\tdocs/nba_c/native_transport_v1_evidence/native-v1-attempt2.stdout.json\nA\tdocs/nba_c/native_transport_v1_evidence/native-v1-attempt3.stderr.log\nA\tdocs/nba_c/native_transport_v1_evidence/native-v1-attempt3.stdout.json\nA\tdocs/nba_c/native_transport_v1_evidence/native-v1-attempt4.stderr.log\nA\tdocs/nba_c/native_transport_v1_evidence/native-v1-attempt4.stdout.json\nA\tdocs/nba_c/native_transport_v1_evidence/native-v1-attempt5.stderr.log\nA\tdocs/nba_c/native_transport_v1_evidence/native-v1-attempt5.stdout.json\nA\tdocs/nba_c/native_transport_v1_evidence/native-v1-attempt6.stderr.log\nA\tdocs/nba_c/native_transport_v1_evidence/native-v1-attempt6.stdout.json\nA\tdocs/nba_c/native_transport_v1_evidence/native-v1-attempt7.stderr.log\nA\tdocs/nba_c/native_transport_v1_evidence/native-v1-attempt7.stdout.json\nA\tscripts/nba_p5_native_handoff_verify_v1.py\nA\ttests/nba_c/__init__.py\nA\ttests/nba_c/fixtures/native_p1_outcome_synthetic_v1.json\nA\ttests/nba_c/fixtures/native_p1_prior_synthetic_v1.json\nA\ttests/nba_c/fixtures/p6_f_p5_01_backdated.json\nA\ttests/nba_c/test_p5_c_family.py\nA\ttests/nba_c/test_p5_native_transport_v1.py\nA\ttests/nba_c/test_p5_partial_integer_counts_v1.py\nA\ttests/nba_c/test_p5_recursive_quarantine_v2.py\nA\ttests/nba_c/test_p5_temporal_integrity.py\nA\tv2/nba_c/__init__.py\nA\tv2/nba_c/calibration.py\nA\tv2/nba_c/experiment.py\nA\tv2/nba_c/native_adapters.py\nA\tv2/nba_c/physical_counts.py\nA\tv2/nba_c/scores.py\nA\tv2/nba_c/scoring.py\nA\tv2/nba_c/warehouse.py\n"
+    }
+  ],
+  "all_commands_pass": true,
+  "g0_intact": true
+}

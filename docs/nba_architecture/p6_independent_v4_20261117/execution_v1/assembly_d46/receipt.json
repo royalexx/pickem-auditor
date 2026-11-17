@@ -1,0 +1,351 @@
+{
+  "assembly_sha": "d46f5322b47367ba601b05197cef8404758da23d",
+  "commands": [
+    {
+      "label": "root_discovery_regression",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_nba_root_discovery_v4.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        1
+      ],
+      "expected_tests": [
+        1
+      ],
+      "sha256": "146f6aec3638a4dc4148c3f506f90befc9b7dd34c8f02fbbd3066d6a02f432fa"
+    },
+    {
+      "label": "all_architecture",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        513
+      ],
+      "expected_tests": [
+        513
+      ],
+      "sha256": "0c35987790bde576779d594798357a3808bf69dcbbf185c7d7e7a7e6a4ecfa40"
+    },
+    {
+      "label": "S_family",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_s_family",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        61
+      ],
+      "expected_tests": [
+        61
+      ],
+      "sha256": "77fa3b2314f377b7b4f4de105777139f41e159915175b51b367fbb56f6ac5db2"
+    },
+    {
+      "label": "C_family",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_c",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        76
+      ],
+      "expected_tests": [
+        76
+      ],
+      "sha256": "7206758710228232b013e95dbe9f89e87385f2cc917bdbe5d5a47b4a5cfdad3b"
+    },
+    {
+      "label": "compile",
+      "command": [
+        "python",
+        "-m",
+        "compileall",
+        "-q",
+        "scripts",
+        "tests",
+        "v2"
+      ],
+      "exit": 0,
+      "tests": [],
+      "expected_tests": [],
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "bash_shadow",
+      "command": [
+        "bash",
+        "-n",
+        "scripts/shadow_store.sh"
+      ],
+      "exit": 0,
+      "tests": [],
+      "expected_tests": [],
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "bash_history",
+      "command": [
+        "bash",
+        "-n",
+        "scripts/history_warehouse_store.sh"
+      ],
+      "exit": 0,
+      "tests": [],
+      "expected_tests": [],
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "network_receipt",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_network_receipt.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        5
+      ],
+      "expected_tests": [
+        5
+      ],
+      "sha256": "d843a7e14234a1fc521aed812abae21101fec83e02b0c1d93462419365cace12"
+    },
+    {
+      "label": "morning_preflight_recovery",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_morning_preflight_recovery.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        5
+      ],
+      "expected_tests": [
+        5
+      ],
+      "sha256": "fbe896bd50e0562b168e6814c0ac7ed7184ada4cd7bb1232412a6eb557fb2b3d"
+    },
+    {
+      "label": "engine_contracts",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_engine_contracts.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        24
+      ],
+      "expected_tests": [
+        24
+      ],
+      "sha256": "1b3f2294e5ee4b4bc5039cfb2a20f5c5e821ecffb9ed5f85c5825fb19bc2cb4e"
+    },
+    {
+      "label": "verify_sports",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_verify_sports.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        2
+      ],
+      "expected_tests": [
+        2
+      ],
+      "sha256": "7a947e2c41b5595ff3f29d4f07aaa0908b86670dafba326836affdab600fd546"
+    },
+    {
+      "label": "history_bootstrap",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_history_bootstrap.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        3
+      ],
+      "expected_tests": [
+        3
+      ],
+      "sha256": "ccba366048a4a34ba8e832b7cceae2eac7618593ff0d4911ab584efc42ffb7f7"
+    },
+    {
+      "label": "verify_history_invariants",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_verify_history_invariants.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        1
+      ],
+      "expected_tests": [
+        1
+      ],
+      "sha256": "cad466df935864038ce3ad7dfc90dcc6b679b0c0312031701775cb799ebd05aa"
+    },
+    {
+      "label": "afternoon_reuse",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_afternoon_reuse.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        8
+      ],
+      "expected_tests": [
+        8
+      ],
+      "sha256": "2c4a2057378ad1bd948ec299b6794015098c643f19292f85507a4cf54ea41148"
+    },
+    {
+      "label": "auto_research",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_auto_research.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        3
+      ],
+      "expected_tests": [
+        3
+      ],
+      "sha256": "165c1a7228526704fd7af08e738f62301d261d4fd056b725c169da4ab672e2c3"
+    },
+    {
+      "label": "odds_quota_guard",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_odds_quota_guard.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        3
+      ],
+      "expected_tests": [
+        3
+      ],
+      "sha256": "38f8595c7a386e786039e269a78ba19a956c3d31b6f0cec4bb0cc781007e4438"
+    },
+    {
+      "label": "morning_no_odds",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_morning_no_odds.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        2
+      ],
+      "expected_tests": [
+        2
+      ],
+      "sha256": "58ed62a8d1e4b381822e62194f006df89128b85b6595b42d580f3249965d11f1"
+    }
+  ],
+  "all_pass": true,
+  "tracked_source_unchanged": true,
+  "offline_bodies_inspected": true,
+  "repository_wide_ci_claim": false
+}
