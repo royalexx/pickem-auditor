@@ -1,0 +1,25 @@
+{
+  "schema": "nba-p1-exact-integer-resolution/1.0.0",
+  "criterion": "F-P1-NATIVE-04",
+  "owner": "P1",
+  "classification": "PARTIAL_INTEGER_SOURCE_COUNT_CORRECTNESS_DEFECT",
+  "red_sha": "d5cafda47a2f881a88974bfb7bcbb90372fe69c2",
+  "fix_sha": "542d91a7d6c134441ce8cb9bb54312095b186833",
+  "tested_sha": "c48dc5cb9127e3e98f5a749208ca6c12574139b7",
+  "disposition": "PASS_AUTHOR_TESTED_PENDING_INDEPENDENT_P6",
+  "independent_reviewer_disposition": "PENDING",
+  "observed": "Exact partial integer feasibility matches456386 independent primitive enumeration checks and5000 distinct MILP reference cases; valid incomplete and hugeinteger controls pass.",
+  "raw_sha256": {
+    "v2/nba_architecture/p1_history.py": "0bdcb8a0417e6f1ce3b5866e4cf30a01e50d9893ac86d6ff71a15f4ce818ba6b",
+    "v2/nba_architecture/p1_evidence.py": "a3ca2bf02e645ac1a142bf4daa7d2558fbbc0e72545505b6f622fb0fa2a43c71",
+    "v2/nba_architecture/p1_integer_accounting.py": "4eaf6a18783a3d3d196799a6aea5eab6704057d808a66ffcf0085b5e7d9eb69e",
+    "v2/nba_architecture/p1_handoff.py": "c9567c367ba72fcae7c1229c6bda7baf949223d7389d6e8715a2b12f917b6c39",
+    "tests/nba_architecture/test_p1_integer_accounting_20261117.py": "cdc5cc536ac504a50c96b33c9bea8b4a386e76e884fe537d1f5eafcc1fa0afdf",
+    "tests/nba_architecture/test_p1_partial_accounting_20261117.py": "2501c23f3014c5888239e73a33588d2a2911cac8881c609d0075ec1c870a8763",
+    "tests/nba_architecture/test_p1_nonparticipation_20261117.py": "73364238b7a7d40283d05b90b92479d44d3e7e5278e5f2c838f90211fa0b143a"
+  },
+  "exact_execution": "exact_c48dc5c/receipt.json",
+  "reproduce": "python scripts/nba_p1_native_handoff_check_20261117.py --output work/p1-integer-fresh",
+  "source_admission": "B-P1-01/B-P1-02 BLOCKED",
+  "qa_fixture_correction": "Initial mathematically impossible positive retained asnegative; initialsource and redlog preserved."
+}
