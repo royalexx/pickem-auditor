@@ -31,15 +31,20 @@ def evidence(a):
     root=a.assembly;qa=Path(__file__).resolve().parents[1]
     assert git(root,'rev-parse','HEAD').decode().strip()==a.expected_assembly
     m=json.loads((root/'docs/nba_architecture/g1_exact_owner_assembly_v4_20261116.json').read_bytes())
+    changed=set(git(root,'diff','--name-only',G0,a.expected_assembly).decode().splitlines())
+    assert changed==set(m['files'])|{'docs/nba_architecture/g1_exact_owner_assembly_v4_20261116.json'}
     checked=[]
     for path,row in sorted(m['files'].items()):
         raw=(root/path).read_bytes()
         assert sha(raw)==row['raw_sha256']
         assert raw==git(root,'show',row['source_commit']+':'+path)
         assert git(root,'ls-tree','HEAD','--',path).decode().split()[0]==row['git_mode']
+        assert row['source_commit'] in {m['pins'][owner] for owner in row['owners']}
         checked.append(dict(path=path,source=row['source_commit'],sha256=sha(raw),mode=row['git_mode']))
     inherited=git(root,'ls-tree','-r','--name-only',G0,'v2/nba_architecture','tests/nba_architecture').decode().splitlines()
-    for path in inherited:assert (root/path).read_bytes()==git(root,'show',G0+':'+path)
+    for path in inherited:
+        assert (root/path).read_bytes()==git(root,'show',G0+':'+path)
+        assert git(root,'ls-tree','HEAD','--',path).decode().split()[0]==git(root,'ls-tree',G0,'--',path).decode().split()[0]
     operational={}
     for owner,pin in m['pins'].items():
         diff=git(root,'diff','--name-only',G0,pin,'--','config/production_consensus.json','.training-control/PAUSED.json','.github/workflows')
