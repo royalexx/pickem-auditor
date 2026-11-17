@@ -1,0 +1,147 @@
+{
+  "accepted_g0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "actual_map_study": {
+    "G_O_scenarios_discarded": 0,
+    "O_draws_resampled": false,
+    "event_attempts": 1037,
+    "independent_J_seed_repetitions": 256,
+    "max_absolute_mean_distortion": 11.367997591070651,
+    "max_empirical_TV_estimate": 0.4767262428489705,
+    "rate_pair_attempts": 12288,
+    "raw_full_outputs_gzip_sha256": "e4e495d689f71f2675d7bd24494e05b1d6775d683aa53ee42a76c69185209e32",
+    "raw_full_outputs_uncompressed_sha256": "d8bf84941d0959bc29121a442c0d5721fb7007c49a7e68e7a8d1ee1c756d64fd",
+    "rejected_rate_pairs": 0,
+    "rejected_tied_event_draws": 13,
+    "retained_weighted_paths": 1024,
+    "semantic_replay_sha256_excluding_performance": "5de46126c5158d061d9f327f3e78c1faa123970ccf1a7fba80cb61cbed28b262"
+  },
+  "criteria": [
+    {
+      "classification": "UNAVAILABLE_EVIDENCE_WITH_REPAIRED_INTERFACE",
+      "command": "PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests/nba_architecture -p test_p4_latest_integration.py -v",
+      "id": "B-P4-01",
+      "independent_reviewer_disposition": "PENDING_FRESH_P6",
+      "minimal_remaining_requirement": "Independently admitted P1 original roster/context/duration/correction and fitted-artifact trust population.",
+      "observed_result": "Latest actual P2/P3 source/fit/raw/context/scenario bindings and native synthetic integration pass. Real admission rejects.",
+      "owner": "P4",
+      "owner_sha": "4685425ae3838bcca4eb245bfdf009825bcd57b6",
+      "status": "BLOCKED"
+    },
+    {
+      "classification": "MATERIAL_DISTRIBUTIONAL_PHYSICAL_CONTRACT_PENDING",
+      "command": "PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests/nba_architecture -p test_p4_latest_integration.py -v",
+      "id": "B-P4-02",
+      "independent_reviewer_disposition": "PENDING_FRESH_P6",
+      "minimal_remaining_requirement": "Independent acceptance of a precise physical forward-model/constrained-law contract and satisfactory quantitative tolerances; no source admission or adequacy inferred.",
+      "observed_result": "Actual proposed map propagates mixing uncertainty but measured mean/TV distortion is material; physical chronology and participation interpretation unaccepted.",
+      "owner": "P4",
+      "owner_sha": "4685425ae3838bcca4eb245bfdf009825bcd57b6",
+      "status": "BLOCKED"
+    },
+    {
+      "classification": "REPRODUCED_G0_COUPLING_SCALABILITY_LIMIT",
+      "command": "PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests/nba_architecture -p test_p4_latest_integration.py -v",
+      "id": "B-P4-03",
+      "independent_reviewer_disposition": "PENDING_FRESH_P6",
+      "minimal_remaining_requirement": "P0/P3/P4 independently accepted scalable coupling verifier or formally bounded admissible operating range.",
+      "observed_result": "Actual latest stochastic O2 n4/n8 pass; n32 rejects O_COUPLING_VERIFICATION_BUDGET unchanged.",
+      "owner": "P4",
+      "owner_sha": "4685425ae3838bcca4eb245bfdf009825bcd57b6",
+      "status": "BLOCKED"
+    }
+  ],
+  "environment": {
+    "jsonschema": "4.26.0",
+    "numpy": "2.3.5",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "scipy": "1.17.0"
+  },
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "independent_acceptance_awarded": false,
+  "inherited_g0_integrity_sha256": "27f1e44c9ce2d1b2a33c988a2a2c1fbb76fca55c09b4a9f7c1a492c93dee52b9",
+  "new_repaired_findings": [
+    {
+      "before_sha": "93e9c89",
+      "classification": "NARROW_RAW_EVENT_AUDIT_VALIDATION_GAP",
+      "id": "F-P4-NATIVE-01",
+      "regression": "test_complete_raw_event_count_guard_and_valid_positive_control",
+      "repair_sha": "7ea0aff",
+      "scope": "Full G0 final bundle already rejected incorrect point arithmetic; raw audit now independently rejects it."
+    },
+    {
+      "before_sha": "7ea0aff",
+      "classification": "FAILED_EXECUTION_RECEIPT_GAP",
+      "id": "F-P4-NATIVE-02",
+      "regression": "test_rate_budget_failure_preserves_every_rejected_pair_and_denominator; test_tied_event_exhaustion_preserves_raw_draws_and_no_success_bundle; test_repeated_seed_runner_persists_failure_without_partial_success_claim",
+      "repair_sha": "2d52093"
+    },
+    {
+      "before_sha": "38ef03d",
+      "classification": "DATED_HISTORY_INTERFACE_JOIN_DEFECT",
+      "id": "F-P4-NATIVE-03",
+      "regression": "test_dated_historical_team_role_change_is_valid_without_rewriting_history",
+      "repair_sha": "f003690"
+    }
+  ],
+  "observed_games": 0,
+  "owner_gate_disposition": "BLOCKED_PENDING_INDEPENDENT_P6",
+  "owners": {
+    "P2": {
+      "commit": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "files": {
+        "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
+        "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
+        "v2/nba_s_family/model.py": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6"
+      },
+      "inventory_files": {
+        "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
+        "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
+        "v2/nba_s_family/model.py": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+        "v2/nba_s_family/p1_native.py": "372af3be16c33437272d9ee63bf37b18c581962c7566c4f64827961259e5bcc1",
+        "v2/nba_s_family/source_accounting.py": "8e7803471e520366a068bf79d52dcf8f95f955b338770ad5c4fa6af18ece08f6"
+      }
+    },
+    "P3": {
+      "commit": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "files": {
+        "v2/nba_o_bridge.py": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
+        "v2/nba_o_consumers.py": "26fa725e35a6f3a8796afad941fcef60e51e6586f9260f2c5d48965e8c3ac61e",
+        "v2/nba_o_family.py": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e"
+      },
+      "inventory_files": {
+        "v2/nba_o_bridge.py": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
+        "v2/nba_o_consumers.py": "26fa725e35a6f3a8796afad941fcef60e51e6586f9260f2c5d48965e8c3ac61e",
+        "v2/nba_o_family.py": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e",
+        "v2/nba_o_p1_native.py": "1f35d1f37c57b42b9595151b6c9b46b671d7f4f2edb6da8b7ee04e008c0deb52"
+      }
+    }
+  },
+  "publication": "Additive owner branch commits only; no merge. Supplemental analytical/conditioning scripts are bound by raw source hashes and do not alter the exact4685425 model outputs.",
+  "reference_interpretation": "Fixed-G/O-scenario weighted S conditional-kernel reference only; public unconditional predicts abstain for all48; played denominator1 on this exact fixture, genuine q remainsNone. See reference_conditioning_v1.json.",
+  "restrictions": {
+    "G0_modified": false,
+    "historical_fitting": false,
+    "historical_outcomes_accessed": false,
+    "historical_predictive_scoring": false,
+    "historical_weights": false,
+    "production_schedules_or_tiers_changed": false
+  },
+  "schema": "NBA-P4-G1-REMEDIATION-V2-EXECUTION-RECEIPT/1.0.0",
+  "source_inventory_sha256": "250134185e3e35f7c324c8f713071cb6b16fdd211ebffcf2ae68e9691b2d18f8",
+  "source_scope": "SYNTHETIC_ENGINEERING_ONLY",
+  "tested_implementation_sha": "4685425ae3838bcca4eb245bfdf009825bcd57b6",
+  "tests": {
+    "errors": 0,
+    "exact_declared_compatibility_executions": [
+      351,
+      83,
+      16,
+      22
+    ],
+    "exact_owner_architecture": 351,
+    "failures": 0,
+    "new_latest_cases": 30,
+    "note": "Counts overlap; owner execution of independent controls is supporting evidence, not acceptance.",
+    "skips": 0
+  }
+}

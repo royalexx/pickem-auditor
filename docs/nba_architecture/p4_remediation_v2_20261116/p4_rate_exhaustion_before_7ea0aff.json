@@ -1,0 +1,15 @@
+{
+  "P4": "7ea0aff04b04ed209b47e1728b2b52c3e0a1aecb",
+  "draw_mixing_calls": 8194,
+  "exception_metadata": {
+    "code": "J2_RATE_COMPATIBILITY_EXHAUSTED"
+  },
+  "expected_rejected_pairs": 4096,
+  "forced_mixing_rates": "all1 hence points1<3*threes1",
+  "observed_audits": {},
+  "observed_exception": "ContractError",
+  "positive_actual_sampler_player_rows": 12,
+  "reason": "J2_RATE_COMPATIBILITY_EXHAUSTED",
+  "scope": "SYNTHETIC_BRANCH_COVERAGE_NOT_REPLACEMENT_MODEL_INTEGRATION",
+  "source_sha256": "502262b6ff3b862e5d1f228a4805e4b2d2275e622a9f83ef07b902658f10665b"
+}

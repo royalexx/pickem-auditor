@@ -1,0 +1,108 @@
+{
+  "schema": "NBA-P4-G1-EngineeringReceipt/1.0.0",
+  "ticket": "P4",
+  "status": "TESTED_SYNTHETIC_ONLY_NOT_INDEPENDENTLY_VERIFIED",
+  "governing_plan": "PA-V25-MASTER-2026-11-09 v1.1",
+  "g0_contract_version": "nba-sojc-contract/2.0.0",
+  "g0_accepted_code_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "p4_exact_tested_git_commit": "878bd9429a67d20050036db1e0317985dc483734",
+  "branch": "research/nba-p4-j-family-g1-20261116",
+  "draft_pr": "https://github.com/royalexx/pickem-auditor/pull/164",
+  "deepnote_project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+  "notebook_id": "47e9fac270af4599b8f767d535b7e0fe",
+  "test_run_id": "f5070ef0-0ea3-4270-a24a-072170502905",
+  "test_run_status": "SUCCESS",
+  "execution_mode": "detached_readonly_basic_cpu",
+  "python": "3.12.16",
+  "numpy": "1.26.4",
+  "scipy": "1.15.3",
+  "jsonschema": "4.23.0",
+  "p4_test_count": {
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "elapsed_seconds": 3.597
+  },
+  "all_g0_and_p4": {
+    "passed": 284,
+    "failed": 0,
+    "skipped": 0,
+    "elapsed_seconds": 10.948
+  },
+  "sha256_files": {
+    "v2/nba_joint/p4.py": "02368ba14dac206657ad75dee821735dc68f636cad7ceb1c75e4fda926a74a30",
+    "tests/nba_architecture/test_p4_joint.py": "75582c6b2e96a95a912f44c0bc85c2f3ce4de3a4c7fefe4fbe00a30c81ac8739"
+  },
+  "benchmark": {
+    "kind": "synthetic_12player_2team_no_real_game_outcomes",
+    "seed": 42,
+    "scenario_sizes": [
+      8,
+      32,
+      64
+    ],
+    "variants": [
+      "J0",
+      "J1",
+      "J2"
+    ],
+    "source_receipt_sha256": "db6fc8c7f4a371175978f1429dacd9f9f09486f4d86af8c02e82eeac78c317ba",
+    "sha256_64_scenario_bundles": {
+      "J0": "7da154446346a9ab447c214b92dd9356b5bd914aa90e355dda8af6bfdb4df3f3",
+      "J1": "9182280e2a6e5e72d0f3c90a668c2068dcc651e650275c1131aa6f122ea85325",
+      "J2": "97728a09da9c0df8e8063a85c62f285438540e7fb41948cb4d56ae0b9eafb005"
+    },
+    "64_scenario_wall_seconds": {
+      "J0": 0.24825882100049057,
+      "J1": 0.2562298880002345,
+      "J2": 0.2567162929990445
+    },
+    "64_scenario_player_draws_each": 768,
+    "reported_peak_rss_linux_kib": 252304,
+    "zero_five_on_court_failures": true,
+    "limits": "Includes Python process imports overhead in RSS; single 12-player synthetic fixture; not extrapolated to full slates."
+  },
+  "legacy_ws5_v01_direct_engine_canary": {
+    "run_on_same_commit": true,
+    "n": 8,
+    "seed": 20261115,
+    "output_sha256": "3d6cf50a46c3f5c8bc55fdaa18e8a8deab0e315838026c97ff015fed3319a8b9",
+    "audit_violations": 0,
+    "player_scenarios": 144,
+    "team_scenarios": 16,
+    "note": "Direct v2.nba_joint.engine synthetic invocation; original CLI source adapter requires P1-owned v2.nba_ws1, deliberately not copied into P4."
+  },
+  "failed_attempts_preserved": [
+    {
+      "run_id": "db14900b-e9e5-475b-887b-68c866c4623b",
+      "failure": "TEST_HARNESS_SPARSE_CHECKOUT_FILE_PATH",
+      "test_code_executed": false
+    },
+    {
+      "run_id": "4f9492c7-a6d8-48e9-b190-c25dd68f40b8",
+      "failure": "LEGACY_CLI_TRANSITIVE_WS1_MODULE_NOT_PRESENT_ON_ISOLATED_P4_BRANCH",
+      "p4_tests_passed": 284,
+      "benchmark_succeeded": true
+    }
+  ],
+  "prohibited_claims": [
+    "not real-game predictive validation",
+    "not calibrated forecasts",
+    "not sportsbook edge",
+    "not model family acceptance",
+    "not G2",
+    "not Tier authority"
+  ],
+  "remaining_blockers": [
+    "P1 canonical WS1 as-of source adapter",
+    "P2 trained conditional S likelihood and provenance",
+    "P3 validated O probabilities/discrete exposure scenarios",
+    "P6 independent adversarial review and G1 signoff",
+    "G2 integration and P5 separate evaluation"
+  ],
+  "production_modified": false,
+  "historical_results_scored": false,
+  "training_executed": false,
+  "published": false,
+  "merged": false
+}

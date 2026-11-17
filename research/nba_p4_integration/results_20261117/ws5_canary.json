@@ -1,0 +1,32 @@
+[
+  {
+    "audit": {
+      "five_on_court": "witness, not a learned substitution chain",
+      "player_scenarios": 144,
+      "scenarios": 8,
+      "team_scenarios": 16,
+      "violations": 0
+    },
+    "dependence": "J2",
+    "exposure": "M0",
+    "n": 8,
+    "output_sha256": "63749629b9eabe9545eedb8ec470b7ed11dadf33e51c5a931c3edc2b809a7232",
+    "seed": 20261115,
+    "state_kind": "G1"
+  },
+  {
+    "audit": {
+      "five_on_court": "witness, not a learned substitution chain",
+      "player_scenarios": 144,
+      "scenarios": 8,
+      "team_scenarios": 16,
+      "violations": 0
+    },
+    "dependence": "J2",
+    "exposure": "M0",
+    "n": 8,
+    "output_sha256": "ecb08e3e04b0a371c2041d5bdf947f045cc4311dda7501ddcdeb8fe26fed5f8c",
+    "seed": 42,
+    "state_kind": "G1"
+  }
+]
