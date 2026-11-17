@@ -17,7 +17,7 @@ from .v2_contracts import (
     VERSION, canonical, digest, seal, receipt, validate_pregame, instant,
 )
 
-ADAPTER_VERSION = "nba-p1-ws1-historical-adapter/1.0.0"
+ADAPTER_VERSION = "nba-p1-ws1-historical-adapter/1.1.0"
 ASOF_WARNING = (
     "WS1 retrospective normalized records; selected prior-game dates only. "
     "Original pregame publication/capture clocks, active rosters, historic "
@@ -73,6 +73,8 @@ def _stats(stats):
                             ("ftm", "fta")):
         if made in stats and attempted in stats and stats[made] > stats[attempted]:
             fail("SHOOTING_ACCOUNTING")
+    if "fg3a" in stats and "fga" in stats and stats["fg3a"] > stats["fga"]:
+        fail("SHOOTING_ACCOUNTING")
     if "threes" in stats and "fgm" in stats and stats["threes"] > stats["fgm"]:
         fail("SHOOTING_ACCOUNTING")
     if all(k in stats for k in ("fgm", "threes", "ftm", "points")):
@@ -124,6 +126,10 @@ def validate_ws1_envelope(record, source, *, require_source_bytes=None):
                 "source_available_at", "origin", "receipt_id"}
     if not isinstance(source, dict) or set(source) != expected:
         fail("WS1_RECEIPT_FIELDS")
+    if (not isinstance(source["raw_sha256"], str) or len(source["raw_sha256"]) != 64
+            or any(c not in "0123456789abcdef" for c in source["raw_sha256"])
+            or not isinstance(source["source"], str) or not source["source"].strip()):
+        fail("WS1_SOURCE_IDENTITY_OR_HASH")
     if source["origin"] != "retrospective_retrieval":
         fail("WS1_ORIGIN_NOT_RETROSPECTIVE")
     if digest({k: source[k] for k in expected - {"receipt_id"}}) != source["receipt_id"]:
@@ -169,7 +175,7 @@ def validate_ws1_envelope(record, source, *, require_source_bytes=None):
                 fail("INVALID_TEAM_RATE")
     for key in ("game_id", "player_id", "team_id", "opponent_id"):
         if key in data and (not isinstance(data[key], str) or
-                            ":" not in data[key] or not data[key].strip()):
+                            ":" not in data[key] or not data[key].strip() or data[key].strip() != data[key]):
             fail("NONCANONICAL_IDENTITY")
     if data["team_id"] == data["opponent_id"]:
         fail("TEAM_COLLISION")
@@ -183,7 +189,8 @@ def validate_ws1_envelope(record, source, *, require_source_bytes=None):
 def build_historical_pregame(*, game_id, team_ids, event_start_at,
                              input_freeze_at, forecast_at, training_cutoff_at,
                              decision_local_date, entries, ingested_at,
-                             verified_source_bytes=None, max_history=20):
+                             verified_source_bytes=None, max_history=20,
+                             official_game_evidence=None, require_official_evidence=False):
     """Produce G0-compatible immutable pregame dict from WS1 *prior* rows.
 
     entries: iterable of {"record": WS1 Record asdict, "receipt": Receipt asdict}.
@@ -200,6 +207,13 @@ def build_historical_pregame(*, game_id, team_ids, event_start_at,
     ingestion = _utc(ingested_at)
     if not isinstance(verified_source_bytes, (dict, type(None))):
         fail("SOURCE_BYTE_MAPPING_INVALID")
+    from .p1_evidence import exposure_status
+    evidence = official_game_evidence or {}
+    if not isinstance(evidence, dict) or type(require_official_evidence) is not bool:
+        fail("OFFICIAL_EVIDENCE_MAPPING_INVALID")
+    if game_id in evidence:
+        fail("TARGET_GAME_OUTCOME_ACCESS")
+    adjudications = {}
     record_rows = []
     seen = set()
     source_bytes = verified_source_bytes or {}
@@ -209,12 +223,28 @@ def build_historical_pregame(*, game_id, team_ids, event_start_at,
         record, src = item["record"], item["receipt"]
         data, original_verified = validate_ws1_envelope(
             record, src, require_source_bytes=source_bytes.get(src["receipt_id"]))
-        if ingestion < _utc(src["observed_at"]):
+        if ingestion < _utc(src["source_available_at"]):
             fail("INGESTION_CLOCK_BACKDATED")
         if data["game_id"] == game_id:
             fail("TARGET_GAME_OUTCOME_ACCESS")
         if date.fromisoformat(data["game_date"]) >= cutoff_date:
             fail("SAME_DAY_OR_FUTURE_HISTORY")
+        bundle = evidence.get(data["game_id"])
+        if bundle is not None and ingestion < _utc(bundle["capture"]["retrieved_at"]):
+            fail("OFFICIAL_EVIDENCE_AFTER_INGESTION")
+        if require_official_evidence and bundle is None:
+            fail("OFFICIAL_SOURCE_EVIDENCE_REQUIRED")
+        if record["kind"] == "player_game" and data["participation"] == "played":
+            adjudications[record["record_id"]] = exposure_status(
+                data["minutes"], data["stats"], bundle, data)
+        elif bundle is not None:
+            from .p1_evidence import duration, adjudicate_player
+            if record["kind"] == "player_game":
+                adjudications[record["record_id"]] = adjudicate_player(data, bundle)
+            else:
+                # Team totals require their own raw-source adapter; duration
+                # alone cannot authenticate normalized team statistics.
+                fail("OFFICIAL_TEAM_STATS_ADAPTER_REQUIRED")
         natural_key = (record["kind"], data["game_id"],
                        data.get("player_id", data["team_id"]))
         if natural_key in seen:
@@ -225,6 +255,9 @@ def build_historical_pregame(*, game_id, team_ids, event_start_at,
         encoded_record = canonical(record)
         derived_sha = hashlib.sha256(encoded_record).hexdigest()
         record_rows.append((record, src, data, derived_sha, original_verified))
+    used_games = {r[2]["game_id"] for r in record_rows}
+    if set(evidence) - used_games:
+        fail("UNUSED_OFFICIAL_EVIDENCE")
     # Limit by per-player/team chronological position, not by current target data.
     by_player = defaultdict(list)
     by_team = defaultdict(list)
@@ -279,6 +312,17 @@ def build_historical_pregame(*, game_id, team_ids, event_start_at,
         base_name = ("player:" + data["player_id"] if record["kind"] == "player_game"
                      else "team:" + data["team_id"])
         fields = dict(data["stats"])
+        adjudication = adjudications.get(record["record_id"])
+        if adjudication:
+            dur, exact_minutes, status = adjudication
+            fields["source_status"] = status
+            if dur:
+                fields["overtime_periods"] = dur["overtime_periods"]
+                fields["game_duration_minutes"] = dur["duration_minutes"]
+                fields["official_source_status"] = dur["source_status"]
+                fields["official_raw_sha256"] = dur["raw_sha256"]
+                fields["official_receipt_sha256"] = dur["receipt_sha256"]
+                fields["official_exact_minutes"] = exact_minutes
         # Preserve prior-game identity/role and defensive context without
         # assuming a historical team abbreviation is a verified numeric ID.
         fields["prior_game_id"] = data["game_id"]
@@ -308,7 +352,7 @@ def build_historical_pregame(*, game_id, team_ids, event_start_at,
                                    else "identity" if name in (
                                        "prior_game_id", "historical_team_id",
                                        "historical_opponent_id")
-                                   else "status" if name == "participation"
+                                   else "status" if name in ("participation", "source_status")
                                    else "boolean" if name == "starter"
                                    else "count")))
     payload = seal(dict(

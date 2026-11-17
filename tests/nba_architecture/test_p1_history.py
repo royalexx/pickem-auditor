@@ -71,7 +71,7 @@ class P1HistoryTest(unittest.TestCase):
         snapshot = build([make_entry()])
         self.assertEqual(
             snapshot["content_hash"],
-            "c89ecf2c376a5372cb40aed57fd89ba0b00387ce38d7ec4724882c2c45b0115e")
+            "7f041e8b1b068fd425e028b65a9cac25d267860ed27246ded06150da7149abab")
 
     def test_no_real_snapshot_classification(self):
         item = build([make_entry()])

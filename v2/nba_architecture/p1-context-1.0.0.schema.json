@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "P1 reviewed dated-context assertion export 1.0.0",
+  "description": "Not a native NBA HTTP format. Requires a reviewed source export preserving original capture and provenance; no such authenticated historical export is claimed available.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "assertions"
+  ],
+  "properties": {
+    "schema": {
+      "const": "nba-p1-dated-context/1.0.0"
+    },
+    "assertions": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "provider_id",
+              "canonical_id",
+              "valid_from",
+              "valid_to"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "player",
+                  "team",
+                  "game",
+                  "membership"
+                ]
+              },
+              "provider_id": {
+                "type": "string",
+                "pattern": ":"
+              },
+              "canonical_id": {
+                "type": "string",
+                "pattern": ":"
+              },
+              "valid_from": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "valid_to": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "game_id",
+              "player_id",
+              "team_id",
+              "effective_at",
+              "legal_eligibility",
+              "availability"
+            ],
+            "properties": {
+              "kind": {
+                "const": "pregame_roster"
+              },
+              "game_id": {
+                "type": "string",
+                "pattern": ":"
+              },
+              "player_id": {
+                "type": "string",
+                "pattern": ":"
+              },
+              "team_id": {
+                "type": "string",
+                "pattern": ":"
+              },
+              "effective_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "legal_eligibility": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "availability": {
+                "enum": [
+                  "unknown",
+                  "available",
+                  "out",
+                  "questionable",
+                  "limited"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
