@@ -149,3 +149,48 @@ production collectors, NUTS artifacts, scoring/weights and schedules. No target
 actual minutes, historical predictions, historical scores or fit weights were
 accessed or created. Main was inspected at
 `912bc7010058092ea735dcda0aa941429194474b`; no production action was taken.
+
+## Exact owner execution receipt
+
+Implementation tested at `65d19d2243fa242101fb565d513c5510142bb602`:
+**306/306 G0+P3 PASS**, then **389/389 G0+P3+unchanged independent P6 controls PASS**.
+The unique suite comprises 267 inherited G0 tests, 39 P3 tests and 83 P6 controls.
+This is an owner rerun of independent controls, not a new independent acceptance.
+Python 3.12.14; NumPy 2.3.5; SciPy 1.17.0; jsonschema 4.26.0.
+
+[Execution receipt](p3_boundary_review_20261116/execution_receipt.json) records
+all implementation, owner-module, control and output raw SHA-256 values.
+[Full combined test log](p3_boundary_review_20261116/g0_p3_p6.log) SHA-256:
+`0992063d4869275ecbd974a5a0051c5c149b5bd9e2d547a1e9b215dbe7b0a575`.
+[Consumer fixture](p3_boundary_review_20261116/consumer_fixture.json) includes
+actual generated P/G/O/sidecar and the complete S/J exposure handoff.
+[Handoff receipt](p3_boundary_review_20261116/handoff_receipt.json) includes the
+conditional P2 output hash, per-scenario kernel calls, P4 scenario hashes and
+numerical conservation. Two independent executions produce identical artifact
+and stdout bytes. Maximum team-minute residual is `5.684341886080802e-14`;
+witnessed on-court counts are exactly five, in regulation and two overtime periods.
+Separate adversarial tests exercise three overtime periods and early-exit caps.
+
+To reproduce the combined suite without altering owner files:
+
+```bash
+git fetch origin 65d19d2243fa242101fb565d513c5510142bb602
+git fetch origin 5c15b4e2a14c684ad5d66583bf5c370d5c64ac44
+git worktree add --detach /tmp/p3-independent-review 65d19d2243fa242101fb565d513c5510142bb602
+cd /tmp/p3-independent-review
+# First run the branch's G0/P3 suite: 306 tests.
+python -m unittest discover -s tests/nba_architecture -p 'test_*.py' -v
+# Copy only these five existing QA tests from pinned PR #162; their raw hashes
+# must equal the receipt. Four are inherited unchanged from PR #159.
+for name in test_p6_g1_specificity_and_scores test_p6_independent_controls test_p6_math_references test_p6_red_counterexamples test_p6_post_g0_reference_and_boundaries; do
+  git show "5c15b4e2a14c684ad5d66583bf5c370d5c64ac44:tests/nba_architecture/$name.py" > "tests/nba_architecture/$name.py"
+done
+python -m unittest discover -s tests/nba_architecture -p 'test_*.py' -v
+```
+
+For the actual owner API check, extract **only** `v2/nba_s_family` from pinned P2
+and `v2/nba_joint` from pinned P4 into a disposable directory. Pass that directory
+as `--owner-root` to the handoff executable; the complete module hashes must match
+the receipt. P3's own WS2 allocator and G0 contracts remain the imported originals.
+No owner implementation is edited or committed to P3. Use a fresh output folder
+for each run and compare the fixture, P4 artifact, receipt and stdout bytes.
