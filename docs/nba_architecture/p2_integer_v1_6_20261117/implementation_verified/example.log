@@ -1,0 +1,33 @@
+{
+  "outputs": {
+    "assists": {
+      "mean": 4.133333333312247,
+      "model_artifact_sha256": "2276dec667ee491285528eb496801ff180be473ff32b4261687972be8cb01ec7",
+      "probability_sum": 1.0,
+      "probability_zero": 0.019984885682162994,
+      "tail_mass_upper_bound": 8.384244371327554e-13
+    },
+    "points": {
+      "mean": 12.285185185184709,
+      "model_artifact_sha256": "df0347ed7fa48605a79707d25cae5cc81fea1ad362fc33c1f735ece14197b574",
+      "probability_sum": 1.0,
+      "probability_zero": 8.898314196390371e-06,
+      "tail_mass_upper_bound": 1.1915789424982222e-14
+    },
+    "rebounds": {
+      "mean": 4.82222222221738,
+      "model_artifact_sha256": "e4855efb229b537895d4a56c44069aecdf3bd81441edf4a68f7533019ce1f1a0",
+      "probability_sum": 1.0,
+      "probability_zero": 0.010410828198769222,
+      "tail_mass_upper_bound": 1.76227539367979e-13
+    },
+    "threes": {
+      "mean": 1.722222222112643,
+      "model_artifact_sha256": "267aea1fbbc379a5c712659de7079af8bf21aa4aa0b56aefcc0756c5cc17d976",
+      "probability_sum": 1.0,
+      "probability_zero": 0.19586598840095304,
+      "tail_mass_upper_bound": 5.9285777612549034e-12
+    }
+  },
+  "status": "SYNTHETIC_SHADOW_NOT_PRE_GAME_CERTIFIED"
+}

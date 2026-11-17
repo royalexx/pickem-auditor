@@ -1,0 +1,46 @@
+{
+  "authentic_historical_fit_performed": false,
+  "authority": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "counts_overlap": true,
+  "criteria": [
+    {
+      "id": "F-P2-02",
+      "independent_disposition": "PENDING_P6",
+      "owner_observation": "REPAIRED_AND_EXACT_COMMIT_TESTED"
+    },
+    {
+      "classification": "INTERNAL_ARTIFACT_CHRONOLOGY_DEFECT",
+      "id": "F-P2-03",
+      "independent_disposition": "PENDING_P6",
+      "owner_observation": "REPAIRED_AND_EXACT_COMMIT_TESTED"
+    },
+    {
+      "id": "F-P2-01",
+      "independent_disposition": "PENDING_FRESH_P6",
+      "owner_observation": "REGRESSION_RETAINED"
+    },
+    {
+      "id": "B-P2-01",
+      "independent_disposition": "PENDING_P6",
+      "native_structure": "IMPLEMENTED_TESTED_NO_ADMISSION_AUTHORITY",
+      "owner_observation": "BLOCKED_AUTHENTIC_SOURCE_AND_ADMISSIBLE_FITTED_PRIOR_UNAVAILABLE"
+    }
+  ],
+  "historical_evaluation_performed": false,
+  "implementation_commit": "18d11ba890327bbf69ef24aaddc837a3deb00c29",
+  "independent_acceptance_awarded": false,
+  "previous_audited_head": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+  "receipt": "commit_18d11ba/receipt.json",
+  "schema": "P2-owner-remediation-summary/1.2.0",
+  "source_profiles_tested": [
+    "SYNTHETIC_ENGINEERING",
+    "UNADMITTED_TRANSPORT_STRUCTURE"
+  ],
+  "test_counts": {
+    "G0": 267,
+    "G0_plus_P6": 350,
+    "P6_v3_P2": 6,
+    "S": 43
+  },
+  "verified_real_fitted_artifacts_obtained": 0
+}

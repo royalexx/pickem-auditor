@@ -1,0 +1,497 @@
+{
+  "accepted_G0_opportunity": true,
+  "game_state": {
+    "content_hash": "bc95f44087b364c40bc4217b45e5062f42d1cc34057ce2bf8b33a6b1814fc86d",
+    "game_id": "espn:game:synthetic-2022",
+    "kind": "game_state",
+    "model": {
+      "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "code_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "model_id": "research:G:v2",
+      "training_cutoff_at": "2022-10-19T00:00:00Z",
+      "version": "v2.fixture"
+    },
+    "rng_seed": 4,
+    "scenarios": [
+      {
+        "overtime_periods": 11,
+        "pace_regulation": 98.0,
+        "possessions_away": 100.0,
+        "possessions_home": 99.0,
+        "scenario_id": "synthetic:o:s0",
+        "score_state": "home_leading",
+        "weight": 1.0
+      }
+    ],
+    "schema": "nba-sojc-contract/2.0.0",
+    "source_snapshot_sha256": "472c01a821ac92b3c9c164fba2c8d092298e28c8081dec231980c759cfb24d33"
+  },
+  "opportunity": {
+    "content_hash": "0ccbd05167d953e15ced7c901fb8656b719468c7f1b6552041c5f0f8b0345f29",
+    "game_id": "espn:game:synthetic-2022",
+    "game_state_sha256": "bc95f44087b364c40bc4217b45e5062f42d1cc34057ce2bf8b33a6b1814fc86d",
+    "kind": "opportunity",
+    "model": {
+      "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "code_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "model_id": "research:O:v2",
+      "training_cutoff_at": "2022-10-19T00:00:00Z",
+      "version": "v2.fixture"
+    },
+    "players": [
+      {
+        "minutes_law": {
+          "conditioning": "given_played",
+          "family": "discrete_minutes",
+          "parameters": {
+            "support": [
+              {
+                "mass": 1.0,
+                "minutes": 103.0
+              }
+            ]
+          },
+          "units": "minutes"
+        },
+        "participation_evidence": "independently_estimated",
+        "participation_probability": 1.0,
+        "player_id": "espn:player:10",
+        "team_id": "espn:team:1"
+      },
+      {
+        "minutes_law": {
+          "conditioning": "given_played",
+          "family": "discrete_minutes",
+          "parameters": {
+            "support": [
+              {
+                "mass": 1.0,
+                "minutes": 103.0
+              }
+            ]
+          },
+          "units": "minutes"
+        },
+        "participation_evidence": "independently_estimated",
+        "participation_probability": 1.0,
+        "player_id": "espn:player:11",
+        "team_id": "espn:team:1"
+      },
+      {
+        "minutes_law": {
+          "conditioning": "given_played",
+          "family": "discrete_minutes",
+          "parameters": {
+            "support": [
+              {
+                "mass": 1.0,
+                "minutes": 103.0
+              }
+            ]
+          },
+          "units": "minutes"
+        },
+        "participation_evidence": "independently_estimated",
+        "participation_probability": 1.0,
+        "player_id": "espn:player:12",
+        "team_id": "espn:team:1"
+      },
+      {
+        "minutes_law": {
+          "conditioning": "given_played",
+          "family": "discrete_minutes",
+          "parameters": {
+            "support": [
+              {
+                "mass": 1.0,
+                "minutes": 103.0
+              }
+            ]
+          },
+          "units": "minutes"
+        },
+        "participation_evidence": "independently_estimated",
+        "participation_probability": 1.0,
+        "player_id": "espn:player:13",
+        "team_id": "espn:team:1"
+      },
+      {
+        "minutes_law": {
+          "conditioning": "given_played",
+          "family": "discrete_minutes",
+          "parameters": {
+            "support": [
+              {
+                "mass": 1.0,
+                "minutes": 103.0
+              }
+            ]
+          },
+          "units": "minutes"
+        },
+        "participation_evidence": "independently_estimated",
+        "participation_probability": 1.0,
+        "player_id": "espn:player:14",
+        "team_id": "espn:team:1"
+      },
+      {
+        "minutes_law": {
+          "conditioning": "given_played",
+          "family": "discrete_minutes",
+          "parameters": {
+            "support": [
+              {
+                "mass": 1.0,
+                "minutes": 0.0
+              }
+            ]
+          },
+          "units": "minutes"
+        },
+        "participation_evidence": "independently_estimated",
+        "participation_probability": 0.0,
+        "player_id": "espn:player:15",
+        "team_id": "espn:team:1"
+      },
+      {
+        "minutes_law": {
+          "conditioning": "given_played",
+          "family": "discrete_minutes",
+          "parameters": {
+            "support": [
+              {
+                "mass": 1.0,
+                "minutes": 103.0
+              }
+            ]
+          },
+          "units": "minutes"
+        },
+        "participation_evidence": "independently_estimated",
+        "participation_probability": 1.0,
+        "player_id": "espn:player:20",
+        "team_id": "espn:team:2"
+      },
+      {
+        "minutes_law": {
+          "conditioning": "given_played",
+          "family": "discrete_minutes",
+          "parameters": {
+            "support": [
+              {
+                "mass": 1.0,
+                "minutes": 103.0
+              }
+            ]
+          },
+          "units": "minutes"
+        },
+        "participation_evidence": "independently_estimated",
+        "participation_probability": 1.0,
+        "player_id": "espn:player:21",
+        "team_id": "espn:team:2"
+      },
+      {
+        "minutes_law": {
+          "conditioning": "given_played",
+          "family": "discrete_minutes",
+          "parameters": {
+            "support": [
+              {
+                "mass": 1.0,
+                "minutes": 103.0
+              }
+            ]
+          },
+          "units": "minutes"
+        },
+        "participation_evidence": "independently_estimated",
+        "participation_probability": 1.0,
+        "player_id": "espn:player:22",
+        "team_id": "espn:team:2"
+      },
+      {
+        "minutes_law": {
+          "conditioning": "given_played",
+          "family": "discrete_minutes",
+          "parameters": {
+            "support": [
+              {
+                "mass": 1.0,
+                "minutes": 103.0
+              }
+            ]
+          },
+          "units": "minutes"
+        },
+        "participation_evidence": "independently_estimated",
+        "participation_probability": 1.0,
+        "player_id": "espn:player:23",
+        "team_id": "espn:team:2"
+      },
+      {
+        "minutes_law": {
+          "conditioning": "given_played",
+          "family": "discrete_minutes",
+          "parameters": {
+            "support": [
+              {
+                "mass": 1.0,
+                "minutes": 103.0
+              }
+            ]
+          },
+          "units": "minutes"
+        },
+        "participation_evidence": "independently_estimated",
+        "participation_probability": 1.0,
+        "player_id": "espn:player:24",
+        "team_id": "espn:team:2"
+      },
+      {
+        "minutes_law": {
+          "conditioning": "given_played",
+          "family": "discrete_minutes",
+          "parameters": {
+            "support": [
+              {
+                "mass": 1.0,
+                "minutes": 0.0
+              }
+            ]
+          },
+          "units": "minutes"
+        },
+        "participation_evidence": "independently_estimated",
+        "participation_probability": 0.0,
+        "player_id": "espn:player:25",
+        "team_id": "espn:team:2"
+      }
+    ],
+    "scenarios": [
+      {
+        "overtime_periods": 11,
+        "players": [
+          {
+            "minutes": 103.0,
+            "participation": "PLAYED",
+            "player_id": "espn:player:10",
+            "team_id": "espn:team:1"
+          },
+          {
+            "minutes": 103.0,
+            "participation": "PLAYED",
+            "player_id": "espn:player:11",
+            "team_id": "espn:team:1"
+          },
+          {
+            "minutes": 103.0,
+            "participation": "PLAYED",
+            "player_id": "espn:player:12",
+            "team_id": "espn:team:1"
+          },
+          {
+            "minutes": 103.0,
+            "participation": "PLAYED",
+            "player_id": "espn:player:13",
+            "team_id": "espn:team:1"
+          },
+          {
+            "minutes": 103.0,
+            "participation": "PLAYED",
+            "player_id": "espn:player:14",
+            "team_id": "espn:team:1"
+          },
+          {
+            "minutes": 0.0,
+            "participation": "DNP",
+            "player_id": "espn:player:15",
+            "team_id": "espn:team:1"
+          },
+          {
+            "minutes": 103.0,
+            "participation": "PLAYED",
+            "player_id": "espn:player:20",
+            "team_id": "espn:team:2"
+          },
+          {
+            "minutes": 103.0,
+            "participation": "PLAYED",
+            "player_id": "espn:player:21",
+            "team_id": "espn:team:2"
+          },
+          {
+            "minutes": 103.0,
+            "participation": "PLAYED",
+            "player_id": "espn:player:22",
+            "team_id": "espn:team:2"
+          },
+          {
+            "minutes": 103.0,
+            "participation": "PLAYED",
+            "player_id": "espn:player:23",
+            "team_id": "espn:team:2"
+          },
+          {
+            "minutes": 103.0,
+            "participation": "PLAYED",
+            "player_id": "espn:player:24",
+            "team_id": "espn:team:2"
+          },
+          {
+            "minutes": 0.0,
+            "participation": "DNP",
+            "player_id": "espn:player:25",
+            "team_id": "espn:team:2"
+          }
+        ],
+        "scenario_id": "synthetic:o:s0",
+        "weight": 1.0
+      }
+    ],
+    "schema": "nba-sojc-contract/2.0.0",
+    "source_snapshot_sha256": "472c01a821ac92b3c9c164fba2c8d092298e28c8081dec231980c759cfb24d33"
+  },
+  "owner_sha": "b28225c995efc5cf35432def3bfb2bc6e104273d",
+  "prediction_abstention": "UNPHYSICAL_PROJECTED_MINUTES",
+  "pregame": {
+    "certification": "HISTORICAL_RECONSTRUCTION_UNCERTIFIED",
+    "content_hash": "472c01a821ac92b3c9c164fba2c8d092298e28c8081dec231980c759cfb24d33",
+    "decision_local_date": "2022-10-19",
+    "event_start_at": "2022-10-20T00:00:00Z",
+    "features": [
+      {
+        "asof_basis": "prior_game_date_only",
+        "available_at": null,
+        "kind": "prior_boxscore",
+        "measurement_units": "count",
+        "name": "prior_points",
+        "prior_game_date": "2022-10-17",
+        "source_id": "espn:source:boxscore",
+        "source_receipt_sha256": "8e6784df7e7d2676e6e5016bf1f7ec3b41797e9558dc1cbf729b12053e320d3c",
+        "target_game_outcome": false,
+        "value": 7
+      }
+    ],
+    "forecast_at": "2022-10-19T23:01:00Z",
+    "game_id": "espn:game:synthetic-2022",
+    "historical_asof_limitations": "Date-only prior-game proxy; current archive retrieved in 2026; no contemporary publication certificate.",
+    "input_freeze_at": "2022-10-19T23:00:00Z",
+    "kind": "pregame",
+    "original_offer_count": 0,
+    "players": [
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:10",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:11",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:12",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:13",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:14",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:15",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:20",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:21",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:22",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:23",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:24",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:25",
+        "team_id": "espn:team:2"
+      }
+    ],
+    "schema": "nba-sojc-contract/2.0.0",
+    "source_profile": "historical_reconstruction",
+    "sources": [
+      {
+        "asof_basis": "prior_game_date_only",
+        "asof_limitations": "Date-only prior-game proxy; current archive retrieved in 2026; no contemporary publication certificate.",
+        "collector_observed_at": "2026-11-16T13:00:00Z",
+        "contains_target_final": false,
+        "historical_game_date": "2022-10-17",
+        "ingested_at": "2026-11-16T13:05:00Z",
+        "origin": "retrospective_retrieval",
+        "provider_published_at": null,
+        "publication_evidence": "unknown",
+        "raw_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "receipt_sha256": "8e6784df7e7d2676e6e5016bf1f7ec3b41797e9558dc1cbf729b12053e320d3c",
+        "retrieved_at": "2026-11-16T12:55:00Z",
+        "scope": "prior_game",
+        "source_id": "espn:source:boxscore",
+        "source_revision": 1,
+        "supersedes_receipt_sha256": null
+      }
+    ],
+    "team_ids": [
+      "espn:team:1",
+      "espn:team:2"
+    ],
+    "training_cutoff_at": "2022-10-19T00:00:00Z"
+  },
+  "synthetic": true
+}

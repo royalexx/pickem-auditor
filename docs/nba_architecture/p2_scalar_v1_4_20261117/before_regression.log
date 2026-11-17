@@ -1,0 +1,36 @@
+test_booleans_are_not_raw_counts_exact_exposure_or_denominators (tests.nba_s_family.test_p1_native_v1.NativeScalarTypeTests.test_booleans_are_not_raw_counts_exact_exposure_or_denominators) ... 
+  test_booleans_are_not_raw_counts_exact_exposure_or_denominators (tests.nba_s_family.test_p1_native_v1.NativeScalarTypeTests.test_booleans_are_not_raw_counts_exact_exposure_or_denominators) (attack='raw_count') ... FAIL
+  test_booleans_are_not_raw_counts_exact_exposure_or_denominators (tests.nba_s_family.test_p1_native_v1.NativeScalarTypeTests.test_booleans_are_not_raw_counts_exact_exposure_or_denominators) (attack='exact_minutes') ... FAIL
+  test_booleans_are_not_raw_counts_exact_exposure_or_denominators (tests.nba_s_family.test_p1_native_v1.NativeScalarTypeTests.test_booleans_are_not_raw_counts_exact_exposure_or_denominators) (attack='denominator') ... FAIL
+
+======================================================================
+FAIL: test_booleans_are_not_raw_counts_exact_exposure_or_denominators (tests.nba_s_family.test_p1_native_v1.NativeScalarTypeTests.test_booleans_are_not_raw_counts_exact_exposure_or_denominators) (attack='raw_count')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 124, in test_booleans_are_not_raw_counts_exact_exposure_or_denominators
+    with self.subTest(attack=attack),self.assertRaises(SFError):self.inspect(x)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+======================================================================
+FAIL: test_booleans_are_not_raw_counts_exact_exposure_or_denominators (tests.nba_s_family.test_p1_native_v1.NativeScalarTypeTests.test_booleans_are_not_raw_counts_exact_exposure_or_denominators) (attack='exact_minutes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 124, in test_booleans_are_not_raw_counts_exact_exposure_or_denominators
+    with self.subTest(attack=attack),self.assertRaises(SFError):self.inspect(x)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+======================================================================
+FAIL: test_booleans_are_not_raw_counts_exact_exposure_or_denominators (tests.nba_s_family.test_p1_native_v1.NativeScalarTypeTests.test_booleans_are_not_raw_counts_exact_exposure_or_denominators) (attack='denominator')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 124, in test_booleans_are_not_raw_counts_exact_exposure_or_denominators
+    with self.subTest(attack=attack),self.assertRaises(SFError):self.inspect(x)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.077s
+
+FAILED (failures=3)

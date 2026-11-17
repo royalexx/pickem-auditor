@@ -1,0 +1,1 @@
+{"cases": [{"case": "56_minute_two_OT_training_exposure", "code": "HISTORICAL_EXPOSURE_PHYSICS", "family": "P2", "limitation": "Historical fit schema lacks official OT count", "status": "REJECTED_POTENTIALLY_VALID_MULTI_OT"}], "family": "P2", "suite": "nba-p6-g1-owner-negative-20261116"}

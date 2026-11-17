@@ -1,0 +1,37 @@
+test_integer_shooting_and_rebound_impossibilities_reject (tests.nba_s_family.test_p1_native_v1.IntegerSourceAccountingTests.test_integer_shooting_and_rebound_impossibilities_reject) ... 
+  test_integer_shooting_and_rebound_impossibilities_reject (tests.nba_s_family.test_p1_native_v1.IntegerSourceAccountingTests.test_integer_shooting_and_rebound_impossibilities_reject) (stats={'points': 1, 'fieldGoalsAttempted': 1, 'threePointersAttempted': 0, 'freeThrowsMade': 0}) ... FAIL
+  test_integer_shooting_and_rebound_impossibilities_reject (tests.nba_s_family.test_p1_native_v1.IntegerSourceAccountingTests.test_integer_shooting_and_rebound_impossibilities_reject) (stats={'points': 2, 'fieldGoalsMade': 1, 'threePointersMade': 0, 'fieldGoalsAttempted': 1, 'threePointersAttempted': 1, 'freeThrowsMade': 0}) ... FAIL
+  test_integer_shooting_and_rebound_impossibilities_reject (tests.nba_s_family.test_p1_native_v1.IntegerSourceAccountingTests.test_integer_shooting_and_rebound_impossibilities_reject) (stats={'points': 11, 'reboundsTotal': 1, 'reboundsOffensive': 2}) ... FAIL
+test_sparse_missing_counts_stay_unknown_and_valid_integer_completion_passes (tests.nba_s_family.test_p1_native_v1.IntegerSourceAccountingTests.test_sparse_missing_counts_stay_unknown_and_valid_integer_completion_passes) ... ok
+
+======================================================================
+FAIL: test_integer_shooting_and_rebound_impossibilities_reject (tests.nba_s_family.test_p1_native_v1.IntegerSourceAccountingTests.test_integer_shooting_and_rebound_impossibilities_reject) (stats={'points': 1, 'fieldGoalsAttempted': 1, 'threePointersAttempted': 0, 'freeThrowsMade': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 185, in test_integer_shooting_and_rebound_impossibilities_reject
+    with self.subTest(stats=stats),self.assertRaises(SFError):self.inspect(self.raw_stats(stats))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+======================================================================
+FAIL: test_integer_shooting_and_rebound_impossibilities_reject (tests.nba_s_family.test_p1_native_v1.IntegerSourceAccountingTests.test_integer_shooting_and_rebound_impossibilities_reject) (stats={'points': 2, 'fieldGoalsMade': 1, 'threePointersMade': 0, 'fieldGoalsAttempted': 1, 'threePointersAttempted': 1, 'freeThrowsMade': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 185, in test_integer_shooting_and_rebound_impossibilities_reject
+    with self.subTest(stats=stats),self.assertRaises(SFError):self.inspect(self.raw_stats(stats))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+======================================================================
+FAIL: test_integer_shooting_and_rebound_impossibilities_reject (tests.nba_s_family.test_p1_native_v1.IntegerSourceAccountingTests.test_integer_shooting_and_rebound_impossibilities_reject) (stats={'points': 11, 'reboundsTotal': 1, 'reboundsOffensive': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 185, in test_integer_shooting_and_rebound_impossibilities_reject
+    with self.subTest(stats=stats),self.assertRaises(SFError):self.inspect(self.raw_stats(stats))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.067s
+
+FAILED (failures=3)
