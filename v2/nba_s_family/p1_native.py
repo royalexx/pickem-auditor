@@ -92,7 +92,7 @@ def inspect_p1_export(export, *, pregame, stat):
     require(isinstance(export,dict) and set(export)==keys and export['schema']==P1_VERSION and export['kind']=='prior_game_export','P1_NATIVE_EXPORT_SCHEMA')
     require(export['profile'] in ('synthetic_engineering','unadmitted_source_reconstruction') and export['source_profile']==export['profile'],'P1_NATIVE_SOURCE_PROFILE')
     require(export['admission_status']=='BLOCKED' and export['missing_requirements']==MISSING and export['role'] is None and export['role_evidence'] is None,'P1_NATIVE_UNSUPPORTED_ADMISSION_CLAIM')
-    require(export['candidate_denominator']==dict(attempted=1,admitted=0,quarantined=1),'P1_NATIVE_DENOMINATOR')
+    require(export['candidate_denominator']==dict(attempted=1,admitted=0,quarantined=1) and all(type(v) is int for v in export['candidate_denominator'].values()),'P1_NATIVE_DENOMINATOR')
     game,raws=_chain(export['evidence_bundle']);e=export['exposure']
     require(isinstance(e,dict) and set(e)=={'schema','game_id','game_date','overtime_periods','duration_minutes','source_status','raw_sha256','receipt_sha256','retrieved_at','original_pregame_available_at','certification','player_id','team_id','opponent_id','participation','displayed_minutes','exact_minutes','accounting_status','stats'},'P1_NATIVE_EXPOSURE_FIELDS')
     require(e.get('game_id')=='nba:game:'+str(game['gameId']) and e['game_id']!=pregame['game_id'],'P1_NATIVE_TARGET_OR_GAME_IDENTITY')
@@ -115,6 +115,7 @@ def inspect_p1_export(export, *, pregame, stat):
     require(e.get('opponent_id')=='nba:team:'+str(opponent['teamId']) and e['team_id']!=e['opponent_id'],'P1_NATIVE_OPPONENT_IDENTITY')
     player=people[0][1];statistics=player.get('statistics',{})
     normalized={k:statistics[v] for k,v in STAT_KEYS.items() if v in statistics}
+    require(all(type(v) is int and v>=0 for v in normalized.values()),'P1_NATIVE_RAW_STAT_TYPE_OR_SUPPORT')
     for combo,parts in {'pr':('points','rebounds'),'pa':('points','assists'),'ra':('rebounds','assists'),'pra':('points','rebounds','assists')}.items():
         if all(k in normalized for k in parts):normalized[combo]=sum(normalized[k] for k in parts)
     require(isinstance(e.get('stats'),dict) and all(k in normalized and type(v) is int and v>=0 and normalized[k]==v for k,v in e['stats'].items()),'P1_NATIVE_STAT_MISMATCH')
@@ -124,7 +125,7 @@ def inspect_p1_export(export, *, pregame, stat):
         exact_source=_seconds(statistics.get('minutes'))/60
         exact=float(exact_source);display=e.get('displayed_minutes')
         require(player.get('played')=='1' and type(display) in (int,float) and math.isfinite(display) and 0<=display<=cap and 0<=exact_source<=cap,'P1_NATIVE_EXPOSURE_PHYSICS')
-        require(e.get('exact_minutes')==exact and abs(Fraction(str(display))-exact_source)<=Fraction(1,2),'P1_NATIVE_EXACT_MINUTES_MISMATCH')
+        require(type(e.get('exact_minutes')) in (int,float) and e['exact_minutes']==exact and abs(Fraction(str(display))-exact_source)<=Fraction(1,2),'P1_NATIVE_EXACT_MINUTES_MISMATCH')
         rounded=display==0 and any(e['stats'].values())
         require(not rounded or 0<exact_source<Fraction(1,2),'P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED')
         require(e.get('accounting_status')==('ADJUDICATED_ROUNDED_SUBMINUTE' if rounded else 'OFFICIAL_BOX_RECONCILED'),'P1_NATIVE_ACCOUNTING_STATUS')

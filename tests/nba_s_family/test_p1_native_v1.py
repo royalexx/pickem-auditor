@@ -102,3 +102,23 @@ class ExactSourceMinuteTests(unittest.TestCase):
         self.assertEqual(self.inspect(self.minutes_export('PT25M30S',26))['denominator']['structurally_checked'],1)
         with self.assertRaisesRegex(SFError,'P1_NATIVE_EXACT_MINUTES_MISMATCH'):
             self.inspect(self.minutes_export('PT25M29.9999999999999999S',26))
+
+class NativeScalarTypeTests(unittest.TestCase):
+    fixture=P1NativeTests.fixture
+    pregame=P1NativeTests.pregame
+    inspect=P1NativeTests.inspect
+
+    def test_booleans_are_not_raw_counts_exact_exposure_or_denominators(self):
+        for attack in ('raw_count','exact_minutes','denominator'):
+            x=self.fixture()
+            self.assertEqual(self.inspect(x)['denominator']['structurally_checked'],1)
+            if attack=='raw_count':
+                b=x['evidence_bundle'];g=json.loads(base64.b64decode(b['raw_base64']))
+                g['game']['homeTeam']['players'][0]['statistics']['points']=True
+                from v2.nba_s_family.model import canonical,digest
+                raw=canonical(g);b['raw_base64']=base64.b64encode(raw).decode();b['capture']['raw_sha256']=digest(raw)
+                x['exposure'].update(raw_sha256=digest(raw),receipt_sha256=digest(canonical(b['capture'])));x['exposure']['stats']['points']=1
+            elif attack=='exact_minutes':
+                x=ExactSourceMinuteTests().minutes_export('PT1M0S',1);x['exposure']['exact_minutes']=True
+            else:x['candidate_denominator']={'attempted':True,'admitted':False,'quarantined':True}
+            with self.subTest(attack=attack),self.assertRaises(SFError):self.inspect(x)
