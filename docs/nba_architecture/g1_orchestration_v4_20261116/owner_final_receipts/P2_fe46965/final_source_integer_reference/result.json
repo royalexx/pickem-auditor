@@ -1,0 +1,23 @@
+{
+  "P1": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+  "P1_source_sha256": "4eaf6a18783a3d3d196799a6aea5eab6704057d808a66ffcf0085b5e7d9eb69e",
+  "P2": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+  "P2_source_sha256": "8e7803471e520366a068bf79d52dcf8f95f955b338770ad5c4fa6af18ece08f6",
+  "case_input_output_raw_sha256": "8e1481e571386534c539356cd7816c201a55eeecc2033b9496c1c0bd04105299",
+  "cases": 5000,
+  "exhaustive_combinations": {
+    "basis": "exhaustive integer P/R/A enumeration; all PR/PA/RA field subsets",
+    "cases": 216,
+    "disagreements": 0
+  },
+  "exhaustive_shooting": {
+    "basis": "exhaustive bounded 2PM/3PM/FTM integer enumeration; all optional field subsets",
+    "cases": 972,
+    "disagreements": 0
+  },
+  "failures": [],
+  "scope": "SYNTHETIC_SUPPORTING_QC_NOT_INDEPENDENT_GATE_ACCEPTANCE",
+  "script_sha256": "d5f3de5bf30d077e7fe6c94c1cfa4a171cf579d075774406bde056e611f10435",
+  "seed": 14817,
+  "status": "PASS_FINITE_ENGINEERING_COMPARISON"
+}

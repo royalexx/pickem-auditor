@@ -1,0 +1,11 @@
+docs/nba_architecture/p1_nonparticipation_20261117_v4/after_nonparticipation.log: OK
+docs/nba_architecture/p1_nonparticipation_20261117_v4/before_nonparticipation.log: OK
+docs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/P6_controls.log: OK
+docs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/architecture.log: OK
+docs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/nba_p6_g1_green_after_fix_v3_20261116.py.log: OK
+docs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/nba_p6_g1_owner_negative_probes_20261116.py.log: OK
+docs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/nba_p6_g1_remediation_adversarial_v3_20261116.py.log: OK
+docs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/preflight.log: OK
+docs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/receipt.json: OK
+docs/nba_architecture/p1_nonparticipation_20261117_v4/orchestrator_red_b745b04.json: OK
+docs/nba_architecture/p1_nonparticipation_20261117_v4/resolution_receipt.json: OK

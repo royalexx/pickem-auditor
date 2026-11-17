@@ -1,0 +1,13 @@
+test_cross_date_rejected (test_afternoon_reuse.PrefetchTests.test_cross_date_rejected) ... ok
+test_event_start_in_quote_is_usable_without_new_paid_event_fetch (test_afternoon_reuse.PrefetchTests.test_event_start_in_quote_is_usable_without_new_paid_event_fetch) ... ok
+test_mixed_fresh_and_stale_quotes_do_not_invalidate_fresh_markets (test_afternoon_reuse.PrefetchTests.test_mixed_fresh_and_stale_quotes_do_not_invalidate_fresh_markets) ... ok
+test_no_odds_file_rejected (test_afternoon_reuse.PrefetchTests.test_no_odds_file_rejected) ... ok
+test_quote_date_mismatch_rejected_even_when_other_quote_fresh (test_afternoon_reuse.PrefetchTests.test_quote_date_mismatch_rejected_even_when_other_quote_fresh) ... ok
+test_reuses_verified (test_afternoon_reuse.PrefetchTests.test_reuses_verified) ... ok
+test_stale_odds_rejected (test_afternoon_reuse.PrefetchTests.test_stale_odds_rejected) ... ok
+test_stale_receipt_rejected (test_afternoon_reuse.PrefetchTests.test_stale_receipt_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.004s
+
+OK

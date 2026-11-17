@@ -1,0 +1,84 @@
+{
+  "schema": "nba-p1-native-handoff/1.0.0",
+  "kind": "outcome_export",
+  "game_id": "nba:game:0022200001",
+  "player_id": "nba:player:7",
+  "team_id": "nba:team:1",
+  "source_profile": "unadmitted_isolated_outcome_vault",
+  "admission_status": "BLOCKED",
+  "missing_requirements": [
+    "INDEPENDENT_SOURCE_ADMISSION",
+    "SOURCE_BOUND_EVENT_END",
+    "SOURCE_BOUND_OUTCOME_RELEASE_CLOCK"
+  ],
+  "status": "UNADMITTED",
+  "participation": "PLAYED",
+  "stats": {
+    "assists": 3,
+    "points": 11,
+    "rebounds": 5,
+    "threes": 2
+  },
+  "official_count": null,
+  "displayed_minutes": 26,
+  "exact_minutes": 26.0,
+  "event_start_at": "2022-10-21T23:00:00Z",
+  "event_end_at": null,
+  "outcome_released_at": null,
+  "vault_schema": "nba-p1-official-outcome-vault/1.1.0",
+  "revisions": [
+    {
+      "record": {
+        "accounting_evidence": {
+          "capture": {
+            "raw_sha256": "e695e3be014649f2998133da9edf654588a65c520b3f558b9f55921fc9eb66a9",
+            "retrieved_at": "2026-11-16T18:00:00Z",
+            "revision": 1,
+            "schema": "nba-p1-prior-game-evidence/1.0.0",
+            "supersedes_receipt_sha256": null,
+            "url": "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022200001.json"
+          },
+          "prior": []
+        },
+        "game_id": "nba:game:0022200001",
+        "kind": "not_an_official_outcome",
+        "minutes": 26,
+        "observed_at": "2026-11-16T19:00:00Z",
+        "official_status": "FINAL",
+        "player_id": "nba:player:7",
+        "revision": 1,
+        "schema": "nba-p1-official-outcome-vault/1.1.0",
+        "source_id": "nba:official:box",
+        "source_raw_sha256": "e695e3be014649f2998133da9edf654588a65c520b3f558b9f55921fc9eb66a9",
+        "state": "PLAYED",
+        "stats": {
+          "assists": 3,
+          "points": 11,
+          "rebounds": 5,
+          "threes": 2
+        },
+        "supersedes_sha256": null,
+        "team_id": "nba:team:1",
+        "content_hash": "bab772dd5bce7b083dbe036a4c2ac072c2c551f293d67f9705b266fcdffafabd"
+      },
+      "record_raw_sha256": "74eed2fcaec948528d957d20aa3c67cf7241765767c4e50a0393e5d10e0ed5b5",
+      "record_raw_base64": "eyJhY2NvdW50aW5nX2V2aWRlbmNlIjp7ImNhcHR1cmUiOnsicmF3X3NoYTI1NiI6ImU2OTVlM2JlMDE0NjQ5ZjI5OTgxMzNkYTllZGY2NTQ1ODhhNjVjNTIwYjNmNTU4YjlmNTU5MjFmYzllYjY2YTkiLCJyZXRyaWV2ZWRfYXQiOiIyMDI2LTExLTE2VDE4OjAwOjAwWiIsInJldmlzaW9uIjoxLCJzY2hlbWEiOiJuYmEtcDEtcHJpb3ItZ2FtZS1ldmlkZW5jZS8xLjAuMCIsInN1cGVyc2VkZXNfcmVjZWlwdF9zaGEyNTYiOm51bGwsInVybCI6Imh0dHBzOi8vY2RuLm5iYS5jb20vc3RhdGljL2pzb24vbGl2ZURhdGEvYm94c2NvcmUvYm94c2NvcmVfMDAyMjIwMDAwMS5qc29uIn0sInByaW9yIjpbXX0sImNvbnRlbnRfaGFzaCI6ImJhYjc3MmRkNWJjZTdiMDgzZGJlMDM2YTRjMmFjMDcyYzJjNTUxZjI5M2Q2N2Y5NzA1YjI2NmZjZGZmYWZhYmQiLCJnYW1lX2lkIjoibmJhOmdhbWU6MDAyMjIwMDAwMSIsImtpbmQiOiJub3RfYW5fb2ZmaWNpYWxfb3V0Y29tZSIsIm1pbnV0ZXMiOjI2LCJvYnNlcnZlZF9hdCI6IjIwMjYtMTEtMTZUMTk6MDA6MDBaIiwib2ZmaWNpYWxfc3RhdHVzIjoiRklOQUwiLCJwbGF5ZXJfaWQiOiJuYmE6cGxheWVyOjciLCJyZXZpc2lvbiI6MSwic2NoZW1hIjoibmJhLXAxLW9mZmljaWFsLW91dGNvbWUtdmF1bHQvMS4xLjAiLCJzb3VyY2VfaWQiOiJuYmE6b2ZmaWNpYWw6Ym94Iiwic291cmNlX3Jhd19zaGEyNTYiOiJlNjk1ZTNiZTAxNDY0OWYyOTk4MTMzZGE5ZWRmNjU0NTg4YTY1YzUyMGIzZjU1OGI5ZjU1OTIxZmM5ZWI2NmE5Iiwic3RhdGUiOiJQTEFZRUQiLCJzdGF0cyI6eyJhc3Npc3RzIjozLCJwb2ludHMiOjExLCJyZWJvdW5kcyI6NSwidGhyZWVzIjoyfSwic3VwZXJzZWRlc19zaGEyNTYiOm51bGwsInRlYW1faWQiOiJuYmE6dGVhbToxIn0K",
+      "source_raw_sha256": "e695e3be014649f2998133da9edf654588a65c520b3f558b9f55921fc9eb66a9",
+      "source_raw_base64": "eyJnYW1lIjp7ImF3YXlUZWFtIjp7InBsYXllcnMiOltdLCJ0ZWFtSWQiOjJ9LCJnYW1lQ2xvY2siOiJQVDAwTTAwLjAwUyIsImdhbWVJZCI6IjAwMjIyMDAwMDEiLCJnYW1lU3RhdHVzIjozLCJnYW1lVGltZVVUQyI6IjIwMjItMTAtMjFUMjM6MDA6MDBaIiwiaG9tZVRlYW0iOnsicGxheWVycyI6W3sicGVyc29uSWQiOjcsInBsYXllZCI6IjEiLCJzdGF0aXN0aWNzIjp7ImFzc2lzdHMiOjMsIm1pbnV0ZXMiOiJQVDI2TTAwLjAwUyIsInBvaW50cyI6MTEsInJlYm91bmRzVG90YWwiOjUsInRocmVlUG9pbnRlcnNNYWRlIjoyfX1dLCJ0ZWFtSWQiOjF9LCJwZXJpb2QiOjR9fQ==",
+      "accounting_evidence": {
+        "capture": {
+          "raw_sha256": "e695e3be014649f2998133da9edf654588a65c520b3f558b9f55921fc9eb66a9",
+          "retrieved_at": "2026-11-16T18:00:00Z",
+          "revision": 1,
+          "schema": "nba-p1-prior-game-evidence/1.0.0",
+          "supersedes_receipt_sha256": null,
+          "url": "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022200001.json"
+        },
+        "raw_base64": "eyJnYW1lIjp7ImF3YXlUZWFtIjp7InBsYXllcnMiOltdLCJ0ZWFtSWQiOjJ9LCJnYW1lQ2xvY2siOiJQVDAwTTAwLjAwUyIsImdhbWVJZCI6IjAwMjIyMDAwMDEiLCJnYW1lU3RhdHVzIjozLCJnYW1lVGltZVVUQyI6IjIwMjItMTAtMjFUMjM6MDA6MDBaIiwiaG9tZVRlYW0iOnsicGxheWVycyI6W3sicGVyc29uSWQiOjcsInBsYXllZCI6IjEiLCJzdGF0aXN0aWNzIjp7ImFzc2lzdHMiOjMsIm1pbnV0ZXMiOiJQVDI2TTAwLjAwUyIsInBvaW50cyI6MTEsInJlYm91bmRzVG90YWwiOjUsInRocmVlUG9pbnRlcnNNYWRlIjoyfX1dLCJ0ZWFtSWQiOjF9LCJwZXJpb2QiOjR9fQ==",
+        "prior": []
+      }
+    }
+  ],
+  "correction_version": 1,
+  "scoring_authorized": false
+}
