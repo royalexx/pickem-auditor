@@ -81,46 +81,74 @@ def _chronology(row):
     return day,freeze,start,released
 
 
+def _nested_mappings(obj):
+    """Walk every dictionary through arbitrary list/tuple nesting.
+
+    Shared substructures are legal. Cycles are not serializable forecast
+    evidence and reject explicitly instead of escaping validators by recursion.
+    """
+    stack=[(obj,frozenset())]
+    while stack:
+        value,ancestors=stack.pop()
+        if not isinstance(value,(dict,list,tuple)):
+            continue
+        marker=id(value)
+        if marker in ancestors:
+            raise ExperimentError("CYCLIC_FORECAST_INPUT")
+        nested=ancestors|{marker}
+        if isinstance(value,dict):
+            yield value
+            children=value.values()
+        else:
+            children=value
+        stack.extend((child,nested) for child in children
+                     if isinstance(child,(dict,list,tuple)))
+
+
 def _cutoffs(obj, freeze, start):
-    # Traverse every supplied witness, including nested model/source lineage.
-    # Unsupported *_at clocks fail closed rather than being silently ignored.
+    # All containers use the same traversal; a list inside a list cannot hide
+    # source/model clocks or unsupported timestamps.
     before_freeze={"source_available_at","available_at","published_at",
                    "retrieved_at","ingested_at","input_freeze_at",
                    "decision_cutoff_at","model_training_cutoff_at",
                    "training_cutoff_at","asof_cutoff_utc","cutoff_at"}
     event_clocks={"date","frozen_at","event_start_at","event_end_at",
                   "official_available_at"}
-    for key,value in obj.items():
-        if not isinstance(key,str):
-            continue  # Integer PMF support is validated separately.
-        if key in before_freeze or "cutoff" in key:
-            if _utc(value)>freeze:
-                raise ExperimentError("POST_FREEZE_SOURCE_OR_CUTOFF")
-        elif key=="forecast_at":
-            if not freeze<=_utc(value)<start:
-                raise ExperimentError("INVALID_FORECAST_TIME")
-        elif key.endswith("_at") and key not in event_clocks:
-            raise ExperimentError("UNSUPPORTED_TIME_FIELD_"+key)
-        elif isinstance(value,dict):
-            _cutoffs(value,freeze,start)
-        elif isinstance(value,(list,tuple)):
-            for item in value:
-                if isinstance(item,dict):
-                    _cutoffs(item,freeze,start)
+    for mapping in _nested_mappings(obj):
+        for key,value in mapping.items():
+            if not isinstance(key,str):
+                continue  # Integer PMF support is validated separately.
+            if key in before_freeze or "cutoff" in key:
+                if _utc(value)>freeze:
+                    raise ExperimentError("POST_FREEZE_SOURCE_OR_CUTOFF")
+            elif key=="forecast_at":
+                if not freeze<=_utc(value)<start:
+                    raise ExperimentError("INVALID_FORECAST_TIME")
+            elif key.endswith("_at") and key not in event_clocks:
+                raise ExperimentError("UNSUPPORTED_TIME_FIELD_"+key)
 
 
 def _linked_fields(obj, row):
-    for key,value in obj.items():
-        if key in ("game_id","player_id","stat","date","frozen_at",
-                   "event_start_at","event_end_at","official_available_at",
-                   "source_profile") and value!=row[key]:
-            raise ExperimentError("LINKED_IDENTITY_MISMATCH_"+key)
-        if isinstance(value,dict):
-            _linked_fields(value,row)
-        elif isinstance(value,(list,tuple)):
-            for item in value:
-                if isinstance(item,dict):
-                    _linked_fields(item,row)
+    for mapping in _nested_mappings(obj):
+        for key,value in mapping.items():
+            if key in ("game_id","player_id","stat","date","frozen_at",
+                       "event_start_at","event_end_at","official_available_at",
+                       "source_profile") and value!=row[key]:
+                raise ExperimentError("LINKED_IDENTITY_MISMATCH_"+key)
+
+
+def _forecast_only(obj):
+    forbidden={"actual","actual_stats","official_available_at","event_end_at",
+               "actual_minutes","target_game_outcome","target_game_result",
+               "target_game_boxscore","target_result","target_outcome",
+               "final_roster","final_score"}
+    for mapping in _nested_mappings(obj):
+        # Prior-game observations use an explicit prior_game_* namespace;
+        # projected_* remains legal. Actual/realized target quantities cannot
+        # acquire pregame status by renaming their statistic or nesting them.
+        if any(isinstance(key,str) and (key in forbidden or
+               key.startswith(("actual_","realized_"))) for key in mapping):
+            raise ExperimentError("OUTCOME_IN_FORECAST_PIPELINE")
 
 
 def _synthetic_witness(row):
@@ -255,6 +283,11 @@ class CachedCohort:
         for row in rows:
             if row.get("source_profile")!="SYNTHETIC":
                 raise ExperimentError("ONLY_SYNTHETIC_FITTING")
+            # Quarantine each forecast tree before checking linked outcome
+            # witnesses; forbidden forecast keys retain one precise reason.
+            if isinstance(row.get("pipelines"),dict):
+                for pipeline in row["pipelines"].values():
+                    _forecast_only(pipeline)
             day,freeze,start,released=_chronology(row)
             if type(row.get("actual")) is not int or row["actual"]<0:
                 raise ExperimentError("INVALID_OUTCOME_OR_STAT")
@@ -273,10 +306,6 @@ class CachedCohort:
             for name,item in row["pipelines"].items():
                 if not isinstance(item,dict):
                     raise ExperimentError("INVALID_PIPELINE")
-                if any(field in item for field in ("actual","actual_stats",
-                        "official_available_at","event_end_at","actual_minutes",
-                        "target_game_outcome")):
-                    raise ExperimentError("OUTCOME_IN_FORECAST_PIPELINE")
                 for field in ("game_id","player_id","stat","date","frozen_at",
                               "event_start_at","source_profile"):
                     if item.get(field)!=row[field]:

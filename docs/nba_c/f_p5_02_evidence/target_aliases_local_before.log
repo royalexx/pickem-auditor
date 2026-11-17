@@ -1,0 +1,86 @@
+test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) ... 
+  test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='actual_attempts') ... FAIL
+  test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='realized_attempts') ... FAIL
+  test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='target_game_boxscore') ... FAIL
+  test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='target_game_result') ... FAIL
+  test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='final_roster') ... FAIL
+  test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='actual_rebounds') ... FAIL
+  test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='realized_minutes') ... FAIL
+  test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='final_score') ... FAIL
+
+======================================================================
+FAIL: test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='actual_attempts')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 84, in test_target_aliases_are_quarantined_with_valid_prior_controls
+    with self.subTest(key=key), self.assertRaisesRegex(
+                                ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='realized_attempts')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 84, in test_target_aliases_are_quarantined_with_valid_prior_controls
+    with self.subTest(key=key), self.assertRaisesRegex(
+                                ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='target_game_boxscore')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 84, in test_target_aliases_are_quarantined_with_valid_prior_controls
+    with self.subTest(key=key), self.assertRaisesRegex(
+                                ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='target_game_result')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 84, in test_target_aliases_are_quarantined_with_valid_prior_controls
+    with self.subTest(key=key), self.assertRaisesRegex(
+                                ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='final_roster')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 84, in test_target_aliases_are_quarantined_with_valid_prior_controls
+    with self.subTest(key=key), self.assertRaisesRegex(
+                                ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='actual_rebounds')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 84, in test_target_aliases_are_quarantined_with_valid_prior_controls
+    with self.subTest(key=key), self.assertRaisesRegex(
+                                ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='realized_minutes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 84, in test_target_aliases_are_quarantined_with_valid_prior_controls
+    with self.subTest(key=key), self.assertRaisesRegex(
+                                ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) (key='final_score')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 84, in test_target_aliases_are_quarantined_with_valid_prior_controls
+    with self.subTest(key=key), self.assertRaisesRegex(
+                                ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+FAILED (failures=8)
