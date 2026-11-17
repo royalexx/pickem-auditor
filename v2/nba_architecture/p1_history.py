@@ -77,11 +77,39 @@ def _stats(stats):
         fail("SHOOTING_ACCOUNTING")
     if "threes" in stats and "fgm" in stats and stats["threes"] > stats["fgm"]:
         fail("SHOOTING_ACCOUNTING")
+    if "threes" in stats and "fga" in stats and stats["threes"] > stats["fga"]:
+        fail("SHOOTING_ACCOUNTING")
+    if all(k in stats for k in ("fgm", "threes", "fga", "fg3a")):
+        if stats["fgm"] - stats["threes"] > stats["fga"] - stats["fg3a"]:
+            fail("SHOOTING_ACCOUNTING")
+    if "points" in stats:
+        # Missing counts stay unknown, but known nonnegative contributions
+        # already impose necessary bounds. Do not require absent fields or
+        # allow incomplete source records to evade basketball arithmetic.
+        min_fgm = stats.get("fgm", stats.get("threes", 0))
+        lower = 2 * min_fgm + stats.get("threes", 0) + stats.get("ftm", 0)
+        if stats["points"] < lower:
+            fail("POINT_ACCOUNTING")
+        shot_upper = None
+        if "fgm" in stats:
+            shot_upper = (2 * stats["fgm"] + stats["threes"]
+                          if "threes" in stats else 3 * stats["fgm"])
+        elif "fga" in stats:
+            shot_upper = (2 * stats["fga"] + stats["threes"] if "threes" in stats
+                          else 2 * stats["fga"] + stats["fg3a"] if "fg3a" in stats
+                          else 3 * stats["fga"])
+        ft_upper = stats.get("ftm", stats.get("fta"))
+        if shot_upper is not None and ft_upper is not None:
+            if stats["points"] > shot_upper + ft_upper:
+                fail("POINT_ACCOUNTING")
     if all(k in stats for k in ("fgm", "threes", "ftm", "points")):
         if stats["points"] != 2 * stats["fgm"] + stats["threes"] + stats["ftm"]:
             fail("POINT_ACCOUNTING")
     if all(k in stats for k in ("oreb", "dreb", "rebounds")):
         if stats["oreb"] + stats["dreb"] != stats["rebounds"]:
+            fail("REBOUND_ACCOUNTING")
+    for component in ("oreb", "dreb"):
+        if component in stats and "rebounds" in stats and stats[component] > stats["rebounds"]:
             fail("REBOUND_ACCOUNTING")
     for combo, keys in (
         ("pr", ("points", "rebounds")),
@@ -89,8 +117,9 @@ def _stats(stats):
         ("ra", ("rebounds", "assists")),
         ("pra", ("points", "rebounds", "assists")),
     ):
-        if combo in stats and all(k in stats for k in keys):
-            if stats[combo] != sum(stats[k] for k in keys):
+        if combo in stats:
+            known = sum(stats[k] for k in keys if k in stats)
+            if stats[combo] < known or (all(k in stats for k in keys) and stats[combo] != known):
                 fail("COMBINATION_ACCOUNTING")
 
 
