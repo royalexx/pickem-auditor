@@ -1,0 +1,68 @@
+{
+  "cases": [
+    {
+      "case": "56_minute_two_OT_separate_duration_receipt_positive_and_overcap",
+      "error": "KeyError",
+      "reason": "'source_receipt_sha256s'",
+      "status": "FAIL",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/work/qa/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py\", line 25, in case\n    details=fn()\n            ^^^^\n  File \"/workspace/work/qa/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py\", line 120, in separate_duration\n    assert r in f.data['source_receipt_sha256s']\n                ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\nKeyError: 'source_receipt_sha256s'\n"
+    },
+    {
+      "case": "two_OT_duration_receipt_missing_no_default",
+      "details": "HISTORICAL_DURATION_UNRESOLVED",
+      "status": "PASS"
+    },
+    {
+      "case": "one_microsecond_post_cutoff_source",
+      "details": "SOURCE_LATE_OR_INCONSISTENT",
+      "status": "PASS"
+    },
+    {
+      "case": "extra_target_actual_minutes_training_injection",
+      "details": "UNSAFE_OR_INCOMPLETE_HISTORY_ROW",
+      "status": "PASS"
+    },
+    {
+      "case": "independent_NB_recurrence_fractional_projected_minutes",
+      "details": [
+        {
+          "family": "S1",
+          "max_pmf_error": 1.5265566588595902e-16,
+          "mean": 15.037962962962967,
+          "total_mass": 1.0000000000000004,
+          "variance": 17.112644890260636
+        },
+        {
+          "family": "S2",
+          "max_pmf_error": 1.6653345369377348e-16,
+          "mean": 15.037962962962963,
+          "total_mass": 0.9999999999999997,
+          "variance": 33.88299046925012
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "family": "P2",
+  "numerical_references": {
+    "P2_recurrence": [
+      {
+        "family": "S1",
+        "max_pmf_error": 1.5265566588595902e-16,
+        "mean": 15.037962962962967,
+        "total_mass": 1.0000000000000004,
+        "variance": 17.112644890260636
+      },
+      {
+        "family": "S2",
+        "max_pmf_error": 1.6653345369377348e-16,
+        "mean": 15.037962962962963,
+        "total_mass": 0.9999999999999997,
+        "variance": 33.88299046925012
+      }
+    ]
+  },
+  "owner_sha": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+  "schema": "P6_G1_REMEDIATION_ADVERSARIAL_V3",
+  "synthetic_only": true
+}

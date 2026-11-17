@@ -1,0 +1,18 @@
+ .../P2_S_FAMILY_HANDOFF_20261116.md                |   5 +
+ docs/nba_architecture/P2_S_INTERFACES_V1_1.md      |  78 +++++
+ .../p2_remediation_v1_1/G0_plus_P6.log             | 360 +++++++++++++++++++++
+ .../p2_remediation_v1_1/G0_regression.log          | 273 ++++++++++++++++
+ .../p2_remediation_v1_1/SHA256SUMS                 |  15 +
+ .../nba_architecture/p2_remediation_v1_1/S_all.log |  35 ++
+ .../p2_remediation_v1_1/S_original_22.log          |  27 ++
+ .../p2_remediation_v1_1/example.log                |  33 ++
+ .../p2_remediation_v1_1/owner_interoperability.log |   2 +
+ .../p2_remediation_v1_1/receipt.json               | 140 ++++++++
+ scripts/nba_p2_integration_check.py                |  69 ++++
+ scripts/nba_p2_remediation_evidence.py             |  84 +++++
+ scripts/nba_p2_s_family_example.py                 |   1 +
+ tests/nba_s_family/test_integration.py             | 108 +++++++
+ tests/nba_s_family/test_statistical.py             |   6 +-
+ v2/nba_s_family/integration.py                     | 133 ++++++++
+ v2/nba_s_family/model.py                           |  27 +-
+ 17 files changed, 1391 insertions(+), 5 deletions(-)

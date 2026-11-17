@@ -1,0 +1,17 @@
+[
+  {
+    "family": "P1",
+    "exit": 0,
+    "sha256": "291dcee9188b5c7f6f4e995e206491c3a4119ac848e7e180b143c0d4015af5b7"
+  },
+  {
+    "family": "P2",
+    "exit": 0,
+    "sha256": "c46fae743c84d62a1b83c94711b5b1afdbee6ea2b14feca5e9712828b30e3b2b"
+  },
+  {
+    "family": "P5",
+    "exit": 0,
+    "sha256": "d4d402bd7e81566210200871ee047ba03230cfa4a4942160d23a0d680eb99142"
+  }
+]

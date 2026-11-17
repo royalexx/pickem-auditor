@@ -1,0 +1,533 @@
+{
+  "schema": "NBA_P6_INDEPENDENT_G1_REMEDIATION_REAUDIT_V3",
+  "date_toronto": "2026-11-16",
+  "date_utc": "2026-11-17",
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "accepted_g0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "prior_qa_sha": "31435bd571ae1b4a9b7f1e1bbf05e55cef61126f",
+  "qa_branch": "audit/nba-p6-g1-remediation-recheck-v3-20261116",
+  "gate_status": {
+    "P1": "BLOCKED",
+    "P2": "FAIL",
+    "P3": "BLOCKED",
+    "P4": "BLOCKED",
+    "P5": "FAIL",
+    "P6": "PASS",
+    "G1": "NO-GO",
+    "G0": "PASS_PINNED_ONLY",
+    "G2": "CLOSED_NOT_AUTHORIZED",
+    "P8_P9_P10_P11": "CLOSED_NOT_AUTHORIZED"
+  },
+  "owner_pins": {
+    "P1": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+    "P2": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+    "P3": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+    "P4": "cf5483a16279b8af606caef415e9abacc8c41aab",
+    "P5": "e46abacecc4f3147aa28d5351515aeca07c17f48"
+  },
+  "main_sha": "912bc7010058092ea735dcda0aa941429194474b",
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "jsonschema": "4.26.0"
+  },
+  "owner_suites": [
+    {
+      "family": "P1",
+      "suite": "G0_owner",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        331
+      ],
+      "seconds": 27.49567886800014,
+      "log": "P1_G0_owner.log",
+      "sha256": "9908a15a5fedcda39a9afb539f62f4b68a53d7391d4d5cff7a9bc29e667d3e15"
+    },
+    {
+      "family": "P1",
+      "suite": "P6",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p6_controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "seconds": 2.591502503999436,
+      "log": "P1_P6.log",
+      "sha256": "bc547fb17244e2517b4d0d27a51d8a9ced12385860678db1d0475093ac01aa0f"
+    },
+    {
+      "family": "P1",
+      "suite": "preflight",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_nba_p1_source_preflight.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        9
+      ],
+      "seconds": 0.25116920999971626,
+      "log": "P1_preflight.log",
+      "sha256": "2aceb2344b8961b14b1fef49c511b3a1bcf267c8ba6141f2b0bc0d33fb8c7c83"
+    },
+    {
+      "family": "P1",
+      "suite": "historical_probe",
+      "command": [
+        "python",
+        "/workspace/work/qa/scripts/nba_p6_g1_owner_negative_probes_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "seconds": 0.3075954460000503,
+      "log": "P1_historical_probe.log",
+      "sha256": "113e7ceebbd638dbbb4d94a8a640040958ed85f9ed6248ef79e1709c0c66a1e0"
+    },
+    {
+      "family": "P2",
+      "suite": "G0_owner",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        267
+      ],
+      "seconds": 25.16255293300037,
+      "log": "P2_G0_owner.log",
+      "sha256": "0651987079ef9b411a64f0ed7f3facc3bdedfff204fed0893edad25dac1a7f47"
+    },
+    {
+      "family": "P2",
+      "suite": "P6",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p6_controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "seconds": 1.1311079240003892,
+      "log": "P2_P6.log",
+      "sha256": "b08d611faf35fc8a64015d6cf4f0b705d4932d95c1b715e64ffbf8896a5a0199"
+    },
+    {
+      "family": "P2",
+      "suite": "S",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_s_family",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        30
+      ],
+      "seconds": 2.1550812080004107,
+      "log": "P2_S.log",
+      "sha256": "142c060e63658d153a1988d7acfd0ff24678cd9f0f3e52d3196cadbbb2bb6da5"
+    },
+    {
+      "family": "P2",
+      "suite": "historical_probe",
+      "command": [
+        "python",
+        "/workspace/work/qa/scripts/nba_p6_g1_owner_negative_probes_20261116.py",
+        "P2"
+      ],
+      "exit": 0,
+      "tests": [],
+      "seconds": 1.3908077670002967,
+      "log": "P2_historical_probe.log",
+      "sha256": "624b208f679f48396026498f9f07bf32e42b678f0fe8c00d5ac8e532eccf6386"
+    },
+    {
+      "family": "P3",
+      "suite": "G0_owner",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        306
+      ],
+      "seconds": 31.258336399000655,
+      "log": "P3_G0_owner.log",
+      "sha256": "2ddefa692141af8d5ce1b54321587f1b64fc39529870c1a90694e8157f82071b"
+    },
+    {
+      "family": "P3",
+      "suite": "P6",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p6_controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "seconds": 0.8656711459998405,
+      "log": "P3_P6.log",
+      "sha256": "8cf9fb343594df5fded6be8992e12d406458b10ca7327f459f856e812b2c6696"
+    },
+    {
+      "family": "P4",
+      "suite": "G0_owner",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        321
+      ],
+      "seconds": 34.29181789799986,
+      "log": "P4_G0_owner.log",
+      "sha256": "d6176b0abfb865b28298d4ba9fde1641a7b2b31d7a01ac1a31f727b5dce2437e"
+    },
+    {
+      "family": "P4",
+      "suite": "P6",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p6_controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "seconds": 0.7965755380000701,
+      "log": "P4_P6.log",
+      "sha256": "323f472a1bb639a1921af5cde81fc2f072ef0fa6a25e2e29569aad0c33572806"
+    },
+    {
+      "family": "P4",
+      "suite": "pinned_upstream",
+      "command": [
+        "python",
+        "-m",
+        "research.nba_p4_integration.checks"
+      ],
+      "exit": 0,
+      "tests": [
+        321,
+        83,
+        16,
+        22
+      ],
+      "seconds": 16.708952143000715,
+      "log": "P4_pinned_upstream.log",
+      "sha256": "35a06e911f5928a1ebaff5a25ea0cc6f043bc58b0c4bdce98dd12814797f31d7"
+    },
+    {
+      "family": "P5",
+      "suite": "G0_owner",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        267
+      ],
+      "seconds": 20.065234896999755,
+      "log": "P5_G0_owner.log",
+      "sha256": "4dde581c7b4840197a2f166f92dbabe2105aba62c4199f24d77d680661089803"
+    },
+    {
+      "family": "P5",
+      "suite": "P6",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p6_controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "seconds": 2.770037709999997,
+      "log": "P5_P6.log",
+      "sha256": "04950f45e756f4929fc5dc8efb2be8a0c62b02b739a755b00ea1f4f050f4e367"
+    },
+    {
+      "family": "P5",
+      "suite": "C",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_c",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        48
+      ],
+      "seconds": 3.848649741999907,
+      "log": "P5_C.log",
+      "sha256": "55f6a5562c3627bd69274ee4cc66ea3881f1d3ec9d39ee56ce6f9275cf0ef323"
+    },
+    {
+      "family": "P5",
+      "suite": "historical_probe",
+      "command": [
+        "python",
+        "/workspace/work/qa/scripts/nba_p6_g1_owner_negative_probes_20261116.py",
+        "P5"
+      ],
+      "exit": 0,
+      "tests": [],
+      "seconds": 3.2452127139995355,
+      "log": "P5_historical_probe.log",
+      "sha256": "134563e34669040f034206e5394c0c0691af6cc74d7bb82158f4dd76a935f77d"
+    }
+  ],
+  "accepted_upstream_suites": [
+    {
+      "label": "WS1",
+      "sha": "53c01a9eabb9ed09b5c3186eae0d086b07bcc891",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_ws1",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        25
+      ],
+      "output_sha256": "55b9696142b63825a544ad6ded9101edd113f139826f272f69153d74ebed9dcb"
+    },
+    {
+      "label": "WS2",
+      "sha": "02426dd1b9c2b0cca28eaf69888adadc0021afa5",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_nba_opportunity.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        25
+      ],
+      "output_sha256": "787b06e64519299b43d8b4b992e65733577a73f1f25ff88a97427d003f888460"
+    },
+    {
+      "label": "WS4",
+      "sha": "9821694260edb08b7414f02adea8c1fb3fd3b13c",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_ws4",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        33
+      ],
+      "output_sha256": "d9f04a379c578c6dfc82b8516a898ec1a6cdc2b99e908c05a5a858d2a8547cb6"
+    },
+    {
+      "label": "WS5",
+      "sha": "cdf926f56e86bc9d25576acff61fd6f091313159",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_nba_joint*.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        63
+      ],
+      "output_sha256": "ca4fae95c6257eeed7ce7bd86eb71628e2abf3d577b5db3e53660388d1ed0a78"
+    }
+  ],
+  "new_independent_cases": [
+    {
+      "family": "P1",
+      "exit": 0,
+      "output_sha256": "952f919a06c3a7cca0f5bc3b3ffd857930f36bf0dffeb2057c92fcba4db1d375",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cases": 7,
+      "pass": 7,
+      "fail": 0
+    },
+    {
+      "family": "P2",
+      "exit": 2,
+      "output_sha256": "ca782b2082f196a403568c1874860abfc65bf7c56bad094d7f8772b4881387ed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cases": 6,
+      "pass": 5,
+      "fail": 1
+    },
+    {
+      "family": "P3",
+      "exit": 0,
+      "output_sha256": "fa32865c7d876fae3fd5b266e6eeb8f55ff1dd1b535c07e5fc0aa2ebc7f77c5e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cases": 5,
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "family": "P4",
+      "exit": 0,
+      "output_sha256": "d9edde393894a7555a775ee0ad088ae3bfeca93491066a512fcffee710151e4a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cases": 6,
+      "pass": 6,
+      "fail": 0
+    },
+    {
+      "family": "P5",
+      "exit": 2,
+      "output_sha256": "952b7bd2d3cd9005815230da00c1088058ecf56247697cafff642e70f4f2131f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cases": 10,
+      "pass": 9,
+      "fail": 1
+    }
+  ],
+  "independent_compressed_source_bytes": {
+    "files": 99,
+    "bytes": 39916715,
+    "matches": 99,
+    "decompressed": false,
+    "availability_certified": false
+  },
+  "historical_probe_raw_sha256": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52",
+  "findings": [
+    "F-P2-02",
+    "F-P5-02",
+    "B-P1-01",
+    "B-P1-02",
+    "B-P2-01",
+    "B-P3-01",
+    "B-P4-01",
+    "B-P4-02",
+    "B-P4-03",
+    "B-P5-01",
+    "F-DISCOVERY-01"
+  ],
+  "old_failures": {
+    "F-P1-01": "CLOSED_FINITE_SYNTHETIC_ACCOUNTING_REGRESSION_SOURCE_STILL_BLOCKED",
+    "F-P2-01": "CLOSED_SYNTHETIC_DURATION_AWARE_CAP_AUTHENTIC_SOURCE_STILL_BLOCKED",
+    "F-P5-01": "CLOSED_EXACT_BACKDATED_DATE_REGRESSION"
+  },
+  "scope": {
+    "owner_implementation_edited": false,
+    "historical_accuracy_scored": false,
+    "historical_weights_fitted": false,
+    "target_game_boxscore_retrieved": false,
+    "holdout_outcomes_decompressed": false,
+    "production_or_schedules_changed": false
+  },
+  "limitations": [
+    "G1 cannot pass solely on synthetic suites.",
+    "P4 declared consumer uses old pinned upstream code; latest-head full graph is blocked.",
+    "No independent authentic participation/official-duration population supplied.",
+    "One P3 documentation digest predates its receipt-only appended documentation; executable hashes matched.",
+    "P2 QA attempt1 used an incorrect receipt key; raw failed attempt preserved and corrected in QA only.",
+    "Root discovery was reproduced without running unrelated full-repository test bodies."
+  ],
+  "portable_runner_validation": {
+    "commands": 32,
+    "all_exact_expectations_met": true,
+    "directory": "runner_validation",
+    "note": "Repeated executions overlap earlier results; do not count as new independent test populations."
+  }
+}

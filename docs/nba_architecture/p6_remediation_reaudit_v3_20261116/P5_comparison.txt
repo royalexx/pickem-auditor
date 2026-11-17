@@ -1,0 +1,14 @@
+ docs/nba_c/G1_HANDOFF.md                           |  28 ++-
+ docs/nba_c/P5_EXPERIMENT_PROTOCOL.md               |  55 +++++
+ .../P5_F_P5_01_EXECUTION_RECEIPT_20261117.json     | 118 +++++++++
+ docs/nba_c/f_p5_01_evidence/G0.log                 | 273 +++++++++++++++++++++
+ docs/nba_c/f_p5_01_evidence/P5.log                 |  53 ++++
+ docs/nba_c/f_p5_01_evidence/P6.log                 |  92 +++++++
+ docs/nba_c/f_p5_01_evidence/P6_negative_probe.log  |   1 +
+ .../f_p5_01_evidence/P6_negative_probe_before.log  |   1 +
+ docs/nba_c/f_p5_01_evidence/REPRODUCE.md           |  55 +++++
+ tests/nba_c/fixtures/p6_f_p5_01_backdated.json     |  34 +++
+ tests/nba_c/test_p5_c_family.py                    |  26 +-
+ tests/nba_c/test_p5_temporal_integrity.py          | 235 ++++++++++++++++++
+ v2/nba_c/experiment.py                             | 218 ++++++++++++++--
+ 13 files changed, 1159 insertions(+), 30 deletions(-)

@@ -1,0 +1,58 @@
+{
+  "conservation": [
+    {
+      "expected_minutes": 240,
+      "max_on_court_count": 5,
+      "max_player_minutes": 48.0,
+      "min_on_court_count": 5,
+      "minute_residual": 2.842170943040401e-14,
+      "minutes": 240.00000000000003,
+      "ot": 0,
+      "possession_shares": 0.9999999999999999,
+      "scenario_id": "synthetic:draw:0",
+      "team_id": "espn:team:1"
+    },
+    {
+      "expected_minutes": 240,
+      "max_on_court_count": 5,
+      "max_player_minutes": 48.0,
+      "min_on_court_count": 5,
+      "minute_residual": 0.0,
+      "minutes": 240.0,
+      "ot": 0,
+      "possession_shares": 1.0,
+      "scenario_id": "synthetic:draw:0",
+      "team_id": "espn:team:2"
+    },
+    {
+      "expected_minutes": 290,
+      "max_on_court_count": 5,
+      "max_player_minutes": 55.82021534031578,
+      "min_on_court_count": 5,
+      "minute_residual": 5.684341886080802e-14,
+      "minutes": 290.00000000000006,
+      "ot": 2,
+      "possession_shares": 1.0,
+      "scenario_id": "synthetic:draw:1",
+      "team_id": "espn:team:1"
+    },
+    {
+      "expected_minutes": 290,
+      "max_on_court_count": 5,
+      "max_player_minutes": 57.98661631855826,
+      "min_on_court_count": 5,
+      "minute_residual": 0.0,
+      "minutes": 290.0,
+      "ot": 2,
+      "possession_shares": 0.9999999999999999,
+      "scenario_id": "synthetic:draw:1",
+      "team_id": "espn:team:2"
+    }
+  ],
+  "deterministic_replay": true,
+  "fixture_raw_sha256": "1d7cd213b4d20802851100aa4a7712b65b676ea9b9b02dcc8803833351ae6815",
+  "opportunity_sha256": "09bba09a47868ec08d647b2aa950a3129d54dbfab901e2b877ecbb733e06e891",
+  "owner_integration": "NOT_REQUESTED",
+  "provenance": "SYNTHETIC_ENGINEERING_ONLY_NO_REAL_FIT",
+  "sidecar_sha256": "cfaea9abec3463c45fd4b94258a3d51526d34be55defb5c1189d5650bf99434a"
+}

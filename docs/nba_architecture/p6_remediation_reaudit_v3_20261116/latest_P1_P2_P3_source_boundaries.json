@@ -1,0 +1,933 @@
+{
+  "O_result": {
+    "content_hash": "57e49e3097cd4b2804992db2156ea0d1d2cb117822194327585e1a4513be8e12",
+    "context": {
+      "certification": "HISTORICAL_RECONSTRUCTION_UNCERTIFIED",
+      "content_hash": "0223c266524bb1722319b06289e4ef4be3c2ce178430f4d74a6926c8e8518741",
+      "kind": "p3_p1_context",
+      "players": {
+        "espn:player:2451037": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:2451037:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8bf25068fb17b52a023095c2def88292e8302fb82d70bb2bd2ab898036bd9114",
+              "source_receipt_sha256": "b0d15b4ac2a819fc0b0e21a1da86344f91bc6351d2d0cb133c45e1af0795092a",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:2451037:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8bf25068fb17b52a023095c2def88292e8302fb82d70bb2bd2ab898036bd9114",
+              "source_receipt_sha256": "b0d15b4ac2a819fc0b0e21a1da86344f91bc6351d2d0cb133c45e1af0795092a",
+              "target_game_outcome": false,
+              "value": 4.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:2451037:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8bf25068fb17b52a023095c2def88292e8302fb82d70bb2bd2ab898036bd9114",
+              "source_receipt_sha256": "b0d15b4ac2a819fc0b0e21a1da86344f91bc6351d2d0cb133c45e1af0795092a",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:2451037:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8bf25068fb17b52a023095c2def88292e8302fb82d70bb2bd2ab898036bd9114",
+              "source_receipt_sha256": "b0d15b4ac2a819fc0b0e21a1da86344f91bc6351d2d0cb133c45e1af0795092a",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:2451037:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8bf25068fb17b52a023095c2def88292e8302fb82d70bb2bd2ab898036bd9114",
+              "source_receipt_sha256": "b0d15b4ac2a819fc0b0e21a1da86344f91bc6351d2d0cb133c45e1af0795092a",
+              "target_game_outcome": false,
+              "value": false
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        },
+        "espn:player:2968439": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:2968439:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:22b5d3bb02569758cbfe41dc2e51f164ad2873d8b0197a7b9d24614c294a6ba7",
+              "source_receipt_sha256": "1c15a3924743f3bad6b30178167c510cd37b102b80233bd486eed51e8d78f8af",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:2968439:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:22b5d3bb02569758cbfe41dc2e51f164ad2873d8b0197a7b9d24614c294a6ba7",
+              "source_receipt_sha256": "1c15a3924743f3bad6b30178167c510cd37b102b80233bd486eed51e8d78f8af",
+              "target_game_outcome": false,
+              "value": 19.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:2968439:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:22b5d3bb02569758cbfe41dc2e51f164ad2873d8b0197a7b9d24614c294a6ba7",
+              "source_receipt_sha256": "1c15a3924743f3bad6b30178167c510cd37b102b80233bd486eed51e8d78f8af",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:2968439:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:22b5d3bb02569758cbfe41dc2e51f164ad2873d8b0197a7b9d24614c294a6ba7",
+              "source_receipt_sha256": "1c15a3924743f3bad6b30178167c510cd37b102b80233bd486eed51e8d78f8af",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:2968439:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:22b5d3bb02569758cbfe41dc2e51f164ad2873d8b0197a7b9d24614c294a6ba7",
+              "source_receipt_sha256": "1c15a3924743f3bad6b30178167c510cd37b102b80233bd486eed51e8d78f8af",
+              "target_game_outcome": false,
+              "value": false
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        },
+        "espn:player:2990992": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:2990992:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:6f8f5d656b09f6ba11aeaada223bd0a8f01d26388c2d1adc5d21872b910941c4",
+              "source_receipt_sha256": "93db1113ed4bc35d19142710ab83d8b6cd52d8ce5a7f07b00d8f946e66a2fbe1",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:2990992:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:6f8f5d656b09f6ba11aeaada223bd0a8f01d26388c2d1adc5d21872b910941c4",
+              "source_receipt_sha256": "93db1113ed4bc35d19142710ab83d8b6cd52d8ce5a7f07b00d8f946e66a2fbe1",
+              "target_game_outcome": false,
+              "value": 25.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:2990992:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:6f8f5d656b09f6ba11aeaada223bd0a8f01d26388c2d1adc5d21872b910941c4",
+              "source_receipt_sha256": "93db1113ed4bc35d19142710ab83d8b6cd52d8ce5a7f07b00d8f946e66a2fbe1",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:2990992:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:6f8f5d656b09f6ba11aeaada223bd0a8f01d26388c2d1adc5d21872b910941c4",
+              "source_receipt_sha256": "93db1113ed4bc35d19142710ab83d8b6cd52d8ce5a7f07b00d8f946e66a2fbe1",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:2990992:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:6f8f5d656b09f6ba11aeaada223bd0a8f01d26388c2d1adc5d21872b910941c4",
+              "source_receipt_sha256": "93db1113ed4bc35d19142710ab83d8b6cd52d8ce5a7f07b00d8f946e66a2fbe1",
+              "target_game_outcome": false,
+              "value": false
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        },
+        "espn:player:3056602": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:3056602:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:6fa80e2e6b1a94dfb22b40acddc61fd2ea2131a05481ab3db1a54f340d42bc44",
+              "source_receipt_sha256": "ef2b09359a677cc50542983db61c29a9aefad5d50471c5db60e77a600886e0cf",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:3056602:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:6fa80e2e6b1a94dfb22b40acddc61fd2ea2131a05481ab3db1a54f340d42bc44",
+              "source_receipt_sha256": "ef2b09359a677cc50542983db61c29a9aefad5d50471c5db60e77a600886e0cf",
+              "target_game_outcome": false,
+              "value": 1.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:3056602:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:6fa80e2e6b1a94dfb22b40acddc61fd2ea2131a05481ab3db1a54f340d42bc44",
+              "source_receipt_sha256": "ef2b09359a677cc50542983db61c29a9aefad5d50471c5db60e77a600886e0cf",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:3056602:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:6fa80e2e6b1a94dfb22b40acddc61fd2ea2131a05481ab3db1a54f340d42bc44",
+              "source_receipt_sha256": "ef2b09359a677cc50542983db61c29a9aefad5d50471c5db60e77a600886e0cf",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:3056602:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:6fa80e2e6b1a94dfb22b40acddc61fd2ea2131a05481ab3db1a54f340d42bc44",
+              "source_receipt_sha256": "ef2b09359a677cc50542983db61c29a9aefad5d50471c5db60e77a600886e0cf",
+              "target_game_outcome": false,
+              "value": false
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        },
+        "espn:player:3074752": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:3074752:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8b9c605ea87277db2321a7fa6ba1eb1be0b0b0bdf595d91b975edd2bb715cc4c",
+              "source_receipt_sha256": "f294b62e704ddf25b6759ae62e2710d377aea218e0968c36b39a23903ed4e7d5",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:3074752:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8b9c605ea87277db2321a7fa6ba1eb1be0b0b0bdf595d91b975edd2bb715cc4c",
+              "source_receipt_sha256": "f294b62e704ddf25b6759ae62e2710d377aea218e0968c36b39a23903ed4e7d5",
+              "target_game_outcome": false,
+              "value": 27.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:3074752:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8b9c605ea87277db2321a7fa6ba1eb1be0b0b0bdf595d91b975edd2bb715cc4c",
+              "source_receipt_sha256": "f294b62e704ddf25b6759ae62e2710d377aea218e0968c36b39a23903ed4e7d5",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:3074752:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8b9c605ea87277db2321a7fa6ba1eb1be0b0b0bdf595d91b975edd2bb715cc4c",
+              "source_receipt_sha256": "f294b62e704ddf25b6759ae62e2710d377aea218e0968c36b39a23903ed4e7d5",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:3074752:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8b9c605ea87277db2321a7fa6ba1eb1be0b0b0bdf595d91b975edd2bb715cc4c",
+              "source_receipt_sha256": "f294b62e704ddf25b6759ae62e2710d377aea218e0968c36b39a23903ed4e7d5",
+              "target_game_outcome": false,
+              "value": false
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        },
+        "espn:player:3213": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:3213:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:93c83c65ed4b35d96d8136c3780cd3be921879f2d93666515ad10b382c4f4704",
+              "source_receipt_sha256": "fcded2448c0fd2600816fbebfd38f5564206d12391acaea01e761ca88a28d1fb",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:3213:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:93c83c65ed4b35d96d8136c3780cd3be921879f2d93666515ad10b382c4f4704",
+              "source_receipt_sha256": "fcded2448c0fd2600816fbebfd38f5564206d12391acaea01e761ca88a28d1fb",
+              "target_game_outcome": false,
+              "value": 30.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:3213:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:93c83c65ed4b35d96d8136c3780cd3be921879f2d93666515ad10b382c4f4704",
+              "source_receipt_sha256": "fcded2448c0fd2600816fbebfd38f5564206d12391acaea01e761ca88a28d1fb",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:3213:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:93c83c65ed4b35d96d8136c3780cd3be921879f2d93666515ad10b382c4f4704",
+              "source_receipt_sha256": "fcded2448c0fd2600816fbebfd38f5564206d12391acaea01e761ca88a28d1fb",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:3213:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:93c83c65ed4b35d96d8136c3780cd3be921879f2d93666515ad10b382c4f4704",
+              "source_receipt_sha256": "fcded2448c0fd2600816fbebfd38f5564206d12391acaea01e761ca88a28d1fb",
+              "target_game_outcome": false,
+              "value": true
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        },
+        "espn:player:3917376": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:3917376:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:ccd61d38d67c07e2dd5f25dd75b82097deeeecbbbeb84cabdf4396c3a3fff813",
+              "source_receipt_sha256": "744354f54c2ea42e351fdf83ac3a18b1a1f030b2079b1294c6d72f12351f5ee6",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:3917376:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:ccd61d38d67c07e2dd5f25dd75b82097deeeecbbbeb84cabdf4396c3a3fff813",
+              "source_receipt_sha256": "744354f54c2ea42e351fdf83ac3a18b1a1f030b2079b1294c6d72f12351f5ee6",
+              "target_game_outcome": false,
+              "value": 28.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:3917376:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:ccd61d38d67c07e2dd5f25dd75b82097deeeecbbbeb84cabdf4396c3a3fff813",
+              "source_receipt_sha256": "744354f54c2ea42e351fdf83ac3a18b1a1f030b2079b1294c6d72f12351f5ee6",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:3917376:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:ccd61d38d67c07e2dd5f25dd75b82097deeeecbbbeb84cabdf4396c3a3fff813",
+              "source_receipt_sha256": "744354f54c2ea42e351fdf83ac3a18b1a1f030b2079b1294c6d72f12351f5ee6",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:3917376:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:ccd61d38d67c07e2dd5f25dd75b82097deeeecbbbeb84cabdf4396c3a3fff813",
+              "source_receipt_sha256": "744354f54c2ea42e351fdf83ac3a18b1a1f030b2079b1294c6d72f12351f5ee6",
+              "target_game_outcome": false,
+              "value": true
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        },
+        "espn:player:4017844": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:4017844:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:df4ef6b49e8820111b31e057c642c63f22438645a245b15b1bf50e30c1458347",
+              "source_receipt_sha256": "5fcee4216236fedfb6acb4648f958dbe42022c6e22a498fe5af2fadd1da97190",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:4017844:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:df4ef6b49e8820111b31e057c642c63f22438645a245b15b1bf50e30c1458347",
+              "source_receipt_sha256": "5fcee4216236fedfb6acb4648f958dbe42022c6e22a498fe5af2fadd1da97190",
+              "target_game_outcome": false,
+              "value": 1.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:4017844:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:df4ef6b49e8820111b31e057c642c63f22438645a245b15b1bf50e30c1458347",
+              "source_receipt_sha256": "5fcee4216236fedfb6acb4648f958dbe42022c6e22a498fe5af2fadd1da97190",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:4017844:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:df4ef6b49e8820111b31e057c642c63f22438645a245b15b1bf50e30c1458347",
+              "source_receipt_sha256": "5fcee4216236fedfb6acb4648f958dbe42022c6e22a498fe5af2fadd1da97190",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:4017844:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:df4ef6b49e8820111b31e057c642c63f22438645a245b15b1bf50e30c1458347",
+              "source_receipt_sha256": "5fcee4216236fedfb6acb4648f958dbe42022c6e22a498fe5af2fadd1da97190",
+              "target_game_outcome": false,
+              "value": false
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        },
+        "espn:player:4065648": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:4065648:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:232418853e693eda8bcb210cd6d9a1cb85e076a6558b471b158ad02edd9b4477",
+              "source_receipt_sha256": "7a4d846a9e786d3dfe69890c43fa79a6f3eed3451c94cff15e98cf10022e05ba",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:4065648:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:232418853e693eda8bcb210cd6d9a1cb85e076a6558b471b158ad02edd9b4477",
+              "source_receipt_sha256": "7a4d846a9e786d3dfe69890c43fa79a6f3eed3451c94cff15e98cf10022e05ba",
+              "target_game_outcome": false,
+              "value": 29.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:4065648:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:232418853e693eda8bcb210cd6d9a1cb85e076a6558b471b158ad02edd9b4477",
+              "source_receipt_sha256": "7a4d846a9e786d3dfe69890c43fa79a6f3eed3451c94cff15e98cf10022e05ba",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:4065648:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:232418853e693eda8bcb210cd6d9a1cb85e076a6558b471b158ad02edd9b4477",
+              "source_receipt_sha256": "7a4d846a9e786d3dfe69890c43fa79a6f3eed3451c94cff15e98cf10022e05ba",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:4065648:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:232418853e693eda8bcb210cd6d9a1cb85e076a6558b471b158ad02edd9b4477",
+              "source_receipt_sha256": "7a4d846a9e786d3dfe69890c43fa79a6f3eed3451c94cff15e98cf10022e05ba",
+              "target_game_outcome": false,
+              "value": true
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        },
+        "espn:player:4249": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:4249:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8e354386b9cb348ee98dfc2bd4365a372e8be7187f35fe6667d54ae636d6bdab",
+              "source_receipt_sha256": "00f365d2e5e897a73687137a70ab3f2299c082a6fa969ee3423b14551beeb806",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:4249:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8e354386b9cb348ee98dfc2bd4365a372e8be7187f35fe6667d54ae636d6bdab",
+              "source_receipt_sha256": "00f365d2e5e897a73687137a70ab3f2299c082a6fa969ee3423b14551beeb806",
+              "target_game_outcome": false,
+              "value": 25.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:4249:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8e354386b9cb348ee98dfc2bd4365a372e8be7187f35fe6667d54ae636d6bdab",
+              "source_receipt_sha256": "00f365d2e5e897a73687137a70ab3f2299c082a6fa969ee3423b14551beeb806",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:4249:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8e354386b9cb348ee98dfc2bd4365a372e8be7187f35fe6667d54ae636d6bdab",
+              "source_receipt_sha256": "00f365d2e5e897a73687137a70ab3f2299c082a6fa969ee3423b14551beeb806",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:4249:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:8e354386b9cb348ee98dfc2bd4365a372e8be7187f35fe6667d54ae636d6bdab",
+              "source_receipt_sha256": "00f365d2e5e897a73687137a70ab3f2299c082a6fa969ee3423b14551beeb806",
+              "target_game_outcome": false,
+              "value": true
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        },
+        "espn:player:6442": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:6442:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:692807a103d4563c05d38916b07cae6f4affed7cad3e944aafe73483e0bff9e8",
+              "source_receipt_sha256": "d3f2fd70e31197fa4aa1e3905261f3573c579bfacb794404123e3e8184d9949b",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:6442:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:692807a103d4563c05d38916b07cae6f4affed7cad3e944aafe73483e0bff9e8",
+              "source_receipt_sha256": "d3f2fd70e31197fa4aa1e3905261f3573c579bfacb794404123e3e8184d9949b",
+              "target_game_outcome": false,
+              "value": 29.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:6442:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:692807a103d4563c05d38916b07cae6f4affed7cad3e944aafe73483e0bff9e8",
+              "source_receipt_sha256": "d3f2fd70e31197fa4aa1e3905261f3573c579bfacb794404123e3e8184d9949b",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:6442:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:692807a103d4563c05d38916b07cae6f4affed7cad3e944aafe73483e0bff9e8",
+              "source_receipt_sha256": "d3f2fd70e31197fa4aa1e3905261f3573c579bfacb794404123e3e8184d9949b",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:6442:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:692807a103d4563c05d38916b07cae6f4affed7cad3e944aafe73483e0bff9e8",
+              "source_receipt_sha256": "d3f2fd70e31197fa4aa1e3905261f3573c579bfacb794404123e3e8184d9949b",
+              "target_game_outcome": false,
+              "value": true
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        },
+        "espn:player:6462": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:6462:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:09b9a58ab87b1fbf12d5c68e45bb43d874ba99c8260897567b7c8ad51e8b8b46",
+              "source_receipt_sha256": "a0e5cc482548124483d2b5af972e4dac64a7f7401863f7ae2a14ea93503459d9",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:6462:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:09b9a58ab87b1fbf12d5c68e45bb43d874ba99c8260897567b7c8ad51e8b8b46",
+              "source_receipt_sha256": "a0e5cc482548124483d2b5af972e4dac64a7f7401863f7ae2a14ea93503459d9",
+              "target_game_outcome": false,
+              "value": 21.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:6462:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:09b9a58ab87b1fbf12d5c68e45bb43d874ba99c8260897567b7c8ad51e8b8b46",
+              "source_receipt_sha256": "a0e5cc482548124483d2b5af972e4dac64a7f7401863f7ae2a14ea93503459d9",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:6462:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:09b9a58ab87b1fbf12d5c68e45bb43d874ba99c8260897567b7c8ad51e8b8b46",
+              "source_receipt_sha256": "a0e5cc482548124483d2b5af972e4dac64a7f7401863f7ae2a14ea93503459d9",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:6462:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:09b9a58ab87b1fbf12d5c68e45bb43d874ba99c8260897567b7c8ad51e8b8b46",
+              "source_receipt_sha256": "a0e5cc482548124483d2b5af972e4dac64a7f7401863f7ae2a14ea93503459d9",
+              "target_game_outcome": false,
+              "value": false
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        },
+        "espn:player:6507": {
+          "evidence": [
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:6507:historical_team_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:d3ef7e768ac2bc6574d9247e75eaf48ae7e4fe4fdcc7cf4ef1f083a7f2c03f50",
+              "source_receipt_sha256": "bf1c49f67f96abc2856f01cdbc9fb213d471d8d6f31a44dd97b3368cd301a014",
+              "target_game_outcome": false,
+              "value": "espn:team:2"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "minutes",
+              "name": "player:espn:player:6507:minutes",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:d3ef7e768ac2bc6574d9247e75eaf48ae7e4fe4fdcc7cf4ef1f083a7f2c03f50",
+              "source_receipt_sha256": "bf1c49f67f96abc2856f01cdbc9fb213d471d8d6f31a44dd97b3368cd301a014",
+              "target_game_outcome": false,
+              "value": 1.0
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "status",
+              "name": "player:espn:player:6507:participation",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:d3ef7e768ac2bc6574d9247e75eaf48ae7e4fe4fdcc7cf4ef1f083a7f2c03f50",
+              "source_receipt_sha256": "bf1c49f67f96abc2856f01cdbc9fb213d471d8d6f31a44dd97b3368cd301a014",
+              "target_game_outcome": false,
+              "value": "PLAYED"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "identity",
+              "name": "player:espn:player:6507:prior_game_id",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:d3ef7e768ac2bc6574d9247e75eaf48ae7e4fe4fdcc7cf4ef1f083a7f2c03f50",
+              "source_receipt_sha256": "bf1c49f67f96abc2856f01cdbc9fb213d471d8d6f31a44dd97b3368cd301a014",
+              "target_game_outcome": false,
+              "value": "espn:game:401070213"
+            },
+            {
+              "asof_basis": "prior_game_date_only",
+              "available_at": null,
+              "kind": "prior_boxscore",
+              "measurement_units": "boolean",
+              "name": "player:espn:player:6507:starter",
+              "prior_game_date": "2018-10-16",
+              "source_id": "ws1:normalized:d3ef7e768ac2bc6574d9247e75eaf48ae7e4fe4fdcc7cf4ef1f083a7f2c03f50",
+              "source_receipt_sha256": "bf1c49f67f96abc2856f01cdbc9fb213d471d8d6f31a44dd97b3368cd301a014",
+              "target_game_outcome": false,
+              "value": false
+            }
+          ],
+          "legal_eligibility": null,
+          "observation_state": "unknown",
+          "observed_availability": "unknown",
+          "participation_probability": null,
+          "team_id": "espn:team:2"
+        }
+      },
+      "source_snapshot_sha256": "39ef73ff53832aca7e569e641f6201c8b15c5888e863a6cc7a3db744f2f0b369"
+    },
+    "kind": "p3_input_abstention",
+    "reason": "HISTORICAL_RECONSTRUCTION_UNCERTIFIED",
+    "source_snapshot_sha256": "39ef73ff53832aca7e569e641f6201c8b15c5888e863a6cc7a3db744f2f0b369"
+  },
+  "P1": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+  "P1_receipt": {
+    "features": 338,
+    "forecast_scoring_performed": false,
+    "input_manifest_sha256": "471139830db40a008d8212255b447777a16aef5d813ba852215523dedc88585b",
+    "original_offers": 0,
+    "players": 13,
+    "snapshot_sha256": "39ef73ff53832aca7e569e641f6201c8b15c5888e863a6cc7a3db744f2f0b369",
+    "source_original_bytes_verified": 13,
+    "source_receipts": 13,
+    "status": "HISTORICAL_RECONSTRUCTION_UNCERTIFIED",
+    "unresolved_exposure_records": 13
+  },
+  "P2": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+  "P3": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+  "S_result": {
+    "code": "P1_CLOCK_ROLE_EVIDENCE_UNRESOLVED",
+    "status": "BLOCKED"
+  },
+  "scope": "SEPARATE_BOUNDARY_ABSTENTION_TEST_NOT_CONTINUATION_OF_BLOCKED_AUTHENTIC_CASE"
+}
