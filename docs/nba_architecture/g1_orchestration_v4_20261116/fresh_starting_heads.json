@@ -1,0 +1,49 @@
+{
+  "schema": "NBA_G1_FRESH_STARTING_HEADS_V4",
+  "fetch_source": "GitHub connector GET pulls/{number}",
+  "pins": [
+    {
+      "pr": 169,
+      "head": "ddc60a83f6c9a2b863f5e7a44823bffa3b01e048",
+      "branch": "audit/nba-p6-g1-remediation-recheck-v3-20261116",
+      "base": "31435bd571ae1b4a9b7f1e1bbf05e55cef61126f",
+      "state": "open"
+    },
+    {
+      "pr": 167,
+      "head": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+      "branch": "research/nba-p1-canonical-history-g1-20261116",
+      "base": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+      "state": "open"
+    },
+    {
+      "pr": 165,
+      "head": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+      "branch": "research/nba-p2-s-family-g1-20261116",
+      "base": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+      "state": "open"
+    },
+    {
+      "pr": 166,
+      "head": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+      "branch": "research/nba-p3-o-family-g1-20261116",
+      "base": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+      "state": "open"
+    },
+    {
+      "pr": 164,
+      "head": "cf5483a16279b8af606caef415e9abacc8c41aab",
+      "branch": "research/nba-p4-j-family-g1-20261116",
+      "base": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+      "state": "open"
+    },
+    {
+      "pr": 163,
+      "head": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+      "branch": "research/nba-p5-c-scoring-optimization-g1-20261116",
+      "base": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+      "state": "open"
+    }
+  ],
+  "all_match_user_recorded_and_audit_heads": true
+}
