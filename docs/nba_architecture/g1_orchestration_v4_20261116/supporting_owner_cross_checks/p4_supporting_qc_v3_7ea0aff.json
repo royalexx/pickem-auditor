@@ -1,0 +1,263 @@
+{
+  "P4": "7ea0aff04b04ed209b47e1728b2b52c3e0a1aecb",
+  "S3": [
+    {
+      "attempts": 0,
+      "mean_error": 0.0,
+      "retained_count_support": 1,
+      "tail": 0
+    },
+    {
+      "attempts": 8,
+      "mean_error": 4.440892098500626e-16,
+      "retained_count_support": 9,
+      "tail": 0
+    },
+    {
+      "attempts": 4096,
+      "mean_error": 7.048583938740194e-12,
+      "retained_count_support": 4097,
+      "tail": 0
+    }
+  ],
+  "checks": [
+    {
+      "declared_tail": 0.0,
+      "exposure": 0.0,
+      "family": "S1",
+      "max_recurrence_error": 0.0,
+      "raw_retained_mass": 1.0,
+      "stat": "points"
+    },
+    {
+      "declared_tail": 1.6190089188480754e-15,
+      "exposure": 37.25,
+      "family": "S1",
+      "max_recurrence_error": 3.0531133177191805e-16,
+      "raw_retained_mass": 0.9999999999999978,
+      "stat": "points"
+    },
+    {
+      "expected_rate_mean": 0.6,
+      "expected_rate_variance": 0.0022222222222222227,
+      "mean_z": 0.5304315739218094,
+      "samples": 200000,
+      "stat": "points",
+      "synthetic_mixing_family": "S1",
+      "variance_z": 0.0034573270469172683
+    },
+    {
+      "expected_rate_mean": 0.6,
+      "expected_rate_variance": 0.029999999999999995,
+      "mean_z": 0.47963255874749294,
+      "samples": 200000,
+      "stat": "points",
+      "synthetic_mixing_family": "S2",
+      "variance_z": 0.39349344955636983
+    },
+    {
+      "declared_tail": 0.0,
+      "exposure": 0.0,
+      "family": "S1",
+      "max_recurrence_error": 0.0,
+      "raw_retained_mass": 1.0,
+      "stat": "rebounds"
+    },
+    {
+      "declared_tail": 9.209338718171562e-14,
+      "exposure": 37.25,
+      "family": "S1",
+      "max_recurrence_error": 1.1657341758564144e-14,
+      "raw_retained_mass": 0.9999999999999081,
+      "stat": "rebounds"
+    },
+    {
+      "expected_rate_mean": 0.23333333333333334,
+      "expected_rate_variance": 0.0008641975308641977,
+      "mean_z": 0.5470168688920899,
+      "samples": 200000,
+      "stat": "rebounds",
+      "synthetic_mixing_family": "S1",
+      "variance_z": 0.02956332201401048
+    },
+    {
+      "expected_rate_mean": 0.23333333333333334,
+      "expected_rate_variance": 0.004537037037037037,
+      "mean_z": 0.47963255874753385,
+      "samples": 200000,
+      "stat": "rebounds",
+      "synthetic_mixing_family": "S2",
+      "variance_z": 0.39349344955641113
+    },
+    {
+      "declared_tail": 0.0,
+      "exposure": 0.0,
+      "family": "S2",
+      "max_recurrence_error": 0.0,
+      "raw_retained_mass": 1.0,
+      "stat": "assists"
+    },
+    {
+      "declared_tail": 2.6904809826523517e-18,
+      "exposure": 37.25,
+      "family": "S2",
+      "max_recurrence_error": 1.5265566588595902e-16,
+      "raw_retained_mass": 0.9999999999999997,
+      "stat": "assists"
+    },
+    {
+      "expected_rate_mean": 0.13333333333333333,
+      "expected_rate_variance": 0.0004938271604938272,
+      "mean_z": 0.6060776223194457,
+      "samples": 200000,
+      "stat": "assists",
+      "synthetic_mixing_family": "S1",
+      "variance_z": 0.07065199565118521
+    },
+    {
+      "expected_rate_mean": 0.13333333333333333,
+      "expected_rate_variance": 0.0014814814814814816,
+      "mean_z": 0.47963255874734956,
+      "samples": 200000,
+      "stat": "assists",
+      "synthetic_mixing_family": "S2",
+      "variance_z": 0.39349344955638915
+    },
+    {
+      "declared_tail": 0.0,
+      "exposure": 0.0,
+      "family": "S1",
+      "max_recurrence_error": 0.0,
+      "raw_retained_mass": 1.0,
+      "stat": "threes"
+    },
+    {
+      "declared_tail": 1.8882297889925075e-12,
+      "exposure": 37.25,
+      "family": "S1",
+      "max_recurrence_error": 4.63434846054156e-13,
+      "raw_retained_mass": 0.9999999999981118,
+      "stat": "threes"
+    },
+    {
+      "expected_rate_mean": 0.06666666666666667,
+      "expected_rate_variance": 0.0002469135802469136,
+      "mean_z": 0.5487350412220371,
+      "samples": 200000,
+      "stat": "threes",
+      "synthetic_mixing_family": "S1",
+      "variance_z": 0.24107941709204758
+    },
+    {
+      "expected_rate_mean": 0.06666666666666667,
+      "expected_rate_variance": 0.0003703703703703704,
+      "mean_z": 0.47963255874734956,
+      "samples": 200000,
+      "stat": "threes",
+      "synthetic_mixing_family": "S2",
+      "variance_z": 0.39349344955638915
+    }
+  ],
+  "findings": [
+    "S1 Gamma(alpha,1/beta) matches P2 Gamma-Poisson law.",
+    "S2 Gamma(k,rate_mean/k) matches current P2 NB2 count law; it does not additionally integrate Gamma(alpha,beta) posterior uncertainty.",
+    "PTS/3PM compatibility rejection and share/pacing/event allocation change marginals. Proposal retains explicit independent-acceptance pending.",
+    "Aggregate possession/free-throw/event co-presence/tied-OT semantics remain mandatory blocked proofs, not established by these checks."
+  ],
+  "references": {
+    "all_pass": true,
+    "conditioning_distortion_reference": {
+      "acceptance": 0.15625,
+      "analytic_acceptance": 0.15625,
+      "conditional_point_rate_mean": 3.349999999999999,
+      "conditional_three_rate_mean": 0.6499999999999999,
+      "law": "X,Y iid Gamma(2,1); condition X>=3Y",
+      "pass": true,
+      "rejection_probability": 0.84375,
+      "unconditional_each_rate_mean": 2.0
+    },
+    "contract_acceptance": "PENDING_INDEPENDENT_REVIEW",
+    "exact_marginal_incompatibility": {
+      "Pr_3PM_ge_1": 0.6321205588285577,
+      "Pr_PTS_ge_3": 0.08030139707139418,
+      "mean_contradiction": "E[PTS]=1 < 3*E[3PM]=3",
+      "minimum_sum_of_marginal_TV_distortions": 0.5518191617571635,
+      "pass": true,
+      "physical_constraint": "PTS >= 3*3PM",
+      "point_law": "Poisson(1)",
+      "three_law": "Poisson(1)"
+    },
+    "finite_cap_tail_reference": {
+      "finite_count_cap": 5,
+      "law": "Poisson(1)",
+      "minimum_marginal_TV_distortion": 0.000594184817581693,
+      "pass": true
+    },
+    "mixed_poisson_references": [
+      {
+        "family": "S1",
+        "maximum_pmf_error": 4.2413295098242543e-13,
+        "pass": true,
+        "predictive_mean": 4.0975,
+        "predictive_variance": 10.202775,
+        "rate_mean": 0.11,
+        "rate_variance": 0.0044
+      },
+      {
+        "family": "S2",
+        "maximum_pmf_error": 3.3480163086352377e-16,
+        "pass": true,
+        "predictive_mean": 22.349999999999998,
+        "predictive_variance": 147.230625,
+        "rate_mean": 0.6,
+        "rate_variance": 0.09
+      }
+    ],
+    "physical_event_chronology": "NOT_ESTABLISHED_BY_THESE_REFERENCES",
+    "scope": "ANALYTICAL_SYNTHETIC_ONLY"
+  },
+  "registry": {
+    "accepted_g0": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+    "inherited_g0_files": {
+      "v2/nba_architecture/__init__.py": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+      "v2/nba_architecture/contracts.py": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+      "v2/nba_architecture/exposure_v2.py": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+      "v2/nba_architecture/families_v2.py": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+      "v2/nba_architecture/requirements.txt": "ab29270f01c750d5312219f91a2362d711959ae4eafd1d4349ac7017a2f8f267",
+      "v2/nba_architecture/schema-1.0.0.json": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+      "v2/nba_architecture/schema-2.0.0.json": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+      "v2/nba_architecture/v2_contracts.py": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4"
+    },
+    "owners": {
+      "P2": {
+        "commit": "2864cca51c12d5722502ef9aa43c4b05da620cf8",
+        "files": {
+          "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
+          "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
+          "v2/nba_s_family/model.py": "6cb9cf0616bdbdcd70d1bed9fb67ad4b727eca373cc8a1d48de51dc3a452333d"
+        }
+      },
+      "P3": {
+        "commit": "2a666106a02595c70e2e372729aeae73d337b745",
+        "files": {
+          "v2/nba_o_bridge.py": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
+          "v2/nba_o_consumers.py": "26fa725e35a6f3a8796afad941fcef60e51e6586f9260f2c5d48965e8c3ac61e",
+          "v2/nba_o_family.py": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e"
+        }
+      }
+    },
+    "reused_owner_files": {
+      "v2/nba_joint/common.py": "35df67a2e76cad1f978f35693924ba6c63c43ec7b519c93289a3c8e13a912478",
+      "v2/nba_joint/events.py": "40334862379548ac9efd562640580b20e419455728850f2ea6125d1447b1ebec",
+      "v2/nba_opportunity.py": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30"
+    },
+    "schema": "NBA-J-latest-owner-registry/1.0.0",
+    "source_authentication": false
+  },
+  "scope": "IMPLEMENTATION_SUPPORTING_QC_NOT_INDEPENDENT_GATE_ACCEPTANCE",
+  "source_hashes": {
+    "research/nba_p4_latest/numerical_reference.py": "e40a172532b70543b23b22b54a2dbdcd01bf2fff922d63c08361d56dea9a5ad4",
+    "v2/nba_joint/integration_v2.py": "502262b6ff3b862e5d1f228a4805e4b2d2275e622a9f83ef07b902658f10665b"
+  },
+  "zero_exposure_actual_scenarios": []
+}

@@ -48,6 +48,8 @@ def main():
         if label.endswith('_family'):
             floor={'P2':30,'P5':48}[family]
             row['pass_check'] &= len(row['tests'])==1 and row['tests'][0]>=floor
+        row['tracked_source_unchanged']=subprocess.run(['git','diff','--quiet','HEAD'],cwd=root).returncode==0
+        row['pass_check'] &= row['tracked_source_unchanged']
         row['pass_check'] &= not bool(re.search(rb'OK \(.*(?:skipped|expected failures)',raw))
         rows.append(row);print(json.dumps(row),flush=True)
         return row
@@ -73,7 +75,7 @@ def main():
         run(root,name+'_adversarial_v3',[sys.executable,str(scripts/'nba_p6_g1_remediation_adversarial_v3_20261116.py'),name])
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:
         list(pool.map(family,('P1','P2','P3','P4','P5')))
-    result=dict(schema='NBA_G1_PRE_P6_QC_V4',independent_acceptance=False,pins=pins,commands=sorted(rows,key=lambda x:x['label']),comparisons=sorted(comparisons,key=lambda x:x['owner']),all_commands_pass=all(x['pass_check'] for x in rows),g0_intact=all(x['match'] for r in comparisons for x in r['g0_inherited']))
+    result=dict(schema='NBA_G1_PRE_P6_QC_V4',independent_acceptance=False,runner_raw_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),qa_code_commit=git('rev-parse','HEAD').decode().strip(),pins=pins,commands=sorted(rows,key=lambda x:x['label']),comparisons=sorted(comparisons,key=lambda x:x['owner']),all_commands_pass=all(x['pass_check'] for x in rows),g0_intact=all(x['match'] for r in comparisons for x in r['g0_inherited']))
     (out/'receipt.json').write_text(json.dumps(result,indent=2)+'\n')
     return int(not(result['all_commands_pass'] and result['g0_intact']))
 

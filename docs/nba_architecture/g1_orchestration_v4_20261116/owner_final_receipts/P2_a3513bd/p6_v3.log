@@ -1,0 +1,71 @@
+{
+  "cases": [
+    {
+      "case": "56_minute_two_OT_separate_duration_receipt_positive_and_overcap",
+      "details": "HISTORICAL_EXPOSURE_PHYSICS",
+      "status": "PASS"
+    },
+    {
+      "case": "two_OT_duration_receipt_missing_no_default",
+      "details": "HISTORICAL_DURATION_UNRESOLVED",
+      "status": "PASS"
+    },
+    {
+      "case": "one_microsecond_post_cutoff_source",
+      "details": "SOURCE_LATE_OR_INCONSISTENT",
+      "status": "PASS"
+    },
+    {
+      "case": "extra_target_actual_minutes_training_injection",
+      "details": "UNSAFE_OR_INCOMPLETE_HISTORY_ROW",
+      "status": "PASS"
+    },
+    {
+      "case": "independent_NB_recurrence_fractional_projected_minutes",
+      "details": [
+        {
+          "family": "S1",
+          "max_pmf_error": 1.5265566588595902e-16,
+          "mean": 15.037962962962967,
+          "total_mass": 1.0000000000000004,
+          "variance": 17.112644890260636
+        },
+        {
+          "family": "S2",
+          "max_pmf_error": 1.6653345369377348e-16,
+          "mean": 15.037962962962963,
+          "total_mass": 0.9999999999999997,
+          "variance": 33.88299046925012
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "conditional_S_to_J_must_honor_P_training_cutoff_not_just_freeze",
+      "details": "MODEL_AFTER_DATA_CUTOFF",
+      "status": "PASS"
+    }
+  ],
+  "family": "P2",
+  "numerical_references": {
+    "P2_recurrence": [
+      {
+        "family": "S1",
+        "max_pmf_error": 1.5265566588595902e-16,
+        "mean": 15.037962962962967,
+        "total_mass": 1.0000000000000004,
+        "variance": 17.112644890260636
+      },
+      {
+        "family": "S2",
+        "max_pmf_error": 1.6653345369377348e-16,
+        "mean": 15.037962962962963,
+        "total_mass": 0.9999999999999997,
+        "variance": 33.88299046925012
+      }
+    ]
+  },
+  "owner_sha": "a3513bdb5e557afce2c720a47458327c668b04ec",
+  "schema": "P6_G1_REMEDIATION_ADVERSARIAL_V3",
+  "synthetic_only": true
+}

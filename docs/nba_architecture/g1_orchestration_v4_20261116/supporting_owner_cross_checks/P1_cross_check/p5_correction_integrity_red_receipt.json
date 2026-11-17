@@ -1,0 +1,34 @@
+{
+  "stage": "PRE_P6_IMPLEMENTATION_QUALITY_CONTROL_NOT_INDEPENDENT_ACCEPTANCE",
+  "p5_base_sha": "3937a1dce3b94684aa53ff84f79c0a52d48b1988",
+  "p5_native_source_raw_sha256": "cd2ddc9e3f30b68019f55b3c6010f60c11cba396fd4ec82bd8527b62b5ec5c81",
+  "p1_exact_sha": "a3263bc840c9973fddaaf9025358b7780d03664b",
+  "source_status": "SYNTHETIC_ENGINEERING_ACTUAL_P1_EXPORT",
+  "results": [
+    {
+      "case": "valid_control",
+      "accepted": true,
+      "error": null
+    },
+    {
+      "case": "backdated_correction",
+      "accepted": true,
+      "error": null
+    },
+    {
+      "case": "wrong_team_correction",
+      "accepted": true,
+      "error": null
+    },
+    {
+      "case": "statistics_disagree_with_retained_official_raw",
+      "accepted": true,
+      "error": null
+    },
+    {
+      "case": "accounting_bundle_not_joined_to_record_descriptor",
+      "accepted": true,
+      "error": null
+    }
+  ]
+}

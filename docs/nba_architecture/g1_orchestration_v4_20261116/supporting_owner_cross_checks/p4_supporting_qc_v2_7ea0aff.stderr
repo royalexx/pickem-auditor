@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/work/p2/work/p4_supporting_qc.py", line 29, in <module>
+    rates=np.array([draw_mixing_rate(par,family,rng) for _ in range(n)])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/p4/v2/nba_joint/integration_v2.py", line 125, in draw_mixing_rate
+    shape = parameters['dispersion']
+            ~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: 'dispersion'

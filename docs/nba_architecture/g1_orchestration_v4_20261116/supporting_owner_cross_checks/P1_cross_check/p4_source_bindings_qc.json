@@ -1,0 +1,51 @@
+{
+  "stage": "PRE_P6_QUALITY_CONTROL_NO_GATE_ACCEPTANCE",
+  "p4_sha": "7ea0aff04b04ed209b47e1728b2b52c3e0a1aecb",
+  "source_hashes": {
+    "v2/nba_joint/integration_v2.py": "502262b6ff3b862e5d1f228a4805e4b2d2275e622a9f83ef07b902658f10665b",
+    "v2/nba_joint/latest_upstream.py": "8eb1bacd34e74a2a89d81a07d4ea6c66652d5fc37bfb45c05c5a4422e8ae1f13",
+    "research/nba_p4_latest/upstream_registry.json": "9e78f7be0d444b70777f8a0c2d45c49889f26b0ddc987e03fffbefbfcdb7f316"
+  },
+  "results": [
+    {
+      "case": "valid_synthetic_control",
+      "accepted": true,
+      "error": null
+    },
+    {
+      "case": "artifact_raw_corruption",
+      "accepted": false,
+      "error": "J2_ARTIFACT_BYTES_PIN"
+    },
+    {
+      "case": "postcutoff_manifest_clock",
+      "accepted": false,
+      "error": "J2_SOURCE_MANIFEST_PIN"
+    },
+    {
+      "case": "wrong_role_identity",
+      "accepted": false,
+      "error": "J2_ROSTER_ROLE_PIN"
+    },
+    {
+      "case": "target_game_identity",
+      "accepted": false,
+      "error": "J2_SYNTHETIC_PREGAME_PIN"
+    },
+    {
+      "case": "declared_cutoff_reseal",
+      "accepted": false,
+      "error": "J2_SYNTHETIC_PREGAME_PIN"
+    },
+    {
+      "case": "real_mode_closed",
+      "accepted": false,
+      "error": "J2_REAL_BLOCKED_INDEPENDENT_SOURCE_AND_FIT_ADMISSION_REQUIRED"
+    },
+    {
+      "case": "upstream_code_corruption",
+      "accepted": false,
+      "error": "J2_UPSTREAM_CODE_PIN_P2"
+    }
+  ]
+}
