@@ -369,7 +369,8 @@ def main():
             result['sections'][name]={'status':'FAIL','error':str(exc),'traceback':traceback.format_exc()}
         print(name,result['sections'][name]['status'],flush=True)
     result['all_pass']=all(x['status']=='PASS' for x in result['sections'].values())
-    a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(encode(result))
+    a.output.parent.mkdir(parents=True,exist_ok=True)
+    with a.output.open('x') as handle:handle.write(encode(result))
     return int(not result['all_pass'])
 
 
