@@ -122,3 +122,45 @@ class NativeScalarTypeTests(unittest.TestCase):
                 x=ExactSourceMinuteTests().minutes_export('PT1M0S',1);x['exposure']['exact_minutes']=True
             else:x['candidate_denominator']={'attempted':True,'admitted':False,'quarantined':True}
             with self.subTest(attack=attack),self.assertRaises(SFError):self.inspect(x)
+
+class NonparticipationSourceTests(unittest.TestCase):
+    fixture=P1NativeTests.fixture
+    pregame=P1NativeTests.pregame
+    inspect=P1NativeTests.inspect
+
+    def nonplayed(self,state,*,positive=False,played=None,minutes='PT0M0S'):
+        x=self.fixture();b=x['evidence_bundle'];g=json.loads(base64.b64decode(b['raw_base64']))
+        player=g['game']['homeTeam']['players'][0]
+        player['played']=played if played is not None else ('0' if state=='dnp' else 'unknown')
+        player['statistics']={'minutes':minutes,'points':11 if positive else 0,'reboundsTotal':0,'assists':0,'threePointersMade':0}
+        from v2.nba_s_family.model import canonical,digest
+        raw=canonical(g);b['raw_base64']=base64.b64encode(raw).decode();b['capture']['raw_sha256']=digest(raw)
+        x['exposure'].update(raw_sha256=digest(raw),receipt_sha256=digest(canonical(b['capture'])),participation=state,displayed_minutes=None,exact_minutes=None,accounting_status='NONPARTICIPATION_OR_UNKNOWN',stats={})
+        x['uncertainty']['participation']=state
+        return x
+
+    def test_nonplayed_positive_raw_credit_or_exposure_rejected(self):
+        for state in ('dnp','unknown'):
+            for positive,minutes in [(True,'PT0M0S'),(False,'PT0M0.0000000000000001S')]:
+                with self.subTest(state=state,positive=positive,minutes=minutes),self.assertRaises(SFError):
+                    self.inspect(self.nonplayed(state,positive=positive,minutes=minutes))
+
+    def test_zero_raw_dnp_and_unknown_preserve_nulls_without_inventing_played_zero(self):
+        for state in ('dnp','unknown'):
+            x=self.nonplayed(state);r=self.inspect(x)
+            self.assertEqual(r['status'],'BLOCKED');self.assertEqual(r['preserved_export']['exposure']['participation'],state)
+            self.assertIsNone(r['preserved_export']['exposure']['exact_minutes'])
+            self.assertIsNone(r['preserved_export']['exposure']['displayed_minutes'])
+            self.assertEqual(r['preserved_export']['exposure']['stats'],{})
+
+    def test_unknown_cannot_replace_explicit_raw_played_state(self):
+        for played in ('0','1'):
+            with self.subTest(played=played),self.assertRaises(SFError):
+                self.inspect(self.nonplayed('unknown',played=played))
+
+    def test_true_zero_positive_raw_credit_cannot_be_hidden_by_retained_stat_subset(self):
+        x=self.nonplayed('unknown',positive=True,played='1')
+        x['exposure'].update(participation='played',displayed_minutes=0,exact_minutes=0.,accounting_status='OFFICIAL_BOX_RECONCILED',stats={'threes':0})
+        x['uncertainty']['participation']='played'
+        with self.assertRaisesRegex(SFError,'ZERO_MINUTE_CREDIT_UNRESOLVED'):
+            inspect_p1_export(x,pregame=self.pregame(),stat='threes')

@@ -265,8 +265,8 @@ def _pmf(law, params, exposure, *, target=TAIL_TARGET):
         tail=0.
     else:
         minutes=finite(exposure)
-        if minutes>100:
-            raise SFError("UNPHYSICAL_PROJECTED_MINUTES")
+        # Physical caps come from the exact upstream G/O duration witness.
+        # Numerical support/tail guards below remain independently fail-closed.
         if law=='S0':
             mu=params['game_mean']
             distribution=poisson(mu)

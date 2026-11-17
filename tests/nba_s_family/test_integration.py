@@ -106,3 +106,39 @@ class JointConversionTests(unittest.TestCase):
         for key,value in [('basis','target_realized_attempts'),('player_id','wrong'),('three_pa',2.5)]:
             with self.subTest(key=key),self.assertRaises(SFError):
                 joint_conditional(f,**args,projected_attempts=seal({**request,key:value}))
+
+class HighOvertimeContractTests(unittest.TestCase):
+    def inputs(self, excess=0.):
+        from v2.nba_architecture.v2_contracts import seal
+        p=pregame();g,o=opportunity_fixture(p)
+        g['scenarios'][0]['overtime_periods']=11;g=seal({k:v for k,v in g.items() if k!='content_hash'})
+        o['game_state_sha256']=g['content_hash'];o['scenarios'][0]['overtime_periods']=11
+        for x in o['scenarios'][0]['players']:
+            if x['participation']=='PLAYED':x['minutes']=103.+excess
+        for x in o['players']:
+            if x['participation_probability']==1.:x['minutes_law']['parameters']['support'][0]['minutes']=103.+excess
+        return p,g,seal({k:v for k,v in o.items() if k!='content_hash'})
+
+    def test_accepted_g0_eleven_ot_cap_is_consumed_by_s(self):
+        from v2.nba_s_family.model import predict
+        from v2.nba_architecture.families_v2 import validate_opportunity
+        p,g,o=self.inputs();self.assertTrue(validate_opportunity(o,p,g))
+        f=fit(histories(),asof_cutoff_utc=CUTOFF,source_manifest=manifest(),stat='points')
+        result=predict(f,frozen_pregame=p,target_player_id='espn:player:10',role='wing',opportunity=o,game_state=g)
+        self.assertIsNone(result.abstain_reason,result.abstain_reason)
+        law=joint_conditional(f,pregame=p,game_state=g,opportunity=o,scenario_id=o['scenarios'][0]['scenario_id'],player_id='espn:player:10',team_id='espn:team:1',role='wing')
+        self.assertEqual(law['projected_exposure'],103.)
+        self.assertAlmostEqual(sum(q['mass'] for q in law['pmf']),1.)
+
+    def test_over_source_specific_duration_cap_still_rejected(self):
+        from v2.nba_s_family.model import predict
+        p,g,o=self.inputs(.000001);f=fit(histories(),asof_cutoff_utc=CUTOFF,source_manifest=manifest(),stat='points')
+        result=predict(f,frozen_pregame=p,target_player_id='espn:player:10',role='wing',opportunity=o,game_state=g)
+        self.assertIsNotNone(result.abstain_reason)
+        with self.assertRaises(ValueError):joint_conditional(f,pregame=p,game_state=g,opportunity=o,scenario_id=o['scenarios'][0]['scenario_id'],player_id='espn:player:10',team_id='espn:team:1',role='wing')
+
+    def test_numerical_tail_safety_bound_is_retained(self):
+        from v2.nba_s_family.model import conditional_pmf
+        f=fit(histories(),asof_cutoff_utc=CUTOFF,source_manifest=manifest(),stat='points')
+        with self.assertRaisesRegex(SFError,'UNCONTROLLED_RIGHT_TAIL'):
+            conditional_pmf(f,player_id='espn:player:10',role='wing',opportunity=1e8)

@@ -1,0 +1,29 @@
+test_accepted_g0_eleven_ot_cap_is_consumed_by_s (tests.nba_s_family.test_integration.HighOvertimeContractTests.test_accepted_g0_eleven_ot_cap_is_consumed_by_s) ... FAIL
+test_numerical_tail_safety_bound_is_retained (tests.nba_s_family.test_integration.HighOvertimeContractTests.test_numerical_tail_safety_bound_is_retained) ... FAIL
+test_over_source_specific_duration_cap_still_rejected (tests.nba_s_family.test_integration.HighOvertimeContractTests.test_over_source_specific_duration_cap_still_rejected) ... ok
+
+======================================================================
+FAIL: test_accepted_g0_eleven_ot_cap_is_consumed_by_s (tests.nba_s_family.test_integration.HighOvertimeContractTests.test_accepted_g0_eleven_ot_cap_is_consumed_by_s)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_integration.py", line 128, in test_accepted_g0_eleven_ot_cap_is_consumed_by_s
+    self.assertIsNone(result.abstain_reason,result.abstain_reason)
+AssertionError: 'UNPHYSICAL_PROJECTED_MINUTES' is not None : UNPHYSICAL_PROJECTED_MINUTES
+
+======================================================================
+FAIL: test_numerical_tail_safety_bound_is_retained (tests.nba_s_family.test_integration.HighOvertimeContractTests.test_numerical_tail_safety_bound_is_retained)
+----------------------------------------------------------------------
+v2.nba_s_family.model.SFError: UNPHYSICAL_PROJECTED_MINUTES
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_integration.py", line 143, in test_numerical_tail_safety_bound_is_retained
+    with self.assertRaisesRegex(SFError,'UNCONTROLLED_RIGHT_TAIL'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "UNCONTROLLED_RIGHT_TAIL" does not match "UNPHYSICAL_PROJECTED_MINUTES"
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.094s
+
+FAILED (failures=2)
