@@ -73,12 +73,14 @@ def consume_p1_context(export, *, frozen_pregame):
             'O_P1_NATIVE_RAW_SHA')
         clocks = source['clocks']
         req(isinstance(clocks, dict) and set(clocks) == {'provider_published_at',
-            'first_defensible_available_at','collector_observed_at','retrieved_at','ingested_at'},
+            'first_defensible_available_at','adapter_asserted_available_at',
+            'collector_observed_at','retrieved_at','ingested_at'},
             'O_P1_NATIVE_CLOCK_FIELDS')
-        req(clocks['provider_published_at'] is None and clocks['retrieved_at'] is None,
+        req(clocks['provider_published_at'] is None and clocks['retrieved_at'] is None and
+            clocks['first_defensible_available_at'] is None,
             'O_P1_NATIVE_UNPROVEN_CLOCK_ASSERTION')
         observed = instant(clocks['collector_observed_at'])
-        available = instant(clocks['first_defensible_available_at'])
+        available = instant(clocks['adapter_asserted_available_at'])
         req(observed <= available <= freeze and instant(clocks['ingested_at']) >= available,
             'O_P1_NATIVE_POSTFREEZE_OR_BACKDATED')
         doc = _document(raw)
@@ -99,7 +101,8 @@ def consume_p1_context(export, *, frozen_pregame):
             raw_players[pid] = dict(player_id=pid, team_id=a['team_id'],
                 legal_eligibility=a['legal_eligibility'], observed_availability=a['availability'],
                 availability_evidence=dict(raw_sha256=source['raw_sha256'],
-                    available_at=clocks['first_defensible_available_at']),
+                    available_at=clocks['adapter_asserted_available_at'],
+                    status='UNADMITTED_ASSERTION'),
                 membership=None,role=None,role_evidence=None,role_uncertainty='UNKNOWN',
                 participation_probability=None,participation_authentication=None)
     expected = [raw_players[pid] for pid in sorted(raw_players)]

@@ -22,11 +22,12 @@ def native_fixture():
         raw_sha256=sha, raw_base64=base64.b64encode(raw).decode(),
         hash_domain='EXACT_SUPPLIED_EXPORT_BYTES_NOT_ORIGINAL_PROVIDER_HTTP',
         origin='original_capture', admission_basis=None, admission_status='REVIEW_REQUIRED',
-        clocks=dict(provider_published_at=None, first_defensible_available_at=at,
+        clocks=dict(provider_published_at=None, first_defensible_available_at=None,
+                    adapter_asserted_available_at=at,
                     collector_observed_at=at, retrieved_at=None, ingested_at=at))
     row = dict(player_id=person['player_id'], team_id=person['team_id'],
         legal_eligibility=None, observed_availability='unknown',
-        availability_evidence=dict(raw_sha256=sha, available_at=at),
+        availability_evidence=dict(raw_sha256=sha, available_at=at, status='UNADMITTED_ASSERTION'),
         membership=None, role=None, role_evidence=None, role_uncertainty='UNKNOWN',
         participation_probability=None, participation_authentication=None)
     export = dict(schema='nba-p1-native-handoff/1.0.0', kind='pregame_context_export',
@@ -74,7 +75,7 @@ class NativeP1Boundary(unittest.TestCase):
 
     def test_postfreeze_and_wrong_target_identity_reject(self):
         for mutate in (lambda x:x.update(game_id='espn:game:wrong'),
-                       lambda x:x['sources'][0]['clocks'].update(first_defensible_available_at='2099-01-01T00:00:00Z')):
+                       lambda x:x['sources'][0]['clocks'].update(adapter_asserted_available_at='2099-01-01T00:00:00Z')):
             p, export = native_fixture(); mutate(export)
             with self.assertRaises(ContractError):
                 consume_p1_context(export, frozen_pregame=p)
