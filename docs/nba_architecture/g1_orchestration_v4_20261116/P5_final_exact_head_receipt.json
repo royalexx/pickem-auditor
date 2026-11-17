@@ -1,0 +1,24 @@
+{
+  "comment_id": 6937313765,
+  "counts": {
+    "G0": 267,
+    "P5": 76,
+    "P6": 83,
+    "native_cases": 21,
+    "native_failures": 0,
+    "v3_cases": 10
+  },
+  "hashes": {
+    "cb3ff82_G0.log": "fab66c9f256bef1c11967a054bbb17bc7a96f96a1e0da3057a1561c3bb9aacaa",
+    "cb3ff82_P5.log": "ef23b5f80554c84e1bdc81d9f7603f38df1d16b37a41e600042259d2377508bd",
+    "cb3ff82_P6.log": "32765ce0bc36114e658320cacae4cfaf1bd37bd1e7f3a6d1de3a3df3ab9b9681",
+    "cb3ff82_original_negative.json": "134563e34669040f034206e5394c0c0691af6cc74d7bb82158f4dd76a935f77d",
+    "cb3ff82_p6_v3.json": "f0cf1e119ed550845cfd04f7d75da7d8efcc2d3660be6fad59f9fda590a589f6",
+    "native-v1-final_cb3ff82.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-v1-final_cb3ff82.stdout.json": "e52430d392247d4467a2d65e4fe70ea909182405d61535efd51d08ffe53a836d"
+  },
+  "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+  "published_pr": 163,
+  "results": "AUTHOR_EXECUTION_ONLY_INDEPENDENT_P6_PENDING",
+  "source_test_diff_from_791d923": []
+}
