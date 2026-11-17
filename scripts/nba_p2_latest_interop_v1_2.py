@@ -24,6 +24,12 @@ def main():
     assert require(args.p1_sha) and require(args.p3_sha),'exact full owner SHAs required'
     files={args.p1_sha:['v2/nba_architecture/'+p for p in ('p1_history.py','p1_evidence.py','p1_context.py','p1_handoff.py','p1_vault.py')]+['tests/nba_architecture/test_p1_history.py','tests/nba_architecture/test_p1_remediation.py'],
            args.p3_sha:['v2/nba_o_family.py','v2/nba_o_bridge.py','v2/nba_opportunity.py','tests/nba_architecture/test_p3_o_family.py']}
+    # P1 added an exact integer-accounting dependency in its native producer.
+    # Materialize it when present at the exact pin; old pinned exports retain
+    # their original dependency graph and remain reproducible.
+    optional='v2/nba_architecture/p1_integer_accounting.py'
+    if subprocess.check_output(['git','-C',str(repo),'ls-tree','-r','--name-only',args.p1_sha,'--',optional],text=True).strip():
+        files[args.p1_sha].append(optional)
     source_hashes={}
     with tempfile.TemporaryDirectory(prefix='p2-native-interop-') as td:
         dst=Path(td)
