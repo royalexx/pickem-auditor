@@ -47,9 +47,18 @@ def main():
         if (dst/path).read_bytes()!=git('show',G0+':'+path):
             raise ValueError('ACCEPTED_G0_CHANGED:'+path)
     doc=dst/'docs/nba_architecture/g1_exact_owner_assembly_v4_20261116.json'
-    doc.write_text(json.dumps(dict(schema='NBA_G1_EXACT_OWNER_ASSEMBLY_V4',scope='SYNTHETIC_ENGINEERING_AND_IMPORT_QC_ONLY',independent_acceptance=False,authentic_case_continued=False,g0=G0,pins=pins,files=files),indent=2)+'\n')
-    subprocess.run(['git','add','-A'],cwd=dst,check=True)
+    doc.write_text(json.dumps(dict(schema='NBA_G1_EXACT_OWNER_ASSEMBLY_V4',assembly_tool_version='4.0.1',assembler_code_commit=git('rev-parse','HEAD').decode().strip(),assembler_source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),scope='SYNTHETIC_ENGINEERING_AND_IMPORT_QC_ONLY',independent_acceptance=False,authentic_case_continued=False,g0=G0,pins=pins,files=files),indent=2)+'\n')
+    # A tracked owner report may be ignored by the accepted base checkout.
+    # Stage only the explicit immutable source population; never scratch files.
+    mapped_paths=sorted(files)+[str(doc.relative_to(dst))]
+    for offset in range(0,len(mapped_paths),100):
+        subprocess.run(['git','add','-f','--',*mapped_paths[offset:offset+100]],cwd=dst,check=True)
     subprocess.run(['git','commit','-q','-m','test(nba): assemble exact owner blobs for isolated G1 conformance QC'],cwd=dst,check=True)
-    print(json.dumps(dict(assembly_sha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=dst).decode().strip(),owner_files=len(files),source_map_sha256=hashlib.sha256(doc.read_bytes()).hexdigest())))
+    assembly_sha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=dst).decode().strip()
+    from nba_g1_verify_assembly_publication_v4_20261116 import verify
+    published=verify(repo,assembly_sha)
+    if not published['all_pass']:
+        raise ValueError('COMMITTED_ASSEMBLY_SOURCE_PUBLICATION_FAILED:'+json.dumps(published['errors']))
+    print(json.dumps(dict(assembly_sha=assembly_sha,owner_files=len(files),published_owner_files_checked=published['published_owner_files_checked'],committed_tree_verified=True,source_map_sha256=hashlib.sha256(doc.read_bytes()).hexdigest())))
 
 if __name__=='__main__':main()
