@@ -1,0 +1,77 @@
+{
+  "schema": "nba-p1-remediation-resolution/1.0.0",
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "owner_base_sha": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+  "producer_implementation_sha": "b41aa66b989d450fb10782ac868c8a6c08050e08",
+  "exact_tested_source_sha": "a889a5929a024c5a97a9e3f3542e5f32872f4433",
+  "source_raw_sha256": "c9567c367ba72fcae7c1229c6bda7baf949223d7389d6e8715a2b12f917b6c39",
+  "permanent_regression_raw_sha256": "ab29017d2d470edef4e4ee7a6b84cf790194efd6915933ed3eee0efd986d25fc",
+  "portable_command": "python scripts/nba_p1_native_handoff_check_20261117.py --output work/p1-native-fresh",
+  "executions": "exact_67a_runner/receipt.json",
+  "criteria": [
+    {
+      "id": "B-P1-01",
+      "owner": "P1",
+      "classification": "UNAVAILABLE_EVIDENCE_WITH_IMPLEMENTED_NATIVE_HANDOFF",
+      "disposition": "BLOCKED",
+      "observed": "Native prior/context/outcome exports preserve exact bytes, unknown admission/clocks/role/home/membership/completeness and full outcome correction ancestry; consumers must fail closed. Original population unavailable.",
+      "minimal_remaining_requirement": "Recover original contemporaneous pregame roster/availability and first-defensible clocks; dated player/team/game crosswalks and trades; complete official schedule/result/DNP/played-zero/unknown population and correction chain; independently admit provider/export and fitted prior evidence.",
+      "independent_reviewer": "P6 pending"
+    },
+    {
+      "id": "B-P1-02",
+      "owner": "P1",
+      "classification": "UNAVAILABLE_AUTHENTIC_OFFICIAL_EVIDENCE",
+      "disposition": "BLOCKED",
+      "observed": "Synthetic regulation/multi-OT/subminute/true-zero controls pass; fresh preholdout official NBA prior-game endpoint 0021800001 HTTP403. Exact failed source retained.",
+      "minimal_remaining_requirement": "Authentic prior-game official duration/exact minutes/stat/adjudication or correction bytes with independent source admission and accepted minute-display exception policy.",
+      "independent_reviewer": "P6 pending"
+    },
+    {
+      "id": "F-P1-01",
+      "owner": "P1",
+      "classification": "RETAINED_CORRECTNESS_REGRESSION",
+      "disposition": "PASS_AUTHOR_TESTED",
+      "observed": "Immutable original negative probe and separate green wrapper reject true-zero positive credits, unbounded minutes and malformed vault exposure; positive displayed/exact subminute controls preserved.",
+      "minimal_remaining_requirement": "Fresh independent P6 regression confirmation; authentic proof remains B-P1-02.",
+      "independent_reviewer": "Prior finite defect independently closed at audit ddc60a8; latest P6 pending"
+    },
+    {
+      "id": "F-P1-NATIVE-01",
+      "owner": "P1",
+      "classification": "INTERFACE_SOURCE_RETENTION_DEFECT",
+      "disposition": "PASS_AUTHOR_TESTED",
+      "red_source_sha": "626a288c4dc9bef5e71cc8ba15d71de98ac1c151",
+      "fix_sha": "18dbfe620c694f00f41dbe2fe0e1efc839867ab6",
+      "red_log": "before_iterator_source_loss.log",
+      "green_log": "after_iterator_source_loss.log",
+      "observed": "Reject one-shot source iterators; valid list/tuple source population retained across assertion and transport passes.",
+      "minimal_remaining_requirement": "Independent P6 adversarial confirmation.",
+      "independent_reviewer": "P6 pending"
+    },
+    {
+      "id": "F-P1-NATIVE-02",
+      "owner": "P1",
+      "classification": "UNADMITTED_CLOCK_METADATA_OVERSTATEMENT",
+      "disposition": "PASS_AUTHOR_TESTED",
+      "red_source_sha": "18dbfe620c694f00f41dbe2fe0e1efc839867ab6",
+      "fix_sha": "b41aa66b989d450fb10782ac868c8a6c08050e08",
+      "red_log": "before_asserted_context_clock.log",
+      "green_log": "after_asserted_context_clock.log",
+      "observed": "First-defensible availability null until admission; adapter source clock preserved under asserted field; availability reference explicitly unadmitted.",
+      "minimal_remaining_requirement": "Independent P6 confirmation; external authentic admission remains B-P1-01.",
+      "independent_reviewer": "P6 pending"
+    }
+  ],
+  "out_of_scope": [
+    "G2",
+    "historical fitting",
+    "historical predictive evaluation",
+    "historical weight fitting",
+    "NUTS",
+    "deployment",
+    "schedule changes",
+    "Tier promotion"
+  ],
+  "independent_acceptance_awarded_by_owner": false
+}
