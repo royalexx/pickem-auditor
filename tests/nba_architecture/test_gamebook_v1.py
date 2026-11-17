@@ -43,3 +43,29 @@ class OfficialGamebookTests(unittest.TestCase):
         with patch('v2.nba_architecture.gamebook_v1.subprocess.check_output',return_value='\n'.join(lines).encode()),self.assertRaises(ContractError):read_final_box(raw,r)
 
 if __name__=='__main__':unittest.main()
+
+class GameSpecificIdentityTests(unittest.TestCase):
+    def build(self):
+        from v2.nba_architecture.gamebook_identity_v1 import join_game_ids
+        raw,r=OfficialGamebookTests().fixture();box=read_final_box(raw,r)
+        eraw=(ROOT/'espn2018.raw').read_bytes();receipt=json.loads((ROOT/'espn2018.receipt.json').read_bytes())
+        return join_game_ids,box,eraw,receipt
+
+    def test_actual_26_game_only_identities_and_minute_precision_preserved(self):
+        fn,box,raw,r=self.build();x=fn(box,raw,r)
+        self.assertEqual(len(x['rows']),26);self.assertEqual(x['source_event_time'],'2018-10-17T00:00Z')
+        self.assertFalse(x['future_roster_or_trade_evidence']);self.assertFalse(x['original_pregame_availability_proven'])
+
+    def test_resealed_team_jersey_name_stats_dnp_collision_and_missing_reject(self):
+        fn,box,raw,r=self.build()
+        for attack in ('team','jersey','name','stats','dnp','collision','missing'):
+            x=json.loads(raw);team=x['boxscore']['players'][0];people=team['statistics'][0]['athletes']
+            if attack=='team':team['team']['abbreviation']='BOS'
+            elif attack=='jersey':people[0]['athlete']['jersey']='999'
+            elif attack=='name':people[0]['athlete']['displayName']='Other Person'
+            elif attack=='stats':people[0]['stats'][1]='999'
+            elif attack=='dnp':people[0]['didNotPlay']=True
+            elif attack=='collision':people[1]['athlete']['id']=people[0]['athlete']['id']
+            elif attack=='missing':people.pop()
+            changed=json.dumps(x).encode();receipt=deepcopy(r);receipt['raw_sha256']=hashlib.sha256(changed).hexdigest()
+            with self.subTest(attack=attack),self.assertRaises(ContractError):fn(box,changed,receipt)
