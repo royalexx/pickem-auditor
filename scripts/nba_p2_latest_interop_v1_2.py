@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+"""Exact owner implementations in a disposable synthetic compatibility environment.
+
+No historical population, fitting, validation, source fetch or outcome vault is
+opened. P1 authentic admission remains blocked; O/S tests are separate cases.
+"""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+
+
+def main():
+    ap=argparse.ArgumentParser();ap.add_argument('--repo',type=Path,required=True)
+    ap.add_argument('--p1-sha',required=True);ap.add_argument('--p3-sha',required=True)
+    args=ap.parse_args();repo=args.repo.resolve();root=Path(__file__).resolve().parents[1]
+    require=lambda s: bool(re.fullmatch('[0-9a-f]{40}',s))
+    assert require(args.p1_sha) and require(args.p3_sha),'exact full owner SHAs required'
+    files={args.p1_sha:['v2/nba_architecture/'+p for p in ('p1_history.py','p1_evidence.py','p1_context.py','p1_handoff.py','p1_vault.py')]+['tests/nba_architecture/test_p1_history.py','tests/nba_architecture/test_p1_remediation.py'],
+           args.p3_sha:['v2/nba_o_family.py','v2/nba_o_bridge.py','v2/nba_opportunity.py','tests/nba_architecture/test_p3_o_family.py']}
+    # P1 added an exact integer-accounting dependency in its native producer.
+    # Materialize it when present at the exact pin; old pinned exports retain
+    # their original dependency graph and remain reproducible.
+    optional='v2/nba_architecture/p1_integer_accounting.py'
+    if subprocess.check_output(['git','-C',str(repo),'ls-tree','-r','--name-only',args.p1_sha,'--',optional],text=True).strip():
+        files[args.p1_sha].append(optional)
+    source_hashes={}
+    with tempfile.TemporaryDirectory(prefix='p2-native-interop-') as td:
+        dst=Path(td)
+        for folder in ('v2','tests'):
+            shutil.copytree(root/folder,dst/folder,ignore=shutil.ignore_patterns('__pycache__'))
+        for pin,paths in files.items():
+            source_hashes[pin]={}
+            for p in paths:
+                raw=subprocess.check_output(['git','-C',str(repo),'show',pin+':'+p])
+                target=dst/p;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(raw)
+                source_hashes[pin][p]=hashlib.sha256(raw).hexdigest()
+        code=r'''
+import copy,json,math
+from scipy.stats import nbinom
+from tests.nba_architecture.test_p3_o_family import build
+from tests.nba_architecture.test_p1_remediation import official_fixture,nba_entry,repair_opponent
+from tests.nba_s_family.test_p1_native_v1 import P1NativeTests
+from tests.nba_s_family.test_statistical import histories,manifest,CUTOFF
+from v2.nba_architecture.p1_handoff import export_prior_game
+from v2.nba_s_family.p1_native import inspect_p1_export
+from v2.nba_s_family.model import fit,predict
+from v2.nba_s_family.integration import joint_conditional,VERSION
+from v2.nba_architecture.v2_contracts import seal
+x=export_prior_game(json.loads(repair_opponent(nba_entry())['record']['payload']),official_fixture(),ingested_at='2026-11-16T19:00:00Z',source_profile='synthetic_engineering')
+p=P1NativeTests().pregame();native=inspect_p1_export(x,pregame=p,stat='points')
+assert native['status']=='BLOCKED' and native['training_rows']==[]
+assert x==P1NativeTests().fixture(),'native fixture drift: version a new fixture, preserve old'
+p,g,o,side=build('O2');results=[]
+for stat in ('points','rebounds','assists','threes'):
+ for family in ('S1','S2'):
+  f=fit(histories(stat),source_manifest=manifest(),asof_cutoff_utc=CUTOFF,stat=stat,family=family)
+  kw=dict(frozen_pregame=p,target_player_id='espn:player:10',role='wing',opportunity=o,game_state=g)
+  assert predict(f,**kw).abstain_reason=='UNKNOWN_APPEARANCE_PROBABILITY'
+  r=predict(f,**kw,conditioning='conditional_on_participation');assert r.abstain_reason is None,r.abstain_reason
+  rows=f.data['training_rows'];own=[q for q in rows if q['player_id']=='espn:player:10'];peer=[q for q in rows if q['player_id']!='espn:player:10' and q['role']=='wing']
+  peer_rate=sum(q['count'] for q in peer)/sum(q['minutes'] for q in peer)
+  alpha=180*max(peer_rate,1e-10)+sum(q['count'] for q in own);beta=180+sum(q['minutes'] for q in own)
+  refs=[];weights=[]
+  for sc in o['scenarios']:
+   q=next(q for q in sc['players'] if q['player_id']=='espn:player:10')
+   if q['participation']=='DNP':continue
+   if q['minutes']==0:pmf=[1.]+[0.]*(len(r.distribution['pmf'])-1)
+   else:
+    shape=alpha if family=='S1' else 12.;mu=alpha/beta*q['minutes']
+    law=nbinom(shape,shape/(shape+mu));pmf=[float(law.pmf(k)) for k in range(len(r.distribution['pmf']))]
+   refs.append(pmf);weights.append(sc['weight'])
+   j=joint_conditional(f,pregame=p,game_state=g,opportunity=o,scenario_id=sc['scenario_id'],player_id=q['player_id'],team_id=q['team_id'],role='wing')
+   assert j['opportunity_sha256']==o['content_hash'] and j['scenario_id']==sc['scenario_id']
+  manual=[sum(w*pm[k] for w,pm in zip(weights,refs))/sum(weights) for k in range(len(r.distribution['pmf']))]
+  err=max(abs(a-b['mass']) for a,b in zip(manual,r.distribution['pmf']))
+  assert err<2e-10,err
+  results.append(dict(stat=stat,family=family,max_raw_analytic_mixture_error=err,normalization=sum(q['mass'] for q in r.distribution['pmf']),tail_bound=r.distribution['numerical']['tail_mass_upper_bound'],opportunity_sha256=o['content_hash']))
+f=fit(histories('threes'),source_manifest=manifest(),asof_cutoff_utc=CUTOFF,stat='threes',family='S3')
+for sc in o['scenarios']:
+ q=next(q for q in sc['players'] if q['player_id']=='espn:player:10');n=8 if q['minutes']>0 else 0
+ attempts=seal(dict(schema=VERSION,basis='projected_shared_shot_allocation',source_snapshot_sha256=p['content_hash'],opportunity_sha256=o['content_hash'],scenario_id=sc['scenario_id'],player_id=q['player_id'],team_id=q['team_id'],three_pa=n))
+ j=joint_conditional(f,pregame=p,game_state=g,opportunity=o,scenario_id=sc['scenario_id'],player_id=q['player_id'],team_id=q['team_id'],role='wing',projected_attempts=attempts)
+ assert len(j['pmf'])==n+1 and j['tail_mass_upper_bound']==0
+print(json.dumps(dict(scope='SEPARATE_SYNTHETIC_COMPATIBILITY_NOT_CONTINUATION_OF_BLOCKED_AUTHENTIC_CASE',P1_native=native,P3_sidecar_schema=side['schema'],P3_O_scenarios=len(o['scenarios']),unknown_participation_preserved=True,manual_mixtures=results,S3_scenario_bound_integer_attempt_conversion=True),sort_keys=True))
+'''
+        result=subprocess.run([sys.executable,'-c',code],cwd=dst,env={**os.environ,'PYTHONPATH':str(dst),'OPENBLAS_NUM_THREADS':'1'},capture_output=True)
+        if result.returncode:
+            sys.stdout.buffer.write(result.stdout);sys.stderr.buffer.write(result.stderr);return result.returncode
+        print(json.dumps(dict(owner_heads=dict(P1=args.p1_sha,P2=subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip(),P3=args.p3_sha),source_sha256=source_hashes,result=json.loads(result.stdout)),indent=2,sort_keys=True))
+        return 0
+
+if __name__=='__main__':raise SystemExit(main())

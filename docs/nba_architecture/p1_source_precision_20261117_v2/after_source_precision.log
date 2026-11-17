@@ -1,0 +1,14 @@
+test_builder_rejects_raw_over_cap_without_float_rounding (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_builder_rejects_raw_over_cap_without_float_rounding) ... ok
+test_display_difference_must_not_round_to_half_minute (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_display_difference_must_not_round_to_half_minute) ... ok
+test_exact_legal_controls_and_decimal_context_independence (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_exact_legal_controls_and_decimal_context_independence) ... ok
+test_final_clock_positive_raw_increment_is_not_zero (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_final_clock_positive_raw_increment_is_not_zero) ... ok
+test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) ... ok
+test_rounding_at_and_above_thirty_seconds_rejects (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_rounding_at_and_above_thirty_seconds_rejects) ... ok
+test_rounding_just_below_thirty_seconds_remains_admissible (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_rounding_just_below_thirty_seconds_remains_admissible) ... ok
+test_seconds_preserve_positive_sub_decimal_context_increment (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_seconds_preserve_positive_sub_decimal_context_increment) ... ok
+test_vault_rejects_raw_over_cap_before_writing (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_vault_rejects_raw_over_cap_before_writing) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.008s
+
+OK

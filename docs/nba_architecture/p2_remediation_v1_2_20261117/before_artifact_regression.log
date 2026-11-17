@@ -1,0 +1,25 @@
+test_model_release_cutoff_equality_remains_valid (tests.nba_s_family.test_cutoff_regression_v1_2.ArtifactChronologyTests.test_model_release_cutoff_equality_remains_valid) ... ok
+test_resealed_late_training_release_rejected_by_both_interfaces (tests.nba_s_family.test_cutoff_regression_v1_2.ArtifactChronologyTests.test_resealed_late_training_release_rejected_by_both_interfaces) ... 
+  test_resealed_late_training_release_rejected_by_both_interfaces (tests.nba_s_family.test_cutoff_regression_v1_2.ArtifactChronologyTests.test_resealed_late_training_release_rejected_by_both_interfaces) (field='outcome_available_at') ... FAIL
+  test_resealed_late_training_release_rejected_by_both_interfaces (tests.nba_s_family.test_cutoff_regression_v1_2.ArtifactChronologyTests.test_resealed_late_training_release_rejected_by_both_interfaces) (field='game_start_at') ... FAIL
+
+======================================================================
+FAIL: test_resealed_late_training_release_rejected_by_both_interfaces (tests.nba_s_family.test_cutoff_regression_v1_2.ArtifactChronologyTests.test_resealed_late_training_release_rejected_by_both_interfaces) (field='outcome_available_at')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_cutoff_regression_v1_2.py", line 59, in test_resealed_late_training_release_rejected_by_both_interfaces
+    self.assertEqual(r.abstain_reason,'TRAINING_ROW_AFTER_MODEL_CUTOFF')
+AssertionError: None != 'TRAINING_ROW_AFTER_MODEL_CUTOFF'
+
+======================================================================
+FAIL: test_resealed_late_training_release_rejected_by_both_interfaces (tests.nba_s_family.test_cutoff_regression_v1_2.ArtifactChronologyTests.test_resealed_late_training_release_rejected_by_both_interfaces) (field='game_start_at')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_cutoff_regression_v1_2.py", line 59, in test_resealed_late_training_release_rejected_by_both_interfaces
+    self.assertEqual(r.abstain_reason,'TRAINING_ROW_AFTER_MODEL_CUTOFF')
+AssertionError: None != 'TRAINING_ROW_AFTER_MODEL_CUTOFF'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.097s
+
+FAILED (failures=2)

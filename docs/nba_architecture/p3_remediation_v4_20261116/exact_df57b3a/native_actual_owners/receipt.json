@@ -1,0 +1,16 @@
+{
+  "authenticity_admitted": false,
+  "first_missing_requirement": "INDEPENDENT_SOURCE_ADMISSION",
+  "independently_accepted": false,
+  "owner_sha": "df57b3aebbd55112b6cd008013759ca797322ba6",
+  "owner_worktree_status": "",
+  "p1_code_raw_sha256": {
+    "v2/nba_architecture/p1_context.py": "9a27075c048b806fcecaaafed8be43a67f068dfd49d4983887b411cface5a657",
+    "v2/nba_architecture/p1_handoff.py": "c9567c367ba72fcae7c1229c6bda7baf949223d7389d6e8715a2b12f917b6c39"
+  },
+  "p1_sha": "b41aa66b989d450fb10782ac868c8a6c08050e08",
+  "p1_worktree_status": "",
+  "result": "BLOCKED",
+  "sampled": false,
+  "scope": "SEPARATE_SYNTHETIC_ENGINEERING_NO_SOURCE_AUTHENTICITY"
+}

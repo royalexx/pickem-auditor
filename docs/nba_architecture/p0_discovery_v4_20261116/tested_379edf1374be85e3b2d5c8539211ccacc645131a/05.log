@@ -1,0 +1,10 @@
+test_all_provider_dns_failures_classified_as_runtime (test_network_receipt.NetworkReceiptTests.test_all_provider_dns_failures_classified_as_runtime) ... ok
+test_auth_failure_is_not_misclassified_as_dns (test_network_receipt.NetworkReceiptTests.test_auth_failure_is_not_misclassified_as_dns) ... ok
+test_diagnostics_never_claims_rows_collected (test_network_receipt.NetworkReceiptTests.test_diagnostics_never_claims_rows_collected) ... ok
+test_dns_failure_without_proxy_does_not_call_http (test_network_receipt.NetworkReceiptTests.test_dns_failure_without_proxy_does_not_call_http) ... ok
+test_schema_is_verified_after_http_success (test_network_receipt.NetworkReceiptTests.test_schema_is_verified_after_http_success) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.005s
+
+OK

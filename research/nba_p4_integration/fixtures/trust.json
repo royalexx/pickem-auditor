@@ -1,0 +1,13 @@
+{
+  "artifacts": {
+    "assists": "a0fb3c1eee380c95c07f0eb221fb4d52799ac7f5806f25bf8e23bfe74e478910",
+    "points": "c9d1545ce3f30f22549ddb1ebc340ee36933d2daab1f6134ca70207da7d62acc",
+    "rebounds": "31ff7652e907b07fb777533a7a1c41c776ab96a33daeb510c516a45811b53c41",
+    "three_conversion": "9af7f8edc08c88ff4d0ff8957a75f042bece8a4dbe582c82783ca593ae8a0bb1",
+    "threes": "261f3e221c0c013065c9651dd83200b880f1ab53b976366afb6b05351695914e"
+  },
+  "basis": "synthetic_contract_fixture_only",
+  "roles_sha256": "3f876c3f4e34709f19741c880fee7fb2a6c757600c5e213d36ef96afcd75fa11",
+  "source_manifest_sha256": "36265bcc135146a3a56844bad58dc40df3324220d9e1592bb7c6e63339a9bb38",
+  "source_status_flag_is_not_authentication": true
+}

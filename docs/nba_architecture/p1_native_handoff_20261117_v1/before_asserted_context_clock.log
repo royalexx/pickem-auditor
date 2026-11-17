@@ -1,0 +1,14 @@
+test_unadmitted_available_clock_stays_asserted (tests.nba_architecture.test_p1_native_handoff_20261117.ContextClockClaim.test_unadmitted_available_clock_stays_asserted) ... FAIL
+
+======================================================================
+FAIL: test_unadmitted_available_clock_stays_asserted (tests.nba_architecture.test_p1_native_handoff_20261117.ContextClockClaim.test_unadmitted_available_clock_stays_asserted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_native_handoff_20261117.py", line 128, in test_unadmitted_available_clock_stays_asserted
+    self.assertIsNone(p['sources'][0]['clocks']['first_defensible_available_at'])
+AssertionError: '2023-02-08T10:00:00Z' is not None
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

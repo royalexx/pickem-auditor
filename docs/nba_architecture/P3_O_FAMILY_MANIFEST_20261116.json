@@ -1,0 +1,109 @@
+{
+  "schema": "nba-p3-o-family-engineering-manifest/1.0.0",
+  "date": "2026-11-16",
+  "ticket": "P3",
+  "owner": "nba-v2.5-o-family",
+  "source_stage": "G0-accepted-P1-supply-unverified",
+  "accepted_g0": {
+    "implementation_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+    "contract": "nba-sojc-contract/2.0.0",
+    "pr": 157,
+    "independent_acceptance_pr": 161,
+    "earlier_rejected_sha": "e1983b2d0b94742dfb1bf411694dc46c7cad1ac6"
+  },
+  "isolated_branch": "research/nba-p3-o-family-g1-20261116",
+  "base_branch": "research/nba-g0-law-coupling-repair-20261116",
+  "inherited_ws2": {
+    "branch": "research/v25-nba-ws2-minutes-opportunity-20261115",
+    "file": "v2/nba_opportunity.py",
+    "source_git_blob_sha1": "55360fd8bab49fd20f1af04493532fee5237b1ec",
+    "verification": "unchanged copy"
+  },
+  "implementation_files": [
+    "v2/nba_opportunity.py",
+    "v2/nba_o_family.py",
+    "tests/nba_architecture/test_p3_o_family.py",
+    "docs/nba_architecture/P3_O_FAMILY_G1_HANDOFF_20261116.md"
+  ],
+  "variants": {
+    "O0": {
+      "state": "IMPLEMENTED_AUTHOR_TESTED_SHADOW",
+      "description": "point conditional minutes control with conserved G scenarios",
+      "G1": "BLOCKED_SOURCE_AND_FITTED_PARTICIPATION"
+    },
+    "O1": {
+      "state": "IMPLEMENTED_AUTHOR_TESTED_SHADOW",
+      "description": "WS2 conditional stochastic minutes, full G-coupled finite minute law",
+      "G1": "BLOCKED_SOURCE_AND_FITTED_PARTICIPATION"
+    },
+    "O2": {
+      "state": "IMPLEMENTED_AUTHOR_TESTED_SHADOW",
+      "description": "role/early-exit uncertainty and possession-share stochastic scenarios",
+      "G1": "BLOCKED_BY_SOURCE_AND_TRANSITION_FIT"
+    }
+  },
+  "output_contract": {
+    "o_kind": "opportunity",
+    "version": "nba-sojc-contract/2.0.0",
+    "sidecar_schema": "nba-p3-opportunity/0.1.0",
+    "frozen_source_hash": true,
+    "frozen_prior_manifest": true,
+    "exact_scenario_id_and_weight_from_G": true,
+    "team_player_minutes": "240 + 25 * overtime_periods",
+    "player_max_minutes": "48 + 5 * overtime_periods",
+    "on_court": 5,
+    "participation": [
+      "DNP",
+      "PLAYED_ZERO_MINUTES",
+      "PLAYED"
+    ],
+    "unknown_participation": null,
+    "player_share_sum": 1,
+    "original_pregame_source_required": true,
+    "real_pregame_certification": false
+  },
+  "qa": {
+    "tested_exact_branch_sha": "0df0aaa2bd111c6f8e9e6c6e7e82f2252396967c",
+    "deepnote_project": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "deepnote_notebook": "fe67fbf3427d4f45b770287df9995fc3",
+    "deepnote_readonly_run": "6b6c41e1-a7ce-4dba-9057-56ba01d9c99a",
+    "tests_passed": 282,
+    "tests_failed": 0,
+    "tests_errored": 0,
+    "tests_skipped": 0,
+    "inherited_g0_tests": 267,
+    "p3_tests_at_tested_sha": 15,
+    "python": "3.12.16",
+    "numpy": "1.26.4",
+    "scipy": "1.15.3",
+    "jsonschema": "4.23.0",
+    "test_log_sha256": "0369491c3d4bfd3fc7636db4ab41292f16bca6433d635440e919b399604ade96",
+    "file_sha256_at_tested_sha": {
+      "v2/nba_opportunity.py": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30",
+      "v2/nba_o_family.py": "d565aa330a199fdc3ab57ed0afffa2505e3878eea2cc6b3ed100d519ce7c4cdb",
+      "tests/nba_architecture/test_p3_o_family.py": "a7f6838e1d8b9735aa271150999d3b6524d5bb16549fe641529526821ae2c8c0"
+    },
+    "subsequent_implementation_sha_before_docs": "2a2c9c2bebd8f8213dc612439ce38703e474bb1d",
+    "subsequent_change": "sidecar embeds hash-checked full prior manifest plus sixteenth replay tamper test; this exact version has not been rerun",
+    "recheck_status": "BLOCKED_BY_DEEPNOTE_TRIAL_QUOTA_AND_RATE_LIMIT",
+    "required_recheck_command": "python -m unittest discover -s tests/nba_architecture -p 'test_*.py' -v",
+    "independently_accepted": false
+  },
+  "blockers": [
+    "P1 originally observed source receipts and usable v2 timestamp adapter unavailable",
+    "P1 canonical roster/lineup and trade eligibility not independently bound",
+    "P1/P2 real participation prior and minute-law fit not accepted",
+    "Role transitions and early exits not fit from time-verified pregame evidence",
+    "Share intensity/concentration not calibrated from usable historical/forward data",
+    "Final implementation SHA not yet rerun after latest exact prior-manifest change",
+    "P6 independent G1 review and P4 actual consumer adapter pending"
+  ],
+  "no_fit_training": true,
+  "no_historical_performance_scoring": true,
+  "no_monte_carlo_weight_optimization": true,
+  "no_production_edit": true,
+  "no_legacy_edit": true,
+  "no_release_authority": true,
+  "G1": "BLOCKED_PENDING_ADAPTERS_AND_INDEPENDENT_QA",
+  "G2": "NOT_AUTHORIZED"
+}

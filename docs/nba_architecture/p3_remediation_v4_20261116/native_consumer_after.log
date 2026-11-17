@@ -1,0 +1,12 @@
+test_corrupt_raw_or_resealed_summary_does_not_pass (test_p3_p1_native_v4.NativeP1Boundary.test_corrupt_raw_or_resealed_summary_does_not_pass) ... ok
+test_exact_bound_native_candidates_preserve_unknown_and_block (test_p3_p1_native_v4.NativeP1Boundary.test_exact_bound_native_candidates_preserve_unknown_and_block) ... ok
+test_forged_admission_and_false_participation_reject (test_p3_p1_native_v4.NativeP1Boundary.test_forged_admission_and_false_participation_reject) ... ok
+test_missing_population_is_explicit_and_no_sampling_occurs (test_p3_p1_native_v4.NativeP1Boundary.test_missing_population_is_explicit_and_no_sampling_occurs) ... ok
+test_postfreeze_and_wrong_target_identity_reject (test_p3_p1_native_v4.NativeP1Boundary.test_postfreeze_and_wrong_target_identity_reject) ... ok
+test_declared_model_cutoff_before_equal_and_one_microsecond_after (test_p3_remediation_v4.ModelCutoffControls.test_declared_model_cutoff_before_equal_and_one_microsecond_after) ... ok
+test_declared_prior_cutoff_before_equal_and_one_microsecond_after (test_p3_remediation_v4.ModelCutoffControls.test_declared_prior_cutoff_before_equal_and_one_microsecond_after) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.502s
+
+OK

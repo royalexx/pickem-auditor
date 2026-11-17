@@ -1,0 +1,460 @@
+test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) ... 
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual', shape=()) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual', shape=('dict',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual', shape=('list',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual', shape=('list', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual', shape=('dict', 'list', 'dict', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual', shape=('list', 'dict', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_stats', shape=()) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_stats', shape=('dict',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_stats', shape=('list',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_stats', shape=('list', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_stats', shape=('dict', 'list', 'dict', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_stats', shape=('list', 'dict', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_minutes', shape=()) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_minutes', shape=('dict',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_minutes', shape=('list',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_minutes', shape=('list', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_minutes', shape=('dict', 'list', 'dict', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_minutes', shape=('list', 'dict', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='target_game_outcome', shape=()) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='target_game_outcome', shape=('dict',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='target_game_outcome', shape=('list',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='target_game_outcome', shape=('list', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='target_game_outcome', shape=('dict', 'list', 'dict', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='target_game_outcome', shape=('list', 'dict', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=()) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('dict',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('list',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('list', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('dict', 'list', 'dict', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('list', 'dict', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='event_end_at', shape=()) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='event_end_at', shape=('dict',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='event_end_at', shape=('list',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='event_end_at', shape=('list', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='event_end_at', shape=('dict', 'list', 'dict', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='event_end_at', shape=('list', 'dict', 'list')) ... FAIL
+test_nested_list_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_identity) ... 
+  test_nested_list_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_identity) (shape=('list', 'list'), key='game_id') ... FAIL
+  test_nested_list_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_identity) (shape=('list', 'list'), key='player_id') ... FAIL
+  test_nested_list_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_identity) (shape=('list', 'list'), key='source_profile') ... FAIL
+test_nested_list_postfreeze_clock (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_postfreeze_clock) ... 
+  test_nested_list_postfreeze_clock (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_postfreeze_clock) (shape=('list', 'list')) ... FAIL
+test_nested_list_unknown_clock_and_model_cutoff (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_unknown_clock_and_model_cutoff) ... 
+  test_nested_list_unknown_clock_and_model_cutoff (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_unknown_clock_and_model_cutoff) (key='unreviewed_at') ... FAIL
+  test_nested_list_unknown_clock_and_model_cutoff (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_unknown_clock_and_model_cutoff) (key='training_cutoff_at') ... FAIL
+test_valid_nested_pregame_numbers_clocks_identity_all_stats (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_valid_nested_pregame_numbers_clocks_identity_all_stats) ... ok
+test_w3_sparse_fallback_cannot_accept_nested_outcome (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_w3_sparse_fallback_cannot_accept_nested_outcome) ... FAIL
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual', shape=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual', shape=('dict',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual', shape=('list',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual', shape=('list', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual', shape=('dict', 'list', 'dict', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual', shape=('list', 'dict', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_stats', shape=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_stats', shape=('dict',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_stats', shape=('list',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_stats', shape=('list', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_stats', shape=('dict', 'list', 'dict', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_stats', shape=('list', 'dict', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_minutes', shape=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_minutes', shape=('dict',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_minutes', shape=('list',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_minutes', shape=('list', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_minutes', shape=('dict', 'list', 'dict', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='actual_minutes', shape=('list', 'dict', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='target_game_outcome', shape=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='target_game_outcome', shape=('dict',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='target_game_outcome', shape=('list',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='target_game_outcome', shape=('list', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='target_game_outcome', shape=('dict', 'list', 'dict', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='target_game_outcome', shape=('list', 'dict', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=())
+----------------------------------------------------------------------
+v2.nba_c.experiment.ExperimentError: LINKED_IDENTITY_MISMATCH_official_available_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "OUTCOME_IN_FORECAST_PIPELINE" does not match "LINKED_IDENTITY_MISMATCH_official_available_at"
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('dict',))
+----------------------------------------------------------------------
+v2.nba_c.experiment.ExperimentError: LINKED_IDENTITY_MISMATCH_official_available_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "OUTCOME_IN_FORECAST_PIPELINE" does not match "LINKED_IDENTITY_MISMATCH_official_available_at"
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('list',))
+----------------------------------------------------------------------
+v2.nba_c.experiment.ExperimentError: LINKED_IDENTITY_MISMATCH_official_available_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "OUTCOME_IN_FORECAST_PIPELINE" does not match "LINKED_IDENTITY_MISMATCH_official_available_at"
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('list', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('dict', 'list', 'dict', 'list'))
+----------------------------------------------------------------------
+v2.nba_c.experiment.ExperimentError: LINKED_IDENTITY_MISMATCH_official_available_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "OUTCOME_IN_FORECAST_PIPELINE" does not match "LINKED_IDENTITY_MISMATCH_official_available_at"
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('list', 'dict', 'list'))
+----------------------------------------------------------------------
+v2.nba_c.experiment.ExperimentError: LINKED_IDENTITY_MISMATCH_official_available_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "OUTCOME_IN_FORECAST_PIPELINE" does not match "LINKED_IDENTITY_MISMATCH_official_available_at"
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='event_end_at', shape=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='event_end_at', shape=('dict',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='event_end_at', shape=('list',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='event_end_at', shape=('list', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='event_end_at', shape=('dict', 'list', 'dict', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='event_end_at', shape=('list', 'dict', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_nested_list_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_identity) (shape=('list', 'list'), key='game_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 51, in test_nested_list_identity
+    with self.subTest(shape=shape, key=key), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_nested_list_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_identity) (shape=('list', 'list'), key='player_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 51, in test_nested_list_identity
+    with self.subTest(shape=shape, key=key), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_nested_list_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_identity) (shape=('list', 'list'), key='source_profile')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 51, in test_nested_list_identity
+    with self.subTest(shape=shape, key=key), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_nested_list_postfreeze_clock (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_postfreeze_clock) (shape=('list', 'list'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 41, in test_nested_list_postfreeze_clock
+    with self.subTest(shape=shape), self.assertRaisesRegex(
+                                    ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_nested_list_unknown_clock_and_model_cutoff (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_unknown_clock_and_model_cutoff) (key='unreviewed_at')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 81, in test_nested_list_unknown_clock_and_model_cutoff
+    with self.subTest(key=key), self.assertRaisesRegex(e.ExperimentError, error):
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_nested_list_unknown_clock_and_model_cutoff (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_unknown_clock_and_model_cutoff) (key='training_cutoff_at')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 81, in test_nested_list_unknown_clock_and_model_cutoff
+    with self.subTest(key=key), self.assertRaisesRegex(e.ExperimentError, error):
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_w3_sparse_fallback_cannot_accept_nested_outcome (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_w3_sparse_fallback_cannot_accept_nested_outcome)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 71, in test_w3_sparse_fallback_cannot_accept_nested_outcome
+    with self.assertRaisesRegex(e.ExperimentError, "OUTCOME_IN_FORECAST_PIPELINE"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.024s
+
+FAILED (failures=43)

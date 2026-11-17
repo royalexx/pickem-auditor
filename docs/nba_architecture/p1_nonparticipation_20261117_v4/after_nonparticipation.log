@@ -1,0 +1,13 @@
+test_historical_builder_raw_nonplayed_credit_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_historical_builder_raw_nonplayed_credit_quarantines) ... ok
+test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) ... ok
+test_native_rejects_invalid_participation_and_played_numeric_types (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_invalid_participation_and_played_numeric_types) ... ok
+test_raw_nonplayed_positive_credit_or_exposure_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_raw_nonplayed_positive_credit_or_exposure_quarantines) ... ok
+test_true_zero_raw_credits_cannot_hide_behind_omitted_retained_stats (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_true_zero_raw_credits_cannot_hide_behind_omitted_retained_stats) ... ok
+test_unknown_must_not_mask_explicit_played_or_invalid_source_status (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_unknown_must_not_mask_explicit_played_or_invalid_source_status) ... ok
+test_valid_dnp_unknown_and_played_zero_stay_distinct (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_valid_dnp_unknown_and_played_zero_stay_distinct) ... ok
+test_vault_raw_dnp_credit_rejects_and_valid_zero_source_persists (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_vault_raw_dnp_credit_rejects_and_valid_zero_source_persists) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.065s
+
+OK

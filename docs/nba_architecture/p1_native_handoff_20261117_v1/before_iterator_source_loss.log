@@ -1,0 +1,15 @@
+test_one_shot_source_iterator_cannot_drop_raw_bundles (tests.nba_architecture.test_p1_native_handoff_20261117.ContextSourceRetention.test_one_shot_source_iterator_cannot_drop_raw_bundles) ... FAIL
+
+======================================================================
+FAIL: test_one_shot_source_iterator_cannot_drop_raw_bundles (tests.nba_architecture.test_p1_native_handoff_20261117.ContextSourceRetention.test_one_shot_source_iterator_cannot_drop_raw_bundles)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_native_handoff_20261117.py", line 116, in test_one_shot_source_iterator_cannot_drop_raw_bundles
+    with self.assertRaisesRegex(ValueError,'HANDOFF_CONTEXT_BUNDLES'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

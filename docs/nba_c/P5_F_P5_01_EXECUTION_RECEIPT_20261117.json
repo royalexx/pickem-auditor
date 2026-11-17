@@ -1,0 +1,118 @@
+{
+  "G1": "PENDING_INDEPENDENT_P6_NOT_SELF_APPROVED",
+  "P6_audit_ref": "31435bd571ae1b4a9b7f1e1bbf05e55cef61126f",
+  "P6_probe_sha256": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52",
+  "P6_raw_controls_sha256": {
+    "../p6_controls/test_p6_g1_specificity_and_scores.py": "cb8340930193fe14cd6e2a6f51ebd90e4d2672e1d40f5ee08c84720bd67c7379",
+    "../p6_controls/test_p6_independent_controls.py": "8cdb7a8b013ee3f9e44122e90263cc83befbd835a79740ee6d578dbe60cf0802",
+    "../p6_controls/test_p6_math_references.py": "316e41d3a6bf6f1c2587daef94a3933e94e02b02b3078a3728614c55069f1e5b",
+    "../p6_controls/test_p6_post_g0_reference_and_boundaries.py": "03459760f1d829c63afcf892be35c5b74cdc277360d37f63fa556b62b0d7401e",
+    "../p6_controls/test_p6_red_counterexamples.py": "a1974d20dd8f5a40493a06cd2ce349f2a2b7a3da9131a21aebddb1a56bc6e5d1",
+    "../p6_probe.py": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52"
+  },
+  "blockers": [
+    "Independent P6 exact-head verification pending",
+    "Authentic P1/P2/P4 end-to-end adapters not integrated; G1/G2 and P8-P11 remain gated"
+  ],
+  "branch": "research/nba-p5-c-scoring-optimization-g1-20261116",
+  "environment": {
+    "jsonschema": "4.26.0",
+    "numpy": "2.3.5",
+    "python": "3.12.14",
+    "scipy": "1.17.0"
+  },
+  "evidence": "SYNTHETIC_ONLY_NO_HISTORICAL_FITTING_OR_HOLDOUT_ACCESS",
+  "evidence_log_paths": {
+    "docs/nba_c/f_p5_01_evidence/G0.log": "11de570ee4da781eec8ac6962ae33ee5183c9f0fbd04960105678cd03c139e98",
+    "docs/nba_c/f_p5_01_evidence/P5.log": "1fd7afeff35dfa86467c5ec965282846cdd99c178d01877a7b68dc4425006999",
+    "docs/nba_c/f_p5_01_evidence/P6.log": "369b42862228b6c7927ee9295a754a89e9fa4ad64c610edf114d8613dd1a3fc8",
+    "docs/nba_c/f_p5_01_evidence/P6_negative_probe.log": "134563e34669040f034206e5394c0c0691af6cc74d7bb82158f4dd76a935f77d",
+    "docs/nba_c/f_p5_01_evidence/P6_negative_probe_before.log": "43986197bcb3b15e2e2740a3ebcfb25c6493164a3fc4f886855b33485bf255a3"
+  },
+  "final_head_policy": "Evidence-only successor commit will be rerun and exact final tested head/log hashes attached to draft PR; no self-referential commit hash in this file.",
+  "kind": "P5_F_P5_01_AUTHOR_EXECUTION_V1",
+  "original_probe_before": "ACCEPTED_HOLDOUT_GUARD_BYPASS; exit 2",
+  "prior_failing_sha": "1d7b8471a85e9d3dafaf809acacfeca6e980dc81",
+  "raw_source_sha256": {
+    "tests/nba_c/__init__.py": "661a5cd034baf4bac3d35e64b94864e402b2a830ab411b1760fff2dcc7d32a00",
+    "tests/nba_c/fixtures/p6_f_p5_01_backdated.json": "ba9e243fea2d3f64b1cb4650a585420933e913fd61eb056b4e94361712717e0f",
+    "tests/nba_c/test_p5_c_family.py": "0e11ebc2d43a45978378dc9cdca8e3c3ddf1a1fd4158d907e4441986def0f650",
+    "tests/nba_c/test_p5_temporal_integrity.py": "ef664abd6755007c8e03b242b2a073716cf7e0f1ab0b96160cd30f8ac536b3db",
+    "v2/nba_c/__init__.py": "1a5896a2d76162b4f684dcaf74ef58481045c1defc0a64fd6ed6a4de4c026d85",
+    "v2/nba_c/calibration.py": "2aabb7c91ca3831f2076175df4813f940d0934c6a070f7c068600590be4793c9",
+    "v2/nba_c/experiment.py": "d0a19291d45f37848d533886f76c99163da145661465184f26693ffb9c3ee15c",
+    "v2/nba_c/scores.py": "8cf97413361f40dd146e8713163fdcbcae91c7efefa386dab30fbcdd0a58fa25",
+    "v2/nba_c/scoring.py": "dd98a02334c43b37e8be23ea1c3019333fd45096d2d74c5687fc1922476e967d",
+    "v2/nba_c/warehouse.py": "98e52026e6cd5e5c2c92816a42c6ef139c3b3b904c0985d0212aed738f27966f"
+  },
+  "results": {
+    "G0": {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "11de570ee4da781eec8ac6962ae33ee5183c9f0fbd04960105678cd03c139e98",
+      "seconds": 9.902341536999984,
+      "skips": 0,
+      "tests": 267
+    },
+    "P5": {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "1fd7afeff35dfa86467c5ec965282846cdd99c178d01877a7b68dc4425006999",
+      "seconds": 0.2580964779999704,
+      "skips": 0,
+      "tests": 48
+    },
+    "P6": {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "369b42862228b6c7927ee9295a754a89e9fa4ad64c610edf114d8613dd1a3fc8",
+      "seconds": 0.24174395300002516,
+      "skips": 0,
+      "tests": 83
+    },
+    "P6_original_negative_probe": {
+      "exit": 0,
+      "log_sha256": "134563e34669040f034206e5394c0c0691af6cc74d7bb82158f4dd76a935f77d",
+      "result": {
+        "cases": [
+          {
+            "case": "proper_2023_24_date",
+            "chronological_fold_check": "REJECTED:2023_24_HOLDOUT_QUARANTINED",
+            "code": "2023_24_HOLDOUT_QUARANTINED",
+            "family": "P5",
+            "status": "REJECTED"
+          },
+          {
+            "case": "backdated_2022_date_with_2023_24_game",
+            "chronological_fold_check": "REJECTED:INVALID_CHRONOLOGY",
+            "code": "INVALID_CHRONOLOGY",
+            "family": "P5",
+            "status": "REJECTED"
+          },
+          {
+            "case": "independent_math_oracles",
+            "family": "P5",
+            "status": "PASS",
+            "values": [
+              0.47622238819739127,
+              0.962962962962963,
+              1.2928932188134525,
+              2.0000000000000004
+            ]
+          }
+        ],
+        "family": "P5",
+        "suite": "nba-p6-g1-owner-negative-20261116"
+      }
+    }
+  },
+  "scope_unchanged": [
+    "G0",
+    "frozen benchmarks",
+    "production collectors",
+    "historical weights",
+    "production schedules"
+  ],
+  "tested_sha": "b58a1a085ccaf34d9963622a019b643557889647",
+  "total_tests": 398
+}

@@ -1,0 +1,25 @@
+{
+  "accepted_G0": {
+    "base": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+    "changed_paths": [],
+    "diff_raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exit": 0,
+    "paths": [
+      "v2/nba_architecture",
+      "tests/nba_architecture"
+    ],
+    "tested": "791d923824d488024784bc602cf44012c527c6b6"
+  },
+  "retained_P5_regressions": {
+    "base": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+    "changed_paths": [],
+    "diff_raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exit": 0,
+    "paths": [
+      "tests/nba_c/test_p5_c_family.py",
+      "tests/nba_c/test_p5_temporal_integrity.py",
+      "tests/nba_c/fixtures/p6_f_p5_01_backdated.json"
+    ],
+    "tested": "791d923824d488024784bc602cf44012c527c6b6"
+  }
+}

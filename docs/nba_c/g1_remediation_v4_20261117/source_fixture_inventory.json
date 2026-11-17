@@ -1,0 +1,122 @@
+[
+  {
+    "bytes": 27338,
+    "git_blob_sha": "4c5a2feb8237f83ea01c1e0a84722a2d9ea24e25",
+    "path": "docs/nba_architecture/completion_20261116/coherent_joint.json",
+    "raw_sha256": "8fa941c849519059ca3907741a8209bd25af9c6e058f6693323761b30c969353"
+  },
+  {
+    "bytes": 8074,
+    "git_blob_sha": "29af0cbb0527569e3d4845b0f6a2cdcca0e13ebd",
+    "path": "docs/nba_c/NATIVE_HANDOFF_CONTRACT_V1_20261117.md",
+    "raw_sha256": "e93372b4710601cd9ad54a779a20ae5268ec8c81ea6d0d040aa13f1741ec9a1d"
+  },
+  {
+    "bytes": 15594,
+    "git_blob_sha": "245685726288e80766d1c5d646ff2edd71ac0d6e",
+    "path": "scripts/nba_p5_native_handoff_verify_v1.py",
+    "raw_sha256": "81aa668e718df4a400afb6064ccdade0a315b1d62e35b9e4d9f079da77961ade"
+  },
+  {
+    "bytes": 62,
+    "git_blob_sha": "4a8baddf91ef8ccb9335d14be05c3fba9364c98e",
+    "path": "tests/nba_c/__init__.py",
+    "raw_sha256": "661a5cd034baf4bac3d35e64b94864e402b2a830ab411b1760fff2dcc7d32a00"
+  },
+  {
+    "bytes": 7954,
+    "git_blob_sha": "f82d479436d9a736839c437cfbbc980749e73442",
+    "path": "tests/nba_c/fixtures/native_p1_outcome_synthetic_v1.json",
+    "raw_sha256": "d73730d0a5c923c41555e85722c35e318545f16e6c591d396b1e1caaf4630fdb"
+  },
+  {
+    "bytes": 2329,
+    "git_blob_sha": "a66593e21c164b7b2cdba93ab494b674145e54c8",
+    "path": "tests/nba_c/fixtures/native_p1_prior_synthetic_v1.json",
+    "raw_sha256": "b5200a4820b24f16877d038dd1b78229fd656db508901240828444ae74ae6a77"
+  },
+  {
+    "bytes": 628,
+    "git_blob_sha": "2a87e4ed67b77d553eeadea93095409e2e8003e5",
+    "path": "tests/nba_c/fixtures/p6_f_p5_01_backdated.json",
+    "raw_sha256": "ba9e243fea2d3f64b1cb4650a585420933e913fd61eb056b4e94361712717e0f"
+  },
+  {
+    "bytes": 18565,
+    "git_blob_sha": "5efd8d996f9d0f3579ba0674a27fc030a34dab12",
+    "path": "tests/nba_c/test_p5_c_family.py",
+    "raw_sha256": "0e11ebc2d43a45978378dc9cdca8e3c3ddf1a1fd4158d907e4441986def0f650"
+  },
+  {
+    "bytes": 15275,
+    "git_blob_sha": "670037a2e8cdc4c0c70ee43415455122a67f8593",
+    "path": "tests/nba_c/test_p5_native_transport_v1.py",
+    "raw_sha256": "db1c72f9736d546f50bf90419b367c89f60f29c6c58b8d2d4f152355222faae1"
+  },
+  {
+    "bytes": 3196,
+    "git_blob_sha": "a4c4a7276415c5ad8e272e4c2711a79a81c7d067",
+    "path": "tests/nba_c/test_p5_partial_integer_counts_v1.py",
+    "raw_sha256": "b9174f1d5811d144f352ea3c4f9ce05543dc7dea0323ac8939dced22bd6db781"
+  },
+  {
+    "bytes": 7217,
+    "git_blob_sha": "5ff45fb82a1e8f90be83324c3927a7db3d686e5b",
+    "path": "tests/nba_c/test_p5_recursive_quarantine_v2.py",
+    "raw_sha256": "67a8a29ad03d4e7461ec652a74a12816e18b4a63acb695f65750318e8372086e"
+  },
+  {
+    "bytes": 11772,
+    "git_blob_sha": "4f946695489b74ae0e27521b3b253e9cf8e9399e",
+    "path": "tests/nba_c/test_p5_temporal_integrity.py",
+    "raw_sha256": "ef664abd6755007c8e03b242b2a073716cf7e0f1ab0b96160cd30f8ac536b3db"
+  },
+  {
+    "bytes": 234,
+    "git_blob_sha": "24b438871f950b6886aba853910ed2c0a928d5eb",
+    "path": "v2/nba_c/__init__.py",
+    "raw_sha256": "1a5896a2d76162b4f684dcaf74ef58481045c1defc0a64fd6ed6a4de4c026d85"
+  },
+  {
+    "bytes": 3881,
+    "git_blob_sha": "5b264e84535eb6aa341868e33e6e46d3e2112fcc",
+    "path": "v2/nba_c/calibration.py",
+    "raw_sha256": "2aabb7c91ca3831f2076175df4813f940d0934c6a070f7c068600590be4793c9"
+  },
+  {
+    "bytes": 24567,
+    "git_blob_sha": "d373d4aa3eee3c0f7c254a31b39f1e892cb6acf0",
+    "path": "v2/nba_c/experiment.py",
+    "raw_sha256": "78127d51b32f53520f573fc57b38a251182eb9f8831d87eb2416682453ee684b"
+  },
+  {
+    "bytes": 41637,
+    "git_blob_sha": "1756a970d6defb921106bb15e33978b477cf24a5",
+    "path": "v2/nba_c/native_adapters.py",
+    "raw_sha256": "a875ca2d819879ce0ace1083599780d42db7942a3aca4dd88bc08fb2eabed5e8"
+  },
+  {
+    "bytes": 6196,
+    "git_blob_sha": "b6698959f75775353e5190b0fde4aef3405bcd7a",
+    "path": "v2/nba_c/physical_counts.py",
+    "raw_sha256": "e2bc030541ec2fa6e77231852140c3f53561852f6612718b4c15dd88d49f563f"
+  },
+  {
+    "bytes": 8077,
+    "git_blob_sha": "083cf4e907abfbf6b79ee85e64fe398b18e09b8d",
+    "path": "v2/nba_c/scores.py",
+    "raw_sha256": "8cf97413361f40dd146e8713163fdcbcae91c7efefa386dab30fbcdd0a58fa25"
+  },
+  {
+    "bytes": 3804,
+    "git_blob_sha": "51ba493189708588b9a626f1d2d1190a7fdba8ad",
+    "path": "v2/nba_c/scoring.py",
+    "raw_sha256": "dd98a02334c43b37e8be23ea1c3019333fd45096d2d74c5687fc1922476e967d"
+  },
+  {
+    "bytes": 7420,
+    "git_blob_sha": "f7f0d011a220fdc5323a8ffdd8c6f13018c485e2",
+    "path": "v2/nba_c/warehouse.py",
+    "raw_sha256": "98e52026e6cd5e5c2c92816a42c6ef139c3b3b904c0985d0212aed738f27966f"
+  }
+]

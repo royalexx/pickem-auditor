@@ -1,0 +1,162 @@
+test_builder_rejects_raw_over_cap_without_float_rounding (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_builder_rejects_raw_over_cap_without_float_rounding) ... 
+  test_builder_rejects_raw_over_cap_without_float_rounding (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_builder_rejects_raw_over_cap_without_float_rounding) (ot=0) ... FAIL
+  test_builder_rejects_raw_over_cap_without_float_rounding (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_builder_rejects_raw_over_cap_without_float_rounding) (ot=2) ... FAIL
+test_display_difference_must_not_round_to_half_minute (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_display_difference_must_not_round_to_half_minute) ... 
+  test_display_difference_must_not_round_to_half_minute (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_display_difference_must_not_round_to_half_minute) (display=48) ... FAIL
+  test_display_difference_must_not_round_to_half_minute (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_display_difference_must_not_round_to_half_minute) (display=47) ... FAIL
+test_exact_legal_controls_and_decimal_context_independence (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_exact_legal_controls_and_decimal_context_independence) ... ok
+test_final_clock_positive_raw_increment_is_not_zero (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_final_clock_positive_raw_increment_is_not_zero) ... ok
+test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) ... 
+  test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) (ot=0, consumer='adjudicate') ... FAIL
+  test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) (ot=0, consumer='native') ... FAIL
+  test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) (ot=2, consumer='adjudicate') ... FAIL
+  test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) (ot=2, consumer='native') ... FAIL
+  test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) (ot=7, consumer='adjudicate') ... FAIL
+  test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) (ot=7, consumer='native') ... FAIL
+test_rounding_at_and_above_thirty_seconds_rejects (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_rounding_at_and_above_thirty_seconds_rejects) ... ok
+test_rounding_just_below_thirty_seconds_remains_admissible (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_rounding_just_below_thirty_seconds_remains_admissible) ... ERROR
+test_seconds_preserve_positive_sub_decimal_context_increment (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_seconds_preserve_positive_sub_decimal_context_increment) ... FAIL
+test_vault_rejects_raw_over_cap_before_writing (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_vault_rejects_raw_over_cap_before_writing) ... 
+  test_vault_rejects_raw_over_cap_before_writing (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_vault_rejects_raw_over_cap_before_writing) (ot=0) ... FAIL
+test_vault_rejects_raw_over_cap_before_writing (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_vault_rejects_raw_over_cap_before_writing) ... FAIL
+
+======================================================================
+ERROR: test_rounding_just_below_thirty_seconds_remains_admissible (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_rounding_just_below_thirty_seconds_remains_admissible)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 56, in test_rounding_just_below_thirty_seconds_remains_admissible
+    d,minutes,status=adjudicate_player(row(0),b)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/p1/v2/nba_architecture/p1_evidence.py", line 165, in adjudicate_player
+    _fail('ZERO_MINUTE_CREDIT_UNRESOLVED')
+  File "/workspace/work/p1/v2/nba_architecture/p1_evidence.py", line 30, in _fail
+    fail(code)
+  File "/workspace/work/p1/v2/nba_architecture/p1_history.py", line 39, in fail
+    raise HistoryIntegrityError(code)
+v2.nba_architecture.p1_history.HistoryIntegrityError: ZERO_MINUTE_CREDIT_UNRESOLVED
+
+======================================================================
+FAIL: test_builder_rejects_raw_over_cap_without_float_rounding (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_builder_rejects_raw_over_cap_without_float_rounding) (ot=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 42, in test_builder_rejects_raw_over_cap_without_float_rounding
+    with self.subTest(ot=ot),self.assertRaisesRegex(ValueError,'PLAYER_MINUTES_EXCEED_GAME_DURATION'):
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_builder_rejects_raw_over_cap_without_float_rounding (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_builder_rejects_raw_over_cap_without_float_rounding) (ot=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 42, in test_builder_rejects_raw_over_cap_without_float_rounding
+    with self.subTest(ot=ot),self.assertRaisesRegex(ValueError,'PLAYER_MINUTES_EXCEED_GAME_DURATION'):
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_display_difference_must_not_round_to_half_minute (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_display_difference_must_not_round_to_half_minute) (display=48)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 68, in test_display_difference_must_not_round_to_half_minute
+    with self.subTest(display=display),self.assertRaisesRegex(ValueError,'OFFICIAL_MINUTE_CONFLICT'):
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_display_difference_must_not_round_to_half_minute (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_display_difference_must_not_round_to_half_minute) (display=47)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 68, in test_display_difference_must_not_round_to_half_minute
+    with self.subTest(display=display),self.assertRaisesRegex(ValueError,'OFFICIAL_MINUTE_CONFLICT'):
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) (ot=0, consumer='adjudicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 35, in test_raw_over_cap_adjudication_and_native_export_reject
+    with self.subTest(ot=ot,consumer=consumer),self.assertRaisesRegex(ValueError,'PLAYER_MINUTES_EXCEED_GAME_DURATION'):
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) (ot=0, consumer='native')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 35, in test_raw_over_cap_adjudication_and_native_export_reject
+    with self.subTest(ot=ot,consumer=consumer),self.assertRaisesRegex(ValueError,'PLAYER_MINUTES_EXCEED_GAME_DURATION'):
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) (ot=2, consumer='adjudicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 35, in test_raw_over_cap_adjudication_and_native_export_reject
+    with self.subTest(ot=ot,consumer=consumer),self.assertRaisesRegex(ValueError,'PLAYER_MINUTES_EXCEED_GAME_DURATION'):
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) (ot=2, consumer='native')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 35, in test_raw_over_cap_adjudication_and_native_export_reject
+    with self.subTest(ot=ot,consumer=consumer),self.assertRaisesRegex(ValueError,'PLAYER_MINUTES_EXCEED_GAME_DURATION'):
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) (ot=7, consumer='adjudicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 35, in test_raw_over_cap_adjudication_and_native_export_reject
+    with self.subTest(ot=ot,consumer=consumer),self.assertRaisesRegex(ValueError,'PLAYER_MINUTES_EXCEED_GAME_DURATION'):
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_raw_over_cap_adjudication_and_native_export_reject (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_raw_over_cap_adjudication_and_native_export_reject) (ot=7, consumer='native')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 35, in test_raw_over_cap_adjudication_and_native_export_reject
+    with self.subTest(ot=ot,consumer=consumer),self.assertRaisesRegex(ValueError,'PLAYER_MINUTES_EXCEED_GAME_DURATION'):
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_seconds_preserve_positive_sub_decimal_context_increment (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_seconds_preserve_positive_sub_decimal_context_increment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 29, in test_seconds_preserve_positive_sub_decimal_context_increment
+    self.assertGreater(seconds(raw),Fraction(48*60))
+AssertionError: Decimal('2880.000000000000000000000000') not greater than Fraction(2880, 1)
+
+======================================================================
+FAIL: test_vault_rejects_raw_over_cap_before_writing (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_vault_rejects_raw_over_cap_before_writing) (ot=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 50, in test_vault_rejects_raw_over_cap_before_writing
+    with self.subTest(ot=ot),self.assertRaisesRegex(ValueError,'PLAYER_MINUTES_EXCEED_GAME_DURATION'):
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_vault_rejects_raw_over_cap_before_writing (tests.nba_architecture.test_p1_source_precision_20261117.ExactPhysicalClockBoundaries.test_vault_rejects_raw_over_cap_before_writing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_source_precision_20261117.py", line 52, in test_vault_rejects_raw_over_cap_before_writing
+    self.assertEqual(v.records(),[])
+AssertionError: Lists differ: [{'accounting_evidence': {'capture': {'raw[890 chars]:1'}] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+{'accounting_evidence': {'capture': {'raw_sha256': '5bc7eeb34db7ef9d06965300740c13d9947f5065f965cc85ee6899ea8193c4be', 'retrieved_at': '2026-11-16T18:00:00Z', 'revision': 1, 'schema': 'nba-p1-prior-game-evidence/1.0.0', 'supersedes_receipt_sha256': None, 'url': 'https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022200001.json'}, 'prior': []}, 'content_hash': '0c2700abfc87da88f53d70a584f07acfae2e49ebf7a2f27a94ffba89ea7fb07e', 'game_id': 'nba:game:0022200001', 'kind': 'official_outcome', 'minutes': 48, 'observed_at': '2026-11-16T19:00:00Z', 'official_status': 'FINAL', 'player_id': 'nba:player:7', 'revision': 1, 'schema': 'nba-p1-official-outcome-vault/1.1.0', 'source_id': 'nba:official:box', 'source_raw_sha256': '5bc7eeb34db7ef9d06965300740c13d9947f5065f965cc85ee6899ea8193c4be', 'state': 'PLAYED', 'stats': {'assists': 3, 'points': 11, 'rebounds': 5, 'threes': 2}, 'supersedes_sha256': None, 'team_id': 'nba:team:1'}
+
+Diff is 1233 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.068s
+
+FAILED (failures=13, errors=1)

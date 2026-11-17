@@ -1,0 +1,34 @@
+{
+  "actual": 0,
+  "date": "2022-10-20T00:00:00Z",
+  "event_start_at": "2023-11-20T23:00:00Z",
+  "frozen_at": "2023-11-20T17:00:00Z",
+  "game_id": "nba:synthetic:holdout",
+  "official_available_at": "2023-11-21T00:00:00Z",
+  "pipelines": {
+    "J0": {
+      "mode": "S_O_J",
+      "pmf": {
+        "0": 0.5,
+        "1": 0.5
+      }
+    },
+    "S0": {
+      "mode": "S_ONLY",
+      "pmf": {
+        "0": 0.9,
+        "1": 0.1
+      }
+    },
+    "SO0": {
+      "mode": "S_O",
+      "pmf": {
+        "0": 0.1,
+        "1": 0.9
+      }
+    }
+  },
+  "player_id": "nba:player1",
+  "source_profile": "SYNTHETIC",
+  "stat": "points"
+}

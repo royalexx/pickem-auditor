@@ -1,0 +1,82 @@
+[
+  {
+    "owner": "P1",
+    "p0_sha": "31a2886efe560745dc7886c3be6ee8c7076b05ec",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_nba_root_discovery_v4.py",
+      "-v"
+    ],
+    "exit": 0
+  },
+  {
+    "owner": "P2",
+    "p0_sha": "31a2886efe560745dc7886c3be6ee8c7076b05ec",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_nba_root_discovery_v4.py",
+      "-v"
+    ],
+    "exit": 0
+  },
+  {
+    "owner": "P3",
+    "p0_sha": "31a2886efe560745dc7886c3be6ee8c7076b05ec",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_nba_root_discovery_v4.py",
+      "-v"
+    ],
+    "exit": 0
+  },
+  {
+    "owner": "P4",
+    "p0_sha": "31a2886efe560745dc7886c3be6ee8c7076b05ec",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_nba_root_discovery_v4.py",
+      "-v"
+    ],
+    "exit": 0
+  },
+  {
+    "owner": "P5",
+    "p0_sha": "31a2886efe560745dc7886c3be6ee8c7076b05ec",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_nba_root_discovery_v4.py",
+      "-v"
+    ],
+    "exit": 0
+  }
+]

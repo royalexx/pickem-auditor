@@ -1,0 +1,111 @@
+{
+  "after": {
+    "full_probes": "exact_06368f1/scalar_probe.json",
+    "positive_controls": [
+      "exact nonnegative integer counts",
+      "true/false/null eligibility",
+      "unchanged latest P1 actual native transport"
+    ],
+    "same_input_rejected": "O_P1_NATIVE_DENOMINATOR_TYPE",
+    "same_orchestrator_input": "exact_06368f1/orchestrator_exact_after.json",
+    "source_admission": "BLOCKED; no sampling or authentication granted"
+  },
+  "before": {
+    "full_probes": "before_probe.json",
+    "observed": [
+      "boolean/float candidate counts accepted as transport",
+      "numeric eligibility summary accepted against raw bool"
+    ],
+    "orchestrator_input": "orchestrator_before.json",
+    "red_subcases": 8,
+    "source_admission": "BLOCKED even before repair",
+    "test_methods": 6,
+    "tests": "before_tests.log"
+  },
+  "before_owner_sha": "2a666106a02595c70e2e372729aeae73d337b745",
+  "branch": "research/nba-p3-o-family-g1-20261116",
+  "classification": "REPAIRABLE_TYPED_TRANSPORT_VALIDATION_DEFECT",
+  "exact_code_raw_sha256": {
+    "scripts/nba_p3_native_scalar_probe_v5_20261116.py": "a27607dae097987dbdd31c4226ccc073bb994253a1e19bd41910b4a833d53c51",
+    "tests/nba_architecture/test_p3_native_scalar_v5.py": "8389b706736e9b33b79232154258cd157b87bd4ec950208caa2ea73c406c5424",
+    "v2/nba_o_p1_native.py": "1f35d1f37c57b42b9595151b6c9b46b671d7f4f2edb6da8b7ee04e008c0deb52"
+  },
+  "forbidden_actions_performed": [],
+  "g0_blob_integrity": {
+    "tests/nba_architecture/__init__.py": true,
+    "tests/nba_architecture/golden_v2.py": true,
+    "tests/nba_architecture/golden_v2/historical_offer_free.json": true,
+    "tests/nba_architecture/golden_v2/joint_same_draw.json": true,
+    "tests/nba_architecture/golden_v2/prospective_original_offer.json": true,
+    "tests/nba_architecture/test_contracts.py": true,
+    "tests/nba_architecture/test_g0_completion_20261116.py": true,
+    "tests/nba_architecture/test_g0_hardening_20261116.py": true,
+    "tests/nba_architecture/test_g0_independent_participation_red_20261116.py": true,
+    "tests/nba_architecture/test_g0_law_repair_20261116.py": true,
+    "tests/nba_architecture/test_g0_mutation_sweep_20261116.py": true,
+    "tests/nba_architecture/test_g0_pipeline_completion_20261116.py": true,
+    "tests/nba_architecture/test_independent_final_20261116.py": true,
+    "tests/nba_architecture/test_p0i_adversarial_20261116.py": true,
+    "tests/nba_architecture/test_p0r_regression_closure_20261116.py": true,
+    "tests/nba_architecture/test_v2_contracts.py": true,
+    "v2/nba_architecture/__init__.py": true,
+    "v2/nba_architecture/contracts.py": true,
+    "v2/nba_architecture/exposure_v2.py": true,
+    "v2/nba_architecture/families_v2.py": true,
+    "v2/nba_architecture/requirements.txt": true,
+    "v2/nba_architecture/schema-1.0.0.json": true,
+    "v2/nba_architecture/schema-2.0.0.json": true,
+    "v2/nba_architecture/v2_contracts.py": true
+  },
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "implementation_sha": "06368f1e1c7b5bba7b0fe0db0b8152a65752df36",
+  "independent_disposition": "PENDING_SEPARATE_P6_REVIEW",
+  "native_actual_owners": {
+    "both_worktrees_clean": true,
+    "command": "PYTHONPATH=. python scripts/nba_p3_native_handoff_check_v4_20261116.py --p1-root <exact-P1-root> --output <fresh-output>",
+    "p1_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+    "p3_sha": "06368f1e1c7b5bba7b0fe0db0b8152a65752df36",
+    "receipt": "exact_06368f1/native/receipt.json",
+    "result": "BLOCKED:INDEPENDENT_SOURCE_ADMISSION"
+  },
+  "pr": 166,
+  "raw_log_whitespace_note": "before_tests.log retains unittest trailing whitespace on failing subTest headings; raw failure logs are intentionally not normalized. Source and documentation diff checks pass.",
+  "remaining": {
+    "B_P3_01": "BLOCKED: authentic complete original roster/context, dated membership, source-bound home/role and independently admissible fitted priors",
+    "B_P4_03": "BLOCKED: scalable full-support coupling proof or independently accepted mechanically bounded operating contract"
+  },
+  "root_cause": "Python dict equality treats bool/int/equal-valued floats as equivalent; both denominators and exported bool eligibility summaries required independent exact type guards.",
+  "schema": "nba-p3-native-scalar-repair-receipt/1.0.0",
+  "tests": [
+    {
+      "command": "python -m unittest discover -s tests/nba_architecture -p 'test_*.py' -v",
+      "errors": 0,
+      "failures": 0,
+      "log": "exact_06368f1/g0_p3.log",
+      "passed": 319,
+      "skips": 0,
+      "stage": "clean owner/G0"
+    },
+    {
+      "command": "python -m unittest discover -s tests/nba_architecture -p 'test_*.py' -v",
+      "errors": 0,
+      "failures": 0,
+      "log": "exact_06368f1/g0_p3_p6.log",
+      "passed": 402,
+      "skips": 0,
+      "stage": "owner/G0 plus five unchanged P6 control modules at ddc60a83f6c9a2b863f5e7a44823bffa3b01e048"
+    },
+    {
+      "command": "PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python <qa-root>/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P3",
+      "failures": 0,
+      "output": "exact_06368f1/p6_v3.json",
+      "passed": 5
+    }
+  ],
+  "unchanged_original_p3_files": [
+    "v2/nba_o_family.py",
+    "v2/nba_o_bridge.py",
+    "v2/nba_o_consumers.py",
+    "v2/nba_opportunity.py"
+  ]
+}

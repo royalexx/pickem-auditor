@@ -1,0 +1,111 @@
+[
+  {
+    "classification": "PRESERVED_CORRECTNESS_REGRESSION",
+    "dependencies": [],
+    "id": "F-P5-01",
+    "independent_reviewer_disposition": "PENDING_FRESH_INDEPENDENT_REVIEW",
+    "minimal_remaining_requirement": "Fresh P6 verification of retained regression at published final head.",
+    "observed_result": "Original backdated synthetic input rejects INVALID_CHRONOLOGY; original immutable negative probe exits0; original regression/test/fixture bytes unchanged.",
+    "owner_disposition": "AUTHOR_TESTED_ONLY_NOT_GATE_ACCEPTANCE",
+    "owner_sha": "791d923824d488024784bc602cf44012c527c6b6",
+    "reproduce": "python -m unittest tests.nba_c.test_p5_temporal_integrity -v",
+    "required_independent_reviewer": "Separate fresh P6 reviewer; not a P5 implementation author",
+    "responsible_owner": "P5",
+    "status": "PASS"
+  },
+  {
+    "classification": "CORRECTNESS_DEFECT_REPAIRED",
+    "dependencies": [],
+    "id": "F-P5-02",
+    "independent_reviewer_disposition": "PENDING_FRESH_INDEPENDENT_REVIEW",
+    "minimal_remaining_requirement": "Fresh P6 adversarial verification at published final head.",
+    "observed_result": "Nested dictionaries, lists and tuples quarantine actual/target results. Original v3 P5 program now10/10, exit0.",
+    "owner_disposition": "AUTHOR_TESTED_ONLY_NOT_GATE_ACCEPTANCE",
+    "owner_sha": "791d923824d488024784bc602cf44012c527c6b6",
+    "reproduce": "python -m unittest tests.nba_c.test_p5_recursive_quarantine_v2 -v",
+    "required_independent_reviewer": "Separate fresh P6 reviewer; not a P5 implementation author",
+    "responsible_owner": "P5",
+    "status": "PASS"
+  },
+  {
+    "classification": "NEW_PRE_P6_CORRECTNESS_DEFECT_REPAIRED",
+    "dependencies": [],
+    "id": "F-P5-03",
+    "independent_reviewer_disposition": "PENDING_FRESH_INDEPENDENT_REVIEW",
+    "minimal_remaining_requirement": "Fresh P6 adversarial verification at published final head.",
+    "observed_result": "Arbitrary nested-list source/model clocks and identity fields are traversed; post-freeze/unsupported clocks and wrong identity reject; valid pregame numerical controls pass.",
+    "owner_disposition": "AUTHOR_TESTED_ONLY_NOT_GATE_ACCEPTANCE",
+    "owner_sha": "791d923824d488024784bc602cf44012c527c6b6",
+    "reproduce": "python -m unittest tests.nba_c.test_p5_recursive_quarantine_v2 -v",
+    "required_independent_reviewer": "Separate fresh P6 reviewer; not a P5 implementation author",
+    "responsible_owner": "P5",
+    "status": "PASS"
+  },
+  {
+    "classification": "NEW_PRE_P6_CORRECTNESS_DEFECT_REPAIRED",
+    "dependencies": [],
+    "id": "F-P5-04",
+    "independent_reviewer_disposition": "PENDING_FRESH_INDEPENDENT_REVIEW",
+    "minimal_remaining_requirement": "Fresh P6 adversarial verification at published final head.",
+    "observed_result": "Reserved actual/realized/targetgame namespaces normalize casing/separators; final-roster/score aliases reject. Explicit projected/prior_game leaf controls and matching target_game_id pass.",
+    "owner_disposition": "AUTHOR_TESTED_ONLY_NOT_GATE_ACCEPTANCE",
+    "owner_sha": "791d923824d488024784bc602cf44012c527c6b6",
+    "reproduce": "python -m unittest tests.nba_c.test_p5_recursive_quarantine_v2 -v",
+    "required_independent_reviewer": "Separate fresh P6 reviewer; not a P5 implementation author",
+    "responsible_owner": "P5",
+    "status": "PASS"
+  },
+  {
+    "classification": "NEW_PRE_P6_NATIVE_SOURCE_VALIDATION_DEFECT_REPAIRED",
+    "dependencies": [
+      "P1 native export1.0.0"
+    ],
+    "id": "F-P5-05",
+    "independent_reviewer_disposition": "PENDING_FRESH_INDEPENDENT_REVIEW",
+    "minimal_remaining_requirement": "Fresh P6 source-integrity and independent integer-feasibility verification. Source authenticity remains separately BLOCKED underB-P5-01.",
+    "observed_result": "Native P1 source/summary/correction bytes, clocks, game/player/team/opponent, uncertainty, typed denominators, exact Fraction minutes, nonparticipation and closed schemas bind independently.294912 exhaustive count assignments match primitive references; original red receipts retained.",
+    "owner_disposition": "AUTHOR_TESTED_ONLY_NOT_GATE_ACCEPTANCE",
+    "owner_sha": "791d923824d488024784bc602cf44012c527c6b6",
+    "reproduce": "python -m unittest tests.nba_c.test_p5_native_transport_v1 tests.nba_c.test_p5_partial_integer_counts_v1 -v",
+    "required_independent_reviewer": "Separate fresh P6 reviewer; not a P5 implementation author",
+    "responsible_owner": "P5",
+    "status": "PASS"
+  },
+  {
+    "classification": "NEW_PRE_P6_NATIVE_J_BINDING_DEFECT_REPAIRED",
+    "dependencies": [
+      "P2",
+      "P3",
+      "P4 latest native consumer2.0.0"
+    ],
+    "id": "F-P5-06",
+    "independent_reviewer_disposition": "PENDING_FRESH_INDEPENDENT_REVIEW",
+    "minimal_remaining_requirement": "Fresh P6 latest-head replay and adversarial manifest verification. No independent acceptance of P4 law is awarded by this owner.",
+    "observed_result": "C invokes actual P4 and its same-draw PMF builder. Empty/falsePASS/version/scenario/audit substitutions reject; actual96 distributions archive with pending law/realblocked status and original artifact/source/code bytes.",
+    "owner_disposition": "AUTHOR_TESTED_ONLY_NOT_GATE_ACCEPTANCE",
+    "owner_sha": "791d923824d488024784bc602cf44012c527c6b6",
+    "reproduce": "PYTHONPATH=. OPENBLAS_NUM_THREADS=1 python scripts/nba_p5_native_handoff_verify_v1.py --repo \"$PWD\" --p1-sha 50d2b3874c7c14c9b73bdf13e441957986b88acd --p2-sha fe46965394ea0f48ef5e9da501ec8ca9e441ce47 --p3-sha eb0882b5011f2004c5eaf27cccfdc6297704f261 --p4-sha 865bdb8f4770ac28262e49c3b4901cf1d72a22fb --output work/p5-native-v4-fresh",
+    "required_independent_reviewer": "Separate fresh P6 reviewer; not a P5 implementation author",
+    "responsible_owner": "P5",
+    "status": "PASS"
+  },
+  {
+    "classification": "UNAVAILABLE_AUTHENTIC_EVIDENCE_AND_PENDING_INDEPENDENT_HANDOFF_ACCEPTANCE",
+    "dependencies": [
+      "P1 admitted source/context/event/end/release/correction evidence",
+      "P2 source-qualified existing fitted artifacts",
+      "P3 admitted roster/membership/participation/minute priors",
+      "P4 independently accepted native constrained-law/physical contract"
+    ],
+    "id": "B-P5-01",
+    "independent_reviewer_disposition": "PENDING_FRESH_INDEPENDENT_REVIEW",
+    "minimal_remaining_requirement": "P1 must acquire authentic original or independently acceptable source/context/event/end/release/correction evidence. P2/P3 must supply admissible existing fitted priors without unauthorized historical fitting. Separate P6 must accept latest law/admission/interface contracts before a separately reviewed real native path can score. No source string/hash/owner assertion can substitute.",
+    "observed_result": "Actual owner native synthetic graph21/21 passes separately. Authentic path stops before admission: P1 original context/source/roster and official event-end/release population missing; native outcomes remain unadmitted and scoredfalse; real intake always rejects. P4 law/physical contracts remain pending independent acceptance.",
+    "owner_disposition": "AUTHOR_TESTED_ONLY_NOT_GATE_ACCEPTANCE",
+    "owner_sha": "791d923824d488024784bc602cf44012c527c6b6",
+    "reproduce": "PYTHONPATH=. OPENBLAS_NUM_THREADS=1 python scripts/nba_p5_native_handoff_verify_v1.py --repo \"$PWD\" --p1-sha 50d2b3874c7c14c9b73bdf13e441957986b88acd --p2-sha fe46965394ea0f48ef5e9da501ec8ca9e441ce47 --p3-sha eb0882b5011f2004c5eaf27cccfdc6297704f261 --p4-sha 865bdb8f4770ac28262e49c3b4901cf1d72a22fb --output work/p5-native-v4-fresh",
+    "required_independent_reviewer": "Separate fresh P6 reviewer; not a P5 implementation author",
+    "responsible_owner": "P5",
+    "status": "BLOCKED"
+  }
+]

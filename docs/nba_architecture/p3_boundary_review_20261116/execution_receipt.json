@@ -1,0 +1,194 @@
+{
+  "accepted_g0_commit": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "artifact_raw_sha256": {
+    "consumer_fixture.json": "1d7cd213b4d20802851100aa4a7712b65b676ea9b9b02dcc8803833351ae6815",
+    "g0_p3.log": "95257fd720ae96172802a1145b19b406cbdd78a2572e66c114fdda0b47abc9ad",
+    "g0_p3_p6.log": "0992063d4869275ecbd974a5a0051c5c149b5bd9e2d547a1e9b215dbe7b0a575",
+    "handoff.log": "07d1f5551bc11aace07dababa3acc90372ebb52971c7add45f5cfa9d5decac74",
+    "handoff_receipt.json": "07d1f5551bc11aace07dababa3acc90372ebb52971c7add45f5cfa9d5decac74",
+    "p4_result.json": "f03fb3236c35cb7c73e6c096e0d15a18a82d2f6c71472236aa55faf131096e2f"
+  },
+  "branch": "research/nba-p3-o-family-g1-20261116",
+  "caveats": [
+    "All generated fixtures and S fits are synthetic; no source authentication or predictive skill claimed.",
+    "P2 unconditional output abstains on unknown participation; conditional output and kernels run.",
+    "P4 owner simulator runs with its existing synthetic-only rate adapter; no real S-to-J adapter implemented.",
+    "No target actual minutes, historical forecast scoring, family fitting, collector or schedule changes.",
+    "Evidence-only descendant commit may add this receipt; implementation/test raw SHAs identify exact tested bytes."
+  ],
+  "consumer_owner_commits": {
+    "P1_interface_inspected": "e0b8703887d327c8d8ac34807078e75e7b59a540",
+    "P2": "96d210a6100085640e7e82928ab1c864839fc454",
+    "P4": "b3729c53509cb063e2e451b7e4feb0ac2c6a9552"
+  },
+  "consumer_owner_raw_sha256": {
+    "v2/nba_joint/__init__.py": "cfb49a9d99b4b41c04b915a2e5ae89cdeaae4da0e4085c684d156350c9c4c185",
+    "v2/nba_joint/__main__.py": "b046ca4e33e75a32f57990a927ff70934251fafe6839eace3045776472f90be3",
+    "v2/nba_joint/common.py": "35df67a2e76cad1f978f35693924ba6c63c43ec7b519c93289a3c8e13a912478",
+    "v2/nba_joint/engine.py": "1a890f145f62fa4ae69269f20bff69db5d43d21cdbd2f0fb5d02147bdb6c27c5",
+    "v2/nba_joint/events.py": "40334862379548ac9efd562640580b20e419455728850f2ea6125d1447b1ebec",
+    "v2/nba_joint/forecast.py": "020c15dd0c93aae0de6cad8d6593d7abd45b69a6b4e3782816390a787ff7466f",
+    "v2/nba_joint/invariants.py": "f3855d33d7d116d5d3b3b937b966fbc211f344e4fffe9240b4a8c89622f6b82d",
+    "v2/nba_joint/markets.py": "88c71840d45263c5e9fdbda29ecf6099c2eb4f9e2688d143e1cfe12a758b392d",
+    "v2/nba_joint/opportunity.py": "5b520c8b743eea17bc5d2a89ef305d1af26c4cfa43a0a41af9475405fe892878",
+    "v2/nba_joint/p4.py": "02368ba14dac206657ad75dee821735dc68f636cad7ceb1c75e4fda926a74a30",
+    "v2/nba_joint/sources.py": "693cf5635a2b58a22994edef7e19829818485c82312fea1b6397f116150e643e",
+    "v2/nba_joint/state.py": "599dc651d71daf74f539e7896a966bff624b0a15d75173e72474882be6175e9f",
+    "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
+    "v2/nba_s_family/model.py": "3fb8ab1c81d1f47a85d022cd4280dfeca92b13f7fbbf4af98d6d1760b1ed921b"
+  },
+  "date_toronto": "2026-11-16",
+  "deterministic_repeat": {
+    "command": "python scripts/nba_p3_handoff_check.py --output <fresh-dir> --owner-root <pinned-disposable-owner-tree>",
+    "repeated_artifact_and_stdout_bytes_equal": true,
+    "stdout_sha256": "07d1f5551bc11aace07dababa3acc90372ebb52971c7add45f5cfa9d5decac74"
+  },
+  "environment": {
+    "jsonschema": "4.26.0",
+    "numpy": "2.3.5",
+    "python": "3.12.14",
+    "scipy": "1.17.0"
+  },
+  "forbidden_actions_performed": [],
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "handoff": {
+    "conservation": [
+      {
+        "expected_minutes": 240,
+        "max_on_court_count": 5,
+        "max_player_minutes": 48.0,
+        "min_on_court_count": 5,
+        "minute_residual": 2.842170943040401e-14,
+        "minutes": 240.00000000000003,
+        "ot": 0,
+        "possession_shares": 0.9999999999999999,
+        "scenario_id": "synthetic:draw:0",
+        "team_id": "espn:team:1"
+      },
+      {
+        "expected_minutes": 240,
+        "max_on_court_count": 5,
+        "max_player_minutes": 48.0,
+        "min_on_court_count": 5,
+        "minute_residual": 0.0,
+        "minutes": 240.0,
+        "ot": 0,
+        "possession_shares": 1.0,
+        "scenario_id": "synthetic:draw:0",
+        "team_id": "espn:team:2"
+      },
+      {
+        "expected_minutes": 290,
+        "max_on_court_count": 5,
+        "max_player_minutes": 55.82021534031578,
+        "min_on_court_count": 5,
+        "minute_residual": 5.684341886080802e-14,
+        "minutes": 290.00000000000006,
+        "ot": 2,
+        "possession_shares": 1.0,
+        "scenario_id": "synthetic:draw:1",
+        "team_id": "espn:team:1"
+      },
+      {
+        "expected_minutes": 290,
+        "max_on_court_count": 5,
+        "max_player_minutes": 57.98661631855826,
+        "min_on_court_count": 5,
+        "minute_residual": 0.0,
+        "minutes": 290.0,
+        "ot": 2,
+        "possession_shares": 0.9999999999999999,
+        "scenario_id": "synthetic:draw:1",
+        "team_id": "espn:team:2"
+      }
+    ],
+    "deterministic_replay": true,
+    "fixture_raw_sha256": "1d7cd213b4d20802851100aa4a7712b65b676ea9b9b02dcc8803833351ae6815",
+    "opportunity_sha256": "09bba09a47868ec08d647b2aa950a3129d54dbfab901e2b877ecbb733e06e891",
+    "owner_integration": {
+      "p2_conditional_distribution_sha256": "eb4059d68e2c807d90088db8a2adde622ab33e928b4411c40e116c738628c390",
+      "p2_kernel_calls": [
+        {
+          "minutes": 43.24257966087794,
+          "scenario_id": "synthetic:draw:0",
+          "tail": 3.0872861396064847e-15
+        },
+        {
+          "minutes": 55.82021534031578,
+          "scenario_id": "synthetic:draw:1",
+          "tail": 1.5164679011166548e-15
+        }
+      ],
+      "p2_predict_abstention": "UNKNOWN_APPEARANCE_PROBABILITY",
+      "p4_result_sha256": "f03fb3236c35cb7c73e6c096e0d15a18a82d2f6c71472236aa55faf131096e2f",
+      "p4_return_type": "dict",
+      "p4_scenario_hashes": {
+        "synthetic:draw:0": "40ef72d5e3d5d1a2e79628f01627c31555a1b3bcedbbb6188a77d1e0b78fd66a",
+        "synthetic:draw:1": "288a3ca7182d98a3bd80d190f9072cda9df13357c9942d097eaab93248c973b6"
+      }
+    },
+    "provenance": "SYNTHETIC_ENGINEERING_ONLY_NO_REAL_FIT",
+    "sidecar_sha256": "cfaea9abec3463c45fd4b94258a3d51526d34be55defb5c1189d5650bf99434a"
+  },
+  "implementation_raw_sha256": {
+    "docs/nba_architecture/P3_BOUNDARY_HANDOFF_20261116.md": "c79eaaac5547596a265a504a9023f73b6ea6c6d86e5c4198a14155266be451ff",
+    "scripts/nba_p3_handoff_check.py": "32c516473a2f51c93b9903a3bcab585e53ddd5a88be898d8d096ed40ff228100",
+    "tests/nba_architecture/golden_v2/joint_same_draw.json": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b",
+    "tests/nba_architecture/test_p3_boundaries.py": "f0d0173dcaa66c7c2f9e25cb7fa7acf6189244b8096f796e9c76bdfbe87f8fa6",
+    "tests/nba_architecture/test_p3_o_family.py": "b12f5d53ab723a537f15c1885dec1ad79678afb4a977a534c43c62fba29ef3b3",
+    "v2/nba_architecture/families_v2.py": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+    "v2/nba_architecture/v2_contracts.py": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+    "v2/nba_o_bridge.py": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
+    "v2/nba_o_consumers.py": "26fa725e35a6f3a8796afad941fcef60e51e6586f9260f2c5d48965e8c3ac61e",
+    "v2/nba_o_family.py": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e",
+    "v2/nba_opportunity.py": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30"
+  },
+  "implementation_tested_commit": "65d19d2243fa242101fb565d513c5510142bb602",
+  "kind": "P3_OWNER_EXECUTION_RECEIPT_NOT_INDEPENDENT_ACCEPTANCE",
+  "p6_control_raw_sha256": {
+    "test_p6_g1_specificity_and_scores.py": "cb8340930193fe14cd6e2a6f51ebd90e4d2672e1d40f5ee08c84720bd67c7379",
+    "test_p6_independent_controls.py": "8cdb7a8b013ee3f9e44122e90263cc83befbd835a79740ee6d578dbe60cf0802",
+    "test_p6_math_references.py": "316e41d3a6bf6f1c2587daef94a3933e94e02b02b3078a3728614c55069f1e5b",
+    "test_p6_post_g0_reference_and_boundaries.py": "03459760f1d829c63afcf892be35c5b74cdc277360d37f63fa556b62b0d7401e",
+    "test_p6_red_counterexamples.py": "a1974d20dd8f5a40493a06cd2ce349f2a2b7a3da9131a21aebddb1a56bc6e5d1"
+  },
+  "p6_refs": {
+    "pr159": "9ef4c64262a217b3b25ba09d2adf677b4250a53f",
+    "pr162": "5c15b4e2a14c684ad5d66583bf5c370d5c64ac44"
+  },
+  "pr": 166,
+  "preserved_generating_function_raw_sha256": {
+    "_one_team": "323ab8d5c17d7be03d2e8cfdfba09ea95bf6963b547cfd596c44ee3d7c949f9a",
+    "_share_scenario": "747beae4260d58dbea65defeff98fc90ff13c1a4e114df5c3ef4eff722d56464"
+  },
+  "previous_independent_commit": "80dbed35f983839f962250ad1c0236061dc6ee00",
+  "previous_independent_tests": 366,
+  "status": {
+    "G1": "BLOCKED_PENDING_INDEPENDENT_P6",
+    "G2": "NOT_AUTHORIZED",
+    "engineering": "IMPLEMENTED_AND_OWNER_TESTED",
+    "independent_participation_fit": "BLOCKED_NO_AUTHENTICATED_FIT_ACCEPTED",
+    "real_S_J_adapter": "P2_P4_OWNED_BLOCKED",
+    "source_authentication": "P1_OWNED_BLOCKED"
+  },
+  "tests": {
+    "G0_plus_P3": {
+      "command": "python -m unittest discover -s tests/nba_architecture -p 'test_*.py' -v",
+      "count": 306,
+      "exit": 0,
+      "log": "g0_p3.log"
+    },
+    "G0_plus_P3_plus_unchanged_P6": {
+      "command": "python -m unittest discover -s tests/nba_architecture -p 'test_*.py' -v",
+      "count": 389,
+      "exit": 0,
+      "log": "g0_p3_p6.log"
+    },
+    "isolation": "P6 files copied only into detached implementation checkout; no owner files edited",
+    "unique_counts": {
+      "G0": 267,
+      "P3": 39,
+      "P6": 83
+    }
+  }
+}

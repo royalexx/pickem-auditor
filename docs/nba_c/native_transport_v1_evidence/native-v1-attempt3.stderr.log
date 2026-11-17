@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/workspace/work/p5/scripts/nba_p5_native_handoff_verify_v1.py", line 176, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/work/p5/scripts/nba_p5_native_handoff_verify_v1.py", line 67, in main
+    from tests.nba_architecture.test_p1_remediation import official_fixture,NBA_GAME,NBA_TEAMS
+  File "/workspace/work/p5/work/native-v1-attempt3/sources/p1/tests/nba_architecture/test_p1_remediation.py", line 4, in <module>
+    from tests.nba_architecture.test_p1_history import make_entry, build
+ModuleNotFoundError: No module named 'tests.nba_architecture.test_p1_history'
