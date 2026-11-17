@@ -1,0 +1,249 @@
+{
+  "branch": "research/nba-p3-o-family-g1-20261116",
+  "code_and_test_raw_sha256": {
+    "scripts/nba_p3_coupling_probe_v4_20261116.py": "2156a966f7b47002d8552c5cdbcf2461bb25c4dd5b1b9a5aef7784b3f68353b4",
+    "scripts/nba_p3_native_handoff_check_v4_20261116.py": "30924a632c04cef3c3211624ff863b080c6be84207b023959859255df6a612ea",
+    "tests/nba_architecture/test_p3_p1_native_v4.py": "f4b4e922599248cb049c8680683b491128060c4f55fa05a5eabd431c9f0c9d67",
+    "tests/nba_architecture/test_p3_remediation_v4.py": "c797c958d5b22b5a586839777b316b1067a1cfd8caf179c919ca16c815be7363",
+    "v2/nba_o_bridge.py": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
+    "v2/nba_o_consumers.py": "26fa725e35a6f3a8796afad941fcef60e51e6586f9260f2c5d48965e8c3ac61e",
+    "v2/nba_o_family.py": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e",
+    "v2/nba_o_p1_native.py": "7510ebdfe67db32c8db6fd4a024357c390183d99c34a54ee11e8b80f7150ba67",
+    "v2/nba_opportunity.py": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30"
+  },
+  "coupling": {
+    "G0_budgets_changed": false,
+    "O2_n32": "BLOCKED:O_COUPLING_VERIFICATION_BUDGET",
+    "O2_n4": "PASS_FINITE_SYNTHETIC_ONLY",
+    "O2_n8": "PASS_FINITE_SYNTHETIC_ONLY",
+    "command": "PYTHONPATH=. OPENBLAS_NUM_THREADS=1 python scripts/nba_p3_coupling_probe_v4_20261116.py --fixture <exact-p4-synthetic-inputs.json> --latest-interface-adapter --output <fresh-output>",
+    "proposal": "docs/nba_architecture/P3_COUPLING_WITNESS_PROPOSAL_V1_20261116.md",
+    "proposal_independently_accepted": false,
+    "receipt": "exact_df57b3a/coupling/receipt.json"
+  },
+  "criteria": [
+    {
+      "classification": "UNAVAILABLE_EVIDENCE_WITH_NATIVE_INTERFACE_NOW_IMPLEMENTED",
+      "id": "B-P3-01",
+      "independent_reviewer": "P6 pending",
+      "minimal_remaining": "P1 original complete pregame roster/context, dated membership, source-bound home/role, independently admitted source and fitted participation/minute prior contract",
+      "status": "BLOCKED"
+    },
+    {
+      "classification": "EXPLICIT_CONTRACT_OR_ENGINEERING_PROOF_PREREQUISITE",
+      "id": "B-P4-03",
+      "independent_reviewer": "P6 pending",
+      "minimal_remaining": "P0/P3/P4 mathematically verified scalable full-support coupling bounds or independently accepted mechanically bounded operating contract",
+      "status": "BLOCKED"
+    }
+  ],
+  "date_toronto": "2026-11-16",
+  "documentation_receipt": "documentation_receipt_v2.json",
+  "environment": {
+    "jsonschema": "4.26.0",
+    "numpy": "2.3.5",
+    "python": "3.12.14",
+    "scipy": "1.17.0"
+  },
+  "exact_test_checkout": "/workspace/work/p3_test",
+  "forbidden_actions_performed": [],
+  "g0_blob_comparisons": [
+    {
+      "g0_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "owner_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "path": "tests/nba_architecture/__init__.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "dfa56054dc66f36ad4ed969797d8082857531591",
+      "owner_blob": "dfa56054dc66f36ad4ed969797d8082857531591",
+      "path": "tests/nba_architecture/golden_v2.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "89cc01abce4551ad2970938045945beaab7e01d7",
+      "owner_blob": "89cc01abce4551ad2970938045945beaab7e01d7",
+      "path": "tests/nba_architecture/golden_v2/historical_offer_free.json",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "e782420bdf0f76e18da5428088fe2bd20a6b1779",
+      "owner_blob": "e782420bdf0f76e18da5428088fe2bd20a6b1779",
+      "path": "tests/nba_architecture/golden_v2/joint_same_draw.json",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "20a2d3ae8b0438052ef6c705b82cf7a943c990c3",
+      "owner_blob": "20a2d3ae8b0438052ef6c705b82cf7a943c990c3",
+      "path": "tests/nba_architecture/golden_v2/prospective_original_offer.json",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "905a78c8f93d67025d02567f8897e75a7d3c3cd4",
+      "owner_blob": "905a78c8f93d67025d02567f8897e75a7d3c3cd4",
+      "path": "tests/nba_architecture/test_contracts.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "3591ef1fd57c487347efc53a7659fe80f9895f40",
+      "owner_blob": "3591ef1fd57c487347efc53a7659fe80f9895f40",
+      "path": "tests/nba_architecture/test_g0_completion_20261116.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "c60083dcbc2c33fb25abd93e38013497b35b16d0",
+      "owner_blob": "c60083dcbc2c33fb25abd93e38013497b35b16d0",
+      "path": "tests/nba_architecture/test_g0_hardening_20261116.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "92acf0c9d63d837b9d1dc117ea2f9b71af0796b9",
+      "owner_blob": "92acf0c9d63d837b9d1dc117ea2f9b71af0796b9",
+      "path": "tests/nba_architecture/test_g0_independent_participation_red_20261116.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "19e824c661062fdd4957410d3a1332d39c4fe3f2",
+      "owner_blob": "19e824c661062fdd4957410d3a1332d39c4fe3f2",
+      "path": "tests/nba_architecture/test_g0_law_repair_20261116.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "9622f61972a881e31cda1a8d2b388169a603f397",
+      "owner_blob": "9622f61972a881e31cda1a8d2b388169a603f397",
+      "path": "tests/nba_architecture/test_g0_mutation_sweep_20261116.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "31f8c4f6c1ccada93084e437616d963c98ba22fc",
+      "owner_blob": "31f8c4f6c1ccada93084e437616d963c98ba22fc",
+      "path": "tests/nba_architecture/test_g0_pipeline_completion_20261116.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "009e0d897eec78318d363093cf1fbdfdda73d98c",
+      "owner_blob": "009e0d897eec78318d363093cf1fbdfdda73d98c",
+      "path": "tests/nba_architecture/test_independent_final_20261116.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "cb69c64b3c0679ea8c9332f508fed20d74a1dcbf",
+      "owner_blob": "cb69c64b3c0679ea8c9332f508fed20d74a1dcbf",
+      "path": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "16f857660cc9ce14c95769390cffcf68a9093b12",
+      "owner_blob": "16f857660cc9ce14c95769390cffcf68a9093b12",
+      "path": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "d4ec2fb7847c5d40938012c91d7087b3e5778b6f",
+      "owner_blob": "d4ec2fb7847c5d40938012c91d7087b3e5778b6f",
+      "path": "tests/nba_architecture/test_v2_contracts.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "a3138628319c37bb2b71537e9c794a85c2b5eb45",
+      "owner_blob": "a3138628319c37bb2b71537e9c794a85c2b5eb45",
+      "path": "v2/nba_architecture/__init__.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "05f003fb6f30db11bdb80e035a9b398c3be7311d",
+      "owner_blob": "05f003fb6f30db11bdb80e035a9b398c3be7311d",
+      "path": "v2/nba_architecture/contracts.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "b9573d2b081f31cc51124a3d6ab7df5dd7db975c",
+      "owner_blob": "b9573d2b081f31cc51124a3d6ab7df5dd7db975c",
+      "path": "v2/nba_architecture/exposure_v2.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "6fc93fa4568523da534da082806e058d4309d967",
+      "owner_blob": "6fc93fa4568523da534da082806e058d4309d967",
+      "path": "v2/nba_architecture/families_v2.py",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "8935d0d7f63cfe345f09d5ff4aa7b754697fb502",
+      "owner_blob": "8935d0d7f63cfe345f09d5ff4aa7b754697fb502",
+      "path": "v2/nba_architecture/requirements.txt",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "40b564c0e23e82f43c1f85a6efacf0e52f49f22c",
+      "owner_blob": "40b564c0e23e82f43c1f85a6efacf0e52f49f22c",
+      "path": "v2/nba_architecture/schema-1.0.0.json",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "f4d8826cb86c543568e67ca67386fdcd2737ed18",
+      "owner_blob": "f4d8826cb86c543568e67ca67386fdcd2737ed18",
+      "path": "v2/nba_architecture/schema-2.0.0.json",
+      "unchanged": true
+    },
+    {
+      "g0_blob": "920d10390553f1de5635b5efbc9437d45212db74",
+      "owner_blob": "920d10390553f1de5635b5efbc9437d45212db74",
+      "path": "v2/nba_architecture/v2_contracts.py",
+      "unchanged": true
+    }
+  ],
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "implementation_sha": "df57b3aebbd55112b6cd008013759ca797322ba6",
+  "independently_accepted": false,
+  "initial_owner_sha": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+  "model_cutoff_hypothesis": {
+    "before_equal_1us_after_controls": "test_p3_remediation_v4.ModelCutoffControls",
+    "corrected_probe": "model_cutoff_corrected_probe.json",
+    "disposition": "DISPROVED_BY_EXISTING_G0_CHECKED_VALIDATOR",
+    "empty_stdout": "model_cutoff_before.json",
+    "first_attempt": "model_cutoff_first_probe_stderr.log",
+    "no_cutoff_repair_claimed": true
+  },
+  "native_actual_owner_test": {
+    "both_worktrees_clean_before_execution": true,
+    "command": "PYTHONPATH=. python scripts/nba_p3_native_handoff_check_v4_20261116.py --p1-root <exact-p1-root> --output <fresh-output>",
+    "first_missing": "INDEPENDENT_SOURCE_ADMISSION",
+    "p1_sha": "b41aa66b989d450fb10782ac868c8a6c08050e08",
+    "p3_sha": "df57b3aebbd55112b6cd008013759ca797322ba6",
+    "receipt": "exact_df57b3a/native_actual_owners/receipt.json",
+    "result": "BLOCKED",
+    "sampled": false
+  },
+  "owner_pr": 166,
+  "rollback": "Close draft PR166 or revert additive P3 commits, retaining receipts; no merge/deploy/G2/training or Tier action",
+  "schema": "nba-p3-remediation-execution-receipt/1.0.0",
+  "scope": "SYNTHETIC_ENGINEERING_AND_EXPLICIT_NATIVE_SOURCE_ABSTENTION",
+  "tests": [
+    {
+      "command": "python -m unittest discover -s tests/nba_architecture -p 'test_*.py' -v",
+      "errors": 0,
+      "failed": 0,
+      "log": "exact_df57b3a/g0_p3.log",
+      "passed": 313,
+      "phase": "clean owner/G0",
+      "skipped": 0
+    },
+    {
+      "command": "python -m unittest discover -s tests/nba_architecture -p 'test_*.py' -v",
+      "errors": 0,
+      "failed": 0,
+      "log": "exact_df57b3a/g0_p3_p6.log",
+      "passed": 396,
+      "phase": "same exact owner plus unchanged five P6 QA modules at ddc60a83f6c9a2b863f5e7a44823bffa3b01e048",
+      "skipped": 0
+    },
+    {
+      "command": "PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python <qa-root>/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P3",
+      "failed": 0,
+      "output": "exact_df57b3a/p6_v3_p3.json",
+      "passed": 5,
+      "phase": "prior independent adversarial program, owner rerun"
+    }
+  ]
+}
