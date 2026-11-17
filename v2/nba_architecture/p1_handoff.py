@@ -84,6 +84,10 @@ def export_pregame_context(*, game_id, team_ids, event_start_at,
     dated membership, source-bound home or fitted participation. Explicit nulls
     and UNPROVEN completeness prevent a candidate subset becoming a full roster.
     """
+    # Both assertion evaluation and byte transport traverse this population.
+    # A one-shot iterator would otherwise lose all raw bundles on the latter.
+    if not isinstance(bundles, (list, tuple)):
+        fail('HANDOFF_CONTEXT_BUNDLES')
     context=pregame_candidates(game_id=game_id,team_ids=team_ids,
         event_start_at=event_start_at,input_freeze_at=input_freeze_at,bundles=bundles)
     sources=[]

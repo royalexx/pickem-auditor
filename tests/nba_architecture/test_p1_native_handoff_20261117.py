@@ -109,3 +109,11 @@ class NativeHandoff(unittest.TestCase):
         # Outcome reader is injected, never imported or opened by this module.
         imports=[n.module for n in ast.walk(tree) if isinstance(n,ast.ImportFrom)]
         self.assertTrue(all(not n or 'vault' not in n for n in imports))
+
+class ContextSourceRetention(unittest.TestCase):
+    def test_one_shot_source_iterator_cannot_drop_raw_bundles(self):
+        row=dict(kind='pregame_roster',game_id='nba:game:target',player_id='nba:player:7',team_id=NBA_TEAMS[0],effective_at='2023-02-09T10:00:00Z',legal_eligibility=None,availability='unknown')
+        with self.assertRaisesRegex(ValueError,'HANDOFF_CONTEXT_BUNDLES'):
+            h.export_pregame_context(game_id='nba:game:target',team_ids=NBA_TEAMS,
+                event_start_at='2023-02-10T01:00:00Z',input_freeze_at='2023-02-09T23:00:00Z',
+                bundles=iter([context_fixture([row])]),ingested_at='2023-02-09T23:00:00Z')
