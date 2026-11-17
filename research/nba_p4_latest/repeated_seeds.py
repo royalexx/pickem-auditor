@@ -98,7 +98,10 @@ def run(output):
     targets=full_count_laws(inputs,p2)
     pooled={pid:{s:{} for s in STATS} for pid in targets}
     samples={pid:{s:[] for s in STATS} for pid in targets}
-    rejects=[];raw_hash=hashlib.sha256();raw_bytes=0;started=time.perf_counter()
+    batch_size=declared['batch_size_for_diagnostic_spread']
+    batch_pmfs=[{pid:{s:{} for s in STATS} for pid in targets}
+                for _ in range(len(declared['seeds'])//batch_size)]
+    rejects=[];raw_hash=hashlib.sha256();replay_hash=hashlib.sha256();raw_bytes=0;started=time.perf_counter()
     raw_path=output/'full_seed_outputs.jsonl.gz'
     failed=None;failed_seed=None
     with raw_path.open('xb') as handle,gzip.GzipFile(fileobj=handle,mode='wb',filename='',mtime=0) as stream:
@@ -111,6 +114,8 @@ def run(output):
                 break
             raw=encode({'seed':seed,'native_result':result});stream.write(raw)
             raw_hash.update(raw);raw_bytes+=len(raw)
+            replay_hash.update(encode({'seed':seed,'native_result':{
+                k:v for k,v in result.items() if k!='performance'}}))
             by_id=[{x['player_id']:x['stats'] for x in sc['players']} for sc in result['bundle']['scenarios']]
             weights=[sc['weight'] for sc in result['bundle']['scenarios']]
             for pid in targets:
@@ -122,6 +127,8 @@ def run(output):
                         math.fsum(w for w,v in zip(weights,values) if v>=20)])
                     for w,v in zip(weights,values):
                         pooled[pid][stat][v]=pooled[pid][stat].get(v,0.)+w/len(declared['seeds'])
+                        batch=batch_pmfs[len(rejects)//batch_size][pid][stat]
+                        batch[v]=batch.get(v,0.)+w/batch_size
             rejects.append({'seed':seed,'retained_G_O_scenarios':len(result['bundle']['scenarios']),
                 'rate_pair_attempts':sum(row['rate_pair_attempts'] for a in result['audit_rows']
                     for row in a['integration']['P2_to_J_projection'].values()),
@@ -156,6 +163,12 @@ def run(output):
                 'zero_mass':sum(c['weight']*nbinom.pmf(0,c['shape'],c['success_probability']) for c in components),
                 'mass_at_or_above_20':sum(c['weight']*nbinom.sf(19,c['shape'],c['success_probability']) for c in components)}
             observed=cluster_moments(samples[pid][stat])
+            batch_tv=[]
+            for batch in batch_pmfs:
+                law=batch[pid][stat]
+                beyond=max(0.,1-math.fsum(law.get(int(v),0.) for v in support))
+                batch_tv.append(float(.5*(sum(abs(law.get(int(v),0.)-expected[i])
+                    for i,v in enumerate(support))+abs(beyond-omitted))))
             metrics.append({'player_id':pid,'stat':stat,'analytic_S_O':source,'proposed_J':observed,
                 'mean_distortion':observed['mean']-mean,
                 'variance_distortion':observed['variance']-source['variance'],
@@ -164,6 +177,8 @@ def run(output):
                 'empirical_TV_estimate':float(.5*(np.abs(actual-expected).sum()+omitted)),
                 'maximum_integer_CDF_difference':float(np.max(np.abs(np.cumsum(actual)-np.cumsum(expected)))),
                 'reference_tail_beyond_comparison_support':omitted,
+                'sixteen_seed_batch_TV_estimates':batch_tv,
+                'batch_TV_interpretation':'independent smaller-batch diagnostic spread; not a confidence interval for pooled TV',
                 'TV_uncertainty':'descriptive finite-ensemble estimate; sampling bias not removed'})
     summary={'schema':'NBA-P4-actual-map-repeated-seed-result/1.0.0','plan':declared,
         'exact_tested_P4_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
@@ -178,6 +193,8 @@ def run(output):
         'raw_full_outputs_uncompressed_sha256':raw_hash.hexdigest(),
         'raw_full_outputs_uncompressed_bytes':raw_bytes,
         'raw_full_outputs_gzip_sha256':raw_sha(raw_path.read_bytes()),
+        'semantic_replay_sha256_excluding_performance':replay_hash.hexdigest(),
+        'raw_hash_replay_note':'raw receipts include observed runtimes; semantic hash excludes performance only',
         'contract_acceptance':'PENDING_INDEPENDENT_REVIEW','physical_chronology_established':False,
         'predictive_validation_performed':False,'adequacy_acceptance':False,
         'max_absolute_mean_distortion':max(abs(x['mean_distortion']) for x in metrics),

@@ -291,5 +291,19 @@ print(json.dumps(x['scenario_hashes'],sort_keys=True))
         self.assertEqual(len(receipt['event_draws_by_scenario'][receipt['scenario_id']]),2)
         self.assertEqual(receipt['status'],'FAILED_NO_J_RESULT_PUBLISHED')
 
+    def test_repeated_seed_runner_persists_failure_without_partial_success_claim(self):
+        from research.nba_p4_latest import repeated_seeds
+        error=ContractError('SYNTHETIC_FORCED_FAILURE')
+        error.failure_receipt={'error_code':error.code,'rate_pair_attempts':4096,
+                               'rejected_pair_count':4096}
+        with tempfile.TemporaryDirectory() as d:
+            output=Path(d)/'failed_run'
+            with patch.object(repeated_seeds,'simulate_latest',side_effect=error):
+                with self.assertRaises(ContractError):repeated_seeds.run(output)
+            receipt=json.loads((output/'failed_execution_receipt.json').read_bytes())
+            self.assertEqual(receipt['completed_prefix_seed_count'],0)
+            self.assertEqual(receipt['failure_receipt']['rate_pair_attempts'],4096)
+            self.assertFalse((output/'summary.json').exists())
+
 
 if __name__=='__main__':unittest.main()
