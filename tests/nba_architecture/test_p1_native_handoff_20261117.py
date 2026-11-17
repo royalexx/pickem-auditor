@@ -117,3 +117,14 @@ class ContextSourceRetention(unittest.TestCase):
             h.export_pregame_context(game_id='nba:game:target',team_ids=NBA_TEAMS,
                 event_start_at='2023-02-10T01:00:00Z',input_freeze_at='2023-02-09T23:00:00Z',
                 bundles=iter([context_fixture([row])]),ingested_at='2023-02-09T23:00:00Z')
+
+class ContextClockClaim(unittest.TestCase):
+    def test_unadmitted_available_clock_stays_asserted(self):
+        row=dict(kind='pregame_roster',game_id='nba:game:target',player_id='nba:player:7',team_id=NBA_TEAMS[0],effective_at='2023-02-09T10:00:00Z',legal_eligibility=None,availability='unknown')
+        b=context_fixture([row])
+        p=h.export_pregame_context(game_id='nba:game:target',team_ids=NBA_TEAMS,
+            event_start_at='2023-02-10T01:00:00Z',input_freeze_at='2023-02-09T23:00:00Z',
+            bundles=[b],ingested_at='2023-02-09T23:00:00Z')
+        self.assertIsNone(p['sources'][0]['clocks']['first_defensible_available_at'])
+        self.assertEqual(p['sources'][0]['clocks']['adapter_asserted_available_at'],b['available_at'])
+        self.assertEqual(p['players'][0]['availability_evidence']['status'],'UNADMITTED_ASSERTION')
