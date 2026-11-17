@@ -1,0 +1,8 @@
+{
+  "url": "https://data.nba.net/prod/v1/20181016/0021800001_boxscore.json",
+  "retrieved_at": "2026-11-17T21:44:19.687166+00:00",
+  "status": 400,
+  "sha256": "fcafd2141e8ddc64e2f496d1c37173ac19ab33a92780134e99bf7f1260d4d920",
+  "bytes": 312,
+  "original_historical_available_at": null
+}

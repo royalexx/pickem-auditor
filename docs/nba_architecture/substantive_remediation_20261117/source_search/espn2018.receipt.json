@@ -1,0 +1,24 @@
+{
+  "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070213",
+  "retrieved_at": "2026-11-17T21:42:12.180025+00:00",
+  "completed_at": "2026-11-17T21:42:12.735804+00:00",
+  "status": 200,
+  "headers": {
+    "content-type": "application/json;charset=UTF-8",
+    "access-control-allow-origin": "*",
+    "access-control-allow-methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+    "access-control-expose-headers": "content-length,location",
+    "link": "<summary.json#>; rel=\"describedby\"",
+    "vary": "Accept-Encoding",
+    "cache-control": "max-age=1",
+    "date": "Tue, 17 Nov 2026 21:42:12 GMT",
+    "x-envoy-upstream-service-time": "225",
+    "server": "envoy",
+    "connection": "close",
+    "transfer-encoding": "chunked"
+  },
+  "raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f",
+  "bytes": 423503,
+  "admission": "UNREVIEWED",
+  "original_historical_available_at": null
+}

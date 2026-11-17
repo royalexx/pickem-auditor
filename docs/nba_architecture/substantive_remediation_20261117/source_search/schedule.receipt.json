@@ -1,0 +1,24 @@
+{
+  "url": "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json",
+  "retrieved_at": "2026-11-17T21:42:11.899392+00:00",
+  "completed_at": "2026-11-17T21:42:12.179804+00:00",
+  "status": 403,
+  "headers": {
+    "mime-version": "1.0",
+    "content-type": "text/html",
+    "content-length": "431",
+    "expires": "Tue, 17 Nov 2026 21:42:12 GMT",
+    "date": "Tue, 17 Nov 2026 21:42:12 GMT",
+    "x-frame-options": "sameorigin",
+    "x-xss-protection": "1; mode=block",
+    "x-content-type-options": "nosniff",
+    "strict-transport-security": "max-age=86400",
+    "x-envoy-upstream-service-time": "166",
+    "server": "envoy",
+    "connection": "close"
+  },
+  "raw_sha256": "8db99cadcea9bb4b34d6b345609003c26e44d8851fb4ad61f2744034589e3b17",
+  "bytes": 431,
+  "admission": "UNREVIEWED",
+  "original_historical_available_at": null
+}
