@@ -1,0 +1,100 @@
+{
+  "schema": "NBA_G1_FINAL_COORDINATION_RELAY_V4",
+  "authority": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "observed_at_utc": "2026-11-17T13:19:28.606346+00:00",
+  "accepted_g0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "original_audit_sha": "ddc60a83f6c9a2b863f5e7a44823bffa3b01e048",
+  "independent_reviewer": "/root/p6_independent",
+  "independent_qa_publication_sha": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+  "independent_qa_executable_source_sha": "c51c6f08f9009274258062cc5f3425e1f1567893",
+  "independent_qa_pr": 172,
+  "exact_owner_pins": {
+    "P2": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+    "P5": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+    "P1": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+    "P3": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+    "P4": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+    "P0": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29"
+  },
+  "remote_branch_heads": {
+    "audit/nba-p6-g1-remediation-v4-independent-20261116": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+    "main": "912bc7010058092ea735dcda0aa941429194474b",
+    "remediation/nba-p0-discovery-v4-20261116": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29",
+    "research/nba-p1-canonical-history-g1-20261116": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+    "research/nba-p2-s-family-g1-20261116": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+    "research/nba-p3-o-family-g1-20261116": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+    "research/nba-p4-j-family-g1-20261116": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+    "research/nba-p5-c-scoring-optimization-g1-20261116": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93"
+  },
+  "published_assembly_sha": "6dee6e09fa786479dc2e163a33e14257f207b35e",
+  "assembler_repair_sha": "7145c9dd734d00b5b4a451cfc1f730cd4967762d",
+  "owner_repair_packet_sha": "4d4d594fd7c88cdb3149cafd35515d5a65412b87",
+  "criterion_counts_quoted_from_reviewer": {
+    "PASS": 28,
+    "FAIL": 0,
+    "BLOCKED": 8
+  },
+  "family_recommendations_quoted_from_reviewer": {
+    "P1": "BLOCKED",
+    "P2": "BLOCKED",
+    "P3": "BLOCKED",
+    "P4": "BLOCKED",
+    "P5": "BLOCKED",
+    "P6": "PASS_FINITE_INDEPENDENT_QA"
+  },
+  "formal_G1_decision_quoted_from_reviewer": "NO-GO",
+  "orchestrator_awards_independent_acceptance": false,
+  "independent_ledger_raw_sha256": "71c28de7bfcebbb0501a4856e1f9203aba1f766af4e588fa16f48bf132b11316",
+  "original_negative_probe_raw_sha256": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52",
+  "operational_integrity_checks": [
+    {
+      "owner": "P2",
+      "exact_source_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "protected_operational_diff_against_g0": []
+    },
+    {
+      "owner": "P5",
+      "exact_source_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "protected_operational_diff_against_g0": []
+    },
+    {
+      "owner": "P1",
+      "exact_source_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "protected_operational_diff_against_g0": []
+    },
+    {
+      "owner": "P3",
+      "exact_source_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "protected_operational_diff_against_g0": []
+    },
+    {
+      "owner": "P4",
+      "exact_source_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "protected_operational_diff_against_g0": []
+    },
+    {
+      "owner": "P0",
+      "exact_source_sha": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29",
+      "protected_operational_diff_against_g0": []
+    }
+  ],
+  "training_pause": {
+    "schema": "pickem_training_pause_v1",
+    "paused": true,
+    "requested_date": "2026-11-08",
+    "reason": "User-directed pause of Bayesian/NUTS training during model reform",
+    "resume_requires_explicit_user_approval": true,
+    "preserve_existing_posteriors_and_checkpoints": true
+  },
+  "merge_or_release_authorized": false,
+  "remaining_blocked_criterion_ids": [
+    "B-P1-01",
+    "B-P1-02",
+    "B-P2-01",
+    "B-P3-01",
+    "B-P4-01",
+    "B-P4-02",
+    "B-P4-03",
+    "B-P5-01"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "NBA_G1_OWNER_START_TO_FINAL_COMPARISONS_V4",
+  "observed_at": "2026-11-17T13:16:31.658980+00:00",
+  "changes": [
+    {
+      "owner": "P1",
+      "audit_tested_sha": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+      "current_tested_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "commits_ahead": 16,
+      "diffstat_raw_sha256": "3db53ed180ca7fe0ad49997a46599cc8661d10f12a4ba1f5ff8df044343585ed"
+    },
+    {
+      "owner": "P2",
+      "audit_tested_sha": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+      "current_tested_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "commits_ahead": 12,
+      "diffstat_raw_sha256": "1f4c03d3addbfff499a42eb3c5317fa60cc999b5b673ae6e85e2213cff88badb"
+    },
+    {
+      "owner": "P3",
+      "audit_tested_sha": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+      "current_tested_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "commits_ahead": 5,
+      "diffstat_raw_sha256": "8f16c2e87e084454a19b57282492114dbe2de23b6e96bf0a9bdfb236e3be345d"
+    },
+    {
+      "owner": "P4",
+      "audit_tested_sha": "cf5483a16279b8af606caef415e9abacc8c41aab",
+      "current_tested_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "commits_ahead": 10,
+      "diffstat_raw_sha256": "a2c4fab7c0604f564339881fcb26348016f4cac0d5f4e941c7ece53a5b8ecacb"
+    },
+    {
+      "owner": "P5",
+      "audit_tested_sha": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+      "current_tested_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "commits_ahead": 7,
+      "diffstat_raw_sha256": "55c85f116bfd05651aac56e80bf7cb81499430ef572f83e8376148dd5f952680"
+    }
+  ]
+}
