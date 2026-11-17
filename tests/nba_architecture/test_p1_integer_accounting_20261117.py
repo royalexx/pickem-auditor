@@ -69,3 +69,48 @@ class IntegerAccounting(unittest.TestCase):
             p=2*x+3*t+f;rows.append(dict(points=p,fgm=x+t,threes=t,ftm=f,pr=p+r,pa=p+a,ra=r+a))
         self.assertEqual(compare_all_partial_assignments(self,
             ('points','fgm','threes','ftm','pr','pa','ra'),rows),4**7)
+
+class WiderPrimitiveReferences(unittest.TestCase):
+    def test_all_field_subsets_of_small_complete_shooting_primitives(self):
+        fields=('points','fgm','fga','threes','fg3a','ftm','fta')
+        checked=0
+        for primitive in itertools.product(range(3),repeat=6):
+            full=truth_from_primitives(primitive)
+            for mask in range(1<<len(fields)):
+                s={field:full[field] for i,field in enumerate(fields) if mask>>i&1}
+                self.assertTrue(partial_counts_feasible(s),repr((primitive,s)))
+                checked+=1
+        self.assertEqual(checked,729*128)
+
+    def test_every_integer_point_under_small_rectangular_attempt_caps(self):
+        checked=0
+        for cap2,cap3,capft in itertools.product(range(4),range(4),range(3)):
+            primitive=list(itertools.product(range(cap2+1),range(cap3+1),range(capft+1)))
+            for made,three,free in itertools.product((None,*range(cap2+cap3+1)),(None,*range(cap3+1)),(None,*range(capft+1))):
+                s={'fga':cap2+cap3,'fg3a':cap3,'fta':capft}
+                for key,value in (('fgm',made),('threes',three),('ftm',free)):
+                    if value is not None:s[key]=value
+                feasible={2*x+3*t+f for x,t,f in primitive
+                    if (made is None or x+t==made) and (three is None or t==three)
+                    and (free is None or f==free)}
+                for p in range(2*cap2+3*cap3+capft+3):
+                    actual=partial_counts_feasible(dict(s,points=p))
+                    self.assertEqual(actual,p in feasible,repr((s,p,feasible)));checked+=1
+        self.assertGreater(checked,10000)
+        print('rectangular exact integer reference assignments:',checked)
+
+    def test_every_integer_point_under_small_triangular_attempt_caps(self):
+        checked=0
+        for attempts,capft in itertools.product(range(6),range(4)):
+            primitive=[(x,t,f) for x,t,f in itertools.product(range(attempts+1),range(attempts+1),range(capft+1)) if x+t<=attempts]
+            for made,three,free in itertools.product((None,*range(attempts+1)),(None,*range(attempts+1)),(None,*range(capft+1))):
+                s={'fga':attempts,'fta':capft}
+                for key,value in (('fgm',made),('threes',three),('ftm',free)):
+                    if value is not None:s[key]=value
+                feasible={2*x+3*t+f for x,t,f in primitive
+                    if (made is None or x+t==made) and (three is None or t==three)
+                    and (free is None or f==free)}
+                for p in range(3*attempts+capft+3):
+                    self.assertEqual(partial_counts_feasible(dict(s,points=p)),p in feasible,repr((s,p,feasible)));checked+=1
+        self.assertGreater(checked,10000)
+        print('triangular exact integer reference assignments:',checked)
