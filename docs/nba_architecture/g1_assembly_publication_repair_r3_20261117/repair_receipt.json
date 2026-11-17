@@ -1,0 +1,50 @@
+{
+  "schema": "NBA_G1_INDEPENDENT_RED_OWNER_REPAIR_R3",
+  "criterion": {
+    "id": "F-P0-ASSEMBLY-01",
+    "aliases": [
+      "F-ASSEMBLY-01"
+    ],
+    "responsible_owner": "P0/orchestrator publication",
+    "owner_sha": "7145c9dd734d00b5b4a451cfc1f730cd4967762d",
+    "classification": "REPAIRABLE_COMMITTED_SOURCE_MAP_PUBLICATION_DEFECT",
+    "status": "PASS",
+    "acceptance_level": "OWNER_QC_ONLY_PENDING_INDEPENDENT_REREVIEW",
+    "initial_failure_condition": "git add -A honored reports/ignore after copying four files already tracked by P2 owner; working tree contained bytes but published assembly Git tree omitted them.",
+    "independent_red_qa_sha": "b477df63f1e996c8a6ef7c7fd2083ac493909abd",
+    "independent_red_qa_pr": 172,
+    "red_assembly_sha": "d46f5322b47367ba601b05197cef8404758da23d",
+    "permanent_regression_code_commit": "7e46f5fb06213e319f72942e1e38981fde54e9ae",
+    "repair_code_commit": "7145c9dd734d00b5b4a451cfc1f730cd4967762d",
+    "new_assembly_sha": "6dee6e09fa786479dc2e163a33e14257f207b35e",
+    "reproduce": "python scripts/nba_g1_verify_assembly_publication_v4_20261116.py --repo \"$PWD\" --assembly 6dee6e09fa786479dc2e163a33e14257f207b35e --output work/assembly-publication-r3-fresh.json",
+    "positive_acceptance_tests": [
+      "All653promised owner files are actual committed Git blobs with exact source bytes and Git modes.",
+      "All24inherited G0 files preserve exact Git objects/modes.",
+      "Fresh-from-Git root,513architecture,61S,76C,tenoffline56methods,compileandBash checks pass."
+    ],
+    "negative_acceptance_tests": [
+      "The same permanent checker against oldd46 still exits2 for all4missing reports.",
+      "Source-map completeness derives all owner diffs independently, rejects missing/unmapped paths and owner/blob/mode drift."
+    ],
+    "observed_result": "Explicit source-map paths are force-staged without scratch files; postcommit complete source/Gitmode verification succeeds. Only the4reports and generated map metadata differ. No P1-P5 executable or input changed.",
+    "minimal_remaining_requirement": "Fresh separate P6 rereview of this publication repair and final gate decision.",
+    "required_independent_reviewer": "Separate P6 reviewer who authored no publication repair or P1-P5 change",
+    "independent_reviewer_disposition": "Original independent NO-GO red preserved; current repair awaiting separate rereview",
+    "dependencies": [
+      "Same final P1-P5/P0 owner pins as pre-P6 r2 submission"
+    ],
+    "evidence": [
+      "independent_red_original.json",
+      "committed_tree_before.json",
+      "committed_tree_after.json",
+      "fresh_git_shared_checks/receipt.json",
+      "assembly_git_comparison.txt"
+    ]
+  },
+  "old_pre_p6_snapshot_commit": "70d37e9b2a6bbf26def4bee79161a7bd3a49d343",
+  "old_pre_p6_manifest_scope": "SHA256SUMS_PRE_P6_V2 binds source files as of70d; the authorized assembler patch changes one listed script at later commits. Validate that historical manifest against70d Git blobs, not a mixed latest working tree.",
+  "owner_heads_unchanged": true,
+  "source_and_contract_blockers_unchanged": true,
+  "independent_acceptance_awarded_by_orchestrator": false
+}

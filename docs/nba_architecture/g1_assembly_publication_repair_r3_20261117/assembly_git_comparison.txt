@@ -1,0 +1,5 @@
+M	docs/nba_architecture/g1_exact_owner_assembly_v4_20261116.json
+A	reports/P2_S_LOCAL_BENCHMARK_20261116.json
+A	reports/P2_S_LOCAL_EXECUTION_RECEIPT_20261116.json
+A	reports/P2_S_LOCAL_TEST_LOG_20261116.txt
+A	reports/p2_synthetic_example_output.json
