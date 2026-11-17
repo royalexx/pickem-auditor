@@ -1,0 +1,37 @@
+{
+  "accepted_g0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "certification": "HISTORICAL_RECONSTRUCTION_UNCERTIFIED",
+  "g1": "BLOCKED_PENDING_DATA_OWNER_ADMISSION_AND_INDEPENDENT_P6",
+  "p2": {
+    "entrypoints": [
+      "v2.nba_architecture.p1_evidence.duration",
+      "v2.nba_architecture.p1_evidence.prior_game_exposure"
+    ],
+    "implementation_modified": false,
+    "owner_acknowledgment": "PENDING",
+    "pr": 165,
+    "required_states": [
+      "UNRESOLVED_OFFICIAL_DURATION_AND_SOURCE",
+      "OFFICIAL_BYTES_CONSISTENT_AUTHENTICITY_REVIEW_REQUIRED",
+      "ADJUDICATED_ROUNDED_SUBMINUTE"
+    ],
+    "version": "nba-p1-prior-game-evidence/1.0.0"
+  },
+  "p3_p4": {
+    "entrypoints": [
+      "v2.nba_architecture.p1_context.resolve_dated_identity",
+      "v2.nba_architecture.p1_context.pregame_candidates"
+    ],
+    "implementations_modified": false,
+    "native_authenticated_historical_adapters": "BLOCKED",
+    "owner_acknowledgment": "PENDING",
+    "prs": [
+      166,
+      164
+    ],
+    "version": "nba-p1-dated-context/1.0.0"
+  },
+  "production_authorized": false,
+  "schema": "nba-p1-consumer-handoff/1.0.0",
+  "tested_code_sha": "1da5dfd7172414f33ebbd70a49a93e1a35b4ea59"
+}

@@ -1,0 +1,39 @@
+test_900_requires_duration (tests.nba_architecture.test_p1_remediation.AccountingBoundary.test_900_requires_duration) ... ok
+test_vault_zero_positive_requires_adjudication (tests.nba_architecture.test_p1_remediation.AccountingBoundary.test_vault_zero_positive_requires_adjudication) ... ok
+test_zero_positive_requires_adjudication (tests.nba_architecture.test_p1_remediation.AccountingBoundary.test_zero_positive_requires_adjudication) ... ok
+test_attempted_threes_exceed_total_attempts (tests.nba_architecture.test_p1_remediation.AdditionalAdversarialBoundary.test_attempted_threes_exceed_total_attempts) ... ok
+test_duration_evidence_after_ingestion (tests.nba_architecture.test_p1_remediation.AdditionalAdversarialBoundary.test_duration_evidence_after_ingestion) ... ok
+test_positive_context_and_wrong_team_and_future_trade (tests.nba_architecture.test_p1_remediation.AdditionalAdversarialBoundary.test_positive_context_and_wrong_team_and_future_trade) ... ok
+test_unknown_and_dnp_do_not_fill_stats (tests.nba_architecture.test_p1_remediation.AdditionalAdversarialBoundary.test_unknown_and_dnp_do_not_fill_stats) ... ok
+test_vault_finite_and_durations (tests.nba_architecture.test_p1_remediation.AdditionalAdversarialBoundary.test_vault_finite_and_durations) ... ok
+test_vault_is_not_a_pregame_dependency (tests.nba_architecture.test_p1_remediation.AdditionalAdversarialBoundary.test_vault_is_not_a_pregame_dependency) ... ok
+test_vault_source_corruption (tests.nba_architecture.test_p1_remediation.AdditionalAdversarialBoundary.test_vault_source_corruption) ... ok
+test_context_hash_and_reconstruction_guard (tests.nba_architecture.test_p1_remediation.DatedContextBoundary.test_context_hash_and_reconstruction_guard) ... ok
+test_missing_context_is_blocked (tests.nba_architecture.test_p1_remediation.DatedContextBoundary.test_missing_context_is_blocked) ... ok
+test_postgame_roster_cannot_enter_context (tests.nba_architecture.test_p1_remediation.DatedContextBoundary.test_postgame_roster_cannot_enter_context) ... ok
+test_target_outcome_fields_cannot_be_roster (tests.nba_architecture.test_p1_remediation.DatedContextBoundary.test_target_outcome_fields_cannot_be_roster) ... ok
+test_trade_timing_and_overlap (tests.nba_architecture.test_p1_remediation.DatedContextBoundary.test_trade_timing_and_overlap) ... ok
+test_missing_official_result_explicit_unresolved (tests.nba_architecture.test_p1_remediation.HandoffBoundary.test_missing_official_result_explicit_unresolved) ... ok
+test_p2_handoff_keeps_exact_and_displayed_minutes (tests.nba_architecture.test_p1_remediation.HandoffBoundary.test_p2_handoff_keeps_exact_and_displayed_minutes) ... ok
+test_strict_multiot_manifest_and_path_escape (tests.nba_architecture.test_p1_remediation.OfficialCLI.test_strict_multiot_manifest_and_path_escape) ... ok
+test_complete_revision_chain (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_complete_revision_chain) ... ok
+test_hash_and_identity (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_hash_and_identity) ... ok
+test_missing_official_evidence_strict_consumer (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_missing_official_evidence_strict_consumer) ... ok
+test_nonfinal_and_date_conflict (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_nonfinal_and_date_conflict) ... ok
+test_over_duration_rejected (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_over_duration_rejected) ... ok
+test_regulation_and_arbitrary_overtime (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_regulation_and_arbitrary_overtime) ... ok
+test_stat_conflict (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_stat_conflict) ... ok
+test_target_evidence_rejected (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_target_evidence_rejected) ... ok
+test_true_zero_deadball_unresolved (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_true_zero_deadball_unresolved) ... ok
+test_vault_deleted_parent_blocks_all_reads (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_vault_deleted_parent_blocks_all_reads) ... ok
+test_vault_valid_multiot_and_subminute_replay (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_vault_valid_multiot_and_subminute_replay) ... ok
+test_wrong_teams_and_player (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_wrong_teams_and_player) ... ok
+test_zero_display_subminute_preserves_credit_and_display (tests.nba_architecture.test_p1_remediation.OfficialEvidenceBoundary.test_zero_display_subminute_preserves_credit_and_display) ... ok
+test_cli_blocks_whole_manifest_with_denominator (tests.nba_architecture.test_p1_remediation.SchemaAndCLI.test_cli_blocks_whole_manifest_with_denominator) ... ok
+test_new_capture_and_context_schemas (tests.nba_architecture.test_p1_remediation.SchemaAndCLI.test_new_capture_and_context_schemas) ... ok
+test_real_source_fixture_replays_and_strict_exposure_blocks (tests.nba_architecture.test_p1_remediation.SchemaAndCLI.test_real_source_fixture_replays_and_strict_exposure_blocks) ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 0.673s
+
+OK
