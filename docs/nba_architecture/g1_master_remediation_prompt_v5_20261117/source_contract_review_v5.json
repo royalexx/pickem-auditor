@@ -1,0 +1,66 @@
+{
+  "schema": "NBA_G1_BLOCKED_FAMILY_SOURCE_REVIEW_V5",
+  "authority": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "observed_at_utc": "2026-11-17T13:57:51.269859+00:00",
+  "classification": "ORCHESTRATOR_SOURCE_INSPECTION_NOT_INDEPENDENT_ACCEPTANCE",
+  "source_admission_state": "CLOSED_INTENTIONALLY",
+  "findings": [
+    {
+      "owner": "P1",
+      "exact_source_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "path": "v2/nba_architecture/p1_handoff.py",
+      "raw_sha256": "c9567c367ba72fcae7c1229c6bda7baf949223d7389d6e8715a2b12f917b6c39",
+      "observed": "Always BLOCKED native1.0.0; no real-admission registry; exact raw bytes/unknown clocks survive.",
+      "minimal_next_work": "New independently reviewed source/admission extension, actual authentic populations and versioned consumers."
+    },
+    {
+      "owner": "P2",
+      "exact_source_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "path": "v2/nba_s_family/p1_native.py",
+      "raw_sha256": "372af3be16c33437272d9ee63bf37b18c581962c7566c4f64827961259e5bcc1",
+      "observed": "Native inspection requires BLOCKED and returns zero admitted training rows; raw zero clock guard depends on display and has fresh red.",
+      "minimal_next_work": "Repair F-P2-07 first; then independently reviewed admitted-source/artifact path."
+    },
+    {
+      "owner": "P3",
+      "exact_source_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "path": "v2/nba_o_p1_native.py",
+      "raw_sha256": "1f35d1f37c57b42b9595151b6c9b46b671d7f4f2edb6da8b7ee04e008c0deb52",
+      "observed": "Native1.0.1 requires null completeness/home/fit and returns before scenario generation.",
+      "minimal_next_work": "Independently accepted original-roster/dated-membership/home/role and genuine prior authentication consumer."
+    },
+    {
+      "owner": "P3",
+      "exact_source_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "path": "v2/nba_o_family.py",
+      "raw_sha256": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e",
+      "observed": "Verified-pregame-fit string explicitly rejected; producer and sidecar validator call original G0 coupling.",
+      "minimal_next_work": "New reviewed fit contract; coordinated P0/P3 routing for any new semantics-equivalent coupling verifier."
+    },
+    {
+      "owner": "P4",
+      "exact_source_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "path": "v2/nba_joint/integration_v2.py",
+      "raw_sha256": "c6423278b2d71d2d1a47ef6f8c38e49f01437679c15d0bdca6dd7787f2868abd",
+      "observed": "Latest actual-owner bridge accepts exact synthetic fixtures only; physical law proposal pending and aggregate-only.",
+      "minimal_next_work": "New reviewed authentic admission and constrained physical-law/clock contract; exact forward mechanism/reference study."
+    },
+    {
+      "owner": "P5",
+      "exact_source_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "path": "v2/nba_c/native_adapters.py",
+      "raw_sha256": "a875ca2d819879ce0ace1083599780d42db7942a3aca4dd88bc08fb2eabed5e8",
+      "observed": "Only synthetic engineering mode accepted; prior/outcome rounding classification has fresh public-path red.",
+      "minimal_next_work": "Repair F-P5-05 first; then versioned authentic forecast and separate outcome/end/release/correction intake."
+    },
+    {
+      "owner": "P0",
+      "exact_source_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+      "path": "v2/nba_architecture/exposure_v2.py",
+      "raw_sha256": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+      "observed": "Full Cartesian finite-law verifier with fixed budget; n32 budget stop persists.",
+      "minimal_next_work": "Separate unselected versioned bound-attainment certificate/full fallback with independent semantic review; old G0 unchanged."
+    }
+  ],
+  "key_distinction": "Authentic evidence acquisition alone is insufficient: current adapters intentionally cannot admit it; new reviewed admission contracts/consumers are required. These safeguards are not defects. P2/P5 raw-credit guards are separate repairable defects."
+}

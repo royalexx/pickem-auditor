@@ -1,0 +1,17 @@
+{
+  "schema": "NBA_G1_MASTER_PROMPT_END_HEAD_CHECK_V5",
+  "observed_at_utc": "2026-11-17T14:07:50.750891+00:00",
+  "remote_heads": {
+    "audit/nba-p6-full-blocker-audit-20261117": "b7ca2899ab8d902cda62bfb802ab74dcb5598a30",
+    "main": "912bc7010058092ea735dcda0aa941429194474b",
+    "remediation/nba-g1-orchestration-v4-20261116": "39fd26c509722bb46dc3ad6b5df22e73902e68bc",
+    "remediation/nba-p0-discovery-v4-20261116": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29",
+    "research/nba-p1-canonical-history-g1-20261116": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+    "research/nba-p2-s-family-g1-20261116": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+    "research/nba-p3-o-family-g1-20261116": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+    "research/nba-p4-j-family-g1-20261116": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+    "research/nba-p5-c-scoring-optimization-g1-20261116": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93"
+  },
+  "all_expected_heads_match": true,
+  "no_owner_changes_performed": true
+}
