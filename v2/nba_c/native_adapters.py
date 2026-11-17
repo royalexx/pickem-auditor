@@ -20,6 +20,7 @@ import sys
 
 from v2.nba_architecture.v2_contracts import canonical, verify, validate_pregame, digest, instant
 from v2.nba_architecture.families_v2 import validate_forecast, validate_integration
+from .physical_counts import partial_counts_feasible
 from .warehouse import ForecastWarehouse, WarehouseError, _write_once, _read
 
 VERSION = "nba-c-native-owner-handoff/1.0.0"
@@ -70,13 +71,16 @@ def _raw(value, expected, reason):
 
 def _packed_source(node):
     """Integrity only: exact source/ancestor bytes do not establish admission."""
-    _req(isinstance(node, dict) and isinstance(node.get("capture"), dict)
-         and isinstance(node.get("prior"), list), "NATIVE_SOURCE_BUNDLE")
+    _req(isinstance(node, dict) and set(node)=={"capture","raw_base64","prior"} and
+         isinstance(node.get("capture"), dict) and isinstance(node.get("prior"), list), "NATIVE_SOURCE_BUNDLE")
     previous = None
     for number, item in enumerate(node["prior"] + [node], 1):
-        _req(isinstance(item, dict) and isinstance(item.get("capture"), dict)
-             and (item is node or item.get("prior") == []), "NATIVE_SOURCE_ANCESTRY")
+        _req(isinstance(item, dict) and set(item)=={"capture","raw_base64","prior"} and
+             isinstance(item.get("capture"), dict) and (item is node or item.get("prior") == []),
+             "NATIVE_SOURCE_ANCESTRY")
         capture = item["capture"]
+        _req(set(capture)=={"schema","url","raw_sha256","retrieved_at","revision","supersedes_receipt_sha256"}
+             and capture["schema"]=="nba-p1-prior-game-evidence/1.0.0", "NATIVE_CAPTURE_SCHEMA")
         _raw(item.get("raw_base64"), capture.get("raw_sha256"),
              "NATIVE_SOURCE_BYTES_CHANGED")
         _req(type(capture.get("revision")) is int and capture["revision"] == number and
@@ -115,6 +119,7 @@ def _box_stats(stats):
                        "ra":("rebounds","assists"),"pra":("points","rebounds","assists")}.items():
         if combo in stats and all(k in stats for k in parts):
             _req(stats[combo]==sum(stats[k] for k in parts),"NATIVE_COMBINATION_ACCOUNTING")
+    _req(partial_counts_feasible(stats),"NATIVE_INTEGER_STAT_ACCOUNTING")
 
 
 def _accounting(record,node):

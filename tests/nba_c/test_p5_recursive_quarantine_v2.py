@@ -93,6 +93,20 @@ class RecursiveForecastQuarantineV2(unittest.TestCase):
             "prior_game_boxscore": {"points": 12}}]]
         self.assertEqual(self.cache(row).game_count, 1)
 
+    def test_normalized_reserved_target_namespace_and_identity(self):
+        for key in ("TargetGameOutcome","ACTUAL_MINUTES","target_game_final_score",
+                    "target_game_points","realized attempts"," Actual-Minutes "):
+            row=fixture();row["pipelines"]["S0"]["model_inputs"]=[[{key:37}]]
+            with self.subTest(key=key),self.assertRaisesRegex(e.ExperimentError,"OUTCOME_IN_FORECAST_PIPELINE"):
+                self.cache(row)
+        row=fixture();row["pipelines"]["S0"]["model_inputs"]=[[{
+            "ProjectedAttempts":21,"prior_game_actual_minutes":30,
+            "prior_game_target_game_result":{"points":11},"target_game_id":row["game_id"]}]]
+        self.assertEqual(self.cache(row).game_count,1)
+        row["pipelines"]["S0"]["model_inputs"][0][0]["target_game_id"]="nba:wrong"
+        with self.assertRaisesRegex(e.ExperimentError,"LINKED_IDENTITY_MISMATCH"):
+            self.cache(row)
+
     def test_cycles_reject_but_shared_pregame_substructures_are_legal(self):
         row = fixture()
         cyclic = []

@@ -1,0 +1,76 @@
+test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) ... 
+  test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) (key='TargetGameOutcome') ... FAIL
+  test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) (key='ACTUAL_MINUTES') ... FAIL
+  test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) (key='target_game_final_score') ... FAIL
+  test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) (key='target_game_points') ... FAIL
+  test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) (key='realized attempts') ... FAIL
+  test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) (key=' Actual-Minutes ') ... FAIL
+test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) ... FAIL
+
+======================================================================
+FAIL: test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) (key='TargetGameOutcome')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 100, in test_normalized_reserved_target_namespace_and_identity
+    with self.subTest(key=key),self.assertRaisesRegex(e.ExperimentError,"OUTCOME_IN_FORECAST_PIPELINE"):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) (key='ACTUAL_MINUTES')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 100, in test_normalized_reserved_target_namespace_and_identity
+    with self.subTest(key=key),self.assertRaisesRegex(e.ExperimentError,"OUTCOME_IN_FORECAST_PIPELINE"):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) (key='target_game_final_score')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 100, in test_normalized_reserved_target_namespace_and_identity
+    with self.subTest(key=key),self.assertRaisesRegex(e.ExperimentError,"OUTCOME_IN_FORECAST_PIPELINE"):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) (key='target_game_points')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 100, in test_normalized_reserved_target_namespace_and_identity
+    with self.subTest(key=key),self.assertRaisesRegex(e.ExperimentError,"OUTCOME_IN_FORECAST_PIPELINE"):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) (key='realized attempts')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 100, in test_normalized_reserved_target_namespace_and_identity
+    with self.subTest(key=key),self.assertRaisesRegex(e.ExperimentError,"OUTCOME_IN_FORECAST_PIPELINE"):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) (key=' Actual-Minutes ')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 100, in test_normalized_reserved_target_namespace_and_identity
+    with self.subTest(key=key),self.assertRaisesRegex(e.ExperimentError,"OUTCOME_IN_FORECAST_PIPELINE"):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+======================================================================
+FAIL: test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 107, in test_normalized_reserved_target_namespace_and_identity
+    with self.assertRaisesRegex(e.ExperimentError,"LINKED_IDENTITY_MISMATCH"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ExperimentError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=7)

@@ -1,0 +1,77 @@
+{
+  "cases": [
+    {
+      "case": "extra_flag",
+      "input": {
+        "admission_status": "BLOCKED",
+        "evidence_bundle": {
+          "capture": {
+            "raw_sha256": "e695e3be014649f2998133da9edf654588a65c520b3f558b9f55921fc9eb66a9",
+            "retrieved_at": "2026-11-16T18:00:00Z",
+            "revision": 1,
+            "schema": "nba-p1-prior-game-evidence/1.0.0",
+            "supersedes_receipt_sha256": null,
+            "url": "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022200001.json",
+            "verified": true
+          },
+          "prior": [],
+          "raw_base64": "eyJnYW1lIjp7ImF3YXlUZWFtIjp7InBsYXllcnMiOltdLCJ0ZWFtSWQiOjJ9LCJnYW1lQ2xvY2siOiJQVDAwTTAwLjAwUyIsImdhbWVJZCI6IjAwMjIyMDAwMDEiLCJnYW1lU3RhdHVzIjozLCJnYW1lVGltZVVUQyI6IjIwMjItMTAtMjFUMjM6MDA6MDBaIiwiaG9tZVRlYW0iOnsicGxheWVycyI6W3sicGVyc29uSWQiOjcsInBsYXllZCI6IjEiLCJzdGF0aXN0aWNzIjp7ImFzc2lzdHMiOjMsIm1pbnV0ZXMiOiJQVDI2TTAwLjAwUyIsInBvaW50cyI6MTEsInJlYm91bmRzVG90YWwiOjUsInRocmVlUG9pbnRlcnNNYWRlIjoyfX1dLCJ0ZWFtSWQiOjF9LCJwZXJpb2QiOjR9fQ=="
+        },
+        "kind": "prior_game_export",
+        "schema": "nba-p1-native-handoff/1.0.0",
+        "source_profile": "synthetic_engineering"
+      },
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "extra_node",
+      "input": {
+        "admission_status": "BLOCKED",
+        "evidence_bundle": {
+          "capture": {
+            "raw_sha256": "e695e3be014649f2998133da9edf654588a65c520b3f558b9f55921fc9eb66a9",
+            "retrieved_at": "2026-11-16T18:00:00Z",
+            "revision": 1,
+            "schema": "nba-p1-prior-game-evidence/1.0.0",
+            "supersedes_receipt_sha256": null,
+            "url": "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022200001.json"
+          },
+          "prior": [],
+          "raw_base64": "eyJnYW1lIjp7ImF3YXlUZWFtIjp7InBsYXllcnMiOltdLCJ0ZWFtSWQiOjJ9LCJnYW1lQ2xvY2siOiJQVDAwTTAwLjAwUyIsImdhbWVJZCI6IjAwMjIyMDAwMDEiLCJnYW1lU3RhdHVzIjozLCJnYW1lVGltZVVUQyI6IjIwMjItMTAtMjFUMjM6MDA6MDBaIiwiaG9tZVRlYW0iOnsicGxheWVycyI6W3sicGVyc29uSWQiOjcsInBsYXllZCI6IjEiLCJzdGF0aXN0aWNzIjp7ImFzc2lzdHMiOjMsIm1pbnV0ZXMiOiJQVDI2TTAwLjAwUyIsInBvaW50cyI6MTEsInJlYm91bmRzVG90YWwiOjUsInRocmVlUG9pbnRlcnNNYWRlIjoyfX1dLCJ0ZWFtSWQiOjF9LCJwZXJpb2QiOjR9fQ==",
+          "target_game_outcome": {
+            "points": 30
+          }
+        },
+        "kind": "prior_game_export",
+        "schema": "nba-p1-native-handoff/1.0.0",
+        "source_profile": "synthetic_engineering"
+      },
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "schema",
+      "input": {
+        "admission_status": "BLOCKED",
+        "evidence_bundle": {
+          "capture": {
+            "raw_sha256": "e695e3be014649f2998133da9edf654588a65c520b3f558b9f55921fc9eb66a9",
+            "retrieved_at": "2026-11-16T18:00:00Z",
+            "revision": 1,
+            "schema": "CALLER_VERIFIED",
+            "supersedes_receipt_sha256": null,
+            "url": "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022200001.json"
+          },
+          "prior": [],
+          "raw_base64": "eyJnYW1lIjp7ImF3YXlUZWFtIjp7InBsYXllcnMiOltdLCJ0ZWFtSWQiOjJ9LCJnYW1lQ2xvY2siOiJQVDAwTTAwLjAwUyIsImdhbWVJZCI6IjAwMjIyMDAwMDEiLCJnYW1lU3RhdHVzIjozLCJnYW1lVGltZVVUQyI6IjIwMjItMTAtMjFUMjM6MDA6MDBaIiwiaG9tZVRlYW0iOnsicGxheWVycyI6W3sicGVyc29uSWQiOjcsInBsYXllZCI6IjEiLCJzdGF0aXN0aWNzIjp7ImFzc2lzdHMiOjMsIm1pbnV0ZXMiOiJQVDI2TTAwLjAwUyIsInBvaW50cyI6MTEsInJlYm91bmRzVG90YWwiOjUsInRocmVlUG9pbnRlcnNNYWRlIjoyfX1dLCJ0ZWFtSWQiOjF9LCJwZXJpb2QiOjR9fQ=="
+        },
+        "kind": "prior_game_export",
+        "schema": "nba-p1-native-handoff/1.0.0",
+        "source_profile": "synthetic_engineering"
+      },
+      "result": "ACCEPTED"
+    }
+  ],
+  "implementation_raw_sha256": "5a414dfa5036c8cf4181e8bdb3af28444a478e8ac8bfc875ac001677c5236e57",
+  "owner_sha": "f2f701c40a8fd2c2e8b4a6853c17c6e12e1b6fb9",
+  "scope": "SYNTHETIC_PACKED_SOURCE_TRANSPORT"
+}

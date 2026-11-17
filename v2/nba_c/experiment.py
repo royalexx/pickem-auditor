@@ -12,6 +12,7 @@ from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 import math
+import re
 import numpy as np
 from scipy.optimize import minimize
 from .scores import ScoreError, validate_pmf, crps, quantile
@@ -81,6 +82,10 @@ def _chronology(row):
     return day,freeze,start,released
 
 
+def _field_key(value):
+    return re.sub(r"[^a-z0-9]","",value.casefold()) if isinstance(value,str) else None
+
+
 def _nested_mappings(obj):
     """Walk every dictionary through arbitrary list/tuple nesting.
 
@@ -114,41 +119,47 @@ def _cutoffs(obj, freeze, start):
                    "training_cutoff_at","asof_cutoff_utc","cutoff_at"}
     event_clocks={"date","frozen_at","event_start_at","event_end_at",
                   "official_available_at"}
+    before_compact={_field_key(x) for x in before_freeze}
+    event_compact={_field_key(x) for x in event_clocks}
     for mapping in _nested_mappings(obj):
         for key,value in mapping.items():
             if not isinstance(key,str):
                 continue  # Integer PMF support is validated separately.
-            if key in before_freeze or "cutoff" in key:
+            compact=_field_key(key)
+            if compact in before_compact or "cutoff" in compact:
                 if _utc(value)>freeze:
                     raise ExperimentError("POST_FREEZE_SOURCE_OR_CUTOFF")
-            elif key=="forecast_at":
+            elif compact=="forecastat":
                 if not freeze<=_utc(value)<start:
                     raise ExperimentError("INVALID_FORECAST_TIME")
-            elif key.endswith("_at") and key not in event_clocks:
+            elif (key.endswith(("_at","_AT","At")) or
+                  re.search(r"(?i)[ _-]at$",key.strip())) and compact not in event_compact:
                 raise ExperimentError("UNSUPPORTED_TIME_FIELD_"+key)
 
 
 def _linked_fields(obj, row):
+    identities={_field_key(key):key for key in ("game_id","player_id","stat","date","frozen_at",
+                "event_start_at","event_end_at","official_available_at","source_profile")}
+    identities["targetgameid"]="game_id"
     for mapping in _nested_mappings(obj):
         for key,value in mapping.items():
-            if key in ("game_id","player_id","stat","date","frozen_at",
-                       "event_start_at","event_end_at","official_available_at",
-                       "source_profile") and value!=row[key]:
-                raise ExperimentError("LINKED_IDENTITY_MISMATCH_"+key)
+            field=identities.get(_field_key(key))
+            if field is not None and value!=row[field]:
+                raise ExperimentError("LINKED_IDENTITY_MISMATCH_"+str(key))
 
 
 def _forecast_only(obj):
-    forbidden={"actual","actual_stats","official_available_at","event_end_at",
-               "actual_minutes","target_game_outcome","target_game_result",
-               "target_game_boxscore","target_result","target_outcome",
-               "final_roster","final_score"}
+    forbidden={"actual","actualstats","officialavailableat","eventendat",
+               "targetresult","targetoutcome","finalroster","finalscore"}
     for mapping in _nested_mappings(obj):
-        # Prior-game observations use an explicit prior_game_* namespace;
-        # projected_* remains legal. Actual/realized target quantities cannot
-        # acquire pregame status by renaming their statistic or nesting them.
-        if any(isinstance(key,str) and (key in forbidden or
-               key.startswith(("actual_","realized_"))) for key in mapping):
-            raise ExperimentError("OUTCOME_IN_FORECAST_PIPELINE")
+        for key in mapping:
+            compact=_field_key(key)
+            # Reserved target-result namespaces are case/separator invariant.
+            # Prior-game and projected numerical leaf fields remain legal.
+            if compact is not None and (compact in forbidden or
+                    compact.startswith(("actual","realized")) or
+                    compact.startswith("targetgame") and compact!="targetgameid"):
+                raise ExperimentError("OUTCOME_IN_FORECAST_PIPELINE")
 
 
 def _synthetic_witness(row):

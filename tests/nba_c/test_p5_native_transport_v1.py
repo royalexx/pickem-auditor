@@ -28,14 +28,11 @@ def missing_outcome():
 
 
 def source_export():
-    raw=b'{"synthetic":true}'
-    capture={"raw_sha256": hashlib.sha256(raw).hexdigest(), "revision": 1,
-        "supersedes_receipt_sha256": None, "url": "https://example.invalid/prior",
-        "retrieved_at": "2022-10-02T00:00:00Z"}
+    # Exact actual P1 packed source from the pinned synthetic two-revision vault.
+    export=json.loads(Path("tests/nba_c/fixtures/native_p1_outcome_synthetic_v1.json").read_bytes())
     return {"schema": P1_VERSION, "kind": "prior_game_export",
         "source_profile": "synthetic_engineering", "admission_status": "BLOCKED",
-        "evidence_bundle": {"capture": capture, "raw_base64":
-            base64.b64encode(raw).decode(), "prior": []}}
+        "evidence_bundle":deepcopy(export["revisions"][0]["accounting_evidence"])}
 
 
 class NativeTransportControlsV1(unittest.TestCase):
@@ -83,7 +80,7 @@ class NativeTransportControlsV1(unittest.TestCase):
         second["prior"]=[deepcopy(export["evidence_bundle"])]
         second["capture"].update(revision=2,
             supersedes_receipt_sha256=digest(second["prior"][0]["capture"]),
-            retrieved_at="2022-10-03T00:00:00Z")
+            retrieved_at="2026-11-16T18:30:00Z")
         export["evidence_bundle"]=second;validate_p1_export(export)
         for ancestor in (False,True):
             bad=deepcopy(export)
@@ -95,7 +92,7 @@ class NativeTransportControlsV1(unittest.TestCase):
         bad=deepcopy(export);bad["evidence_bundle"]["prior"]=[]
         with self.assertRaisesRegex(WarehouseError,"SOURCE_ANCESTRY"):
             validate_p1_export(bad)
-        bad=deepcopy(export);bad["evidence_bundle"]["capture"]["retrieved_at"]="2022-10-01T00:00:00Z"
+        bad=deepcopy(export);bad["evidence_bundle"]["capture"]["retrieved_at"]="2026-11-16T17:00:00Z"
         with self.assertRaisesRegex(WarehouseError,"REVISION_CLOCK_OR_IDENTITY"):
             validate_p1_export(bad)
 
@@ -218,6 +215,16 @@ class NativeTransportControlsV1(unittest.TestCase):
                     {"points":8,"rebounds":2,"pr":11}):
             with self.subTest(stats=bad),self.assertRaises(WarehouseError):
                 _box_stats(bad)
+
+    def test_source_capture_schema_is_closed_not_caller_certifiable(self):
+        for attack in ("extra_flag","extra_node","schema","bool_revision"):
+            bad=source_export();node=bad["evidence_bundle"]
+            if attack=="extra_flag":node["capture"]["verified"]=True
+            if attack=="extra_node":node["target_game_outcome"]={"points":30}
+            if attack=="schema":node["capture"]["schema"]="CALLER_VERIFIED"
+            if attack=="bool_revision":node["capture"]["revision"]=True
+            with self.subTest(attack=attack),self.assertRaises(WarehouseError):
+                validate_p1_export(bad)
 
     def test_stored_outcome_tampering_detected(self):
         with tempfile.TemporaryDirectory() as root:
