@@ -1,0 +1,2 @@
+{"P1_rows": 1, "P3_conditional_mixture": true, "P3_unknown_abstention": true, "P4": "BLOCKED_SYNTHETIC_RATES_ONLY", "S_to_J_sidecar": "0dd0365cc8821a1cdc020d77ce49d81201e2534e70c5572df8a67a906cdf2cc3", "status": "PASS_SYNTHETIC_INTEROPERABILITY"}
+{"cases": [{"case": "56_minute_two_OT_training_exposure", "code": "HISTORICAL_EXPOSURE_PHYSICS", "family": "P2", "limitation": "Historical fit schema lacks official OT count", "status": "REJECTED_POTENTIALLY_VALID_MULTI_OT"}], "family": "P2", "suite": "nba-p6-g1-owner-negative-20261116"}

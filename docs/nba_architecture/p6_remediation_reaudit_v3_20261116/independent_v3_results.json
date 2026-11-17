@@ -1,0 +1,47 @@
+[
+  {
+    "family": "P1",
+    "exit": 0,
+    "output_sha256": "952f919a06c3a7cca0f5bc3b3ffd857930f36bf0dffeb2057c92fcba4db1d375",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases": 7,
+    "pass": 7,
+    "fail": 0
+  },
+  {
+    "family": "P2",
+    "exit": 2,
+    "output_sha256": "ca782b2082f196a403568c1874860abfc65bf7c56bad094d7f8772b4881387ed",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases": 6,
+    "pass": 5,
+    "fail": 1
+  },
+  {
+    "family": "P3",
+    "exit": 0,
+    "output_sha256": "fa32865c7d876fae3fd5b266e6eeb8f55ff1dd1b535c07e5fc0aa2ebc7f77c5e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases": 5,
+    "pass": 5,
+    "fail": 0
+  },
+  {
+    "family": "P4",
+    "exit": 0,
+    "output_sha256": "d9edde393894a7555a775ee0ad088ae3bfeca93491066a512fcffee710151e4a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases": 6,
+    "pass": 6,
+    "fail": 0
+  },
+  {
+    "family": "P5",
+    "exit": 2,
+    "output_sha256": "952b7bd2d3cd9005815230da00c1088058ecf56247697cafff642e70f4f2131f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases": 10,
+    "pass": 9,
+    "fail": 1
+  }
+]

@@ -1,0 +1,702 @@
+[
+  {
+    "family": "P1",
+    "receipt_path": "docs/nba_architecture/p1_remediation_20261117/engineering_receipt.json",
+    "receipt_raw_sha256": "1351839046dd2f4697a4046fc0b0e12ec963239f7ca77c42f3af0c547c201a74",
+    "checks": [
+      {
+        "field": "/g0_unchanged_file_sha256/v2/nba_architecture/schema-2.0.0.json",
+        "path": "v2/nba_architecture/schema-2.0.0.json",
+        "expected": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+        "actual": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+        "match": true
+      },
+      {
+        "field": "/g0_unchanged_file_sha256/v2/nba_architecture/v2_contracts.py",
+        "path": "v2/nba_architecture/v2_contracts.py",
+        "expected": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+        "actual": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+        "match": true
+      },
+      {
+        "field": "/source_and_test_raw_sha256/docs/nba_architecture/p1_remediation_20261117/p6_exact_probe.py",
+        "path": "docs/nba_architecture/p1_remediation_20261117/p6_exact_probe.py",
+        "expected": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52",
+        "actual": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52",
+        "match": true
+      },
+      {
+        "field": "/source_and_test_raw_sha256/scripts/nba_p1_build_pregame.py",
+        "path": "scripts/nba_p1_build_pregame.py",
+        "expected": "29ee137c37c361c6ad838d4343547e24744b85f0bb7e7d0dbb8e99879b64530b",
+        "actual": "29ee137c37c361c6ad838d4343547e24744b85f0bb7e7d0dbb8e99879b64530b",
+        "match": true
+      },
+      {
+        "field": "/source_and_test_raw_sha256/scripts/nba_p1_reconcile_archive.py",
+        "path": "scripts/nba_p1_reconcile_archive.py",
+        "expected": "0b9b0c9cca4716150d0d6f06594186c41166ad4690086a54878d3cd2d93de40f",
+        "actual": "0b9b0c9cca4716150d0d6f06594186c41166ad4690086a54878d3cd2d93de40f",
+        "match": true
+      },
+      {
+        "field": "/source_and_test_raw_sha256/tests/nba_architecture/test_p1_history.py",
+        "path": "tests/nba_architecture/test_p1_history.py",
+        "expected": "d4d83055ac82c467dfcdcf297e11f5758bb7df4dcd9568a312dbb0a0658c88ec",
+        "actual": "d4d83055ac82c467dfcdcf297e11f5758bb7df4dcd9568a312dbb0a0658c88ec",
+        "match": true
+      },
+      {
+        "field": "/source_and_test_raw_sha256/tests/nba_architecture/test_p1_remediation.py",
+        "path": "tests/nba_architecture/test_p1_remediation.py",
+        "expected": "d26d062ed1ac90999ac44bb5f52d3cca5c3e0ef86a0e596cf6d95ae18525f41d",
+        "actual": "d26d062ed1ac90999ac44bb5f52d3cca5c3e0ef86a0e596cf6d95ae18525f41d",
+        "match": true
+      },
+      {
+        "field": "/source_and_test_raw_sha256/v2/nba_architecture/p1-context-1.0.0.schema.json",
+        "path": "v2/nba_architecture/p1-context-1.0.0.schema.json",
+        "expected": "613bba7069dac31bbac608bef288ec675a64b6ccd4f3970216850226a3dde48a",
+        "actual": "613bba7069dac31bbac608bef288ec675a64b6ccd4f3970216850226a3dde48a",
+        "match": true
+      },
+      {
+        "field": "/source_and_test_raw_sha256/v2/nba_architecture/p1-official-capture-1.0.0.schema.json",
+        "path": "v2/nba_architecture/p1-official-capture-1.0.0.schema.json",
+        "expected": "32f699951fdd9c0748ee324af660080dab6bb209aee49b421f31c963ca9290b4",
+        "actual": "32f699951fdd9c0748ee324af660080dab6bb209aee49b421f31c963ca9290b4",
+        "match": true
+      },
+      {
+        "field": "/source_and_test_raw_sha256/v2/nba_architecture/p1-vault-1.1.0.schema.json",
+        "path": "v2/nba_architecture/p1-vault-1.1.0.schema.json",
+        "expected": "9249030c9488c683ee27ee61fff925bb08209f1b776b807663d6b1e37dcc39a1",
+        "actual": "9249030c9488c683ee27ee61fff925bb08209f1b776b807663d6b1e37dcc39a1",
+        "match": true
+      },
+      {
+        "field": "/source_and_test_raw_sha256/v2/nba_architecture/p1_context.py",
+        "path": "v2/nba_architecture/p1_context.py",
+        "expected": "9a27075c048b806fcecaaafed8be43a67f068dfd49d4983887b411cface5a657",
+        "actual": "9a27075c048b806fcecaaafed8be43a67f068dfd49d4983887b411cface5a657",
+        "match": true
+      },
+      {
+        "field": "/source_and_test_raw_sha256/v2/nba_architecture/p1_evidence.py",
+        "path": "v2/nba_architecture/p1_evidence.py",
+        "expected": "ddcf546ff51be596ac65f948c55d7e8cd5d5a8519445cfe0764c4a0db9c21fad",
+        "actual": "ddcf546ff51be596ac65f948c55d7e8cd5d5a8519445cfe0764c4a0db9c21fad",
+        "match": true
+      },
+      {
+        "field": "/source_and_test_raw_sha256/v2/nba_architecture/p1_history.py",
+        "path": "v2/nba_architecture/p1_history.py",
+        "expected": "499df0c9cf1d43e3de653318df2fb6f97e70bcd23abb534f6440fe43b7a8f8c2",
+        "actual": "499df0c9cf1d43e3de653318df2fb6f97e70bcd23abb534f6440fe43b7a8f8c2",
+        "match": true
+      },
+      {
+        "field": "/source_and_test_raw_sha256/v2/nba_architecture/p1_vault.py",
+        "path": "v2/nba_architecture/p1_vault.py",
+        "expected": "e5de3a7344dfcba74facac8e484c91b7c4aeecd5a1f44cf72670c6ccc435415e",
+        "actual": "e5de3a7344dfcba74facac8e484c91b7c4aeecd5a1f44cf72670c6ccc435415e",
+        "match": true
+      }
+    ]
+  },
+  {
+    "family": "P2",
+    "receipt_path": "docs/nba_architecture/p2_remediation_v1_1/receipt.json",
+    "receipt_raw_sha256": "d880cb27c7c903751dff46bc1ba507417868f3e076a98ba02bd854d552fb3523",
+    "checks": [
+      {
+        "field": "/G0_contract_raw_sha256/v2/nba_architecture/families_v2.py",
+        "path": "v2/nba_architecture/families_v2.py",
+        "expected": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+        "actual": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+        "match": true
+      },
+      {
+        "field": "/G0_contract_raw_sha256/v2/nba_architecture/v2_contracts.py",
+        "path": "v2/nba_architecture/v2_contracts.py",
+        "expected": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+        "actual": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/docs/nba_architecture/P2_S_FAMILY_HANDOFF_20261116.md",
+        "path": "docs/nba_architecture/P2_S_FAMILY_HANDOFF_20261116.md",
+        "expected": "e733dea54cd39bef246c8bc1fdca5c9b77c084854dcf4ca80d1de9f88deb7222",
+        "actual": "e733dea54cd39bef246c8bc1fdca5c9b77c084854dcf4ca80d1de9f88deb7222",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/docs/nba_architecture/P2_S_INTERFACES_V1_1.md",
+        "path": "docs/nba_architecture/P2_S_INTERFACES_V1_1.md",
+        "expected": "6b20106fc423734e733734eca89449098e8667455e269e3b6a4790d79f61821e",
+        "actual": "6b20106fc423734e733734eca89449098e8667455e269e3b6a4790d79f61821e",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/docs/nba_architecture/p2_remediation_v1_1/G0_plus_P6.log",
+        "path": "docs/nba_architecture/p2_remediation_v1_1/G0_plus_P6.log",
+        "expected": "6b496cbdfbcca9c366b6a987d0ef7f7f5ea704821eef5ea6e67f301b76fc906c",
+        "actual": "6b496cbdfbcca9c366b6a987d0ef7f7f5ea704821eef5ea6e67f301b76fc906c",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/docs/nba_architecture/p2_remediation_v1_1/G0_regression.log",
+        "path": "docs/nba_architecture/p2_remediation_v1_1/G0_regression.log",
+        "expected": "712c1873b41403e77d456a45564028a209cf3598b42106e97ddf8c13853318ca",
+        "actual": "712c1873b41403e77d456a45564028a209cf3598b42106e97ddf8c13853318ca",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/docs/nba_architecture/p2_remediation_v1_1/S_all.log",
+        "path": "docs/nba_architecture/p2_remediation_v1_1/S_all.log",
+        "expected": "ac0ffd9b68652013c4314fdcb49e433529e76f29a23f622a8122492aadefbac8",
+        "actual": "ac0ffd9b68652013c4314fdcb49e433529e76f29a23f622a8122492aadefbac8",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/docs/nba_architecture/p2_remediation_v1_1/S_original_22.log",
+        "path": "docs/nba_architecture/p2_remediation_v1_1/S_original_22.log",
+        "expected": "973a3c1a551afe0e7c6e49d7857c4348b8b220949bd8d4fc6eab8c84072ff145",
+        "actual": "973a3c1a551afe0e7c6e49d7857c4348b8b220949bd8d4fc6eab8c84072ff145",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/docs/nba_architecture/p2_remediation_v1_1/example.log",
+        "path": "docs/nba_architecture/p2_remediation_v1_1/example.log",
+        "expected": "41352faa78afda7e47c744e89a103032df199bb1bb6e31667abf4ba053fe723f",
+        "actual": "41352faa78afda7e47c744e89a103032df199bb1bb6e31667abf4ba053fe723f",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/docs/nba_architecture/p2_remediation_v1_1/owner_interoperability.log",
+        "path": "docs/nba_architecture/p2_remediation_v1_1/owner_interoperability.log",
+        "expected": "4787a49b69577c2fd76f11bca1ed56b321646576870d9c2c5c531ce15930986a",
+        "actual": "4787a49b69577c2fd76f11bca1ed56b321646576870d9c2c5c531ce15930986a",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/scripts/nba_p2_integration_check.py",
+        "path": "scripts/nba_p2_integration_check.py",
+        "expected": "df09d1cf41f1aeb06eaf9b13bc7041ca6fdef83d7efa4b3234319f402282a641",
+        "actual": "df09d1cf41f1aeb06eaf9b13bc7041ca6fdef83d7efa4b3234319f402282a641",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/scripts/nba_p2_remediation_evidence.py",
+        "path": "scripts/nba_p2_remediation_evidence.py",
+        "expected": "9989c66a1f31d06e3755422202a806b19fbd3e20f6f1b0b2c5a1063a0bf3bd05",
+        "actual": "9989c66a1f31d06e3755422202a806b19fbd3e20f6f1b0b2c5a1063a0bf3bd05",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/scripts/nba_p2_s_family_example.py",
+        "path": "scripts/nba_p2_s_family_example.py",
+        "expected": "12b52e1f07160a8b4404575c6eb8100c8fde3c1c189526036e8bafeb61d17a68",
+        "actual": "12b52e1f07160a8b4404575c6eb8100c8fde3c1c189526036e8bafeb61d17a68",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/tests/nba_s_family/test_integration.py",
+        "path": "tests/nba_s_family/test_integration.py",
+        "expected": "56ff6e48993d40964caada5a2ea9291fc50ae181ed4cdf3a06f12b61e54ce715",
+        "actual": "56ff6e48993d40964caada5a2ea9291fc50ae181ed4cdf3a06f12b61e54ce715",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/tests/nba_s_family/test_statistical.py",
+        "path": "tests/nba_s_family/test_statistical.py",
+        "expected": "4afb4f98bfe5666ac02a80080dff566c9dbcc7bc1c5c407542b5ee23226ca1ee",
+        "actual": "4afb4f98bfe5666ac02a80080dff566c9dbcc7bc1c5c407542b5ee23226ca1ee",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/v2/nba_s_family/integration.py",
+        "path": "v2/nba_s_family/integration.py",
+        "expected": "cc5ba5d5fab72d762581f831e55d1018dc5a5383ade8f89fb8de9fea03cb51e3",
+        "actual": "cc5ba5d5fab72d762581f831e55d1018dc5a5383ade8f89fb8de9fea03cb51e3",
+        "match": true
+      },
+      {
+        "field": "/raw_sha256/v2/nba_s_family/model.py",
+        "path": "v2/nba_s_family/model.py",
+        "expected": "0567e6e6a474361c748b60c0810951ff0b32de03e21c58f7970ce8cd6b68071c",
+        "actual": "0567e6e6a474361c748b60c0810951ff0b32de03e21c58f7970ce8cd6b68071c",
+        "match": true
+      }
+    ]
+  },
+  {
+    "family": "P3",
+    "receipt_path": "docs/nba_architecture/p3_boundary_review_20261116/execution_receipt.json",
+    "receipt_raw_sha256": "03456450da0c634df5c084c4e33a192e4270568cbadf87192c958f2141ab6f3f",
+    "checks": [
+      {
+        "field": "/artifact_raw_sha256/consumer_fixture.json",
+        "path": "docs/nba_architecture/p3_boundary_review_20261116/consumer_fixture.json",
+        "expected": "1d7cd213b4d20802851100aa4a7712b65b676ea9b9b02dcc8803833351ae6815",
+        "actual": "1d7cd213b4d20802851100aa4a7712b65b676ea9b9b02dcc8803833351ae6815",
+        "match": true
+      },
+      {
+        "field": "/artifact_raw_sha256/g0_p3.log",
+        "path": "docs/nba_architecture/p3_boundary_review_20261116/g0_p3.log",
+        "expected": "95257fd720ae96172802a1145b19b406cbdd78a2572e66c114fdda0b47abc9ad",
+        "actual": "95257fd720ae96172802a1145b19b406cbdd78a2572e66c114fdda0b47abc9ad",
+        "match": true
+      },
+      {
+        "field": "/artifact_raw_sha256/g0_p3_p6.log",
+        "path": "docs/nba_architecture/p3_boundary_review_20261116/g0_p3_p6.log",
+        "expected": "0992063d4869275ecbd974a5a0051c5c149b5bd9e2d547a1e9b215dbe7b0a575",
+        "actual": "0992063d4869275ecbd974a5a0051c5c149b5bd9e2d547a1e9b215dbe7b0a575",
+        "match": true
+      },
+      {
+        "field": "/artifact_raw_sha256/handoff.log",
+        "path": "docs/nba_architecture/p3_boundary_review_20261116/handoff.log",
+        "expected": "07d1f5551bc11aace07dababa3acc90372ebb52971c7add45f5cfa9d5decac74",
+        "actual": "07d1f5551bc11aace07dababa3acc90372ebb52971c7add45f5cfa9d5decac74",
+        "match": true
+      },
+      {
+        "field": "/artifact_raw_sha256/handoff_receipt.json",
+        "path": "docs/nba_architecture/p3_boundary_review_20261116/handoff_receipt.json",
+        "expected": "07d1f5551bc11aace07dababa3acc90372ebb52971c7add45f5cfa9d5decac74",
+        "actual": "07d1f5551bc11aace07dababa3acc90372ebb52971c7add45f5cfa9d5decac74",
+        "match": true
+      },
+      {
+        "field": "/artifact_raw_sha256/p4_result.json",
+        "path": "docs/nba_architecture/p3_boundary_review_20261116/p4_result.json",
+        "expected": "f03fb3236c35cb7c73e6c096e0d15a18a82d2f6c71472236aa55faf131096e2f",
+        "actual": "f03fb3236c35cb7c73e6c096e0d15a18a82d2f6c71472236aa55faf131096e2f",
+        "match": true
+      },
+      {
+        "field": "/implementation_raw_sha256/docs/nba_architecture/P3_BOUNDARY_HANDOFF_20261116.md",
+        "path": "docs/nba_architecture/P3_BOUNDARY_HANDOFF_20261116.md",
+        "expected": "c79eaaac5547596a265a504a9023f73b6ea6c6d86e5c4198a14155266be451ff",
+        "actual": "a09c78b82467efbdcdf4865e4921baba48ed46305814f59f3dfad44f4478dd15",
+        "match": false
+      },
+      {
+        "field": "/implementation_raw_sha256/scripts/nba_p3_handoff_check.py",
+        "path": "scripts/nba_p3_handoff_check.py",
+        "expected": "32c516473a2f51c93b9903a3bcab585e53ddd5a88be898d8d096ed40ff228100",
+        "actual": "32c516473a2f51c93b9903a3bcab585e53ddd5a88be898d8d096ed40ff228100",
+        "match": true
+      },
+      {
+        "field": "/implementation_raw_sha256/tests/nba_architecture/golden_v2/joint_same_draw.json",
+        "path": "tests/nba_architecture/golden_v2/joint_same_draw.json",
+        "expected": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b",
+        "actual": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b",
+        "match": true
+      },
+      {
+        "field": "/implementation_raw_sha256/tests/nba_architecture/test_p3_boundaries.py",
+        "path": "tests/nba_architecture/test_p3_boundaries.py",
+        "expected": "f0d0173dcaa66c7c2f9e25cb7fa7acf6189244b8096f796e9c76bdfbe87f8fa6",
+        "actual": "f0d0173dcaa66c7c2f9e25cb7fa7acf6189244b8096f796e9c76bdfbe87f8fa6",
+        "match": true
+      },
+      {
+        "field": "/implementation_raw_sha256/tests/nba_architecture/test_p3_o_family.py",
+        "path": "tests/nba_architecture/test_p3_o_family.py",
+        "expected": "b12f5d53ab723a537f15c1885dec1ad79678afb4a977a534c43c62fba29ef3b3",
+        "actual": "b12f5d53ab723a537f15c1885dec1ad79678afb4a977a534c43c62fba29ef3b3",
+        "match": true
+      },
+      {
+        "field": "/implementation_raw_sha256/v2/nba_architecture/families_v2.py",
+        "path": "v2/nba_architecture/families_v2.py",
+        "expected": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+        "actual": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+        "match": true
+      },
+      {
+        "field": "/implementation_raw_sha256/v2/nba_architecture/v2_contracts.py",
+        "path": "v2/nba_architecture/v2_contracts.py",
+        "expected": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+        "actual": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+        "match": true
+      },
+      {
+        "field": "/implementation_raw_sha256/v2/nba_o_bridge.py",
+        "path": "v2/nba_o_bridge.py",
+        "expected": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
+        "actual": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
+        "match": true
+      },
+      {
+        "field": "/implementation_raw_sha256/v2/nba_o_consumers.py",
+        "path": "v2/nba_o_consumers.py",
+        "expected": "26fa725e35a6f3a8796afad941fcef60e51e6586f9260f2c5d48965e8c3ac61e",
+        "actual": "26fa725e35a6f3a8796afad941fcef60e51e6586f9260f2c5d48965e8c3ac61e",
+        "match": true
+      },
+      {
+        "field": "/implementation_raw_sha256/v2/nba_o_family.py",
+        "path": "v2/nba_o_family.py",
+        "expected": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e",
+        "actual": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e",
+        "match": true
+      },
+      {
+        "field": "/implementation_raw_sha256/v2/nba_opportunity.py",
+        "path": "v2/nba_opportunity.py",
+        "expected": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30",
+        "actual": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30",
+        "match": true
+      }
+    ]
+  },
+  {
+    "family": "P4",
+    "receipt_path": "docs/nba_architecture/P4_UPSTREAM_INTEGRATION_RECEIPT_20261117.json",
+    "receipt_raw_sha256": "44537f350bfb857495d5e315c9816c02d4de75aac070624f04fc86516355bcee",
+    "checks": [
+      {
+        "field": "/output_files_raw_sha256/research/nba_p4_integration/results_20261117/benchmark.json",
+        "path": "research/nba_p4_integration/results_20261117/benchmark.json",
+        "expected": "4d559ccfd50e1952094d7d988f11250aeb74bbba3c3820e1c46952b735672d59",
+        "actual": "4d559ccfd50e1952094d7d988f11250aeb74bbba3c3820e1c46952b735672d59",
+        "match": true
+      },
+      {
+        "field": "/output_files_raw_sha256/research/nba_p4_integration/results_20261117/complete_pmfs.json",
+        "path": "research/nba_p4_integration/results_20261117/complete_pmfs.json",
+        "expected": "58633853f9007a7a0788b12035a5cfbe46d9fe1410962990fee985de3dde4aaa",
+        "actual": "58633853f9007a7a0788b12035a5cfbe46d9fe1410962990fee985de3dde4aaa",
+        "match": true
+      },
+      {
+        "field": "/output_files_raw_sha256/research/nba_p4_integration/results_20261117/contract_inputs.json",
+        "path": "research/nba_p4_integration/results_20261117/contract_inputs.json",
+        "expected": "c56b0156407e852a05c4c4842b13567a79c83cbefb1d98825d41530f2e27ab65",
+        "actual": "c56b0156407e852a05c4c4842b13567a79c83cbefb1d98825d41530f2e27ab65",
+        "match": true
+      },
+      {
+        "field": "/output_files_raw_sha256/research/nba_p4_integration/results_20261117/integrated_benchmark.log",
+        "path": "research/nba_p4_integration/results_20261117/integrated_benchmark.log",
+        "expected": "ec7de9d7b5cede66213a206ea1f487766e127f8b0d90eab7dbb5fe91c0e6c50d",
+        "actual": "ec7de9d7b5cede66213a206ea1f487766e127f8b0d90eab7dbb5fe91c0e6c50d",
+        "match": true
+      },
+      {
+        "field": "/output_files_raw_sha256/research/nba_p4_integration/results_20261117/joint_scenarios.json",
+        "path": "research/nba_p4_integration/results_20261117/joint_scenarios.json",
+        "expected": "f97d9c39b047d26e5c86d496c656ab70c7587ed036123219f321af3fde0f36b2",
+        "actual": "f97d9c39b047d26e5c86d496c656ab70c7587ed036123219f321af3fde0f36b2",
+        "match": true
+      },
+      {
+        "field": "/output_files_raw_sha256/research/nba_p4_integration/results_20261117/legacy_benchmark.json",
+        "path": "research/nba_p4_integration/results_20261117/legacy_benchmark.json",
+        "expected": "14604389babbe546fed2d871bf4dbf73d058368ff4abea2400929427da375aba",
+        "actual": "14604389babbe546fed2d871bf4dbf73d058368ff4abea2400929427da375aba",
+        "match": true
+      },
+      {
+        "field": "/output_files_raw_sha256/research/nba_p4_integration/results_20261117/legacy_benchmark.log",
+        "path": "research/nba_p4_integration/results_20261117/legacy_benchmark.log",
+        "expected": "31ee304fb0c1e7a02fc789ff9e61cca30b6b81884123cd4c5bf14b38d2680d3c",
+        "actual": "31ee304fb0c1e7a02fc789ff9e61cca30b6b81884123cd4c5bf14b38d2680d3c",
+        "match": true
+      },
+      {
+        "field": "/output_files_raw_sha256/research/nba_p4_integration/results_20261117/marginal_distortion.json",
+        "path": "research/nba_p4_integration/results_20261117/marginal_distortion.json",
+        "expected": "75053526069e9a9c56362e961d62e352e1b853278748631cf2a49ef681c7c0c0",
+        "actual": "75053526069e9a9c56362e961d62e352e1b853278748631cf2a49ef681c7c0c0",
+        "match": true
+      },
+      {
+        "field": "/output_files_raw_sha256/research/nba_p4_integration/results_20261117/preserved_failed_O2_scaling_0e1cac8.log",
+        "path": "research/nba_p4_integration/results_20261117/preserved_failed_O2_scaling_0e1cac8.log",
+        "expected": "6353f2db7485b899e6e06d72e5e74d53b13d30a2efe0a2bc9b6c1ef6c6c8c4b0",
+        "actual": "6353f2db7485b899e6e06d72e5e74d53b13d30a2efe0a2bc9b6c1ef6c6c8c4b0",
+        "match": true
+      },
+      {
+        "field": "/output_files_raw_sha256/research/nba_p4_integration/results_20261117/tests.json",
+        "path": "research/nba_p4_integration/results_20261117/tests.json",
+        "expected": "ff525105a8f0ad13f3800d97413c281452cd35598a0f4d2e098f88ee6be02755",
+        "actual": "ff525105a8f0ad13f3800d97413c281452cd35598a0f4d2e098f88ee6be02755",
+        "match": true
+      },
+      {
+        "field": "/output_files_raw_sha256/research/nba_p4_integration/results_20261117/tests.log",
+        "path": "research/nba_p4_integration/results_20261117/tests.log",
+        "expected": "b6d01ed451e7669a1420263fdc1eeacfe4337882536045ddd9d62b326d9d86c7",
+        "actual": "b6d01ed451e7669a1420263fdc1eeacfe4337882536045ddd9d62b326d9d86c7",
+        "match": true
+      },
+      {
+        "field": "/output_files_raw_sha256/research/nba_p4_integration/results_20261117/ws5_canary.json",
+        "path": "research/nba_p4_integration/results_20261117/ws5_canary.json",
+        "expected": "c5f21bba95ffe82b21a3a82c7643dac317ce631aa32299db32452a7de807ae6a",
+        "actual": "c5f21bba95ffe82b21a3a82c7643dac317ce631aa32299db32452a7de807ae6a",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/research/nba_p4_integration/benchmark.py",
+        "path": "research/nba_p4_integration/benchmark.py",
+        "expected": "5d93cd81a604f9eb293e8fac7da6043fbd939586c07ae24ace2920be159c85fc",
+        "actual": "5d93cd81a604f9eb293e8fac7da6043fbd939586c07ae24ace2920be159c85fc",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/research/nba_p4_integration/checks.py",
+        "path": "research/nba_p4_integration/checks.py",
+        "expected": "07f0112fbf0b97b400ce399ddc92d52a33b072ff4c0ae5c63534243c7c71c854",
+        "actual": "07f0112fbf0b97b400ce399ddc92d52a33b072ff4c0ae5c63534243c7c71c854",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/research/nba_p4_integration/fixture.py",
+        "path": "research/nba_p4_integration/fixture.py",
+        "expected": "79f7dcff4ccaf050590f0318a09e026d0d6de338eb6b59998d446eb08df90217",
+        "actual": "79f7dcff4ccaf050590f0318a09e026d0d6de338eb6b59998d446eb08df90217",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/research/nba_p4_integration/fixtures/assists.json",
+        "path": "research/nba_p4_integration/fixtures/assists.json",
+        "expected": "a0fb3c1eee380c95c07f0eb221fb4d52799ac7f5806f25bf8e23bfe74e478910",
+        "actual": "a0fb3c1eee380c95c07f0eb221fb4d52799ac7f5806f25bf8e23bfe74e478910",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/research/nba_p4_integration/fixtures/inputs.json",
+        "path": "research/nba_p4_integration/fixtures/inputs.json",
+        "expected": "92fc3063445502623d7810421b4de484a743e91ca1a903ad2bd3e4bc8ec61f00",
+        "actual": "92fc3063445502623d7810421b4de484a743e91ca1a903ad2bd3e4bc8ec61f00",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/research/nba_p4_integration/fixtures/points.json",
+        "path": "research/nba_p4_integration/fixtures/points.json",
+        "expected": "c9d1545ce3f30f22549ddb1ebc340ee36933d2daab1f6134ca70207da7d62acc",
+        "actual": "c9d1545ce3f30f22549ddb1ebc340ee36933d2daab1f6134ca70207da7d62acc",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/research/nba_p4_integration/fixtures/rebounds.json",
+        "path": "research/nba_p4_integration/fixtures/rebounds.json",
+        "expected": "31ff7652e907b07fb777533a7a1c41c776ab96a33daeb510c516a45811b53c41",
+        "actual": "31ff7652e907b07fb777533a7a1c41c776ab96a33daeb510c516a45811b53c41",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/research/nba_p4_integration/fixtures/three_conversion.json",
+        "path": "research/nba_p4_integration/fixtures/three_conversion.json",
+        "expected": "9af7f8edc08c88ff4d0ff8957a75f042bece8a4dbe582c82783ca593ae8a0bb1",
+        "actual": "9af7f8edc08c88ff4d0ff8957a75f042bece8a4dbe582c82783ca593ae8a0bb1",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/research/nba_p4_integration/fixtures/threes.json",
+        "path": "research/nba_p4_integration/fixtures/threes.json",
+        "expected": "261f3e221c0c013065c9651dd83200b880f1ab53b976366afb6b05351695914e",
+        "actual": "261f3e221c0c013065c9651dd83200b880f1ab53b976366afb6b05351695914e",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/research/nba_p4_integration/fixtures/trust.json",
+        "path": "research/nba_p4_integration/fixtures/trust.json",
+        "expected": "a2f409a2e3b730d43a7a63932e591b46c3a46bd1e50e150f48e338e0ce03912e",
+        "actual": "a2f409a2e3b730d43a7a63932e591b46c3a46bd1e50e150f48e338e0ce03912e",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/research/nba_p4_integration/generate_fixtures.py",
+        "path": "research/nba_p4_integration/generate_fixtures.py",
+        "expected": "79c91a150361497d4d8c8358537956da81b0556546ea4c137735f92c9cf3ac46",
+        "actual": "79c91a150361497d4d8c8358537956da81b0556546ea4c137735f92c9cf3ac46",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/research/nba_p4_integration/prepare.py",
+        "path": "research/nba_p4_integration/prepare.py",
+        "expected": "9861e7429cabb9059fc75058ba8af3cfa6fb23277c3fd2f3976f3f8d523e1b1d",
+        "actual": "9861e7429cabb9059fc75058ba8af3cfa6fb23277c3fd2f3976f3f8d523e1b1d",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/tests/nba_architecture/test_p4_upstream_integration.py",
+        "path": "tests/nba_architecture/test_p4_upstream_integration.py",
+        "expected": "32e82c54a45b3e3b071acf126f58f6da91754b080acf750bb66e5916b237a8d1",
+        "actual": "32e82c54a45b3e3b071acf126f58f6da91754b080acf750bb66e5916b237a8d1",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/v2/nba_joint/integration.py",
+        "path": "v2/nba_joint/integration.py",
+        "expected": "83e4e8a140afbae07ad18d8f0e9b6838a9bed63a19a85d587a80f8538fde8948",
+        "actual": "83e4e8a140afbae07ad18d8f0e9b6838a9bed63a19a85d587a80f8538fde8948",
+        "match": true
+      },
+      {
+        "field": "/source_files_sha256/v2/nba_joint/p4.py",
+        "path": "v2/nba_joint/p4.py",
+        "expected": "03d4b9c7cac0645212a1660826b71949af226b512adb6d55156c37e6b62ca3bd",
+        "actual": "03d4b9c7cac0645212a1660826b71949af226b512adb6d55156c37e6b62ca3bd",
+        "match": true
+      }
+    ]
+  },
+  {
+    "family": "P5",
+    "receipt_path": "docs/nba_c/P5_F_P5_01_EXECUTION_RECEIPT_20261117.json",
+    "receipt_raw_sha256": "9bd08bef7f59ed1ad23f6f9565da4f8fd88e988a42712acf328f882c85ff0f5b",
+    "checks": [
+      {
+        "field": "/P6_raw_controls_sha256/../p6_controls/test_p6_g1_specificity_and_scores.py",
+        "path": "../p6_controls/test_p6_g1_specificity_and_scores.py",
+        "expected": "cb8340930193fe14cd6e2a6f51ebd90e4d2672e1d40f5ee08c84720bd67c7379",
+        "actual": "cb8340930193fe14cd6e2a6f51ebd90e4d2672e1d40f5ee08c84720bd67c7379",
+        "match": true
+      },
+      {
+        "field": "/P6_raw_controls_sha256/../p6_controls/test_p6_independent_controls.py",
+        "path": "../p6_controls/test_p6_independent_controls.py",
+        "expected": "8cdb7a8b013ee3f9e44122e90263cc83befbd835a79740ee6d578dbe60cf0802",
+        "actual": "8cdb7a8b013ee3f9e44122e90263cc83befbd835a79740ee6d578dbe60cf0802",
+        "match": true
+      },
+      {
+        "field": "/P6_raw_controls_sha256/../p6_controls/test_p6_math_references.py",
+        "path": "../p6_controls/test_p6_math_references.py",
+        "expected": "316e41d3a6bf6f1c2587daef94a3933e94e02b02b3078a3728614c55069f1e5b",
+        "actual": "316e41d3a6bf6f1c2587daef94a3933e94e02b02b3078a3728614c55069f1e5b",
+        "match": true
+      },
+      {
+        "field": "/P6_raw_controls_sha256/../p6_controls/test_p6_post_g0_reference_and_boundaries.py",
+        "path": "../p6_controls/test_p6_post_g0_reference_and_boundaries.py",
+        "expected": "03459760f1d829c63afcf892be35c5b74cdc277360d37f63fa556b62b0d7401e",
+        "actual": "03459760f1d829c63afcf892be35c5b74cdc277360d37f63fa556b62b0d7401e",
+        "match": true
+      },
+      {
+        "field": "/P6_raw_controls_sha256/../p6_controls/test_p6_red_counterexamples.py",
+        "path": "../p6_controls/test_p6_red_counterexamples.py",
+        "expected": "a1974d20dd8f5a40493a06cd2ce349f2a2b7a3da9131a21aebddb1a56bc6e5d1",
+        "actual": "a1974d20dd8f5a40493a06cd2ce349f2a2b7a3da9131a21aebddb1a56bc6e5d1",
+        "match": true
+      },
+      {
+        "field": "/evidence_log_paths/docs/nba_c/f_p5_01_evidence/G0.log",
+        "path": "docs/nba_c/f_p5_01_evidence/G0.log",
+        "expected": "11de570ee4da781eec8ac6962ae33ee5183c9f0fbd04960105678cd03c139e98",
+        "actual": "11de570ee4da781eec8ac6962ae33ee5183c9f0fbd04960105678cd03c139e98",
+        "match": true
+      },
+      {
+        "field": "/evidence_log_paths/docs/nba_c/f_p5_01_evidence/P5.log",
+        "path": "docs/nba_c/f_p5_01_evidence/P5.log",
+        "expected": "1fd7afeff35dfa86467c5ec965282846cdd99c178d01877a7b68dc4425006999",
+        "actual": "1fd7afeff35dfa86467c5ec965282846cdd99c178d01877a7b68dc4425006999",
+        "match": true
+      },
+      {
+        "field": "/evidence_log_paths/docs/nba_c/f_p5_01_evidence/P6.log",
+        "path": "docs/nba_c/f_p5_01_evidence/P6.log",
+        "expected": "369b42862228b6c7927ee9295a754a89e9fa4ad64c610edf114d8613dd1a3fc8",
+        "actual": "369b42862228b6c7927ee9295a754a89e9fa4ad64c610edf114d8613dd1a3fc8",
+        "match": true
+      },
+      {
+        "field": "/evidence_log_paths/docs/nba_c/f_p5_01_evidence/P6_negative_probe.log",
+        "path": "docs/nba_c/f_p5_01_evidence/P6_negative_probe.log",
+        "expected": "134563e34669040f034206e5394c0c0691af6cc74d7bb82158f4dd76a935f77d",
+        "actual": "134563e34669040f034206e5394c0c0691af6cc74d7bb82158f4dd76a935f77d",
+        "match": true
+      },
+      {
+        "field": "/evidence_log_paths/docs/nba_c/f_p5_01_evidence/P6_negative_probe_before.log",
+        "path": "docs/nba_c/f_p5_01_evidence/P6_negative_probe_before.log",
+        "expected": "43986197bcb3b15e2e2740a3ebcfb25c6493164a3fc4f886855b33485bf255a3",
+        "actual": "43986197bcb3b15e2e2740a3ebcfb25c6493164a3fc4f886855b33485bf255a3",
+        "match": true
+      },
+      {
+        "field": "/raw_source_sha256/tests/nba_c/__init__.py",
+        "path": "tests/nba_c/__init__.py",
+        "expected": "661a5cd034baf4bac3d35e64b94864e402b2a830ab411b1760fff2dcc7d32a00",
+        "actual": "661a5cd034baf4bac3d35e64b94864e402b2a830ab411b1760fff2dcc7d32a00",
+        "match": true
+      },
+      {
+        "field": "/raw_source_sha256/tests/nba_c/fixtures/p6_f_p5_01_backdated.json",
+        "path": "tests/nba_c/fixtures/p6_f_p5_01_backdated.json",
+        "expected": "ba9e243fea2d3f64b1cb4650a585420933e913fd61eb056b4e94361712717e0f",
+        "actual": "ba9e243fea2d3f64b1cb4650a585420933e913fd61eb056b4e94361712717e0f",
+        "match": true
+      },
+      {
+        "field": "/raw_source_sha256/tests/nba_c/test_p5_c_family.py",
+        "path": "tests/nba_c/test_p5_c_family.py",
+        "expected": "0e11ebc2d43a45978378dc9cdca8e3c3ddf1a1fd4158d907e4441986def0f650",
+        "actual": "0e11ebc2d43a45978378dc9cdca8e3c3ddf1a1fd4158d907e4441986def0f650",
+        "match": true
+      },
+      {
+        "field": "/raw_source_sha256/tests/nba_c/test_p5_temporal_integrity.py",
+        "path": "tests/nba_c/test_p5_temporal_integrity.py",
+        "expected": "ef664abd6755007c8e03b242b2a073716cf7e0f1ab0b96160cd30f8ac536b3db",
+        "actual": "ef664abd6755007c8e03b242b2a073716cf7e0f1ab0b96160cd30f8ac536b3db",
+        "match": true
+      },
+      {
+        "field": "/raw_source_sha256/v2/nba_c/__init__.py",
+        "path": "v2/nba_c/__init__.py",
+        "expected": "1a5896a2d76162b4f684dcaf74ef58481045c1defc0a64fd6ed6a4de4c026d85",
+        "actual": "1a5896a2d76162b4f684dcaf74ef58481045c1defc0a64fd6ed6a4de4c026d85",
+        "match": true
+      },
+      {
+        "field": "/raw_source_sha256/v2/nba_c/calibration.py",
+        "path": "v2/nba_c/calibration.py",
+        "expected": "2aabb7c91ca3831f2076175df4813f940d0934c6a070f7c068600590be4793c9",
+        "actual": "2aabb7c91ca3831f2076175df4813f940d0934c6a070f7c068600590be4793c9",
+        "match": true
+      },
+      {
+        "field": "/raw_source_sha256/v2/nba_c/experiment.py",
+        "path": "v2/nba_c/experiment.py",
+        "expected": "d0a19291d45f37848d533886f76c99163da145661465184f26693ffb9c3ee15c",
+        "actual": "d0a19291d45f37848d533886f76c99163da145661465184f26693ffb9c3ee15c",
+        "match": true
+      },
+      {
+        "field": "/raw_source_sha256/v2/nba_c/scores.py",
+        "path": "v2/nba_c/scores.py",
+        "expected": "8cf97413361f40dd146e8713163fdcbcae91c7efefa386dab30fbcdd0a58fa25",
+        "actual": "8cf97413361f40dd146e8713163fdcbcae91c7efefa386dab30fbcdd0a58fa25",
+        "match": true
+      },
+      {
+        "field": "/raw_source_sha256/v2/nba_c/scoring.py",
+        "path": "v2/nba_c/scoring.py",
+        "expected": "dd98a02334c43b37e8be23ea1c3019333fd45096d2d74c5687fc1922476e967d",
+        "actual": "dd98a02334c43b37e8be23ea1c3019333fd45096d2d74c5687fc1922476e967d",
+        "match": true
+      },
+      {
+        "field": "/raw_source_sha256/v2/nba_c/warehouse.py",
+        "path": "v2/nba_c/warehouse.py",
+        "expected": "98e52026e6cd5e5c2c92816a42c6ef139c3b3b904c0985d0212aed738f27966f",
+        "actual": "98e52026e6cd5e5c2c92816a42c6ef139c3b3b904c0985d0212aed738f27966f",
+        "match": true
+      }
+    ]
+  }
+]

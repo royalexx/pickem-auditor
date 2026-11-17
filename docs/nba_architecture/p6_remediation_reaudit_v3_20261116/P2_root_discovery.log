@@ -1,0 +1,119 @@
+/workspace/work/P2/scripts/recover_full_backend_eval.py:89: SyntaxWarning: invalid escape sequence '\`'
+  f'Original frozen source warehouse commit: \`{plan["archive_sha"]}\`.',
+/workspace/work/P2/scripts/recover_full_backend_eval.py:89: SyntaxWarning: invalid escape sequence '\`'
+  f'Original frozen source warehouse commit: \`{plan["archive_sha"]}\`.',
+/workspace/work/P2/scripts/summarize_convergence_backends.py:136: SyntaxWarning: invalid escape sequence '\`'
+  f'**Frozen source history:** \`{result["frozen_history_source_sha"]}\`','',
+/workspace/work/P2/scripts/summarize_convergence_backends.py:136: SyntaxWarning: invalid escape sequence '\`'
+  f'**Frozen source history:** \`{result["frozen_history_source_sha"]}\`','',
+{"discovered_test_objects": 1652, "import_error_count": 10, "mode": "DISCOVERY_ONLY_NO_TEST_BODIES_NO_HISTORICAL_EVALUATION"}
+Failed to import test module: nba_architecture.test_g0_completion_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/P2/tests/nba_architecture/test_g0_completion_20261116.py", line 3, in <module>
+    from golden_v2 import golden_cases, pregame, distribution, game_state, opportunity, j_scenarios
+ModuleNotFoundError: No module named 'golden_v2'
+
+Failed to import test module: nba_architecture.test_g0_hardening_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/P2/tests/nba_architecture/test_g0_hardening_20261116.py", line 4, in <module>
+    from golden_v2 import golden_cases, j_scenarios, game_state, opportunity
+ModuleNotFoundError: No module named 'golden_v2'
+
+Failed to import test module: nba_architecture.test_g0_independent_participation_red_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/P2/tests/nba_architecture/test_g0_independent_participation_red_20261116.py", line 8, in <module>
+    from golden_v2 import golden_cases, j_scenarios, game_state, opportunity
+ModuleNotFoundError: No module named 'golden_v2'
+
+Failed to import test module: nba_architecture.test_g0_law_repair_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/P2/tests/nba_architecture/test_g0_law_repair_20261116.py", line 4, in <module>
+    from golden_v2 import distribution, original_offer
+ModuleNotFoundError: No module named 'golden_v2'
+
+Failed to import test module: nba_architecture.test_g0_mutation_sweep_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/P2/tests/nba_architecture/test_g0_mutation_sweep_20261116.py", line 4, in <module>
+    from golden_v2 import golden_cases,pregame,game_state,opportunity,j_scenarios
+ModuleNotFoundError: No module named 'golden_v2'
+
+Failed to import test module: nba_architecture.test_g0_pipeline_completion_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/P2/tests/nba_architecture/test_g0_pipeline_completion_20261116.py", line 3, in <module>
+    from golden_v2 import golden_cases, game_state, opportunity
+ModuleNotFoundError: No module named 'golden_v2'
+
+Failed to import test module: nba_architecture.test_independent_final_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/P2/tests/nba_architecture/test_independent_final_20261116.py", line 4, in <module>
+    from golden_v2 import pregame, j_scenarios, distribution, original_offer
+ModuleNotFoundError: No module named 'golden_v2'
+
+Failed to import test module: nba_architecture.test_p0i_adversarial_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/P2/tests/nba_architecture/test_p0i_adversarial_20261116.py", line 13, in <module>
+    from golden_v2 import pregame, distribution, j_scenarios, game_state, opportunity, original_offer
+ModuleNotFoundError: No module named 'golden_v2'
+
+Failed to import test module: nba_architecture.test_p0r_regression_closure_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/P2/tests/nba_architecture/test_p0r_regression_closure_20261116.py", line 9, in <module>
+    from golden_v2 import pregame, original_offer, distribution, j_scenarios
+ModuleNotFoundError: No module named 'golden_v2'
+
+Failed to import test module: nba_architecture.test_v2_contracts
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/P2/tests/nba_architecture/test_v2_contracts.py", line 8, in <module>
+    from golden_v2 import (golden_cases, pregame, distribution, original_offer,
+ModuleNotFoundError: No module named 'golden_v2'
+

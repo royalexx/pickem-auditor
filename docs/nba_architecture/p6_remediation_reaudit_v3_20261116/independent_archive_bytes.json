@@ -1,0 +1,706 @@
+{
+  "warehouse_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
+  "manifest_sha": "53c01a9eabb9ed09b5c3186eae0d086b07bcc891",
+  "manifest_raw_sha256": "cf377a3c3d18fb8147586d4d3553092e0c23a51066af338a7f49ddd92ec3d2a7",
+  "files": 99,
+  "total_compressed_bytes": 39916715,
+  "verified": 99,
+  "files_receipts": [
+    {
+      "path": "data/bayesian_warehouse/populations/nba/assists/2019.jsonl.gz",
+      "observed_bytes": 457664,
+      "observed_sha256": "622c2081dd8119053ca25ceb64379de3040093ae0d4a078768ef3e45408fe492",
+      "expected_sha256": "622c2081dd8119053ca25ceb64379de3040093ae0d4a078768ef3e45408fe492",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/assists/2020.jsonl.gz",
+      "observed_bytes": 395323,
+      "observed_sha256": "981536ea1a1210486180a1616565a4080481fd645e95bb41fb6928f4a1263a1e",
+      "expected_sha256": "981536ea1a1210486180a1616565a4080481fd645e95bb41fb6928f4a1263a1e",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/assists/2021.jsonl.gz",
+      "observed_bytes": 405516,
+      "observed_sha256": "be2ea15febd69221b7bf5f542c3de3e2e91fd73849150d74c062ada642a86bc9",
+      "expected_sha256": "be2ea15febd69221b7bf5f542c3de3e2e91fd73849150d74c062ada642a86bc9",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/assists/2022.jsonl.gz",
+      "observed_bytes": 458677,
+      "observed_sha256": "960ab8dec77be268330ffa42c81622382e0aeb01ce9d556342d4a6c75d9ea760",
+      "expected_sha256": "960ab8dec77be268330ffa42c81622382e0aeb01ce9d556342d4a6c75d9ea760",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/assists/2023.jsonl.gz",
+      "observed_bytes": 456782,
+      "observed_sha256": "e1b2177a2661d9d64d8aef77c331a717b207a3145a9544bda7e7e41e1040c8cd",
+      "expected_sha256": "e1b2177a2661d9d64d8aef77c331a717b207a3145a9544bda7e7e41e1040c8cd",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/assists/2024.jsonl.gz",
+      "observed_bytes": 461310,
+      "observed_sha256": "5580f488ab1f546745acc592163137488edc95fc1276074351bdb84eadde74ed",
+      "expected_sha256": "5580f488ab1f546745acc592163137488edc95fc1276074351bdb84eadde74ed",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/assists/2025.jsonl.gz",
+      "observed_bytes": 460026,
+      "observed_sha256": "64a85332daa7b45823f4f35a324e225000d7609a207fec31f2eb19093a328c51",
+      "expected_sha256": "64a85332daa7b45823f4f35a324e225000d7609a207fec31f2eb19093a328c51",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/assists/2026.jsonl.gz",
+      "observed_bytes": 465488,
+      "observed_sha256": "b2f6939e743d1b7fa7469ae528dd78574c45c43dad0589bee20885734e8672c5",
+      "expected_sha256": "b2f6939e743d1b7fa7469ae528dd78574c45c43dad0589bee20885734e8672c5",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/assists/2027.jsonl.gz",
+      "observed_bytes": 34616,
+      "observed_sha256": "e1dc509c34e14593273fecd7d9dbf076a8edbb80ae746e78cc5d3249f224a550",
+      "expected_sha256": "e1dc509c34e14593273fecd7d9dbf076a8edbb80ae746e78cc5d3249f224a550",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/blocks/2019.jsonl.gz",
+      "observed_bytes": 442122,
+      "observed_sha256": "f00a65956c81b043b69064fa48ce45565c1cbbd4b091320f45173ec2fab49187",
+      "expected_sha256": "f00a65956c81b043b69064fa48ce45565c1cbbd4b091320f45173ec2fab49187",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/blocks/2020.jsonl.gz",
+      "observed_bytes": 381813,
+      "observed_sha256": "7ee75c9b382c4f2b589a63a9b278833a36a65ac28f2bedc23bed82b7a5c8e56e",
+      "expected_sha256": "7ee75c9b382c4f2b589a63a9b278833a36a65ac28f2bedc23bed82b7a5c8e56e",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/blocks/2021.jsonl.gz",
+      "observed_bytes": 391621,
+      "observed_sha256": "05a0ca8908e6715687038e54b546c6e82406f98d42670ff82a048cbb7d7a9591",
+      "expected_sha256": "05a0ca8908e6715687038e54b546c6e82406f98d42670ff82a048cbb7d7a9591",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/blocks/2022.jsonl.gz",
+      "observed_bytes": 443011,
+      "observed_sha256": "cfa29b6e520721220058da488f19e8b3d816d55081b77cec0d65157077195c33",
+      "expected_sha256": "cfa29b6e520721220058da488f19e8b3d816d55081b77cec0d65157077195c33",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/blocks/2023.jsonl.gz",
+      "observed_bytes": 441000,
+      "observed_sha256": "c37575b2db51ef48779f3a48aced41bedb7c45980d6599071567814983cf9d1f",
+      "expected_sha256": "c37575b2db51ef48779f3a48aced41bedb7c45980d6599071567814983cf9d1f",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/blocks/2024.jsonl.gz",
+      "observed_bytes": 444847,
+      "observed_sha256": "3b0dc498ddd35b11189c53a0c1df03c8705e6578cbec4514f1a3998fb089e6b0",
+      "expected_sha256": "3b0dc498ddd35b11189c53a0c1df03c8705e6578cbec4514f1a3998fb089e6b0",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/blocks/2025.jsonl.gz",
+      "observed_bytes": 443606,
+      "observed_sha256": "7308e5d3c57c734b5a80215d60e04cb06e162574e8126961d5dc47f492e79d1c",
+      "expected_sha256": "7308e5d3c57c734b5a80215d60e04cb06e162574e8126961d5dc47f492e79d1c",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/blocks/2026.jsonl.gz",
+      "observed_bytes": 448888,
+      "observed_sha256": "a4147b1da76db69bc2abf8bf61f8dacd2731df6333ecbceb33a318343e606142",
+      "expected_sha256": "a4147b1da76db69bc2abf8bf61f8dacd2731df6333ecbceb33a318343e606142",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/blocks/2027.jsonl.gz",
+      "observed_bytes": 33365,
+      "observed_sha256": "ccf39ba2e0e57e1b6e07da1eedfad651398aa3028a586987f5f47ae6e2508382",
+      "expected_sha256": "ccf39ba2e0e57e1b6e07da1eedfad651398aa3028a586987f5f47ae6e2508382",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pa/2019.jsonl.gz",
+      "observed_bytes": 475215,
+      "observed_sha256": "5c6357983949694eb66cc7698d64a22a04160e7b555fe612fb07829b9f359cc8",
+      "expected_sha256": "5c6357983949694eb66cc7698d64a22a04160e7b555fe612fb07829b9f359cc8",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pa/2020.jsonl.gz",
+      "observed_bytes": 410377,
+      "observed_sha256": "ffd57283358c46d859da594bed9e9448f4444f625b6651ef8c66612d164d2d3f",
+      "expected_sha256": "ffd57283358c46d859da594bed9e9448f4444f625b6651ef8c66612d164d2d3f",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pa/2021.jsonl.gz",
+      "observed_bytes": 420730,
+      "observed_sha256": "e7bbfbefe389616322f99726c836b47f512dbae255ff3b1dd573ffceb46b762a",
+      "expected_sha256": "e7bbfbefe389616322f99726c836b47f512dbae255ff3b1dd573ffceb46b762a",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pa/2022.jsonl.gz",
+      "observed_bytes": 475965,
+      "observed_sha256": "0ae4999851232020b6da8310d3b9333bb362ff57d04b2e0f34dbab86fb2f714e",
+      "expected_sha256": "0ae4999851232020b6da8310d3b9333bb362ff57d04b2e0f34dbab86fb2f714e",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pa/2023.jsonl.gz",
+      "observed_bytes": 474318,
+      "observed_sha256": "170c89b8a9a99252279eaf5a373f3b81d68ebe8c9b1006ef665756194a1d921a",
+      "expected_sha256": "170c89b8a9a99252279eaf5a373f3b81d68ebe8c9b1006ef665756194a1d921a",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pa/2024.jsonl.gz",
+      "observed_bytes": 478217,
+      "observed_sha256": "e5fbd3ae0eb55b318f5f4416a968223d454dec33509c0ae5017a7cf08ee78296",
+      "expected_sha256": "e5fbd3ae0eb55b318f5f4416a968223d454dec33509c0ae5017a7cf08ee78296",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pa/2025.jsonl.gz",
+      "observed_bytes": 476976,
+      "observed_sha256": "17832f6004d83eb9876ec8e9af5abe3da2ee844b55994226fe37a2661bda2b11",
+      "expected_sha256": "17832f6004d83eb9876ec8e9af5abe3da2ee844b55994226fe37a2661bda2b11",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pa/2026.jsonl.gz",
+      "observed_bytes": 482351,
+      "observed_sha256": "646d4f23a0008d2f32303c7a7366b8ecd878ae6f574b4ee7846c140b93d98483",
+      "expected_sha256": "646d4f23a0008d2f32303c7a7366b8ecd878ae6f574b4ee7846c140b93d98483",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pa/2027.jsonl.gz",
+      "observed_bytes": 35951,
+      "observed_sha256": "531af2f5d3d2772e33ce7a8cbb829cde0f66fcac41a119dba97e8b2cc9a6a78a",
+      "expected_sha256": "531af2f5d3d2772e33ce7a8cbb829cde0f66fcac41a119dba97e8b2cc9a6a78a",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/points/2019.jsonl.gz",
+      "observed_bytes": 473275,
+      "observed_sha256": "50f5d0f8fb1b30b76d3c84c4416c9874c5b15ca24c3dfce20270277b9a22c466",
+      "expected_sha256": "50f5d0f8fb1b30b76d3c84c4416c9874c5b15ca24c3dfce20270277b9a22c466",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/points/2020.jsonl.gz",
+      "observed_bytes": 408855,
+      "observed_sha256": "d8f4712672182ca0d8a79f4be3f7556337d43f20a2b7c324eb66bb2587c59eb9",
+      "expected_sha256": "d8f4712672182ca0d8a79f4be3f7556337d43f20a2b7c324eb66bb2587c59eb9",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/points/2021.jsonl.gz",
+      "observed_bytes": 419079,
+      "observed_sha256": "77b2e19680a442225254f4a2a108aa21556246d0472bb6d9d9acd33a5f246266",
+      "expected_sha256": "77b2e19680a442225254f4a2a108aa21556246d0472bb6d9d9acd33a5f246266",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/points/2022.jsonl.gz",
+      "observed_bytes": 474146,
+      "observed_sha256": "c49fb889a5ee1b911dcdd7f023cfb35e0b2887793eac9bf9f21b526eb8ea9a1c",
+      "expected_sha256": "c49fb889a5ee1b911dcdd7f023cfb35e0b2887793eac9bf9f21b526eb8ea9a1c",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/points/2023.jsonl.gz",
+      "observed_bytes": 472419,
+      "observed_sha256": "4c767f20d08f15d5410636663fab4c85dd967228391cd5f4f13fbc6693ce1a6a",
+      "expected_sha256": "4c767f20d08f15d5410636663fab4c85dd967228391cd5f4f13fbc6693ce1a6a",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/points/2024.jsonl.gz",
+      "observed_bytes": 476185,
+      "observed_sha256": "962fcd89499e8b06bd5dfbef0cfad882da5f23bb308aed76383db4e3f111c8b6",
+      "expected_sha256": "962fcd89499e8b06bd5dfbef0cfad882da5f23bb308aed76383db4e3f111c8b6",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/points/2025.jsonl.gz",
+      "observed_bytes": 474797,
+      "observed_sha256": "c129a51b37fe3ef2eb4771ab02a9897342fd90eb80ed3bb510fce06412b30f6d",
+      "expected_sha256": "c129a51b37fe3ef2eb4771ab02a9897342fd90eb80ed3bb510fce06412b30f6d",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/points/2026.jsonl.gz",
+      "observed_bytes": 480449,
+      "observed_sha256": "f6b9b66a6b3d9d8e018524085fb132ab5612a636a0655d486546fb1f1906b595",
+      "expected_sha256": "f6b9b66a6b3d9d8e018524085fb132ab5612a636a0655d486546fb1f1906b595",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/points/2027.jsonl.gz",
+      "observed_bytes": 35782,
+      "observed_sha256": "71042c97a23f26c774c5aadd2fac27452cc77f437cb7e62ef2ae9673f8589d11",
+      "expected_sha256": "71042c97a23f26c774c5aadd2fac27452cc77f437cb7e62ef2ae9673f8589d11",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pr/2019.jsonl.gz",
+      "observed_bytes": 476593,
+      "observed_sha256": "162d2b610ffd4b1d5071d25b41c87a35ebc7e416f9125a0e9e7dad4133b1f679",
+      "expected_sha256": "162d2b610ffd4b1d5071d25b41c87a35ebc7e416f9125a0e9e7dad4133b1f679",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pr/2020.jsonl.gz",
+      "observed_bytes": 411658,
+      "observed_sha256": "c7a68eea9498a9eeb05bd7e353b6f12a4a83fd24a5dd37382133efb7740977ed",
+      "expected_sha256": "c7a68eea9498a9eeb05bd7e353b6f12a4a83fd24a5dd37382133efb7740977ed",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pr/2021.jsonl.gz",
+      "observed_bytes": 422119,
+      "observed_sha256": "fbbef6ad3009fd912f9d78d04bb7326cd9f7e082a1c58b969d860a8b77149b1b",
+      "expected_sha256": "fbbef6ad3009fd912f9d78d04bb7326cd9f7e082a1c58b969d860a8b77149b1b",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pr/2022.jsonl.gz",
+      "observed_bytes": 477521,
+      "observed_sha256": "1f5f195b7be945a05f00096790f0847cbb6f092d53af9febf4deefc29694bf13",
+      "expected_sha256": "1f5f195b7be945a05f00096790f0847cbb6f092d53af9febf4deefc29694bf13",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pr/2023.jsonl.gz",
+      "observed_bytes": 475414,
+      "observed_sha256": "55c756de28ae3ee0ec6aea4b9e804c4acf555723383c4acb82dc54c2adfefe40",
+      "expected_sha256": "55c756de28ae3ee0ec6aea4b9e804c4acf555723383c4acb82dc54c2adfefe40",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pr/2024.jsonl.gz",
+      "observed_bytes": 479387,
+      "observed_sha256": "3b971215f96410b5669cd139eae11daa87052aaf9c27d0c31863ff1c5bba93e7",
+      "expected_sha256": "3b971215f96410b5669cd139eae11daa87052aaf9c27d0c31863ff1c5bba93e7",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pr/2025.jsonl.gz",
+      "observed_bytes": 477949,
+      "observed_sha256": "1aed027167f3d104a4feb8faca165610c17d047fd8793276a237f2e94f9a5693",
+      "expected_sha256": "1aed027167f3d104a4feb8faca165610c17d047fd8793276a237f2e94f9a5693",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pr/2026.jsonl.gz",
+      "observed_bytes": 483466,
+      "observed_sha256": "7326fa422a0c9614655231686681d7be7245154845826860d334697499d7813e",
+      "expected_sha256": "7326fa422a0c9614655231686681d7be7245154845826860d334697499d7813e",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pr/2027.jsonl.gz",
+      "observed_bytes": 36028,
+      "observed_sha256": "e2838934c89196a48c4f5efb48909de2cb70571af9806b06c54ef2537bc37eb1",
+      "expected_sha256": "e2838934c89196a48c4f5efb48909de2cb70571af9806b06c54ef2537bc37eb1",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pra/2019.jsonl.gz",
+      "observed_bytes": 477634,
+      "observed_sha256": "f51dc263308e387b40307179040b779feb35a1283b37decdd526270e6d737fc7",
+      "expected_sha256": "f51dc263308e387b40307179040b779feb35a1283b37decdd526270e6d737fc7",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pra/2020.jsonl.gz",
+      "observed_bytes": 412420,
+      "observed_sha256": "2087f6c238a75c4e46632f102c045959fedb8bfbeb39292a4efcb0d2fe6959e9",
+      "expected_sha256": "2087f6c238a75c4e46632f102c045959fedb8bfbeb39292a4efcb0d2fe6959e9",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pra/2021.jsonl.gz",
+      "observed_bytes": 422754,
+      "observed_sha256": "4c37bd3a30f37f17c1e39bd5b9730ae7ae1c8bac0841176ac85403ece0647fc8",
+      "expected_sha256": "4c37bd3a30f37f17c1e39bd5b9730ae7ae1c8bac0841176ac85403ece0647fc8",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pra/2022.jsonl.gz",
+      "observed_bytes": 478434,
+      "observed_sha256": "0f71bdc83078dfb6105979bca8733ef756998cb16b79f7bd66ce67d62940cb5d",
+      "expected_sha256": "0f71bdc83078dfb6105979bca8733ef756998cb16b79f7bd66ce67d62940cb5d",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pra/2023.jsonl.gz",
+      "observed_bytes": 476579,
+      "observed_sha256": "493e342345b67baf0f0d3376704d74da21e5db3c8d4fd966b8d47e8a869474ce",
+      "expected_sha256": "493e342345b67baf0f0d3376704d74da21e5db3c8d4fd966b8d47e8a869474ce",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pra/2024.jsonl.gz",
+      "observed_bytes": 480496,
+      "observed_sha256": "367a0952ca607cd2f4ba54cb1e86e30d49f48543bd56050abb5a6b6f867ed189",
+      "expected_sha256": "367a0952ca607cd2f4ba54cb1e86e30d49f48543bd56050abb5a6b6f867ed189",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pra/2025.jsonl.gz",
+      "observed_bytes": 479366,
+      "observed_sha256": "7f5ba877a74d290dbed8230cd26c156ce65c9e9da573edbcca4fad156a1496ad",
+      "expected_sha256": "7f5ba877a74d290dbed8230cd26c156ce65c9e9da573edbcca4fad156a1496ad",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pra/2026.jsonl.gz",
+      "observed_bytes": 484822,
+      "observed_sha256": "e939b034465ed140f48e2f4ebea67745bbca532eed0940a624ca1f8630c8519d",
+      "expected_sha256": "e939b034465ed140f48e2f4ebea67745bbca532eed0940a624ca1f8630c8519d",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/pra/2027.jsonl.gz",
+      "observed_bytes": 36132,
+      "observed_sha256": "226f9e570016a03bcc1ebf68c7f9dbca697a681ff9104bd0662c4d45de5f422f",
+      "expected_sha256": "226f9e570016a03bcc1ebf68c7f9dbca697a681ff9104bd0662c4d45de5f422f",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/ra/2019.jsonl.gz",
+      "observed_bytes": 468745,
+      "observed_sha256": "84f1b5ef54d9118db85e75e3c95bf78043c382ae1837f3ae6aca95e1d164d1b8",
+      "expected_sha256": "84f1b5ef54d9118db85e75e3c95bf78043c382ae1837f3ae6aca95e1d164d1b8",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/ra/2020.jsonl.gz",
+      "observed_bytes": 405171,
+      "observed_sha256": "a8b7887f1847c34bea92c477014c6b2499d88b92ac72894b02fdbd6a039a4e81",
+      "expected_sha256": "a8b7887f1847c34bea92c477014c6b2499d88b92ac72894b02fdbd6a039a4e81",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/ra/2021.jsonl.gz",
+      "observed_bytes": 415242,
+      "observed_sha256": "4867c144932d6728d85106f76401fd0888705ae959ed87d3594ef9a0d1463979",
+      "expected_sha256": "4867c144932d6728d85106f76401fd0888705ae959ed87d3594ef9a0d1463979",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/ra/2022.jsonl.gz",
+      "observed_bytes": 469464,
+      "observed_sha256": "ddd580516e24b9e210e257781970f2cbd495f6adc9e91521ccc3061cde3b59b1",
+      "expected_sha256": "ddd580516e24b9e210e257781970f2cbd495f6adc9e91521ccc3061cde3b59b1",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/ra/2023.jsonl.gz",
+      "observed_bytes": 467497,
+      "observed_sha256": "fa44dddda0bb6d9239a07ba64f07273073b907a0dca909adcbb631c88492a3b2",
+      "expected_sha256": "fa44dddda0bb6d9239a07ba64f07273073b907a0dca909adcbb631c88492a3b2",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/ra/2024.jsonl.gz",
+      "observed_bytes": 471972,
+      "observed_sha256": "f17a59a13b0e846b5979e6d53f3bfb8e61776b8ef43a03ef26bbba990eaf636b",
+      "expected_sha256": "f17a59a13b0e846b5979e6d53f3bfb8e61776b8ef43a03ef26bbba990eaf636b",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/ra/2025.jsonl.gz",
+      "observed_bytes": 470634,
+      "observed_sha256": "d23d7b813a6ca63dd0f26eb35a037390886e474130e0582d148742825cdb290e",
+      "expected_sha256": "d23d7b813a6ca63dd0f26eb35a037390886e474130e0582d148742825cdb290e",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/ra/2026.jsonl.gz",
+      "observed_bytes": 475965,
+      "observed_sha256": "3b4b01439d9380b698429a78fb1a659e23a3517be3f089d144cecb471b9157b5",
+      "expected_sha256": "3b4b01439d9380b698429a78fb1a659e23a3517be3f089d144cecb471b9157b5",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/ra/2027.jsonl.gz",
+      "observed_bytes": 35410,
+      "observed_sha256": "e761a0bb005804a34d2a7829243cb7ea3a8b65a1e3ec55c12562d9bcb5a1740a",
+      "expected_sha256": "e761a0bb005804a34d2a7829243cb7ea3a8b65a1e3ec55c12562d9bcb5a1740a",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/rebounds/2019.jsonl.gz",
+      "observed_bytes": 465120,
+      "observed_sha256": "31fef7125f01bf30bac5271754fdbded3af766eb944c7835dab79ce012b45663",
+      "expected_sha256": "31fef7125f01bf30bac5271754fdbded3af766eb944c7835dab79ce012b45663",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/rebounds/2020.jsonl.gz",
+      "observed_bytes": 401746,
+      "observed_sha256": "f64355e7a5e6e814bc9ffdc0fde04a025752124a084019d45b16487ec29f2556",
+      "expected_sha256": "f64355e7a5e6e814bc9ffdc0fde04a025752124a084019d45b16487ec29f2556",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/rebounds/2021.jsonl.gz",
+      "observed_bytes": 411833,
+      "observed_sha256": "1c225a178fc98c0ef6cb2ef0e48f6c8cc07622ebb08e996f7098b6c4267fc7e8",
+      "expected_sha256": "1c225a178fc98c0ef6cb2ef0e48f6c8cc07622ebb08e996f7098b6c4267fc7e8",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/rebounds/2022.jsonl.gz",
+      "observed_bytes": 465974,
+      "observed_sha256": "66d9a09e9fc3986a7f07cabf8d69334b1c8719012289814b3134452e22557afb",
+      "expected_sha256": "66d9a09e9fc3986a7f07cabf8d69334b1c8719012289814b3134452e22557afb",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/rebounds/2023.jsonl.gz",
+      "observed_bytes": 463814,
+      "observed_sha256": "a16acd50eed86cced7a5c696a2c975d8ecf849ce33404eaee9750e9e6d9e30bc",
+      "expected_sha256": "a16acd50eed86cced7a5c696a2c975d8ecf849ce33404eaee9750e9e6d9e30bc",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/rebounds/2024.jsonl.gz",
+      "observed_bytes": 467598,
+      "observed_sha256": "669b49265e923d662d18c3badf8fca0d5e8e73522f95e3ce143dcb7f66f6747b",
+      "expected_sha256": "669b49265e923d662d18c3badf8fca0d5e8e73522f95e3ce143dcb7f66f6747b",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/rebounds/2025.jsonl.gz",
+      "observed_bytes": 466564,
+      "observed_sha256": "35c14ce18c6b9f9f00cd82958a6f19a1358924950da8699c7814f0abf85ba111",
+      "expected_sha256": "35c14ce18c6b9f9f00cd82958a6f19a1358924950da8699c7814f0abf85ba111",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/rebounds/2026.jsonl.gz",
+      "observed_bytes": 471804,
+      "observed_sha256": "c4689d5bfcae435c62d2c90e60e70664b0dd0bf33f64bd43a1024da94818904a",
+      "expected_sha256": "c4689d5bfcae435c62d2c90e60e70664b0dd0bf33f64bd43a1024da94818904a",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/rebounds/2027.jsonl.gz",
+      "observed_bytes": 35082,
+      "observed_sha256": "3e44600af83e4d781cfa1af43c1d28c96d7e4e43583d519233be459adf379890",
+      "expected_sha256": "3e44600af83e4d781cfa1af43c1d28c96d7e4e43583d519233be459adf379890",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/steals/2019.jsonl.gz",
+      "observed_bytes": 445591,
+      "observed_sha256": "62c0869440a09c24cf61cc715e1b9c63e11b72f146ffc2a5d395dc222b848cc1",
+      "expected_sha256": "62c0869440a09c24cf61cc715e1b9c63e11b72f146ffc2a5d395dc222b848cc1",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/steals/2020.jsonl.gz",
+      "observed_bytes": 385010,
+      "observed_sha256": "fe3aadd449b0e9e99d316ab16fdcaec8de96dfbf60da70b491cd721a6e890144",
+      "expected_sha256": "fe3aadd449b0e9e99d316ab16fdcaec8de96dfbf60da70b491cd721a6e890144",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/steals/2021.jsonl.gz",
+      "observed_bytes": 394735,
+      "observed_sha256": "d58274086470b4cd2e967d163daec3912480044965fd8286d1ae146a93a6ca57",
+      "expected_sha256": "d58274086470b4cd2e967d163daec3912480044965fd8286d1ae146a93a6ca57",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/steals/2022.jsonl.gz",
+      "observed_bytes": 446891,
+      "observed_sha256": "61679527c2788aeab284c2ad1b97a8cd00b8ef76f524275adebd6884713a67f1",
+      "expected_sha256": "61679527c2788aeab284c2ad1b97a8cd00b8ef76f524275adebd6884713a67f1",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/steals/2023.jsonl.gz",
+      "observed_bytes": 444884,
+      "observed_sha256": "5a6ff34e6590ea442393a02dff50b4bfcebc46e1351223fce24365f0d8f81866",
+      "expected_sha256": "5a6ff34e6590ea442393a02dff50b4bfcebc46e1351223fce24365f0d8f81866",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/steals/2024.jsonl.gz",
+      "observed_bytes": 448363,
+      "observed_sha256": "c601b4c5bf6cb199198d34df1d08c9a1af3b376546ef8a19bd332b197c81c949",
+      "expected_sha256": "c601b4c5bf6cb199198d34df1d08c9a1af3b376546ef8a19bd332b197c81c949",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/steals/2025.jsonl.gz",
+      "observed_bytes": 447918,
+      "observed_sha256": "881ca383ba5d3bc71d1e78161fe3ba1a78829b4c092453befc5cee03b37a330f",
+      "expected_sha256": "881ca383ba5d3bc71d1e78161fe3ba1a78829b4c092453befc5cee03b37a330f",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/steals/2026.jsonl.gz",
+      "observed_bytes": 453391,
+      "observed_sha256": "a4499faa397aa92acd6872df36316ab39a2e61c1d38ef3bad73f8268e2417f9e",
+      "expected_sha256": "a4499faa397aa92acd6872df36316ab39a2e61c1d38ef3bad73f8268e2417f9e",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/steals/2027.jsonl.gz",
+      "observed_bytes": 33808,
+      "observed_sha256": "922d0b0aeff925635d7a6f09be5688085da807eaa39fbcd953482d1ad4d9b2b4",
+      "expected_sha256": "922d0b0aeff925635d7a6f09be5688085da807eaa39fbcd953482d1ad4d9b2b4",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/threes/2019.jsonl.gz",
+      "observed_bytes": 449568,
+      "observed_sha256": "207b36d6e44179b24024fd214fd8f12c54598591835a312f1dd52acc4d5426b0",
+      "expected_sha256": "207b36d6e44179b24024fd214fd8f12c54598591835a312f1dd52acc4d5426b0",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/threes/2020.jsonl.gz",
+      "observed_bytes": 389270,
+      "observed_sha256": "679ecebf1e3994aa93b6b1dff06ef501f1cabbf5141d4d7b0f3c8b491bf2a620",
+      "expected_sha256": "679ecebf1e3994aa93b6b1dff06ef501f1cabbf5141d4d7b0f3c8b491bf2a620",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/threes/2021.jsonl.gz",
+      "observed_bytes": 399435,
+      "observed_sha256": "f1c5534f84f5afa40c2328b09728a91bfac30cacd7b73f0545d6b3f68f623270",
+      "expected_sha256": "f1c5534f84f5afa40c2328b09728a91bfac30cacd7b73f0545d6b3f68f623270",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/threes/2022.jsonl.gz",
+      "observed_bytes": 451672,
+      "observed_sha256": "f3a0ffd630f2d11d3ddf791fe4a0f409224780dab4a574c6ac189fe78cdee8c7",
+      "expected_sha256": "f3a0ffd630f2d11d3ddf791fe4a0f409224780dab4a574c6ac189fe78cdee8c7",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/threes/2023.jsonl.gz",
+      "observed_bytes": 449697,
+      "observed_sha256": "6a6e1ffca602b38eb132e29c037bb42020fe0e415239022d092896cfe61a9023",
+      "expected_sha256": "6a6e1ffca602b38eb132e29c037bb42020fe0e415239022d092896cfe61a9023",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/threes/2024.jsonl.gz",
+      "observed_bytes": 453700,
+      "observed_sha256": "545e0b94073363e1f66e5cd0297308d9dadf25149508fd222182e002a203e1dc",
+      "expected_sha256": "545e0b94073363e1f66e5cd0297308d9dadf25149508fd222182e002a203e1dc",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/threes/2025.jsonl.gz",
+      "observed_bytes": 453175,
+      "observed_sha256": "dc9ac4b79d8516a754d265c54fb14c106ec702429c253b07560480117a6ffb82",
+      "expected_sha256": "dc9ac4b79d8516a754d265c54fb14c106ec702429c253b07560480117a6ffb82",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/threes/2026.jsonl.gz",
+      "observed_bytes": 458359,
+      "observed_sha256": "4dfeec0cf8b940b9917998c55bba240746b66b7f9fd8c00e1f8e970ab5b82d80",
+      "expected_sha256": "4dfeec0cf8b940b9917998c55bba240746b66b7f9fd8c00e1f8e970ab5b82d80",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/threes/2027.jsonl.gz",
+      "observed_bytes": 34023,
+      "observed_sha256": "d2252f7e51aaf7a1a7f323835905cefa36952360a29681c8c332fb9010d5fbd5",
+      "expected_sha256": "d2252f7e51aaf7a1a7f323835905cefa36952360a29681c8c332fb9010d5fbd5",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/turnovers/2019.jsonl.gz",
+      "observed_bytes": 452149,
+      "observed_sha256": "b9989a10f0c9257bcbe4286309726c6c1b143f53ee337a45f2955d91b9bac9f5",
+      "expected_sha256": "b9989a10f0c9257bcbe4286309726c6c1b143f53ee337a45f2955d91b9bac9f5",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/turnovers/2020.jsonl.gz",
+      "observed_bytes": 390782,
+      "observed_sha256": "8c8213907acabc9f71e08b233d64e186449e47a074cf6280e8513adec09997c1",
+      "expected_sha256": "8c8213907acabc9f71e08b233d64e186449e47a074cf6280e8513adec09997c1",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/turnovers/2021.jsonl.gz",
+      "observed_bytes": 400281,
+      "observed_sha256": "ee4c0b990dca273629f92ff6c9463351a9aa4beb19bf9f857f2ee46ffef1347d",
+      "expected_sha256": "ee4c0b990dca273629f92ff6c9463351a9aa4beb19bf9f857f2ee46ffef1347d",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/turnovers/2022.jsonl.gz",
+      "observed_bytes": 452792,
+      "observed_sha256": "83e0e6ace02335db549ed2d75ab0c5eaea56aa50cf979fa2564423aa640845bc",
+      "expected_sha256": "83e0e6ace02335db549ed2d75ab0c5eaea56aa50cf979fa2564423aa640845bc",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/turnovers/2023.jsonl.gz",
+      "observed_bytes": 451128,
+      "observed_sha256": "cb9ca66a43a9f2fa8985b2a58f50eec87af35f39b840e868839c69447d8dc89c",
+      "expected_sha256": "cb9ca66a43a9f2fa8985b2a58f50eec87af35f39b840e868839c69447d8dc89c",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/turnovers/2024.jsonl.gz",
+      "observed_bytes": 454212,
+      "observed_sha256": "15ee16cc5be9993551df8135f7fc2be922691b5d5af3d16360f3fb111b982610",
+      "expected_sha256": "15ee16cc5be9993551df8135f7fc2be922691b5d5af3d16360f3fb111b982610",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/turnovers/2025.jsonl.gz",
+      "observed_bytes": 453529,
+      "observed_sha256": "0e52d0b117985c35ee6777b578c3acdab53ba050c17b82adc820251cc367b662",
+      "expected_sha256": "0e52d0b117985c35ee6777b578c3acdab53ba050c17b82adc820251cc367b662",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/turnovers/2026.jsonl.gz",
+      "observed_bytes": 458980,
+      "observed_sha256": "be691e45cb6d0c131e082c09d46bbfd82f6aa9c3e9c8c27f087873adcd33e291",
+      "expected_sha256": "be691e45cb6d0c131e082c09d46bbfd82f6aa9c3e9c8c27f087873adcd33e291",
+      "pass_check": true
+    },
+    {
+      "path": "data/bayesian_warehouse/populations/nba/turnovers/2027.jsonl.gz",
+      "observed_bytes": 34203,
+      "observed_sha256": "642aee00e425f0d93a20beaff97579b2194bf69188c09abd57240ae26d20cf6d",
+      "expected_sha256": "642aee00e425f0d93a20beaff97579b2194bf69188c09abd57240ae26d20cf6d",
+      "pass_check": true
+    }
+  ],
+  "decompressed": false,
+  "historical_availability_certified": false,
+  "note": "Opaque compressed-byte integrity only. No holdout outcomes decompressed or scored."
+}

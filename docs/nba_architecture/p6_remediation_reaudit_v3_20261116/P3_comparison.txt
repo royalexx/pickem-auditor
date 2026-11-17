@@ -1,0 +1,15 @@
+ .../P3_BOUNDARY_HANDOFF_20261116.md                | 196 ++++++++++
+ .../consumer_fixture.json                          |   1 +
+ .../execution_receipt.json                         | 194 ++++++++++
+ .../p3_boundary_review_20261116/g0_p3.log          | 312 ++++++++++++++++
+ .../p3_boundary_review_20261116/g0_p3_p6.log       | 399 +++++++++++++++++++++
+ .../p3_boundary_review_20261116/handoff.log        |  79 ++++
+ .../handoff_receipt.json                           |  79 ++++
+ .../p3_boundary_review_20261116/p4_result.json     |   1 +
+ scripts/nba_p3_handoff_check.py                    | 112 ++++++
+ tests/nba_architecture/test_p3_boundaries.py       | 253 +++++++++++++
+ tests/nba_architecture/test_p3_o_family.py         |  17 +-
+ v2/nba_o_bridge.py                                 | 163 +++++++++
+ v2/nba_o_consumers.py                              |  74 ++++
+ v2/nba_o_family.py                                 |  76 +++-
+ 14 files changed, 1938 insertions(+), 18 deletions(-)

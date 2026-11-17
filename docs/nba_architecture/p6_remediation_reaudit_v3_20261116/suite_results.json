@@ -1,0 +1,325 @@
+[
+  {
+    "family": "P1",
+    "suite": "G0_owner",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_architecture",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      331
+    ],
+    "seconds": 27.49567886800014,
+    "log": "P1_G0_owner.log",
+    "sha256": "9908a15a5fedcda39a9afb539f62f4b68a53d7391d4d5cff7a9bc29e667d3e15"
+  },
+  {
+    "family": "P1",
+    "suite": "P6",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/workspace/work/p6_controls",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      83
+    ],
+    "seconds": 2.591502503999436,
+    "log": "P1_P6.log",
+    "sha256": "bc547fb17244e2517b4d0d27a51d8a9ced12385860678db1d0475093ac01aa0f"
+  },
+  {
+    "family": "P1",
+    "suite": "preflight",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_nba_p1_source_preflight.py",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      9
+    ],
+    "seconds": 0.25116920999971626,
+    "log": "P1_preflight.log",
+    "sha256": "2aceb2344b8961b14b1fef49c511b3a1bcf267c8ba6141f2b0bc0d33fb8c7c83"
+  },
+  {
+    "family": "P1",
+    "suite": "historical_probe",
+    "command": [
+      "python",
+      "/workspace/work/qa/scripts/nba_p6_g1_owner_negative_probes_20261116.py",
+      "P1"
+    ],
+    "exit": 0,
+    "tests": [],
+    "seconds": 0.3075954460000503,
+    "log": "P1_historical_probe.log",
+    "sha256": "113e7ceebbd638dbbb4d94a8a640040958ed85f9ed6248ef79e1709c0c66a1e0"
+  },
+  {
+    "family": "P2",
+    "suite": "G0_owner",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_architecture",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      267
+    ],
+    "seconds": 25.16255293300037,
+    "log": "P2_G0_owner.log",
+    "sha256": "0651987079ef9b411a64f0ed7f3facc3bdedfff204fed0893edad25dac1a7f47"
+  },
+  {
+    "family": "P2",
+    "suite": "P6",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/workspace/work/p6_controls",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      83
+    ],
+    "seconds": 1.1311079240003892,
+    "log": "P2_P6.log",
+    "sha256": "b08d611faf35fc8a64015d6cf4f0b705d4932d95c1b715e64ffbf8896a5a0199"
+  },
+  {
+    "family": "P2",
+    "suite": "S",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_s_family",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      30
+    ],
+    "seconds": 2.1550812080004107,
+    "log": "P2_S.log",
+    "sha256": "142c060e63658d153a1988d7acfd0ff24678cd9f0f3e52d3196cadbbb2bb6da5"
+  },
+  {
+    "family": "P2",
+    "suite": "historical_probe",
+    "command": [
+      "python",
+      "/workspace/work/qa/scripts/nba_p6_g1_owner_negative_probes_20261116.py",
+      "P2"
+    ],
+    "exit": 0,
+    "tests": [],
+    "seconds": 1.3908077670002967,
+    "log": "P2_historical_probe.log",
+    "sha256": "624b208f679f48396026498f9f07bf32e42b678f0fe8c00d5ac8e532eccf6386"
+  },
+  {
+    "family": "P3",
+    "suite": "G0_owner",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_architecture",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      306
+    ],
+    "seconds": 31.258336399000655,
+    "log": "P3_G0_owner.log",
+    "sha256": "2ddefa692141af8d5ce1b54321587f1b64fc39529870c1a90694e8157f82071b"
+  },
+  {
+    "family": "P3",
+    "suite": "P6",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/workspace/work/p6_controls",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      83
+    ],
+    "seconds": 0.8656711459998405,
+    "log": "P3_P6.log",
+    "sha256": "8cf9fb343594df5fded6be8992e12d406458b10ca7327f459f856e812b2c6696"
+  },
+  {
+    "family": "P4",
+    "suite": "G0_owner",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_architecture",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      321
+    ],
+    "seconds": 34.29181789799986,
+    "log": "P4_G0_owner.log",
+    "sha256": "d6176b0abfb865b28298d4ba9fde1641a7b2b31d7a01ac1a31f727b5dce2437e"
+  },
+  {
+    "family": "P4",
+    "suite": "P6",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/workspace/work/p6_controls",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      83
+    ],
+    "seconds": 0.7965755380000701,
+    "log": "P4_P6.log",
+    "sha256": "323f472a1bb639a1921af5cde81fc2f072ef0fa6a25e2e29569aad0c33572806"
+  },
+  {
+    "family": "P4",
+    "suite": "pinned_upstream",
+    "command": [
+      "python",
+      "-m",
+      "research.nba_p4_integration.checks"
+    ],
+    "exit": 0,
+    "tests": [
+      321,
+      83,
+      16,
+      22
+    ],
+    "seconds": 16.708952143000715,
+    "log": "P4_pinned_upstream.log",
+    "sha256": "35a06e911f5928a1ebaff5a25ea0cc6f043bc58b0c4bdce98dd12814797f31d7"
+  },
+  {
+    "family": "P5",
+    "suite": "G0_owner",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_architecture",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      267
+    ],
+    "seconds": 20.065234896999755,
+    "log": "P5_G0_owner.log",
+    "sha256": "4dde581c7b4840197a2f166f92dbabe2105aba62c4199f24d77d680661089803"
+  },
+  {
+    "family": "P5",
+    "suite": "P6",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/workspace/work/p6_controls",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      83
+    ],
+    "seconds": 2.770037709999997,
+    "log": "P5_P6.log",
+    "sha256": "04950f45e756f4929fc5dc8efb2be8a0c62b02b739a755b00ea1f4f050f4e367"
+  },
+  {
+    "family": "P5",
+    "suite": "C",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_c",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      48
+    ],
+    "seconds": 3.848649741999907,
+    "log": "P5_C.log",
+    "sha256": "55f6a5562c3627bd69274ee4cc66ea3881f1d3ec9d39ee56ce6f9275cf0ef323"
+  },
+  {
+    "family": "P5",
+    "suite": "historical_probe",
+    "command": [
+      "python",
+      "/workspace/work/qa/scripts/nba_p6_g1_owner_negative_probes_20261116.py",
+      "P5"
+    ],
+    "exit": 0,
+    "tests": [],
+    "seconds": 3.2452127139995355,
+    "log": "P5_historical_probe.log",
+    "sha256": "134563e34669040f034206e5394c0c0691af6cc74d7bb82158f4dd76a935f77d"
+  }
+]
