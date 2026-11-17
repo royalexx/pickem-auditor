@@ -289,6 +289,12 @@ class UpstreamIntegrationTests(unittest.TestCase):
             with self.assertRaises(ContractError):
                 validate_event_ledger(counts,ledger,ix)
 
+    def test_large_stochastic_o2_coupling_budget_remains_blocked(self):
+        # Preserve the observed benchmark failure without increasing G0's budget
+        # or changing an owner's minute law to force a green scaling claim.
+        with self.assertRaisesRegex(ContractError,'O_COUPLING_VERIFICATION_BUDGET'):
+            build(self.root,n=32,variant='O2')
+
     def test_wrong_upstream_code_pin_rejects(self):
         import tempfile
         with tempfile.TemporaryDirectory() as d:

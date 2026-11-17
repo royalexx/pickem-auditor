@@ -30,7 +30,7 @@ def main():
     args=ap.parse_args();folder=Path(args.output);folder.mkdir(parents=True,exist_ok=True)
     root=prepare();rows=[]
     for n in (8,32,64):
-        inputs=build(root,n=n)
+        inputs=build(root,n=n,variant='O0')
         for variant in ('J0','J1','J2'):
             kwargs={'upstream_root':root,'evidence_mode':'pinned_contract_fixture',
                     'event_parameters':PARAMETERS,'seed':42,'variant':variant,
@@ -42,7 +42,7 @@ def main():
             replay=simulate_integrated(*inputs,**kwargs)
             assert result['bundle']==replay['bundle']
             assert result['audit_rows']==replay['audit_rows']
-            rows.append({'n':n,'variant':variant,'seconds':seconds,'cpu_seconds':cpu_seconds,
+            rows.append({'n':n,'O_variant':'O0','variant':variant,'seconds':seconds,'cpu_seconds':cpu_seconds,
                 'peak_rss_linux_kib':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
                 'player_draws':12*n,'input_shas':result['input_shas'],
                 'bundle_sha256':result['bundle']['content_hash'],
@@ -80,7 +80,8 @@ def main():
         'real_integration':'BLOCKED','independent_P6_review':'REQUEST_REQUIRED_FOR_EXACT_COMMIT',
         'seed':42,'owner_pins':PINS,'rows':rows,'outputs':outputs,'runtime':sys.version,
         'numpy':__import__('numpy').__version__,'scipy':__import__('scipy').__version__,
-        'J2_uncertainty':'declared_unfitted_research_parameters'}
+        'J2_uncertainty':'declared_unfitted_research_parameters',
+        'scaling_limit':'P3 O2 n=32 rejected by unchanged G0 O_COUPLING_VERIFICATION_BUDGET; scaling uses O0, detailed fixture uses O2 n=4'}
     print('BENCHMARK_RECEIPT_SHA256',write(folder/'benchmark.json',receipt))
 
 
