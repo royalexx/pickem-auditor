@@ -1,0 +1,106 @@
+{
+  "B_P2_01": {
+    "authentic_fitted_artifacts_obtained": 0,
+    "classification": "UNAVAILABLE_AUTHENTIC_EVIDENCE",
+    "historical_fitting_performed": false,
+    "independent_disposition": "PENDING",
+    "independent_reviewer": "SEPARATE_P6",
+    "native_structural_handoff": "IMPLEMENTED_AND_OWNER_TESTED",
+    "requirements": [
+      "independently admitted original/correction prior source bytes",
+      "lawful availability and released-outcome clocks",
+      "dated player/team/role evidence",
+      "admissible existing fitted artifact tied to source and cutoff"
+    ],
+    "status": "BLOCKED"
+  },
+  "G1_owner_observation": "BLOCKED_BY_SOURCE_AND_FITTED_PRIOR_NOT_RELEASED",
+  "authority": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "criteria": [
+    {
+      "classification": "CORRECTNESS_DEFECT",
+      "id": "F-P2-02",
+      "independent_disposition": "PENDING",
+      "independent_reviewer": "SEPARATE_P6",
+      "owner_observation": "REPAIRED_AND_EXACT_COMMIT_TESTED",
+      "reproduce": "python -m unittest tests.nba_s_family.test_cutoff_regression_v1_2.DeclaredCutoffTests -v"
+    },
+    {
+      "classification": "INTERNAL_ARTIFACT_CHRONOLOGY_DEFECT",
+      "id": "F-P2-03",
+      "independent_disposition": "PENDING",
+      "independent_reviewer": "SEPARATE_P6",
+      "owner_observation": "REPAIRED_AND_EXACT_COMMIT_TESTED",
+      "reproduce": "python -m unittest tests.nba_s_family.test_cutoff_regression_v1_2.ArtifactChronologyTests -v"
+    },
+    {
+      "classification": "RAW_MINUTE_PRECISION_DEFECT",
+      "id": "F-P2-04",
+      "independent_disposition": "PENDING",
+      "independent_reviewer": "SEPARATE_P6",
+      "owner_observation": "REPAIRED_AND_EXACT_COMMIT_TESTED",
+      "reproduce": "python -m unittest tests.nba_s_family.test_p1_native_v1.ExactSourceMinuteTests -v"
+    },
+    {
+      "classification": "NATIVE_SCALAR_TYPE_DEFECT",
+      "id": "F-P2-05",
+      "independent_disposition": "PENDING",
+      "independent_reviewer": "SEPARATE_P6",
+      "owner_observation": "REPAIRED_AND_EXACT_COMMIT_TESTED",
+      "reproduce": "python -m unittest tests.nba_s_family.test_p1_native_v1.NativeScalarTypeTests -v"
+    },
+    {
+      "classification": "DURATION_INTERFACE_CORRECTNESS_DEFECT",
+      "id": "F-P2-06",
+      "independent_disposition": "PENDING",
+      "independent_reviewer": "SEPARATE_P6",
+      "owner_observation": "REPAIRED_AND_EXACT_COMMIT_TESTED",
+      "reproduce": "python -m unittest tests.nba_s_family.test_integration.HighOvertimeContractTests -v"
+    },
+    {
+      "classification": "NONPARTICIPATION_SOURCE_ACCOUNTING_DEFECT",
+      "id": "F-P2-07",
+      "independent_disposition": "PENDING",
+      "independent_reviewer": "SEPARATE_P6",
+      "owner_observation": "REPAIRED_AND_EXACT_COMMIT_TESTED",
+      "reproduce": "python -m unittest tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests -v"
+    },
+    {
+      "classification": "PARTIAL_INTEGER_SOURCE_ACCOUNTING_DEFECT",
+      "id": "F-P2-08",
+      "independent_disposition": "PENDING",
+      "independent_reviewer": "SEPARATE_P6",
+      "owner_observation": "REPAIRED_AND_EXACT_COMMIT_TESTED",
+      "reproduce": "python -m unittest tests.nba_s_family.test_p1_native_v1.IntegerSourceAccountingTests tests.nba_s_family.test_source_accounting_v1 -v"
+    }
+  ],
+  "exact_implementation_tested": "d202642fc4f811a3bf38b4ab7b3cb6a58cf378bf",
+  "invalid_receipt_classification": "p2_scalar_v1_4_20261117/implementation_verified is NOT exact-commit evidence; see preserved correction",
+  "owner": "P2",
+  "preserved_regression": {
+    "id": "F-P2-01",
+    "original_negative_probe_unchanged": true,
+    "owner_observation": "RETAINED_GREEN_SOURCE_SPECIFIC_48_PLUS_5_OT_TESTS"
+  },
+  "schema": "P2-submission-ledger/1.6.0",
+  "self_acceptance_awarded": false,
+  "source_sha256": {
+    "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
+    "v2/nba_s_family/model.py": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+    "v2/nba_s_family/p1_native.py": "372af3be16c33437272d9ee63bf37b18c581962c7566c4f64827961259e5bcc1",
+    "v2/nba_s_family/source_accounting.py": "8e7803471e520366a068bf79d52dcf8f95f955b338770ad5c4fa6af18ece08f6"
+  },
+  "synthetic_numerical_references": {
+    "disagreements": 0,
+    "exhaustive_combo_cases": 216,
+    "exhaustive_shooting_cases": 972,
+    "seeded_P1_P2_differential_cases": 5000
+  },
+  "test_counts_overlap": true,
+  "verified_tests": {
+    "G0": 267,
+    "G0_plus_P6": 350,
+    "P6_v3_P2": 6,
+    "S": 61
+  }
+}
