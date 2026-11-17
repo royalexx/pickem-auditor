@@ -360,6 +360,13 @@ def validate_prediction_cutoff(artifact, pregame):
         raise SFError('MODEL_FIT_AFTER_FREEZE')
     if cutoff > utc(pregame['training_cutoff_at']):
         raise SFError('MODEL_AFTER_DATA_CUTOFF')
+    for row in artifact['training_rows']:
+        start = utc(row['game_start_at'])
+        available = utc(row['outcome_available_at'])
+        if start >= cutoff or available > cutoff:
+            raise SFError('TRAINING_ROW_AFTER_MODEL_CUTOFF')
+        if available <= start:
+            raise SFError('TRAINING_ROW_RELEASE_CHRONOLOGY')
 
 
 def predict(fitted, *, frozen_pregame, target_player_id, role,

@@ -45,3 +45,25 @@ class DeclaredCutoffTests(unittest.TestCase):
         with self.assertRaisesRegex(SFError,'MODEL_FIT_AFTER_FREEZE'):conditional()
 
 if __name__=='__main__':unittest.main()
+
+class ArtifactChronologyTests(unittest.TestCase):
+    def test_resealed_late_training_release_rejected_by_both_interfaces(self):
+        from tests.nba_s_family.test_statistical import CUTOFF
+        from v2.nba_s_family.model import FittedS,canonical
+        p=pregame();g,o=opportunity_fixture(p)
+        f=fit(histories(),asof_cutoff_utc=CUTOFF,source_manifest=manifest(),stat='points')
+        for field,value in [('outcome_available_at','2022-10-12T00:00:00Z'),('game_start_at',CUTOFF)]:
+            with self.subTest(field=field):
+                a=f.data;a['training_rows'][0][field]=value;bad=FittedS(canonical(a))
+                r=predict(bad,frozen_pregame=p,target_player_id='espn:player:10',role='wing',opportunity=o,game_state=g)
+                self.assertEqual(r.abstain_reason,'TRAINING_ROW_AFTER_MODEL_CUTOFF')
+                with self.assertRaisesRegex(SFError,'TRAINING_ROW_AFTER_MODEL_CUTOFF'):
+                    joint_conditional(bad,pregame=p,game_state=g,opportunity=o,scenario_id=o['scenarios'][0]['scenario_id'],player_id='espn:player:10',team_id='espn:team:1',role='wing')
+
+    def test_model_release_cutoff_equality_remains_valid(self):
+        rows=histories();m=manifest();cutoff='2022-10-07T00:00:00Z'
+        rows[-1]['outcome_available_at']=cutoff
+        f=fit(rows,asof_cutoff_utc=cutoff,source_manifest=m,stat='points')
+        p=pregame();g,o=opportunity_fixture(p)
+        r=predict(f,frozen_pregame=p,target_player_id='espn:player:10',role='wing',opportunity=o,game_state=g)
+        self.assertIsNone(r.abstain_reason)
