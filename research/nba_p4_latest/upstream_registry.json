@@ -12,7 +12,7 @@
   },
   "owners": {
     "P2": {
-      "commit": "8759d9b50b1808a52b2bc650c04a94f8a2c7ca15",
+      "commit": "2864cca51c12d5722502ef9aa43c4b05da620cf8",
       "files": {
         "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
         "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
