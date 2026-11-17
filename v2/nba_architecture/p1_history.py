@@ -121,6 +121,9 @@ def _stats(stats):
             known = sum(stats[k] for k in keys if k in stats)
             if stats[combo] < known or (all(k in stats for k in keys) and stats[combo] != known):
                 fail("COMBINATION_ACCOUNTING")
+    from .p1_integer_accounting import partial_counts_feasible
+    if not partial_counts_feasible(stats):
+        fail("INTEGER_STAT_ACCOUNTING")
 
 
 def validate_ws1_envelope(record, source, *, require_source_bytes=None):
