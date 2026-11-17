@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "<stdin>", line 3, in <module>
+  File "/workspace/work/p4/research/nba_p4_latest/fixture.py", line 24, in build
+    o, sidecar = p3.build_opportunity(p, g, priors, model=data['O_model'], seed=seed,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/p4/work/latest_upstream/ecbf09c79e68954d/P3/v2/nba_o_family.py", line 272, in build_opportunity
+    validate_opportunity(o,p,g)
+  File "/workspace/work/p4/v2/nba_architecture/v2_contracts.py", line 921, in checked
+    result = validator(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/p4/v2/nba_architecture/families_v2.py", line 148, in validate_opportunity
+    validate_exposure_coupling(o, p, g)
+  File "/workspace/work/p4/v2/nba_architecture/exposure_v2.py", line 62, in validate_exposure_coupling
+    team_bounds = _check_team(tuple(players), groups, tuple(sorted(witnesses)), constraint)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/p4/v2/nba_architecture/exposure_v2.py", line 108, in _check_team
+    enumerate_allocations(0, 0., [])
+  File "/workspace/work/p4/v2/nba_architecture/exposure_v2.py", line 106, in enumerate_allocations
+    enumerate_allocations(i+1, elapsed+state[1], states+[state])
+  File "/workspace/work/p4/v2/nba_architecture/exposure_v2.py", line 106, in enumerate_allocations
+    enumerate_allocations(i+1, elapsed+state[1], states+[state])
+  File "/workspace/work/p4/v2/nba_architecture/exposure_v2.py", line 106, in enumerate_allocations
+    enumerate_allocations(i+1, elapsed+state[1], states+[state])
+  [Previous line repeated 3 more times]
+  File "/workspace/work/p4/v2/nba_architecture/exposure_v2.py", line 97, in enumerate_allocations
+    req(nodes <= MAX_SEARCH_NODES, 'O_COUPLING_VERIFICATION_BUDGET')
+  File "/workspace/work/p4/v2/nba_architecture/v2_contracts.py", line 38, in req
+    raise ContractError(code)
+v2.nba_architecture.v2_contracts.ContractError: O_COUPLING_VERIFICATION_BUDGET

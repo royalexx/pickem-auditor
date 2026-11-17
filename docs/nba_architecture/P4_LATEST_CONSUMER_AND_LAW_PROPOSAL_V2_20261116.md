@@ -104,11 +104,61 @@ of that constraint; they are not hidden as exact marginal preservation.
 
 `research.nba_p4_latest.numerical_reference` reproduces these analytical
 controls. The benchmark compares all 48 primitive empirical player/stat
-PMFs to their actual P2/O mixtures, including TV/CDF differences, mean,
+PMFs to fixed-O weighted P2 conditional kernels, including TV/CDF differences, mean,
 variance, zero and tail mass. Four paths are a compatibility demonstration,
 **not an adequacy experiment or a permissible distortion certificate**.
 An independently accepted approximation budget/contract is still required.
 No historical predictive scoring was used to justify this proposal.
+
+### Actual-map repeated-seed evidence at exact 4685425
+
+The active preregistration is `repeated_seed_plan_v3.json`, committed before
+execution. Earlier plans v1/v2 were superseded before execution as the P2
+legal-OT code and full owner inventory requirements advanced; all three plans
+remain preserved. The active plan fixes the actual O2 n=4 outputs, all P2
+artifact bytes and consumed executable hashes, parameters, 256 seeds
+100000–100255 and metrics. Only final owner commit/unconsumed-inspector
+inventory successors with identical consumed numerical code and fixed inputs
+are allowed, with their entire executed registry independently byte-checked.
+
+At P4 4685425ae3838bcca4eb245bfdf009825bcd57b6, using final P2
+fe46965394ea0f48ef5e9da501ec8ca9e441ce47 and P3
+eb0882b5011f2004c5eaf27cccfdc6297704f261, all 256 J repetitions completed:
+1,024 weighted paths, zero observed games, no new O draws or discarded
+scenarios, 12,288 compatible-rate attempts with zero rate rejections, and
+1,037 event attempts including 13 retained tied-score rejections. Runtime was
+100.9 seconds. Full raw API outputs are retained losslessly as gzip with
+separate compressed/uncompressed SHA domains; their observed runtime fields
+are retained, and an additional semantic replay hash excludes performance.
+
+The actual mapping has **material marginal distortion**. Maximum absolute
+mean difference is 11.3679975911 and maximum empirical TV is 0.4767262428.
+For synthetic player 21 PTS, the fixed-scenario S-kernel mean is 28.00504928 and the J
+mean is 39.373046875 (Monte Carlo SE 0.3032011); variances are 61.770416 and
+180.274899. This difference substantially exceeds Monte Carlo error. The
+per-player/stat packet also reports full analytical count-law references,
+variance/zero/tail differences, clustered mean/variance/zero/tail MCSE,
+bounded-indicator Hoeffding uncertainty and 16-seed batch TV variability.
+MC repetitions are not NBA games, independent data or predictive validation.
+
+The induced mixture is therefore **not certified an adequate approximation**.
+The result supports retaining B-P4-02 BLOCKED pending an independently accepted
+physical/distributional contract. The study did not adapt its law, seed set or
+acceptance threshold after seeing these differences. All 96 primitive and
+same-draw combo PMFs are also rederived from the retained raw outputs, with
+all 256 original G0 J bundles independently revalidated and every PMF normalized.
+
+The retained metric key `analytic_S_O` is a legacy diagnostic field name,
+not an authenticated unconditional S/O forecast. The append-only
+`reference_conditioning_v1.json` clarifies all 48 references: genuine
+participation probabilities remain null; actual public P2 unconditional
+prediction abstains in all 48 cases. Actual played-conditional P2 output
+agrees with the fixed-scenario reference to maximum PMF error
+3.7402e-12. In this exact synthetic O population every sampled player is
+PLAYED, so both fixed all-scenario and played-scenario denominators equal
+one. This numerical equality does not certify participation probability one.
+No original study output was rewritten, and this reference cannot be used
+as an admitted unconditional participation distribution.
 
 ## Precise remaining physical prerequisites
 
@@ -145,6 +195,11 @@ contract, rather than a validator relaxation:
    unconditional participation forecast. Changing that envelope's meaning
    requires a separately accepted versioned contract; no nullable probability
    is silently converted into a source-certified 0 or 1.
+7. Possession units: G/O/J require an independently agreed normalization for
+   regulation-equivalent versus full-duration possession pools. G0's structural
+   fields alone do not establish that interpretation. The present WS5 scaling
+   can materially alter S/O means; it must not be silently reinterpreted or
+   claimed to preserve them, particularly in overtime scenarios.
 
 These are material distribution/physical-model decisions requiring independent
 review, not missing software checks that can be closed by assertions. The
@@ -157,6 +212,11 @@ the raw event audit. A narrow old audit-validator counterexample (+1 supplied
 point with unchanged shot counts) is retained at exact 93e9c89; the complete
 G0 bundle already rejected that mutation. The additional validator closes this
 raw evidence seam without changing the WS5 generator or G0 semantics.
+The historical-team/role join is also repaired: each training row retains its
+dated source-bound team/role instead of being required to equal today's
+target roster. A separately generated synthetic prior fitted by actual P2
+reproduces the previous rejection and now passes; wrong dated source
+membership and wrong current target-role pins still reject.
 
 ## O2 scaling and preserved failure
 
@@ -178,6 +238,9 @@ python -c "import json,subprocess; p=json.load(open('research/nba_p4_latest/upst
 PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests/nba_architecture -p test_p4_latest_integration.py -v
 OPENBLAS_NUM_THREADS=1 python -m research.nba_p4_latest.numerical_reference
 OPENBLAS_NUM_THREADS=1 python -m research.nba_p4_latest.benchmark --output work/new-p4-latest-benchmark
+OPENBLAS_NUM_THREADS=1 python -m research.nba_p4_latest.repeated_seeds --output work/new-p4-256-seed-study
+OPENBLAS_NUM_THREADS=1 python -m research.nba_p4_latest.pool_joint_outputs --input-dir work/new-p4-256-seed-study --output-dir work/new-p4-all96
+OPENBLAS_NUM_THREADS=1 python -m research.nba_p4_latest.reference_conditioning --output work/new-p4-reference-conditioning.json
 ```
 
 The benchmark refuses an existing output directory. Its exact outputs include
