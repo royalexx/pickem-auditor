@@ -1,0 +1,35 @@
+{
+  "G0_budgets_changed": false,
+  "independently_accepted": false,
+  "owner_sha": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+  "results": [
+    {
+      "elapsed_seconds": 0.05241151299998137,
+      "error": "O_PRIOR_FIELDS_OR_POSTGAME_LEAK",
+      "input_raw_sha256": "7881e35145ca5301c77c9e0e413ed229afa25050a9fce319870ce8847d0dcd69",
+      "n": 4,
+      "owner_sha": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+      "status": "BLOCKED"
+    },
+    {
+      "elapsed_seconds": 0.0038090150000016365,
+      "error": "O_PRIOR_FIELDS_OR_POSTGAME_LEAK",
+      "input_raw_sha256": "449f2ec6b09fbfea9a91ad5db6343fe750902a6853b73f4df257e036f9b8f943",
+      "n": 8,
+      "owner_sha": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+      "status": "BLOCKED"
+    },
+    {
+      "elapsed_seconds": 0.005470390000027692,
+      "error": "O_PRIOR_FIELDS_OR_POSTGAME_LEAK",
+      "input_raw_sha256": "02ae95406bcf6426d98a371c8a6fef7383c06bae5a9420dac281c92b79ada251",
+      "n": 32,
+      "owner_sha": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+      "status": "BLOCKED"
+    }
+  ],
+  "scenarios_discarded": false,
+  "schema": "nba-p3-coupling-probe/1.0.0",
+  "source": "EXACT_P4_SYNTHETIC_ENGINEERING_FIXTURE"
+}
+Expected original bounded n=32 rejection was not reproduced

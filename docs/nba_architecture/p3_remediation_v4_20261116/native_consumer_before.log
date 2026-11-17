@@ -1,0 +1,19 @@
+test_p3_p1_native_v4 (unittest.loader._FailedTest.test_p3_p1_native_v4) ... ERROR
+
+======================================================================
+ERROR: test_p3_p1_native_v4 (unittest.loader._FailedTest.test_p3_p1_native_v4)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_p3_p1_native_v4
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/p3/tests/nba_architecture/test_p3_p1_native_v4.py", line 9, in <module>
+    from v2.nba_o_p1_native import consume_p1_context
+ModuleNotFoundError: No module named 'v2.nba_o_p1_native'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)
