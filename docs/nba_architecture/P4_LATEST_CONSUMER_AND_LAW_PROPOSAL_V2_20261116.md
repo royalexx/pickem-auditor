@@ -23,7 +23,8 @@ Its result records all consumer code hashes and source/artifact hashes. Parsed
 JSON hashes remain distinct from raw byte hashes. The original old-pin
 consumer, artifacts, tests and reports remain unchanged.
 
-`research/nba_p4_latest/fixtures` is a **new synthetic population**. Its literal
+`research/nba_p4_latest/fixtures_v2` is the current **new synthetic population**;
+the original native `fixtures` directory remains byte-preserved. Its literal
 `P1_VERIFIED` field is a compatibility token required by the P2 synthetic
 fitting API, not an authenticated provider assertion. Every raw document is
 retained and explicitly synthetic. This fixture does not certify a complete
@@ -60,6 +61,13 @@ law once per player/shared G/O scenario:
 This is an explicit constrained-law approximation. It does **not** preserve
 the original S marginal PMFs exactly. Both rate-compatibility conditioning
 and the retained non-tied-final-score rejection alter the distribution.
+The order matters: for each fixed compatible latent-rate draw, the event
+kernel is sampled conditional on a non-tied final score. Rates are not
+redrawn on tied-event attempts. Thus the proposal is the sequential law
+P(rate | rate-compatible) P(events | rate, non-tied), with separately retained
+finite-budget failure atoms; it is not one global rejection-conditioned
+product law. An exhausted scenario fails the entire execution. No successful
+scenario subset is renormalized into a replacement forecast.
 All rejected final event draws remain in the audit. The complete empirical
 J PMFs are normalized weighted histograms of the retained shared scenarios;
 their finite empirical support is not a claimed bound on the underlying
