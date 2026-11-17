@@ -17,6 +17,9 @@ FIXTURE = Path(__file__).parent/"golden_v2"/"joint_same_draw.json"
 def inputs():
     base=json.loads(FIXTURE.read_text())
     p,g=base["pregame"],base["game_state"]
+    p["features"].append(dict(p["features"][0], name="home_team_id", value=p["team_ids"][0]))
+    p=seal({k:v for k,v in p.items() if k!="content_hash"})
+    g=seal(dict({k:v for k,v in g.items() if k!="content_hash"}, source_snapshot_sha256=p["content_hash"]))
     receipt=p["sources"][0]["receipt_sha256"]
     law={"mean":24., "variance":25., "ot_probability":.12,
          "ot_continuation":.25, "family":"beta"}
@@ -26,6 +29,7 @@ def inputs():
         # the sixth is uncertain, using a hypothetical prior, never an actual.
         last = r["player_id"].split(":")[-1] in ("15","25")
         priors[r["player_id"]]={
+            "team_id":r["team_id"], "source_bindings":[receipt],
             "source_snapshot_sha256":p["content_hash"],
             "source_receipt_sha256":receipt,
             "available_at":p["input_freeze_at"],
@@ -122,14 +126,9 @@ class OpportunityTests(unittest.TestCase):
         def update(p):
             for row in p.values():row["participation_basis"]="verified_pregame_fit"
             p["espn:player:15"]["scenario_participation_prior"]=0.
-        p,g,o,side=build(change=update)
-        by_id={r["player_id"]:r for r in o["players"]}
-        self.assertEqual(by_id["espn:player:15"]["participation_probability"],0.)
-        self.assertEqual(by_id["espn:player:15"]["participation_evidence"],
-                         "independently_estimated")
-        self.assertEqual({s["participation"] for sc in o["scenarios"]
-                          for s in sc["players"] if s["player_id"]=="espn:player:15"},
-                         {"DNP"})
+        with self.assertRaisesRegex(ContractError,
+                                   "O_INDEPENDENT_PARTICIPATION_ATTESTATION_REQUIRED"):
+            build(change=update)
 
     def test_early_exit_caps_without_realized_minutes(self):
         def update(p):
@@ -147,7 +146,7 @@ class OpportunityTests(unittest.TestCase):
         broken=copy.deepcopy(side)
         broken["scenarios"][0]["players"][0]["possession_share"]=.99
         broken=seal({k:v for k,v in broken.items() if k!="content_hash"})
-        with self.assertRaisesRegex(ContractError,"O_SHARE_CONSERVATION"):
+        with self.assertRaisesRegex(ContractError,"O_PLAYER_POSSESSION_JOIN|O_SHARE_CONSERVATION"):
             validate_sidecar(broken,p,g,o)
         broken=copy.deepcopy(side)
         broken["scenarios"][0]["teams"][p["team_ids"][0]]["lineup_segments"][0]["player_indices"]=[]

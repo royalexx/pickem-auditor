@@ -22,8 +22,9 @@ from v2.nba_architecture.v2_contracts import (
 )
 from v2.nba_architecture.families_v2 import validate_game_state, validate_opportunity
 
-VERSION = "nba-p3-opportunity/0.1.0"
+VERSION = "nba-p3-opportunity/0.2.0"
 PRIOR_KEYS = frozenset({
+    "team_id", "source_bindings",
     "source_snapshot_sha256", "source_receipt_sha256", "available_at",
     "training_cutoff_at", "scenario_participation_prior", "participation_basis",
     "minutes_distribution", "played_zero_probability", "early_exit_probability",
@@ -45,6 +46,17 @@ def validate_priors(p, priors, *, variant):
     for pid, prior in priors.items():
         req(isinstance(prior, dict) and set(prior) == PRIOR_KEYS,
             "O_PRIOR_FIELDS_OR_POSTGAME_LEAK")
+        req(prior["team_id"] == roster[pid]["team_id"], "O_PRIOR_TEAM_MISMATCH")
+        req(isinstance(prior["source_bindings"], list) and
+            prior["source_receipt_sha256"] in prior["source_bindings"] and
+            set(prior["source_bindings"]).issubset(receipt_hashes), "O_PRIOR_SOURCE_BINDINGS")
+        req(instant(prior["training_cutoff_at"]) <= instant(p["training_cutoff_at"]),
+            "O_PRIOR_AFTER_P1_CUTOFF")
+        if p["source_profile"] == "original_prospective":
+            req(all(instant(prior["available_at"]) >= max(instant(r[k]) for k in
+                    ("collector_observed_at", "retrieved_at", "ingested_at"))
+                    for r in p["sources"] if r["receipt_sha256"] in prior["source_bindings"]),
+                "O_PRIOR_BACKDATED")
         req(prior["source_snapshot_sha256"] == p["content_hash"],
             "O_PRIOR_SNAPSHOT_MISMATCH")
         req(prior["source_receipt_sha256"] in receipt_hashes,
@@ -53,6 +65,8 @@ def validate_priors(p, priors, *, variant):
             instant(prior["training_cutoff_at"]) <= freeze,
             "O_PRIOR_FUTURE_DATA")
         req(prior["participation_basis"] in BASIS, "O_PRIOR_BASIS")
+        req(prior["participation_basis"] != "verified_pregame_fit",
+            "O_INDEPENDENT_PARTICIPATION_ATTESTATION_REQUIRED")
         q = num(prior["scenario_participation_prior"])
         req(q <= 1, "O_PRIOR_PARTICIPATION_RANGE")
         if roster[pid]["availability"] == "out" or roster[pid]["legal_eligibility"] is False:
@@ -191,6 +205,8 @@ def build_opportunity(p, g, priors, *, model, seed, variant="O1",
         home_team_source_receipt_sha256 in
         {s["receipt_sha256"] for s in p["sources"]},
         "O_HOME_TEAM_SOURCE_MISSING")
+    from v2.nba_o_bridge import home_binding, p1_history_context
+    home_binding(p, home_team_id, home_team_source_receipt_sha256)
     team_roster = {t: sorted((r for r in p["players"] if r["team_id"]==t),
                              key=lambda x:x["player_id"]) for t in p["team_ids"]}
     req(all(len(v)>=5 for v in team_roster.values()),"O_NOT_ENOUGH_ROSTER_PLAYERS")
@@ -238,11 +254,9 @@ def build_opportunity(p, g, priors, *, model, seed, variant="O1",
         else:
             support=[{"minutes":0.,"mass":1.}]
         excluded=r["legal_eligibility"] is False or r["availability"]=="out"
-        evidence=("verified_out" if excluded else
-                  "independently_estimated" if prior["participation_basis"]=="verified_pregame_fit"
-                  else "unknown")
+        evidence="verified_out" if excluded else "unknown"
         # Prior-only/uncertified sources never become an independent participation claim.
-        prob=0. if excluded else float(q) if evidence=="independently_estimated" else None
+        prob=0. if excluded else None
         persons.append({"player_id":pid,"team_id":r["team_id"],
                         "participation_probability":prob,
                         "participation_evidence":evidence,
@@ -261,7 +275,8 @@ def build_opportunity(p, g, priors, *, model, seed, variant="O1",
                   "variant":variant,"model":deepcopy(model),
                   "home_team_id":home_team_id,
                   "home_team_source_receipt_sha256":home_team_source_receipt_sha256,
-                  "source_status":"SHADOW_NOT_CERTIFIED",
+                  "source_status":p["certification"],
+                  "context":p1_history_context(p),
                   "scenario_sampling":"participation-conditioned-on-feasible-team-rotation",
                   "prior_sha256":digest(priors),"prior_manifest":deepcopy(priors),
                   "scenarios":supplementary})
@@ -270,7 +285,22 @@ def build_opportunity(p, g, priors, *, model, seed, variant="O1",
 
 
 def validate_sidecar(sidecar,p,g,o):
+    validate_pregame(p); validate_game_state(g,p); validate_opportunity(o,p,g)
+    req(set(sidecar) == {"schema", "kind", "source_snapshot_sha256", "game_id",
+        "game_state_sha256", "opportunity_sha256", "seed", "variant", "model",
+        "home_team_id", "home_team_source_receipt_sha256", "source_status",
+        "context", "scenario_sampling", "prior_sha256", "prior_manifest",
+        "scenarios", "content_hash"}, "O_SIDECAR_FIELDS")
+    req(sidecar["scenario_sampling"] == "participation-conditioned-on-feasible-team-rotation",
+        "O_SIDECAR_CONDITIONING")
     verify(sidecar)
+    req(sidecar["schema"] == VERSION and sidecar["kind"] == "opportunity_scenarios"
+        and sidecar["game_id"] == p["game_id"], "O_SIDECAR_IDENTITY")
+    from v2.nba_o_bridge import home_binding
+    home_binding(p, sidecar["home_team_id"], sidecar["home_team_source_receipt_sha256"])
+    from v2.nba_o_bridge import p1_history_context
+    req(sidecar["context"] == p1_history_context(p) and
+        sidecar["source_status"] == p["certification"], "O_CONTEXT_MISMATCH")
     req(sidecar["prior_sha256"]==digest(sidecar["prior_manifest"]),
         "O_PRIOR_MANIFEST_HASH")
     validate_priors(p,sidecar["prior_manifest"],variant=sidecar["variant"])
@@ -295,7 +325,8 @@ def validate_sidecar(sidecar,p,g,o):
             "O_SIDECAR_WEIGHT")
         req(set(sc["teams"])==set(p["team_ids"]), "O_SIDECAR_TEAM_COVERAGE")
         o_players={x["player_id"]:x for x in o_by_id[sid]["players"]}
-        req(set(x["player_id"] for x in sc["players"])==set(o_players),
+        req(len(sc["players"])==len(o_players) and
+            set(x["player_id"] for x in sc["players"])==set(o_players),
             "O_SIDECAR_ROSTER")
         for x in sc["players"]:
             w=o_players[x["player_id"]]
@@ -315,6 +346,9 @@ def validate_sidecar(sidecar,p,g,o):
                     x["projected_possession_opportunity"]>=0 and
                     (x["minutes"]>0 or x["possession_share"]==0)
                     for x in chosen), "O_INVALID_SHARE_OR_DNP")
+            req(all(abs(x["projected_possession_opportunity"] -
+                        info["projected_possessions"]*x["possession_share"])<1e-9
+                    for x in chosen), "O_PLAYER_POSSESSION_JOIN")
             req(abs(math.fsum(x["possession_share"] for x in chosen)-1)<1e-10,
                 "O_SHARE_CONSERVATION")
             req(abs(math.fsum(x["projected_possession_opportunity"] for x in chosen)-
@@ -331,6 +365,16 @@ def validate_sidecar(sidecar,p,g,o):
             expected_segments=lineup_segments(
                 [x["minutes"] for x in team_players],length)
             req(segments==expected_segments,"O_LINEUP_WITNESS_MISMATCH")
+            # Replay the existing allocator, never a second model or G draw.
+            roster=sorted((r for r in p["players"] if r["team_id"]==team),
+                          key=lambda r:r["player_id"])
+            rng=np.random.default_rng(seed_for(sidecar["seed"],p["game_id"],sid,
+                    f"{VERSION}/{sidecar['variant']}/{team}"))
+            result=_one_team(roster,sidecar["prior_manifest"],g_by_id[sid],rng,sidecar["variant"])
+            expected_rows=_share_scenario(roster,sidecar["prior_manifest"],result,
+                                          expected_pool,rng,sidecar["variant"])
+            req(chosen==expected_rows and info["sampling_attempts"]==result["attempts"],
+                "O_REPLAY_MISMATCH")
     return True
 
 
@@ -338,6 +382,7 @@ def freeze_outputs(folder,p,g,o,sidecar):
     """Create-only audited bytes; existing divergent artifacts cannot be replaced."""
     from pathlib import Path
     from v2.nba_architecture.v2_contracts import freeze_once
+    validate_sidecar(sidecar,p,g,o)
     root=Path(folder)
     return (freeze_once(root/(o["content_hash"]+".json"),o),
             freeze_once(root/(sidecar["content_hash"]+".json"),sidecar))
@@ -404,7 +449,9 @@ def ws2_priors_from_forecasts(p, forecasts, *, source_receipt_sha256,
     for pid,r in roster.items():
         f=fs[pid]
         q=f.get("participation_probability")
-        available=instant(f["source_available_at"])
+        available=max(instant(f["source_available_at"]),
+                      *(instant(source[k]) for k in ("collector_observed_at","retrieved_at","ingested_at")))
+        bindings=[source_receipt_sha256]
         if q is None:
             override=overrides.get(pid)
             req(isinstance(override,dict) and set(override)==
@@ -412,13 +459,20 @@ def ws2_priors_from_forecasts(p, forecasts, *, source_receipt_sha256,
                 "O_PARTICIPATION_PRIOR_REQUIRED")
             req(override["source_receipt_sha256"] in all_receipts,
                 "O_PARTICIPATION_PRIOR_SOURCE")
+            override_source=all_receipts[override["source_receipt_sha256"]]
+            req(max(instant(override["available_at"]),
+                    *(instant(override_source[k]) for k in
+                      ("collector_observed_at","retrieved_at","ingested_at")))<=freeze,
+                "O_PARTICIPATION_OVERRIDE_POSTFREEZE")
             available=max(available,instant(override["available_at"]))
+            bindings.append(override["source_receipt_sha256"])
             q=override["probability"]
         q=num(q)
         req(q<=1, "O_PARTICIPATION_PRIOR_RANGE")
         if r["legal_eligibility"] is False or r["availability"]=="out":
             req(q==0, "O_WS2_EXCLUDED_PARTICIPATION")
         result[pid]={
+            "team_id":r["team_id"], "source_bindings":sorted(set(bindings)),
             "source_snapshot_sha256":p["content_hash"],
             "source_receipt_sha256":source_receipt_sha256,
             "available_at":available.isoformat().replace("+00:00","Z"),
@@ -433,7 +487,9 @@ def ws2_priors_from_forecasts(p, forecasts, *, source_receipt_sha256,
             "possession_intensity":1.,
             "usage_concentration":30.,
             "uncertainty_flags":["WS2_SHADOW","PARTICIPATION_UNVERIFIED",
-                                 "NEUTRAL_USAGE_NOT_FITTED"],
+                                 "NEUTRAL_USAGE_NOT_FITTED",
+                                 "SYNTHETIC_ZERO_HURDLE_AND_EXIT_ASSUMPTIONS",
+                                 "SYNTHETIC_ROLE_USAGE_ASSUMPTIONS"],
         }
     validate_priors(p,result,variant="O1")
     return result
