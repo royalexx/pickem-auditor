@@ -12,7 +12,7 @@
   },
   "owners": {
     "P2": {
-      "commit": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "commit": "ae956315db9162315d16bdd0a6fe0b4c8afbfe1c",
       "files": {
         "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
         "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
@@ -22,9 +22,10 @@
         "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
         "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
         "v2/nba_s_family/model.py": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
-        "v2/nba_s_family/p1_native.py": "372af3be16c33437272d9ee63bf37b18c581962c7566c4f64827961259e5bcc1",
+        "v2/nba_s_family/p1_native.py": "b8bd5ac386f7358d7a913ec28e2d56ab799ef4da04ec0f7ad4958c2a2aa2399a",
         "v2/nba_s_family/source_accounting.py": "8e7803471e520366a068bf79d52dcf8f95f955b338770ad5c4fa6af18ece08f6"
-      }
+      },
+      "inventory_revision": "raw-credit-zero-repair-20261117"
     },
     "P3": {
       "commit": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
