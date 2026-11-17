@@ -7,6 +7,7 @@ never separately weighted S/O/J mechanism predictions.
 """
 from __future__ import annotations
 from collections import defaultdict
+from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
@@ -34,11 +35,146 @@ def _utc(value):
     return v
 
 
-def _row_date(value):
+def _row_date(value, event_start_at=None):
+    """Canonical game date is UTC midnight of the event-start UTC day.
+
+    No implicit arena/local-date convention is supported. Check alignment
+    BEFORE quarantine; a backdated label is an integrity error in its own right.
+    """
     date=_utc(value)
+    if date.time()!=datetime.min.time():
+        raise ExperimentError("UTC_MIDNIGHT_DATE_REQUIRED")
+    if event_start_at is not None and date.date()!=_utc(event_start_at).date():
+        raise ExperimentError("INVALID_CHRONOLOGY")
     if date >= datetime(2023,10,1,tzinfo=timezone.utc):
         raise ExperimentError("2023_24_HOLDOUT_QUARANTINED")
     return date
+
+
+def _identity(value):
+    if not isinstance(value,str) or not value.strip() or value!=value.strip():
+        raise ExperimentError("INVALID_IDENTITY")
+    return value
+
+
+def _chronology(row):
+    for field in ("game_id","player_id","stat","frozen_at","event_start_at",
+                  "official_available_at","date"):
+        if field not in row:
+            raise ExperimentError("MISSING_"+field)
+    _identity(row["game_id"])
+    _identity(row["player_id"])
+    if row["stat"] not in STATS:
+        raise ExperimentError("INVALID_STAT")
+    freeze=_utc(row["frozen_at"])
+    start=_utc(row["event_start_at"])
+    released=_utc(row["official_available_at"])
+    day=_row_date(row["date"],row["event_start_at"])
+    if freeze>=start or released<start:
+        raise ExperimentError("INVALID_CHRONOLOGY")
+    if "event_end_at" not in row:
+        raise ExperimentError("MISSING_event_end_at")
+    end=_utc(row["event_end_at"])
+    if end<=start or released<end:
+        raise ExperimentError("OUTCOME_BEFORE_GAME_END")
+    _cutoffs(row,freeze,start)
+    return day,freeze,start,released
+
+
+def _cutoffs(obj, freeze, start):
+    # Traverse every supplied witness, including nested model/source lineage.
+    # Unsupported *_at clocks fail closed rather than being silently ignored.
+    before_freeze={"source_available_at","available_at","published_at",
+                   "retrieved_at","ingested_at","input_freeze_at",
+                   "decision_cutoff_at","model_training_cutoff_at",
+                   "training_cutoff_at","asof_cutoff_utc","cutoff_at"}
+    event_clocks={"date","frozen_at","event_start_at","event_end_at",
+                  "official_available_at"}
+    for key,value in obj.items():
+        if not isinstance(key,str):
+            continue  # Integer PMF support is validated separately.
+        if key in before_freeze or "cutoff" in key:
+            if _utc(value)>freeze:
+                raise ExperimentError("POST_FREEZE_SOURCE_OR_CUTOFF")
+        elif key=="forecast_at":
+            if not freeze<=_utc(value)<start:
+                raise ExperimentError("INVALID_FORECAST_TIME")
+        elif key.endswith("_at") and key not in event_clocks:
+            raise ExperimentError("UNSUPPORTED_TIME_FIELD_"+key)
+        elif isinstance(value,dict):
+            _cutoffs(value,freeze,start)
+        elif isinstance(value,(list,tuple)):
+            for item in value:
+                if isinstance(item,dict):
+                    _cutoffs(item,freeze,start)
+
+
+def _linked_fields(obj, row):
+    for key,value in obj.items():
+        if key in ("game_id","player_id","stat","date","frozen_at",
+                   "event_start_at","event_end_at","official_available_at",
+                   "source_profile") and value!=row[key]:
+            raise ExperimentError("LINKED_IDENTITY_MISMATCH_"+key)
+        if isinstance(value,dict):
+            _linked_fields(value,row)
+        elif isinstance(value,(list,tuple)):
+            for item in value:
+                if isinstance(item,dict):
+                    _linked_fields(item,row)
+
+
+def _synthetic_witness(row):
+    """Explicit interface fixture, NOT a source-authenticated historical adapter.
+
+    Require independent event/forecast/source identities; never derive missing
+    clocks from the label date or infer game end from a fixed NBA duration.
+    """
+    for key in ("event_end_at","event_metadata","source_lineage","actual_stats"):
+        if key not in row:
+            raise ExperimentError("MISSING_"+key)
+    event=row["event_metadata"]
+    if not isinstance(event,dict):
+        raise ExperimentError("INVALID_EVENT_METADATA")
+    for key in ("game_id","date","event_start_at","event_end_at","source_profile"):
+        if event.get(key)!=row[key]:
+            raise ExperimentError("EVENT_METADATA_MISMATCH_"+key)
+    start=_utc(event["event_start_at"])
+    season_start=start.year if start.month>=10 else start.year-1
+    if event.get("season")!=f"{season_start}-{str(season_start+1)[-2:]}":
+        raise ExperimentError("EVENT_SEASON_MISMATCH")
+    lineage=row["source_lineage"]
+    if not isinstance(lineage,list) or not lineage:
+        raise ExperimentError("SOURCE_LINEAGE_REQUIRED")
+    _linked_fields(row,row)
+    sources=set()
+    for source in lineage:
+        if not isinstance(source,dict):
+            raise ExperimentError("INVALID_SOURCE_LINEAGE")
+        for key in ("source_id","sha256","source_available_at","retrieved_at"):
+            if key not in source:
+                raise ExperimentError("MISSING_SOURCE_"+key)
+        sid=_identity(source["source_id"])
+        sha=source["sha256"]
+        if (sid in sources or not isinstance(sha,str) or len(sha)!=64 or
+                any(c not in "0123456789abcdef" for c in sha)):
+            raise ExperimentError("INVALID_SOURCE_LINEAGE")
+        sources.add(sid)
+        if _utc(source["source_available_at"])>_utc(source["retrieved_at"]):
+            raise ExperimentError("SOURCE_RETRIEVAL_BEFORE_AVAILABILITY")
+    counts=row["actual_stats"]
+    if not isinstance(counts,dict) or set(counts)!={"points","rebounds","assists","threes"}:
+        raise ExperimentError("INVALID_STATISTICAL_WITNESS")
+    if any(type(v) is not int or v<0 for v in counts.values()):
+        raise ExperimentError("INVALID_STATISTICAL_WITNESS")
+    if 3*counts["threes"]>counts["points"]:
+        raise ExperimentError("INVALID_POINT_ACCOUNTING")
+    combinations={"pr":("points","rebounds"),"pa":("points","assists"),
+                  "ra":("rebounds","assists"),"pra":("points","rebounds","assists")}
+    expected=(sum(counts[k] for k in combinations[row["stat"]])
+              if row["stat"] in combinations else counts[row["stat"]])
+    if row["actual"]!=expected:
+        raise ExperimentError("OUTCOME_STAT_IDENTITY_MISMATCH")
+    return sources
 
 
 def make_walk_forward_folds(rows, *, min_train_dates=3, test_dates=1,
@@ -48,25 +184,24 @@ def make_walk_forward_folds(rows, *, min_train_dates=3, test_dates=1,
     Training label release must strictly precede the earliest test freeze.
     Game/date all stay together even if many players/props share that cluster.
     """
-    rows=list(rows)
+    rows=deepcopy(list(rows))
     if not rows or min_train_dates<1 or test_dates<1 or embargo_days<0:
         raise ExperimentError("BAD_FOLD_CONFIG")
     grouped=defaultdict(list)
     seen=set()
+    games={}
     for row in rows:
-        for field in ("game_id","player_id","stat","frozen_at","event_start_at",
-                      "official_available_at","date"):
-            if field not in row:
-                raise ExperimentError("MISSING_"+field)
-        if row["stat"] not in STATS:
-            raise ExperimentError("INVALID_STAT")
-        freeze=_utc(row["frozen_at"])
-        start=_utc(row["event_start_at"])
-        released=_utc(row["official_available_at"])
-        d=_row_date(row["date"])
-        if freeze>=start or released<start or d.date()!=start.date():
-            raise ExperimentError("INVALID_CHRONOLOGY")
-        key=(row["game_id"],row["player_id"],row["stat"],row["frozen_at"])
+        d,freeze,start,released=_chronology(row)
+        if "event_metadata" in row:
+            event=row["event_metadata"]
+            for field in ("game_id","date","event_start_at","event_end_at"):
+                if event.get(field)!=row.get(field):
+                    raise ExperimentError("EVENT_METADATA_MISMATCH_"+field)
+        event=(d,start,_utc(row["event_end_at"]))
+        if row["game_id"] in games and games[row["game_id"]]!=event:
+            raise ExperimentError("INCONSISTENT_GAME_METADATA")
+        games[row["game_id"]]=event
+        key=(row["game_id"],row["player_id"],row["stat"])
         if key in seen:
             raise ExperimentError("DUPLICATE_FORECAST")
         seen.add(key)
@@ -102,35 +237,59 @@ class CachedCohort:
     def __init__(self, rows, *, authorization=""):
         if authorization!="SYNTHETIC_UNIT_TEST":
             raise ExperimentError("HISTORICAL_WEIGHT_FIT_NOT_AUTHORIZED")
-        rows=list(rows)
+        rows=deepcopy(list(rows))
         if not rows:
             raise ExperimentError("EMPTY_COHORT")
+        if not isinstance(rows[0].get("pipelines"),dict):
+            raise ExperimentError("INVALID_PIPELINES")
         self.pipeline_ids=tuple(sorted(rows[0]["pipelines"]))
+        for name in self.pipeline_ids:
+            _identity(name)
         if not self.pipeline_ids or len(self.pipeline_ids)!=len(set(self.pipeline_ids)):
             raise ExperimentError("INVALID_PIPELINES")
         self.rows=rows
         seen=set()
         support=0
         modes={}
+        games={}
         for row in rows:
             if row.get("source_profile")!="SYNTHETIC":
                 raise ExperimentError("ONLY_SYNTHETIC_FITTING")
-            if row["stat"] not in STATS or type(row["actual"]) is not int or row["actual"]<0:
+            day,freeze,start,released=_chronology(row)
+            if type(row.get("actual")) is not int or row["actual"]<0:
                 raise ExperimentError("INVALID_OUTCOME_OR_STAT")
-            if set(row["pipelines"])!=set(self.pipeline_ids):
+            sources=_synthetic_witness(row)
+            if not isinstance(row.get("pipelines"),dict) or set(row["pipelines"])!=set(self.pipeline_ids):
                 raise ExperimentError("INCOMPLETE_MATCHED_PIPELINES")
-            ident=(row["game_id"],row["player_id"],row["stat"],row["date"])
+            ident=(row["game_id"],row["player_id"],row["stat"])
             if ident in seen:
                 raise ExperimentError("DUPLICATE_MATCHED_CASE")
             seen.add(ident)
-            if _row_date(row["date"])>_utc(row["frozen_at"]):
-                raise ExperimentError("FUTURE_DATE")
-            if _utc(row["frozen_at"])>=_utc(row["event_start_at"]):
-                raise ExperimentError("POSTGAME_FORECAST")
-            if _utc(row["official_available_at"])<_utc(row["event_start_at"]):
-                raise ExperimentError("OUTCOME_BEFORE_GAME")
+            event=(day,start,_utc(row["event_end_at"]),row["event_metadata"])
+            if row["game_id"] in games and games[row["game_id"]]!=event:
+                raise ExperimentError("INCONSISTENT_GAME_METADATA")
+            games[row["game_id"]]=event
             support=max(support,row["actual"])
             for name,item in row["pipelines"].items():
+                if not isinstance(item,dict):
+                    raise ExperimentError("INVALID_PIPELINE")
+                if any(field in item for field in ("actual","actual_stats",
+                        "official_available_at","event_end_at","actual_minutes",
+                        "target_game_outcome")):
+                    raise ExperimentError("OUTCOME_IN_FORECAST_PIPELINE")
+                for field in ("game_id","player_id","stat","date","frozen_at",
+                              "event_start_at","source_profile"):
+                    if item.get(field)!=row[field]:
+                        raise ExperimentError("PIPELINE_IDENTITY_MISMATCH_"+field)
+                if item.get("pipeline_id")!=name:
+                    raise ExperimentError("PIPELINE_IDENTITY_MISMATCH")
+                if (not isinstance(item.get("source_ids"),list) or
+                        set(item["source_ids"])!=sources or
+                        len(item["source_ids"])!=len(sources)):
+                    raise ExperimentError("PIPELINE_SOURCE_LINEAGE_MISMATCH")
+                for clock in ("forecast_at","model_training_cutoff_at"):
+                    if clock not in item:
+                        raise ExperimentError("MISSING_PIPELINE_"+clock)
                 mode=item.get("mode")
                 if mode not in MODES:
                     raise ExperimentError("STAGE_NOT_COMPLETE_PIPELINE")
@@ -223,8 +382,15 @@ def w3_by_stat(rows, *, global_weights, lam=1.0, min_games=3):
     """Conditional W3 prototypes; rare stat pools shrink to the W2 anchor."""
     if min_games<1:
         raise ExperimentError("INVALID_MIN_GAMES")
+    if lam<0 or not math.isfinite(lam):
+        raise ExperimentError("INVALID_REGULARIZATION")
+    # Validate even rare-stat fallback; it must never bypass entry guards.
+    validated=CachedCohort(rows,authorization="SYNTHETIC_UNIT_TEST")
+    if set(global_weights)!=set(validated.pipeline_ids):
+        raise ExperimentError("GLOBAL_ANCHOR_MISMATCH")
+    validated._weights([global_weights[k] for k in validated.pipeline_ids])
     by_stat=defaultdict(list)
-    for row in rows:
+    for row in validated.rows:
         by_stat[row["stat"]].append(row)
     output={}
     for stat,subrows in sorted(by_stat.items()):

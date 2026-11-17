@@ -23,3 +23,29 @@ Even if synthetic scorers pass, the complete C research family is not scientific
 ## Rollback
 Close isolated draft PR or delete research branch. No production collectors, frozen legacy weights, existing source archives, runtime schedules or historical training artifacts changed.
 \n## Executed P5 evidence (author-side; independent G1 signoff pending)\n\n- Exact code SHA tested: `82875e24aadb5f71433badfafa054f066a61a33f`. Deepnote live, isolated, clean-checkout run `e934a7a3-7470-49d1-a2a5-5e91f57ab65d`: **31 P5 PASS, 267 accepted G0 regressions PASS**, zero failures/errors/skips. No real historical results loaded.\n- Raw SHA-256 of all implementation, test and protocol files; frozen G0 synthetic fixture SHA-256; and test run identity: `docs/nba_c/P5_EXECUTION_RECEIPT_20261116.json`.\n- Independent P6 audit and G1 acceptance remain PENDING; exact tests verify engineering behavior on synthetic input, not forecasting accuracy or market edge.\n
+## F-P5-01 remediation handoff (2026-11-16 Toronto / 2026-11-17 UTC)
+
+Status: **implemented / author-tested / synthetic-only / independent P6 pending**.
+G1 is **not self-approved**; G2 and P8–P11 remain gated. PR #168's original finding
+and evidence remain preserved. See `P5_EXPERIMENT_PROTOCOL.md` for the stricter
+UTC/event/source/outcome interface and residual authentic-adapter blocker.
+
+The exact original P6 November 20, 2023 event with only its label date backdated
+to October 20, 2022 was first reproduced as accepted at
+`1d7b8471a85e9d3dafaf809acacfeca6e980dc81`. The new shared chronology guard rejects
+it specifically as `INVALID_CHRONOLOGY` in both cache and fold entrypoints.
+Correct 2023 dates remain `2023_24_HOLDOUT_QUARANTINED`. Correct 2022 fixtures,
+including all eight statistics and previous-day source-complete freezes, pass.
+
+The author will attach exact tested code SHA, raw source/control/fixture hashes,
+full test log hashes and numerical oracle values in
+`P5_F_P5_01_EXECUTION_RECEIPT_20261117.json` and the draft PR conversation. P6
+must independently fetch the specified final PR head and rerun its unmodified
+five control files and original negative probe; author execution is not an
+independent verification. No historical weights were fitted, no 2023–24 results
+were accessed, and no frozen G0 or production files were edited.
+
+W0–W3 complete-pipeline mathematics, W4 prohibition, full-count marginal scores,
+proper coherent joint scores, block bootstrap and 5,000/20,000 numerical-precision
+controls remain intact. Rollback is a revert of the isolated P5 remediation
+commits or closure of draft PR #163, preserving the audit record.

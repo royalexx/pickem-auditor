@@ -46,3 +46,58 @@ Compare W0, W1, W2, W3 on their matched common-support cohort, and also preserve
 ## Future conditional go/no-go
 
 Do not open P10 until all family engineering at G1 and G2 are accepted, the matched P8/P9 protocol and hyperparameter-selection decisions are frozen, and independent P6 audit signs off. Do not claim superiority if paired cluster intervals are inconclusive, if missingness differs materially, if source chronology cannot be certified, or if results are developer-exposed. W2/W3 remain research until genuinely prospective 2026–27 observations justify further reliability testing. Tier 1/2 and production authority remain blocked throughout P5.
+
+## F-P5-01 entry contract repair (2026-11-16 Toronto / 2026-11-17 UTC)
+
+Both cached optimization and metadata walk-forward folds now share chronology
+validation. `date` means **UTC midnight of the UTC event-start day**, never an
+implicitly converted arena date. Date/start alignment is checked before the
+existing conservative `>= 2023-10-01T00:00:00Z` quarantine. The quarantine includes
+later seasons too; P5 does not open them. A prior-day freeze is legal if all
+pregame source/model clocks precede it. `event_end_at` is required, must follow
+start, and official release must be at or after that explicit end. No fixed
+wall-clock NBA duration is inferred. Training label release remains strictly
+before each test origin, with game/date clustering and embargo intact.
+
+`CachedCohort` remains restricted to exact authorization `SYNTHETIC_UNIT_TEST`
+and source profile `SYNTHETIC`. It additionally requires:
+
+- An explicit `event_metadata` witness matching game ID, UTC date, start, end,
+  profile, and an October-boundary season identifier. One game cannot acquire
+  different event metadata across players or statistics.
+- Nonempty `source_lineage` with unique source IDs, lowercase 64-character
+  SHA-256 values, source availability and retrieval clocks. Both clocks must
+  precede freeze, and retrieval cannot precede availability.
+- Complete forecast pipelines with matching game/player/stat/date/freeze/start/
+  profile, stable pipeline ID/mode, exact source membership, forecast clock and
+  model-training cutoff. Forecast pipelines cannot contain actual counts,
+  realized minutes, official label release or realized game-end timestamps.
+- Separate `actual_stats` outcome evidence for points, rebounds, assists and
+  threes, nonnegative integer counts, points >= 3*threes, and exact PR/PA/RA/PRA
+  component sums. This evidence is used only in after-event synthetic scoring.
+- Independent checks of supplied availability, publication, retrieval, ingestion,
+  input-freeze, decision, training and other cutoff clocks, including nested
+  model/source dictionaries. Unknown `*_at` clock names are rejected.
+
+Missing witnesses fail closed. Redundant event/player/stat/profile clocks and
+identities must agree wherever supplied. Duplicate game/player/stat examples
+cannot gain additional weight by changing their freeze or date. Inputs are
+copied before caching so caller mutation cannot desynchronize NLL and cached
+CRPS. W3 validates even the sparse-stat fallback before returning its anchor.
+
+Executable fixture: `tests/nba_c/test_p5_c_family.py::fixture`. Its short
+23:00–23:59 synthetic event is deliberately artificial, not an NBA game-duration
+assertion. The original failing P6 input is preserved verbatim in meaning at
+`tests/nba_c/fixtures/p6_f_p5_01_backdated.json`; rejection is specifically
+`INVALID_CHRONOLOGY`, before upgraded witness requirements. Additional permanent
+mutation controls live in `tests/nba_c/test_p5_temporal_integrity.py`.
+
+These are **interface fixtures**, not authenticated P1/P2/P4 integration. A caller
+who forges every mutually consistent synthetic witness cannot be identified as
+a real game by arbitrary synthetic IDs alone. This constructor cannot certify
+historical authenticity and still cannot accept historical profiles. Authentic
+P1 event/end/release/source receipts, P2 complete distributions and P4 same-draw
+scenario witnesses remain a G1/G2 adapter blocker requiring separate integration
+and independent review. No real validation outcomes may substitute for missing
+interfaces. No G0 source, frozen benchmark, collector or production behavior is
+changed by this repair.

@@ -15,7 +15,7 @@ from v2.nba_c.warehouse import _write_once, WarehouseError
 def fixture(stat="points",date="2022-10-20T00:00:00Z",actual=0,game="nba:g1"):
     # Three COMPLETE alternative distribution pipelines. S/O/J are not votes.
     d=date[:10]
-    return {"game_id":game, "player_id":"nba:player1","stat":stat,
+    row={"game_id":game, "player_id":"nba:player1","stat":stat,
             "source_profile":"SYNTHETIC","actual":actual,"date":date,
             "frozen_at":d+"T17:00:00Z","event_start_at":d+"T23:00:00Z",
             "official_available_at":(e._utc(date)+e.timedelta(days=1)).isoformat(),
@@ -24,6 +24,26 @@ def fixture(stat="points",date="2022-10-20T00:00:00Z",actual=0,game="nba:g1"):
                 "SO0":{"mode":"S_O","pmf":{0:.1,1:.9}},
                 "J0":{"mode":"S_O_J","pmf":{0:.5,1:.5}}
             }}
+    row["event_end_at"]=d+"T23:59:00Z"  # Explicit short SYNTHETIC event, not an NBA duration claim.
+    row["event_metadata"]={k:row[k] for k in
+        ("game_id","date","event_start_at","event_end_at","source_profile")}
+    year=int(d[:4]) if int(d[5:7])>=10 else int(d[:4])-1
+    row["event_metadata"]["season"]=f"{year}-{str(year+1)[-2:]}"
+    row["source_lineage"]=[{"source_id":"synthetic:pregame","sha256":"a"*64,
+        "source_available_at":d+"T16:00:00Z","retrieved_at":d+"T16:30:00Z"}]
+    row["actual_stats"]={"points":0,"rebounds":0,"assists":0,"threes":0}
+    component={"pr":"points","pa":"points","ra":"rebounds","pra":"points"}.get(stat,stat)
+    if component in row["actual_stats"]:
+        row["actual_stats"][component]=actual
+    if stat=="threes":
+        row["actual_stats"]["points"]=3*actual
+    for name,item in row["pipelines"].items():
+        item.update({k:row[k] for k in ("game_id","player_id","stat","date",
+            "frozen_at","event_start_at","source_profile")})
+        item.update(pipeline_id=name,source_ids=["synthetic:pregame"],
+                    forecast_at=row["frozen_at"],model_training_cutoff_at=d+"T15:00:00Z")
+    return row
+
 
 
 class TestScores(unittest.TestCase):
@@ -217,7 +237,7 @@ class TestExperiment(unittest.TestCase):
 
     def test_fold_no_future_released_labels(self):
         meta=[{k:r[k] for k in ("game_id","player_id","stat","frozen_at",
-                "event_start_at","official_available_at","date")} for r in self.rows]
+                "event_start_at","event_end_at","official_available_at","date")} for r in self.rows]
         folds=e.make_walk_forward_folds(meta,min_train_dates=2)
         self.assertEqual(len(folds),3)
         for fold in folds:
@@ -226,7 +246,7 @@ class TestExperiment(unittest.TestCase):
 
     def test_fold_fails_2023_24(self):
         meta=[{k:r[k] for k in ("game_id","player_id","stat","frozen_at",
-                "event_start_at","official_available_at","date")} for r in self.rows]
+                "event_start_at","event_end_at","official_available_at","date")} for r in self.rows]
         meta.append({**meta[0],"date":"2023-10-23T00:00:00Z",
                      "event_start_at":"2023-10-23T23:00:00Z",
                      "frozen_at":"2023-10-23T17:00:00Z",
