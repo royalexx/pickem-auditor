@@ -1,0 +1,8 @@
+{
+  "branch_commit": "c63b9131ba1ed865b09dcdf3f0ecb4482fe55db4",
+  "compressed_sha256": "596bd45e5170cead880b5d29453d4b7f432cb836a4bc5ee2e4ad429d0b66a6ba",
+  "compressed_bytes": 8941528,
+  "verified_segments": 90,
+  "listing_exit": 0,
+  "scope": "SOURCE_PATH_INVENTORY_ONLY_NO_FORECAST_SCORING_NO_HOLDOUT_WAREHOUSE"
+}

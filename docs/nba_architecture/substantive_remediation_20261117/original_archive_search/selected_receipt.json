@@ -1,0 +1,60 @@
+{
+  "schema": "NBA_ORIGINAL_HISTORY_BOUNDED_SOURCE_SEARCH_V1",
+  "archive_integrity": {
+    "branch_commit": "c63b9131ba1ed865b09dcdf3f0ecb4482fe55db4",
+    "compressed_sha256": "596bd45e5170cead880b5d29453d4b7f432cb836a4bc5ee2e4ad429d0b66a6ba",
+    "compressed_bytes": 8941528,
+    "verified_segments": 90,
+    "listing_exit": 0,
+    "scope": "SOURCE_PATH_INVENTORY_ONLY_NO_FORECAST_SCORING_NO_HOLDOUT_WAREHOUSE"
+  },
+  "selected": [
+    {
+      "archive_member": "data/availability_2026-10-26.jsonl",
+      "raw_sha256": "15082aacb13d383b6bcde9911cb5d84101bd796221aba9c44c2b3c2715f02c4b",
+      "bytes": 31725,
+      "byte_domain": "ORIGINAL_ARCHIVED_MEMBER_NOT_PROVIDER_HTTP_BYTES",
+      "admission": "UNREVIEWED",
+      "rows": 149,
+      "nba_rows": 16,
+      "complete_eligible_roster_proven": false,
+      "complete_correction_history_proven": false
+    },
+    {
+      "archive_member": "data/resumed-context/availability_2026-10-26.jsonl",
+      "raw_sha256": "c23e5cafa27947332b0391e3855af67ce845f98d04e1037124ac8e64d4dbddd9",
+      "bytes": 28216,
+      "byte_domain": "ORIGINAL_ARCHIVED_MEMBER_NOT_PROVIDER_HTTP_BYTES",
+      "admission": "UNREVIEWED",
+      "rows": 133,
+      "nba_rows": 0,
+      "complete_eligible_roster_proven": false,
+      "complete_correction_history_proven": false
+    },
+    {
+      "archive_member": "data/unmatched-player-roster-check.json",
+      "raw_sha256": "4ffda3e19bbea22d6b4ddf4184e2ab56f81f97d2185047c0722fd2b1e0d6ba86",
+      "bytes": 9913,
+      "byte_domain": "ORIGINAL_ARCHIVED_MEMBER_NOT_PROVIDER_HTTP_BYTES",
+      "admission": "UNREVIEWED"
+    },
+    {
+      "archive_member": "data/resumed-nba_scoreboard.json",
+      "raw_sha256": "87f3432ae39f36582256409fecfca1645e89bb11e442f83fa5d767735ab39ff6",
+      "bytes": 177959,
+      "byte_domain": "ORIGINAL_ARCHIVED_MEMBER_NOT_PROVIDER_HTTP_BYTES",
+      "admission": "UNREVIEWED"
+    },
+    {
+      "archive_member": "data/source-enrichment.json",
+      "raw_sha256": "59769007d535db4f73bb8f999dfc011993d82c1379782fbb5456b879bef9829c",
+      "bytes": 4451,
+      "byte_domain": "ORIGINAL_ARCHIVED_MEMBER_NOT_PROVIDER_HTTP_BYTES",
+      "admission": "UNREVIEWED"
+    }
+  ],
+  "forecast_values_or_settled_outcomes_read": false,
+  "holdout_warehouse_decompressed": false,
+  "original_2018_population_recovered": false,
+  "scope": "2026_10_26_SOURCE_CANDIDATES_NOT_A_COHORT_SUBSTITUTION"
+}

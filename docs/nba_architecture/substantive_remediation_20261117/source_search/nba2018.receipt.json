@@ -1,0 +1,24 @@
+{
+  "url": "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0021800001.json",
+  "retrieved_at": "2026-11-17T21:42:10.807004+00:00",
+  "completed_at": "2026-11-17T21:42:11.282578+00:00",
+  "status": 403,
+  "headers": {
+    "mime-version": "1.0",
+    "content-type": "text/html",
+    "content-length": "441",
+    "expires": "Tue, 17 Nov 2026 21:42:11 GMT",
+    "date": "Tue, 17 Nov 2026 21:42:11 GMT",
+    "x-frame-options": "sameorigin",
+    "x-xss-protection": "1; mode=block",
+    "x-content-type-options": "nosniff",
+    "strict-transport-security": "max-age=86400",
+    "x-envoy-upstream-service-time": "151",
+    "server": "envoy",
+    "connection": "close"
+  },
+  "raw_sha256": "74ce29d4b73fd1a845241a607a87be077ddaf5f2c50aced1147bd578dc4a9a30",
+  "bytes": 441,
+  "admission": "UNREVIEWED",
+  "original_historical_available_at": null
+}

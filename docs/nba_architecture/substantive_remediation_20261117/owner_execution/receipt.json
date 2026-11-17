@@ -1,0 +1,18 @@
+{
+  "executable_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "accepted_g0": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "accepted_g0_files_preserved": 8,
+  "architecture_tests": 529,
+  "architecture_failures_errors_skips": 0,
+  "independent_decision": "29_PASS_0_FAIL_7_BLOCKED_G1_NO_GO",
+  "requested_all_blockers_unblocked": false,
+  "source_capabilities_admitted": 3,
+  "official_pdf_sources_admitted": 1,
+  "original_pregame_or_fitted_model_admission": false,
+  "original_archive_supplement": "UNREVIEWED_2026_SOURCE_CANDIDATES_NOT_2018_COHORT_SUBSTITUTION",
+  "historical_fitting_or_scoring": false,
+  "holdout_warehouse_decompression": false,
+  "source_archive_decompression": "IMMUTABLE_2026_10_26_HISTORY_SOURCE_PATHS_AND_FIVE_SOURCE_MEMBERS_ONLY",
+  "merge_deployment_or_tier_promotion": false
+}

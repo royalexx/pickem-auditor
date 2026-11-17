@@ -1,0 +1,170 @@
+{
+  "retrieved_at": "2026-10-26T21:41:45Z",
+  "verified_venues": [
+    "Lincoln Financial Field",
+    "Madison Square Garden",
+    "Scotiabank Saddledome",
+    "Rogers Place"
+  ],
+  "nfl_window_max_gust_mph": 8.055456136164798,
+  "supplemental_player": "Brandin Podziemski",
+  "supplemental_current_games": 1,
+  "supplemental_prior_games": 84,
+  "supplemental_stat_rows": 8,
+  "rows": 1940,
+  "unmatched_quotes": [
+    {
+      "player": "Eli Stowers",
+      "player_norm": "eli stowers",
+      "team": "",
+      "stat": "receiving yards",
+      "sport": "NFL",
+      "reason": "name is not on the slate"
+    },
+    {
+      "player": "Marquise Brown",
+      "player_norm": "marquise brown",
+      "team": "PHI",
+      "stat": "receiving yards",
+      "sport": "NFL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Marquise Brown",
+      "player_norm": "marquise brown",
+      "team": "PHI",
+      "stat": "receiving yards",
+      "sport": "NFL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Marquise Brown",
+      "player_norm": "marquise brown",
+      "team": "PHI",
+      "stat": "receptions",
+      "sport": "NFL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Marquise Brown",
+      "player_norm": "marquise brown",
+      "team": "PHI",
+      "stat": "receptions",
+      "sport": "NFL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Tanner McKee",
+      "player_norm": "tanner mckee",
+      "team": "PHI",
+      "stat": "rushing yards",
+      "sport": "NFL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Tanner McKee",
+      "player_norm": "tanner mckee",
+      "team": "PHI",
+      "stat": "rushing yards",
+      "sport": "NFL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Tanner McKee",
+      "player_norm": "tanner mckee",
+      "team": "PHI",
+      "stat": "rushing yards",
+      "sport": "NFL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Adam Fox",
+      "player_norm": "adam fox",
+      "team": "NYR",
+      "stat": "blocked shots",
+      "sport": "NHL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Ben Chiarot",
+      "player_norm": "ben chiarot",
+      "team": "DET",
+      "stat": "blocked shots",
+      "sport": "NHL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Connor Murphy",
+      "player_norm": "connor murphy",
+      "team": "EDM",
+      "stat": "blocked shots",
+      "sport": "NHL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Jake Walman",
+      "player_norm": "jake walman",
+      "team": "EDM",
+      "stat": "blocked shots",
+      "sport": "NHL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Moritz Seider",
+      "player_norm": "moritz seider",
+      "team": "DET",
+      "stat": "blocked shots",
+      "sport": "NHL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Ryan Shea",
+      "player_norm": "ryan shea",
+      "team": "EDM",
+      "stat": "blocked shots",
+      "sport": "NHL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Sean Durzi",
+      "player_norm": "sean durzi",
+      "team": "NYR",
+      "stat": "blocked shots",
+      "sport": "NHL",
+      "reason": "stat is not on the slate row"
+    },
+    {
+      "player": "Vladislav Gavrikov",
+      "player_norm": "vladislav gavrikov",
+      "team": "NYR",
+      "stat": "blocked shots",
+      "sport": "NHL",
+      "reason": "stat is not on the slate row"
+    }
+  ],
+  "coverage": {
+    "by_sport": {
+      "NHL": {
+        "rows": 150,
+        "history_ready_rows": 135,
+        "priced_rows": 51,
+        "priced_history_ready_rows": 49
+      },
+      "NFL": {
+        "rows": 158,
+        "history_ready_rows": 107,
+        "priced_rows": 42,
+        "priced_history_ready_rows": 33
+      },
+      "NBA": {
+        "rows": 1632,
+        "history_ready_rows": 1140,
+        "priced_rows": 759,
+        "priced_history_ready_rows": 667
+      }
+    },
+    "has_priced_history_rows": true,
+    "scope": "collected rows only; quote freshness, source completeness and research readiness are not established"
+  },
+  "note": "Source enrichment only. Existing 1492 saved forecasts are unchanged. New one-game NBA history does not bypass the sample gate."
+}

@@ -1,0 +1,12 @@
+{
+  "candidate": "c296706d2c5e84b6140ac18141718300362ccf38",
+  "source_raw_sha256": {
+    "v2/nba_architecture/exposure_certificate_v1.py": "99c9bf35c22d590d48e506bdb3182c840a50635dcd335664b9752615b03835ee",
+    "v2/nba_architecture/families_certified_v1.py": "67b9c3a9a7087eb0decc327c1e3850f637cc261633ef4f9b595b63c62efd7e00",
+    "v2/nba_o_certified.py": "8aeaa594c2d79fa0098298007eb298aad2b7b7c2b0c484657b7bb01c8f7dd888",
+    "tests/nba_architecture/test_exposure_certificate_v1.py": "d2064c4c8f6ab2961241442f207b2c565b93b4cb300440a8aa12f97e5b5fe536",
+    "docs/nba_architecture/substantive_remediation_20261117/COUPLING_CONTRACT.md": "ce6117fed332210ef8ae528e516217234490c543de3d0bdcceb2863a5fbf98dc"
+  },
+  "accepted_G0_changed": [],
+  "tracked_status": ""
+}

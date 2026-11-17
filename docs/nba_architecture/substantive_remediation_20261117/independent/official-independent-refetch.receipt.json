@@ -1,0 +1,9 @@
+{
+  "url": "https://statsdmz.nba.com/pdfs/20181016/20181016_PHIBOS_book.pdf",
+  "attempted_at": "2026-11-17T21:51:18.263814+00:00",
+  "request_user_agent": "Mozilla/5.0",
+  "status": 200,
+  "raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+  "bytes": 112412,
+  "content_type": "application/pdf"
+}

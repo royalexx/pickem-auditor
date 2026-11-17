@@ -1,0 +1,11 @@
+test_actual_26_game_only_identities_and_minute_precision_preserved (tests.nba_architecture.test_gamebook_v1.GameSpecificIdentityTests.test_actual_26_game_only_identities_and_minute_precision_preserved) ... ok
+test_resealed_team_jersey_name_stats_dnp_collision_and_missing_reject (tests.nba_architecture.test_gamebook_v1.GameSpecificIdentityTests.test_resealed_team_jersey_name_stats_dnp_collision_and_missing_reject) ... ok
+test_actual_official_final_box_preserves_seconds_dnp_and_unknown_clocks (tests.nba_architecture.test_gamebook_v1.OfficialGamebookTests.test_actual_official_final_box_preserves_seconds_dnp_and_unknown_clocks) ... ok
+test_quarter_or_unparsed_player_cannot_silently_replace_full_game (tests.nba_architecture.test_gamebook_v1.OfficialGamebookTests.test_quarter_or_unparsed_player_cannot_silently_replace_full_game) ... ok
+test_resealed_text_count_mutation_fails_physical_or_team_totals (tests.nba_architecture.test_gamebook_v1.OfficialGamebookTests.test_resealed_text_count_mutation_fails_physical_or_team_totals) ... ok
+test_tampered_pdf_hash_and_lookalike_host_reject (tests.nba_architecture.test_gamebook_v1.OfficialGamebookTests.test_tampered_pdf_hash_and_lookalike_host_reject) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.183s
+
+OK

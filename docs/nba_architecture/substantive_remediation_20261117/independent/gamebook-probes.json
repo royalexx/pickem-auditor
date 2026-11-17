@@ -1,0 +1,184 @@
+{
+  "schema": "NBA_P6_GAMEBOOK_INDEPENDENT_CONTENT_AND_PROTOCOL_PROBES_V1",
+  "candidate": "16f3eb732c476ea8683e7976f36c4d12f7680ed7",
+  "raw_pdf_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+  "reader_sha256": "2d36bd61e70fa6557fcaef535482f9c89cd2be29599756570e0a2010a3731193",
+  "qa_source_raw_sha256": "8b2ed90b741369d955f7575895a6b5aff80fa64b45ba6514bb0f123b3943e127",
+  "manual_row_oracle": {
+    "PHI": {
+      "Dario Saric": [
+        "22:55",
+        6
+      ],
+      "Robert Covington": [
+        "34:12",
+        8
+      ],
+      "Joel Embiid": [
+        "36:49",
+        23
+      ],
+      "Markelle Fultz": [
+        "24:20",
+        5
+      ],
+      "Ben Simmons": [
+        "42:45",
+        19
+      ],
+      "Amir Johnson": [
+        "11:11",
+        5
+      ],
+      "JJ Redick": [
+        "29:46",
+        16
+      ],
+      "T.J. McConnell": [
+        "22:26",
+        4
+      ],
+      "Landry Shamet": [
+        "12:42",
+        1
+      ],
+      "Furkan Korkmaz": [
+        "01:27",
+        0
+      ],
+      "Jonah Bolden": [
+        "01:27",
+        0
+      ],
+      "Demetrius Jackson": [
+        null,
+        null
+      ],
+      "Shake Milton": [
+        null,
+        null
+      ]
+    },
+    "BOS": {
+      "Jayson Tatum": [
+        "28:56",
+        23
+      ],
+      "Gordon Hayward": [
+        "24:37",
+        10
+      ],
+      "Al Horford": [
+        "29:57",
+        9
+      ],
+      "Jaylen Brown": [
+        "28:23",
+        12
+      ],
+      "Kyrie Irving": [
+        "29:00",
+        7
+      ],
+      "Terry Rozier": [
+        "26:31",
+        11
+      ],
+      "Marcus Morris": [
+        "20:30",
+        16
+      ],
+      "Marcus Smart": [
+        "25:01",
+        7
+      ],
+      "Aron Baynes": [
+        "19:14",
+        8
+      ],
+      "Daniel Theis": [
+        "04:08",
+        0
+      ],
+      "Guerschon Yabusele": [
+        "01:27",
+        0
+      ],
+      "Semi Ojeleye": [
+        "01:27",
+        0
+      ],
+      "Brad Wanamaker": [
+        "00:49",
+        2
+      ]
+    }
+  },
+  "results": [
+    {
+      "case": "26_manual_name_seconds_points_oracles",
+      "status": "PASS"
+    },
+    {
+      "case": "uninstalled_root_fails_closed",
+      "status": "PASS"
+    },
+    {
+      "case": "installed_root_capability",
+      "capability": "OFFICIAL_PRINTED_BOX_SCORE",
+      "status": "PASS"
+    },
+    {
+      "case": "installed_root_capability",
+      "capability": "OFFICIAL_PRINTED_DNP_ROWS",
+      "status": "PASS"
+    },
+    {
+      "case": "installed_root_capability",
+      "capability": "OFFICIAL_PRINTED_DURATION",
+      "status": "PASS"
+    },
+    {
+      "case": "root_bytes",
+      "status": "PASS",
+      "rejection": "ADMISSION_ROOT_CHANGED"
+    },
+    {
+      "case": "proof_bytes",
+      "status": "PASS",
+      "rejection": "ADMISSION_REVIEW_RECEIPT_CHANGED"
+    },
+    {
+      "case": "unreviewed_raw",
+      "status": "PASS",
+      "rejection": "ADMISSION_SOURCE_OR_CAPABILITY_UNREVIEWED"
+    },
+    {
+      "case": "capture_url",
+      "status": "PASS",
+      "rejection": "ADMISSION_CAPTURE_IDENTITY"
+    },
+    {
+      "case": "capture_clock",
+      "status": "PASS",
+      "rejection": "ADMISSION_CAPTURE_IDENTITY"
+    },
+    {
+      "case": "unsupported_capability",
+      "status": "PASS",
+      "rejection": "ADMISSION_UNSUPPORTED_CAPABILITY"
+    },
+    {
+      "case": "receipt_status",
+      "status": "PASS",
+      "rejection": "GAMEBOOK_OFFICIAL_CAPTURE"
+    },
+    {
+      "case": "optimistic_caller_labels_do_not_expand_capability",
+      "status": "PASS"
+    }
+  ],
+  "all_pass": true,
+  "registry_installation_test_only": true,
+  "production_root_installed": false
+}
