@@ -1,0 +1,51 @@
+{
+  "jsonschema": "4.26.0",
+  "numpy": "2.3.5",
+  "runtime": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "scipy": "1.17.0",
+  "suites": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "skips": 0,
+      "suite": "G0_P4",
+      "tests": 321
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "skips": 0,
+      "suite": "P6_CONTROLS",
+      "tests": 83
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "skips": 0,
+      "suite": "P3_INTERFACE",
+      "tests": 16
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "skips": 0,
+      "suite": "P2_INTERFACE",
+      "tests": 22
+    }
+  ],
+  "unchanged_WS5_WS2_blobs": {
+    "research/nba_ws2/results/model.json": "4c3e16f966fa62d8ae0f6c4a086c60be8d047756",
+    "v2/nba_joint/__init__.py": "ceb7cdf9589fbc43bfc1ab81d646068b8bea49e0",
+    "v2/nba_joint/__main__.py": "7836d4b4677d3b31b5b2625d8f42ff57ec5ba34e",
+    "v2/nba_joint/common.py": "60d14a4f3da7bed371d833b3358e940cad69fc2f",
+    "v2/nba_joint/engine.py": "a3873bcc5107a6e088c993c6666d0d4ba2aaa1e6",
+    "v2/nba_joint/events.py": "108b1f72c555255050f69df956e75c11432666f9",
+    "v2/nba_joint/forecast.py": "6c446267a0e4e82ca56a8226f6d793d89d74d57b",
+    "v2/nba_joint/invariants.py": "25bbb3b59b91b25498466136e3aac1a369125ce8",
+    "v2/nba_joint/markets.py": "eeb4f6c25572af5006e51be087f6cb39c3b07533",
+    "v2/nba_joint/opportunity.py": "12aee130e56561655a539bfdc6eebdf169725c8e",
+    "v2/nba_joint/sources.py": "4dddf0c717cc7d39018bf40d0d48f1675b902149",
+    "v2/nba_joint/state.py": "40baa2cb8ef1f5cc98b48b8d30ced6ab599515e1",
+    "v2/nba_opportunity.py": "55360fd8bab49fd20f1af04493532fee5237b1ec"
+  }
+}
