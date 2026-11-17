@@ -1,0 +1,5 @@
+{
+  "classification": "QA_DRAFT_LEDGER_GENERATOR_SCHEMA_ERROR_NOT_OWNER_DEFECT",
+  "error": "KeyError: 'reason'",
+  "reason": "The historical15 ledger rows use reason; added20rows use initial_failure_condition. A private draft ledger generator incorrectly assumed reason in every row and stopped before writing a ledger. Corrected generator preserves either original field in one common original_failure_or_missing_evidence entry. No implementation/test or execution output was changed."
+}

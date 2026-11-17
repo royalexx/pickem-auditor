@@ -1,0 +1,6 @@
+test_settlement_and_future_append_preserve_identity (test_verify_history_invariants.IdentityTests.test_settlement_and_future_append_preserve_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+OK

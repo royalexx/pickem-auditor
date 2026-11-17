@@ -1,0 +1,53 @@
+{
+  "schema": "NBA_P6_INDEPENDENT_EXACT_QA_SOURCE_EXECUTION_V4",
+  "actual_executing_qa_checkout_commit": "c51c6f08f9009274258062cc5f3425e1f1567893",
+  "source_files": {
+    "scripts/nba_p6_independent_checks_v4_20261117.py": {
+      "raw_sha256": "51f38a9b4c8de80529a7bb3f0706b1645130f6168fa05705c041d1856d72adbd",
+      "git_blob": "ba873c3623514116a24b6a89c9e3f5a1eabdb4aa"
+    },
+    "scripts/nba_p6_repeated_map_reference_v4_20261117.py": {
+      "raw_sha256": "16762544587a4a6c7d1546d7baa90d532c64d27d7aaf58895716e7f96dd43b0a",
+      "git_blob": "d7a41503269c5c61dc8a0d867e5b59e635dfbe9f"
+    },
+    "scripts/nba_g1_pre_p6_v4_20261116.py": {
+      "raw_sha256": "d5ec75fdbfd8f8e57ee0e197184f9a508d6f4f1321d1bc5328f327f7b21261f2",
+      "git_blob": "fc73adf044ec7ee0b4ac4869699f64e13a1c768c"
+    },
+    "scripts/nba_g1_boundary_qc_v4_20261116.py": {
+      "raw_sha256": "93c3d1588cd14be6a3fe361cd3836c0d519b986f0446f8aeea92bb7b8db5181e",
+      "git_blob": "6f9e6cafb375689fb66ce374555de85d79159869"
+    },
+    "scripts/nba_p6_g1_reaudit_runner_v3_20261116.py": {
+      "raw_sha256": "74092f3dfaa760c139346413d4ef804365ff5f58a232cab8d89123b79cb60b99",
+      "git_blob": "1e3b31343562be7f2ccd042abd835fa5cc82194e"
+    },
+    "scripts/nba_p6_g1_owner_negative_probes_20261116.py": {
+      "raw_sha256": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52",
+      "git_blob": "f2afbd306813db3210e2e0f08f65b6466f2c4170"
+    }
+  },
+  "source_code_unchanged": true,
+  "owner_heads": {
+    "P1": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+    "P2": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+    "P3": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+    "P4": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+    "P5": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+    "P0": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29"
+  },
+  "current_owner_commands": 24,
+  "historical_expected_commands": 32,
+  "native_boundary_commands": 5,
+  "new_independent_sections": 11,
+  "assembly_commands": 17,
+  "all_expected_results": true,
+  "authentic_case_stops_before_G": true,
+  "historical_predictive_training_validation_performed": false,
+  "legacy_runner_metadata": {
+    "qa_code_commit_observed": "4d4d594fd7c88cdb3149cafd35515d5a65412b87",
+    "meaning": "Inherited helper records --repo Git object database HEAD. Actual executable QA checkout is recorded explicitly above; raw source bytes match c51.",
+    "raw_sha256_still_binds_exact_executed_source": true
+  },
+  "documentation_successor_policy": "Later commits add QA reports/evidence only; executable QA scripts and exact owner source remain unchanged."
+}

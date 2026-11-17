@@ -1,0 +1,7 @@
+{
+  "classification": "QA_HARNESS_CALL_SIGNATURE_ERROR_NOT_OWNER_DEFECT",
+  "qa_sha": "de9e27f",
+  "assembly_sha": "d46f5322b47367ba601b05197cef8404758da23d",
+  "reason": "Independent QA called keyword-only scenario_pmfs frozen_at/seed parameters positionally. The published owner function signature is correct; repair only QA call.",
+  "original_result_preserved": true
+}

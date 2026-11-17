@@ -1,0 +1,6 @@
+{
+  "classification": "QA_HARNESS_ENVIRONMENT_MASKED_HISTORICAL_IMPORT_ERROR",
+  "reason": "First historical import-only check mistakenly retained PYTHONPATH=.:tests/nba_architecture from dedicated owner suites. That path resolves golden_v2 and masks the old defect. Expected10 check correctly failed with0 errors. Corrected historical and current root checks unset PYTHONPATH entirely; original1652objects/10errors reproduced and current canonical root regression passes.",
+  "implementation_changed": false,
+  "original_result_preserved": true
+}

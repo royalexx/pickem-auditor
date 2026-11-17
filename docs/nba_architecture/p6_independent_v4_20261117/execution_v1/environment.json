@@ -1,0 +1,11 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "packages": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "jsonschema": "4.26.0",
+    "mpmath": "1.3.0"
+  },
+  "scope": "Disposable isolated exact-owner worktrees and source-mapped synthetic assembly; no historical outcome decompression/training, no release or production changes"
+}

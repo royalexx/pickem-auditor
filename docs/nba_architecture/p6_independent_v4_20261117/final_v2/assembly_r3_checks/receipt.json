@@ -1,0 +1,368 @@
+{
+  "assembly_sha": "6dee6e09fa786479dc2e163a33e14257f207b35e",
+  "commands": [
+    {
+      "label": "root_discovery_regression",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_nba_root_discovery_v4.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        1
+      ],
+      "expected_tests": [
+        1
+      ],
+      "PYTHONPATH": "UNSET",
+      "sha256": "9c2081ad4898cde845e01b8f266ea420fae17cecadfd4839ef2ab49ea8af6aed"
+    },
+    {
+      "label": "all_architecture",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        513
+      ],
+      "expected_tests": [
+        513
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "babe12424a70986fccc6d7df047bc1a5bc253e1aefe9cfb54c71f32ceef2c82c"
+    },
+    {
+      "label": "S_family",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_s_family",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        61
+      ],
+      "expected_tests": [
+        61
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "7dc86e54e4f095b9f74dd856e33498323017161f3bb0ce6e6f4fe3fe00c294c4"
+    },
+    {
+      "label": "C_family",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_c",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        76
+      ],
+      "expected_tests": [
+        76
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "afbb55adf0cd5bb77e7b0afd9447b893c51865ae256216f7b624209d066e5c04"
+    },
+    {
+      "label": "compile",
+      "command": [
+        "python",
+        "-m",
+        "compileall",
+        "-q",
+        "scripts",
+        "tests",
+        "v2"
+      ],
+      "exit": 0,
+      "tests": [],
+      "expected_tests": [],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "a897ca43cc2636b00dbe2e67e648eaffdd4c0e99483700b88c2ad91b265fc21a"
+    },
+    {
+      "label": "bash_shadow",
+      "command": [
+        "bash",
+        "-n",
+        "scripts/shadow_store.sh"
+      ],
+      "exit": 0,
+      "tests": [],
+      "expected_tests": [],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "bash_history",
+      "command": [
+        "bash",
+        "-n",
+        "scripts/history_warehouse_store.sh"
+      ],
+      "exit": 0,
+      "tests": [],
+      "expected_tests": [],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "network_receipt",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_network_receipt.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        5
+      ],
+      "expected_tests": [
+        5
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "74d3214ff22adb3dcdf517b3362f6346bf18ec783f81227546841644196b6908"
+    },
+    {
+      "label": "morning_preflight_recovery",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_morning_preflight_recovery.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        5
+      ],
+      "expected_tests": [
+        5
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "e0176e320b3e200f44293c987bdced92a6f5182e66b10273822a77af153d4a8c"
+    },
+    {
+      "label": "engine_contracts",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_engine_contracts.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        24
+      ],
+      "expected_tests": [
+        24
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "fd40d56ab8b790ee89c9c3d6196e3b04a44e52b3510840e04199695cc9271719"
+    },
+    {
+      "label": "verify_sports",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_verify_sports.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        2
+      ],
+      "expected_tests": [
+        2
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "cb9ea2ca9639d6c5b7572117dd44c411eaca15d285f8b432f299f0d2e087b580"
+    },
+    {
+      "label": "history_bootstrap",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_history_bootstrap.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        3
+      ],
+      "expected_tests": [
+        3
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "79e2d276c6af5326c7991f68713d847c1556d89b700e71782663db1f9238a5c1"
+    },
+    {
+      "label": "verify_history_invariants",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_verify_history_invariants.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        1
+      ],
+      "expected_tests": [
+        1
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "3aa3ac264df671cb03332468aac8697b7d1a190cee7f0dea087cd4db31a40d45"
+    },
+    {
+      "label": "afternoon_reuse",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_afternoon_reuse.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        8
+      ],
+      "expected_tests": [
+        8
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "46c715f9b8b5aa1b9a25d1aedd7b1ba3887529b32ea5a14a98a4c344c0ad2218"
+    },
+    {
+      "label": "auto_research",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_auto_research.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        3
+      ],
+      "expected_tests": [
+        3
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "6384179f1efbd2d16f7498169b453c0ec329ab311dbebff832a56e4d45c6e913"
+    },
+    {
+      "label": "odds_quota_guard",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_odds_quota_guard.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        3
+      ],
+      "expected_tests": [
+        3
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "c495ceeaa789da67a342c3203613339aafffd87565b5de321d5c20dcd7b4e259"
+    },
+    {
+      "label": "morning_no_odds",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_morning_no_odds.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        2
+      ],
+      "expected_tests": [
+        2
+      ],
+      "PYTHONPATH": "/workspace/work/p6_v4_independent/assembly_r3:/workspace/work/p6_v4_independent/assembly_r3/tests/nba_architecture",
+      "sha256": "58ed62a8d1e4b381822e62194f006df89128b85b6595b42d580f3249965d11f1"
+    }
+  ],
+  "all_pass": true,
+  "tracked_source_unchanged": true,
+  "offline_bodies_inspected": true,
+  "repository_wide_ci_claim": false
+}

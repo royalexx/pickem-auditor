@@ -1,0 +1,11 @@
+{
+  "classification": "QA_HARNESS_INPUT_AND_OVERSTRONG_REFERENCE_ASSERTION_NOT_OWNER_DEFECT",
+  "qa_shas": [
+    "256ee4b",
+    "20a2898"
+  ],
+  "assembly_sha": "d46f5322b47367ba601b05197cef8404758da23d",
+  "joint_reason": "Independent QA used input freeze 23:00 as output distribution freeze although forecast creation was 23:01; accepted G0 correctly requires output frozen_at >= forecast_at. Use exact forecast equality, independently legal.",
+  "math_reason": "High precision actual NB law gap is 2.01020542062304e-10. Three-point serialized PMF omitted-tail bound is 4.172812227150845e-12, so the gap is ~48 times combined tail bounds, not the invented QA factor1000. The mathematical necessary condition is strict positive gap. Require >10 times retained tails as a finite serialization margin; preserve failed overstrong assertion.",
+  "original_results_preserved": true
+}

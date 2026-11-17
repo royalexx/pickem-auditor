@@ -1,0 +1,4 @@
+# Isolated contract QA environment. No training or collectors.
+jsonschema==4.26.0
+numpy==2.3.5
+scipy==1.17.0

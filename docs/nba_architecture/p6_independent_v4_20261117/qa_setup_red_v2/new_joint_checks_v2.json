@@ -1,0 +1,15 @@
+{
+  "all_pass": false,
+  "assembly": "d46f5322b47367ba601b05197cef8404758da23d",
+  "historical_outcomes_accessed": false,
+  "qa_source_sha256": "f3b44e15b72635345145dc63ecbf6e08005943eb531e79f0c5152fda564c1235",
+  "schema": "NBA_P6_INDEPENDENT_NEW_CHECKS_V4",
+  "sections": {
+    "joint": {
+      "error": "FORECAST_FREEZE_TIME",
+      "status": "FAIL",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/work/p6_v4_independent/qa/scripts/nba_p6_independent_checks_v4_20261117.py\", line 318, in main\n    try:result['sections'][name]={'status':'PASS','result':globals()[name](a)}\n                                                           ^^^^^^^^^^^^^^^^^^\n  File \"/workspace/work/p6_v4_independent/qa/scripts/nba_p6_independent_checks_v4_20261117.py\", line 276, in joint\n    laws=scenario_pmfs(output,p,frozen_at=p['input_freeze_at'],seed=617170)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/work/p6_v4_independent/assembly/v2/nba_joint/p4.py\", line 352, in scenario_pmfs\n    stat: marginal_from_joint(bundle, p, pid, stat, frozen_at, seed)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/work/p6_v4_independent/assembly/v2/nba_architecture/v2_contracts.py\", line 700, in marginal_from_joint\n    validate_distribution(d, p, s)\n  File \"/workspace/work/p6_v4_independent/assembly/v2/nba_architecture/v2_contracts.py\", line 921, in checked\n    result = validator(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/work/p6_v4_independent/assembly/v2/nba_architecture/v2_contracts.py\", line 428, in validate_distribution\n    req(instant(d[\"frozen_at\"]) < instant(p[\"event_start_at\"]) and\n  File \"/workspace/work/p6_v4_independent/assembly/v2/nba_architecture/v2_contracts.py\", line 38, in req\n    raise ContractError(code)\nv2.nba_architecture.v2_contracts.ContractError: FORECAST_FREEZE_TIME\n"
+    }
+  },
+  "synthetic_only": true
+}

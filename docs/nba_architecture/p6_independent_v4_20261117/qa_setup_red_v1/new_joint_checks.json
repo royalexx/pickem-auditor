@@ -1,0 +1,15 @@
+{
+  "all_pass": false,
+  "assembly": "d46f5322b47367ba601b05197cef8404758da23d",
+  "historical_outcomes_accessed": false,
+  "qa_source_sha256": "c74d0797f0ba56e27494cf504bc6d34ea34250744369626961c3da55f944dc16",
+  "schema": "NBA_P6_INDEPENDENT_NEW_CHECKS_V4",
+  "sections": {
+    "joint": {
+      "error": "scenario_pmfs() takes 2 positional arguments but 4 were given",
+      "status": "FAIL",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/work/p6_v4_independent/qa/scripts/nba_p6_independent_checks_v4_20261117.py\", line 318, in main\n    try:result['sections'][name]={'status':'PASS','result':globals()[name](a)}\n                                                           ^^^^^^^^^^^^^^^^^^\n  File \"/workspace/work/p6_v4_independent/qa/scripts/nba_p6_independent_checks_v4_20261117.py\", line 276, in joint\n    laws=scenario_pmfs(output,p,p['input_freeze_at'],617170)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: scenario_pmfs() takes 2 positional arguments but 4 were given\n"
+    }
+  },
+  "synthetic_only": true
+}
