@@ -273,7 +273,7 @@ def joint(a):
     from v2.nba_architecture.v2_contracts import ContractError
     root=prepare();inputs=build(root);p,g,o=inputs[:3]
     output=simulate_latest(*inputs,upstream_root=root,evidence_mode='latest_synthetic_engineering',event_parameters=PARAMETERS,seed=617170)
-    laws=scenario_pmfs(output,p,p['input_freeze_at'],617170)
+    laws=scenario_pmfs(output,p,frozen_at=p['input_freeze_at'],seed=617170)
     weights=[x['weight'] for x in o['scenarios']];ess=1/sum(w*w for w in weights)
     n=0
     for player,stats in laws.items():
