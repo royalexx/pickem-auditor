@@ -1,0 +1,6 @@
+test_root_discovery_imports_all_canonical_nba_tests_once (test_nba_root_discovery_v4.DiscoveryCompatibilityTests.test_root_discovery_imports_all_canonical_nba_tests_once) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 27.594s
+
+OK

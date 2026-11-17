@@ -1,0 +1,62 @@
+{
+  "cases": [
+    {
+      "case": "independent_fractional_exposure_caps_0_2_6_OT",
+      "details": [
+        "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "PLAYER_MINUTES_EXCEED_GAME_DURATION"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "rounded_display_strict_half_minute_boundary",
+      "details": [
+        "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "ZERO_MINUTE_CREDIT_UNRESOLVED"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "orphan_third_revision_and_corrupted_ancestor_bytes",
+      "details": [
+        "OFFICIAL_REVISION_CHAIN",
+        "OFFICIAL_SOURCE_SHA_MISMATCH"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "same_official_player_on_both_competing_teams",
+      "details": "OFFICIAL_PLAYER_TEAM_CONFLICT",
+      "status": "PASS"
+    },
+    {
+      "case": "independent_shooting_rebound_and_PRA_corruptions",
+      "details": [
+        "SHOOTING_ACCOUNTING",
+        "REBOUND_ACCOUNTING",
+        "COMBINATION_ACCOUNTING"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "unrelated_vault_read_cannot_hide_orphan_correction",
+      "details": "VAULT_REVISION_GAP",
+      "status": "PASS"
+    },
+    {
+      "case": "authentic_integrated_case_stops_at_missing_P1_duration",
+      "details": {
+        "code": "OFFICIAL_SOURCE_EVIDENCE_REQUIRED",
+        "note": "Integrated case stops at P1. No target result retrieved.",
+        "status": "BLOCKED"
+      },
+      "status": "PASS"
+    }
+  ],
+  "family": "P1",
+  "numerical_references": {},
+  "owner_sha": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+  "schema": "P6_G1_REMEDIATION_ADVERSARIAL_V3",
+  "synthetic_only": true
+}

@@ -1,0 +1,13 @@
+{
+  "criterion": "F-P5-05",
+  "alias": "F-P5-05-R1",
+  "exact_owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+  "scope": "Additional public NativeForecastArchive.put_s status-label challenge, same source-derived rounding defect; not a new criterion",
+  "observed": [
+    "Correct ADJUDICATED label on actual P1 valid raw15sec/display0/subset threes0 is rejected.",
+    "False OFFICIAL_BOX_RECONCILED label on the same valid raw15sec source is accepted.",
+    "Raw30sec/display0/positive rawPTS11/subset threes0 is accepted with false OFFICIAL_BOX_RECONCILED label; ADJUDICATED label rejects at summary join."
+  ],
+  "minimum_repair": "The caller accounting label must be checked against independently rederived raw-source classification after enforcing the raw positive-credit rounded boundary. Do not merely relax the label allowlist.",
+  "source_and_scoring_still_blocked": true
+}

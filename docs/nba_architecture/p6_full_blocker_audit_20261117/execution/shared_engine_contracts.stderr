@@ -1,0 +1,30 @@
+test_missing_coverage_prevents_reliable_b (test_engine_contracts.AdvancedScoutingCoverageTests.test_missing_coverage_prevents_reliable_b) ... ok
+test_scenario_requires_a_sourced_driver (test_engine_contracts.AdvancedScoutingCoverageTests.test_scenario_requires_a_sourced_driver) ... ok
+test_stat_specific_research_requirements (test_engine_contracts.AdvancedScoutingCoverageTests.test_stat_specific_research_requirements) ... ok
+test_weights_fit_before_holdout_and_improvement_activates (test_engine_contracts.BlendFitValidationTests.test_weights_fit_before_holdout_and_improvement_activates) ... ok
+test_fallback_and_validated_mass (test_engine_contracts.BlendTests.test_fallback_and_validated_mass) ... ok
+test_fit_requires_chronological_data_and_rejects_duplicates (test_engine_contracts.BlendTests.test_fit_requires_chronological_data_and_rejects_duplicates) ... ok
+test_missing_b_blocks_tier_one (test_engine_contracts.BlendTests.test_missing_b_blocks_tier_one) ... ok
+test_default_preflight_detects_missing_odds_credentials (test_engine_contracts.FeedDiagnosticsTests.test_default_preflight_detects_missing_odds_credentials) ... ok
+test_https_proxy_can_resolve_when_local_dns_fails (test_engine_contracts.FeedDiagnosticsTests.test_https_proxy_can_resolve_when_local_dns_fails) ... ok
+test_invalid_distribution_metadata_rejected (test_engine_contracts.FeedDiagnosticsTests.test_invalid_distribution_metadata_rejected) ... ok
+test_live_nba_pace_schema_joins_on_team_id (test_engine_contracts.FeedDiagnosticsTests.test_live_nba_pace_schema_joins_on_team_id) ... ok
+test_context_cannot_move_a (test_engine_contracts.HistoricalEngineTests.test_context_cannot_move_a) ... ok
+test_mass_and_side_symmetry (test_engine_contracts.HistoricalEngineTests.test_mass_and_side_symmetry) ... ok
+test_overlap_rejected (test_engine_contracts.HistoricalEngineTests.test_overlap_rejected) ... ok
+test_prior_and_recent_are_weighted_once (test_engine_contracts.HistoricalEngineTests.test_prior_and_recent_are_weighted_once) ... ok
+test_cross_date_packet_cannot_reuse_research (test_engine_contracts.PacketIntegrationTests.test_cross_date_packet_cannot_reuse_research) ... ok
+test_packet_validate_merge_evaluate_in_one_command (test_engine_contracts.PacketIntegrationTests.test_packet_validate_merge_evaluate_in_one_command) ... {"audit_reconciliation": {"inputs": 1, "outputs": 1, "ids_match": true}}
+ok
+test_push_calibration_uses_conditional_probability (test_engine_contracts.PacketIntegrationTests.test_push_calibration_uses_conditional_probability) ... ok
+test_validated_blend_changes_grade_with_both_engines (test_engine_contracts.PacketIntegrationTests.test_validated_blend_changes_grade_with_both_engines) ... ok
+test_malformed_scouting_scenarios_abstain (test_engine_contracts.PredictiveDistributionGateTests.test_malformed_scouting_scenarios_abstain) ... ok
+test_normal_predictive_negative_mass_blocks (test_engine_contracts.PredictiveDistributionGateTests.test_normal_predictive_negative_mass_blocks) ... ok
+test_full_game_scenario_mixture_and_independence (test_engine_contracts.ScoutingEngineTests.test_full_game_scenario_mixture_and_independence) ... ok
+test_invalid_weights_abstain (test_engine_contracts.ScoutingEngineTests.test_invalid_weights_abstain) ... ok
+test_missing_stale_and_partial_evidence_abstains (test_engine_contracts.ScoutingEngineTests.test_missing_stale_and_partial_evidence_abstains) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.511s
+
+OK

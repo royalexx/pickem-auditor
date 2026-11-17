@@ -1,0 +1,14 @@
+test_all_99_exact_bytes (test_nba_p1_source_preflight.PreflightTests.test_all_99_exact_bytes) ... ok
+test_dropped_category_blocks (test_nba_p1_source_preflight.PreflightTests.test_dropped_category_blocks) ... ok
+test_duplicate_blocks (test_nba_p1_source_preflight.PreflightTests.test_duplicate_blocks) ... ok
+test_fake_sha_blocks (test_nba_p1_source_preflight.PreflightTests.test_fake_sha_blocks) ... ok
+test_invalid_schema_blocks (test_nba_p1_source_preflight.PreflightTests.test_invalid_schema_blocks) ... ok
+test_missing_file_blocks (test_nba_p1_source_preflight.PreflightTests.test_missing_file_blocks) ... ok
+test_path_traversal_blocks (test_nba_p1_source_preflight.PreflightTests.test_path_traversal_blocks) ... ok
+test_tampered_byte_blocks (test_nba_p1_source_preflight.PreflightTests.test_tampered_byte_blocks) ... ok
+test_unknown_stat_blocks (test_nba_p1_source_preflight.PreflightTests.test_unknown_stat_blocks) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.511s
+
+OK

@@ -1,0 +1,33 @@
+{
+  "actual_full_suite_source": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+  "latest_complete_QA_source": "64aa8228f99f524fbe88c099579e6ba24a5c3eb8",
+  "files": {
+    "scripts/nba_p6_full_blocker_audit_runner_20261117.py": {
+      "executed_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "raw_sha256": "56ab37dd16d2063da72ec364b81f75f52d5e4c5c26bf0f735ab94a1d1dc007b7",
+      "unchanged_at_latest": true
+    },
+    "scripts/nba_p6_true_zero_display_adversary_20261117.py": {
+      "executed_source_commit": "c70b4fd7732b810d34357ca4a5dd8b9500cf25fb",
+      "raw_sha256": "3a59bf88dd381ef98b787cd3518b4237019b5c5f8c34e4aced7149de6c225477",
+      "unchanged_at_latest": true
+    },
+    "scripts/nba_p6_raw_display_matrix_20261117.py": {
+      "executed_source_commit": "d1ca72f88dd5ddae1f2c6683f9eb818d14b2f618",
+      "raw_sha256": "7371674182374b37fbaf3e4f0c6bb73955b1387e65257688e15a2df6e827967a",
+      "unchanged_at_latest": true
+    },
+    "scripts/nba_p6_hidden_credit_rounding_adversary_20261117.py": {
+      "executed_source_commit": "821aafb34de8d592ceb6ecd81606baa746dc7e09",
+      "raw_sha256": "2ceb04c77c6aa55930c462549569944456adebc4f1cab501aadc0686b708b722",
+      "unchanged_at_latest": true
+    },
+    "scripts/nba_p6_rounding_status_alias_adversary_20261117.py": {
+      "executed_source_commit": "64aa8228f99f524fbe88c099579e6ba24a5c3eb8",
+      "raw_sha256": "4c72d0460d556ea67bce7ed29a452134027a29e5cb20f8536c0bc1df934062a8",
+      "unchanged_at_latest": true
+    }
+  },
+  "all_owner_source_unmodified": true,
+  "scope": "Audit-only. Existing suites pass; new adversaries intentionally report two implementation defects. New source scripts were committed before each execution."
+}

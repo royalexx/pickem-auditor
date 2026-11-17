@@ -1,0 +1,38 @@
+test_all_challengers_run_only_older_oof (test_evaluator.CalibrationTests.test_all_challengers_run_only_older_oof) ... ok
+test_calibration_target_game_and_in_sample_fail_closed (test_evaluator.CalibrationTests.test_calibration_target_game_and_in_sample_fail_closed) ... ok
+test_future_labels_excluded_not_backdated (test_evaluator.CalibrationTests.test_future_labels_excluded_not_backdated) ... ok
+test_isotonic_ties_pool_and_monotonicity_analytic (test_evaluator.CalibrationTests.test_isotonic_ties_pool_and_monotonicity_analytic) ... ok
+test_sparse_and_wrong_market_not_universal_correction (test_evaluator.CalibrationTests.test_sparse_and_wrong_market_not_universal_correction) ... ok
+test_target_labels_cannot_change_fitted_predictions (test_evaluator.CalibrationTests.test_target_labels_cannot_change_fitted_predictions) ... ok
+test_untouched_calibration_acceptance_and_insufficient_dates (test_evaluator.CalibrationTests.test_untouched_calibration_acceptance_and_insufficient_dates) ... ok
+test_absent_model_is_explicit_rejection (test_evaluator.EvaluationTests.test_absent_model_is_explicit_rejection) ... ok
+test_abstention_never_miss (test_evaluator.EvaluationTests.test_abstention_never_miss) ... ok
+test_all_adverse_forecast_mutations_fail_closed (test_evaluator.EvaluationTests.test_all_adverse_forecast_mutations_fail_closed) ... ok
+test_byte_corruption_and_path_escape (test_evaluator.EvaluationTests.test_byte_corruption_and_path_escape) ... ok
+test_deterministic_replay (test_evaluator.EvaluationTests.test_deterministic_replay) ... ok
+test_duplicate_contract_retains_attempt_denominator (test_evaluator.EvaluationTests.test_duplicate_contract_retains_attempt_denominator) ... ok
+test_exact_registered_universe_cannot_drop_rejected_attempts (test_evaluator.EvaluationTests.test_exact_registered_universe_cannot_drop_rejected_attempts) ... ok
+test_exact_single_contract_not_two_sides (test_evaluator.EvaluationTests.test_exact_single_contract_not_two_sides) ... ok
+test_immutable_artifact_exclusive_and_separate_stages (test_evaluator.EvaluationTests.test_immutable_artifact_exclusive_and_separate_stages) ... ok
+test_mutable_forecast_hash (test_evaluator.EvaluationTests.test_mutable_forecast_hash) ... ok
+test_push_and_dnp_misclassification (test_evaluator.EvaluationTests.test_push_and_dnp_misclassification) ... ok
+test_push_void_pending_distinct (test_evaluator.EvaluationTests.test_push_void_pending_distinct) ... ok
+test_fixture_and_same_player_combos (test_evaluator.JointTests.test_fixture_and_same_player_combos) ... ok
+test_overtime_expands_both_teams (test_evaluator.JointTests.test_overtime_expands_both_teams) ... ok
+test_seed_stable_component_specific (test_evaluator.JointTests.test_seed_stable_component_specific) ... ok
+test_shared_state_conservation_and_support_fail_closed (test_evaluator.JointTests.test_shared_state_conservation_and_support_fail_closed) ... ok
+test_dependence_bootstrap_and_one_date (test_evaluator.MetricTests.test_dependence_bootstrap_and_one_date) ... ok
+test_invalid_mass_support (test_evaluator.MetricTests.test_invalid_mass_support) ... ok
+test_no_signal_negative_control_is_not_a_skill_claim (test_evaluator.MetricTests.test_no_signal_negative_control_is_not_a_skill_claim) ... ok
+test_observed_beyond_support_not_clipped (test_evaluator.MetricTests.test_observed_beyond_support_not_clipped) ... ok
+test_pit_seeded_identity_and_zero_tail_interval (test_evaluator.MetricTests.test_pit_seeded_identity_and_zero_tail_interval) ... ok
+test_poisson_crps_matches_direct_count_cdf_sum (test_evaluator.MetricTests.test_poisson_crps_matches_direct_count_cdf_sum) ... ok
+test_scores_analytic (test_evaluator.MetricTests.test_scores_analytic) ... ok
+test_selected_before_settlement_filter_and_eligible_bias (test_evaluator.MetricTests.test_selected_before_settlement_filter_and_eligible_bias) ... ok
+test_selected_ids_do_not_depend_on_outcomes (test_evaluator.MetricTests.test_selected_ids_do_not_depend_on_outcomes) ... ok
+test_wrong_certain_probability_infinite_loss (test_evaluator.MetricTests.test_wrong_certain_probability_infinite_loss) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 1.895s
+
+OK

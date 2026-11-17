@@ -1,0 +1,30 @@
+test_crps_integration_independent_reference (test_nba_opportunity.MinuteDistributionTests.test_crps_integration_independent_reference) ... ok
+test_expected_minutes_can_exceed_regulation_with_ot (test_nba_opportunity.MinuteDistributionTests.test_expected_minutes_can_exceed_regulation_with_ot) ... ok
+test_invalid_law_parameters (test_nba_opportunity.MinuteDistributionTests.test_invalid_law_parameters) ... ok
+test_support_moments_quantiles_and_ot_tail (test_nba_opportunity.MinuteDistributionTests.test_support_moments_quantiles_and_ot_tail) ... ok
+test_active_roster_does_not_imply_participates (test_nba_opportunity.OpportunityContractTests.test_active_roster_does_not_imply_participates) ... ok
+test_dnp_not_conditional_observation (test_nba_opportunity.OpportunityContractTests.test_dnp_not_conditional_observation) ... ok
+test_future_and_current_outcomes_cannot_change_features (test_nba_opportunity.OpportunityContractTests.test_future_and_current_outcomes_cannot_change_features) ... ok
+test_immutable_and_deterministic_forecast (test_nba_opportunity.OpportunityContractTests.test_immutable_and_deterministic_forecast) ... ok
+test_invalid_probabilities_and_identity (test_nba_opportunity.OpportunityContractTests.test_invalid_probabilities_and_identity) ... ok
+test_no_postgame_feature_admitted (test_nba_opportunity.OpportunityContractTests.test_no_postgame_feature_admitted) ... ok
+test_states_and_unknown_not_absent (test_nba_opportunity.OpportunityContractTests.test_states_and_unknown_not_absent) ... ok
+test_temporal_corruption (test_nba_opportunity.OpportunityContractTests.test_temporal_corruption) ... ok
+test_duplicate_population_never_silently_deduplicated (test_nba_opportunity.ReplayAdapterTests.test_duplicate_population_never_silently_deduplicated) ... ok
+test_exhibition_rows_excluded_before_histories (test_nba_opportunity.ReplayAdapterTests.test_exhibition_rows_excluded_before_histories) ... ok
+test_positions_use_prior_appearance_only (test_nba_opportunity.ReplayAdapterTests.test_positions_use_prior_appearance_only) ... ok
+test_exact_five_all_play_full_game (test_nba_opportunity.TeamConservationTests.test_exact_five_all_play_full_game) ... ok
+test_impossible_early_exit_caps_rejected (test_nba_opportunity.TeamConservationTests.test_impossible_early_exit_caps_rejected) ... ok
+test_inactive_unverified_duplicates_mixed_teams (test_nba_opportunity.TeamConservationTests.test_inactive_unverified_duplicates_mixed_teams) ... ok
+test_latent_early_exit_caps_are_honored_or_retained_as_invalid (test_nba_opportunity.TeamConservationTests.test_latent_early_exit_caps_are_honored_or_retained_as_invalid) ... ok
+test_overtime_shared_by_both_teams_and_reproducible (test_nba_opportunity.TeamConservationTests.test_overtime_shared_by_both_teams_and_reproducible) ... ok
+test_randomized_projection_and_five_on_court (test_nba_opportunity.TeamConservationTests.test_randomized_projection_and_five_on_court) ... ok
+test_raw_sampler_payload_probability_validation (test_nba_opportunity.TeamConservationTests.test_raw_sampler_payload_probability_validation) ... ok
+test_selected_participants_keep_positive_exposure (test_nba_opportunity.TeamConservationTests.test_selected_participants_keep_positive_exposure) ... ok
+test_underfilled_roster_retained_not_forced (test_nba_opportunity.TeamConservationTests.test_underfilled_roster_retained_not_forced) ... ok
+test_unusual_independent_draws_still_respect_game_length (test_nba_opportunity.TeamConservationTests.test_unusual_independent_draws_still_respect_game_length) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 9.389s
+
+OK

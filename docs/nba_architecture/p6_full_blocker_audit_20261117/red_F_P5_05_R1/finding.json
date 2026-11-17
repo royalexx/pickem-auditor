@@ -1,0 +1,17 @@
+{
+  "id": "F-P5-05-R1",
+  "criterion": "F-P5-05",
+  "disposition": "FAIL_REOPENED",
+  "classification": "REPAIRABLE_RAW_DISPLAY_ACCOUNTING_AND_NATIVE_HANDOFF_DEFECT",
+  "owner": "P5",
+  "exact_owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+  "native_source_raw_sha256": "a875ca2d819879ce0ace1083599780d42db7942a3aca4dd88bc08fb2eabed5e8",
+  "matrix_cases": 224,
+  "observed": [
+    "Valid raw15sec/display0/retained threes0 with hidden rawPTS11 is accepted by actual P1 and P2 but P5 prior attachment rejects NATIVE_PRIOR_ACCOUNTING_STATUS_JOIN (also tiny positive underflow and justbelow30sec controls).",
+    "Invalid raw30sec/display0/retained threes0 with rawPTS11 is rejected by actual P1/P2 but public P5 outcome validator accepts. Source admission/scoring remain blocked."
+  ],
+  "root_cause": "P5 uses any(retained record.stats) rather than all raw normalized credits for rounded-subminute strict boundary and status derivation. Its exact-zero raw guard is correct; this gap is at positive subminute/display0 and retained zero-stat subsets.",
+  "minimum_repair": "Use raw normalized credit population for display-zero rounded-subminute eligibility and corresponding accounting-status derivation, consistently with actual P1; preserve independent zero-raw guard, exact Fraction boundaries, all raw bytes and subsets. Add legal15sec/sub30sec/underflow controls plus exact30sec/above/truezero rejects. Do not copy caller labels or erase credits.",
+  "implementation_changed_by_reviewer": false
+}
