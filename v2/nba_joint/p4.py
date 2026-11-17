@@ -11,6 +11,8 @@ from collections import defaultdict
 from copy import deepcopy
 import math
 import time
+import hashlib
+from pathlib import Path
 
 import numpy as np
 
@@ -27,7 +29,7 @@ from v2.nba_opportunity import lineup_segments
 
 
 S_ADAPTER = "NBAJointSRateAdapter/1.0.0"
-J_ADAPTER = "NBAJointP4/1.0.0"
+J_ADAPTER = "NBAJointP4/1.1.0"
 VALID_VARIANTS = ("J0", "J1", "J2", "J3")
 EVENT_PARAMETERS = (
     "p2", "p3", "pft", "ft_share", "rebound_credit",
@@ -164,6 +166,20 @@ def simulate_p4(p, g, o, s, *, variant="J1", seed=20261116,
                 role_sigma=0., efficiency_sigma=0.,
                 enable_j3=False, scenario_regimes=None, regime_multipliers=None,
                 max_event_attempts=50):
+    """Legacy synthetic control; pinned owner integration uses integration.py."""
+    validate_s_rates(p, s)
+    return _simulate_p4(p, g, o, s, variant=variant, seed=seed,
+        base_pace=base_pace, event_parameters=event_parameters,
+        role_sigma=role_sigma, efficiency_sigma=efficiency_sigma,
+        enable_j3=enable_j3, scenario_regimes=scenario_regimes,
+        regime_multipliers=regime_multipliers, max_event_attempts=max_event_attempts)
+
+
+def _simulate_p4(p, g, o, s, *, variant="J1", seed=20261116,
+                base_pace=100.0, event_parameters=None,
+                role_sigma=0., efficiency_sigma=0.,
+                enable_j3=False, scenario_regimes=None, regime_multipliers=None,
+                max_event_attempts=50, _integration=None):
     """Generate a two-team G0-valid same-scenario J bundle and independent audit.
 
     J0: frozen pace and efficiency, exact O minutes.
@@ -197,7 +213,6 @@ def simulate_p4(p, g, o, s, *, variant="J1", seed=20261116,
         req(enable_j3 is False and scenario_regimes is None and
             regime_multipliers is None, "P4_J3_UNGATED")
     validate_opportunity(o, p, g)
-    validate_s_rates(p, s)
     e = _event_config(event_parameters)
     roster = p["players"]
     team_ids = p["team_ids"]
@@ -218,7 +233,14 @@ def simulate_p4(p, g, o, s, *, variant="J1", seed=20261116,
         sim_players = [{"player_id": x["player_id"], "team_id": x["team_id"],
                         "rates": deepcopy(rates[x["player_id"]]["rates"])}
                        for x in roster]
+        if _integration is not None:
+            sim_players = _integration.players(sid, e)
         state = _draw_state(sg, variant, base_pace, team_ids)
+        if _integration is not None and variant != "J0":
+            state["offensive_effect"] = [
+                (sg["possessions_home"] if t == _integration.home_team_id
+                 else sg["possessions_away"]) / sg["pace_regulation"]
+                for t in team_ids]
         if variant == "J3":
             multiplier = float(regime_multipliers[scenario_regimes[sid]])
             state["offensive_effect"] = [v * multiplier for v in state["offensive_effect"]]
@@ -229,15 +251,22 @@ def simulate_p4(p, g, o, s, *, variant="J1", seed=20261116,
                                                  role_sigma, efficiency_sigma)
         spec = {"events": local_events, "state": {"pace_mean": base_pace}}
         first_tie_count = 0
+        rejected_events = []
         for attempt in range(max_event_attempts):
             rng = rng_for(seed, p["game_id"], sid, "events/" + str(attempt))
-            counts, ledger = sample_events(
+            sampler = sample_events if _integration is None else _integration.sample_events
+            counts, ledger = sampler(
                 sim_players, minutes, ix, state, spec, rng, constrained=True,
             )
             totals = [int(counts["points"][idx].sum()) for idx in ix]
             if totals[0] != totals[1]:
                 break
             first_tie_count += 1
+            if _integration is not None:
+                rejected_events.append({"event_attempt": attempt,
+                    "reason": "TIED_COMPLETED_GAME_SCORE", "team_points": totals,
+                    "counts": {k: v.tolist() for k, v in counts.items()},
+                    "ledger": ledger})
         else:
             raise ContractError("P4_TIED_COMPLETED_GAME_EXHAUSTED")
         rows = [
@@ -261,6 +290,9 @@ def simulate_p4(p, g, o, s, *, variant="J1", seed=20261116,
             "regime": scenario_regimes[sid] if variant == "J3" else None,
             "rejected_tied_event_draws": first_tie_count,
             "event_ledger_sha256": digest(ledger),
+            **({} if _integration is None else {"event_ledger": ledger,
+                "rejected_event_draws": rejected_events,
+                "integration": _integration.audit(sid)}),
             "lineup_sha256": digest(lineups),
             "five_on_court": True,
         })
@@ -272,15 +304,15 @@ def simulate_p4(p, g, o, s, *, variant="J1", seed=20261116,
                     "J": {"model_id": "research:nba:p4:" + variant,
                           "version": J_ADAPTER, "artifact_sha256": digest({
                               "variant": variant, "rates_sha": s["content_hash"],
+                              "seed": seed, "max_event_attempts": max_event_attempts,
                               "events": e, "base_pace": base_pace,
                               "role_sigma": role_sigma,
                               "efficiency_sigma": efficiency_sigma,
                               "regimes": scenario_regimes,
                               "multipliers": regime_multipliers,
+                              "integration": None if _integration is None else _integration.manifest,
                           }),
-                          "code_sha256": digest({"ported_kernel":
-                                               "WS5-v0.1-events/108b1f72",
-                                               "adapter": J_ADAPTER}),
+                          "code_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                           "training_cutoff_at": p["training_cutoff_at"]}},
         "scenarios": scenario_rows,
         "game_state_witness": {
