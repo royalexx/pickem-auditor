@@ -1,0 +1,397 @@
+{
+  "schema": "NBA_P0_DISCOVERY_REMEDIATION_V4",
+  "implementation_sha": "379edf1374be85e3b2d5c8539211ccacc645131a",
+  "baseline_sha": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+  "baseline": "10 golden_v2 import errors; first fix exposed 5 sibling import errors, second fix exposed remaining edit helper; all preserved",
+  "final": "Root loader zero errors; canonical NBA test IDs exactly match dedicated discovery, no duplicate IDs",
+  "commands": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_nba_root_discovery_v4.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        1
+      ],
+      "sha256": "23ecdeb985c6e4a9eeca61c221eb588c42b0c34f2dcc03654a8f643d4f8f18d1",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/00.log"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        267
+      ],
+      "sha256": "60cf4a367fb308e359247da80d53c272f90e0d3dffb2614c7e9f2ebddfdb573f",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/01.log"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "compileall",
+        "-q",
+        "scripts",
+        "tests",
+        "v2"
+      ],
+      "exit": 0,
+      "tests": [],
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/02.log"
+    },
+    {
+      "command": [
+        "bash",
+        "-n",
+        "scripts/shadow_store.sh"
+      ],
+      "exit": 0,
+      "tests": [],
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/03.log"
+    },
+    {
+      "command": [
+        "bash",
+        "-n",
+        "scripts/history_warehouse_store.sh"
+      ],
+      "exit": 0,
+      "tests": [],
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/04.log"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_network_receipt.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        5
+      ],
+      "sha256": "d843a7e14234a1fc521aed812abae21101fec83e02b0c1d93462419365cace12",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/05.log"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_morning_preflight_recovery.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        5
+      ],
+      "sha256": "6288d4adb9b414aaeabc0ffcad3f7f7155a73fcbbb0578847b0ee369f3f913df",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/06.log"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_engine_contracts.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        24
+      ],
+      "sha256": "58bfe4e72831c300ed7765b6299c74ab01757d19f3ea9a7031378cde1f678105",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/07.log"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_verify_sports.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        2
+      ],
+      "sha256": "83ccd0c53e10efb56077d09e3a3e57ed28e4f5d267e500fdb3b597cd7dfa4564",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/08.log"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_history_bootstrap.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        3
+      ],
+      "sha256": "b743891a45f0ab57f35d5b62f3adfa4ee100fd8ec69a9e9e450569f37b7417f0",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/09.log"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_verify_history_invariants.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        1
+      ],
+      "sha256": "3b2f0617e73b0b881432b97f6966370d805c17ac3e634860e4fe118eb75763d9",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/10.log"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_afternoon_reuse.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        8
+      ],
+      "sha256": "b626e5f6c5addce4b5ffa4281e0721cf55cf10e056f1b2bd9d0f5d201cba0992",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/11.log"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_auto_research.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        3
+      ],
+      "sha256": "1deff8f74b1aef5d6115308f64c997436d6ac7dd5b9f65e515ac3ffaaf67b914",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/12.log"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_odds_quota_guard.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        3
+      ],
+      "sha256": "38f8595c7a386e786039e269a78ba19a956c3d31b6f0cec4bb0cc781007e4438",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/13.log"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_morning_no_odds.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        2
+      ],
+      "sha256": "58ed62a8d1e4b381822e62194f006df89128b85b6595b42d580f3249965d11f1",
+      "log": "docs/nba_architecture/p0_discovery_v4_20261116/tested_379edf1374be85e3b2d5c8539211ccacc645131a/14.log"
+    }
+  ],
+  "g0_integrity": [
+    {
+      "path": "tests/nba_architecture/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/golden_v2.py",
+      "sha256": "e4840cc06e699e0e4acd18f6d38445b98078ec34d8e90d8fc4b5da4ad4426bb4",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/golden_v2/historical_offer_free.json",
+      "sha256": "da214db2678cea1893a05242b44d710a8c8cb9d931c3f3bc30b6d5801bb84d99",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/golden_v2/joint_same_draw.json",
+      "sha256": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/golden_v2/prospective_original_offer.json",
+      "sha256": "27c4e5c61c17a3b67885dfc9fb3f33d726c9fd521ce2e81fb4fec8c28096e7fb",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/test_contracts.py",
+      "sha256": "b882ed962a010388d07a4a6e1ef724217d026b02bc430cd6f4c24f8c31d9cad3",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/test_g0_completion_20261116.py",
+      "sha256": "12bf220b1446fa8a072dceb4b17827921b193de1f884d5f5329591a0e92dd21e",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/test_g0_hardening_20261116.py",
+      "sha256": "20d2f62e17082016559dd33da743b490ec1ce8a053c60b6ac4c8e3389fb13660",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/test_g0_independent_participation_red_20261116.py",
+      "sha256": "64b14dd5fa6ab610fbb43e794537d608a79bf4538d0ce6ef743eeffd107e0d06",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/test_g0_law_repair_20261116.py",
+      "sha256": "9246bb9a38f4238ed4518a52f8b0adb8f55abf3e91624a76f7aab3301b0fa9fc",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/test_g0_mutation_sweep_20261116.py",
+      "sha256": "a8435aaf64111ddea757f09f07d9b48034ba9215e5f4148cc5c28ffb9b7f27dd",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/test_g0_pipeline_completion_20261116.py",
+      "sha256": "99ca9f853d3f16807ba6bf2b169c1e662a77607a1aa3bcbc92fb06b970d1091c",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/test_independent_final_20261116.py",
+      "sha256": "4721168790148f62cb65ac97fe6d8fcefe586a0296ad347eec9e464da6870432",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+      "sha256": "7ef5da14487942de0e8e82f45e6048890361f320eba2e59c532a2cde0310cc35",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+      "sha256": "3e5f12794d7ec4c8df37bc704ec3f34d19049b8fafe6a3770969a7f345eb77d8",
+      "match": true
+    },
+    {
+      "path": "tests/nba_architecture/test_v2_contracts.py",
+      "sha256": "23e777abad2ef59da5f5e4fb2aa5678ce48b876bb3f650fdc89973aee18a2209",
+      "match": true
+    },
+    {
+      "path": "v2/nba_architecture/__init__.py",
+      "sha256": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+      "match": true
+    },
+    {
+      "path": "v2/nba_architecture/contracts.py",
+      "sha256": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+      "match": true
+    },
+    {
+      "path": "v2/nba_architecture/exposure_v2.py",
+      "sha256": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+      "match": true
+    },
+    {
+      "path": "v2/nba_architecture/families_v2.py",
+      "sha256": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+      "match": true
+    },
+    {
+      "path": "v2/nba_architecture/requirements.txt",
+      "sha256": "ab29270f01c750d5312219f91a2362d711959ae4eafd1d4349ac7017a2f8f267",
+      "match": true
+    },
+    {
+      "path": "v2/nba_architecture/schema-1.0.0.json",
+      "sha256": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+      "match": true
+    },
+    {
+      "path": "v2/nba_architecture/schema-2.0.0.json",
+      "sha256": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+      "match": true
+    },
+    {
+      "path": "v2/nba_architecture/v2_contracts.py",
+      "sha256": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+      "match": true
+    }
+  ],
+  "all_commands_pass": true,
+  "independent_acceptance": "PENDING_SEPARATE_P6",
+  "full_repository_test_bodies_executed": false
+}

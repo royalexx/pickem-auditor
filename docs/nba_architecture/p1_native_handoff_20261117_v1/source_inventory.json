@@ -1,0 +1,52 @@
+{
+  "schema": "nba-p1-source-population-inventory/1.0.0",
+  "owner_base_sha": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "available_source_objects": [
+    {
+      "path": "docs/nba_architecture/p1_remediation_20261117/sources/espn_401070213.raw",
+      "raw_sha256": "2b3c8715bdd7de72a7e8e06b4f163b856c84ca41c525a8936a2655a7e93e360c",
+      "bytes": 408252,
+      "population_class": "LATER_HISTORICAL_RETRIEVAL",
+      "admission_status": "UNADMITTED",
+      "original_pregame_available_at": null
+    },
+    {
+      "path": "docs/nba_architecture/p1_remediation_20261117/sources/espn_schedule_20181019.raw",
+      "raw_sha256": "68e037d6ab3a3ffd16f5f0b2a6ce09e42d4d367c30f35077aadd199958c50f5c",
+      "bytes": 125480,
+      "population_class": "LATER_HISTORICAL_RETRIEVAL",
+      "admission_status": "UNADMITTED",
+      "original_pregame_available_at": null
+    },
+    {
+      "path": "docs/nba_architecture/p1_remediation_20261117/sources/nba_rule5.raw",
+      "raw_sha256": "ead50b6b76dc319a6c0a390d3dd3add2d25b2330b8314bc7a3e2e4c17add5eed",
+      "bytes": 129164,
+      "population_class": "MODERN_OFFICIAL_RULE_DOCUMENT",
+      "admission_status": "UNADMITTED",
+      "original_pregame_available_at": null
+    }
+  ],
+  "archive_integrity_only": {
+    "files": 99,
+    "compressed_bytes": 39916715,
+    "rechecked_by_this_transport_change": false,
+    "prior_independent_receipt": "ddc60a83f6c9a2b863f5e7a44823bffa3b01e048:docs/nba_architecture/p6_remediation_reaudit_v3_20261116/independent_archive_bytes.json",
+    "decompressed_by_this_task": false,
+    "original_http_byte_availability_proven": false
+  },
+  "missing_populations": [
+    "ORIGINAL_CONTEMPORANEOUS_PREGAME_ROSTER_AND_AVAILABILITY",
+    "DATED_PLAYER_TEAM_GAME_CROSSWALKS_AND_TRADES",
+    "AUTHENTIC_OFFICIAL_PRIOR_GAME_DURATION_AND_OVERTIME",
+    "COMPLETE_OFFICIAL_SCHEDULE_AND_RESULTS",
+    "DNP_PLAYED_ZERO_AND_UNKNOWN_PARTICIPATION_DENOMINATORS",
+    "COMPLETE_OFFICIAL_CORRECTION_CHAINS",
+    "AUTHENTIC_MINUTE_DISPLAY_EXCEPTION_EVIDENCE",
+    "ADMISSIBLE_FITTED_PARTICIPATION_AND_MINUTE_PRIORS"
+  ],
+  "current_retrieval_attempt": "nba_0021800001_attempt_1.receipt.json",
+  "synthetic_fixtures_are_official_evidence": false,
+  "source_admission_decision": "BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_AUTHENTIC_SOURCE_ACQUISITION"
+}

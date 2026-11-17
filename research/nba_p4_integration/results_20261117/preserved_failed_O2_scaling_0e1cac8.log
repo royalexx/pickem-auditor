@@ -1,0 +1,38 @@
+{"n": 8, "variant": "J0", "seconds": 0.7214460220000092, "bundle_sha256": "c7fe490bfd8e7ebbd78a0402d4557567512c099358a36087538a5672b87f76ec", "replay_exact": true}
+{"n": 8, "variant": "J1", "seconds": 0.5905175220000274, "bundle_sha256": "17c97318d38d10bbf32a2896280bc90bb3f5727abbfc1d536c93575e12c77b97", "replay_exact": true}
+{"n": 8, "variant": "J2", "seconds": 0.4420302050000373, "bundle_sha256": "d74d8a3fb1974274f5c21dbb40c0f2f2a428375ca556cac8e0d3a8ceff3b420e", "replay_exact": true}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/pickem-auditor/research/nba_p4_integration/benchmark.py", line 88, in <module>
+    main()
+  File "/workspace/pickem-auditor/research/nba_p4_integration/benchmark.py", line 33, in main
+    inputs=build(root,n=n)
+           ^^^^^^^^^^^^^^^
+  File "/workspace/pickem-auditor/research/nba_p4_integration/fixture.py", line 32, in build
+    o, side = p3.build_opportunity(p, g, priors, model=data['O_model'], seed=seed,
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/pickem-auditor/work/upstream/v2/nba_o_family.py", line 256, in build_opportunity
+    validate_opportunity(o,p,g)
+  File "/workspace/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 921, in checked
+    result = validator(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/pickem-auditor/v2/nba_architecture/families_v2.py", line 148, in validate_opportunity
+    validate_exposure_coupling(o, p, g)
+  File "/workspace/pickem-auditor/v2/nba_architecture/exposure_v2.py", line 62, in validate_exposure_coupling
+    team_bounds = _check_team(tuple(players), groups, tuple(sorted(witnesses)), constraint)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/pickem-auditor/v2/nba_architecture/exposure_v2.py", line 108, in _check_team
+    enumerate_allocations(0, 0., [])
+  File "/workspace/pickem-auditor/v2/nba_architecture/exposure_v2.py", line 106, in enumerate_allocations
+    enumerate_allocations(i+1, elapsed+state[1], states+[state])
+  File "/workspace/pickem-auditor/v2/nba_architecture/exposure_v2.py", line 106, in enumerate_allocations
+    enumerate_allocations(i+1, elapsed+state[1], states+[state])
+  File "/workspace/pickem-auditor/v2/nba_architecture/exposure_v2.py", line 106, in enumerate_allocations
+    enumerate_allocations(i+1, elapsed+state[1], states+[state])
+  [Previous line repeated 3 more times]
+  File "/workspace/pickem-auditor/v2/nba_architecture/exposure_v2.py", line 97, in enumerate_allocations
+    req(nodes <= MAX_SEARCH_NODES, 'O_COUPLING_VERIFICATION_BUDGET')
+  File "/workspace/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 38, in req
+    raise ContractError(code)
+v2.nba_architecture.v2_contracts.ContractError: O_COUPLING_VERIFICATION_BUDGET

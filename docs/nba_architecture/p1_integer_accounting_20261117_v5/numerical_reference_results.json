@@ -1,0 +1,21 @@
+{
+  "synthetic_only": true,
+  "historical_data_accessed": false,
+  "primitive_oracle_assignments": {
+    "shooting_partial": 16384,
+    "rebound_assist_combo_partial": 262144,
+    "cross_shoot_combo_partial": 16384,
+    "complete_shooting_all_subsets": 93312,
+    "rectangular_caps": 37500,
+    "triangular_caps": 30662
+  },
+  "total": 456386,
+  "mismatches": 0,
+  "separate_p2_milp_reference": {
+    "seed": 14817,
+    "cases": 5000,
+    "disagreements": 0,
+    "raw_input_output_sha256": "a2e54fa448d0bbac4993292393db01edee4caa3edde9d9dc2c0128809b3e4b86"
+  },
+  "gate_acceptance": "NOT_ISSUED_BY_IMPLEMENTATION_OWNER"
+}

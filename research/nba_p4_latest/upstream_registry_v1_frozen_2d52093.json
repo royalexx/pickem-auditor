@@ -1,0 +1,38 @@
+{
+  "accepted_g0": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "inherited_g0_files": {
+    "v2/nba_architecture/__init__.py": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+    "v2/nba_architecture/contracts.py": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+    "v2/nba_architecture/exposure_v2.py": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+    "v2/nba_architecture/families_v2.py": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+    "v2/nba_architecture/requirements.txt": "ab29270f01c750d5312219f91a2362d711959ae4eafd1d4349ac7017a2f8f267",
+    "v2/nba_architecture/schema-1.0.0.json": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+    "v2/nba_architecture/schema-2.0.0.json": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+    "v2/nba_architecture/v2_contracts.py": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4"
+  },
+  "owners": {
+    "P2": {
+      "commit": "a3513bdb5e557afce2c720a47458327c668b04ec",
+      "files": {
+        "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
+        "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
+        "v2/nba_s_family/model.py": "6cb9cf0616bdbdcd70d1bed9fb67ad4b727eca373cc8a1d48de51dc3a452333d"
+      }
+    },
+    "P3": {
+      "commit": "2a666106a02595c70e2e372729aeae73d337b745",
+      "files": {
+        "v2/nba_o_bridge.py": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
+        "v2/nba_o_consumers.py": "26fa725e35a6f3a8796afad941fcef60e51e6586f9260f2c5d48965e8c3ac61e",
+        "v2/nba_o_family.py": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e"
+      }
+    }
+  },
+  "reused_owner_files": {
+    "v2/nba_joint/common.py": "35df67a2e76cad1f978f35693924ba6c63c43ec7b519c93289a3c8e13a912478",
+    "v2/nba_joint/events.py": "40334862379548ac9efd562640580b20e419455728850f2ea6125d1447b1ebec",
+    "v2/nba_opportunity.py": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30"
+  },
+  "schema": "NBA-J-latest-owner-registry/1.0.0",
+  "source_authentication": false
+}

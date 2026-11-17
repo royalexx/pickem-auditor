@@ -1,0 +1,19 @@
+test_p1_native_handoff_20261117 (unittest.loader._FailedTest.test_p1_native_handoff_20261117) ... ERROR
+
+======================================================================
+ERROR: test_p1_native_handoff_20261117 (unittest.loader._FailedTest.test_p1_native_handoff_20261117)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_p1_native_handoff_20261117
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_native_handoff_20261117.py", line 14, in <module>
+    from v2.nba_architecture import p1_handoff as h
+ImportError: cannot import name 'p1_handoff' from 'v2.nba_architecture' (/workspace/work/p1/v2/nba_architecture/__init__.py)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<string>", line 17, in <module>
+  File "/tmp/p2-native-interop-85ky7jnu/tests/nba_architecture/test_p3_o_family.py", line 54, in build
+    return p,g,*build_opportunity(p,g,priors,model=g["model"],seed=seed,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/p2-native-interop-85ky7jnu/v2/nba_o_family.py", line 210, in build_opportunity
+    from v2.nba_o_bridge import home_binding, p1_history_context
+ModuleNotFoundError: No module named 'v2.nba_o_bridge'

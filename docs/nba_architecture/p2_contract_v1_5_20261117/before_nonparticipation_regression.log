@@ -1,0 +1,78 @@
+test_nonplayed_positive_raw_credit_or_exposure_rejected (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_nonplayed_positive_raw_credit_or_exposure_rejected) ... 
+  test_nonplayed_positive_raw_credit_or_exposure_rejected (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_nonplayed_positive_raw_credit_or_exposure_rejected) (state='dnp', positive=True, minutes='PT0M0S') ... FAIL
+  test_nonplayed_positive_raw_credit_or_exposure_rejected (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_nonplayed_positive_raw_credit_or_exposure_rejected) (state='dnp', positive=False, minutes='PT0M0.0000000000000001S') ... FAIL
+  test_nonplayed_positive_raw_credit_or_exposure_rejected (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_nonplayed_positive_raw_credit_or_exposure_rejected) (state='unknown', positive=True, minutes='PT0M0S') ... FAIL
+  test_nonplayed_positive_raw_credit_or_exposure_rejected (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_nonplayed_positive_raw_credit_or_exposure_rejected) (state='unknown', positive=False, minutes='PT0M0.0000000000000001S') ... FAIL
+test_true_zero_positive_raw_credit_cannot_be_hidden_by_retained_stat_subset (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_true_zero_positive_raw_credit_cannot_be_hidden_by_retained_stat_subset) ... FAIL
+test_unknown_cannot_replace_explicit_raw_played_state (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_unknown_cannot_replace_explicit_raw_played_state) ... 
+  test_unknown_cannot_replace_explicit_raw_played_state (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_unknown_cannot_replace_explicit_raw_played_state) (played='0') ... FAIL
+  test_unknown_cannot_replace_explicit_raw_played_state (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_unknown_cannot_replace_explicit_raw_played_state) (played='1') ... FAIL
+test_zero_raw_dnp_and_unknown_preserve_nulls_without_inventing_played_zero (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_zero_raw_dnp_and_unknown_preserve_nulls_without_inventing_played_zero) ... ok
+
+======================================================================
+FAIL: test_nonplayed_positive_raw_credit_or_exposure_rejected (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_nonplayed_positive_raw_credit_or_exposure_rejected) (state='dnp', positive=True, minutes='PT0M0S')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 145, in test_nonplayed_positive_raw_credit_or_exposure_rejected
+    with self.subTest(state=state,positive=positive,minutes=minutes),self.assertRaises(SFError):
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+======================================================================
+FAIL: test_nonplayed_positive_raw_credit_or_exposure_rejected (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_nonplayed_positive_raw_credit_or_exposure_rejected) (state='dnp', positive=False, minutes='PT0M0.0000000000000001S')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 145, in test_nonplayed_positive_raw_credit_or_exposure_rejected
+    with self.subTest(state=state,positive=positive,minutes=minutes),self.assertRaises(SFError):
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+======================================================================
+FAIL: test_nonplayed_positive_raw_credit_or_exposure_rejected (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_nonplayed_positive_raw_credit_or_exposure_rejected) (state='unknown', positive=True, minutes='PT0M0S')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 145, in test_nonplayed_positive_raw_credit_or_exposure_rejected
+    with self.subTest(state=state,positive=positive,minutes=minutes),self.assertRaises(SFError):
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+======================================================================
+FAIL: test_nonplayed_positive_raw_credit_or_exposure_rejected (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_nonplayed_positive_raw_credit_or_exposure_rejected) (state='unknown', positive=False, minutes='PT0M0.0000000000000001S')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 145, in test_nonplayed_positive_raw_credit_or_exposure_rejected
+    with self.subTest(state=state,positive=positive,minutes=minutes),self.assertRaises(SFError):
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+======================================================================
+FAIL: test_true_zero_positive_raw_credit_cannot_be_hidden_by_retained_stat_subset (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_true_zero_positive_raw_credit_cannot_be_hidden_by_retained_stat_subset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 165, in test_true_zero_positive_raw_credit_cannot_be_hidden_by_retained_stat_subset
+    with self.assertRaisesRegex(SFError,'ZERO_MINUTE_CREDIT_UNRESOLVED'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+======================================================================
+FAIL: test_unknown_cannot_replace_explicit_raw_played_state (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_unknown_cannot_replace_explicit_raw_played_state) (played='0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 158, in test_unknown_cannot_replace_explicit_raw_played_state
+    with self.subTest(played=played),self.assertRaises(SFError):
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+======================================================================
+FAIL: test_unknown_cannot_replace_explicit_raw_played_state (tests.nba_s_family.test_p1_native_v1.NonparticipationSourceTests.test_unknown_cannot_replace_explicit_raw_played_state) (played='1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 158, in test_unknown_cannot_replace_explicit_raw_played_state
+    with self.subTest(played=played),self.assertRaises(SFError):
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.075s
+
+FAILED (failures=7)

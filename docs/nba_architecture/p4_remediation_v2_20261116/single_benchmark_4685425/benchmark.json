@@ -1,0 +1,16 @@
+{
+  "finite_paths": 4,
+  "independent_approval": false,
+  "limitations": [
+    "Four paths are not an adequate marginal fidelity experiment.",
+    "Rate compatibility and non-tied final-score rejection condition the law.",
+    "G overtime is duration-only in the aggregate event kernel.",
+    "No event-time co-presence or exact possession/free-throw chronology is certified."
+  ],
+  "observed_games": 0,
+  "original_historical_outcomes_accessed": false,
+  "physical_chronology_established": false,
+  "scope": "SYNTHETIC_ENGINEERING_ONLY",
+  "statistical_adequacy_established": false,
+  "status": "SYNTHETIC_PROPOSED_CONSTRAINED_LAW_PENDING_INDEPENDENT_ACCEPTANCE_REAL_BLOCKED"
+}

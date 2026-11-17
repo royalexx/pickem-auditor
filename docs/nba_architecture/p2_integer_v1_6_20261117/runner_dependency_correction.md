@@ -1,0 +1,3 @@
+# Latest P1 producer dependency correction
+
+The first exact-P1 `542d91a7d6c134441ce8cb9bb54312095b186833` interoperability command at P2 `7f5c57ffcd5ba855facd420a72a69dde74c93f4b` failed because the disposable runner omitted P1's new `p1_integer_accounting.py` module. `before_latest_p1_dependency.log` preserves the full error. This was a harness materialization error, not a P1/P2 statistical failure. The runner now inspects the exact P1 tree and copies/hashes this dependency when present. Older pinned P1 trees without the module retain their original dependency graph. `after_latest_p1_dependency.json` preserves successful actual-producer execution after the fix; no source pin or validation was bypassed.

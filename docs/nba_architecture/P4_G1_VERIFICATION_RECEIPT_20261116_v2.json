@@ -1,0 +1,126 @@
+{
+  "schema": "NBA-P4-G1-EngineeringReceipt/1.1.0",
+  "ticket": "P4",
+  "status": "TESTED_SYNTHETIC_ONLY_G1_INDEPENDENT_SIGNOFF_PENDING",
+  "supersedes_receipt_path": "docs/nba_architecture/P4_G1_VERIFICATION_RECEIPT_20261116.json",
+  "supersedes_receipt_git_blob_sha1": "8ccfcb12d5ff25d9d88bb5a6867ef009640fbbcb",
+  "original_frozen_receipt_preserved": true,
+  "g0_contract_version": "nba-sojc-contract/2.0.0",
+  "g0_base_commit": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "exact_tested_code_commit": "8249496b6ad2f6cb3aec64377dfbfbeaed4195f7",
+  "branch": "research/nba-p4-j-family-g1-20261116",
+  "draft_pr": "https://github.com/royalexx/pickem-auditor/pull/164",
+  "source_type": "synthetic_G0_v2_fixtures_and_unchanged_WS5_v0.1",
+  "run": {
+    "deepnote_project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "notebook_id": "47e9fac270af4599b8f767d535b7e0fe",
+    "detached_read_only_run_id": "08c071f8-6704-4452-b5aa-675cb06de248",
+    "status": "SUCCESS",
+    "machine": "CPU Basic",
+    "python": "3.12.16",
+    "numpy": "1.26.4",
+    "scipy": "1.15.3",
+    "jsonschema": "4.23.0"
+  },
+  "tests": {
+    "p4_adversarial": {
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 4.105
+    },
+    "g0_plus_p4": {
+      "passed": 287,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 10.691
+    },
+    "new_overtime_tests": [
+      "team_265_player_minutes_in_one_overtime_five_on_court",
+      "wrong_G_O_overtime_source_SHA_rejected",
+      "played_conditional_minutes_law_joint_marginal_incompatible_rejected"
+    ],
+    "file_sha256": {
+      "v2/nba_joint/p4.py": "02368ba14dac206657ad75dee821735dc68f636cad7ceb1c75e4fda926a74a30",
+      "tests/nba_architecture/test_p4_joint.py": "d52773640df6ae1a7739f08b2559595ccc7d0a1265374c3d3e8b8e5682dd3712"
+    }
+  },
+  "benchmark": {
+    "seed": 42,
+    "variants": [
+      "J0",
+      "J1",
+      "J2"
+    ],
+    "scenario_counts": [
+      8,
+      32,
+      64
+    ],
+    "12_synthetic_players_two_teams": true,
+    "64_scenario_player_draws_per_variant": 768,
+    "64_scenario_wall_seconds": {
+      "J0": 0.241076004000206,
+      "J1": 0.25934425800005556,
+      "J2": 0.24007486300251912
+    },
+    "64_scenario_hashes": {
+      "J0": "7da154446346a9ab447c214b92dd9356b5bd914aa90e355dda8af6bfdb4df3f3",
+      "J1": "9182280e2a6e5e72d0f3c90a668c2068dcc651e650275c1131aa6f122ea85325",
+      "J2": "97728a09da9c0df8e8063a85c62f285438540e7fb41948cb4d56ae0b9eafb005"
+    },
+    "full_benchmark_receipt_sha256": "81191b4b5971a5afad122806b6adaf590bf452c87bb7bd3458bcf95b649b971f",
+    "reported_peak_process_rss_kib": 252156,
+    "all_five_on_court": true,
+    "limitations": "Single tiny synthetic game; no calibrated numerical convergence claim or all-slate runtime extrapolation"
+  },
+  "original_WS5_engine_canary": {
+    "direct_native_engine_unchanged": true,
+    "simulations": 8,
+    "team_scenarios": 16,
+    "player_scenarios": 144,
+    "invariant_violations": 0,
+    "scenario_output_sha256": "3d6cf50a46c3f5c8bc55fdaa18e8a8deab0e315838026c97ff015fed3319a8b9",
+    "cli_transitive_WS1_source_package": "MISSING_FROM_P4_BRANCH_INTENTIONAL_OWNER_P1"
+  },
+  "failed_runs_retained": [
+    {
+      "run_id": "db14900b-e9e5-475b-887b-68c866c4623b",
+      "reason": "SPARSE_CHECKOUT_HARNESS_SYNTAX"
+    },
+    {
+      "run_id": "4f9492c7-a6d8-48e9-b190-c25dd68f40b8",
+      "reason": "LEGACY_CLI_P1_TRANSITIVE_WS1_IMPORT_MISSING",
+      "p4_tests": 284,
+      "bench_pass": true
+    },
+    {
+      "run_id": "a13e656b-10ab-48f0-bd61-74116ab94a9e",
+      "reason": "NEGATIVE_ADVERSARIAL_OT_FIXTURE_WRONG_MARGINAL_LAW_WEIGHT_AND_MISIDENTIFIED_FIRST_FAIL_CODE",
+      "p4_tests": 19,
+      "failed": 2,
+      "fix_commit": "8249496b6ad2f6cb3aec64377dfbfbeaed4195f7"
+    }
+  ],
+  "no_claims": [
+    "not independent P6 G1 acceptance",
+    "not trained S or O probability law",
+    "not real-game accuracy",
+    "not sportsbook edge",
+    "not G2",
+    "not promotion",
+    "not release"
+  ],
+  "dependencies": [
+    "P1 asof source adapter and original receipts",
+    "P2 S fitted conditional laws",
+    "P3 O participation role and minutes forecasts",
+    "P5 calibration and proper scores separate",
+    "P6 independent mathematical adversarial review"
+  ],
+  "production_touched": false,
+  "collectors_touched": false,
+  "weights_fitted": false,
+  "historical_games_scored": false,
+  "merged": false
+}

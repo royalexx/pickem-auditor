@@ -1,0 +1,10 @@
+{
+  "owner_base_sha": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+  "classification": "INTERFACE_EXPORT_MISSING",
+  "command": "python -m unittest tests.nba_architecture.test_p1_native_handoff_20261117 -v",
+  "exit": 1,
+  "raw_output_sha256": "ce749f6311d837455ee5216b699c6ade9ebfd566f067dcd8ec99920118303613",
+  "permanent_regression_raw_sha256": "3b8649886cda8b0a6af62c8363267954bb0107eac5790011694843d4e23f2ee7",
+  "test_source_new_additive": true,
+  "historical_negative_probe_unchanged": true
+}

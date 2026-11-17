@@ -1,0 +1,12 @@
+{
+  "schema": "nba-p3-append-only-documentation-receipt/1.0.0",
+  "owner_sha": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+  "document": "docs/nba_architecture/P3_BOUNDARY_HANDOFF_20261116.md",
+  "exact_document_raw_sha256": "a09c78b82467efbdcdf4865e4921baba48ed46305814f59f3dfad44f4478dd15",
+  "original_receipt": "docs/nba_architecture/p3_boundary_review_20261116/execution_receipt.json",
+  "original_receipt_raw_sha256": "03456450da0c634df5c084c4e33a192e4270568cbadf87192c958f2141ab6f3f",
+  "original_document_digest_before_receipt_append": "c79eaaac5547596a265a504a9023f73b6ea6c6d86e5c4198a14155266be451ff",
+  "version_relationship": "The original receipt binds the handoff before its Exact owner execution receipt Markdown append. This additive receipt binds the complete unchanged document at the recorded owner head. The original receipt and document are preserved byte-for-byte; no executable test or acceptance claim is revised.",
+  "independent_reviewer": "P6 pending",
+  "independently_accepted": false
+}

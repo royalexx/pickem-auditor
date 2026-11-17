@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/workspace/work/p5/scripts/nba_p5_native_handoff_verify_v1.py", line 176, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/work/p5/scripts/nba_p5_native_handoff_verify_v1.py", line 64, in main
+    from v2.nba_o_family import build_opportunity
+  File "/workspace/work/p5/work/native-v1-attempt2/sources/p3/v2/nba_o_family.py", line 18, in <module>
+    from v2.nba_opportunity import MinuteLaw, capped_allocation, lineup_segments
+ModuleNotFoundError: No module named 'v2.nba_opportunity'

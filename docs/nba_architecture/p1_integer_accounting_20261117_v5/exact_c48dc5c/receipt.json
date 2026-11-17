@@ -1,0 +1,124 @@
+{
+  "schema": "nba-p1-native-handoff-execution/1.0.0",
+  "owner_sha": "c48dc5cb9127e3e98f5a749208ca6c12574139b7",
+  "qa_sha": "ddc60a83f6c9a2b863f5e7a44823bffa3b01e048",
+  "accepted_g0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "inherited_g0_blobs_equal": {
+    "v2/nba_architecture/v2_contracts.py": true,
+    "v2/nba_architecture/exposure_v2.py": true,
+    "v2/nba_architecture/families_v2.py": true,
+    "tests/nba_architecture/test_v2_contracts.py": true
+  },
+  "original_probe_sha256": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52",
+  "executions": [
+    {
+      "name": "architecture",
+      "owner_sha": "c48dc5cb9127e3e98f5a749208ca6c12574139b7",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        377
+      ],
+      "seconds": 10.031582073999743,
+      "log": "architecture.log",
+      "raw_sha256": "542882ad4e97830b0d19af30285ded2cd98e0613cb5739346c45517479800dca"
+    },
+    {
+      "name": "preflight",
+      "owner_sha": "c48dc5cb9127e3e98f5a749208ca6c12574139b7",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_nba_p1_source_preflight.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        9
+      ],
+      "seconds": 0.17509442199980185,
+      "log": "preflight.log",
+      "raw_sha256": "d4e00c88806b6ae06510d9acd807ed08cebdc89e3115cb71c348ba4bef8a0a5a"
+    },
+    {
+      "name": "P6_controls",
+      "owner_sha": "c48dc5cb9127e3e98f5a749208ca6c12574139b7",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p1_integer_full_exact_20261117/controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "seconds": 0.7943054379998102,
+      "log": "P6_controls.log",
+      "raw_sha256": "a81de9f0921f9fd040d66b50d84eee4f6ea2c02f25905d982d3312140f39d546"
+    },
+    {
+      "name": "nba_p6_g1_owner_negative_probes_20261116.py",
+      "owner_sha": "c48dc5cb9127e3e98f5a749208ca6c12574139b7",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p1_integer_full_exact_20261117/qa_tools/nba_p6_g1_owner_negative_probes_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "seconds": 0.1798503019999771,
+      "log": "nba_p6_g1_owner_negative_probes_20261116.py.log",
+      "raw_sha256": "113e7ceebbd638dbbb4d94a8a640040958ed85f9ed6248ef79e1709c0c66a1e0"
+    },
+    {
+      "name": "nba_p6_g1_remediation_adversarial_v3_20261116.py",
+      "owner_sha": "c48dc5cb9127e3e98f5a749208ca6c12574139b7",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p1_integer_full_exact_20261117/qa_tools/nba_p6_g1_remediation_adversarial_v3_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "seconds": 0.14183271799993236,
+      "log": "nba_p6_g1_remediation_adversarial_v3_20261116.py.log",
+      "raw_sha256": "9715debd3f94fab4f98bcef6be35eeac1ca5424f6ba6ce1d298afb92698bc361"
+    },
+    {
+      "name": "nba_p6_g1_green_after_fix_v3_20261116.py",
+      "owner_sha": "c48dc5cb9127e3e98f5a749208ca6c12574139b7",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p1_integer_full_exact_20261117/qa_tools/nba_p6_g1_green_after_fix_v3_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "seconds": 0.2109629829997175,
+      "log": "nba_p6_g1_green_after_fix_v3_20261116.py.log",
+      "raw_sha256": "291dcee9188b5c7f6f4e995e206491c3a4119ac848e7e180b143c0d4015af5b7"
+    }
+  ],
+  "producer_source_sha256": "c9567c367ba72fcae7c1229c6bda7baf949223d7389d6e8715a2b12f917b6c39",
+  "permanent_regression_sha256": "ab29017d2d470edef4e4ee7a6b84cf790194efd6915933ed3eee0efd986d25fc",
+  "source_admission": "BLOCKED",
+  "independent_acceptance": "NOT_AWARDED_BY_OWNER",
+  "historical_fitting_or_evaluation_performed": false
+}

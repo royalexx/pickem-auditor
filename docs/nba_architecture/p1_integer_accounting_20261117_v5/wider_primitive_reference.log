@@ -1,0 +1,15 @@
+test_cross_shooting_and_combination_subsets (tests.nba_architecture.test_p1_integer_accounting_20261117.IntegerAccounting.test_cross_shooting_and_combination_subsets) ... ok
+test_exhaustive_rebound_assist_combo_subsets (tests.nba_architecture.test_p1_integer_accounting_20261117.IntegerAccounting.test_exhaustive_rebound_assist_combo_subsets) ... ok
+test_exhaustive_shooting_subsets_against_primitive_enumeration (tests.nba_architecture.test_p1_integer_accounting_20261117.IntegerAccounting.test_exhaustive_shooting_subsets_against_primitive_enumeration) ... ok
+test_original_impossible_point_parity_and_combination_half_integer (tests.nba_architecture.test_p1_integer_accounting_20261117.IntegerAccounting.test_original_impossible_point_parity_and_combination_half_integer) ... ok
+test_valid_sparse_integer_completions_and_huge_counts (tests.nba_architecture.test_p1_integer_accounting_20261117.IntegerAccounting.test_valid_sparse_integer_completions_and_huge_counts) ... ok
+test_all_field_subsets_of_small_complete_shooting_primitives (tests.nba_architecture.test_p1_integer_accounting_20261117.WiderPrimitiveReferences.test_all_field_subsets_of_small_complete_shooting_primitives) ... ok
+test_every_integer_point_under_small_rectangular_attempt_caps (tests.nba_architecture.test_p1_integer_accounting_20261117.WiderPrimitiveReferences.test_every_integer_point_under_small_rectangular_attempt_caps) ... ok
+test_every_integer_point_under_small_triangular_attempt_caps (tests.nba_architecture.test_p1_integer_accounting_20261117.WiderPrimitiveReferences.test_every_integer_point_under_small_triangular_attempt_caps) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 2.663s
+
+OK
+rectangular exact integer reference assignments: 37500
+triangular exact integer reference assignments: 30662

@@ -1,0 +1,106 @@
+[
+  {
+    "name": "architecture",
+    "owner_sha": "18dbfe620c694f00f41dbe2fe0e1efc839867ab6",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_architecture",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      342
+    ],
+    "seconds": 8.061267688000044,
+    "log": "docs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/architecture.log",
+    "raw_sha256": "b367d2eae088085c036b0471eccb9f1be1d323e186063b795ecdec99fc221be7"
+  },
+  {
+    "name": "preflight",
+    "owner_sha": "18dbfe620c694f00f41dbe2fe0e1efc839867ab6",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_nba_p1_source_preflight.py",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      9
+    ],
+    "seconds": 0.18137119300001814,
+    "log": "docs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/preflight.log",
+    "raw_sha256": "054c35b487f04398e7c92954ae48feb9713235a1a4271d0cd6a94ae83ee72874"
+  },
+  {
+    "name": "p6_controls",
+    "owner_sha": "18dbfe620c694f00f41dbe2fe0e1efc839867ab6",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/workspace/work/baseline_v4/controls",
+      "-v"
+    ],
+    "exit": 0,
+    "tests": [
+      83
+    ],
+    "seconds": 0.8915442250000751,
+    "log": "docs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/p6_controls.log",
+    "raw_sha256": "c78f57afa61864eccfd4912183e77070d0a13e9de55089dd036b57d406ce1d05"
+  },
+  {
+    "name": "immutable_probe",
+    "owner_sha": "18dbfe620c694f00f41dbe2fe0e1efc839867ab6",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/work/repo/scripts/nba_p6_g1_owner_negative_probes_20261116.py",
+      "P1"
+    ],
+    "exit": 0,
+    "tests": [],
+    "seconds": 0.2262033119999387,
+    "log": "docs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/immutable_probe.log",
+    "raw_sha256": "113e7ceebbd638dbbb4d94a8a640040958ed85f9ed6248ef79e1709c0c66a1e0"
+  },
+  {
+    "name": "v3_controls",
+    "owner_sha": "18dbfe620c694f00f41dbe2fe0e1efc839867ab6",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py",
+      "P1"
+    ],
+    "exit": 0,
+    "tests": [],
+    "seconds": 0.17428052999991905,
+    "log": "docs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/v3_controls.log",
+    "raw_sha256": "58081df361106b83b2188730dd742da0a621dbc82185171c901d9b2c566cd758"
+  },
+  {
+    "name": "green_after_fix",
+    "owner_sha": "18dbfe620c694f00f41dbe2fe0e1efc839867ab6",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/work/repo/scripts/nba_p6_g1_green_after_fix_v3_20261116.py",
+      "P1"
+    ],
+    "exit": 0,
+    "tests": [],
+    "seconds": 0.2657867829999532,
+    "log": "docs/nba_architecture/p1_native_handoff_20261117_v1/exact_18dbfe6/green_after_fix.log",
+    "raw_sha256": "291dcee9188b5c7f6f4e995e206491c3a4119ac848e7e180b143c0d4015af5b7"
+  }
+]

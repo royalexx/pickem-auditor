@@ -1,0 +1,11 @@
+# P2 native-source precision repair 1.3
+
+Authority: PA-V25-MASTER-2026-11-09 / v1.1. This additive receipt follows P2 head `2864cca51c12d5722502ef9aa43c4b05da620cf8`; its previous green receipts and PR comment remain unchanged. No accepted G0 files or S model/conditional integration code change.
+
+Owner pre-P6 adversarial inspection found **F-P2-04** in the new native P1 consumer: it converted raw exact decimal minute evidence to a float before physical boundary comparisons. Source `PT48M0.0000000000000001S` could round to 48 and pass structural checking despite exceeding regulation. Conversely, positive-stat source `PT0M29.9999999999999999S` could round to 0.5 minutes and incorrectly reject a legitimate displayed zero. The first case remained source-admission BLOCKED; the incorrect claim was structural physics consistency, not authentic admission.
+
+The exact failing input/output at `2864cca` is preserved in `p2_precision_v1_3_20261117/before_native_precision.json`. The new three-case red execution is preserved in `before_regression.log`, including one false acceptance, one false rejection and the valid cap-equality control. The final permanent regression adds exact half-minute and display-rounding boundary controls.
+
+`p1_native._seconds` now parses original raw decimal strings as exact rational numbers. Individual duration caps, strict subminute `< 0.5`, and displayed-versus-exact rounding tolerances compare those exact values before float serialization. This avoids both binary float rounding and a finite Decimal arithmetic context erasing tiny fractions. The transported exact-minute numeric field is still compared with the explicit float serialization of raw exact evidence; that field never replaces original bytes as physical authority. Raw original and ancestor bytes remain preserved. No true-zero positive credits become DNP and no statistics are removed.
+
+Reproduce with `python -m unittest tests.nba_s_family.test_p1_native_v1 -v`; the S suite also retains every original cutoff, duration, law, source, identity and scenario test. Source admission, original availability, outcome release, role and admissible existing fitted-prior requirements remain BLOCKED. This is an owner repair and test result, not independent G1 acceptance. G2, historical fitting/evaluation, NUTS, production, schedule and Tier actions remain closed.

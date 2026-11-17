@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "<string>", line 13, in <module>
+  File "/tmp/p2-native-interop-0tx2dddu/v2/nba_architecture/p1_handoff.py", line 58, in export_prior_game
+    exposure=prior_game_exposure(data,bundle)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/p2-native-interop-0tx2dddu/v2/nba_architecture/p1_evidence.py", line 218, in prior_game_exposure
+    d, exact, status = adjudicate_player(data, bundle)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/p2-native-interop-0tx2dddu/v2/nba_architecture/p1_evidence.py", line 141, in adjudicate_player
+    _stats(data['stats'])
+  File "/tmp/p2-native-interop-0tx2dddu/v2/nba_architecture/p1_history.py", line 124, in _stats
+    from .p1_integer_accounting import partial_counts_feasible
+ModuleNotFoundError: No module named 'v2.nba_architecture.p1_integer_accounting'

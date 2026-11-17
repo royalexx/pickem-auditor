@@ -1,0 +1,9 @@
+test_exhaustive_cross_shooting_and_combo_assignments (tests.nba_c.test_p5_partial_integer_counts_v1.NativeIntegerCountReferencesV1.test_exhaustive_cross_shooting_and_combo_assignments) ... ok
+test_exhaustive_rebound_and_combination_partial_assignments (tests.nba_c.test_p5_partial_integer_counts_v1.NativeIntegerCountReferencesV1.test_exhaustive_rebound_and_combination_partial_assignments) ... ok
+test_exhaustive_shooting_partial_assignments (tests.nba_c.test_p5_partial_integer_counts_v1.NativeIntegerCountReferencesV1.test_exhaustive_shooting_partial_assignments) ... ok
+test_parity_combination_and_component_lower_bound_attacks (tests.nba_c.test_p5_partial_integer_counts_v1.NativeIntegerCountReferencesV1.test_parity_combination_and_component_lower_bound_attacks) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 8.457s
+
+OK

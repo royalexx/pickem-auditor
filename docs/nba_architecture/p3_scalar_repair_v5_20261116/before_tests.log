@@ -1,0 +1,91 @@
+test_bool_float_and_invalid_count_types_rejected (test_p3_native_scalar_v5.NativeScalarControls.test_bool_float_and_invalid_count_types_rejected) ... 
+  test_bool_float_and_invalid_count_types_rejected (test_p3_native_scalar_v5.NativeScalarControls.test_bool_float_and_invalid_count_types_rejected) (key='observed_candidates', value=True, type='bool') ... FAIL
+  test_bool_float_and_invalid_count_types_rejected (test_p3_native_scalar_v5.NativeScalarControls.test_bool_float_and_invalid_count_types_rejected) (key='observed_candidates', value=1.0, type='float') ... FAIL
+  test_bool_float_and_invalid_count_types_rejected (test_p3_native_scalar_v5.NativeScalarControls.test_bool_float_and_invalid_count_types_rejected) (key='admitted', value=False, type='bool') ... FAIL
+  test_bool_float_and_invalid_count_types_rejected (test_p3_native_scalar_v5.NativeScalarControls.test_bool_float_and_invalid_count_types_rejected) (key='admitted', value=0.0, type='float') ... FAIL
+test_count_shape_rejects_missing_extra_and_nonobject (test_p3_native_scalar_v5.NativeScalarControls.test_count_shape_rejects_missing_extra_and_nonobject) ... ok
+test_exact_bool_and_null_eligibility_positive (test_p3_native_scalar_v5.NativeScalarControls.test_exact_bool_and_null_eligibility_positive) ... ok
+test_exact_nonnegative_integer_count_positive (test_p3_native_scalar_v5.NativeScalarControls.test_exact_nonnegative_integer_count_positive) ... ok
+test_numeric_eligibility_raw_assertion_cannot_claim_bool (test_p3_native_scalar_v5.NativeScalarControls.test_numeric_eligibility_raw_assertion_cannot_claim_bool) ... ok
+test_numeric_eligibility_summary_cannot_equal_raw_bool (test_p3_native_scalar_v5.NativeScalarControls.test_numeric_eligibility_summary_cannot_equal_raw_bool) ... 
+  test_numeric_eligibility_summary_cannot_equal_raw_bool (test_p3_native_scalar_v5.NativeScalarControls.test_numeric_eligibility_summary_cannot_equal_raw_bool) (value=0, type='int') ... FAIL
+  test_numeric_eligibility_summary_cannot_equal_raw_bool (test_p3_native_scalar_v5.NativeScalarControls.test_numeric_eligibility_summary_cannot_equal_raw_bool) (value=0.0, type='float') ... FAIL
+  test_numeric_eligibility_summary_cannot_equal_raw_bool (test_p3_native_scalar_v5.NativeScalarControls.test_numeric_eligibility_summary_cannot_equal_raw_bool) (value=1, type='int') ... FAIL
+  test_numeric_eligibility_summary_cannot_equal_raw_bool (test_p3_native_scalar_v5.NativeScalarControls.test_numeric_eligibility_summary_cannot_equal_raw_bool) (value=1.0, type='float') ... FAIL
+
+======================================================================
+FAIL: test_bool_float_and_invalid_count_types_rejected (test_p3_native_scalar_v5.NativeScalarControls.test_bool_float_and_invalid_count_types_rejected) (key='observed_candidates', value=True, type='bool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p3/tests/nba_architecture/test_p3_native_scalar_v5.py", line 45, in test_bool_float_and_invalid_count_types_rejected
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_bool_float_and_invalid_count_types_rejected (test_p3_native_scalar_v5.NativeScalarControls.test_bool_float_and_invalid_count_types_rejected) (key='observed_candidates', value=1.0, type='float')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p3/tests/nba_architecture/test_p3_native_scalar_v5.py", line 45, in test_bool_float_and_invalid_count_types_rejected
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_bool_float_and_invalid_count_types_rejected (test_p3_native_scalar_v5.NativeScalarControls.test_bool_float_and_invalid_count_types_rejected) (key='admitted', value=False, type='bool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p3/tests/nba_architecture/test_p3_native_scalar_v5.py", line 45, in test_bool_float_and_invalid_count_types_rejected
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_bool_float_and_invalid_count_types_rejected (test_p3_native_scalar_v5.NativeScalarControls.test_bool_float_and_invalid_count_types_rejected) (key='admitted', value=0.0, type='float')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p3/tests/nba_architecture/test_p3_native_scalar_v5.py", line 45, in test_bool_float_and_invalid_count_types_rejected
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_numeric_eligibility_summary_cannot_equal_raw_bool (test_p3_native_scalar_v5.NativeScalarControls.test_numeric_eligibility_summary_cannot_equal_raw_bool) (value=0, type='int')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p3/tests/nba_architecture/test_p3_native_scalar_v5.py", line 71, in test_numeric_eligibility_summary_cannot_equal_raw_bool
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_numeric_eligibility_summary_cannot_equal_raw_bool (test_p3_native_scalar_v5.NativeScalarControls.test_numeric_eligibility_summary_cannot_equal_raw_bool) (value=0.0, type='float')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p3/tests/nba_architecture/test_p3_native_scalar_v5.py", line 71, in test_numeric_eligibility_summary_cannot_equal_raw_bool
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_numeric_eligibility_summary_cannot_equal_raw_bool (test_p3_native_scalar_v5.NativeScalarControls.test_numeric_eligibility_summary_cannot_equal_raw_bool) (value=1, type='int')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p3/tests/nba_architecture/test_p3_native_scalar_v5.py", line 71, in test_numeric_eligibility_summary_cannot_equal_raw_bool
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_numeric_eligibility_summary_cannot_equal_raw_bool (test_p3_native_scalar_v5.NativeScalarControls.test_numeric_eligibility_summary_cannot_equal_raw_bool) (value=1.0, type='float')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p3/tests/nba_architecture/test_p3_native_scalar_v5.py", line 71, in test_numeric_eligibility_summary_cannot_equal_raw_bool
+    with self.assertRaises(ContractError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.104s
+
+FAILED (failures=8)
