@@ -1,0 +1,20 @@
+test_root_discovery_imports_all_canonical_nba_tests_once (test_nba_root_discovery_v4.DiscoveryCompatibilityTests.test_root_discovery_imports_all_canonical_nba_tests_once) ... FAIL
+
+======================================================================
+FAIL: test_root_discovery_imports_all_canonical_nba_tests_once (test_nba_root_discovery_v4.DiscoveryCompatibilityTests.test_root_discovery_imports_all_canonical_nba_tests_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/g1_exact_assembly_v4/tests/test_nba_root_discovery_v4.py", line 25, in test_root_discovery_imports_all_canonical_nba_tests_once
+    self.assertEqual(result['errors'],[])
+AssertionError: Lists differ: ['Failed to import test module: nba_archit[695 chars]'\n'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'Failed to import test module: nba_architecture.test_p3_native_scalar_v5\nTraceback (most recent call last):\n  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path\n    module = self._get_module_from_name(name)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name\n    __import__(name)\n  File "/workspace/work/g1_exact_assembly_v4/tests/nba_architecture/test_p3_native_scalar_v5.py", line 7, in <module>\n    from test_p3_p1_native_v4 import native_fixture\nModuleNotFoundError: No module named \'test_p3_p1_native_v4\'\n'
+
+Diff is 838 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 1 test in 1.315s
+
+FAILED (failures=1)

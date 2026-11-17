@@ -1,0 +1,18 @@
+{
+  "assembly_sha": "ededd02678d0bbea092ca8aab894d7cc2ec280cd",
+  "p0_sha": "d84cc84652fee0686db8dcb387041e33b87b6ede",
+  "command": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_nba_root_discovery_v4.py",
+    "-v"
+  ],
+  "exit": 1,
+  "raw_sha256": "5a1198dca5702a921f6b4132fda3ec17079741137757f9e00e4e671dc53ac817",
+  "failure": "Latest P3 scalar suite imports the canonical native_fixture sibling helper."
+}

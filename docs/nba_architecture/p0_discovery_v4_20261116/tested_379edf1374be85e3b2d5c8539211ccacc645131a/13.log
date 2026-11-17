@@ -1,0 +1,8 @@
+test_header_and_auth_without_query_secret (test_odds_quota_guard.QuotaTests.test_header_and_auth_without_query_secret) ... ok
+test_insufficient_requests_block_bulk (test_odds_quota_guard.QuotaTests.test_insufficient_requests_block_bulk) ... ok
+test_unavailable_balance_never_fetches (test_odds_quota_guard.QuotaTests.test_unavailable_balance_never_fetches) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.002s
+
+OK
