@@ -1,0 +1,69 @@
+{
+  "schema": "NBA_G1_NEW_FINDINGS_V4",
+  "independent_acceptance": false,
+  "findings": [
+    {
+      "id": "F-P1-NATIVE-01",
+      "owner": "P1",
+      "classification": "INTERFACE_SOURCE_RETENTION_DEFECT",
+      "condition": "One-shot source iterator was exhausted before transport, losing raw source population.",
+      "red_sha": "626a288c4dc9bef5e71cc8ba15d71de98ac1c151",
+      "minimal_requirement": "Reject unsupported one-shot source iterators; valid retained list/tuple source population survives.",
+      "disposition": "OWNER_REPAIR_AND_PRE_P6_VERIFICATION_REQUIRED"
+    },
+    {
+      "id": "F-P1-NATIVE-02",
+      "owner": "P1",
+      "classification": "UNADMITTED_CLOCK_METADATA_OVERSTATEMENT",
+      "condition": "Unadmitted adapter assertion clock was presented as first-defensible availability.",
+      "red_sha": "18dbfe620c694f00f41dbe2fe0e1efc839867ab6",
+      "minimal_requirement": "Keep first-defensible availability null and preserve asserted clock separately.",
+      "disposition": "OWNER_REPAIR_AND_PRE_P6_VERIFICATION_REQUIRED"
+    },
+    {
+      "id": "F-P2-03",
+      "owner": "P2",
+      "classification": "ARTIFACT_TRAINING_CHRONOLOGY_DEFECT",
+      "condition": "Reserialized fitted artifact accepted training row release/game start beyond its own cutoff, before freeze.",
+      "red_sha": "61d7fbf",
+      "minimal_requirement": "Revalidate every training row against actual artifact cutoff in both public interfaces.",
+      "disposition": "OWNER_REPAIR_AND_PRE_P6_VERIFICATION_REQUIRED"
+    },
+    {
+      "id": "F-P2-04",
+      "owner": "P2",
+      "classification": "RAW_DURATION_PRECISION_DEFECT",
+      "condition": "Raw duration infinitesimally over legal cap rounded down during float conversion and passed structural native inspection.",
+      "red_sha": "2864cca51c12d5722502ef9aa43c4b05da620cf8",
+      "minimal_requirement": "Make physical and rounded-subminute boundary decisions with original Decimal exposure before serialization.",
+      "disposition": "OWNER_REPAIR_AND_PRE_P6_VERIFICATION_REQUIRED"
+    },
+    {
+      "id": "F-P5-03",
+      "owner": "P5",
+      "classification": "NESTED_CLOCK_AND_IDENTITY_VALIDATION_DEFECT",
+      "condition": "Nested list containers hid postfreeze source clocks and mismatched identities.",
+      "red_sha": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+      "minimal_requirement": "Use complete dict/list/tuple traversal for chronology, identity and outcome validation with cycles rejected.",
+      "disposition": "OWNER_REPAIR_AND_PRE_P6_VERIFICATION_REQUIRED"
+    },
+    {
+      "id": "F-P5-04",
+      "owner": "P5",
+      "classification": "TARGET_OUTCOME_ALIAS_QUARANTINE_GAP",
+      "condition": "Nested actual_attempts/realized_attempts/target_game_boxscore/target_game_result/final_roster were accepted.",
+      "red_sha": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+      "minimal_requirement": "Reject reviewed target/result aliases throughout forecast input containers while preserving prior and projected inputs.",
+      "disposition": "OWNER_REPAIR_AND_PRE_P6_VERIFICATION_REQUIRED"
+    },
+    {
+      "id": "F-P5-NATIVE-01",
+      "owner": "P5",
+      "classification": "NATIVE_OUTCOME_SUMMARY_AND_FORECAST_SOURCE_GAP",
+      "condition": "Inspection found omitted source-bound summary/null-clock checks and omitted target-game prior-source exclusion.",
+      "red_sha": "PENDING_OWNER_EXACT_REPRODUCTION",
+      "minimal_requirement": "Independently bind raw revision summaries and prohibit optimistic clocks/counts; quarantine target source bytes from forecast-only intake.",
+      "disposition": "OWNER_REPAIR_AND_PRE_P6_VERIFICATION_REQUIRED"
+    }
+  ]
+}

@@ -39,6 +39,16 @@ def main():
         r=subprocess.run(cmd,cwd=root,env=env,capture_output=True)
         raw=r.stdout+r.stderr;log=out/(label+'.log');log.write_bytes(raw)
         row=dict(label=label,owner_sha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root).decode().strip(),command=cmd,exit=r.returncode,tests=[int(x) for x in re.findall(rb'Ran (\d+) tests?',raw)],log=log.name,raw_sha256=hashlib.sha256(raw).hexdigest(),pass_check=r.returncode==0)
+        family=label.split('_')[0]
+        if label.endswith('_architecture'):
+            floor={'P1':331,'P2':267,'P3':306,'P4':321,'P5':267}[family]
+            row['pass_check'] &= len(row['tests'])==1 and row['tests'][0]>=floor
+        if label.endswith('_prior_P6'):
+            row['pass_check'] &= row['tests']==[83]
+        if label.endswith('_family'):
+            floor={'P2':30,'P5':48}[family]
+            row['pass_check'] &= len(row['tests'])==1 and row['tests'][0]>=floor
+        row['pass_check'] &= not bool(re.search(rb'OK \(.*(?:skipped|expected failures)',raw))
         rows.append(row);print(json.dumps(row),flush=True)
         return row
     def family(name):

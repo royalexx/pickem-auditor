@@ -1,0 +1,124 @@
+{
+  "schema": "nba-p1-native-handoff-execution/1.0.0",
+  "owner_sha": "a3263bc840c9973fddaaf9025358b7780d03664b",
+  "qa_sha": "ddc60a83f6c9a2b863f5e7a44823bffa3b01e048",
+  "accepted_g0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "inherited_g0_blobs_equal": {
+    "v2/nba_architecture/v2_contracts.py": true,
+    "v2/nba_architecture/exposure_v2.py": true,
+    "v2/nba_architecture/families_v2.py": true,
+    "tests/nba_architecture/test_v2_contracts.py": true
+  },
+  "original_probe_sha256": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52",
+  "executions": [
+    {
+      "name": "architecture",
+      "owner_sha": "a3263bc840c9973fddaaf9025358b7780d03664b",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        343
+      ],
+      "seconds": 8.646851857000001,
+      "log": "architecture.log",
+      "raw_sha256": "b41ba8c3f7d341b265887bddb49cd3082517d1afbcca8752bc60fce56715a436"
+    },
+    {
+      "name": "preflight",
+      "owner_sha": "a3263bc840c9973fddaaf9025358b7780d03664b",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_nba_p1_source_preflight.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        9
+      ],
+      "seconds": 0.14455736000002162,
+      "log": "preflight.log",
+      "raw_sha256": "f62850a14e2b017dcd85c9daf00451b0c45b8a85cd13bcdede4ed886ed11ff25"
+    },
+    {
+      "name": "P6_controls",
+      "owner_sha": "a3263bc840c9973fddaaf9025358b7780d03664b",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p1_final_exact_20261117/controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "seconds": 0.7260890899999595,
+      "log": "P6_controls.log",
+      "raw_sha256": "3c1b3e75f317b910087df3d29b8bd2b086b1b64d2f539da5643a692bfde8fbbe"
+    },
+    {
+      "name": "nba_p6_g1_owner_negative_probes_20261116.py",
+      "owner_sha": "a3263bc840c9973fddaaf9025358b7780d03664b",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p1_final_exact_20261117/qa_tools/nba_p6_g1_owner_negative_probes_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "seconds": 0.16625855400002365,
+      "log": "nba_p6_g1_owner_negative_probes_20261116.py.log",
+      "raw_sha256": "113e7ceebbd638dbbb4d94a8a640040958ed85f9ed6248ef79e1709c0c66a1e0"
+    },
+    {
+      "name": "nba_p6_g1_remediation_adversarial_v3_20261116.py",
+      "owner_sha": "a3263bc840c9973fddaaf9025358b7780d03664b",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p1_final_exact_20261117/qa_tools/nba_p6_g1_remediation_adversarial_v3_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "seconds": 0.1254062510000722,
+      "log": "nba_p6_g1_remediation_adversarial_v3_20261116.py.log",
+      "raw_sha256": "1cffea2fcdbe6de9274bae2187d16cd73e42a815ea5596c0c20059fbbf1f6ad8"
+    },
+    {
+      "name": "nba_p6_g1_green_after_fix_v3_20261116.py",
+      "owner_sha": "a3263bc840c9973fddaaf9025358b7780d03664b",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p1_final_exact_20261117/qa_tools/nba_p6_g1_green_after_fix_v3_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "seconds": 0.222794522000072,
+      "log": "nba_p6_g1_green_after_fix_v3_20261116.py.log",
+      "raw_sha256": "291dcee9188b5c7f6f4e995e206491c3a4119ac848e7e180b143c0d4015af5b7"
+    }
+  ],
+  "producer_source_sha256": "c9567c367ba72fcae7c1229c6bda7baf949223d7389d6e8715a2b12f917b6c39",
+  "permanent_regression_sha256": "ab29017d2d470edef4e4ee7a6b84cf790194efd6915933ed3eee0efd986d25fc",
+  "source_admission": "BLOCKED",
+  "independent_acceptance": "NOT_AWARDED_BY_OWNER",
+  "historical_fitting_or_evaluation_performed": false
+}
