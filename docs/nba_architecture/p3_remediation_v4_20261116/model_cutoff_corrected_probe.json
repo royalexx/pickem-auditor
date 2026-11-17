@@ -1,0 +1,644 @@
+{
+  "first_attempt_empty_stdout": "model_cutoff_before.json",
+  "first_attempt_stderr": "model_cutoff_first_probe_stderr.log",
+  "game_state": {
+    "content_hash": "2fb21b0b239a9bde45bdde4e14250fb31ca70ad2876bfdb1e0084ce31cea7e73",
+    "game_id": "espn:game:synthetic-2026",
+    "kind": "game_state",
+    "model": {
+      "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "code_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "model_id": "research:G:v2",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "version": "v2.fixture"
+    },
+    "rng_seed": 42,
+    "scenarios": [
+      {
+        "overtime_periods": 0,
+        "pace_regulation": 98.0,
+        "possessions_away": 100.0,
+        "possessions_home": 100.0,
+        "scenario_id": "synthetic:draw:0",
+        "score_state": "home_leading",
+        "weight": 0.4
+      },
+      {
+        "overtime_periods": 0,
+        "pace_regulation": 98.0,
+        "possessions_away": 100.0,
+        "possessions_home": 100.0,
+        "scenario_id": "synthetic:draw:1",
+        "score_state": "home_leading",
+        "weight": 0.6
+      }
+    ],
+    "schema": "nba-sojc-contract/2.0.0",
+    "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc"
+  },
+  "hypothesis_disproved": "late O model cutoff is already rejected by inherited checked validate_opportunity",
+  "implementation_raw_sha256": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e",
+  "observed": [
+    {
+      "model": {
+        "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "code_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "model_id": "research:G:v2",
+        "training_cutoff_at": "2026-11-16T19:59:59.999999Z",
+        "version": "v2.fixture"
+      },
+      "offset_microseconds": -1,
+      "result": "ACCEPTED"
+    },
+    {
+      "model": {
+        "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "code_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "model_id": "research:G:v2",
+        "training_cutoff_at": "2026-11-16T20:00:00Z",
+        "version": "v2.fixture"
+      },
+      "offset_microseconds": 0,
+      "result": "ACCEPTED"
+    },
+    {
+      "model": {
+        "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "code_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "model_id": "research:G:v2",
+        "training_cutoff_at": "2026-11-16T20:00:00.000001Z",
+        "version": "v2.fixture"
+      },
+      "offset_microseconds": 1,
+      "result": "MODEL_AFTER_DATA_CUTOFF"
+    }
+  ],
+  "owner_sha": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+  "pregame": {
+    "certification": "ORIGINAL_SOURCE_SHADOW",
+    "content_hash": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+    "decision_local_date": "2026-11-16",
+    "event_start_at": "2026-11-17T00:00:00Z",
+    "features": [
+      {
+        "asof_basis": "original_capture",
+        "available_at": "2026-11-16T22:40:00Z",
+        "kind": "schedule",
+        "measurement_units": "status",
+        "name": "scheduled_game",
+        "prior_game_date": null,
+        "source_id": "espn:source:pregame",
+        "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+        "target_game_outcome": false,
+        "value": "scheduled"
+      },
+      {
+        "asof_basis": "original_capture",
+        "available_at": "2026-11-16T22:40:00Z",
+        "kind": "schedule",
+        "measurement_units": "status",
+        "name": "home_team_id",
+        "prior_game_date": null,
+        "source_id": "espn:source:pregame",
+        "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+        "target_game_outcome": false,
+        "value": "espn:team:1"
+      }
+    ],
+    "forecast_at": "2026-11-16T23:01:00Z",
+    "game_id": "espn:game:synthetic-2026",
+    "historical_asof_limitations": null,
+    "input_freeze_at": "2026-11-16T23:00:00Z",
+    "kind": "pregame",
+    "original_offer_count": 1,
+    "players": [
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:10",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:11",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:12",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:13",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:14",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:15",
+        "team_id": "espn:team:1"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:20",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:21",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:22",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:23",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:24",
+        "team_id": "espn:team:2"
+      },
+      {
+        "availability": "unknown",
+        "eligibility_evidence": null,
+        "legal_eligibility": null,
+        "player_id": "espn:player:25",
+        "team_id": "espn:team:2"
+      }
+    ],
+    "schema": "nba-sojc-contract/2.0.0",
+    "source_profile": "original_prospective",
+    "sources": [
+      {
+        "asof_basis": "observed_before_freeze",
+        "asof_limitations": null,
+        "collector_observed_at": "2026-11-16T22:40:00Z",
+        "contains_target_final": false,
+        "historical_game_date": null,
+        "ingested_at": "2026-11-16T22:45:00Z",
+        "origin": "original_capture",
+        "provider_published_at": null,
+        "publication_evidence": "unknown",
+        "raw_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+        "retrieved_at": "2026-11-16T22:40:00Z",
+        "scope": "pregame_context",
+        "source_id": "espn:source:pregame",
+        "source_revision": 1,
+        "supersedes_receipt_sha256": null
+      },
+      {
+        "asof_basis": "observed_before_freeze",
+        "asof_limitations": null,
+        "collector_observed_at": "2026-11-16T22:40:00Z",
+        "contains_target_final": false,
+        "historical_game_date": null,
+        "ingested_at": "2026-11-16T22:45:00Z",
+        "origin": "original_capture",
+        "provider_published_at": null,
+        "publication_evidence": "unknown",
+        "raw_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "receipt_sha256": "a4b643883ce6e4fb01e33affc3c3f1fe2108da040df1e4bec0d6d86af9e28971",
+        "retrieved_at": "2026-11-16T22:40:00Z",
+        "scope": "original_offer",
+        "source_id": "book:source:original_quote",
+        "source_revision": 1,
+        "supersedes_receipt_sha256": null
+      }
+    ],
+    "team_ids": [
+      "espn:team:1",
+      "espn:team:2"
+    ],
+    "training_cutoff_at": "2026-11-16T20:00:00Z"
+  },
+  "priors": {
+    "espn:player:10": {
+      "available_at": "2026-11-16T23:00:00Z",
+      "early_exit_fraction": 0.2,
+      "early_exit_probability": 0.0,
+      "minutes_distribution": {
+        "family": "beta",
+        "mean": 24.0,
+        "ot_continuation": 0.25,
+        "ot_probability": 0.12,
+        "variance": 25.0
+      },
+      "participation_basis": "historical_prior",
+      "played_zero_probability": 0.0,
+      "possession_intensity": 1.0,
+      "role_states": [
+        {
+          "minutes_multiplier": 1.0,
+          "probability": 1.0
+        }
+      ],
+      "scenario_participation_prior": 1.0,
+      "source_bindings": [
+        "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd"
+      ],
+      "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+      "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+      "team_id": "espn:team:1",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "uncertainty_flags": [
+        "SYNTHETIC_ONLY"
+      ],
+      "usage_concentration": 30.0
+    },
+    "espn:player:11": {
+      "available_at": "2026-11-16T23:00:00Z",
+      "early_exit_fraction": 0.2,
+      "early_exit_probability": 0.0,
+      "minutes_distribution": {
+        "family": "beta",
+        "mean": 24.0,
+        "ot_continuation": 0.25,
+        "ot_probability": 0.12,
+        "variance": 25.0
+      },
+      "participation_basis": "historical_prior",
+      "played_zero_probability": 0.0,
+      "possession_intensity": 1.0,
+      "role_states": [
+        {
+          "minutes_multiplier": 1.0,
+          "probability": 1.0
+        }
+      ],
+      "scenario_participation_prior": 1.0,
+      "source_bindings": [
+        "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd"
+      ],
+      "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+      "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+      "team_id": "espn:team:1",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "uncertainty_flags": [
+        "SYNTHETIC_ONLY"
+      ],
+      "usage_concentration": 30.0
+    },
+    "espn:player:12": {
+      "available_at": "2026-11-16T23:00:00Z",
+      "early_exit_fraction": 0.2,
+      "early_exit_probability": 0.0,
+      "minutes_distribution": {
+        "family": "beta",
+        "mean": 24.0,
+        "ot_continuation": 0.25,
+        "ot_probability": 0.12,
+        "variance": 25.0
+      },
+      "participation_basis": "historical_prior",
+      "played_zero_probability": 0.0,
+      "possession_intensity": 1.0,
+      "role_states": [
+        {
+          "minutes_multiplier": 1.0,
+          "probability": 1.0
+        }
+      ],
+      "scenario_participation_prior": 1.0,
+      "source_bindings": [
+        "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd"
+      ],
+      "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+      "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+      "team_id": "espn:team:1",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "uncertainty_flags": [
+        "SYNTHETIC_ONLY"
+      ],
+      "usage_concentration": 30.0
+    },
+    "espn:player:13": {
+      "available_at": "2026-11-16T23:00:00Z",
+      "early_exit_fraction": 0.2,
+      "early_exit_probability": 0.0,
+      "minutes_distribution": {
+        "family": "beta",
+        "mean": 24.0,
+        "ot_continuation": 0.25,
+        "ot_probability": 0.12,
+        "variance": 25.0
+      },
+      "participation_basis": "historical_prior",
+      "played_zero_probability": 0.0,
+      "possession_intensity": 1.0,
+      "role_states": [
+        {
+          "minutes_multiplier": 1.0,
+          "probability": 1.0
+        }
+      ],
+      "scenario_participation_prior": 1.0,
+      "source_bindings": [
+        "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd"
+      ],
+      "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+      "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+      "team_id": "espn:team:1",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "uncertainty_flags": [
+        "SYNTHETIC_ONLY"
+      ],
+      "usage_concentration": 30.0
+    },
+    "espn:player:14": {
+      "available_at": "2026-11-16T23:00:00Z",
+      "early_exit_fraction": 0.2,
+      "early_exit_probability": 0.0,
+      "minutes_distribution": {
+        "family": "beta",
+        "mean": 24.0,
+        "ot_continuation": 0.25,
+        "ot_probability": 0.12,
+        "variance": 25.0
+      },
+      "participation_basis": "historical_prior",
+      "played_zero_probability": 0.0,
+      "possession_intensity": 1.0,
+      "role_states": [
+        {
+          "minutes_multiplier": 1.0,
+          "probability": 1.0
+        }
+      ],
+      "scenario_participation_prior": 1.0,
+      "source_bindings": [
+        "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd"
+      ],
+      "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+      "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+      "team_id": "espn:team:1",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "uncertainty_flags": [
+        "SYNTHETIC_ONLY"
+      ],
+      "usage_concentration": 30.0
+    },
+    "espn:player:15": {
+      "available_at": "2026-11-16T23:00:00Z",
+      "early_exit_fraction": 0.2,
+      "early_exit_probability": 0.0,
+      "minutes_distribution": {
+        "family": "beta",
+        "mean": 24.0,
+        "ot_continuation": 0.25,
+        "ot_probability": 0.12,
+        "variance": 25.0
+      },
+      "participation_basis": "historical_prior",
+      "played_zero_probability": 0.0,
+      "possession_intensity": 1.0,
+      "role_states": [
+        {
+          "minutes_multiplier": 1.0,
+          "probability": 1.0
+        }
+      ],
+      "scenario_participation_prior": 0.7,
+      "source_bindings": [
+        "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd"
+      ],
+      "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+      "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+      "team_id": "espn:team:1",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "uncertainty_flags": [
+        "SYNTHETIC_ONLY"
+      ],
+      "usage_concentration": 30.0
+    },
+    "espn:player:20": {
+      "available_at": "2026-11-16T23:00:00Z",
+      "early_exit_fraction": 0.2,
+      "early_exit_probability": 0.0,
+      "minutes_distribution": {
+        "family": "beta",
+        "mean": 24.0,
+        "ot_continuation": 0.25,
+        "ot_probability": 0.12,
+        "variance": 25.0
+      },
+      "participation_basis": "historical_prior",
+      "played_zero_probability": 0.0,
+      "possession_intensity": 1.0,
+      "role_states": [
+        {
+          "minutes_multiplier": 1.0,
+          "probability": 1.0
+        }
+      ],
+      "scenario_participation_prior": 1.0,
+      "source_bindings": [
+        "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd"
+      ],
+      "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+      "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+      "team_id": "espn:team:2",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "uncertainty_flags": [
+        "SYNTHETIC_ONLY"
+      ],
+      "usage_concentration": 30.0
+    },
+    "espn:player:21": {
+      "available_at": "2026-11-16T23:00:00Z",
+      "early_exit_fraction": 0.2,
+      "early_exit_probability": 0.0,
+      "minutes_distribution": {
+        "family": "beta",
+        "mean": 24.0,
+        "ot_continuation": 0.25,
+        "ot_probability": 0.12,
+        "variance": 25.0
+      },
+      "participation_basis": "historical_prior",
+      "played_zero_probability": 0.0,
+      "possession_intensity": 1.0,
+      "role_states": [
+        {
+          "minutes_multiplier": 1.0,
+          "probability": 1.0
+        }
+      ],
+      "scenario_participation_prior": 1.0,
+      "source_bindings": [
+        "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd"
+      ],
+      "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+      "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+      "team_id": "espn:team:2",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "uncertainty_flags": [
+        "SYNTHETIC_ONLY"
+      ],
+      "usage_concentration": 30.0
+    },
+    "espn:player:22": {
+      "available_at": "2026-11-16T23:00:00Z",
+      "early_exit_fraction": 0.2,
+      "early_exit_probability": 0.0,
+      "minutes_distribution": {
+        "family": "beta",
+        "mean": 24.0,
+        "ot_continuation": 0.25,
+        "ot_probability": 0.12,
+        "variance": 25.0
+      },
+      "participation_basis": "historical_prior",
+      "played_zero_probability": 0.0,
+      "possession_intensity": 1.0,
+      "role_states": [
+        {
+          "minutes_multiplier": 1.0,
+          "probability": 1.0
+        }
+      ],
+      "scenario_participation_prior": 1.0,
+      "source_bindings": [
+        "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd"
+      ],
+      "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+      "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+      "team_id": "espn:team:2",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "uncertainty_flags": [
+        "SYNTHETIC_ONLY"
+      ],
+      "usage_concentration": 30.0
+    },
+    "espn:player:23": {
+      "available_at": "2026-11-16T23:00:00Z",
+      "early_exit_fraction": 0.2,
+      "early_exit_probability": 0.0,
+      "minutes_distribution": {
+        "family": "beta",
+        "mean": 24.0,
+        "ot_continuation": 0.25,
+        "ot_probability": 0.12,
+        "variance": 25.0
+      },
+      "participation_basis": "historical_prior",
+      "played_zero_probability": 0.0,
+      "possession_intensity": 1.0,
+      "role_states": [
+        {
+          "minutes_multiplier": 1.0,
+          "probability": 1.0
+        }
+      ],
+      "scenario_participation_prior": 1.0,
+      "source_bindings": [
+        "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd"
+      ],
+      "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+      "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+      "team_id": "espn:team:2",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "uncertainty_flags": [
+        "SYNTHETIC_ONLY"
+      ],
+      "usage_concentration": 30.0
+    },
+    "espn:player:24": {
+      "available_at": "2026-11-16T23:00:00Z",
+      "early_exit_fraction": 0.2,
+      "early_exit_probability": 0.0,
+      "minutes_distribution": {
+        "family": "beta",
+        "mean": 24.0,
+        "ot_continuation": 0.25,
+        "ot_probability": 0.12,
+        "variance": 25.0
+      },
+      "participation_basis": "historical_prior",
+      "played_zero_probability": 0.0,
+      "possession_intensity": 1.0,
+      "role_states": [
+        {
+          "minutes_multiplier": 1.0,
+          "probability": 1.0
+        }
+      ],
+      "scenario_participation_prior": 1.0,
+      "source_bindings": [
+        "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd"
+      ],
+      "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+      "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+      "team_id": "espn:team:2",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "uncertainty_flags": [
+        "SYNTHETIC_ONLY"
+      ],
+      "usage_concentration": 30.0
+    },
+    "espn:player:25": {
+      "available_at": "2026-11-16T23:00:00Z",
+      "early_exit_fraction": 0.2,
+      "early_exit_probability": 0.0,
+      "minutes_distribution": {
+        "family": "beta",
+        "mean": 24.0,
+        "ot_continuation": 0.25,
+        "ot_probability": 0.12,
+        "variance": 25.0
+      },
+      "participation_basis": "historical_prior",
+      "played_zero_probability": 0.0,
+      "possession_intensity": 1.0,
+      "role_states": [
+        {
+          "minutes_multiplier": 1.0,
+          "probability": 1.0
+        }
+      ],
+      "scenario_participation_prior": 0.7,
+      "source_bindings": [
+        "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd"
+      ],
+      "source_receipt_sha256": "12b1566f15d8237b27f916c50c832ac00e4485b74664277d1e0d0f6880d523fd",
+      "source_snapshot_sha256": "dabbe67b06ef28a99c9367cbb0aa34a794a45b821d5e06cf94e23661a8fcdddc",
+      "team_id": "espn:team:2",
+      "training_cutoff_at": "2026-11-16T20:00:00Z",
+      "uncertainty_flags": [
+        "SYNTHETIC_ONLY"
+      ],
+      "usage_concentration": 30.0
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "all_pass": true,
+  "conditioning_distortion_reference": {
+    "acceptance": 0.15625,
+    "analytic_acceptance": 0.15625,
+    "conditional_point_rate_mean": 3.349999999999999,
+    "conditional_three_rate_mean": 0.6499999999999999,
+    "law": "X,Y iid Gamma(2,1); condition X>=3Y",
+    "pass": true,
+    "rejection_probability": 0.84375,
+    "unconditional_each_rate_mean": 2.0
+  },
+  "contract_acceptance": "PENDING_INDEPENDENT_REVIEW",
+  "exact_marginal_incompatibility": {
+    "Pr_3PM_ge_1": 0.6321205588285577,
+    "Pr_PTS_ge_3": 0.08030139707139418,
+    "mean_contradiction": "E[PTS]=1 < 3*E[3PM]=3",
+    "minimum_sum_of_marginal_TV_distortions": 0.5518191617571635,
+    "pass": true,
+    "physical_constraint": "PTS >= 3*3PM",
+    "point_law": "Poisson(1)",
+    "three_law": "Poisson(1)"
+  },
+  "finite_cap_tail_reference": {
+    "finite_count_cap": 5,
+    "law": "Poisson(1)",
+    "minimum_marginal_TV_distortion": 0.000594184817581693,
+    "pass": true
+  },
+  "mixed_poisson_references": [
+    {
+      "family": "S1",
+      "maximum_pmf_error": 4.2413295098242543e-13,
+      "pass": true,
+      "predictive_mean": 4.0975,
+      "predictive_variance": 10.202775,
+      "rate_mean": 0.11,
+      "rate_variance": 0.0044
+    },
+    {
+      "family": "S2",
+      "maximum_pmf_error": 3.3480163086352377e-16,
+      "pass": true,
+      "predictive_mean": 22.349999999999998,
+      "predictive_variance": 147.230625,
+      "rate_mean": 0.6,
+      "rate_variance": 0.09
+    }
+  ],
+  "physical_event_chronology": "NOT_ESTABLISHED_BY_THESE_REFERENCES",
+  "scope": "ANALYTICAL_SYNTHETIC_ONLY"
+}

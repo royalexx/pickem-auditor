@@ -1,0 +1,31 @@
+{
+  "cases": [
+    {
+      "input": {
+        "fg3a": 0,
+        "fga": 1,
+        "ftm": 0,
+        "points": 1
+      },
+      "result": "ACCEPTED"
+    },
+    {
+      "input": {
+        "pa": 3,
+        "pr": 3,
+        "ra": 3
+      },
+      "result": "ACCEPTED"
+    },
+    {
+      "input": {
+        "oreb": 4,
+        "pr": 3
+      },
+      "result": "ACCEPTED"
+    }
+  ],
+  "implementation_raw_sha256": "6d4fb76f7e8009fab56fbcfaaaf53581b634896f4e3a052032727541d2b02701",
+  "owner_sha": "f2f701c40a8fd2c2e8b4a6853c17c6e12e1b6fb9",
+  "scope": "SYNTHETIC_DIRECT_NATIVE_COUNT_VALIDATOR"
+}

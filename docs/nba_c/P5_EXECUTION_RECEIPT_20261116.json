@@ -1,0 +1,76 @@
+{
+  "record_type": "NBA_P5_C_FAMILY_G1_ENGINEERING_TEST_RECEIPT_V1",
+  "date": "2026-11-16",
+  "status": "AUTHOR_TESTED_INDEPENDENT_P6_G1_REVIEW_PENDING",
+  "base_g0_accepted_commit": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "source_commit_tested": "82875e24aadb5f71433badfafa054f066a61a33f",
+  "branch": "research/nba-p5-c-scoring-optimization-g1-20261116",
+  "draft_pr": 163,
+  "execution": {
+    "provider": "Deepnote",
+    "project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "unscheduled_notebook_id": "121b59d007614efcabacb8716342749a",
+    "live_run_id": "e934a7a3-7470-49d1-a2a5-5e91f57ab65d",
+    "sha_hash_run_id": "ed3f2856-3b04-4e13-adfb-c82f4b71e42e",
+    "environment": "isolated clean git clone in transient /tmp; npm unrelated; installed numpy scipy jsonschema",
+    "archive_access": "synthetic fixtures only; no 2023-24 outcomes"
+  },
+  "tests": {
+    "p5_new": 31,
+    "g0_accepted_regressions": 267,
+    "total": 298,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "commands": [
+      "python -m unittest discover -s tests/nba_c -p test_*.py -v",
+      "python -m unittest discover -s tests/nba_architecture -p test_*.py -q"
+    ]
+  },
+  "math_references": {
+    "bernoulli_crps_y0_p025": 0.0625,
+    "nbinom_crps_y0_r2_p05": "26/27",
+    "joint_energy_reference": 0.5,
+    "joint_variogram_p05_reference": 0.5,
+    "w2_independent_brute_simplex_grid": "PASS",
+    "synthetic_5000_vs_20000_precision": "PASS, seeded; no real-game accuracy inference"
+  },
+  "conformance": {
+    "full_pipelines": [
+      "S_ONLY",
+      "S_O",
+      "S_O_J"
+    ],
+    "legacy_benchmarks_retrained": false,
+    "S_O_J_upstream_independent_votes": false,
+    "j_scenario_witness_G0": "validated",
+    "cross_bundle_joint_scoring": "adversarially rejected",
+    "warehouse_append_only": "tested",
+    "official_vault_separate": "tested",
+    "new_quantile_calibration": "tested",
+    "holdout_2023_24_outcomes_accessed": false,
+    "historical_weights_fit": false,
+    "production_modified": false
+  },
+  "files_sha256": {
+    "docs/nba_c/G1_HANDOFF.md": "fa9add522ce1565926c6afe6d43682282b59630a6e688179b7d05b8e5e2a3786",
+    "docs/nba_c/P5_EXPERIMENT_PROTOCOL.md": "909e61d7ef7f5771957a253177a6298d1f8aefa9420be9bf05ba5c5d8d3cbe33",
+    "docs/nba_c/README.md": "03c106936ec86c4c636bdeffd88f805bdc00874c5c21da061ee64cb3d3d28d45",
+    "tests/nba_c/test_p5_c_family.py": "8b1486c6af1015ac146a4aa6a2113e4ad69dc0cdc75e3940d9910cf542040fdb",
+    "v2/nba_c/__init__.py": "1a5896a2d76162b4f684dcaf74ef58481045c1defc0a64fd6ed6a4de4c026d85",
+    "v2/nba_c/calibration.py": "2aabb7c91ca3831f2076175df4813f940d0934c6a070f7c068600590be4793c9",
+    "v2/nba_c/experiment.py": "e98d5b1ce0059283d7ca6919d4eb906256f9a3ef4f9be4f7acb7c0a74ca967f9",
+    "v2/nba_c/scores.py": "8cf97413361f40dd146e8713163fdcbcae91c7efefa386dab30fbcdd0a58fa25",
+    "v2/nba_c/scoring.py": "dd98a02334c43b37e8be23ea1c3019333fd45096d2d74c5687fc1922476e967d",
+    "v2/nba_c/warehouse.py": "98e52026e6cd5e5c2c92816a42c6ef139c3b3b904c0985d0212aed738f27966f"
+  },
+  "g0_synthetic_fixture_sha256": "8fa941c849519059ca3907741a8209bd25af9c6e058f6693323761b30c969353",
+  "gates": {
+    "G0": "INDEPENDENT_TECHNICAL_PASS",
+    "P5_G1": "IMPLEMENTED_AND_AUTHOR_TESTED_AWAITING_INDEPENDENT_P6_REVIEW",
+    "G2": "BLOCKED_ALL_FAMILIES_G1",
+    "P8_P9": "NOT_AUTHORIZED",
+    "P10_2023_24": "LOCKED_NO_RESULT_ACCESS",
+    "production": "NOT_AUTHORIZED"
+  }
+}

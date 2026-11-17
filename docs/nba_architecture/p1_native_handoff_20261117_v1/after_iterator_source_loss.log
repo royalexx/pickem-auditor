@@ -1,0 +1,16 @@
+test_one_shot_source_iterator_cannot_drop_raw_bundles (tests.nba_architecture.test_p1_native_handoff_20261117.ContextSourceRetention.test_one_shot_source_iterator_cannot_drop_raw_bundles) ... ok
+test_context_partial_candidates_never_complete_or_fitted (tests.nba_architecture.test_p1_native_handoff_20261117.NativeHandoff.test_context_partial_candidates_never_complete_or_fitted) ... ok
+test_missing_context_preserves_empty_denominator (tests.nba_architecture.test_p1_native_handoff_20261117.NativeHandoff.test_missing_context_preserves_empty_denominator) ... ok
+test_missing_outcome_explicit_unresolved (tests.nba_architecture.test_p1_native_handoff_20261117.NativeHandoff.test_missing_outcome_explicit_unresolved) ... ok
+test_outcome_all_versions_and_exact_raw_immutable (tests.nba_architecture.test_p1_native_handoff_20261117.NativeHandoff.test_outcome_all_versions_and_exact_raw_immutable) ... ok
+test_pregame_does_not_import_or_open_vault (tests.nba_architecture.test_p1_native_handoff_20261117.NativeHandoff.test_pregame_does_not_import_or_open_vault) ... ok
+test_prior_exact_raw_not_parsed_hash_and_null_authentication (tests.nba_architecture.test_p1_native_handoff_20261117.NativeHandoff.test_prior_exact_raw_not_parsed_hash_and_null_authentication) ... ok
+test_prior_ingestion_cannot_predate_retrieval (tests.nba_architecture.test_p1_native_handoff_20261117.NativeHandoff.test_prior_ingestion_cannot_predate_retrieval) ... ok
+test_prior_subminute_keeps_display_separate (tests.nba_architecture.test_p1_native_handoff_20261117.NativeHandoff.test_prior_subminute_keeps_display_separate) ... ok
+test_transport_rejects_corrupt_raw_and_ancestor (tests.nba_architecture.test_p1_native_handoff_20261117.NativeHandoff.test_transport_rejects_corrupt_raw_and_ancestor) ... ok
+test_transport_rejects_orphan_backdated_wrong_identity (tests.nba_architecture.test_p1_native_handoff_20261117.NativeHandoff.test_transport_rejects_orphan_backdated_wrong_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.013s
+
+OK

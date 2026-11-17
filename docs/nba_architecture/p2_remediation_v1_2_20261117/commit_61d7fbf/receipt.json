@@ -1,0 +1,53 @@
+{
+  "sha": "61d7fbfedee7e9ae172e8bd22479aeba5236b001",
+  "commands": [
+    {
+      "name": "s_all",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_s_family",
+        "-v"
+      ],
+      "exit": 0,
+      "sha256": "d548300214fc8cf2a4add4b95825ed0ad960b9cc3b37c8cdb4fff8d9373f5ab3"
+    },
+    {
+      "name": "g0",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "sha256": "f315f38fb09d60d0d68ff80c34c659b1b38f2e7e855c2fad3340cae0fc8f45a6"
+    },
+    {
+      "name": "p6_v3",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py",
+        "P2"
+      ],
+      "exit": 0,
+      "sha256": "87136d207eb765704604f1b8dd453123970f44a79f5eac542b160c9e6c0f68fa"
+    },
+    {
+      "name": "original_probe",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/repo/scripts/nba_p6_g1_owner_negative_probes_20261116.py",
+        "P2"
+      ],
+      "exit": 0,
+      "sha256": "624b208f679f48396026498f9f07bf32e42b678f0fe8c00d5ac8e532eccf6386"
+    }
+  ]
+}

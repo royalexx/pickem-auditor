@@ -1,0 +1,866 @@
+[
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.5,
+      "mean": 27.5,
+      "variance": 132.75,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.9236865248339334,
+      "mean": 29.129233230607596,
+      "variance": 51.401558893153364,
+      "zero_mass": 4.572957087322563e-11
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.9204181074020703,
+    "maximum_integer_CDF_difference": 0.42368652483393343,
+    "player_id": "espn:player:10",
+    "stat": "points"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.25,
+      "mean": 17.25,
+      "variance": 13.1875,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.031505721591811364,
+      "mean": 11.328035145233939,
+      "variance": 15.965986287789182,
+      "zero_mass": 6.010920002689492e-05
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.8380728320844971,
+    "maximum_integer_CDF_difference": 0.6437614083603881,
+    "player_id": "espn:player:10",
+    "stat": "rebounds"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 8.75,
+      "variance": 3.6875,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.0014749107398698328,
+      "mean": 6.473162940135033,
+      "variance": 10.870707743987628,
+      "zero_mass": 0.006691814956494322
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.6890731991293092,
+    "maximum_integer_CDF_difference": 0.42820545879431154,
+    "player_id": "espn:player:10",
+    "stat": "assists"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 3.0,
+      "variance": 4.5,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 2.2615663322501488e-07,
+      "mean": 3.2365814699319793,
+      "variance": 4.039176749575454,
+      "zero_mass": 0.05486857926101786
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.6319507266043382,
+    "maximum_integer_CDF_difference": 0.30117878803520354,
+    "player_id": "espn:player:10",
+    "stat": "threes"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.75,
+      "mean": 34.25,
+      "variance": 158.1875,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.9024504744314488,
+      "mean": 27.86670142059156,
+      "variance": 43.37771656299349,
+      "zero_mass": 1.2498794093368236e-10
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.9366869105656447,
+    "maximum_integer_CDF_difference": 0.5550908203963687,
+    "player_id": "espn:player:11",
+    "stat": "points"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 10.0,
+      "variance": 14.0,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.019062582951131033,
+      "mean": 10.837050552450298,
+      "variance": 14.337683189073822,
+      "zero_mass": 8.330104359320098e-05
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.711050445430509,
+    "maximum_integer_CDF_difference": 0.2570522779656319,
+    "player_id": "espn:player:11",
+    "stat": "rebounds"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 7.25,
+      "variance": 10.6875,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.0007774985154110551,
+      "mean": 6.192600315687022,
+      "variance": 9.95813731736754,
+      "zero_mass": 0.007736013309875035
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.6607932569894849,
+    "maximum_integer_CDF_difference": 0.20858837987422785,
+    "player_id": "espn:player:11",
+    "stat": "assists"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 3.5,
+      "variance": 4.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 6.489037460982721e-08,
+      "mean": 3.0963001577316933,
+      "variance": 3.7677239205238826,
+      "zero_mass": 0.06053250605482988
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.5563033727486892,
+    "maximum_integer_CDF_difference": 0.21494910211733723,
+    "player_id": "espn:player:11",
+    "stat": "threes"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.75,
+      "mean": 33.25,
+      "variance": 475.6875,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.8717543902832123,
+      "mean": 27.428805531501396,
+      "variance": 49.11647922654805,
+      "zero_mass": 3.410210158016995e-10
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.8987104426364352,
+    "maximum_integer_CDF_difference": 0.24999979904910763,
+    "player_id": "espn:player:12",
+    "stat": "points"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.25,
+      "mean": 14.0,
+      "variance": 67.5,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.020133711701698694,
+      "mean": 10.666757706693012,
+      "variance": 15.075216624834896,
+      "zero_mass": 0.00012158651038176862
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.7991724210164212,
+    "maximum_integer_CDF_difference": 0.3392530743733123,
+    "player_id": "espn:player:12",
+    "stat": "rebounds"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 6.0,
+      "variance": 0.5,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.0008474340548783834,
+      "mean": 6.095290118111433,
+      "variance": 10.097540786760302,
+      "zero_mass": 0.008832424277883595
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.6346115506015525,
+    "maximum_integer_CDF_difference": 0.3413476566899005,
+    "player_id": "espn:player:12",
+    "stat": "assists"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 2.75,
+      "variance": 9.6875,
+      "zero_mass": 0.25
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 8.102625206065528e-08,
+      "mean": 3.0476450588943145,
+      "variance": 3.7843948231086895,
+      "zero_mass": 0.0649389539632655
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.5483465718424197,
+    "maximum_integer_CDF_difference": 0.3123042382289433,
+    "player_id": "espn:player:12",
+    "stat": "threes"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 1.0,
+      "mean": 42.0,
+      "variance": 139.5,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.9498424545178018,
+      "mean": 29.350785778404052,
+      "variance": 40.034871867414054,
+      "zero_mass": 6.7939887172499504e-12
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.8852016712075335,
+    "maximum_integer_CDF_difference": 0.5283906780019157,
+    "player_id": "espn:player:13",
+    "stat": "points"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 12.25,
+      "variance": 15.6875,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.024977072376756344,
+      "mean": 11.414194469376922,
+      "variance": 14.301597983809291,
+      "zero_mass": 3.620531794645373e-05
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.6766492983565054,
+    "maximum_integer_CDF_difference": 0.22805646983668965,
+    "player_id": "espn:player:13",
+    "stat": "rebounds"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 6.5,
+      "variance": 1.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.0010392114624444737,
+      "mean": 6.522396839645353,
+      "variance": 10.352864136848632,
+      "zero_mass": 0.005795312318057813
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.5323572951858966,
+    "maximum_integer_CDF_difference": 0.28706996229469717,
+    "player_id": "espn:player:13",
+    "stat": "assists"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 2.5,
+      "variance": 3.25,
+      "zero_mass": 0.25
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 9.438676093434268e-08,
+      "mean": 3.2611984197033292,
+      "variance": 3.921558011543892,
+      "zero_mass": 0.05116528596709008
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.4335207483398173,
+    "maximum_integer_CDF_difference": 0.19883471403290992,
+    "player_id": "espn:player:13",
+    "stat": "threes"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.5,
+      "mean": 26.5,
+      "variance": 118.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.8628540958539431,
+      "mean": 26.041263579707003,
+      "variance": 36.47744829253285,
+      "zero_mass": 1.58119180257602e-10
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.9088983254163702,
+    "maximum_integer_CDF_difference": 0.3628540958539431,
+    "player_id": "espn:player:14",
+    "stat": "points"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 13.5,
+      "variance": 15.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.009807491301590823,
+      "mean": 10.127158058772107,
+      "variance": 12.709426179625726,
+      "zero_mass": 0.00011581912222138674
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.7623062461567226,
+    "maximum_integer_CDF_difference": 0.5099972306802681,
+    "player_id": "espn:player:14",
+    "stat": "rebounds"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 6.5,
+      "variance": 22.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.0003664951891060407,
+      "mean": 5.78694746215712,
+      "variance": 8.909993141911265,
+      "zero_mass": 0.00958266041970696
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.6986016472322529,
+    "maximum_integer_CDF_difference": 0.266029142191756,
+    "player_id": "espn:player:14",
+    "stat": "assists"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 2.75,
+      "variance": 9.6875,
+      "zero_mass": 0.25
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 1.9900993595785963e-08,
+      "mean": 2.8934737309478593,
+      "variance": 3.4395440800749895,
+      "zero_mass": 0.07042396689161165
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.5240404263853355,
+    "maximum_integer_CDF_difference": 0.2845801365711908,
+    "player_id": "espn:player:14",
+    "stat": "threes"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.5,
+      "mean": 30.5,
+      "variance": 289.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.8547270408357854,
+      "mean": 26.68321045918813,
+      "variance": 47.05049554786317,
+      "zero_mass": 4.736551807794315e-10
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.9676206908301317,
+    "maximum_integer_CDF_difference": 0.4763203578321338,
+    "player_id": "espn:player:15",
+    "stat": "points"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 8.5,
+      "variance": 4.75,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.016753405351814715,
+      "mean": 10.376804067460139,
+      "variance": 14.524825415317006,
+      "zero_mass": 0.0001404384873171348
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.7519092740080903,
+    "maximum_integer_CDF_difference": 0.35591534127586066,
+    "player_id": "espn:player:15",
+    "stat": "rebounds"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.25,
+      "mean": 12.0,
+      "variance": 57.5,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.0007070439070373189,
+      "mean": 5.9296023242640405,
+      "variance": 9.708858565475749,
+      "zero_mass": 0.009653112171570206
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.7388645246132244,
+    "maximum_integer_CDF_difference": 0.48815375625998547,
+    "player_id": "espn:player:15",
+    "stat": "assists"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 4.75,
+      "variance": 9.6875,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 7.052286212590592e-08,
+      "mean": 2.9648011620024937,
+      "variance": 3.660003424972537,
+      "zero_mass": 0.06915380103044387
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.4293885992275784,
+    "maximum_integer_CDF_difference": 0.24629793830047897,
+    "player_id": "espn:player:15",
+    "stat": "threes"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 1.0,
+      "mean": 40.0,
+      "variance": 289.0,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.90867681523895,
+      "mean": 27.863579556383108,
+      "variance": 42.261091216295576,
+      "zero_mass": 6.414821155648882e-11
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.8498949674771665,
+    "maximum_integer_CDF_difference": 0.43830047684277745,
+    "player_id": "espn:player:20",
+    "stat": "points"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.25,
+      "mean": 14.25,
+      "variance": 24.1875,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.018921944983012567,
+      "mean": 10.835836494146417,
+      "variance": 14.16619175580799,
+      "zero_mass": 7.284872959452579e-05
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.7785023630153517,
+    "maximum_integer_CDF_difference": 0.45111019302001665,
+    "player_id": "espn:player:20",
+    "stat": "rebounds"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 8.5,
+      "variance": 8.75,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.0007802030948847966,
+      "mean": 6.191906568085144,
+      "variance": 9.8975800112424,
+      "zero_mass": 0.007556309199937937
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.7132529893667623,
+    "maximum_integer_CDF_difference": 0.44699122955135007,
+    "player_id": "espn:player:20",
+    "stat": "assists"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 6.5,
+      "variance": 19.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 6.964733171161621e-08,
+      "mean": 3.095953283939483,
+      "variance": 3.7528499732302727,
+      "zero_mass": 0.06006064738857728
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.5376272133365543,
+    "maximum_integer_CDF_difference": 0.4249047656519417,
+    "player_id": "espn:player:20",
+    "stat": "threes"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 1.0,
+      "mean": 34.75,
+      "variance": 36.1875,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.8787474728190078,
+      "mean": 28.00504928392929,
+      "variance": 61.77041594918236,
+      "zero_mass": 1.273399638576084e-10
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.9251911084647382,
+    "maximum_integer_CDF_difference": 0.583081225795748,
+    "player_id": "espn:player:21",
+    "stat": "points"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.25,
+      "mean": 18.5,
+      "variance": 70.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.033353138118654924,
+      "mean": 10.890852499302957,
+      "variance": 17.190058953486766,
+      "zero_mass": 0.00010092337431631572
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.8341839280132375,
+    "maximum_integer_CDF_difference": 0.6153570005552417,
+    "player_id": "espn:player:21",
+    "stat": "rebounds"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.25,
+      "mean": 8.5,
+      "variance": 44.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.0017284064153313765,
+      "mean": 6.2233442853176335,
+      "variance": 10.988732959768528,
+      "zero_mass": 0.008488521286896013
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.7442438861096186,
+    "maximum_integer_CDF_difference": 0.2844651318601448,
+    "player_id": "espn:player:21",
+    "stat": "assists"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 2.5,
+      "variance": 10.75,
+      "zero_mass": 0.5
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 3.711523163067161e-07,
+      "mean": 3.1116721425587395,
+      "variance": 4.024202624701751,
+      "zero_mass": 0.06339458773575032
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.7114854747199866,
+    "maximum_integer_CDF_difference": 0.43660541226424965,
+    "player_id": "espn:player:21",
+    "stat": "threes"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.5,
+      "mean": 23.25,
+      "variance": 73.1875,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.8925907105776623,
+      "mean": 26.86673290279078,
+      "variance": 36.4491392718211,
+      "zero_mass": 1.0655682301643225e-10
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.8902305084980071,
+    "maximum_integer_CDF_difference": 0.45086634774895357,
+    "player_id": "espn:player:22",
+    "stat": "points"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 6.75,
+      "variance": 2.6875,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.011950565745092028,
+      "mean": 10.448173906637669,
+      "variance": 12.96375309115298,
+      "zero_mass": 8.818735341784134e-05
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.7991859628124246,
+    "maximum_integer_CDF_difference": 0.6886048829463148,
+    "player_id": "espn:player:22",
+    "stat": "rebounds"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 4.0,
+      "variance": 4.5,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.0004490352056756745,
+      "mean": 5.970385089509073,
+      "variance": 9.213429557778097,
+      "zero_mass": 0.008408631164326353
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.683175035333256,
+    "maximum_integer_CDF_difference": 0.3895411089893155,
+    "player_id": "espn:player:22",
+    "stat": "assists"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 3.0,
+      "variance": 2.5,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 2.4792020160573718e-08,
+      "mean": 2.985192544692665,
+      "variance": 3.5466681310174013,
+      "zero_mass": 0.06483159267107282
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.36950644542122296,
+    "maximum_integer_CDF_difference": 0.15087556355423093,
+    "player_id": "espn:player:22",
+    "stat": "threes"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.5,
+      "mean": 27.5,
+      "variance": 141.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.9002020780250425,
+      "mean": 28.988027201062366,
+      "variance": 58.84253794589992,
+      "zero_mass": 1.781282857539071e-10
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.9266883099509545,
+    "maximum_integer_CDF_difference": 0.40020207802504243,
+    "player_id": "espn:player:23",
+    "stat": "points"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.25,
+      "mean": 12.0,
+      "variance": 70.5,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.03484180408099821,
+      "mean": 11.273121689299495,
+      "variance": 17.056851053063337,
+      "zero_mass": 8.944502458672713e-05
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.8192005904763486,
+    "maximum_integer_CDF_difference": 0.38598845953541117,
+    "player_id": "espn:player:23",
+    "stat": "rebounds"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 5.5,
+      "variance": 12.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.0016839312312121565,
+      "mean": 6.441783822458312,
+      "variance": 11.211393198611788,
+      "zero_mass": 0.007460152060449296
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.8676913396483621,
+    "maximum_integer_CDF_difference": 0.4025106526817773,
+    "player_id": "espn:player:23",
+    "stat": "assists"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 2.5,
+      "variance": 2.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 2.876227683976205e-07,
+      "mean": 3.22089191109882,
+      "variance": 4.116716122603718,
+      "zero_mass": 0.05765899645625387
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.6958643811780786,
+    "maximum_integer_CDF_difference": 0.2952558557878233,
+    "player_id": "espn:player:23",
+    "stat": "threes"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.5,
+      "mean": 30.5,
+      "variance": 199.25,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.9028301790129608,
+      "mean": 27.07646596560742,
+      "variance": 36.46524051778375,
+      "zero_mass": 3.7911042268245543e-11
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.9622356444501797,
+    "maximum_integer_CDF_difference": 0.49306103090340236,
+    "player_id": "espn:player:24",
+    "stat": "points"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 18.0,
+      "variance": 0.5,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.013105183354717139,
+      "mean": 10.529736764400512,
+      "variance": 13.032245165736496,
+      "zero_mass": 7.357368396655681e-05
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.9542307413116597,
+    "maximum_integer_CDF_difference": 0.9411255579569425,
+    "player_id": "espn:player:24",
+    "stat": "rebounds"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 7.0,
+      "variance": 17.0,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.0005078859092050715,
+      "mean": 6.016992436801664,
+      "variance": 9.292586634708584,
+      "zero_mass": 0.008027581907505897
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.73652856618225,
+    "maximum_integer_CDF_difference": 0.37152035156262886,
+    "player_id": "espn:player:24",
+    "stat": "assists"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 2.75,
+      "variance": 4.6875,
+      "zero_mass": 0.25
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 3.4016768310053265e-08,
+      "mean": 3.0084962183157975,
+      "variance": 3.5743191750737418,
+      "zero_mass": 0.06327784934923128
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.4604655377861128,
+    "maximum_integer_CDF_difference": 0.18672215065076872,
+    "player_id": "espn:player:24",
+    "stat": "threes"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.75,
+      "mean": 32.0,
+      "variance": 244.5,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.8862014000098893,
+      "mean": 27.70014509022676,
+      "variance": 49.24233670221158,
+      "zero_mass": 1.0630018949982714e-10
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.8939262095162726,
+    "maximum_integer_CDF_difference": 0.24985110873345562,
+    "player_id": "espn:player:25",
+    "stat": "points"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.25,
+      "mean": 13.25,
+      "variance": 57.6875,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.02231855491863396,
+      "mean": 10.772278646196575,
+      "variance": 15.180333294401498,
+      "zero_mass": 9.48944494623575e-05
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.7383694767093988,
+    "maximum_integer_CDF_difference": 0.24911939445628084,
+    "player_id": "espn:player:25",
+    "stat": "rebounds"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 9.0,
+      "variance": 27.5,
+      "zero_mass": 0.0
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 0.0009767823558340673,
+      "mean": 6.155587797828177,
+      "variance": 10.20675195844285,
+      "zero_mass": 0.008273933449797648
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.6321008258393771,
+    "maximum_integer_CDF_difference": 0.3342632287067906,
+    "player_id": "espn:player:25",
+    "stat": "assists"
+  },
+  {
+    "J_four_path_empirical_moments": {
+      "mass_at_or_above_20": 0.0,
+      "mean": 2.5,
+      "variance": 3.25,
+      "zero_mass": 0.25
+    },
+    "S_O_moments": {
+      "mass_at_or_above_20": 1.1208503850881492e-07,
+      "mean": 3.0777938987785745,
+      "variance": 3.8217232353308175,
+      "zero_mass": 0.06284974058758633
+    },
+    "finite_serialized_target_vs_empirical_TV": 0.42439282154760843,
+    "maximum_integer_CDF_difference": 0.18715025941241367,
+    "player_id": "espn:player:25",
+    "stat": "threes"
+  }
+]

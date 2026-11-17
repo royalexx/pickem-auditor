@@ -1,0 +1,128 @@
+{
+  "G0_implementation_or_tests_modified": false,
+  "accepted_G0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "author_execution_only": true,
+  "created_at_utc": "2026-11-17T03:27:31Z",
+  "criteria": [
+    "F-P5-01",
+    "F-P5-02",
+    "F-P5-03",
+    "F-P5-04",
+    "F-P5-05",
+    "F-P5-06",
+    "B-P5-01"
+  ],
+  "date_toronto": "2026-11-16",
+  "environment": {
+    "jsonschema": "4.26.0",
+    "numpy": "2.3.5",
+    "python": "3.12.14",
+    "scipy": "1.17.0"
+  },
+  "exact_head_note": "This receipt binds source/test SHA791d923. Its append-only documentation successor is independently reexecuted and published with exact head/log hashes in the PR conversation and separate P6 packet. No earlier result is overwritten.",
+  "gates": {
+    "B-P5-01": "BLOCKED",
+    "G1": "NO_OWNER_ACCEPTANCE_AWARDED_PRIOR_NO_GO_REMAINS",
+    "G2": "CLOSED_NOT_AUTHORIZED",
+    "P8_P9_P10_P11": "CLOSED_NOT_AUTHORIZED",
+    "independent_P5": "PENDING_P6"
+  },
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "historical_fit_or_scoring": false,
+  "historical_weight_fit": false,
+  "native_engineering_cases": {
+    "distinct_observed_NBA_games": 0,
+    "fail": 0,
+    "pass": 21,
+    "same_draw_distributions": 96
+  },
+  "native_reproduce_command": "PYTHONPATH=. OPENBLAS_NUM_THREADS=1 python scripts/nba_p5_native_handoff_verify_v1.py --repo \"$PWD\" --p1-sha 50d2b3874c7c14c9b73bdf13e441957986b88acd --p2-sha fe46965394ea0f48ef5e9da501ec8ca9e441ce47 --p3-sha eb0882b5011f2004c5eaf27cccfdc6297704f261 --p4-sha 865bdb8f4770ac28262e49c3b4901cf1d72a22fb --output work/p5-native-v4-fresh",
+  "original_audit_sha": "ddc60a83f6c9a2b863f5e7a44823bffa3b01e048",
+  "owner_branch": "research/nba-p5-c-scoring-optimization-g1-20261116",
+  "owner_native_pins": {
+    "p1": {
+      "archive_raw_sha256": "4f48a000f48d94f6947d2df6726bec57dd37db0934b420b9255453162750fb77",
+      "commit": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "paths": [
+        "v2/nba_architecture",
+        "tests/nba_architecture/test_p1_remediation.py",
+        "tests/nba_architecture/test_p1_history.py"
+      ]
+    },
+    "p2": {
+      "archive_raw_sha256": "c892cacc434224fe1d28035971df91affd99325aedd88d92d721f5984658c958",
+      "commit": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "paths": [
+        "v2/nba_s_family",
+        "tests/nba_s_family/test_statistical.py"
+      ]
+    },
+    "p3": {
+      "archive_raw_sha256": "3ccce86e2cd85b7b779a1ad41aed6461dfe3e56b006a04e17e934a6fa0c8e080",
+      "commit": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "paths": [
+        "v2/nba_o_family.py",
+        "v2/nba_o_bridge.py",
+        "v2/nba_opportunity.py",
+        "tests/nba_architecture/test_p3_o_family.py",
+        "tests/nba_architecture/golden_v2/joint_same_draw.json"
+      ]
+    },
+    "p4": {
+      "archive_raw_sha256": "92086c78cd0d5cd7e2d905625e4c6a23bbea670b30b54eb05c41f7ff3ddff016",
+      "commit": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "paths": [
+        "v2",
+        "research/nba_p4_latest"
+      ]
+    }
+  },
+  "owner_pr": 163,
+  "production_schedule_or_tier_change": false,
+  "raw_archive": {
+    "bytes": 344421,
+    "path": "synthetic_native_archive_v1.tar.gz",
+    "profile": "SYNTHETIC_ENGINEERING_ONLY_NO_HISTORICAL_OUTCOMES",
+    "raw_sha256": "226da7d04472db87cf444b7aa2e1dce5b795f4833cdffea409320ce3b348b80a"
+  },
+  "schema": "NBA_P5_G1_REMEDIATION_V4",
+  "suites": {
+    "G0": {
+      "command": "OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests/nba_architecture -v",
+      "exit": 0,
+      "log": "G0_exact_791d923.log",
+      "sha256": "4db9cdbafccc3af2038b84bfa4bea7b8fa9ec66315106816aef0a3d8190821aa",
+      "tests": 267
+    },
+    "P5": {
+      "command": "OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests/nba_c -v",
+      "exit": 0,
+      "log": "P5_exact_791d923.log",
+      "sha256": "908918a8bddd096f8575f7102bf1017c57ca3d47ca90b8bcb3ca14693b7ba9be",
+      "tests": 76
+    },
+    "P6": {
+      "command": "PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python -m unittest discover -s work/p6_controls -v",
+      "exit": 0,
+      "log": "P6_exact_791d923.log",
+      "sha256": "bef227ef399259f7fcb7202793ada767048a38c25641e0cd06db62fae6ee375a",
+      "tests": 83
+    },
+    "original_negative": {
+      "command": "PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python work/p5-p6-v4-fresh/nba_p6_g1_owner_negative_probes_20261116.py P5",
+      "exit": 0,
+      "output": "original_negative_exact_791d923.json",
+      "sha256": "134563e34669040f034206e5394c0c0691af6cc74d7bb82158f4dd76a935f77d"
+    },
+    "p6_v3": {
+      "command": "PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python work/p5-p6-v4-fresh/nba_p6_g1_remediation_adversarial_v3_20261116.py P5",
+      "exit": 0,
+      "output": "p6_v3_exact_791d923.json",
+      "sha256": "ab3e8855239a73ff77c6706efc81e8a59db610d78e1e0046c1ffe4f0080c1e3e"
+    }
+  },
+  "target_game_result_fetch": false,
+  "tested_implementation_sha": "791d923824d488024784bc602cf44012c527c6b6",
+  "tested_test_sha": "791d923824d488024784bc602cf44012c527c6b6",
+  "unchanged_original_negative_raw_sha256": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52"
+}

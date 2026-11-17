@@ -1,0 +1,27 @@
+test_all_four_stats_integer_complete (tests.nba_s_family.test_statistical.SFamilyTests.test_all_four_stats_integer_complete) ... ok
+test_dnp_remains_distinct_and_no_target_actual_minutes (tests.nba_s_family.test_statistical.SFamilyTests.test_dnp_remains_distinct_and_no_target_actual_minutes) ... ok
+test_duplicate_identity_and_actual_target_input (tests.nba_s_family.test_statistical.SFamilyTests.test_duplicate_identity_and_actual_target_input) ... ok
+test_future_source_and_game_rejected (tests.nba_s_family.test_statistical.SFamilyTests.test_future_source_and_game_rejected) ... ok
+test_impossible_three_makes_and_bad_attempts (tests.nba_s_family.test_statistical.SFamilyTests.test_impossible_three_makes_and_bad_attempts) ... ok
+test_independent_gamma_poisson_probability_recurrence (tests.nba_s_family.test_statistical.SFamilyTests.test_independent_gamma_poisson_probability_recurrence) ... ok
+test_missing_opportunity_and_unknown_participation_abstain (tests.nba_s_family.test_statistical.SFamilyTests.test_missing_opportunity_and_unknown_participation_abstain) ... ok
+test_reproducible_content_bytes_and_seed (tests.nba_s_family.test_statistical.SFamilyTests.test_reproducible_content_bytes_and_seed) ... ok
+test_runtime_receipt_nonbinding (tests.nba_s_family.test_statistical.SFamilyTests.test_runtime_receipt_nonbinding) ... ok
+test_s0_control_matches_poisson (tests.nba_s_family.test_statistical.SFamilyTests.test_s0_control_matches_poisson) ... ok
+test_s1_gamma_poisson_math_moments (tests.nba_s_family.test_statistical.SFamilyTests.test_s1_gamma_poisson_math_moments) ... ok
+test_s2_nb2_dispersion_and_tail (tests.nba_s_family.test_statistical.SFamilyTests.test_s2_nb2_dispersion_and_tail) ... ok
+test_s3_beta_binomial_physical_cap (tests.nba_s_family.test_statistical.SFamilyTests.test_s3_beta_binomial_physical_cap) ... ok
+test_s3_predict_requires_predeclared_attempt_scenarios (tests.nba_s_family.test_statistical.SFamilyTests.test_s3_predict_requires_predeclared_attempt_scenarios) ... ok
+test_s_only_rejects_future_model_training_and_game_mutation (tests.nba_s_family.test_statistical.SFamilyTests.test_s_only_rejects_future_model_training_and_game_mutation) ... ok
+test_threshold_triplet_push (tests.nba_s_family.test_statistical.SFamilyTests.test_threshold_triplet_push) ... ok
+test_training_target_game_cross_player_leakage (tests.nba_s_family.test_statistical.SFamilyTests.test_training_target_game_cross_player_leakage) ... ok
+test_unchanged_g0_s_o_conservation (tests.nba_s_family.test_statistical.SFamilyTests.test_unchanged_g0_s_o_conservation) ... ok
+test_unchanged_g0_s_only_envelope (tests.nba_s_family.test_statistical.SFamilyTests.test_unchanged_g0_s_only_envelope) ... ok
+test_unchanged_g0_shas_and_supplementary_lineage (tests.nba_s_family.test_statistical.SFamilyTests.test_unchanged_g0_shas_and_supplementary_lineage) ... ok
+test_verified_source_manifest_missing_naive_or_late (tests.nba_s_family.test_statistical.SFamilyTests.test_verified_source_manifest_missing_naive_or_late) ... ok
+test_zero_minutes_count_degenerate (tests.nba_s_family.test_statistical.SFamilyTests.test_zero_minutes_count_degenerate) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.227s
+
+OK

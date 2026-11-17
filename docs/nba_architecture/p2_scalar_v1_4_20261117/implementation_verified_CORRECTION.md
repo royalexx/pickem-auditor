@@ -1,0 +1,3 @@
+# Classification correction for the scalar verification attempt
+
+The original `implementation_verified` output files and receipt remain unchanged. This run began at `b28225c995efc5cf35432def3bfb2bc6e104273d`, but additional owner duration/nonparticipation edits were made before the run's final hash collection. Consequently its recorded source-hash inventory and initial SHA do not describe one frozen tree. It is **not an exact-commit verification receipt** and must not support acceptance. The original command outputs are retained as evidence of the flawed verification sequence. A later clean committed tree is verified in a separate versioned execution directory after all code changes, without concurrent edits. Earlier `a3513bd` and prior receipts are unaffected.

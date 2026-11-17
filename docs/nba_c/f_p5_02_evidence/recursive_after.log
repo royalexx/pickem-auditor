@@ -1,0 +1,95 @@
+test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) ... 
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=()) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('dict',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('list',)) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('list', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('dict', 'list', 'dict', 'list')) ... FAIL
+  test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('list', 'dict', 'list')) ... FAIL
+test_nested_list_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_identity) ... ok
+test_nested_list_postfreeze_clock (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_postfreeze_clock) ... ok
+test_nested_list_unknown_clock_and_model_cutoff (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_unknown_clock_and_model_cutoff) ... ok
+test_valid_nested_pregame_numbers_clocks_identity_all_stats (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_valid_nested_pregame_numbers_clocks_identity_all_stats) ... ok
+test_w3_sparse_fallback_cannot_accept_nested_outcome (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_w3_sparse_fallback_cannot_accept_nested_outcome) ... ok
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=())
+----------------------------------------------------------------------
+v2.nba_c.experiment.ExperimentError: LINKED_IDENTITY_MISMATCH_official_available_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "OUTCOME_IN_FORECAST_PIPELINE" does not match "LINKED_IDENTITY_MISMATCH_official_available_at"
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('dict',))
+----------------------------------------------------------------------
+v2.nba_c.experiment.ExperimentError: LINKED_IDENTITY_MISMATCH_official_available_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "OUTCOME_IN_FORECAST_PIPELINE" does not match "LINKED_IDENTITY_MISMATCH_official_available_at"
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('list',))
+----------------------------------------------------------------------
+v2.nba_c.experiment.ExperimentError: LINKED_IDENTITY_MISMATCH_official_available_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "OUTCOME_IN_FORECAST_PIPELINE" does not match "LINKED_IDENTITY_MISMATCH_official_available_at"
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('list', 'list'))
+----------------------------------------------------------------------
+v2.nba_c.experiment.ExperimentError: LINKED_IDENTITY_MISMATCH_official_available_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "OUTCOME_IN_FORECAST_PIPELINE" does not match "LINKED_IDENTITY_MISMATCH_official_available_at"
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('dict', 'list', 'dict', 'list'))
+----------------------------------------------------------------------
+v2.nba_c.experiment.ExperimentError: LINKED_IDENTITY_MISMATCH_official_available_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "OUTCOME_IN_FORECAST_PIPELINE" does not match "LINKED_IDENTITY_MISMATCH_official_available_at"
+
+======================================================================
+FAIL: test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) (key='official_available_at', shape=('list', 'dict', 'list'))
+----------------------------------------------------------------------
+v2.nba_c.experiment.ExperimentError: LINKED_IDENTITY_MISMATCH_official_available_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 32, in test_forbidden_results_at_every_container_depth
+    with self.subTest(key=key, shape=shape), self.assertRaisesRegex(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "OUTCOME_IN_FORECAST_PIPELINE" does not match "LINKED_IDENTITY_MISMATCH_official_available_at"
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.022s
+
+FAILED (failures=6)

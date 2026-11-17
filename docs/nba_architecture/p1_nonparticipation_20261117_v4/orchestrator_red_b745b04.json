@@ -1,0 +1,94 @@
+{
+  "sha": "b745b048f3ea871419272aee4c16798f455ee091",
+  "code_sha256": "33ef7f1e80cac6a05e08f32d03281139dc889d367002a6dbddc2740799f0b645",
+  "input": {
+    "game_date": "2022-10-21",
+    "game_id": "nba:game:0022200001",
+    "minutes": null,
+    "opponent_id": "nba:team:2",
+    "participation": "dnp",
+    "player_id": "nba:player:7",
+    "starter": null,
+    "stats": {
+      "assists": 3,
+      "points": 11,
+      "rebounds": 5,
+      "threes": 2
+    },
+    "team_id": "nba:team:1"
+  },
+  "bundle_raw_base64": "eyJnYW1lIjp7ImF3YXlUZWFtIjp7InBsYXllcnMiOltdLCJ0ZWFtSWQiOjJ9LCJnYW1lQ2xvY2siOiJQVDAwTTAwLjAwUyIsImdhbWVJZCI6IjAwMjIyMDAwMDEiLCJnYW1lU3RhdHVzIjozLCJnYW1lVGltZVVUQyI6IjIwMjItMTAtMjFUMjM6MDA6MDBaIiwiaG9tZVRlYW0iOnsicGxheWVycyI6W3sicGVyc29uSWQiOjcsInBsYXllZCI6IjAiLCJzdGF0aXN0aWNzIjp7ImFzc2lzdHMiOjMsIm1pbnV0ZXMiOiJQVDBNMDAuMDBTIiwicG9pbnRzIjoxMSwicmVib3VuZHNUb3RhbCI6NSwidGhyZWVQb2ludGVyc01hZGUiOjJ9fV0sInRlYW1JZCI6MX0sInBlcmlvZCI6NH19",
+  "status": "ACCEPTED",
+  "output": {
+    "schema": "nba-p1-native-handoff/1.0.0",
+    "kind": "prior_game_export",
+    "profile": "synthetic_engineering",
+    "source_profile": "synthetic_engineering",
+    "admission_status": "BLOCKED",
+    "missing_requirements": [
+      "INDEPENDENT_SOURCE_ADMISSION",
+      "ORIGINAL_OR_FIRST_DEFENSIBLE_AVAILABILITY",
+      "SOURCE_BOUND_OUTCOME_RELEASE_CLOCK",
+      "DATED_ROLE_EVIDENCE"
+    ],
+    "evidence_bundle": {
+      "capture": {
+        "schema": "nba-p1-prior-game-evidence/1.0.0",
+        "url": "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022200001.json",
+        "raw_sha256": "60b4aae578e8c75cacf0e6050f5ea3f18a559a3affc74cc80d14a3228a205ac7",
+        "retrieved_at": "2026-11-16T18:00:00Z",
+        "revision": 1,
+        "supersedes_receipt_sha256": null
+      },
+      "raw_base64": "eyJnYW1lIjp7ImF3YXlUZWFtIjp7InBsYXllcnMiOltdLCJ0ZWFtSWQiOjJ9LCJnYW1lQ2xvY2siOiJQVDAwTTAwLjAwUyIsImdhbWVJZCI6IjAwMjIyMDAwMDEiLCJnYW1lU3RhdHVzIjozLCJnYW1lVGltZVVUQyI6IjIwMjItMTAtMjFUMjM6MDA6MDBaIiwiaG9tZVRlYW0iOnsicGxheWVycyI6W3sicGVyc29uSWQiOjcsInBsYXllZCI6IjAiLCJzdGF0aXN0aWNzIjp7ImFzc2lzdHMiOjMsIm1pbnV0ZXMiOiJQVDBNMDAuMDBTIiwicG9pbnRzIjoxMSwicmVib3VuZHNUb3RhbCI6NSwidGhyZWVQb2ludGVyc01hZGUiOjJ9fV0sInRlYW1JZCI6MX0sInBlcmlvZCI6NH19",
+      "prior": []
+    },
+    "exposure": {
+      "schema": "nba-p1-prior-game-evidence/1.0.0",
+      "game_id": "nba:game:0022200001",
+      "game_date": "2022-10-21",
+      "overtime_periods": 0,
+      "duration_minutes": 48,
+      "source_status": "OFFICIAL_BYTES_CONSISTENT_AUTHENTICITY_REVIEW_REQUIRED",
+      "raw_sha256": "60b4aae578e8c75cacf0e6050f5ea3f18a559a3affc74cc80d14a3228a205ac7",
+      "receipt_sha256": "fad841af768c6d4d2edae59a0d9767cd9a54960671227bb9b571934c460b8cd9",
+      "retrieved_at": "2026-11-16T18:00:00Z",
+      "original_pregame_available_at": null,
+      "certification": "HISTORICAL_RECONSTRUCTION_UNCERTIFIED",
+      "player_id": "nba:player:7",
+      "team_id": "nba:team:1",
+      "opponent_id": "nba:team:2",
+      "participation": "dnp",
+      "displayed_minutes": null,
+      "exact_minutes": null,
+      "accounting_status": "NONPARTICIPATION_OR_UNKNOWN",
+      "stats": {
+        "assists": 3,
+        "points": 11,
+        "rebounds": 5,
+        "threes": 2
+      }
+    },
+    "game_start_at": "2022-10-21T23:00:00Z",
+    "clocks": {
+      "provider_published_at": null,
+      "first_defensible_available_at": null,
+      "collector_observed_at": null,
+      "retrieved_at": "2026-11-16T18:00:00Z",
+      "ingested_at": "2026-11-16T19:00:00Z",
+      "outcome_available_at": null
+    },
+    "role": null,
+    "role_evidence": null,
+    "uncertainty": {
+      "participation": "dnp",
+      "source_admission": "UNKNOWN",
+      "role": "UNKNOWN"
+    },
+    "candidate_denominator": {
+      "attempted": 1,
+      "admitted": 0,
+      "quarantined": 1
+    }
+  }
+}

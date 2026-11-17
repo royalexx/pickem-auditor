@@ -1,0 +1,210 @@
+test_historical_builder_raw_nonplayed_credit_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_historical_builder_raw_nonplayed_credit_quarantines) ... FAIL
+test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) ... 
+  test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) (status='dnp', minutes=0, stats={}) ... FAIL
+  test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) (status='dnp', minutes=None, stats={'points': 1}) ... FAIL
+  test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) (status='dnp', minutes=None, stats={'points': True}) ... FAIL
+  test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) (status='unknown', minutes=0, stats={}) ... FAIL
+  test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) (status='unknown', minutes=None, stats={'points': 1}) ... FAIL
+  test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) (status='unknown', minutes=None, stats={'points': True}) ... FAIL
+test_native_rejects_invalid_participation_and_played_numeric_types (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_invalid_participation_and_played_numeric_types) ... 
+  test_native_rejects_invalid_participation_and_played_numeric_types (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_invalid_participation_and_played_numeric_types) (status='DNP') ... FAIL
+  test_native_rejects_invalid_participation_and_played_numeric_types (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_invalid_participation_and_played_numeric_types) (status='banana') ... FAIL
+  test_native_rejects_invalid_participation_and_played_numeric_types (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_invalid_participation_and_played_numeric_types) (status=True) ... FAIL
+  test_native_rejects_invalid_participation_and_played_numeric_types (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_invalid_participation_and_played_numeric_types) (status=None) ... FAIL
+test_raw_nonplayed_positive_credit_or_exposure_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_raw_nonplayed_positive_credit_or_exposure_quarantines) ... 
+  test_raw_nonplayed_positive_credit_or_exposure_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_raw_nonplayed_positive_credit_or_exposure_quarantines) (status='dnp', raw=b'{"game":{"awayTeam":{"players":[],"teamId":2},"gameClock":"PT00M00.00S","gameId":"0022200001","gameStatus":3,"gameTimeUTC":"2022-10-21T23:00:00Z","homeTeam":{"players":[{"personId":7,"played":"0","statistics":{"minutes":"PT00M00S","points":1}}],"teamId":1},"period":4}}') ... FAIL
+  test_raw_nonplayed_positive_credit_or_exposure_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_raw_nonplayed_positive_credit_or_exposure_quarantines) (status='dnp', raw=b'{"game":{"awayTeam":{"players":[],"teamId":2},"gameClock":"PT00M00.00S","gameId":"0022200001","gameStatus":3,"gameTimeUTC":"2022-10-21T23:00:00Z","homeTeam":{"players":[{"personId":7,"played":"0","statistics":{"minutes":"PT00M00.0000000000000000001S"}}],"teamId":1},"period":4}}') ... FAIL
+  test_raw_nonplayed_positive_credit_or_exposure_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_raw_nonplayed_positive_credit_or_exposure_quarantines) (status='unknown', raw=b'{"game":{"awayTeam":{"players":[],"teamId":2},"gameClock":"PT00M00.00S","gameId":"0022200001","gameStatus":3,"gameTimeUTC":"2022-10-21T23:00:00Z","homeTeam":{"players":[{"personId":7,"statistics":{"minutes":"PT00M00S","points":1}}],"teamId":1},"period":4}}') ... FAIL
+  test_raw_nonplayed_positive_credit_or_exposure_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_raw_nonplayed_positive_credit_or_exposure_quarantines) (status='unknown', raw=b'{"game":{"awayTeam":{"players":[],"teamId":2},"gameClock":"PT00M00.00S","gameId":"0022200001","gameStatus":3,"gameTimeUTC":"2022-10-21T23:00:00Z","homeTeam":{"players":[{"personId":7,"statistics":{"minutes":"PT00M00.0000000000000000001S"}}],"teamId":1},"period":4}}') ... FAIL
+test_true_zero_raw_credits_cannot_hide_behind_omitted_retained_stats (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_true_zero_raw_credits_cannot_hide_behind_omitted_retained_stats) ... FAIL
+test_unknown_must_not_mask_explicit_played_or_invalid_source_status (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_unknown_must_not_mask_explicit_played_or_invalid_source_status) ... 
+  test_unknown_must_not_mask_explicit_played_or_invalid_source_status (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_unknown_must_not_mask_explicit_played_or_invalid_source_status) (played='1') ... FAIL
+  test_unknown_must_not_mask_explicit_played_or_invalid_source_status (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_unknown_must_not_mask_explicit_played_or_invalid_source_status) (played='0') ... FAIL
+  test_unknown_must_not_mask_explicit_played_or_invalid_source_status (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_unknown_must_not_mask_explicit_played_or_invalid_source_status) (played='banana') ... FAIL
+test_valid_dnp_unknown_and_played_zero_stay_distinct (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_valid_dnp_unknown_and_played_zero_stay_distinct) ... ok
+test_vault_raw_dnp_credit_rejects_and_valid_zero_source_persists (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_vault_raw_dnp_credit_rejects_and_valid_zero_source_persists) ... FAIL
+
+======================================================================
+FAIL: test_historical_builder_raw_nonplayed_credit_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_historical_builder_raw_nonplayed_credit_quarantines)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 80, in test_historical_builder_raw_nonplayed_credit_quarantines
+    with self.assertRaisesRegex(ValueError,'NONPARTICIPATION_CREDIT_UNRESOLVED'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) (status='dnp', minutes=0, stats={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 43, in test_native_rejects_caller_nonplayed_minutes_or_credits
+    with self.subTest(status=status,minutes=minutes,stats=stats),self.assertRaises(ValueError):
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) (status='dnp', minutes=None, stats={'points': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 43, in test_native_rejects_caller_nonplayed_minutes_or_credits
+    with self.subTest(status=status,minutes=minutes,stats=stats),self.assertRaises(ValueError):
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) (status='dnp', minutes=None, stats={'points': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 43, in test_native_rejects_caller_nonplayed_minutes_or_credits
+    with self.subTest(status=status,minutes=minutes,stats=stats),self.assertRaises(ValueError):
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) (status='unknown', minutes=0, stats={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 43, in test_native_rejects_caller_nonplayed_minutes_or_credits
+    with self.subTest(status=status,minutes=minutes,stats=stats),self.assertRaises(ValueError):
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) (status='unknown', minutes=None, stats={'points': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 43, in test_native_rejects_caller_nonplayed_minutes_or_credits
+    with self.subTest(status=status,minutes=minutes,stats=stats),self.assertRaises(ValueError):
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_native_rejects_caller_nonplayed_minutes_or_credits (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_caller_nonplayed_minutes_or_credits) (status='unknown', minutes=None, stats={'points': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 43, in test_native_rejects_caller_nonplayed_minutes_or_credits
+    with self.subTest(status=status,minutes=minutes,stats=stats),self.assertRaises(ValueError):
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_native_rejects_invalid_participation_and_played_numeric_types (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_invalid_participation_and_played_numeric_types) (status='DNP')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 48, in test_native_rejects_invalid_participation_and_played_numeric_types
+    with self.subTest(status=status),self.assertRaises(ValueError):native(data(status=status),bundle())
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_native_rejects_invalid_participation_and_played_numeric_types (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_invalid_participation_and_played_numeric_types) (status='banana')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 48, in test_native_rejects_invalid_participation_and_played_numeric_types
+    with self.subTest(status=status),self.assertRaises(ValueError):native(data(status=status),bundle())
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_native_rejects_invalid_participation_and_played_numeric_types (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_invalid_participation_and_played_numeric_types) (status=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 48, in test_native_rejects_invalid_participation_and_played_numeric_types
+    with self.subTest(status=status),self.assertRaises(ValueError):native(data(status=status),bundle())
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_native_rejects_invalid_participation_and_played_numeric_types (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_native_rejects_invalid_participation_and_played_numeric_types) (status=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 48, in test_native_rejects_invalid_participation_and_played_numeric_types
+    with self.subTest(status=status),self.assertRaises(ValueError):native(data(status=status),bundle())
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_raw_nonplayed_positive_credit_or_exposure_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_raw_nonplayed_positive_credit_or_exposure_quarantines) (status='dnp', raw=b'{"game":{"awayTeam":{"players":[],"teamId":2},"gameClock":"PT00M00.00S","gameId":"0022200001","gameStatus":3,"gameTimeUTC":"2022-10-21T23:00:00Z","homeTeam":{"players":[{"personId":7,"played":"0","statistics":{"minutes":"PT00M00S","points":1}}],"teamId":1},"period":4}}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 57, in test_raw_nonplayed_positive_credit_or_exposure_quarantines
+    with self.subTest(status=status,raw=raw['raw']),self.assertRaisesRegex(ValueError,'NONPARTICIPATION_CREDIT_UNRESOLVED'):
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_raw_nonplayed_positive_credit_or_exposure_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_raw_nonplayed_positive_credit_or_exposure_quarantines) (status='dnp', raw=b'{"game":{"awayTeam":{"players":[],"teamId":2},"gameClock":"PT00M00.00S","gameId":"0022200001","gameStatus":3,"gameTimeUTC":"2022-10-21T23:00:00Z","homeTeam":{"players":[{"personId":7,"played":"0","statistics":{"minutes":"PT00M00.0000000000000000001S"}}],"teamId":1},"period":4}}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 57, in test_raw_nonplayed_positive_credit_or_exposure_quarantines
+    with self.subTest(status=status,raw=raw['raw']),self.assertRaisesRegex(ValueError,'NONPARTICIPATION_CREDIT_UNRESOLVED'):
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_raw_nonplayed_positive_credit_or_exposure_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_raw_nonplayed_positive_credit_or_exposure_quarantines) (status='unknown', raw=b'{"game":{"awayTeam":{"players":[],"teamId":2},"gameClock":"PT00M00.00S","gameId":"0022200001","gameStatus":3,"gameTimeUTC":"2022-10-21T23:00:00Z","homeTeam":{"players":[{"personId":7,"statistics":{"minutes":"PT00M00S","points":1}}],"teamId":1},"period":4}}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 57, in test_raw_nonplayed_positive_credit_or_exposure_quarantines
+    with self.subTest(status=status,raw=raw['raw']),self.assertRaisesRegex(ValueError,'NONPARTICIPATION_CREDIT_UNRESOLVED'):
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_raw_nonplayed_positive_credit_or_exposure_quarantines (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_raw_nonplayed_positive_credit_or_exposure_quarantines) (status='unknown', raw=b'{"game":{"awayTeam":{"players":[],"teamId":2},"gameClock":"PT00M00.00S","gameId":"0022200001","gameStatus":3,"gameTimeUTC":"2022-10-21T23:00:00Z","homeTeam":{"players":[{"personId":7,"statistics":{"minutes":"PT00M00.0000000000000000001S"}}],"teamId":1},"period":4}}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 57, in test_raw_nonplayed_positive_credit_or_exposure_quarantines
+    with self.subTest(status=status,raw=raw['raw']),self.assertRaisesRegex(ValueError,'NONPARTICIPATION_CREDIT_UNRESOLVED'):
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_true_zero_raw_credits_cannot_hide_behind_omitted_retained_stats (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_true_zero_raw_credits_cannot_hide_behind_omitted_retained_stats)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 76, in test_true_zero_raw_credits_cannot_hide_behind_omitted_retained_stats
+    with self.assertRaisesRegex(ValueError,'ZERO_MINUTE_CREDIT_UNRESOLVED'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_unknown_must_not_mask_explicit_played_or_invalid_source_status (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_unknown_must_not_mask_explicit_played_or_invalid_source_status) (played='1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 62, in test_unknown_must_not_mask_explicit_played_or_invalid_source_status
+    with self.subTest(played=played),self.assertRaisesRegex(ValueError,'PARTICIPATION_CONFLICT'):
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_unknown_must_not_mask_explicit_played_or_invalid_source_status (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_unknown_must_not_mask_explicit_played_or_invalid_source_status) (played='0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 62, in test_unknown_must_not_mask_explicit_played_or_invalid_source_status
+    with self.subTest(played=played),self.assertRaisesRegex(ValueError,'PARTICIPATION_CONFLICT'):
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_unknown_must_not_mask_explicit_played_or_invalid_source_status (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_unknown_must_not_mask_explicit_played_or_invalid_source_status) (played='banana')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 62, in test_unknown_must_not_mask_explicit_played_or_invalid_source_status
+    with self.subTest(played=played),self.assertRaisesRegex(ValueError,'PARTICIPATION_CONFLICT'):
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_vault_raw_dnp_credit_rejects_and_valid_zero_source_persists (tests.nba_architecture.test_p1_nonparticipation_20261117.NonparticipationSourceBoundaries.test_vault_raw_dnp_credit_rejects_and_valid_zero_source_persists)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 89, in test_vault_raw_dnp_credit_rejects_and_valid_zero_source_persists
+    with self.assertRaisesRegex(ValueError,'NONPARTICIPATION_CREDIT_UNRESOLVED'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.065s
+
+FAILED (failures=20)

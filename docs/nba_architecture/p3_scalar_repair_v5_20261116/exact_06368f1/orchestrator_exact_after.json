@@ -1,0 +1,10 @@
+{
+  "before_sha": "2a666106a02595c70e2e372729aeae73d337b745",
+  "immutable_before_raw_sha256": "3a9850cce7b037fcf2a1e57af59749ca2348dbdfc723047c8ef72089fc6f887b",
+  "output": {
+    "error": "O_P1_NATIVE_DENOMINATOR_TYPE"
+  },
+  "owner_sha": "06368f1e1c7b5bba7b0fe0db0b8152a65752df36",
+  "same_input": true,
+  "status": "REJECTED"
+}
