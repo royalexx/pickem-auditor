@@ -69,3 +69,25 @@ class GameSpecificIdentityTests(unittest.TestCase):
             elif attack=='missing':people.pop()
             changed=json.dumps(x).encode();receipt=deepcopy(r);receipt['raw_sha256']=hashlib.sha256(changed).hexdigest()
             with self.subTest(attack=attack),self.assertRaises(ContractError):fn(box,changed,receipt)
+
+class InstalledAdmissionRootTests(unittest.TestCase):
+    def test_exact_three_capabilities_do_not_admit_forecasts_or_training(self):
+        from v2.nba_architecture.admission_v1 import admit_gamebook,HISTORICAL_CAPABILITIES
+        raw,r=OfficialGamebookTests().fixture()
+        for cap in HISTORICAL_CAPABILITIES:
+            result=admit_gamebook(raw,r,required_capability=cap)
+            self.assertEqual(result['capability'],cap)
+            self.assertFalse(result['original_pregame_certified'])
+            self.assertFalse(result['fitted_model_admitted'])
+            self.assertFalse(result['external_player_identity_admitted'])
+            self.assertIsNone(result['correction_history_complete'])
+            self.assertEqual(result['upstream_training_rows_admitted'],0)
+        for cap in ('PREGAME_ROSTER','FITTED_MODEL','COMPLETE_CORRECTIONS','ORIGINAL_AVAILABILITY'):
+            with self.subTest(capability=cap),self.assertRaises(ContractError):admit_gamebook(raw,r,required_capability=cap)
+
+    def test_caller_approval_label_and_altered_capture_cannot_expand_root(self):
+        from v2.nba_architecture.admission_v1 import admit_gamebook
+        raw,r=OfficialGamebookTests().fixture();r['approved']=True;r['source_status']='P1_VERIFIED'
+        r['retrieved_at']='2026-11-17T21:44:20.688624+00:00'
+        with self.assertRaisesRegex(ContractError,'ADMISSION_CAPTURE_IDENTITY'):
+            admit_gamebook(raw,r,required_capability='OFFICIAL_PRINTED_DURATION')
