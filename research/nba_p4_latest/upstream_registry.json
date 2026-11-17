@@ -17,6 +17,12 @@
         "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
         "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
         "v2/nba_s_family/model.py": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6"
+      },
+      "inventory_files": {
+        "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
+        "v2/nba_s_family/integration.py": "5003fac8997ea12e179e58c30286196190b11cf40ea4eec63c79c46a28b0613d",
+        "v2/nba_s_family/model.py": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+        "v2/nba_s_family/p1_native.py": "2e343f57c856cab13b300bd50a52217456640632e5609dd6e1065a076b48ed9a"
       }
     },
     "P3": {
@@ -25,6 +31,12 @@
         "v2/nba_o_bridge.py": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
         "v2/nba_o_consumers.py": "26fa725e35a6f3a8796afad941fcef60e51e6586f9260f2c5d48965e8c3ac61e",
         "v2/nba_o_family.py": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e"
+      },
+      "inventory_files": {
+        "v2/nba_o_bridge.py": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
+        "v2/nba_o_consumers.py": "26fa725e35a6f3a8796afad941fcef60e51e6586f9260f2c5d48965e8c3ac61e",
+        "v2/nba_o_family.py": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e",
+        "v2/nba_o_p1_native.py": "7510ebdfe67db32c8db6fd4a024357c390183d99c34a54ee11e8b80f7150ba67"
       }
     }
   },

@@ -22,7 +22,7 @@ from v2.nba_architecture.v2_contracts import ContractError, digest
 from v2.nba_joint.integration_v2 import simulate_latest
 from v2.nba_joint.latest_upstream import ROOT, REGISTRY, load_upstream, prepare, raw_sha, registry
 
-PLAN = ROOT/'research/nba_p4_latest/repeated_seed_plan_v2.json'
+PLAN = ROOT/'research/nba_p4_latest/repeated_seed_plan_v3.json'
 STATS = ('points','rebounds','assists','threes')
 
 
@@ -65,7 +65,7 @@ def plan():
         'executable_source_hashes':{k:v['files'] for k,v in pins['owners'].items()},
         'inherited_g0_files':pins['inherited_g0_files'],
         'reused_owner_files':pins['reused_owner_files'],
-        'metadata_successor_policy':'Only owner commit metadata may advance when all consumed executable bytes and fixed inputs match; executed registry retained separately.',
+        'metadata_successor_policy':'Owner commit metadata and unconsumed inspector inventory may advance only with identical consumed executable closure and fixed inputs; all runtime inventory bytes remain verified and the executed registry is retained separately.',
         'pregame_sha256':p['content_hash'],'G_sha256':g['content_hash'],
         'O_sha256':o['content_hash'],'O_sidecar_sha256':side['content_hash'],
         'artifacts':{k:a.artifact_sha256 for k,a in artifacts.items()},

@@ -30,7 +30,7 @@ def prepare(destination=None):
     """Materialize exact Git bytes; an existing divergent file is an error."""
     target = Path(destination) if destination else ROOT / 'work/latest_upstream' / raw_sha(REGISTRY.read_bytes())[:16]
     for owner, pin in registry()['owners'].items():
-        for path, expected in pin['files'].items():
+        for path, expected in {**pin.get('inventory_files',{}),**pin['files']}.items():
             raw = subprocess.check_output(['git', 'show', f"{pin['commit']}:{path}"], cwd=ROOT)
             req(raw_sha(raw) == expected, 'J2_REGISTRY_GIT_BYTES_' + owner)
             dest = target / owner / path
@@ -68,10 +68,11 @@ def load_upstream(root):
         req(current.is_file() and raw_sha(current.read_bytes()) == expected,
             'J2_INHERITED_G0_BYTES')
     for owner, pin in pins.items():
-        for path, expected in pin['files'].items():
-            source = Path(root) / owner / path
-            req(source.is_file() and raw_sha(source.read_bytes()) == expected,
-                'J2_UPSTREAM_CODE_PIN_' + owner)
+        for inventory in (pin['files'],pin.get('inventory_files',{})):
+            for path, expected in inventory.items():
+                source = Path(root) / owner / path
+                req(source.is_file() and raw_sha(source.read_bytes()) == expected,
+                    'J2_UPSTREAM_CODE_PIN_' + owner)
     key = raw_sha(REGISTRY.read_bytes())[:16]
     package = '_nba_p4_latest_' + key
     if package not in sys.modules:
