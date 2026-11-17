@@ -36,7 +36,11 @@ def histories(stat='points'):
 
 
 def manifest():
-    return {SRC_HASH:dict(raw_sha256=RAW_HASH,available_at=SRC_TIME,status='P1_VERIFIED')}
+    return {SRC_HASH:dict(raw_sha256=RAW_HASH,available_at=SRC_TIME,status='P1_VERIFIED',
+        games={f'espn:game:prior:{i}':dict(overtime_periods=0,
+            game_start_at=t, duration_receipt_sha256=SRC_HASH,
+            players={'espn:player:10':'espn:team:1','espn:player:11':'espn:team:1'})
+            for i,t in enumerate(GAME_TIMES)})}
 
 
 def frozen_pregame_with_active():

@@ -68,3 +68,8 @@ Python 3.13.5 on the isolated local CPU container: 500 S1 conditional PMF evalua
 A final real-Deepnote live run **`c16809af-3ff0-44d3-bad2-50055bf97ceb`** cloned **`d3a77c27ca0a8f22cec0186b1f2e5aa454140f7d`** and passed **22/22 P2 S tests** (0.998 s), **267/267 original accepted-G0 tests** (7.673 s), and the standalone four-stat synthetic example (0.752 s). No failures, errors or skips were reported. Python 3.12.16, NumPy 1.26.4, SciPy 1.15.3, jsonschema 4.23.0. Exact raw S source SHA-256 `3fb8ab1c81d1f47a85d022cd4280dfeca92b13f7fbbf4af98d6d1760b1ed921b`; S tests `cf0c38b1622cb0d7ad0bbd389ecadd11ee0f7a26c6cd09c7a2d6c1d2791bd474`. G0 contract and families SHA `e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4` and `b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67`.
 
 The interim two failed standalone example runs (import-path and source-transfer issue) were repaired without altering S outcome mathematics; both errors and the final green run are preserved. **G1 remains pending independently authenticated P1 input examples, genuine O/J integration and P6 adversarial acceptance.** Passing synthetic and contract suites cannot certify historical predictive skill or release decisions. Evidence-only documentation commits after the tested SHA do not alter executed code.
+
+
+## F-P2-01 remediation addendum
+
+The versioned successor handoff is [P2 S interfaces 1.1](P2_S_INTERFACES_V1_1.md). It replaces the former fixed historical exposure limit with P1 receipt-bound official per-game duration, adds actual P1/P3 synthetic interoperability and an S-to-J proposal, and records remaining historical-source/P4 blockers. See its raw execution receipts; independent G1 acceptance is still pending.

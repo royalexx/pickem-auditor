@@ -148,7 +148,7 @@ def fit(history_rows, *, asof_cutoff_utc, source_manifest, stat,
             raise SFError("FUTURE_OR_UNRELEASED_OUTCOME")
         receipt = sha(r['source_receipt_sha256'])
         source = source_manifest.get(receipt)
-        if not isinstance(source, dict) or set(source) != {'raw_sha256','available_at','status'}:
+        if not isinstance(source, dict) or set(source) not in ({'raw_sha256','available_at','status'}, {'raw_sha256','available_at','status','games'}):
             raise SFError("SOURCE_RECEIPT_MISSING")
         if source['status'] != 'P1_VERIFIED':
             raise SFError("SOURCE_NOT_VERIFIED_BY_P1")
@@ -157,9 +157,28 @@ def fit(history_rows, *, asof_cutoff_utc, source_manifest, stat,
         src_time = utc(source['available_at'])
         if src_time > cutoff or src_time < available:
             raise SFError("SOURCE_LATE_OR_INCONSISTENT")
+        games = source.get('games')
+        game = games.get(r['game_id']) if isinstance(games, dict) else None
+        if not isinstance(game, dict) or set(game) != {
+                'overtime_periods', 'game_start_at', 'players', 'duration_receipt_sha256'}:
+            raise SFError("HISTORICAL_DURATION_UNRESOLVED")
+        duration_source = source_manifest.get(sha(game['duration_receipt_sha256']))
+        if not isinstance(duration_source, dict) or duration_source.get('status') != 'P1_VERIFIED':
+            raise SFError("DURATION_SOURCE_UNVERIFIED")
+        sha(duration_source.get('raw_sha256'))
+        if utc(duration_source.get('available_at')) > cutoff or utc(duration_source.get('available_at')) < available:
+            raise SFError("DURATION_SOURCE_LATE")
+        ot = game['overtime_periods']
+        if type(ot) is not int or ot < 0:
+            raise SFError("HISTORICAL_DURATION_UNRESOLVED")
+        if utc(game['game_start_at']) != start:
+            raise SFError("HISTORICAL_GAME_CLOCK_MISMATCH")
+        if not isinstance(game['players'], dict) or game['players'].get(r['player_id']) != r['team_id']:
+            raise SFError("HISTORICAL_PLAYER_TEAM_MISMATCH")
+        sources_used.add(game['duration_receipt_sha256'])
         y = count(r['count'])
         minutes = finite(r['minutes'])
-        if minutes > 53 or (minutes == 0 and y > 0):
+        if minutes > 48 + 5 * ot or (minutes == 0 and y > 0):
             raise SFError("HISTORICAL_EXPOSURE_PHYSICS")
         if family in ('S1','S2','S3') and minutes == 0:
             raise SFError("TRAINING_GAME_ZERO_EXPOSURE")
@@ -177,7 +196,7 @@ def fit(history_rows, *, asof_cutoff_utc, source_manifest, stat,
     if len({r['game_id'] for r in rows}) == 0:
         raise SFError("EMPTY_TRAINING_POOL")
     artifact = {
-        'version':'nba-v25-S/1.0.0', 'family':family, 'stat':stat,
+        'version':'nba-v25-S/1.1.0', 'family':family, 'stat':stat,
         'training_cutoff_at':asof_cutoff_utc,
         'last_game_start_at':max(r['game_start_at'] for r in rows),
         'last_outcome_available_at':max(r['outcome_available_at'] for r in rows),
@@ -275,7 +294,7 @@ def _pmf(law, params, exposure, *, target=TAIL_TARGET):
         mass=distribution.pmf(np.arange(hi+1))
     raw=np.asarray(mass,dtype=np.float64)
     total=float(math.fsum(float(x) for x in raw))
-    if not np.all(np.isfinite(raw)) or total<=0 or abs((1-total)-tail)>1e-8:
+    if not np.all(np.isfinite(raw)) or np.any(raw < 0) or total<=0 or abs((1-total)-tail)>1e-8:
         raise SFError("PMF_NUMERICAL_INTEGRITY")
     # This is the explicitly disclosed, tail-bounded *conditional-on-retained*
     # law. No hidden cutoff, and no discarded tail claimed to be exact zero.

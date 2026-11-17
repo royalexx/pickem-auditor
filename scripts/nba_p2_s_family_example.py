@@ -15,6 +15,7 @@ DAYS = ('2022-10-01','2022-10-03','2022-10-05')
 def main():
     source = {SRC:{'raw_sha256':RAW,'available_at':'2022-10-07T00:00:00Z',
                    'status':'P1_VERIFIED'}}  # TEST FIXTURE STATUS, NOT REAL P1
+    source[SRC]['games'] = {'espn:game:synthetic-'+str(i): {'overtime_periods':0, 'game_start_at':day+'T00:00:00Z', 'duration_receipt_sha256':SRC, 'players':{'espn:player:synthetic-a':'espn:team:synthetic','espn:player:synthetic-b':'espn:team:synthetic'}} for i,day in enumerate(DAYS)}
     answers = {}
     for stat, own, peer in (('points',(12,15,18),(8,11,12)),
                             ('rebounds',(5,6,7),(4,3,5)),

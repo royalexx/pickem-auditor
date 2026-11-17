@@ -1,0 +1,140 @@
+{
+  "G0_contract_raw_sha256": {
+    "v2/nba_architecture/families_v2.py": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+    "v2/nba_architecture/v2_contracts.py": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4"
+  },
+  "G1": "BLOCKED_SOURCE_AND_P4_ADOPTION",
+  "accepted_G0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "branch": "research/nba-p2-s-family-g1-20261116",
+  "independent_review": "REQUEST_REQUIRED_AT_FINAL_COMMIT",
+  "packages": {
+    "jsonschema": "4.26.0",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0"
+  },
+  "parent_sha": "96d210a6100085640e7e82928ab1c864839fc454",
+  "python": "3.12.14",
+  "raw_sha256": {
+    "docs/nba_architecture/P2_S_FAMILY_HANDOFF_20261116.md": "e733dea54cd39bef246c8bc1fdca5c9b77c084854dcf4ca80d1de9f88deb7222",
+    "docs/nba_architecture/P2_S_INTERFACES_V1_1.md": "6b20106fc423734e733734eca89449098e8667455e269e3b6a4790d79f61821e",
+    "docs/nba_architecture/p2_remediation_v1_1/G0_plus_P6.log": "6b496cbdfbcca9c366b6a987d0ef7f7f5ea704821eef5ea6e67f301b76fc906c",
+    "docs/nba_architecture/p2_remediation_v1_1/G0_regression.log": "712c1873b41403e77d456a45564028a209cf3598b42106e97ddf8c13853318ca",
+    "docs/nba_architecture/p2_remediation_v1_1/S_all.log": "ac0ffd9b68652013c4314fdcb49e433529e76f29a23f622a8122492aadefbac8",
+    "docs/nba_architecture/p2_remediation_v1_1/S_original_22.log": "973a3c1a551afe0e7c6e49d7857c4348b8b220949bd8d4fc6eab8c84072ff145",
+    "docs/nba_architecture/p2_remediation_v1_1/example.log": "41352faa78afda7e47c744e89a103032df199bb1bb6e31667abf4ba053fe723f",
+    "docs/nba_architecture/p2_remediation_v1_1/owner_interoperability.log": "4787a49b69577c2fd76f11bca1ed56b321646576870d9c2c5c531ce15930986a",
+    "scripts/nba_p2_integration_check.py": "df09d1cf41f1aeb06eaf9b13bc7041ca6fdef83d7efa4b3234319f402282a641",
+    "scripts/nba_p2_remediation_evidence.py": "9989c66a1f31d06e3755422202a806b19fbd3e20f6f1b0b2c5a1063a0bf3bd05",
+    "scripts/nba_p2_s_family_example.py": "12b52e1f07160a8b4404575c6eb8100c8fde3c1c189526036e8bafeb61d17a68",
+    "tests/nba_s_family/test_integration.py": "56ff6e48993d40964caada5a2ea9291fc50ae181ed4cdf3a06f12b61e54ce715",
+    "tests/nba_s_family/test_statistical.py": "4afb4f98bfe5666ac02a80080dff566c9dbcc7bc1c5c407542b5ee23226ca1ee",
+    "v2/nba_s_family/integration.py": "cc5ba5d5fab72d762581f831e55d1018dc5a5383ade8f89fb8de9fea03cb51e3",
+    "v2/nba_s_family/model.py": "0567e6e6a474361c748b60c0810951ff0b32de03e21c58f7970ce8cd6b68071c"
+  },
+  "schema": "nba-P2-remediation-evidence/1.1.0",
+  "synthetic_only": true,
+  "tests": {
+    "G0_plus_P6": {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "copied_tests": [
+        "tests/nba_architecture/test_p6_g1_specificity_and_scores.py",
+        "tests/nba_architecture/test_p6_independent_controls.py",
+        "tests/nba_architecture/test_p6_math_references.py",
+        "tests/nba_architecture/test_p6_post_g0_reference_and_boundaries.py",
+        "tests/nba_architecture/test_p6_red_counterexamples.py"
+      ],
+      "exit": 0,
+      "qa_sha": "31435bd571ae1b4a9b7f1e1bbf05e55cef61126f"
+    },
+    "G0_regression": {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0
+    },
+    "S_all": {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_s_family",
+        "-v"
+      ],
+      "exit": 0
+    },
+    "S_original_22": {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "tests.nba_s_family.test_statistical",
+        "-v"
+      ],
+      "exit": 0
+    },
+    "example": {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "scripts/nba_p2_s_family_example.py"
+      ],
+      "exit": 0
+    },
+    "owner_interoperability": {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "scripts/nba_p2_integration_check.py",
+        "/workspace/work/pickem-auditor"
+      ],
+      "exit": 0
+    }
+  },
+  "upstream_inspected": {
+    "P1": {
+      "commit": "e0b8703887d327c8d8ac34807078e75e7b59a540",
+      "raw_sha256": {
+        "v2/nba_architecture/p1_history.py": "297750ce2251da07e7d1c8ec48980c5cf7b9aa87dfab7e939104b5da9ec517f9"
+      }
+    },
+    "P3": {
+      "commit": "80dbed35f983839f962250ad1c0236061dc6ee00",
+      "raw_sha256": {
+        "v2/nba_o_family.py": "984914556741462aa6c5d62a628d39a1313fcbd2e9962639f48d4e62f326277d",
+        "v2/nba_opportunity.py": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30"
+      }
+    },
+    "P4": {
+      "commit": "b3729c53509cb063e2e451b7e4feb0ac2c6a9552",
+      "raw_sha256": {
+        "v2/nba_joint/p4.py": "02368ba14dac206657ad75dee821735dc68f636cad7ceb1c75e4fda926a74a30"
+      }
+    },
+    "P6": {
+      "commit": "31435bd571ae1b4a9b7f1e1bbf05e55cef61126f",
+      "raw_sha256": {
+        "scripts/nba_p6_g1_owner_negative_probes_20261116.py": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52",
+        "tests/nba_architecture/test_p6_g1_specificity_and_scores.py": "cb8340930193fe14cd6e2a6f51ebd90e4d2672e1d40f5ee08c84720bd67c7379",
+        "tests/nba_architecture/test_p6_independent_controls.py": "8cdb7a8b013ee3f9e44122e90263cc83befbd835a79740ee6d578dbe60cf0802",
+        "tests/nba_architecture/test_p6_math_references.py": "316e41d3a6bf6f1c2587daef94a3933e94e02b02b3078a3728614c55069f1e5b",
+        "tests/nba_architecture/test_p6_post_g0_reference_and_boundaries.py": "03459760f1d829c63afcf892be35c5b74cdc277360d37f63fa556b62b0d7401e",
+        "tests/nba_architecture/test_p6_red_counterexamples.py": "a1974d20dd8f5a40493a06cd2ce349f2a2b7a3da9131a21aebddb1a56bc6e5d1"
+      }
+    }
+  },
+  "verified_historical_training_rows": 0
+}
