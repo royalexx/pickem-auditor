@@ -1,0 +1,221 @@
+test_actual_raw_native_export_rejects_impossible_scoring (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_actual_raw_native_export_rejects_impossible_scoring) ... FAIL
+test_historical_builder_rejects_partial_impossible_points (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_historical_builder_rejects_partial_impossible_points) ... FAIL
+test_legitimate_partial_and_full_positive_controls (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_legitimate_partial_and_full_positive_controls) ... ok
+test_partial_combinations_bound_known_components (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_combinations_bound_known_components) ... 
+  test_partial_combinations_bound_known_components (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_combinations_bound_known_components) (stats={'pr': 1, 'points': 2}) ... FAIL
+  test_partial_combinations_bound_known_components (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_combinations_bound_known_components) (stats={'pa': 1, 'assists': 2}) ... FAIL
+  test_partial_combinations_bound_known_components (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_combinations_bound_known_components) (stats={'ra': 1, 'rebounds': 2}) ... FAIL
+  test_partial_combinations_bound_known_components (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_combinations_bound_known_components) (stats={'pra': 3, 'points': 2, 'assists': 2}) ... FAIL
+test_partial_points_known_makes_have_necessary_lower_bound (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_makes_have_necessary_lower_bound) ... 
+  test_partial_points_known_makes_have_necessary_lower_bound (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_makes_have_necessary_lower_bound) (stats={'points': 1, 'threes': 2}) ... FAIL
+  test_partial_points_known_makes_have_necessary_lower_bound (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_makes_have_necessary_lower_bound) (stats={'points': 1, 'fgm': 1}) ... FAIL
+  test_partial_points_known_makes_have_necessary_lower_bound (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_makes_have_necessary_lower_bound) (stats={'points': 1, 'ftm': 2}) ... FAIL
+  test_partial_points_known_makes_have_necessary_lower_bound (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_makes_have_necessary_lower_bound) (stats={'points': 6, 'threes': 2, 'ftm': 1}) ... FAIL
+  test_partial_points_known_makes_have_necessary_lower_bound (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_makes_have_necessary_lower_bound) (stats={'points': 4, 'fgm': 2, 'threes': 1}) ... FAIL
+test_partial_points_known_shot_and_free_throw_caps (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_shot_and_free_throw_caps) ... 
+  test_partial_points_known_shot_and_free_throw_caps (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_shot_and_free_throw_caps) (stats={'points': 4, 'fgm': 1, 'ftm': 0}) ... FAIL
+  test_partial_points_known_shot_and_free_throw_caps (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_shot_and_free_throw_caps) (stats={'points': 4, 'fga': 1, 'fta': 0}) ... FAIL
+  test_partial_points_known_shot_and_free_throw_caps (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_shot_and_free_throw_caps) (stats={'points': 5, 'fga': 2, 'fg3a': 0, 'fta': 0}) ... FAIL
+  test_partial_points_known_shot_and_free_throw_caps (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_shot_and_free_throw_caps) (stats={'points': 6, 'fgm': 2, 'threes': 0, 'fta': 1}) ... FAIL
+  test_partial_points_known_shot_and_free_throw_caps (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_shot_and_free_throw_caps) (stats={'points': 2, 'fgm': 0, 'fta': 1}) ... FAIL
+test_partial_rebound_components_cannot_exceed_total (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_rebound_components_cannot_exceed_total) ... 
+  test_partial_rebound_components_cannot_exceed_total (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_rebound_components_cannot_exceed_total) (stats={'rebounds': 1, 'oreb': 2}) ... FAIL
+  test_partial_rebound_components_cannot_exceed_total (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_rebound_components_cannot_exceed_total) (stats={'rebounds': 1, 'dreb': 2}) ... FAIL
+test_threes_and_two_point_attempt_support (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_threes_and_two_point_attempt_support) ... 
+  test_threes_and_two_point_attempt_support (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_threes_and_two_point_attempt_support) (stats={'threes': 2, 'fga': 1}) ... FAIL
+  test_threes_and_two_point_attempt_support (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_threes_and_two_point_attempt_support) (stats={'fgm': 5, 'threes': 1, 'fga': 6, 'fg3a': 5}) ... FAIL
+test_vault_rejects_impossible_scoring_before_write (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_vault_rejects_impossible_scoring_before_write) ... FAIL
+
+======================================================================
+FAIL: test_actual_raw_native_export_rejects_impossible_scoring (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_actual_raw_native_export_rejects_impossible_scoring)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 49, in test_actual_raw_native_export_rejects_impossible_scoring
+    with self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_historical_builder_rejects_partial_impossible_points (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_historical_builder_rejects_partial_impossible_points)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 44, in test_historical_builder_rejects_partial_impossible_points
+    with self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_combinations_bound_known_components (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_combinations_bound_known_components) (stats={'pr': 1, 'points': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 41, in test_partial_combinations_bound_known_components
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'COMBINATION_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_combinations_bound_known_components (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_combinations_bound_known_components) (stats={'pa': 1, 'assists': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 41, in test_partial_combinations_bound_known_components
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'COMBINATION_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_combinations_bound_known_components (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_combinations_bound_known_components) (stats={'ra': 1, 'rebounds': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 41, in test_partial_combinations_bound_known_components
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'COMBINATION_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_combinations_bound_known_components (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_combinations_bound_known_components) (stats={'pra': 3, 'points': 2, 'assists': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 41, in test_partial_combinations_bound_known_components
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'COMBINATION_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_points_known_makes_have_necessary_lower_bound (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_makes_have_necessary_lower_bound) (stats={'points': 1, 'threes': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 19, in test_partial_points_known_makes_have_necessary_lower_bound
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_points_known_makes_have_necessary_lower_bound (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_makes_have_necessary_lower_bound) (stats={'points': 1, 'fgm': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 19, in test_partial_points_known_makes_have_necessary_lower_bound
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_points_known_makes_have_necessary_lower_bound (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_makes_have_necessary_lower_bound) (stats={'points': 1, 'ftm': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 19, in test_partial_points_known_makes_have_necessary_lower_bound
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_points_known_makes_have_necessary_lower_bound (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_makes_have_necessary_lower_bound) (stats={'points': 6, 'threes': 2, 'ftm': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 19, in test_partial_points_known_makes_have_necessary_lower_bound
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_points_known_makes_have_necessary_lower_bound (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_makes_have_necessary_lower_bound) (stats={'points': 4, 'fgm': 2, 'threes': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 19, in test_partial_points_known_makes_have_necessary_lower_bound
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_points_known_shot_and_free_throw_caps (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_shot_and_free_throw_caps) (stats={'points': 4, 'fgm': 1, 'ftm': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 27, in test_partial_points_known_shot_and_free_throw_caps
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_points_known_shot_and_free_throw_caps (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_shot_and_free_throw_caps) (stats={'points': 4, 'fga': 1, 'fta': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 27, in test_partial_points_known_shot_and_free_throw_caps
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_points_known_shot_and_free_throw_caps (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_shot_and_free_throw_caps) (stats={'points': 5, 'fga': 2, 'fg3a': 0, 'fta': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 27, in test_partial_points_known_shot_and_free_throw_caps
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_points_known_shot_and_free_throw_caps (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_shot_and_free_throw_caps) (stats={'points': 6, 'fgm': 2, 'threes': 0, 'fta': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 27, in test_partial_points_known_shot_and_free_throw_caps
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_points_known_shot_and_free_throw_caps (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_shot_and_free_throw_caps) (stats={'points': 2, 'fgm': 0, 'fta': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 27, in test_partial_points_known_shot_and_free_throw_caps
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_rebound_components_cannot_exceed_total (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_rebound_components_cannot_exceed_total) (stats={'rebounds': 1, 'oreb': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 36, in test_partial_rebound_components_cannot_exceed_total
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'REBOUND_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_rebound_components_cannot_exceed_total (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_rebound_components_cannot_exceed_total) (stats={'rebounds': 1, 'dreb': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 36, in test_partial_rebound_components_cannot_exceed_total
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'REBOUND_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_threes_and_two_point_attempt_support (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_threes_and_two_point_attempt_support) (stats={'threes': 2, 'fga': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 32, in test_threes_and_two_point_attempt_support
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'SHOOTING_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_threes_and_two_point_attempt_support (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_threes_and_two_point_attempt_support) (stats={'fgm': 5, 'threes': 1, 'fga': 6, 'fg3a': 5})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 32, in test_threes_and_two_point_attempt_support
+    with self.subTest(stats=stats),self.assertRaisesRegex(ValueError,'SHOOTING_ACCOUNTING'):_stats(stats)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_vault_rejects_impossible_scoring_before_write (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_vault_rejects_impossible_scoring_before_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p1/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 57, in test_vault_rejects_impossible_scoring_before_write
+    with self.assertRaisesRegex(ValueError,'POINT_ACCOUNTING'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.056s
+
+FAILED (failures=21)

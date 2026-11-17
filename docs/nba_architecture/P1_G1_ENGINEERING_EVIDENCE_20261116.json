@@ -1,0 +1,116 @@
+{
+  "schema": "nba-p1-g1-engineering-evidence/1.0",
+  "date": "2026-11-16",
+  "status": "TESTED_G1_BLOCKED_BY_REAL_DATA_AND_INDEPENDENT_ACCEPTANCE",
+  "governing_plan": "PA-V25-MASTER-2026-11-09/v1.1",
+  "g0": {
+    "status": "INDEPENDENT_TECHNICAL_PASS",
+    "accepted_code_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+    "acceptance_pr": 161,
+    "code_pr": 157
+  },
+  "p1": {
+    "branch": "research/nba-p1-canonical-history-g1-20261116",
+    "tested_code_sha": "1558d6c6661b0e3fb2cabbe19241b4dac0aa7c9f",
+    "draft_pr": 167,
+    "contract": "nba-sojc-contract/2.0.0",
+    "source_profile": "historical_reconstruction",
+    "certification": "HISTORICAL_RECONSTRUCTION_UNCERTIFIED",
+    "training_started": false,
+    "predictive_historical_scoring": false,
+    "production_modified": false
+  },
+  "source_audit": {
+    "archive_git_sha": "97a8bb566826afe5a3e5a7b8c632043d8a1dca24",
+    "ws1_git_sha": "53c01a9eabb9ed09b5c3186eae0d086b07bcc891",
+    "coverage_json_raw_sha256": "cf377a3c3d18fb8147586d4d3553092e0c23a51066af338a7f49ddd92ec3d2a7",
+    "manifest_inner_source_manifest_sha256": "1cea946b2ea00ecc2ac302b2fb5a5821984be61bd6ef7cd6575e23ff98fd3f9e",
+    "shards_verified": 99,
+    "shards_missing": 0,
+    "sha_or_size_mismatch": 0,
+    "compressed_bytes_verified": 39916715,
+    "full_preflight_output_sha256": "01a6d7c307b77cc8459abea8ac524ae9a078b4e0a43b96c10d7f610359b01971",
+    "deepnote_run_id": "539f7ff4-19cf-47bc-bd12-b583c8455827",
+    "semantic_warning": "Compressed-byte content integrity is not pregame source-time provenance nor official schedule/roster completeness."
+  },
+  "prior_ws1_coverage_report": {
+    "source": "docs/nba_ws1/COVERAGE_REPORT.md at WS1 PR #137",
+    "counts_independently_reparsed_here": false,
+    "segments": [
+      {
+        "label": "training",
+        "season_ending_years": [
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "games": 4599,
+        "eleven_stat_rows": 1070036,
+        "unique_player_games": 97276
+      },
+      {
+        "label": "development",
+        "season_ending_years": [
+          2023
+        ],
+        "games": 1230,
+        "eleven_stat_rows": 283998,
+        "unique_player_games": 25818
+      },
+      {
+        "label": "validation",
+        "season_ending_years": [
+          2024
+        ],
+        "games": 1230,
+        "eleven_stat_rows": 289113,
+        "unique_player_games": 26283
+      }
+    ],
+    "scope_quarantine_games": 18,
+    "scope_quarantine_stat_rows": 3938
+  },
+  "tests": {
+    "deepnote_project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "notebook_id": "cff127591ead4b7d9214fbd7ee60c770",
+    "exact_run_id": "539f7ff4-19cf-47bc-bd12-b583c8455827",
+    "python": "3.12.16",
+    "source_preflight_synthetic": "9/9 PASS",
+    "p1_synthetic_adversarial": "30/30 PASS",
+    "full_g0_plus_p1_architecture": "297/297 PASS",
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "full_suite_stdout_sha256": "3251d7f42139daf4bab40f7727e87537658e38171c93291cfcf1cae6af3f612c",
+    "p1_detailed_stdout_sha256": "abc09be1a3a92daa19e0d9f8b323a48ac526511645863e37c273932080b61b09",
+    "all_tests_are_historical_qa_not_predictive_validation": true
+  },
+  "golden_fixture": {
+    "synthetic_only": true,
+    "cli_runs": 2,
+    "byte_identical": true,
+    "players": 1,
+    "features": 10,
+    "input_manifest_sha256": "f7ad7a0a03177c9bcc1d84a88581e7c342db0eb31bbfd8ea82c2f56391e9716a",
+    "pregame_content_sha256": "c89ecf2c376a5372cb40aed57fd89ba0b00387ce38d7ec4724882c2c45b0115e",
+    "serialized_json_sha256": "f4789249558534f5fe00eaec64c8ddf8845035f1a12f562037d2404a09f62bf5",
+    "real_original_capture_certified": false,
+    "forecast_scored": false
+  },
+  "p1_file_sha256": {
+    "v2/nba_architecture/p1_history.py": "297750ce2251da07e7d1c8ec48980c5cf7b9aa87dfab7e939104b5da9ec517f9",
+    "v2/nba_architecture/p1_vault.py": "ed398dd8333c84ab3e3738bf6f733ed403655ff86dc544bad0302573dab3e61b",
+    "tests/nba_architecture/test_p1_history.py": "071b0e0a237e13612e849c4b6346de3727c3d13e6b36d4d0ca9443738951da7d",
+    "scripts/nba_p1_build_pregame.py": "a09c19e77edb1741d510107a87fe41e70d06315a8c4a2337750a55d7e5b3a48f"
+  },
+  "g1_blockers": [
+    "NO_COMPLETE_ORIGINALLY_TIMESTAMPED_HISTORICAL_PREGAME_CAPTURE",
+    "DATE_VALIDATED_NUMERIC_TEAM_ABBREVIATION_CROSSWALK_UNAVAILABLE",
+    "PLAYER_ACTIVE_ROSTER_ELIGIBILITY_AND_DNP_GAPS",
+    "UNVERIFIED_LEAGUE_SCHEDULE_AND_HISTORICAL_OFFICIAL_STAT_CORRECTIONS",
+    "NO_REAL_COMPLETE_2022_23_AND_2023_24_V2_SNAPSHOTS_GENERATED",
+    "P6_INDEPENDENT_REVIEW_AND_G1_FAMILY_SIGNOFF_PENDING"
+  ],
+  "audit_boundary": "G1 acceptance is not claimed; source integrity, synthetic software tests, actual historical pregame availability, historical model validity, economic edge, and production readiness are distinct gates."
+}

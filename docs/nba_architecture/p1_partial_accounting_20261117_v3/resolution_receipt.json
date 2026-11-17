@@ -1,0 +1,22 @@
+{
+  "source_commit": "d5cafda47a2f881a88974bfb7bcbb90372fe69c2",
+  "classification": "CORRECTNESS_DEFECT",
+  "owner": "P1",
+  "disposition": "PASS_AUTHOR_TESTED_PENDING_INDEPENDENT_P6",
+  "independent_reviewer_disposition": "PENDING",
+  "reproduce": "python scripts/nba_p1_native_handoff_check_20261117.py --output work/p1-additional-fresh",
+  "exact_execution": "docs/nba_architecture/p1_nonparticipation_20261117_v4/exact_d5cafda/receipt.json",
+  "substantive_source_evidence": "B-P1-01/B-P1-02 BLOCKED",
+  "schema": "nba-p1-additional-source-resolution/1.0.0",
+  "criterion": "F-P1-NATIVE-04",
+  "red_sha": "b745b048f3ea871419272aee4c16798f455ee091",
+  "fix_sha": "c1d669f7b8091cf6b632a4f34a3b91e6c93b5205",
+  "permanent_regression": "tests/nba_architecture/test_p1_partial_accounting_20261117.py",
+  "observed": "Impossible partial known count contributions reject; valid unknown-field controls accepted.",
+  "raw_sha256": {
+    "v2/nba_architecture/p1_history.py": "ef3c6c29dc97aeea58c5f6b59c1096c3470201aa19c38fa602d683891ec837c6",
+    "v2/nba_architecture/p1_evidence.py": "a3ca2bf02e645ac1a142bf4daa7d2558fbbc0e72545505b6f622fb0fa2a43c71",
+    "v2/nba_architecture/p1_handoff.py": "c9567c367ba72fcae7c1229c6bda7baf949223d7389d6e8715a2b12f917b6c39",
+    "tests/nba_architecture/test_p1_partial_accounting_20261117.py": "2501c23f3014c5888239e73a33588d2a2911cac8881c609d0075ec1c870a8763"
+  }
+}

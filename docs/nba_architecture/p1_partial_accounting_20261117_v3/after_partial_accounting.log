@@ -1,0 +1,14 @@
+test_actual_raw_native_export_rejects_impossible_scoring (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_actual_raw_native_export_rejects_impossible_scoring) ... ok
+test_historical_builder_rejects_partial_impossible_points (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_historical_builder_rejects_partial_impossible_points) ... ok
+test_legitimate_partial_and_full_positive_controls (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_legitimate_partial_and_full_positive_controls) ... ok
+test_partial_combinations_bound_known_components (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_combinations_bound_known_components) ... ok
+test_partial_points_known_makes_have_necessary_lower_bound (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_makes_have_necessary_lower_bound) ... ok
+test_partial_points_known_shot_and_free_throw_caps (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_points_known_shot_and_free_throw_caps) ... ok
+test_partial_rebound_components_cannot_exceed_total (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_partial_rebound_components_cannot_exceed_total) ... ok
+test_threes_and_two_point_attempt_support (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_threes_and_two_point_attempt_support) ... ok
+test_vault_rejects_impossible_scoring_before_write (tests.nba_architecture.test_p1_partial_accounting_20261117.PartialAccounting.test_vault_rejects_impossible_scoring_before_write) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.002s
+
+OK

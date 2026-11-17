@@ -1,0 +1,95 @@
+{
+  "sha": "a3263bc840c9973fddaaf9025358b7780d03664b",
+  "code_sha256": "ddcf546ff51be596ac65f948c55d7e8cd5d5a8519445cfe0764c4a0db9c21fad",
+  "input": {
+    "game_date": "2022-10-21",
+    "game_id": "nba:game:0022200001",
+    "minutes": 48,
+    "opponent_id": "nba:team:2",
+    "participation": "played",
+    "player_id": "nba:player:7",
+    "starter": null,
+    "stats": {
+      "assists": 3,
+      "points": 11,
+      "rebounds": 5,
+      "threes": 2
+    },
+    "team_id": "nba:team:1"
+  },
+  "exact_raw_minutes": "PT48M0.000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+  "bundle_raw_base64": "eyJnYW1lIjp7ImF3YXlUZWFtIjp7InBsYXllcnMiOltdLCJ0ZWFtSWQiOjJ9LCJnYW1lQ2xvY2siOiJQVDAwTTAwLjAwUyIsImdhbWVJZCI6IjAwMjIyMDAwMDEiLCJnYW1lU3RhdHVzIjozLCJnYW1lVGltZVVUQyI6IjIwMjItMTAtMjFUMjM6MDA6MDBaIiwiaG9tZVRlYW0iOnsicGxheWVycyI6W3sicGVyc29uSWQiOjcsInBsYXllZCI6IjEiLCJzdGF0aXN0aWNzIjp7ImFzc2lzdHMiOjMsIm1pbnV0ZXMiOiJQVDQ4TTAuMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxUyIsInBvaW50cyI6MTEsInJlYm91bmRzVG90YWwiOjUsInRocmVlUG9pbnRlcnNNYWRlIjoyfX1dLCJ0ZWFtSWQiOjF9LCJwZXJpb2QiOjR9fQ==",
+  "status": "ACCEPTED",
+  "output": {
+    "schema": "nba-p1-native-handoff/1.0.0",
+    "kind": "prior_game_export",
+    "profile": "synthetic_engineering",
+    "source_profile": "synthetic_engineering",
+    "admission_status": "BLOCKED",
+    "missing_requirements": [
+      "INDEPENDENT_SOURCE_ADMISSION",
+      "ORIGINAL_OR_FIRST_DEFENSIBLE_AVAILABILITY",
+      "SOURCE_BOUND_OUTCOME_RELEASE_CLOCK",
+      "DATED_ROLE_EVIDENCE"
+    ],
+    "evidence_bundle": {
+      "capture": {
+        "schema": "nba-p1-prior-game-evidence/1.0.0",
+        "url": "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022200001.json",
+        "raw_sha256": "5bc7eeb34db7ef9d06965300740c13d9947f5065f965cc85ee6899ea8193c4be",
+        "retrieved_at": "2026-11-16T18:00:00Z",
+        "revision": 1,
+        "supersedes_receipt_sha256": null
+      },
+      "raw_base64": "eyJnYW1lIjp7ImF3YXlUZWFtIjp7InBsYXllcnMiOltdLCJ0ZWFtSWQiOjJ9LCJnYW1lQ2xvY2siOiJQVDAwTTAwLjAwUyIsImdhbWVJZCI6IjAwMjIyMDAwMDEiLCJnYW1lU3RhdHVzIjozLCJnYW1lVGltZVVUQyI6IjIwMjItMTAtMjFUMjM6MDA6MDBaIiwiaG9tZVRlYW0iOnsicGxheWVycyI6W3sicGVyc29uSWQiOjcsInBsYXllZCI6IjEiLCJzdGF0aXN0aWNzIjp7ImFzc2lzdHMiOjMsIm1pbnV0ZXMiOiJQVDQ4TTAuMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxUyIsInBvaW50cyI6MTEsInJlYm91bmRzVG90YWwiOjUsInRocmVlUG9pbnRlcnNNYWRlIjoyfX1dLCJ0ZWFtSWQiOjF9LCJwZXJpb2QiOjR9fQ==",
+      "prior": []
+    },
+    "exposure": {
+      "schema": "nba-p1-prior-game-evidence/1.0.0",
+      "game_id": "nba:game:0022200001",
+      "game_date": "2022-10-21",
+      "overtime_periods": 0,
+      "duration_minutes": 48,
+      "source_status": "OFFICIAL_BYTES_CONSISTENT_AUTHENTICITY_REVIEW_REQUIRED",
+      "raw_sha256": "5bc7eeb34db7ef9d06965300740c13d9947f5065f965cc85ee6899ea8193c4be",
+      "receipt_sha256": "26f92dd4174ef331b168ecdc701c4c137b85d7f7e988b2a16e35400b4ba08013",
+      "retrieved_at": "2026-11-16T18:00:00Z",
+      "original_pregame_available_at": null,
+      "certification": "HISTORICAL_RECONSTRUCTION_UNCERTIFIED",
+      "player_id": "nba:player:7",
+      "team_id": "nba:team:1",
+      "opponent_id": "nba:team:2",
+      "participation": "played",
+      "displayed_minutes": 48,
+      "exact_minutes": 48.0,
+      "accounting_status": "OFFICIAL_BOX_RECONCILED",
+      "stats": {
+        "assists": 3,
+        "points": 11,
+        "rebounds": 5,
+        "threes": 2
+      }
+    },
+    "game_start_at": "2022-10-21T23:00:00Z",
+    "clocks": {
+      "provider_published_at": null,
+      "first_defensible_available_at": null,
+      "collector_observed_at": null,
+      "retrieved_at": "2026-11-16T18:00:00Z",
+      "ingested_at": "2026-11-16T19:00:00Z",
+      "outcome_available_at": null
+    },
+    "role": null,
+    "role_evidence": null,
+    "uncertainty": {
+      "participation": "played",
+      "source_admission": "UNKNOWN",
+      "role": "UNKNOWN"
+    },
+    "candidate_denominator": {
+      "attempted": 1,
+      "admitted": 0,
+      "quarantined": 1
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "schema": "nba-p1-native-handoff-execution/1.0.0",
+  "owner_sha": "d5cafda47a2f881a88974bfb7bcbb90372fe69c2",
+  "qa_sha": "ddc60a83f6c9a2b863f5e7a44823bffa3b01e048",
+  "accepted_g0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "inherited_g0_blobs_equal": {
+    "v2/nba_architecture/v2_contracts.py": true,
+    "v2/nba_architecture/exposure_v2.py": true,
+    "v2/nba_architecture/families_v2.py": true,
+    "tests/nba_architecture/test_v2_contracts.py": true
+  },
+  "original_probe_sha256": "fa8012e260a21caacb2fcebadc02a2deddaf957bc4425b8128dcae2c83ba9e52",
+  "executions": [
+    {
+      "name": "architecture",
+      "owner_sha": "d5cafda47a2f881a88974bfb7bcbb90372fe69c2",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        369
+      ],
+      "seconds": 11.472033265999926,
+      "log": "architecture.log",
+      "raw_sha256": "76d646b9b05b66aa3b1195cf02ebd3e28d466b2519d320e8d5bd1c10617e929c"
+    },
+    {
+      "name": "preflight",
+      "owner_sha": "d5cafda47a2f881a88974bfb7bcbb90372fe69c2",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_nba_p1_source_preflight.py",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        9
+      ],
+      "seconds": 0.1878968179998992,
+      "log": "preflight.log",
+      "raw_sha256": "95ee710ab75e33e1da78861c29f830a111eb4af715f57e315d434e1883266604"
+    },
+    {
+      "name": "P6_controls",
+      "owner_sha": "d5cafda47a2f881a88974bfb7bcbb90372fe69c2",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/work/p1_additional_accounting_exact_d5cafda/controls",
+        "-v"
+      ],
+      "exit": 0,
+      "tests": [
+        83
+      ],
+      "seconds": 0.9386211349999485,
+      "log": "P6_controls.log",
+      "raw_sha256": "be3cd8517f6b80f56644fb736a2caafe389cc373600fb57a97fea7f36f37cdf9"
+    },
+    {
+      "name": "nba_p6_g1_owner_negative_probes_20261116.py",
+      "owner_sha": "d5cafda47a2f881a88974bfb7bcbb90372fe69c2",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p1_additional_accounting_exact_d5cafda/qa_tools/nba_p6_g1_owner_negative_probes_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "seconds": 0.2803630339999472,
+      "log": "nba_p6_g1_owner_negative_probes_20261116.py.log",
+      "raw_sha256": "113e7ceebbd638dbbb4d94a8a640040958ed85f9ed6248ef79e1709c0c66a1e0"
+    },
+    {
+      "name": "nba_p6_g1_remediation_adversarial_v3_20261116.py",
+      "owner_sha": "d5cafda47a2f881a88974bfb7bcbb90372fe69c2",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p1_additional_accounting_exact_d5cafda/qa_tools/nba_p6_g1_remediation_adversarial_v3_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "seconds": 0.1795504809999784,
+      "log": "nba_p6_g1_remediation_adversarial_v3_20261116.py.log",
+      "raw_sha256": "e15c780569923f288c0018a3944c2e62a37bc1764bfd03e3946a7c14bb73fe6a"
+    },
+    {
+      "name": "nba_p6_g1_green_after_fix_v3_20261116.py",
+      "owner_sha": "d5cafda47a2f881a88974bfb7bcbb90372fe69c2",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/work/p1_additional_accounting_exact_d5cafda/qa_tools/nba_p6_g1_green_after_fix_v3_20261116.py",
+        "P1"
+      ],
+      "exit": 0,
+      "tests": [],
+      "seconds": 0.2582391710000138,
+      "log": "nba_p6_g1_green_after_fix_v3_20261116.py.log",
+      "raw_sha256": "291dcee9188b5c7f6f4e995e206491c3a4119ac848e7e180b143c0d4015af5b7"
+    }
+  ],
+  "producer_source_sha256": "c9567c367ba72fcae7c1229c6bda7baf949223d7389d6e8715a2b12f917b6c39",
+  "permanent_regression_sha256": "ab29017d2d470edef4e4ee7a6b84cf790194efd6915933ed3eee0efd986d25fc",
+  "source_admission": "BLOCKED",
+  "independent_acceptance": "NOT_AWARDED_BY_OWNER",
+  "historical_fitting_or_evaluation_performed": false
+}

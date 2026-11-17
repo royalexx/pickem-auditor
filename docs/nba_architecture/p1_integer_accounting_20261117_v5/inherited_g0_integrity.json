@@ -1,0 +1,151 @@
+{
+  "g0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "source_sha": "c48dc5cb9127e3e98f5a749208ca6c12574139b7",
+  "all_equal": true,
+  "files": [
+    {
+      "path": "tests/nba_architecture/__init__.py",
+      "accepted_g0_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "current_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/golden_v2.py",
+      "accepted_g0_sha256": "e4840cc06e699e0e4acd18f6d38445b98078ec34d8e90d8fc4b5da4ad4426bb4",
+      "current_sha256": "e4840cc06e699e0e4acd18f6d38445b98078ec34d8e90d8fc4b5da4ad4426bb4",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/golden_v2/historical_offer_free.json",
+      "accepted_g0_sha256": "da214db2678cea1893a05242b44d710a8c8cb9d931c3f3bc30b6d5801bb84d99",
+      "current_sha256": "da214db2678cea1893a05242b44d710a8c8cb9d931c3f3bc30b6d5801bb84d99",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/golden_v2/joint_same_draw.json",
+      "accepted_g0_sha256": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b",
+      "current_sha256": "bad65205404ccfb28be6dcedf84c66618959461e89a69179a9437477282e682b",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/golden_v2/prospective_original_offer.json",
+      "accepted_g0_sha256": "27c4e5c61c17a3b67885dfc9fb3f33d726c9fd521ce2e81fb4fec8c28096e7fb",
+      "current_sha256": "27c4e5c61c17a3b67885dfc9fb3f33d726c9fd521ce2e81fb4fec8c28096e7fb",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/test_contracts.py",
+      "accepted_g0_sha256": "b882ed962a010388d07a4a6e1ef724217d026b02bc430cd6f4c24f8c31d9cad3",
+      "current_sha256": "b882ed962a010388d07a4a6e1ef724217d026b02bc430cd6f4c24f8c31d9cad3",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/test_g0_completion_20261116.py",
+      "accepted_g0_sha256": "12bf220b1446fa8a072dceb4b17827921b193de1f884d5f5329591a0e92dd21e",
+      "current_sha256": "12bf220b1446fa8a072dceb4b17827921b193de1f884d5f5329591a0e92dd21e",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/test_g0_hardening_20261116.py",
+      "accepted_g0_sha256": "20d2f62e17082016559dd33da743b490ec1ce8a053c60b6ac4c8e3389fb13660",
+      "current_sha256": "20d2f62e17082016559dd33da743b490ec1ce8a053c60b6ac4c8e3389fb13660",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/test_g0_independent_participation_red_20261116.py",
+      "accepted_g0_sha256": "64b14dd5fa6ab610fbb43e794537d608a79bf4538d0ce6ef743eeffd107e0d06",
+      "current_sha256": "64b14dd5fa6ab610fbb43e794537d608a79bf4538d0ce6ef743eeffd107e0d06",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/test_g0_law_repair_20261116.py",
+      "accepted_g0_sha256": "9246bb9a38f4238ed4518a52f8b0adb8f55abf3e91624a76f7aab3301b0fa9fc",
+      "current_sha256": "9246bb9a38f4238ed4518a52f8b0adb8f55abf3e91624a76f7aab3301b0fa9fc",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/test_g0_mutation_sweep_20261116.py",
+      "accepted_g0_sha256": "a8435aaf64111ddea757f09f07d9b48034ba9215e5f4148cc5c28ffb9b7f27dd",
+      "current_sha256": "a8435aaf64111ddea757f09f07d9b48034ba9215e5f4148cc5c28ffb9b7f27dd",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/test_g0_pipeline_completion_20261116.py",
+      "accepted_g0_sha256": "99ca9f853d3f16807ba6bf2b169c1e662a77607a1aa3bcbc92fb06b970d1091c",
+      "current_sha256": "99ca9f853d3f16807ba6bf2b169c1e662a77607a1aa3bcbc92fb06b970d1091c",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/test_independent_final_20261116.py",
+      "accepted_g0_sha256": "4721168790148f62cb65ac97fe6d8fcefe586a0296ad347eec9e464da6870432",
+      "current_sha256": "4721168790148f62cb65ac97fe6d8fcefe586a0296ad347eec9e464da6870432",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/test_p0i_adversarial_20261116.py",
+      "accepted_g0_sha256": "7ef5da14487942de0e8e82f45e6048890361f320eba2e59c532a2cde0310cc35",
+      "current_sha256": "7ef5da14487942de0e8e82f45e6048890361f320eba2e59c532a2cde0310cc35",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/test_p0r_regression_closure_20261116.py",
+      "accepted_g0_sha256": "3e5f12794d7ec4c8df37bc704ec3f34d19049b8fafe6a3770969a7f345eb77d8",
+      "current_sha256": "3e5f12794d7ec4c8df37bc704ec3f34d19049b8fafe6a3770969a7f345eb77d8",
+      "equal": true
+    },
+    {
+      "path": "tests/nba_architecture/test_v2_contracts.py",
+      "accepted_g0_sha256": "23e777abad2ef59da5f5e4fb2aa5678ce48b876bb3f650fdc89973aee18a2209",
+      "current_sha256": "23e777abad2ef59da5f5e4fb2aa5678ce48b876bb3f650fdc89973aee18a2209",
+      "equal": true
+    },
+    {
+      "path": "v2/nba_architecture/__init__.py",
+      "accepted_g0_sha256": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+      "current_sha256": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+      "equal": true
+    },
+    {
+      "path": "v2/nba_architecture/contracts.py",
+      "accepted_g0_sha256": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+      "current_sha256": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+      "equal": true
+    },
+    {
+      "path": "v2/nba_architecture/exposure_v2.py",
+      "accepted_g0_sha256": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+      "current_sha256": "7806ea664b52e1312ffdcbd7fbe7354be2ae442ad1a792bc7226852266e72572",
+      "equal": true
+    },
+    {
+      "path": "v2/nba_architecture/families_v2.py",
+      "accepted_g0_sha256": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+      "current_sha256": "b308dd666b6351e59be08a2c3be2a9de2a61514936181ee5f0643e122792db67",
+      "equal": true
+    },
+    {
+      "path": "v2/nba_architecture/requirements.txt",
+      "accepted_g0_sha256": "ab29270f01c750d5312219f91a2362d711959ae4eafd1d4349ac7017a2f8f267",
+      "current_sha256": "ab29270f01c750d5312219f91a2362d711959ae4eafd1d4349ac7017a2f8f267",
+      "equal": true
+    },
+    {
+      "path": "v2/nba_architecture/schema-1.0.0.json",
+      "accepted_g0_sha256": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+      "current_sha256": "92dee719d89179d88d197aa44c49066801272a27679b696a97fce86b753f1ba7",
+      "equal": true
+    },
+    {
+      "path": "v2/nba_architecture/schema-2.0.0.json",
+      "accepted_g0_sha256": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+      "current_sha256": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+      "equal": true
+    },
+    {
+      "path": "v2/nba_architecture/v2_contracts.py",
+      "accepted_g0_sha256": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+      "current_sha256": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+      "equal": true
+    }
+  ]
+}
