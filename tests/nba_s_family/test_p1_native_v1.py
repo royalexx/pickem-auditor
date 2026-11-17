@@ -164,3 +164,27 @@ class NonparticipationSourceTests(unittest.TestCase):
         x['uncertainty']['participation']='played'
         with self.assertRaisesRegex(SFError,'ZERO_MINUTE_CREDIT_UNRESOLVED'):
             inspect_p1_export(x,pregame=self.pregame(),stat='threes')
+
+class IntegerSourceAccountingTests(unittest.TestCase):
+    fixture=P1NativeTests.fixture
+    pregame=P1NativeTests.pregame
+    inspect=P1NativeTests.inspect
+
+    def raw_stats(self,stats):
+        from v2.nba_s_family.model import canonical,digest
+        from v2.nba_s_family.p1_native import STAT_KEYS
+        x=self.fixture();b=x['evidence_bundle'];g=json.loads(base64.b64decode(b['raw_base64']))
+        g['game']['homeTeam']['players'][0]['statistics']={'minutes':'PT26M0S',**stats}
+        raw=canonical(g);b['raw_base64']=base64.b64encode(raw).decode();b['capture']['raw_sha256']=digest(raw)
+        x['exposure'].update(raw_sha256=digest(raw),receipt_sha256=digest(canonical(b['capture'])),stats={k:stats[v] for k,v in STAT_KEYS.items() if v in stats})
+        return x
+
+    def test_integer_shooting_and_rebound_impossibilities_reject(self):
+        cases=[dict(points=1,fieldGoalsAttempted=1,threePointersAttempted=0,freeThrowsMade=0),dict(points=2,fieldGoalsMade=1,threePointersMade=0,fieldGoalsAttempted=1,threePointersAttempted=1,freeThrowsMade=0),dict(points=11,reboundsTotal=1,reboundsOffensive=2)]
+        for stats in cases:
+            with self.subTest(stats=stats),self.assertRaises(SFError):self.inspect(self.raw_stats(stats))
+
+    def test_sparse_missing_counts_stay_unknown_and_valid_integer_completion_passes(self):
+        for stats in [dict(points=1,fieldGoalsAttempted=1,threePointersAttempted=0),dict(points=2,fieldGoalsAttempted=1,threePointersAttempted=0,freeThrowsMade=0),dict(points=11,reboundsTotal=2,reboundsOffensive=2)]:
+            x=self.raw_stats(stats);r=self.inspect(x)
+            self.assertEqual(r['status'],'BLOCKED');self.assertEqual(r['preserved_export']['exposure']['stats'],x['exposure']['stats'])

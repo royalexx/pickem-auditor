@@ -15,6 +15,7 @@ from zoneinfo import ZoneInfo
 from urllib.parse import urlsplit
 
 from .model import SFError, utc, canonical, digest, sha, STATS
+from .source_accounting import validate_count_feasibility
 from v2.nba_architecture.v2_contracts import validate_pregame, verify
 
 VERSION='nba-S-P1-native-inspection/1.0.0'
@@ -119,6 +120,7 @@ def inspect_p1_export(export, *, pregame, stat):
     for combo,parts in {'pr':('points','rebounds'),'pa':('points','assists'),'ra':('rebounds','assists'),'pra':('points','rebounds','assists')}.items():
         if all(k in normalized for k in parts):normalized[combo]=sum(normalized[k] for k in parts)
     require(isinstance(e.get('stats'),dict) and all(k in normalized and type(v) is int and v>=0 and normalized[k]==v for k,v in e['stats'].items()),'P1_NATIVE_STAT_MISMATCH')
+    validate_count_feasibility(normalized)
     participation=e.get('participation')
     require(participation in ('played','dnp','unknown'),'P1_NATIVE_PARTICIPATION')
     if participation=='played':
