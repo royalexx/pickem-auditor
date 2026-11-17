@@ -1,0 +1,202 @@
+{
+  "owner_heads": {
+    "P1": "a3263bc840c9973fddaaf9025358b7780d03664b",
+    "P2": "9747530586659afa52b7ee111cc9d8cbcbaa7009",
+    "P3": "2a666106a02595c70e2e372729aeae73d337b745"
+  },
+  "result": {
+    "P1_native": {
+      "denominator": {
+        "admitted": 0,
+        "attempted": 1,
+        "quarantined": 1,
+        "structurally_checked": 1
+      },
+      "missing_requirements": [
+        "INDEPENDENT_SOURCE_ADMISSION",
+        "ORIGINAL_OR_FIRST_DEFENSIBLE_AVAILABILITY",
+        "SOURCE_BOUND_OUTCOME_RELEASE_CLOCK",
+        "DATED_ROLE_EVIDENCE",
+        "RETRIEVAL_AFTER_MODEL_TRAINING_CUTOFF",
+        "INGESTION_AFTER_INPUT_FREEZE"
+      ],
+      "original_vs_reconstructed_or_synthetic": "synthetic_engineering",
+      "preserved_export": {
+        "admission_status": "BLOCKED",
+        "candidate_denominator": {
+          "admitted": 0,
+          "attempted": 1,
+          "quarantined": 1
+        },
+        "clocks": {
+          "collector_observed_at": null,
+          "first_defensible_available_at": null,
+          "ingested_at": "2026-11-16T19:00:00Z",
+          "outcome_available_at": null,
+          "provider_published_at": null,
+          "retrieved_at": "2026-11-16T18:00:00Z"
+        },
+        "evidence_bundle": {
+          "capture": {
+            "raw_sha256": "e695e3be014649f2998133da9edf654588a65c520b3f558b9f55921fc9eb66a9",
+            "retrieved_at": "2026-11-16T18:00:00Z",
+            "revision": 1,
+            "schema": "nba-p1-prior-game-evidence/1.0.0",
+            "supersedes_receipt_sha256": null,
+            "url": "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022200001.json"
+          },
+          "prior": [],
+          "raw_base64": "eyJnYW1lIjp7ImF3YXlUZWFtIjp7InBsYXllcnMiOltdLCJ0ZWFtSWQiOjJ9LCJnYW1lQ2xvY2siOiJQVDAwTTAwLjAwUyIsImdhbWVJZCI6IjAwMjIyMDAwMDEiLCJnYW1lU3RhdHVzIjozLCJnYW1lVGltZVVUQyI6IjIwMjItMTAtMjFUMjM6MDA6MDBaIiwiaG9tZVRlYW0iOnsicGxheWVycyI6W3sicGVyc29uSWQiOjcsInBsYXllZCI6IjEiLCJzdGF0aXN0aWNzIjp7ImFzc2lzdHMiOjMsIm1pbnV0ZXMiOiJQVDI2TTAwLjAwUyIsInBvaW50cyI6MTEsInJlYm91bmRzVG90YWwiOjUsInRocmVlUG9pbnRlcnNNYWRlIjoyfX1dLCJ0ZWFtSWQiOjF9LCJwZXJpb2QiOjR9fQ=="
+        },
+        "exposure": {
+          "accounting_status": "OFFICIAL_BOX_RECONCILED",
+          "certification": "HISTORICAL_RECONSTRUCTION_UNCERTIFIED",
+          "displayed_minutes": 26,
+          "duration_minutes": 48,
+          "exact_minutes": 26.0,
+          "game_date": "2022-10-21",
+          "game_id": "nba:game:0022200001",
+          "opponent_id": "nba:team:2",
+          "original_pregame_available_at": null,
+          "overtime_periods": 0,
+          "participation": "played",
+          "player_id": "nba:player:7",
+          "raw_sha256": "e695e3be014649f2998133da9edf654588a65c520b3f558b9f55921fc9eb66a9",
+          "receipt_sha256": "ad2587c97407861f5c7a7a80a4f2964a9c3d5be16f6ea71d3c1570305b58b298",
+          "retrieved_at": "2026-11-16T18:00:00Z",
+          "schema": "nba-p1-prior-game-evidence/1.0.0",
+          "source_status": "OFFICIAL_BYTES_CONSISTENT_AUTHENTICITY_REVIEW_REQUIRED",
+          "stats": {
+            "assists": 3,
+            "points": 11,
+            "rebounds": 5,
+            "threes": 2
+          },
+          "team_id": "nba:team:1"
+        },
+        "game_start_at": "2022-10-21T23:00:00Z",
+        "kind": "prior_game_export",
+        "missing_requirements": [
+          "INDEPENDENT_SOURCE_ADMISSION",
+          "ORIGINAL_OR_FIRST_DEFENSIBLE_AVAILABILITY",
+          "SOURCE_BOUND_OUTCOME_RELEASE_CLOCK",
+          "DATED_ROLE_EVIDENCE"
+        ],
+        "profile": "synthetic_engineering",
+        "role": null,
+        "role_evidence": null,
+        "schema": "nba-p1-native-handoff/1.0.0",
+        "source_profile": "synthetic_engineering",
+        "uncertainty": {
+          "participation": "played",
+          "role": "UNKNOWN",
+          "source_admission": "UNKNOWN"
+        }
+      },
+      "raw_sources": [
+        {
+          "bytes": 325,
+          "raw_sha256": "e695e3be014649f2998133da9edf654588a65c520b3f558b9f55921fc9eb66a9",
+          "receipt_sha256": "ad2587c97407861f5c7a7a80a4f2964a9c3d5be16f6ea71d3c1570305b58b298",
+          "revision": 1
+        }
+      ],
+      "reason": "P1_INDEPENDENT_SOURCE_ADMISSION_REQUIRED",
+      "schema": "nba-S-P1-native-inspection/1.0.0",
+      "source_admission": "UNAVAILABLE",
+      "source_profile": "synthetic_engineering",
+      "source_snapshot_sha256": "8ac9dad91675393231177be130cd2e3811c05c42d40006ea632ee3af58e9d4a2",
+      "status": "BLOCKED",
+      "synthetic_compatibility_only": true,
+      "training_rows": []
+    },
+    "P3_O_scenarios": 2,
+    "P3_sidecar_schema": "nba-p3-opportunity/0.2.0",
+    "S3_scenario_bound_integer_attempt_conversion": true,
+    "manual_mixtures": [
+      {
+        "family": "S1",
+        "max_raw_analytic_mixture_error": 3.0691041118100052e-15,
+        "normalization": 1.0,
+        "opportunity_sha256": "2964a5b5e910ec94e45ed4ccae73783bdabf5269b993abcc7e278b70b9ec944d",
+        "stat": "points",
+        "tail_bound": 6.221896405224324e-15
+      },
+      {
+        "family": "S2",
+        "max_raw_analytic_mixture_error": 6.842035424826207e-19,
+        "normalization": 1.0,
+        "opportunity_sha256": "2964a5b5e910ec94e45ed4ccae73783bdabf5269b993abcc7e278b70b9ec944d",
+        "stat": "points",
+        "tail_bound": 3.2329919236478637e-18
+      },
+      {
+        "family": "S1",
+        "max_raw_analytic_mixture_error": 2.536664539012528e-13,
+        "normalization": 1.0,
+        "opportunity_sha256": "2964a5b5e910ec94e45ed4ccae73783bdabf5269b993abcc7e278b70b9ec944d",
+        "stat": "rebounds",
+        "tail_bound": 5.27485233322328e-13
+      },
+      {
+        "family": "S2",
+        "max_raw_analytic_mixture_error": 1.3877787807814457e-17,
+        "normalization": 1.0,
+        "opportunity_sha256": "2964a5b5e910ec94e45ed4ccae73783bdabf5269b993abcc7e278b70b9ec944d",
+        "stat": "rebounds",
+        "tail_bound": 7.902728663570071e-18
+      },
+      {
+        "family": "S1",
+        "max_raw_analytic_mixture_error": 2.536664539012528e-13,
+        "normalization": 1.0,
+        "opportunity_sha256": "2964a5b5e910ec94e45ed4ccae73783bdabf5269b993abcc7e278b70b9ec944d",
+        "stat": "assists",
+        "tail_bound": 5.27485233322328e-13
+      },
+      {
+        "family": "S2",
+        "max_raw_analytic_mixture_error": 1.3877787807814457e-17,
+        "normalization": 1.0,
+        "opportunity_sha256": "2964a5b5e910ec94e45ed4ccae73783bdabf5269b993abcc7e278b70b9ec944d",
+        "stat": "assists",
+        "tail_bound": 7.902728663570071e-18
+      },
+      {
+        "family": "S1",
+        "max_raw_analytic_mixture_error": 9.97377230707524e-13,
+        "normalization": 1.0,
+        "opportunity_sha256": "2964a5b5e910ec94e45ed4ccae73783bdabf5269b993abcc7e278b70b9ec944d",
+        "stat": "threes",
+        "tail_bound": 2.0851747404490144e-12
+      },
+      {
+        "family": "S2",
+        "max_raw_analytic_mixture_error": 2.7755575615628914e-17,
+        "normalization": 1.0,
+        "opportunity_sha256": "2964a5b5e910ec94e45ed4ccae73783bdabf5269b993abcc7e278b70b9ec944d",
+        "stat": "threes",
+        "tail_bound": 4.161333410715619e-18
+      }
+    ],
+    "scope": "SEPARATE_SYNTHETIC_COMPATIBILITY_NOT_CONTINUATION_OF_BLOCKED_AUTHENTIC_CASE",
+    "unknown_participation_preserved": true
+  },
+  "source_sha256": {
+    "2a666106a02595c70e2e372729aeae73d337b745": {
+      "tests/nba_architecture/test_p3_o_family.py": "b12f5d53ab723a537f15c1885dec1ad79678afb4a977a534c43c62fba29ef3b3",
+      "v2/nba_o_bridge.py": "d2b4ae2b3de46dc386331f78d29140f5f24e8df8f5cbd2cd0532883ed47815dc",
+      "v2/nba_o_family.py": "5af884d0c03055eb68c69c523cb644ebdc80cd3afa0e5bd4af907aeb62d5901e",
+      "v2/nba_opportunity.py": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30"
+    },
+    "a3263bc840c9973fddaaf9025358b7780d03664b": {
+      "tests/nba_architecture/test_p1_history.py": "d4d83055ac82c467dfcdcf297e11f5758bb7df4dcd9568a312dbb0a0658c88ec",
+      "tests/nba_architecture/test_p1_remediation.py": "d26d062ed1ac90999ac44bb5f52d3cca5c3e0ef86a0e596cf6d95ae18525f41d",
+      "v2/nba_architecture/p1_context.py": "9a27075c048b806fcecaaafed8be43a67f068dfd49d4983887b411cface5a657",
+      "v2/nba_architecture/p1_evidence.py": "ddcf546ff51be596ac65f948c55d7e8cd5d5a8519445cfe0764c4a0db9c21fad",
+      "v2/nba_architecture/p1_handoff.py": "c9567c367ba72fcae7c1229c6bda7baf949223d7389d6e8715a2b12f917b6c39",
+      "v2/nba_architecture/p1_history.py": "499df0c9cf1d43e3de653318df2fb6f97e70bcd23abb534f6440fe43b7a8f8c2",
+      "v2/nba_architecture/p1_vault.py": "e5de3a7344dfcba74facac8e484c91b7c4aeecd5a1f44cf72670c6ccc435415e"
+    }
+  }
+}
