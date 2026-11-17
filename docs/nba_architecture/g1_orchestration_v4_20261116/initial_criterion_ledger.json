@@ -1,0 +1,442 @@
+{
+  "schema": "NBA_G1_REMEDIATION_LEDGER_V4_INITIAL",
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "audit_sha": "ddc60a83f6c9a2b863f5e7a44823bffa3b01e048",
+  "accepted_g0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "recorded_heads_match_fresh_github_reads": true,
+  "phase": "Authorized bounded G1 engineering remediation; source-integrity and Phase 1 contract work only",
+  "implementation_started": false,
+  "gate": "NO-GO",
+  "criteria": [
+    {
+      "id": "F-P2-02",
+      "owner": "P2",
+      "owner_sha": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+      "classification": "CORRECTNESS_DEFECT",
+      "status": "FAIL",
+      "reason": "joint_conditional accepts model cutoff 2022-10-10 beyond P training cutoff 2022-10-09; regular predict rejects MODEL_AFTER_DATA_CUTOFF. Input freeze alone is insufficient.",
+      "minimal_repair": "Enforce the exact P training cutoff at the S-to-J entrypoint before conditional evaluation; preserve current freeze/source/identity checks and add paired valid/equality/late controls.",
+      "evidence": "F_P2_02_cutoff_witness.json",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P2",
+      "dependencies": [
+        "P1 declared cutoff",
+        "P3 G/O scenario contract"
+      ],
+      "positive_acceptance_tests": [
+        "model cutoff before declared cutoff accepted",
+        "exact declared-cutoff equality accepted"
+      ],
+      "negative_acceptance_tests": [
+        "one microsecond after declared cutoff rejected",
+        "after declared cutoff but before freeze rejected consistently by predict and joint_conditional"
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer who authored no P1-P5 repair",
+      "independent_reviewer_disposition": "Latest audit verdict retained; fresh review pending",
+      "current_source_sha": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+      "failure_reproduction_state": "Latest independent audit receipt inspected; fresh baseline execution required before repair",
+      "current_disposition": "FAIL",
+      "observed_result": "joint_conditional accepts model cutoff 2022-10-10 beyond P training cutoff 2022-10-09; regular predict rejects MODEL_AFTER_DATA_CUTOFF. Input freeze alone is insufficient."
+    },
+    {
+      "id": "F-P5-02",
+      "owner": "P5",
+      "owner_sha": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+      "classification": "CORRECTNESS_DEFECT",
+      "status": "FAIL",
+      "reason": "CachedCohort rejects top-level outcome fields but accepts nested model_inputs.actual_minutes and target_game_outcome. No historical leakage or predictive effect is demonstrated.",
+      "minimal_repair": "Recursively reject forbidden target/outcome fields in forecast pipelines, or use a closed reviewed nested-input schema; preserve valid pre-holdout fixtures and historical-fit prohibition.",
+      "evidence": "F_P5_02_nested_outcome_witness.json",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P5",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "all eight pre-holdout synthetic statistic fixtures accepted",
+        "nested legitimate projected numerical features accepted"
+      ],
+      "negative_acceptance_tests": [
+        "forbidden fields rejected in dictionaries, lists, and alternating nested containers",
+        "validation precedes W3 sparse fallback"
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer who authored no P1-P5 repair",
+      "independent_reviewer_disposition": "Latest audit verdict retained; fresh review pending",
+      "current_source_sha": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+      "failure_reproduction_state": "Latest independent audit receipt inspected; fresh baseline execution required before repair",
+      "current_disposition": "FAIL",
+      "observed_result": "CachedCohort rejects top-level outcome fields but accepts nested model_inputs.actual_minutes and target_game_outcome. No historical leakage or predictive effect is demonstrated."
+    },
+    {
+      "id": "B-P1-01",
+      "owner": "P1",
+      "owner_sha": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+      "classification": "UNAVAILABLE_EVIDENCE",
+      "status": "BLOCKED",
+      "reason": "99 compressed digests match but original provider bytes/first-availability, official historical duration population, dated identity/active-roster/DNP population and full correction chains are absent. Real fixture remains reconstructed.",
+      "minimal_repair": "Supply source-admitted original or explicitly acceptable reconstructed populations with honest clocks, dated mappings, schedule/roster/result denominators and correction ancestry; independently review source authenticity.",
+      "evidence": "independent_archive_bytes.json; P1_independent_v3.json; latest_P1_P2_P3_source_boundaries.json",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P1",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "raw-byte manifest binds provider and dated game/player/team clocks and ancestry",
+        "explicitly incomplete roster and unknown participation preserved"
+      ],
+      "negative_acceptance_tests": [
+        "corrupt raw or ancestor bytes rejected",
+        "orphan/backdated correction rejected",
+        "wrong player/team/game and fabricated historical date rejected",
+        "post-freeze evidence rejected"
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer who authored no P1-P5 repair",
+      "independent_reviewer_disposition": "Latest audit verdict retained; fresh review pending",
+      "current_source_sha": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+      "failure_reproduction_state": "Latest independent audit receipt inspected; fresh baseline execution required before repair",
+      "current_disposition": "BLOCKED",
+      "observed_result": "99 compressed digests match but original provider bytes/first-availability, official historical duration population, dated identity/active-roster/DNP population and full correction chains are absent. Real fixture remains reconstructed."
+    },
+    {
+      "id": "B-P1-02",
+      "owner": "P1",
+      "owner_sha": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+      "classification": "UNAVAILABLE_EVIDENCE",
+      "status": "BLOCKED",
+      "reason": "Rounded-subminute and multi-OT exception paths pass official-shaped synthetic fixtures, but no authenticated official exception/duration capture is supplied; true-zero positive credits remain unresolved.",
+      "minimal_repair": "Supply authentic prior-game official clock/stat/correction evidence and an independently accepted exception policy; do not relabel synthetic bytes as official captures.",
+      "evidence": "P1_G0_owner.log; P1_independent_v3.json",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P1",
+      "dependencies": [
+        "P1 authenticated prior-game evidence"
+      ],
+      "positive_acceptance_tests": [
+        "rounded subminute exact/displayed minutes kept separately",
+        "legal source-specific 48+5*OT cap accepted in builder and vault"
+      ],
+      "negative_acceptance_tests": [
+        "true-zero positive credits unresolved",
+        "missing witness quarantined",
+        "over-cap exposure rejected"
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer who authored no P1-P5 repair",
+      "independent_reviewer_disposition": "Latest audit verdict retained; fresh review pending",
+      "current_source_sha": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+      "failure_reproduction_state": "Latest independent audit receipt inspected; fresh baseline execution required before repair",
+      "current_disposition": "BLOCKED",
+      "observed_result": "Rounded-subminute and multi-OT exception paths pass official-shaped synthetic fixtures, but no authenticated official exception/duration capture is supplied; true-zero positive credits remain unresolved."
+    },
+    {
+      "id": "B-P2-01",
+      "owner": "P2",
+      "owner_sha": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+      "classification": "UNAVAILABLE_EVIDENCE",
+      "status": "BLOCKED",
+      "reason": "Duration-aware synthetic fit works but authentic P1 duration/clock/role manifests and source-qualified S artifacts are unavailable. New P1 source-status interface is not an accepted native S handoff.",
+      "minimal_repair": "Accept/version the latest P1 export and authentication policy in the owner branch, supply admissible prior evidence and fitted artifacts at lawful cutoffs without target-result access.",
+      "evidence": "latest_P1_P2_P3_source_boundaries.json; P2_declared_pin_interop.log",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P2",
+      "dependencies": [
+        "P1 native evidence export and source admission",
+        "P3 latest O output",
+        "admissible existing fitted S prior"
+      ],
+      "positive_acceptance_tests": [
+        "actual P1 export uncertainty survives handoff",
+        "PTS REB AST 3PM interfaces work",
+        "actual latest P3 weighted scenario mixture matches independent manual mixture"
+      ],
+      "negative_acceptance_tests": [
+        "missing clocks/roles/authentication remain blocked",
+        "wrong identities/post-cutoff artifacts rejected",
+        "unknown participation not converted to certainty",
+        "target-game outcomes/attempts excluded"
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer who authored no P1-P5 repair",
+      "independent_reviewer_disposition": "Latest audit verdict retained; fresh review pending",
+      "current_source_sha": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+      "failure_reproduction_state": "Latest independent audit receipt inspected; fresh baseline execution required before repair",
+      "current_disposition": "BLOCKED",
+      "observed_result": "Duration-aware synthetic fit works but authentic P1 duration/clock/role manifests and source-qualified S artifacts are unavailable. New P1 source-status interface is not an accepted native S handoff."
+    },
+    {
+      "id": "B-P3-01",
+      "owner": "P3",
+      "owner_sha": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+      "classification": "UNAVAILABLE_EVIDENCE",
+      "status": "BLOCKED",
+      "reason": "No authenticated original roster/participation/minute fit; unsupported verified_pregame_fit is rejected and historical P1 route abstains. Native P1 export proposal remains unadopted.",
+      "minimal_repair": "Supply and independently admit original roster/context/fit evidence, agree latest P1 export and uncertainty semantics; preserve null participation where unknown.",
+      "evidence": "latest_P1_P2_P3_source_boundaries.json; P3_independent_v3.json",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P3",
+      "dependencies": [
+        "P1 original context/roster, dated membership, roles",
+        "admissible participation/minute fit"
+      ],
+      "positive_acceptance_tests": [
+        "regulation and multiple OT minutes conserved with complete five-on-floor witnesses",
+        "played-zero distinct from DNP",
+        "early-exit total-minute cap honored"
+      ],
+      "negative_acceptance_tests": [
+        "false fit certification rejected",
+        "missing/infeasible roster rejected",
+        "post-trade wrong identity rejected",
+        "post-freeze or after-training evidence rejected",
+        "resealed replay/witness tampering rejected"
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer who authored no P1-P5 repair",
+      "independent_reviewer_disposition": "Latest audit verdict retained; fresh review pending",
+      "current_source_sha": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+      "failure_reproduction_state": "Latest independent audit receipt inspected; fresh baseline execution required before repair",
+      "current_disposition": "BLOCKED",
+      "observed_result": "No authenticated original roster/participation/minute fit; unsupported verified_pregame_fit is rejected and historical P1 route abstains. Native P1 export proposal remains unadopted."
+    },
+    {
+      "id": "B-P4-01",
+      "owner": "P4",
+      "owner_sha": "cf5483a16279b8af606caef415e9abacc8c41aab",
+      "classification": "UNAVAILABLE_EVIDENCE_AND_INTERFACE_VERSION_GAP",
+      "status": "BLOCKED",
+      "reason": "Real mode always rejects for missing authentication registry. Fixture consumer pins old P2/P3 and rejects latest P2 bytes with J_UPSTREAM_CODE_PIN_P2; P3 0.2.0 is outside accepted 0.1.0 sidecar.",
+      "minimal_repair": "Coordinate a versioned latest-head P2/P3 consumer and admitted artifact/source trust registry; do not relax the pins or authorize real mode through caller strings.",
+      "evidence": "latest_P2_P3_to_P4_boundary.json; P4_independent_v3.json",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P4",
+      "dependencies": [
+        "latest P1/P2/P3 exact code and artifacts",
+        "independently admitted source registry"
+      ],
+      "positive_acceptance_tests": [
+        "actual latest P2 conditional laws and actual P3 O consumed under exact pins",
+        "scenario IDs, weights and order preserved"
+      ],
+      "negative_acceptance_tests": [
+        "wrong source/artifact/code hash rejected",
+        "G/O/S/J lineage mismatch rejected",
+        "real mode remains blocked without independent authentication"
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer who authored no P1-P5 repair",
+      "independent_reviewer_disposition": "Latest audit verdict retained; fresh review pending",
+      "current_source_sha": "cf5483a16279b8af606caef415e9abacc8c41aab",
+      "failure_reproduction_state": "Latest independent audit receipt inspected; fresh baseline execution required before repair",
+      "current_disposition": "BLOCKED",
+      "observed_result": "Real mode always rejects for missing authentication registry. Fixture consumer pins old P2/P3 and rejects latest P2 bytes with J_UPSTREAM_CODE_PIN_P2; P3 0.2.0 is outside accepted 0.1.0 sidecar."
+    },
+    {
+      "id": "B-P4-02",
+      "owner": "P4",
+      "owner_sha": "cf5483a16279b8af606caef415e9abacc8c41aab",
+      "classification": "MISSING_MANDATORY_ENGINEERING_PROOF",
+      "status": "BLOCKED",
+      "reason": "S1/S2 laws are projected to mean/share rates; variance/tails are not propagated. Aggregate possessions and lineup intervals do not prove event-time scorer/assister co-presence, exact FT/possession or tied OT chronology.",
+      "minimal_repair": "Implement or obtain independent acceptance of an explicit law-preserving/controlled approximation contract and demonstrate required physical accounting, event availability, marginal distortion limits and source-bound handoffs. No historical predictive scoring is authorized here.",
+      "evidence": "P4_benchmark/marginal_distortion.json; P4_benchmark/joint_scenarios.json; P4_independent_v3.json",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P4",
+      "dependencies": [
+        "P2 full conditional laws",
+        "P3 minute/witness semantics",
+        "independently reviewed versioned constrained-law contract"
+      ],
+      "positive_acceptance_tests": [
+        "posterior-rate variance/dispersion/tails reach J and distortion quantified against independent synthetic reference",
+        "shot/FT/scoring/rebound/assist/co-presence/OT accounting proven or accepted versioned approximation",
+        "same-draw PR PA RA PRA and normalized weighted PMFs"
+      ],
+      "negative_acceptance_tests": [
+        "shooting/rebound/assist arithmetic violations rejected",
+        "incorrect same-draw combinations rejected",
+        "nonnormalized PMFs/incorrect tails rejected",
+        "rejected-draw denominators retained"
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer who authored no P1-P5 repair",
+      "independent_reviewer_disposition": "Latest audit verdict retained; fresh review pending",
+      "current_source_sha": "cf5483a16279b8af606caef415e9abacc8c41aab",
+      "failure_reproduction_state": "Latest independent audit receipt inspected; fresh baseline execution required before repair",
+      "current_disposition": "BLOCKED",
+      "observed_result": "S1/S2 laws are projected to mean/share rates; variance/tails are not propagated. Aggregate possessions and lineup intervals do not prove event-time scorer/assister co-presence, exact FT/possession or tied OT chronology."
+    },
+    {
+      "id": "B-P4-03",
+      "owner": "P4",
+      "owner_sha": "cf5483a16279b8af606caef415e9abacc8c41aab",
+      "classification": "REPRODUCED_ENGINEERING_SCALING_LIMIT",
+      "status": "BLOCKED",
+      "reason": "Actual P3 stochastic O2 n=32 fails unchanged G0 O_COUPLING_VERIFICATION_BUDGET; O0 8/32/64 benchmarks cannot establish O2 scalability.",
+      "minimal_repair": "P3/P4 and P0 agree and independently verify a bounded scalable coupling/witness strategy or an explicit acceptable operating limit; preserve the failing case and do not silently increase budgets.",
+      "evidence": "P4_G0_owner.log; P4_pinned_upstream.log",
+      "reproduce": "OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests/nba_architecture -p test_p4_upstream_integration.py -v",
+      "dependencies": [
+        "P3 O2 coupling representation",
+        "P0 unchanged accepted contract or separate reviewed amendment"
+      ],
+      "positive_acceptance_tests": [
+        "actual stochastic O2 n32 witnessed strategy passes unchanged G0 or explicit independently accepted bounded range",
+        "deterministic cross-process hash-seed and input-order replay"
+      ],
+      "negative_acceptance_tests": [
+        "original O2 n32 coupling-budget failure retained",
+        "insufficient witnesses and impossible laws rejected",
+        "no discarded scenarios or hidden budget increase"
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer who authored no P1-P5 repair",
+      "independent_reviewer_disposition": "Latest audit verdict retained; fresh review pending",
+      "current_source_sha": "cf5483a16279b8af606caef415e9abacc8c41aab",
+      "failure_reproduction_state": "Latest independent audit receipt inspected; fresh baseline execution required before repair",
+      "current_disposition": "BLOCKED",
+      "observed_result": "Actual P3 stochastic O2 n=32 fails unchanged G0 O_COUPLING_VERIFICATION_BUDGET; O0 8/32/64 benchmarks cannot establish O2 scalability."
+    },
+    {
+      "id": "B-P5-01",
+      "owner": "P5",
+      "owner_sha": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+      "classification": "UNAVAILABLE_EVIDENCE",
+      "status": "BLOCKED",
+      "reason": "C works on sealed synthetic interfaces; actual P1 vault/event/end/release adapters and source-authenticated P2/P4 distributions are not integrated.",
+      "minimal_repair": "Version and independently verify the native immutable owner adapters once admitted upstream evidence exists; keep historical fitting and holdout access prohibited.",
+      "evidence": "P5_C.log; P5_independent_v3.json",
+      "reproduce": "python -m unittest discover -s tests/nba_c -v",
+      "dependencies": [
+        "P1 immutable native event/end/release/correction vault",
+        "accepted P2/P4 distribution/scenario witnesses"
+      ],
+      "positive_acceptance_tests": [
+        "native immutable forecast ingestion uses real owner distributions",
+        "separate outcome adapter preserves pending/unresolved/versioned corrections",
+        "W0 W1 W2 W3 complete-pipeline semantics and synthetic numerical references pass"
+      ],
+      "negative_acceptance_tests": [
+        "outcome access excluded from forecast ingestion",
+        "orphan/backdated corrections rejected",
+        "duplicate/mismatched pipelines rejected",
+        "W4 and historical fitting remain prohibited",
+        "forged Monte Carlo ESS/game count rejected"
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer who authored no P1-P5 repair",
+      "independent_reviewer_disposition": "Latest audit verdict retained; fresh review pending",
+      "current_source_sha": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+      "failure_reproduction_state": "Latest independent audit receipt inspected; fresh baseline execution required before repair",
+      "current_disposition": "BLOCKED",
+      "observed_result": "C works on sealed synthetic interfaces; actual P1 vault/event/end/release adapters and source-authenticated P2/P4 distributions are not integrated."
+    },
+    {
+      "id": "F-DISCOVERY-01",
+      "owner": "P0/repository test custodian",
+      "owner_sha": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+      "classification": "HARNESS_DISCOVERY_DEFECT",
+      "status": "FAIL",
+      "reason": "Root unittest discovery exposes 10 golden_v2 ModuleNotFoundError imports among 1652 test objects. Dedicated G0 suites pass; G0 source is unchanged.",
+      "minimal_repair": "Repair package/discovery imports through the responsible owner, retaining dedicated tests and independent G0 contract. Do not suppress import failures or claim repository-wide CI green.",
+      "evidence": "P2_root_discovery.log",
+      "reproduce": "python -c \"import unittest; x=unittest.TestLoader(); s=x.discover('tests'); print(s.countTestCases()); print(''.join(x.errors)); raise SystemExit(bool(x.errors))\"",
+      "responsible_owner_note": "Shared test/import custody; observed at exact P2 head, inherited G0 sources unchanged.",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "root unittest loader imports all existing tests",
+        "dedicated G0 and authorized offline suites retain accepted assertions"
+      ],
+      "negative_acceptance_tests": [
+        "baseline ten golden_v2 import errors reproduced and saved",
+        "no removed/suppressed tests or changed assertions"
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer who authored no P1-P5 repair",
+      "independent_reviewer_disposition": "Latest audit verdict retained; fresh review pending",
+      "current_source_sha": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+      "failure_reproduction_state": "Latest independent audit receipt inspected; fresh baseline execution required before repair",
+      "current_disposition": "FAIL",
+      "observed_result": "Root unittest discovery exposes 10 golden_v2 ModuleNotFoundError imports among 1652 test objects. Dedicated G0 suites pass; G0 source is unchanged."
+    },
+    {
+      "id": "F-P1-01",
+      "owner": "P1",
+      "owner_sha": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+      "current_source_sha": "201ff0aacbd398c7a260f1af3b1c16f4dd8abaa3",
+      "classification": "PRESERVED_REPAIRED_REGRESSION",
+      "status": "PASS",
+      "current_disposition": "PASS_AT_PRIOR_AUDIT_PENDING_FRESH_REVIEW",
+      "reason": "Zero-minute positive credits and missing-duration excess exposure reject in both historical builder and official outcome vault.",
+      "observed_result": "Zero-minute positive credits and missing-duration excess exposure reject in both historical builder and official outcome vault.",
+      "minimal_repair": "Preserve existing implementation and immutable historical negative; rerun unchanged probe and separate green-after-fix wrapper.",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "Zero-minute positive credits and missing-duration excess exposure reject in both historical builder and official outcome vault."
+      ],
+      "negative_acceptance_tests": [
+        "Unchanged historical probe and separate green-after-fix expectations retained."
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer",
+      "independent_reviewer_disposition": "Prior finite defect closed; fresh exact-SHA regression review pending",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_green_after_fix_v3_20261116.py P1"
+    },
+    {
+      "id": "F-P2-01",
+      "owner": "P2",
+      "owner_sha": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+      "current_source_sha": "7ca4269c98a27def485eaa8122ea7148cd0c2c0a",
+      "classification": "PRESERVED_REPAIRED_REGRESSION",
+      "status": "PASS",
+      "current_disposition": "PASS_AT_PRIOR_AUDIT_PENDING_FRESH_REVIEW",
+      "reason": "Witnessed 56-minute two-OT exposure accepted; over-cap and missing witness rejected.",
+      "observed_result": "Witnessed 56-minute two-OT exposure accepted; over-cap and missing witness rejected.",
+      "minimal_repair": "Preserve existing implementation and immutable historical negative; rerun unchanged probe and separate green-after-fix wrapper.",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "Witnessed 56-minute two-OT exposure accepted; over-cap and missing witness rejected."
+      ],
+      "negative_acceptance_tests": [
+        "Unchanged historical probe and separate green-after-fix expectations retained."
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer",
+      "independent_reviewer_disposition": "Prior finite defect closed; fresh exact-SHA regression review pending",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_green_after_fix_v3_20261116.py P2"
+    },
+    {
+      "id": "F-P5-01",
+      "owner": "P5",
+      "owner_sha": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+      "current_source_sha": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+      "classification": "PRESERVED_REPAIRED_REGRESSION",
+      "status": "PASS",
+      "current_disposition": "PASS_AT_PRIOR_AUDIT_PENDING_FRESH_REVIEW",
+      "reason": "Backdated synthetic event date rejects INVALID_CHRONOLOGY; valid pre-holdout synthetic fixtures accepted; 2023 quarantine retained.",
+      "observed_result": "Backdated synthetic event date rejects INVALID_CHRONOLOGY; valid pre-holdout synthetic fixtures accepted; 2023 quarantine retained.",
+      "minimal_repair": "Preserve existing implementation and immutable historical negative; rerun unchanged probe and separate green-after-fix wrapper.",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "Backdated synthetic event date rejects INVALID_CHRONOLOGY; valid pre-holdout synthetic fixtures accepted; 2023 quarantine retained."
+      ],
+      "negative_acceptance_tests": [
+        "Unchanged historical probe and separate green-after-fix expectations retained."
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer",
+      "independent_reviewer_disposition": "Prior finite defect closed; fresh exact-SHA regression review pending",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_green_after_fix_v3_20261116.py P5"
+    },
+    {
+      "id": "R-P3-DOC-01",
+      "owner": "P3",
+      "owner_sha": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+      "current_source_sha": "191b3f654b3a3ca7dc813edbfc9aacdf35729dff",
+      "classification": "RECEIPT_TRACEABILITY_GAP",
+      "status": "FAIL",
+      "current_disposition": "FAIL",
+      "reason": "P3 handoff Markdown digest predates documentation append.",
+      "observed_result": "94/95 resolvable owner receipt digests match; sole documentation mismatch retained in audit.",
+      "minimal_repair": "Append a versioned documentation receipt binding final handoff bytes and explaining ancestry without overwriting old receipt.",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "New receipt matches exact final handoff bytes."
+      ],
+      "negative_acceptance_tests": [
+        "Prior mismatch and original receipt remain preserved."
+      ],
+      "required_independent_reviewer": "Separate P6 reviewer",
+      "independent_reviewer_disposition": "Pending",
+      "reproduce": "Inspect docs/nba_architecture/p6_remediation_reaudit_v3_20261116/owner_receipt_hash_verification.json against exact P3 source."
+    }
+  ],
+  "prohibitions": [
+    "G0 semantic changes without versioned proposal and independent review",
+    "G2",
+    "historical predictive fitting or validation",
+    "historical Monte Carlo weight fitting",
+    "NUTS restart",
+    "deployment",
+    "schedule changes",
+    "Tier promotion",
+    "automatic merge"
+  ]
+}
