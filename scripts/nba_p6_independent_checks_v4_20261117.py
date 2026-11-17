@@ -309,10 +309,59 @@ def joint(a):
     return dict(complete_pmfs=96,observed_games=0,weighted_ess=ess,O2_controls=controls,bundle_sha256=output['bundle']['content_hash'],real_mode_blocked=True)
 
 
+def replay(a):
+    code='''
+import json,sys
+from research.nba_p4_latest.fixture import build
+from research.nba_p4_latest.benchmark import PARAMETERS
+from v2.nba_joint.latest_upstream import prepare
+from v2.nba_joint.integration_v2 import simulate_latest
+r=prepare();x=list(build(r))
+if sys.argv[1]=='reverse':
+ for i in (4,5,6):x[i]=dict(reversed(list(x[i].items())))
+y=simulate_latest(*x,upstream_root=r,evidence_mode='latest_synthetic_engineering',event_parameters=PARAMETERS,seed=617170)
+print(json.dumps({'bundle':y['bundle']['content_hash'],'scenarios':y['scenario_hashes']},sort_keys=True))
+'''
+    rows=[]
+    for seed,order in [('1','original'),('777773','reverse')]:
+        r=subprocess.run([sys.executable,'-c',code,order],cwd=a.assembly,
+            env=dict(os.environ,PYTHONPATH=str(a.assembly),PYTHONHASHSEED=seed,OPENBLAS_NUM_THREADS='1'),capture_output=True)
+        assert r.returncode==0,r.stderr.decode()
+        rows.append(dict(hash_seed=seed,input_dict_order=order,raw_stdout_sha256=sha(r.stdout),output=json.loads(r.stdout)))
+    assert rows[0]['output']==rows[1]['output']
+    return rows
+
+
+def incompatibility(a):
+    import mpmath as mp
+    from research.nba_p4_latest.fixture import build
+    from v2.nba_joint.latest_upstream import prepare,load_upstream
+    mp.mp.dps=70
+    root=prepare();x=build(root);p2,_=load_upstream(root)
+    sc=x[2]['scenarios'][0];row=next(y for y in sc['players'] if y['player_id']=='espn:player:15')
+    parameters={}
+    for stat in ('points','threes'):
+        r=p2.predict_conditional(x[4][stat],player_id=row['player_id'],role=x[6][row['player_id']],projected_exposure=row['minutes'],statistic=stat)
+        assert r.abstain_reason is None
+        d=r.parameters;family=x[4][stat].data['family']
+        shape=mp.mpf(str(d['alpha'] if family=='S1' else d['dispersion']))
+        mean=mp.mpf(str(d['rate_mean']))*mp.mpf(str(row['minutes']))
+        probability=(mp.mpf(str(d['beta']))/(mp.mpf(str(d['beta']))+mp.mpf(str(row['minutes']))) if family=='S1' else shape/(shape+mean))
+        parameters[stat]=dict(shape=str(shape),probability=str(probability),serialization_bound=d['tail_mass_upper_bound'])
+    def tail(stat,threshold):
+        p=parameters[stat]
+        return mp.betainc(threshold,mp.mpf(p['shape']),0,1-mp.mpf(p['probability']),regularized=True)
+    pt=tail('points',60);tt=tail('threes',20);gap=tt-pt
+    assert gap>0 and gap>1000*sum(mp.mpf(str(y['serialization_bound'])) for y in parameters.values())
+    return dict(reference='P>=3*T almost surely implies Pr(P>=3*k)>=Pr(T>=k). High-precision incomplete-beta evaluation of the actual conditional negative-binomial kernels violates this necessary condition at k=20.',
+        precision_decimal_digits=70,player_id=row['player_id'],scenario_id=sc['scenario_id'],points_tail_60=str(pt),threes_tail_20=str(tt),necessary_condition_gap=str(gap),parameters=parameters,
+        classification='MATERIAL_VERSIONED_CONSTRAINED_LAW_REQUIRED_NOT_A_SOURCE_OR_SOFTWARE_CERTIFICATE',proposal_accepted=False)
+
+
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--assembly',type=Path,required=True);ap.add_argument('--expected-assembly',default=ASSEMBLY);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--section',choices=['evidence','physical','scores','quarantine','cutoff','optimizer','native','joint','all'],default='all');a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--assembly',type=Path,required=True);ap.add_argument('--expected-assembly',default=ASSEMBLY);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--section',choices=['evidence','physical','scores','quarantine','cutoff','optimizer','native','joint','replay','incompatibility','all'],default='all');a=ap.parse_args()
     sys.path[:0]=[str(a.assembly),str(a.assembly/'tests/nba_architecture')]
-    sections=['evidence','physical','scores','quarantine','cutoff','optimizer','native','joint'] if a.section=='all' else [a.section]
+    sections=['evidence','physical','scores','quarantine','cutoff','optimizer','native','joint','replay','incompatibility'] if a.section=='all' else [a.section]
     result={'schema':'NBA_P6_INDEPENDENT_NEW_CHECKS_V4','qa_source_sha256':sha(Path(__file__).read_bytes()),'assembly':a.expected_assembly,'synthetic_only':True,'historical_outcomes_accessed':False,'sections':{}}
     for name in sections:
         try:result['sections'][name]={'status':'PASS','result':globals()[name](a)}
