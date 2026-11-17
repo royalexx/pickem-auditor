@@ -1,0 +1,28 @@
+{
+  "commands": {
+    "p6_v3_before.json": {
+      "command": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P5",
+      "exit": 2
+    },
+    "recursive_before.log": {
+      "command": "python -m unittest tests.nba_c.test_p5_recursive_quarantine_v2 -v",
+      "exit": 1,
+      "subtest_failures": 43,
+      "tests": 6
+    }
+  },
+  "criteria": [
+    "F-P5-02",
+    "NEW-P5-NESTED-CONTAINER-CLOCK-IDENTITY"
+  ],
+  "owner_sha": "e46abacecc4f3147aa28d5351515aeca07c17f48",
+  "schema": "nba-p5-remediation-before/2",
+  "scope": "SYNTHETIC_ONLY",
+  "sha256": {
+    "docs/nba_c/f_p5_02_evidence/failing_inputs_before.json": "aa13b88b3ba0ffb0632515cad18fe18362eba1f75e5060fa702616dded7362a5",
+    "docs/nba_c/f_p5_02_evidence/p6_v3_before.json": "c98efdbb3f9c21093313b708f20008f114e42e5f1cef4f305c3185187f36b400",
+    "docs/nba_c/f_p5_02_evidence/recursive_before.log": "9780759de93af80a27958e352f9158378c3b36348cab62c6ca2e4b7c53030f22",
+    "tests/nba_c/test_p5_recursive_quarantine_v2.py": "7a23ba97d8dbb1bcdefe27445fe9fec04dda7700872fc09c1d52a0c9b248c590",
+    "v2/nba_c/experiment.py": "d0a19291d45f37848d533886f76c99163da145661465184f26693ffb9c3ee15c"
+  }
+}

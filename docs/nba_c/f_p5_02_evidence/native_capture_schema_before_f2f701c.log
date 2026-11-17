@@ -1,0 +1,36 @@
+test_source_capture_schema_is_closed_not_caller_certifiable (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_source_capture_schema_is_closed_not_caller_certifiable) ... 
+  test_source_capture_schema_is_closed_not_caller_certifiable (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_source_capture_schema_is_closed_not_caller_certifiable) (attack='extra_flag') ... FAIL
+  test_source_capture_schema_is_closed_not_caller_certifiable (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_source_capture_schema_is_closed_not_caller_certifiable) (attack='extra_node') ... FAIL
+  test_source_capture_schema_is_closed_not_caller_certifiable (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_source_capture_schema_is_closed_not_caller_certifiable) (attack='schema') ... FAIL
+
+======================================================================
+FAIL: test_source_capture_schema_is_closed_not_caller_certifiable (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_source_capture_schema_is_closed_not_caller_certifiable) (attack='extra_flag')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 226, in test_source_capture_schema_is_closed_not_caller_certifiable
+    with self.subTest(attack=attack),self.assertRaises(WarehouseError):
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_source_capture_schema_is_closed_not_caller_certifiable (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_source_capture_schema_is_closed_not_caller_certifiable) (attack='extra_node')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 226, in test_source_capture_schema_is_closed_not_caller_certifiable
+    with self.subTest(attack=attack),self.assertRaises(WarehouseError):
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_source_capture_schema_is_closed_not_caller_certifiable (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_source_capture_schema_is_closed_not_caller_certifiable) (attack='schema')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 226, in test_source_capture_schema_is_closed_not_caller_certifiable
+    with self.subTest(attack=attack),self.assertRaises(WarehouseError):
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=3)

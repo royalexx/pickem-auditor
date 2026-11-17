@@ -1,0 +1,649 @@
+{
+  "cases": [
+    {
+      "input": {
+        "actual": 0,
+        "actual_stats": {
+          "assists": 0,
+          "points": 0,
+          "rebounds": 0,
+          "threes": 0
+        },
+        "date": "2022-10-20T00:00:00Z",
+        "event_end_at": "2022-10-20T23:59:00Z",
+        "event_metadata": {
+          "date": "2022-10-20T00:00:00Z",
+          "event_end_at": "2022-10-20T23:59:00Z",
+          "event_start_at": "2022-10-20T23:00:00Z",
+          "game_id": "nba:g1",
+          "season": "2022-23",
+          "source_profile": "SYNTHETIC"
+        },
+        "event_start_at": "2022-10-20T23:00:00Z",
+        "frozen_at": "2022-10-20T17:00:00Z",
+        "game_id": "nba:g1",
+        "official_available_at": "2022-10-21T00:00:00+00:00",
+        "pipelines": {
+          "J0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_O_J",
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "J0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.5,
+              "1": 0.5
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          },
+          "S0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_ONLY",
+            "model_inputs": [
+              [
+                {
+                  "TargetGameOutcome": 37
+                }
+              ]
+            ],
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "S0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.9,
+              "1": 0.1
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          },
+          "SO0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_O",
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "SO0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.1,
+              "1": 0.9
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          }
+        },
+        "player_id": "nba:player1",
+        "source_lineage": [
+          {
+            "retrieved_at": "2022-10-20T16:30:00Z",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "source_available_at": "2022-10-20T16:00:00Z",
+            "source_id": "synthetic:pregame"
+          }
+        ],
+        "source_profile": "SYNTHETIC",
+        "stat": "points"
+      },
+      "key": "TargetGameOutcome",
+      "result": "ACCEPTED"
+    },
+    {
+      "input": {
+        "actual": 0,
+        "actual_stats": {
+          "assists": 0,
+          "points": 0,
+          "rebounds": 0,
+          "threes": 0
+        },
+        "date": "2022-10-20T00:00:00Z",
+        "event_end_at": "2022-10-20T23:59:00Z",
+        "event_metadata": {
+          "date": "2022-10-20T00:00:00Z",
+          "event_end_at": "2022-10-20T23:59:00Z",
+          "event_start_at": "2022-10-20T23:00:00Z",
+          "game_id": "nba:g1",
+          "season": "2022-23",
+          "source_profile": "SYNTHETIC"
+        },
+        "event_start_at": "2022-10-20T23:00:00Z",
+        "frozen_at": "2022-10-20T17:00:00Z",
+        "game_id": "nba:g1",
+        "official_available_at": "2022-10-21T00:00:00+00:00",
+        "pipelines": {
+          "J0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_O_J",
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "J0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.5,
+              "1": 0.5
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          },
+          "S0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_ONLY",
+            "model_inputs": [
+              [
+                {
+                  "ACTUAL_MINUTES": 37
+                }
+              ]
+            ],
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "S0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.9,
+              "1": 0.1
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          },
+          "SO0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_O",
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "SO0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.1,
+              "1": 0.9
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          }
+        },
+        "player_id": "nba:player1",
+        "source_lineage": [
+          {
+            "retrieved_at": "2022-10-20T16:30:00Z",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "source_available_at": "2022-10-20T16:00:00Z",
+            "source_id": "synthetic:pregame"
+          }
+        ],
+        "source_profile": "SYNTHETIC",
+        "stat": "points"
+      },
+      "key": "ACTUAL_MINUTES",
+      "result": "ACCEPTED"
+    },
+    {
+      "input": {
+        "actual": 0,
+        "actual_stats": {
+          "assists": 0,
+          "points": 0,
+          "rebounds": 0,
+          "threes": 0
+        },
+        "date": "2022-10-20T00:00:00Z",
+        "event_end_at": "2022-10-20T23:59:00Z",
+        "event_metadata": {
+          "date": "2022-10-20T00:00:00Z",
+          "event_end_at": "2022-10-20T23:59:00Z",
+          "event_start_at": "2022-10-20T23:00:00Z",
+          "game_id": "nba:g1",
+          "season": "2022-23",
+          "source_profile": "SYNTHETIC"
+        },
+        "event_start_at": "2022-10-20T23:00:00Z",
+        "frozen_at": "2022-10-20T17:00:00Z",
+        "game_id": "nba:g1",
+        "official_available_at": "2022-10-21T00:00:00+00:00",
+        "pipelines": {
+          "J0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_O_J",
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "J0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.5,
+              "1": 0.5
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          },
+          "S0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_ONLY",
+            "model_inputs": [
+              [
+                {
+                  "target_game_final_score": 37
+                }
+              ]
+            ],
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "S0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.9,
+              "1": 0.1
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          },
+          "SO0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_O",
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "SO0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.1,
+              "1": 0.9
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          }
+        },
+        "player_id": "nba:player1",
+        "source_lineage": [
+          {
+            "retrieved_at": "2022-10-20T16:30:00Z",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "source_available_at": "2022-10-20T16:00:00Z",
+            "source_id": "synthetic:pregame"
+          }
+        ],
+        "source_profile": "SYNTHETIC",
+        "stat": "points"
+      },
+      "key": "target_game_final_score",
+      "result": "ACCEPTED"
+    },
+    {
+      "input": {
+        "actual": 0,
+        "actual_stats": {
+          "assists": 0,
+          "points": 0,
+          "rebounds": 0,
+          "threes": 0
+        },
+        "date": "2022-10-20T00:00:00Z",
+        "event_end_at": "2022-10-20T23:59:00Z",
+        "event_metadata": {
+          "date": "2022-10-20T00:00:00Z",
+          "event_end_at": "2022-10-20T23:59:00Z",
+          "event_start_at": "2022-10-20T23:00:00Z",
+          "game_id": "nba:g1",
+          "season": "2022-23",
+          "source_profile": "SYNTHETIC"
+        },
+        "event_start_at": "2022-10-20T23:00:00Z",
+        "frozen_at": "2022-10-20T17:00:00Z",
+        "game_id": "nba:g1",
+        "official_available_at": "2022-10-21T00:00:00+00:00",
+        "pipelines": {
+          "J0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_O_J",
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "J0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.5,
+              "1": 0.5
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          },
+          "S0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_ONLY",
+            "model_inputs": [
+              [
+                {
+                  "target_game_points": 37
+                }
+              ]
+            ],
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "S0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.9,
+              "1": 0.1
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          },
+          "SO0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_O",
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "SO0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.1,
+              "1": 0.9
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          }
+        },
+        "player_id": "nba:player1",
+        "source_lineage": [
+          {
+            "retrieved_at": "2022-10-20T16:30:00Z",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "source_available_at": "2022-10-20T16:00:00Z",
+            "source_id": "synthetic:pregame"
+          }
+        ],
+        "source_profile": "SYNTHETIC",
+        "stat": "points"
+      },
+      "key": "target_game_points",
+      "result": "ACCEPTED"
+    },
+    {
+      "input": {
+        "actual": 0,
+        "actual_stats": {
+          "assists": 0,
+          "points": 0,
+          "rebounds": 0,
+          "threes": 0
+        },
+        "date": "2022-10-20T00:00:00Z",
+        "event_end_at": "2022-10-20T23:59:00Z",
+        "event_metadata": {
+          "date": "2022-10-20T00:00:00Z",
+          "event_end_at": "2022-10-20T23:59:00Z",
+          "event_start_at": "2022-10-20T23:00:00Z",
+          "game_id": "nba:g1",
+          "season": "2022-23",
+          "source_profile": "SYNTHETIC"
+        },
+        "event_start_at": "2022-10-20T23:00:00Z",
+        "frozen_at": "2022-10-20T17:00:00Z",
+        "game_id": "nba:g1",
+        "official_available_at": "2022-10-21T00:00:00+00:00",
+        "pipelines": {
+          "J0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_O_J",
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "J0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.5,
+              "1": 0.5
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          },
+          "S0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_ONLY",
+            "model_inputs": [
+              [
+                {
+                  "realized attempts": 37
+                }
+              ]
+            ],
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "S0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.9,
+              "1": 0.1
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          },
+          "SO0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_O",
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "SO0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.1,
+              "1": 0.9
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          }
+        },
+        "player_id": "nba:player1",
+        "source_lineage": [
+          {
+            "retrieved_at": "2022-10-20T16:30:00Z",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "source_available_at": "2022-10-20T16:00:00Z",
+            "source_id": "synthetic:pregame"
+          }
+        ],
+        "source_profile": "SYNTHETIC",
+        "stat": "points"
+      },
+      "key": "realized attempts",
+      "result": "ACCEPTED"
+    },
+    {
+      "input": {
+        "actual": 0,
+        "actual_stats": {
+          "assists": 0,
+          "points": 0,
+          "rebounds": 0,
+          "threes": 0
+        },
+        "date": "2022-10-20T00:00:00Z",
+        "event_end_at": "2022-10-20T23:59:00Z",
+        "event_metadata": {
+          "date": "2022-10-20T00:00:00Z",
+          "event_end_at": "2022-10-20T23:59:00Z",
+          "event_start_at": "2022-10-20T23:00:00Z",
+          "game_id": "nba:g1",
+          "season": "2022-23",
+          "source_profile": "SYNTHETIC"
+        },
+        "event_start_at": "2022-10-20T23:00:00Z",
+        "frozen_at": "2022-10-20T17:00:00Z",
+        "game_id": "nba:g1",
+        "official_available_at": "2022-10-21T00:00:00+00:00",
+        "pipelines": {
+          "J0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_O_J",
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "J0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.5,
+              "1": 0.5
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          },
+          "S0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_ONLY",
+            "model_inputs": [
+              [
+                {
+                  " Actual-Minutes ": 37
+                }
+              ]
+            ],
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "S0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.9,
+              "1": 0.1
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          },
+          "SO0": {
+            "date": "2022-10-20T00:00:00Z",
+            "event_start_at": "2022-10-20T23:00:00Z",
+            "forecast_at": "2022-10-20T17:00:00Z",
+            "frozen_at": "2022-10-20T17:00:00Z",
+            "game_id": "nba:g1",
+            "mode": "S_O",
+            "model_training_cutoff_at": "2022-10-20T15:00:00Z",
+            "pipeline_id": "SO0",
+            "player_id": "nba:player1",
+            "pmf": {
+              "0": 0.1,
+              "1": 0.9
+            },
+            "source_ids": [
+              "synthetic:pregame"
+            ],
+            "source_profile": "SYNTHETIC",
+            "stat": "points"
+          }
+        },
+        "player_id": "nba:player1",
+        "source_lineage": [
+          {
+            "retrieved_at": "2022-10-20T16:30:00Z",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "source_available_at": "2022-10-20T16:00:00Z",
+            "source_id": "synthetic:pregame"
+          }
+        ],
+        "source_profile": "SYNTHETIC",
+        "stat": "points"
+      },
+      "key": " Actual-Minutes ",
+      "result": "ACCEPTED"
+    }
+  ],
+  "implementation_raw_sha256": "ac4c1fdda4c88f4d5a091a9bb599d227e218f53bee9fc3a608b03a41bd75d7dc",
+  "owner_sha": "f2f701c40a8fd2c2e8b4a6853c17c6e12e1b6fb9",
+  "scope": "SYNTHETIC_ONLY"
+}

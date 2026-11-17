@@ -1,0 +1,173 @@
+test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) ... 
+  test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='source_profile') ... FAIL
+  test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='status') ... FAIL
+  test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='missing_requirements') ... FAIL
+  test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='event_end_at') ... FAIL
+  test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='outcome_released_at') ... FAIL
+  test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='official_count') ... FAIL
+  test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='event_start_at') ... FAIL
+  test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='exact_minutes') ... FAIL
+test_exact_raw_ancestor_corruption_and_orphan_revision_reject (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_exact_raw_ancestor_corruption_and_orphan_revision_reject) ... ok
+test_false_admission_or_scoring_authority_rejected (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_false_admission_or_scoring_authority_rejected) ... ok
+test_missing_outcome_is_immutable_separate_and_unscored (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_missing_outcome_is_immutable_separate_and_unscored) ... ok
+test_outcome_export_cannot_enter_forecast_source_argument (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_outcome_export_cannot_enter_forecast_source_argument) ... ok
+test_real_outcome_and_forecast_intake_fail_closed (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_real_outcome_and_forecast_intake_fail_closed) ... ok
+test_stored_outcome_tampering_detected (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_stored_outcome_tampering_detected) ... ok
+test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) ... 
+  test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='displayed_minutes') ... FAIL
+  test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='exact_minutes') ... FAIL
+  test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='event_start_at') ... FAIL
+  test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='event_end_at') ... FAIL
+  test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='outcome_released_at') ... FAIL
+  test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='status') ... FAIL
+  test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='vault_schema') ... FAIL
+  test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='missing_requirements') ... FAIL
+
+======================================================================
+FAIL: test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='source_profile')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 113, in test_actual_p1_export_summary_claims_rederived_from_source
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='status')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 113, in test_actual_p1_export_summary_claims_rederived_from_source
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='missing_requirements')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 113, in test_actual_p1_export_summary_claims_rederived_from_source
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='event_end_at')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 113, in test_actual_p1_export_summary_claims_rederived_from_source
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='outcome_released_at')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 113, in test_actual_p1_export_summary_claims_rederived_from_source
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='official_count')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 113, in test_actual_p1_export_summary_claims_rederived_from_source
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='event_start_at')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 113, in test_actual_p1_export_summary_claims_rederived_from_source
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_actual_p1_export_summary_claims_rederived_from_source (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_actual_p1_export_summary_claims_rederived_from_source) (key='exact_minutes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 113, in test_actual_p1_export_summary_claims_rederived_from_source
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='displayed_minutes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 123, in test_unknown_outcome_cannot_acquire_counts_clocks_or_display
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='exact_minutes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 123, in test_unknown_outcome_cannot_acquire_counts_clocks_or_display
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='event_start_at')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 123, in test_unknown_outcome_cannot_acquire_counts_clocks_or_display
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='event_end_at')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 123, in test_unknown_outcome_cannot_acquire_counts_clocks_or_display
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='outcome_released_at')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 123, in test_unknown_outcome_cannot_acquire_counts_clocks_or_display
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='status')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 123, in test_unknown_outcome_cannot_acquire_counts_clocks_or_display
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='vault_schema')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 123, in test_unknown_outcome_cannot_acquire_counts_clocks_or_display
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+======================================================================
+FAIL: test_unknown_outcome_cannot_acquire_counts_clocks_or_display (tests.nba_c.test_p5_native_transport_v1.NativeTransportControlsV1.test_unknown_outcome_cannot_acquire_counts_clocks_or_display) (key='missing_requirements')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p5/tests/nba_c/test_p5_native_transport_v1.py", line 123, in test_unknown_outcome_cannot_acquire_counts_clocks_or_display
+    with self.subTest(key=key),self.assertRaises(WarehouseError):
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: WarehouseError not raised
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.009s
+
+FAILED (failures=16)

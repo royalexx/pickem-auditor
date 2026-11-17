@@ -1,0 +1,14 @@
+test_cycles_reject_but_shared_pregame_substructures_are_legal (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_cycles_reject_but_shared_pregame_substructures_are_legal) ... ok
+test_forbidden_results_at_every_container_depth (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_forbidden_results_at_every_container_depth) ... ok
+test_nested_list_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_identity) ... ok
+test_nested_list_postfreeze_clock (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_postfreeze_clock) ... ok
+test_nested_list_unknown_clock_and_model_cutoff (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_nested_list_unknown_clock_and_model_cutoff) ... ok
+test_normalized_reserved_target_namespace_and_identity (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_normalized_reserved_target_namespace_and_identity) ... ok
+test_target_aliases_are_quarantined_with_valid_prior_controls (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_target_aliases_are_quarantined_with_valid_prior_controls) ... ok
+test_valid_nested_pregame_numbers_clocks_identity_all_stats (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_valid_nested_pregame_numbers_clocks_identity_all_stats) ... ok
+test_w3_sparse_fallback_cannot_accept_nested_outcome (tests.nba_c.test_p5_recursive_quarantine_v2.RecursiveForecastQuarantineV2.test_w3_sparse_fallback_cannot_accept_nested_outcome) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.097s
+
+OK

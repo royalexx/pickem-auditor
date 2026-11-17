@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/workspace/work/p5/scripts/nba_p5_native_handoff_verify_v1.py", line 253, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/work/p5/scripts/nba_p5_native_handoff_verify_v1.py", line 49, in main
+    pins={name:materialize(args.repo,getattr(args,name+'_sha'),work/name,files)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/p5/scripts/nba_p5_native_handoff_verify_v1.py", line 26, in materialize
+    raise ValueError('EXACT_OWNER_COMMIT_REQUIRED')
+ValueError: EXACT_OWNER_COMMIT_REQUIRED
