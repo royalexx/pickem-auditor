@@ -1,0 +1,1889 @@
+{
+  "schema": "NBA_P6_FRESH_FULL_BLOCKER_AUDIT_LEDGER_V5",
+  "governing": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "reviewer": "/root/p6_independent (separate ChatGPT agent; authored no P1-P5/P0 repairs)",
+  "accepted_g0_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "previous_independent_audit_sha": "ddc60a83f6c9a2b863f5e7a44823bffa3b01e048",
+  "owner_pins": {
+    "P1": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+    "P2": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+    "P3": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+    "P4": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+    "P5": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+    "P0": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29"
+  },
+  "frozen_pre_p6_packet_sha": "70d37e9b2a6bbf26def4bee79161a7bd3a49d343",
+  "owner_repair_packet_sha": "4d4d594fd7c88cdb3149cafd35515d5a65412b87",
+  "exact_assembly_sha": "6dee6e09fa786479dc2e163a33e14257f207b35e",
+  "overall_G1_decision": "NO-GO",
+  "G2": "CLOSED_NOT_AUTHORIZED",
+  "historical_predictive_training_validation": "NOT_AUTHORIZED_NOT_PERFORMED",
+  "deployment_or_Tier_promotion": "NOT_AUTHORIZED_NOT_PERFORMED",
+  "prior_independent_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+  "full_execution_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+  "latest_adversarial_source_commit": "64aa8228f99f524fbe88c099579e6ba24a5c3eb8",
+  "criteria": [
+    {
+      "id": "F-P2-02",
+      "owner": "P2",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "classification": "CORRECTNESS_DEFECT",
+      "status": "PASS",
+      "reason": "joint_conditional accepts model cutoff 2022-10-10 beyond P training cutoff 2022-10-09; regular predict rejects MODEL_AFTER_DATA_CUTOFF. Input freeze alone is insufficient.",
+      "reproduce": "python -m unittest tests.nba_s_family.test_cutoff_regression_v1_2.DeclaredCutoffTests -v",
+      "dependencies": [
+        "P1 declared cutoff",
+        "P3 G/O scenario contract"
+      ],
+      "positive_acceptance_tests": [
+        "model cutoff before declared cutoff accepted",
+        "exact declared-cutoff equality accepted"
+      ],
+      "negative_acceptance_tests": [
+        "one microsecond after declared cutoff rejected",
+        "after declared cutoff but before freeze rejected consistently by predict and joint_conditional"
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "current_source_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "current_disposition": "PASS",
+      "observed_result": "Independent32 paired PTS/REB/AST/3PM\u00d7S1/S2 cutoff controls: before/equality accept; +1us and before-freeze-after-declared reject consistently across predict and joint_conditional. Owner61S and immutable v3 counterexample pass after repair.",
+      "responsible_owner": "P2",
+      "initial_audit_status": "FAIL",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "minimal_remaining_requirement": null,
+      "original_failure_or_missing_evidence": "joint_conditional accepts model cutoff 2022-10-10 beyond P training cutoff 2022-10-09; regular predict rejects MODEL_AFTER_DATA_CUTOFF. Input freeze alone is insufficient.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P2_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P2_architecture.log",
+        "execution/current24/P2_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Enforce the exact P training cutoff at the S-to-J entrypoint before conditional evaluation; preserve current freeze/source/identity checks and add paired valid/equality/late controls.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Independent32 paired PTS/REB/AST/3PM\u00d7S1/S2 cutoff controls: before/equality accept; +1us and before-freeze-after-declared reject consistently across predict and joint_conditional. Owner61S and immutable v3 counterexample pass after repair.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P2_architecture.log",
+        "final_v2/current_exact_owners/P2_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P5-02",
+      "owner": "P5",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "classification": "CORRECTNESS_DEFECT",
+      "status": "PASS",
+      "reason": "CachedCohort rejects top-level outcome fields but accepts nested model_inputs.actual_minutes and target_game_outcome. No historical leakage or predictive effect is demonstrated.",
+      "reproduce": "python -m unittest tests.nba_c.test_p5_recursive_quarantine_v2 -v",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "all eight pre-holdout synthetic statistic fixtures accepted",
+        "nested legitimate projected numerical features accepted"
+      ],
+      "negative_acceptance_tests": [
+        "forbidden fields rejected in dictionaries, lists, and alternating nested containers",
+        "validation precedes W3 sparse fallback"
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "current_source_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "current_disposition": "PASS",
+      "observed_result": "Independent92nestedforbidden/clock/identity attacks reject throughdict/list/tuple trees;88validpregamecontrols across8stats/depth0..10 accept. Owner76C and original v3 nested injection are green; W3 validates before sparse fallback.",
+      "responsible_owner": "P5",
+      "initial_audit_status": "FAIL",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "minimal_remaining_requirement": null,
+      "original_failure_or_missing_evidence": "CachedCohort rejects top-level outcome fields but accepts nested model_inputs.actual_minutes and target_game_outcome. No historical leakage or predictive effect is demonstrated.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P5_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P5_architecture.log",
+        "execution/current24/P5_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Recursively reject forbidden target/outcome fields in forecast pipelines, or use a closed reviewed nested-input schema; preserve valid pre-holdout fixtures and historical-fit prohibition.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Independent92nestedforbidden/clock/identity attacks reject throughdict/list/tuple trees;88validpregamecontrols across8stats/depth0..10 accept. Owner76C and original v3 nested injection are green; W3 validates before sparse fallback.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P5_architecture.log",
+        "final_v2/current_exact_owners/P5_prior_P6.log"
+      ]
+    },
+    {
+      "id": "B-P1-01",
+      "owner": "P1",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "classification": "UNAVAILABLE_EVIDENCE",
+      "status": "BLOCKED",
+      "reason": "99 compressed digests match but original provider bytes/first-availability, official historical duration population, dated identity/active-roster/DNP population and full correction chains are absent. Real fixture remains reconstructed.",
+      "reproduce": "PYTHONPATH=. python scripts/nba_p1_build_pregame.py --input docs/nba_architecture/p1_remediation_20261117/real_ws1_manifest.json --output /new/authentic_snapshot.json --source-root docs/nba_architecture/p1_remediation_20261117 --require-official-evidence",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "raw-byte manifest binds provider and dated game/player/team clocks and ancestry",
+        "explicitly incomplete roster and unknown participation preserved"
+      ],
+      "negative_acceptance_tests": [
+        "corrupt raw or ancestor bytes rejected",
+        "orphan/backdated correction rejected",
+        "wrong player/team/game and fabricated historical date rejected",
+        "post-freeze evidence rejected"
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "BLOCKED_SUBSTANTIVE_PREREQUISITE_REMAINS",
+      "current_source_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "current_disposition": "BLOCKED",
+      "observed_result": "Authentic-first builder exits2 OFFICIAL_SOURCE_EVIDENCE_REQUIRED for26attempted entries, no snapshot and noG/O/S/J/C continuation.99compressed shards/39916715bytes match without decompression. Three later-source/rule objects remainUNADMITTED with original availability null; original roster/membership/schedule/result/DNP/correction populations are absent.",
+      "responsible_owner": "P1",
+      "initial_audit_status": "BLOCKED",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "minimal_remaining_requirement": "P1 must obtain independently admissible original or explicitly acceptable reconstructed source populations with honest clocks, dated mappings, complete schedule/roster/result/participation denominators and correction ancestry. Archive integrity does not supply authentication.",
+      "original_failure_or_missing_evidence": "99 compressed digests match but original provider bytes/first-availability, official historical duration population, dated identity/active-roster/DNP population and full correction chains are absent. Real fixture remains reconstructed.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P1_architecture.log",
+        "pre_p6_boundaries_exact_helper_commit/authentic_first_boundary.stdout",
+        "archive_bytes/independent_archive_bytes.json"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P1_architecture.log",
+        "execution/current24/P1_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Supply source-admitted original or explicitly acceptable reconstructed populations with honest clocks, dated mappings, schedule/roster/result denominators and correction ancestry; independently review source authenticity.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "original_reproduce_command": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P1",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "BLOCKED",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Authentic-first builder exits2 OFFICIAL_SOURCE_EVIDENCE_REQUIRED for26attempted entries, no snapshot and noG/O/S/J/C continuation.99compressed shards/39916715bytes match without decompression. Three later-source/rule objects remainUNADMITTED with original availability null; original roster/membership/schedule/result/DNP/correction populations are absent.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P1_architecture.log",
+        "final_v2/current_exact_owners/P1_prior_P6.log"
+      ]
+    },
+    {
+      "id": "B-P1-02",
+      "owner": "P1",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "classification": "UNAVAILABLE_EVIDENCE",
+      "status": "BLOCKED",
+      "reason": "Rounded-subminute and multi-OT exception paths pass official-shaped synthetic fixtures, but no authenticated official exception/duration capture is supplied; true-zero positive credits remain unresolved.",
+      "reproduce": "PYTHONPATH=. python scripts/nba_p1_build_pregame.py --input docs/nba_architecture/p1_remediation_20261117/real_ws1_manifest.json --output /new/authentic_snapshot.json --source-root docs/nba_architecture/p1_remediation_20261117 --require-official-evidence",
+      "dependencies": [
+        "P1 authenticated prior-game evidence"
+      ],
+      "positive_acceptance_tests": [
+        "rounded subminute exact/displayed minutes kept separately",
+        "legal source-specific 48+5*OT cap accepted in builder and vault"
+      ],
+      "negative_acceptance_tests": [
+        "true-zero positive credits unresolved",
+        "missing witness quarantined",
+        "over-cap exposure rejected"
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "BLOCKED_SUBSTANTIVE_PREREQUISITE_REMAINS",
+      "current_source_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "current_disposition": "BLOCKED",
+      "observed_result": "Source-specific rounded-subminute/displayed-vs-exact and legal multi-OT accounting pass finite controls; true-zero positive credits remain unresolved. Authentic minute exception/duration/correction evidence is unavailable. Retained modern prior-game NBA0021800001 retrieval is HTTP403/443rawbytes, not official-duration proof.",
+      "responsible_owner": "P1",
+      "initial_audit_status": "BLOCKED",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "minimal_remaining_requirement": "P1 must obtain authentic prior-game official duration/OT/stat/correction bytes and independently accepted minute-exception evidence. Preserve unresolved true-zero positive credits; synthetic fixtures cannot establish an exception.",
+      "original_failure_or_missing_evidence": "Rounded-subminute and multi-OT exception paths pass official-shaped synthetic fixtures, but no authenticated official exception/duration capture is supplied; true-zero positive credits remain unresolved.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P1_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P1_architecture.log",
+        "execution/current24/P1_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Supply authentic prior-game official clock/stat/correction evidence and an independently accepted exception policy; do not relabel synthetic bytes as official captures.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "original_reproduce_command": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P1",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "BLOCKED",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Source-specific rounded-subminute/displayed-vs-exact and legal multi-OT accounting pass finite controls; true-zero positive credits remain unresolved. Authentic minute exception/duration/correction evidence is unavailable. Retained modern prior-game NBA0021800001 retrieval is HTTP403/443rawbytes, not official-duration proof.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P1_architecture.log",
+        "final_v2/current_exact_owners/P1_prior_P6.log"
+      ]
+    },
+    {
+      "id": "B-P2-01",
+      "owner": "P2",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "classification": "UNAVAILABLE_EVIDENCE",
+      "status": "BLOCKED",
+      "reason": "Duration-aware synthetic fit works but authentic P1 duration/clock/role manifests and source-qualified S artifacts are unavailable. New P1 source-status interface is not an accepted native S handoff.",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python scripts/nba_p2_latest_interop_v1_2.py --repo \"$p6_repo\" --p1-sha 50d2b3874c7c14c9b73bdf13e441957986b88acd --p3-sha eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "dependencies": [
+        "P1 native evidence export and source admission",
+        "P3 latest O output",
+        "admissible existing fitted S prior",
+        "Repair reopened F-P2-07 before admitting future sources"
+      ],
+      "positive_acceptance_tests": [
+        "actual P1 export uncertainty survives handoff",
+        "PTS REB AST 3PM interfaces work",
+        "actual latest P3 weighted scenario mixture matches independent manual mixture"
+      ],
+      "negative_acceptance_tests": [
+        "missing clocks/roles/authentication remain blocked",
+        "wrong identities/post-cutoff artifacts rejected",
+        "unknown participation not converted to certainty",
+        "target-game outcomes/attempts excluded"
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "BLOCKED_SUBSTANTIVE_PREREQUISITE_REMAINS",
+      "current_source_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "current_disposition": "BLOCKED",
+      "observed_result": "Actual P1/P3-to-P2 synthetic compatibility passes with source/duration/clock/role uncertainty retained. Authenticated prior-game population and admissible existing fitted artifacts are unavailable; callerP1_VERIFIED labels and unauthorized historical fitting cannot supply them.",
+      "responsible_owner": "P2",
+      "initial_audit_status": "BLOCKED",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "minimal_remaining_requirement": "Latest P1/P3 native transport is structurally implemented and independently verified. Remaining: independently admitted duration/source/clock/role evidence and admissible existing fitted artifacts at lawful cutoffs, without target outcomes or unauthorized historical fitting.",
+      "original_failure_or_missing_evidence": "Duration-aware synthetic fit works but authentic P1 duration/clock/role manifests and source-qualified S artifacts are unavailable. New P1 source-status interface is not an accepted native S handoff.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P2_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P2_architecture.log",
+        "execution/current24/P2_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Accept/version the latest P1 export and authentication policy in the owner branch, supply admissible prior evidence and fitted artifacts at lawful cutoffs without target-result access.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "original_reproduce_command": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P2",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "BLOCKED",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Actual P1/P3-to-P2 synthetic compatibility passes with source/duration/clock/role uncertainty retained. Authenticated prior-game population and admissible existing fitted artifacts are unavailable; callerP1_VERIFIED labels and unauthorized historical fitting cannot supply them.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P2_architecture.log",
+        "final_v2/current_exact_owners/P2_prior_P6.log"
+      ]
+    },
+    {
+      "id": "B-P3-01",
+      "owner": "P3",
+      "owner_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "classification": "UNAVAILABLE_EVIDENCE",
+      "status": "BLOCKED",
+      "reason": "No authenticated original roster/participation/minute fit; unsupported verified_pregame_fit is rejected and historical P1 route abstains. Native P1 export proposal remains unadopted.",
+      "reproduce": "PYTHONPATH=. python scripts/nba_p3_native_handoff_check_v4_20261116.py --p1-root /path/to/exact/P1 --output /new/native_P3",
+      "dependencies": [
+        "P1 original context/roster, dated membership, roles",
+        "admissible participation/minute fit"
+      ],
+      "positive_acceptance_tests": [
+        "regulation and multiple OT minutes conserved with complete five-on-floor witnesses",
+        "played-zero distinct from DNP",
+        "early-exit total-minute cap honored"
+      ],
+      "negative_acceptance_tests": [
+        "false fit certification rejected",
+        "missing/infeasible roster rejected",
+        "post-trade wrong identity rejected",
+        "post-freeze or after-training evidence rejected",
+        "resealed replay/witness tampering rejected"
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "BLOCKED_SUBSTANTIVE_PREREQUISITE_REMAINS",
+      "current_source_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "current_disposition": "BLOCKED",
+      "observed_result": "Actual P1 native consumer preserves qNone, unproven roster and source/role uncertainty, returnsBLOCKED before sampling. New false-fit/raw/clock/membership/scalar/admission attacks reject. Original roster/context/dated membership and admissible participation/minute priors remain unavailable.",
+      "responsible_owner": "P3",
+      "initial_audit_status": "BLOCKED",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "minimal_remaining_requirement": "Latest P1 export consumer is implemented and preserves uncertainty. Remaining: independently admissible original roster/context, dated membership, source-bound home/roles, genuine participation and minute-prior authentication with lawful model cutoffs.",
+      "original_failure_or_missing_evidence": "No authenticated original roster/participation/minute fit; unsupported verified_pregame_fit is rejected and historical P1 route abstains. Native P1 export proposal remains unadopted.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P3_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P3_architecture.log",
+        "execution/current24/P3_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Supply and independently admit original roster/context/fit evidence, agree latest P1 export and uncertainty semantics; preserve null participation where unknown.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "original_reproduce_command": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P3",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "BLOCKED",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Actual P1 native consumer preserves qNone, unproven roster and source/role uncertainty, returnsBLOCKED before sampling. New false-fit/raw/clock/membership/scalar/admission attacks reject. Original roster/context/dated membership and admissible participation/minute priors remain unavailable.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P3_architecture.log",
+        "final_v2/current_exact_owners/P3_prior_P6.log"
+      ]
+    },
+    {
+      "id": "B-P4-01",
+      "owner": "P4",
+      "owner_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "classification": "UNAVAILABLE_EVIDENCE_AND_INTERFACE_VERSION_GAP",
+      "status": "BLOCKED",
+      "reason": "Real mode always rejects for missing authentication registry. Fixture consumer pins old P2/P3 and rejects latest P2 bytes with J_UPSTREAM_CODE_PIN_P2; P3 0.2.0 is outside accepted 0.1.0 sidecar.",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests/nba_architecture -p test_p4_latest_integration.py -v",
+      "dependencies": [
+        "latest P1/P2/P3 exact code and artifacts",
+        "independently admitted source registry"
+      ],
+      "positive_acceptance_tests": [
+        "actual latest P2 conditional laws and actual P3 O consumed under exact pins",
+        "scenario IDs, weights and order preserved"
+      ],
+      "negative_acceptance_tests": [
+        "wrong source/artifact/code hash rejected",
+        "G/O/S/J lineage mismatch rejected",
+        "real mode remains blocked without independent authentication"
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "BLOCKED_SUBSTANTIVE_PREREQUISITE_REMAINS",
+      "current_source_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "current_disposition": "BLOCKED",
+      "observed_result": "Versioned wrapper consumes actual latest P2/P3 code and immutable artifacts with full source/manifest/cutoff/role/G/O binding. Synthetic compatibility passes; real mode rejects J2_REAL_BLOCKED_INDEPENDENT_SOURCE_AND_FIT_ADMISSION_REQUIRED. No authentic admission path exists.",
+      "responsible_owner": "P4",
+      "initial_audit_status": "BLOCKED",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "minimal_remaining_requirement": "Latest actual P2/P3 versioned consumer is implemented and independently verified for synthetic engineering. Remaining: independently accepted authentic source/fitted-artifact admission and trust population with exact source/code/cutoff/identity/scenario binding; real mode stays closed.",
+      "original_failure_or_missing_evidence": "Real mode always rejects for missing authentication registry. Fixture consumer pins old P2/P3 and rejects latest P2 bytes with J_UPSTREAM_CODE_PIN_P2; P3 0.2.0 is outside accepted 0.1.0 sidecar.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P4_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P4_architecture.log",
+        "execution/current24/P4_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Coordinate a versioned latest-head P2/P3 consumer and admitted artifact/source trust registry; do not relax the pins or authorize real mode through caller strings.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "original_reproduce_command": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P4",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "BLOCKED",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Versioned wrapper consumes actual latest P2/P3 code and immutable artifacts with full source/manifest/cutoff/role/G/O binding. Synthetic compatibility passes; real mode rejects J2_REAL_BLOCKED_INDEPENDENT_SOURCE_AND_FIT_ADMISSION_REQUIRED. No authentic admission path exists.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P4_architecture.log",
+        "final_v2/current_exact_owners/P4_prior_P6.log"
+      ]
+    },
+    {
+      "id": "B-P4-02",
+      "owner": "P4",
+      "owner_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "classification": "MATERIAL_DISTRIBUTIONAL_PHYSICAL_PARTICIPATION_CONTRACT_PENDING",
+      "status": "BLOCKED",
+      "reason": "S1/S2 laws are projected to mean/share rates; variance/tails are not propagated. Aggregate possessions and lineup intervals do not prove event-time scorer/assister co-presence, exact FT/possession or tied OT chronology.",
+      "reproduce": "PYTHONPATH=. OPENBLAS_NUM_THREADS=1 python -m research.nba_p4_latest.repeated_seeds --output /new/actual_map_study",
+      "dependencies": [
+        "P2 full conditional laws",
+        "P3 minute/witness semantics",
+        "independently reviewed versioned constrained-law contract"
+      ],
+      "positive_acceptance_tests": [
+        "posterior-rate variance/dispersion/tails reach J and distortion quantified against independent synthetic reference",
+        "shot/FT/scoring/rebound/assist/co-presence/OT accounting proven or accepted versioned approximation",
+        "same-draw PR PA RA PRA and normalized weighted PMFs"
+      ],
+      "negative_acceptance_tests": [
+        "shooting/rebound/assist arithmetic violations rejected",
+        "incorrect same-draw combinations rejected",
+        "nonnormalized PMFs/incorrect tails rejected",
+        "rejected-draw denominators retained"
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "BLOCKED_PROPOSAL_NOT_ACCEPTED_FOR_G1; new physical law and distortion contract require independent approval",
+      "current_source_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "current_disposition": "BLOCKED",
+      "observed_result": "Fresh actual256Jseeds\u00d7same4O2=1024retainedweightedpaths/0observedgames; all96PMFs normalized. Independent maxmean distortion11.367997591070651/maxempiricalTV.4767262428489705.70-digit actual-law dominance check proves exact marginal incompatibility at one law. Proposedlatent-rate map propagates uncertainty but lacks accepted distortion and event-time/possession/FT/co-presence/OT/early-exit/participation semantics.",
+      "responsible_owner": "P4",
+      "initial_audit_status": "BLOCKED",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "minimal_remaining_requirement": "P4/P0 must prepare and obtain separate independent acceptance of a versioned constrained physical-law contract with satisfactory distortion/tail limits and event-time possession/FT/rebound/assist/co-presence, possession-unit, OT, early-exit and genuine participation semantics. Proposal0.1.0 is not accepted for G1; accepted G0 is not amended.",
+      "original_failure_or_missing_evidence": "S1/S2 laws are projected to mean/share rates; variance/tails are not propagated. Aggregate possessions and lineup intervals do not prove event-time scorer/assister co-presence, exact FT/possession or tied OT chronology.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P4_architecture.log",
+        "pre_p6_P4_256_seed_replay/summary.json",
+        "pre_p6_P4_256_seed_replay/metrics.json"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P4_architecture.log",
+        "execution/current24/P4_prior_P6.log",
+        "execution/P4_actual256/summary.json",
+        "execution/P4_independent_reference.json",
+        "execution/P4_reference_conditioning.json"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Implement or obtain independent acceptance of an explicit law-preserving/controlled approximation contract and demonstrate required physical accounting, event availability, marginal distortion limits and source-bound handoffs. No historical predictive scoring is authorized here.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "original_reproduce_command": "PYTHONPATH=.:tests/nba_architecture python /workspace/work/repo/scripts/nba_p6_g1_remediation_adversarial_v3_20261116.py P4",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "BLOCKED",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Fresh actual256Jseeds\u00d7same4O2=1024retainedweightedpaths/0observedgames; all96PMFs normalized. Independent maxmean distortion11.367997591070651/maxempiricalTV.4767262428489705.70-digit actual-law dominance check proves exact marginal incompatibility at one law. Proposedlatent-rate map propagates uncertainty but lacks accepted distortion and event-time/possession/FT/co-presence/OT/early-exit/participation semantics.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P4_architecture.log",
+        "final_v2/current_exact_owners/P4_prior_P6.log",
+        "execution_v1/actual_P4_repeated_seeds/summary.json",
+        "execution_v1/independent_study.json",
+        "execution_v1/reference_conditioning.json"
+      ]
+    },
+    {
+      "id": "B-P4-03",
+      "owner": "P4",
+      "owner_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "classification": "REPRODUCED_ENGINEERING_SCALING_LIMIT",
+      "status": "BLOCKED",
+      "reason": "Actual P3 stochastic O2 n=32 fails unchanged G0 O_COUPLING_VERIFICATION_BUDGET; O0 8/32/64 benchmarks cannot establish O2 scalability.",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests/nba_architecture -p test_p4_latest_integration.py -v",
+      "dependencies": [
+        "P3 O2 coupling representation",
+        "P0 unchanged accepted contract or separate reviewed amendment"
+      ],
+      "positive_acceptance_tests": [
+        "actual stochastic O2 n32 witnessed strategy passes unchanged G0 or explicit independently accepted bounded range",
+        "deterministic cross-process hash-seed and input-order replay"
+      ],
+      "negative_acceptance_tests": [
+        "original O2 n32 coupling-budget failure retained",
+        "insufficient witnesses and impossible laws rejected",
+        "no discarded scenarios or hidden budget increase"
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "BLOCKED; full-marginal qmax bound-attainment candidate is mathematically plausible but not implemented/selected/accepted; originaln32 stillfails",
+      "current_source_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "current_disposition": "BLOCKED",
+      "observed_result": "Actual stochasticO2n32 still rejects O_COUPLING_VERIFICATION_BUDGET under unchangedG0. O2n4/n8 and additional actual nonuniform G/O/J are positive controls; they do not prove a generally admissible operating range. No budgets increased, discarded scenarios or O0 substitution.",
+      "responsible_owner": "P4",
+      "initial_audit_status": "BLOCKED",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "minimal_remaining_requirement": "P0/P3/P4 must establish a scalable verifier preserving accepted full-law coupling/max-q semantics, or obtain separate independent acceptance of a precisely bounded operating contract. Finite positive n4/n8 cases do not prove a generally valid range; no budget increase, scenario discard or O0 substitution.",
+      "original_failure_or_missing_evidence": "Actual P3 stochastic O2 n=32 fails unchanged G0 O_COUPLING_VERIFICATION_BUDGET; O0 8/32/64 benchmarks cannot establish O2 scalability.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P4_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P4_architecture.log",
+        "execution/current24/P4_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "P3/P4 and P0 agree and independently verify a bounded scalable coupling/witness strategy or an explicit acceptable operating limit; preserve the failing case and do not silently increase budgets.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "original_reproduce_command": "OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests/nba_architecture -p test_p4_upstream_integration.py -v",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "BLOCKED",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Actual stochasticO2n32 still rejects O_COUPLING_VERIFICATION_BUDGET under unchangedG0. O2n4/n8 and additional actual nonuniform G/O/J are positive controls; they do not prove a generally admissible operating range. No budgets increased, discarded scenarios or O0 substitution.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P4_architecture.log",
+        "final_v2/current_exact_owners/P4_prior_P6.log"
+      ]
+    },
+    {
+      "id": "B-P5-01",
+      "owner": "P5",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "classification": "UNAVAILABLE_EVIDENCE",
+      "status": "BLOCKED",
+      "reason": "C works on sealed synthetic interfaces; actual P1 vault/event/end/release adapters and source-authenticated P2/P4 distributions are not integrated.",
+      "reproduce": "PYTHONPATH=. OPENBLAS_NUM_THREADS=1 python scripts/nba_p5_native_handoff_verify_v1.py --repo \"$p6_repo\" --p1-sha 50d2b3874c7c14c9b73bdf13e441957986b88acd --p2-sha fe46965394ea0f48ef5e9da501ec8ca9e441ce47 --p3-sha eb0882b5011f2004c5eaf27cccfdc6297704f261 --p4-sha 865bdb8f4770ac28262e49c3b4901cf1d72a22fb --output /new/native_C",
+      "dependencies": [
+        "P1 immutable native event/end/release/correction vault",
+        "accepted P2/P4 distribution/scenario witnesses",
+        "Repair reopened F-P5-05 before future authentic intake"
+      ],
+      "positive_acceptance_tests": [
+        "native immutable forecast ingestion uses real owner distributions",
+        "separate outcome adapter preserves pending/unresolved/versioned corrections",
+        "W0 W1 W2 W3 complete-pipeline semantics and synthetic numerical references pass"
+      ],
+      "negative_acceptance_tests": [
+        "outcome access excluded from forecast ingestion",
+        "orphan/backdated corrections rejected",
+        "duplicate/mismatched pipelines rejected",
+        "W4 and historical fitting remain prohibited",
+        "forged Monte Carlo ESS/game count rejected"
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "BLOCKED_SUBSTANTIVE_PREREQUISITE_REMAINS",
+      "current_source_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "current_disposition": "BLOCKED",
+      "observed_result": "Fresh21nativecases invoke actualP1immutableexports and latestP4execution, archive all96laws and keep outcome access separate. Sourceprofiles, participation uncertainty, missing officialcount/end/release and correction ancestry remainBLOCKED; authentic source/admissiblefit/acceptedJ prerequisites unavailable.",
+      "responsible_owner": "P5",
+      "initial_audit_status": "BLOCKED",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "minimal_remaining_requirement": "Actual native P1/P4 intake and all96 distribution handoffs are implemented and independently verified for synthetic engineering. Remaining: independently admitted source/roster/identity and official event/end/release/correction evidence, admissible existing fits and independently accepted P4 physical-law contract. Forecast/outcome APIs remain separate.",
+      "original_failure_or_missing_evidence": "C works on sealed synthetic interfaces; actual P1 vault/event/end/release adapters and source-authenticated P2/P4 distributions are not integrated.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P5_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P5_architecture.log",
+        "execution/current24/P5_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Version and independently verify the native immutable owner adapters once admitted upstream evidence exists; keep historical fitting and holdout access prohibited.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "original_reproduce_command": "python -m unittest discover -s tests/nba_c -v",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "BLOCKED",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Fresh21nativecases invoke actualP1immutableexports and latestP4execution, archive all96laws and keep outcome access separate. Sourceprofiles, participation uncertainty, missing officialcount/end/release and correction ancestry remainBLOCKED; authentic source/admissiblefit/acceptedJ prerequisites unavailable.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P5_architecture.log",
+        "final_v2/current_exact_owners/P5_prior_P6.log",
+        "final_v2/boundaries/P5_native_output/results.json"
+      ]
+    },
+    {
+      "id": "F-DISCOVERY-01",
+      "owner": "P0/repository test custodian",
+      "owner_sha": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29",
+      "classification": "HARNESS_DISCOVERY_DEFECT",
+      "status": "PASS",
+      "reason": "Root unittest discovery exposes 10 golden_v2 ModuleNotFoundError imports among 1652 test objects. Dedicated G0 suites pass; G0 source is unchanged.",
+      "reproduce": "python -m unittest discover -s tests -p test_nba_root_discovery_v4.py -v",
+      "responsible_owner_note": "Shared test/import custody; observed at exact P2 head, inherited G0 sources unchanged.",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "root unittest loader imports all existing tests",
+        "dedicated G0 and authorized offline suites retain accepted assertions"
+      ],
+      "negative_acceptance_tests": [
+        "baseline ten golden_v2 import errors reproduced and saved",
+        "no removed/suppressed tests or changed assertions"
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "current_source_sha": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "current_disposition": "PASS",
+      "observed_result": "Original10golden_v2root errors reproduced. P0compatibility helpers preserve all canonical assertions. Final source-mapped assembly root imports have zero errors, identical NBA test IDs to dedicated discovery and no duplicate IDs;513combined architecture tests pass. Full unrelated root test bodies were not invoked.",
+      "responsible_owner": "P0/repository test custodian",
+      "initial_audit_status": "FAIL",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "minimal_remaining_requirement": null,
+      "original_failure_or_missing_evidence": "Root unittest discovery exposes 10 golden_v2 ModuleNotFoundError imports among 1652 test objects. Dedicated G0 suites pass; G0 source is unchanged.",
+      "prior_owner_evidence": [
+        "pre_p6_assembly_r2_execution/root_discovery_regression.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Repair package/discovery imports through the responsible owner, retaining dedicated tests and independent G0 contract. Do not suppress import failures or claim repository-wide CI green.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Original10golden_v2root errors reproduced. P0compatibility helpers preserve all canonical assertions. Final source-mapped assembly root imports have zero errors, identical NBA test IDs to dedicated discovery and no duplicate IDs;513combined architecture tests pass. Full unrelated root test bodies were not invoked.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/assembly_r3_checks/root_discovery_regression.log",
+        "execution_v1/root_discovery_before_clean.json"
+      ]
+    },
+    {
+      "id": "F-P1-01",
+      "owner": "P1",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "current_source_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "classification": "PRESERVED_REPAIRED_REGRESSION",
+      "status": "PASS",
+      "current_disposition": "PASS",
+      "reason": "Zero-minute positive credits and missing-duration excess exposure reject in both historical builder and official outcome vault.",
+      "observed_result": "Zero-minute positive credits and missing-duration excess exposure reject in both historical builder and official outcome vault.",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "Zero-minute positive credits and missing-duration excess exposure reject in both historical builder and official outcome vault."
+      ],
+      "negative_acceptance_tests": [
+        "Unchanged historical probe and separate green-after-fix expectations retained."
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python \"$p6_qa\"/scripts/nba_p6_g1_green_after_fix_v3_20261116.py P1",
+      "responsible_owner": "P1",
+      "initial_audit_status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "minimal_remaining_requirement": null,
+      "original_failure_or_missing_evidence": "Zero-minute positive credits and missing-duration excess exposure reject in both historical builder and official outcome vault.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P1_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P1_architecture.log",
+        "execution/current24/P1_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Preserve existing implementation and immutable historical negative; rerun unchanged probe and separate green-after-fix wrapper.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Zero-minute positive credits and missing-duration excess exposure reject in both historical builder and official outcome vault.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P1_architecture.log",
+        "final_v2/current_exact_owners/P1_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P2-01",
+      "owner": "P2",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "current_source_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "classification": "PRESERVED_REPAIRED_REGRESSION",
+      "status": "PASS",
+      "current_disposition": "PASS",
+      "reason": "Witnessed 56-minute two-OT exposure accepted; over-cap and missing witness rejected.",
+      "observed_result": "Witnessed 56-minute two-OT exposure accepted; over-cap and missing witness rejected.",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "Witnessed 56-minute two-OT exposure accepted; over-cap and missing witness rejected."
+      ],
+      "negative_acceptance_tests": [
+        "Unchanged historical probe and separate green-after-fix expectations retained."
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python \"$p6_qa\"/scripts/nba_p6_g1_green_after_fix_v3_20261116.py P2",
+      "responsible_owner": "P2",
+      "initial_audit_status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "minimal_remaining_requirement": null,
+      "original_failure_or_missing_evidence": "Witnessed 56-minute two-OT exposure accepted; over-cap and missing witness rejected.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P2_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P2_architecture.log",
+        "execution/current24/P2_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Preserve existing implementation and immutable historical negative; rerun unchanged probe and separate green-after-fix wrapper.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Witnessed 56-minute two-OT exposure accepted; over-cap and missing witness rejected.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P2_architecture.log",
+        "final_v2/current_exact_owners/P2_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P5-01",
+      "owner": "P5",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "current_source_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "classification": "PRESERVED_REPAIRED_REGRESSION",
+      "status": "PASS",
+      "current_disposition": "PASS",
+      "reason": "Backdated synthetic event date rejects INVALID_CHRONOLOGY; valid pre-holdout synthetic fixtures accepted; 2023 quarantine retained.",
+      "observed_result": "Original backdated synthetic input rejects INVALID_CHRONOLOGY; original immutable negative probe exits0; original regression/test/fixture bytes unchanged.",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "Backdated synthetic event date rejects INVALID_CHRONOLOGY; valid pre-holdout synthetic fixtures accepted; 2023 quarantine retained."
+      ],
+      "negative_acceptance_tests": [
+        "Unchanged historical probe and separate green-after-fix expectations retained."
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python \"$p6_qa\"/scripts/nba_p6_g1_green_after_fix_v3_20261116.py P5",
+      "responsible_owner": "P5",
+      "initial_audit_status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "minimal_remaining_requirement": null,
+      "original_failure_or_missing_evidence": "Backdated synthetic event date rejects INVALID_CHRONOLOGY; valid pre-holdout synthetic fixtures accepted; 2023 quarantine retained.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P5_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P5_architecture.log",
+        "execution/current24/P5_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Preserve existing implementation and immutable historical negative; rerun unchanged probe and separate green-after-fix wrapper.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Original backdated synthetic input rejects INVALID_CHRONOLOGY; original immutable negative probe exits0; original regression/test/fixture bytes unchanged.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P5_architecture.log",
+        "final_v2/current_exact_owners/P5_prior_P6.log"
+      ]
+    },
+    {
+      "id": "R-P3-DOC-01",
+      "owner": "P3",
+      "owner_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "current_source_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "classification": "RECEIPT_TRACEABILITY_GAP",
+      "status": "PASS",
+      "current_disposition": "PASS",
+      "reason": "P3 handoff Markdown digest predates documentation append.",
+      "observed_result": "Append-only documentation receipt binds exact full handoff and original receipt bytes; both match exact source commit. Original preappend mismatch and version relationship preserved. Documentation consistency only; no source/family admission.",
+      "dependencies": [],
+      "positive_acceptance_tests": [
+        "New receipt matches exact final handoff bytes."
+      ],
+      "negative_acceptance_tests": [
+        "Prior mismatch and original receipt remain preserved."
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "reproduce": "python -c \"import hashlib,json,pathlib; p=pathlib.Path('docs/nba_architecture/p3_remediation_v4_20261116/documentation_receipt_v2.json'); print(json.loads(p.read_text()))\"",
+      "responsible_owner": "P3",
+      "initial_audit_status": "FAIL",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "failure_reproduction_state": "Original independent reds preserved; exact final owner and affected consumer reruns executed.",
+      "minimal_remaining_requirement": null,
+      "original_failure_or_missing_evidence": "P3 handoff Markdown digest predates documentation append.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P3_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P3_architecture.log",
+        "execution/current24/P3_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "original_minimal_repair": "Append a versioned documentation receipt binding final handoff bytes and explaining ancestry without overwriting old receipt.",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Append-only documentation receipt binds exact full handoff and original receipt bytes; both match exact source commit. Original preappend mismatch and version relationship preserved. Documentation consistency only; no source/family admission.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P3_architecture.log",
+        "final_v2/current_exact_owners/P3_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P1-NATIVE-01",
+      "responsible_owner": "P1",
+      "owner": "P1",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "current_source_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "classification": "INTERFACE_SOURCE_RETENTION_DEFECT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "One-shot bundles iterator was consumed before raw transport.",
+      "observed_result": "Unsupported iterators reject; valid retained list/tuple source population survives.",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python -m unittest discover -s tests/nba_architecture -p 'test_p1*' -v",
+      "positive_acceptance_tests": [
+        "Valid source-shaped prior/context/outcome transport and sparse/exact physical controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Original exact red inputs and stronger precision/integer/type/credit mutations reject."
+      ],
+      "dependencies": [],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": "626a288c4dc9bef5e71cc8ba15d71de98ac1c151",
+      "original_failure_or_missing_evidence": "One-shot bundles iterator was consumed before raw transport.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P1_architecture.log",
+        {
+          "owner_commit": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+          "owner_repository_path": "docs/nba_architecture/p1_native_handoff_20261117_v1/resolution_receipt.json"
+        }
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P1_architecture.log",
+        "execution/current24/P1_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Unsupported iterators reject; valid retained list/tuple source population survives.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P1_architecture.log",
+        "final_v2/current_exact_owners/P1_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P1-NATIVE-02",
+      "responsible_owner": "P1",
+      "owner": "P1",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "current_source_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "classification": "UNADMITTED_CLOCK_METADATA_OVERSTATEMENT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Unadmitted asserted time was presented as first-defensible availability.",
+      "observed_result": "First-defensible availability remains null; adapter assertion and unadmitted evidence references remain separate.",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python -m unittest discover -s tests/nba_architecture -p 'test_p1*' -v",
+      "positive_acceptance_tests": [
+        "Valid source-shaped prior/context/outcome transport and sparse/exact physical controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Original exact red inputs and stronger precision/integer/type/credit mutations reject."
+      ],
+      "dependencies": [],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": "18dbfe620c694f00f41dbe2fe0e1efc839867ab6",
+      "original_failure_or_missing_evidence": "Unadmitted asserted time was presented as first-defensible availability.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P1_architecture.log",
+        {
+          "owner_commit": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+          "owner_repository_path": "docs/nba_architecture/p1_native_handoff_20261117_v1/resolution_receipt.json"
+        }
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P1_architecture.log",
+        "execution/current24/P1_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "First-defensible availability remains null; adapter assertion and unadmitted evidence references remain separate.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P1_architecture.log",
+        "final_v2/current_exact_owners/P1_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P1-NATIVE-03",
+      "responsible_owner": "P1",
+      "owner": "P1",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "current_source_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "classification": "RAW_SOURCE_MINUTE_PRECISION_DEFECT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Finite Decimal context rounded infinitesimal raw over-cap duration down to the legal cap.",
+      "observed_result": "Exact rational raw-time decisions reject every over-cap delta and preserve strict30second and half-minute rounding boundaries.",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python -m unittest discover -s tests/nba_architecture -p 'test_p1*' -v",
+      "positive_acceptance_tests": [
+        "Valid source-shaped prior/context/outcome transport and sparse/exact physical controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Original exact red inputs and stronger precision/integer/type/credit mutations reject."
+      ],
+      "dependencies": [],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": "a3263bc840c9973fddaaf9025358b7780d03664b",
+      "original_failure_or_missing_evidence": "Finite Decimal context rounded infinitesimal raw over-cap duration down to the legal cap.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P1_architecture.log",
+        {
+          "owner_commit": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+          "owner_repository_path": "docs/nba_architecture/p1_source_precision_20261117_v2/resolution_receipt.json"
+        }
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P1_architecture.log",
+        "execution/current24/P1_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Exact rational raw-time decisions reject every over-cap delta and preserve strict30second and half-minute rounding boundaries.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P1_architecture.log",
+        "final_v2/current_exact_owners/P1_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P1-NATIVE-04",
+      "responsible_owner": "P1",
+      "owner": "P1",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "current_source_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "classification": "PARTIAL_INTEGER_SOURCE_ACCOUNTING_DEFECT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Sparse source fields bypassed necessary shooting/point/rebound/combo inequalities and integer parity.",
+      "observed_result": "Exact analytic feasibility agrees with456386independent primitive-enumeration assignments; impossibleparity and half-integer combos reject; valid sparse and10**100controls pass.",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python -m unittest discover -s tests/nba_architecture -p 'test_p1*' -v",
+      "positive_acceptance_tests": [
+        "Valid source-shaped prior/context/outcome transport and sparse/exact physical controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Original exact red inputs and stronger precision/integer/type/credit mutations reject."
+      ],
+      "dependencies": [],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": "d5cafda47a2f881a88974bfb7bcbb90372fe69c2",
+      "original_failure_or_missing_evidence": "Sparse source fields bypassed necessary shooting/point/rebound/combo inequalities and integer parity.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P1_architecture.log",
+        {
+          "owner_commit": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+          "owner_repository_path": "docs/nba_architecture/p1_integer_accounting_20261117_v5/resolution_receipt.json"
+        }
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P1_architecture.log",
+        "execution/current24/P1_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Exact analytic feasibility agrees with456386independent primitive-enumeration assignments; impossibleparity and half-integer combos reject; valid sparse and10**100controls pass.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P1_architecture.log",
+        "final_v2/current_exact_owners/P1_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P1-NATIVE-05",
+      "responsible_owner": "P1",
+      "owner": "P1",
+      "owner_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "current_source_sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+      "classification": "NONPARTICIPATION_SOURCE_ACCOUNTING_DEFECT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Direct native export allowed DNP/unknown with positive credits, invalid minutes or hidden raw true-zero credits.",
+      "observed_result": "DNP,unknown,playedzero and roundedsubminute remain distinct; contradictory raw credits quarantine even if caller omits statistics.",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python -m unittest discover -s tests/nba_architecture -p 'test_p1*' -v",
+      "positive_acceptance_tests": [
+        "Valid source-shaped prior/context/outcome transport and sparse/exact physical controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Original exact red inputs and stronger precision/integer/type/credit mutations reject."
+      ],
+      "dependencies": [],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": "b745b048f3ea871419272aee4c16798f455ee091",
+      "original_failure_or_missing_evidence": "Direct native export allowed DNP/unknown with positive credits, invalid minutes or hidden raw true-zero credits.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P1_architecture.log",
+        {
+          "owner_commit": "50d2b3874c7c14c9b73bdf13e441957986b88acd",
+          "owner_repository_path": "docs/nba_architecture/p1_nonparticipation_20261117_v4/resolution_receipt.json"
+        }
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P1_architecture.log",
+        "execution/current24/P1_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "DNP,unknown,playedzero and roundedsubminute remain distinct; contradictory raw credits quarantine even if caller omits statistics.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P1_architecture.log",
+        "final_v2/current_exact_owners/P1_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P2-03",
+      "responsible_owner": "P2",
+      "owner": "P2",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "current_source_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "classification": "INTERNAL_ARTIFACT_CHRONOLOGY_DEFECT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Fitted artifact accepted internally late training-row start/release before freeze.",
+      "observed_result": "Both public interfaces recheck each training row against artifact cutoff and release chronology.",
+      "reproduce": "python -m unittest tests.nba_s_family.test_cutoff_regression_v1_2.ArtifactChronologyTests -v",
+      "positive_acceptance_tests": [
+        "Valid paired source/chronology/scalar/duration/integer controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Preserved red and new adversarial source mutations reject."
+      ],
+      "dependencies": [
+        "P1 native export"
+      ],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": null,
+      "original_failure_or_missing_evidence": "Fitted artifact accepted internally late training-row start/release before freeze.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P2_family.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P2_architecture.log",
+        "execution/current24/P2_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Both public interfaces recheck each training row against artifact cutoff and release chronology.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P2_architecture.log",
+        "final_v2/current_exact_owners/P2_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P2-04",
+      "responsible_owner": "P2",
+      "owner": "P2",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "current_source_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "classification": "RAW_MINUTE_PRECISION_DEFECT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Raw minute fraction rounded across cap/30second boundaries during float conversion.",
+      "observed_result": "Raw rational comparisons precede float serialization; valid just-below30sec and exact cap controls pass.",
+      "reproduce": "python -m unittest tests.nba_s_family.test_p1_native_v1.ExactSourceMinuteTests -v",
+      "positive_acceptance_tests": [
+        "Valid paired source/chronology/scalar/duration/integer controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Preserved red and new adversarial source mutations reject."
+      ],
+      "dependencies": [
+        "P1 native export"
+      ],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": null,
+      "original_failure_or_missing_evidence": "Raw minute fraction rounded across cap/30second boundaries during float conversion.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P2_family.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P2_architecture.log",
+        "execution/current24/P2_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Raw rational comparisons precede float serialization; valid just-below30sec and exact cap controls pass.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P2_architecture.log",
+        "final_v2/current_exact_owners/P2_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P2-05",
+      "responsible_owner": "P2",
+      "owner": "P2",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "current_source_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "classification": "NATIVE_SCALAR_TYPE_DEFECT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Pythonbool/int equivalence accepted forged raw counts, exactminutes and denominators.",
+      "observed_result": "Strict raw/transport scalar guards reject bool/float counts while preserving valid int/float minute fields.",
+      "reproduce": "python -m unittest tests.nba_s_family.test_p1_native_v1.NativeScalarTypeTests -v",
+      "positive_acceptance_tests": [
+        "Valid paired source/chronology/scalar/duration/integer controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Preserved red and new adversarial source mutations reject."
+      ],
+      "dependencies": [
+        "P1 native export"
+      ],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": null,
+      "original_failure_or_missing_evidence": "Pythonbool/int equivalence accepted forged raw counts, exactminutes and denominators.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P2_family.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P2_architecture.log",
+        "execution/current24/P2_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Strict raw/transport scalar guards reject bool/float counts while preserving valid int/float minute fields.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P2_architecture.log",
+        "final_v2/current_exact_owners/P2_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P2-06",
+      "responsible_owner": "P2",
+      "owner": "P2",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "current_source_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "classification": "DURATION_INTERFACE_CORRECTNESS_DEFECT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Legal103minute11OT G/O exposure rejected by arbitrary100minute cap.",
+      "observed_result": "Source-specific physical caps replace arbitrary100limit; valid11OT passes, over-cap G/O rejects and numerical tail guards remain.",
+      "reproduce": "python -m unittest tests.nba_s_family.test_integration.HighOvertimeContractTests -v",
+      "positive_acceptance_tests": [
+        "Valid paired source/chronology/scalar/duration/integer controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Preserved red and new adversarial source mutations reject."
+      ],
+      "dependencies": [
+        "P1 native export"
+      ],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": null,
+      "original_failure_or_missing_evidence": "Legal103minute11OT G/O exposure rejected by arbitrary100minute cap.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P2_family.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P2_architecture.log",
+        "execution/current24/P2_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Source-specific physical caps replace arbitrary100limit; valid11OT passes, over-cap G/O rejects and numerical tail guards remain.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P2_architecture.log",
+        "final_v2/current_exact_owners/P2_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P2-07",
+      "responsible_owner": "P2",
+      "owner": "P2",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "current_source_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "classification": "REPAIRABLE_NATIVE_RAW_CLOCK_CREDIT_VALIDATION_DEFECT",
+      "status": "FAIL",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Nonplayed or true-zero source credits could be hidden in exported statistic subsets.",
+      "observed_result": "Raw exact PT0M0S with positive raw credits is incorrectly structurally accepted when caller display is positive and within half a minute, including0.25/0.5. Actual P1 rejects. Source admission stays BLOCKED and training_rows remains empty.224-case cross-consumer matrix has10P2 disagreements; five direct controls preserve two valid positive raw-subminute cases.",
+      "reproduce": "OPENBLAS_NUM_THREADS=1 python scripts/nba_p6_true_zero_display_adversary_20261117.py --owner-root /path/to/exact/assembly6dee --output /new/true_zero.json",
+      "positive_acceptance_tests": [
+        "Valid paired source/chronology/scalar/duration/integer controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Preserved red and new adversarial source mutations reject."
+      ],
+      "dependencies": [
+        "P1 native export"
+      ],
+      "minimal_remaining_requirement": "P2 owner must validate exact raw Fraction zero against all normalized raw credits before display-dependent rounding/status reconciliation, irrespective of exported stat subset or caller display. Preserve positive raw subminute and exact-positive float-underflow controls. Publish a new owner regression/green version and exact downstream registry/interface reruns, then separate P6 review.",
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "FAIL_CONFIRMED_NEW_COUNTEREXAMPLE_NO_OWNER_REPAIR_IN_AUDIT_ONLY_SCOPE",
+      "red_owner_sha": null,
+      "original_failure_or_missing_evidence": "Nonplayed or true-zero source credits could be hidden in exported statistic subsets.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P2_family.log"
+      ],
+      "evidence": [
+        "red_F_P2_07_R1/finding.json",
+        "red_F_P2_07_R1/true_zero_display_red_v1.json",
+        "red_F_P5_05_R1/raw_display_matrix_v1.json"
+      ],
+      "execution_context": "Execute from QA source c70b4fd7732b810d34357ca4a5dd8b9500cf25fb; --owner-root must be the exact P1+P2 assembly because the probe imports actual P1 for comparison.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "DNP/unknown and raw-minute/credit states independently rechecked; omissions cannot hide contradictory credits.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P2_architecture.log",
+        "final_v2/current_exact_owners/P2_prior_P6.log"
+      ],
+      "current_disposition": "FAIL_REOPENED",
+      "new_finding_alias": "F-P2-07-R1",
+      "source_code_reference": "v2/nba_s_family/p1_native.py:127",
+      "source_raw_sha256": "372af3be16c33437272d9ee63bf37b18c581962c7566c4f64827961259e5bcc1"
+    },
+    {
+      "id": "F-P2-08",
+      "responsible_owner": "P2",
+      "owner": "P2",
+      "owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "current_source_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "classification": "PARTIAL_INTEGER_SOURCE_ACCOUNTING_DEFECT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Resealed raw source accepted point parity, two-point opportunity and rebound contradictions.",
+      "observed_result": "Separate integer-witness solver checks physical feasibility;1188exhaustive and5000differential cases agree with P1. Numerical-range uncertainty is explicit, never false physical proof.",
+      "reproduce": "python -m unittest tests.nba_s_family.test_p1_native_v1.IntegerSourceAccountingTests tests.nba_s_family.test_source_accounting_v1 -v",
+      "positive_acceptance_tests": [
+        "Valid paired source/chronology/scalar/duration/integer controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Preserved red and new adversarial source mutations reject."
+      ],
+      "dependencies": [
+        "P1 native export"
+      ],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": null,
+      "original_failure_or_missing_evidence": "Resealed raw source accepted point parity, two-point opportunity and rebound contradictions.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P2_family.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P2_architecture.log",
+        "execution/current24/P2_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Separate integer-witness solver checks physical feasibility;1188exhaustive and5000differential cases agree with P1. Numerical-range uncertainty is explicit, never false physical proof.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P2_architecture.log",
+        "final_v2/current_exact_owners/P2_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P3-NATIVE-01",
+      "responsible_owner": "P3",
+      "owner": "P3",
+      "owner_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "current_source_sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261",
+      "classification": "NATIVE_SCALAR_TYPE_DEFECT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Boolean/float denominator counts and numeric eligibility summaries compared equal to valid integers/booleans.",
+      "observed_result": "Native consumer1.0.1 rejects typed-summary substitutions and preserves legitimate integer counts and bool/null eligibility.",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python -m unittest tests.nba_architecture.test_p3_native_scalar_v5 -v",
+      "positive_acceptance_tests": [
+        "Actual final P1 export accepted structurally and remains BLOCKED before sampling."
+      ],
+      "negative_acceptance_tests": [
+        "Original boolean denominator probe and8red scalar subcases reject."
+      ],
+      "dependencies": [
+        "P1 native export"
+      ],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": "2a666106a02595c70e2e372729aeae73d337b745",
+      "original_failure_or_missing_evidence": "Boolean/float denominator counts and numeric eligibility summaries compared equal to valid integers/booleans.",
+      "prior_owner_evidence": [
+        "orchestrator_adversarial_before/P3_scalar/before.json",
+        "pre_p6_exact_owner_execution/P3_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P3_architecture.log",
+        "execution/current24/P3_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Native consumer1.0.1 rejects typed-summary substitutions and preserves legitimate integer counts and bool/null eligibility.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P3_architecture.log",
+        "final_v2/current_exact_owners/P3_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P4-NATIVE-01",
+      "responsible_owner": "P4",
+      "owner": "P4",
+      "owner_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "current_source_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "classification": "NARROW_RAW_EVENT_AUDIT_VALIDATION_GAP",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Raw audit validator accepted points arithmetic that final G0 bundle already rejected.",
+      "observed_result": "Versioned raw-count guard now validates complete integer/scoring/rebound/assist/count-population accounting before publication.",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python -m unittest discover -s tests/nba_architecture -p test_p4_latest_integration.py -v",
+      "positive_acceptance_tests": [
+        "Actual latest producer positive control and all351architecture cases pass."
+      ],
+      "negative_acceptance_tests": [
+        "test_complete_raw_event_count_guard_and_valid_positive_control"
+      ],
+      "dependencies": [
+        "P2 actual conditional law",
+        "P3 actual G/O lineage"
+      ],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": "93e9c895b08133ed1272173efbe081aaf25c9e9e",
+      "original_failure_or_missing_evidence": "Raw audit validator accepted points arithmetic that final G0 bundle already rejected.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P4_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P4_architecture.log",
+        "execution/current24/P4_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Versioned raw-count guard now validates complete integer/scoring/rebound/assist/count-population accounting before publication.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P4_architecture.log",
+        "final_v2/current_exact_owners/P4_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P4-NATIVE-02",
+      "responsible_owner": "P4",
+      "owner": "P4",
+      "owner_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "current_source_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "classification": "FAILED_EXECUTION_RECEIPT_GAP",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Exhausted rate/tie rejection branches omitted structured failed-draw denominators and raw rejected inputs.",
+      "observed_result": "Sealed failure receipts preserve source/seed/scenario/player/attempts and all rejected pairs or tied draw counts/ledgers; no partial-success bundle.",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python -m unittest discover -s tests/nba_architecture -p test_p4_latest_integration.py -v",
+      "positive_acceptance_tests": [
+        "Actual latest producer positive control and all351architecture cases pass."
+      ],
+      "negative_acceptance_tests": [
+        "test_rate_budget_failure_preserves_every_rejected_pair_and_denominator; test_tied_event_exhaustion_preserves_raw_draws_and_no_success_bundle; test_repeated_seed_runner_persists_failure_without_partial_success_claim"
+      ],
+      "dependencies": [
+        "P2 actual conditional law",
+        "P3 actual G/O lineage"
+      ],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": "7ea0aff04b04ed209b47e1728b2b52c3e0a1aecb",
+      "original_failure_or_missing_evidence": "Exhausted rate/tie rejection branches omitted structured failed-draw denominators and raw rejected inputs.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P4_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P4_architecture.log",
+        "execution/current24/P4_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Sealed failure receipts preserve source/seed/scenario/player/attempts and all rejected pairs or tied draw counts/ledgers; no partial-success bundle.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P4_architecture.log",
+        "final_v2/current_exact_owners/P4_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P4-NATIVE-03",
+      "responsible_owner": "P4",
+      "owner": "P4",
+      "owner_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "current_source_sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb",
+      "classification": "DATED_HISTORY_INTERFACE_JOIN_DEFECT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Source-correct dated historical team/role was incorrectly required to equal target current team/role.",
+      "observed_result": "Actual P2-fitted post-trade/role-transition prior passes while wrong historical source membership rejects; target roster/role pins remain strict.",
+      "reproduce": "PYTHONPATH=.:tests/nba_architecture python -m unittest discover -s tests/nba_architecture -p test_p4_latest_integration.py -v",
+      "positive_acceptance_tests": [
+        "Actual latest producer positive control and all351architecture cases pass."
+      ],
+      "negative_acceptance_tests": [
+        "test_dated_historical_team_role_change_is_valid_without_rewriting_history"
+      ],
+      "dependencies": [
+        "P2 actual conditional law",
+        "P3 actual G/O lineage"
+      ],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": "38ef03d508e1cf0c9aa47ca665dbfb498e94da16",
+      "original_failure_or_missing_evidence": "Source-correct dated historical team/role was incorrectly required to equal target current team/role.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P4_architecture.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P4_architecture.log",
+        "execution/current24/P4_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Actual P2-fitted post-trade/role-transition prior passes while wrong historical source membership rejects; target roster/role pins remain strict.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P4_architecture.log",
+        "final_v2/current_exact_owners/P4_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P5-03",
+      "responsible_owner": "P5",
+      "owner": "P5",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "current_source_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "classification": "NEW_PRE_P6_CORRECTNESS_DEFECT_REPAIRED",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Nested list/tuple containers hid post-freeze model/source clocks and wrong game/player/source identities from recursive validation.",
+      "observed_result": "Arbitrary nested-list source/model clocks and identity fields are traversed; post-freeze/unsupported clocks and wrong identity reject; valid pregame numerical controls pass.",
+      "reproduce": "python -m unittest tests.nba_c.test_p5_recursive_quarantine_v2 -v",
+      "positive_acceptance_tests": [
+        "Actual latest native producer output and valid pregame numerical/source controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Preserved nested/type/source/correction/manifest/admission attack inputs reject."
+      ],
+      "dependencies": [],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": null,
+      "original_failure_or_missing_evidence": "Nested list/tuple containers hid post-freeze model/source clocks and wrong game/player/source identities from recursive validation.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P5_family.log",
+        "pre_p6_boundaries_exact_helper_commit/synthetic_latest_owner_native_C.stdout"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P5_architecture.log",
+        "execution/current24/P5_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Arbitrary nested-list source/model clocks and identity fields are traversed; post-freeze/unsupported clocks and wrong identity reject; valid pregame numerical controls pass.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P5_architecture.log",
+        "final_v2/current_exact_owners/P5_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P5-04",
+      "responsible_owner": "P5",
+      "owner": "P5",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "current_source_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "classification": "NEW_PRE_P6_CORRECTNESS_DEFECT_REPAIRED",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Alternate actual/realized/target-game result names, casing and separators bypassed the reserved forecast namespace policy.",
+      "observed_result": "Reserved actual/realized/targetgame namespaces normalize casing/separators; final-roster/score aliases reject. Explicit projected/prior_game leaf controls and matching target_game_id pass.",
+      "reproduce": "python -m unittest tests.nba_c.test_p5_recursive_quarantine_v2 -v",
+      "positive_acceptance_tests": [
+        "Actual latest native producer output and valid pregame numerical/source controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Preserved nested/type/source/correction/manifest/admission attack inputs reject."
+      ],
+      "dependencies": [],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": null,
+      "original_failure_or_missing_evidence": "Alternate actual/realized/target-game result names, casing and separators bypassed the reserved forecast namespace policy.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P5_family.log",
+        "pre_p6_boundaries_exact_helper_commit/synthetic_latest_owner_native_C.stdout"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P5_architecture.log",
+        "execution/current24/P5_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Reserved actual/realized/targetgame namespaces normalize casing/separators; final-roster/score aliases reject. Explicit projected/prior_game leaf controls and matching target_game_id pass.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P5_architecture.log",
+        "final_v2/current_exact_owners/P5_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-P5-05",
+      "responsible_owner": "P5",
+      "owner": "P5",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "current_source_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "classification": "REPAIRABLE_NATIVE_RAW_CREDIT_ROUNDING_AND_STATUS_HANDOFF_DEFECT",
+      "status": "FAIL",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Native P1 intake accepted optimistic summary clocks/counts/admission claims, inconsistent raw statistics, resealed backdated or cross-team corrections, unjoined descriptors and open capture fields.",
+      "observed_result": "Actual P1 valid15sec/display0/rawPTS11 retainedthrees0 is falsely rejected by public NativeForecastArchive.put_s; same with sub30sec/positive-underflow clocks. Public outcome validator/archive accept invalid raw30sec/display0/hiddenrawPTS11. Caller OFFICIAL_BOX_RECONCILED label also lets invalid30sec prior attachment pass. Admission/scoring stay BLOCKED. These are related raw-normalized-vs-retained subset defects, not real certification.",
+      "reproduce": "OPENBLAS_NUM_THREADS=1 python scripts/nba_p6_hidden_credit_rounding_adversary_20261117.py --assembly /path/to/exact/assembly6dee --output /new/p5_public.json",
+      "positive_acceptance_tests": [
+        "Actual latest native producer output and valid pregame numerical/source controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Preserved nested/type/source/correction/manifest/admission attack inputs reject."
+      ],
+      "dependencies": [
+        "P1 native export1.0.0"
+      ],
+      "minimal_remaining_requirement": "P5 owner must derive the strict raw positive-credit rounded boundary and prior accounting status from the complete raw normalized credits, not retained record.stats or caller label. Fix both _accounting at196\u2013199 and status derivation at432\u2013435 or an equivalent shared source-derived decision. Preserve raw exact-zero guard, Fraction arithmetic and valid omitted-stat subminute cases; rerun public archives/native21/fullC/downstream before separate P6 review.",
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "FAIL_CONFIRMED_PUBLIC_PATHS_NO_OWNER_REPAIR_IN_AUDIT_ONLY_SCOPE",
+      "red_owner_sha": null,
+      "original_failure_or_missing_evidence": "Native P1 intake accepted optimistic summary clocks/counts/admission claims, inconsistent raw statistics, resealed backdated or cross-team corrections, unjoined descriptors and open capture fields.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P5_family.log",
+        "pre_p6_boundaries_exact_helper_commit/synthetic_latest_owner_native_C.stdout"
+      ],
+      "evidence": [
+        "red_F_P5_05_R1/finding.json",
+        "red_F_P5_05_R1/raw_display_matrix_v1.json",
+        "red_F_P5_05_R1/P5_public_rounding_red_v1.json",
+        "red_F_P5_05_R1/P5_status_alias_red_v1.json",
+        "red_F_P5_05_R1/finding_status_alias_v2.json"
+      ],
+      "execution_context": "QA source821aafb34de8d592ceb6ecd81606baa746dc7e09; actual P1 export, actual P2 synthetic fit and public P5 forecast/outcome APIs. Also run matrix d1ca72 and status-alias64aa8228.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Native P1 source/summary/correction bytes, clocks, game/player/team/opponent, uncertainty, typed denominators, exact Fraction minutes, nonparticipation and closed schemas bind independently.294912 exhaustive count assignments match primitive references; original red receipts retained.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P5_architecture.log",
+        "final_v2/current_exact_owners/P5_prior_P6.log"
+      ],
+      "current_disposition": "FAIL_REOPENED",
+      "new_finding_alias": "F-P5-05-R1",
+      "source_code_reference": "v2/nba_c/native_adapters.py:196 and432",
+      "source_raw_sha256": "a875ca2d819879ce0ace1083599780d42db7942a3aca4dd88bc08fb2eabed5e8"
+    },
+    {
+      "id": "F-P5-06",
+      "responsible_owner": "P5",
+      "owner": "P5",
+      "owner_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "current_source_sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93",
+      "classification": "NEW_PRE_P6_NATIVE_J_BINDING_DEFECT_REPAIRED",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "Native J intake accepted caller-supplied empty or false-PASS integration manifests without binding actual owner execution, original source/artifact/code and G/O/J witnesses.",
+      "observed_result": "C invokes actual P4 and its same-draw PMF builder. Empty/falsePASS/version/scenario/audit substitutions reject; actual96 distributions archive with pending law/realblocked status and original artifact/source/code bytes.",
+      "reproduce": "PYTHONPATH=. OPENBLAS_NUM_THREADS=1 python scripts/nba_p5_native_handoff_verify_v1.py --repo \"$PWD\" --p1-sha 50d2b3874c7c14c9b73bdf13e441957986b88acd --p2-sha fe46965394ea0f48ef5e9da501ec8ca9e441ce47 --p3-sha eb0882b5011f2004c5eaf27cccfdc6297704f261 --p4-sha 865bdb8f4770ac28262e49c3b4901cf1d72a22fb --output work/p5-native-v4-fresh",
+      "positive_acceptance_tests": [
+        "Actual latest native producer output and valid pregame numerical/source controls pass."
+      ],
+      "negative_acceptance_tests": [
+        "Preserved nested/type/source/correction/manifest/admission attack inputs reject."
+      ],
+      "dependencies": [
+        "P2",
+        "P3",
+        "P4 latest native consumer2.0.0"
+      ],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": null,
+      "original_failure_or_missing_evidence": "Native J intake accepted caller-supplied empty or false-PASS integration manifests without binding actual owner execution, original source/artifact/code and G/O/J witnesses.",
+      "prior_owner_evidence": [
+        "pre_p6_exact_owner_execution/P5_family.log",
+        "pre_p6_boundaries_exact_helper_commit/synthetic_latest_owner_native_C.stdout"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json",
+        "execution/current24/P5_architecture.log",
+        "execution/current24/P5_prior_P6.log"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "C invokes actual P4 and its same-draw PMF builder. Empty/falsePASS/version/scenario/audit substitutions reject; actual96 distributions archive with pending law/realblocked status and original artifact/source/code bytes.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/current_exact_owners/P5_architecture.log",
+        "final_v2/current_exact_owners/P5_prior_P6.log"
+      ]
+    },
+    {
+      "id": "F-DISCOVERY-02",
+      "responsible_owner": "P0",
+      "owner": "P0",
+      "owner_sha": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29",
+      "current_source_sha": "c14b5584c30f8fbca3eb2e51acfaea24c40eff29",
+      "classification": "LATEST_OWNER_HARNESS_DISCOVERY_DEFECT",
+      "status": "PASS",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "initial_failure_condition": "After repairing original golden imports, latest P3/P4 suites exposed sibling helpers; final P3 scalar suite added one more root-only helper import failure.",
+      "observed_result": "Final P0c14 source support preserves all canonical cases; source-mapped assemblyd46 root regression and513combinedarchitecture tests pass with zero missing/duplicate IDs.",
+      "reproduce": "python -m unittest discover -s tests -p test_nba_root_discovery_v4.py -v",
+      "positive_acceptance_tests": [
+        "Exact root and dedicated canonical NBA test ID sets agree."
+      ],
+      "negative_acceptance_tests": [
+        "Original root reds and all intermediate helper errors preserved; no assertions removed/suppressed."
+      ],
+      "dependencies": [],
+      "minimal_remaining_requirement": null,
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "red_owner_sha": "d84cc84652fee0686db8dcb387041e33b87b6ede",
+      "original_failure_or_missing_evidence": "After repairing original golden imports, latest P3/P4 suites exposed sibling helpers; final P3 scalar suite added one more root-only helper import failure.",
+      "prior_owner_evidence": [
+        "pre_p6_assembly_red_ededd026/root_discovery_regression.log",
+        "pre_p6_assembly_r2_execution/root_discovery_regression.log"
+      ],
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json"
+      ],
+      "execution_context": "Exact owner checkout at owner_sha with PYTHONPATH=.:tests/nba_architecture; P0 root discovery at exact assembly6dee with PYTHONPATH unset.",
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Final P0c14 source support preserves all canonical cases; source-mapped assemblyd46 root regression and513combinedarchitecture tests pass with zero missing/duplicate IDs.",
+      "prior_independent_review_evidence": [
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/assembly_r3_checks/root_discovery_regression.log",
+        "execution_v1/root_discovery_before_clean.json"
+      ]
+    },
+    {
+      "id": "F-P0-ASSEMBLY-01",
+      "status": "PASS",
+      "owner": "P0/orchestrator publication",
+      "responsible_owner": "P0/orchestrator publication",
+      "owner_sha": "7145c9dd734d00b5b4a451cfc1f730cd4967762d",
+      "current_source_sha": "7145c9dd734d00b5b4a451cfc1f730cd4967762d",
+      "classification": "REPAIRABLE_REPRODUCIBILITY_PUBLICATION_DEFECT",
+      "original_failure_or_missing_evidence": "d46map promises4ignoredP2reports absent from published Git tree; immutable independent NO-GO preserved atb477df6/red_v1.",
+      "reproduce": "python scripts/nba_p6_independent_checks_v4_20261117.py --assembly /path/to/fresh/6dee --expected-assembly 6dee6e09fa786479dc2e163a33e14257f207b35e --output /new/result.json --section evidence",
+      "execution_context": "QA sourcec51c6f0; fresh committed assembly6dee",
+      "observed_result": "Rootfix7145 stages only explicit owner paths with force and postverifies committed tree. Independently653/653ownerfilebytes/Gitmodes and24acceptedG0files match. Only4reportadditions+mapmetadata differ fromfailedd46.17affectedsharedchecks and11freshindependentQAsections pass.",
+      "positive_acceptance_tests": [
+        "All653promisedfiles published at exactownerbytes/modes",
+        "Fullchanged-treepopulation no omissions/extras",
+        "24acceptedG0bytes/modes unchanged"
+      ],
+      "negative_acceptance_tests": [
+        "Originald46 permanentnegative still fails for4missingpaths; immutable firstNO-GO retained"
+      ],
+      "dependencies": [
+        "Sixunchangedownerpins",
+        "Exactpublishedr3assembly"
+      ],
+      "required_independent_reviewer": "Separate /root/p6_independent; authored no owner implementation repair",
+      "independent_reviewer_disposition": "PASS_FINITE_TESTED_SCOPE",
+      "acceptance_level": "FRESH_FULL_INDEPENDENT_AUDIT_ONLY",
+      "minimal_remaining_requirement": null,
+      "evidence": [
+        "execution/independent11.json",
+        "execution/receipt.json"
+      ],
+      "original_finding_scope": "HISTORICAL_ORIGINAL_AUDIT_OR_DISCOVERY; use observed_result and minimal_remaining_requirement for current state",
+      "qa_executable_source_commit": "32243941a92559ff11b2640582e4fa6cd0f4ef1e",
+      "observed_result_scope": "Freshly reexecuted against unchanged current owner heads; original reason and previous PASS receipts remain historical.",
+      "prior_independent_review_status": "PASS",
+      "prior_independent_review_publication": "e7484523b2e9a5e8a79d636bb862957e88dd2b37",
+      "prior_independent_review_observed_result": "Rootfix7145 stages only explicit owner paths with force and postverifies committed tree. Independently653/653ownerfilebytes/Gitmodes and24acceptedG0files match. Only4reportadditions+mapmetadata differ fromfailedd46.17affectedsharedchecks and11freshindependentQAsections pass.",
+      "prior_independent_review_evidence": [
+        "red_v1/INDEPENDENT_REVIEW_V1_RED.md",
+        "red_v1/assembly_missing_mapped_files.json",
+        "final_v2/new_checks_r3_v2.json",
+        "final_v2/assembly_r3_checks/receipt.json",
+        "final_v2/repair_packet_independent_verification.json"
+      ]
+    }
+  ],
+  "counts": {
+    "PASS": 26,
+    "FAIL": 2,
+    "BLOCKED": 8
+  },
+  "family_recommendations": {
+    "P1": "BLOCKED",
+    "P2": "FAIL",
+    "P3": "BLOCKED",
+    "P4": "BLOCKED",
+    "P5": "FAIL",
+    "P6": "PASS_FINITE_INDEPENDENT_QA"
+  },
+  "audit_only_no_owner_implementation_changes": true
+}

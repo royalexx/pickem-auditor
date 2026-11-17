@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "P1 isolated official outcome vault 1.1.0",
+  "description": "p1_vault enforces stat arithmetic, immutable source bytes, stat-clock adjudication and complete append-only correction history.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "kind",
+    "content_hash",
+    "game_id",
+    "player_id",
+    "team_id",
+    "state",
+    "minutes",
+    "stats",
+    "source_id",
+    "source_raw_sha256",
+    "observed_at",
+    "official_status",
+    "revision",
+    "supersedes_sha256",
+    "accounting_evidence"
+  ],
+  "properties": {
+    "schema": {
+      "const": "nba-p1-official-outcome-vault/1.1.0"
+    },
+    "kind": {
+      "const": "official_outcome"
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "game_id": {
+      "type": "string",
+      "pattern": ":"
+    },
+    "player_id": {
+      "type": "string",
+      "pattern": ":"
+    },
+    "team_id": {
+      "type": "string",
+      "pattern": ":"
+    },
+    "state": {
+      "enum": [
+        "PLAYED",
+        "PLAYED_ZERO_MINUTES",
+        "DNP",
+        "UNRESOLVED",
+        "VOID"
+      ]
+    },
+    "minutes": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "source_id": {
+      "type": "string",
+      "pattern": ":"
+    },
+    "source_raw_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "official_status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "supersedes_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "accounting_evidence": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/evidence"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capture",
+        "prior"
+      ],
+      "properties": {
+        "capture": {
+          "$ref": "p1-official-capture-1.0.0.schema.json"
+        },
+        "prior": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      }
+    }
+  }
+}

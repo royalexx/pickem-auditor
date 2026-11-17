@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-27",
+  "retrieved_at": "2026-10-27T15:00:00Z",
+  "verified_at_utc": "2026-11-17T13:44:42.636188+00:00",
+  "source_slate": "/tmp/tmp1pc8j8m0/slate.jsonl",
+  "slot": "morning",
+  "feed_status": {
+    "NHL": {
+      "status": "ok",
+      "source_reported_rows": 1,
+      "verified_rows": 1,
+      "archived_path": "data/history_slate/2026-10-27/morning/nhl.jsonl.gz"
+    },
+    "NBA": {
+      "status": "ok",
+      "source_reported_rows": 1,
+      "verified_rows": 1,
+      "archived_path": "data/history_slate/2026-10-27/morning/nba.jsonl.gz"
+    },
+    "NFL": {
+      "status": "failed",
+      "source_reported_rows": 0,
+      "verified_rows": 0
+    }
+  },
+  "source_rows": {
+    "NHL": 1,
+    "NBA": 1,
+    "NFL": 0
+  },
+  "status": "partial",
+  "errors": [
+    "NFL_FEED_UNVERIFIED"
+  ]
+}
+{
+  "date": "2026-10-27",
+  "retrieved_at": "2026-10-27T15:00:00Z",
+  "verified_at_utc": "2026-11-17T13:44:42.637553+00:00",
+  "source_slate": "/tmp/tmplmyvmv37/slate.jsonl",
+  "slot": "morning",
+  "feed_status": {
+    "NHL": {
+      "status": "ok",
+      "source_reported_rows": 1,
+      "verified_rows": 1,
+      "archived_path": "data/history_slate/2026-10-27/morning/nhl.jsonl.gz"
+    },
+    "NBA": {
+      "status": "ok",
+      "source_reported_rows": 1,
+      "verified_rows": 1,
+      "archived_path": "data/history_slate/2026-10-27/morning/nba.jsonl.gz"
+    },
+    "NFL": {
+      "status": "no_games_scheduled",
+      "source_reported_rows": 0,
+      "verified_rows": 0,
+      "explanation": "Verified official schedule returned no NFL regular-season game"
+    }
+  },
+  "source_rows": {
+    "NHL": 1,
+    "NBA": 1,
+    "NFL": 0
+  },
+  "status": "success",
+  "errors": []
+}

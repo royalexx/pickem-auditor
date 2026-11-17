@@ -1,0 +1,8 @@
+test_missing_forecast_rows_rejected (test_history_bootstrap.Bootstrapping.test_missing_forecast_rows_rejected) ... ok
+test_modified_archive_rejected (test_history_bootstrap.Bootstrapping.test_modified_archive_rejected) ... ok
+test_restore_and_idempotent (test_history_bootstrap.Bootstrapping.test_restore_and_idempotent) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.198s
+
+OK

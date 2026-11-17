@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-27",
+  "candidate_ids": 1,
+  "source_attempts": 1,
+  "verified_pregame_games": 0,
+  "resolved_statuses": 0,
+  "resolved_venues": 0,
+  "resolved_goalies": 0,
+  "started_games_excluded": 0,
+  "evidence_complete": false,
+  "note": "Structured evidence only; missing scouting and adversarial validation retain existing ranking vetoes."
+}

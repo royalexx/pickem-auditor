@@ -1,0 +1,8 @@
+test_confirmed_only_resolver_is_preserved (test_auto_research.AutoResearchTests.test_confirmed_only_resolver_is_preserved) ... ok
+test_conflicting_date_is_not_written (test_auto_research.AutoResearchTests.test_conflicting_date_is_not_written) ... ok
+test_missing_price_candidates_block_research (test_auto_research.AutoResearchTests.test_missing_price_candidates_block_research) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.199s
+
+OK
