@@ -19,7 +19,7 @@ from v2.nba_architecture.v2_contracts import ContractError, digest
 from v2.nba_architecture.families_v2 import validate_integration
 from v2.nba_joint.integration import validate_event_ledger
 from v2.nba_joint.integration_v2 import (LAW_PROPOSAL, draw_mixing_rate,
-    simulate_latest, validate_artifacts)
+    simulate_latest, validate_artifacts, validate_event_counts)
 from v2.nba_joint.latest_upstream import FIXTURES, REGISTRY, load_upstream, prepare, registry
 from v2.nba_joint.p4 import scenario_pmfs
 
@@ -208,6 +208,18 @@ class LatestIntegrationTests(unittest.TestCase):
                     expected[value]=expected.get(value,0.)+sc['weight']
                 self.assertEqual({r['value']:r['mass'] for r in law['pmf'] if r['mass']},expected)
                 self.assertAlmostEqual(sum(r['mass'] for r in law['pmf']),1.)
+
+    def test_complete_raw_event_count_guard_and_valid_positive_control(self):
+        sc=self.result['bundle']['scenarios'][0]
+        ledger=self.result['audit_rows'][0]['event_ledger']
+        keys=('two_pa','two_pm','three_pa','threes','fta','ftm','points','oreb','dreb','rebounds','assists')
+        counts={k:np.array([x['stats'][k] for x in sc['players']],dtype=np.int64) for k in keys}
+        ix=[[i for i,x in enumerate(sc['players']) if x['team_id']==team] for team in self.inputs[0]['team_ids']]
+        self.assertTrue(validate_event_counts(counts,ledger,ix))
+        for stat,value in [('points',int(counts['points'][0])+1),('rebounds',int(counts['rebounds'][0])+1),
+                           ('two_pa',-1),('ftm',999999)]:
+            bad={k:v.copy() for k,v in counts.items()};bad[stat][0]=value
+            with self.assertRaises(ContractError):validate_event_counts(bad,ledger,ix)
 
     def test_dictionary_order_and_repeat_replay(self):
         def reverse(x):

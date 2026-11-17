@@ -9,16 +9,48 @@ import json
 import math
 from pathlib import Path
 
+import numpy as np
+
 from v2.nba_architecture.v2_contracts import digest, instant, req
 from v2.nba_architecture.families_v2 import validate_opportunity
 from v2.nba_joint.common import rng_for
-from v2.nba_joint.integration import _Prepared as LegacyPrepared
+from v2.nba_joint.integration import (_Prepared as LegacyPrepared,
+    validate_event_ledger as validate_aggregate_ledger)
 from v2.nba_joint.latest_upstream import FIXTURES, REGISTRY, ROOT, load_upstream, raw_sha, registry
 from v2.nba_joint.p4 import _simulate_p4, PRIMITIVES
 
 VERSION = 'NBA-P2-P3-to-J/2.0.0'
 LAW_PROPOSAL = 'NBA-J-CONSTRAINED-LATENT-RATE/0.1.0-PROPOSAL'
 RATE_REJECTION_LIMIT = 4096
+
+
+def validate_event_counts(counts, ledger, ix):
+    """Independent complete event-count checks in addition to old budgets.
+
+    G0 already checks the final bundle; this also closes the narrower audit
+    seam before publishing raw event-ledger evidence.
+    """
+    keys = {'two_pa','two_pm','three_pa','threes','fta','ftm','points',
+            'oreb','dreb','rebounds','assists'}
+    req(isinstance(counts,dict) and set(counts)==keys, 'J2_EVENT_COUNT_SCHEMA')
+    arrays = {k:np.asarray(v) for k,v in counts.items()}
+    n = len(arrays['points']) if arrays['points'].ndim==1 else 0
+    req(n>0 and all(v.ndim==1 and len(v)==n and np.issubdtype(v.dtype,np.integer)
+        and np.all(v>=0) for v in arrays.values()), 'J2_EVENT_COUNT_SUPPORT')
+    req(isinstance(ix,list) and len(ix)==2 and all(isinstance(x,list) for x in ix)
+        and all(type(i) is int for x in ix for i in x) and
+        sorted(i for x in ix for i in x)==list(range(n)), 'J2_TEAM_INDEX_POPULATION')
+    req(all(np.all(arrays[made]<=arrays[attempt]) for made,attempt in
+        [('two_pm','two_pa'),('threes','three_pa'),('ftm','fta')]), 'J2_MAKES_EXCEED_ATTEMPTS')
+    req(np.array_equal(arrays['points'],2*arrays['two_pm']+3*arrays['threes']+arrays['ftm'])
+        and np.array_equal(arrays['rebounds'],arrays['oreb']+arrays['dreb']),
+        'J2_EVENT_COUNT_ARITHMETIC')
+    req(isinstance(ledger,dict) and isinstance(ledger.get('assist_matrix'),list),
+        'J2_ASSIST_MATRIX_SCHEMA')
+    matrix=np.asarray(ledger['assist_matrix'])
+    req(matrix.shape==(n,n) and np.issubdtype(matrix.dtype,np.integer) and np.all(matrix>=0),
+        'J2_ASSIST_MATRIX_SUPPORT')
+    return validate_aggregate_ledger(arrays,ledger,ix)
 
 
 def validate_artifacts(p, artifacts, manifest, roles, *, evidence_mode):
@@ -173,6 +205,11 @@ class Prepared(LegacyPrepared):
             'posterior_or_dispersion_rate_uncertainty_propagated': True,
             'O_lineup_sha256': digest({t:x['lineup_segments'] for t,x in sc['teams'].items()})}
         return out
+
+    def sample_events(self, players, minutes, ix, state, spec, rng, *, constrained):
+        counts,ledger=super().sample_events(players,minutes,ix,state,spec,rng,constrained=constrained)
+        validate_event_counts(counts,ledger,ix)
+        return counts,ledger
 
 
 def simulate_latest(p, g, o, sidecar, artifacts, source_manifest, roles, *,
