@@ -5,7 +5,7 @@ Hash/URL validation establishes internal consistency, not collector authenticity
 No original historical availability timestamp is inferred from a game date.
 """
 from datetime import date
-from decimal import Decimal
+from fractions import Fraction
 import hashlib
 import re
 from urllib.parse import urlsplit
@@ -83,12 +83,17 @@ def _capture(bundle):
 
 
 def seconds(value):
+    """Parse raw clock text exactly, independent of Decimal/float precision.
+
+    Physical cap, zero-clock and display-rounding decisions must precede any
+    lossy serialization. Arbitrarily small positive source increments matter.
+    """
     if not isinstance(value, str):
         _fail('OFFICIAL_MINUTE_FORMAT')
     m = re.fullmatch(r'PT(\d+)M(\d+(?:\.\d+)?)S', value)
-    if not m or Decimal(m[2]) >= 60:
+    if not m or Fraction(m[2]) >= 60:
         _fail('OFFICIAL_MINUTE_FORMAT')
-    return Decimal(m[1]) * 60 + Decimal(m[2])
+    return Fraction(m[1]) * 60 + Fraction(m[2])
 
 
 def duration(bundle, *, game_id, game_date=None):
@@ -161,11 +166,11 @@ def adjudicate_player(data, bundle):
     if displayed > d['duration_minutes']:
         _fail('PLAYER_MINUTES_EXCEED_GAME_DURATION')
     if displayed == 0 and any(data['stats'].values()):
-        if not 0 < exact < Decimal('0.5'):
+        if not 0 < exact < Fraction(1, 2):
             _fail('ZERO_MINUTE_CREDIT_UNRESOLVED')
         status = 'ADJUDICATED_ROUNDED_SUBMINUTE'
     else:
-        if abs(Decimal(str(displayed)) - exact) > Decimal('0.5'):
+        if abs(Fraction(str(displayed)) - exact) > Fraction(1, 2):
             _fail('OFFICIAL_MINUTE_CONFLICT')
         status = 'OFFICIAL_BOX_RECONCILED'
     return d, float(exact), status
