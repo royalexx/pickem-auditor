@@ -125,6 +125,7 @@ def inspect_p1_export(export, *, pregame, stat):
     require(participation in ('played','dnp','unknown'),'P1_NATIVE_PARTICIPATION')
     if participation=='played':
         exact_source=_seconds(statistics.get('minutes'))/60
+        require(exact_source!=0 or not any(normalized.values()),'P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED')
         exact=float(exact_source);display=e.get('displayed_minutes')
         require(player.get('played')=='1' and type(display) in (int,float) and math.isfinite(display) and 0<=display<=cap and 0<=exact_source<=cap,'P1_NATIVE_EXPOSURE_PHYSICS')
         require(type(e.get('exact_minutes')) in (int,float) and e['exact_minutes']==exact and abs(Fraction(str(display))-exact_source)<=Fraction(1,2),'P1_NATIVE_EXACT_MINUTES_MISMATCH')

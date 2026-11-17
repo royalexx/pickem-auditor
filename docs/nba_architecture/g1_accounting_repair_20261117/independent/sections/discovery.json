@@ -1,0 +1,32 @@
+{
+  "all_pass": true,
+  "assembly": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+  "historical_outcomes_accessed": false,
+  "qa_source_sha256": "51f38a9b4c8de80529a7bb3f0706b1645130f6168fa05705c041d1856d72adbd",
+  "schema": "NBA_P6_INDEPENDENT_NEW_CHECKS_V4",
+  "sections": {
+    "discovery": {
+      "result": {
+        "PYTHONPATH": "UNSET",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_nba_root_discovery_v4.py",
+          "-v"
+        ],
+        "raw_stderr_sha256": "b074b5527dce510734fd0351f16b5458d6c79a27156b38294d35b987668e0e9a",
+        "raw_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "scope": "Root IDs/imports and canonical NBA equality/duplicates only; unrelated test bodies not executed",
+        "stderr": "test_root_discovery_imports_all_canonical_nba_tests_once (test_nba_root_discovery_v4.DiscoveryCompatibilityTests.test_root_discovery_imports_all_canonical_nba_tests_once) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 14.290s\n\nOK\n",
+        "stdout": ""
+      },
+      "status": "PASS"
+    }
+  },
+  "synthetic_only": true
+}

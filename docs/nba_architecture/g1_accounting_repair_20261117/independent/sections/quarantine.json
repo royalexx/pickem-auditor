@@ -1,0 +1,23 @@
+{
+  "all_pass": true,
+  "assembly": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+  "historical_outcomes_accessed": false,
+  "qa_source_sha256": "51f38a9b4c8de80529a7bb3f0706b1645130f6168fa05705c041d1856d72adbd",
+  "schema": "NBA_P6_INDEPENDENT_NEW_CHECKS_V4",
+  "sections": {
+    "quarantine": {
+      "result": {
+        "containers": [
+          "dict",
+          "list",
+          "tuple"
+        ],
+        "max_depth": 10,
+        "nested_negative": 92,
+        "nested_valid": 88
+      },
+      "status": "PASS"
+    }
+  },
+  "synthetic_only": true
+}

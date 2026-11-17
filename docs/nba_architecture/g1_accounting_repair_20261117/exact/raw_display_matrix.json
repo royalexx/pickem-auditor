@@ -1,0 +1,4201 @@
+{
+  "schema": "NBA_P6_RAW_DISPLAY_CONSUMER_MATRIX_V1",
+  "qa_source_commit": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+  "qa_source_raw_sha256": "7371674182374b37fbaf3e4f0c6bb73955b1387e65257688e15a2df6e827967a",
+  "assembly_sha": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+  "source_raw_sha256": {
+    "v2/nba_s_family/p1_native.py": "b8bd5ac386f7358d7a913ec28e2d56ab799ef4da04ec0f7ad4958c2a2aa2399a",
+    "v2/nba_architecture/p1_evidence.py": "a3ca2bf02e645ac1a142bf4daa7d2558fbbc0e72545505b6f622fb0fa2a43c71",
+    "v2/nba_c/native_adapters.py": "cf8b316d20d3e2ed19c367765cccf931cea0c17a6d55ab8ab007bd0af2d74071"
+  },
+  "synthetic_only": true,
+  "cases": 224,
+  "mismatch_counts": {
+    "P2_agrees_with_P1": 0,
+    "P5_prior_agrees_with_P1": 0,
+    "P5_outcome_agrees_with_P1": 0
+  },
+  "rows": [
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": true,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0S",
+      "displayed_minutes": true,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": true,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001S",
+      "displayed_minutes": true,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": true,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M15S",
+      "displayed_minutes": true,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": true,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M29.9999999999999999S",
+      "displayed_minutes": true,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": true,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT0M30S",
+      "displayed_minutes": true,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": true,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT25M30S",
+      "displayed_minutes": true,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED",
+        "P5_outcome": "NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "OFFICIAL_MINUTE_CONFLICT",
+        "P2": "P1_NATIVE_EXACT_MINUTES_MISMATCH",
+        "P5_prior": "NATIVE_OFFICIAL_MINUTE_JOIN",
+        "P5_outcome": "NATIVE_OFFICIAL_MINUTE_JOIN"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": true,
+        "P2": true,
+        "P5_prior": true,
+        "P5_outcome": true
+      },
+      "errors": {},
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": true,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0S",
+      "displayed_minutes": true,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": -0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 0,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 5e-324,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 1e-18,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 0.1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 0.25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 0.5,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 0.5000000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 1,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 25,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 26,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 48,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": 48.00000000000001,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "PLAYER_MINUTES_EXCEED_GAME_DURATION",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_MINUTES_EXCEED_DURATION"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": true,
+      "retained_zero_subset": false,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    },
+    {
+      "exact_raw_clock": "PT48M0.0000000000000001S",
+      "displayed_minutes": true,
+      "retained_zero_subset": true,
+      "valid": {
+        "P1": false,
+        "P2": false,
+        "P5_prior": false,
+        "P5_outcome": false
+      },
+      "errors": {
+        "P1": "INVALID_MINUTES",
+        "P2": "P1_NATIVE_EXPOSURE_PHYSICS",
+        "P5_prior": "NATIVE_MINUTES_EXCEED_DURATION",
+        "P5_outcome": "NATIVE_OUTCOME_SUMMARY_SCALAR_TYPE"
+      },
+      "P2_agrees_with_P1": true,
+      "P5_prior_agrees_with_P1": true,
+      "P5_outcome_agrees_with_P1": true
+    }
+  ],
+  "source_admission_still_blocked": true
+}

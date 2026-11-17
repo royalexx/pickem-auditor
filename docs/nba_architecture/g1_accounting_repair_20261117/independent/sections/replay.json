@@ -1,0 +1,43 @@
+{
+  "all_pass": true,
+  "assembly": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+  "historical_outcomes_accessed": false,
+  "qa_source_sha256": "51f38a9b4c8de80529a7bb3f0706b1645130f6168fa05705c041d1856d72adbd",
+  "schema": "NBA_P6_INDEPENDENT_NEW_CHECKS_V4",
+  "sections": {
+    "replay": {
+      "result": [
+        {
+          "hash_seed": "1",
+          "input_dict_order": "original",
+          "output": {
+            "bundle": "7d7d089583b17530afe15f8265b8089685ca87e07d623df3d4a752c5c60959ad",
+            "scenarios": {
+              "synthetic:latest:0": "bf3da0073bff205353259f1c80bfc8c37ef2711ec7d84334c48936f177ab321c",
+              "synthetic:latest:1": "6556e8bb6378320d99d5a23cf2b211b329aa421780b67f0b8f40bf649990a8da",
+              "synthetic:latest:2": "ff7f4f61569ac06d2a9f20287a1d8d444925236a62b00823cb5530fb777d70a2",
+              "synthetic:latest:3": "3d409361df143dcc8bc393e9525463fcf3c0a4dd7cba6de48610d9946520a382"
+            }
+          },
+          "raw_stdout_sha256": "e6868ecd489bef0d7cb229268ef1ae214e2d20930f3ae4f81ea006c9cfec19ab"
+        },
+        {
+          "hash_seed": "777773",
+          "input_dict_order": "reverse",
+          "output": {
+            "bundle": "7d7d089583b17530afe15f8265b8089685ca87e07d623df3d4a752c5c60959ad",
+            "scenarios": {
+              "synthetic:latest:0": "bf3da0073bff205353259f1c80bfc8c37ef2711ec7d84334c48936f177ab321c",
+              "synthetic:latest:1": "6556e8bb6378320d99d5a23cf2b211b329aa421780b67f0b8f40bf649990a8da",
+              "synthetic:latest:2": "ff7f4f61569ac06d2a9f20287a1d8d444925236a62b00823cb5530fb777d70a2",
+              "synthetic:latest:3": "3d409361df143dcc8bc393e9525463fcf3c0a4dd7cba6de48610d9946520a382"
+            }
+          },
+          "raw_stdout_sha256": "e6868ecd489bef0d7cb229268ef1ae214e2d20930f3ae4f81ea006c9cfec19ab"
+        }
+      ],
+      "status": "PASS"
+    }
+  },
+  "synthetic_only": true
+}

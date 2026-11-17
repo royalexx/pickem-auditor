@@ -1,0 +1,36 @@
+{
+  "all_pass": true,
+  "assembly": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+  "historical_outcomes_accessed": false,
+  "qa_source_sha256": "51f38a9b4c8de80529a7bb3f0706b1645130f6168fa05705c041d1856d72adbd",
+  "schema": "NBA_P6_INDEPENDENT_NEW_CHECKS_V4",
+  "sections": {
+    "joint": {
+      "result": {
+        "O2_controls": [
+          {
+            "n": 4,
+            "status": "POSITIVE_SYNTHETIC_CONTROL"
+          },
+          {
+            "n": 8,
+            "status": "POSITIVE_SYNTHETIC_CONTROL"
+          },
+          {
+            "n": 32,
+            "reason": "O_COUPLING_VERIFICATION_BUDGET",
+            "status": "BLOCKED"
+          }
+        ],
+        "bundle_sha256": "7d7d089583b17530afe15f8265b8089685ca87e07d623df3d4a752c5c60959ad",
+        "complete_pmfs": 96,
+        "nonuniform_actual_G_O_J_ess": 1.9230769230769234,
+        "observed_games": 0,
+        "real_mode_blocked": true,
+        "weighted_ess": 4.0
+      },
+      "status": "PASS"
+    }
+  },
+  "synthetic_only": true
+}
