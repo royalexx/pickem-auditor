@@ -1,0 +1,10 @@
+{"schema": "pickem-history-full-v1", "archive_sha256": "130b5117801aef284e47eaaf1af07a2ed31df941c1550c1ad73ca66f9e28f0c5", "forecast_rows_original": 1492, "existing_files_preserved": 0, "files_restored": 5, "seeded_from_2026_10_26": true}
+{"schema": "pickem-history-full-v1", "archive_sha256": "130b5117801aef284e47eaaf1af07a2ed31df941c1550c1ad73ca66f9e28f0c5", "forecast_rows_original": 1492, "existing_files_preserved": 5, "files_restored": 0, "seeded_from_2026_10_26": true}
+test_missing_forecast_rows_rejected (test_history_bootstrap.Bootstrapping.test_missing_forecast_rows_rejected) ... ok
+test_modified_archive_rejected (test_history_bootstrap.Bootstrapping.test_modified_archive_rejected) ... ok
+test_restore_and_idempotent (test_history_bootstrap.Bootstrapping.test_restore_and_idempotent) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.067s
+
+OK

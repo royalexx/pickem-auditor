@@ -1,0 +1,52 @@
+test objects: 1801 import errors: 5
+Failed to import test module: nba_architecture.test_g0_completion_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/p0/tests/nba_architecture/test_g0_completion_20261116.py", line 4, in <module>
+    from test_v2_contracts import evaluation, reissue
+ModuleNotFoundError: No module named 'test_v2_contracts'
+Failed to import test module: nba_architecture.test_g0_law_repair_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/p0/tests/nba_architecture/test_g0_law_repair_20261116.py", line 5, in <module>
+    from test_v2_contracts import evaluation
+ModuleNotFoundError: No module named 'test_v2_contracts'
+Failed to import test module: nba_architecture.test_g0_mutation_sweep_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/p0/tests/nba_architecture/test_g0_mutation_sweep_20261116.py", line 5, in <module>
+    from test_g0_pipeline_completion_20261116 import coherent_case
+ModuleNotFoundError: No module named 'test_g0_pipeline_completion_20261116'
+Failed to import test module: nba_architecture.test_g0_pipeline_completion_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/p0/tests/nba_architecture/test_g0_pipeline_completion_20261116.py", line 4, in <module>
+    from test_v2_contracts import evaluation
+ModuleNotFoundError: No module named 'test_v2_contracts'
+Failed to import test module: nba_architecture.test_independent_final_20261116
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/work/p0/tests/nba_architecture/test_independent_final_20261116.py", line 5, in <module>
+    from test_v2_contracts import evaluation
+ModuleNotFoundError: No module named 'test_v2_contracts'
+
