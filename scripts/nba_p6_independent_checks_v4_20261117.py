@@ -261,7 +261,18 @@ def optimizer(a):
         assert max(abs(np.array([w3[name] for name in ids])-w))<2e-5
         assert cache.game_count==8 and cache.cached_pmf_count==24
         results.append(dict(trial=trial,reference_weights=w.tolist(),weights=wgot.tolist(),objective_error=delta,synthetic_games=cache.game_count))
-    return results
+    clustered=[]
+    for player in ('nba:synthetic:one','nba:synthetic:two'):
+        for stat in e.STATS:
+            row=fixture(stat=stat,game='nba:one_shared_game');row['player_id']=player
+            for pipeline in row['pipelines'].values():pipeline['player_id']=player
+            clustered.append(row)
+    c=e.CachedCohort(clustered,authorization='SYNTHETIC_UNIT_TEST')
+    assert c.game_count==1 and c.cached_pmf_count==len(clustered)*3 and c.date_count==1
+    anchor={name:1/3 for name in c.pipeline_ids}
+    fallback=e.w3_by_stat(clustered,global_weights=anchor,min_games=2)
+    assert all(weights==anchor for weights in fallback.values())
+    return dict(optimization_cases=results,shared_game_rows=len(clustered),shared_game_count=c.game_count,cached_distributions=c.cached_pmf_count,W3_sparse_fallback_counts_games_not_players_or_stats=True)
 
 
 def native(a):
@@ -290,10 +301,10 @@ def native(a):
 def joint(a):
     from research.nba_p4_latest.fixture import build
     from research.nba_p4_latest.benchmark import PARAMETERS
-    from v2.nba_joint.latest_upstream import prepare
+    from v2.nba_joint.latest_upstream import prepare,FIXTURES,load_upstream
     from v2.nba_joint.integration_v2 import simulate_latest
     from v2.nba_joint.p4 import scenario_pmfs
-    from v2.nba_architecture.v2_contracts import ContractError
+    from v2.nba_architecture.v2_contracts import ContractError,seal
     root=prepare();inputs=build(root);p,g,o=inputs[:3]
     output=simulate_latest(*inputs,upstream_root=root,evidence_mode='latest_synthetic_engineering',event_parameters=PARAMETERS,seed=617170)
     laws=scenario_pmfs(output,p,frozen_at=p['forecast_at'],seed=617170)
@@ -317,6 +328,17 @@ def joint(a):
             s=player['stats']
             assert s['points']>=3*s['threes']
             assert (s['pr'],s['pa'],s['ra'],s['pra'])==(s['points']+s['rebounds'],s['points']+s['assists'],s['rebounds']+s['assists'],s['points']+s['rebounds']+s['assists'])
+    # A new actual-P3 nonuniform G case independently challenges ESS=n bugs.
+    raw=json.loads((FIXTURES/'inputs.json').read_bytes());_,p3=load_upstream(root)
+    unequal=copy.deepcopy(g);unequal.pop('content_hash')
+    for scenario,w in zip(unequal['scenarios'],(.7,.1,.1,.1)):scenario['weight']=w
+    unequal=seal(unequal)
+    uo,us=p3.build_opportunity(p,unequal,raw['priors'],model=raw['O_model'],seed=17,
+        variant='O2',home_team_id=p['team_ids'][0],home_team_source_receipt_sha256=p['sources'][0]['receipt_sha256'])
+    ur=simulate_latest(p,unequal,uo,us,*inputs[4:],upstream_root=root,evidence_mode='latest_synthetic_engineering',event_parameters=PARAMETERS,seed=617170)
+    upmfs=scenario_pmfs(ur,p,frozen_at=p['forecast_at'],seed=617170)
+    unequal_ess=1/sum(w*w for w in (.7,.1,.1,.1))
+    assert all(abs(law['numerical']['effective_sample_size']-unequal_ess)<1e-12 and law['numerical']['scenario_count']==4 for laws in upmfs.values() for law in laws.values())
     controls=[]
     for n in (4,8,32):
         try:built=build(root,n=n,variant='O2')
@@ -329,7 +351,7 @@ def joint(a):
     try:simulate_latest(*inputs,upstream_root=root,event_parameters=PARAMETERS,seed=617170)
     except ContractError as exc:assert 'INDEPENDENT_SOURCE_AND_FIT_ADMISSION_REQUIRED' in exc.code
     else:raise AssertionError('Real J admitted synthetic bytes')
-    return dict(complete_pmfs=96,observed_games=0,weighted_ess=ess,O2_controls=controls,bundle_sha256=output['bundle']['content_hash'],real_mode_blocked=True)
+    return dict(complete_pmfs=96,observed_games=0,weighted_ess=ess,nonuniform_actual_G_O_J_ess=unequal_ess,O2_controls=controls,bundle_sha256=output['bundle']['content_hash'],real_mode_blocked=True)
 
 
 def replay(a):
