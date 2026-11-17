@@ -1,0 +1,39 @@
+{
+  "schema": "NBA_P6_INDEPENDENT_RED_ASSEMBLY_SOURCE_MAP_V4",
+  "assembly_sha": "d46f5322b47367ba601b05197cef8404758da23d",
+  "qa_sha": "f79d621c3511a2dfbfcf2adcc145a852becd065c",
+  "source_map_raw_sha256": "f72bfaa598e1386c2a6026d511e9f695a83b4c1a43088cec24edfb14e952808b",
+  "missing": [
+    {
+      "path": "reports/P2_S_LOCAL_BENCHMARK_20261116.json",
+      "source_commit": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "expected_sha256": "afcfab5917f17a2dee783ef537cac02a5c19d677025a880631827eff5419398a",
+      "source_actual_sha256": "afcfab5917f17a2dee783ef537cac02a5c19d677025a880631827eff5419398a",
+      "assembly_tree_entry": ""
+    },
+    {
+      "path": "reports/P2_S_LOCAL_EXECUTION_RECEIPT_20261116.json",
+      "source_commit": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "expected_sha256": "85810665842f36f399f00d2d9391fe8da46113c3c72b723bf863bbe69cc376f7",
+      "source_actual_sha256": "85810665842f36f399f00d2d9391fe8da46113c3c72b723bf863bbe69cc376f7",
+      "assembly_tree_entry": ""
+    },
+    {
+      "path": "reports/P2_S_LOCAL_TEST_LOG_20261116.txt",
+      "source_commit": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "expected_sha256": "19debc27181a4b9d0f103b5c82c12742c1946e6b202ec20d2198806df170bb0e",
+      "source_actual_sha256": "19debc27181a4b9d0f103b5c82c12742c1946e6b202ec20d2198806df170bb0e",
+      "assembly_tree_entry": ""
+    },
+    {
+      "path": "reports/p2_synthetic_example_output.json",
+      "source_commit": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+      "expected_sha256": "7c9c04ddec0e4b30bd76e1e55e49392a1303cc925dc5a30a509cf1cc7b171a53",
+      "source_actual_sha256": "7c9c04ddec0e4b30bd76e1e55e49392a1303cc925dc5a30a509cf1cc7b171a53",
+      "assembly_tree_entry": ""
+    }
+  ],
+  "missing_count": 4,
+  "disposition": "NO-GO_REPAIRABLE_P0_ASSEMBLER_PUBLICATION_DEFECT",
+  "contract": "Every source map claim must exist in the exact assembly commit, byte-and-mode bound to owner source."
+}
