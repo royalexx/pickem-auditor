@@ -16,7 +16,7 @@ ROOT=Path(__file__).resolve().parents[2]
 REGISTRY=ROOT/'docs/nba_architecture/substantive_remediation_20261117/admitted_source_registry.json'
 # Root digest is installed only after independent exact-byte review. An empty
 # root is deliberately incapable of admitting sources on caller assertions.
-REVIEWED_REGISTRY_SHA256=None
+REVIEWED_REGISTRY_SHA256='a27161a3a10118304482de090f2b3929808a8450c0ff9bb6b34d115a5c96b6a2'
 HISTORICAL_CAPABILITIES=frozenset(('OFFICIAL_PRINTED_DURATION','OFFICIAL_PRINTED_BOX_SCORE','OFFICIAL_PRINTED_DNP_ROWS'))
 
 
