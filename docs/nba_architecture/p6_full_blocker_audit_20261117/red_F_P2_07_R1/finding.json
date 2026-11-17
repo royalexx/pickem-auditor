@@ -1,0 +1,22 @@
+{
+  "id": "F-P2-07-R1",
+  "criterion": "F-P2-07",
+  "disposition": "FAIL_REOPENED",
+  "classification": "REPAIRABLE_SOURCE_ACCOUNTING_VALIDATION_DEFECT",
+  "owner": "P2",
+  "exact_owner_sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+  "native_source_raw_sha256": "372af3be16c33437272d9ee63bf37b18c581962c7566c4f64827961259e5bcc1",
+  "root_cause": "The played branch tests raw zero positive credit only when displayed_minutes==0. Positive caller display0.25/0.5 satisfies the half-minute tolerance and bypasses the raw exact-zero guard.",
+  "observed": "Raw PT0M0S with positive source statistics and played1 is rejected by actual P1, but P2 marks it structurally_checked1 and preserves OFFICIAL_BOX_RECONCILED. Overall source admission remains BLOCKED with no training_rows; no historical predictive leakage or real certification is demonstrated.",
+  "minimum_repair": "Before display-rounding/status logic, require exact raw minute fraction!=0 or every raw normalized credit is zero. Preserve raw positive subminute cases and all source/clock/identity/admission guards. Do not erase credits or reinterpret as DNP.",
+  "positive_controls": [
+    "Exact15seconds/display0 accepted structurally but unadmitted",
+    "Exact15seconds/display0.25 accepted structurally but unadmitted"
+  ],
+  "negative_controls": [
+    "Exact0/display0 already rejects",
+    "Exact0/display0.25 must reject",
+    "Exact0/display0.5 must reject"
+  ],
+  "implementation_changed_by_reviewer": false
+}
