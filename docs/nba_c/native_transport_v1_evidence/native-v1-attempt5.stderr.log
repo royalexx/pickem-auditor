@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/workspace/work/p5/scripts/nba_p5_native_handoff_verify_v1.py", line 176, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/work/p5/scripts/nba_p5_native_handoff_verify_v1.py", line 115, in main
+    p,g,o,side=build_p3('O2',seed=17)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/p5/work/native-v1-attempt5/sources/p3/tests/nba_architecture/test_p3_o_family.py", line 54, in build
+    return p,g,*build_opportunity(p,g,priors,model=g["model"],seed=seed,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/p5/work/native-v1-attempt5/sources/p3/v2/nba_o_family.py", line 210, in build_opportunity
+    from v2.nba_o_bridge import home_binding, p1_history_context
+ModuleNotFoundError: No module named 'v2.nba_o_bridge'

@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/workspace/work/p5/scripts/nba_p5_native_handoff_verify_v1.py", line 176, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/work/p5/scripts/nba_p5_native_handoff_verify_v1.py", line 115, in main
+    p,g,o,side=build_p3('O2',seed=17)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/p5/work/native-v1-attempt4/sources/p3/tests/nba_architecture/test_p3_o_family.py", line 52, in build
+    p,g,priors=inputs()
+               ^^^^^^^^
+  File "/workspace/work/p5/work/native-v1-attempt4/sources/p3/tests/nba_architecture/test_p3_o_family.py", line 18, in inputs
+    base=json.loads(FIXTURE.read_text())
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/workspace/work/p5/work/native-v1-attempt4/sources/p3/tests/nba_architecture/golden_v2/joint_same_draw.json'

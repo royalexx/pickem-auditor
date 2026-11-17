@@ -12,6 +12,7 @@ import hashlib
 import importlib
 import io
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -34,7 +35,7 @@ def materialize(repo, sha, root, paths):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--repo',type=Path,required=True)
-    for owner in ('p1','p2','p3'):
+    for owner in ('p1','p2','p3','p4'):
         parser.add_argument('--'+owner+'-sha',required=True)
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args()
@@ -43,7 +44,8 @@ def main():
     paths={
       'p1':['v2/nba_architecture','tests/nba_architecture/test_p1_remediation.py','tests/nba_architecture/test_p1_history.py'],
       'p2':['v2/nba_s_family','tests/nba_s_family/test_statistical.py'],
-      'p3':['v2/nba_o_family.py','v2/nba_o_bridge.py','v2/nba_opportunity.py','tests/nba_architecture/test_p3_o_family.py','tests/nba_architecture/golden_v2/joint_same_draw.json']}
+      'p3':['v2/nba_o_family.py','v2/nba_o_bridge.py','v2/nba_opportunity.py','tests/nba_architecture/test_p3_o_family.py','tests/nba_architecture/golden_v2/joint_same_draw.json'],
+      'p4':['v2','research/nba_p4_latest']}
     pins={name:materialize(args.repo,getattr(args,name+'_sha'),work/name,files)
           for name,files in paths.items()}
     # G0 remains the C branch's accepted inherited implementation. The native
@@ -64,7 +66,7 @@ def main():
     from v2.nba_o_family import build_opportunity
     from tests.nba_s_family.test_statistical import histories,manifest,CUTOFF,frozen_pregame_with_active
     from tests.nba_architecture.test_p3_o_family import build as build_p3
-    from tests.nba_architecture.test_p1_remediation import official_fixture,NBA_GAME,NBA_TEAMS
+    from tests.nba_architecture.test_p1_remediation import official_fixture,NBA_GAME,NBA_TEAMS,nba_entry,repair_opponent
     from v2.nba_c.native_adapters import NativeForecastArchive,NativeOutcomeArchive,WarehouseError
     from v2.nba_architecture.v2_contracts import canonical
     results=[]
@@ -165,6 +167,81 @@ def main():
         assert outcome_store.get(key)['participation']=='UNRESOLVED'
         return outcome_store.scoring_disposition(key)
     check('actual_P1_missing_outcome_remains_unresolved',missing)
+    prior_data=json.loads(repair_opponent(nba_entry())['record']['payload'])
+    prior=p1_handoff.export_prior_game(prior_data,official_fixture(),
+        ingested_at='2026-11-16T19:00:00Z',source_profile='synthetic_engineering')
+    (args.output/'actual_p1_prior_export.json').write_bytes(canonical(prior)+b'\n')
+    def prior_control():
+        store._source_attachment(prior,active,{'training_cutoff_at':'2022-11-01T00:00:00Z'})
+        return {'admission_status':prior['admission_status'],'original_availability':prior['clocks']['first_defensible_available_at']}
+    check('actual_prior_source_transport_keeps_missing_availability',prior_control)
+    check('target_game_prior_source_attachment_rejects',lambda:must_reject(
+        lambda:store._source_attachment(prior,dict(active,game_id=prior['exposure']['game_id']),
+            {'training_cutoff_at':'2022-11-01T00:00:00Z'}),'TARGET_OR_POST_CUTOFF'))
+    check('post_model_cutoff_prior_source_attachment_rejects',lambda:must_reject(
+        lambda:store._source_attachment(prior,active,{'training_cutoff_at':'2022-10-20T00:00:00Z'}),
+        'TARGET_OR_POST_CUTOFF'))
+    def unsupported_original_clock():
+        bad=deepcopy(prior);bad['clocks']['first_defensible_available_at']='2022-10-01T00:00:00Z'
+        return must_reject(lambda:store._source_attachment(bad,active,
+            {'training_cutoff_at':'2022-11-01T00:00:00Z'}),'UNSUPPORTED_AVAILABILITY')
+    check('prior_source_cannot_acquire_optimistic_original_clock',unsupported_original_clock)
+    def prior_bool_denominator():
+        bad=deepcopy(prior);bad['candidate_denominator']['admitted']=False
+        return must_reject(lambda:store._source_attachment(bad,active,
+            {'training_cutoff_at':'2022-11-01T00:00:00Z'}),'NATIVE_PRIOR_DENOMINATOR')
+    check('prior_source_bool_denominator_cannot_equal_zero',prior_bool_denominator)
+    def prior_bool_exact():
+        bad=deepcopy(prior);bad['exposure']['exact_minutes']=True
+        return must_reject(lambda:store._source_attachment(bad,active,
+            {'training_cutoff_at':'2022-11-01T00:00:00Z'}),'NATIVE_PRIOR_EXPOSURE_SUMMARY_JOIN')
+    check('prior_source_bool_exact_minutes_rejects',prior_bool_exact)
+    # Actual latest P4 native producer in its exact archive. Its prepare() uses
+    # the shared repository's Git objects through explicit GIT_DIR only.
+    sys.path.insert(0,str(work/'p4'))
+    from v2.nba_joint import integration_v2 as p4
+    from v2.nba_joint.latest_upstream import prepare
+    from v2.nba_joint.p4 import scenario_pmfs
+    from research.nba_p4_latest.fixture import build as build_p4
+    from research.nba_p4_latest.benchmark import PARAMETERS
+    original_git_dir=os.environ.get('GIT_DIR')
+    os.environ['GIT_DIR']=subprocess.check_output(['git','-C',str(args.repo),'rev-parse','--absolute-git-dir'],text=True).strip()
+    try:
+        upstream=prepare(args.output/'p4_upstream')
+    finally:
+        if original_git_dir is None:os.environ.pop('GIT_DIR',None)
+        else:os.environ['GIT_DIR']=original_git_dir
+    jp,jg,jo,jside,jartifacts,jmanifest,jroles=build_p4(upstream)
+    jargs=dict(pregame=jp,game_state=jg,opportunity=jo,sidecar=jside,artifacts=jartifacts,
+        source_manifest=jmanifest,roles=jroles,upstream_root=upstream,event_parameters=PARAMETERS,
+        distributions_builder=scenario_pmfs,seed=42,evidence_mode='synthetic_engineering')
+    jkey,jreceipt=store.put_j(p4,**jargs)
+    jreceipt2,jobjects=store.get_j(jkey)
+    result=jobjects['native_j_results']
+    def actual_joint():
+        assert jreceipt2==jreceipt
+        assert jreceipt['native_result_status'].endswith('PENDING_INDEPENDENT_ACCEPTANCE_REAL_BLOCKED')
+        assert len(jreceipt['forecast_manifest_sha256'])==8*len(jp['players'])
+        return {'intake_sha256':jkey,'native_status':jreceipt['native_result_status'],
+            'complete_distributions':len(jreceipt['forecast_manifest_sha256']),
+            'upstream_manifest':result['integration_manifest'],'outcome_accessed':False}
+    check('actual_latest_P4_joint_to_C_all_eight_stats_and_pending_contract',actual_joint)
+    inputs=(jp,jg,jo,jside,jmanifest,jroles)
+    registry_raw=(store.root/'raw_registry'/(jreceipt['refs']['registry_raw_sha256']+'.raw')).read_bytes()
+    code=jobjects['code_inventory'];hashes=jreceipt['fitted_artifact_raw_sha256']
+    for attack in ('empty_manifest','claimed_pass','changed_version','scenario_hash','audit_ledger'):
+        def mutation(attack=attack):
+            bad=deepcopy(result)
+            if attack=='empty_manifest':bad['integration_manifest']={}
+            if attack=='claimed_pass':bad['integration_manifest']['independent_acceptance']='PASS'
+            if attack=='changed_version':bad['integration_manifest']['version']='NBA-P2-P3-to-J/9.0.0'
+            if attack=='scenario_hash':bad['scenario_hashes'][next(iter(bad['scenario_hashes']))]='0'*64
+            if attack=='audit_ledger':bad['audit_rows'][0]['event_ledger']['forged_claim']=True
+            return must_reject(lambda:store._check_j(bad,inputs,registry_raw,code,hashes),'NATIVE_J_')
+        check('native_J_tamper_'+attack,mutation)
+    check('real_native_J_intake_stays_closed',lambda:must_reject(
+        lambda:store.put_j(p4,**dict(jargs,evidence_mode='real')),'REAL_ADMISSION'))
+    (args.output/'actual_p4_native_result.json').write_bytes(canonical(result)+b'\n')
     report={'schema':'nba-p5-native-owner-verification/1.0.0','pins':pins,'scope':'SYNTHETIC_ENGINEERING_ONLY',
         'G1_acceptance':'NOT_AWARDED_OWNER_EXECUTION','historical_fitting':False,'historical_scoring':False,
         'cases':results,'pass':sum(x['status']=='PASS' for x in results),'fail':sum(x['status']=='FAIL' for x in results)}
