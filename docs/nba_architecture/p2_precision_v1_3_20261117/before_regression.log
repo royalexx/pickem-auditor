@@ -1,0 +1,34 @@
+test_exact_raw_cap_fraction_not_erased_by_float_rounding (tests.nba_s_family.test_p1_native_v1.ExactSourceMinuteTests.test_exact_raw_cap_fraction_not_erased_by_float_rounding) ... FAIL
+test_exact_raw_subminute_below_half_is_accepted_structurally (tests.nba_s_family.test_p1_native_v1.ExactSourceMinuteTests.test_exact_raw_subminute_below_half_is_accepted_structurally) ... ERROR
+test_exact_raw_cap_equality_positive (tests.nba_s_family.test_p1_native_v1.ExactSourceMinuteTests.test_exact_raw_cap_equality_positive) ... ok
+
+======================================================================
+ERROR: test_exact_raw_subminute_below_half_is_accepted_structurally (tests.nba_s_family.test_p1_native_v1.ExactSourceMinuteTests.test_exact_raw_subminute_below_half_is_accepted_structurally)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 88, in test_exact_raw_subminute_below_half_is_accepted_structurally
+    r=self.inspect(x);self.assertEqual(r['status'],'BLOCKED')
+      ^^^^^^^^^^^^^^^
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 22, in inspect
+    def inspect(self,x):return inspect_p1_export(x,pregame=self.pregame(),stat='points')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/work/p2/v2/nba_s_family/p1_native.py", line 128, in inspect_p1_export
+    require(not rounded or 0<exact<.5,'P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED')
+  File "/workspace/work/p2/v2/nba_s_family/p1_native.py", line 33, in require
+    if not condition:raise SFError(code)
+                     ^^^^^^^^^^^^^^^^^^^
+v2.nba_s_family.model.SFError: P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED
+
+======================================================================
+FAIL: test_exact_raw_cap_fraction_not_erased_by_float_rounding (tests.nba_s_family.test_p1_native_v1.ExactSourceMinuteTests.test_exact_raw_cap_fraction_not_erased_by_float_rounding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_p1_native_v1.py", line 84, in test_exact_raw_cap_fraction_not_erased_by_float_rounding
+    with self.assertRaisesRegex(SFError,'P1_NATIVE_EXPOSURE_PHYSICS'):self.inspect(x)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.058s
+
+FAILED (failures=1, errors=1)

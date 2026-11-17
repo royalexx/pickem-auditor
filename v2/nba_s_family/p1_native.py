@@ -10,7 +10,7 @@ import hashlib
 import json
 import math
 import re
-from decimal import Decimal
+from fractions import Fraction
 from zoneinfo import ZoneInfo
 from urllib.parse import urlsplit
 
@@ -36,8 +36,8 @@ def require(condition, code):
 def _seconds(value):
     require(isinstance(value,str),'P1_NATIVE_MINUTE_FORMAT')
     m=re.fullmatch(r'PT(\d+)M(\d+(?:\.\d+)?)S',value)
-    require(bool(m) and Decimal(m[2])<60,'P1_NATIVE_MINUTE_FORMAT')
-    return Decimal(m[1])*60+Decimal(m[2])
+    require(bool(m) and Fraction(m[2])<60,'P1_NATIVE_MINUTE_FORMAT')
+    return Fraction(m[1])*60+Fraction(m[2])
 
 
 def _pairs(pairs):
@@ -121,11 +121,12 @@ def inspect_p1_export(export, *, pregame, stat):
     participation=e.get('participation')
     require(participation in ('played','dnp','unknown'),'P1_NATIVE_PARTICIPATION')
     if participation=='played':
-        exact=float(_seconds(statistics.get('minutes'))/60);display=e.get('displayed_minutes')
-        require(player.get('played')=='1' and type(display) in (int,float) and math.isfinite(display) and 0<=display<=cap and 0<=exact<=cap,'P1_NATIVE_EXPOSURE_PHYSICS')
-        require(e.get('exact_minutes')==exact and abs(Decimal(str(display))-Decimal(str(exact)))<=Decimal('.5'),'P1_NATIVE_EXACT_MINUTES_MISMATCH')
+        exact_source=_seconds(statistics.get('minutes'))/60
+        exact=float(exact_source);display=e.get('displayed_minutes')
+        require(player.get('played')=='1' and type(display) in (int,float) and math.isfinite(display) and 0<=display<=cap and 0<=exact_source<=cap,'P1_NATIVE_EXPOSURE_PHYSICS')
+        require(e.get('exact_minutes')==exact and abs(Fraction(str(display))-exact_source)<=Fraction(1,2),'P1_NATIVE_EXACT_MINUTES_MISMATCH')
         rounded=display==0 and any(e['stats'].values())
-        require(not rounded or 0<exact<.5,'P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED')
+        require(not rounded or 0<exact_source<Fraction(1,2),'P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED')
         require(e.get('accounting_status')==('ADJUDICATED_ROUNDED_SUBMINUTE' if rounded else 'OFFICIAL_BOX_RECONCILED'),'P1_NATIVE_ACCOUNTING_STATUS')
         require(stat in e['stats'],'P1_NATIVE_STAT_MISSING')
     else:

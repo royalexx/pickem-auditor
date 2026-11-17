@@ -65,3 +65,40 @@ class P1NativeTests(unittest.TestCase):
         with self.assertRaisesRegex(SFError,'TRAINING_GAME_CUTOFF'):inspect_p1_export(x,pregame=p,stat='points')
 
 if __name__=='__main__':unittest.main()
+
+class ExactSourceMinuteTests(unittest.TestCase):
+    fixture=P1NativeTests.fixture
+    pregame=P1NativeTests.pregame
+    inspect=P1NativeTests.inspect
+    def minutes_export(self, exact, display):
+        from v2.nba_s_family.model import canonical,digest
+        x=self.fixture();b=x['evidence_bundle'];g=json.loads(base64.b64decode(b['raw_base64']))
+        g['game']['homeTeam']['players'][0]['statistics']['minutes']=exact
+        raw=canonical(g);b['raw_base64']=base64.b64encode(raw).decode();b['capture']['raw_sha256']=digest(raw)
+        from decimal import Decimal
+        import re
+        m=re.fullmatch(r'PT(\d+)M(\d+(?:\.\d+)?)S',exact)
+        value=float((Decimal(m[1])*60+Decimal(m[2]))/60)
+        x['exposure'].update(raw_sha256=digest(raw),receipt_sha256=digest(canonical(b['capture'])),displayed_minutes=display,exact_minutes=value,accounting_status='ADJUDICATED_ROUNDED_SUBMINUTE' if display==0 else 'OFFICIAL_BOX_RECONCILED')
+        return x
+
+    def test_exact_raw_cap_fraction_not_erased_by_float_rounding(self):
+        x=self.minutes_export('PT48M0.0000000000000001S',48)
+        with self.assertRaisesRegex(SFError,'P1_NATIVE_EXPOSURE_PHYSICS'):self.inspect(x)
+
+    def test_exact_raw_subminute_below_half_is_accepted_structurally(self):
+        x=self.minutes_export('PT0M29.9999999999999999S',0)
+        r=self.inspect(x);self.assertEqual(r['status'],'BLOCKED')
+        self.assertEqual(r['denominator']['structurally_checked'],1)
+
+    def test_exact_raw_cap_equality_positive(self):
+        self.assertEqual(self.inspect(self.minutes_export('PT48M0S',48))['denominator']['structurally_checked'],1)
+
+    def test_exact_half_minute_positive_zero_display_rejected(self):
+        with self.assertRaisesRegex(SFError,'P1_NATIVE_ZERO_MINUTE_CREDIT_UNRESOLVED'):
+            self.inspect(self.minutes_export('PT0M30S',0))
+
+    def test_display_rounding_half_minute_boundary_is_exact(self):
+        self.assertEqual(self.inspect(self.minutes_export('PT25M30S',26))['denominator']['structurally_checked'],1)
+        with self.assertRaisesRegex(SFError,'P1_NATIVE_EXACT_MINUTES_MISMATCH'):
+            self.inspect(self.minutes_export('PT25M29.9999999999999999S',26))
