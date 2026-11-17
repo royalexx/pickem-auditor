@@ -1,7 +1,7 @@
 """S integration v1.1; additive sidecars, never changes frozen G0 envelopes."""
 from collections import defaultdict
 from .model import (SFError, fit, utc, canonical, digest, conditional_pmf,
-                    _rate_parameters, _conversion_parameters)
+                    _rate_parameters, _conversion_parameters, validate_prediction_cutoff)
 from v2.nba_architecture.v2_contracts import validate_pregame, verify, seal
 from v2.nba_architecture.families_v2 import validate_opportunity
 from scipy.stats import poisson, nbinom, betabinom
@@ -66,8 +66,7 @@ def joint_conditional(fitted, *, pregame, game_state, opportunity,
     verify(game_state); verify(opportunity)
     validate_opportunity(opportunity,pregame,game_state)
     a=fitted.data
-    if utc(a['training_cutoff_at']) > utc(pregame['input_freeze_at']):
-        raise SFError('MODEL_FIT_AFTER_FREEZE')
+    validate_prediction_cutoff(a, pregame)
     if any(r['game_id']==pregame['game_id'] for r in a['training_rows']):
         raise SFError('TARGET_GAME_USED_IN_TRAINING')
     roster={r['player_id']:r['team_id'] for r in pregame['players']}

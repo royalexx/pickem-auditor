@@ -1,0 +1,28 @@
+test_before_freeze_after_declared_cutoff_consistent_rejection (tests.nba_s_family.test_cutoff_regression_v1_2.DeclaredCutoffTests.test_before_freeze_after_declared_cutoff_consistent_rejection) ... FAIL
+test_exact_cutoff_equality_all_pts_reb_ast_3pm_count_laws (tests.nba_s_family.test_cutoff_regression_v1_2.DeclaredCutoffTests.test_exact_cutoff_equality_all_pts_reb_ast_3pm_count_laws) ... ok
+test_model_before_declared_cutoff (tests.nba_s_family.test_cutoff_regression_v1_2.DeclaredCutoffTests.test_model_before_declared_cutoff) ... ok
+test_one_microsecond_after_declared_cutoff_consistent_rejection (tests.nba_s_family.test_cutoff_regression_v1_2.DeclaredCutoffTests.test_one_microsecond_after_declared_cutoff_consistent_rejection) ... FAIL
+test_postfreeze_still_rejects_with_existing_reason (tests.nba_s_family.test_cutoff_regression_v1_2.DeclaredCutoffTests.test_postfreeze_still_rejects_with_existing_reason) ... ok
+
+======================================================================
+FAIL: test_before_freeze_after_declared_cutoff_consistent_rejection (tests.nba_s_family.test_cutoff_regression_v1_2.DeclaredCutoffTests.test_before_freeze_after_declared_cutoff_consistent_rejection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_cutoff_regression_v1_2.py", line 40, in test_before_freeze_after_declared_cutoff_consistent_rejection
+    with self.assertRaisesRegex(SFError,'MODEL_AFTER_DATA_CUTOFF'):conditional()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+======================================================================
+FAIL: test_one_microsecond_after_declared_cutoff_consistent_rejection (tests.nba_s_family.test_cutoff_regression_v1_2.DeclaredCutoffTests.test_one_microsecond_after_declared_cutoff_consistent_rejection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/work/p2/tests/nba_s_family/test_cutoff_regression_v1_2.py", line 35, in test_one_microsecond_after_declared_cutoff_consistent_rejection
+    with self.assertRaisesRegex(SFError,'MODEL_AFTER_DATA_CUTOFF'):conditional()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SFError not raised
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.097s
+
+FAILED (failures=2)

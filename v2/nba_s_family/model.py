@@ -348,6 +348,20 @@ def exact_triplet(masses, line):
     return threshold_triplet([{'value':i,'mass':x} for i,x in enumerate(masses)],line)
 
 
+def validate_prediction_cutoff(artifact, pregame):
+    """Apply the declared P training budget at every forecast entrypoint.
+
+    Preserve the original post-freeze reason, and reject models after P's
+    declared cutoff even when they precede the input freeze. Exact equality
+    is legal. G0 validates P's own cutoff <= freeze without changing semantics.
+    """
+    cutoff = utc(artifact['training_cutoff_at'])
+    if cutoff > utc(pregame['input_freeze_at']):
+        raise SFError('MODEL_FIT_AFTER_FREEZE')
+    if cutoff > utc(pregame['training_cutoff_at']):
+        raise SFError('MODEL_AFTER_DATA_CUTOFF')
+
+
 def predict(fitted, *, frozen_pregame, target_player_id, role,
             opportunity=None, game_state=None, conditioning='unconditional',
             frozen_at=None, seed=0):
@@ -369,8 +383,7 @@ def predict(fitted, *, frozen_pregame, target_player_id, role,
         validate_pregame(frozen_pregame)
         p=frozen_pregame
         verify(p)  # independently protect bytes even if a caller skips validation
-        if utc(a['training_cutoff_at'])>utc(p['input_freeze_at']):
-            raise SFError('MODEL_FIT_AFTER_FREEZE')
+        validate_prediction_cutoff(a, p)
         if any(r['game_id']==p['game_id'] for r in a['training_rows']):
             raise SFError('TARGET_GAME_USED_IN_TRAINING')
         if any(utc(r['outcome_available_at'])>utc(p['input_freeze_at']) for r in a['training_rows']):
