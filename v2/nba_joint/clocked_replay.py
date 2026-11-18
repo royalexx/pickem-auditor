@@ -7,6 +7,12 @@ COLUMNS = ('points', 'rebounds', 'assists', 'threes', 'two_pa', 'two_pm', 'three
 
 def reconstruct(plan, witness):
     teams = tuple(plan['teams'])
+    required_stops = [
+        {'team': team, 'clock': seg['start'] * 60,
+         'kind': 'retained_opponent_last_touch_out_of_bounds'}
+        for team in teams for seg in plan['stints'][team][1:]
+    ]
+    req(plan['stoppages'] == required_stops, 'REPLAY_STOPPAGE_LEDGER')
     players = {pid: dict.fromkeys(COLUMNS, 0) for pid in plan['players']}
     table = {t: dict.fromkeys((*COLUMNS, 'possessions', 'unattributed_oreb',
                               'unattributed_dreb', 'turnovers'), 0) for t in teams}

@@ -116,6 +116,18 @@ class TestClockedLaw(unittest.TestCase):
         self.assertEqual(non_tied['status'], 'score_checkpoint_failure')
         reconstruct(plan, non_tied)
 
+    def test_stoppage_cannot_be_omitted(self):
+        _, rates, game, rosters, sidecar = fixture()
+        sidecar['teams']['h']['lineup_segments'] = [
+            {'start': 0., 'end': 12., 'player_indices': list(range(5))},
+            {'start': 12., 'end': 48., 'player_indices': list(range(5))}]
+        plan = schedule(game, list(rosters), rosters, sidecar)
+        packet = forward(plan, rates, ScriptedRng([]))
+        reconstruct(plan, packet)
+        plan['stoppages'].clear()
+        with self.assertRaisesRegex(ContractError, 'REPLAY_STOPPAGE_LEDGER'):
+            reconstruct(plan, packet)
+
     def test_rotation_gap_and_real_mode_fail(self):
         _, _, game, rosters, sidecar = fixture()
         sidecar['teams']['h']['lineup_segments'] = [
