@@ -1,0 +1,330 @@
+{
+  "G1": "NO-GO",
+  "G2": "NOT_ACCEPTED",
+  "criteria": [
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P2-02",
+      "owner": "P2",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P5-02",
+      "owner": "P5",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "BLOCKED",
+      "id": "B-P1-01",
+      "owner": "P1",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "BLOCKED",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "BLOCKED",
+      "id": "B-P1-02",
+      "owner": "P1",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "BLOCKED",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "BLOCKED",
+      "id": "B-P2-01",
+      "owner": "P2",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "BLOCKED",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "BLOCKED",
+      "id": "B-P3-01",
+      "owner": "P3",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "BLOCKED",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "BLOCKED",
+      "id": "B-P4-01",
+      "owner": "P4",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "BLOCKED",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "BLOCKED",
+      "id": "B-P4-02",
+      "owner": "P4",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "BLOCKED",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "BLOCKED",
+      "id": "B-P4-03",
+      "owner": "P4",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "BLOCKED",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "BLOCKED",
+      "id": "B-P5-01",
+      "owner": "P5",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "BLOCKED",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-DISCOVERY-01",
+      "owner": "P0/repository test custodian",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P1-01",
+      "owner": "P1",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P2-01",
+      "owner": "P2",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P5-01",
+      "owner": "P5",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "R-P3-DOC-01",
+      "owner": "P3",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P1-NATIVE-01",
+      "owner": "P1",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P1-NATIVE-02",
+      "owner": "P1",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P1-NATIVE-03",
+      "owner": "P1",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P1-NATIVE-04",
+      "owner": "P1",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P1-NATIVE-05",
+      "owner": "P1",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P2-03",
+      "owner": "P2",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P2-04",
+      "owner": "P2",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P2-05",
+      "owner": "P2",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P2-06",
+      "owner": "P2",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P2-07",
+      "owner": "P2",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P2-08",
+      "owner": "P2",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P3-NATIVE-01",
+      "owner": "P3",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P4-NATIVE-01",
+      "owner": "P4",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P4-NATIVE-02",
+      "owner": "P4",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P4-NATIVE-03",
+      "owner": "P4",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P5-03",
+      "owner": "P5",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P5-04",
+      "owner": "P5",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P5-05",
+      "owner": "P5",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P5-06",
+      "owner": "P5",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-DISCOVERY-02",
+      "owner": "P0",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    },
+    {
+      "current_disposition": "PENDING_FRESH_REVIEW",
+      "id": "F-P0-ASSEMBLY-01",
+      "owner": "P0/orchestrator publication",
+      "previous_reviewed_candidate": "bafbcf2a09add125247c91c1cc8fc8d98987b5e9",
+      "previous_status": "PASS",
+      "prior_evidence": "docs/nba_architecture/g1_accounting_repair_20261117/independent/decision.json",
+      "reason": "No status upgraded by owner. Existing finite acceptance preserved; new dependency interfaces not accepted."
+    }
+  ]
+}
