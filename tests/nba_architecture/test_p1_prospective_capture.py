@@ -36,7 +36,7 @@ class ProspectiveTests(unittest.TestCase):
 
     def test_late_capture_records_miss_without_network(self):
         from datetime import datetime, timezone
-        class LateClock:
+        class LateClock(datetime):
             @staticmethod
             def now(tz):return datetime(2026,11,19,0,0,tzinfo=timezone.utc)
         with tempfile.TemporaryDirectory() as tmp, patch.object(source,'datetime',LateClock), patch.object(source,'capture',side_effect=AssertionError('NO_LATE_NETWORK')):
