@@ -1,0 +1,60 @@
+{
+  "tested_commit": "18d8ee2e0da706a6f9123223fa73543ae2381109",
+  "commands": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "tests.nba_architecture.test_p1_listed_source_v1",
+        "tests.nba_architecture.test_p1_capture_v1",
+        "-v"
+      ],
+      "exit": 0,
+      "stdout": "run-0.stdout",
+      "stderr": "run-0.stderr"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0,
+      "stdout": "run-1.stdout",
+      "stderr": "run-1.stderr"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_s_family",
+        "-v"
+      ],
+      "exit": 0,
+      "stdout": "run-2.stdout",
+      "stderr": "run-2.stderr"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_c",
+        "-v"
+      ],
+      "exit": 0,
+      "stdout": "run-3.stdout",
+      "stderr": "run-3.stderr"
+    }
+  ]
+}

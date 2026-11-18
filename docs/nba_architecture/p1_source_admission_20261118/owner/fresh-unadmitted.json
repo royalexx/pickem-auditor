@@ -1,0 +1,9 @@
+{
+  "status": "REJECTED_WHOLE_BUNDLE",
+  "reason": "P1_LISTED_SOURCE_UNREVIEWED",
+  "source_raw_sha256": "9da7494bac5f9a9992eb5833dfb619c55e89e237cb032e740fc863a3f74e0ded",
+  "attempted_rows": 26,
+  "accepted_rows": 0,
+  "rejected_rows": 26,
+  "target_eligible_roster_count": null
+}

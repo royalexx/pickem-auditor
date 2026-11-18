@@ -1,0 +1,6 @@
+{
+  "checked_at": "2026-11-18T03:51:46Z",
+  "main": "912bc7010058092ea735dcda0aa941429194474b\trefs/heads/main",
+  "base_selection": "PR176 publication contains reviewed 9e814597 implementation and immutable prior evidence; not used as substitute implementation. Diff of executable v2/tests/scripts between 9e814597 and ebbfcd6 is empty.",
+  "executable_diff": ""
+}

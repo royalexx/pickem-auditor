@@ -1,0 +1,6 @@
+test_http_denial_body_and_create_only (tests.nba_architecture.test_p1_capture_v1.CaptureTests.test_http_denial_body_and_create_only) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.514s
+
+OK

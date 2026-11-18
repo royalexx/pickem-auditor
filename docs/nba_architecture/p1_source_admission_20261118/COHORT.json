@@ -1,0 +1,301 @@
+{
+  "schema": "nba-p1-cohort-freeze/1.0.0",
+  "authority": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "base": "ebbfcd6f430da35cd98340bb834e89de84239544",
+  "reviewed_executable": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+  "selected_profile": "HISTORICAL_LISTED_CONTENT_ONLY",
+  "target": {
+    "decision_local_date": "2018-10-19",
+    "event_start_at": "2018-10-20T00:00:00Z",
+    "forecast_at": "2018-10-19T23:50:00Z",
+    "game_id": "espn:game:401070219",
+    "input_freeze_at": "2018-10-19T23:45:00Z",
+    "team_ids": [
+      "espn:team:28",
+      "espn:team:2"
+    ],
+    "training_cutoff_at": "2018-10-18T00:00:00Z"
+  },
+  "target_clocks": "SIMULATED_REPLAY_NOT_ORIGINAL_CAPTURE",
+  "prior_game": "espn:game:401070213",
+  "prior_date": "2018-10-16",
+  "listed_prior_players": [
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3032978",
+      "team_id": "espn:team:20",
+      "source_name": "Dario Saric",
+      "jersey": "9",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:2490620",
+      "team_id": "espn:team:20",
+      "source_name": "Robert Covington",
+      "jersey": "33",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3059318",
+      "team_id": "espn:team:20",
+      "source_name": "Joel Embiid",
+      "jersey": "21",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:4066636",
+      "team_id": "espn:team:20",
+      "source_name": "Markelle Fultz",
+      "jersey": "20",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3907387",
+      "team_id": "espn:team:20",
+      "source_name": "Ben Simmons",
+      "jersey": "25",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:2769",
+      "team_id": "espn:team:20",
+      "source_name": "Amir Johnson",
+      "jersey": "5",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3024",
+      "team_id": "espn:team:20",
+      "source_name": "JJ Redick",
+      "jersey": "17",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:2530530",
+      "team_id": "espn:team:20",
+      "source_name": "T.J. McConnell",
+      "jersey": "12",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3914044",
+      "team_id": "espn:team:20",
+      "source_name": "Landry Shamet",
+      "jersey": "23",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3929325",
+      "team_id": "espn:team:20",
+      "source_name": "Furkan Korkmaz",
+      "jersey": "30",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3155533",
+      "team_id": "espn:team:20",
+      "source_name": "Jonah Bolden",
+      "jersey": "43",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3059273",
+      "team_id": "espn:team:20",
+      "source_name": "Demetrius Jackson",
+      "jersey": "11",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3915195",
+      "team_id": "espn:team:20",
+      "source_name": "Shake Milton",
+      "jersey": "18",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:4065648",
+      "team_id": "espn:team:2",
+      "source_name": "Jayson Tatum",
+      "jersey": "0",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:4249",
+      "team_id": "espn:team:2",
+      "source_name": "Gordon Hayward",
+      "jersey": "20",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3213",
+      "team_id": "espn:team:2",
+      "source_name": "Al Horford",
+      "jersey": "42",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3917376",
+      "team_id": "espn:team:2",
+      "source_name": "Jaylen Brown",
+      "jersey": "7",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:6442",
+      "team_id": "espn:team:2",
+      "source_name": "Kyrie Irving",
+      "jersey": "11",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3074752",
+      "team_id": "espn:team:2",
+      "source_name": "Terry Rozier",
+      "jersey": "12",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:6462",
+      "team_id": "espn:team:2",
+      "source_name": "Marcus Morris",
+      "jersey": "13",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:2990992",
+      "team_id": "espn:team:2",
+      "source_name": "Marcus Smart",
+      "jersey": "36",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:2968439",
+      "team_id": "espn:team:2",
+      "source_name": "Aron Baynes",
+      "jersey": "46",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:2451037",
+      "team_id": "espn:team:2",
+      "source_name": "Daniel Theis",
+      "jersey": "27",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:4017844",
+      "team_id": "espn:team:2",
+      "source_name": "Guerschon Yabusele",
+      "jersey": "30",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:3056602",
+      "team_id": "espn:team:2",
+      "source_name": "Semi Ojeleye",
+      "jersey": "37",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    },
+    {
+      "game_id": "espn:game:401070213",
+      "game_date": "20181016",
+      "player_id": "espn:player:6507",
+      "team_id": "espn:team:2",
+      "source_name": "Brad Wanamaker",
+      "jersey": "9",
+      "official_pdf_raw_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+      "espn_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f"
+    }
+  ],
+  "listed_denominator": 26,
+  "target_eligible_roster_denominator": null,
+  "prospective_comparator": {
+    "selected": false,
+    "games": [],
+    "reason": "No authentic pre-freeze complete roster/correction population established. A future target must be frozen from a captured native schedule before implementation/admission; no fabricated future fixture."
+  },
+  "required_populations": [
+    "dated identities and membership changes",
+    "complete target eligible roster and availability",
+    "schedule/status/prior results",
+    "played/DNP/played-zero/unknown",
+    "duration/OT",
+    "full-game minute-display exceptions",
+    "correction ancestry and bounded completeness"
+  ],
+  "exclusions": "No row filtering. All 26 prior rows retained; target completeness unknown. October26 16 availability candidates remain separate; no cohort substitution."
+}
