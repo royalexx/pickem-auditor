@@ -1,0 +1,27 @@
+{
+  "tested_commit": "a8696fccb1eba992f1249e94c45e84bab558a836",
+  "commands": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "tests.nba_architecture.test_p1_bounded_demo_v1",
+        "-v"
+      ],
+      "exit": 0
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "exit": 0
+    }
+  ]
+}

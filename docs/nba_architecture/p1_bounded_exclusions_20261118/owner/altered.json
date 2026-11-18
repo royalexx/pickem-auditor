@@ -1,0 +1,18 @@
+{
+  "schema": "nba-p1-bounded-exposure-demo/1.0.0",
+  "status": "REJECTED_WHOLE_SOURCE",
+  "admission": {
+    "status": "REJECTED_WHOLE_BUNDLE",
+    "reason": "P1_LISTED_SOURCE_UNREVIEWED",
+    "source_raw_sha256": "56ee1c92f384b79ac65b52ebdd48432668042035da73a09f40983ee92432fe0f",
+    "attempted_rows": 26,
+    "accepted_rows": 0,
+    "rejected_rows": 26,
+    "target_eligible_roster_count": null
+  },
+  "included_rows": 0,
+  "excluded_rows": null,
+  "explicit_dnp_rows": null,
+  "target_eligible_roster_count": null,
+  "G1": "NO-GO"
+}

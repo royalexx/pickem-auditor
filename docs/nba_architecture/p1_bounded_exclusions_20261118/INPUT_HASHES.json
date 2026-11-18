@@ -1,0 +1,32 @@
+{
+  "v2/nba_architecture/p1_bounded_demo_v1.py": {
+    "sha256": "5e9b9d6279458088efb0699853f024c7b0dc510e51e7ad73ca6655fd8631bfe0",
+    "bytes": 2480,
+    "domain": "EXACT_FILE_BYTES"
+  },
+  "tests/nba_architecture/test_p1_bounded_demo_v1.py": {
+    "sha256": "73a71c1035a903552c68bf9c2e99f32f8b56f76061dc7535ede4f5aa645bea1f",
+    "bytes": 1845,
+    "domain": "EXACT_FILE_BYTES"
+  },
+  "docs/nba_architecture/substantive_remediation_20261117/source_search/nba_pdf.raw": {
+    "sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+    "bytes": 112412,
+    "domain": "EXACT_FILE_BYTES"
+  },
+  "docs/nba_architecture/substantive_remediation_20261117/source_search/nba_pdf.receipt.json": {
+    "sha256": "109a781544cbc14dbddf58175a82b96965695b008a212d9d40ccff2ef6810de9",
+    "bytes": 292,
+    "domain": "EXACT_FILE_BYTES"
+  },
+  "docs/nba_architecture/substantive_remediation_20261117/source_search/espn2018.raw": {
+    "sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f",
+    "bytes": 423503,
+    "domain": "EXACT_FILE_BYTES"
+  },
+  "docs/nba_architecture/substantive_remediation_20261117/source_search/espn2018.receipt.json": {
+    "sha256": "0bece65865137b8c1e8a1193e124b74cb90d7dc4233c85802d051efeb23901e6",
+    "bytes": 942,
+    "domain": "EXACT_FILE_BYTES"
+  }
+}
