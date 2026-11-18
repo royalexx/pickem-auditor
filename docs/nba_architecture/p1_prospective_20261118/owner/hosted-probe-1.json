@@ -1,0 +1,77 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Notebook run 55a8d9eb-9469-4a8d-a77a-ab85a21e3b2d has status success."
+    },
+    {
+      "type": "text",
+      "text": "{\"run\":{\"runId\":\"55a8d9eb-9469-4a8d-a77a-ab85a21e3b2d\",\"notebookId\":\"8b5937fbe89c4bfdb7a5642aab92fa35\",\"status\":\"success\",\"snapshotStatus\":\"available\",\"snapshotContent\":null,\"snapshotDownloadUrl\":null,\"snapshotExpiresAt\":\"2026-12-18T13:04:59.281Z\",\"snapshotBlocks\":[{\"id\":\"4af5b37de5d045dcba8b9e0a6192d028\",\"type\":\"input-select\",\"outputs\":[],\"metadata\":{\"execution_start\":1795007097834,\"execution_millis\":0,\"execution_context_id\":\"f4df53d6-bebb-49da-9d85-adfc1eb4341b\",\"deepnote_variable_name\":\"capture_mode\",\"deepnote_variable_value\":\"probe\",\"deepnote_variable_options\":[\"probe\",\"pregame\",\"morning\"],\"deepnote_variable_custom_options\":[\"probe\",\"pregame\",\"morning\"],\"deepnote_variable_selected_variable\":\"\",\"deepnote_variable_select_type\":\"from-options\",\"source_block_id\":\"4af5b37de5d045dcba8b9e0a6192d028\"},\"outputHead\":null,\"outputTail\":null,\"contentHash\":null},{\"id\":\"7eb9deaee0cc4c5ea1cda94d6c7b67d2\",\"type\":\"code\",\"outputs\":[{\"name\":\"stdout\",\"text\":\"P1_STORAGE_PROBE {\\\"prior_marker_seen\\\": true, \\\"path\\\": \\\"/work/reports/nba_p1_one_night_20261118/storage_probe.json\\\", \\\"mode\\\": \\\"probe\\\"}\\nP1_HOSTED_PINNED_CODE_READY aaeb0601c006d55d3812dc64cf29695a72eda58b\\n\",\"output_type\":\"stream\"}],\"metadata\":{\"execution_start\":1795007097944,\"execution_millis\":918,\"execution_context_id\":\"f4df53d6-bebb-49da-9d85-adfc1eb4341b\",\"source_block_id\":\"7eb9deaee0cc4c5ea1cda94d6c7b67d2\"},\"outputHead\":null,\"outputTail\":null,\"contentHash\":\"sha256:41fed05ab021d21ba41bfd243f509d4a064aac2114df2c4671e1ff58b89750ed\"}],\"error\":null,\"createdAt\":\"2026-11-18T13:04:50.771Z\",\"completedAt\":\"2026-11-18T13:04:59.153Z\"}}"
+    }
+  ],
+  "structuredContent": {
+    "run": {
+      "runId": "55a8d9eb-9469-4a8d-a77a-ab85a21e3b2d",
+      "notebookId": "8b5937fbe89c4bfdb7a5642aab92fa35",
+      "status": "success",
+      "snapshotStatus": "available",
+      "snapshotContent": null,
+      "snapshotDownloadUrl": null,
+      "snapshotExpiresAt": "2026-12-18T13:04:59.281Z",
+      "snapshotBlocks": [
+        {
+          "id": "4af5b37de5d045dcba8b9e0a6192d028",
+          "type": "input-select",
+          "outputs": [],
+          "metadata": {
+            "execution_start": 1795007097834,
+            "execution_millis": 0,
+            "execution_context_id": "f4df53d6-bebb-49da-9d85-adfc1eb4341b",
+            "deepnote_variable_name": "capture_mode",
+            "deepnote_variable_value": "probe",
+            "deepnote_variable_options": [
+              "probe",
+              "pregame",
+              "morning"
+            ],
+            "deepnote_variable_custom_options": [
+              "probe",
+              "pregame",
+              "morning"
+            ],
+            "deepnote_variable_selected_variable": "",
+            "deepnote_variable_select_type": "from-options",
+            "source_block_id": "4af5b37de5d045dcba8b9e0a6192d028"
+          },
+          "outputHead": null,
+          "outputTail": null,
+          "contentHash": null
+        },
+        {
+          "id": "7eb9deaee0cc4c5ea1cda94d6c7b67d2",
+          "type": "code",
+          "outputs": [
+            {
+              "name": "stdout",
+              "text": "P1_STORAGE_PROBE {\"prior_marker_seen\": true, \"path\": \"/work/reports/nba_p1_one_night_20261118/storage_probe.json\", \"mode\": \"probe\"}\nP1_HOSTED_PINNED_CODE_READY aaeb0601c006d55d3812dc64cf29695a72eda58b\n",
+              "output_type": "stream"
+            }
+          ],
+          "metadata": {
+            "execution_start": 1795007097944,
+            "execution_millis": 918,
+            "execution_context_id": "f4df53d6-bebb-49da-9d85-adfc1eb4341b",
+            "source_block_id": "7eb9deaee0cc4c5ea1cda94d6c7b67d2"
+          },
+          "outputHead": null,
+          "outputTail": null,
+          "contentHash": "sha256:41fed05ab021d21ba41bfd243f509d4a064aac2114df2c4671e1ff58b89750ed"
+        }
+      ],
+      "error": null,
+      "createdAt": "2026-11-18T13:04:50.771Z",
+      "completedAt": "2026-11-18T13:04:59.153Z"
+    }
+  },
+  "isError": false
+}

@@ -1,0 +1,24 @@
+test_cohort_mutation_rejected_without_fetch (tests.nba_architecture.test_p1_prospective_capture.ProspectiveTests.test_cohort_mutation_rejected_without_fetch) ... ok
+test_late_capture_records_miss_without_network (tests.nba_architecture.test_p1_prospective_capture.ProspectiveTests.test_late_capture_records_miss_without_network) ... ERROR
+test_real_rosters_and_hostile_native_rows (tests.nba_architecture.test_p1_prospective_capture.ProspectiveTests.test_real_rosters_and_hostile_native_rows) ... ok
+test_real_schedule_wrong_game_team_start_and_cancelled (tests.nba_architecture.test_p1_prospective_capture.ProspectiveTests.test_real_schedule_wrong_game_team_start_and_cancelled) ... ok
+
+======================================================================
+ERROR: test_late_capture_records_miss_without_network (tests.nba_architecture.test_p1_prospective_capture.ProspectiveTests.test_late_capture_records_miss_without_network)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/tests/nba_architecture/test_p1_prospective_capture.py", line 43, in test_late_capture_records_miss_without_network
+    attempt=source.run('pregame',Path(tmp))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/pickem-auditor/scripts/nba_p1_prospective_capture.py", line 64, in run
+    if pregame and start>=instant(cohort['freeze_at']):
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/pickem-auditor/scripts/nba_p1_prospective_capture.py", line 23, in instant
+    dt=datetime.fromisoformat(value.replace('Z','+00:00'))
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'LateClock' has no attribute 'fromisoformat'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.046s
+
+FAILED (errors=1)
