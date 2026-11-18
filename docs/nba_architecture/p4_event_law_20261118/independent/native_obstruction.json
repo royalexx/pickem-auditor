@@ -1,0 +1,34 @@
+{
+  "G_content_hash": "e245772bc1b6abadfe4c430f0a0836b61f4f2bfb6caff9a7de6a6337c4347c58",
+  "O_content_hash": "af84c215440779af066e8bec5311392cc81f3bcd089cb4dc0b88223db273e09b",
+  "P3_sidecar_content_hash": "34a853bfd96d1e80e9fa4ac04c25afae95accb30ab4cebd2c4547e5684b3028a",
+  "disposition": "Reversal reproduced directly from native P2 S1 conditional kernel",
+  "live": {
+    "points": {
+      "NB_success_probability": 0.8832531344597385,
+      "alpha": 162.0,
+      "artifact_sha256": "662cc75155f2fd26e42c7b177df396a61acf7b8f0505a3479a314cf6feebf96f",
+      "beta": 270.0,
+      "omitted_count_tail_upper_bound": 1.5827033841531117e-15,
+      "serialized_count_tail": 2.7588570780148016e-10
+    },
+    "threes": {
+      "NB_success_probability": 0.8832531344597385,
+      "alpha": 18.0,
+      "artifact_sha256": "e47d009dbc167b0b9b8a28a4555061b730f51d3763fa3e139c484c7214fdce1c",
+      "beta": 270.0,
+      "omitted_count_tail_upper_bound": 4.172812227150845e-12,
+      "serialized_count_tail": 4.72735020341992e-10
+    }
+  },
+  "minutes": 35.68813114391213,
+  "owner_commits": {
+    "P2": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47",
+    "P3": "eb0882b5011f2004c5eaf27cccfdc6297704f261"
+  },
+  "participation": "PLAYED",
+  "player_id": "espn:player:15",
+  "pregame_content_hash": "c495d40d08e4f83b244d2e8e042bb35019eaf3935cc5f0406bc4eb2a8f0a4434",
+  "scenario_id": "synthetic:latest:0",
+  "scenario_weight": 0.25
+}
