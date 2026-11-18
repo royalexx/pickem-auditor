@@ -4,12 +4,12 @@ import json
 from pathlib import Path
 from .admission_v1 import admit_gamebook
 from .gamebook_identity_v1 import join_game_ids
-from .v2_contracts import req, instant
+from .v2_contracts import req, instant, ContractError
+from .p1_listed_trust_v1 import REGISTRY_SHA256
 
 ROOT = Path(__file__).resolve().parents[2]
 PACKET = ROOT / 'docs/nba_architecture/p1_source_admission_20261118'
 CAPABILITY = 'COMPLETED_GAME_LISTED_IDENTITY_ONLY'
-REGISTRY_SHA256 = 'b69777038b2bf8c5301ea0a2e892667553d0abcab04cf7aff9ee0c2a4e799122'
 
 
 def digest(raw):
@@ -54,3 +54,23 @@ def read_listed_population(pdf, pdf_receipt, espn, receipt, *,
                 correction_history_complete=None, predecessor_sha256=None,
                 duration_minutes=box['duration_minutes'], overtime_periods=box['overtime_periods'],
                 fitted_model_admitted=False, original_pregame_certified=False)
+
+
+def listed_population_receipt(pdf, pdf_receipt, espn, receipt, **kwargs):
+    """Public attempt ledger retains the full supplied population on rejection."""
+    attempted = None
+    try:
+        obj = json.loads(espn)
+        attempted = sum(len(stat['athletes']) for team in obj['boxscore']['players']
+                        for stat in team['statistics'])
+    except (ValueError, KeyError, TypeError):
+        pass
+    try:
+        return dict(status='ACCEPTED_BOUNDED_CONTENT', result=read_listed_population(
+            pdf, pdf_receipt, espn, receipt, **kwargs), attempted_rows=attempted,
+            accepted_rows=attempted, rejected_rows=0, target_eligible_roster_count=None)
+    except (ContractError, ValueError, KeyError, TypeError, OSError) as error:
+        return dict(status='REJECTED_WHOLE_BUNDLE', reason=str(error),
+                    source_raw_sha256=digest(espn), attempted_rows=attempted,
+                    accepted_rows=0, rejected_rows=attempted,
+                    target_eligible_roster_count=None)

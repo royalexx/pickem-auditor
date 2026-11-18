@@ -7,6 +7,7 @@
     "v2/nba_architecture/gamebook_v1.py": "2d36bd61e70fa6557fcaef535482f9c89cd2be29599756570e0a2010a3731193",
     "docs/nba_architecture/p1_source_admission_20261118/COHORT.json": "d1e0f7c0633ef8ed31b7173bab7766a60a2c6787536e098ea095ad8f1407f646",
     "docs/nba_architecture/p1_source_admission_20261118/CONTRACT.md": "880f7c5ed3c95cb961a840e269b8b0fc439914ba4b08b58c896ec93101f11fcf",
-    "docs/nba_architecture/p1_source_admission_20261118/independent/PROFILE_DECISION.md": "af2962be8970c73322e18e181fdde9ae4c7b134735eb8fb9689a5c84dda50868"
+    "docs/nba_architecture/p1_source_admission_20261118/independent/PROFILE_DECISION.md": "af2962be8970c73322e18e181fdde9ae4c7b134735eb8fb9689a5c84dda50868",
+    "v2/nba_architecture/p1_listed_source_v1.py": "6f4d9d3302bcb08e72290a659f695e4550c3aed0f88cd4d59dacacbb16f3af01"
   }
 }
