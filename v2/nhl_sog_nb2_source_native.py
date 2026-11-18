@@ -126,10 +126,8 @@ def _official_identity(root: Path, pool: Path, input_doc: dict, quote: MarketQuo
                               freeze=freeze, event=event)
     source_day = _utc(input_doc["created_at"]).astimezone(
         ZoneInfo("America/Toronto")).date().isoformat()
-    _check(score["source_url"] == "https://api-web.nhle.com/v1/score/" +
-           source_day, "OFFICIAL_SCORE_SOURCE_ENDPOINT_INVALID")
-    games = score_doc.get("games")
-    _check(isinstance(games, list), "OFFICIAL_SCORE_GAMES_MISSING")
+    from .nhl_sog_pregame_schedule import official_games
+    games = official_games(score["source_url"], score_doc, source_day)
     match = [g for g in games if str(g.get("id")) == str(chosen.get("nhl_official_event_id"))]
     _check(len(match) == 1, "OFFICIAL_EVENT_NOT_UNIQUE")
     g = match[0]
