@@ -15,6 +15,7 @@ from v2.nba_architecture.p1_capture_v1 import capture
 
 ROOT=Path(__file__).resolve().parents[1]
 PACKET=ROOT/'docs/nba_architecture/p1_prospective_20261118'
+COHORT_SHA256='692d662a8a256d46e36bc416225e2eb22136e5da41f2a486d725469f704e91b9'
 BASE='https://site.api.espn.com/apis/site/v2/sports/basketball/nba/'
 
 
@@ -44,19 +45,21 @@ def validate_schedule(raw, cohort, pregame):
     e=matches[0]
     teams={str(c['team']['id']):c['team']['abbreviation'] for c in e['competitions'][0]['competitors']}
     if teams!=cohort['teams'] or instant(e['date'])!=instant(cohort['start']):raise ValueError('TARGET_IDENTITY_OR_START_CHANGED')
-    if pregame and e['status']['type']['state']!='pre':raise ValueError('TARGET_NO_LONGER_PREGAME')
+    if pregame and (e['status']['type']['state']!='pre' or e['status']['type']['name']!='STATUS_SCHEDULED'):raise ValueError('TARGET_NO_LONGER_PREGAME')
     return e['status']
 
 
 def run(stage, output):
-    cohort=json.loads((PACKET/'COHORT.json').read_bytes())
+    cohort_raw=(PACKET/'COHORT.json').read_bytes()
+    if hashlib.sha256(cohort_raw).hexdigest()!=COHORT_SHA256:raise ValueError('COHORT_BYTES_CHANGED')
+    cohort=json.loads(cohort_raw)
     start=datetime.now(timezone.utc)
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     attempt=output/(stage+'-'+start.strftime('%Y%m%dT%H%M%S%fZ')+'-'+uuid.uuid4().hex[:8]);attempt.mkdir()
     result=dict(schema='nba-p1-prospective-attempt/1.0.0',stage=stage,started_at=start.isoformat(),
                 cohort_raw_sha256=hashlib.sha256((PACKET/'COHORT.json').read_bytes()).hexdigest(),
                 admission='UNADMITTED',target_eligible_roster_count=None,
-                correction_history_complete=None,rows=[],sources={},errors=[],G1='NO-GO')
+                correction_history_complete=None,rows=[],roster_denominators={},sources={},errors=[],G1='NO-GO')
     pregame=stage!='morning'
     if pregame and start>=instant(cohort['freeze_at']):
         result['errors'].append('MISSED_ORIGINAL_FREEZE')
@@ -91,8 +94,15 @@ def run(stage, output):
             result['target_status']=validate_schedule((attempt/'scoreboard/body.raw').read_bytes(),cohort,pregame)
         except (ValueError,KeyError,OSError,TypeError) as e:result['errors'].append('SCHEDULE:'+str(e))
         for tid in cohort['teams']:
-            try:result['rows']+=roster_rows((attempt/('roster-'+tid)/'body.raw').read_bytes(),tid)
-            except (ValueError,KeyError,OSError,TypeError) as e:result['errors'].append('ROSTER_'+tid+':'+str(e))
+            raw=None;attempted=None
+            try:
+                raw=(attempt/('roster-'+tid)/'body.raw').read_bytes()
+                attempted=len(json.loads(raw)['athletes'])
+                parsed=roster_rows(raw,tid);result['rows']+=parsed
+                result['roster_denominators'][tid]=dict(attempted=attempted,parsed=len(parsed),rejected=0)
+            except (ValueError,KeyError,OSError,TypeError) as e:
+                result['roster_denominators'][tid]=dict(attempted=attempted,parsed=0,rejected=attempted)
+                result['errors'].append('ROSTER_'+tid+':'+str(e))
         if len({r['player_id'] for r in result['rows']})!=len(result['rows']):result['errors'].append('CROSS_TEAM_DUPLICATE_IDENTITY')
         # Bound prior-result acquisition to most recent completed scheduled game per team.
         for tid in cohort['teams']:
@@ -114,6 +124,8 @@ def run(stage, output):
                 if urlsplit(u).hostname=='ak-static.cms.nba.com':result['sources']['injury-pdf-'+str(i)]=capture(u,attempt/('injury-pdf-'+str(i)))
             if not current:result['errors'].append('NO_CURRENT_OFFICIAL_INJURY_PDF_LINK')
         except (OSError,UnicodeError):result['errors'].append('OFFICIAL_INJURY_INDEX_UNREADABLE')
+        for name,r in result['sources'].items():
+            if r.get('status')!=200 and name+':HTTP_CAPTURE_UNAVAILABLE' not in result['errors']:result['errors'].append(name+':HTTP_CAPTURE_UNAVAILABLE')
         if pregame and datetime.now(timezone.utc)>=instant(cohort['freeze_at']):result['errors'].append('CAPTURE_COMPLETED_AFTER_FREEZE')
     result['returned_roster_rows']=len(result['rows'])
     result['availability_unknown_rows']=len(result['rows'])
