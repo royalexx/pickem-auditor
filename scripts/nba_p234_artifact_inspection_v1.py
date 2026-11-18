@@ -78,7 +78,7 @@ def inspect_repository(root):
                   dict(path=nuts_path, raw_sha256=sha(nuts_raw),
                        byte_domain='REPOSITORY_FILE_UTF8_MANIFEST_ONLY',
                        nba_references=nba, fitted_bytes_verified=False,
-                       status='REFERENCED_POSTERIORS_NOT_ADMITTED')],
+                       status=('REFERENCED_NBA_POSTERIORS_NOT_ADMITTED' if nba else 'NO_NBA_REFERENCES_IN_THIS_MANIFEST'))],
                 denominators=dict(inventory_members=4, admitted_members=0,
                                   target_eligible_players=None, real_handoffs=0),
                 criteria={k:dict(status='BLOCKED', independent_decision='PENDING', dependency=v)
