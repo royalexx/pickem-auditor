@@ -4,6 +4,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 
 
 def capture(url, destination):
@@ -24,6 +25,16 @@ def capture(url, destination):
             stream.write(raw)
         receipt.update(raw_sha256=hashlib.sha256(raw).hexdigest(), bytes=len(raw),
                        byte_domain='HTTP_RESPONSE_BODY_BYTES',
+                       ingested_at=datetime.now(timezone.utc).isoformat())
+    except HTTPError as error:
+        raw = error.read()
+        with (path / 'body.raw').open('xb') as stream:
+            stream.write(raw)
+        receipt.update(status=error.code, headers=dict(error.headers),
+                       error=type(error).__name__ + ': ' + str(error),
+                       raw_sha256=hashlib.sha256(raw).hexdigest(), bytes=len(raw),
+                       byte_domain='HTTP_ERROR_RESPONSE_BODY_BYTES',
+                       retrieval_completed_at=datetime.now(timezone.utc).isoformat(),
                        ingested_at=datetime.now(timezone.utc).isoformat())
     except Exception as error:
         receipt.update(error=type(error).__name__ + ': ' + str(error),

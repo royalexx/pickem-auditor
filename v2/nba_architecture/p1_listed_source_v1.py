@@ -19,7 +19,6 @@ def digest(raw):
 def read_listed_population(pdf, pdf_receipt, espn, receipt, *,
                            required_capability=CAPABILITY, input_freeze_at=None):
     """On failure reject the whole bundle; no accepted subset is returned."""
-    attempted = len(json.loads(espn).get('boxscore', {}).get('players', []))
     root_path = PACKET / 'installed_identity_root.json'
     req(root_path.is_file(), 'P1_LISTED_ROOT_UNINSTALLED')
     root_raw = root_path.read_bytes()
