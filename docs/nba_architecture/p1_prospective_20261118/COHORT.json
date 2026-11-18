@@ -1,0 +1,25 @@
+{
+  "schema": "nba-p1-prospective-cohort/1.0.0",
+  "authority": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "game_id": "401910007",
+  "name": "Memphis Grizzlies at Cleveland Cavaliers",
+  "start": "2026-11-19T00:00Z",
+  "teams": {
+    "5": "CLE",
+    "29": "MEM"
+  },
+  "freeze_at": "2026-11-18T23:45:00Z",
+  "forecast_horizon": "15min before listed start; no model forecast generated",
+  "selection": "Earliest scheduled future game, tie lowest numeric ESPN ID, from captured complete November18 scoreboard before implementation",
+  "source_schedule_sha256": "280f3d4e8ca39973e668c607c1283cbf0fc898e5f0eb8e0150afc01ebd5ad2f2",
+  "historical_cohort": "Unchanged. This is explicitly separate prospective evidence profile.",
+  "eligibility_completeness": null,
+  "correction_history_complete": null,
+  "all_roster_candidates": "Capture all native roster rows for both teams; no shortlist; unknown eligibility per member until independently supported",
+  "existing_primary_worker": "Deepnote84e819fd46d24a6e8eb1bfa87c390b23 stays unchanged; this packet captures supplemental source evidence separately, no first-capture claim against old pilot",
+  "stages": [
+    "initial now",
+    "pregame supplementary before23:45UTC",
+    "morning postgame/status/corrections and independent evidence decision"
+  ]
+}
