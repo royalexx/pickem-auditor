@@ -1,0 +1,16 @@
+{
+  "hardened_probe": {
+    "mutation": "Remove all stoppages while retaining rest of prepared plan and witness",
+    "rejection": "REPLAY_STOPPAGE_LEDGER",
+    "scope": "Standalone verifier takes a caller-approved plan, not a bound native packet",
+    "standalone_reconstruct_accepts": false
+  },
+  "hardening": "abd732d8357ed6ebe17253b75a86d040e70857e6",
+  "original_candidate": "2fd8080af2ab255a4311fe0323665979594c125d",
+  "original_probe": {
+    "mutation": "Remove all stoppages while retaining rest of prepared plan and witness",
+    "scope": "Standalone verifier takes a caller-approved plan, not a bound native packet",
+    "standalone_reconstruct_accepts": true
+  },
+  "other_independent_seed_results_equal": true
+}

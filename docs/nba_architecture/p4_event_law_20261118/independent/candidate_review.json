@@ -1,0 +1,145 @@
+{
+  "input_hashes": {
+    "G": "e245772bc1b6abadfe4c430f0a0836b61f4f2bfb6caff9a7de6a6337c4347c58",
+    "O": "af84c215440779af066e8bec5311392cc81f3bcd089cb4dc0b88223db273e09b",
+    "O_sidecar": "34a853bfd96d1e80e9fa4ac04c25afae95accb30ab4cebd2c4547e5684b3028a",
+    "S": {
+      "assists": "42b6da6a9f055fd0be0b0a6d558a7c303db06b9e82e4edb67289a2b068d7c7e2",
+      "points": "662cc75155f2fd26e42c7b177df396a61acf7b8f0505a3479a314cf6feebf96f",
+      "rebounds": "871c56743647998807c8bd9aa90a5c208ce20b86e23cb9f15e46cd7567d772c2",
+      "three_conversion": "6f5f4aa5c77c5fb22b41c9f87a37f0d0b9a37cbebee6db8dc41008e88cbf12ca",
+      "threes": "e47d009dbc167b0b9b8a28a4555061b730f51d3763fa3e139c484c7214fdce1c"
+    },
+    "pregame": "c495d40d08e4f83b244d2e8e042bb35019eaf3935cc5f0406bc4eb2a8f0a4434"
+  },
+  "mutations": {
+    "clock_jump": {
+      "candidate_rejection": "REPLAY_ACTION_CLOCK",
+      "independent_rejection": "wrong opening clock"
+    },
+    "foreign_rebounder": {
+      "candidate_rejection": "REPLAY_REBOUND",
+      "independent_rejection": "credit outside current lineup"
+    },
+    "illegal_trip": {
+      "candidate_rejection": "REPLAY_FREE_THROWS",
+      "independent_rejection": "invalid free throw trip"
+    },
+    "lost_possession": {
+      "candidate_rejection": "REPLAY_POSSESSION_CONTROL",
+      "independent_rejection": "control continuity"
+    },
+    "score_delta": {
+      "candidate_rejection": "REPLAY_SCORE",
+      "independent_rejection": "period score not recoverable"
+    },
+    "self_assist": {
+      "candidate_rejection": "REPLAY_FIELD_GOAL",
+      "independent_rejection": "self-assist"
+    },
+    "status_swap": {
+      "candidate_rejection": "REPLAY_OT_CHECKPOINT",
+      "independent_rejection": "incorrect attempt status"
+    }
+  },
+  "packet_status": "failed_no_forecast",
+  "scenario_results": {
+    "synthetic:latest:0": {
+      "attempt_status_counts": {
+        "accepted": 1
+      },
+      "attempts": 1,
+      "candidate_Z": 0.973976924769097,
+      "conditional_failure_probability": 1.4652205693366558e-203,
+      "independent_Z": 0.9739769247690906,
+      "independent_checkpoint_blocks": [
+        0.9739769247690906
+      ],
+      "last_attempt_team_points": {
+        "espn:team:1": 100,
+        "espn:team:2": 99
+      },
+      "last_attempt_team_possessions": {
+        "espn:team:1": 102,
+        "espn:team:2": 102
+      },
+      "status": "accepted"
+    },
+    "synthetic:latest:1": {
+      "attempt_status_counts": {
+        "score_checkpoint_failure": 128
+      },
+      "attempts": 128,
+      "candidate_Z": 0.02388453252519668,
+      "conditional_failure_probability": 0.04530570713269001,
+      "independent_Z": 0.023884532525196654,
+      "independent_checkpoint_blocks": [
+        0.02605080425797917,
+        0.9168443434095128
+      ],
+      "last_attempt_team_points": {
+        "espn:team:1": 98,
+        "espn:team:2": 108
+      },
+      "last_attempt_team_possessions": {
+        "espn:team:1": 102,
+        "espn:team:2": 101
+      },
+      "status": "exhausted"
+    },
+    "synthetic:latest:2": {
+      "attempt_status_counts": {
+        "accepted": 1,
+        "score_checkpoint_failure": 65
+      },
+      "attempts": 66,
+      "candidate_Z": 0.0018629422369344424,
+      "conditional_failure_probability": 0.7876676846864006,
+      "independent_Z": 0.001862942236934425,
+      "independent_checkpoint_blocks": [
+        0.025843919853482153,
+        0.07824667958013073,
+        0.9212448784461877
+      ],
+      "last_attempt_team_points": {
+        "espn:team:1": 115,
+        "espn:team:2": 114
+      },
+      "last_attempt_team_possessions": {
+        "espn:team:1": 126,
+        "espn:team:2": 124
+      },
+      "status": "accepted"
+    },
+    "synthetic:latest:3": {
+      "attempt_status_counts": {
+        "score_checkpoint_failure": 128
+      },
+      "attempts": 128,
+      "candidate_Z": 0.0001488160218154563,
+      "conditional_failure_probability": 0.9811304337254854,
+      "independent_Z": 0.00014881602181545636,
+      "independent_checkpoint_blocks": [
+        0.02618898451712221,
+        0.07852767401726227,
+        0.07852767401726227,
+        0.9214792582261945
+      ],
+      "last_attempt_team_points": {
+        "espn:team:1": 120,
+        "espn:team:2": 97
+      },
+      "last_attempt_team_possessions": {
+        "espn:team:1": 102,
+        "espn:team:2": 102
+      },
+      "status": "exhausted"
+    }
+  },
+  "seed": 90901,
+  "unbound_plan_probe": {
+    "mutation": "Remove all stoppages while retaining rest of prepared plan and witness",
+    "scope": "Standalone verifier takes a caller-approved plan, not a bound native packet",
+    "standalone_reconstruct_accepts": true
+  }
+}

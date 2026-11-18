@@ -1,0 +1,56 @@
+{
+  "early_exit_case": {
+    "P3_sidecar_content_hash": "a04084ae0966eaa7919fb2915ba40aacad4813ee19fd3a4ec3cac5c69143f6b2",
+    "cap": 19.200000000000003,
+    "minutes": 19.200000000000003,
+    "player": "espn:player:15",
+    "scope": "Synthetic P3 total-minute cap with no claim about actual exit clock",
+    "team_final_points": {
+      "espn:team:1": 92,
+      "espn:team:2": 122
+    }
+  },
+  "seed": 90902,
+  "zero_case": {
+    "credits": {
+      "espn:player:15": {
+        "assists": 0,
+        "dreb": 0,
+        "fg2a": 0,
+        "fg2m": 0,
+        "fg3a": 0,
+        "fg3m": 0,
+        "fta": 0,
+        "ftm": 0,
+        "oreb": 0,
+        "pa": 0,
+        "points": 0,
+        "pr": 0,
+        "pra": 0,
+        "ra": 0,
+        "rebounds": 0,
+        "threes": 0
+      },
+      "espn:player:25": {
+        "assists": 0,
+        "dreb": 0,
+        "fg2a": 0,
+        "fg2m": 0,
+        "fg3a": 0,
+        "fg3m": 0,
+        "fta": 0,
+        "ftm": 0,
+        "oreb": 0,
+        "pa": 0,
+        "points": 0,
+        "pr": 0,
+        "pra": 0,
+        "ra": 0,
+        "rebounds": 0,
+        "threes": 0
+      }
+    },
+    "dnp": "DNP",
+    "played_zero": "PLAYED_ZERO_MINUTES"
+  }
+}

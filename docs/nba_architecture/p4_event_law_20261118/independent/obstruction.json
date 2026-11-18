@@ -1,0 +1,31 @@
+{
+  "conditioning": "Fixed original G/O scenario in the native synthetic O2 sample",
+  "last_term_summed": 160,
+  "minimum_sum_marginal_TV_lower_approx": "2.010205420623037909696817006583031072727184817876236023975771826925775E-10",
+  "necessary_marginal_gap_lower_approx": "2.010205420623037909696817006583031072727184817876236023975771826925775E-10",
+  "player_id": "espn:player:15",
+  "same_lower_bound_on_sum_of_marginal_KS_approx": "2.010205420623037909696817006583031072727184817876236023975771826925775E-10",
+  "scenario_id": "synthetic:latest:0",
+  "source": "docs/nba_architecture/p4_remediation_v2_20261116/actual_map_4685425_256_seeds/analytic_S_O_components.json",
+  "source_sha256": "60dba0c8bf0b8457b37fe98abe53e78696007217e38dfac6c8ff2af3b3246e81",
+  "statistics": {
+    "points": {
+      "geometric_remainder_upper_approx": "6.119162291485952531541407651620458521458682932063112424216251430953324E-64",
+      "reference_serialization_tail_bound": "1.5827033841531117E-15",
+      "shape": 162,
+      "success_probability": "0.8832531344597385",
+      "tail_lower_approx": "2.758872905048680008959376575996161933326242913491241982262648903459916E-10",
+      "tail_upper_approx": "2.758872905048680008959376575996161933326242913491241988381811194945869E-10",
+      "threshold": 60
+    },
+    "threes": {
+      "geometric_remainder_upper_approx": "1.903230701265366125706716563764978658383518380586563416782512565613039E-128",
+      "reference_serialization_tail_bound": "4.172812227150845E-12",
+      "shape": 18,
+      "success_probability": "0.8832531344597385",
+      "tail_lower_approx": "4.769078325671717918656193582579193006053427731367478012357583021871644E-10",
+      "tail_upper_approx": "4.769078325671717918656193582579193006053427731367478012357583021871644E-10",
+      "threshold": 20
+    }
+  }
+}

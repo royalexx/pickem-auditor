@@ -1,0 +1,47 @@
+{
+  "adverse_regulation_result": {
+    "at_integer_threshold": 17,
+    "computed_KS": 0.7794739439164438,
+    "limit_KS": 0.05,
+    "player": "espn:player:25",
+    "simultaneous_95_KS_lower_bound": 0.5966466980293808,
+    "simultaneous_95_radius": 0.18282724588706303
+  },
+  "counts": {
+    "ALL": {
+      "complete_seeds": 1
+    },
+    "synthetic:latest:0": {
+      "accepted": 256,
+      "attempts": 264,
+      "exhausted": 0
+    },
+    "synthetic:latest:1": {
+      "accepted": 243,
+      "attempts": 10607,
+      "exhausted": 13
+    },
+    "synthetic:latest:2": {
+      "accepted": 47,
+      "attempts": 29704,
+      "exhausted": 209
+    },
+    "synthetic:latest:3": {
+      "accepted": 4,
+      "attempts": 32541,
+      "exhausted": 252
+    }
+  },
+  "decoded_sha256_by_shard": {
+    "paths_0.jsonl": "c131bbf843a5d07b4ba9f645ca532dcf7065a1fe779fcaabda58e87ab247735a",
+    "paths_1.jsonl": "6d2398950c28a7bd7abe28acd7df268b8e34dc0f7d9d5c3299c109e585ccbd36",
+    "paths_2.jsonl": "0d585b4f77adff977a4fb0f86403896f3ac4f63eb11602717324f7a690f71a33",
+    "paths_3.jsonl": "d4939ff7e895ed0d7a1396c52d86fc7cc2b29b458623abc9731db728e0838ba9",
+    "paths_4.jsonl": "04ce5156986db6e7e440f303e93befded683b37db4db39a1b7eb79f6e0d12bff",
+    "paths_5.jsonl": "b4532c3a7a92742e39bb1bcaa17e013560e7474391501b930310d5bdb4d3f571",
+    "paths_6.jsonl": "7b263f6fa1bf3bc383bc2347c5a5c8549299eb324c8bfd3cd2882ae00b192478",
+    "paths_7.jsonl": "a12adc30a6239d3d20dd9355f61169c0f2baaf8699ae20f9b53e6bd89dc147d6"
+  },
+  "independent_semantic_path_replays": 2944,
+  "scope": "Raw attempt denominators all seeds; all accepted boxes and one seed's rejections per shard"
+}
