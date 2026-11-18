@@ -1,0 +1,8 @@
+P1_STORAGE_PROBE {"prior_marker_seen": false, "path": "/tmp/tmpppvr08pb/store/storage_probe.json", "mode": "morning"}
+P1_CAPTURE_EXIT 0 synthetic capture stdout
+ 
+P1_CAPTURE_EXPORT /tmp/tmpppvr08pb/store/export-20261119T110000000000Z {"archive_domain": "GZIP_TAR_OF_UNMODIFIED_CAPTURE_FILES", "archive_sha256": "f0e79e13c0693bc6100f6e1ea3f23acf86b3789bdd3e126272c0138a4dade843", "bytes": 1666, "parts": ["part-0000.txt"], "capture_mode": "morning", "created_at": "2026-11-19T11:00:00+00:00"}
+P1_STORAGE_PROBE {"prior_marker_seen": true, "path": "/tmp/tmpppvr08pb/store/storage_probe.json", "mode": "morning"}
+P1_STORAGE_PROBE {"prior_marker_seen": false, "path": "/tmp/tmp581ygjdj/store/storage_probe.json", "mode": "pregame"}
+P1_STORAGE_PROBE {"prior_marker_seen": false, "path": "/tmp/tmpipvstj49/store/storage_probe.json", "mode": "morning"}
+P1_STORAGE_PROBE {"prior_marker_seen": false, "path": "/tmp/tmp_6fwnt3k/store/storage_probe.json", "mode": "probe"}

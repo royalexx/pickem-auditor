@@ -1,0 +1,23 @@
+{
+  "reviewer": "/root/independent_source_review",
+  "before_domain": "OWNER_SAVED_AUTOMATIONS_PEEK_BEFORE_UPDATE",
+  "before_raw_sha256": "16a66bd083a0273409f2511e18c84b3da73672e91fd8f1dfb42a16e5de4837a8",
+  "independent_current_readbacks": "automation-evening-readback.json and automation-morning-readback.json",
+  "checks": [
+    {
+      "id": "6afa51eeb1488191956f2d672edf6d33",
+      "original_prompt_prefix_preserved": true,
+      "schedule_unchanged": true,
+      "timezone_unchanged": true,
+      "enabled_unchanged": true
+    },
+    {
+      "id": "Automation_12f6ba43eb748191a213917780254329",
+      "original_prompt_prefix_preserved": true,
+      "schedule_unchanged": true,
+      "timezone_unchanged": true,
+      "enabled_unchanged": true
+    }
+  ],
+  "consequence": "Both exact historical prefix/schedule comparisons reproduced independently against owner-saved before bytes and independent current peeks. Historical before provenance remains owner-captured, not a time-travel independent fetch."
+}

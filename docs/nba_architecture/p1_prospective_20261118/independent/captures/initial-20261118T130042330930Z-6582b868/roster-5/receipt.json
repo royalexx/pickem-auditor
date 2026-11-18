@@ -1,0 +1,30 @@
+{
+  "schema": "nba-p1-raw-capture/1.0.0",
+  "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/5/roster",
+  "retrieval_started_at": "2026-11-18T13:00:42.333690+00:00",
+  "source_published_at": null,
+  "original_historical_available_at": null,
+  "admission": "UNADMITTED",
+  "correction_history_complete": null,
+  "predecessor_sha256": null,
+  "status": 200,
+  "headers": {
+    "content-type": "application/json;charset=UTF-8",
+    "access-control-allow-origin": "*",
+    "access-control-allow-methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+    "access-control-expose-headers": "content-length,location",
+    "link": "<roster.json#>; rel=\"describedby\"",
+    "vary": "Accept-Encoding",
+    "cache-control": "max-age=0",
+    "date": "Wed, 18 Nov 2026 13:00:43 GMT",
+    "x-envoy-upstream-service-time": "464",
+    "server": "envoy",
+    "connection": "close",
+    "transfer-encoding": "chunked"
+  },
+  "retrieval_completed_at": "2026-11-18T13:00:43.143179+00:00",
+  "raw_sha256": "3503b8f29427eb6f759640e6c65e33fa8cf86da718f352982e6d5c9dfb4b0704",
+  "bytes": 84492,
+  "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+  "ingested_at": "2026-11-18T13:00:43.143894+00:00"
+}

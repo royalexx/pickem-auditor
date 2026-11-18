@@ -1,0 +1,11 @@
+test_actual_rosters_unknowns_and_source_clock (__main__.Control.test_actual_rosters_unknowns_and_source_clock) ... ok
+test_cohort_mutation_no_network (__main__.Control.test_cohort_mutation_no_network) ... ok
+test_missed_freeze_no_network (__main__.Control.test_missed_freeze_no_network) ... ok
+test_rejected_roster_denominator_and_persistence (__main__.Control.test_rejected_roster_denominator_and_persistence) ... ok
+test_schedule_identity_and_status (__main__.Control.test_schedule_identity_and_status) ... ok
+test_wrong_and_duplicate_roster (__main__.Control.test_wrong_and_duplicate_roster) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.196s
+
+OK

@@ -1,0 +1,23 @@
+{
+  "tested_commit": "aaeb0601c006d55d3812dc64cf29695a72eda58b",
+  "implementation_commit": "30e306c0",
+  "native_initial_command": [
+    "python",
+    "scripts/nba_p1_prospective_capture.py",
+    "--stage",
+    "initial"
+  ],
+  "native_initial_code_commit": "5714dca32ff5ef5129aaf0d96fbccdefd7348794",
+  "native_initial_exit": 0,
+  "tests_command": [
+    "python",
+    "-m",
+    "unittest",
+    "tests.nba_architecture.test_p1_prospective_capture",
+    "-v"
+  ],
+  "corrected_tests_exit": 0,
+  "initial_test_double_error_retained": true,
+  "script_sha256": "4df0240932dcfed1c4a243b6015b152618a36d69d03bdcd6f505080ca45da68b",
+  "cohort_sha256": "692d662a8a256d46e36bc416225e2eb22136e5da41f2a486d725469f704e91b9"
+}

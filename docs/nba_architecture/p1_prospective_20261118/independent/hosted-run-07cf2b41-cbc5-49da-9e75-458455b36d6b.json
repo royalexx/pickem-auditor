@@ -1,0 +1,64 @@
+{
+  "run": {
+    "runId": "07cf2b41-cbc5-49da-9e75-458455b36d6b",
+    "notebookId": "8b5937fbe89c4bfdb7a5642aab92fa35",
+    "status": "success",
+    "snapshotStatus": "available",
+    "snapshotContent": null,
+    "snapshotDownloadUrl": null,
+    "snapshotExpiresAt": "2026-12-18T13:04:10.961Z",
+    "snapshotBlocks": [
+      {
+        "id": "4af5b37de5d045dcba8b9e0a6192d028",
+        "type": "input-select",
+        "outputs": [],
+        "metadata": {
+          "execution_start": 1795007048984,
+          "execution_millis": 0,
+          "execution_context_id": "fe40c9c8-b300-4664-bc55-01e6c8a86c76",
+          "deepnote_variable_name": "capture_mode",
+          "deepnote_variable_value": "probe",
+          "deepnote_variable_options": [
+            "probe",
+            "pregame",
+            "morning"
+          ],
+          "deepnote_variable_custom_options": [
+            "probe",
+            "pregame",
+            "morning"
+          ],
+          "deepnote_variable_selected_variable": "",
+          "deepnote_variable_select_type": "from-options",
+          "source_block_id": "4af5b37de5d045dcba8b9e0a6192d028"
+        },
+        "outputHead": null,
+        "outputTail": null,
+        "contentHash": null
+      },
+      {
+        "id": "7eb9deaee0cc4c5ea1cda94d6c7b67d2",
+        "type": "code",
+        "outputs": [
+          {
+            "name": "stdout",
+            "text": "P1_STORAGE_PROBE {\"prior_marker_seen\": false, \"path\": \"/work/reports/nba_p1_one_night_20261118/storage_probe.json\", \"mode\": \"probe\"}\nP1_HOSTED_PINNED_CODE_READY aaeb0601c006d55d3812dc64cf29695a72eda58b\n",
+            "output_type": "stream"
+          }
+        ],
+        "metadata": {
+          "execution_start": 1795007049094,
+          "execution_millis": 1650,
+          "execution_context_id": "fe40c9c8-b300-4664-bc55-01e6c8a86c76",
+          "source_block_id": "7eb9deaee0cc4c5ea1cda94d6c7b67d2"
+        },
+        "outputHead": null,
+        "outputTail": null,
+        "contentHash": "sha256:feadcf63d77e89fe05756b318563eff28948145aaded66568d06ae75facd66db"
+      }
+    ],
+    "error": null,
+    "createdAt": "2026-11-18T13:04:02.111Z",
+    "completedAt": "2026-11-18T13:04:10.871Z"
+  }
+}

@@ -1,0 +1,1127 @@
+{
+  "schema": "nba-p1-prospective-attempt/1.0.0",
+  "stage": "initial",
+  "started_at": "2026-11-18T13:00:42.330930+00:00",
+  "cohort_raw_sha256": "692d662a8a256d46e36bc416225e2eb22136e5da41f2a486d725469f704e91b9",
+  "admission": "UNADMITTED",
+  "target_eligible_roster_count": null,
+  "correction_history_complete": null,
+  "rows": [
+    {
+      "player_id": "espn:player:4066328",
+      "team_id": "espn:team:5",
+      "name": "Jarrett Allen",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:3934723",
+      "team_id": "espn:team:5",
+      "name": "Thomas Bryant",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4997530",
+      "team_id": "espn:team:5",
+      "name": "Khalifa Diop",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:3992",
+      "team_id": "espn:team:5",
+      "name": "James Harden",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:2995706",
+      "team_id": "espn:team:5",
+      "name": "Mario Hezonja",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4066757",
+      "team_id": "espn:team:5",
+      "name": "Sam Merrill",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-17T22:15Z"
+        }
+      ],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5177362",
+      "team_id": "espn:team:5",
+      "name": "Riley Minix",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:3908809",
+      "team_id": "espn:team:5",
+      "name": "Donovan Mitchell",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4432158",
+      "team_id": "espn:team:5",
+      "name": "Evan Mobley",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-16T22:06Z"
+        }
+      ],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4702134",
+      "team_id": "espn:team:5",
+      "name": "Norchad Omier",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4701233",
+      "team_id": "espn:team:5",
+      "name": "Craig Porter Jr.",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5023693",
+      "team_id": "espn:team:5",
+      "name": "Tyrese Proctor",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5041951",
+      "team_id": "espn:team:5",
+      "name": "Meleek Thomas",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5106268",
+      "team_id": "espn:team:5",
+      "name": "Nae'Qwan Tomlin",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-17T22:18Z"
+        }
+      ],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4683747",
+      "team_id": "espn:team:5",
+      "name": "Jaylon Tyson",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [
+        {
+          "status": "Day-To-Day",
+          "date": "2026-11-17T22:15Z"
+        }
+      ],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5106261",
+      "team_id": "espn:team:5",
+      "name": "Ernest Udeh Jr.",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4576087",
+      "team_id": "espn:team:5",
+      "name": "Peyton Watson",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:40Z",
+      "source_published_at": null,
+      "source_injuries": [
+        {
+          "status": "Day-To-Day",
+          "date": "2026-11-17T22:13Z"
+        }
+      ],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5041935",
+      "team_id": "espn:team:29",
+      "name": "Cameron Boozer",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4903027",
+      "team_id": "espn:team:29",
+      "name": "Cedric Coward",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4600663",
+      "team_id": "espn:team:29",
+      "name": "Zach Edey",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:2991070",
+      "team_id": "espn:team:29",
+      "name": "Jerami Grant",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4684806",
+      "team_id": "espn:team:29",
+      "name": "Taylor Hendricks",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5105550",
+      "team_id": "espn:team:29",
+      "name": "GG Jackson",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-17T23:18Z"
+        }
+      ],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4065733",
+      "team_id": "espn:team:29",
+      "name": "Ty Jerome",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-17T22:07Z"
+        }
+      ],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5231919",
+      "team_id": "espn:team:29",
+      "name": "Karim Lopez",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4683934",
+      "team_id": "espn:team:29",
+      "name": "Jahmai Mashack",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4594326",
+      "team_id": "espn:team:29",
+      "name": "Kris Murray",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4431785",
+      "team_id": "espn:team:29",
+      "name": "Scotty Pippen Jr.",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-16T17:16Z"
+        }
+      ],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4593016",
+      "team_id": "espn:team:29",
+      "name": "Quinten Post",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4595400",
+      "team_id": "espn:team:29",
+      "name": "Olivier-Maxence Prosper",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5105462",
+      "team_id": "espn:team:29",
+      "name": "Richie Saunders",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-07T17:24Z"
+        }
+      ],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4781746",
+      "team_id": "espn:team:29",
+      "name": "Javon Small",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4433083",
+      "team_id": "espn:team:29",
+      "name": "Cam Spencer",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4432810",
+      "team_id": "espn:team:29",
+      "name": "Isaiah Stewart",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-17T22:10Z"
+        }
+      ],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5112087",
+      "team_id": "espn:team:29",
+      "name": "Jaylen Wells",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T13:00:36Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    }
+  ],
+  "roster_denominators": {
+    "5": {
+      "attempted": 17,
+      "parsed": 17,
+      "rejected": 0
+    },
+    "29": {
+      "attempted": 18,
+      "parsed": 18,
+      "rejected": 0
+    }
+  },
+  "sources": {
+    "scoreboard": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261118",
+      "retrieval_started_at": "2026-11-18T13:00:42.331674+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "content-type": "application/json;charset=UTF-8",
+        "access-control-allow-origin": "*",
+        "access-control-allow-methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+        "access-control-expose-headers": "content-length,location",
+        "link": "<scoreboard.json#>; rel=\"describedby\"",
+        "vary": "Accept-Encoding",
+        "cache-control": "max-age=8",
+        "date": "Wed, 18 Nov 2026 13:00:42 GMT",
+        "x-envoy-upstream-service-time": "361",
+        "server": "envoy",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:42.937108+00:00",
+      "raw_sha256": "6b2e388b049eebd1351b18c72f2738690eeca7a5445f5ee441b1885e1434ddc6",
+      "bytes": 238053,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:42.938244+00:00",
+      "observed_predecessor_raw_sha256": null
+    },
+    "target-summary": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401910007",
+      "retrieval_started_at": "2026-11-18T13:00:42.333258+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "content-type": "application/json;charset=UTF-8",
+        "access-control-allow-origin": "*",
+        "access-control-allow-methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+        "access-control-expose-headers": "content-length,location",
+        "link": "<summary.json#>; rel=\"describedby\"",
+        "vary": "Accept-Encoding",
+        "cache-control": "max-age=1",
+        "date": "Wed, 18 Nov 2026 13:00:42 GMT",
+        "x-envoy-upstream-service-time": "335",
+        "server": "envoy",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:42.776003+00:00",
+      "raw_sha256": "67a6aa5ec78c9f1dc0071e8ccb55632968698b6657ab39a02336b781fe79f553",
+      "bytes": 143524,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:42.776937+00:00",
+      "observed_predecessor_raw_sha256": null
+    },
+    "official-injury-index": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+      "retrieval_started_at": "2026-11-18T13:00:42.332951+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "server": "envoy",
+        "content-type": "text/html; charset=UTF-8",
+        "x-content-type-options": "nosniff",
+        "strict-transport-security": "max-age=86400",
+        "vary": "Accept-Encoding",
+        "x-envoy-upstream-service-time": "223",
+        "x-powered-by": "NBA",
+        "x-hits": "0",
+        "x-status": "",
+        "x-cache-ability": "cacheable",
+        "x-vcl-version": "NBA.com prod 1.7b",
+        "x-varnish": "62362661",
+        "x-full-ttl": "300.000",
+        "x-frame-options": "SAMEORIGIN",
+        "x-xss-protection": "1; mode=block",
+        "x-akamai-transformed": "0 39899 0 -",
+        "cache-control": "max-age=168",
+        "date": "Wed, 18 Nov 2026 13:00:42 GMT",
+        "set-cookie": "_abck=1C8EB49AA468805579F330BD9D70FC44~-1~YAAQxHLNF7a9EMShAQAAAMe+7hCB/BSCh487dLwrVNm8x8dtKaqXFKeby2HKksyRMPtPDLxUzS7mxJJ0WG76rgf+VDTsXC38jxFB0v0weRy4/+zhSNQ9HXBVAFzqwPlmNqUwTVb86cwoxiudBZ6FYhxxLfk8uxz6t5U/ygjStVNAQp3qD9F8yxRt8HO267KpP8tglHxywffbpZm+il4V8kWroUJdA2G2J9uP8MuP6r34Q+d4GwzUjL3jbjyfpthyAhDpyBkZiEV/mKp8HTNN5TNTT8vPYHxhtITwhWgcgUrBsfuc1CUQak0uiQMVu5kHhYg+Dr9+QN58oy2o2cfRfbZthspYmDumMKFFC/0b/LH9jt4tTkJpnWobSd2Uk7B30EyvCFqdZImvkuFwgO6oUx+z7EJrRYVMf58UOPGyrRKT3L970l9PFVWJ5zLYM0OH7kw=~-1~-1~-1~-1~-1; Domain=.nba.com; Path=/; Expires=Thu, 18 Nov 2027 13:00:42 GMT; Max-Age=31536000; Secure",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:42.694492+00:00",
+      "raw_sha256": "4edc47685b3410587fceb4d15ce0ec3ec75453bc1812ebbde8bd1e9d1c066864",
+      "bytes": 40013,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:42.694823+00:00",
+      "observed_predecessor_raw_sha256": null
+    },
+    "roster-5": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/5/roster",
+      "retrieval_started_at": "2026-11-18T13:00:42.333690+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "content-type": "application/json;charset=UTF-8",
+        "access-control-allow-origin": "*",
+        "access-control-allow-methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+        "access-control-expose-headers": "content-length,location",
+        "link": "<roster.json#>; rel=\"describedby\"",
+        "vary": "Accept-Encoding",
+        "cache-control": "max-age=0",
+        "date": "Wed, 18 Nov 2026 13:00:43 GMT",
+        "x-envoy-upstream-service-time": "464",
+        "server": "envoy",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:43.143179+00:00",
+      "raw_sha256": "3503b8f29427eb6f759640e6c65e33fa8cf86da718f352982e6d5c9dfb4b0704",
+      "bytes": 84492,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:43.143894+00:00",
+      "observed_predecessor_raw_sha256": null
+    },
+    "schedule-5": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/5/schedule",
+      "retrieval_started_at": "2026-11-18T13:00:42.695156+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "content-type": "application/json;charset=UTF-8",
+        "access-control-allow-origin": "*",
+        "access-control-allow-methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+        "access-control-expose-headers": "content-length,location",
+        "link": "<team_schedule.json#>; rel=\"describedby\"",
+        "vary": "Accept-Encoding",
+        "cache-control": "max-age=1",
+        "date": "Wed, 18 Nov 2026 13:00:43 GMT",
+        "x-envoy-upstream-service-time": "408",
+        "server": "envoy",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:43.523360+00:00",
+      "raw_sha256": "35b1aff28e101235a7056d182bbd7d1bd3fa4f9bc4ac8f58e84e2b12aeb95211",
+      "bytes": 918934,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:43.528655+00:00",
+      "observed_predecessor_raw_sha256": null
+    },
+    "roster-29": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/29/roster",
+      "retrieval_started_at": "2026-11-18T13:00:42.777286+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "content-type": "application/json;charset=UTF-8",
+        "access-control-allow-origin": "*",
+        "access-control-allow-methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+        "access-control-expose-headers": "content-length,location",
+        "link": "<roster.json#>; rel=\"describedby\"",
+        "vary": "Accept-Encoding",
+        "cache-control": "max-age=1",
+        "date": "Wed, 18 Nov 2026 13:00:42 GMT",
+        "x-envoy-upstream-service-time": "108",
+        "server": "envoy",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:42.928143+00:00",
+      "raw_sha256": "31d192cee77acd4b5e21ce0bb9ee940a8bfcf5bba40de5cf975fb96df186ca33",
+      "bytes": 90121,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:42.928824+00:00",
+      "observed_predecessor_raw_sha256": null
+    },
+    "schedule-29": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/29/schedule",
+      "retrieval_started_at": "2026-11-18T13:00:42.929159+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "content-type": "application/json;charset=UTF-8",
+        "access-control-allow-origin": "*",
+        "access-control-allow-methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+        "access-control-expose-headers": "content-length,location",
+        "link": "<team_schedule.json#>; rel=\"describedby\"",
+        "vary": "Accept-Encoding",
+        "cache-control": "max-age=1",
+        "date": "Wed, 18 Nov 2026 13:00:43 GMT",
+        "x-envoy-upstream-service-time": "392",
+        "server": "envoy",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:43.972063+00:00",
+      "raw_sha256": "5a311431dd12dac79c2a29464d3b29d9cb6eb4ca076d46c82367402b12ae4387",
+      "bytes": 909936,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:43.975247+00:00",
+      "observed_predecessor_raw_sha256": null
+    },
+    "official-cle-roster": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://www.nba.com/cavaliers/roster",
+      "retrieval_started_at": "2026-11-18T13:00:42.938654+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "x-cache-ability": "uncacheable",
+        "strict-transport-security": "max-age=86400",
+        "x-content-type-options": "nosniff",
+        "x-xss-protection": "1; mode=block",
+        "x-frame-options": "sameorigin",
+        "vary": "Accept-Encoding",
+        "x-vcl-region": "West US2",
+        "x-envoy-upstream-service-time": "459",
+        "x-vcl-version": "NBA.com prod 1.7a",
+        "x-status": "miss",
+        "x-full-ttl": "300.000",
+        "x-hits": "0",
+        "x-varnish": "530711781",
+        "x-akamai-transformed": "0 374409 0 -",
+        "expires": "Wed, 18 Nov 2026 13:00:43 GMT",
+        "cache-control": "max-age=0, no-cache, no-store",
+        "pragma": "no-cache",
+        "date": "Wed, 18 Nov 2026 13:00:43 GMT",
+        "set-cookie": "_abck=8D7807AE0BBB14DCDE2ECD26C943CCAD~-1~YAAQrNAuFyAWJO6hAQAAl8q+7hAHL8LOxkhm5U6U+yaUH0Oi5aJywhLYENTEIe09cD0UDAYNH0sFoYZwGPHp/J0BcX9mII/OTwX4uD8ha98sbmn5uiOhMIragXBWUQahseKOwMVhorFmQT/Nr83dvrx/FFPDN+FJddKIeKJ9snDbTp5Hy9UaDgCNWi9MopbEjXAJ/BlE5SsHc2++QAX1eSDGK5wZ+S8p/eqjAV/yQTeDIMxPTSosZRGcPP2XxgoPg3jGQYjujx6c/Jxlb1jXKRBX/lC64YJYpq83MxgwYDI4RsUWk8SS9ExnHs6Q0dukKI762Nh3AMk/mJj7r7snlgf7I+dPOeThkmwFti02gfc9FDZOKFCIu3OFMynrFN2JaDxVcdH/P4jfnvdd5UGM4GHe9HB18X6vLUN9lkW/+P3pRSpUgefYyAjnaxdSHtRWUdM=~-1~-1~-1~-1~-1; Domain=.nba.com; Path=/; Expires=Thu, 18 Nov 2027 13:00:43 GMT; Max-Age=31536000; Secure",
+        "server": "envoy",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:43.755121+00:00",
+      "raw_sha256": "12baf92cc699afe6e756fe9026a7d819a8b9aadde376e6cf9edc4e739e45e535",
+      "bytes": 374525,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:43.757390+00:00",
+      "observed_predecessor_raw_sha256": null
+    },
+    "official-mem-roster": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://www.nba.com/grizzlies/roster",
+      "retrieval_started_at": "2026-11-18T13:00:43.144274+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "x-full-ttl": "300.000",
+        "strict-transport-security": "max-age=86400",
+        "x-content-type-options": "nosniff",
+        "x-xss-protection": "1; mode=block",
+        "x-frame-options": "sameorigin",
+        "vary": "Accept-Encoding",
+        "x-envoy-upstream-service-time": "512",
+        "x-cache-ability": "uncacheable",
+        "x-hits": "0",
+        "x-status": "miss",
+        "x-vcl-version": "NBA.com prod 1.7b",
+        "x-varnish": "62561343",
+        "x-akamai-transformed": "0 271473 0 -",
+        "expires": "Wed, 18 Nov 2026 13:00:43 GMT",
+        "cache-control": "max-age=0, no-cache, no-store",
+        "pragma": "no-cache",
+        "date": "Wed, 18 Nov 2026 13:00:43 GMT",
+        "set-cookie": "_abck=74DD021DAB5A17D1E25651FB836EEA51~-1~YAAQzHLNF6Lc08GhAQAAJMu+7hAGaKvxhS3j0W8RdAPC/kTgi4+bToLDe4hv+lMUEorSxY1FUvKIJyM+v59z8RCYQ2VGJpE26gFdf55PVq4/rjW2glSDM1FS7u84o0gmfHJHYUvNwbGnf2t0q0718OlbpANDCUdyn8jE8PLWSv/PVzMkznpMFdHs1nJiyeVixxVwJmhf3tkv8bH5IO7KkTWn3gijumM0IsD6gflMOfllHvmpoBtBbn8vqCAgKxSpIDtXfdwGsQYrq321txuLrOnrQUHMt8FTmOOOq7LHLIDVBbQYCUwA6AUbLvpUEtCNk1Ky+C99YvLWwCekEXNejNq/FXERNIbTQKz2nwpA9Yrezpg8gmKc7cupRXG7Cy4HLV3GGLiF+mz+mw0TYgJUitDQJ4zSA1cnsXBTNLJyOrVr3xY5MZp9uQlbEb6hWuFwmHo=~-1~-1~-1~-1~-1; Domain=.nba.com; Path=/; Expires=Thu, 18 Nov 2027 13:00:43 GMT; Max-Age=31536000; Secure",
+        "server": "envoy",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:43.833598+00:00",
+      "raw_sha256": "2589f779ec342f56b83bc22bb35bed99368c1ed10ee5000b94d5f06d3e1fad29",
+      "bytes": 271589,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:43.835036+00:00",
+      "observed_predecessor_raw_sha256": null
+    },
+    "prior-5-401909995": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909995",
+      "retrieval_started_at": "2026-11-18T13:00:44.002821+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "content-type": "application/json;charset=UTF-8",
+        "access-control-allow-origin": "*",
+        "access-control-allow-methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+        "access-control-expose-headers": "content-length,location",
+        "link": "<summary.json#>; rel=\"describedby\"",
+        "vary": "Accept-Encoding",
+        "cache-control": "max-age=5",
+        "date": "Wed, 18 Nov 2026 13:00:44 GMT",
+        "x-envoy-upstream-service-time": "352",
+        "server": "envoy",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:44.528234+00:00",
+      "raw_sha256": "b999dfd6ab80918f2ee0f06c32d091718f1e11ce855051c62bb6ebb1195495eb",
+      "bytes": 482150,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:44.530486+00:00"
+    },
+    "prior-29-401909996": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909996",
+      "retrieval_started_at": "2026-11-18T13:00:44.546617+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "content-type": "application/json;charset=UTF-8",
+        "access-control-allow-origin": "*",
+        "access-control-allow-methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+        "access-control-expose-headers": "content-length,location",
+        "link": "<summary.json#>; rel=\"describedby\"",
+        "vary": "Accept-Encoding",
+        "cache-control": "max-age=5",
+        "date": "Wed, 18 Nov 2026 13:00:44 GMT",
+        "x-envoy-upstream-service-time": "231",
+        "server": "envoy",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:44.942102+00:00",
+      "raw_sha256": "9f9f2690d62c1e806600eafce58e8b90240658124d8472bcc102f2040ff46aca",
+      "bytes": 524964,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:44.945655+00:00"
+    },
+    "injury-pdf-0": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-18_12_30AM.pdf",
+      "retrieval_started_at": "2026-11-18T13:00:44.947232+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "x-amz-id-2": "QbFM2HN20F6B3Z0p+iYuyD25DOIIktGv4zZyfjYNe9EkWQa8hJDVGnRcBhtrXIrHnATghfAtE7E=",
+        "x-amz-request-id": "91M1KAZWVTXX2N91",
+        "server": "envoy",
+        "last-modified": "Wed, 18 Nov 2026 05:30:06 GMT",
+        "etag": "\"b819ec8c436258d6fca4e74963a001c9\"",
+        "x-amz-server-side-encryption": "AES256",
+        "x-amz-version-id": "07soqHODZiIUaA21KJm8X3EiRQN3nIbT",
+        "accept-ranges": "bytes",
+        "content-type": "application/pdf",
+        "content-length": "100666",
+        "date": "Wed, 18 Nov 2026 13:00:45 GMT",
+        "x-xss-protection": "1; mode=block",
+        "x-content-type-options": "nosniff",
+        "strict-transport-security": "max-age=86400",
+        "x-envoy-upstream-service-time": "79",
+        "connection": "close"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:45.122191+00:00",
+      "raw_sha256": "db1ab63749a2d08ccbac65e79a3e3384a32c76cc1a82dc394dacdddf7724754c",
+      "bytes": 100666,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:45.123380+00:00"
+    },
+    "injury-pdf-1": {
+      "schema": "nba-p1-raw-capture/1.0.0",
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-18_12_45AM.pdf",
+      "retrieval_started_at": "2026-11-18T13:00:45.123783+00:00",
+      "source_published_at": null,
+      "original_historical_available_at": null,
+      "admission": "UNADMITTED",
+      "correction_history_complete": null,
+      "predecessor_sha256": null,
+      "status": 200,
+      "headers": {
+        "x-amz-request-id": "GRY1331QVHZ33C3F",
+        "x-amz-id-2": "JJh0RFdPgY25B91aen1WvdVxiJx1T+8OW8HSmteRral0UnUo676G/lmVPeTBaEICay3V5JONW3o=",
+        "content-length": "100652",
+        "accept-ranges": "bytes",
+        "server": "envoy",
+        "last-modified": "Wed, 18 Nov 2026 05:45:06 GMT",
+        "etag": "\"f56c5de560061ef7d46f6b59dd24304d\"",
+        "x-amz-version-id": "jMwaJXRYXU9ZDFO3UCjz2.vJYTA3aXm0",
+        "content-type": "application/pdf",
+        "x-amz-server-side-encryption": "AES256",
+        "date": "Wed, 18 Nov 2026 13:00:45 GMT",
+        "x-xss-protection": "1; mode=block",
+        "x-content-type-options": "nosniff",
+        "strict-transport-security": "max-age=86400",
+        "x-envoy-upstream-service-time": "78",
+        "connection": "close"
+      },
+      "retrieval_completed_at": "2026-11-18T13:00:45.403479+00:00",
+      "raw_sha256": "81613548b0ce1bf20f56a39152b3eae761cb33ebd10d967eb8162ca390989dd4",
+      "bytes": 100652,
+      "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+      "ingested_at": "2026-11-18T13:00:45.404450+00:00"
+    }
+  },
+  "errors": [],
+  "G1": "NO-GO",
+  "target_status": {
+    "clock": 0.0,
+    "displayClock": "0.0",
+    "period": 0,
+    "type": {
+      "id": "1",
+      "name": "STATUS_SCHEDULED",
+      "state": "pre",
+      "completed": false,
+      "description": "Scheduled",
+      "detail": "Wed, November 18th at 7:00 PM EST",
+      "shortDetail": "11/18 - 7:00 PM EST"
+    }
+  },
+  "returned_roster_rows": 35,
+  "availability_unknown_rows": 35,
+  "completed_at": "2026-11-18T13:00:45.405179+00:00",
+  "status": "CAPTURED_UNADMITTED"
+}
