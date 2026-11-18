@@ -25,7 +25,7 @@
   "reports/nhl_sog_repair_20261118/synthetic_e2e_accepted/outcomes.json": "ea69f0ca7f7898ade356a77983294cbd85c32e98ca1b5fc2c5471103489d676b",
   "reports/nhl_sog_repair_20261118/synthetic_e2e_accepted/receipt.json": "85efeea3dae79aa072b46ef8bfb0bce11f95ac5001dbbd85b166afd1009783ca",
   "reports/nhl_sog_repair_20261118/synthetic_e2e_accepted/runs.json": "9b589a8d0be03173cfa6efaab26a4da58f05e7545fb0374df4be523c2bdf8e39",
-  "reports/nhl_sog_repair_20261118/tests.log": "588fc54024ef3ae76cdeaf0cb33bf71c4af42105a598d01748c237449cf3c44f",
+  "reports/nhl_sog_repair_20261118/tests.log": "956e4b40446af5d66b9a668b230548ae537a33ef214c2aa877a2b27424a872b2",
   "reports/nhl_sog_repair_20261118/ua_preflight_result.json": "5b353ab9dc5b00e10b07f1cece670dc5abe17cbde580d16e23246578b32fe79c",
   "reports/nhl_sog_repair_20261118/validation_coverage_before.json": "863b20aa0e4b13f4fc59536e6db617fd64b5a80a85a89a26ebccefe43c11cfab",
   "research/nhl_sog_daily_gamma_poisson_research_v1_4.py": "ee72c72f7d77651d42ad110230c71d981ca02fb99c3968e3ac0e30abe26465cb",
@@ -34,7 +34,7 @@
   "scripts/nhl_sog_repair_fixture.py": "62d6e9f1aa1713b2d61096ded30601874f2436a5adf71f9ab5e9dc22a1b08091",
   "tests/test_nhl_sog_daily_ledger.py": "0482a11c4259e7abc26ec493d2e2e9d9fade4c8f5f42c537b000dd1eade8e5d1",
   "v2/nhl_sog_daily_ledger.py": "a488bb3b9b2b1e2e7f3867bf0ccf5bea73eb45892f062798996f2cefc1cba136",
-  "v2/nhl_sog_daily_runner.py": "283efcb38b4c32a8e997ccd3b17eccc9bf075198f40c25536d908d946f3d917e",
+  "v2/nhl_sog_daily_runner.py": "14abdf42ed5f41db05e5258ebc18198144d0e7784dc48495749858ab4e8a7ba4",
   "v2/nhl_sog_nb2_source_native.py": "7f53836a2e921cb32325d5ef7228a896d247edeaf648deaeaa0eac0059fa19bc",
   "v2/nhl_sog_pregame_schedule.py": "af7ed66dcb75319d6799db2161629e5c79bafc3dbe1db1cb7fe0eaa903388fa3"
 }

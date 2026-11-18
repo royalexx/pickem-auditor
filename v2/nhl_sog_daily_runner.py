@@ -97,6 +97,13 @@ def freeze_family(bundle,contract,*,source_root,ledger_path):
         _utc(game['startTimeUTC'],'game_start')!=_utc(q.event_start_at,'quote_start') or
         {game[t]['abbrev'] for t in ('homeTeam','awayTeam')}!={q.team_id,q.opponent_id}):
         raise ValueError('OFFICIAL_GAME_CONTRACT_DRIFT')
+    for team in (q.team_id,q.opponent_id):
+        rr=bundle['official_roster_receipts'][team]
+        signed,_=_proof(root,root,rr['source_c03_collector_proof_sha256'],
+            freeze=observed,event=q.event_start_at)
+        if (signed['body_sha256']!=rr['sha256'] or
+            signed['source_url']!='https://api-web.nhle.com/v1/roster/'+team+'/current'):
+            raise ValueError('SIGNED_ROSTER_RECEIPT_DRIFT')
     own=bundle['own_official_history'];peers=bundle['peer_official_history']
     own_verified=[independent_verify_observation_lineage(x,archive_root=root,
         freeze=observed,event_start=q.event_start_at) for x in own]
