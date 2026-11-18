@@ -1,0 +1,14 @@
+test_capability (__main__.Review.test_capability) ... ok
+test_denominators (__main__.Review.test_denominators) ... ok
+test_pdf_mutation (__main__.Review.test_pdf_mutation) ... ok
+test_positive_unknowns (__main__.Review.test_positive_unknowns) ... ok
+test_pregame_request (__main__.Review.test_pregame_request) ... ok
+test_reader_binding_mutant (__main__.Review.test_reader_binding_mutant) ... ok
+test_receipt_assertions (__main__.Review.test_receipt_assertions) ... ok
+test_root_tamper (__main__.Review.test_root_tamper) ... ok
+test_source_mutations (__main__.Review.test_source_mutations) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.242s
+
+OK

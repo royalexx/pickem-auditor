@@ -33,6 +33,27 @@ class Review(unittest.TestCase):
  def test_pregame_request(self):
   for freeze in ['2018-10-19T23:45:00Z','2026-11-19T00:00:00Z']:
    with self.subTest(freeze=freeze),self.assertRaises(Exception):self.call(input_freeze_at=freeze)
+ def test_denominators(self):
+  for delta in [-1,0,1]:
+   x=json.loads(self.espn);people=x['boxscore']['players'][0]['statistics'][0]['athletes']
+   if delta==-1:people.pop()
+   if delta==1:people.append(copy.deepcopy(people[0]))
+   raw=self.espn if delta==0 else json.dumps(x).encode()
+   result=reader.listed_population_receipt(self.pdf,self.pr,raw,self.er)
+   self.assertEqual(result['attempted_rows'],26+delta)
+   self.assertEqual(result['accepted_rows'],26 if delta==0 else 0)
+   self.assertEqual(result['rejected_rows'],0 if delta==0 else 26+delta)
+   self.assertIsNone(result['target_eligible_roster_count'])
+ def test_root_tamper(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   p=pathlib.Path(tmp);(p/'installed_identity_root.json').write_text('{}')
+   with patch.object(reader,'PACKET',p),self.assertRaises(Exception):self.call()
+ def test_reader_binding_mutant(self):
+  original=pathlib.Path.read_bytes
+  def altered(path):
+   raw=original(path)
+   return raw+b'\n# independent mutant' if path.name=='p1_listed_source_v1.py' else raw
+  with patch.object(pathlib.Path,'read_bytes',altered),self.assertRaises(Exception):self.call()
  def test_pdf_mutation(self):
   with self.assertRaises(Exception):self.call(pdf=self.pdf+b'altered')
 if __name__=='__main__':unittest.main(verbosity=2)

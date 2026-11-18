@@ -1,0 +1,14 @@
+{
+  "reviewer": "/root/independent_source_review",
+  "implementation_authored": false,
+  "tested_implementation": "18d8ee2e0da706a6f9123223fa73543ae2381109",
+  "file_sha256": {
+    "v2/nba_architecture/p1_listed_source_v1.py": "6f4d9d3302bcb08e72290a659f695e4550c3aed0f88cd4d59dacacbb16f3af01",
+    "v2/nba_architecture/p1_listed_trust_v1.py": "2beea94f4fe9d9325e6585bd7f9bd46e376247739dfc31904e38174a82bfc3e9",
+    "v2/nba_architecture/p1_capture_v1.py": "581e37de6be49e7a0efe74741dcec5c294e50937bfcd9885226363c7157a5e91",
+    "docs/nba_architecture/p1_source_admission_20261118/installed_identity_root.json": "9d3a6228233afc2fe49311deeda0928a26bf5d942649c515a63f83947d7f2d6b"
+  },
+  "public_probe_methods": 9,
+  "B-P1-01": "BLOCKED",
+  "B-P1-02": "BLOCKED"
+}
