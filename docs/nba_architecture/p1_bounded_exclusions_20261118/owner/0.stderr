@@ -1,0 +1,8 @@
+test_actual_source_counts_and_original_fields_preserved (tests.nba_architecture.test_p1_bounded_demo_v1.BoundedDemoTests.test_actual_source_counts_and_original_fields_preserved) ... ok
+test_no_partial_acceptance_for_corrupt_source_or_late_request (tests.nba_architecture.test_p1_bounded_demo_v1.BoundedDemoTests.test_no_partial_acceptance_for_corrupt_source_or_late_request) ... ok
+test_policy_boundary_matrix_not_admitted_source_evidence (tests.nba_architecture.test_p1_bounded_demo_v1.BoundedDemoTests.test_policy_boundary_matrix_not_admitted_source_evidence) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.096s
+
+OK
