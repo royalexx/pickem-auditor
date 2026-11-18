@@ -1,0 +1,30 @@
+{
+  "pdf_bytes": 112412,
+  "pdf_sha256": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+  "espn_bytes": 423503,
+  "espn_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f",
+  "rows": 26,
+  "states": {
+    "PLAYED": 24,
+    "DNP": 2
+  },
+  "team_ids": {
+    "PHI": "20",
+    "BOS": "2"
+  },
+  "unique_players": 26,
+  "refetch": {
+    "observed_start": "2026-11-18T03:49:11.151263+00:00",
+    "observed_end": "2026-11-18T03:49:12.705852+00:00",
+    "status": 200,
+    "bytes": 401083,
+    "sha256": "e5cf75fc05ef03cea822c035dfd461676210091a634dd634cd70d80bd4867a1e",
+    "event": "401070213",
+    "team_ids": {
+      "PHI": "20",
+      "BOS": "2"
+    },
+    "same_content_bytes": false,
+    "joined_rows": 26
+  }
+}
