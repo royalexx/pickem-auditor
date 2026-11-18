@@ -1,0 +1,9 @@
+test_cutoff_before_equal_after_never_confer_admission (tests.test_nba_p234_artifact_inspection_v1.ExistingArtifactInspection.test_cutoff_before_equal_after_never_confer_admission) ... ok
+test_existing_conditional_artifact_is_not_absent_or_participation (tests.test_nba_p234_artifact_inspection_v1.ExistingArtifactInspection.test_existing_conditional_artifact_is_not_absent_or_participation) ... ok
+test_mutated_bytes_and_resealed_semantics_reject (tests.test_nba_p234_artifact_inspection_v1.ExistingArtifactInspection.test_mutated_bytes_and_resealed_semantics_reject) ... ok
+test_naive_cutoff_rejects (tests.test_nba_p234_artifact_inspection_v1.ExistingArtifactInspection.test_naive_cutoff_rejects) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK

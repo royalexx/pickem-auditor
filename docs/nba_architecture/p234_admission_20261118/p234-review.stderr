@@ -1,0 +1,24 @@
+Reading additional input from stdin...
+2026-11-18T06:46:34.547243Z ERROR codex_models_manager::manager: failed to refresh available models: unexpected status 401 Unauthorized: {"detail":"Could not parse your authentication token. Please try signing in again."}, url: https://chatgpt.com/backend-api/codex/models?client_version=0.167.0, cf-ray: a5c504d1998be6b1-ORD, request id: req_c7610f37b8454a8aa816c8abc04e0bf7
+2026-11-18T06:46:34.553381Z ERROR codex_models_manager::manager: failed to refresh available models: unexpected status 401 Unauthorized: {"detail":"Could not parse your authentication token. Please try signing in again."}, url: https://chatgpt.com/backend-api/codex/models?client_version=0.167.0, cf-ray: a5c504d19dbef858-ORD, request id: req_f3bbf89815394ca1b1b827c2331415c0
+2026-11-18T06:46:34.646402Z ERROR codex_models_manager::manager: failed to refresh available models: unexpected status 401 Unauthorized: {"detail":"Could not parse your authentication token. Please try signing in again."}, url: https://chatgpt.com/backend-api/codex/models?client_version=0.167.0, cf-ray: a5c504d23e241131-ORD, request id: req_65f9d4febf3b4c05a5579f7dd4d6555e
+OpenAI Codex v0.167.0-alpha.4
+--------
+workdir: /workspace/pickem-auditor
+model: gpt-6.1-sol
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: none
+reasoning summaries: none
+session id: 01a1ed68-3e88-75a1-96a5-4de28ad1ee5e
+--------
+user
+Independently review exact commit 25d08b5b in /workspace/pickem-auditor versus ebbfcd6f430da35cd98340bb834e89de84239544. You authored none of the repairs. Read AGENTS.md and governing docs. Do not edit implementation or run fitting/scoring/decompression. Review scripts/nba_p234_artifact_inspection_v1.py, tests/test_nba_p234_artifact_inspection_v1.py and docs/nba_architecture/p234_admission_20261118. Run read-only public script and tests. Decide separately B-P2-01, B-P3-01, B-P4-01, and inspect accuracy of claimed inventory/spec. No gate GO if dependencies absent. Report defects, exact SHA and raw commands. Do not claim prior independent receipts as your own.
+2026-11-18T06:46:34.800523Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when UnexpectedServerResponse("HTTP 451: {\"message\":\"no_biscuit_no_service\"}")
+2026-11-18T06:46:34.840124Z ERROR codex_models_manager::manager: failed to refresh available models: unexpected status 401 Unauthorized: {"detail":"Could not parse your authentication token. Please try signing in again."}, url: https://chatgpt.com/backend-api/codex/models?client_version=0.167.0, cf-ray: a5c504d36d83e6b1-ORD, request id: req_416ed6e10fa6437e9ec3b45ce54a5a30
+2026-11-18T06:46:34.867715Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when UnexpectedServerResponse("HTTP 451: {\"message\":\"no_biscuit_no_service\"}")
+2026-11-18T06:46:34.933519Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+2026-11-18T06:46:35.459962Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+ERROR: Your access token could not be refreshed because you have since logged out or signed in to another account. Please sign in again.
+ERROR: Your access token could not be refreshed because you have since logged out or signed in to another account. Please sign in again.

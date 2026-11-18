@@ -1,0 +1,31 @@
+{
+  "authority": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "accepted_g0": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "base_publication": "ebbfcd6f430da35cd98340bb834e89de84239544",
+  "base_executable": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+  "base_selection": "Executable v2/scripts/tests diff checked empty between reviewed executable and publication. This branch adds inspection only, no substitute implementation.",
+  "WP1": {
+    "publication": "77fbc4b2a8a4b7bf4dcf5ee344de17552ea8dc6a",
+    "tested_implementation": "18d8ee2e0da706a6f9123223fa73543ae2381109",
+    "accepted_scope": "COMPLETED_GAME_LISTED_IDENTITY_ONLY",
+    "admitted_training_rows": 0
+  },
+  "WP3": {
+    "head": "3b1b48e1458680f2184426266c146e33d2e533e4",
+    "accepted_physical_law": false,
+    "gate": "BLOCKED"
+  },
+  "independent_review": {
+    "status": "NOT_OBTAINED",
+    "attempt": "Local separate codex exec, read-only, exact 25d08b5b candidate",
+    "failure": "Authentication token rejected before code review. No independent decision produced."
+  },
+  "checks_on_dependency_checkout": {
+    "wp1_manifest": "sha256sum -c docs/nba_architecture/p1_source_admission_20261118/SHA256SUMS",
+    "wp1_public": "PYTHONPATH=. python docs/nba_architecture/p1_source_admission_20261118/independent/probe.py",
+    "wp1_public_exit": 0,
+    "failed_prior_command": "installed_probe.py path did not exist; exit 2 retained",
+    "audit173_manifest": "sha256sum -c docs/nba_architecture/p6_full_blocker_audit_20261117/SHA256SUMS",
+    "audit173_exit": 0
+  }
+}

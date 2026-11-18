@@ -1,0 +1,86 @@
+{
+  "artifacts": [
+    {
+      "artifact_byte_domain": "REPOSITORY_FILE_UTF8",
+      "artifact_sha256": "ea7eae3afc760eafda0fbf0dbdccd2cb77b31b0aca54fc3606b4b31ba90693de",
+      "blockers": [
+        "MODEL_AFTER_DECLARED_CUTOFF",
+        "TRAINING_OBSERVATION_BYTES_AND_AVAILABILITY_UNVERIFIED",
+        "TRAINING_MANIFEST_PREIMAGE_UNVERIFIED",
+        "SUPPORTED_IDENTITIES_UNVERIFIED",
+        "NO_INDEPENDENT_FITTED_ARTIFACT_ADMISSION"
+      ],
+      "conditioning": "given_played",
+      "declared_cutoff_at": "2018-10-18T00:00:00Z",
+      "family": "beta",
+      "genuine_participation_probability": null,
+      "model_cutoff_at": "2024-04-15T00:00:00Z",
+      "model_variants": [
+        "M0",
+        "M1",
+        "M2"
+      ],
+      "path": "research/nba_ws2/results/model.json",
+      "producer_commit": "df22657d0ee51005e0d7417a4a61468939217736",
+      "schema": "nba-p234-artifact-inspection/1.0.0",
+      "statistic": "minutes",
+      "status": "EXISTING_BUT_INADMISSIBLE",
+      "training_manifest_reference": "48c272f54583c38de18d410287f319d0a9dbfc876006cd7142b8dcf5a2d4f2c4",
+      "training_rows_admitted": 0
+    },
+    {
+      "artifact_sha256": "ce4c8bc740726705fdfa845163cba9bcbd812fe86e86db583d9010874e94b4b3",
+      "byte_domain": "BASE64_DECODED_FITTED_PAYLOAD",
+      "family": "S1",
+      "path": "docs/nba_architecture/g1_accounting_repair_20261117/before/hidden_credit_rounding_adversary.json",
+      "stat": "points",
+      "status": "SYNTHETIC_ENGINEERING_ONLY_NOT_GENUINE_FIT",
+      "training_cutoff_at": "2022-11-01T00:00:00Z",
+      "training_rows": 6
+    },
+    {
+      "byte_domain": "TOOL_RETURNED_UTF8_PROJECT_FILE_TEXT",
+      "path": "docs/nba_architecture/substantive_remediation_20261117/source_search/ws2-model.tool-text.json",
+      "raw_sha256": "cae0b265233c567512d465e4baa596e6a682455142b63523a1634cd5468af029",
+      "same_json_value": true,
+      "status": "UNADMITTED_TEXT_COPY_NOT_SECOND_FIT"
+    },
+    {
+      "byte_domain": "REPOSITORY_FILE_UTF8_MANIFEST_ONLY",
+      "fitted_bytes_verified": false,
+      "nba_references": [],
+      "path": "config/provisional_nuts_artifacts.json",
+      "raw_sha256": "6d927823494f00ac561d051f03e55d2c28d56860e9f3c65eaa06fde33334f389",
+      "status": "REFERENCED_POSTERIORS_NOT_ADMITTED"
+    }
+  ],
+  "criteria": {
+    "B-P2-01": {
+      "dependency": "No independently admitted S fitted bytes/training availability/roles for frozen horizon.",
+      "independent_decision": "PENDING",
+      "status": "BLOCKED"
+    },
+    "B-P3-01": {
+      "dependency": "WS2 conditional minutes exists but is late and unadmitted; genuine participation fit and original complete roster/role priors unavailable.",
+      "independent_decision": "PENDING",
+      "status": "BLOCKED"
+    },
+    "B-P4-01": {
+      "dependency": "No admitted source/S/O joins or accepted WP3 physical law; native bounded-coupling consumer closure unimplemented.",
+      "independent_decision": "PENDING",
+      "status": "BLOCKED"
+    }
+  },
+  "denominators": {
+    "admitted_members": 0,
+    "inventory_members": 4,
+    "real_handoffs": 0,
+    "target_eligible_players": null
+  },
+  "horizon": {
+    "cutoff_at": "2018-10-18T00:00:00Z",
+    "game_id": "espn:game:401070219"
+  },
+  "schema": "nba-p234-artifact-inspection/1.0.0",
+  "tested_commit": "25d08b5b77126b65273f70019095c9a09cf6bd64"
+}

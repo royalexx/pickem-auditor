@@ -1,0 +1,117 @@
+{
+  "commands": [
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "scripts/nba_p234_artifact_inspection_v1.py"
+      ],
+      "cwd": "/workspace/pickem-auditor",
+      "exit_code": 0,
+      "name": "inspection"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "tests.test_nba_p234_artifact_inspection_v1",
+        "-v"
+      ],
+      "cwd": "/workspace/pickem-auditor",
+      "exit_code": 0,
+      "name": "public"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_s_family",
+        "-v"
+      ],
+      "cwd": "/workspace/pickem-auditor",
+      "exit_code": 0,
+      "name": "S"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/nba_architecture",
+        "-v"
+      ],
+      "cwd": "/workspace/pickem-auditor",
+      "exit_code": 0,
+      "name": "architecture"
+    },
+    {
+      "command": [
+        "sha256sum",
+        "-c",
+        "docs/nba_architecture/g1_accounting_repair_20261117/SHA256SUMS"
+      ],
+      "cwd": "/workspace/pickem-auditor",
+      "exit_code": 0,
+      "name": "accounting-manifest"
+    },
+    {
+      "command": [
+        "sha256sum",
+        "-c",
+        "docs/nba_architecture/substantive_remediation_20261117/SHA256SUMS"
+      ],
+      "cwd": "/workspace/pickem-auditor",
+      "exit_code": 0,
+      "name": "coupling-manifest"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--exit-code",
+        "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+        "--",
+        "v2"
+      ],
+      "cwd": "/workspace/pickem-auditor",
+      "exit_code": 0,
+      "name": "preserved-executables"
+    }
+  ],
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONPATH": ".:tests/nba_architecture"
+  },
+  "file_hash_domain": "EXACT_REPOSITORY_FILE_BYTES",
+  "independent_review": false,
+  "inputs": {
+    "research/nba_p4_latest/upstream_registry.json": "dc2c9047be112e2fee9c12aa3e81f01a6ac7709716c59701fdebcde9abc70f55",
+    "research/nba_ws2/results/model.json": "ea7eae3afc760eafda0fbf0dbdccd2cb77b31b0aca54fc3606b4b31ba90693de",
+    "scripts/nba_p234_artifact_inspection_v1.py": "f69f66e805aa047ce02f016919285adec5db6d3c31e29598c0fe545c58d7478e",
+    "scripts/nba_p234_reproduce_v1.py": "a7ae34e90e49be4fdf779d8daad5e83cd5fec7c0a76402ea353342a93f39d8a7",
+    "tests/test_nba_p234_artifact_inspection_v1.py": "1d313a25e264173dac14aa8ca773b3013828ad85848d8240828d55fb27e84e0f"
+  },
+  "outputs": {
+    "S.stderr": "3fc14096697e06041e8d7a32f19c4b15c3450cf905b3336f57c9ff1d9b8e2cd2",
+    "S.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "accounting-manifest.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "accounting-manifest.stdout": "0d6c3c84c0dbbe6ebcb12429a1ca3229997e6c840b80a8b7fd9455f9333a33b1",
+    "architecture.stderr": "f985e737c642d6ec9b8317895abedb13132c43ebe3a59a20f96df56a53d2cb7e",
+    "architecture.stdout": "3f6e523f82d1b84cbb4cb2bb3c311aab36833aff091877f7112dda8121e8c794",
+    "coupling-manifest.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "coupling-manifest.stdout": "33a46087966b6e65051bcee9dcf0050925b30a577117c0ee0fcafc0dc794ee09",
+    "inspection.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "inspection.stdout": "1198c92df9a010dd25eb53412229d5c10f4077250e065cc9ae3d7048ab582da3",
+    "preserved-executables.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "preserved-executables.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "public.stderr": "a5ffa8470a8f251280e359d089d199b6f3668b963684224e5e0b94ecba268e54",
+    "public.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "tested_commit": "e28bd18624c345c7e546c6772aa1aca4a99600da"
+}
