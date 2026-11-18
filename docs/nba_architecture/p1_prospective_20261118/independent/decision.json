@@ -1,0 +1,20 @@
+{
+  "reviewer": "/root/independent_source_review",
+  "implementation_authored": false,
+  "tested_implementation": "aaeb0601c006d55d3812dc64cf29695a72eda58b",
+  "decision": "APPROVE_BOUNDED_UNADMITTED_CAPTURE_AUTOMATION",
+  "admission_granted": false,
+  "B-P1-01": "BLOCKED",
+  "B-P1-02": "BLOCKED",
+  "G1": "NO-GO",
+  "independent_probe_methods": 6,
+  "owner_methods_independently_rerun": 4,
+  "observed_roster_candidates": 35,
+  "eligible_population_count": null,
+  "correction_history_complete": null,
+  "raw_file_sha256": {
+    "scripts/nba_p1_prospective_capture.py": "4df0240932dcfed1c4a243b6015b152618a36d69d03bdcd6f505080ca45da68b",
+    "docs/nba_architecture/p1_prospective_20261118/COHORT.json": "692d662a8a256d46e36bc416225e2eb22136e5da41f2a486d725469f704e91b9",
+    "v2/nba_architecture/p1_capture_v1.py": "581e37de6be49e7a0efe74741dcec5c294e50937bfcd9885226363c7157a5e91"
+  }
+}
