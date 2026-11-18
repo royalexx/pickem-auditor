@@ -1,0 +1,9 @@
+{
+  "status": "REJECTED_WHOLE_BUNDLE",
+  "reason": "P1_LISTED_LATE_CAPTURE",
+  "source_raw_sha256": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f",
+  "attempted_rows": 26,
+  "accepted_rows": 0,
+  "rejected_rows": 26,
+  "target_eligible_roster_count": null
+}

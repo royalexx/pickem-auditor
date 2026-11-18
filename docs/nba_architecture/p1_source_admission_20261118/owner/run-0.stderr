@@ -1,0 +1,10 @@
+test_changed_raw_and_resealed_population_attacks (tests.nba_architecture.test_p1_listed_source_v1.PublicListedTests.test_changed_raw_and_resealed_population_attacks) ... ok
+test_false_receipt_claims_and_capabilities (tests.nba_architecture.test_p1_listed_source_v1.PublicListedTests.test_false_receipt_claims_and_capabilities) ... ok
+test_late_capture_and_altered_pdf (tests.nba_architecture.test_p1_listed_source_v1.PublicListedTests.test_late_capture_and_altered_pdf) ... ok
+test_real_handoff_all_states_and_unknowns (tests.nba_architecture.test_p1_listed_source_v1.PublicListedTests.test_real_handoff_all_states_and_unknowns) ... ok
+test_http_denial_body_and_create_only (tests.nba_architecture.test_p1_capture_v1.CaptureTests.test_http_denial_body_and_create_only) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.624s
+
+OK

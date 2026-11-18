@@ -1,0 +1,36 @@
+{
+  "B-P1-01": {
+    "status": "BLOCKED",
+    "usable_population": "26 listed completed-game rows; not target eligible roster",
+    "target_eligible_count": null,
+    "target_roster_captured": false,
+    "membership_changes": null,
+    "original_pregame_clocks": null,
+    "complete_schedule_result_population": false,
+    "correction_history_complete": null
+  },
+  "B-P1-02": {
+    "status": "BLOCKED",
+    "duration": "one accepted printed 48 minute/0OT game",
+    "full_game_source_display_exception_count": 0,
+    "true_zero_positive_credit_evidence": null,
+    "consequence": "No admitted general duration/exception population; exception-required rows must abstain."
+  },
+  "october26": {
+    "availability_rows": 149,
+    "NBA_rows": 16,
+    "NBA_team_fields": "empty",
+    "domain": "archived parsed member not provider HTTP",
+    "target_substitution": false
+  },
+  "quarter_example": "Pritchard quarter 4 seconds/3PTS is not full-game evidence (full game 1:25). Wanamaker 49 seconds/2PTS is not zero-display exception.",
+  "corrections": "Only fixed modern captures observed. No known predecessor edge; correction_history_complete=null, never true.",
+  "next_prospective_observations": [
+    "Native schedule for one future target with exact game/team/start IDs captured before horizon freeze",
+    "Both complete eligible rosters including inactive/unavailable/unknown members, plus dated membership intervals and crosswalk evidence",
+    "Availability observation or explicit unknown for every roster member",
+    "Full prior-game schedule/result/status and official full-game seconds/duration/OT population, retaining DNP and played-zero",
+    "Actual repeated capture timestamps and raw revision hashes; link observed corrections only; declare bounded observation interval",
+    "Source-specific full-game exact/displayed minute adjudication for each actual exception; absent evidence blocks row"
+  ]
+}

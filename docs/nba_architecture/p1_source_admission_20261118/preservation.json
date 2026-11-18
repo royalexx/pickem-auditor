@@ -1,0 +1,20 @@
+{
+  "v2/nba_architecture/contracts.py": {
+    "unchanged_from_176": true
+  },
+  "v2/nba_architecture/v2_contracts.py": {
+    "unchanged_from_176": true
+  },
+  "v2/nba_architecture/admission_v1.py": {
+    "unchanged_from_176": true
+  },
+  "v2/nba_architecture/gamebook_v1.py": {
+    "unchanged_from_176": true
+  },
+  "v2/nba_s_family": {
+    "unchanged_from_176": true
+  },
+  "v2/nba_c": {
+    "unchanged_from_176": true
+  }
+}
