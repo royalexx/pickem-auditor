@@ -1,0 +1,8 @@
+test_actual_native_source_handoff (__main__.IndependentDemo.test_actual_native_source_handoff) ... ok
+test_filtering_cannot_admit_bad_sources (__main__.IndependentDemo.test_filtering_cannot_admit_bad_sources) ... ok
+test_untrusted_boundary_policy_keeps_all_rows (__main__.IndependentDemo.test_untrusted_boundary_policy_keeps_all_rows) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.152s
+
+OK

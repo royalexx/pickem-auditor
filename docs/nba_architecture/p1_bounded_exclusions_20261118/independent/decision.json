@@ -1,0 +1,22 @@
+{
+  "reviewer": "/root/independent_source_review",
+  "implementation_authored": false,
+  "tested_implementation": "a8696fccb1eba992f1249e94c45e84bab558a836",
+  "scope": "ordinary historical listed-source exposure demonstration",
+  "input": 26,
+  "included": 24,
+  "explicit_DNP": 2,
+  "excluded": 0,
+  "target_eligible_roster_count": null,
+  "B-P1-01": "BLOCKED",
+  "B-P1-02": "BLOCKED",
+  "G1": "NO-GO",
+  "raw_file_sha256": {
+    "v2/nba_architecture/p1_bounded_demo_v1.py": "5e9b9d6279458088efb0699853f024c7b0dc510e51e7ad73ca6655fd8631bfe0",
+    "docs/nba_architecture/p1_bounded_exclusions_20261118/POLICY.md": "af64a4d5a6bad7689f196c52e82779ec909e124842fc737aaee7c42a3b3dba74",
+    "docs/nba_architecture/substantive_remediation_20261117/source_search/nba_pdf.raw": "8024786c0db8f5ffaad4a02a75b195c97ca5bf78927c61fae46856f526958241",
+    "docs/nba_architecture/substantive_remediation_20261117/source_search/espn2018.raw": "e2299ba960a7e2abda6ea81903715b03096f43f6f6f8be46409e488facc7e65f",
+    "docs/nba_architecture/p1_source_admission_20261118/installed_identity_root.json": "9d3a6228233afc2fe49311deeda0928a26bf5d942649c515a63f83947d7f2d6b",
+    "docs/nba_architecture/p1_bounded_exclusions_20261118/independent/public.stdout": "af11d1c31923f85ebd49d3f8de442c1359bea7f5f3ecae0f8155b02334ee1ac5"
+  }
+}
