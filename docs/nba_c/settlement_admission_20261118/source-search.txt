@@ -1,0 +1,4 @@
+Local workspace initially empty; discovered target via connected GitHub repository inventory.
+Target repository: https://github.com/royalexx/pickem-auditor
+Default main has no B-P5-01; exact repair/review branches inspected.
+No related Drive search results for B-P5-01 or P6. Unrelated global GitHub hits not used as evidence.

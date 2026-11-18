@@ -1,0 +1,17 @@
+{
+  "DNP_void_policy": "Requires genuine original offer terms; never default to push.",
+  "actual_capture_clock": "Must retain actual capture; cannot substitute event date",
+  "admitted_outcome_versions": [],
+  "complete_correction_history": false,
+  "completeness_bound": "No outcome admission in this candidate. Listed final-game content cannot establish original release time or correction history.",
+  "event_end_evidence": "NOT_ADMITTED",
+  "participation_states": [
+    "PLAYED",
+    "DNP",
+    "PLAYED_ZERO_MINUTES",
+    "PENDING",
+    "UNRESOLVED"
+  ],
+  "predecessor_chain": "NOT_ADMITTED",
+  "publication_clock": "NOT_ADMITTED"
+}

@@ -1,0 +1,28 @@
+{
+  "abstained": 0,
+  "accepted_target_cohort": null,
+  "eligible_target_population": null,
+  "not_executed_dependency_blocked": [
+    "S_ONLY",
+    "S_O",
+    "S_O_J",
+    "official_settlement"
+  ],
+  "pending": 0,
+  "produced": 0,
+  "real_pipeline_attempts": 0,
+  "rejected": 0,
+  "scope": "This candidate, real admitted integration only; synthetic tests reported separately",
+  "settled": 0,
+  "unresolved": 0,
+  "upstream_bounded_listed_population": {
+    "excluded": 0,
+    "explicit_DNP": 2,
+    "forecast_eligible_population": null,
+    "input": 26,
+    "not_a_settled_forecast_population": true,
+    "ordinary_played": 24,
+    "source": "origin/repair/p1-bounded-exclusions-20261118 independent/FINAL_DECISION.md"
+  },
+  "warning": "Zero pipeline attempts does not mean zero eligible players. No cohort available to enumerate."
+}

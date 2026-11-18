@@ -1,0 +1,27 @@
+{
+  "scope": "synthetic engineering only; zero real games",
+  "checks": [
+    "bernoulli_crps_0",
+    "bernoulli_crps_1",
+    "nlpd_reference",
+    "threshold_0",
+    "threshold_0.5",
+    "threshold_1",
+    "outcome_'real'",
+    "forecast_'real'",
+    "outcome_'admitted'",
+    "forecast_'admitted'",
+    "outcome_'verified'",
+    "forecast_'verified'",
+    "outcome_''",
+    "forecast_''",
+    "real_reject_before_storage",
+    "duplicate_idempotent",
+    "missing_unscored",
+    "missing_not_DNP",
+    "unsupported_end_reject",
+    "original_preserved"
+  ],
+  "count": 20,
+  "result": "PASS"
+}
