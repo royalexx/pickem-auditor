@@ -64,3 +64,11 @@ class InjuryV2Tests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp,patch('v2.nba_architecture.p1_injury_report_v2.capture',side_effect=AssertionError('late network')):
             x=capture_latest(freeze_at='2026-11-18T23:45:00Z',output=Path(tmp)/'late')
             self.assertIn('CAPTURE_STARTED_AFTER_FREEZE',x['errors'])
+
+    def test_malformed_href_never_synthesizes_a_valid_prefix(self):
+        good=url('2026-11-19','02_00PM')
+        bad=[good+'.evil',good+'/garbage',good+' junk',good+'#approved']
+        x=select_report(index(*bad),observed_at='2026-11-19T19:10:00Z',freeze_at='2026-11-19T19:20:00Z')
+        self.assertIsNone(x['selected_url']);self.assertEqual(x['unique_urls'],4)
+        self.assertEqual(x['rejected_urls'],4)
+        self.assertEqual({r['url'] for r in x['ledger']},set(bad))

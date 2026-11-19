@@ -40,7 +40,10 @@ def select_report(raw_index, *, observed_at, freeze_at, max_age_minutes=60):
     observed,freeze=instant(observed_at),instant(freeze_at)
     if observed>freeze:raise ValueError('INDEX_AFTER_FREEZE')
     if type(max_age_minutes) is not int or max_age_minutes<0:raise ValueError('INVALID_FRESHNESS_BOUND')
-    urls=re.findall(r'https?://[^\s\"<>]+?\.pdf(?:[?#][^\s\"<>]*)?',unescape(raw_index.decode('utf-8')))
+    # Preserve whole quoted href values: a PDF prefix inside a malformed URL
+    # must not become a different, invented indexed source.
+    hrefs=re.findall(r"""href\s*=\s*["'](https?://[^"']+)["']""",unescape(raw_index.decode('utf-8')),flags=re.I)
+    urls=[u for u in hrefs if '.pdf' in u.lower()]
     ledger=[];eligible=[]
     for url in sorted(set(urls)):
         row={'url':url,'source_declared_report_at':None}
