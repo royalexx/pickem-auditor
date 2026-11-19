@@ -5,6 +5,7 @@ import unittest
 
 from v2.nba_architecture.p1_subset_handoff_v1 import canonical,digest
 from v2.nba_architecture.subset_p4_v1 import run_p4,read_p4,read_native_minute_law
+from v2.nba_opportunity import MinuteLaw
 from tests.nba_architecture.test_subset_p3_v1 import CAP,COHORT,HISTORY,MODEL,PACKET
 
 UP=PACKET/'p3_accounting_repair/recorded_native_replay'
@@ -56,3 +57,12 @@ class P4SubsetTests(unittest.TestCase):
     def test_duplicate_keys_fail(self):
         kwargs=inputs();raw=canonical(run_p4(**kwargs))
         with self.assertRaises(ValueError):read_p4(b'{"statistic_forecasted_rows":1,'+raw[1:],**kwargs)
+
+    def test_self_consistent_forgery_is_structural_only_and_source_path_rejects(self):
+        kwargs=inputs();p3=json.loads(kwargs['p3_raw']);f=next(r['forecast'] for r in p3['rows'] if r['forecast'])
+        f['distribution']['mean']+=1.;f.update(MinuteLaw(**f['distribution']).summary())
+        f.pop('forecast_id');f['forecast_id']=digest(json.dumps(f,sort_keys=True).encode())
+        structural=read_native_minute_law(f)
+        self.assertEqual(structural['verification_scope'],'STRUCTURAL_LAW_ONLY_NO_SOURCE_OR_MODEL_ADMISSION')
+        p3.pop('payload_sha256');p3['payload_sha256']=digest(canonical(p3));kwargs['p3_raw']=canonical(p3)
+        with self.assertRaises(ValueError):run_p4(**kwargs)

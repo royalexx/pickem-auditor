@@ -16,7 +16,11 @@ VERSION='nba-subset-p4/1.0.0'
 
 
 def read_native_minute_law(forecast):
-    """Consume an actual native forecast, preserving given-played semantics."""
+    """Structural native-law parser, never source/model admission by itself.
+
+    Only run_p4's original-source/model replay establishes the bounded research
+    handoff. An internally consistent caller-constructed law can parse here.
+    """
     require(isinstance(forecast,dict),'P4_NATIVE_FORECAST_SCHEMA')
     require(forecast.get('schema')=='NBAOpportunityForecast/1.0.0'
         and forecast.get('status')=='UNCERTIFIED/SHADOW','P4_NATIVE_FORECAST_VERSION')
@@ -31,6 +35,7 @@ def read_native_minute_law(forecast):
     native=MinuteLaw(**law);summary=native.summary()
     require(all(canonical(forecast[k])==canonical(v) for k,v in summary.items()),'P4_NATIVE_LAW_MOMENT_OR_QUANTILE_MISMATCH')
     return dict(kind='CONDITIONAL_MINUTE_LAW_BOUNDARY_ONLY',
+        verification_scope='STRUCTURAL_LAW_ONLY_NO_SOURCE_OR_MODEL_ADMISSION',
         native_forecast_id=forecast['forecast_id'],distribution=law,
         conditioning='conditional_on_participation',participation_probability=None,
         legal_eligibility=None,summary=summary,team_scenario=None)
@@ -58,6 +63,7 @@ def run_p4(p2_raw,p3_raw,*,source_raw,capture_dir,cohort,history_dir,model_path,
                 minute_handoff_status='READ_NATIVE_CONDITIONAL_LAW' if law else 'UNAVAILABLE',
                 statistic_kernel=None,joint_scenario=None,actual_joint_model_executed=False))
     payload=dict(schema=VERSION,stage='P4',profile='source_listed_subset',
+        upstream_verification='SOURCE_AND_PINNED_MODEL_REPLAYED_FOR_RESEARCH_ONLY',
         implementation_sha256=digest(Path(__file__).read_bytes()),
         p1_handoff_sha256=p2['p1_handoff_sha256'],p2_handoff_sha256=p2['payload_sha256'],p3_handoff_sha256=p3['payload_sha256'],
         candidate_denominator=p3['candidate_denominator'],attempt_denominator=len(rows),
