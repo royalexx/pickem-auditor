@@ -1,0 +1,134 @@
+{
+  "schema": "v25_nhl_sog_rate_shrinkage_preregistered_v1",
+  "experiment_id": "EXP-V25-NHL-SOG-RATE-SHRINKAGE-PROSPECTIVE-001",
+  "status": "PREREGISTERED_SHADOW_ONLY_NO_OUTCOME_INSPECTION",
+  "registration_basis_main_sha": "912bc7010058092ea735dcda0aa941429194474b",
+  "registration_origin": "historical posthoc S1 ablation exposed; future targets only",
+  "discovery_cohorts_excluded": [
+    "2023-24 through 2025-26 retrospective NHL log archive",
+    "2026-11-10 original offers and settlements",
+    "all original prospective trial outcomes occurring before registration"
+  ],
+  "data_policy": {
+    "source": "Existing C03 original-source signed NHL SOG Gamma–Poisson collector; independent append-only research sidecar; no new scheduled tasks",
+    "source_selection": "First completed original same-day C03 generator manifest only, sorted by immutable creation/filename; do not inspect target outcomes for eligibility",
+    "sample_limit": "Source-selected original prospective collector maximum 4 forecasts per run; NOT full NHL population",
+    "universe": "Every source-certified NHL regular-season full-game skater SOG player-event with a strictly pre-event C03 original Gamma forecast and reverified signed source receipts. No performance-based selection. Only distinct player_id+official_event_id once for primary count study; quote contracts separate.",
+    "game_scope": "Full game including NHL official overtime shots; played-conditioned forecast; official DNP/no official played row is unscored distinct category, never counted as zero or sportsbook void.",
+    "all_rejections_retained": true,
+    "allow_retrospective_confirmation": false,
+    "eligible_after_local_date": "2026-11-15",
+    "freeze_before_event_minutes": 3,
+    "required_timestamps": [
+      "source_available_at<=input_freeze_at<=forecast_at<event_start_at",
+      "model_training_cutoff_at<=input_freeze_at"
+    ],
+    "receipt_policy": "original raw bytes SHA256, source URL, signed collector proof, ingestion/availability, exact player/event, roster, training cutoff, full prior observation manifest and new frozen input/source/model SHA; unverifiable => abstain",
+    "quote_policy": "Original quotes and payout semantics only, never reconstruct from outcome"
+  },
+  "model": {
+    "s1_id": "S1_POSTERIOR_MEAN_SHRUNK_RATE_FIXED_EXPOSURE_POISSON_V1",
+    "comparison_ids": [
+      "M0_OWN_RATE_POISSON_V1",
+      "M2_FIXED_EXPOSURE_GAMMA_POISSON_V1"
+    ],
+    "optional_ids": [
+      "M1_EXPOSURE_MIXTURE_OWN_RATE_POISSON_V1",
+      "M3_EXPOSURE_MIXTURE_GAMMA_POISSON_V1",
+      "M4_FIXED_SHAPE_NB2_R4_DIAGNOSTIC"
+    ],
+    "peer_prior": "Same signed, position-matched F/D prior-only C03 group and last-20 per peer retained; minimum 20 peers/200 prior played peer-games; original G-P parameters preserved",
+    "tau_minutes": 60,
+    "max_rate_games": 20,
+    "max_exposure_games_for_fixed_median": 5,
+    "shape": "a=60*r_peer+sum(prior_own_sog)",
+    "rate": "b=60+sum(prior_own_toi_minutes)",
+    "mean": "mu=median(last up to 5 prior own played-game raw TOI minutes)*(a/b)",
+    "distribution": "Poisson(mu); no rate-posterior mixing, no exposure mixing",
+    "initial_hyperparameters_frozen": true,
+    "calibration": "none",
+    "ensemble": "none",
+    "m2": "Gamma(shape=a, rate=b) mixed Poisson at exact same W0, immutable original mathematical implementation",
+    "micro_toi": "Raw strictly positive played 0.05-minute TOI is legitimate and never DNP. Frozen Gamma peer-exposure bin abstention retained; no cohort exclusion for S1 alone justified as matched M2 comparison."
+  },
+  "primary": {
+    "metric": "full-count discrete CRPS on exact paired S1 M2 player-games",
+    "estimator": "mean of per-slate-date average (S1 CRPS minus M2 CRPS), equal weight across eligible local slate dates",
+    "null": "H0: delta_CRPS >= +0.001000; H1: delta_CRPS < +0.001000 (S1 noninferior)",
+    "margin_CRPS": 0.001,
+    "justification": "Absolute 0.001 CRPS ~0.14% of historical M2 0.714701 and ~20% of historical M2-vs-M0 0.004961 improvement; external design choice, not optimized on future S1 results",
+    "alpha_one_sided": 0.025,
+    "inference": "Paired date-level score differences. Primary 10000-replicate fixed-seed 7-consecutive-calendar-day block bootstrap of date means (whole-week cluster); 97.5th percentile upper endpoint. Pre-specified sensitivity: player-game pooled, game-cluster, and 2-week moving-block date bootstrap; diagnose trends and autocorrelation; do not substitute unapproved lag3/lag5 HAC.",
+    "seed": 20261115,
+    "bootstrap_reps": 10000,
+    "success": "Only if upper one-sided CI bound <+0.001 AND >=60 scored slate dates spanning >=16 unique calendar weeks AND no source/time integrity defects AND prespecified calibration/tail guardrails pass. Otherwise INCONCLUSIVE or REJECT as warranted.",
+    "prospective_start_et": "2026-11-15",
+    "prospective_end_et": "2027-04-20",
+    "no_interim_pvalues": true,
+    "no_early_stop": true,
+    "no_date_extension_without_new_preregistration": true,
+    "missing": "Keep candidate/attempt/abstain/unmatched/void/settlement-missing as separate denominators. Matched head-to-head only. No postgame lineup-derived eligibility."
+  },
+  "secondary": {
+    "outcomes": [
+      "count NLL",
+      "mean/MAE",
+      "variance observed versus forecast",
+      "zero mass calibration",
+      "SOG>=6 tail calibration",
+      "randomized discrete PIT",
+      "central 50%,80%,90% prediction interval coverage",
+      "F versus D",
+      "stable/volatile TOI",
+      "small/mature histories",
+      "wall-clock runtime",
+      "peak RSS when measurable",
+      "source/abstention coverage"
+    ],
+    "contract_scoring": "Only on genuine timestamped original sportsbook full-period quotes with verified two-sided semantics; 3-way over/under/push; unrelated to full-count primary test; distinct void/unsettled; never infer a universal -110 or EV",
+    "exploratory_top_k": [
+      1,
+      5,
+      10
+    ],
+    "multiple_testing": "No secondary confirmatory rejection; report effect sizes with descriptive clustered intervals only, no multiplicity-free promotion.",
+    "choice": "No recalibration or hyperparameter adaptation during horizon; new research questions require a new future cohort."
+  },
+  "design_power": {
+    "method": "Design-effect sensitivity only, not verified power",
+    "assumed_date_delta_sd": [
+      0.003,
+      0.005,
+      0.01,
+      0.02
+    ],
+    "minimum_eligible_dates": 60,
+    "report_realized_accrual_and_effective_clusters": true,
+    "margin_fixed_without_future_outcomes": true
+  },
+  "integrity_checks": [
+    "current_sog_and_toi_never_features",
+    "source timestamps and signed SHA",
+    "original player/team/event identity",
+    "duplicate player-event and quote identity",
+    "strict Gamma shape-rate",
+    "Poisson normalized exact PMF, moments, zero and >=6",
+    "integer three-way push",
+    "no future game/same-day labels",
+    "no training after freeze",
+    "date/game paired cohort equality",
+    "immutability and idempotent append"
+  ],
+  "restrictions": {
+    "no_production": true,
+    "no_tier_publication": true,
+    "no_mutation_of_original_trials": true,
+    "no_changes_to_legacy_6040": true,
+    "no_nuts": true,
+    "no_actions_compute": true,
+    "no_automatic_new_schedules": true,
+    "no_profitability_claim": true
+  },
+  "exit_decision": "ACCEPT FOR FURTHER PROSPECTIVE EVALUATION only after QA; NONINFERIOR solely after locked future final look; keep original Gamma as control",
+  "rollback": "Revert isolated research-only commit/PR, preserve immutable input/forecast ledgers; do not touch existing source archives or ongoing schedules."
+}
