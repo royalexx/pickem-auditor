@@ -77,5 +77,33 @@
   },
   "historical_full_population_B_P1_gates": "PRESERVED_SUPERSEDED_FOR_DEFAULT_SUBSET_NOT_RETROACTIVELY_PASS",
   "G1_gate": "NOT_REASSESSED_OR_PROMOTED",
-  "production_release": false
+  "production_release": false,
+  "ci_environment_and_checkout_repair": {
+    "tested_ci_commit": "3863f115713a6cb7001086e0702197605812fcf4",
+    "dependency_repair_commit": "eb3e51fcc300293228273652a43e11b2090f9b79",
+    "native_reader_bytes_unchanged_from": "7643a100153b3dd3084e03887eb43f1f8a60be9e",
+    "local_clean_environment": {
+      "tests_run": 2284,
+      "passed": 2275,
+      "skipped": 9,
+      "failed": 0,
+      "errors": 0
+    },
+    "hosted_runs": [
+      {
+        "id": 44638386925,
+        "event": "push",
+        "conclusion": "SUCCESS"
+      },
+      {
+        "id": 44638398365,
+        "event": "pull_request",
+        "conclusion": "SUCCESS"
+      }
+    ],
+    "training_job": "SKIPPED_EXISTING_PAUSE_UNCHANGED",
+    "evidence": "ci_dependency_repair/REPRODUCE.md",
+    "independent_decision": "independent/ci/DECISION.md",
+    "independent_decision_commit": "f231eee2a42aaeb75a55247651aaa5dc38c679e3"
+  }
 }

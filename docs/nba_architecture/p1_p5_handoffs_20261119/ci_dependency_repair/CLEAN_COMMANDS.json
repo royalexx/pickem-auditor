@@ -1,0 +1,25 @@
+{
+  "tested_commit": "eb3e51fcc300293228273652a43e11b2090f9b79",
+  "environment": "/workspace/scratch/p1-p5-ci-venv (new isolated venv)",
+  "installation_command": [
+    "python",
+    "-m",
+    "pip",
+    "install",
+    "-r",
+    "requirements-nfl-inference.txt",
+    "-r",
+    "requirements-nba-research-tests.txt",
+    "PyYAML==6.0.2"
+  ],
+  "command": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-q"
+  ],
+  "exit_code": 0
+}

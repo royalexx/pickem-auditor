@@ -1,0 +1,15 @@
+{
+  "command": [
+    "gh",
+    "run",
+    "watch",
+    "44638398365",
+    "--repo",
+    "royalexx/pickem-auditor",
+    "--exit-status",
+    "--interval",
+    "10"
+  ],
+  "exit_code": 0,
+  "tested_head": "3863f115713a6cb7001086e0702197605812fcf4"
+}

@@ -20,5 +20,12 @@
   "real_S_and_joint_inference": "UNAVAILABLE_SAVED_ARTIFACTS_AND_NUMERICAL_DISPATCH_MISSING",
   "statistic_scoring_and_settlement": "NOT_EXERCISED",
   "G1_gate": "NOT_REASSESSED_OR_PROMOTED",
-  "production_release": false
+  "production_release": false,
+  "ci_tested_commit": "3863f115713a6cb7001086e0702197605812fcf4",
+  "hosted_offline_ci": "SUCCESS",
+  "ci_tests_run": 2284,
+  "ci_tests_passed": 2275,
+  "ci_tests_skipped": 9,
+  "ci_evidence": "p1_p5_handoffs_20261119/ci_dependency_repair/REPRODUCE.md",
+  "ci_independent_decision_commit": "f231eee2a42aaeb75a55247651aaa5dc38c679e3"
 }

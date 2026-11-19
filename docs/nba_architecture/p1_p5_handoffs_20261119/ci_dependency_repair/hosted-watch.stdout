@@ -1,0 +1,221 @@
+Refreshing run status every 10 seconds. Press Ctrl+C to quit.
+
+* integration/nba-subset-p1-p5-20261119 Pick'em Auditor offline checks royalexx/pickem-auditor#188 · 44638398365
+Triggered via pull_request about 2 minutes ago
+
+JOBS
+* offline-tests (ID 135962790039)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-python@v5
+  ✓ Compile skill Python modules
+  ✓ Validate persistent shadow-store Bash syntax
+  ✓ Validate GitHub Actions workflow YAML
+  ✓ Verify connectivity classification without network
+  ✓ Verify morning-preflight recovery
+  ✓ Verify A/B engine contracts
+  ✓ Verify three-sport archival receipts
+  ✓ Verify lossless and idempotent legacy history migration
+  ✓ Verify original pregame estimates are immutable
+  ✓ Verify pregame source reuse and stale-odds rejection
+  ✓ Verify structured research never fabricates source confirmations
+  ✓ Verify PropLine daily request quota guard
+  ✓ Verify morning history never calls PropLine
+  ✓ Verify Bayesian Engine A shadow posterior and provenance safeguards
+  ✓ Verify Bayesian Engine B posterior and historical provenance
+  ✓ Verify posterior Monte Carlo reproducibility and snapshot integrity
+  ✓ Verify Phase 4 walk-forward holdouts and no-leakage validation
+  ✓ Verify NHL warehouse provenance and resumable backfill without external calls
+  ✓ Validate NHL, NBA and NFL historic population provenance and recovery
+  ✓ Verify source-owned NBA three-point replay and unchanged other markets
+  ✓ Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows
+  ✓ Install lightweight NFL inference test dependencies
+  ✓ Install explicit NBA contract and replay test dependencies
+  * Execute full offline unit-test suite
+  * Post Run actions/setup-python@v5
+  * Post Run actions/checkout@v4
+- joint-bayes-nuts-smoke in 0s (ID 135962792152)
+Refreshing run status every 10 seconds. Press Ctrl+C to quit.
+
+* integration/nba-subset-p1-p5-20261119 Pick'em Auditor offline checks royalexx/pickem-auditor#188 · 44638398365
+Triggered via pull_request about 2 minutes ago
+
+JOBS
+* offline-tests (ID 135962790039)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-python@v5
+  ✓ Compile skill Python modules
+  ✓ Validate persistent shadow-store Bash syntax
+  ✓ Validate GitHub Actions workflow YAML
+  ✓ Verify connectivity classification without network
+  ✓ Verify morning-preflight recovery
+  ✓ Verify A/B engine contracts
+  ✓ Verify three-sport archival receipts
+  ✓ Verify lossless and idempotent legacy history migration
+  ✓ Verify original pregame estimates are immutable
+  ✓ Verify pregame source reuse and stale-odds rejection
+  ✓ Verify structured research never fabricates source confirmations
+  ✓ Verify PropLine daily request quota guard
+  ✓ Verify morning history never calls PropLine
+  ✓ Verify Bayesian Engine A shadow posterior and provenance safeguards
+  ✓ Verify Bayesian Engine B posterior and historical provenance
+  ✓ Verify posterior Monte Carlo reproducibility and snapshot integrity
+  ✓ Verify Phase 4 walk-forward holdouts and no-leakage validation
+  ✓ Verify NHL warehouse provenance and resumable backfill without external calls
+  ✓ Validate NHL, NBA and NFL historic population provenance and recovery
+  ✓ Verify source-owned NBA three-point replay and unchanged other markets
+  ✓ Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows
+  ✓ Install lightweight NFL inference test dependencies
+  ✓ Install explicit NBA contract and replay test dependencies
+  * Execute full offline unit-test suite
+  * Post Run actions/setup-python@v5
+  * Post Run actions/checkout@v4
+- joint-bayes-nuts-smoke in 0s (ID 135962792152)
+Refreshing run status every 10 seconds. Press Ctrl+C to quit.
+
+* integration/nba-subset-p1-p5-20261119 Pick'em Auditor offline checks royalexx/pickem-auditor#188 · 44638398365
+Triggered via pull_request about 2 minutes ago
+
+JOBS
+* offline-tests (ID 135962790039)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-python@v5
+  ✓ Compile skill Python modules
+  ✓ Validate persistent shadow-store Bash syntax
+  ✓ Validate GitHub Actions workflow YAML
+  ✓ Verify connectivity classification without network
+  ✓ Verify morning-preflight recovery
+  ✓ Verify A/B engine contracts
+  ✓ Verify three-sport archival receipts
+  ✓ Verify lossless and idempotent legacy history migration
+  ✓ Verify original pregame estimates are immutable
+  ✓ Verify pregame source reuse and stale-odds rejection
+  ✓ Verify structured research never fabricates source confirmations
+  ✓ Verify PropLine daily request quota guard
+  ✓ Verify morning history never calls PropLine
+  ✓ Verify Bayesian Engine A shadow posterior and provenance safeguards
+  ✓ Verify Bayesian Engine B posterior and historical provenance
+  ✓ Verify posterior Monte Carlo reproducibility and snapshot integrity
+  ✓ Verify Phase 4 walk-forward holdouts and no-leakage validation
+  ✓ Verify NHL warehouse provenance and resumable backfill without external calls
+  ✓ Validate NHL, NBA and NFL historic population provenance and recovery
+  ✓ Verify source-owned NBA three-point replay and unchanged other markets
+  ✓ Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows
+  ✓ Install lightweight NFL inference test dependencies
+  ✓ Install explicit NBA contract and replay test dependencies
+  * Execute full offline unit-test suite
+  * Post Run actions/setup-python@v5
+  * Post Run actions/checkout@v4
+- joint-bayes-nuts-smoke in 0s (ID 135962792152)
+Refreshing run status every 10 seconds. Press Ctrl+C to quit.
+
+* integration/nba-subset-p1-p5-20261119 Pick'em Auditor offline checks royalexx/pickem-auditor#188 · 44638398365
+Triggered via pull_request about 3 minutes ago
+
+JOBS
+* offline-tests (ID 135962790039)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-python@v5
+  ✓ Compile skill Python modules
+  ✓ Validate persistent shadow-store Bash syntax
+  ✓ Validate GitHub Actions workflow YAML
+  ✓ Verify connectivity classification without network
+  ✓ Verify morning-preflight recovery
+  ✓ Verify A/B engine contracts
+  ✓ Verify three-sport archival receipts
+  ✓ Verify lossless and idempotent legacy history migration
+  ✓ Verify original pregame estimates are immutable
+  ✓ Verify pregame source reuse and stale-odds rejection
+  ✓ Verify structured research never fabricates source confirmations
+  ✓ Verify PropLine daily request quota guard
+  ✓ Verify morning history never calls PropLine
+  ✓ Verify Bayesian Engine A shadow posterior and provenance safeguards
+  ✓ Verify Bayesian Engine B posterior and historical provenance
+  ✓ Verify posterior Monte Carlo reproducibility and snapshot integrity
+  ✓ Verify Phase 4 walk-forward holdouts and no-leakage validation
+  ✓ Verify NHL warehouse provenance and resumable backfill without external calls
+  ✓ Validate NHL, NBA and NFL historic population provenance and recovery
+  ✓ Verify source-owned NBA three-point replay and unchanged other markets
+  ✓ Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows
+  ✓ Install lightweight NFL inference test dependencies
+  ✓ Install explicit NBA contract and replay test dependencies
+  * Execute full offline unit-test suite
+  * Post Run actions/setup-python@v5
+  * Post Run actions/checkout@v4
+- joint-bayes-nuts-smoke in 0s (ID 135962792152)
+Refreshing run status every 10 seconds. Press Ctrl+C to quit.
+
+* integration/nba-subset-p1-p5-20261119 Pick'em Auditor offline checks royalexx/pickem-auditor#188 · 44638398365
+Triggered via pull_request about 3 minutes ago
+
+JOBS
+* offline-tests (ID 135962790039)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-python@v5
+  ✓ Compile skill Python modules
+  ✓ Validate persistent shadow-store Bash syntax
+  ✓ Validate GitHub Actions workflow YAML
+  ✓ Verify connectivity classification without network
+  ✓ Verify morning-preflight recovery
+  ✓ Verify A/B engine contracts
+  ✓ Verify three-sport archival receipts
+  ✓ Verify lossless and idempotent legacy history migration
+  ✓ Verify original pregame estimates are immutable
+  ✓ Verify pregame source reuse and stale-odds rejection
+  ✓ Verify structured research never fabricates source confirmations
+  ✓ Verify PropLine daily request quota guard
+  ✓ Verify morning history never calls PropLine
+  ✓ Verify Bayesian Engine A shadow posterior and provenance safeguards
+  ✓ Verify Bayesian Engine B posterior and historical provenance
+  ✓ Verify posterior Monte Carlo reproducibility and snapshot integrity
+  ✓ Verify Phase 4 walk-forward holdouts and no-leakage validation
+  ✓ Verify NHL warehouse provenance and resumable backfill without external calls
+  ✓ Validate NHL, NBA and NFL historic population provenance and recovery
+  ✓ Verify source-owned NBA three-point replay and unchanged other markets
+  ✓ Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows
+  ✓ Install lightweight NFL inference test dependencies
+  ✓ Install explicit NBA contract and replay test dependencies
+  ✓ Execute full offline unit-test suite
+  ✓ Post Run actions/setup-python@v5
+  * Post Run actions/checkout@v4
+- joint-bayes-nuts-smoke in 0s (ID 135962792152)
+✓ integration/nba-subset-p1-p5-20261119 Pick'em Auditor offline checks royalexx/pickem-auditor#188 · 44638398365
+Triggered via pull_request about 3 minutes ago
+
+JOBS
+✓ offline-tests in 3m16s (ID 135962790039)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-python@v5
+  ✓ Compile skill Python modules
+  ✓ Validate persistent shadow-store Bash syntax
+  ✓ Validate GitHub Actions workflow YAML
+  ✓ Verify connectivity classification without network
+  ✓ Verify morning-preflight recovery
+  ✓ Verify A/B engine contracts
+  ✓ Verify three-sport archival receipts
+  ✓ Verify lossless and idempotent legacy history migration
+  ✓ Verify original pregame estimates are immutable
+  ✓ Verify pregame source reuse and stale-odds rejection
+  ✓ Verify structured research never fabricates source confirmations
+  ✓ Verify PropLine daily request quota guard
+  ✓ Verify morning history never calls PropLine
+  ✓ Verify Bayesian Engine A shadow posterior and provenance safeguards
+  ✓ Verify Bayesian Engine B posterior and historical provenance
+  ✓ Verify posterior Monte Carlo reproducibility and snapshot integrity
+  ✓ Verify Phase 4 walk-forward holdouts and no-leakage validation
+  ✓ Verify NHL warehouse provenance and resumable backfill without external calls
+  ✓ Validate NHL, NBA and NFL historic population provenance and recovery
+  ✓ Verify source-owned NBA three-point replay and unchanged other markets
+  ✓ Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows
+  ✓ Install lightweight NFL inference test dependencies
+  ✓ Install explicit NBA contract and replay test dependencies
+  ✓ Execute full offline unit-test suite
+  ✓ Post Run actions/setup-python@v5
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+- joint-bayes-nuts-smoke in 0s (ID 135962792152)

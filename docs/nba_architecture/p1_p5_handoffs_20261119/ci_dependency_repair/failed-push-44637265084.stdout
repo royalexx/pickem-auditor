@@ -1,0 +1,1264 @@
+offline-tests	Execute full offline unit-test suite	﻿2026-11-19T23:23:56.1000798Z ##[group]Run python -m unittest discover -s tests -q
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:56.1001132Z [36;1mpython -m unittest discover -s tests -q[0m
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:56.1030419Z shell: /usr/bin/bash -e {0}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:56.1030630Z env:
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:56.1030851Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:56.1031207Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:56.1031549Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:56.1031862Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:56.1032175Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:56.1032476Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:56.1032736Z ##[endgroup]
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:58.5777359Z DIRECTIONAL_PHASE1_BLOCKED:would_overwrite_different_audit_receipt
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:58.5786020Z DIRECTIONAL_PHASE1_BLOCKED:baseline_comparison_sha256_mismatch
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:59.0065653Z {"audit_reconciliation": {"inputs": 1, "outputs": 1, "ids_match": true}}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:23:59.0421936Z prep coverage: {"priced_sides": 2, "quote_rows": 5, "slate_rows": 2, "unpriced_or_ungradeable_rows": 1}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0379533Z {"attempt": "/tmp/tmp1ydilc5o/pregame-20261119T000000000000Z-4ea2c3b8", "status": "CAPTURED_UNADMITTED_WITH_GAPS", "returned_roster_rows": 0, "errors": ["MISSED_ORIGINAL_FREEZE"]}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0380474Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0380714Z   "date": "2026-10-27",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0380987Z   "candidate_ids": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0381247Z   "source_attempts": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0381516Z   "verified_pregame_games": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0381826Z   "resolved_statuses": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0382107Z   "resolved_venues": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0382384Z   "resolved_goalies": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0383029Z   "started_games_excluded": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0383330Z   "evidence_complete": false,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0383942Z   "note": "Structured evidence only; missing scouting and adversarial validation retain existing ranking vetoes."
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0384585Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0384787Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0385149Z   "date": "2026-10-26",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0385449Z   "started_at": "2026-11-19T23:23:58.531988+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0385764Z   "status": "blocked",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0385946Z   "research_complete": false,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0386134Z   "stages": [
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0386284Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0386440Z       "name": "collect",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0386621Z       "returncode": 2
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0386784Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0386942Z   ],
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0387088Z   "sources": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0387257Z     "NFL": "nflreadpy",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0387453Z     "NHL": "nhl-api-py and NHL REST",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0387670Z     "NBA": "ESPN"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0387842Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0388003Z   "failed_stage": "collect",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0388217Z   "finished_at": "2026-11-19T23:23:58.532284+00:00"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0388442Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0388584Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0388732Z   "date": "2026-10-26",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0388960Z   "started_at": "2026-11-19T23:23:58.533713+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0389193Z   "status": "research_required",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0389397Z   "research_complete": false,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0389586Z   "stages": [
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0389735Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0389886Z       "name": "collect",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0390061Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0390225Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0390376Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0390523Z       "name": "prep",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0390689Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0390845Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0390986Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0391133Z       "name": "scan",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0391297Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0391459Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0391598Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0391751Z       "name": "research_queue",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0391944Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0392294Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0392439Z   ],
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0392583Z   "sources": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0392750Z     "NFL": "nflreadpy",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0392936Z     "NHL": "nhl-api-py and NHL REST",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0393144Z     "NBA": "ESPN"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0393302Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0393447Z   "coverage": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0393619Z     "has_priced_history_rows": true
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0393813Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0393963Z   "scan_counts": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0394135Z     "shortlisted": 1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0394302Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0394453Z   "context": {},
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0394637Z   "finished_at": "2026-11-19T23:23:58.535045+00:00"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0394857Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0395230Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0395404Z   "date": "2026-10-26",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0395605Z   "started_at": "2026-11-19T23:23:58.535723+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0395834Z   "status": "research_required",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0396035Z   "research_complete": false,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0396227Z   "stages": [
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0396385Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0396541Z       "name": "collect",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0396725Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0396890Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0397031Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0397176Z       "name": "prep",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0397338Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0397494Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0397630Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0397773Z       "name": "scan",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0397932Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0398088Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0398225Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0398374Z       "name": "research_queue",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0398571Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0398727Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0398864Z   ],
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0399004Z   "sources": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0399301Z     "NFL": "nflreadpy",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0399488Z     "NHL": "nhl-api-py and NHL REST",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0399698Z     "NBA": "ESPN"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0399854Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0400002Z   "coverage": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0400175Z     "has_priced_history_rows": true
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0400371Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0400515Z   "scan_counts": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0400689Z     "shortlisted": 1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0400845Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0400986Z   "context": {},
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0401171Z   "finished_at": "2026-11-19T23:23:58.538093+00:00"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0401398Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0401671Z {"contracts": 1, "receipt": "/tmp/tmp8lfi5n8h/receipt.json", "status": "read_only_audited"}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0402097Z {"contracts": 1, "receipt": "/tmp/tmp8lfi5n8h/receipt.json", "status": "read_only_audited"}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0402923Z {"schema": "pickem-history-full-v1", "archive_sha256": "f6dbe3f51ff74edcd0509d4f15d15561b501c0997ccb139cd8d18e1ab8eebad7", "forecast_rows_original": 1492, "existing_files_preserved": 0, "files_restored": 5, "seeded_from_2026_10_26": true}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0404155Z {"schema": "pickem-history-full-v1", "archive_sha256": "f6dbe3f51ff74edcd0509d4f15d15561b501c0997ccb139cd8d18e1ab8eebad7", "forecast_rows_original": 1492, "existing_files_preserved": 5, "files_restored": 0, "seeded_from_2026_10_26": true}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0405204Z {"status": "completed_marker_preserved_after_explicit_rerun", "date": "2026-10-28", "run_id": "40799999999"}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0406631Z NHL_SAVES_SHADOW {"date": "2026-10-30", "forecast_count": 1, "model_convergence_passed": true, "new_rows": 1, "previously_recorded": 0, "production_snapshot_unchanged": true, "publication_eligible": false, "ranking_allowed": false, "reasons": {}, "release_tag": "research-nhl-saves-20261029-run40993538888", "schema": "nhl_saves_joint_posterior_daily_shadow_v1", "snapshot_candidates": 1, "source_digest": "sha-verified-source", "total_rows": 1, "unavailable_count": 0}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0526281Z prep coverage: {"priced_sides": 0, "quote_rows": 0, "slate_rows": 1, "unpriced_or_ungradeable_rows": 1}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:10.0526917Z prep: BLOCKED (NO_ODDS_QUOTES); not an empty successful slate
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:12.9414431Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2814: DeprecationWarning: FanDuel has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:12.9415712Z   books = _books_from_payload(books_raw) if books_raw else []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:12.9416742Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2814: DeprecationWarning: DraftKings has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:12.9417367Z   books = _books_from_payload(books_raw) if books_raw else []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:13.7929726Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2267: DeprecationWarning: Pinnacle:3.5:-130:+110 has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:13.7930487Z   books.append(_parse_book_spec(item))
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:14.0852264Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2814: DeprecationWarning: Pinnacle has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:14.0853433Z   books = _books_from_payload(books_raw) if books_raw else []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:14.0854423Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2814: DeprecationWarning: FanDuel has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:14.0855209Z   books = _books_from_payload(books_raw) if books_raw else []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:15.3515449Z {"output": "/tmp/tmpeo8y7c05/receipt.json", "schema": "pickem-phase15-diagnostics-v1", "promotion_allowed": false, "paired_contracts": 1, "oracle_rows": 0}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:15.3516492Z FROZEN_HISTORY_CACHE_UNAVAILABLE history_cache_integrity_mismatch
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:15.3516975Z FROZEN_HISTORY_CACHE_UNAVAILABLE cache_miss
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:15.3555643Z PERSISTENT_FROZEN_STATE_SAVED {"code_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "index": "0", "phase": "final", "run_id": "41571885953", "source_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "state": "/tmp/tmp22xhpq4d/cache/campaigns/week-20261102/market-00/run-41571885953/state.json"}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:15.3611389Z FROZEN_HISTORY_CACHE_RESTORED source_sha=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:15.3727343Z NHL_BENCHMARK_RESULT {"backend": "pymc", "backend_approved": false, "error": "RuntimeError: benchmark-source-unavailable", "minimum_bulk_ess_per_second": null, "pilot_diagnostics_pass": false, "players": null, "stat": "hits", "status": "failed", "total_seconds": null, "training_rows": null}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9803819Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9818919Z ERROR: nba_architecture.test_exposure_certificate_v1 (unittest.loader._FailedTest.nba_architecture.test_exposure_certificate_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9819819Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9820476Z ImportError: Failed to import test module: nba_architecture.test_exposure_certificate_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9820846Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9827676Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9828164Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9828414Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9828881Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9829303Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9829760Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_exposure_certificate_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9830297Z     from v2.nba_architecture.v2_contracts import seal, ContractError
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9830811Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9831531Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9831841Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9832023Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9832029Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9832120Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9832785Z ERROR: nba_architecture.test_g0_completion_20261116 (unittest.loader._FailedTest.nba_architecture.test_g0_completion_20261116)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9833273Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9833651Z ImportError: Failed to import test module: nba_architecture.test_g0_completion_20261116
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9833989Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9834528Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9835117Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9835373Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9835791Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9836181Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9836621Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_g0_completion_20261116.py", line 3, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9837213Z     from golden_v2 import golden_cases, pregame, distribution, game_state, opportunity, j_scenarios
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9837726Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9838139Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9838409Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9838842Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9839444Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9839948Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9840408Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9840705Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9840872Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9840878Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9840977Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9841423Z ERROR: nba_architecture.test_g0_hardening_20261116 (unittest.loader._FailedTest.nba_architecture.test_g0_hardening_20261116)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9841891Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9842254Z ImportError: Failed to import test module: nba_architecture.test_g0_hardening_20261116
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9842608Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9843024Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9843431Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9843657Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9844067Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9844453Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9844879Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_g0_hardening_20261116.py", line 4, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9848056Z     from golden_v2 import golden_cases, j_scenarios, game_state, opportunity
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9848587Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9849015Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9849297Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9849731Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9850396Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9850849Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9851309Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9851616Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9851792Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9851796Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9851889Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9852455Z ERROR: nba_architecture.test_g0_independent_participation_red_20261116 (unittest.loader._FailedTest.nba_architecture.test_g0_independent_participation_red_20261116)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9853028Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9853447Z ImportError: Failed to import test module: nba_architecture.test_g0_independent_participation_red_20261116
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9853835Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9854242Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9854655Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9854888Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9855539Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9855935Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9856414Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_g0_independent_participation_red_20261116.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9856990Z     from golden_v2 import golden_cases, j_scenarios, game_state, opportunity
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9857563Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9857980Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9858254Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9858653Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9859073Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9859498Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9859938Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9860232Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9860401Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9860405Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9860501Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9860960Z ERROR: nba_architecture.test_g0_law_repair_20261116 (unittest.loader._FailedTest.nba_architecture.test_g0_law_repair_20261116)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9861429Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9861803Z ImportError: Failed to import test module: nba_architecture.test_g0_law_repair_20261116
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9862145Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9862541Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9862949Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9863172Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9863575Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9863962Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9864382Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_g0_law_repair_20261116.py", line 4, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9864852Z     from golden_v2 import distribution, original_offer
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9865453Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9865988Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9866255Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9866659Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9867080Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9867509Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9867944Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9868235Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9868401Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9868406Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9868509Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9868976Z ERROR: nba_architecture.test_g0_mutation_sweep_20261116 (unittest.loader._FailedTest.nba_architecture.test_g0_mutation_sweep_20261116)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9869467Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9869838Z ImportError: Failed to import test module: nba_architecture.test_g0_mutation_sweep_20261116
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9870191Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9870581Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9870978Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9871200Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9871598Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9871985Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9872545Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_g0_mutation_sweep_20261116.py", line 4, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9873108Z     from golden_v2 import golden_cases,pregame,game_state,opportunity,j_scenarios
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9873568Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9873982Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9874252Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9874661Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9875255Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9875690Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9876139Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9876442Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9876616Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9876620Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9876710Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9877217Z ERROR: nba_architecture.test_g0_pipeline_completion_20261116 (unittest.loader._FailedTest.nba_architecture.test_g0_pipeline_completion_20261116)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9877729Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9878123Z ImportError: Failed to import test module: nba_architecture.test_g0_pipeline_completion_20261116
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9878481Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9878882Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9879279Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9879521Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9879938Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9880328Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9880890Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_g0_pipeline_completion_20261116.py", line 3, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9881405Z     from golden_v2 import golden_cases, game_state, opportunity
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9881810Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9882207Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9882522Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9882927Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9883356Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9883781Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9884233Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9884525Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9884698Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9884702Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9884791Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9885392Z ERROR: nba_architecture.test_gamebook_v1 (unittest.loader._FailedTest.nba_architecture.test_gamebook_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9885819Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9886174Z ImportError: Failed to import test module: nba_architecture.test_gamebook_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9886488Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9886896Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9887299Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9887650Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9888058Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9888464Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9888870Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_gamebook_v1.py", line 7, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9889349Z     from v2.nba_architecture.gamebook_v1 import read_final_box
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9889806Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/gamebook_v1.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9890207Z     from .v2_contracts import req, instant
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9890621Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9891061Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9891355Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9891528Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9891538Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9891627Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9892107Z ERROR: nba_architecture.test_independent_final_20261116 (unittest.loader._FailedTest.nba_architecture.test_independent_final_20261116)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9892593Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9892983Z ImportError: Failed to import test module: nba_architecture.test_independent_final_20261116
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9893330Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9893730Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9894126Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9894348Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9894753Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9895378Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9895824Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_independent_final_20261116.py", line 4, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9896497Z     from golden_v2 import pregame, j_scenarios, distribution, original_offer
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9896958Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9897369Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9897637Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9898045Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9898471Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9898905Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9899352Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9899649Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9899826Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9899830Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9899920Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9900391Z ERROR: nba_architecture.test_p0i_adversarial_20261116 (unittest.loader._FailedTest.nba_architecture.test_p0i_adversarial_20261116)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9900870Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9901251Z ImportError: Failed to import test module: nba_architecture.test_p0i_adversarial_20261116
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9901598Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9902000Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9902404Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9902628Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9903159Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9903568Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9903997Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p0i_adversarial_20261116.py", line 13, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9904586Z     from golden_v2 import pregame, distribution, j_scenarios, game_state, opportunity, original_offer
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9905279Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9905699Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9905966Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9906377Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9906799Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9907239Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9907689Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9907989Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9908151Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9908154Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9908256Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9908748Z ERROR: nba_architecture.test_p0r_regression_closure_20261116 (unittest.loader._FailedTest.nba_architecture.test_p0r_regression_closure_20261116)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9909261Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9909650Z ImportError: Failed to import test module: nba_architecture.test_p0r_regression_closure_20261116
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9910008Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9910402Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9910802Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9911148Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9911563Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9911956Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9912393Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p0r_regression_closure_20261116.py", line 9, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9912941Z     from golden_v2 import pregame, original_offer, distribution, j_scenarios
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9913386Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9913795Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9914059Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9914458Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9914881Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9915507Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9915953Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9916245Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9916417Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9916421Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9916508Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9916943Z ERROR: nba_architecture.test_p1_bounded_demo_v1 (unittest.loader._FailedTest.nba_architecture.test_p1_bounded_demo_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9917382Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9917752Z ImportError: Failed to import test module: nba_architecture.test_p1_bounded_demo_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9918206Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9918606Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9919010Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9919237Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9919640Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9920060Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9920472Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_bounded_demo_v1.py", line 3, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9920997Z     from v2.nba_architecture.p1_bounded_demo_v1 import demonstrate, classify_rows
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9921511Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/p1_bounded_demo_v1.py", line 3, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9921969Z     from .p1_listed_source_v1 import listed_population_receipt
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9922449Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/p1_listed_source_v1.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9922871Z     from .admission_v1 import admit_gamebook
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9923280Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/admission_v1.py", line 11, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9923683Z     from .v2_contracts import req, instant
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9924145Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9924632Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9925030Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9925203Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9925207Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9925313Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9925705Z ERROR: nba_architecture.test_p1_history (unittest.loader._FailedTest.nba_architecture.test_p1_history)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9926119Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9926572Z ImportError: Failed to import test module: nba_architecture.test_p1_history
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9926881Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9927293Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9927703Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9927925Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9928336Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9928731Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9929128Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_history.py", line 11, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9929641Z     from v2.nba_architecture.v2_contracts import canonical, digest, validate_pregame
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9930163Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9930611Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9930902Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9931073Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9931076Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9931163Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9931743Z ERROR: test_actual_pdf_printed_header_mismatch_and_invalid_body (nba_architecture.test_p1_injury_report_v2.InjuryV2Tests.test_actual_pdf_printed_header_mismatch_and_invalid_body)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9932340Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9932602Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9933171Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_injury_report_v2.py", line 43, in test_actual_pdf_printed_header_mismatch_and_invalid_body
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9933867Z     verify_report(p,url('2026-11-18','12_45AM'))
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9934352Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/p1_injury_report_v2.py", line 73, in verify_report
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9935065Z     text=subprocess.check_output(['pdftotext','-f','1','-l','1',str(pdf_path),'-']).decode('utf-8')
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9935487Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9935915Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/subprocess.py", line 466, in check_output
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9936344Z     return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9936636Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9937009Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/subprocess.py", line 548, in run
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9937406Z     with Popen(*popenargs, **kwargs) as process:
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9937651Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9938014Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/subprocess.py", line 1026, in __init__
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9938426Z     self._execute_child(args, executable, preexec_fn, close_fds,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9938860Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/subprocess.py", line 1955, in _execute_child
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9939305Z     raise child_exception_type(errno_num, err_msg, err_filename)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9939657Z FileNotFoundError: [Errno 2] No such file or directory: 'pdftotext'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9939878Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9939977Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9940475Z ERROR: nba_architecture.test_p1_integer_accounting_20261117 (unittest.loader._FailedTest.nba_architecture.test_p1_integer_accounting_20261117)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9940989Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9941375Z ImportError: Failed to import test module: nba_architecture.test_p1_integer_accounting_20261117
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9941855Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9942257Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9942675Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9942904Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9943309Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9943705Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9944146Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_integer_accounting_20261117.py", line 4, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9944643Z     from v2.nba_architecture.p1_history import _stats
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9945212Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/p1_history.py", line 16, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9945620Z     from .v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9946021Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9946474Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9946777Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9946954Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9946958Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9947048Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9947490Z ERROR: nba_architecture.test_p1_listed_source_v1 (unittest.loader._FailedTest.nba_architecture.test_p1_listed_source_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9947944Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9948313Z ImportError: Failed to import test module: nba_architecture.test_p1_listed_source_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9948764Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9949159Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9949564Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9949791Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9950226Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9950627Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9951047Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_listed_source_v1.py", line 7, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9951580Z     from v2.nba_architecture.p1_listed_source_v1 import read_listed_population, ROOT
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9952101Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/p1_listed_source_v1.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9952525Z     from .admission_v1 import admit_gamebook
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9952937Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/admission_v1.py", line 11, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9953347Z     from .v2_contracts import req, instant
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9953745Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9954182Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9954477Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9954649Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9954653Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9954744Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9955405Z ERROR: nba_architecture.test_p1_native_handoff_20261117 (unittest.loader._FailedTest.nba_architecture.test_p1_native_handoff_20261117)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9955911Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9956291Z ImportError: Failed to import test module: nba_architecture.test_p1_native_handoff_20261117
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9956648Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9957171Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9957570Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9957791Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9958208Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9958603Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9959032Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_native_handoff_20261117.py", line 9, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9959531Z     from tests.nba_architecture.test_p1_remediation import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9960004Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_remediation.py", line 4, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9960513Z     from tests.nba_architecture.test_p1_history import make_entry, build
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9961007Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_history.py", line 11, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9961519Z     from v2.nba_architecture.v2_contracts import canonical, digest, validate_pregame
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9962014Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9962449Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9962744Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9962918Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9962922Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9963017Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9963502Z ERROR: nba_architecture.test_p1_nonparticipation_20261117 (unittest.loader._FailedTest.nba_architecture.test_p1_nonparticipation_20261117)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9964117Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9964500Z ImportError: Failed to import test module: nba_architecture.test_p1_nonparticipation_20261117
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9964863Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9965351Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9965762Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9965984Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9966387Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9966777Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9967214Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_nonparticipation_20261117.py", line 7, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9967742Z     from tests.nba_architecture.test_p1_history import make_entry,build
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9968247Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_history.py", line 11, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9968758Z     from v2.nba_architecture.v2_contracts import canonical, digest, validate_pregame
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9969255Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9969692Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9969979Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9970151Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9970154Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9970249Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9970741Z ERROR: nba_architecture.test_p1_partial_accounting_20261117 (unittest.loader._FailedTest.nba_architecture.test_p1_partial_accounting_20261117)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9971239Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9971626Z ImportError: Failed to import test module: nba_architecture.test_p1_partial_accounting_20261117
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9971981Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9972541Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9972936Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9973166Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9973569Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9973960Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9974386Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_partial_accounting_20261117.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9975046Z     from tests.nba_architecture.test_p1_history import build,make_entry
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9975600Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_history.py", line 11, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9976116Z     from v2.nba_architecture.v2_contracts import canonical, digest, validate_pregame
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9976619Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9977061Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9977354Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9977524Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9977528Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9977616Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9978033Z ERROR: nba_architecture.test_p1_remediation (unittest.loader._FailedTest.nba_architecture.test_p1_remediation)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9978460Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9978805Z ImportError: Failed to import test module: nba_architecture.test_p1_remediation
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9979246Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9979637Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9980041Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9980267Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9980676Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9981068Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9981469Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_remediation.py", line 4, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9981961Z     from tests.nba_architecture.test_p1_history import make_entry, build
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9982456Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_history.py", line 11, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9982966Z     from v2.nba_architecture.v2_contracts import canonical, digest, validate_pregame
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9983475Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9983919Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9984208Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9984383Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9984387Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9984477Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9985047Z ERROR: nba_architecture.test_p1_source_precision_20261117 (unittest.loader._FailedTest.nba_architecture.test_p1_source_precision_20261117)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9985559Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9985944Z ImportError: Failed to import test module: nba_architecture.test_p1_source_precision_20261117
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9986298Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9986697Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9987113Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9987450Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9987872Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9988268Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9988701Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_source_precision_20261117.py", line 9, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9989231Z     from tests.nba_architecture.test_p1_remediation import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9989710Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_remediation.py", line 4, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9990211Z     from tests.nba_architecture.test_p1_history import make_entry, build
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9990710Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_history.py", line 11, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9991221Z     from v2.nba_architecture.v2_contracts import canonical, digest, validate_pregame
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9991730Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9992172Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9992468Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9992651Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9992655Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9992756Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9993206Z ERROR: nba_architecture.test_p1_subset_capture_v1 (unittest.loader._FailedTest.nba_architecture.test_p1_subset_capture_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9993665Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9994031Z ImportError: Failed to import test module: nba_architecture.test_p1_subset_capture_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9994516Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9995074Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9995539Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9995772Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9996189Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9996593Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9997014Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_subset_capture_v1.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9997529Z     from v2.nba_architecture.p1_subset_capture_v1 import capture_subset
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9998032Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/p1_subset_capture_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9998463Z     from .research_profile_v1 import instant
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9998901Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/research_profile_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9999346Z     from .gamebook_identity_v1 import name_key
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:31.9999786Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/gamebook_identity_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0000220Z     from .v2_contracts import req,instant
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0000637Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0001086Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0001385Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0001560Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0001564Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0001658Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0002106Z ERROR: nba_architecture.test_p1_subset_handoff_v1 (unittest.loader._FailedTest.nba_architecture.test_p1_subset_handoff_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0002574Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0003069Z ImportError: Failed to import test module: nba_architecture.test_p1_subset_handoff_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0003401Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0003803Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0004199Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0004427Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0004836Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0005331Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0005751Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p1_subset_handoff_v1.py", line 7, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0006408Z     from v2.nba_architecture.p1_subset_handoff_v1 import export_requests,read_requests,conditional_requests,canonical,digest
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0007043Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/p1_subset_handoff_v1.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0007494Z     from .research_profile_v1 import build_requests
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0007945Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/research_profile_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0008369Z     from .gamebook_identity_v1 import name_key
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0008803Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/gamebook_identity_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0009227Z     from .v2_contracts import req,instant
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0009639Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0010102Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0010521Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0010692Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0010696Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0010799Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0011209Z ERROR: nba_architecture.test_p3_boundaries (unittest.loader._FailedTest.nba_architecture.test_p3_boundaries)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0011644Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0012002Z ImportError: Failed to import test module: nba_architecture.test_p3_boundaries
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0012325Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0012744Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0013150Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0013381Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0013788Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0014185Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0014585Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_boundaries.py", line 9, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0015217Z     from test_p3_o_family import inputs, build
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0015619Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_p3_o_family.py", line 10, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0016046Z     from nba_architecture.test_p3_o_family import inputs, build
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0016525Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_o_family.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0016998Z     from v2.nba_o_family import (build_opportunity, validate_sidecar,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0017429Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_o_family.py", line 19, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0017813Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0018257Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0018860Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0019157Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0019334Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0019339Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0019431Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0019882Z ERROR: nba_architecture.test_p3_native_scalar_v5 (unittest.loader._FailedTest.nba_architecture.test_p3_native_scalar_v5)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0020388Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0020762Z ImportError: Failed to import test module: nba_architecture.test_p3_native_scalar_v5
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0021094Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0021498Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0021911Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0022140Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0022559Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0022952Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0023366Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_native_scalar_v5.py", line 7, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0023830Z     from test_p3_p1_native_v4 import native_fixture
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0024245Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_p3_p1_native_v4.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0024700Z     from nba_architecture.test_p3_p1_native_v4 import native_fixture
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0025285Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_p1_native_v4.py", line 7, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0025839Z     from test_p3_o_family import inputs
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0026228Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_p3_o_family.py", line 10, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0026662Z     from nba_architecture.test_p3_o_family import inputs, build
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0027146Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_o_family.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0027626Z     from v2.nba_o_family import (build_opportunity, validate_sidecar,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0028053Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_o_family.py", line 19, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0028432Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0028859Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0029314Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0029613Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0029781Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0029785Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0029881Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0030282Z ERROR: nba_architecture.test_p3_o_family (unittest.loader._FailedTest.nba_architecture.test_p3_o_family)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0030701Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0031052Z ImportError: Failed to import test module: nba_architecture.test_p3_o_family
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0031369Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0031770Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0032169Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0032391Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0032809Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0033209Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0033596Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_o_family.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0034207Z     from v2.nba_o_family import (build_opportunity, validate_sidecar,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0034644Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_o_family.py", line 19, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0035205Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0035639Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0036088Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0036389Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0036566Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0036570Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0036666Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0037085Z ERROR: nba_architecture.test_p3_p1_native_v4 (unittest.loader._FailedTest.nba_architecture.test_p3_p1_native_v4)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0037523Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0037889Z ImportError: Failed to import test module: nba_architecture.test_p3_p1_native_v4
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0038206Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0038596Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0039003Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0039227Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0039634Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0040028Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0040429Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_p1_native_v4.py", line 7, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0040986Z     from test_p3_o_family import inputs
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0041387Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_p3_o_family.py", line 10, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0041820Z     from nba_architecture.test_p3_o_family import inputs, build
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0042300Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_o_family.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0042773Z     from v2.nba_o_family import (build_opportunity, validate_sidecar,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0043200Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_o_family.py", line 19, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0043585Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0044023Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0044472Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0044773Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0045033Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0045037Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0045129Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0045572Z ERROR: nba_architecture.test_p3_remediation_v4 (unittest.loader._FailedTest.nba_architecture.test_p3_remediation_v4)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0046018Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0046388Z ImportError: Failed to import test module: nba_architecture.test_p3_remediation_v4
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0046718Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0047117Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0047516Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0047739Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0048147Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0048549Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0048960Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_remediation_v4.py", line 6, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0049521Z     from test_p3_o_family import inputs
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0049904Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_p3_o_family.py", line 10, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0050326Z     from nba_architecture.test_p3_o_family import inputs, build
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0050805Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_o_family.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0051287Z     from v2.nba_o_family import (build_opportunity, validate_sidecar,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0051712Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_o_family.py", line 19, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0052092Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0052524Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0052979Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0053286Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0053452Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0053457Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0053557Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0053938Z ERROR: nba_architecture.test_p4_joint (unittest.loader._FailedTest.nba_architecture.test_p4_joint)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0054346Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0054695Z ImportError: Failed to import test module: nba_architecture.test_p4_joint
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0055163Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0055590Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0056122Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0056353Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0056771Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0057178Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0057563Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p4_joint.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0058055Z     from golden_v2 import pregame, j_scenarios, game_state, opportunity, model
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0058514Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0058925Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0059194Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0059594Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0060024Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0060453Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0060902Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0061199Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0061367Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0061376Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0061469Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0061920Z ERROR: nba_architecture.test_p4_latest_integration (unittest.loader._FailedTest.nba_architecture.test_p4_latest_integration)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0062386Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0062749Z ImportError: Failed to import test module: nba_architecture.test_p4_latest_integration
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0063094Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0063493Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0063890Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0064226Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0064645Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0065127Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0065569Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p4_latest_integration.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0066048Z     from research.nba_p4_latest.fixture import build
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0066481Z   File "/home/runner/work/pickem-auditor/pickem-auditor/research/nba_p4_latest/fixture.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0066905Z     from v2.nba_architecture.v2_contracts import seal
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0067336Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0067794Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0068090Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0068261Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0068265Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0068366Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0068836Z ERROR: nba_architecture.test_p4_upstream_integration (unittest.loader._FailedTest.nba_architecture.test_p4_upstream_integration)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0069313Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0069688Z ImportError: Failed to import test module: nba_architecture.test_p4_upstream_integration
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0070032Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0070432Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0070837Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0071183Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0071590Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0071992Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0072423Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p4_upstream_integration.py", line 10, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0072961Z     from v2.nba_architecture.v2_contracts import ContractError, seal, digest
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0073451Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0073892Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0074197Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0074378Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0074382Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0074472Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0075056Z ERROR: nba_architecture.test_research_profile_v1 (unittest.loader._FailedTest.nba_architecture.test_research_profile_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0075569Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0075944Z ImportError: Failed to import test module: nba_architecture.test_research_profile_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0076276Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0076676Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0077087Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0077312Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0077731Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0078129Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0078547Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_research_profile_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0079076Z     from v2.nba_architecture.research_profile_v1 import build_requests, ROOT
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0079720Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/research_profile_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0080160Z     from .gamebook_identity_v1 import name_key
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0080598Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/gamebook_identity_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0081027Z     from .v2_contracts import req,instant
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0081435Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0081884Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0082184Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0082362Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0082366Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0082463Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0082878Z ERROR: nba_architecture.test_subset_p2_v1 (unittest.loader._FailedTest.nba_architecture.test_subset_p2_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0083303Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0083650Z ImportError: Failed to import test module: nba_architecture.test_subset_p2_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0083983Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0084378Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0084778Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0085097Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0085507Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0085903Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0086299Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_subset_p2_v1.py", line 6, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0086970Z     from tests.nba_architecture.test_research_profile_v1 import CAP, COHORT
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0087524Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_research_profile_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0088049Z     from v2.nba_architecture.research_profile_v1 import build_requests, ROOT
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0088560Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/research_profile_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0088992Z     from .gamebook_identity_v1 import name_key
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0089429Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/gamebook_identity_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0089859Z     from .v2_contracts import req,instant
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0090264Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0090716Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0091015Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0091196Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0091200Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0091292Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0091694Z ERROR: nba_architecture.test_subset_p3_v1 (unittest.loader._FailedTest.nba_architecture.test_subset_p3_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0092118Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0105508Z ImportError: Failed to import test module: nba_architecture.test_subset_p3_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0105894Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0106369Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0106796Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0107026Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0107466Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0108060Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0108464Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_subset_p3_v1.py", line 9, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0109010Z     from v2.nba_architecture.p1_subset_handoff_v1 import canonical,digest,export_requests
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0109545Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/p1_subset_handoff_v1.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0109985Z     from .research_profile_v1 import build_requests
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0110428Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/research_profile_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0110852Z     from .gamebook_identity_v1 import name_key
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0111289Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/gamebook_identity_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0111713Z     from .v2_contracts import req,instant
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0112122Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0112567Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0112862Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0113036Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0113042Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0113135Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0113544Z ERROR: nba_architecture.test_subset_p4_v1 (unittest.loader._FailedTest.nba_architecture.test_subset_p4_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0113970Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0114324Z ImportError: Failed to import test module: nba_architecture.test_subset_p4_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0114641Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0115347Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0115767Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0115995Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0116409Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0116805Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0117200Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_subset_p4_v1.py", line 6, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0117689Z     from v2.nba_architecture.p1_subset_handoff_v1 import canonical,digest
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0118185Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/p1_subset_handoff_v1.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0118623Z     from .research_profile_v1 import build_requests
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0119061Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/research_profile_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0119492Z     from .gamebook_identity_v1 import name_key
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0119919Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/gamebook_identity_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0120371Z     from .v2_contracts import req,instant
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0120768Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0121218Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0121516Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0121684Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0121688Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0121786Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0122190Z ERROR: nba_architecture.test_v2_contracts (unittest.loader._FailedTest.nba_architecture.test_v2_contracts)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0122619Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0122969Z ImportError: Failed to import test module: nba_architecture.test_v2_contracts
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0123413Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0123811Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0124211Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0124440Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0124844Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0125418Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0125823Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_v2_contracts.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0126329Z     from golden_v2 import (golden_cases, pregame, distribution, original_offer,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0126789Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0127195Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0127473Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0127873Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0128309Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0128734Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0129177Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0129473Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0129650Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0129654Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0129744Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0130079Z ERROR: nba_c.test_p5_c_family (unittest.loader._FailedTest.nba_c.test_p5_c_family)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0130562Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0130894Z ImportError: Failed to import test module: nba_c.test_p5_c_family
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0131179Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0131582Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0131984Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0132209Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0132619Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0133023Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0133391Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_c/test_p5_c_family.py", line 12, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0133836Z     from v2.nba_c.warehouse import _write_once, WarehouseError
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0134261Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_c/warehouse.py", line 13, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0134652Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0135257Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0135710Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0136006Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0136175Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0136187Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0136278Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0136675Z ERROR: nba_c.test_p5_native_transport_v1 (unittest.loader._FailedTest.nba_c.test_p5_native_transport_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0137086Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0137457Z ImportError: Failed to import test module: nba_c.test_p5_native_transport_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0137792Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0138199Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0138722Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0138947Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0139354Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0139747Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0140150Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_c/test_p5_native_transport_v1.py", line 10, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0140636Z     from v2.nba_architecture.v2_contracts import canonical, digest, seal
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0141112Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0141554Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0141853Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0142026Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0142033Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0142122Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0142549Z ERROR: nba_c.test_p5_partial_integer_counts_v1 (unittest.loader._FailedTest.nba_c.test_p5_partial_integer_counts_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0142978Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0143330Z ImportError: Failed to import test module: nba_c.test_p5_partial_integer_counts_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0143648Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0144037Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0144434Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0144663Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0145263Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0145657Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0146071Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_c/test_p5_partial_integer_counts_v1.py", line 6, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0146526Z     from v2.nba_c.native_adapters import _box_stats
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0146945Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_c/native_adapters.py", line 21, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0147475Z     from v2.nba_architecture.v2_contracts import canonical, verify, validate_pregame, digest, instant
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0148028Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0148472Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0148764Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0148943Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0148947Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0149035Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0149452Z ERROR: nba_c.test_p5_recursive_quarantine_v2 (unittest.loader._FailedTest.nba_c.test_p5_recursive_quarantine_v2)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0149893Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0150244Z ImportError: Failed to import test module: nba_c.test_p5_recursive_quarantine_v2
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0150558Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0150939Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0151333Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0151556Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0151967Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0152357Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0152771Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_c/test_p5_recursive_quarantine_v2.py", line 6, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0153352Z     from tests.nba_c.test_p5_c_family import fixture
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0153777Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_c/test_p5_c_family.py", line 12, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0154215Z     from v2.nba_c.warehouse import _write_once, WarehouseError
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0154633Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_c/warehouse.py", line 13, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0155405Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0155836Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0156282Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0156575Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0156754Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0156758Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0156851Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0157239Z ERROR: nba_c.test_p5_temporal_integrity (unittest.loader._FailedTest.nba_c.test_p5_temporal_integrity)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0157651Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0158008Z ImportError: Failed to import test module: nba_c.test_p5_temporal_integrity
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0158319Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0158713Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0159117Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0159348Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0159766Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0160164Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0160680Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_c/test_p5_temporal_integrity.py", line 9, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0161122Z     from tests.nba_c.test_p5_c_family import fixture
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0161540Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_c/test_p5_c_family.py", line 12, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0161973Z     from v2.nba_c.warehouse import _write_once, WarehouseError
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0162386Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_c/warehouse.py", line 13, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0162778Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0163205Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0163643Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0163938Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0164113Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0164116Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0164208Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0164580Z ERROR: nba_c.test_subset_archive_v1 (unittest.loader._FailedTest.nba_c.test_subset_archive_v1)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0165284Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0165644Z ImportError: Failed to import test module: nba_c.test_subset_archive_v1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0165944Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0166346Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0166742Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0166975Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0167387Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0167778Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0168158Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_c/test_subset_archive_v1.py", line 7, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0168678Z     from tests.nba_architecture.test_subset_p3_v1 import CAP,COHORT,HISTORY,MODEL,PACKET
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0169364Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_subset_p3_v1.py", line 9, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0169912Z     from v2.nba_architecture.p1_subset_handoff_v1 import canonical,digest,export_requests
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0170444Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/p1_subset_handoff_v1.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0170877Z     from .research_profile_v1 import build_requests
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0171313Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/research_profile_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0171736Z     from .gamebook_identity_v1 import name_key
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0172172Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/gamebook_identity_v1.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0172596Z     from .v2_contracts import req,instant
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0173009Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0173451Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0173740Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0173915Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0173919Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0174011Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0174379Z ERROR: test_g0_completion_20261116 (unittest.loader._FailedTest.test_g0_completion_20261116)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0174759Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0175272Z ImportError: Failed to import test module: test_g0_completion_20261116
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0175572Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0176087Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0176509Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0176741Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0177159Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0177559Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0177939Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_g0_completion_20261116.py", line 2, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0178395Z     from nba_architecture.test_g0_completion_20261116 import edit
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0178903Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_g0_completion_20261116.py", line 3, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0179486Z     from golden_v2 import golden_cases, pregame, distribution, game_state, opportunity, j_scenarios
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0179993Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0180402Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0180675Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0181076Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0181502Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0181934Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0182397Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0182702Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0182875Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0182879Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0182971Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0183391Z ERROR: test_g0_pipeline_completion_20261116 (unittest.loader._FailedTest.test_g0_pipeline_completion_20261116)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0183822Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0184312Z ImportError: Failed to import test module: test_g0_pipeline_completion_20261116
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0184634Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0185120Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0185524Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0185744Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0186166Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0186564Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0186970Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_g0_pipeline_completion_20261116.py", line 2, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0187498Z     from nba_architecture.test_g0_pipeline_completion_20261116 import coherent_case
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0188074Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_g0_pipeline_completion_20261116.py", line 3, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0188590Z     from golden_v2 import golden_cases, game_state, opportunity
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0189014Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0189416Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0189677Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0190075Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0190496Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0190923Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0191498Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0191795Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0191967Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0191971Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0192069Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0192379Z ERROR: test_p3_o_family (unittest.loader._FailedTest.test_p3_o_family)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0192699Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0193005Z ImportError: Failed to import test module: test_p3_o_family
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0193280Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0193683Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0194081Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0194309Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0194722Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0195197Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0195552Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_p3_o_family.py", line 10, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0195984Z     from nba_architecture.test_p3_o_family import inputs, build
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0196462Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_o_family.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0196937Z     from v2.nba_o_family import (build_opportunity, validate_sidecar,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0197361Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_o_family.py", line 19, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0197746Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0198175Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0198623Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0198912Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0199078Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0199192Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0199290Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0199617Z ERROR: test_p3_p1_native_v4 (unittest.loader._FailedTest.test_p3_p1_native_v4)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0199959Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0200270Z ImportError: Failed to import test module: test_p3_p1_native_v4
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0200558Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0200954Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0201359Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0201587Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0201987Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0202383Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0202747Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_p3_p1_native_v4.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0203197Z     from nba_architecture.test_p3_p1_native_v4 import native_fixture
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0203692Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_p1_native_v4.py", line 7, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0204125Z     from test_p3_o_family import inputs
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0204504Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_p3_o_family.py", line 10, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0205051Z     from nba_architecture.test_p3_o_family import inputs, build
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0205576Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p3_o_family.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0206055Z     from v2.nba_o_family import (build_opportunity, validate_sidecar,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0206594Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_o_family.py", line 19, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0206985Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0207412Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0207860Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0208152Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0208320Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0208323Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0208419Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0208708Z ERROR: test_p4_joint (unittest.loader._FailedTest.test_p4_joint)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0209019Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0209326Z ImportError: Failed to import test module: test_p4_joint
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0209599Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0209998Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0210401Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0210675Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0211079Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0211469Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0211808Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_p4_joint.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0212264Z     from nba_architecture.test_p4_joint import PARAMETERS, reseal, fixture
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0212763Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p4_joint.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0213249Z     from golden_v2 import pregame, j_scenarios, game_state, opportunity, model
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0213702Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0214106Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0214563Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0215154Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0215600Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0216035Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0216478Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0216768Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0216942Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0216947Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0217044Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0217366Z ERROR: test_v2_contracts (unittest.loader._FailedTest.test_v2_contracts)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0217704Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0218059Z V25_SOG_CPU_SMOKE 1000_contract_lines_seconds=0.089 peak_python_bytes=1572
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0219396Z V25_SOG_NO_SOURCE_DRY_RUN {"attempted_at": "2026-11-19T23:24:31.960100Z", "contract_id": null, "event_id": null, "experiment_id": "EXP-V25-NHL-SOG-EXPOSURE-EB-001", "outcome_used": false, "production_selection_allowed": false, "reason": "ExperimentBlocked:RAW_REAL_OFFER_RECEIPT_MISSING", "schema": "v25_sog_prospective_attempt_v1", "source_semantics": "collector_possession_not_upstream_publication", "status": "ABSTAIN", "tier_publication_allowed": false}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0220613Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0220776Z   "date": "2026-10-27",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0220973Z   "retrieved_at": "2026-10-27T15:00:00Z",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0221223Z   "verified_at_utc": "2026-11-19T23:24:31.977849+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0221634Z   "source_slate": "/tmp/tmp0bzid8in/slate.jsonl",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0221873Z   "slot": "morning",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0222046Z   "feed_status": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0222217Z     "NHL": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0222379Z       "status": "ok",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0222566Z       "source_reported_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0222771Z       "verified_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0223055Z       "archived_path": "data/history_slate/2026-10-27/morning/nhl.jsonl.gz"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0223330Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0223487Z     "NBA": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0223642Z       "status": "ok",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0223830Z       "source_reported_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0224032Z       "verified_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0224282Z       "archived_path": "data/history_slate/2026-10-27/morning/nba.jsonl.gz"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0224552Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0224704Z     "NFL": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0224860Z       "status": "failed",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0225135Z       "source_reported_rows": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0225342Z       "verified_rows": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0225517Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0225664Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0225818Z   "source_rows": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0225995Z     "NHL": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0226151Z     "NBA": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0226299Z     "NFL": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0226448Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0226600Z   "status": "partial",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0226777Z   "errors": [
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0226941Z     "NFL_FEED_UNVERIFIED"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0227110Z   ]
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0227253Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0227394Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0227543Z   "date": "2026-10-27",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0227735Z   "retrieved_at": "2026-10-27T15:00:00Z",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0227981Z   "verified_at_utc": "2026-11-19T23:24:31.979072+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0228251Z   "source_slate": "/tmp/tmpqfvlz0o9/slate.jsonl",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0228485Z   "slot": "morning",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0228656Z   "feed_status": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0228818Z     "NHL": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0228983Z       "status": "ok",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0229161Z       "source_reported_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0229357Z       "verified_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0229607Z       "archived_path": "data/history_slate/2026-10-27/morning/nhl.jsonl.gz"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0230002Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0230152Z     "NBA": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0230306Z       "status": "ok",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0230480Z       "source_reported_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0230673Z       "verified_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0230915Z       "archived_path": "data/history_slate/2026-10-27/morning/nba.jsonl.gz"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0231183Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0231329Z     "NFL": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0231499Z       "status": "no_games_scheduled",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0231715Z       "source_reported_rows": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0231908Z       "verified_rows": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0232197Z       "explanation": "Verified official schedule returned no NFL regular-season game"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0232517Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0232681Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0232828Z   "source_rows": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0232991Z     "NHL": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0233146Z     "NBA": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0233307Z     "NFL": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0233455Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0233607Z   "status": "success",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0233781Z   "errors": []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0233935Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0234205Z ImportError: Failed to import test module: test_v2_contracts
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0234485Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0235000Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0235412Z     module = self._get_module_from_name(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0235643Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0236058Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0236462Z     __import__(name)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0236991Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_v2_contracts.py", line 6, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0237447Z     from nba_architecture.test_v2_contracts import evaluation, reissue
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0237957Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_v2_contracts.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0238460Z     from golden_v2 import (golden_cases, pregame, distribution, original_offer,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0238920Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/golden_v2.py", line 8, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0239337Z     from nba_architecture.golden_v2 import *  # noqa: F401,F403
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0239605Z     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0240006Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/golden_v2.py", line 5, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0240426Z     from v2.nba_architecture.v2_contracts import (
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0240854Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0241308Z     from jsonschema import Draft202012Validator, FormatChecker
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0241611Z ModuleNotFoundError: No module named 'jsonschema'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0241777Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0241781Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0241880Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0242470Z FAIL: test_root_discovery_imports_all_canonical_nba_tests_once (test_nba_root_discovery_v4.DiscoveryCompatibilityTests.test_root_discovery_imports_all_canonical_nba_tests_once)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0243065Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0243330Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0243863Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/test_nba_root_discovery_v4.py", line 25, in test_root_discovery_imports_all_canonical_nba_tests_once
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0244395Z     self.assertEqual(result['errors'],[])
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0244747Z AssertionError: Lists differ: ['Failed to import test module: nba_archit[59429 chars]'\n'] != []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0245307Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0245406Z First list contains 47 additional elements.
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0245628Z First extra element 0:
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0247856Z 'Failed to import test module: nba_architecture.test_exposure_certificate_v1\nTraceback (most recent call last):\n  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path\n    module = self._get_module_from_name(name)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name\n    __import__(name)\n  File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_exposure_certificate_v1.py", line 8, in <module>\n    from v2.nba_architecture.v2_contracts import seal, ContractError\n  File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_architecture/v2_contracts.py", line 15, in <module>\n    from jsonschema import Draft202012Validator, FormatChecker\nModuleNotFoundError: No module named \'jsonschema\'\n'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0250025Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0250161Z Diff is 67412 characters long. Set self.maxDiff to None to see it.
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0250368Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0250482Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0250742Z Ran 1714 tests in 34.698s
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0250865Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.0250956Z FAILED (failures=1, errors=48, skipped=9)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:24:32.1067746Z ##[error]Process completed with exit code 1.

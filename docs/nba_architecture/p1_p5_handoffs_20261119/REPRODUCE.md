@@ -21,6 +21,14 @@ full pipeline execution. Independent decisions and raw probes are under
 independent/p2, independent/p3 and independent/p4; P5's separate independent
 decision is published with its evidence under independent/p5.
 
+The final targeted run passed731tests and1579subtests. The subsequent clean-CI
+setup repair3863f115713a6cb7001086e0702197605812fcf4 changes only test
+dependencies and full-history checkout. All accepted reader bytes remain the
+same. Fresh isolated and hosted full offline suites ran2284tests:2275passed,
+9optional skips, zero failures/errors. Hostedpush44638386925 andPR44638398365
+both succeeded. See ci_dependency_repair/REPRODUCE.md and independent/ci for
+preserved original failures, exact installation/test commands and review.
+
 The branch started from PR187 head33842b96093a453e5bdeb49dacc64986e27d5b37.
 verification/ contains fresh main/PR161/173/175/176/187 heads and an empty source
 handoff diff against its accepted implementation644f8f51. Accepted G0

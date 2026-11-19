@@ -1,0 +1,31 @@
+{
+  "tested_head": "3863f115713a6cb7001086e0702197605812fcf4",
+  "commands": [
+    {
+      "command": [
+        "gh",
+        "run",
+        "view",
+        "44638386925",
+        "--repo",
+        "royalexx/pickem-auditor",
+        "--log"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "gh",
+        "run",
+        "view",
+        "44638386925",
+        "--repo",
+        "royalexx/pickem-auditor",
+        "--json",
+        "headSha,status,conclusion,event,jobs"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "byte_domain": "GH_CLI_RENDERED_ACTIONS_LOG_UTF8_OR_JSON"
+}
