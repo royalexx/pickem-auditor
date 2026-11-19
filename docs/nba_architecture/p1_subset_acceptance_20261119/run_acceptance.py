@@ -28,6 +28,16 @@ er=json.loads((post/'target-summary/receipt.json').read_bytes());er['retrieved_a
 (OUT/'postgame_box.json').write_text(json.dumps(box,indent=2)+'\n');(OUT/'postgame_identities.json').write_text(json.dumps(joined,indent=2)+'\n')
 for name in ['official-gamebook','target-summary']:
     for f in ['body.raw','receipt.json']:p=post/name/f;hashes[str(p.relative_to(ROOT))]=hashlib.sha256(p.read_bytes()).hexdigest()
+by_id={row['player_id']:box['rows'][i] for i,row in enumerate(joined['rows'])}
+all_candidates=export['requests']['rows']
+resolved=[dict(player_id=r['player_id'],team_id=r['team_id'],name=r['name'],
+    participation=by_id[r['player_id']]['state'] if r['player_id'] in by_id else 'UNKNOWN_NOT_LISTED',
+    exact_seconds=by_id[r['player_id']]['exact_seconds'] if r['player_id'] in by_id else None,
+    legal_eligibility=None,genuine_participation_probability=None) for r in all_candidates]
+(OUT/'all_candidate_postgame_states.json').write_text(json.dumps(resolved,indent=2)+'\n')
+ledger.append({'interface':'all_candidate_postgame_reconstruction','status':'PASS_BOUNDED_RECONSTRUCTION',
+    'candidate_rows':len(resolved),'played':sum(r['participation']=='PLAYED' for r in resolved),
+    'dnp':sum(r['participation']=='DNP' for r in resolved),'unknown':sum(r['participation']=='UNKNOWN_NOT_LISTED' for r in resolved)})
 ledger.append({'interface':'native_postgame_printed_content_identity_exposure','status':'PASS_BOUNDED_RECONSTRUCTION','listed_rows':len(box['rows']),'played':sum(r['state']=='PLAYED' for r in box['rows']),'dnp':sum(r['state']=='DNP' for r in box['rows']),'duration':box['duration_minutes'],'legal_eligibility_inferred':False})
 for name in ['actual_S_O_J_model_inference','actual_model_consumer_integration','C_scoring_or_settlement_admission','tonight_live_default_producer_execution']:
     ledger.append({'interface':name,'status':'NOT_EXERCISED','reason':'No supplied model/scoring run; future execution separate from retrospective source engineering'})
