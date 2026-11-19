@@ -61,6 +61,20 @@ class HistoryRefreshTests(unittest.TestCase):
                 return r,({'playerId':1234567,'position':'C','featuredStats':{'season':20262027}} if '/landing' in u else {'gameLog':[{'gameId':99,'gameDate':'2025-01-01'}]})
             r,_=refresh({'1234567':'F'},pool=d,capture=cap,cutoff='2099-01-01T01:00:00Z',event_start='2099-01-01T02:00:00Z',target_games={'99'})
             self.assertEqual(r['player_records'],{});self.assertIn('TARGET_GAME_IN_HISTORY',r['failures'][0]['reason'])
+    def test_current_season_admission_excludes_old_log_without_rewriting_batch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)/'daily_history_manifests';root.mkdir()
+            now=datetime(2026,11,19,19,tzinfo=timezone.utc)
+            entry=lambda season:{'raw_log_receipt':{'source_url':'https://api-web.nhle.com/v1/player/1234567/game-log/'+season+'/2'}}
+            d={'created_at':now.isoformat(),'signed_observation_contracts_by_player':{'1234567':[entry('20252026')]*10},'qualified_players':1}
+            raw=canon(d);digest=hashlib.sha256(raw).hexdigest();path=root/(digest+'.json');path.write_bytes(raw)
+            view,ref=load_current(tmp,day='2026-11-19',now=now)
+            self.assertEqual(view['qualified_players'],0);self.assertEqual(view['noncurrent_season_exclusions'],['1234567'])
+            self.assertEqual(path.read_bytes(),raw);self.assertEqual(ref['sha256'],digest)
+    def test_history_manifest_hash_tamper_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)/'daily_history_manifests';root.mkdir();(root/('a'*64+'.json')).write_bytes(b'{}')
+            with self.assertRaisesRegex(ValueError,'HASH_DRIFT'):load_current(tmp,day='2026-11-19',now=datetime.now(timezone.utc))
     def test_expired_history_not_admitted(self):
         with tempfile.TemporaryDirectory() as d:
             with self.assertRaisesRegex(ValueError,'NO_FRESH'):load_current(d,day='2026-11-19',now=datetime.now(timezone.utc))

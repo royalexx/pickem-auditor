@@ -15,7 +15,7 @@ def utc(s):return datetime.fromisoformat(s.replace('Z','+00:00'))
 def canon(d):return json.dumps(d,sort_keys=True,separators=(',',':'),allow_nan=False).encode()
 
 
-def refresh(players,*,pool,capture,cutoff,event_start,target_games=(),workers=4):
+def refresh(players,*,pool,capture,cutoff,event_start,target_games=(),workers=4,required_season=None):
     """players maps official roster ID to F/D; one immutable batch, typed exclusions."""
     pool=Path(pool);cache={};logs={};profiles={};failures=[]
     def get(url):
@@ -30,7 +30,8 @@ def refresh(players,*,pool,capture,cutoff,event_start,target_games=(),workers=4)
         season=d.get('currentTeamRosterSeason') or d.get('featuredStats',{}).get('season')
         # Season comes from authoritative profile seasonTotals if feature wrapper differs.
         seasons=[x.get('season') for x in d.get('seasonTotals',[]) if x.get('gameTypeId')==2 and x.get('leagueAbbrev')=='NHL']
-        if seasons:season=max(int(x) for x in seasons)
+        candidates=[int(x) for x in seasons]+([int(season)] if re.fullmatch(r'\d{8}',str(season)) else [])
+        season=required_season if required_season is not None else max(candidates,default=None)
         if not re.fullmatch(r'\d{8}',str(season)):raise ValueError('OFFICIAL_SEASON_UNAVAILABLE')
         r,doc=get('https://api-web.nhle.com/v1/player/'+pid+'/game-log/'+str(season)+'/2')
         rows=doc.get('gameLog')
@@ -97,4 +98,15 @@ def load_current(pool,*,day,now):
             choices.append((created,p,d))
     if not choices:raise ValueError('NO_FRESH_SIGNED_HISTORY_BATCH')
     _,p,d=max(choices,key=lambda x:(x[0],str(x[1])))
+    # Current regular-season evidence only; retain the acquired batch unchanged.
+    local=now.astimezone(ZoneInfo('America/Toronto'))
+    start_year=local.year if local.month>=7 else local.year-1
+    season=str(start_year*10000+start_year+1)
+    original=d['signed_observation_contracts_by_player']
+    admitted={pid:[x for x in rs if x['raw_log_receipt']['source_url']==
+        'https://api-web.nhle.com/v1/player/'+pid+'/game-log/'+season+'/2'] for pid,rs in original.items()}
+    d={**d,'signed_observation_contracts_by_player':admitted,
+       'qualified_players':sum(len(rs)>=5 for rs in admitted.values()),
+       'admission_required_season':season,
+       'noncurrent_season_exclusions':[pid for pid,rs in admitted.items() if not rs]}
     return d,{'path':str(p),'sha256':p.stem}

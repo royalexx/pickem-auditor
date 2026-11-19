@@ -202,6 +202,7 @@ try:
     own_by=current['signed_observation_contracts_by_player']
     catalog_players=current['player_records']
     manifest['current_history_qualified_players']=current['qualified_players']
+    manifest['noncurrent_season_history_exclusions']=current['noncurrent_season_exclusions']
     manifest['source_baseline_copy']['no_daily_history_model_refit_claim']=False
     manifest['daily_fit_kind']='unchanged_analytic_model_on_current_signed_prior_games_no_NUTS'
     # 1. One genuinely new sportsbook provider response; no pasted historical offers.
@@ -362,6 +363,7 @@ try:
                 lambda stage,exc:fail(stage,sanit(exc)))
             nhl_events=official_games(schedule_receipt["source_url"],score,DAY)
             check(isinstance(nhl_events,list) and nhl_events,"SIGNED_NHL_SCOREBOARD_MISSING_GAMES")
+            check(all(str(g.get("season"))==current["admission_required_season"] for g in nhl_events),"SIGNED_SCHEDULE_SEASON_ADMISSION_MISMATCH")
             matches={}
             for eid,e in valid_provider_events.items():
                 proposals=[]

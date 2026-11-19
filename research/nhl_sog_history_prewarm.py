@@ -31,7 +31,8 @@ for team in sorted({g[t]['abbrev'] for g in games for t in ('homeTeam','awayTeam
             if pid in players and players[pid]!=role:raise ValueError('ROSTER_POSITION_CONFLICT')
             players[pid]=role
 result,receipt=refresh(players,pool=pool,capture=capture,cutoff=stamp(cutoff),
-    event_start=stamp(bound),target_games={str(g['id']) for g in games})
+    event_start=stamp(bound),target_games={str(g['id']) for g in games},
+    required_season=int(games[0]['season']))
 print('NHL_HISTORY_PREWARM',json.dumps({'receipt':receipt,'requested_players':len(players),
     'qualified_players':result['qualified_players'],'captured_players':len(result['player_records']),
     'final_games_captured':result['final_games_captured'],'failures':result['failures'][:12],
