@@ -82,3 +82,24 @@ def open_history_sources(pool,manifest):
             if info.is_dir():dest.mkdir(parents=True,exist_ok=True)
             else:dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(z.read(info))
     return local
+
+
+def stage_packets(pool):
+    """Rehydrate only completed original response packets; partial ones abstain."""
+    local=Path(tempfile.mkdtemp(prefix='nhl_original_packets_',dir='/tmp'))
+    rejected=[]
+    def one(path):
+        raw=path.read_bytes()
+        if hashlib.sha256(raw).hexdigest()!=path.stem:
+            rejected.append(path.name);return
+        import io
+        with zipfile.ZipFile(io.BytesIO(raw)) as z:
+            for member in z.infolist():
+                dest=safe(local,member.filename);dest.parent.mkdir(parents=True,exist_ok=True)
+                # Concurrent packets may share identical content-addressed bodies.
+                data=z.read(member)
+                try:
+                    with dest.open('xb') as f:f.write(data)
+                except FileExistsError:pass
+    with ThreadPoolExecutor(max_workers=8) as ex:list(ex.map(one,sorted((Path(pool)/'source_packets').glob('*.zip'))))
+    return local,rejected

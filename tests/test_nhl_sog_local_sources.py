@@ -14,6 +14,16 @@ class LocalSourcesTests(unittest.TestCase):
             self.assertEqual(hashlib.sha256(before).hexdigest(),doc['source_bundle']['sha256'])
             (root/doc['source_bundle']['path']).write_bytes(before+b'changed')
             with self.assertRaisesRegex(ValueError,'HASH_DRIFT'):open_history_sources(root,doc)
+    def test_original_source_packet_preserves_signed_bytes_and_clock(self):
+        from v2.nhl_sog_source_packets import persist_packet
+        with tempfile.TemporaryDirectory() as tmp,tempfile.TemporaryDirectory() as stage:
+            local=Path(stage);r={'archive_path':'raw_http_body/body.bin','collector_proof_archive_path':'c03_collector_receipts/proof.json','received_at':'2026-11-19T20:00:00Z'}
+            for rel,raw in ((r['archive_path'],b'original HTTP bytes'),(r['collector_proof_archive_path'],b'original HMAC proof')):
+                p=local/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(raw)
+            a=persist_packet(tmp,local,r);b=persist_packet(tmp,local,r)
+            self.assertEqual(a,b);self.assertEqual(r['received_at'],'2026-11-19T20:00:00Z')
+            with zipfile.ZipFile(Path(tmp)/a['path']) as z:
+                for rel in (r['archive_path'],r['collector_proof_archive_path']):self.assertEqual(z.read(rel),(local/rel).read_bytes())
     def test_zip_path_traversal_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);buf=io.BytesIO()

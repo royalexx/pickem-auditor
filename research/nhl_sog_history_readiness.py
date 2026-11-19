@@ -5,7 +5,7 @@ from zoneinfo import ZoneInfo
 import sys,json,hashlib
 root=Path.cwd();sys.path.insert(0,str(root/'research/nhl_sog_transport'))
 from v2.nhl_sog_history_refresh import load_current,canon
-from v2.nhl_sog_official_history_producer import independent_verify_observation_lineage
+from v2.nhl_sog_daily_history_producer import independent_verify_observation_lineage
 from v2.nhl_sog_daily_math import fit_model
 from v2.nhl_sog_daily_ledger import law,KINDS
 pool=root/'reports/v25_sog_source_cert_sprint/2026-11-13/signed_pr122_20261113T165907226991Z/original_signed_sources'

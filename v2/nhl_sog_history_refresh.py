@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor,as_completed
 from datetime import datetime,timezone,timedelta
 from pathlib import Path
 import hashlib,json,re
-from .nhl_sog_official_history_producer import import_signed_official_history
+from .nhl_sog_daily_history_producer import import_signed_official_history
 
 
 def stamp(d):return d.isoformat().replace('+00:00','Z')
@@ -50,18 +50,21 @@ def refresh(players,*,pool,capture,cutoff,event_start,target_games=(),workers=4,
             try:
                 pid,g,p,r,rows=f.result();profiles[pid]=p;logs[pid]=(g,r,rows)
             except Exception as e:failures.append({'player_id':fs[f],'stage':'PROFILE_OR_LOG','reason':type(e).__name__+':'+str(e)[:120]})
-    gids=sorted({str(x['gameId']) for _,_,rows in logs.values() for x in rows})
-    def final_job(gid):
-        r,d=get('https://api-web.nhle.com/v1/gamecenter/'+gid+'/landing')
-        if str(d.get('id'))!=gid or d.get('gameState') not in ('OFF','FINAL'):
-            raise ValueError('PRIOR_GAME_NOT_FINAL')
-        return gid,r
+    days={}
+    for _,_,rows in logs.values():
+        for row in rows:days.setdefault(row['gameDate'],set()).add(str(row['gameId']))
+    def day_job(day):
+        r,doc=get('https://api-web.nhle.com/v1/score/'+day)
+        found={str(g.get('id')):g for g in doc.get('games',[])}
+        if len(found)!=len(doc.get('games',[])):raise ValueError('DUPLICATE_OFFICIAL_GAME_ID')
+        qualified={gid:r for gid in days[day] if gid in found and found[gid].get('gameDate')==day and found[gid].get('gameState') in ('OFF','FINAL')}
+        return qualified
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        fs={ex.submit(final_job,g):g for g in gids}
+        fs={ex.submit(day_job,day):day for day in sorted(days)}
         for number,f in enumerate(as_completed(fs),1):
-            if number%25==0:print("HISTORY_FINAL_PROGRESS",number,len(fs),flush=True)
-            try:g,r=f.result();cache[g]=r
-            except Exception as e:failures.append({'game_id':fs[f],'stage':'FINAL','reason':type(e).__name__+':'+str(e)[:120]})
+            if number%10==0:print('HISTORY_FINAL_DATE_PROGRESS',number,len(fs),flush=True)
+            try:cache.update(f.result())
+            except Exception as e:failures.append({'date':fs[f],'stage':'OFFICIAL_DAILY_FINAL','reason':type(e).__name__+':'+str(e)[:120]})
     own={};catalog={}
     for number,(pid,(group,log,rows)) in enumerate(sorted(logs.items()),1):
         if number%25==0:print('HISTORY_IMPORT_PROGRESS',number,len(logs),flush=True)
@@ -100,7 +103,18 @@ def load_current(pool,*,day,now):
         if created.astimezone(ZoneInfo('America/Toronto')).date().isoformat()==day and timedelta(0)<=now-created<=timedelta(hours=6):
             choices.append((created,p,d))
     if not choices:raise ValueError('NO_FRESH_SIGNED_HISTORY_BATCH')
-    _,p,d=max(choices,key=lambda x:(x[0],str(x[1])))
+    rejected=[];last=None
+    for _,p,d in sorted(choices,key=lambda x:(x[0],str(x[1])),reverse=True):
+        view=_current_view(d,now)
+        ref={'path':str(p),'sha256':p.stem,'newer_unqualified_batches':list(rejected)}
+        if view['qualified_players']>0:return view,ref
+        rejected.append({'sha256':p.stem,'reason':'NO_CURRENT_FRESH_QUALIFIED_HISTORY'})
+        last=(view,ref)
+    return last
+
+
+def _current_view(d,now):
+    from zoneinfo import ZoneInfo
     # Current regular-season evidence only; retain the acquired batch unchanged.
     local=now.astimezone(ZoneInfo('America/Toronto'))
     start_year=local.year if local.month>=7 else local.year-1
@@ -115,4 +129,4 @@ def load_current(pool,*,day,now):
        'admission_required_season':season,
        'noncurrent_season_exclusions':sorted(noncurrent),
        'stale_log_exclusions':[pid for pid,rs in admitted.items() if not rs and pid not in noncurrent]}
-    return d,{'path':str(p),'sha256':p.stem}
+    return d

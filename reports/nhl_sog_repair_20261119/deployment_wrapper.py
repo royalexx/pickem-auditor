@@ -11,14 +11,14 @@ try:
 except ValueError:
     log=root/"reports"/("nhl_sog_history_prewarm_"+day+".log")
     with log.open("a") as out:
-        _p=subprocess.run([sys.executable,str(root/"research/nhl_sog_history_prewarm.py")],
+        _p=subprocess.run([sys.executable,str(root/"research/nhl_sog_history_fast_prewarm.py")],
             cwd=root,env={**os.environ,"PYTHONPATH":str(root)},stdout=out,stderr=out,timeout=2900)
     print("HISTORY_PREWARM",log.read_text()[-6000:])
     if _p.returncode:raise RuntimeError("HISTORY_PREWARM_FAILED")
     _history,_receipt=load_current(pool,day=day,now=datetime.now(timezone.utc))
 if _history["qualified_players"]==0:raise RuntimeError("NO_QUALIFIED_CURRENT_SIGNED_HISTORY")
 print("CURRENT_SIGNED_HISTORY",_receipt,"qualified_players",_history["qualified_players"])
-source=root/"research/nhl_sog_daily_gamma_poisson_research_v1_5.py"
+source=root/"research/nhl_sog_daily_gamma_poisson_research_v1_6.py"
 ast.parse(source.read_text(encoding="utf8"),filename=str(source))
 _result=runpy.run_path(str(source),run_name="__main__")
 del _result

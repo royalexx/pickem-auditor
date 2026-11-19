@@ -3,7 +3,7 @@ from datetime import datetime,timezone
 from pathlib import Path
 import hashlib,json
 from .nhl_sog_daily_math import ExperimentBlocked,fit_model,_utc
-from .nhl_sog_official_history_producer import independent_verify_observation_lineage,_signed
+from .nhl_sog_daily_history_producer import independent_verify_observation_lineage,_signed
 from .contracts import MarketQuote
 from .nhl_sog_daily_ledger import Ledger
 

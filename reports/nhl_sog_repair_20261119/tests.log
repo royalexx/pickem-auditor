@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------
-Ran 59 tests in 4.554s
+Ran 70 tests in 4.263s
 
 OK
-V25_SOG_NO_SOURCE_DRY_RUN {"attempted_at": "2026-11-19T19:57:45.750437Z", "contract_id": null, "event_id": null, "experiment_id": "EXP-V25-NHL-SOG-EXPOSURE-EB-001", "outcome_used": false, "production_selection_allowed": false, "reason": "ExperimentBlocked:RAW_REAL_OFFER_RECEIPT_MISSING", "schema": "v25_sog_prospective_attempt_v1", "source_semantics": "collector_possession_not_upstream_publication", "status": "ABSTAIN", "tier_publication_allowed": false}
-V25_SOG_CPU_SMOKE 1000_contract_lines_seconds=0.088 peak_python_bytes=1572
+V25_SOG_NO_SOURCE_DRY_RUN {"attempted_at": "2026-11-19T20:38:17.301221Z", "contract_id": null, "event_id": null, "experiment_id": "EXP-V25-NHL-SOG-EXPOSURE-EB-001", "outcome_used": false, "production_selection_allowed": false, "reason": "ExperimentBlocked:RAW_REAL_OFFER_RECEIPT_MISSING", "schema": "v25_sog_prospective_attempt_v1", "source_semantics": "collector_possession_not_upstream_publication", "status": "ABSTAIN", "tier_publication_allowed": false}
+V25_SOG_CPU_SMOKE 1000_contract_lines_seconds=0.081 peak_python_bytes=1572

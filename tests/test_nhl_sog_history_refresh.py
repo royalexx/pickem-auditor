@@ -14,7 +14,7 @@ class HistoryRefreshTests(unittest.TestCase):
                 calls.append(url);r={'received_at':now.isoformat(),'source_url':url}
                 if url.endswith('/landing') and '/player/' in url:return r,{'playerId':1234567,'position':'C','featuredStats':{'season':20262027}}
                 if '/game-log/' in url:return r,{'gameLog':[{'gameId':1,'gameDate':'2026-01-01','shots':3,'toi':'18:00'}]}
-                return r,{'id':1,'gameState':'OFF'}
+                return r,{'games':[{'id':1,'gameDate':'2026-01-01','gameState':'OFF'}]}
             def imported(**kw):
                 self.assertEqual(kw['player_id'],'1234567');self.assertIn('1',kw['completed_game_receipts'])
                 p=Path(d)/'obs.json';p.write_text(json.dumps({'event_id':'1','source_game_log_row':{'gameDate':'2026-01-01'}}))
@@ -81,6 +81,18 @@ class HistoryRefreshTests(unittest.TestCase):
             view,_=load_current(tmp,day='2026-11-19',now=now)
             self.assertEqual(view['qualified_players'],0);self.assertEqual(view['stale_log_exclusions'],['1234567'])
             self.assertEqual(view['noncurrent_season_exclusions'],[])
+    def test_newer_empty_batch_does_not_hide_certified_fresh_alternative(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)/'daily_history_manifests';root.mkdir();now=datetime(2026,11,19,19,tzinfo=timezone.utc)
+            e={'raw_log_receipt':{'source_url':'https://api-web.nhle.com/v1/player/1234567/game-log/20262027/2','received_at':now.isoformat()}}
+            older={'created_at':(now-timedelta(minutes=2)).isoformat(),'signed_observation_contracts_by_player':{'1234567':[e]*5},'qualified_players':1}
+            newer={'created_at':(now-timedelta(minutes=1)).isoformat(),'signed_observation_contracts_by_player':{},'qualified_players':0}
+            ids=[]
+            for d in (older,newer):
+                raw=canon(d);h=hashlib.sha256(raw).hexdigest();ids.append(h);(root/(h+'.json')).write_bytes(raw)
+            view,ref=load_current(tmp,day='2026-11-19',now=now)
+            self.assertEqual(view['qualified_players'],1);self.assertEqual(ref['sha256'],ids[0])
+            self.assertEqual(ref['newer_unqualified_batches'][0]['sha256'],ids[1])
     def test_history_manifest_hash_tamper_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)/'daily_history_manifests';root.mkdir();(root/('a'*64+'.json')).write_bytes(b'{}')

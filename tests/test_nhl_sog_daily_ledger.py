@@ -72,6 +72,40 @@ class Daily(unittest.TestCase):
             p.stdout.close()
         self.assertEqual(self.l.db.execute('select count(*) from forecasts').fetchone()[0],0)
         self.assertEqual(self.freeze()['newly_frozen'],5)
+    def test_filesystem_without_hardlinks_uses_verified_no_overwrite_objects(self):
+        import errno
+        with patch('os.link',side_effect=OSError(errno.EOPNOTSUPP,'unsupported')):
+            self.assertEqual(self.freeze()['newly_frozen'],5)
+            self.assertEqual(self.freeze()['newly_frozen'],0)
+            self.assertEqual(self.l.settle(outcome,run_id='fallback')['newly_settled'],5)
+    def test_incomplete_content_addressed_write_is_quarantined_and_retried(self):
+        raw=b'complete expected source bytes';sha=hashlib.sha256(raw).hexdigest();p=Path(self.tmp.name)/sha
+        p.write_bytes(b'partial');atomic_blob(p,raw)
+        self.assertEqual(p.read_bytes(),raw);self.assertTrue(list(Path(self.tmp.name).glob(sha+'.incomplete.*')))
+    def test_unconfirmed_freeze_is_never_settled(self):
+        self.freeze();self.l.db.execute('DELETE FROM freeze_receipts');self.l.db.commit()
+        result=self.l.settle(outcome,run_id='unconfirmed')
+        self.assertEqual(result['newly_settled'],0);self.assertEqual(result['unresolved'],5)
+        self.assertEqual(result['unique_forecast_dates'],0)
+    def test_commit_finishing_after_cutoff_has_no_prospective_receipt(self):
+        c,m,now=fixture(1)
+        times=iter([now,now,now,datetime(2030,1,1,23,1,tzinfo=timezone.utc)])
+        class Clock(datetime):
+            @classmethod
+            def now(cls,tz=None):return next(times)
+        with patch('v2.nhl_sog_daily_ledger.datetime',Clock):
+            with self.assertRaisesRegex(ValueError,'FREEZE_COMMIT_AFTER_CUTOFF'):
+                self.l.freeze(c,m,run_id='slow-write',code_sha='a'*40)
+        self.assertEqual(self.l.db.execute('select count(*) from freeze_receipts').fetchone()[0],0)
+        result=self.l.settle(outcome,run_id='after-slow-write')
+        self.assertEqual(result['newly_settled'],0);self.assertEqual(result['unique_forecast_dates'],0)
+    def test_rescheduled_game_is_not_silently_graded_as_original_market(self):
+        self.freeze()
+        def changed(g):
+            d,r=outcome(g);d['startTimeUTC']='2030-01-03T23:00:00Z';r['raw']=canonical(d);r['sha256']=hashlib.sha256(r['raw']).hexdigest();return d,r
+        result=self.l.settle(changed,run_id='rescheduled')
+        self.assertEqual(result['newly_settled'],0);self.assertEqual(result['unresolved'],5)
+        self.assertIn('RESCHEDULED_GAME_ORIGINAL_CONTRACT_REVIEW',result['reasons'])
     def test_after_start(self):
         c,m,n=fixture(1)
         with self.assertRaises(ValueError):self.l.freeze(c,m,run_id='x',code_sha='a'*40,now=datetime(2030,1,2,tzinfo=timezone.utc))

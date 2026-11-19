@@ -18,7 +18,7 @@ def run(dest):
         events.append(ledger.settle(outcome,run_id='synthetic-morning-'+str(day)))
         events.append(ledger.settle(outcome,run_id='synthetic-retry-'+str(day)))
     exports={}
-    for table in ('forecasts','outcomes','heads','runs'):
+    for table in ('forecasts','freeze_receipts','outcomes','heads','runs'):
         columns=[x[1] for x in ledger.db.execute('pragma table_info('+table+')')]
         rows=[dict(zip(columns,[json.loads(x) if isinstance(x,bytes) else x for x in r]))
               for r in ledger.db.execute('select * from '+table+' order by 1')]

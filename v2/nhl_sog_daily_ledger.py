@@ -88,6 +88,7 @@ class Ledger:
             previous TEXT, body BLOB);
         CREATE TABLE IF NOT EXISTS heads(forecast TEXT PRIMARY KEY, outcome TEXT);
         CREATE TABLE IF NOT EXISTS runs(id TEXT PRIMARY KEY, body BLOB);
+        CREATE TABLE IF NOT EXISTS freeze_receipts(contract TEXT PRIMARY KEY, body BLOB);
         ''')
 
     def freeze(self,contract,model,*,run_id,code_sha,now=None):
@@ -131,7 +132,8 @@ class Ledger:
                   'run_id':run_id,'code_sha':code_sha,
                   'daily_implementation_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                   'generated_at':generated,
-                  'frozen_at':generated,'freeze_cutoff_at':cutoff.isoformat(),'eligibility':'source_verified_played_game_conditional',
+                  'freeze_started_at':generated,'frozen_at':None,'freeze_clock_semantics':'separate_verified_commit_receipt','freeze_cutoff_at':cutoff.isoformat(),'eligibility':'SYNTHETIC_FIXTURE_NOT_SOURCE_CERTIFIED' if injected else 'source_verified_played_game_conditional',
+                  'evidence_class':'SYNTHETIC' if injected else 'PROSPECTIVE_CANDIDATE_REQUIRING_COMMIT_RECEIPT',
                   'research_only':True,'promotion_allowed':False}
             rows.append((digest(body),key,name,start.astimezone(ZoneInfo('America/Toronto')).date().isoformat(),canonical(body)))
         # Recheck actual wall time after inference; never use a generation-start
@@ -141,19 +143,40 @@ class Ledger:
             raise ValueError('FREEZE_COMPLETED_AFTER_START')
         finalized=[]
         for _,key,name,slate,raw in rows:
-            body=json.loads(raw);body['frozen_at']=finished.isoformat()
+            body=json.loads(raw);body['freeze_started_at']=finished.isoformat()
             finalized.append((digest(body),key,name,slate,canonical(body)))
         rows=finalized
         archive=Path(self.db.execute('PRAGMA database_list').fetchone()[2]).parent/'forecasts'
-        for fid,_,_,_,raw in rows:atomic_blob(archive/(fid+'.json'),raw)
         # Five candidate rows commit together or roll back together, including crash.
         with self.db:
+            self.db.execute("BEGIN IMMEDIATE")
             if not injected and datetime.now(timezone.utc)>=cutoff:
                 raise ValueError("FREEZE_TRANSACTION_AFTER_START")
             added=0
             for row in rows:
+                atomic_blob(archive/(row[0]+'.json'),row[4])
                 added+=self.db.execute('INSERT OR IGNORE INTO forecasts VALUES(?,?,?,?,?)',row).rowcount
-        return {'newly_frozen':added,'previously_frozen':len(rows)-added,'contract':key}
+        existing=self.db.execute('SELECT body FROM freeze_receipts WHERE contract=?',(key,)).fetchone()
+        if existing:commit=json.loads(existing[0])
+        else:
+            # This clock is sampled AFTER payload verification and the first
+            # durable SQL commit. No recomputation is substituted for stored rows.
+            verified=now if injected else datetime.now(timezone.utc)
+            if verified>=cutoff:raise ValueError('FREEZE_COMMIT_AFTER_CUTOFF')
+            stored=self.db.execute('SELECT id,body FROM forecasts WHERE contract=? ORDER BY model',(key,)).fetchall()
+            if len(stored)!=len(KINDS):raise ValueError('INCOMPLETE_STORED_FAMILY')
+            for fid,raw in stored:
+                if digest(json.loads(raw))!=fid:raise ValueError('FROZEN_FORECAST_HASH_DRIFT')
+                if (archive/(fid+'.json')).read_bytes()!=raw:raise ValueError('STORED_FORECAST_BYTES_DRIFT')
+            commit={'schema':'nhl_sog_freeze_commit/1','contract':key,
+                    'forecast_ids':[r[0] for r in stored],'frozen_at':verified.isoformat(),
+                    'freeze_cutoff_at':cutoff.isoformat(),'synthetic_fixture':injected}
+            with self.db:
+                self.db.execute('BEGIN IMMEDIATE')
+                atomic_blob(archive.parent/'freeze_receipts'/(digest(commit)+'.json'),canonical(commit))
+                self.db.execute('INSERT OR IGNORE INTO freeze_receipts VALUES(?,?)',(key,canonical(commit)))
+        return {'newly_frozen':added,'previously_frozen':len(rows)-added,'contract':key,
+                'freeze_commit_sha256':digest(commit),'frozen_at':commit['frozen_at']}
 
     def settle(self,fetch,*,run_id):
         counts={'newly_settled':0,'previously_settled':0,'corrections':0,'pending':0,'unresolved':0}
@@ -163,6 +186,11 @@ class Ledger:
             f=json.loads(body);c=f['contract'];gid=str(c['official_game_id'])
             try:
                 if digest(f)!=fid:raise ValueError("FROZEN_FORECAST_HASH_DRIFT")
+                freeze=self.db.execute('SELECT body FROM freeze_receipts WHERE contract=?',(f['contract_key'],)).fetchone()
+                if not freeze:raise ValueError('UNCONFIRMED_FREEZE_NOT_PROSPECTIVE')
+                freeze=json.loads(freeze[0])
+                if fid not in freeze['forecast_ids'] or utc(freeze['frozen_at'])>=utc(f['freeze_cutoff_at']):
+                    raise ValueError('FREEZE_RECEIPT_IDENTITY_OR_CUTOFF_INVALID')
                 if gid not in cache:
                     cache[gid]=fetch(gid)
                 doc,receipt=cache[gid]
@@ -175,7 +203,13 @@ class Ledger:
                 if utc(receipt['received_at']) < utc(c['event_start_at']):
                     raise ValueError('OUTCOME_BEFORE_GAME')
                 source=Path(self.db.execute('PRAGMA database_list').fetchone()[2]).parent/'official'/receipt['sha256']
-                atomic_blob(source,receipt['raw'])
+                with self.db:
+                    self.db.execute('BEGIN IMMEDIATE')
+                    atomic_blob(source,receipt['raw'])
+                if doc.get('gameScheduleState') in ('PPD','CNCL','CANCELLED'):
+                    raise ValueError('POSTPONED_OR_CANCELLED_ORIGINAL_CONTRACT_REVIEW')
+                if doc.get('startTimeUTC') and utc(doc['startTimeUTC'])!=utc(c['event_start_at']):
+                    raise ValueError('RESCHEDULED_GAME_ORIGINAL_CONTRACT_REVIEW')
                 if doc.get('gameState') not in ('OFF','FINAL'):
                     counts['pending']+=1;records.append({'forecast':fid,'status':'PENDING_OFFICIAL_FINAL','source_sha256':receipt['sha256']});continue
                 if {doc[z]['abbrev'] for z in ('homeTeam','awayTeam')}!={c['team_id'],c['opponent_id']}:
@@ -216,7 +250,7 @@ class Ledger:
                 records.append({'forecast':fid,'status':'UNRESOLVED','reason':str(exc)})
                 counts.setdefault('reasons',{}).setdefault(str(exc),0)
                 counts['reasons'][str(exc)]+=1
-        counts['unique_forecast_dates']=self.db.execute('SELECT count(DISTINCT slate) FROM forecasts').fetchone()[0]
+        counts['unique_forecast_dates']=self.db.execute('SELECT count(DISTINCT f.slate) FROM forecasts f JOIN freeze_receipts r ON f.contract=r.contract').fetchone()[0]
         counts['unique_settled_contracts']=self.db.execute('SELECT count(DISTINCT f.contract) FROM forecasts f JOIN heads h ON f.id=h.forecast').fetchone()[0]
         counts['run_id']=run_id
         counts['records']=records
@@ -226,17 +260,46 @@ class Ledger:
 
 
 def atomic_blob(path,raw):
-    import os,tempfile
-    path.parent.mkdir(parents=True,exist_ok=True)
-    fd,tmp=tempfile.mkstemp(dir=path.parent)
+    """Immutable verified object, including object stores without hard links.
+
+    Ledger callers hold the SQL writer lock. A completion marker is written
+    only after exact-byte verification; an uncommitted partial content-addressed
+    object can be quarantined and retried. Completed objects are never replaced.
+    """
+    import os,tempfile,errno
+    path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
+    expected=hashlib.sha256(raw).hexdigest();marker=path.with_name(path.name+'.complete')
+    if path.exists():
+        current=path.read_bytes()
+        if current!=raw:
+            if marker.exists() or path.stem!=expected and path.name!=expected:
+                raise ValueError('IMMUTABLE_BLOB_CHANGED')
+            damaged=path.with_name(path.name+'.incomplete.'+hashlib.sha256(current).hexdigest())
+            if not damaged.exists():
+                with damaged.open('xb') as f:f.write(current)
+            path.unlink() # Only an uncommitted partial object, never a completed freeze.
+    if not path.exists():
+        fd,tmp=tempfile.mkstemp(dir=path.parent)
+        try:
+            with os.fdopen(fd,'wb') as f:f.write(raw);f.flush();os.fsync(f.fileno())
+            try:os.link(tmp,path)
+            except FileExistsError:pass
+            except OSError as exc:
+                if exc.errno not in (errno.ENOTSUP,errno.EOPNOTSUPP):raise
+                try:
+                    with path.open('xb') as f:f.write(raw);f.flush();os.fsync(f.fileno())
+                except FileExistsError:pass
+        finally:os.unlink(tmp)
+    if path.read_bytes()!=raw:raise ValueError('IMMUTABLE_BLOB_CHANGED')
+    stamp=expected.encode()
+    if marker.exists() and marker.read_bytes()!=stamp:
+        broken=marker.with_name(marker.name+'.incomplete.'+hashlib.sha256(marker.read_bytes()).hexdigest())
+        if not broken.exists():broken.write_bytes(marker.read_bytes())
+        marker.unlink()
     try:
-        with os.fdopen(fd,'wb') as f:
-            f.write(raw);f.flush();os.fsync(f.fileno())
-        try:os.link(tmp,path)
-        except FileExistsError:pass
-        if path.read_bytes()!=raw:raise ValueError('IMMUTABLE_BLOB_CHANGED')
-    finally:
-        os.unlink(tmp)
+        with marker.open('xb') as f:f.write(stamp);f.flush();os.fsync(f.fileno())
+    except FileExistsError:pass
+    if marker.read_bytes()!=stamp:raise ValueError('OBJECT_COMPLETION_MARKER_INVALID')
 
 
 def score(f,y):
