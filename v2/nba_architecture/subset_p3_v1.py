@@ -17,6 +17,23 @@ NATIVE_SHA='6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30'
 COHORT_SHA='0ecd8c98ea97bb8be852807c5935d8427adb2b9d9ca062d823da86279f57357f'
 MODELS=('M0','M1','M2')
 BASE='https://site.api.espn.com/apis/site/v2/sports/basketball/nba/'
+HISTORY_POPULATION={
+    '9':(('401909092','2026-10-22T02:00Z'),('401909850','2026-10-24T02:00Z'),
+        ('401909860','2026-10-25T02:00Z'),('401909876','2026-10-27T02:00Z'),
+        ('401909888','2026-10-29T00:00Z'),('401909285','2026-10-31T02:00Z'),
+        ('401909905','2026-11-02T01:30Z'),('401909919','2026-11-03T03:00Z'),
+        ('401909937','2026-11-06T03:00Z'),('401909942','2026-11-08T01:30Z'),
+        ('401909959','2026-11-10T03:00Z'),('401909974','2026-11-12T02:30Z'),
+        ('401909302','2026-11-14T02:30Z'),('401910000','2026-11-17T01:00Z'),
+        ('401910016','2026-11-19T01:00Z')),
+    '29':(('401909838','2026-10-22T00:00Z'),('401909850','2026-10-24T02:00Z'),
+        ('401909867','2026-10-26T01:00Z'),('401909875','2026-10-27T01:00Z'),
+        ('401909895','2026-10-30T02:00Z'),('401909899','2026-11-01T00:00Z'),
+        ('401909914','2026-11-03T01:00Z'),('401909927','2026-11-05T01:00Z'),
+        ('401909291','2026-11-07T01:00Z'),('401909955','2026-11-10T00:30Z'),
+        ('401909970','2026-11-12T01:00Z'),('401909300','2026-11-14T01:00Z'),
+        ('401909983','2026-11-15T01:00Z'),('401909996','2026-11-17T00:00Z'),
+        ('401910007','2026-11-19T00:00Z'))}
 
 
 def require(condition,reason):
@@ -64,6 +81,7 @@ def _observation(row,index):
     stats=row.get('stats',[]);text=stats[index] if len(stats)>index else None
     dnp=row.get('didNotPlay')
     if dnp is True:
+        require(stats==[],'DNP_NONEMPTY_CREDIT_ARRAY_UNVERIFIED')
         require(text in (None,'','--','0'),'DNP_POSITIVE_MINUTE_CONFLICT')
         state='DNP'
     elif dnp is False and isinstance(text,str) and re.fullmatch(r'[0-9]+',text):
@@ -84,6 +102,8 @@ def read_team_history(history_dir,team_id,cohort):
     require(len({str(e['id']) for e in all_events})==len(all_events),'HISTORY_DUPLICATE_GAME')
     events=[e for e in all_events if native.utc(e['date'])<native.utc(cohort['start'])
         and e.get('competitions',[{}])[0].get('status',{}).get('type',{}).get('completed') is True]
+    require({(str(e['id']),e['date']) for e in events}==set(HISTORY_POPULATION[team_id]),
+        'HISTORY_REQUIRED_GAME_COVERAGE')
     games=[]
     for event in sorted(events,key=lambda e:(e['date'],e['id'])):
         require(native.utc(event['date'])<native.utc(freeze),'HISTORY_FUTURE_COMPLETED_GAME')
@@ -148,9 +168,11 @@ def run_p3(source_raw,capture_dir,cohort,*,history_dir,model_path,forecast_at):
     for request in handoff['requests']['rows']:
         pid=request['player_id'];tid=request['team_id'].removeprefix('espn:team:')
         reason=None;features=None;position=None;history=[];gap=None
-        for game in histories.get(tid,[]):
+        missing=[dict(game_id=gid,observations={}) for gid,date in HISTORY_POPULATION.get(tid,())]
+        for game in histories.get(tid,missing):
             obs=game['observations'].get(pid,dict(state='UNKNOWN',displayed_minutes=None,raw_display=None,units='ESPN_DISPLAYED_ROUNDED_MINUTES',exact_seconds=None))
-            observations.append(dict(player_id=pid,team_id=request['team_id'],game_id=game['game_id'],**obs))
+            observations.append(dict(player_id=pid,team_id=request['team_id'],game_id=game['game_id'],
+                source_rejection=team_errors.get(tid),**obs))
             if obs['state']=='PLAYED':history.append(dict(game_date=game['game_date'],game_id=game['game_id'],workload=obs['displayed_minutes'],team=game['team']))
         try:
             require(request['source_request_status']=='SOURCE_READY_CONDITIONAL_REQUEST','P1_SOURCE_ABSTENTION')

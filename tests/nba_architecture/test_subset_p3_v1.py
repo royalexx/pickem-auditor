@@ -134,3 +134,17 @@ class P3SubsetTests(unittest.TestCase):
                 x=self.run_model(history=h,capture=cap);self.assertEqual(x['attempt_denominator'],108)
                 self.assertTrue(any(r['forecast'] for r in x['rows'] if r['team_id']=='espn:team:9'))
                 if kind=='null_position':self.assertTrue(all(r['reason']=='P3_POSITION_UNAVAILABLE' for r in x['rows'] if r['player_id']=='espn:player:5041935'))
+
+    def test_credited_dnp_and_missing_schedule_game_reject_without_denominator_loss(self):
+        for attack in ('credited_dnp','missing_game'):
+            with self.subTest(attack=attack),tempfile.TemporaryDirectory() as tmp:
+                h=Path(tmp)/'history';shutil.copytree(HISTORY,h)
+                if attack=='credited_dnp':
+                    folder=self.latest(h);b=json.loads((folder/'body.raw').read_bytes());s=next(t for t in b['boxscore']['players'] if t['team']['id']=='29')['statistics'][0]
+                    target=s['athletes'][0];target['didNotPlay']=True;target['stats'][s['names'].index('MIN')]='0';target['stats'][s['names'].index('PTS')]='3'
+                else:
+                    folder=h/'schedule-29';b=json.loads((folder/'body.raw').read_bytes());b['events'].pop(0)
+                self.reseal(folder,body=b);x=self.run_model(h)
+                self.assertIn('29',x['team_errors']);self.assertEqual(x['observation_denominator'],540);self.assertEqual(x['attempt_denominator'],108)
+                unknown=[r for r in x['observations'] if r['team_id']=='espn:team:29']
+                self.assertTrue(all(r['state']=='UNKNOWN' and r['source_rejection'] for r in unknown))
