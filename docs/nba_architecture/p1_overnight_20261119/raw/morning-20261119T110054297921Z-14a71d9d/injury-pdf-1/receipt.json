@@ -1,0 +1,33 @@
+{
+  "schema": "nba-p1-raw-capture/1.0.0",
+  "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf",
+  "retrieval_started_at": "2026-11-19T11:01:25.015625+00:00",
+  "source_published_at": null,
+  "original_historical_available_at": null,
+  "admission": "UNADMITTED",
+  "correction_history_complete": null,
+  "predecessor_sha256": null,
+  "status": 200,
+  "headers": {
+    "x-amz-id-2": "Q/Bdc26dC9WMmHFIW1Y/q+fOOl4xXx3MlJSILpiEIW+UGw/zgJbJUVPrWkbVxAJkr718/gCpiok=",
+    "x-amz-request-id": "MBXNJWR5H8MVEQB8",
+    "Server": "AmazonS3",
+    "Last-Modified": "Thu, 19 Nov 2026 05:45:04 GMT",
+    "ETag": "\"462f26de6d987dc9a7f1f75fe78d73b9\"",
+    "x-amz-server-side-encryption": "AES256",
+    "x-amz-version-id": "yrrAE4SZF_uUA6J6tCuvyzu398vHroww",
+    "Accept-Ranges": "bytes",
+    "Content-Type": "application/pdf",
+    "Content-Length": "87302",
+    "Date": "Thu, 19 Nov 2026 11:01:25 GMT",
+    "Connection": "close",
+    "X-XSS-Protection": "1; mode=block",
+    "X-Content-Type-Options": "nosniff",
+    "Strict-Transport-Security": "max-age=86400"
+  },
+  "retrieval_completed_at": "2026-11-19T11:01:25.052872+00:00",
+  "raw_sha256": "91002377f7653e4c96aaa7c3293c70f3a36ceaf000cbd2be2349205831ccea33",
+  "bytes": 87302,
+  "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+  "ingested_at": "2026-11-19T11:01:25.615233+00:00"
+}

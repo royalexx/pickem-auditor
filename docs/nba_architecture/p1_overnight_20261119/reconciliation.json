@@ -1,0 +1,369 @@
+{
+  "schema": "nba-p1-overnight-reconciliation/1.0.0",
+  "input_roster_rows": 36,
+  "initial_roster_rows": 35,
+  "added_before_freeze": [
+    {
+      "player_id": "espn:player:4702099",
+      "team_id": "espn:team:5",
+      "name": "Zack Austin",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_generated_at": "2026-11-18T23:40:03Z",
+      "source_published_at": null,
+      "source_injuries": [],
+      "availability": "UNKNOWN_UNADMITTED",
+      "legal_eligibility": null,
+      "participation_probability": null
+    }
+  ],
+  "removed_before_freeze": [],
+  "final_box_listed_rows": 25,
+  "played_rows": 22,
+  "dnp_rows": 3,
+  "unlisted_rows": 11,
+  "printed_inactive_text": [
+    "Inactive: Grizzlies - Jackson (Injury/Illness - Left 5th Metatarsal Fracture), Jerome (Injury/Illness - Right Hip Impingement), Pippen Jr. (Injury/Illness - Lumbar",
+    "Inactive: Cavaliers - Mobley (Injury/Illness - Left Great Toe Sprain), Tomlin (Injury/Illness - Low Back Stress Reaction), Tyson (Injury/Illness - Right Ankle Injury"
+  ],
+  "printed_inactive_external_identity_admitted": false,
+  "pdf_duration_minutes": "48",
+  "pdf_overtime": 0,
+  "positive_minimum_seconds": 349,
+  "target_eligible_roster_count": null,
+  "correction_history_complete": null,
+  "fixed_old_root_result": "ADMISSION_SOURCE_OR_CAPABILITY_UNREVIEWED",
+  "rows": [
+    {
+      "player_id": "espn:player:4066328",
+      "name": "Jarrett Allen",
+      "team_id": "espn:team:5",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 1777,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4702099",
+      "name": "Zack Austin",
+      "team_id": "espn:team:5",
+      "final_box_state": "DNP",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:3934723",
+      "name": "Thomas Bryant",
+      "team_id": "espn:team:5",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 721,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4997530",
+      "name": "Khalifa Diop",
+      "team_id": "espn:team:5",
+      "final_box_state": "DNP",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:3992",
+      "name": "James Harden",
+      "team_id": "espn:team:5",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 2131,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:2995706",
+      "name": "Mario Hezonja",
+      "team_id": "espn:team:5",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 1682,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4066757",
+      "name": "Sam Merrill",
+      "team_id": "espn:team:5",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 1377,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5177362",
+      "name": "Riley Minix",
+      "team_id": "espn:team:5",
+      "final_box_state": "UNKNOWN_NOT_IN_LISTED_BOX",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:3908809",
+      "name": "Donovan Mitchell",
+      "team_id": "espn:team:5",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 2126,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4432158",
+      "name": "Evan Mobley",
+      "team_id": "espn:team:5",
+      "final_box_state": "UNKNOWN_NOT_IN_LISTED_BOX",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4702134",
+      "name": "Norchad Omier",
+      "team_id": "espn:team:5",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 981,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4701233",
+      "name": "Craig Porter Jr.",
+      "team_id": "espn:team:5",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 733,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5023693",
+      "name": "Tyrese Proctor",
+      "team_id": "espn:team:5",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 1546,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5041951",
+      "name": "Meleek Thomas",
+      "team_id": "espn:team:5",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 1326,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5106268",
+      "name": "Nae'Qwan Tomlin",
+      "team_id": "espn:team:5",
+      "final_box_state": "UNKNOWN_NOT_IN_LISTED_BOX",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4683747",
+      "name": "Jaylon Tyson",
+      "team_id": "espn:team:5",
+      "final_box_state": "UNKNOWN_NOT_IN_LISTED_BOX",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5106261",
+      "name": "Ernest Udeh Jr.",
+      "team_id": "espn:team:5",
+      "final_box_state": "UNKNOWN_NOT_IN_LISTED_BOX",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4576087",
+      "name": "Peyton Watson",
+      "team_id": "espn:team:5",
+      "final_box_state": "UNKNOWN_NOT_IN_LISTED_BOX",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5041935",
+      "name": "Cameron Boozer",
+      "team_id": "espn:team:29",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 1661,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4903027",
+      "name": "Cedric Coward",
+      "team_id": "espn:team:29",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 2006,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4600663",
+      "name": "Zach Edey",
+      "team_id": "espn:team:29",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 1274,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:2991070",
+      "name": "Jerami Grant",
+      "team_id": "espn:team:29",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 1210,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4684806",
+      "name": "Taylor Hendricks",
+      "team_id": "espn:team:29",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 1242,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5105550",
+      "name": "GG Jackson",
+      "team_id": "espn:team:29",
+      "final_box_state": "UNKNOWN_NOT_IN_LISTED_BOX",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4065733",
+      "name": "Ty Jerome",
+      "team_id": "espn:team:29",
+      "final_box_state": "UNKNOWN_NOT_IN_LISTED_BOX",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5231919",
+      "name": "Karim Lopez",
+      "team_id": "espn:team:29",
+      "final_box_state": "DNP",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4683934",
+      "name": "Jahmai Mashack",
+      "team_id": "espn:team:29",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 769,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4594326",
+      "name": "Kris Murray",
+      "team_id": "espn:team:29",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 349,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4431785",
+      "name": "Scotty Pippen Jr.",
+      "team_id": "espn:team:29",
+      "final_box_state": "UNKNOWN_NOT_IN_LISTED_BOX",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4593016",
+      "name": "Quinten Post",
+      "team_id": "espn:team:29",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 364,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4595400",
+      "name": "Olivier-Maxence Prosper",
+      "team_id": "espn:team:29",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 965,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5105462",
+      "name": "Richie Saunders",
+      "team_id": "espn:team:29",
+      "final_box_state": "UNKNOWN_NOT_IN_LISTED_BOX",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4781746",
+      "name": "Javon Small",
+      "team_id": "espn:team:29",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 1243,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4433083",
+      "name": "Cam Spencer",
+      "team_id": "espn:team:29",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 1767,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:4432810",
+      "name": "Isaiah Stewart",
+      "team_id": "espn:team:29",
+      "final_box_state": "UNKNOWN_NOT_IN_LISTED_BOX",
+      "exact_seconds": null,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    },
+    {
+      "player_id": "espn:player:5112087",
+      "name": "Jaylen Wells",
+      "team_id": "espn:team:29",
+      "final_box_state": "PLAYED",
+      "exact_seconds": 1550,
+      "legal_eligibility": null,
+      "genuine_participation_probability": null
+    }
+  ],
+  "B_P1_01": "BLOCKED",
+  "B_P1_02": "BLOCKED",
+  "G1": "NO-GO"
+}

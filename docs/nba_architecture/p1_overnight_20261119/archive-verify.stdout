@@ -1,0 +1,37 @@
+{
+  "archive_bytes": 1717132,
+  "archive_sha256": "39d9176f2f5cdb4174b56c563aaff7f702b48737d3741702e693538c0e8dfff2",
+  "attempts": [
+    {
+      "path": "raw/morning-20261119T110054297921Z-14a71d9d",
+      "stage": "morning",
+      "started_at": "2026-11-19T11:00:54.297921+00:00",
+      "completed_at": "2026-11-19T11:01:25.976459+00:00",
+      "status": "CAPTURED_UNADMITTED",
+      "errors": [],
+      "rows": 36,
+      "verified_files": 29
+    },
+    {
+      "path": "raw/pregame-20261118T233000062779Z-ebeadf4e",
+      "stage": "pregame",
+      "started_at": "2026-11-18T23:30:00.062779+00:00",
+      "completed_at": "2026-11-18T23:30:18.924114+00:00",
+      "status": "CAPTURED_UNADMITTED",
+      "errors": [],
+      "rows": 36,
+      "verified_files": 27
+    },
+    {
+      "path": "raw/pregame-20261118T234000059565Z-aae5f441",
+      "stage": "pregame",
+      "started_at": "2026-11-18T23:40:00.059565+00:00",
+      "completed_at": "2026-11-18T23:40:19.512113+00:00",
+      "status": "CAPTURED_UNADMITTED",
+      "errors": [],
+      "rows": 36,
+      "verified_files": 27
+    }
+  ],
+  "original_pregame_admission": false
+}

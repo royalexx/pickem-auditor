@@ -1,0 +1,32 @@
+{
+  "base": "ffc66331dffdf3e6fa2f9be1a0dd60fd1eed0a9f",
+  "audit_only": true,
+  "public_readers": {
+    "v2/nba_architecture/gamebook_v1.py": "2d36bd61e70fa6557fcaef535482f9c89cd2be29599756570e0a2010a3731193",
+    "v2/nba_architecture/gamebook_identity_v1.py": "51ebbe20652a8beb776e2bfcf887825e9b7a441bda3532420181d4465670fe55",
+    "v2/nba_architecture/admission_v1.py": "35b1947af4fcb6ef19085b1764c6eb7931f5165556f1b12f0dec009302d28e13",
+    "scripts/nba_p1_prospective_capture.py": "4df0240932dcfed1c4a243b6015b152618a36d69d03bdcd6f505080ca45da68b"
+  },
+  "source_inputs": "raw/ from verified archive",
+  "native_extraction": "25rows/48minutes/0OT, no new admission",
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/p1_overnight_20261119/verify_archive.py"
+      ],
+      "exit": 0,
+      "stdout": "archive-verify.stdout",
+      "stderr": "archive-verify.stderr"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/p1_overnight_20261119/reconcile.py"
+      ],
+      "exit": 0,
+      "stdout": "reconcile.stdout",
+      "stderr": "reconcile.stderr"
+    }
+  ]
+}

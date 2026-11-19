@@ -1,0 +1,31 @@
+{
+  "schema": "nba-p1-raw-capture/1.0.0",
+  "url": "https://statsdmz.nba.com/pdfs/20261118/20261118_MEMCLE_book.pdf",
+  "retrieval_started_at": "2026-11-19T11:01:02.082524+00:00",
+  "source_published_at": null,
+  "original_historical_available_at": null,
+  "admission": "UNADMITTED",
+  "correction_history_complete": null,
+  "predecessor_sha256": null,
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/pdf",
+    "Last-Modified": "Thu, 19 Nov 2026 03:11:56 GMT",
+    "Accept-Ranges": "bytes",
+    "ETag": "\"dc6f27bcd377dd1:0\"",
+    "Server": "Microsoft-IIS/10.0",
+    "X-Powered-By": "ASP.NET",
+    "Content-Length": "148579",
+    "Expires": "Thu, 19 Nov 2026 11:01:02 GMT",
+    "Cache-Control": "max-age=0, no-cache, no-store",
+    "Pragma": "no-cache",
+    "Date": "Thu, 19 Nov 2026 11:01:02 GMT",
+    "Connection": "close",
+    "Set-Cookie": "NSC_XFCFYU-2019_Qspe_443_MC=ffffffff096cd4b245525d5f4f58455e445a4a42378b;expires=Thu, 19-Nov-2026 11:03:02 GMT;path=/;secure;httponly"
+  },
+  "retrieval_completed_at": "2026-11-19T11:01:02.239800+00:00",
+  "raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+  "bytes": 148579,
+  "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+  "ingested_at": "2026-11-19T11:01:03.183674+00:00"
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "nba-p1-raw-capture/1.0.0",
+  "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/5/schedule",
+  "retrieval_started_at": "2026-11-19T11:00:59.873580+00:00",
+  "source_published_at": null,
+  "original_historical_available_at": null,
+  "admission": "UNADMITTED",
+  "correction_history_complete": null,
+  "predecessor_sha256": null,
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/json;charset=UTF-8",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+    "Access-Control-Expose-Headers": "content-length,location",
+    "Link": "<team_schedule.json#>; rel=\"describedby\"",
+    "Vary": "Accept-Encoding",
+    "Cache-Control": "max-age=1",
+    "Date": "Thu, 19 Nov 2026 11:01:00 GMT",
+    "Transfer-Encoding": "chunked",
+    "Connection": "close"
+  },
+  "retrieval_completed_at": "2026-11-19T11:01:00.310817+00:00",
+  "raw_sha256": "151ef1648921b2fda2a0e6f5f323d74fc90467641b6165f8cc2776e78f8feb14",
+  "bytes": 926438,
+  "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+  "ingested_at": "2026-11-19T11:01:01.462402+00:00"
+}

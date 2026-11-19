@@ -1,0 +1,24 @@
+{
+  "schema": "nba-p1-overnight-reconciliation/1.0.0",
+  "input_roster_rows": 36,
+  "initial_roster_rows": 35,
+  "removed_before_freeze": [],
+  "final_box_listed_rows": 25,
+  "played_rows": 22,
+  "dnp_rows": 3,
+  "unlisted_rows": 11,
+  "printed_inactive_text": [
+    "Inactive: Grizzlies - Jackson (Injury/Illness - Left 5th Metatarsal Fracture), Jerome (Injury/Illness - Right Hip Impingement), Pippen Jr. (Injury/Illness - Lumbar",
+    "Inactive: Cavaliers - Mobley (Injury/Illness - Left Great Toe Sprain), Tomlin (Injury/Illness - Low Back Stress Reaction), Tyson (Injury/Illness - Right Ankle Injury"
+  ],
+  "printed_inactive_external_identity_admitted": false,
+  "pdf_duration_minutes": "48",
+  "pdf_overtime": 0,
+  "positive_minimum_seconds": 349,
+  "target_eligible_roster_count": null,
+  "correction_history_complete": null,
+  "fixed_old_root_result": "ADMISSION_SOURCE_OR_CAPABILITY_UNREVIEWED",
+  "B_P1_01": "BLOCKED",
+  "B_P1_02": "BLOCKED",
+  "G1": "NO-GO"
+}
