@@ -1,0 +1,8 @@
+test_actual_native_reader_positive_and_old_root_denominator (__main__.PublicControls.test_actual_native_reader_positive_and_old_root_denominator) ... ok
+test_claims_and_changed_pdf_do_not_grant_admission (__main__.PublicControls.test_claims_and_changed_pdf_do_not_grant_admission) ... ok
+test_resealed_identity_mutations_preserve_reject_counts (__main__.PublicControls.test_resealed_identity_mutations_preserve_reject_counts) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.140s
+
+OK

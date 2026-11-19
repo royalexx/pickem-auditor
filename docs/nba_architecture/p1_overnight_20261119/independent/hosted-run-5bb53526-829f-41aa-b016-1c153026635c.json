@@ -1,0 +1,64 @@
+{
+  "run": {
+    "runId": "5bb53526-829f-41aa-b016-1c153026635c",
+    "notebookId": "8b5937fbe89c4bfdb7a5642aab92fa35",
+    "status": "success",
+    "snapshotStatus": "available",
+    "snapshotContent": null,
+    "snapshotDownloadUrl": null,
+    "snapshotExpiresAt": "2026-12-18T23:40:51.244Z",
+    "snapshotBlocks": [
+      {
+        "id": "4af5b37de5d045dcba8b9e0a6192d028",
+        "type": "input-select",
+        "outputs": [],
+        "metadata": {
+          "execution_start": 1795042963931,
+          "execution_millis": 1,
+          "execution_context_id": "31310fb3-eed4-4f6c-824a-8a0be33483e5",
+          "deepnote_variable_name": "capture_mode",
+          "deepnote_variable_value": "pregame",
+          "deepnote_variable_options": [
+            "probe",
+            "pregame",
+            "morning"
+          ],
+          "deepnote_variable_custom_options": [
+            "probe",
+            "pregame",
+            "morning"
+          ],
+          "deepnote_variable_selected_variable": "",
+          "deepnote_variable_select_type": "from-options",
+          "source_block_id": "4af5b37de5d045dcba8b9e0a6192d028"
+        },
+        "outputHead": null,
+        "outputTail": null,
+        "contentHash": null
+      },
+      {
+        "id": "7eb9deaee0cc4c5ea1cda94d6c7b67d2",
+        "type": "code",
+        "outputs": [
+          {
+            "name": "stdout",
+            "text": "P1_STORAGE_PROBE {\"prior_marker_seen\": true, \"path\": \"/work/reports/nba_p1_one_night_20261118/storage_probe.json\", \"mode\": \"pregame\"}\nP1_CAPTURE_EXIT 0 {\"attempt\": \"/work/reports/nba_p1_one_night_20261118/captures/pregame-20261118T233000062779Z-ebeadf4e\", \"status\": \"CAPTURED_UNADMITTED\", \"returned_roster_rows\": 36, \"errors\": []}\n \nP1_CAPTURE_EXPORT /work/reports/nba_p1_one_night_20261118/export-20261118T233026069867Z {\"archive_domain\": \"GZIP_TAR_OF_UNMODIFIED_CAPTURE_FILES\", \"archive_sha256\": \"04bf45100a34daa927ed2a38871f8d4f40a5d77c001d4457add254d04ead7ea6\", \"bytes\": 529385, \"parts\": [\"part-0000.txt\", \"part-0001.txt\", \"part-0002.txt\", \"part-0003.txt\", \"part-0004.txt\", \"part-0005.txt\", \"part-0006.txt\", \"part-0007.txt\", \"part-0008.txt\", \"part-0009.txt\", \"part-0010.txt\", \"part-0011.txt\", \"part-0012.txt\", \"part-0013.txt\", \"part-0014.txt\", \"part-0015.txt\", \"part-0016.txt\", \"part-0017.txt\", \"part-0018.txt\", \"part-0019.txt\", \"part-0020.txt\", \"part-0021.txt\", \"part-0022.txt\"], \"capture_mode\": \"pregame\", \"created_at\": \"2026-11-18T23:30:41.020849+00:00\"}\nP1_CAPTURE_EXIT 0 {\"attempt\": \"/work/reports/nba_p1_one_night_20261118/captures/pregame-20261118T234000059565Z-aae5f441\", \"status\": \"CAPTURED_UNADMITTED\", \"returned_roster_rows\": 36, \"errors\": []}\n \nP1_CAPTURE_EXPORT /work/reports/nba_p1_one_night_20261118/export-20261118T234026080294Z {\"archive_domain\": \"GZIP_TAR_OF_UNMODIFIED_CAPTURE_FILES\", \"archive_sha256\": \"98b77c11cfdc300b35c4fd58154f62ee44bcfba6472609c50b83394c06928b31\", \"bytes\": 1059099, \"parts\": [\"part-0000.txt\", \"part-0001.txt\", \"part-0002.txt\", \"part-0003.txt\", \"part-0004.txt\", \"part-0005.txt\", \"part-0006.txt\", \"part-0007.txt\", \"part-0008.txt\", \"part-0009.txt\", \"part-0010.txt\", \"part-0011.txt\", \"part-0012.txt\", \"part-0013.txt\", \"part-0014.txt\", \"part-0015.txt\", \"part-0016.txt\", \"part-0017.txt\", \"part-0018.txt\", \"part-0019.txt\", \"part-0020.txt\", \"part-0021.txt\", \"part-0022.txt\", \"part-0023.txt\", \"part-0024.txt\", \"part-0025.txt\", \"part-0026.txt\", \"part-0027.txt\", \"part-0028.txt\", \"part-0029.txt\", \"part-0030.txt\", \"part-0031.txt\", \"part-0032.txt\", \"part-0033.txt\", \"part-0034.txt\", \"part-0035.txt\", \"part-0036.txt\", \"part-0037.txt\", \"part-0038.txt\", \"part-0039.txt\", \"part-0040.txt\", \"part-0041.txt\", \"part-0042.txt\", \"part-0043.txt\", \"part-0044.txt\"], \"capture_mode\": \"pregame\", \"created_at\": \"2026-11-18T23:40:50.146454+00:00\"}\n",
+            "output_type": "stream"
+          }
+        ],
+        "metadata": {
+          "execution_start": 1795042964151,
+          "execution_millis": 2286854,
+          "execution_context_id": "31310fb3-eed4-4f6c-824a-8a0be33483e5",
+          "source_block_id": "7eb9deaee0cc4c5ea1cda94d6c7b67d2"
+        },
+        "outputHead": null,
+        "outputTail": null,
+        "contentHash": "sha256:41fed05ab021d21ba41bfd243f509d4a064aac2114df2c4671e1ff58b89750ed"
+      }
+    ],
+    "error": null,
+    "createdAt": "2026-11-18T23:02:36.605Z",
+    "completedAt": "2026-11-18T23:40:51.071Z"
+  }
+}

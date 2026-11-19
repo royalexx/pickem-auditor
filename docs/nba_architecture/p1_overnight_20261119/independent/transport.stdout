@@ -1,0 +1,77 @@
+{
+  "archive_bytes": 1717132,
+  "archive_sha256": "39d9176f2f5cdb4174b56c563aaff7f702b48737d3741702e693538c0e8dfff2",
+  "transport_parts": 72,
+  "safe_members": 129,
+  "raw_files": 86,
+  "attempt_manifests_verified": [
+    "morning-20261119T110054297921Z-14a71d9d/SHA256SUMS",
+    "pregame-20261118T233000062779Z-ebeadf4e/SHA256SUMS",
+    "pregame-20261118T234000059565Z-aae5f441/SHA256SUMS"
+  ],
+  "attempts": {
+    "morning-20261119T110054297921Z-14a71d9d/attempt.json": {
+      "stage": "morning",
+      "started_at": "2026-11-19T11:00:54.297921+00:00",
+      "completed_at": "2026-11-19T11:01:25.976459+00:00",
+      "returned_roster_rows": 36,
+      "availability_unknown_rows": 36,
+      "roster_denominators": {
+        "5": {
+          "attempted": 18,
+          "parsed": 18,
+          "rejected": 0
+        },
+        "29": {
+          "attempted": 18,
+          "parsed": 18,
+          "rejected": 0
+        }
+      },
+      "status": "CAPTURED_UNADMITTED",
+      "errors": []
+    },
+    "pregame-20261118T233000062779Z-ebeadf4e/attempt.json": {
+      "stage": "pregame",
+      "started_at": "2026-11-18T23:30:00.062779+00:00",
+      "completed_at": "2026-11-18T23:30:18.924114+00:00",
+      "returned_roster_rows": 36,
+      "availability_unknown_rows": 36,
+      "roster_denominators": {
+        "5": {
+          "attempted": 18,
+          "parsed": 18,
+          "rejected": 0
+        },
+        "29": {
+          "attempted": 18,
+          "parsed": 18,
+          "rejected": 0
+        }
+      },
+      "status": "CAPTURED_UNADMITTED",
+      "errors": []
+    },
+    "pregame-20261118T234000059565Z-aae5f441/attempt.json": {
+      "stage": "pregame",
+      "started_at": "2026-11-18T23:40:00.059565+00:00",
+      "completed_at": "2026-11-18T23:40:19.512113+00:00",
+      "returned_roster_rows": 36,
+      "availability_unknown_rows": 36,
+      "roster_denominators": {
+        "5": {
+          "attempted": 18,
+          "parsed": 18,
+          "rejected": 0
+        },
+        "29": {
+          "attempted": 18,
+          "parsed": 18,
+          "rejected": 0
+        }
+      },
+      "status": "CAPTURED_UNADMITTED",
+      "errors": []
+    }
+  }
+}
