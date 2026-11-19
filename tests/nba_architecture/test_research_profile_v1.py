@@ -35,7 +35,7 @@ class ProfileTests(unittest.TestCase):
             change(p,lambda x:x['athletes'].append(deepcopy(x['athletes'][0])))
             x=build_requests(p,COHORT);self.assertEqual(x['source_candidate_rows'],37)
             self.assertEqual(sum('DUPLICATE_PLAYER_IDENTITY' in r['issues'] for r in x['rows']),2)
-            shutil.rmtree(p/'roster-5');x=build_requests(p,COHORT);self.assertTrue(x['missing_source_population']);self.assertEqual(x['source_candidate_rows'],18);self.assertGreater(x['source_ready_rows'],0)
+            shutil.rmtree(p/'roster-5');x=build_requests(p,COHORT);self.assertTrue(x['missing_source_population']);self.assertEqual(x['source_candidate_rows'],35);self.assertGreater(x['source_ready_rows'],0)
 
     def test_bad_optional_row_is_local(self):
         with tempfile.TemporaryDirectory() as t:
@@ -59,3 +59,10 @@ class ProfileTests(unittest.TestCase):
             f.write_text(text[:m.start(1)]+json.dumps(obj)+text[m.end(1):]);r=folder/'receipt.json';receipt=json.loads(r.read_bytes());receipt['raw_sha256']=hashlib.sha256(f.read_bytes()).hexdigest();r.write_text(json.dumps(receipt))
             x=build_requests(p,COHORT);self.assertEqual(x['source_candidate_rows'],36);self.assertGreater(x['source_ready_rows'],0)
             self.assertTrue(all(r['source_request_status']=='ABSTAIN' for r in x['rows'] if r['team_id']=='espn:team:5'))
+
+    def test_official_only_candidate_is_retained_unmatched(self):
+        import re
+        with tempfile.TemporaryDirectory() as t:
+            p=Path(t)/'capture';shutil.copytree(CAP,p);folder=p/'official-cle-roster';f=folder/'body.raw';text=f.read_text();m=re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',text,re.S);obj=json.loads(m[1]);obj['props']['pageProps']['rosterData']['roster'].append({'id':9999999,'name':'Unmatched Source Player'})
+            f.write_text(text[:m.start(1)]+json.dumps(obj)+text[m.end(1):]);r=folder/'receipt.json';receipt=json.loads(r.read_bytes());receipt['raw_sha256']=hashlib.sha256(f.read_bytes()).hexdigest();r.write_text(json.dumps(receipt))
+            x=build_requests(p,COHORT);self.assertEqual(x['source_candidate_rows'],37);extra=next(r for r in x['rows'] if r['name']=='Unmatched Source Player');self.assertIn('UNMATCHED_OFFICIAL_SOURCE_IDENTITY',extra['issues']);self.assertEqual(extra['source_request_status'],'ABSTAIN');self.assertGreater(x['source_ready_rows'],0)

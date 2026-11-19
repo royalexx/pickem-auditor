@@ -56,21 +56,24 @@ def build_requests(capture_dir, cohort):
             obj,receipt=source(path/('roster-'+tid),'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/'+tid+'/roster',cohort['freeze_at'])
             if str(obj['team']['id'])!=tid:raise ValueError('ROSTER_WRONG_TEAM')
         except (OSError,KeyError,TypeError,ValueError) as error:errors.append(str(error))
-        official_names=None
+        official_names=None;official_rows=[];official_receipt=None
         official_path=path/('official-'+abbr.lower()+'-roster')
-        if official_path.exists() and not errors:
+        if official_path.exists():
             try:
-                rr=json.loads((official_path/'receipt.json').read_bytes());u=urlsplit(rr['url'])
+                rr=json.loads((official_path/'receipt.json').read_bytes());official_receipt=rr;u=urlsplit(rr['url'])
                 if u.scheme!='https' or u.netloc!='www.nba.com' or not u.path.endswith('/roster'):raise ValueError('OFFICIAL_ROSTER_URL')
                 html=(official_path/'body.raw').read_bytes()
                 if hashlib.sha256(html).hexdigest()!=rr['raw_sha256']:raise ValueError('OFFICIAL_ROSTER_BYTES')
                 if not instant(rr['retrieval_started_at'])<=instant(rr['retrieval_completed_at'])<=instant(rr['ingested_at'])<=instant(cohort['freeze_at']):raise ValueError('OFFICIAL_ROSTER_CLOCK')
                 native=json.loads(re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',html.decode(),re.S)[1])['props']['pageProps']
-                native_name=native['team']['name'];primary_name=raw['team']['name']
-                if not isinstance(native_name,str) or not isinstance(primary_name,str):raise ValueError('INVALID_ROSTER_TEAM_NAME')
-                if native_name.casefold()!=primary_name.casefold():raise ValueError('OFFICIAL_ROSTER_TEAM')
-                official_names={name_key(r['name']) for r in native['rosterData']['roster']}
-            except (OSError,KeyError,TypeError,ValueError,IndexError) as error:errors.append('CORROBORATION:'+str(error))
+                native_name=native['team']['name'];primary_name=raw.get('team',{}).get('name') if isinstance(raw,dict) and isinstance(raw.get('team',{}),dict) else None
+                if not isinstance(native_name,str) or (primary_name is not None and not isinstance(primary_name,str)):raise ValueError('INVALID_ROSTER_TEAM_NAME')
+                if primary_name is not None and native_name.casefold()!=primary_name.casefold():raise ValueError('OFFICIAL_ROSTER_TEAM')
+                candidate_official=native['rosterData']['roster']
+                if not isinstance(candidate_official,list):raise ValueError('INVALID_OFFICIAL_ROSTER_LIST')
+                official_names={name_key(r['name']) for r in candidate_official}
+                official_rows=candidate_official
+            except (OSError,KeyError,TypeError,ValueError,IndexError) as error:official_rows=[];official_names=None;errors.append('CORROBORATION:'+str(error))
         coverage.append(dict(team_id=tid,attempted_rows=attempted,source_errors=errors,official_name_population_checked=official_names is not None))
         for n,person in enumerate(people):
             issues=list(global_errors)+list(errors)
@@ -88,6 +91,14 @@ def build_requests(capture_dir, cohort):
                 source_injuries=injuries,source_raw_sha256=receipt.get('raw_sha256') if receipt else None,
                 legal_eligibility=None,genuine_participation_probability=None,issues=issues,
                 conditioning='conditional_on_participation',forecast=None))
+        # Keep official-only candidates too; no fabricated ESPN identity crosswalk.
+        primary_names={name_key(p['displayName']) for p in people if isinstance(p,dict) and isinstance(p.get('displayName'),str)}
+        for n,person in enumerate(official_rows):
+            if name_key(person['name']) not in primary_names:
+                rows.append(dict(source_row_index=n,player_id='nba:player:'+str(person['id']) if person.get('id') is not None else None,
+                    team_id='nba:team:'+str(native['team']['id']),name=person['name'],source_status=None,source_injuries=[],
+                    source_raw_sha256=official_receipt['raw_sha256'],legal_eligibility=None,genuine_participation_probability=None,
+                    issues=list(global_errors)+['UNMATCHED_OFFICIAL_SOURCE_IDENTITY'],conditioning='conditional_on_participation',forecast=None))
     counts=Counter(r['player_id'] for r in rows if r['player_id'])
     for row in rows:
         if row['player_id'] and counts[row['player_id']]>1:row['issues'].append('DUPLICATE_PLAYER_IDENTITY')
