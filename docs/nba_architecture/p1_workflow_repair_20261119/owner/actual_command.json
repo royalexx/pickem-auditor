@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "scripts/nba_p1_capture_injury_v2.py",
+    "--freeze-at",
+    "2026-11-19T19:32:25.328169+00:00",
+    "--output",
+    "docs/nba_architecture/p1_workflow_repair_20261119/owner/actual_capture"
+  ],
+  "exit": 0,
+  "purpose": "Actual current source-only smoke capture; no target/preregistered forecast or legal roster admission"
+}

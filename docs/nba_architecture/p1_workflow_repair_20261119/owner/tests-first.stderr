@@ -1,0 +1,12 @@
+test_actual_pdf_printed_header_mismatch_and_invalid_body (tests.nba_architecture.test_p1_injury_report_v2.InjuryV2Tests.test_actual_pdf_printed_header_mismatch_and_invalid_body) ... ok
+test_am_pm_midnight_noon_and_day_order (tests.nba_architecture.test_p1_injury_report_v2.InjuryV2Tests.test_am_pm_midnight_noon_and_day_order) ... ok
+test_latest_unavailable_no_fallback_preserves_denial (tests.nba_architecture.test_p1_injury_report_v2.InjuryV2Tests.test_latest_unavailable_no_fallback_preserves_denial) ... ok
+test_missing_stale_future_and_invalid_urls_retained (tests.nba_architecture.test_p1_injury_report_v2.InjuryV2Tests.test_missing_stale_future_and_invalid_urls_retained) ... ok
+test_original_actual_index_red_is_chronologically_repaired (tests.nba_architecture.test_p1_injury_report_v2.InjuryV2Tests.test_original_actual_index_red_is_chronologically_repaired) ... ok
+test_past_freeze_does_not_fetch (tests.nba_architecture.test_p1_injury_report_v2.InjuryV2Tests.test_past_freeze_does_not_fetch) ... ok
+test_timezones_and_dst_reject_ambiguous_clocks (tests.nba_architecture.test_p1_injury_report_v2.InjuryV2Tests.test_timezones_and_dst_reject_ambiguous_clocks) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.049s
+
+OK
