@@ -1,0 +1,21 @@
+{
+  "schema": "nba-injury-report-capture/2.0.0",
+  "index_raw_sha256": "09260188d9557e1f2a35cd0402022c0084e71cc26a3172acafc316e08fd0fa6a",
+  "observed_at": "2026-11-19T19:10:00Z",
+  "input_freeze_at": "2026-11-19T19:15:00Z",
+  "max_age_minutes": 60,
+  "url_occurrences": 1,
+  "unique_urls": 1,
+  "ledger": [
+    {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_00PM.pdf",
+      "source_declared_report_at": "2026-11-19T19:00:00+00:00",
+      "status": "ELIGIBLE_CLOCK_ONLY"
+    }
+  ],
+  "selected_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_00PM.pdf",
+  "eligible_urls": 1,
+  "rejected_urls": 0,
+  "source_publication_at": null,
+  "admission": "UNADMITTED"
+}

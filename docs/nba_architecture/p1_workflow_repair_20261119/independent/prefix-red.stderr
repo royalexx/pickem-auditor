@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/p1_workflow_repair_20261119/independent/prefix_red.py", line 5, in <module>
+    x=namespace['select_report'](('<a href="'+u+'">pdf</a>').encode(),observed_at='2026-11-19T19:10:00Z',freeze_at='2026-11-19T19:15:00Z');print(json.dumps(x,indent=2));assert x['selected_url'] is None,'malformed href was truncated into a never-indexed valid URL'
+                                                                                                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: malformed href was truncated into a never-indexed valid URL

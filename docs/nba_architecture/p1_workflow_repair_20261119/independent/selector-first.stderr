@@ -1,0 +1,21 @@
+test_actual_old_index_replay_clock_only (__main__.Independent.test_actual_old_index_replay_clock_only) ... FAIL
+test_calendar_zone_and_freeze (__main__.Independent.test_calendar_zone_and_freeze) ... ok
+test_complete_href_suffix_quote_entity_attacks (__main__.Independent.test_complete_href_suffix_quote_entity_attacks) ... ok
+test_future_stale_unsupported_and_occurrences (__main__.Independent.test_future_stale_unsupported_and_occurrences) ... ok
+test_no_fetch_after_freeze (__main__.Independent.test_no_fetch_after_freeze) ... ok
+test_public_denial_and_late_no_fallback (__main__.Independent.test_public_denial_and_late_no_fallback) ... ok
+test_real_printed_pdf_rejects_wrong_clock (__main__.Independent.test_real_printed_pdf_rejects_wrong_clock) ... ok
+
+======================================================================
+FAIL: test_actual_old_index_replay_clock_only (__main__.Independent.test_actual_old_index_replay_clock_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/p1_workflow_repair_20261119/independent/selector_probe.py", line 17, in test_actual_old_index_replay_clock_only
+    self.assertEqual(x['selected_url'],U+'2026-11-18_06_30PM.pdf');self.assertEqual(x['unique_urls'],75);self.assertEqual(x['eligible_urls']+x['rejected_urls'],75);self.assertIsNone(x['source_publication_at']);self.assertEqual(x['admission'],'UNADMITTED')
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 82 != 75
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.134s
+
+FAILED (failures=1)

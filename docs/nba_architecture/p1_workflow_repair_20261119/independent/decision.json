@@ -1,0 +1,22 @@
+{
+  "reviewer": "/root/independent_source_review",
+  "implementation_repairs_authored": false,
+  "implementation_sha": "5af4072cf62951ec6cc5e21f0e1f82bcd452067c",
+  "real_final_tested_checkout": "d2fcb2056e20c562d731b6d883fdd6e3329866ff",
+  "step1": "APPROVED_FINITE_OPT_IN_CAPTURE_REPAIR",
+  "independent_methods_pass": 7,
+  "owner_methods_independently_rerun_pass": 10,
+  "step2": "LEGAL_COMPLETE_PREFREEZE_SOURCE_NOT_ESTABLISHED",
+  "transaction_content": "GENUINE_SOURCE_DECLARED_WAIVER_FOUND_WITH_MODERN_ACTUAL_CLOCKS",
+  "step3": "RETAIN_ORIGINAL_FULL_B_P1_02; SEPARATE_ORDINARY_DEMO_SCOPE_APPROVED",
+  "step4": "DO_NOT_SCHEDULE_NEW_CLOSURE_CAPTURE_PREREQUISITE_UNMET",
+  "B-P1-01": "BLOCKED",
+  "B-P1-02_original": "BLOCKED",
+  "G1": "NO-GO",
+  "new_admission_root_installed": false,
+  "raw_file_sha256": {
+    "v2/nba_architecture/p1_injury_report_v2.py": "1103fda2f1f18a492c7431ff7938d68cf294fc1cdc9ec51e50c7fcaee4a078d2",
+    "scripts/nba_p1_capture_injury_v2.py": "f7bad3ba308b78db7cc9b13e48b7ebf64a44a14ffe63f38f495ee5b9f3f0ae48",
+    "docs/nba_architecture/p1_workflow_repair_20261119/SOURCE_AND_SCOPE_CONTRACT.md": "57e67fb6c67dc7c72096bc8bd086700dbb7ab374cfa62861edb2972809b0be62"
+  }
+}

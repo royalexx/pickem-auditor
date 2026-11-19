@@ -1,0 +1,31 @@
+{
+  "schema": "nba-p1-raw-capture/1.0.0",
+  "url": "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json",
+  "retrieval_started_at": "2026-11-19T19:20:55.768175+00:00",
+  "source_published_at": null,
+  "original_historical_available_at": null,
+  "admission": "UNADMITTED",
+  "correction_history_complete": null,
+  "predecessor_sha256": null,
+  "status": 403,
+  "headers": {
+    "mime-version": "1.0",
+    "content-type": "text/html",
+    "content-length": "431",
+    "expires": "Thu, 19 Nov 2026 19:20:56 GMT",
+    "date": "Thu, 19 Nov 2026 19:20:56 GMT",
+    "x-frame-options": "sameorigin",
+    "x-xss-protection": "1; mode=block",
+    "x-content-type-options": "nosniff",
+    "strict-transport-security": "max-age=86400",
+    "x-envoy-upstream-service-time": "263",
+    "server": "envoy",
+    "connection": "close"
+  },
+  "error": "HTTPError: HTTP Error 403: Forbidden",
+  "raw_sha256": "96a4700847d1f0eb3047e978d03a9addd1ea05139176ff0c846a45781ab628d5",
+  "bytes": 431,
+  "byte_domain": "HTTP_ERROR_RESPONSE_BODY_BYTES",
+  "retrieval_completed_at": "2026-11-19T19:20:56.202813+00:00",
+  "ingested_at": "2026-11-19T19:20:56.202827+00:00"
+}

@@ -1,0 +1,12 @@
+test_actual_old_index_replay_clock_only (__main__.Independent.test_actual_old_index_replay_clock_only) ... ok
+test_calendar_zone_and_freeze (__main__.Independent.test_calendar_zone_and_freeze) ... ok
+test_complete_href_suffix_quote_entity_attacks (__main__.Independent.test_complete_href_suffix_quote_entity_attacks) ... ok
+test_future_stale_unsupported_and_occurrences (__main__.Independent.test_future_stale_unsupported_and_occurrences) ... ok
+test_no_fetch_after_freeze (__main__.Independent.test_no_fetch_after_freeze) ... ok
+test_public_denial_and_late_no_fallback (__main__.Independent.test_public_denial_and_late_no_fallback) ... ok
+test_real_printed_pdf_rejects_wrong_clock (__main__.Independent.test_real_printed_pdf_rejects_wrong_clock) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.102s
+
+OK
