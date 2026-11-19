@@ -1,0 +1,111 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0 -- /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/pickem-auditor
+plugins: anyio-4.14.2
+collecting ... collected 88 items
+
+tests/nba_architecture/test_subset_p4_v1.py::P4SubsetTests::test_duplicate_keys_fail PASSED [  1%]
+tests/nba_architecture/test_subset_p4_v1.py::P4SubsetTests::test_native_reader_rejects_resealed_moments_and_false_q 
+tests/nba_architecture/test_subset_p4_v1.py::P4SubsetTests::test_native_reader_rejects_resealed_moments_and_false_q PASSED [  2%]
+tests/nba_architecture/test_subset_p4_v1.py::P4SubsetTests::test_real_native_laws_cross_public_p4_boundary_all_attempts_stay_counted PASSED [  3%]
+tests/nba_architecture/test_subset_p4_v1.py::P4SubsetTests::test_upstream_and_resealed_output_mutations_fail 
+tests/nba_architecture/test_subset_p4_v1.py::P4SubsetTests::test_upstream_and_resealed_output_mutations_fail PASSED [  4%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_adversarial_actual_minutes_embedded_in_s PASSED [  5%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_adversarial_corrupt_j_count_and_hash PASSED [  6%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_adversarial_fake_real_s_adapter PASSED [  7%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_adversarial_mutated_g_and_o PASSED [  9%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_adversarial_nan_probability_and_negative_minutes PASSED [ 10%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_adversarial_nonphysical_three_rate PASSED [ 11%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_adversarial_s_future_training_cutoff PASSED [ 12%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_adversarial_s_wrong_team PASSED [ 13%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_canonical_g0_integration_and_sha PASSED [ 14%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_j0_j1_j2_distinct_and_valid PASSED [ 15%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_j3_fails_closed_unless_regimes_precommitted PASSED [ 17%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_j4_does_not_count_scenario_draws_as_games PASSED [ 18%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_o_law_incompatible_with_joint_team_minutes_rejected PASSED [ 19%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_overtime_265_minutes_and_five_on_court_witness PASSED [ 20%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_overtime_g_and_o_mismatch_rejected PASSED [ 21%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_p4_reuses_native_v01_events_and_ws2_witness PASSED [ 22%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_pmfs_exactly_from_same_draw PASSED [ 23%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_reproducible_scenario_hashes PASSED [ 25%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_simple_benchmark_receipt PASSED [ 26%]
+tests/nba_architecture/test_p4_joint.py::P4JointTests::test_two_team_shots_assists_rebounds_and_five_on_court PASSED [ 27%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_actual_p2_and_p3_shapes_and_exact_lineage PASSED [ 28%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_adversarial_self_assist_excess_rebound_and_budget_ledgers PASSED [ 29%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_default_real_mode_cannot_be_caller_authenticated PASSED [ 30%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_deterministic_seed_hash_replay PASSED [ 31%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_dnp_and_played_zero_preserved_with_zero_events PASSED [ 32%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_early_exit_total_cap_and_role_state_consumed PASSED [ 34%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_exact_o_minutes_and_participation_no_j_resampling PASSED [ 35%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_forged_fitted_parameters_cannot_self_hash PASSED [ 36%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_future_model_cutoff_and_wrong_stat_and_source_are_not_trusted 
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_future_model_cutoff_and_wrong_stat_and_source_are_not_trusted PASSED [ 37%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_home_identity_is_taken_from_p3_not_roster_order PASSED [ 38%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_impossible_score_composite_and_excess_counts_reject PASSED [ 39%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_invalid_lineup_clock_and_duplicate_index_rejects PASSED [ 40%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_j0_j1_j2_j3_boundaries PASSED [ 42%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_large_stochastic_o2_coupling_budget_remains_blocked PASSED [ 43%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_late_source_evidence_rejects_even_when_self_consistent PASSED [ 44%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_ledger_has_no_self_assists_or_excess_rebounds PASSED [ 45%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_legacy_rate_adapter_cannot_declare_real PASSED [ 46%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_missing_artifact_rejects PASSED [ 47%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_player_opportunity_must_equal_share_times_pool PASSED [ 48%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_pmfs_are_exact_weighted_same_draw_for_all_players_and_stats PASSED [ 50%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_projection_is_explicit_and_retains_complete_p2_laws PASSED [ 51%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_rate_dict_in_place_of_fitted_artifact_rejects PASSED [ 52%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_s3_protocol_fails_closed_on_noninteger_attempts PASSED [ 53%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_s3_uses_projected_integer_attempts_and_p2_beta_binomial PASSED [ 54%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_sidecar_exact_weights_and_pools_rejects PASSED [ 55%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_sidecar_identity_and_duplicate_roster_rejects PASSED [ 56%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_target_realized_attempts_key_is_rejected PASSED [ 57%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_training_cutoff_must_match_target_budget_not_just_freeze PASSED [ 59%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_wrong_g_scenario_and_weight_rejects PASSED [ 60%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_wrong_o_scenario_and_nonconserving_minutes_rejects PASSED [ 61%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_wrong_roles_rejects PASSED [ 62%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_wrong_team_and_player_rejects PASSED [ 63%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_wrong_upstream_code_pin_rejects PASSED [ 64%]
+tests/nba_architecture/test_p4_upstream_integration.py::UpstreamIntegrationTests::test_zero_through_three_ot_and_physics PASSED [ 65%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_actual_latest_producers_and_complete_lineage PASSED [ 67%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_actual_stochastic_o2_n32_immutable_budget_still_blocks PASSED [ 68%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_actual_stochastic_o2_n8_positive_operating_control PASSED [ 69%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_all_owner_executable_bytes_pinned_not_only_model 
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_all_owner_executable_bytes_pinned_not_only_model PASSED [ 70%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_complete_normalized_pmf_equals_manual_weighted_counts PASSED [ 71%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_complete_raw_event_count_guard_and_valid_positive_control PASSED [ 72%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_cross_process_python_hash_seed_replay PASSED [ 73%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_dated_historical_team_role_change_is_valid_without_rewriting_history PASSED [ 75%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_dictionary_order_and_repeat_replay PASSED [ 76%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_exact_o_draws_weights_and_all_same_draw_combinations PASSED [ 77%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_false_participation_certificate_is_rejected_by_actual_p3 PASSED [ 78%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_full_p2_law_uncertainty_reaches_kernel_not_only_audit PASSED [ 79%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_g_o_scenario_identity_and_weight_attack PASSED [ 80%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_immutable_artifact_byte_corruption_or_resealed_parameters_reject PASSED [ 81%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_impossible_minutes_or_missing_five_on_floor_reject PASSED [ 82%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_independent_quadrature_and_exact_incompatibility_bounds PASSED [ 84%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_latest_dnp_played_zero_and_early_exit_total_cap_remain_distinct PASSED [ 85%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_legal_eleven_ot_current_owner_contract_has_no_arbitrary_100_minute_cap PASSED [ 86%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_prior_fixture_artifacts_remain_preserved_and_fail_current_code_pin PASSED [ 87%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_rate_budget_failure_preserves_every_rejected_pair_and_denominator PASSED [ 88%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_raw_sources_and_ancestor_population_cannot_self_hash 
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_raw_sources_and_ancestor_population_cannot_self_hash PASSED [ 89%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_real_mode_remains_unavailable_despite_verified_tokens PASSED [ 90%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_repeated_seed_runner_persists_failure_without_partial_success_claim PASSED [ 92%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_resealed_balanced_role_and_possession_share_tampering_rejects PASSED [ 93%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_roles_and_roster_wrong_identity_reject PASSED [ 94%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_s1_s2_mixing_distribution_moments PASSED [ 95%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_s3_integer_projected_attempts_make_and_accounting PASSED [ 96%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_shooting_assist_rebound_and_same_draw_corruption_rejects PASSED [ 97%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_source_manifest_corruption_or_postcutoff_clock_reject PASSED [ 98%]
+tests/nba_architecture/test_p4_latest_integration.py::LatestIntegrationTests::test_tied_event_exhaustion_preserves_raw_draws_and_no_success_bundle PASSED [100%]
+
+=============================== warnings summary ===============================
+../../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/anyio/pytest_plugin.py:14
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/anyio/pytest_plugin.py:14: PytestRemovedIn10Warning: _pytest.python.CallSpec2 has been renamed to CallSpec.
+  The CallSpec2 alias will be removed in pytest 10.
+  Update imports to use CallSpec instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#callspec2-renamed
+    from _pytest.python import CallSpec2
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============== 88 passed, 1 warning, 17 subtests passed in 35.49s ==============
