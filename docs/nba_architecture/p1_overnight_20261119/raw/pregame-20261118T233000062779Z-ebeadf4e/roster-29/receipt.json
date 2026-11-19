@@ -1,0 +1,28 @@
+{
+  "schema": "nba-p1-raw-capture/1.0.0",
+  "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/29/roster",
+  "retrieval_started_at": "2026-11-18T23:30:05.729645+00:00",
+  "source_published_at": null,
+  "original_historical_available_at": null,
+  "admission": "UNADMITTED",
+  "correction_history_complete": null,
+  "predecessor_sha256": null,
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/json;charset=UTF-8",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+    "Access-Control-Expose-Headers": "content-length,location",
+    "Link": "<roster.json#>; rel=\"describedby\"",
+    "Vary": "Accept-Encoding",
+    "Cache-Control": "max-age=1",
+    "Date": "Wed, 18 Nov 2026 23:30:05 GMT",
+    "Transfer-Encoding": "chunked",
+    "Connection": "close"
+  },
+  "retrieval_completed_at": "2026-11-18T23:30:05.792324+00:00",
+  "raw_sha256": "8c32189fe7b773aff076a7fe7e51b28024f3ca33be18709550caa59cb34f7196",
+  "bytes": 90121,
+  "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+  "ingested_at": "2026-11-18T23:30:06.953235+00:00"
+}

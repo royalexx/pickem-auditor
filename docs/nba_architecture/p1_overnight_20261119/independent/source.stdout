@@ -1,0 +1,120 @@
+{
+  "receipt_body_hash_checks": 40,
+  "cohort_union": 36,
+  "initial35_to_pregame36_added": [
+    {
+      "player_id": "espn:player:4702099",
+      "name": "Zack Austin",
+      "team_id": "espn:team:5"
+    }
+  ],
+  "listed_final": 25,
+  "played": 22,
+  "explicit_DNP": 3,
+  "played_zero": 0,
+  "roster_not_listed_final": [
+    {
+      "player_id": "espn:player:5177362",
+      "name": "Riley Minix",
+      "state": "UNKNOWN_NOT_LISTED_IN_FINAL_BOX"
+    },
+    {
+      "player_id": "espn:player:4432158",
+      "name": "Evan Mobley",
+      "state": "UNKNOWN_NOT_LISTED_IN_FINAL_BOX"
+    },
+    {
+      "player_id": "espn:player:5106268",
+      "name": "Nae'Qwan Tomlin",
+      "state": "UNKNOWN_NOT_LISTED_IN_FINAL_BOX"
+    },
+    {
+      "player_id": "espn:player:4683747",
+      "name": "Jaylon Tyson",
+      "state": "UNKNOWN_NOT_LISTED_IN_FINAL_BOX"
+    },
+    {
+      "player_id": "espn:player:5106261",
+      "name": "Ernest Udeh Jr.",
+      "state": "UNKNOWN_NOT_LISTED_IN_FINAL_BOX"
+    },
+    {
+      "player_id": "espn:player:4576087",
+      "name": "Peyton Watson",
+      "state": "UNKNOWN_NOT_LISTED_IN_FINAL_BOX"
+    },
+    {
+      "player_id": "espn:player:5105550",
+      "name": "GG Jackson",
+      "state": "UNKNOWN_NOT_LISTED_IN_FINAL_BOX"
+    },
+    {
+      "player_id": "espn:player:4065733",
+      "name": "Ty Jerome",
+      "state": "UNKNOWN_NOT_LISTED_IN_FINAL_BOX"
+    },
+    {
+      "player_id": "espn:player:4431785",
+      "name": "Scotty Pippen Jr.",
+      "state": "UNKNOWN_NOT_LISTED_IN_FINAL_BOX"
+    },
+    {
+      "player_id": "espn:player:5105462",
+      "name": "Richie Saunders",
+      "state": "UNKNOWN_NOT_LISTED_IN_FINAL_BOX"
+    },
+    {
+      "player_id": "espn:player:4432810",
+      "name": "Isaiah Stewart",
+      "state": "UNKNOWN_NOT_LISTED_IN_FINAL_BOX"
+    }
+  ],
+  "official_printed_duration": "48",
+  "official_printed_OT": 0,
+  "played_min_seconds": 349,
+  "old_root_rejection": {
+    "status": "REJECTED_WHOLE_BUNDLE",
+    "reason": "P1_LISTED_SOURCE_UNREVIEWED",
+    "source_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429",
+    "attempted_rows": 25,
+    "accepted_rows": 0,
+    "rejected_rows": 25,
+    "target_eligible_roster_count": null
+  },
+  "injury_selection_gap": [
+    {
+      "attempt": "pregame-20261118T233000062779Z-ebeadf4e",
+      "indexed_same_day_links": 74,
+      "lexically_selected": [
+        "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-18_12_45AM.pdf",
+        "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-18_12_45PM.pdf"
+      ],
+      "printed_headers": [
+        "Injury Report: 11/18/26 12:45 AM",
+        "Injury Report: 11/18/26 12:45 PM"
+      ],
+      "latest_indexed_filename_wallclock_before_1845": [
+        1095,
+        "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-18_06_15PM.pdf"
+      ],
+      "scope": "Filename clock ordering only; no uncollected report body or verified publication claim."
+    },
+    {
+      "attempt": "pregame-20261118T234000059565Z-aae5f441",
+      "indexed_same_day_links": 75,
+      "lexically_selected": [
+        "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-18_12_45AM.pdf",
+        "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-18_12_45PM.pdf"
+      ],
+      "printed_headers": [
+        "Injury Report: 11/18/26 12:45 AM",
+        "Injury Report: 11/18/26 12:45 PM"
+      ],
+      "latest_indexed_filename_wallclock_before_1845": [
+        1110,
+        "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-18_06_30PM.pdf"
+      ],
+      "scope": "Filename clock ordering only; no uncollected report body or verified publication claim."
+    }
+  ]
+}

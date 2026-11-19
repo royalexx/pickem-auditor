@@ -1,0 +1,25 @@
+{
+  "reviewer": "/root/independent_source_review",
+  "implementation_authored": false,
+  "reviewed_tested_audit_sha": "10eb0fd2edec133dc6d8a45b5966cfb5a978b914",
+  "B-P1-01": "BLOCKED",
+  "B-P1-02": "BLOCKED",
+  "G1": "NO-GO",
+  "acquisition_mechanics": "EXECUTED_AND_TRANSPORT_VERIFIED",
+  "source_population_admitted": false,
+  "new_mechanism_gap": "LEXICAL_INJURY_URL_SORT_SELECTS_STALE_REPORTS",
+  "candidates": 36,
+  "listed_played": 22,
+  "listed_DNP": 3,
+  "roster_not_in_finalbox": 11,
+  "legal_eligible_denominator": null,
+  "correction_history_complete": null,
+  "public_probe_methods": 3,
+  "raw_implementation_sha256": {
+    "v2/nba_architecture/gamebook_v1.py": "2d36bd61e70fa6557fcaef535482f9c89cd2be29599756570e0a2010a3731193",
+    "v2/nba_architecture/gamebook_identity_v1.py": "51ebbe20652a8beb776e2bfcf887825e9b7a441bda3532420181d4465670fe55",
+    "v2/nba_architecture/p1_listed_source_v1.py": "6f4d9d3302bcb08e72290a659f695e4550c3aed0f88cd4d59dacacbb16f3af01",
+    "scripts/nba_p1_prospective_capture.py": "4df0240932dcfed1c4a243b6015b152618a36d69d03bdcd6f505080ca45da68b",
+    "docs/nba_architecture/p1_source_admission_20261118/installed_identity_root.json": "9d3a6228233afc2fe49311deeda0928a26bf5d942649c515a63f83947d7f2d6b"
+  }
+}
