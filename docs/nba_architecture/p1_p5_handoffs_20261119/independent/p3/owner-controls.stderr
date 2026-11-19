@@ -1,0 +1,31 @@
+test_actual_public_native_forecasts_and_complete_denominators (tests.nba_architecture.test_subset_p3_v1.P3SubsetTests.test_actual_public_native_forecasts_and_complete_denominators) ... ok
+test_credited_dnp_and_missing_schedule_game_reject_without_denominator_loss (tests.nba_architecture.test_subset_p3_v1.P3SubsetTests.test_credited_dnp_and_missing_schedule_game_reject_without_denominator_loss) ... ok
+test_invalid_forecast_clock_or_frozen_population_rejected (tests.nba_architecture.test_subset_p3_v1.P3SubsetTests.test_invalid_forecast_clock_or_frozen_population_rejected) ... ok
+test_late_publication_orphan_and_completeness_claims_reject (tests.nba_architecture.test_subset_p3_v1.P3SubsetTests.test_late_publication_orphan_and_completeness_claims_reject) ... ok
+test_malformed_receipt_and_position_fail_locally (tests.nba_architecture.test_subset_p3_v1.P3SubsetTests.test_malformed_receipt_and_position_fail_locally) ... ok
+test_missing_intervening_appearance_is_not_silently_skipped (tests.nba_architecture.test_subset_p3_v1.P3SubsetTests.test_missing_intervening_appearance_is_not_silently_skipped) ... ok
+test_missing_player_and_zero_display_are_unknown_not_dnp (tests.nba_architecture.test_subset_p3_v1.P3SubsetTests.test_missing_player_and_zero_display_are_unknown_not_dnp) ... ok
+test_rehashed_identity_game_duplicate_and_body_attacks (tests.nba_architecture.test_subset_p3_v1.P3SubsetTests.test_rehashed_identity_game_duplicate_and_body_attacks) ... ok
+test_resealed_forecast_q_identity_drop_and_duplicate_mutations (tests.nba_architecture.test_subset_p3_v1.P3SubsetTests.test_resealed_forecast_q_identity_drop_and_duplicate_mutations) ... ok
+test_unreviewed_models_and_future_training_changes_do_not_admit (tests.nba_architecture.test_subset_p3_v1.P3SubsetTests.test_unreviewed_models_and_future_training_changes_do_not_admit) ... ok
+test_early_exit_caps_without_realized_minutes (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_early_exit_caps_without_realized_minutes) ... ok
+test_future_source_and_actual_input_key_fail_closed (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_future_source_and_actual_input_key_fail_closed) ... ok
+test_g0_exact_conservation_and_sidecar (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_g0_exact_conservation_and_sidecar) ... ok
+test_immutability_idempotence_and_conflict (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_immutability_idempotence_and_conflict) ... ok
+test_lineup_and_opportunity_tamper_rejected (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_lineup_and_opportunity_tamper_rejected) ... ok
+test_played_zero_distinct_from_dnp (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_played_zero_distinct_from_dnp) ... ok
+test_prior_manifest_replays_and_detects_mutation (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_prior_manifest_replays_and_detects_mutation) ... ok
+test_repeated_seed_exact_hash (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_repeated_seed_exact_hash) ... ok
+test_sidecar_cannot_forge_five_player_lineup_identity (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_sidecar_cannot_forge_five_player_lineup_identity) ... ok
+test_sidecar_cannot_forge_game_possessions (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_sidecar_cannot_forge_game_possessions) ... ok
+test_three_variants_generate_full_discrete_minute_laws (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_three_variants_generate_full_discrete_minute_laws) ... ok
+test_unknowable_roster_cannot_be_forced_active (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_unknowable_roster_cannot_be_forced_active) ... ok
+test_unknown_probability_retained (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_unknown_probability_retained) ... ok
+test_verified_estimates_and_out_state_semantics (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_verified_estimates_and_out_state_semantics) ... ok
+test_ws2_bridge_preserves_raw_sha_and_requires_missing_prior (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_ws2_bridge_preserves_raw_sha_and_requires_missing_prior) ... ok
+test_ws2_bridge_rejects_forged_out_and_postfreeze (tests.nba_architecture.test_p3_o_family.OpportunityTests.test_ws2_bridge_rejects_forged_out_and_postfreeze) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 17.265s
+
+OK

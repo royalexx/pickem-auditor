@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/p1_p5_handoffs_20261119/independent/p3/dnp_credit_red.py", line 13, in <module>
+    games,_=ns['read_team_history'](h,'29',C);state=next(g['observations'][pid] for g in games if g['source_label']==folder.name);print(json.dumps({'mutated_game':folder.name,'player':pid,'source_MIN':'0','source_PTS':'3','accepted_state':state},indent=2));assert state['state']!='DNP','contradictory positive-credit zero-minute row was imputed DNP'
+                                                                                                                                                                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^
+AssertionError: contradictory positive-credit zero-minute row was imputed DNP

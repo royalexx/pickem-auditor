@@ -1,0 +1,21 @@
+{
+  "tested_checkout": "b415e8bf294c4765021dd8a4067a275e48ef75ac",
+  "implementation_raw_sha256": "57790a0eb2483826beb9ec0b4e16f5802c131864786c18a622b7937194bc2156",
+  "forecast_at": "2026-11-19T22:59:51.970814+00:00",
+  "candidate_denominator": 36,
+  "attempt_denominator": 108,
+  "observations": 540,
+  "actual_native_forward_calls": 36,
+  "readback_native_replay": true,
+  "positive_native_conditional_laws": 36,
+  "distinct_positive_players": 12,
+  "abstained_attempts": 72,
+  "reasons": {
+    "P1_SOURCE_ABSTENTION": 33,
+    "UNKNOWN_CONDITIONAL_HISTORY_WINDOW": 33,
+    "UNKNOWN_RETURN_GAP_POPULATION": 6
+  },
+  "model_raw_sha256": "ea7eae3afc760eafda0fbf0dbdccd2cb77b31b0aca54fc3606b4b31ba90693de",
+  "native_raw_sha256": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30",
+  "p3_canonical_wire_sha256": "d53f3fbe1f46cc9a93bcd91cf87909d1fa23f7f91d85568b4626a8bf8ed48705"
+}
