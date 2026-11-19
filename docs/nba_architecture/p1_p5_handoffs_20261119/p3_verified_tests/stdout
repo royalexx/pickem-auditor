@@ -1,0 +1,49 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0 -- /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/pickem-auditor
+plugins: anyio-4.14.2
+collecting ... collected 25 items
+
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_actual_public_native_forecasts_and_complete_denominators PASSED [  4%]
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_invalid_forecast_clock_or_frozen_population_rejected PASSED [  8%]
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_late_publication_orphan_and_completeness_claims_reject 
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_late_publication_orphan_and_completeness_claims_reject PASSED [ 12%]
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_malformed_receipt_and_position_fail_locally 
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_malformed_receipt_and_position_fail_locally PASSED [ 16%]
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_missing_intervening_appearance_is_not_silently_skipped PASSED [ 20%]
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_missing_player_and_zero_display_are_unknown_not_dnp 
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_missing_player_and_zero_display_are_unknown_not_dnp PASSED [ 24%]
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_rehashed_identity_game_duplicate_and_body_attacks 
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_rehashed_identity_game_duplicate_and_body_attacks PASSED [ 28%]
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_resealed_forecast_q_identity_drop_and_duplicate_mutations 
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_resealed_forecast_q_identity_drop_and_duplicate_mutations PASSED [ 32%]
+tests/nba_architecture/test_subset_p3_v1.py::P3SubsetTests::test_unreviewed_models_and_future_training_changes_do_not_admit PASSED [ 36%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_early_exit_caps_without_realized_minutes PASSED [ 40%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_future_source_and_actual_input_key_fail_closed PASSED [ 44%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_g0_exact_conservation_and_sidecar PASSED [ 48%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_immutability_idempotence_and_conflict PASSED [ 52%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_lineup_and_opportunity_tamper_rejected PASSED [ 56%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_played_zero_distinct_from_dnp PASSED [ 60%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_prior_manifest_replays_and_detects_mutation PASSED [ 64%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_repeated_seed_exact_hash PASSED [ 68%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_sidecar_cannot_forge_five_player_lineup_identity PASSED [ 72%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_sidecar_cannot_forge_game_possessions PASSED [ 76%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_three_variants_generate_full_discrete_minute_laws 
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_three_variants_generate_full_discrete_minute_laws PASSED [ 80%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_unknowable_roster_cannot_be_forced_active PASSED [ 84%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_unknown_probability_retained PASSED [ 88%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_verified_estimates_and_out_state_semantics PASSED [ 92%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_ws2_bridge_preserves_raw_sha_and_requires_missing_prior PASSED [ 96%]
+tests/nba_architecture/test_p3_o_family.py::OpportunityTests::test_ws2_bridge_rejects_forged_out_and_postfreeze PASSED [100%]
+
+=============================== warnings summary ===============================
+../../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/anyio/pytest_plugin.py:14
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/anyio/pytest_plugin.py:14: PytestRemovedIn10Warning: _pytest.python.CallSpec2 has been renamed to CallSpec.
+  The CallSpec2 alias will be removed in pytest 10.
+  Update imports to use CallSpec instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#callspec2-renamed
+    from _pytest.python import CallSpec2
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============== 25 passed, 1 warning, 22 subtests passed in 19.13s ==============

@@ -1,0 +1,12 @@
+{
+  "tested_commit": "67094fbf57dcb4e483f1a55a3a9031e08608b2dd",
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "-v",
+    "tests/nba_architecture/test_subset_p3_v1.py",
+    "tests/nba_architecture/test_p3_o_family.py"
+  ],
+  "exit_code": 0
+}
