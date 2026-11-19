@@ -1,0 +1,24 @@
+{
+  "schema": "nba-narrow-default-current/1.0.0",
+  "authority": "User-approved scope amendment Nov19",
+  "profile": "source_listed_subset",
+  "tested_implementation_sha": "a0e6441d9ec1457517a29a5b6f7e1e7350808b35",
+  "architecture_methods": 558,
+  "architecture_exit": 0,
+  "dedicated_methods": 7,
+  "dedicated_exit": 0,
+  "methods_overlap": true,
+  "source_candidate_rows": 36,
+  "source_ready_conditional_requests": 26,
+  "source_abstentions": 10,
+  "forecast_outputs": 0,
+  "model_supplied": false,
+  "complete_legal_roster_required": false,
+  "historical_full_population_gates": "SUPERSEDED_FOR_THIS_PROFILE",
+  "automation_receipt": "CURRENT_AUTOMATIONS.json",
+  "source_files": {
+    "v2/nba_architecture/research_profile_v1.py": "bc25182f07f86f695ae0fefdf4a3a0b8924808c67bbcd809484824337e7ee070",
+    "scripts/nba_research.py": "d1e4cd72f10fb2cf2e0315d48ccff81679d73dd8872e18fb612eb643e0ba8d96",
+    "config/nba_research_profile.json": "951cb869d0fb8e83f272f1d4d3964bee602353ffd47c723c3147c42044087b50"
+  }
+}
