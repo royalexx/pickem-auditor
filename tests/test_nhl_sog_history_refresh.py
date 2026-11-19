@@ -71,6 +71,16 @@ class HistoryRefreshTests(unittest.TestCase):
             view,ref=load_current(tmp,day='2026-11-19',now=now)
             self.assertEqual(view['qualified_players'],0);self.assertEqual(view['noncurrent_season_exclusions'],['1234567'])
             self.assertEqual(path.read_bytes(),raw);self.assertEqual(ref['sha256'],digest)
+    def test_new_manifest_cannot_freshen_an_old_signed_game_log(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)/'daily_history_manifests';root.mkdir()
+            now=datetime(2026,11,19,19,tzinfo=timezone.utc)
+            entry={'raw_log_receipt':{'source_url':'https://api-web.nhle.com/v1/player/1234567/game-log/20262027/2','received_at':'2026-11-12T19:00:00Z'}}
+            d={'created_at':now.isoformat(),'signed_observation_contracts_by_player':{'1234567':[entry]*5},'qualified_players':1}
+            raw=canon(d);digest=hashlib.sha256(raw).hexdigest();(root/(digest+'.json')).write_bytes(raw)
+            view,_=load_current(tmp,day='2026-11-19',now=now)
+            self.assertEqual(view['qualified_players'],0);self.assertEqual(view['stale_log_exclusions'],['1234567'])
+            self.assertEqual(view['noncurrent_season_exclusions'],[])
     def test_history_manifest_hash_tamper_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)/'daily_history_manifests';root.mkdir();(root/('a'*64+'.json')).write_bytes(b'{}')

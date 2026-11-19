@@ -10,7 +10,10 @@ from v2.nhl_sog_daily_math import fit_model
 from v2.nhl_sog_daily_ledger import law,KINDS
 pool=root/'reports/v25_sog_source_cert_sprint/2026-11-13/signed_pr122_20261113T165907226991Z/original_signed_sources'
 now=datetime.now(timezone.utc);day=now.astimezone(ZoneInfo('America/Toronto')).date().isoformat()
-d,ref=load_current(pool,day=day,now=now);own=d['signed_observation_contracts_by_player'];cat=d['player_records']
+d,ref=load_current(pool,day=day,now=now)
+from v2.nhl_sog_local_sources import open_history_sources
+pool=open_history_sources(pool,d)
+own=d['signed_observation_contracts_by_player'];cat=d['player_records']
 results=[]
 for group in ('F','D'):
     candidates=sorted(pid for pid,rs in own.items() if len(rs)>=5 and cat[pid]['official_position_group']==group)
