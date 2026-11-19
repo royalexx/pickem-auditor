@@ -12,6 +12,12 @@ is recorded at actual inference, before the target. This additional research run
 does not alter tonight's pinned source-only confirmation or retrospectively mint
 November 18 forecasts.
 
+The exact cohort canonical-JSON SHA256 is
+0ecd8c98ea97bb8be852807c5935d8427adb2b9d9ca062d823da86279f57357f.
+The adapter refuses another cohort or caller-amended scope; another target needs
+a separate reviewed reuse decision. Hashes enforce the reviewed contract; a
+caller-provided hash or flag cannot register a different profile.
+
 Only the exact saved WS2 model raw SHA256
 ea7eae3afc760eafda0fbf0dbdccd2cb77b31b0aca54fc3606b4b31ba90693de
 and native reader raw SHA256

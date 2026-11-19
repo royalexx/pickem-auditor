@@ -14,6 +14,7 @@ from .subset_contract_v1 import strict_json
 VERSION='nba-subset-p3/1.0.0'
 MODEL_SHA='ea7eae3afc760eafda0fbf0dbdccd2cb77b31b0aca54fc3606b4b31ba90693de'
 NATIVE_SHA='6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30'
+COHORT_SHA='0ecd8c98ea97bb8be852807c5935d8427adb2b9d9ca062d823da86279f57357f'
 MODELS=('M0','M1','M2')
 BASE='https://site.api.espn.com/apis/site/v2/sports/basketball/nba/'
 
@@ -119,6 +120,7 @@ def _load_model(path):
 
 
 def run_p3(source_raw,capture_dir,cohort,*,history_dir,model_path,forecast_at):
+    require(digest(canonical(cohort))==COHORT_SHA,'UNREVIEWED_P3_COHORT_OR_SCOPE')
     handoff=read_requests(source_raw,capture_dir,cohort)
     require(native.utc(cohort['freeze_at'])<=native.utc(forecast_at)<native.utc(cohort['start']),'P3_FORECAST_CLOCK')
     frozen=cohort.get('frozen_candidates')
