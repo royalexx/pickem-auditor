@@ -36,7 +36,9 @@ The exact 15 game IDs/dates per team are frozen in HISTORY_POPULATION; a missing
 game does not silently reduce coverage. If a source rejects, every required
 candidate/game observation remains UNKNOWN with the source rejection attached.
 Only the actually observed empty-credit-array DNP representation is supported;
-nonempty credited arrays reject until independently justified as another format.
+nonempty credited arrays remain UNKNOWN with their raw credits and reason. The
+affected player abstains if that observation lies in the feature window; other
+supported players continue. Another DNP format needs independent justification.
 Each HTTP body is joined to its original receipt and actual retrieval/ingestion
 clocks, exact endpoint, game, teams, player and declared status. Receipt/HTTP Date
 is not a source publication timestamp. Unsupported publication, complete

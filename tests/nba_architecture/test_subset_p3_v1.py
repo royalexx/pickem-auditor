@@ -145,6 +145,13 @@ class P3SubsetTests(unittest.TestCase):
                 else:
                     folder=h/'schedule-29';b=json.loads((folder/'body.raw').read_bytes());b['events'].pop(0)
                 self.reseal(folder,body=b);x=self.run_model(h)
-                self.assertIn('29',x['team_errors']);self.assertEqual(x['observation_denominator'],540);self.assertEqual(x['attempt_denominator'],108)
-                unknown=[r for r in x['observations'] if r['team_id']=='espn:team:29']
-                self.assertTrue(all(r['state']=='UNKNOWN' and r['source_rejection'] for r in unknown))
+                self.assertEqual(x['observation_denominator'],540);self.assertEqual(x['attempt_denominator'],108)
+                if attack=='missing_game':
+                    self.assertIn('29',x['team_errors']);unknown=[r for r in x['observations'] if r['team_id']=='espn:team:29']
+                    self.assertTrue(all(r['state']=='UNKNOWN' and r['source_rejection'] for r in unknown))
+                else:
+                    self.assertNotIn('29',x['team_errors'])
+                    target_id='espn:player:'+target['athlete']['id']
+                    unknown=[r for r in x['observations'] if r['player_id']==target_id and r.get('source_row_issue')]
+                    self.assertEqual(len(unknown),1);self.assertEqual(unknown[0]['state'],'UNKNOWN')
+                    self.assertTrue(any(r['forecast'] for r in x['rows'] if r['team_id']=='espn:team:29' and r['player_id']!=target_id))

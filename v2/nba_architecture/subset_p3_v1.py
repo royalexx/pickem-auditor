@@ -81,7 +81,10 @@ def _observation(row,index):
     stats=row.get('stats',[]);text=stats[index] if len(stats)>index else None
     dnp=row.get('didNotPlay')
     if dnp is True:
-        require(stats==[],'DNP_NONEMPTY_CREDIT_ARRAY_UNVERIFIED')
+        if stats!=[]:
+            return dict(state='UNKNOWN',displayed_minutes=None,raw_display=text,
+                units='ESPN_DISPLAYED_ROUNDED_MINUTES',exact_seconds=None,
+                source_row_issue='DNP_NONEMPTY_CREDIT_ARRAY_UNVERIFIED',raw_credit_array=stats)
         require(text in (None,'','--','0'),'DNP_POSITIVE_MINUTE_CONFLICT')
         state='DNP'
     elif dnp is False and isinstance(text,str) and re.fullmatch(r'[0-9]+',text):
