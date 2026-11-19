@@ -1,0 +1,15 @@
+test_actual_pdf_printed_header_mismatch_and_invalid_body (test_p1_injury_report_v2.InjuryV2Tests.test_actual_pdf_printed_header_mismatch_and_invalid_body) ... ok
+test_am_pm_midnight_noon_and_day_order (test_p1_injury_report_v2.InjuryV2Tests.test_am_pm_midnight_noon_and_day_order) ... ok
+test_html_entity_cannot_change_href_boundaries (test_p1_injury_report_v2.InjuryV2Tests.test_html_entity_cannot_change_href_boundaries) ... ok
+test_latest_unavailable_no_fallback_preserves_denial (test_p1_injury_report_v2.InjuryV2Tests.test_latest_unavailable_no_fallback_preserves_denial) ... ok
+test_malformed_href_never_synthesizes_a_valid_prefix (test_p1_injury_report_v2.InjuryV2Tests.test_malformed_href_never_synthesizes_a_valid_prefix) ... ok
+test_matching_href_delimiters_preserve_embedded_other_quote (test_p1_injury_report_v2.InjuryV2Tests.test_matching_href_delimiters_preserve_embedded_other_quote) ... ok
+test_missing_stale_future_and_invalid_urls_retained (test_p1_injury_report_v2.InjuryV2Tests.test_missing_stale_future_and_invalid_urls_retained) ... ok
+test_original_actual_index_red_is_chronologically_repaired (test_p1_injury_report_v2.InjuryV2Tests.test_original_actual_index_red_is_chronologically_repaired) ... ok
+test_past_freeze_does_not_fetch (test_p1_injury_report_v2.InjuryV2Tests.test_past_freeze_does_not_fetch) ... ok
+test_timezones_and_dst_reject_ambiguous_clocks (test_p1_injury_report_v2.InjuryV2Tests.test_timezones_and_dst_reject_ambiguous_clocks) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.074s
+
+OK

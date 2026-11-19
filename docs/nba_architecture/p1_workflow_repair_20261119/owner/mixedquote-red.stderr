@@ -1,0 +1,15 @@
+test_matching_href_delimiters_preserve_embedded_other_quote (tests.nba_architecture.test_p1_injury_report_v2.InjuryV2Tests.test_matching_href_delimiters_preserve_embedded_other_quote) ... FAIL
+
+======================================================================
+FAIL: test_matching_href_delimiters_preserve_embedded_other_quote (tests.nba_architecture.test_p1_injury_report_v2.InjuryV2Tests.test_matching_href_delimiters_preserve_embedded_other_quote)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/tests/nba_architecture/test_p1_injury_report_v2.py", line 79, in test_matching_href_delimiters_preserve_embedded_other_quote
+    self.assertIsNone(x['selected_url']);self.assertEqual(x['ledger'][0]['url'],bad)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_00PM.pdf' is not None
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=1)

@@ -1,0 +1,438 @@
+{
+  "schema": "nba-injury-report-capture/2.0.0",
+  "status": "CAPTURED_BOUNDED_UNADMITTED",
+  "input_freeze_at": "2026-11-19T19:32:53.371100+00:00",
+  "errors": [],
+  "admission": "UNADMITTED",
+  "index_receipt": {
+    "schema": "nba-p1-raw-capture/1.0.0",
+    "url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "retrieval_started_at": "2026-11-19T19:27:53.447127+00:00",
+    "source_published_at": null,
+    "original_historical_available_at": null,
+    "admission": "UNADMITTED",
+    "correction_history_complete": null,
+    "predecessor_sha256": null,
+    "status": 200,
+    "headers": {
+      "server": "envoy",
+      "content-type": "text/html; charset=UTF-8",
+      "x-content-type-options": "nosniff",
+      "strict-transport-security": "max-age=86400",
+      "vary": "Accept-Encoding",
+      "x-envoy-upstream-service-time": "561",
+      "x-powered-by": "NBA",
+      "x-hits": "1",
+      "x-status": "",
+      "x-cache-ability": "cacheable",
+      "x-keep": "0.000",
+      "x-grace": "259200.000",
+      "x-ttl": "263.414",
+      "x-vcl-version": "NBA.com prod 1.7b",
+      "x-varnish": "308319552 307998566",
+      "vha6-origin": "varnish-1",
+      "x-full-ttl": "300.000",
+      "x-frame-options": "SAMEORIGIN",
+      "x-xss-protection": "1; mode=block",
+      "x-akamai-transformed": "0 124801 0 -",
+      "cache-control": "max-age=91",
+      "date": "Thu, 19 Nov 2026 19:27:54 GMT",
+      "set-cookie": "_abck=52F5C033A1905B421856F82B2F591DDA~-1~YAAQxd81FxzMSd6hAQAAkp9H9RCdgl4Il8GEAL25LLrZ5vUm3vam80dJI7656KRlg5+GZxDGYb4c2CXxMGggN9CeClks+Dl5Jt7oq/Czn+8qZctR51Lljl0Yfvrm92EfqW1XkKLxBWM/2yKT/0s4tRqZE9BUF+804wz08od5swm5Qq3Kuk+E3tOwKvvD7hmnkciXvlD7Pt4cW12IvfmILgZPZ5AoXzfMHIllc85iCQ9ssDJzlj5XeFf6+JkQ9YoABD2XssOVT0ZNJPAWLqSzjFD5RKDbT5PyYQeJsO9SDHbxeBWcLoHhK/TnomLd81z4Ph8HrMzTcGKWzKFc80JMa/7asRCOUNwJv1RrXQ9+1vmW0iBcxJq+2Z4Aw9TOdWPctclX4c4KDrJ/l/0CMt7Ii3aQdjZNfiHs6mAG7Vfs6TEbt4DbA6W5Z7VxGvXM3GnQWYs=~-1~-1~-1~-1~-1; Domain=.nba.com; Path=/; Expires=Fri, 19 Nov 2027 19:27:54 GMT; Max-Age=31536000; Secure",
+      "connection": "close",
+      "transfer-encoding": "chunked"
+    },
+    "retrieval_completed_at": "2026-11-19T19:27:54.286092+00:00",
+    "raw_sha256": "dc05c638c1038c776a0762abc5bd84759bde48c7d1ced307de05fa85eb77efd4",
+    "bytes": 124907,
+    "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+    "ingested_at": "2026-11-19T19:27:54.287111+00:00"
+  },
+  "selection": {
+    "schema": "nba-injury-report-capture/2.0.0",
+    "index_raw_sha256": "dc05c638c1038c776a0762abc5bd84759bde48c7d1ced307de05fa85eb77efd4",
+    "observed_at": "2026-11-19T19:27:54.287111+00:00",
+    "input_freeze_at": "2026-11-19T19:32:53.371100+00:00",
+    "max_age_minutes": 60,
+    "url_occurrences": 73,
+    "unique_urls": 65,
+    "ledger": [
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_00AM.pdf",
+        "source_declared_report_at": "2026-11-19T06:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_00PM.pdf",
+        "source_declared_report_at": "2026-11-19T18:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_15AM.pdf",
+        "source_declared_report_at": "2026-11-19T06:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_15PM.pdf",
+        "source_declared_report_at": "2026-11-19T18:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_30AM.pdf",
+        "source_declared_report_at": "2026-11-19T06:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_30PM.pdf",
+        "source_declared_report_at": "2026-11-19T18:30:00+00:00",
+        "status": "ELIGIBLE_CLOCK_ONLY"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf",
+        "source_declared_report_at": "2026-11-19T06:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45PM.pdf",
+        "source_declared_report_at": "2026-11-19T18:45:00+00:00",
+        "status": "ELIGIBLE_CLOCK_ONLY"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_00AM.pdf",
+        "source_declared_report_at": "2026-11-19T07:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_00PM.pdf",
+        "source_declared_report_at": "2026-11-19T19:00:00+00:00",
+        "status": "ELIGIBLE_CLOCK_ONLY"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf",
+        "source_declared_report_at": "2026-11-19T07:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15PM.pdf",
+        "source_declared_report_at": "2026-11-19T19:15:00+00:00",
+        "status": "ELIGIBLE_CLOCK_ONLY"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_30AM.pdf",
+        "source_declared_report_at": "2026-11-19T07:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_45AM.pdf",
+        "source_declared_report_at": "2026-11-19T07:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_03_00AM.pdf",
+        "source_declared_report_at": "2026-11-19T08:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_03_15AM.pdf",
+        "source_declared_report_at": "2026-11-19T08:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_03_30AM.pdf",
+        "source_declared_report_at": "2026-11-19T08:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_03_45AM.pdf",
+        "source_declared_report_at": "2026-11-19T08:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_04_00AM.pdf",
+        "source_declared_report_at": "2026-11-19T09:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_04_15AM.pdf",
+        "source_declared_report_at": "2026-11-19T09:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_04_30AM.pdf",
+        "source_declared_report_at": "2026-11-19T09:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_04_45AM.pdf",
+        "source_declared_report_at": "2026-11-19T09:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_05_00AM.pdf",
+        "source_declared_report_at": "2026-11-19T10:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_05_15AM.pdf",
+        "source_declared_report_at": "2026-11-19T10:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_05_30AM.pdf",
+        "source_declared_report_at": "2026-11-19T10:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_05_45AM.pdf",
+        "source_declared_report_at": "2026-11-19T10:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_06_00AM.pdf",
+        "source_declared_report_at": "2026-11-19T11:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_06_15AM.pdf",
+        "source_declared_report_at": "2026-11-19T11:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_06_30AM.pdf",
+        "source_declared_report_at": "2026-11-19T11:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_06_45AM.pdf",
+        "source_declared_report_at": "2026-11-19T11:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_07_00AM.pdf",
+        "source_declared_report_at": "2026-11-19T12:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_07_15AM.pdf",
+        "source_declared_report_at": "2026-11-19T12:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_07_30AM.pdf",
+        "source_declared_report_at": "2026-11-19T12:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_07_45AM.pdf",
+        "source_declared_report_at": "2026-11-19T12:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_08_00AM.pdf",
+        "source_declared_report_at": "2026-11-19T13:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_08_15AM.pdf",
+        "source_declared_report_at": "2026-11-19T13:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_08_30AM.pdf",
+        "source_declared_report_at": "2026-11-19T13:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_08_45AM.pdf",
+        "source_declared_report_at": "2026-11-19T13:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_09_00AM.pdf",
+        "source_declared_report_at": "2026-11-19T14:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_09_15AM.pdf",
+        "source_declared_report_at": "2026-11-19T14:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_09_30AM.pdf",
+        "source_declared_report_at": "2026-11-19T14:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_09_45AM.pdf",
+        "source_declared_report_at": "2026-11-19T14:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_10_00AM.pdf",
+        "source_declared_report_at": "2026-11-19T15:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_10_15AM.pdf",
+        "source_declared_report_at": "2026-11-19T15:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_10_30AM.pdf",
+        "source_declared_report_at": "2026-11-19T15:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_10_45AM.pdf",
+        "source_declared_report_at": "2026-11-19T15:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_11_00AM.pdf",
+        "source_declared_report_at": "2026-11-19T16:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_11_15AM.pdf",
+        "source_declared_report_at": "2026-11-19T16:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_11_30AM.pdf",
+        "source_declared_report_at": "2026-11-19T16:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_11_45AM.pdf",
+        "source_declared_report_at": "2026-11-19T16:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_00AM.pdf",
+        "source_declared_report_at": "2026-11-19T05:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_00PM.pdf",
+        "source_declared_report_at": "2026-11-19T17:00:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_15AM.pdf",
+        "source_declared_report_at": "2026-11-19T05:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_15PM.pdf",
+        "source_declared_report_at": "2026-11-19T17:15:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf",
+        "source_declared_report_at": "2026-11-19T05:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30PM.pdf",
+        "source_declared_report_at": "2026-11-19T17:30:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf",
+        "source_declared_report_at": "2026-11-19T05:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45PM.pdf",
+        "source_declared_report_at": "2026-11-19T17:45:00+00:00",
+        "status": "REJECTED_STALE_REPORT_CLOCK"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2024/06/2023-NBA-Collective-Bargaining-Agreement-Final.pdf",
+        "source_declared_report_at": null,
+        "status": "REJECTED_UNSUPPORTED_OR_INVALID",
+        "reason": "UNSUPPORTED_REPORT_PATH"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/03/2026-NBA-Undergraduate-Advisory-Committee-Brochure.pdf",
+        "source_declared_report_at": null,
+        "status": "REJECTED_UNSUPPORTED_OR_INVALID",
+        "reason": "UNSUPPORTED_REPORT_PATH"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-NBA-Concussion-Policy-Summary.pdf",
+        "source_declared_report_at": null,
+        "status": "REJECTED_UNSUPPORTED_OR_INVALID",
+        "reason": "UNSUPPORTED_REPORT_PATH"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-NBA-Officials-Guide-10-14-26.pdf",
+        "source_declared_report_at": null,
+        "status": "REJECTED_UNSUPPORTED_OR_INVALID",
+        "reason": "UNSUPPORTED_REPORT_PATH"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-NBA-Officials-Headshots.pdf",
+        "source_declared_report_at": null,
+        "status": "REJECTED_UNSUPPORTED_OR_INVALID",
+        "reason": "UNSUPPORTED_REPORT_PATH"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-NBA-Officiating-Staff.pdf",
+        "source_declared_report_at": null,
+        "status": "REJECTED_UNSUPPORTED_OR_INVALID",
+        "reason": "UNSUPPORTED_REPORT_PATH"
+      },
+      {
+        "url": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf",
+        "source_declared_report_at": null,
+        "status": "REJECTED_UNSUPPORTED_OR_INVALID",
+        "reason": "UNSUPPORTED_REPORT_PATH"
+      }
+    ],
+    "selected_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15PM.pdf",
+    "eligible_urls": 4,
+    "rejected_urls": 61,
+    "source_publication_at": null,
+    "admission": "UNADMITTED"
+  },
+  "report_receipt": {
+    "schema": "nba-p1-raw-capture/1.0.0",
+    "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15PM.pdf",
+    "retrieval_started_at": "2026-11-19T19:27:54.294342+00:00",
+    "source_published_at": null,
+    "original_historical_available_at": null,
+    "admission": "UNADMITTED",
+    "correction_history_complete": null,
+    "predecessor_sha256": null,
+    "status": 200,
+    "headers": {
+      "x-amz-request-id": "RKYSNRAV97Q00ZYW",
+      "x-amz-id-2": "uQlWP3ZMwildPw6rU9WEgGNgC/ifbe5fvlv8m3VwJCZx0FE89bsseUb9CfLK5PU3cjnX7OCxllmoo/joe5ImPjOn9bnD8F7L",
+      "content-length": "90376",
+      "accept-ranges": "bytes",
+      "server": "envoy",
+      "last-modified": "Thu, 19 Nov 2026 19:15:05 GMT",
+      "etag": "\"6c62e422667be93a61dde439a54c8108\"",
+      "x-amz-version-id": "ZI.506kDQV5ppoxyvfJPrr.mUf67bNzN",
+      "content-type": "application/pdf",
+      "x-amz-server-side-encryption": "AES256",
+      "date": "Thu, 19 Nov 2026 19:27:54 GMT",
+      "x-xss-protection": "1; mode=block",
+      "x-content-type-options": "nosniff",
+      "strict-transport-security": "max-age=86400",
+      "x-envoy-upstream-service-time": "188",
+      "connection": "close"
+    },
+    "retrieval_completed_at": "2026-11-19T19:27:54.637207+00:00",
+    "raw_sha256": "62baaae427b0c1c5914127d6c484a4dc5913ed15d20baca25b20629a9b05873e",
+    "bytes": 90376,
+    "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+    "ingested_at": "2026-11-19T19:27:54.638013+00:00"
+  },
+  "printed_content": {
+    "raw_sha256": "62baaae427b0c1c5914127d6c484a4dc5913ed15d20baca25b20629a9b05873e",
+    "printed_report_clock": "2026-11-19T14:15:00",
+    "source_declared_report_at": "2026-11-19T14:15:00-05:00",
+    "source_publication_at": null
+  }
+}

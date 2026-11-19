@@ -1,0 +1,8 @@
+[
+  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+  "scripts/nba_p1_capture_injury_v2.py",
+  "--freeze-at",
+  "2026-11-19T19:30:43.957659+00:00",
+  "--output",
+  "docs/nba_architecture/p1_workflow_repair_20261119/independent/actual_v2_capture"
+]

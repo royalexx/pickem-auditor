@@ -1,0 +1,46 @@
+{
+  "tested_implementation_sha": "5af4072cf62951ec6cc5e21f0e1f82bcd452067c",
+  "selector_tests": {
+    "argv": [
+      "python",
+      "-m",
+      "unittest",
+      "tests.nba_architecture.test_p1_injury_report_v2",
+      "-v"
+    ],
+    "exit": 0,
+    "methods": 10,
+    "stdout": "tests-html.stdout",
+    "stderr": "tests-html.stderr"
+  },
+  "architecture": {
+    "argv": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/nba_architecture",
+      "-v"
+    ],
+    "env": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "PYTHONPATH": ".:tests/nba_architecture"
+    },
+    "exit": 0,
+    "methods": 551,
+    "stdout": "html_architecture.stdout",
+    "stderr": "html_architecture.stderr"
+  },
+  "real_public_capture_command": "html_actual_command.json",
+  "step4_scheduled": false,
+  "reason": "Independent inspected current official pregame endpoint had empty populations; full legaleligibility contract not established",
+  "preserved_first_repair_sha": "9352ae0bb71dcc935327b1443856fe1e17102af3",
+  "preserved_intermediate_sha": "b25ce4dbd5854bc34f8a06e13e7c1e5a5e0f6e7a",
+  "source_files": {
+    "v2/nba_architecture/p1_injury_report_v2.py": "1103fda2f1f18a492c7431ff7938d68cf294fc1cdc9ec51e50c7fcaee4a078d2",
+    "scripts/nba_p1_capture_injury_v2.py": "f7bad3ba308b78db7cc9b13e48b7ebf64a44a14ffe63f38f495ee5b9f3f0ae48",
+    "tests/nba_architecture/test_p1_injury_report_v2.py": "c08fcede354e7c8b056369ee95b12dd6d47c45a38b22e51ce6d5d828b671f7b0"
+  }
+}

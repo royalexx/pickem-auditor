@@ -1,0 +1,31 @@
+{
+  "schema": "nba-p1-raw-capture/1.0.0",
+  "url": "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022600258.json",
+  "retrieval_started_at": "2026-11-19T19:24:32.974918+00:00",
+  "source_published_at": null,
+  "original_historical_available_at": null,
+  "admission": "UNADMITTED",
+  "correction_history_complete": null,
+  "predecessor_sha256": null,
+  "status": 403,
+  "headers": {
+    "mime-version": "1.0",
+    "content-type": "text/html",
+    "content-length": "443",
+    "expires": "Thu, 19 Nov 2026 19:24:33 GMT",
+    "date": "Thu, 19 Nov 2026 19:24:33 GMT",
+    "x-frame-options": "sameorigin",
+    "x-xss-protection": "1; mode=block",
+    "x-content-type-options": "nosniff",
+    "strict-transport-security": "max-age=86400",
+    "x-envoy-upstream-service-time": "146",
+    "server": "envoy",
+    "connection": "close"
+  },
+  "error": "HTTPError: HTTP Error 403: Forbidden",
+  "raw_sha256": "30b46ee885e0a00cd227b11e644390a3693ade291d6f6dcc10cfdf15c40dc201",
+  "bytes": 443,
+  "byte_domain": "HTTP_ERROR_RESPONSE_BODY_BYTES",
+  "retrieval_completed_at": "2026-11-19T19:24:33.255335+00:00",
+  "ingested_at": "2026-11-19T19:24:33.255347+00:00"
+}

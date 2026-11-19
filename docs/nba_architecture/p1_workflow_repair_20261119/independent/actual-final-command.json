@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "scripts/nba_p1_capture_injury_v2.py",
+    "--freeze-at",
+    "2026-11-19T19:32:53.371100+00:00",
+    "--output",
+    "docs/nba_architecture/p1_workflow_repair_20261119/independent/actual_final_capture"
+  ],
+  "tested_sha": "d2fcb2056e20c562d731b6d883fdd6e3329866ff",
+  "module_raw_sha256": "1103fda2f1f18a492c7431ff7938d68cf294fc1cdc9ec51e50c7fcaee4a078d2"
+}

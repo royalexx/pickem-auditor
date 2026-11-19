@@ -1,0 +1,15 @@
+test_html_entity_cannot_change_href_boundaries (tests.nba_architecture.test_p1_injury_report_v2.InjuryV2Tests.test_html_entity_cannot_change_href_boundaries) ... FAIL
+
+======================================================================
+FAIL: test_html_entity_cannot_change_href_boundaries (tests.nba_architecture.test_p1_injury_report_v2.InjuryV2Tests.test_html_entity_cannot_change_href_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/tests/nba_architecture/test_p1_injury_report_v2.py", line 85, in test_html_entity_cannot_change_href_boundaries
+    self.assertIsNone(x['selected_url']);self.assertEqual(x['ledger'][0]['url'],good+'"evil')
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_00PM.pdf' is not None
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=1)

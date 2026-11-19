@@ -1,0 +1,333 @@
+{
+  "source_capture_checks": [
+    {
+      "source": "official-austin-minix-release",
+      "status": 200,
+      "raw_sha256": "2e39adc63fcebaa334a97f58b89f186351a23ab7c40dab3a6d641d48a1ede286",
+      "actual_retrieval_completed_at": "2026-11-19T19:21:53.792221+00:00"
+    },
+    {
+      "source": "official-rule3",
+      "status": 200,
+      "raw_sha256": "5605dbc4e58f3244902d7917b3d6d317b9d8e232fe918209b2c77c60a0d5ea6e",
+      "actual_retrieval_completed_at": "2026-11-19T19:20:56.378961+00:00"
+    },
+    {
+      "source": "official-game-index",
+      "status": 200,
+      "raw_sha256": "54613361455f8ddd5b678bf9472aca110a64dba31eb65773ce47aeb050f1ace6",
+      "actual_retrieval_completed_at": "2026-11-19T19:23:55.018510+00:00"
+    },
+    {
+      "source": "official-current-game-index",
+      "status": 200,
+      "raw_sha256": "d16b466793a260fe1e673af5a6157a18a1ee2b2beebcf9b12a8f1ca14ccd2a37",
+      "actual_retrieval_completed_at": "2026-11-19T19:25:46.495134+00:00"
+    },
+    {
+      "source": "official-schedule",
+      "status": 403,
+      "raw_sha256": "96a4700847d1f0eb3047e978d03a9addd1ea05139176ff0c846a45781ab628d5",
+      "actual_retrieval_completed_at": "2026-11-19T19:20:56.202813+00:00"
+    },
+    {
+      "source": "official-cle-news",
+      "status": 200,
+      "raw_sha256": "acf7dade630af8ff88888de2d42f480fe159014325686a738323db2b6aa0bbe3",
+      "actual_retrieval_completed_at": "2026-11-19T19:20:56.601113+00:00"
+    },
+    {
+      "source": "official-live-box",
+      "status": 403,
+      "raw_sha256": "30b46ee885e0a00cd227b11e644390a3693ade291d6f6dcc10cfdf15c40dc201",
+      "actual_retrieval_completed_at": "2026-11-19T19:24:33.255335+00:00"
+    },
+    {
+      "source": "official-game-box-page",
+      "status": 200,
+      "raw_sha256": "9eb5034103e1a661ce39649ce3a8010bc92d47e2d8f7faa3c38263a1b8d86910",
+      "actual_retrieval_completed_at": "2026-11-19T19:24:34.255962+00:00"
+    },
+    {
+      "source": "official-rule2",
+      "status": 200,
+      "raw_sha256": "e156e1ab88419bb0cd4811f912e8d474c3962f92557a5822b8eafbf083294f40",
+      "actual_retrieval_completed_at": "2026-11-19T19:20:57.108346+00:00"
+    },
+    {
+      "source": "official-pregame-box-page",
+      "status": 200,
+      "raw_sha256": "4dee8ed7adc9f0ee14a0949d0c94eae7638b7dc398032eef0e5a5e5feb3c02c1",
+      "actual_retrieval_completed_at": "2026-11-19T19:26:26.220677+00:00"
+    }
+  ],
+  "captured_prefreeze_official_rosters": {
+    "cle": {
+      "page_team_id": 1610612739,
+      "count": 17,
+      "rows": [
+        {
+          "nba_id": 1643113,
+          "name": "Zack Austin",
+          "row_team_id": "",
+          "source_supplemental_status": 1
+        },
+        {
+          "nba_id": 201935,
+          "name": "James Harden",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1628418,
+          "name": "Thomas Bryant",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1630596,
+          "name": "Evan Mobley",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1630241,
+          "name": "Sam Merrill",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1631212,
+          "name": "Peyton Watson",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1641854,
+          "name": "Craig Porter Jr.",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1643509,
+          "name": "Meleek Thomas",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1631215,
+          "name": "Khalifa Diop",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1642281,
+          "name": "Jaylon Tyson",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1642878,
+          "name": "Tyrese Proctor",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1628386,
+          "name": "Jarrett Allen",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1626209,
+          "name": "Mario Hezonja",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1641772,
+          "name": "Nae'Qwan Tomlin",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1628378,
+          "name": "Donovan Mitchell",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1641807,
+          "name": "Norchad Omier",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": 1
+        },
+        {
+          "nba_id": 1643640,
+          "name": "Ernest Udeh Jr.",
+          "row_team_id": 1610612739,
+          "source_supplemental_status": 1
+        }
+      ]
+    },
+    "mem": {
+      "page_team_id": 1610612763,
+      "count": 18,
+      "rows": [
+        {
+          "nba_id": 1642377,
+          "name": "Jaylen Wells",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1630590,
+          "name": "Scotty Pippen Jr.",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1629660,
+          "name": "Ty Jerome",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 203924,
+          "name": "Jerami Grant",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1643563,
+          "name": "Richie Saunders",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": 1
+        },
+        {
+          "nba_id": 1642914,
+          "name": "Javon Small",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": 1
+        },
+        {
+          "nba_id": 1641744,
+          "name": "Zach Edey",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1631200,
+          "name": "Kris Murray",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1641765,
+          "name": "Olivier-Maxence Prosper",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1642942,
+          "name": "Jahmai Mashack",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": 1
+        },
+        {
+          "nba_id": 1641707,
+          "name": "Taylor Hendricks",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1642907,
+          "name": "Cedric Coward",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1642285,
+          "name": "Cam Spencer",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1643409,
+          "name": "Cameron Boozer",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1630191,
+          "name": "Isaiah Stewart",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1643510,
+          "name": "Karim L\u00f3pez",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1642366,
+          "name": "Quinten Post",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        },
+        {
+          "nba_id": 1641713,
+          "name": "GG Jackson",
+          "row_team_id": 1610612763,
+          "source_supplemental_status": null
+        }
+      ]
+    }
+  },
+  "official_transaction_content": {
+    "title": "CAVALIERS SIGN ZACK AUSTIN TO TWO-WAY CONTRACT",
+    "provider_declared_date": "2026-11-18T15:39:19Z",
+    "provider_declared_modified": "2026-11-18T15:45:32Z",
+    "subhead": "Team Waived Riley Minix",
+    "transaction_statements": [
+      "CLEVELAND\u00a0\u2013 The Cleveland Cavaliers have signed forward\u00a0Zack Austin\u00a0to a two-way contract, Cavaliers President of Basketball Operations Koby Altman announced today from Cleveland Clinic Courts.",
+      "In a related move, the team has waived forward Riley Minix,\u00a0who\u00a0appeared in 10 games with the Cavaliers over the last two seasons. He also appeared in 25 games (23 starts) with the Cleveland Charge over the last two seasons."
+    ],
+    "original_first_available_at": null,
+    "actual_capture": "Nov19 receipt retained; not source-declaredNov18 date"
+  },
+  "completed_game_native_population": {
+    "cle": {
+      "listed_players": 12,
+      "listed_inactives": 5,
+      "game_specific_legal_active_list_before_freeze": null
+    },
+    "mem": {
+      "listed_players": 13,
+      "listed_inactives": 5,
+      "game_specific_legal_active_list_before_freeze": null
+    }
+  },
+  "one_current_pregame_native_probe": {
+    "game": "0022600270",
+    "state": 1,
+    "teams": {
+      "homeTeam": {
+        "listed_players": 0,
+        "listed_inactives": 0,
+        "outer_roster_rows": 0
+      },
+      "awayTeam": {
+        "listed_players": 0,
+        "listed_inactives": 0,
+        "outer_roster_rows": 0
+      }
+    },
+    "scope": "observational source capability probe; not a selected or scheduled closure target"
+  },
+  "legal_complete_prefreeze_source_established": false,
+  "schedule_next_closure_capture": false,
+  "B-P1-01": "BLOCKED",
+  "B-P1-02_original": "BLOCKED"
+}

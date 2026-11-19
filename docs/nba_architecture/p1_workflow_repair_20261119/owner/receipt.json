@@ -1,0 +1,21 @@
+{
+  "implementation_and_tested_sha": "9352ae0bb71dcc935327b1443856fe1e17102af3",
+  "base": "e8bf0f8846ef9e6ca51223f5e6bfac519ffa08ef",
+  "tests_argv": [
+    "python",
+    "-m",
+    "unittest",
+    "tests.nba_architecture.test_p1_injury_report_v2",
+    "-v"
+  ],
+  "tests_exit": 0,
+  "test_methods": 7,
+  "actual_capture_argv_and_exit": "owner/actual_command.json",
+  "future_capture_scheduled": false,
+  "reason": "Game-specific complete legaleligibility source contract not established; no scope change to original gates",
+  "files": {
+    "v2/nba_architecture/p1_injury_report_v2.py": "acd2a0fc2828054a61132d971475915c3fe6a891af18d381b97b144d5f4c0b47",
+    "scripts/nba_p1_capture_injury_v2.py": "f7bad3ba308b78db7cc9b13e48b7ebf64a44a14ffe63f38f495ee5b9f3f0ae48",
+    "tests/nba_architecture/test_p1_injury_report_v2.py": "3f92b26c4e4556f3c2e37a32d90d0aeacc769c9e51c4f01af597edc33ad30c40"
+  }
+}
