@@ -10,7 +10,7 @@ from v2.nba_architecture.p1_subset_handoff_v1 import export_requests,canonical,c
 from v2.nba_architecture.gamebook_v1 import read_final_box
 from v2.nba_architecture.gamebook_identity_v1 import join_game_ids
 
-ROOT=Path(__file__).resolve().parents[3];OUT=Path(__file__).resolve().parent/'owner';OUT.mkdir(exist_ok=True)
+ROOT=Path(__file__).resolve().parents[3];OUT=Path(sys.argv[1]) if len(sys.argv)>1 else Path(__file__).resolve().parent/'new_execution';OUT.mkdir(parents=True,exist_ok=False)
 COHORT_PATH=ROOT/'docs/nba_architecture/p1_prospective_20261118/COHORT.json'
 cohort=json.loads(COHORT_PATH.read_bytes());rawroot=ROOT/'docs/nba_architecture/p1_overnight_20261119/raw'
 ledger=[];hashes={};tested=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
