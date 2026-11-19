@@ -1,0 +1,19 @@
+import sys,json
+from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime,timezone
+sys.path.insert(0,'/workspace/pickem-auditor')
+from v2.nba_architecture.p1_capture_v1 import capture
+p=Path('docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs');p.mkdir(exist_ok=False)
+base='https://site.api.espn.com/apis/site/v2/sports/basketball/nba/'
+for tid in ['9','29']:
+ capture(base+'teams/'+tid+'/schedule',p/('schedule-'+tid))
+ events=json.loads((p/('schedule-'+tid)/'body.raw').read_bytes())['events']
+ # Freeze source window: all completed current-season team games before this target.
+ selected=[e for e in events if e['date']<'2026-11-20T01:00Z' and e['competitions'][0]['status']['type']['completed']]
+ (p/('selected-'+tid+'.json')).write_text(json.dumps(selected,indent=2)+'\n')
+ ids=[e['id'] for e in selected]
+ with ThreadPoolExecutor(max_workers=4) as pool:
+  results=list(pool.map(lambda eid:capture(base+'summary?event='+eid,p/('summary-'+eid)),ids))
+ print(tid,len(ids),[(r.get('status'),r.get('bytes')) for r in results])
+(p/'completed.json').write_text(json.dumps({'completed_at':datetime.now(timezone.utc).isoformat(),'scope':'Current retrieval of completed game history; not original historical pregame availability; no correction completeness claim'})+'\n')

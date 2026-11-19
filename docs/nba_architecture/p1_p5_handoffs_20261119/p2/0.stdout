@@ -1,0 +1,103 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0 -- /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/pickem-auditor
+plugins: anyio-4.14.2
+collecting ... collected 71 items
+
+tests/nba_architecture/test_subset_p2_v1.py::P2SubsetTests::test_actual_public_handoff_retains_all_player_stat_attempts PASSED [  1%]
+tests/nba_architecture/test_subset_p2_v1.py::P2SubsetTests::test_native_positive_and_model_byte_stat_exposure_negative_controls PASSED [  2%]
+tests/nba_architecture/test_subset_p2_v1.py::P2SubsetTests::test_resealed_output_or_source_mutations_do_not_admit PASSED [  4%]
+tests/nba_s_family/test_cutoff_regression_v1_2.py::DeclaredCutoffTests::test_before_freeze_after_declared_cutoff_consistent_rejection PASSED [  5%]
+tests/nba_s_family/test_cutoff_regression_v1_2.py::DeclaredCutoffTests::test_exact_cutoff_equality_all_pts_reb_ast_3pm_count_laws 
+tests/nba_s_family/test_cutoff_regression_v1_2.py::DeclaredCutoffTests::test_exact_cutoff_equality_all_pts_reb_ast_3pm_count_laws PASSED [  7%]
+tests/nba_s_family/test_cutoff_regression_v1_2.py::DeclaredCutoffTests::test_model_before_declared_cutoff PASSED [  8%]
+tests/nba_s_family/test_cutoff_regression_v1_2.py::DeclaredCutoffTests::test_one_microsecond_after_declared_cutoff_consistent_rejection PASSED [  9%]
+tests/nba_s_family/test_cutoff_regression_v1_2.py::DeclaredCutoffTests::test_postfreeze_still_rejects_with_existing_reason PASSED [ 11%]
+tests/nba_s_family/test_cutoff_regression_v1_2.py::ArtifactChronologyTests::test_model_release_cutoff_equality_remains_valid PASSED [ 12%]
+tests/nba_s_family/test_cutoff_regression_v1_2.py::ArtifactChronologyTests::test_resealed_late_training_release_rejected_by_both_interfaces 
+tests/nba_s_family/test_cutoff_regression_v1_2.py::ArtifactChronologyTests::test_resealed_late_training_release_rejected_by_both_interfaces PASSED [ 14%]
+tests/nba_s_family/test_integration.py::IntegrationTests::test_duration_late_receipt_and_wrong_identity 
+tests/nba_s_family/test_integration.py::IntegrationTests::test_duration_late_receipt_and_wrong_identity PASSED [ 15%]
+tests/nba_s_family/test_integration.py::IntegrationTests::test_independent_full_count_math PASSED [ 16%]
+tests/nba_s_family/test_integration.py::IntegrationTests::test_joint_identity_cutoff_and_deterministic_scenario_hash PASSED [ 18%]
+tests/nba_s_family/test_integration.py::IntegrationTests::test_negative_and_non_normalized_pmf_rejected PASSED [ 19%]
+tests/nba_s_family/test_integration.py::IntegrationTests::test_official_duration_caps_zero_through_three_and_extension 
+tests/nba_s_family/test_integration.py::IntegrationTests::test_official_duration_caps_zero_through_three_and_extension PASSED [ 21%]
+tests/nba_s_family/test_integration.py::IntegrationTests::test_p6_56_minutes_requires_two_ot_witness PASSED [ 22%]
+tests/nba_s_family/test_integration.py::IntegrationTests::test_unknown_invalid_duration_evidence 
+tests/nba_s_family/test_integration.py::IntegrationTests::test_unknown_invalid_duration_evidence PASSED [ 23%]
+tests/nba_s_family/test_integration.py::JointConversionTests::test_s3_attempt_evidence_is_scenario_bound 
+tests/nba_s_family/test_integration.py::JointConversionTests::test_s3_attempt_evidence_is_scenario_bound PASSED [ 25%]
+tests/nba_s_family/test_integration.py::HighOvertimeContractTests::test_accepted_g0_eleven_ot_cap_is_consumed_by_s PASSED [ 26%]
+tests/nba_s_family/test_integration.py::HighOvertimeContractTests::test_numerical_tail_safety_bound_is_retained PASSED [ 28%]
+tests/nba_s_family/test_integration.py::HighOvertimeContractTests::test_over_source_specific_duration_cap_still_rejected PASSED [ 29%]
+tests/nba_s_family/test_p1_native_v1.py::P1NativeTests::test_corrupted_ancestor_and_orphan PASSED [ 30%]
+tests/nba_s_family/test_p1_native_v1.py::P1NativeTests::test_corrupted_raw PASSED [ 32%]
+tests/nba_s_family/test_p1_native_v1.py::P1NativeTests::test_optimistic_clocks_roles_or_admission_flags_cannot_enable_fit 
+tests/nba_s_family/test_p1_native_v1.py::P1NativeTests::test_optimistic_clocks_roles_or_admission_flags_cannot_enable_fit PASSED [ 33%]
+tests/nba_s_family/test_p1_native_v1.py::P1NativeTests::test_resealed_derived_identity_duration_stat_tampering 
+tests/nba_s_family/test_p1_native_v1.py::P1NativeTests::test_resealed_derived_identity_duration_stat_tampering PASSED [ 35%]
+tests/nba_s_family/test_p1_native_v1.py::P1NativeTests::test_target_game_and_post_training_game_rejected PASSED [ 36%]
+tests/nba_s_family/test_p1_native_v1.py::P1NativeTests::test_valid_structure_is_lossless_but_source_admission_blocked PASSED [ 38%]
+tests/nba_s_family/test_p1_native_v1.py::ExactSourceMinuteTests::test_display_rounding_half_minute_boundary_is_exact PASSED [ 39%]
+tests/nba_s_family/test_p1_native_v1.py::ExactSourceMinuteTests::test_exact_half_minute_positive_zero_display_rejected PASSED [ 40%]
+tests/nba_s_family/test_p1_native_v1.py::ExactSourceMinuteTests::test_exact_raw_cap_equality_positive PASSED [ 42%]
+tests/nba_s_family/test_p1_native_v1.py::ExactSourceMinuteTests::test_exact_raw_cap_fraction_not_erased_by_float_rounding PASSED [ 43%]
+tests/nba_s_family/test_p1_native_v1.py::ExactSourceMinuteTests::test_exact_raw_subminute_below_half_is_accepted_structurally PASSED [ 45%]
+tests/nba_s_family/test_p1_native_v1.py::NativeScalarTypeTests::test_booleans_are_not_raw_counts_exact_exposure_or_denominators 
+tests/nba_s_family/test_p1_native_v1.py::NativeScalarTypeTests::test_booleans_are_not_raw_counts_exact_exposure_or_denominators PASSED [ 46%]
+tests/nba_s_family/test_p1_native_v1.py::NonparticipationSourceTests::test_nonplayed_positive_raw_credit_or_exposure_rejected 
+tests/nba_s_family/test_p1_native_v1.py::NonparticipationSourceTests::test_nonplayed_positive_raw_credit_or_exposure_rejected PASSED [ 47%]
+tests/nba_s_family/test_p1_native_v1.py::NonparticipationSourceTests::test_true_zero_positive_raw_credit_cannot_be_hidden_by_retained_stat_subset PASSED [ 49%]
+tests/nba_s_family/test_p1_native_v1.py::NonparticipationSourceTests::test_unknown_cannot_replace_explicit_raw_played_state 
+tests/nba_s_family/test_p1_native_v1.py::NonparticipationSourceTests::test_unknown_cannot_replace_explicit_raw_played_state PASSED [ 50%]
+tests/nba_s_family/test_p1_native_v1.py::NonparticipationSourceTests::test_zero_raw_dnp_and_unknown_preserve_nulls_without_inventing_played_zero PASSED [ 52%]
+tests/nba_s_family/test_p1_native_v1.py::IntegerSourceAccountingTests::test_integer_shooting_and_rebound_impossibilities_reject 
+tests/nba_s_family/test_p1_native_v1.py::IntegerSourceAccountingTests::test_integer_shooting_and_rebound_impossibilities_reject PASSED [ 53%]
+tests/nba_s_family/test_p1_native_v1.py::IntegerSourceAccountingTests::test_sparse_missing_counts_stay_unknown_and_valid_integer_completion_passes PASSED [ 54%]
+tests/nba_s_family/test_p1_native_v1.py::RawZeroDisplayRegressionTests::test_display_rounding_half_minute_boundary_is_exact PASSED [ 56%]
+tests/nba_s_family/test_p1_native_v1.py::RawZeroDisplayRegressionTests::test_exact_half_minute_positive_zero_display_rejected PASSED [ 57%]
+tests/nba_s_family/test_p1_native_v1.py::RawZeroDisplayRegressionTests::test_exact_raw_cap_equality_positive PASSED [ 59%]
+tests/nba_s_family/test_p1_native_v1.py::RawZeroDisplayRegressionTests::test_exact_raw_cap_fraction_not_erased_by_float_rounding PASSED [ 60%]
+tests/nba_s_family/test_p1_native_v1.py::RawZeroDisplayRegressionTests::test_exact_raw_subminute_below_half_is_accepted_structurally PASSED [ 61%]
+tests/nba_s_family/test_p1_native_v1.py::RawZeroDisplayRegressionTests::test_positive_raw_underflow_is_still_rounded_not_true_zero PASSED [ 63%]
+tests/nba_s_family/test_p1_native_v1.py::RawZeroDisplayRegressionTests::test_raw_zero_credit_rejects_every_positive_display_and_retained_subset 
+tests/nba_s_family/test_p1_native_v1.py::RawZeroDisplayRegressionTests::test_raw_zero_credit_rejects_every_positive_display_and_retained_subset PASSED [ 64%]
+tests/nba_s_family/test_source_accounting_v1.py::IndependentIntegerReferences::test_combo_all_field_subsets_against_integer_primitive_enumeration PASSED [ 66%]
+tests/nba_s_family/test_source_accounting_v1.py::IndependentIntegerReferences::test_no_boolean_or_unsupported_numerical_certification PASSED [ 67%]
+tests/nba_s_family/test_source_accounting_v1.py::IndependentIntegerReferences::test_shooting_all_field_subsets_against_integer_event_enumeration PASSED [ 69%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_all_four_stats_integer_complete PASSED [ 70%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_dnp_remains_distinct_and_no_target_actual_minutes PASSED [ 71%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_duplicate_identity_and_actual_target_input PASSED [ 73%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_future_source_and_game_rejected PASSED [ 74%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_impossible_three_makes_and_bad_attempts PASSED [ 76%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_independent_gamma_poisson_probability_recurrence PASSED [ 77%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_missing_opportunity_and_unknown_participation_abstain PASSED [ 78%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_reproducible_content_bytes_and_seed PASSED [ 80%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_runtime_receipt_nonbinding PASSED [ 81%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_s0_control_matches_poisson PASSED [ 83%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_s1_gamma_poisson_math_moments PASSED [ 84%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_s2_nb2_dispersion_and_tail PASSED [ 85%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_s3_beta_binomial_physical_cap PASSED [ 87%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_s3_predict_requires_predeclared_attempt_scenarios PASSED [ 88%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_s_only_rejects_future_model_training_and_game_mutation PASSED [ 90%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_threshold_triplet_push PASSED [ 91%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_training_target_game_cross_player_leakage PASSED [ 92%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_unchanged_g0_s_o_conservation PASSED [ 94%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_unchanged_g0_s_only_envelope PASSED [ 95%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_unchanged_g0_shas_and_supplementary_lineage PASSED [ 97%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_verified_source_manifest_missing_naive_or_late 
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_verified_source_manifest_missing_naive_or_late PASSED [ 98%]
+tests/nba_s_family/test_statistical.py::SFamilyTests::test_zero_minutes_count_degenerate PASSED [100%]
+
+=============================== warnings summary ===============================
+../../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/anyio/pytest_plugin.py:14
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/anyio/pytest_plugin.py:14: PytestRemovedIn10Warning: _pytest.python.CallSpec2 has been renamed to CallSpec.
+  The CallSpec2 alias will be removed in pytest 10.
+  Update imports to use CallSpec instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#callspec2-renamed
+    from _pytest.python import CallSpec2
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============== 71 passed, 1 warning, 65 subtests passed in 4.81s ===============
