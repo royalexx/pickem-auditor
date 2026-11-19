@@ -26,6 +26,8 @@ def capture_subset(cohort,output):
         (path/'consumer.json').write_text(json.dumps(consumed,indent=2)+'\n')
         result.update(status='CAPTURED_RESEARCH_REQUESTS',candidate_rows=consumed['candidate_denominator'],requests=len(consumed['requests']),abstained=consumed['source_abstentions'],actual_model_consumer_executed=False)
     result['completed_at']=datetime.now(timezone.utc).isoformat()
+    result['completed_after_freeze']=instant(result['completed_at'])>instant(cohort['freeze_at'])
+    if result['status']=='CAPTURED_RESEARCH_REQUESTS' and result['completed_after_freeze']:result['status']='PARTIAL_CAPTURE_COMPLETED_AFTER_FREEZE'
     (path/'receipt.json').write_text(json.dumps(result,indent=2)+'\n')
     (path/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+str(p.relative_to(path))+'\n' for p in sorted(path.rglob('*')) if p.is_file()))
     return result
