@@ -77,3 +77,9 @@ class InjuryV2Tests(unittest.TestCase):
         bad=url('2026-11-19','02_00PM')+"'evil"
         x=select_report(index(bad),observed_at='2026-11-19T19:10:00Z',freeze_at='2026-11-19T19:20:00Z')
         self.assertIsNone(x['selected_url']);self.assertEqual(x['ledger'][0]['url'],bad)
+
+    def test_html_entity_cannot_change_href_boundaries(self):
+        good=url('2026-11-19','02_00PM')
+        raw=('<a href="'+good+'&quot;evil">report</a>').encode()
+        x=select_report(raw,observed_at='2026-11-19T19:10:00Z',freeze_at='2026-11-19T19:20:00Z')
+        self.assertIsNone(x['selected_url']);self.assertEqual(x['ledger'][0]['url'],good+'"evil')
