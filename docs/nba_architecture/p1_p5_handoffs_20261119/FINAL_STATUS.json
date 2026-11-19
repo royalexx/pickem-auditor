@@ -1,0 +1,109 @@
+{
+  "schema": "nba-subset-p1-p5-current-status/1.0.0",
+  "authority": "PA-V25-MASTER-2026-11-09 / v1.1 + November19 source_listed_subset amendment",
+  "profile": "source_listed_subset",
+  "status": "INDEPENDENTLY_ACCEPTED_BOUNDED_HANDOFFS_WITH_EXPLICIT_STATISTIC_ABSTENTIONS",
+  "implementation_and_tested_commit": "7643a100153b3dd3084e03887eb43f1f8a60be9e",
+  "independent_decisions": {
+    "P2": {
+      "implementation_commit": "3ca43cddcae1a7aa0bbfa8ea9aea1a5139211ddf",
+      "decision_commit": "e71cb2c5aca9ab68eab0be966f2f9ef8bf06e815",
+      "status": "ACCEPT_P2_SCOPED_ABSTENTION_BOUNDARY",
+      "decision": "independent/p2/DECISION.md"
+    },
+    "P3": {
+      "implementation_commit": "05b44764fd9fdb7be0a465131a88a9203e977210",
+      "decision_commit": "680952da91eb4cce3c6d8a4025c178aecfbb0756",
+      "status": "ACCEPT_NATIVE_CONDITIONAL_MINUTES_HANDOFF",
+      "decision": "independent/p3/DECISION.md"
+    },
+    "P4": {
+      "implementation_commit": "36b09d0a4752352e2ffbed0af1e1101b844aaced",
+      "decision_commit": "822173de3385937cf800ec115a23c2301da9ae64",
+      "status": "ACCEPT_P4_CONDITIONAL_LAW_TRANSPORT_AND_ABSTENTION_BOUNDARY",
+      "decision": "independent/p4/DECISION.md"
+    },
+    "P5": {
+      "implementation_commit": "7643a100153b3dd3084e03887eb43f1f8a60be9e",
+      "decision_commit": "0399551b9686158e3e4993dc8c61b12350a6356a",
+      "status": "ACCEPT_P5_REPLAY_VERIFIED_RESEARCH_ARCHIVE",
+      "decision": "independent/p5/DECISION.md"
+    }
+  },
+  "final_tests": {
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "-v",
+      "tests/nba_architecture",
+      "tests/nba_s_family",
+      "tests/nba_c"
+    ],
+    "methods_passed": 731,
+    "subtests_passed": 1579,
+    "failed": 0,
+    "warning": "Existing anyio plugin pytest CallSpec2 deprecation"
+  },
+  "actual_counts": {
+    "candidate_denominator": 36,
+    "conditional_minute_forecast_records": 36,
+    "event_start_at": "2026-11-20T01:00Z",
+    "explicit_abstention_records": 648,
+    "forecast_at": "2026-11-19T23:17:42.362951+00:00",
+    "input_freeze_at": "2026-11-19T22:47:40.810486+00:00",
+    "minute_stat_references": 144,
+    "native_minute_laws_consumed": 36,
+    "p2_attempts": 144,
+    "p3_attempts": 108,
+    "p4_attempts": 432,
+    "prior_observation_denominator": 540,
+    "source_abstained_candidates": 11,
+    "source_ready_candidates": 25,
+    "statistic_forecast_records": 0,
+    "total_attempt_records": 684
+  },
+  "not_exercised": [
+    "Genuine source-bound S statistic inference",
+    "Real subset joint inference",
+    "C statistic scoring or target settlement",
+    "Predictive accuracy or market edge",
+    "Production or Tier release"
+  ],
+  "missing_mechanisms": {
+    "P2": "No independently reviewed compatible saved FittedS artifact and no source-bound role/exposure numerical dispatch for real statistic inference.",
+    "P4": "No compatible admitted subset-joint law, shot-attempt/conversion primitives or numerical dispatch; no real statistic/joint outputs.",
+    "P5_scoring": "Research audit only. No target outcomes, scoring, settlement or accuracy evaluation authorized or exercised."
+  },
+  "historical_full_population_B_P1_gates": "PRESERVED_SUPERSEDED_FOR_DEFAULT_SUBSET_NOT_RETROACTIVELY_PASS",
+  "G1_gate": "NOT_REASSESSED_OR_PROMOTED",
+  "production_release": false,
+  "ci_environment_and_checkout_repair": {
+    "tested_ci_commit": "3863f115713a6cb7001086e0702197605812fcf4",
+    "dependency_repair_commit": "eb3e51fcc300293228273652a43e11b2090f9b79",
+    "native_reader_bytes_unchanged_from": "7643a100153b3dd3084e03887eb43f1f8a60be9e",
+    "local_clean_environment": {
+      "tests_run": 2284,
+      "passed": 2275,
+      "skipped": 9,
+      "failed": 0,
+      "errors": 0
+    },
+    "hosted_runs": [
+      {
+        "id": 44638386925,
+        "event": "push",
+        "conclusion": "SUCCESS"
+      },
+      {
+        "id": 44638398365,
+        "event": "pull_request",
+        "conclusion": "SUCCESS"
+      }
+    ],
+    "training_job": "SKIPPED_EXISTING_PAUSE_UNCHANGED",
+    "evidence": "ci_dependency_repair/REPRODUCE.md",
+    "independent_decision": "independent/ci/DECISION.md",
+    "independent_decision_commit": "f231eee2a42aaeb75a55247651aaa5dc38c679e3"
+  }
+}

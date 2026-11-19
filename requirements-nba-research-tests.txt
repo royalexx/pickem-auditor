@@ -1,0 +1,6 @@
+# Offline NBA source/contract tests and exact numerical handoff replay.
+# These are test-only dependencies; no sampler or production model is installed.
+numpy==2.3.5
+scipy==1.17.0
+jsonschema==4.26.0
+pytest==9.2.0

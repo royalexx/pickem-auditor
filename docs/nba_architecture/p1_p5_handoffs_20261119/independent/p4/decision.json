@@ -1,0 +1,17 @@
+{
+  "reviewer": "/root/independent_source_review",
+  "implementation_repairs_authored": false,
+  "accepted_tested_implementation": "36b09d0a4752352e2ffbed0af1e1101b844aaced",
+  "decision": "ACCEPT_P4_CONDITIONAL_LAW_TRANSPORT_AND_ABSTENTION_BOUNDARY",
+  "candidate_denominator": 36,
+  "native_minute_laws_read": 36,
+  "minute_stat_references": 144,
+  "statistic_attempts": 432,
+  "statistic_forecasts": 0,
+  "abstentions": 432,
+  "joint_models_executed": 0,
+  "team_normalization": false,
+  "genuine_q_or_legal_eligibility": null,
+  "independent_methods_pass": 4,
+  "owner_methods_independently_rerun_pass": 5
+}

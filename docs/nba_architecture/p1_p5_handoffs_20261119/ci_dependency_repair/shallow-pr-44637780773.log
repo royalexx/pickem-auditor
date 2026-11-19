@@ -1,0 +1,259 @@
+offline-tests	Execute full offline unit-test suite	﻿2026-11-19T23:28:49.6581006Z ##[group]Run python -m unittest discover -s tests -q
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:28:49.6581311Z [36;1mpython -m unittest discover -s tests -q[0m
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:28:49.6600396Z shell: /usr/bin/bash -e {0}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:28:49.6600611Z env:
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:28:49.6600823Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:28:49.6601138Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:28:49.6601449Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:28:49.6601749Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:28:49.6602026Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:28:49.6602305Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:28:49.6602540Z ##[endgroup]
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:05.2661154Z fatal: path 'v2/nba_s_family/__init__.py' exists on disk, but not in 'ae956315db9162315d16bdd0a6fe0b4c8afbfe1c'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:05.3009943Z fatal: path 'v2/nba_s_family/model.py' exists on disk, but not in '96d210a6100085640e7e82928ab1c864839fc454'
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:48.9499507Z DIRECTIONAL_PHASE1_BLOCKED:would_overwrite_different_audit_receipt
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:48.9506662Z DIRECTIONAL_PHASE1_BLOCKED:baseline_comparison_sha256_mismatch
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:49.3106824Z {"audit_reconciliation": {"inputs": 1, "outputs": 1, "ids_match": true}}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:49.3393807Z prep coverage: {"priced_sides": 2, "quote_rows": 5, "slate_rows": 2, "unpriced_or_ungradeable_rows": 1}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2620177Z rectangular exact integer reference assignments: 37500
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2620792Z triangular exact integer reference assignments: 30662
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2621687Z {"attempt": "/tmp/tmp8g68anfo/pregame-20261119T000000000000Z-88499587", "status": "CAPTURED_UNADMITTED_WITH_GAPS", "returned_roster_rows": 0, "errors": ["MISSED_ORIGINAL_FREEZE"]}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2622466Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2622694Z   "date": "2026-10-27",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2622976Z   "candidate_ids": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2623276Z   "source_attempts": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2623555Z   "verified_pregame_games": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2623847Z   "resolved_statuses": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2624116Z   "resolved_venues": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2624378Z   "resolved_goalies": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2624652Z   "started_games_excluded": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2624941Z   "evidence_complete": false,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2625491Z   "note": "Structured evidence only; missing scouting and adversarial validation retain existing ranking vetoes."
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2626062Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2626273Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2626457Z   "date": "2026-10-26",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2626720Z   "started_at": "2026-11-19T23:29:48.916299+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2627296Z   "status": "blocked",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2627548Z   "research_complete": false,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2627783Z   "stages": [
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2627972Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2628191Z       "name": "collect",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2628445Z       "returncode": 2
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2628683Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2628875Z   ],
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2629071Z   "sources": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2629310Z     "NFL": "nflreadpy",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2629608Z     "NHL": "nhl-api-py and NHL REST",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2629896Z     "NBA": "ESPN"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2630119Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2630340Z   "failed_stage": "collect",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2630638Z   "finished_at": "2026-11-19T23:29:48.916561+00:00"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2630958Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2631393Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2631574Z   "date": "2026-10-26",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2631813Z   "started_at": "2026-11-19T23:29:48.917699+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2632134Z   "status": "research_required",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2632410Z   "research_complete": false,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2632666Z   "stages": [
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2632877Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2633077Z       "name": "collect",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2633309Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2633491Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2633667Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2634048Z       "name": "prep",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2634280Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2634485Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2634669Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2634866Z       "name": "scan",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2635091Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2635295Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2635481Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2635696Z       "name": "research_queue",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2635966Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2636203Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2636390Z   ],
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2636600Z   "sources": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2636831Z     "NFL": "nflreadpy",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2637364Z     "NHL": "nhl-api-py and NHL REST",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2637668Z     "NBA": "ESPN"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2637890Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2638082Z   "coverage": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2638332Z     "has_priced_history_rows": true
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2638608Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2638808Z   "scan_counts": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2639029Z     "shortlisted": 1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2639255Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2639466Z   "context": {},
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2639737Z   "finished_at": "2026-11-19T23:29:48.918559+00:00"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2640046Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2640249Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2640451Z   "date": "2026-10-26",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2640730Z   "started_at": "2026-11-19T23:29:48.919030+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2641044Z   "status": "research_required",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2641330Z   "research_complete": false,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2641587Z   "stages": [
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2641780Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2641990Z       "name": "collect",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2642225Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2642484Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2642676Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2642876Z       "name": "prep",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2643105Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2643326Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2643516Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2643715Z       "name": "scan",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2643942Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2644159Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2644506Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2644731Z       "name": "research_queue",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2645008Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2645244Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2645434Z   ],
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2645638Z   "sources": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2645871Z     "NFL": "nflreadpy",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2646123Z     "NHL": "nhl-api-py and NHL REST",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2646403Z     "NBA": "ESPN"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2646628Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2646841Z   "coverage": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2647314Z     "has_priced_history_rows": true
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2647568Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2647756Z   "scan_counts": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2647987Z     "shortlisted": 1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2648213Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2648406Z   "context": {},
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2648677Z   "finished_at": "2026-11-19T23:29:48.919772+00:00"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2649002Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2649398Z {"contracts": 1, "receipt": "/tmp/tmp9dw9wdhg/receipt.json", "status": "read_only_audited"}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2650056Z {"contracts": 1, "receipt": "/tmp/tmp9dw9wdhg/receipt.json", "status": "read_only_audited"}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2651286Z {"schema": "pickem-history-full-v1", "archive_sha256": "cf0631f0a8f6b748238784b65348cd95e827eec358ba0738e3fbf25d5a1bcfe7", "forecast_rows_original": 1492, "existing_files_preserved": 0, "files_restored": 5, "seeded_from_2026_10_26": true}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2653040Z {"schema": "pickem-history-full-v1", "archive_sha256": "cf0631f0a8f6b748238784b65348cd95e827eec358ba0738e3fbf25d5a1bcfe7", "forecast_rows_original": 1492, "existing_files_preserved": 5, "files_restored": 0, "seeded_from_2026_10_26": true}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2654524Z {"status": "completed_marker_preserved_after_explicit_rerun", "date": "2026-10-28", "run_id": "40799999999"}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2656563Z NHL_SAVES_SHADOW {"date": "2026-10-30", "forecast_count": 1, "model_convergence_passed": true, "new_rows": 1, "previously_recorded": 0, "production_snapshot_unchanged": true, "publication_eligible": false, "ranking_allowed": false, "reasons": {}, "release_tag": "research-nhl-saves-20261029-run40993538888", "schema": "nhl_saves_joint_posterior_daily_shadow_v1", "snapshot_candidates": 1, "source_digest": "sha-verified-source", "total_rows": 1, "unavailable_count": 0}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2749029Z prep coverage: {"priced_sides": 0, "quote_rows": 0, "slate_rows": 1, "unpriced_or_ungradeable_rows": 1}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:29:58.2749721Z prep: BLOCKED (NO_ODDS_QUOTES); not an empty successful slate
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:00.3866711Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2814: DeprecationWarning: FanDuel has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:00.3867543Z   books = _books_from_payload(books_raw) if books_raw else []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:00.3868108Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2814: DeprecationWarning: DraftKings has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:00.3868655Z   books = _books_from_payload(books_raw) if books_raw else []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:01.0634116Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2267: DeprecationWarning: Pinnacle:3.5:-130:+110 has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:01.0634779Z   books.append(_parse_book_spec(item))
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:01.2967896Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2814: DeprecationWarning: Pinnacle has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:01.2969007Z   books = _books_from_payload(books_raw) if books_raw else []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:01.2969931Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2814: DeprecationWarning: FanDuel has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:01.2970805Z   books = _books_from_payload(books_raw) if books_raw else []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:02.2735875Z {"output": "/tmp/tmpvmj7kfie/receipt.json", "schema": "pickem-phase15-diagnostics-v1", "promotion_allowed": false, "paired_contracts": 1, "oracle_rows": 0}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:02.2737604Z FROZEN_HISTORY_CACHE_UNAVAILABLE history_cache_integrity_mismatch
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:02.2738243Z FROZEN_HISTORY_CACHE_UNAVAILABLE cache_miss
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:02.2761422Z PERSISTENT_FROZEN_STATE_SAVED {"code_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "index": "0", "phase": "final", "run_id": "41571885953", "source_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "state": "/tmp/tmpdz2tj2xe/cache/campaigns/week-20261102/market-00/run-41571885953/state.json"}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:02.2794727Z FROZEN_HISTORY_CACHE_RESTORED source_sha=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:02.2888581Z NHL_BENCHMARK_RESULT {"backend": "pymc", "backend_approved": false, "error": "RuntimeError: benchmark-source-unavailable", "minimum_bulk_ess_per_second": null, "pilot_diagnostics_pass": false, "players": null, "stat": "hits", "status": "failed", "total_seconds": null, "training_rows": null}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6876169Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6877519Z ERROR: setUpClass (nba_architecture.test_p4_latest_integration.LatestIntegrationTests)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6878431Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6879032Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6892242Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p4_latest_integration.py", line 30, in setUpClass
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6893766Z     cls.root = prepare()
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6894187Z                ^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6895104Z   File "/home/runner/work/pickem-auditor/pickem-auditor/v2/nba_joint/latest_upstream.py", line 34, in prepare
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6896254Z     raw = subprocess.check_output(['git', 'show', f"{pin['commit']}:{path}"], cwd=ROOT)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6897222Z           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6898427Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/subprocess.py", line 466, in check_output
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6899449Z     return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6900123Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6900985Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/subprocess.py", line 571, in run
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6901906Z     raise CalledProcessError(retcode, process.args,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6903203Z subprocess.CalledProcessError: Command '['git', 'show', 'ae956315db9162315d16bdd0a6fe0b4c8afbfe1c:v2/nba_s_family/__init__.py']' returned non-zero exit status 128.
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6904298Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6904491Z ======================================================================
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6905323Z ERROR: setUpClass (nba_architecture.test_p4_upstream_integration.UpstreamIntegrationTests)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6906212Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6906820Z Traceback (most recent call last):
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6908072Z   File "/home/runner/work/pickem-auditor/pickem-auditor/tests/nba_architecture/test_p4_upstream_integration.py", line 23, in setUpClass
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6909167Z     cls.root = prepare()
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6909560Z                ^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6910431Z   File "/home/runner/work/pickem-auditor/pickem-auditor/research/nba_p4_integration/prepare.py", line 22, in prepare
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6911590Z     raw = subprocess.check_output(['git', 'show', f'{commit}:{path}'], cwd=ROOT)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6912330Z           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6913247Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/subprocess.py", line 466, in check_output
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6914233Z     return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6914891Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6915719Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/subprocess.py", line 571, in run
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6916614Z     raise CalledProcessError(retcode, process.args,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6918001Z subprocess.CalledProcessError: Command '['git', 'show', '96d210a6100085640e7e82928ab1c864839fc454:v2/nba_s_family/model.py']' returned non-zero exit status 128.
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6919071Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6919334Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6919914Z Ran 2220 tests in 86.166s
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6920172Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6920343Z FAILED (errors=2, skipped=9)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6921004Z V25_SOG_CPU_SMOKE 1000_contract_lines_seconds=0.081 peak_python_bytes=1572
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6924113Z V25_SOG_NO_SOURCE_DRY_RUN {"attempted_at": "2026-11-19T23:30:16.672176Z", "contract_id": null, "event_id": null, "experiment_id": "EXP-V25-NHL-SOG-EXPOSURE-EB-001", "outcome_used": false, "production_selection_allowed": false, "reason": "ExperimentBlocked:RAW_REAL_OFFER_RECEIPT_MISSING", "schema": "v25_sog_prospective_attempt_v1", "source_semantics": "collector_possession_not_upstream_publication", "status": "ABSTAIN", "tier_publication_allowed": false}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6927314Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6927650Z   "date": "2026-10-27",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6928066Z   "retrieved_at": "2026-10-27T15:00:00Z",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6928799Z   "verified_at_utc": "2026-11-19T23:30:16.685899+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6929388Z   "source_slate": "/tmp/tmpdfus7e_e/slate.jsonl",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6929907Z   "slot": "morning",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6930269Z   "feed_status": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6930617Z     "NHL": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6930956Z       "status": "ok",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6931343Z       "source_reported_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6931776Z       "verified_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6932352Z       "archived_path": "data/history_slate/2026-10-27/morning/nhl.jsonl.gz"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6933100Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6933418Z     "NBA": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6933754Z       "status": "ok",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6934140Z       "source_reported_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6934578Z       "verified_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6935131Z       "archived_path": "data/history_slate/2026-10-27/morning/nba.jsonl.gz"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6935795Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6936111Z     "NFL": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6936450Z       "status": "failed",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6936852Z       "source_reported_rows": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6937455Z       "verified_rows": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6937843Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6938155Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6938478Z   "source_rows": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6938833Z     "NHL": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6939165Z     "NBA": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6939494Z     "NFL": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6939818Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6940143Z   "status": "partial",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6940516Z   "errors": [
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6940865Z     "NFL_FEED_UNVERIFIED"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6941253Z   ]
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6941558Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6941863Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6942174Z   "date": "2026-10-27",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6942564Z   "retrieved_at": "2026-10-27T15:00:00Z",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6943091Z   "verified_at_utc": "2026-11-19T23:30:16.686663+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6943673Z   "source_slate": "/tmp/tmpthz2_czq/slate.jsonl",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6944015Z   "slot": "morning",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6944231Z   "feed_status": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6944433Z     "NHL": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6944628Z       "status": "ok",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6944840Z       "source_reported_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6945072Z       "verified_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6945388Z       "archived_path": "data/history_slate/2026-10-27/morning/nhl.jsonl.gz"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6945726Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6945902Z     "NBA": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6946084Z       "status": "ok",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6946295Z       "source_reported_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6946537Z       "verified_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6946846Z       "archived_path": "data/history_slate/2026-10-27/morning/nba.jsonl.gz"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6947390Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6947572Z     "NFL": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6947778Z       "status": "no_games_scheduled",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6948037Z       "source_reported_rows": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6948271Z       "verified_rows": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6948624Z       "explanation": "Verified official schedule returned no NFL regular-season game"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6948985Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6949165Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6949342Z   "source_rows": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6949544Z     "NHL": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6949734Z     "NBA": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6949920Z     "NFL": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6950101Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6950280Z   "status": "success",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6950476Z   "errors": []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.6950666Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:30:16.7955162Z ##[error]Process completed with exit code 1.

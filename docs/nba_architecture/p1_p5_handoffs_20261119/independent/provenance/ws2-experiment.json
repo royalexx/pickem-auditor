@@ -1,0 +1,26 @@
+{
+  "experiment_id": "NBA-WS2-20261115-v1",
+  "status": "preregistered-before-model-results; retrospective-exploratory",
+  "authorization": "User November 15 WS2 bounded CPU experiment; no full simulator or promotion",
+  "base_commit": "912bc70",
+  "hypothesis": "Role/position shrinkage and causal workload continuity improve conditional-minute CRPS versus last-five median with train-only probabilistic dressing",
+  "train_season": "2024",
+  "test_season": "2025",
+  "eligibility": "NBA points population, positive observed minutes, unique game/player, five verified prior appearances; no imputed DNPs",
+  "models": {
+    "M0": "last-five played median; cohort residual variance fitted on training only",
+    "M1": "last-ten mean shrunk with five pseudo-games toward train role/position mean; player and cohort variance shrinkage",
+    "M2": "ridge contextual mean with train-only standardization; causal last-five/ten summaries, trends, role stability, team continuity, calendar rest, home and prior team-game participation gaps; no market"
+  },
+  "distribution": "scaled beta conditional minutes with pregame geometric overtime mixture; fit dispersion on training residuals; compare training beta versus lognormal proper scores before locked test; integer-rounded observation bin probabilities for NLPD",
+  "primary_metric": "conditional minute CRPS",
+  "uncertainty": "1000 paired calendar-date cluster bootstraps; game-cluster sensitivity; 97.5% intervals for two challengers",
+  "acceptance": "At least 1% mean CRPS improvement and upper paired 97.5% CI below zero; MAE <= M0+0.2 minute; coverage no worse by >3pp and within 5pp of nominal; all integrity/conservation tests pass. Historical acceptance does not authorize promotion.",
+  "cohorts": ["early season <=10 prior current-season appearances", "changed-role proxy abs(last3mean-last10mean)>=5 or team change", "stable role", "high/mid/low historical minutes", "return-gap proxy", "back-to-back proxy", "low-minute outcome", "inferred overtime outcome"],
+  "controls": "M2 disabled context and deterministic permuted context; future/current outcome mutation; duplicate and timestamp corruption; absent roster never zero",
+  "participation_metrics": "blocked without complete eligible roster and explicit played/DNP labels; contract fixtures only",
+  "rotation_metrics": "historical workload-state classification, not authenticated starter classification",
+  "rollback": "remove isolated WS2 module and research directory; no production imports/configuration",
+  "seed": 20261115,
+  "runtime_budget": "single CPU fitting, no neural nets/NUTS; 1000 bootstraps; bounded context source sample"
+}

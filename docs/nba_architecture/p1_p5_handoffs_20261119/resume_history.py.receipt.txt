@@ -1,0 +1,12 @@
+import json,sys
+from pathlib import Path
+from datetime import datetime,timezone
+sys.path.insert(0,'/workspace/pickem-auditor')
+from v2.nba_architecture.p1_capture_v1 import capture
+p=Path('docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs')
+for f in p.glob('selected-*.json'):
+ for e in json.loads(f.read_text()):
+  q=p/('summary-'+e['id'])
+  if not q.exists(): print(e['id'],capture('https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event='+e['id'],q).get('status'))
+(p/'completed.json').write_text(json.dumps({'completed_at':datetime.now(timezone.utc).isoformat(),'scope':'Current retrieval of completed game history; no original historical pregame availability or correction completeness claims','first_capture_attempt':'Failed create-only duplicate game shared by both teams; preserved all original bytes; second attempt fetches only missing directories'})+'\n')
+print('unique summaries',len(list(p.glob('summary-*'))))

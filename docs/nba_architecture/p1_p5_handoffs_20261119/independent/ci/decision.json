@@ -1,0 +1,33 @@
+{
+  "decision": "ACCEPT_CI_REPLAY_ENVIRONMENT_REPAIR",
+  "fresh_local_ran": 2284,
+  "fresh_local_skipped": 9,
+  "fresh_local_tested_commit": "eb3e51fcc300293228273652a43e11b2090f9b79",
+  "hosted_runs": [
+    {
+      "head": "3863f115713a6cb7001086e0702197605812fcf4",
+      "ran": 2284,
+      "result": "success",
+      "run_id": 44638398365,
+      "skipped": 9,
+      "successful": 2275
+    },
+    {
+      "head": "3863f115713a6cb7001086e0702197605812fcf4",
+      "ran": 2284,
+      "result": "success",
+      "run_id": 44638386925,
+      "skipped": 9,
+      "successful": 2275
+    }
+  ],
+  "implementation_commit": "3863f115713a6cb7001086e0702197605812fcf4",
+  "preserved_rejected_hosted_runs": [
+    44637265084,
+    44637295968,
+    44637772523,
+    44637780773
+  ],
+  "reviewer_authored_repairs": false,
+  "runtime_bytes_changed": false
+}

@@ -1,0 +1,75 @@
+{
+  "schema": "nba-subset-p1-p5-completeness/1.0.0",
+  "authority": "PA-V25-MASTER-2026-11-09 / v1.1 + November19 subset amendment",
+  "profile": "source_listed_subset",
+  "cohort_canonical_sha256": "0ecd8c98ea97bb8be852807c5935d8427adb2b9d9ca062d823da86279f57357f",
+  "implementation_commit": "7643a100153b3dd3084e03887eb43f1f8a60be9e",
+  "actual_forecast_at": "2026-11-19T23:17:42.362951+00:00",
+  "actual_operation_at": "2026-11-19T23:17:52.745334+00:00",
+  "counts": {
+    "candidate_denominator": 36,
+    "conditional_minute_forecast_records": 36,
+    "event_start_at": "2026-11-20T01:00Z",
+    "explicit_abstention_records": 648,
+    "forecast_at": "2026-11-19T23:17:42.362951+00:00",
+    "input_freeze_at": "2026-11-19T22:47:40.810486+00:00",
+    "minute_stat_references": 144,
+    "native_minute_laws_consumed": 36,
+    "p2_attempts": 144,
+    "p3_attempts": 108,
+    "p4_attempts": 432,
+    "prior_observation_denominator": 540,
+    "source_abstained_candidates": 11,
+    "source_ready_candidates": 25,
+    "statistic_forecast_records": 0,
+    "total_attempt_records": 684
+  },
+  "source_history_states": {
+    "PLAYED": 368,
+    "DNP": 43,
+    "PLAYED_ZERO_DISPLAY": 3,
+    "UNKNOWN": 126
+  },
+  "input_population": {
+    "current_candidate_count": 36,
+    "current_source_ready": 25,
+    "current_source_abstained": 11,
+    "prior_team_games_each": 15,
+    "prior_unique_games": 29,
+    "history_scope": "CURRENT_TEAM_OBSERVED_WINDOW",
+    "other_team_history_complete": null,
+    "legal_eligible_population_count": null
+  },
+  "unknowns": [
+    "genuine_participation_probability",
+    "legal_eligibility",
+    "source_publication_clocks",
+    "complete_correction_history",
+    "original_historical_pregame_availability",
+    "other_team_history_completeness",
+    "exact_second_interpretation_of_displayed_zero_minutes"
+  ],
+  "resolved_interfaces": [
+    "P1 source-replayed subset request/abstention wire",
+    "P2 finite source-bound abstention reader and separate native synthetic API controls",
+    "P3 pinned native conditional-minute producer for supported players",
+    "P4 source/model-replayed minute-law consumer and statistic abstention transport",
+    "P5 native-write-once research archive with offline source/model/output replay"
+  ],
+  "unavailable": {
+    "P2": "No independently reviewed compatible saved FittedS artifact and no source-bound role/exposure numerical dispatch for real statistic inference.",
+    "P4": "No compatible admitted subset-joint law, shot-attempt/conversion primitives or numerical dispatch; no real statistic/joint outputs.",
+    "P5_scoring": "Research audit only. No target outcomes, scoring, settlement or accuracy evaluation authorized or exercised."
+  },
+  "archive": {
+    "record_id": "ac524d83d0851b5b2d29a528fa69de2e3859b7aa241eb5b22f9bb7db5523f557",
+    "manifest_raw_sha256": "ac524d83d0851b5b2d29a528fa69de2e3859b7aa241eb5b22f9bb7db5523f557",
+    "byte_domain": "CANONICAL_COMPACT_JSON_PLUS_LF",
+    "object_references": 99,
+    "unique_objects": 99,
+    "object_reference_bytes": 17791570
+  },
+  "production_release": false,
+  "overall_G1_gate_relabelled": false,
+  "tonight_pinned_worker_changed": false
+}

@@ -1,0 +1,10 @@
+test_duplicate_keys_fail (tests.nba_architecture.test_subset_p4_v1.P4SubsetTests.test_duplicate_keys_fail) ... ok
+test_native_reader_rejects_resealed_moments_and_false_q (tests.nba_architecture.test_subset_p4_v1.P4SubsetTests.test_native_reader_rejects_resealed_moments_and_false_q) ... ok
+test_real_native_laws_cross_public_p4_boundary_all_attempts_stay_counted (tests.nba_architecture.test_subset_p4_v1.P4SubsetTests.test_real_native_laws_cross_public_p4_boundary_all_attempts_stay_counted) ... ok
+test_self_consistent_forgery_is_structural_only_and_source_path_rejects (tests.nba_architecture.test_subset_p4_v1.P4SubsetTests.test_self_consistent_forgery_is_structural_only_and_source_path_rejects) ... ok
+test_upstream_and_resealed_output_mutations_fail (tests.nba_architecture.test_subset_p4_v1.P4SubsetTests.test_upstream_and_resealed_output_mutations_fail) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 10.519s
+
+OK

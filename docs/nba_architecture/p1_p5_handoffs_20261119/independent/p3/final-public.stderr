@@ -1,0 +1,10 @@
+test_bad_position_stays_per_player_and_model_bytes_do_not_admit (__main__.IndependentP3.test_bad_position_stays_per_player_and_model_bytes_do_not_admit) ... ok
+test_credited_dnp_remains_unknown_and_rejected_history_population_stays_counted (__main__.IndependentP3.test_credited_dnp_remains_unknown_and_rejected_history_population_stays_counted) ... ok
+test_forecast_clock_scope_and_duplicate_wire (__main__.IndependentP3.test_forecast_clock_scope_and_duplicate_wire) ... ok
+test_raw_observations_and_manual_13feature_oracle (__main__.IndependentP3.test_raw_observations_and_manual_13feature_oracle) ... ok
+test_resealed_probability_feature_and_model_claims_rejected (__main__.IndependentP3.test_resealed_probability_feature_and_model_claims_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 5.751s
+
+OK

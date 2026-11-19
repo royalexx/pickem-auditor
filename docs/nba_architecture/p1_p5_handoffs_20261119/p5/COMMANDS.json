@@ -1,0 +1,34 @@
+{
+  "tested_commit": "7643a100153b3dd3084e03887eb43f1f8a60be9e",
+  "commands": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-v",
+        "tests/nba_architecture",
+        "tests/nba_s_family",
+        "tests/nba_c"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "python",
+        "scripts/nba_subset_pipeline.py",
+        "--capture",
+        "docs/nba_architecture/p1_subset_acceptance_20261119/initial_tonight_capture",
+        "--cohort",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/PROSPECTIVE_COHORT.json",
+        "--history",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs",
+        "--through",
+        "p5",
+        "--output",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/p5/actual_full_pipeline"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

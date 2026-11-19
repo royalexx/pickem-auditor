@@ -1,0 +1,13 @@
+{
+  "mutated_game": "summary-401909875",
+  "player": "espn:player:4594326",
+  "source_MIN": "0",
+  "source_PTS": "3",
+  "accepted_state": {
+    "state": "DNP",
+    "displayed_minutes": null,
+    "raw_display": "0",
+    "units": "ESPN_DISPLAYED_ROUNDED_MINUTES",
+    "exact_seconds": null
+  }
+}

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/p1_p5_handoffs_20261119/independent/p2/duplicate_key_red.py", line 8, in <module>
+    print('ACCEPTED_AMBIGUOUS_DUPLICATE',accepted['forecasted_rows']);raise AssertionError('duplicate keys must not bypass source-bound consumer semantics')
+                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: duplicate keys must not bypass source-bound consumer semantics

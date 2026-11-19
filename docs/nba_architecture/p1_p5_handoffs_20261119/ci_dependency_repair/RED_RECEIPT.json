@@ -1,0 +1,28 @@
+{
+  "publication_head": "cb87fdcd66e2c3603de53d1a53c19907112bc989",
+  "failed_runs": [
+    44637265084,
+    44637295968
+  ],
+  "failed_command": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-q"
+  ],
+  "consequence": "Clean runner could not import jsonschema and execute pdftotext; 48 import/executable errors plus discovery guard failure, before genuine new NBA tests could run.",
+  "body_domain": "GH_CLI_RENDERED_GITHUB_FAILED_STEP_LOG_UTF8",
+  "retrieval_command": [
+    "gh",
+    "run",
+    "view",
+    "44637265084",
+    "--repo",
+    "royalexx/pickem-auditor",
+    "--log-failed"
+  ],
+  "retrieval_exit_code": 0
+}

@@ -20,6 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # P4 regression fixtures materialize exact accepted owner Git objects,
+          # including pins reachable on other isolated research branches.
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -90,6 +94,12 @@ jobs:
 
       - name: Install lightweight NFL inference test dependencies
         run: python -m pip install -r requirements-nfl-inference.txt
+      - name: Install explicit NBA contract and replay test dependencies
+        run: |
+          python -m pip install -r requirements-nba-research-tests.txt
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          pdftotext -v
       - name: Execute full offline unit-test suite
         run: python -m unittest discover -s tests -q
 

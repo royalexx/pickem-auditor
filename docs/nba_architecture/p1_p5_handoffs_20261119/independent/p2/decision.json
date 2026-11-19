@@ -1,0 +1,24 @@
+{
+  "reviewer": "/root/independent_source_review",
+  "implementation_repairs_authored": false,
+  "accepted_implementation": "3ca43cddcae1a7aa0bbfa8ea9aea1a5139211ddf",
+  "decision": "ACCEPT_P2_SCOPED_ABSTENTION_BOUNDARY",
+  "historical": {
+    "players": 36,
+    "stat_attempts": 144,
+    "source_abstentions": 40,
+    "artifact_missing": 104,
+    "forecasts": 0
+  },
+  "current": {
+    "players": 36,
+    "stat_attempts": 144,
+    "source_abstentions": 44,
+    "artifact_missing": 100,
+    "forecasts": 0
+  },
+  "real_native_S_inference": "NOTEXERCISED",
+  "real_numerical_dispatch": "NOT_ACTIVE_MISSING_MODEL_AND_ROLE_EXPOSURE_RESOLVER",
+  "independent_methods_pass": 4,
+  "owner_methods_independently_rerun_pass": 4
+}

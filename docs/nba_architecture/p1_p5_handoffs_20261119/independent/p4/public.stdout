@@ -1,0 +1,13 @@
+{
+  "candidate_rows": 36,
+  "native_minute_laws": 36,
+  "stat_references": 144,
+  "stat_attempts": 432,
+  "stat_forecasts": 0,
+  "reason_counts": {
+    "P2_STATISTIC_KERNEL_UNAVAILABLE": 144,
+    "P1_SOURCE_ABSTENTION": 132,
+    "P3_CONDITIONAL_MINUTES_UNAVAILABLE:UNKNOWN_CONDITIONAL_HISTORY_WINDOW": 132,
+    "P3_CONDITIONAL_MINUTES_UNAVAILABLE:UNKNOWN_RETURN_GAP_POPULATION": 24
+  }
+}

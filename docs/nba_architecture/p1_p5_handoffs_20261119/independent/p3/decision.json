@@ -1,0 +1,18 @@
+{
+  "reviewer": "/root/independent_source_review",
+  "implementation_repairs_authored": false,
+  "accepted_tested_implementation": "05b44764fd9fdb7be0a465131a88a9203e977210",
+  "decision": "ACCEPT_NATIVE_CONDITIONAL_MINUTES_HANDOFF",
+  "genuine_native_forward_calls": 36,
+  "distinct_players_with_native_laws": 12,
+  "candidate_denominator": 36,
+  "model_attempts": 108,
+  "observation_attempts": 540,
+  "positive_conditional_laws": 36,
+  "local_abstentions": 72,
+  "q_and_eligibility": null,
+  "team_allocation": false,
+  "model_quality_or_full_family_acceptance": false,
+  "independent_methods_pass": 5,
+  "owner_methods_independently_rerun_pass": 26
+}
