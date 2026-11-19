@@ -1,0 +1,9 @@
+test_actual_archive_all_originals_native_primitive_and_offline_read (__main__.Review.test_actual_archive_all_originals_native_primitive_and_offline_read) ... ok
+test_actual_object_missing_altered_collision (__main__.Review.test_actual_object_missing_altered_collision) ... ok
+test_forged_wires_never_create_record (__main__.Review.test_forged_wires_never_create_record) ... ok
+test_resealed_sources_reader_claims_denominators_and_path (__main__.Review.test_resealed_sources_reader_claims_denominators_and_path) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 40.833s
+
+OK
