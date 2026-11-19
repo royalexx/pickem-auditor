@@ -1,0 +1,16 @@
+{
+  "tested_commit": "eb3e51fcc300293228273652a43e11b2090f9b79",
+  "changed_files": [
+    ".github/workflows/ci.yml",
+    "requirements-nba-research-tests.txt"
+  ],
+  "native_and_evidence_bytes_changed": false,
+  "NUTS_job_unchanged_disabled": true,
+  "schedules_changed": false,
+  "pip_pins": [
+    "numpy==2.3.5",
+    "scipy==1.17.0",
+    "jsonschema==4.26.0",
+    "pytest==9.2.0"
+  ]
+}

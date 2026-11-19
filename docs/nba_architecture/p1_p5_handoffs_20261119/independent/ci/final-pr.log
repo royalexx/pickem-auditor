@@ -1,0 +1,1231 @@
+offline-tests	Set up job	﻿2026-11-19T23:31:45.1085183Z Current runner version: '2.338.2'
+offline-tests	Set up job	2026-11-19T23:31:45.1111719Z ##[group]Runner Image Provisioner
+offline-tests	Set up job	2026-11-19T23:31:45.1112631Z Hosted Compute Agent
+offline-tests	Set up job	2026-11-19T23:31:45.1113316Z Version: 20261111.635
+offline-tests	Set up job	2026-11-19T23:31:45.1113998Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+offline-tests	Set up job	2026-11-19T23:31:45.1114771Z Build Date: 2026-11-11T01:49:01Z
+offline-tests	Set up job	2026-11-19T23:31:45.1115634Z Worker ID: {f0eb65a8-0173-40ea-9e3c-e88c91c8773b}
+offline-tests	Set up job	2026-11-19T23:31:45.1116381Z Region: westcentralus
+offline-tests	Set up job	2026-11-19T23:31:45.1117024Z Cloud: Azure
+offline-tests	Set up job	2026-11-19T23:31:45.1117611Z ##[endgroup]
+offline-tests	Set up job	2026-11-19T23:31:45.1119220Z ##[group]Operating System
+offline-tests	Set up job	2026-11-19T23:31:45.1120004Z Ubuntu
+offline-tests	Set up job	2026-11-19T23:31:45.1120554Z 26.04.1
+offline-tests	Set up job	2026-11-19T23:31:45.1121091Z LTS
+offline-tests	Set up job	2026-11-19T23:31:45.1121704Z ##[endgroup]
+offline-tests	Set up job	2026-11-19T23:31:45.1122282Z ##[group]Runner Image
+offline-tests	Set up job	2026-11-19T23:31:45.1123025Z Image: ubuntu-26.04
+offline-tests	Set up job	2026-11-19T23:31:45.1123627Z Version: 20261116.202.1
+offline-tests	Set up job	2026-11-19T23:31:45.1124702Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261116.202/images/ubuntu/Ubuntu2604-Readme.md
+offline-tests	Set up job	2026-11-19T23:31:45.1126548Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261116.202
+offline-tests	Set up job	2026-11-19T23:31:45.1127677Z ##[endgroup]
+offline-tests	Set up job	2026-11-19T23:31:45.1128943Z ##[group]GITHUB_TOKEN Permissions
+offline-tests	Set up job	2026-11-19T23:31:45.1130955Z Contents: read
+offline-tests	Set up job	2026-11-19T23:31:45.1131599Z Metadata: read
+offline-tests	Set up job	2026-11-19T23:31:45.1132215Z ##[endgroup]
+offline-tests	Set up job	2026-11-19T23:31:45.1134415Z Secret source: Actions
+offline-tests	Set up job	2026-11-19T23:31:45.1135405Z Cache mode: write
+offline-tests	Set up job	2026-11-19T23:31:45.1136213Z Prepare workflow directory
+offline-tests	Set up job	2026-11-19T23:31:45.1515552Z Prepare all required actions
+offline-tests	Set up job	2026-11-19T23:31:45.1563145Z Getting action download info
+offline-tests	Set up job	2026-11-19T23:31:45.4187056Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+offline-tests	Set up job	2026-11-19T23:31:45.5059021Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+offline-tests	Set up job	2026-11-19T23:31:45.6719458Z Complete job name: offline-tests
+offline-tests	Run actions/checkout@v4	﻿2026-11-19T23:31:45.7738989Z ##[group]Run actions/checkout@v4
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7740350Z with:
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7740796Z   fetch-depth: 0
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7741290Z   repository: royalexx/pickem-auditor
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7745495Z   token: ***
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7745940Z   ssh-strict: true
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7746395Z   ssh-user: git
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7746841Z   persist-credentials: true
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7747341Z   clean: true
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7747806Z   sparse-checkout-cone-mode: true
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7748489Z   fetch-tags: false
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7748946Z   show-progress: true
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7749384Z   lfs: false
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7749803Z   submodules: false
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7750241Z   set-safe-directory: true
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7750739Z   allow-unsafe-pr-checkout: false
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.7751510Z ##[endgroup]
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9762916Z Syncing repository: royalexx/pickem-auditor
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9765424Z ##[group]Getting Git version info
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9766599Z Working directory is '/home/runner/work/pickem-auditor/pickem-auditor'
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9768135Z [command]/usr/bin/git version
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9769031Z git version 2.56.1
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9783067Z ##[endgroup]
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9798784Z Temporarily overriding HOME='/home/runner/work/_temp/8f46ac74-7661-4748-8757-dd93901851cc' before making global git config changes
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9800773Z Adding repository directory to the temporary git global config as a safe directory
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9804025Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pickem-auditor/pickem-auditor
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9861117Z Deleting the contents of '/home/runner/work/pickem-auditor/pickem-auditor'
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9864893Z ##[group]Initializing the repository
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9870602Z [command]/usr/bin/git init /home/runner/work/pickem-auditor/pickem-auditor
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9945132Z hint: Using 'master' as the name for the initial branch. This default branch name
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9946505Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9948255Z hint: to use in all of your new repositories, which will suppress this warning,
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9949194Z hint: call:
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:45.9949738Z hint:
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0074405Z hint: 	git config --global init.defaultBranch <name>
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0075666Z hint:
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0076761Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0078607Z hint: 'development'. The just-created branch can be renamed via this command:
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0079884Z hint:
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0080595Z hint: 	git branch -m <name>
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0081394Z hint:
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0082438Z hint: Disable this message with "git config set advice.defaultBranchName false"
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0084327Z Initialized empty Git repository in /home/runner/work/pickem-auditor/pickem-auditor/.git/
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0087190Z [command]/usr/bin/git remote add origin https://github.com/royalexx/pickem-auditor
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0089940Z ##[endgroup]
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0091094Z ##[group]Disabling automatic garbage collection
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0092193Z [command]/usr/bin/git config --local gc.auto 0
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0106370Z ##[endgroup]
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0107453Z ##[group]Setting up auth
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0114178Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0160204Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0568999Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0610736Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0926474Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.0966240Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.1264582Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.1308738Z ##[endgroup]
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.1318164Z ##[group]Fetching the repository
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:46.1320023Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +61c84271f9684818ddf93547011e5d488764e62a:refs/remotes/pull/188/merge
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8114678Z From https://github.com/royalexx/pickem-auditor
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8116013Z  * [new branch]        acceptance/p1-subset-20261119            -> origin/acceptance/p1-subset-20261119
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8117076Z  * [new branch]        audit-20261108-nfl-1pm                   -> origin/audit-20261108-nfl-1pm
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8118511Z  * [new branch]        audit/multisport-joint-vs-poisson-20261028 -> origin/audit/multisport-joint-vs-poisson-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8119938Z  * [new branch]        audit/nba-g0-accepted-downstream-20261116 -> origin/audit/nba-g0-accepted-downstream-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8121541Z  * [new branch]        audit/nba-g0-independent-participation-red-20261116 -> origin/audit/nba-g0-independent-participation-red-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8123259Z  * [new branch]        audit/nba-g1-blocked-family-master-prompt-v5-20261117 -> origin/audit/nba-g1-blocked-family-master-prompt-v5-20261117
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8124452Z  * [new branch]        audit/nba-p1-prerequisite-data-readiness-20261116 -> origin/audit/nba-p1-prerequisite-data-readiness-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8125325Z  * [new branch]        audit/nba-p2-g0-blocked-20261116         -> origin/audit/nba-p2-g0-blocked-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8126148Z  * [new branch]        audit/nba-p6-full-blocker-audit-20261117 -> origin/audit/nba-p6-full-blocker-audit-20261117
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8127501Z  * [new branch]        audit/nba-p6-g1-current-candidate-20261116 -> origin/audit/nba-p6-g1-current-candidate-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8128829Z  * [new branch]        audit/nba-p6-g1-five-owner-recheck-20261116 -> origin/audit/nba-p6-g1-five-owner-recheck-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8130302Z  * [new branch]        audit/nba-p6-g1-remediation-recheck-v3-20261116 -> origin/audit/nba-p6-g1-remediation-recheck-v3-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8131615Z  * [new branch]        audit/nba-p6-g1-remediation-v4-independent-20261116 -> origin/audit/nba-p6-g1-remediation-v4-independent-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8133061Z  * [new branch]        audit/nba-p6-independent-redteam-pre-g0-20261116 -> origin/audit/nba-p6-independent-redteam-pre-g0-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8134620Z  * [new branch]        audit/nba-p6-post-g0-independent-g1-20261116 -> origin/audit/nba-p6-post-g0-independent-g1-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8135917Z  * [new branch]        audit/nfl-sunday-ws6-20261115            -> origin/audit/nfl-sunday-ws6-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8137165Z  * [new branch]        audit/nfl-ws6-postgame-independent-20261116 -> origin/audit/nfl-ws6-postgame-independent-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8138604Z  * [new branch]        audit/p1-overnight-20261119              -> origin/audit/p1-overnight-20261119
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8139668Z  * [new branch]        audit/reliability-20261107               -> origin/audit/reliability-20261107
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8140730Z  * [new branch]        audit/stat-screening-20261028            -> origin/audit/stat-screening-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8141935Z  * [new branch]        audit/v25-nba-ws4-validation-20261115    -> origin/audit/v25-nba-ws4-validation-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8143092Z  * [new branch]        bench/all-31-backends-20261029           -> origin/bench/all-31-backends-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8144290Z  * [new branch]        bench/matched-convergence-full-20261029  -> origin/bench/matched-convergence-full-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8145912Z  * [new branch]        bench/matched-convergence-reporting-20261029 -> origin/bench/matched-convergence-reporting-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8146999Z  * [new branch]        bench/matched-nuts-convergence-20261029  -> origin/bench/matched-nuts-convergence-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8148409Z  * [new branch]        bench/pymc-nutpie-cmdstan-20261029       -> origin/bench/pymc-nutpie-cmdstan-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8149572Z  * [new branch]        capture/p1-prospective-20261118          -> origin/capture/p1-prospective-20261118
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8150818Z  * [new branch]        chatgpt/20261109-opponent-likelihood-audit -> origin/chatgpt/20261109-opponent-likelihood-audit
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8152009Z  * [new branch]        chatgpt/adversarial-under-bias-audit-2024 -> origin/chatgpt/adversarial-under-bias-audit-2024
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8152838Z  * [new branch]        chatgpt/evidence-ranked-top10-20261107   -> origin/chatgpt/evidence-ranked-top10-20261107
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8153803Z  * [new branch]        chatgpt/keep-model-comparison-and-evidence-top10-20261107 -> origin/chatgpt/keep-model-comparison-and-evidence-top10-20261107
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8154917Z  * [new branch]        chatgpt/nfl-2016-2025-prequential-10yr-study-20261111 -> origin/chatgpt/nfl-2016-2025-prequential-10yr-study-20261111
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8155976Z  * [new branch]        chatgpt/nfl-2023-ftn-standardized-active-hurdle -> origin/chatgpt/nfl-2023-ftn-standardized-active-hurdle
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8156893Z  * [new branch]        chatgpt/nfl-2024-calibration-direction-leak-audit -> origin/chatgpt/nfl-2024-calibration-direction-leak-audit
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8157992Z  * [new branch]        chatgpt/nfl-2024-challenger-calibration-bias-audit -> origin/chatgpt/nfl-2024-challenger-calibration-bias-audit
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8158972Z  * [new branch]        chatgpt/nfl-2024-plausible-props-blind-replay -> origin/chatgpt/nfl-2024-plausible-props-blind-replay
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8160148Z  * [new branch]        chatgpt/nfl-2024-weekly-hybrid-lines-blind-rerun -> origin/chatgpt/nfl-2024-weekly-hybrid-lines-blind-rerun
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8161044Z  * [new branch]        chatgpt/nfl-2024-weekly-walkforward-after-reveal -> origin/chatgpt/nfl-2024-weekly-walkforward-after-reveal
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8161919Z  * [new branch]        chatgpt/nfl-20261115-ws4-joint-shadow-20261114 -> origin/chatgpt/nfl-20261115-ws4-joint-shadow-20261114
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8162717Z  * [new branch]        chatgpt/nfl-dynamic-team-recency-2024    -> origin/chatgpt/nfl-dynamic-team-recency-2024
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8163547Z  * [new branch]        chatgpt/nfl-nflverse-unified-active-zero-hurdle -> origin/chatgpt/nfl-nflverse-unified-active-zero-hurdle
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8164845Z  * [new branch]        chatgpt/nfl-phase2-resume-strict-qb-pregame-gate-20261111 -> origin/chatgpt/nfl-phase2-resume-strict-qb-pregame-gate-20261111
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8165816Z  * [new branch]        chatgpt/nfl-pre2024-pbp-ftn-ngs-frozen-2024 -> origin/chatgpt/nfl-pre2024-pbp-ftn-ngs-frozen-2024
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8166632Z  * [new branch]        chatgpt/nfl-sunday-ws1-source-20261115   -> origin/chatgpt/nfl-sunday-ws1-source-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8167618Z  * [new branch]        chatgpt/nfl-team-xgb-hierarchical-mc-challenger -> origin/chatgpt/nfl-team-xgb-hierarchical-mc-challenger
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8169171Z  * [new branch]        chatgpt/nfl-v3-ten-year-opponent-context-20261111 -> origin/chatgpt/nfl-v3-ten-year-opponent-context-20261111
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8170092Z  * [new branch]        chatgpt/nfl-v4-1-qb-opportunity-repair-20261111 -> origin/chatgpt/nfl-v4-1-qb-opportunity-repair-20261111
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8171031Z  * [new branch]        chatgpt/nfl-v4-adaptive-opportunity-factors-20261111 -> origin/chatgpt/nfl-v4-adaptive-opportunity-factors-20261111
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8171999Z  * [new branch]        chatgpt/nfl-v5-6-history-calibrated-joint-20261112 -> origin/chatgpt/nfl-v5-6-history-calibrated-joint-20261112
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8173243Z  * [new branch]        chatgpt/nfl-v5-historical-workload-calibrated-joint-20261112 -> origin/chatgpt/nfl-v5-historical-workload-calibrated-joint-20261112
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8174270Z  * [new branch]        chatgpt/nfl-v5-shared-game-offense-defense-20261112 -> origin/chatgpt/nfl-v5-shared-game-offense-defense-20261112
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8175149Z  * [new branch]        chatgpt/nfl-volume-only-2024-blind-replay -> origin/chatgpt/nfl-volume-only-2024-blind-replay
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8175999Z  * [new branch]        chatgpt/nfl-volume-only-production-ranking-gate -> origin/chatgpt/nfl-volume-only-production-ranking-gate
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8176903Z  * [new branch]        chatgpt/nfl-weekly-2024-all-markets-blind-training -> origin/chatgpt/nfl-weekly-2024-all-markets-blind-training
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8178185Z  * [new branch]        chatgpt/nov11-method-performance-2023-24-nfl-replay-decision -> origin/chatgpt/nov11-method-performance-2023-24-nfl-replay-decision
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8179469Z  * [new branch]        chatgpt/phase0-book-quote-clock-retention-20261109 -> origin/chatgpt/phase0-book-quote-clock-retention-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8180421Z  * [new branch]        chatgpt/phase0-capture-sport-identity-fix-20261109 -> origin/chatgpt/phase0-capture-sport-identity-fix-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8181326Z  * [new branch]        chatgpt/phase0-large-research-capture-20261109 -> origin/chatgpt/phase0-large-research-capture-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8182313Z  * [new branch]        chatgpt/phase0-live-input-receipts-20261109 -> origin/chatgpt/phase0-live-input-receipts-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8183313Z  * [new branch]        chatgpt/phase0-original-market-event-ids-20261109 -> origin/chatgpt/phase0-original-market-event-ids-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8184337Z  * [new branch]        chatgpt/phase0-provenance-release-guard-20261109 -> origin/chatgpt/phase0-provenance-release-guard-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8185241Z  * [new branch]        chatgpt/phase0-verified-market-receipt-20261109 -> origin/chatgpt/phase0-verified-market-receipt-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8186441Z  * [new branch]        chatgpt/phase0r-archived-slate-audit-handoff-20261109 -> origin/chatgpt/phase0r-archived-slate-audit-handoff-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8187499Z  * [new branch]        chatgpt/phase0r-capture-completion-clock-20261109 -> origin/chatgpt/phase0r-capture-completion-clock-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8188599Z  * [new branch]        chatgpt/phase0r-certified-only-pool-20261110 -> origin/chatgpt/phase0r-certified-only-pool-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8189436Z  * [new branch]        chatgpt/phase0r-execution-receipt-20261109 -> origin/chatgpt/phase0r-execution-receipt-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8190350Z  * [new branch]        chatgpt/phase0r-input-freeze-gate-20261109 -> origin/chatgpt/phase0r-input-freeze-gate-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8191272Z  * [new branch]        chatgpt/phase0r-nhl-saves-shared-contract-seed-20261109 -> origin/chatgpt/phase0r-nhl-saves-shared-contract-seed-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8192369Z  * [new branch]        chatgpt/phase0r-pre-eval-pinning-20261109 -> origin/chatgpt/phase0r-pre-eval-pinning-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8193312Z  * [new branch]        chatgpt/phase0r-quarantine-nfl-provisional-http415-20261109 -> origin/chatgpt/phase0r-quarantine-nfl-provisional-http415-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8194329Z  * [new branch]        chatgpt/phase0r-quote-level-api-evidence-20261110 -> origin/chatgpt/phase0r-quote-level-api-evidence-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8195205Z  * [new branch]        chatgpt/phase0r-source-origin-gate-20261110 -> origin/chatgpt/phase0r-source-origin-gate-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8196125Z  * [new branch]        chatgpt/phase0r-thursday-source-archive-size-20261112 -> origin/chatgpt/phase0r-thursday-source-archive-size-20261112
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8197507Z  * [new branch]        chatgpt/phase1-directional-research-baseline-20261108 -> origin/chatgpt/phase1-directional-research-baseline-20261108
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8199018Z  * [new branch]        chatgpt/phase15-bcde-verified-settlement-20261111 -> origin/chatgpt/phase15-bcde-verified-settlement-20261111
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8200063Z  * [new branch]        chatgpt/phase15-contract-ledger-and-shadow-coherence-20261111 -> origin/chatgpt/phase15-contract-ledger-and-shadow-coherence-20261111
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8201417Z  * [new branch]        chatgpt/phase15-error-power-diagnostics-20261110 -> origin/chatgpt/phase15-error-power-diagnostics-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8202904Z  * [new branch]        chatgpt/phase15-future-nhl-sog-shadow-settlement-scoring-20261111 -> origin/chatgpt/phase15-future-nhl-sog-shadow-settlement-scoring-20261111
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8204027Z  * [new branch]        chatgpt/phase15-nba-nhl-certified-diagnostics-20261110 -> origin/chatgpt/phase15-nba-nhl-certified-diagnostics-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8205127Z  * [new branch]        chatgpt/phase15-nhl-sog-prospective-nb2-and-roster-20261111 -> origin/chatgpt/phase15-nhl-sog-prospective-nb2-and-roster-20261111
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8206161Z  * [new branch]        chatgpt/phase15-nov11-full-slate-audit-off-final -> origin/chatgpt/phase15-nov11-full-slate-audit-off-final
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8207016Z  * [new branch]        chatgpt/reform-4a-topk-selection-audit   -> origin/chatgpt/reform-4a-topk-selection-audit
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8208145Z  * [new branch]        chatgpt/reform-historical-blind-walkforward -> origin/chatgpt/reform-historical-blind-walkforward
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8209062Z  * [new branch]        chatgpt/reform-phase1-validation         -> origin/chatgpt/reform-phase1-validation
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8209785Z  * [new branch]        chatgpt/reform-phase4-scoring            -> origin/chatgpt/reform-phase4-scoring
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8210533Z  * [new branch]        chatgpt/reform-step10-calibration-gates  -> origin/chatgpt/reform-step10-calibration-gates
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8211381Z  * [new branch]        chatgpt/reform-step11-independent-release-audit -> origin/chatgpt/reform-step11-independent-release-audit
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8212424Z  * [new branch]        chatgpt/reform-step6-position-lines      -> origin/chatgpt/reform-step6-position-lines
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8213200Z  * [new branch]        chatgpt/reform-step6-tackle-opportunity  -> origin/chatgpt/reform-step6-tackle-opportunity
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8213937Z  * [new branch]        chatgpt/reform-step7-8-shadow            -> origin/chatgpt/reform-step7-8-shadow
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8214639Z  * [new branch]        chatgpt/reform-step7-8-shadow-v2         -> origin/chatgpt/reform-step7-8-shadow-v2
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8215409Z  * [new branch]        chatgpt/reform-step9-game-leg-dependence -> origin/chatgpt/reform-step9-game-leg-dependence
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8216180Z  * [new branch]        chatgpt/reform-step9-leg-dependence      -> origin/chatgpt/reform-step9-leg-dependence
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8217091Z  * [new branch]        chatgpt/v25-2025-chronological-opportunity-replay-20261110 -> origin/chatgpt/v25-2025-chronological-opportunity-replay-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8218300Z  * [new branch]        chatgpt/v25-2025-qb1-rushing-work-recovery-20261111 -> origin/chatgpt/v25-2025-qb1-rushing-work-recovery-20261111
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8219245Z  * [new branch]        chatgpt/v25-early-phase-audit-remediation-20261110 -> origin/chatgpt/v25-early-phase-audit-remediation-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8220079Z  * [new branch]        chatgpt/v25-governing-docs-20261110      -> origin/chatgpt/v25-governing-docs-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8220922Z  * [new branch]        chatgpt/v25-opportunity-distribution-repair-20261110 -> origin/chatgpt/v25-opportunity-distribution-repair-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8221907Z  * [new branch]        chatgpt/v25-p2-qb-run-type-component-2024-2025-20261111 -> origin/chatgpt/v25-p2-qb-run-type-component-2024-2025-20261111
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8222840Z  * [new branch]        chatgpt/v25-phase1-contracts-evaluator-20261109 -> origin/chatgpt/v25-phase1-contracts-evaluator-20261109
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8223712Z  * [new branch]        chatgpt/v25-phase1-nba-nhl-certified-20261110 -> origin/chatgpt/v25-phase1-nba-nhl-certified-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8224790Z  * [new branch]        chatgpt/v25-phase2-2024-all-volume-calibration-20261110 -> origin/chatgpt/v25-phase2-2024-all-volume-calibration-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8225767Z  * [new branch]        chatgpt/v25-phase2-nfl-opportunity-research-20261110 -> origin/chatgpt/v25-phase2-nfl-opportunity-research-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8226738Z  * [new branch]        chatgpt/v25-phase2-role-calibration-ablation-20261110 -> origin/chatgpt/v25-phase2-role-calibration-ablation-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8227971Z  * [new branch]        chatgpt/v25-post2025-full-audit-20261110 -> origin/chatgpt/v25-post2025-full-audit-20261110
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8228710Z  * [new branch]        cloud/20261105-slate                     -> origin/cloud/20261105-slate
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8229370Z  * [new branch]        codex/connect-nfl-targets-daily          -> origin/codex/connect-nfl-targets-daily
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8230084Z  * [new branch]        codex/fix-nfl-engine-b-exposure          -> origin/codex/fix-nfl-engine-b-exposure
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8230934Z  * [new branch]        codex/historical-ensemble-60-40-full-universe-20261108 -> origin/codex/historical-ensemble-60-40-full-universe-20261108
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8231828Z  * [new branch]        codex/live-pool-chunked-archive-20261108 -> origin/codex/live-pool-chunked-archive-20261108
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8232560Z  * [new branch]        codex/nfl-context-local-pilot            -> origin/codex/nfl-context-local-pilot
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8233577Z  * [new branch]        codex/nfl-slate-shadow-20261101          -> origin/codex/nfl-slate-shadow-20261101
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8234556Z  * [new branch]        codex/nhl-context-challenger-20261030    -> origin/codex/nhl-context-challenger-20261030
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8235307Z  * [new branch]        codex/nhl-context-local-campaign         -> origin/codex/nhl-context-local-campaign
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8236041Z  * [new branch]        codex/tonight-market-shadow-20261101     -> origin/codex/tonight-market-shadow-20261101
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8237132Z  * [new branch]        cursor/cloud-agent-environment-fa4f      -> origin/cursor/cloud-agent-environment-fa4f
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8238415Z  * [new branch]        data/bayesian-history                    -> origin/data/bayesian-history
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8239121Z  * [new branch]        data/history-archive                     -> origin/data/history-archive
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8239738Z  * [new branch]        data/live-observations                   -> origin/data/live-observations
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8240366Z  * [new branch]        data/shadow-calibration                  -> origin/data/shadow-calibration
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8241084Z  * [new branch]        feat/conditional-tier3-tendency-20261028 -> origin/feat/conditional-tier3-tendency-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8241995Z  * [new branch]        feat/deepnote-converged-saves-targets-shadows-20261106 -> origin/feat/deepnote-converged-saves-targets-shadows-20261106
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8242992Z  * [new branch]        feat/nba-verified-prior-bayesian-shadow-20261029 -> origin/feat/nba-verified-prior-bayesian-shadow-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8243888Z  * [new branch]        feature/bayesian-engine-a-phase1-20261028 -> origin/feature/bayesian-engine-a-phase1-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8244867Z  * [new branch]        feature/bayesian-engine-b-phase2-20261028 -> origin/feature/bayesian-engine-b-phase2-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8245699Z  * [new branch]        feature/cloud-bayes-incremental-20261105 -> origin/feature/cloud-bayes-incremental-20261105
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8246469Z  * [new branch]        feature/deepnote-live-pool-20261105      -> origin/feature/deepnote-live-pool-20261105
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8247282Z  * [new branch]        feature/fully-bayesian-nhl-warehouse-20261028 -> origin/feature/fully-bayesian-nhl-warehouse-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8248369Z  * [new branch]        feature/joint-nhl-evaluation-20261028    -> origin/feature/joint-nhl-evaluation-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8249389Z  * [new branch]        feature/joint-nhl-subset-validation-20261028 -> origin/feature/joint-nhl-subset-validation-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8250248Z  * [new branch]        feature/multisport-joint-population-20261028 -> origin/feature/multisport-joint-population-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8251113Z  * [new branch]        feature/nhl-live-selective-handoff-20261030 -> origin/feature/nhl-live-selective-handoff-20261030
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8251983Z  * [new branch]        feature/nhl-saves-release-slate-shadow-20261030 -> origin/feature/nhl-saves-release-slate-shadow-20261030
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8252885Z  * [new branch]        feature/phase4-chronological-validation-20261028 -> origin/feature/phase4-chronological-validation-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8254300Z  * [new branch]        feature/posterior-monte-carlo-phase3-20261028 -> origin/feature/posterior-monte-carlo-phase3-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8255317Z  * [new branch]        feature/precision-5490-self-hosted-bayes -> origin/feature/precision-5490-self-hosted-bayes
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8256146Z  * [new branch]        feature/precision-native-windows-20261029 -> origin/feature/precision-native-windows-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8257628Z  * [new branch]        feature/precision-nhl-cpu-fullpopulation-20261029 -> origin/feature/precision-nhl-cpu-fullpopulation-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8259477Z  * [new branch]        feature/precision-sequential-all-markets-20261029 -> origin/feature/precision-sequential-all-markets-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8261091Z  * [new branch]        feature/recent-multiseason-populations-20261028 -> origin/feature/recent-multiseason-populations-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8262315Z  * [new branch]        fix/all-market-bayes-pinned-recovery-20261029 -> origin/fix/all-market-bayes-pinned-recovery-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8263405Z  * [new branch]        fix/bayesian-b-distribution-consistency-20261028 -> origin/fix/bayesian-b-distribution-consistency-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8264605Z  * [new branch]        fix/engine-b-probability-comparison-20261105 -> origin/fix/engine-b-probability-comparison-20261105
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8265609Z  * [new branch]        fix/full-spectrum-screening-20261028     -> origin/fix/full-spectrum-screening-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8266715Z  * [new branch]        fix/historical-nba-incomplete-read-20261029 -> origin/fix/historical-nba-incomplete-read-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8267552Z  * [new branch]        fix/joint-bayes-evaluation-release-20261028 -> origin/fix/joint-bayes-evaluation-release-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8268837Z  * [new branch]        fix/joint-model-audit-verified-20261028  -> origin/fix/joint-model-audit-verified-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8269681Z  * [new branch]        fix/lineup-tendencies-tier-semantics-20261028 -> origin/fix/lineup-tendencies-tier-semantics-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8270651Z  * [new branch]        fix/morning-audit-canonical-snapshots-20261106 -> origin/fix/morning-audit-canonical-snapshots-20261106
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8271584Z  * [new branch]        fix/morning-repeated-afternoon-snapshots-20261106 -> origin/fix/morning-repeated-afternoon-snapshots-20261106
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8272799Z  * [new branch]        fix/nba-postponed-backfill-20261029      -> origin/fix/nba-postponed-backfill-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8273697Z  * [new branch]        fix/nba-prior-monte-carlo-shadow-20261029 -> origin/fix/nba-prior-monte-carlo-shadow-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8274493Z  * [new branch]        fix/nba-three-pointer-replay-20261028    -> origin/fix/nba-three-pointer-replay-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8275362Z  * [new branch]        fix/nhl-benchmark-history-load-progress  -> origin/fix/nhl-benchmark-history-load-progress
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8276141Z  * [new branch]        fix/nhl-blocks-odds-fallback-20261029    -> origin/fix/nhl-blocks-odds-fallback-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8276971Z  * [new branch]        fix/nhl-goalie-saves-settlement-alias-20261106 -> origin/fix/nhl-goalie-saves-settlement-alias-20261106
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8278322Z  * [new branch]        fix/nhl-official-boxscore-settlement-20261106 -> origin/fix/nhl-official-boxscore-settlement-20261106
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8279185Z  * [new branch]        fix/nhl-pytensor-msys2-gcc-check-20261029 -> origin/fix/nhl-pytensor-msys2-gcc-check-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8279989Z  * [new branch]        fix/nhl-saves-stat-alias-shadow-20261030 -> origin/fix/nhl-saves-stat-alias-shadow-20261030
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8280739Z  * [new branch]        fix/nov2-audit-recovery-20261102         -> origin/fix/nov2-audit-recovery-20261102
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8281465Z  * [new branch]        fix/operational-reliability-20261029     -> origin/fix/operational-reliability-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8282300Z  * [new branch]        fix/prioritize-recent-bayes-warehouse-20261029 -> origin/fix/prioritize-recent-bayes-warehouse-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8283111Z  * [new branch]        fix/research-ranked-props-20261028       -> origin/fix/research-ranked-props-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8283898Z  * [new branch]        fix/research-ranking-eligibility-20261028 -> origin/fix/research-ranking-eligibility-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8284687Z  * [new branch]        fix/retry-convergence-nba-nfl-20261029   -> origin/fix/retry-convergence-nba-nfl-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8285483Z  * [new branch]        fix/source-verification-coverage-20261029 -> origin/fix/source-verification-coverage-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8286320Z  * [new branch]        fix/workload-prior-source-shadowing-20261028 -> origin/fix/workload-prior-source-shadowing-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8287155Z  * [new branch]        integration/nba-subset-p1-p5-20261119    -> origin/integration/nba-subset-p1-p5-20261119
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8288236Z  * [new branch]        integration/v25-c03-sog-combined-preflight-20261114 -> origin/integration/v25-c03-sog-combined-preflight-20261114
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8289229Z  * [new branch]        integration/v25-c10-reconciled-inference-gates-20261114 -> origin/integration/v25-c10-reconciled-inference-gates-20261114
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8290320Z  * [new branch]        integration/v25-foundations-20261112     -> origin/integration/v25-foundations-20261112
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8290931Z  * [new branch]        main                                     -> origin/main
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8291563Z  * [new branch]        ops/complete-multisport-history-20261029 -> origin/ops/complete-multisport-history-20261029
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8292321Z  * [new branch]        profile/nba-narrow-default-20261119      -> origin/profile/nba-narrow-default-20261119
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8293092Z  * [new branch]        qa/nba-g1-exact-owner-assembly-v4-20261116 -> origin/qa/nba-g1-exact-owner-assembly-v4-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8293913Z  * [new branch]        qa/nba-g1-exact-owner-assembly-v4-r2-20261116 -> origin/qa/nba-g1-exact-owner-assembly-v4-r2-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8294750Z  * [new branch]        qa/nba-g1-exact-owner-assembly-v4-r3-20261116 -> origin/qa/nba-g1-exact-owner-assembly-v4-r3-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8295591Z  * [new branch]        release/recent-bayesian-population-20261028 -> origin/release/recent-bayesian-population-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8296392Z  * [new branch]        release/research-tier-routing-20261028   -> origin/release/research-tier-routing-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8297192Z  * [new branch]        remediation/nba-g1-orchestration-v4-20261116 -> origin/remediation/nba-g1-orchestration-v4-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8298108Z  * [new branch]        remediation/nba-p0-discovery-v4-20261116 -> origin/remediation/nba-p0-discovery-v4-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8298844Z  * [new branch]        repair/nba-g1-accounting-20261117        -> origin/repair/nba-g1-accounting-20261117
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8299563Z  * [new branch]        repair/nba-g1-substantive-20261117       -> origin/repair/nba-g1-substantive-20261117
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8300338Z  * [new branch]        repair/nba-p234-artifact-admission-20261118 -> origin/repair/nba-p234-artifact-admission-20261118
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8301247Z  * [new branch]        repair/nfl-tackles-assists-20261115      -> origin/repair/nfl-tackles-assists-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8302012Z  * [new branch]        repair/nfl-ws1-postgame-recovery-20261116 -> origin/repair/nfl-ws1-postgame-recovery-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8302788Z  * [new branch]        repair/p1-bounded-exclusions-20261118    -> origin/repair/p1-bounded-exclusions-20261118
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8303535Z  * [new branch]        repair/p1-report-selection-v2-20261119   -> origin/repair/p1-report-selection-v2-20261119
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8304288Z  * [new branch]        repair/p1-source-admission-20261118      -> origin/repair/p1-source-admission-20261118
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8305037Z  * [new branch]        repair/p5-settlement-admission-20261118  -> origin/repair/p5-settlement-admission-20261118
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8305770Z  * [new branch]        rerun/evening-20261028                   -> origin/rerun/evening-20261028
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8306545Z  * [new branch]        research/nba-g0-comprehensive-hardening-20261116 -> origin/research/nba-g0-comprehensive-hardening-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8307604Z  * [new branch]        research/nba-g0-final-repairs-20261116   -> origin/research/nba-g0-final-repairs-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8308529Z  * [new branch]        research/nba-g0-independent-qa-20261116  -> origin/research/nba-g0-independent-qa-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8309343Z  * [new branch]        research/nba-g0-law-coupling-repair-20261116 -> origin/research/nba-g0-law-coupling-repair-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8310204Z  * [new branch]        research/nba-g0-p0r-adversarial-fixes-20261116 -> origin/research/nba-g0-p0r-adversarial-fixes-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8311064Z  * [new branch]        research/nba-p0-sojc-architecture-g0-20261116 -> origin/research/nba-p0-sojc-architecture-g0-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8311915Z  * [new branch]        research/nba-p0i-adversarial-review-20261116 -> origin/research/nba-p0i-adversarial-review-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8313061Z  * [new branch]        research/nba-p1-canonical-history-g1-20261116 -> origin/research/nba-p1-canonical-history-g1-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8313849Z  * [new branch]        research/nba-p2-s-family-g1-20261116     -> origin/research/nba-p2-s-family-g1-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8314580Z  * [new branch]        research/nba-p3-o-family-g1-20261116     -> origin/research/nba-p3-o-family-g1-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8315446Z  * [new branch]        research/nba-p4-j-family-g1-20261116     -> origin/research/nba-p4-j-family-g1-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8316155Z  * [new branch]        research/nba-p4-physical-law-v2          -> origin/research/nba-p4-physical-law-v2
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8316969Z  * [new branch]        research/nba-p5-c-scoring-optimization-g1-20261116 -> origin/research/nba-p5-c-scoring-optimization-g1-20261116
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8318109Z  * [new branch]        research/nba-phase8b-execution-20261116T0035Z -> origin/research/nba-phase8b-execution-20261116T0035Z
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8319156Z  * [new branch]        research/nfl-20261115-calibration-shadow -> origin/research/nfl-20261115-calibration-shadow
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8319920Z  * [new branch]        research/nfl-20261115-opportunity-models -> origin/research/nfl-20261115-opportunity-models
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8320722Z  * [new branch]        research/nfl-nov15-prospective-shadow-freeze -> origin/research/nfl-nov15-prospective-shadow-freeze
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8321521Z  * [new branch]        research/nfl-nov15-ws2-marginal-models   -> origin/research/nfl-nov15-ws2-marginal-models
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8322396Z  * [new branch]        research/nhl-bayes-acceleration-benchmarks-20261030 -> origin/research/nhl-bayes-acceleration-benchmarks-20261030
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8323271Z  * [new branch]        research/nhl-sog-daily-repair-20261118   -> origin/research/nhl-sog-daily-repair-20261118
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8324104Z  * [new branch]        research/phase5-microtoi-sensitivity-v2-20261114 -> origin/research/phase5-microtoi-sensitivity-v2-20261114
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8325185Z  * [new branch]        research/phase5-nhl-sog-rolling-origin-20261114 -> origin/research/phase5-nhl-sog-rolling-origin-20261114
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8326145Z  * [new branch]        research/phase51-sog-rate-shrinkage-prospective-20261114 -> origin/research/phase51-sog-rate-shrinkage-prospective-20261114
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8326997Z  * [new branch]        research/preview-2026-10-29              -> origin/research/preview-2026-10-29
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8328070Z  * [new branch]        research/saves-independent-audit-before-benchmark-20261030 -> origin/research/saves-independent-audit-before-benchmark-20261030
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8329159Z  * [new branch]        research/v25-morning-nfl-nba-shadow-validation-20261115 -> origin/research/v25-morning-nfl-nba-shadow-validation-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8330228Z  * [new branch]        research/v25-nba-daily-orchestrator-espn-fallback-20261115 -> origin/research/v25-nba-daily-orchestrator-espn-fallback-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8331169Z  * [new branch]        research/v25-nba-joint-engine-v01-20261115 -> origin/research/v25-nba-joint-engine-v01-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8332036Z  * [new branch]        research/v25-nba-phase6-opportunity-repair-20261115 -> origin/research/v25-nba-phase6-opportunity-repair-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8333012Z  * [new branch]        research/v25-nba-phase7-pregame-participation-20261115 -> origin/research/v25-nba-phase7-pregame-participation-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8333976Z  * [new branch]        research/v25-nba-phase8a-source-activation-20261115 -> origin/research/v25-nba-phase8a-source-activation-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8334851Z  * [new branch]        research/v25-nba-ws1-feature-store-20261115 -> origin/research/v25-nba-ws1-feature-store-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8335903Z  * [new branch]        research/v25-nba-ws2-minutes-opportunity-20261115 -> origin/research/v25-nba-ws2-minutes-opportunity-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8336831Z  * [new branch]        research/v25-universal-forward-auditor-20261115 -> origin/research/v25-universal-forward-auditor-20261115
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8337794Z  * [new branch]        work/v25-c01-c02-source-integrity        -> origin/work/v25-c01-c02-source-integrity
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8338717Z  * [new branch]        work/v25-c03-context-cohorts             -> origin/work/v25-c03-context-cohorts
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8339394Z  * [new branch]        work/v25-c07-discrete-contracts          -> origin/work/v25-c07-discrete-contracts
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8340021Z  * [new branch]        work/v25-c09-ci-qa                       -> origin/work/v25-c09-ci-qa
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8340653Z  * [new branch]        work/v25-c10-dependence-inference        -> origin/work/v25-c10-dependence-inference
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8341408Z  * [new branch]        work/v25-c10-sog-fixed-horizon-inference -> origin/work/v25-c10-sog-fixed-horizon-inference
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8342156Z  * [new branch]        work/v25-nhl-sog-exposure-eb-shadow      -> origin/work/v25-nhl-sog-exposure-eb-shadow
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8342935Z  * [new branch]        work/v25-p3-sog-nb2-source-native-20261114 -> origin/work/v25-p3-sog-nb2-source-native-20261114
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8343680Z  * [new branch]        work/v25-phase15-factor-capture          -> origin/work/v25-phase15-factor-capture
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8344362Z  * [new tag]           research-nfl-targets-20261031-v3         -> research-nfl-targets-20261031-v3
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8345078Z  * [new tag]           research-nhl-saves-20261029-run40993538888 -> research-nhl-saves-20261029-run40993538888
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8345721Z  * [new ref]           61c84271f9684818ddf93547011e5d488764e62a -> pull/188/merge
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8347012Z ##[endgroup]
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8347465Z ##[group]Determining the checkout info
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8348073Z ##[endgroup]
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8348474Z [command]/usr/bin/git sparse-checkout disable
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8349265Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8350434Z ##[group]Checking out the ref
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:57.8350866Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/188/merge
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3084853Z Note: switching to 'refs/remotes/pull/188/merge'.
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3086542Z 
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3086928Z You are in 'detached HEAD' state. You can look around, make experimental
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3087752Z changes and commit them, and you can discard any commits you make in this
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3088751Z state without impacting any branches by switching back to a branch.
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3089237Z 
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3089557Z If you want to create a new branch to retain commits you create, you may
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3090328Z do so (now or later) by using -c with the switch command. Example:
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3090787Z 
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3090981Z   git switch -c <new-branch-name>
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3091408Z 
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3091622Z Or undo this operation with:
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3091927Z 
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3092195Z   git switch -
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3092417Z 
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3092919Z Turn off this advice by setting config variable advice.detachedHead to false
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3093447Z 
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3094043Z HEAD is now at 61c84271 Merge 3863f115713a6cb7001086e0702197605812fcf4 into 33842b96093a453e5bdeb49dacc64986e27d5b37
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3140718Z ##[endgroup]
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3190483Z [command]/usr/bin/git log -1 --format=%H
+offline-tests	Run actions/checkout@v4	2026-11-19T23:31:58.3220238Z 61c84271f9684818ddf93547011e5d488764e62a
+offline-tests	Run actions/setup-python@v5	﻿2026-11-19T23:31:58.3501039Z ##[group]Run actions/setup-python@v5
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.3501408Z with:
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.3501670Z   python-version: 3.12
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.3501959Z   check-latest: false
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.3504639Z   token: ***
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.3504919Z   update-environment: true
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.3505227Z   allow-prereleases: false
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.3505515Z   freethreaded: false
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.3505811Z ##[endgroup]
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.4853091Z ##[group]Installed versions
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.4943259Z (node:2493) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.4944281Z (Use `node --trace-deprecation ...` to show where the warning was created)
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.4945012Z Successfully set up CPython (3.12.16)
+offline-tests	Run actions/setup-python@v5	2026-11-19T23:31:58.4945863Z ##[endgroup]
+offline-tests	Compile skill Python modules	﻿2026-11-19T23:31:58.5247366Z ##[group]Run python -m compileall -q scripts tests v2
+offline-tests	Compile skill Python modules	2026-11-19T23:31:58.5248452Z [36;1mpython -m compileall -q scripts tests v2[0m
+offline-tests	Compile skill Python modules	2026-11-19T23:31:58.5322531Z shell: /usr/bin/bash -e {0}
+offline-tests	Compile skill Python modules	2026-11-19T23:31:58.5323042Z env:
+offline-tests	Compile skill Python modules	2026-11-19T23:31:58.5323524Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Compile skill Python modules	2026-11-19T23:31:58.5324308Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Compile skill Python modules	2026-11-19T23:31:58.5325061Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Compile skill Python modules	2026-11-19T23:31:58.5325723Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Compile skill Python modules	2026-11-19T23:31:58.5326391Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Compile skill Python modules	2026-11-19T23:31:58.5327092Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Compile skill Python modules	2026-11-19T23:31:58.5327667Z ##[endgroup]
+offline-tests	Compile skill Python modules	2026-11-19T23:31:59.0863186Z scripts/recover_full_backend_eval.py:89: SyntaxWarning: invalid escape sequence '\`'
+offline-tests	Compile skill Python modules	2026-11-19T23:31:59.0864072Z   f'Original frozen source warehouse commit: \`{plan["archive_sha"]}\`.',
+offline-tests	Compile skill Python modules	2026-11-19T23:31:59.0865608Z scripts/recover_full_backend_eval.py:89: SyntaxWarning: invalid escape sequence '\`'
+offline-tests	Compile skill Python modules	2026-11-19T23:31:59.0866502Z   f'Original frozen source warehouse commit: \`{plan["archive_sha"]}\`.',
+offline-tests	Compile skill Python modules	2026-11-19T23:31:59.1862636Z scripts/summarize_convergence_backends.py:136: SyntaxWarning: invalid escape sequence '\`'
+offline-tests	Compile skill Python modules	2026-11-19T23:31:59.1863666Z   f'**Frozen source history:** \`{result["frozen_history_source_sha"]}\`','',
+offline-tests	Compile skill Python modules	2026-11-19T23:31:59.1864724Z scripts/summarize_convergence_backends.py:136: SyntaxWarning: invalid escape sequence '\`'
+offline-tests	Compile skill Python modules	2026-11-19T23:31:59.1865623Z   f'**Frozen source history:** \`{result["frozen_history_source_sha"]}\`','',
+offline-tests	Validate persistent shadow-store Bash syntax	﻿2026-11-19T23:31:59.9971011Z ##[group]Run bash -n scripts/shadow_store.sh && bash -n scripts/history_warehouse_store.sh
+offline-tests	Validate persistent shadow-store Bash syntax	2026-11-19T23:31:59.9971682Z [36;1mbash -n scripts/shadow_store.sh && bash -n scripts/history_warehouse_store.sh[0m
+offline-tests	Validate persistent shadow-store Bash syntax	2026-11-19T23:32:00.0010642Z shell: /usr/bin/bash -e {0}
+offline-tests	Validate persistent shadow-store Bash syntax	2026-11-19T23:32:00.0010901Z env:
+offline-tests	Validate persistent shadow-store Bash syntax	2026-11-19T23:32:00.0011178Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Validate persistent shadow-store Bash syntax	2026-11-19T23:32:00.0011626Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Validate persistent shadow-store Bash syntax	2026-11-19T23:32:00.0012062Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Validate persistent shadow-store Bash syntax	2026-11-19T23:32:00.0012456Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Validate persistent shadow-store Bash syntax	2026-11-19T23:32:00.0012832Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Validate persistent shadow-store Bash syntax	2026-11-19T23:32:00.0013213Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Validate persistent shadow-store Bash syntax	2026-11-19T23:32:00.0013547Z ##[endgroup]
+offline-tests	Validate GitHub Actions workflow YAML	﻿2026-11-19T23:32:00.0152638Z ##[group]Run python -m pip install --quiet PyYAML==6.0.2
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0153094Z [36;1mpython -m pip install --quiet PyYAML==6.0.2[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0153436Z [36;1mpython - <<'PY'[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0153708Z [36;1mfrom pathlib import Path[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0153973Z [36;1mimport yaml[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0154297Z [36;1mworkflows=sorted(Path('.github/workflows').glob('*.yml'))[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0154671Z [36;1mfor path in workflows:[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0154963Z [36;1m    data=yaml.safe_load(path.read_text())[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0155372Z [36;1m    if not isinstance(data,dict) or not isinstance(data.get('jobs'),dict):[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0155844Z [36;1m        raise SystemExit(f'INVALID_WORKFLOW_STRUCTURE: {path}')[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0156224Z [36;1m    trigger=data.get('on',data.get(True))[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0156518Z [36;1m    if trigger is None:[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0156841Z [36;1m        raise SystemExit(f'WORKFLOW_TRIGGER_MISSING: {path}')[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0157392Z [36;1m    print('valid yaml:',path)[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0157663Z [36;1mPY[0m
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0193139Z shell: /usr/bin/bash -e {0}
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0193412Z env:
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0193693Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0194150Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0194578Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0194968Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0195347Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0195724Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:00.0196053Z ##[endgroup]
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3036908Z valid yaml: .github/workflows/audit-afternoon.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3037644Z valid yaml: .github/workflows/benchmark-bayes-backends.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3038422Z valid yaml: .github/workflows/ci.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3038939Z valid yaml: .github/workflows/convergence-audit.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3039470Z valid yaml: .github/workflows/convergence-rebenchmark.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3040030Z valid yaml: .github/workflows/full-backend-coverage.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3040579Z valid yaml: .github/workflows/historical-bayes-training.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3041161Z valid yaml: .github/workflows/investigator-source-smoke.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3041766Z valid yaml: .github/workflows/multisport-joint-evaluation.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3042384Z valid yaml: .github/workflows/multisport-population-history.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3043000Z valid yaml: .github/workflows/nfl-targets-model-release.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3043576Z valid yaml: .github/workflows/nhl-bayesian-history.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3044171Z valid yaml: .github/workflows/nhl-cohort-preflight.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3044726Z valid yaml: .github/workflows/nhl-history.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3045278Z valid yaml: .github/workflows/nhl-joint-bayes-fit.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3045867Z valid yaml: .github/workflows/odds-key-health.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3046417Z valid yaml: .github/workflows/pickem-daily.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3047006Z valid yaml: .github/workflows/population-campaign.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3047658Z valid yaml: .github/workflows/population-priority-control.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3048416Z valid yaml: .github/workflows/precision-full-markets.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3049004Z valid yaml: .github/workflows/precision-local-bayes.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3049564Z valid yaml: .github/workflows/precision-nhl-full.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3050142Z valid yaml: .github/workflows/precision-nhl-sampler-benchmark.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3050891Z valid yaml: .github/workflows/precision-nhl-sampler-windows.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3051513Z valid yaml: .github/workflows/pregame-verification.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3052124Z valid yaml: .github/workflows/recover-full-backend-coverage.yml
+offline-tests	Validate GitHub Actions workflow YAML	2026-11-19T23:32:01.3052804Z valid yaml: .github/workflows/verify-historical-sports.yml
+offline-tests	Verify connectivity classification without network	﻿2026-11-19T23:32:01.3134876Z ##[group]Run python -m unittest discover -s tests -p 'test_network_receipt.py' -q
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.3135484Z [36;1mpython -m unittest discover -s tests -p 'test_network_receipt.py' -q[0m
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.3171978Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.3172247Z env:
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.3172535Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.3172987Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.3173436Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.3173839Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.3174229Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.3174617Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.3174955Z ##[endgroup]
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.5736063Z ----------------------------------------------------------------------
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.5736547Z Ran 5 tests in 0.001s
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.5737031Z 
+offline-tests	Verify connectivity classification without network	2026-11-19T23:32:01.5737131Z OK
+offline-tests	Verify morning-preflight recovery	﻿2026-11-19T23:32:01.5925924Z ##[group]Run python -m unittest discover -s tests -p 'test_morning_preflight_recovery.py' -q
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.5926687Z [36;1mpython -m unittest discover -s tests -p 'test_morning_preflight_recovery.py' -q[0m
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.5963032Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.5963291Z env:
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.5963567Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.5964011Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.5964458Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.5964847Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.5965239Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.5965612Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.5965939Z ##[endgroup]
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.7146274Z ----------------------------------------------------------------------
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.7146734Z Ran 5 tests in 0.002s
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.7147001Z 
+offline-tests	Verify morning-preflight recovery	2026-11-19T23:32:01.7147095Z OK
+offline-tests	Verify A/B engine contracts	﻿2026-11-19T23:32:01.7328266Z ##[group]Run python -m unittest discover -s tests -p 'test_engine_contracts.py' -q
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:01.7328903Z [36;1mpython -m unittest discover -s tests -p 'test_engine_contracts.py' -q[0m
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:01.7364919Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:01.7365182Z env:
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:01.7365456Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:01.7365896Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:01.7366321Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:01.7366713Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:01.7367094Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:01.7367472Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:01.7367919Z ##[endgroup]
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:02.2881774Z {"audit_reconciliation": {"inputs": 1, "outputs": 1, "ids_match": true}}
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:02.2930484Z ----------------------------------------------------------------------
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:02.2931235Z Ran 24 tests in 0.481s
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:02.2931463Z 
+offline-tests	Verify A/B engine contracts	2026-11-19T23:32:02.2931601Z OK
+offline-tests	Verify three-sport archival receipts	﻿2026-11-19T23:32:02.3156057Z ##[group]Run python -m unittest discover -s tests -p 'test_verify_sports.py' -q
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3156644Z [36;1mpython -m unittest discover -s tests -p 'test_verify_sports.py' -q[0m
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3192555Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3192821Z env:
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3193093Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3193545Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3193977Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3194366Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3194765Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3195141Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3195479Z ##[endgroup]
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3845701Z ----------------------------------------------------------------------
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3846141Z Ran 2 tests in 0.004s
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3846353Z 
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3846448Z OK
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3848658Z {
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3848952Z   "date": "2026-10-27",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3849323Z   "retrieved_at": "2026-10-27T15:00:00Z",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3849799Z   "verified_at_utc": "2026-11-19T23:32:02.381385+00:00",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3850196Z   "source_slate": "/tmp/tmp2tm37mka/slate.jsonl",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3850500Z   "slot": "morning",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3850714Z   "feed_status": {
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3850923Z     "NHL": {
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3851129Z       "status": "ok",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3851357Z       "source_reported_rows": 1,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3851885Z       "verified_rows": 1,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3852222Z       "archived_path": "data/history_slate/2026-10-27/morning/nhl.jsonl.gz"
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3852591Z     },
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3852778Z     "NBA": {
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3852979Z       "status": "ok",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3853249Z       "source_reported_rows": 1,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3853502Z       "verified_rows": 1,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3853818Z       "archived_path": "data/history_slate/2026-10-27/morning/nba.jsonl.gz"
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3854150Z     },
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3854330Z     "NFL": {
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3854527Z       "status": "failed",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3854752Z       "source_reported_rows": 0,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3854993Z       "verified_rows": 0
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3855204Z     }
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3855392Z   },
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3855579Z   "source_rows": {
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3855785Z     "NHL": 1,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3855981Z     "NBA": 1,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3856164Z     "NFL": 0
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3856354Z   },
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3856541Z   "status": "partial",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3856758Z   "errors": [
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3856959Z     "NFL_FEED_UNVERIFIED"
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3857183Z   ]
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3857363Z }
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3857537Z {
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3857726Z   "date": "2026-10-27",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3858236Z   "retrieved_at": "2026-10-27T15:00:00Z",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3858562Z   "verified_at_utc": "2026-11-19T23:32:02.383164+00:00",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3858909Z   "source_slate": "/tmp/tmp7jkoj9ny/slate.jsonl",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3859218Z   "slot": "morning",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3859448Z   "feed_status": {
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3859654Z     "NHL": {
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3859857Z       "status": "ok",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3860085Z       "source_reported_rows": 1,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3860341Z       "verified_rows": 1,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3860674Z       "archived_path": "data/history_slate/2026-10-27/morning/nhl.jsonl.gz"
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3861037Z     },
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3861231Z     "NBA": {
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3861426Z       "status": "ok",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3861651Z       "source_reported_rows": 1,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3861898Z       "verified_rows": 1,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3862203Z       "archived_path": "data/history_slate/2026-10-27/morning/nba.jsonl.gz"
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3862559Z     },
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3862742Z     "NFL": {
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3863239Z       "status": "no_games_scheduled",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3863529Z       "source_reported_rows": 0,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3863790Z       "verified_rows": 0,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3864168Z       "explanation": "Verified official schedule returned no NFL regular-season game"
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3864578Z     }
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3864763Z   },
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3864950Z   "source_rows": {
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3865177Z     "NHL": 1,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3865548Z     "NBA": 1,
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3866002Z     "NFL": 0
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3866375Z   },
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3866684Z   "status": "success",
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3867082Z   "errors": []
+offline-tests	Verify three-sport archival receipts	2026-11-19T23:32:02.3867389Z }
+offline-tests	Verify lossless and idempotent legacy history migration	﻿2026-11-19T23:32:02.3972267Z ##[group]Run python -m unittest discover -s tests -p 'test_history_bootstrap.py' -q
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.3972883Z [36;1mpython -m unittest discover -s tests -p 'test_history_bootstrap.py' -q[0m
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.4007560Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.4007940Z env:
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.4008226Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.4008681Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.4009118Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.4009507Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.4009897Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.4010276Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.4010615Z ##[endgroup]
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.5515782Z ----------------------------------------------------------------------
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.5516609Z Ran 3 tests in 0.086s
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.5516863Z 
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.5516964Z OK
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.5539406Z {"schema": "pickem-history-full-v1", "archive_sha256": "e437f8643ab4a7f6b868df7964d6e1d45e306ee571554564eac39093a9bf1129", "forecast_rows_original": 1492, "existing_files_preserved": 0, "files_restored": 5, "seeded_from_2026_10_26": true}
+offline-tests	Verify lossless and idempotent legacy history migration	2026-11-19T23:32:02.5540951Z {"schema": "pickem-history-full-v1", "archive_sha256": "e437f8643ab4a7f6b868df7964d6e1d45e306ee571554564eac39093a9bf1129", "forecast_rows_original": 1492, "existing_files_preserved": 5, "files_restored": 0, "seeded_from_2026_10_26": true}
+offline-tests	Verify original pregame estimates are immutable	﻿2026-11-19T23:32:02.5659364Z ##[group]Run python -m unittest discover -s tests -p 'test_verify_history_invariants.py' -q
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.5660073Z [36;1mpython -m unittest discover -s tests -p 'test_verify_history_invariants.py' -q[0m
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.5695442Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.5695723Z env:
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.5696016Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.5696465Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.5696894Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.5697282Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.5697664Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.5698245Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.5698574Z ##[endgroup]
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.6334924Z ----------------------------------------------------------------------
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.6335563Z Ran 1 test in 0.001s
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.6335850Z 
+offline-tests	Verify original pregame estimates are immutable	2026-11-19T23:32:02.6335982Z OK
+offline-tests	Verify pregame source reuse and stale-odds rejection	﻿2026-11-19T23:32:02.6445989Z ##[group]Run python -m unittest discover -s tests -p 'test_afternoon_reuse.py' -q
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.6446609Z [36;1mpython -m unittest discover -s tests -p 'test_afternoon_reuse.py' -q[0m
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.6481509Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.6481772Z env:
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.6482048Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.6482489Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.6482913Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.6483300Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.6483676Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.6484048Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.6484379Z ##[endgroup]
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.7615632Z ----------------------------------------------------------------------
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.7616295Z Ran 8 tests in 0.006s
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.7616520Z 
+offline-tests	Verify pregame source reuse and stale-odds rejection	2026-11-19T23:32:02.7616625Z OK
+offline-tests	Verify structured research never fabricates source confirmations	﻿2026-11-19T23:32:02.7787361Z ##[group]Run python -m unittest discover -s tests -p 'test_auto_research.py' -q
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.7788204Z [36;1mpython -m unittest discover -s tests -p 'test_auto_research.py' -q[0m
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.7823447Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.7823706Z env:
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.7823979Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.7824425Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.7824862Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.7825253Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.7825656Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.7826032Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.7826357Z ##[endgroup]
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9032202Z ----------------------------------------------------------------------
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9032843Z Ran 3 tests in 0.005s
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9033102Z 
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9033219Z OK
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9033501Z {
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9034039Z   "date": "2026-10-27",
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9034353Z   "candidate_ids": 1,
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9034666Z   "source_attempts": 1,
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9034994Z   "verified_pregame_games": 0,
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9035360Z   "resolved_statuses": 0,
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9035681Z   "resolved_venues": 0,
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9035989Z   "resolved_goalies": 0,
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9036327Z   "started_games_excluded": 0,
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9036681Z   "evidence_complete": false,
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9037414Z   "note": "Structured evidence only; missing scouting and adversarial validation retain existing ranking vetoes."
+offline-tests	Verify structured research never fabricates source confirmations	2026-11-19T23:32:02.9038410Z }
+offline-tests	Verify PropLine daily request quota guard	﻿2026-11-19T23:32:02.9229129Z ##[group]Run python -m unittest discover -s tests -p 'test_odds_quota_guard.py' -q
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:02.9229731Z [36;1mpython -m unittest discover -s tests -p 'test_odds_quota_guard.py' -q[0m
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:02.9265304Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:02.9265565Z env:
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:02.9265837Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:02.9266293Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:02.9266716Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:02.9267105Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:02.9267481Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:02.9268075Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:02.9268412Z ##[endgroup]
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:03.0329216Z ----------------------------------------------------------------------
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:03.0329848Z Ran 3 tests in 0.002s
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:03.0330146Z 
+offline-tests	Verify PropLine daily request quota guard	2026-11-19T23:32:03.0330274Z OK
+offline-tests	Verify morning history never calls PropLine	﻿2026-11-19T23:32:03.0554136Z ##[group]Run python -m unittest discover -s tests -p 'test_morning_no_odds.py' -q
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.0554733Z [36;1mpython -m unittest discover -s tests -p 'test_morning_no_odds.py' -q[0m
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.0594029Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.0594334Z env:
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.0594631Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.0595089Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.0595540Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.0595943Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.0596336Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.0596734Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.0597107Z ##[endgroup]
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.1725172Z ----------------------------------------------------------------------
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.1725807Z Ran 2 tests in 0.002s
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.1726073Z 
+offline-tests	Verify morning history never calls PropLine	2026-11-19T23:32:03.1726183Z OK
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	﻿2026-11-19T23:32:03.1918513Z ##[group]Run python -m unittest discover -s tests -p test_bayesian_engine.py -q
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.1919110Z [36;1mpython -m unittest discover -s tests -p test_bayesian_engine.py -q[0m
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.1954926Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.1955192Z env:
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.1955467Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.1955913Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.1956342Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.1956728Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.1957112Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.1957485Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.1957984Z ##[endgroup]
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.3224536Z ----------------------------------------------------------------------
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.3225155Z Ran 11 tests in 0.053s
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.3225362Z 
+offline-tests	Verify Bayesian Engine A shadow posterior and provenance safeguards	2026-11-19T23:32:03.3225454Z OK
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	﻿2026-11-19T23:32:03.3419476Z ##[group]Run python -m unittest discover -s tests -p test_bayesian_usage.py -q
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.3420253Z [36;1mpython -m unittest discover -s tests -p test_bayesian_usage.py -q[0m
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.3455435Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.3455693Z env:
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.3455970Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.3456430Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.3456860Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.3457251Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.3457636Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.3458225Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.3458554Z ##[endgroup]
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.5116022Z ----------------------------------------------------------------------
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.5116627Z Ran 15 tests in 0.066s
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.5116895Z 
+offline-tests	Verify Bayesian Engine B posterior and historical provenance	2026-11-19T23:32:03.5286770Z OK
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	﻿2026-11-19T23:32:03.5318181Z ##[group]Run python -m unittest discover -s tests -p test_posterior_mc.py -q
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.5318759Z [36;1mpython -m unittest discover -s tests -p test_posterior_mc.py -q[0m
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.5354297Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.5354561Z env:
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.5354846Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.5355298Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.5355733Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.5356127Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.5356509Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.5356895Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.5357224Z ##[endgroup]
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.7090824Z ----------------------------------------------------------------------
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.7091456Z Ran 11 tests in 0.074s
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.7091733Z 
+offline-tests	Verify posterior Monte Carlo reproducibility and snapshot integrity	2026-11-19T23:32:03.7091840Z OK
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	﻿2026-11-19T23:32:03.7279598Z ##[group]Run python -m unittest discover -s tests -p test_phase4_validation.py -q
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.7280204Z [36;1mpython -m unittest discover -s tests -p test_phase4_validation.py -q[0m
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.7315836Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.7316097Z env:
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.7316366Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.7316920Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.7317353Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.7317754Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.7318323Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.7318729Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.7319062Z ##[endgroup]
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.9386481Z ----------------------------------------------------------------------
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.9387148Z Ran 10 tests in 0.108s
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.9387427Z 
+offline-tests	Verify Phase 4 walk-forward holdouts and no-leakage validation	2026-11-19T23:32:03.9387544Z OK
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	﻿2026-11-19T23:32:03.9607450Z ##[group]Run python -m unittest discover -s tests -p test_joint_nhl_history.py -q
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:03.9608213Z [36;1mpython -m unittest discover -s tests -p test_joint_nhl_history.py -q[0m
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:03.9643884Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:03.9644149Z env:
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:03.9644426Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:03.9644874Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:03.9645304Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:03.9645687Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:03.9646065Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:03.9646440Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:03.9646986Z ##[endgroup]
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:04.0643892Z ----------------------------------------------------------------------
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:04.0645222Z Ran 6 tests in 0.017s
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:04.0645560Z 
+offline-tests	Verify NHL warehouse provenance and resumable backfill without external calls	2026-11-19T23:32:04.0645706Z OK
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	﻿2026-11-19T23:32:04.0788837Z ##[group]Run python -m unittest discover -s tests -p test_population_multisport.py -q
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.0789483Z [36;1mpython -m unittest discover -s tests -p test_population_multisport.py -q[0m
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.0824679Z shell: /usr/bin/bash -e {0}
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.0824946Z env:
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.0825219Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.0825663Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.0826090Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.0826473Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.0826852Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.0827269Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.0827603Z ##[endgroup]
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.2289340Z ----------------------------------------------------------------------
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.2289818Z Ran 9 tests in 0.038s
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.2290023Z 
+offline-tests	Validate NHL, NBA and NFL historic population provenance and recovery	2026-11-19T23:32:04.2290123Z OK
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	﻿2026-11-19T23:32:04.2481739Z ##[group]Run python -m unittest discover -s tests -p test_population_repair_nba_threes.py -q
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.2482407Z [36;1mpython -m unittest discover -s tests -p test_population_repair_nba_threes.py -q[0m
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.2517747Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.2518266Z env:
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.2518537Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.2518987Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.2519413Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.2519798Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.2520210Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.2520588Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.2520933Z ##[endgroup]
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.3875147Z ----------------------------------------------------------------------
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.3875739Z Ran 2 tests in 0.023s
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.3876000Z 
+offline-tests	Verify source-owned NBA three-point replay and unchanged other markets	2026-11-19T23:32:04.3876117Z OK
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	﻿2026-11-19T23:32:04.4066171Z ##[group]Run python -m unittest discover -s tests -p test_recent_population_window.py -q
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.4066797Z [36;1mpython -m unittest discover -s tests -p test_recent_population_window.py -q[0m
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.4102453Z shell: /usr/bin/bash -e {0}
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.4102708Z env:
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.4102981Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.4103418Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.4103849Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.4104266Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.4104644Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.4105016Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.4105340Z ##[endgroup]
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.6357011Z ----------------------------------------------------------------------
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.6357613Z Ran 4 tests in 0.114s
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.6358055Z 
+offline-tests	Verify recent NHL/NBA streams, multi-year NFL and no-leak multi-season windows	2026-11-19T23:32:04.6358180Z OK
+offline-tests	Install lightweight NFL inference test dependencies	﻿2026-11-19T23:32:04.6576488Z ##[group]Run python -m pip install -r requirements-nfl-inference.txt
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:04.6577360Z [36;1mpython -m pip install -r requirements-nfl-inference.txt[0m
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:04.6613920Z shell: /usr/bin/bash -e {0}
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:04.6614518Z env:
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:04.6629435Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:04.6630108Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:04.6631116Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:04.6631712Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:04.6632308Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:04.6632920Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:04.6633420Z ##[endgroup]
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:05.2938865Z Collecting numpy<3,>=1.25 (from -r requirements-nfl-inference.txt (line 2))
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:05.3638819Z   Downloading numpy-2.5.5-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:05.4908100Z Collecting scipy<2,>=1.14 (from -r requirements-nfl-inference.txt (line 3))
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:05.5118415Z   Downloading scipy-1.18.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:05.5716532Z Collecting tzdata>=2024.1 (from -r requirements-nfl-inference.txt (line 4))
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:05.5906345Z   Downloading tzdata-2026.6-py2.py3-none-any.whl.metadata (1.4 kB)
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:05.6158592Z Downloading numpy-2.5.5-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (15.7 MB)
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:05.7560014Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.7/15.7 MB 135.8 MB/s  0:00:00
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:05.7758014Z Downloading scipy-1.18.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:05.8874722Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 MB 323.0 MB/s  0:00:00
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:05.9067567Z Downloading tzdata-2026.6-py2.py3-none-any.whl (348 kB)
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:06.0293793Z Installing collected packages: tzdata, numpy, scipy
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:12.6840972Z 
+offline-tests	Install lightweight NFL inference test dependencies	2026-11-19T23:32:12.6852277Z Successfully installed numpy-2.5.5 scipy-1.18.1 tzdata-2026.6
+offline-tests	Install explicit NBA contract and replay test dependencies	﻿2026-11-19T23:32:12.7501666Z ##[group]Run python -m pip install -r requirements-nba-research-tests.txt
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7502587Z [36;1mpython -m pip install -r requirements-nba-research-tests.txt[0m
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7503240Z [36;1msudo apt-get update[0m
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7503806Z [36;1msudo apt-get install -y --no-install-recommends poppler-utils[0m
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7504414Z [36;1mpdftotext -v[0m
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7544630Z shell: /usr/bin/bash -e {0}
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7544930Z env:
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7545228Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7545700Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7546149Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7546539Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7546927Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7547316Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:12.7547694Z ##[endgroup]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.2660990Z Collecting numpy==2.3.5 (from -r requirements-nba-research-tests.txt (line 3))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.3391175Z   Downloading numpy-2.3.5-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.4685206Z Collecting scipy==1.17.0 (from -r requirements-nba-research-tests.txt (line 4))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.4882012Z   Downloading scipy-1.17.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.5915871Z Collecting jsonschema==4.26.0 (from -r requirements-nba-research-tests.txt (line 5))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.6110323Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.6562570Z Collecting pytest==9.2.0 (from -r requirements-nba-research-tests.txt (line 6))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.6758384Z   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.7079143Z Collecting attrs>=22.2.0 (from jsonschema==4.26.0->-r requirements-nba-research-tests.txt (line 5))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.7273095Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.7553250Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema==4.26.0->-r requirements-nba-research-tests.txt (line 5))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.7757457Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.8117310Z Collecting referencing>=0.28.4 (from jsonschema==4.26.0->-r requirements-nba-research-tests.txt (line 5))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:13.8385219Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.1201104Z Collecting rpds-py>=0.25.0 (from jsonschema==4.26.0->-r requirements-nba-research-tests.txt (line 5))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.1403120Z   Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.1673180Z Collecting iniconfig>=2 (from pytest==9.2.0->-r requirements-nba-research-tests.txt (line 6))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.1876171Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.2176505Z Collecting packaging>=24 (from pytest==9.2.0->-r requirements-nba-research-tests.txt (line 6))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.2385237Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.2665971Z Collecting pluggy<2,>=1.6 (from pytest==9.2.0->-r requirements-nba-research-tests.txt (line 6))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.2887361Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.3214728Z Collecting pygments>=2.15 (from pytest==9.2.0->-r requirements-nba-research-tests.txt (line 6))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.3413951Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.3752283Z Collecting typing-extensions>=4.4.0 (from referencing>=0.28.4->jsonschema==4.26.0->-r requirements-nba-research-tests.txt (line 5))
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.3962471Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.4979256Z Downloading numpy-2.3.5-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.6 MB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.6651471Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.6/16.6 MB 114.4 MB/s  0:00:00
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.6929397Z Downloading scipy-1.17.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.0 MB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.9768912Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.0/35.0 MB 123.5 MB/s  0:00:00
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:14.9965457Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:15.0187190Z Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:15.0418814Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:15.0646244Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:15.0863471Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:15.1083657Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:15.1299898Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:15.1513784Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:15.1607641Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 143.0 MB/s  0:00:00
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:15.1802530Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:15.2013455Z Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (371 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:15.2249575Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:15.3905136Z Installing collected packages: typing-extensions, rpds-py, pygments, pluggy, packaging, numpy, iniconfig, attrs, scipy, referencing, pytest, jsonschema-specifications, jsonschema
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:16.2961055Z   Attempting uninstall: numpy
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:16.2982238Z     Found existing installation: numpy 2.5.5
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:16.3385219Z     Uninstalling numpy-2.5.5:
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:16.3468570Z       Successfully uninstalled numpy-2.5.5
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:18.4702863Z   Attempting uninstall: scipy
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:18.4745730Z     Found existing installation: scipy 1.18.1
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:18.5511578Z     Uninstalling scipy-1.18.1:
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:18.5639256Z       Successfully uninstalled scipy-1.18.1
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.3723735Z 
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.3742377Z Successfully installed attrs-26.1.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 numpy-2.3.5 packaging-26.3 pluggy-1.7.0 pygments-2.21.0 pytest-9.2.0 referencing-0.37.0 rpds-py-2026.9.1 scipy-1.17.0 typing-extensions-4.16.0
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.5193623Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.5515838Z Hit:2 http://azure.archive.ubuntu.com/ubuntu resolute InRelease
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.5548805Z Get:6 https://packages.microsoft.com/ubuntu/26.04/prod resolute InRelease [3964 B]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.5553686Z Get:3 http://azure.archive.ubuntu.com/ubuntu resolute-updates InRelease [137 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.5607139Z Get:4 http://azure.archive.ubuntu.com/ubuntu resolute-backports InRelease [137 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.5629331Z Get:5 http://azure.archive.ubuntu.com/ubuntu resolute-security InRelease [137 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.5885929Z Get:7 https://packages.microsoft.com/ubuntu/26.04/prod resolute/main amd64 Packages [165 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.6139089Z Get:8 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main amd64v3 Packages [901 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.6189463Z Get:14 https://packages.microsoft.com/ubuntu/26.04/prod resolute/main arm64 Packages [151 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.6246968Z Get:9 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main Translation-en [200 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.6248648Z Get:10 http://azure.archive.ubuntu.com/ubuntu resolute-updates/universe amd64v3 Packages [394 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.6310683Z Get:11 http://azure.archive.ubuntu.com/ubuntu resolute-updates/universe Translation-en [124 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.6339009Z Get:12 http://azure.archive.ubuntu.com/ubuntu resolute-updates/restricted amd64v3 Packages [629 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.6375298Z Get:13 http://azure.archive.ubuntu.com/ubuntu resolute-updates/restricted Translation-en [130 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.6489438Z Get:15 http://azure.archive.ubuntu.com/ubuntu resolute-security/main amd64v3 Packages [722 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.6526620Z Get:16 http://azure.archive.ubuntu.com/ubuntu resolute-security/main Translation-en [158 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.6556247Z Get:17 http://azure.archive.ubuntu.com/ubuntu resolute-security/universe amd64v3 Packages [222 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:23.6563124Z Get:18 http://azure.archive.ubuntu.com/ubuntu resolute-security/universe Translation-en [72.7 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:25.7148651Z Fetched 4283 kB in 0s (11.2 MB/s)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.4033949Z Reading package lists...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.4381538Z Reading package lists...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.5968698Z Building dependency tree...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.5975828Z Reading state information...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.6898761Z Solving dependencies...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.7811946Z The following additional packages will be installed:
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.7818796Z   libgpgmepp7 libpoppler156
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.7824382Z Recommended packages:
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.7824736Z   poppler-data
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.8027597Z The following NEW packages will be installed:
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.8031934Z   libgpgmepp7 libpoppler156 poppler-utils
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.8251333Z 0 upgraded, 3 newly installed, 0 to remove and 19 not upgraded.
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.8251977Z Need to get 1607 kB of archives.
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.8252542Z After this operation, 5354 kB of additional disk space will be used.
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.8253215Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.9046346Z Get:2 http://azure.archive.ubuntu.com/ubuntu resolute/main amd64v3 libgpgmepp7 amd64 2.0.0-2 [132 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:26.9661208Z Get:3 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main amd64v3 libpoppler156 amd64 26.01.0-2ubuntu0.3 [1243 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.6138413Z Get:4 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main amd64v3 poppler-utils amd64 26.01.0-2ubuntu0.3 [231 kB]
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9318970Z Fetched 1607 kB in 1s (1962 kB/s)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9550294Z Selecting previously unselected package libgpgmepp7:amd64.
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9764351Z (Reading database ... 
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9764723Z (Reading database ... 5%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9765008Z (Reading database ... 10%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9766291Z (Reading database ... 15%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9766555Z (Reading database ... 20%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9766792Z (Reading database ... 25%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9767020Z (Reading database ... 30%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9767255Z (Reading database ... 35%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9768602Z (Reading database ... 40%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9768860Z (Reading database ... 45%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9769214Z (Reading database ... 50%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:27.9929675Z (Reading database ... 55%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.0112139Z (Reading database ... 60%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.0263284Z (Reading database ... 65%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.0414554Z (Reading database ... 70%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.0697753Z (Reading database ... 75%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.1750868Z (Reading database ... 80%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.2720385Z (Reading database ... 85%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.4295755Z (Reading database ... 90%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.5811811Z (Reading database ... 95%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.5812196Z (Reading database ... 100%
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.5812566Z (Reading database ... 214296 files and directories currently installed.)
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.5860250Z Preparing to unpack .../libgpgmepp7_2.0.0-2_amd64v3.deb ...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.5888556Z Unpacking libgpgmepp7:amd64 (2.0.0-2) ...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.6155978Z Selecting previously unselected package libpoppler156:amd64.
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.6299139Z Preparing to unpack .../libpoppler156_26.01.0-2ubuntu0.3_amd64v3.deb ...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.6306915Z Unpacking libpoppler156:amd64 (26.01.0-2ubuntu0.3) ...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.6711418Z Selecting previously unselected package poppler-utils.
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.6857561Z Preparing to unpack .../poppler-utils_26.01.0-2ubuntu0.3_amd64v3.deb ...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.6866071Z Unpacking poppler-utils (26.01.0-2ubuntu0.3) ...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.7374168Z Setting up libgpgmepp7:amd64 (2.0.0-2) ...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.7396806Z Setting up libpoppler156:amd64 (26.01.0-2ubuntu0.3) ...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.7414173Z Setting up poppler-utils (26.01.0-2ubuntu0.3) ...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.7432084Z Processing triggers for man-db (2.13.1-1build1) ...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.7456022Z Not building database; man-db/auto-update is not 'true'.
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:28.7466755Z Processing triggers for libc-bin (2.43-2ubuntu2.7) ...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5542914Z 
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5543599Z Running kernel seems to be up-to-date.
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5543989Z 
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5544145Z Restarting services...
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5646554Z 
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5646990Z Service restarts being deferred:
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5648956Z  systemctl restart hosted-compute-agent.service
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5649371Z 
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5650174Z No containers need to be restarted.
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5650506Z 
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5650804Z No user sessions are running outdated binaries.
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5651221Z 
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:29.5651594Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:30.4814623Z pdftotext version 26.01.0
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:30.4815185Z Copyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org
+offline-tests	Install explicit NBA contract and replay test dependencies	2026-11-19T23:32:30.4815656Z Copyright 1996-2011, 2022 Glyph & Cog, LLC
+offline-tests	Execute full offline unit-test suite	﻿2026-11-19T23:32:30.4868427Z ##[group]Run python -m unittest discover -s tests -q
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:32:30.4869099Z [36;1mpython -m unittest discover -s tests -q[0m
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:32:30.4906588Z shell: /usr/bin/bash -e {0}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:32:30.4906864Z env:
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:32:30.4907143Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:32:30.4907586Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:32:30.4908165Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:32:30.4908549Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:32:30.4908925Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:32:30.4909303Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:32:30.4909848Z ##[endgroup]
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:15.2269189Z DIRECTIONAL_PHASE1_BLOCKED:would_overwrite_different_audit_receipt
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:15.2279923Z DIRECTIONAL_PHASE1_BLOCKED:baseline_comparison_sha256_mismatch
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:15.7809050Z {"audit_reconciliation": {"inputs": 1, "outputs": 1, "ids_match": true}}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:15.8254787Z prep coverage: {"priced_sides": 2, "quote_rows": 5, "slate_rows": 2, "unpriced_or_ungradeable_rows": 1}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2278739Z rectangular exact integer reference assignments: 37500
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2279458Z triangular exact integer reference assignments: 30662
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2280266Z {"attempt": "/tmp/tmpo4s_f98s/pregame-20261119T000000000000Z-78c72f78", "status": "CAPTURED_UNADMITTED_WITH_GAPS", "returned_roster_rows": 0, "errors": ["MISSED_ORIGINAL_FREEZE"]}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2280983Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2281185Z   "date": "2026-10-27",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2281428Z   "candidate_ids": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2281687Z   "source_attempts": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2281923Z   "verified_pregame_games": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2282174Z   "resolved_statuses": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2282402Z   "resolved_venues": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2282627Z   "resolved_goalies": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2282907Z   "started_games_excluded": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2283151Z   "evidence_complete": false,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2283643Z   "note": "Structured evidence only; missing scouting and adversarial validation retain existing ranking vetoes."
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2284130Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2284310Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2284494Z   "date": "2026-10-26",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2284752Z   "started_at": "2026-11-19T23:34:15.178098+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2285054Z   "status": "blocked",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2285289Z   "research_complete": false,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2285525Z   "stages": [
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2285719Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2285914Z       "name": "collect",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2286148Z       "returncode": 2
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2286358Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2286541Z   ],
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2286724Z   "sources": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2286933Z     "NFL": "nflreadpy",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2287177Z     "NHL": "nhl-api-py and NHL REST",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2287450Z     "NBA": "ESPN"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2287651Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2288049Z   "failed_stage": "collect",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2288347Z   "finished_at": "2026-11-19T23:34:15.178478+00:00"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2288636Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2288815Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2288993Z   "date": "2026-10-26",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2289229Z   "started_at": "2026-11-19T23:34:15.180102+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2289517Z   "status": "research_required",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2289776Z   "research_complete": false,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2290013Z   "stages": [
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2290206Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2290396Z       "name": "collect",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2290615Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2290822Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2291018Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2291205Z       "name": "prep",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2291418Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2291615Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2291794Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2291971Z       "name": "scan",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2292171Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2292696Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2292883Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2293077Z       "name": "research_queue",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2293320Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2293521Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2293693Z   ],
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2293873Z   "sources": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2294082Z     "NFL": "nflreadpy",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2294316Z     "NHL": "nhl-api-py and NHL REST",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2294572Z     "NBA": "ESPN"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2294773Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2294958Z   "coverage": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2295179Z     "has_priced_history_rows": true
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2295591Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2295771Z   "scan_counts": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2295981Z     "shortlisted": 1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2296370Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2296551Z   "context": {},
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2296880Z   "finished_at": "2026-11-19T23:34:15.181479+00:00"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2297163Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2297332Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2297510Z   "date": "2026-10-26",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2297755Z   "started_at": "2026-11-19T23:34:15.182216+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2298274Z   "status": "research_required",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2298544Z   "research_complete": false,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2298778Z   "stages": [
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2298994Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2299185Z       "name": "collect",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2299406Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2299611Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2299794Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2299983Z       "name": "prep",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2300190Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2300388Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2300566Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2300745Z       "name": "scan",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2300950Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2301154Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2301325Z     {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2301513Z       "name": "research_queue",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2301749Z       "returncode": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2301945Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2302123Z   ],
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2302299Z   "sources": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2302498Z     "NFL": "nflreadpy",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2302733Z     "NHL": "nhl-api-py and NHL REST",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2302993Z     "NBA": "ESPN"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2303188Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2303363Z   "coverage": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2303584Z     "has_priced_history_rows": true
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2303834Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2317462Z   "scan_counts": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2317757Z     "shortlisted": 1
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2318099Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2318289Z   "context": {},
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2318539Z   "finished_at": "2026-11-19T23:34:15.183589+00:00"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2318982Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2319485Z {"contracts": 1, "receipt": "/tmp/tmpt2mq17dw/receipt.json", "status": "read_only_audited"}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2320229Z {"contracts": 1, "receipt": "/tmp/tmpt2mq17dw/receipt.json", "status": "read_only_audited"}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2321375Z {"schema": "pickem-history-full-v1", "archive_sha256": "7391301145b605c019535a5215bb76e22d6b585656dcb7faa459b7823f32d56d", "forecast_rows_original": 1492, "existing_files_preserved": 0, "files_restored": 5, "seeded_from_2026_10_26": true}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2322912Z {"schema": "pickem-history-full-v1", "archive_sha256": "7391301145b605c019535a5215bb76e22d6b585656dcb7faa459b7823f32d56d", "forecast_rows_original": 1492, "existing_files_preserved": 5, "files_restored": 0, "seeded_from_2026_10_26": true}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2324036Z {"status": "completed_marker_preserved_after_explicit_rerun", "date": "2026-10-28", "run_id": "40799999999"}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2325817Z NHL_SAVES_SHADOW {"date": "2026-10-30", "forecast_count": 1, "model_convergence_passed": true, "new_rows": 1, "previously_recorded": 0, "production_snapshot_unchanged": true, "publication_eligible": false, "ranking_allowed": false, "reasons": {}, "release_tag": "research-nhl-saves-20261029-run40993538888", "schema": "nhl_saves_joint_posterior_daily_shadow_v1", "snapshot_candidates": 1, "source_digest": "sha-verified-source", "total_rows": 1, "unavailable_count": 0}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2454492Z prep coverage: {"priced_sides": 0, "quote_rows": 0, "slate_rows": 1, "unpriced_or_ungradeable_rows": 1}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:29.2455104Z prep: BLOCKED (NO_ODDS_QUOTES); not an empty successful slate
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:32.4812285Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2814: DeprecationWarning: FanDuel has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:32.4813223Z   books = _books_from_payload(books_raw) if books_raw else []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:32.4814070Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2814: DeprecationWarning: DraftKings has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:32.4815194Z   books = _books_from_payload(books_raw) if books_raw else []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:33.5078424Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2267: DeprecationWarning: Pinnacle:3.5:-130:+110 has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:33.5079395Z   books.append(_parse_book_spec(item))
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:33.8614892Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2814: DeprecationWarning: Pinnacle has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:33.8615839Z   books = _books_from_payload(books_raw) if books_raw else []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:33.8616677Z /home/runner/work/pickem-auditor/pickem-auditor/scripts/pickem_math.py:2814: DeprecationWarning: FanDuel has no book_side; 4-part book specs are deprecated and set SIDE_UNVERIFIED
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:33.8617475Z   books = _books_from_payload(books_raw) if books_raw else []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:35.3643374Z {"output": "/tmp/tmpm0jiqwqb/receipt.json", "schema": "pickem-phase15-diagnostics-v1", "promotion_allowed": false, "paired_contracts": 1, "oracle_rows": 0}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:35.3644276Z FROZEN_HISTORY_CACHE_UNAVAILABLE history_cache_integrity_mismatch
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:35.3645024Z FROZEN_HISTORY_CACHE_UNAVAILABLE cache_miss
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:35.3691154Z PERSISTENT_FROZEN_STATE_SAVED {"code_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "index": "0", "phase": "final", "run_id": "41571885953", "source_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "state": "/tmp/tmpl1l00ngs/cache/campaigns/week-20261102/market-00/run-41571885953/state.json"}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:35.3756850Z FROZEN_HISTORY_CACHE_RESTORED source_sha=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:35.3896424Z NHL_BENCHMARK_RESULT {"backend": "pymc", "backend_approved": false, "error": "RuntimeError: benchmark-source-unavailable", "minimum_bulk_ess_per_second": null, "pilot_diagnostics_pass": false, "players": null, "stat": "hits", "status": "failed", "total_seconds": null, "training_rows": null}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8966242Z ----------------------------------------------------------------------
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8966900Z Ran 2284 tests in 145.236s
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8967161Z 
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8967278Z OK (skipped=9)
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8967759Z V25_SOG_CPU_SMOKE 1000_contract_lines_seconds=0.113 peak_python_bytes=1572
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8970693Z V25_SOG_NO_SOURCE_DRY_RUN {"attempted_at": "2026-11-19T23:34:56.872098Z", "contract_id": null, "event_id": null, "experiment_id": "EXP-V25-NHL-SOG-EXPOSURE-EB-001", "outcome_used": false, "production_selection_allowed": false, "reason": "ExperimentBlocked:RAW_REAL_OFFER_RECEIPT_MISSING", "schema": "v25_sog_prospective_attempt_v1", "source_semantics": "collector_possession_not_upstream_publication", "status": "ABSTAIN", "tier_publication_allowed": false}
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8973123Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8973375Z   "date": "2026-10-27",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8973696Z   "retrieved_at": "2026-10-27T15:00:00Z",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8974156Z   "verified_at_utc": "2026-11-19T23:34:56.893504+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8974623Z   "source_slate": "/tmp/tmpf87k7okn/slate.jsonl",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8975020Z   "slot": "morning",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8975301Z   "feed_status": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8975565Z     "NHL": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8976241Z       "status": "ok",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8976544Z       "source_reported_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8976885Z       "verified_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8977366Z       "archived_path": "data/history_slate/2026-10-27/morning/nhl.jsonl.gz"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8978033Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8978278Z     "NBA": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8978542Z       "status": "ok",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8978840Z       "source_reported_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8979188Z       "verified_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8979632Z       "archived_path": "data/history_slate/2026-10-27/morning/nba.jsonl.gz"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8980128Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8980366Z     "NFL": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8980827Z       "status": "failed",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8981131Z       "source_reported_rows": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8981469Z       "verified_rows": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8981754Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8981979Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8982210Z   "source_rows": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8982482Z     "NHL": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8982742Z     "NBA": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8982987Z     "NFL": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8983225Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8983475Z   "status": "partial",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8983758Z   "errors": [
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8984014Z     "NFL_FEED_UNVERIFIED"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8984296Z   ]
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8984519Z }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8984738Z {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8984970Z   "date": "2026-10-27",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8985290Z   "retrieved_at": "2026-10-27T15:00:00Z",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8985704Z   "verified_at_utc": "2026-11-19T23:34:56.895068+00:00",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8986189Z   "source_slate": "/tmp/tmpac7jsk7i/slate.jsonl",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8986602Z   "slot": "morning",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8986892Z   "feed_status": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8987155Z     "NHL": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8987409Z       "status": "ok",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8987717Z       "source_reported_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8988269Z       "verified_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8988700Z       "archived_path": "data/history_slate/2026-10-27/morning/nhl.jsonl.gz"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8989191Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8989419Z     "NBA": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8989665Z       "status": "ok",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8989959Z       "source_reported_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8990286Z       "verified_rows": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8990727Z       "archived_path": "data/history_slate/2026-10-27/morning/nba.jsonl.gz"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8991196Z     },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8991427Z     "NFL": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8991682Z       "status": "no_games_scheduled",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8992052Z       "source_reported_rows": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8992390Z       "verified_rows": 0,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8992912Z       "explanation": "Verified official schedule returned no NFL regular-season game"
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8993518Z     }
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8993741Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8993974Z   "source_rows": {
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8994229Z     "NHL": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8994484Z     "NBA": 1,
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8994729Z     "NFL": 0
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8994975Z   },
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8995209Z   "status": "success",
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8995488Z   "errors": []
+offline-tests	Execute full offline unit-test suite	2026-11-19T23:34:56.8995759Z }
+offline-tests	Post Run actions/setup-python@v5	﻿2026-11-19T23:34:57.0396623Z Post job cleanup.
+offline-tests	Post Run actions/setup-python@v5	2026-11-19T23:34:57.1666312Z (node:3536) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+offline-tests	Post Run actions/setup-python@v5	2026-11-19T23:34:57.1667145Z (Use `node --trace-deprecation ...` to show where the warning was created)
+offline-tests	Post Run actions/checkout@v4	﻿2026-11-19T23:34:57.1842906Z Post job cleanup.
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.2813696Z [command]/usr/bin/git version
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.2865702Z git version 2.56.1
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.2908462Z Temporarily overriding HOME='/home/runner/work/_temp/16871724-d4b9-4cb2-a89a-bfaec945de89' before making global git config changes
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.2910192Z Adding repository directory to the temporary git global config as a safe directory
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.2914053Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pickem-auditor/pickem-auditor
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.2957308Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.2995789Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.3328972Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.3357333Z http.https://github.com/.extraheader
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.3380290Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.3417530Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.3771242Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+offline-tests	Post Run actions/checkout@v4	2026-11-19T23:34:57.3808802Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+offline-tests	Complete job	﻿2026-11-19T23:34:57.4278064Z Cleaning up orphan processes
+offline-tests	Complete job	2026-11-19T23:34:57.4638636Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
