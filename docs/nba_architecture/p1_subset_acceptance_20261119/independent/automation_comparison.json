@@ -1,0 +1,18 @@
+[
+  {
+    "task": "evening",
+    "original_prompt_retained": true,
+    "schedule_unchanged": true,
+    "timezone_unchanged": true,
+    "exact_confirmation_codehash_in_launch_prompt": true,
+    "role": "launch exactly one capture"
+  },
+  {
+    "task": "morning",
+    "original_prompt_retained": true,
+    "schedule_unchanged": true,
+    "timezone_unchanged": true,
+    "exact_confirmation_codehash_in_launch_prompt": false,
+    "role": "read nextmorning only; no capture launch/no backfill"
+  }
+]

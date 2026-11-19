@@ -1,0 +1,9 @@
+test_both_actual_sources_produce_and_consume_wire (__main__.IndependentHandoff.test_both_actual_sources_produce_and_consume_wire) ... ok
+test_duplicate_json_keys_nonfinite_and_no_source_approval (__main__.IndependentHandoff.test_duplicate_json_keys_nonfinite_and_no_source_approval) ... ok
+test_original_wire_rejects_changed_body_or_receipt_bytes (__main__.IndependentHandoff.test_original_wire_rejects_changed_body_or_receipt_bytes) ... ok
+test_resealed_payload_mutations_rejected (__main__.IndependentHandoff.test_resealed_payload_mutations_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.464s
+
+OK

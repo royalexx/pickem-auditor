@@ -1,0 +1,6 @@
+test_late_actual_freeze_is_recorded_without_network_or_backfill (test_p1_subset_capture_v1.CaptureTests.test_late_actual_freeze_is_recorded_without_network_or_backfill) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+OK
