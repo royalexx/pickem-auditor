@@ -1,0 +1,16 @@
+{
+  "schema": "nba-p1-subset-operational-cohort/1.0.0",
+  "game_id": "401910019",
+  "name": "Golden State Warriors at Memphis Grizzlies",
+  "start": "2026-11-20T01:00Z",
+  "teams": {
+    "29": "MEM",
+    "9": "GS"
+  },
+  "freeze_at": "2026-11-19T23:15:00Z",
+  "source_schedule_sha256": "9c6a8a2b3d72e12d26e8d8191c11a1c9abb97e52c8993f94adc66d13fc1f5ccf",
+  "capture_trigger": "Existing18:05TorontoNBAjob, shortdetachedrun withoutidlewait",
+  "profile": "source_listed_subset",
+  "confirmation_scope": "Prospective source->requests->serializedconsumer only; 105minute freeze horizon, no modelinference/scoring/accuracy",
+  "independent_of_past_engineering_acceptance": true
+}
