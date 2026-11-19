@@ -1,5 +1,10 @@
 # Pick'em Auditor — GitHub is the authoritative project
 
+## Active NBA research scope — user amendment November 19, 2026
+
+Default NBA research profile is **source_listed_subset**, configured in `config/nba_research_profile.json`. Use `scripts/nba_research.py` for the default per-player source request/abstention ledger. Complete legal roster proof is no longer a prerequisite for supported per-player research under this profile. Unknown eligibility and participation remain explicit; conditional forecasts require valid source/model/cutoff support. Unsupported rows abstain while supported others continue, and every captured candidate stays in coverage. Original full-population B-P1-01/B-P1-02 decisions are historical and superseded for this profile; do not present them as the active launch blocker or relabel them PASS. No model, fitting, production or Tier authorization follows. See [accepted user amendment](docs/nba_architecture/narrow_default_20261119/ADR.md).
+
+
 Code, original research, immutable history, collection jobs, diagnostics, and design decisions live in this repository. Before interpreting any dated status or launching work, verify the current repository, schedules, source receipts, and training state.
 
 ## Start here — V2.5 governing documents (approved November 10, 2026)
