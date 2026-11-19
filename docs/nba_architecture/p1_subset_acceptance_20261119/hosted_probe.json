@@ -1,0 +1,75 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Notebook run 73abef9f-87e9-4e4f-847d-dafa32cc9b4d has status success."
+    },
+    {
+      "type": "text",
+      "text": "{\"run\":{\"runId\":\"73abef9f-87e9-4e4f-847d-dafa32cc9b4d\",\"notebookId\":\"c5504b9e37844f9aba3f0eaef20c2522\",\"status\":\"success\",\"snapshotStatus\":\"available\",\"snapshotContent\":null,\"snapshotDownloadUrl\":null,\"snapshotExpiresAt\":\"2026-12-19T21:48:51.726Z\",\"snapshotBlocks\":[{\"id\":\"8bb92274b92a406ba2f44bd139ba4faf\",\"type\":\"input-select\",\"outputs\":[],\"metadata\":{\"execution_start\":1795124921291,\"execution_millis\":1,\"execution_context_id\":\"c15492f7-91f1-4766-a04b-3f8df3a10dec\",\"deepnote_variable_name\":\"confirmation_mode\",\"deepnote_variable_value\":\"probe\",\"deepnote_variable_options\":[\"probe\",\"capture\"],\"deepnote_variable_custom_options\":[\"probe\",\"capture\"],\"deepnote_variable_selected_variable\":\"\",\"deepnote_variable_select_type\":\"from-options\",\"source_block_id\":\"8bb92274b92a406ba2f44bd139ba4faf\"},\"outputHead\":null,\"outputTail\":null,\"contentHash\":null},{\"id\":\"3ed1e9b1c20145d1ab8ae9e7b2877094\",\"type\":\"code\",\"outputs\":[{\"name\":\"stdout\",\"text\":\"P1_SUBSET_CONFIRMATION_PROBE_READY 84c577dbe382673da016d79362836b0eb8944694 401910019\\n\",\"output_type\":\"stream\"}],\"metadata\":{\"execution_start\":1795124921471,\"execution_millis\":9771,\"execution_context_id\":\"c15492f7-91f1-4766-a04b-3f8df3a10dec\",\"source_block_id\":\"3ed1e9b1c20145d1ab8ae9e7b2877094\"},\"outputHead\":null,\"outputTail\":null,\"contentHash\":\"sha256:c5f47b8cb787944f17156947bb21e69df7d5afc3d8a7fd42a0394dc7003f64d7\"}],\"error\":null,\"createdAt\":\"2026-11-19T21:48:33.389Z\",\"completedAt\":\"2026-11-19T21:48:51.597Z\"}}"
+    }
+  ],
+  "structuredContent": {
+    "run": {
+      "runId": "73abef9f-87e9-4e4f-847d-dafa32cc9b4d",
+      "notebookId": "c5504b9e37844f9aba3f0eaef20c2522",
+      "status": "success",
+      "snapshotStatus": "available",
+      "snapshotContent": null,
+      "snapshotDownloadUrl": null,
+      "snapshotExpiresAt": "2026-12-19T21:48:51.726Z",
+      "snapshotBlocks": [
+        {
+          "id": "8bb92274b92a406ba2f44bd139ba4faf",
+          "type": "input-select",
+          "outputs": [],
+          "metadata": {
+            "execution_start": 1795124921291,
+            "execution_millis": 1,
+            "execution_context_id": "c15492f7-91f1-4766-a04b-3f8df3a10dec",
+            "deepnote_variable_name": "confirmation_mode",
+            "deepnote_variable_value": "probe",
+            "deepnote_variable_options": [
+              "probe",
+              "capture"
+            ],
+            "deepnote_variable_custom_options": [
+              "probe",
+              "capture"
+            ],
+            "deepnote_variable_selected_variable": "",
+            "deepnote_variable_select_type": "from-options",
+            "source_block_id": "8bb92274b92a406ba2f44bd139ba4faf"
+          },
+          "outputHead": null,
+          "outputTail": null,
+          "contentHash": null
+        },
+        {
+          "id": "3ed1e9b1c20145d1ab8ae9e7b2877094",
+          "type": "code",
+          "outputs": [
+            {
+              "name": "stdout",
+              "text": "P1_SUBSET_CONFIRMATION_PROBE_READY 84c577dbe382673da016d79362836b0eb8944694 401910019\n",
+              "output_type": "stream"
+            }
+          ],
+          "metadata": {
+            "execution_start": 1795124921471,
+            "execution_millis": 9771,
+            "execution_context_id": "c15492f7-91f1-4766-a04b-3f8df3a10dec",
+            "source_block_id": "3ed1e9b1c20145d1ab8ae9e7b2877094"
+          },
+          "outputHead": null,
+          "outputTail": null,
+          "contentHash": "sha256:c5f47b8cb787944f17156947bb21e69df7d5afc3d8a7fd42a0394dc7003f64d7"
+        }
+      ],
+      "error": null,
+      "createdAt": "2026-11-19T21:48:33.389Z",
+      "completedAt": "2026-11-19T21:48:51.597Z"
+    }
+  },
+  "isError": false
+}

@@ -1,0 +1,260 @@
+{
+  "schema": "nba-gamebook-dual-source-identity/1.0.0",
+  "rows": [
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:5112087",
+      "team_id": "espn:team:29",
+      "source_name": "Jaylen Wells",
+      "jersey": "0",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:5041935",
+      "team_id": "espn:team:29",
+      "source_name": "Cameron Boozer",
+      "jersey": "27",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4600663",
+      "team_id": "espn:team:29",
+      "source_name": "Zach Edey",
+      "jersey": "14",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4903027",
+      "team_id": "espn:team:29",
+      "source_name": "Cedric Coward",
+      "jersey": "23",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4433083",
+      "team_id": "espn:team:29",
+      "source_name": "Cam Spencer",
+      "jersey": "24",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4684806",
+      "team_id": "espn:team:29",
+      "source_name": "Taylor Hendricks",
+      "jersey": "22",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4781746",
+      "team_id": "espn:team:29",
+      "source_name": "Javon Small",
+      "jersey": "10",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4595400",
+      "team_id": "espn:team:29",
+      "source_name": "Olivier-Maxence Prosper",
+      "jersey": "18",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4594326",
+      "team_id": "espn:team:29",
+      "source_name": "Kris Murray",
+      "jersey": "17",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:2991070",
+      "team_id": "espn:team:29",
+      "source_name": "Jerami Grant",
+      "jersey": "3",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4593016",
+      "team_id": "espn:team:29",
+      "source_name": "Quinten Post",
+      "jersey": "41",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4683934",
+      "team_id": "espn:team:29",
+      "source_name": "Jahmai Mashack",
+      "jersey": "21",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:5231919",
+      "team_id": "espn:team:29",
+      "source_name": "Karim L\u00f3pez",
+      "jersey": "35",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:5023693",
+      "team_id": "espn:team:5",
+      "source_name": "Tyrese Proctor",
+      "jersey": "24",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:2995706",
+      "team_id": "espn:team:5",
+      "source_name": "Mario Hezonja",
+      "jersey": "33",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4066328",
+      "team_id": "espn:team:5",
+      "source_name": "Jarrett Allen",
+      "jersey": "31",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:3908809",
+      "team_id": "espn:team:5",
+      "source_name": "Donovan Mitchell",
+      "jersey": "45",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:3992",
+      "team_id": "espn:team:5",
+      "source_name": "James Harden",
+      "jersey": "1",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:5041951",
+      "team_id": "espn:team:5",
+      "source_name": "Meleek Thomas",
+      "jersey": "15",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4066757",
+      "team_id": "espn:team:5",
+      "source_name": "Sam Merrill",
+      "jersey": "5",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:3934723",
+      "team_id": "espn:team:5",
+      "source_name": "Thomas Bryant",
+      "jersey": "3",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4702134",
+      "team_id": "espn:team:5",
+      "source_name": "Norchad Omier",
+      "jersey": "77",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4701233",
+      "team_id": "espn:team:5",
+      "source_name": "Craig Porter Jr.",
+      "jersey": "9",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4702099",
+      "team_id": "espn:team:5",
+      "source_name": "Zack Austin",
+      "jersey": "55",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    },
+    {
+      "game_id": "espn:game:401910007",
+      "game_date": "20261118",
+      "player_id": "espn:player:4997530",
+      "team_id": "espn:team:5",
+      "source_name": "Khalifa Diop",
+      "jersey": "18",
+      "official_pdf_raw_sha256": "88e043b03d501a1fbbbcd7c13bd71142216ff14e8a009b0711e5a53883e542d7",
+      "espn_raw_sha256": "f521cc986b4dafa1cbea19a8d17ba592c594965dd313c223d8fe83788dde4429"
+    }
+  ],
+  "identity_scope": "THIS_COMPLETED_GAME_ONLY",
+  "source_event_time": "2026-11-19T00:00Z",
+  "future_roster_or_trade_evidence": false,
+  "original_pregame_availability_proven": false,
+  "admission": "INDEPENDENT_REVIEW_REQUIRED"
+}

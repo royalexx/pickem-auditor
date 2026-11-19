@@ -1,0 +1,99 @@
+{
+  "reviewer": "/root/independent_source_review",
+  "implementation_repairs_authored": false,
+  "decision": "ACCEPT_P1_SCOPED_ENGINEERING",
+  "profile": "source_listed_subset",
+  "scoped_observed_games": 1,
+  "each_prefreeze_observation": {
+    "candidate_rows": 36,
+    "conditional_requests": 26,
+    "source_abstentions": 10,
+    "forecasts": 0
+  },
+  "postgame": {
+    "candidates": 36,
+    "played": 22,
+    "DNP": 3,
+    "unknown": 11
+  },
+  "models_executed": 0,
+  "forecasts_generated_or_scored": 0,
+  "full_population_gates": "SUPERSEDED_FOR_THIS_PROFILE_NOT_ACTIVE_BLOCKERS",
+  "tonight_scheduled_result": "FUTURE_NOT_PREREQUISITE",
+  "current_public_smoke": {
+    "candidates": 36,
+    "requests": 25,
+    "abstentions": 11,
+    "forecasts": 0
+  },
+  "interface_ledger": [
+    {
+      "interface": "source_transport_and_prefreeze_clocks",
+      "status": "PASS"
+    },
+    {
+      "interface": "native_schedule_roster_default_request_producer",
+      "status": "PASS"
+    },
+    {
+      "interface": "per_row_partial_union_missingness",
+      "status": "PASS"
+    },
+    {
+      "interface": "serialized_source_bound_readonly_handoff",
+      "status": "PASS"
+    },
+    {
+      "interface": "adversarial_resealed_payload_integrity",
+      "status": "PASS"
+    },
+    {
+      "interface": "bounded_36candidate_postgame_reconstruction",
+      "status": "PASS"
+    },
+    {
+      "interface": "actual_S_model_inference_handoff",
+      "status": "NOTEXERCISED"
+    },
+    {
+      "interface": "actual_O_model_inference_handoff",
+      "status": "NOTEXERCISED"
+    },
+    {
+      "interface": "actual_J_model_inference_handoff",
+      "status": "NOTEXERCISED"
+    },
+    {
+      "interface": "C_scoring_settlement_admission",
+      "status": "NOTEXERCISED"
+    },
+    {
+      "interface": "tonight_1805_scheduled_confirmation_result",
+      "status": "NOTEXERCISED"
+    },
+    {
+      "interface": "original_latest_injury_report_body",
+      "status": "NOTEXERCISED"
+    },
+    {
+      "interface": "full_G1_all_family_acceptance",
+      "status": "OUTSIDE_SCOPE"
+    },
+    {
+      "interface": "predictive_accuracy",
+      "status": "OUTSIDE_SCOPE"
+    },
+    {
+      "interface": "production_or_Tier_release",
+      "status": "OUTSIDE_SCOPE"
+    }
+  ],
+  "tests": {
+    "independent_handoff_methods": 4,
+    "prior_independent_subset_methods_rerun": 9,
+    "source_capture_owner_control_independently_rerun": 1,
+    "postgame_and_transport": "RAW_CHECKS_PASS"
+  },
+  "source_admission_installed": false,
+  "model_or_release_admission": false
+}

@@ -1,0 +1,18 @@
+{
+  "source_handoff_implementation": "644f8f51ce08e0df1471a9e063dd03914582eb03",
+  "source_request_implementation": "a0e6441d9ec1457517a29a5b6f7e1e7350808b35",
+  "prospective_capture_implementation": "84c577dbe382673da016d79362836b0eb8944694",
+  "acceptance_runner_implementation": "e8290e84a1df6d2f207d5f07968d24c5394fb67c",
+  "publication_checkout_at_receipt": "e07301e85e272540cfb3cd99b587446f3578844b",
+  "raw_implementation_config_cohort_sha256": {
+    "v2/nba_architecture/p1_subset_handoff_v1.py": "745c333f110dea7d16ec74aca3a6179cc9bc043468c1f0bf081157946d48ff68",
+    "v2/nba_architecture/p1_subset_capture_v1.py": "41bec1d26e6a63d1fb8bb5c135574a50f05aadb3dfab84bc43be4db29348d0d9",
+    "v2/nba_architecture/research_profile_v1.py": "bc25182f07f86f695ae0fefdf4a3a0b8924808c67bbcd809484824337e7ee070",
+    "config/nba_research_profile.json": "951cb869d0fb8e83f272f1d4d3964bee602353ffd47c723c3147c42044087b50",
+    "docs/nba_architecture/p1_prospective_20261118/COHORT.json": "692d662a8a256d46e36bc416225e2eb22136e5da41f2a486d725469f704e91b9",
+    "docs/nba_architecture/p1_subset_acceptance_20261119/TONIGHT_COHORT.json": "22899006400a656dc6f7997aaaabcf201430d5eebe0c65704b35729c168a378f"
+  },
+  "source_snapshot": "docs/nba_architecture/p1_overnight_20261119/raw; exact parent transport archive verified independently",
+  "observed_scoped_games": 1,
+  "forecasts_generated_or_scored": 0
+}

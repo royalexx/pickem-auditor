@@ -1,0 +1,33 @@
+{
+  "schema": "nba-p1-current-scoped-status/1.0.0",
+  "authority": "PA-V25-MASTER-2026-11-09 / v1.1 + explicitNov19source_listed_subset amendment",
+  "profile": "source_listed_subset",
+  "status": "ACCEPT_P1_SCOPED_ENGINEERING",
+  "independent_decision_commit": "05eb1ddf",
+  "independent_decision": "p1_subset_acceptance_20261119/independent/FINAL_DECISION.md",
+  "tested_runner": "e8290e84a1df6d2f207d5f07968d24c5394fb67c",
+  "source_handoff_implementation": "644f8f51ce08e0df1471a9e063dd03914582eb03",
+  "prospective_producer": "84c577dbe382673da016d79362836b0eb8944694",
+  "observed_completed_games": 1,
+  "prefreeze_snapshots": 2,
+  "each_snapshot_candidates": 36,
+  "each_snapshot_requests": 26,
+  "each_snapshot_abstentions": 10,
+  "postgame_all_candidate_states": {
+    "PLAYED": 22,
+    "DNP": 3,
+    "UNKNOWN_NOT_LISTED": 11
+  },
+  "forecast_outputs": 0,
+  "architecture_methods_passed": 562,
+  "not_exercised": [
+    "genuineS/O/Jmodelinference",
+    "actualmodelconsumerintegration",
+    "Cscoring/settlementadmission",
+    "tonightscheduledexecution"
+  ],
+  "tonight_required_for_this_acceptance": false,
+  "tonight_schedule": "Existing18:05TorontojobNov19; GSW@MEM20:00; sourcefreeze18:15(105minhorizon)",
+  "not_a_full_G1_or_predictive_acceptance": true,
+  "production_release": false
+}
