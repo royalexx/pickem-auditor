@@ -72,3 +72,8 @@ class InjuryV2Tests(unittest.TestCase):
         self.assertIsNone(x['selected_url']);self.assertEqual(x['unique_urls'],4)
         self.assertEqual(x['rejected_urls'],4)
         self.assertEqual({r['url'] for r in x['ledger']},set(bad))
+
+    def test_matching_href_delimiters_preserve_embedded_other_quote(self):
+        bad=url('2026-11-19','02_00PM')+"'evil"
+        x=select_report(index(bad),observed_at='2026-11-19T19:10:00Z',freeze_at='2026-11-19T19:20:00Z')
+        self.assertIsNone(x['selected_url']);self.assertEqual(x['ledger'][0]['url'],bad)
