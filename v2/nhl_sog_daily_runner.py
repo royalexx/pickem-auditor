@@ -2,7 +2,7 @@
 from datetime import datetime,timezone
 from pathlib import Path
 import hashlib,json
-from .nhl_sog_exposure_shadow import ExperimentBlocked,fit_model,_utc
+from .nhl_sog_daily_math import ExperimentBlocked,fit_model,_utc
 from .nhl_sog_official_history_producer import independent_verify_observation_lineage,_signed
 from .contracts import MarketQuote
 from .nhl_sog_daily_ledger import Ledger
@@ -117,6 +117,8 @@ def freeze_family(bundle,contract,*,source_root,ledger_path):
     model=fit_model(own_verified,peer_verified,archive_root=root,player_id=q.player_id,
         position_group=bundle['official_position_group'],target_event_id=q.event_id,
         current_team_id=q.team_id,input_freeze_at=observed,event_start_at=q.event_start_at)
+    model['history_ordering']='official_gameDate_then_event_id'
+    model['math_implementation_sha256']=hashlib.sha256((Path(__file__).parent/'nhl_sog_daily_math.py').read_bytes()).hexdigest()
     validate_contract(model,q,source_root=root,roster_root=root,
         roster_receipts=bundle['official_roster_receipts'],source_bound_player_name=name,
         code_commit=bundle['code_commit'],run_id=bundle['run_id'],forecast_id=bundle['forecast_id'],
