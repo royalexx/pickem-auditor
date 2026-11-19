@@ -1,0 +1,82 @@
+{
+  "run": {
+    "runId": "22802efa-932c-4141-bdcc-b6a57797f329",
+    "notebookId": "8c4c10b625ca4b4ea8635a9723f82ee9",
+    "status": "success",
+    "snapshotStatus": "available",
+    "snapshotContent": null,
+    "snapshotDownloadUrl": null,
+    "snapshotExpiresAt": "2026-12-15T19:19:31.352Z",
+    "snapshotBlocks": [
+      {
+        "id": "f19b97df852045d2806e10ddb23484bb",
+        "type": "markdown",
+        "outputs": [],
+        "metadata": {
+          "source_block_id": "f19b97df852045d2806e10ddb23484bb"
+        },
+        "outputHead": null,
+        "outputTail": null,
+        "contentHash": "sha256:734a871580d2e5c83f303496ca1ee10b5f75c27497445788c8dea7b3b975feab"
+      },
+      {
+        "id": "a730021670ff44288ea9ee263d13685e",
+        "type": "code",
+        "outputs": [
+          {
+            "name": "stdout",
+            "text": "\ntest_crps_integration_independent_reference (test_nba_opportunity.MinuteDistributionTests.test_crps_integration_independent_reference) ... ok\ntest_expected_minutes_can_exceed_regulation_with_ot (test_nba_opportunity.MinuteDistributionTests.test_expected_minutes_can_exceed_regulation_with_ot) ... ok\ntest_invalid_law_parameters (test_nba_opportunity.MinuteDistributionTests.test_invalid_law_parameters) ... ok\ntest_support_moments_quantiles_and_ot_tail (test_nba_opportunity.MinuteDistributionTests.test_support_moments_quantiles_and_ot_tail) ... ok\ntest_active_roster_does_not_imply_participates (test_nba_opportunity.OpportunityContractTests.test_active_roster_does_not_imply_participates) ... ok\ntest_dnp_not_conditional_observation (test_nba_opportunity.OpportunityContractTests.test_dnp_not_conditional_observation) ... ok\ntest_future_and_current_outcomes_cannot_change_features (test_nba_opportunity.OpportunityContractTests.test_future_and_current_outcomes_cannot_change_features) ... ok\ntest_immutable_and_deterministic_forecast (test_nba_opportunity.OpportunityContractTests.test_immutable_and_deterministic_forecast) ... ok\ntest_invalid_probabilities_and_identity (test_nba_opportunity.OpportunityContractTests.test_invalid_probabilities_and_identity) ... ok\ntest_no_postgame_feature_admitted (test_nba_opportunity.OpportunityContractTests.test_no_postgame_feature_admitted) ... ok\ntest_states_and_unknown_not_absent (test_nba_opportunity.OpportunityContractTests.test_states_and_unknown_not_absent) ... ok\ntest_temporal_corruption (test_nba_opportunity.OpportunityContractTests.test_temporal_corruption) ... ok\ntest_duplicate_population_never_silently_deduplicated (test_nba_opportunity.ReplayAdapterTests.test_duplicate_population_never_silently_deduplicated) ... ok\ntest_exhibition_rows_excluded_before_histories (test_nba_opportunity.ReplayAdapterTests.test_exhibition_rows_excluded_before_histories) ... ok\ntest_positions_use_prior_appearance_only (test_nba_opportunity.ReplayAdapterTests.test_positions_use_prior_appearance_only) ... ok\ntest_exact_five_all_play_full_game (test_nba_opportunity.TeamConservationTests.test_exact_five_all_play_full_game) ... ok\ntest_impossible_early_exit_caps_rejected (test_nba_opportunity.TeamConservationTests.test_impossible_early_exit_caps_rejected) ... ok\ntest_inactive_unverified_duplicates_mixed_teams (test_nba_opportunity.TeamConservationTests.test_inactive_unverified_duplicates_mixed_teams) ... ok\ntest_latent_early_exit_caps_are_honored_or_retained_as_invalid (test_nba_opportunity.TeamConservationTests.test_latent_early_exit_caps_are_honored_or_retained_as_invalid) ... ok\ntest_overtime_shared_by_both_teams_and_reproducible (test_nba_opportunity.TeamConservationTests.test_overtime_shared_by_both_teams_and_reproducible) ... ok\ntest_randomized_projection_and_five_on_court (test_nba_opportunity.TeamConservationTests.test_randomized_projection_and_five_on_court) ... ok\ntest_raw_sampler_payload_probability_validation (test_nba_opportunity.TeamConservationTests.test_raw_sampler_payload_probability_validation) ... ok\ntest_selected_participants_keep_positive_exposure (test_nba_opportunity.TeamConservationTests.test_selected_participants_keep_positive_exposure) ... ok\ntest_underfilled_roster_retained_not_forced (test_nba_opportunity.TeamConservationTests.test_underfilled_roster_retained_not_forced) ... ok\ntest_unusual_independent_draws_still_respect_game_length (test_nba_opportunity.TeamConservationTests.test_unusual_independent_draws_still_respect_game_length) ... ok\n\n----------------------------------------------------------------------\nRan 25 tests in 16.859s\n\nOK\n\n",
+            "output_type": "stream"
+          }
+        ],
+        "metadata": {
+          "execution_start": 1794770342664,
+          "execution_millis": 27749,
+          "execution_context_id": "9df6569d-6c90-4f14-9941-a4cc9eb5d0ce",
+          "source_block_id": "a730021670ff44288ea9ee263d13685e"
+        },
+        "outputHead": null,
+        "outputTail": null,
+        "contentHash": "sha256:4062b24872dbb88ec3c534d7e1cf044686d16ed7ef657005c814242de37830a8"
+      },
+      {
+        "id": "a4764cd36ead46379196d0f38b0c6abb",
+        "type": "code",
+        "outputs": [
+          {
+            "name": "stdout",
+            "text": "HISTORICAL_EXPLORATORY_SHADOW_ONLY\nMatched: 25641 games: 1231 dates: 164\n",
+            "output_type": "stream"
+          },
+          {
+            "data": {
+              "text/plain": "    point_mae      crps  nlpd_rounded_bin   cover50   cover80   cover90\nM0   5.242697  3.956087          3.420860  0.540346  0.818455  0.905815\nM1   5.264684  3.724564          3.279671  0.515620  0.804766  0.889669\nM2   4.987794  3.553348          3.253966  0.521197  0.804571  0.891853",
+              "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>point_mae</th>\n      <th>crps</th>\n      <th>nlpd_rounded_bin</th>\n      <th>cover50</th>\n      <th>cover80</th>\n      <th>cover90</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>M0</th>\n      <td>5.242697</td>\n      <td>3.956087</td>\n      <td>3.420860</td>\n      <td>0.540346</td>\n      <td>0.818455</td>\n      <td>0.905815</td>\n    </tr>\n    <tr>\n      <th>M1</th>\n      <td>5.264684</td>\n      <td>3.724564</td>\n      <td>3.279671</td>\n      <td>0.515620</td>\n      <td>0.804766</td>\n      <td>0.889669</td>\n    </tr>\n    <tr>\n      <th>M2</th>\n      <td>4.987794</td>\n      <td>3.553348</td>\n      <td>3.253966</td>\n      <td>0.521197</td>\n      <td>0.804571</td>\n      <td>0.891853</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
+            },
+            "metadata": {
+              "table_state_spec": null
+            },
+            "output_type": "display_data"
+          },
+          {
+            "name": "stdout",
+            "text": "Retain M0 benchmark. Aggregate gains do not pass stress/participation adoption gates.\n",
+            "output_type": "stream"
+          }
+        ],
+        "metadata": {
+          "execution_start": 1794770370474,
+          "execution_millis": 484,
+          "execution_context_id": "9df6569d-6c90-4f14-9941-a4cc9eb5d0ce",
+          "source_block_id": "a4764cd36ead46379196d0f38b0c6abb"
+        },
+        "outputHead": null,
+        "outputTail": null,
+        "contentHash": "sha256:3971c57efdb1261646c5e06fe19bf9c0b9c98874974907e8933d74f8e818d3e2"
+      }
+    ],
+    "error": null,
+    "createdAt": "2026-11-15T19:18:42.506Z",
+    "completedAt": "2026-11-15T19:19:31.181Z"
+  }
+}

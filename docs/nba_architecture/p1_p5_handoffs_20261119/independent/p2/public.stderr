@@ -1,0 +1,9 @@
+test_actual_historical_all_stat_attempts (__main__.IndependentP2.test_actual_historical_all_stat_attempts) ... ok
+test_current_compatible_source_still_does_not_invent_s (__main__.IndependentP2.test_current_compatible_source_still_does_not_invent_s) ... ok
+test_duplicate_and_nonfinite_wire_rejected (__main__.IndependentP2.test_duplicate_and_nonfinite_wire_rejected) ... ok
+test_resealed_mutations_rejected (__main__.IndependentP2.test_resealed_mutations_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.324s
+
+OK
