@@ -49,3 +49,10 @@ class P2SubsetTests(unittest.TestCase):
             with self.assertRaises(ValueError):read_p2(canonical(x),source_raw=raw,capture_dir=CAP,cohort=COHORT)
         source['requests']['rows'].pop()
         with self.assertRaises(ValueError):run_p2(canonical(source),CAP,COHORT)
+
+    def test_duplicate_keys_and_nonfinite_wires_are_rejected(self):
+        source=canonical(export_requests(CAP,COHORT));result=canonical(run_p2(source,CAP,COHORT))
+        for attack in [b'{"forecasted_rows":1,'+result[1:],
+                       result.replace(b'"forecast":null',b'"forecast":1,"forecast":null',1),
+                       b'{"x":NaN}',b'{"x":Infinity}']:
+            with self.assertRaises(ValueError):read_p2(attack,source_raw=source,capture_dir=CAP,cohort=COHORT)

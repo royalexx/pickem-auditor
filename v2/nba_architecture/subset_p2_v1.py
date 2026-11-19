@@ -9,6 +9,7 @@ from pathlib import Path
 from types import MappingProxyType
 
 from .p1_subset_handoff_v1 import read_requests, canonical, digest
+from .subset_contract_v1 import strict_json
 from v2.nba_s_family import predict_conditional
 
 VERSION = 'nba-subset-p2/1.0.0'
@@ -56,14 +57,13 @@ def run_p2(raw, capture_dir, cohort):
         admitted_model_count=len(ADMITTED_S_MODELS), forecasted_rows=0,
         abstained_rows=len(rows), rows=rows,
         status='IMPLEMENTED_ABSTENTION_PATH_MODEL_INPUT_UNAVAILABLE',
-        missing_evidence='Compatible immutable native FittedS artifact with independently reviewed training-source, player/stat/role, cutoff and exact reader-code lineage; no replacement fitting authorized.')
+        missing_evidence='Compatible immutable native FittedS artifact with independently reviewed training-source, player/stat/role, cutoff and exact reader-code lineage, plus a reviewed source-bound role/exposure resolver and numerical S dispatch in this real subset path; no replacement fitting authorized.')
     return dict(payload, payload_sha256=digest(canonical(payload)))
 
 
 def read_p2(raw, *, source_raw, capture_dir, cohort):
     """A resealed hash or caller approval cannot substitute for source replay."""
-    import json
-    value=json.loads(raw)
+    value=strict_json(raw)
     if canonical(value) != canonical(run_p2(source_raw, capture_dir, cohort)):
         raise ValueError('P2_SOURCE_OR_OUTPUT_MISMATCH')
     return value
