@@ -1,0 +1,12 @@
+test_altered_bytes_late_clocks_and_wrong_team_abstain_source (test_research_profile_v1.ProfileTests.test_altered_bytes_late_clocks_and_wrong_team_abstain_source) ... ok
+test_bad_optional_row_is_local (test_research_profile_v1.ProfileTests.test_bad_optional_row_is_local) ... ok
+test_corrupt_optional_team_name_does_not_abort_other_team (test_research_profile_v1.ProfileTests.test_corrupt_optional_team_name_does_not_abort_other_team) ... ok
+test_duplicate_missing_and_malformed_population_denominators (test_research_profile_v1.ProfileTests.test_duplicate_missing_and_malformed_population_denominators) ... ok
+test_invalid_member_does_not_block_valid_others (test_research_profile_v1.ProfileTests.test_invalid_member_does_not_block_valid_others) ... ok
+test_official_only_candidate_is_retained_unmatched (test_research_profile_v1.ProfileTests.test_official_only_candidate_is_retained_unmatched) ... ok
+test_real_default_partial_scope_and_unknowns (test_research_profile_v1.ProfileTests.test_real_default_partial_scope_and_unknowns) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.256s
+
+OK

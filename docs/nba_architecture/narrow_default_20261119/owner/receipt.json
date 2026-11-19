@@ -1,0 +1,34 @@
+{
+  "tested_sha": "db1c43a56b3e0f69d3e47f900827fa9ec7689030",
+  "actual_argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "scripts/nba_research.py",
+    "--capture-dir",
+    "docs/nba_architecture/p1_overnight_20261119/raw/pregame-20261118T234000059565Z-aae5f441",
+    "--cohort",
+    "docs/nba_architecture/p1_prospective_20261118/COHORT.json",
+    "--output",
+    "docs/nba_architecture/narrow_default_20261119/owner/tested_actual_requests.json"
+  ],
+  "actual_exit": 0,
+  "source_input_domain": "unchanged actualprefreeze capture bodies+receipts",
+  "test_argv": [
+    "python",
+    "-m",
+    "unittest",
+    "tests.nba_architecture.test_research_profile_v1",
+    "-v"
+  ],
+  "test_exit": 0,
+  "dedicated_methods": 6,
+  "forecasted_rows": 0,
+  "no_model_supplied": true,
+  "not_claiming_inventory_of_all_available_models": true,
+  "old_full_gates": "SUPERSEDED_FOR_THIS_PROFILE",
+  "scope_authority": "Explicit user approval Nov19",
+  "code_hashes": {
+    "v2/nba_architecture/research_profile_v1.py": "7b14af9c36832dd5acf464856140bc3d94692fdbaed537d4d76fe4373bff1ffa",
+    "scripts/nba_research.py": "d1e4cd72f10fb2cf2e0315d48ccff81679d73dd8872e18fb612eb643e0ba8d96",
+    "config/nba_research_profile.json": "951cb869d0fb8e83f272f1d4d3964bee602353ffd47c723c3147c42044087b50"
+  }
+}

@@ -1,0 +1,7 @@
+"""Independent exact2a349fa5 public partial-source red; synthetic mutation."""
+import hashlib,json,pathlib,re,shutil,tempfile,subprocess
+ROOT=pathlib.Path(__file__).resolve().parents[4];CAP=ROOT/'docs/nba_architecture/p1_overnight_20261119/raw/pregame-20261118T234000059565Z-aae5f441';C=json.loads((ROOT/'docs/nba_architecture/p1_prospective_20261118/COHORT.json').read_bytes())
+namespace={'__name__':'v2.nba_architecture.review2a349','__package__':'v2.nba_architecture','__file__':str(ROOT/'v2/nba_architecture/research_profile_v1.py')}
+exec(compile(subprocess.check_output(['git','show','2a349fa58dcb680f6131b88e0b8bda39aa567400:v2/nba_architecture/research_profile_v1.py']),'2a349fa5:research_profile_v1.py','exec'),namespace);build_requests=namespace['build_requests']
+with tempfile.TemporaryDirectory() as tmp:
+ p=pathlib.Path(tmp)/'cap';shutil.copytree(CAP,p);f=p/'official-cle-roster/body.raw';raw=f.read_text();match=re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',raw,re.S);x=json.loads(match[1]);x['props']['pageProps']['team']['name']=None;raw=raw[:match.start(1)]+json.dumps(x)+raw[match.end(1):];f.write_text(raw);r=p/'official-cle-roster/receipt.json';receipt=json.loads(r.read_bytes());receipt['raw_sha256']=hashlib.sha256(f.read_bytes()).hexdigest();r.write_text(json.dumps(receipt));result=build_requests(p,C);print(json.dumps({k:v for k,v in result.items() if k not in ['rows','coverage']},indent=2));assert result['source_ready_rows']>0

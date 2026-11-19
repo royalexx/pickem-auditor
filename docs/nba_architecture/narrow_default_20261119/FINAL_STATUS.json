@@ -1,0 +1,16 @@
+{
+  "tested_sha": "db1c43a56b3e0f69d3e47f900827fa9ec7689030",
+  "architecture_methods": 557,
+  "architecture_exit": 0,
+  "stdout": "owner/final_architecture.stdout",
+  "stderr": "owner/final_architecture.stderr",
+  "dedicated_methods": 6,
+  "dedicated_exit": 0,
+  "old_full_gate_default_retired": true,
+  "profile_default": "source_listed_subset",
+  "actual_candidate_rows": 36,
+  "actual_source_ready_requests": 26,
+  "actual_source_abstentions": 10,
+  "actual_forecasts": 0,
+  "model_supplied": false
+}

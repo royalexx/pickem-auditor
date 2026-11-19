@@ -1,0 +1,14 @@
+{
+  "profile": "source_listed_subset",
+  "status": "ACCEPTED_DEFAULT_RESEARCH_REQUEST_LAYER",
+  "user_amendment_commit": "479b8570",
+  "tested_implementation": "a0e6441d9ec1457517a29a5b6f7e1e7350808b35",
+  "independent_acceptance_commit": "896fe6a6",
+  "source_ready_requests": 26,
+  "source_abstentions": 10,
+  "source_candidate_rows": 36,
+  "forecast_outputs": 0,
+  "model_supplied": false,
+  "full_population_requirements": "SUPERSEDED_FOR_THIS_PROFILE",
+  "production_release": false
+}
