@@ -203,6 +203,7 @@ try:
     catalog_players=current['player_records']
     manifest['current_history_qualified_players']=current['qualified_players']
     manifest['noncurrent_season_history_exclusions']=current['noncurrent_season_exclusions']
+    manifest['stale_game_log_history_exclusions']=current['stale_log_exclusions']
     manifest['source_baseline_copy']['no_daily_history_model_refit_claim']=False
     manifest['daily_fit_kind']='unchanged_analytic_model_on_current_signed_prior_games_no_NUTS'
     # 1. One genuinely new sportsbook provider response; no pasted historical offers.

@@ -45,7 +45,8 @@ def refresh(players,*,pool,capture,cutoff,event_start,target_games=(),workers=4,
         return pid,group,p,r,rows
     with ThreadPoolExecutor(max_workers=workers) as ex:
         fs={ex.submit(player_job,str(pid),g):str(pid) for pid,g in sorted(players.items())}
-        for f in as_completed(fs):
+        for number,f in enumerate(as_completed(fs),1):
+            if number%25==0:print("HISTORY_PROFILE_LOG_PROGRESS",number,len(fs),flush=True)
             try:
                 pid,g,p,r,rows=f.result();profiles[pid]=p;logs[pid]=(g,r,rows)
             except Exception as e:failures.append({'player_id':fs[f],'stage':'PROFILE_OR_LOG','reason':type(e).__name__+':'+str(e)[:120]})
@@ -57,11 +58,13 @@ def refresh(players,*,pool,capture,cutoff,event_start,target_games=(),workers=4,
         return gid,r
     with ThreadPoolExecutor(max_workers=workers) as ex:
         fs={ex.submit(final_job,g):g for g in gids}
-        for f in as_completed(fs):
+        for number,f in enumerate(as_completed(fs),1):
+            if number%25==0:print("HISTORY_FINAL_PROGRESS",number,len(fs),flush=True)
             try:g,r=f.result();cache[g]=r
             except Exception as e:failures.append({'game_id':fs[f],'stage':'FINAL','reason':type(e).__name__+':'+str(e)[:120]})
     own={};catalog={}
-    for pid,(group,log,rows) in sorted(logs.items()):
+    for number,(pid,(group,log,rows)) in enumerate(sorted(logs.items()),1):
+        if number%25==0:print('HISTORY_IMPORT_PROGRESS',number,len(logs),flush=True)
         try:
             entries=import_signed_official_history(player_id=pid,position_group=group,
                 gamelog_receipt=log,player_profile_receipt=profiles[pid],completed_game_receipts=cache,
@@ -104,9 +107,12 @@ def load_current(pool,*,day,now):
     season=str(start_year*10000+start_year+1)
     original=d['signed_observation_contracts_by_player']
     admitted={pid:[x for x in rs if x['raw_log_receipt']['source_url']==
-        'https://api-web.nhle.com/v1/player/'+pid+'/game-log/'+season+'/2'] for pid,rs in original.items()}
+        'https://api-web.nhle.com/v1/player/'+pid+'/game-log/'+season+'/2'
+        and timedelta(0)<=now-utc(x['raw_log_receipt']['received_at'])<=timedelta(hours=6)] for pid,rs in original.items()}
+    noncurrent={pid for pid,rs in original.items() if not any(('/game-log/'+season+'/2') in x['raw_log_receipt']['source_url'] for x in rs)}
     d={**d,'signed_observation_contracts_by_player':admitted,
        'qualified_players':sum(len(rs)>=5 for rs in admitted.values()),
        'admission_required_season':season,
-       'noncurrent_season_exclusions':[pid for pid,rs in admitted.items() if not rs]}
+       'noncurrent_season_exclusions':sorted(noncurrent),
+       'stale_log_exclusions':[pid for pid,rs in admitted.items() if not rs and pid not in noncurrent]}
     return d,{'path':str(p),'sha256':p.stem}
