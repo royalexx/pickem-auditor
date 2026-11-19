@@ -4,6 +4,15 @@
 
 Default NBA research profile is **source_listed_subset**, configured in `config/nba_research_profile.json`. Use `scripts/nba_research.py` for the default per-player source request/abstention ledger. Complete legal roster proof is no longer a prerequisite for supported per-player research under this profile. Unknown eligibility and participation remain explicit; conditional forecasts require valid source/model/cutoff support. Unsupported rows abstain while supported others continue, and every captured candidate stays in coverage. Original full-population B-P1-01/B-P1-02 decisions are historical and superseded for this profile; do not present them as the active launch blocker or relabel them PASS. No model, fitting, production or Tier authorization follows. See [accepted user amendment](docs/nba_architecture/narrow_default_20261119/ADR.md).
 
+The bounded November 19 cohort also has a sequential source → S boundary → native
+conditional minutes → P4 law consumer → append-only P5 audit runner:
+`scripts/nba_subset_pipeline.py`. See the [exact replay commands and evidence
+domains](docs/nba_architecture/p1_p5_handoffs_20261119/REPRODUCE.md) and
+[current bounded handoff status](docs/nba_architecture/P1_P5_CURRENT_SCOPED_STATUS.json). It preserves
+every candidate and abstention. Genuine conditional-minute execution is separate
+from the unavailable statistic/joint producers; another cohort requires a reviewed
+reuse decision. Tonight's pinned source-only worker is unchanged.
+
 
 Code, original research, immutable history, collection jobs, diagnostics, and design decisions live in this repository. Before interpreting any dated status or launching work, verify the current repository, schedules, source receipts, and training state.
 
