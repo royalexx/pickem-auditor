@@ -1,0 +1,12 @@
+test_actual_default (__main__.IndependentSubset.test_actual_default) ... ok
+test_claims_do_not_create_forecasts_or_known_q (__main__.IndependentSubset.test_claims_do_not_create_forecasts_or_known_q) ... ok
+test_duplicate_and_missing_populations (__main__.IndependentSubset.test_duplicate_and_missing_populations) ... ok
+test_historical_implementation_and_receipts_preserved (__main__.IndependentSubset.test_historical_implementation_and_receipts_preserved) ... ok
+test_invalid_shared_source_stays_local_to_team (__main__.IndependentSubset.test_invalid_shared_source_stays_local_to_team) ... ok
+test_optional_source_corruption_retains_valid_other_team (__main__.IndependentSubset.test_optional_source_corruption_retains_valid_other_team) ... ok
+test_per_member_failure_preserves_other_ready_rows (__main__.IndependentSubset.test_per_member_failure_preserves_other_ready_rows) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.415s
+
+OK

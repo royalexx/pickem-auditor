@@ -1,0 +1,20 @@
+{
+  "reviewer": "/root/independent_source_review",
+  "implementation_repairs_authored": false,
+  "accepted_tested_implementation": "a0e6441d9ec1457517a29a5b6f7e1e7350808b35",
+  "decision": "ACCEPT_DEFAULT_SOURCE_LISTED_SUBSET_REQUEST_LAYER",
+  "active_profile": "source_listed_subset",
+  "historical_full_B_P1_01_B_P1_02": "SUPERSEDED_FOR_THIS_PROFILE_NOT_PASS_NOT_ACTIVE_LAUNCH_BLOCKERS",
+  "actual_candidates": 36,
+  "source_ready_conditional_requests": 26,
+  "local_source_abstentions": 10,
+  "forecasts_produced": 0,
+  "model_pending_requests": 26,
+  "complete_legal_population_count": null,
+  "complete_legal_roster_required": false,
+  "independent_methods_pass": 9,
+  "owner_methods_independently_rerun_pass": 7,
+  "source_authentication_granted": false,
+  "model_admission_granted": false,
+  "production_release": false
+}
