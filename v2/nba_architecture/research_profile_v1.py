@@ -66,7 +66,9 @@ def build_requests(capture_dir, cohort):
                 if hashlib.sha256(html).hexdigest()!=rr['raw_sha256']:raise ValueError('OFFICIAL_ROSTER_BYTES')
                 if not instant(rr['retrieval_started_at'])<=instant(rr['retrieval_completed_at'])<=instant(rr['ingested_at'])<=instant(cohort['freeze_at']):raise ValueError('OFFICIAL_ROSTER_CLOCK')
                 native=json.loads(re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',html.decode(),re.S)[1])['props']['pageProps']
-                if native['team']['name'].casefold()!=raw['team']['name'].casefold():raise ValueError('OFFICIAL_ROSTER_TEAM')
+                native_name=native['team']['name'];primary_name=raw['team']['name']
+                if not isinstance(native_name,str) or not isinstance(primary_name,str):raise ValueError('INVALID_ROSTER_TEAM_NAME')
+                if native_name.casefold()!=primary_name.casefold():raise ValueError('OFFICIAL_ROSTER_TEAM')
                 official_names={name_key(r['name']) for r in native['rosterData']['roster']}
             except (OSError,KeyError,TypeError,ValueError,IndexError) as error:errors.append('CORROBORATION:'+str(error))
         coverage.append(dict(team_id=tid,attempted_rows=attempted,source_errors=errors,official_name_population_checked=official_names is not None))

@@ -50,3 +50,12 @@ class ProfileTests(unittest.TestCase):
                 if attack=='late':f=p/'roster-5/receipt.json';x=json.loads(f.read_bytes());x['ingested_at']='2026-11-19T00:01:00Z';f.write_text(json.dumps(x))
                 if attack=='team':change(p,lambda x:x['team'].update(id='999'))
                 x=build_requests(p,COHORT);cle=[r for r in x['rows'] if r['team_id']=='espn:team:5'];self.assertTrue(all(r['source_request_status']=='ABSTAIN' for r in cle));self.assertGreater(x['source_ready_rows'],0)
+
+    def test_corrupt_optional_team_name_does_not_abort_other_team(self):
+        import re
+        with tempfile.TemporaryDirectory() as t:
+            p=Path(t)/'capture';shutil.copytree(CAP,p)
+            folder=p/'official-cle-roster';f=folder/'body.raw';text=f.read_text();m=re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',text,re.S);obj=json.loads(m[1]);obj['props']['pageProps']['team']['name']=None
+            f.write_text(text[:m.start(1)]+json.dumps(obj)+text[m.end(1):]);r=folder/'receipt.json';receipt=json.loads(r.read_bytes());receipt['raw_sha256']=hashlib.sha256(f.read_bytes()).hexdigest();r.write_text(json.dumps(receipt))
+            x=build_requests(p,COHORT);self.assertEqual(x['source_candidate_rows'],36);self.assertGreater(x['source_ready_rows'],0)
+            self.assertTrue(all(r['source_request_status']=='ABSTAIN' for r in x['rows'] if r['team_id']=='espn:team:5'))
