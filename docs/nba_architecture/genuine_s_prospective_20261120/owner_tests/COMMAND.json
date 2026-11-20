@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "-m",
+    "pytest",
+    "-v",
+    "tests/nba_architecture/test_prospective_s_sources_v1.py",
+    "tests/nba_architecture/test_genuine_prospective_s_v1.py"
+  ],
+  "tested_commit": "abf8c332cf4423d2742047bd02238c9ae91bfebb",
+  "started_at": "2026-11-20T01:42:37.557354+00:00",
+  "completed_at": "2026-11-20T01:43:50.665836+00:00",
+  "exit_code": 0
+}
