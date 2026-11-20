@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/scripts/nba_coherent.py", line 126, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/pickem-auditor/scripts/nba_coherent.py", line 37, in main
+    require(not out.exists(),'COHERENT_CREATE_ONLY_OUTPUT')
+  File "/workspace/pickem-auditor/v2/nba_architecture/subset_p3_v1.py", line 40, in require
+    if not condition:raise ValueError(reason)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: COHERENT_CREATE_ONLY_OUTPUT

@@ -1,0 +1,52 @@
+{
+  "C_profile_direct_source_and_reader_code_controls": "REJECTED",
+  "actual_component_fits": 0,
+  "compiler_raw_sha256": "a55a863ed3aaab82b06257f6951185c227b826fe4e6966c05618050d1ecd8b50",
+  "completed_at": "2026-11-20T12:56:49.791496+00:00",
+  "errors": 0,
+  "failures": 1,
+  "mock_protocol_receipt": {
+    "NUTS": false,
+    "approval_raw_sha256": "aaf0e82a48354f3a662fbeb667d38b93a917cc2beab722eb0ff25ef1e250213f",
+    "compiler_raw_sha256": "a55a863ed3aaab82b06257f6951185c227b826fe4e6966c05618050d1ecd8b50",
+    "completed_at": "2026-11-20T12:56:33.396375+00:00",
+    "excluded_rows": 242,
+    "historical_replacement": false,
+    "holdout_scoring": false,
+    "implementation_commit": "126e619c075e0b7a53e9f47703aa394f766f9a5a",
+    "model_raw_sha256": "de1a9c1b59b70daea42f47354c15dd14459c2201ddab19c68a59d4ad9472dad2",
+    "new_prospective_artifact": true,
+    "old_admission_raw_sha256": "388e41fb537dc5e2c395078603473f8c8d524745c90f30957b672e2ed6015a42",
+    "old_model_raw_sha256": "85f27b2ce96a96e14449da3e10ab0d3bb7e9c4e60d7aa30bc5b311d46c48e46d",
+    "ordinary_fit_rows": 456,
+    "protocol_raw_sha256": "e12290d9021c82340ed75dfe16647d7672c42cbfd581f67273bef40e0eb6d303",
+    "release": false,
+    "schema": "coherent-prospective-component-fit/1",
+    "source_dataset_sha256": "e5cb76ef446d6651b718c6279367a7078ffa86f01b621cfbfd9c7b4d74adbd1d",
+    "source_outcome_payload_sha256": "a27dd3cd738cd579141b132bb3b2bc66977567d05e1d16b6d16cc1913c43c6e1",
+    "source_rows": 698,
+    "started_at": "2026-11-20T12:56:33.394563+00:00",
+    "verified_at": "2026-11-20T12:56:33.396417+00:00",
+    "weight_optimization": false
+  },
+  "new_J_runs": 0,
+  "new_forecasts": 0,
+  "new_real_model_artifacts": 0,
+  "outcome_scores": 0,
+  "raw_byte_controls": [
+    {
+      "input": "protocol_path",
+      "rejected": "COHERENT_PROTOCOL_BYTES"
+    },
+    {
+      "input": "old_model_path",
+      "rejected": "COHERENT_EXACT_UPSTREAM_ARTIFACT"
+    },
+    {
+      "input": "old_admission_path",
+      "rejected": "COHERENT_EXACT_UPSTREAM_ARTIFACT"
+    }
+  ],
+  "started_at": "2026-11-20T12:56:27.215692+00:00",
+  "test_methods": 7
+}

@@ -1,0 +1,45 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "ls-remote",
+        "--heads",
+        "origin",
+        "main"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "912bc7010058092ea735dcda0aa941429194474b\trefs/heads/main\n"
+    },
+    {
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "192",
+        "--json",
+        "number,state,headRefOid,baseRefName,url"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"baseRefName\":\"research/nba-minute-integrated-s-20261120\",\"headRefOid\":\"d029747c106c8b825d13f13c0d107d45b36d6ec3\",\"number\":192,\"state\":\"OPEN\",\"url\":\"https://github.com/royalexx/pickem-auditor/pull/192\"}\n"
+    }
+  ],
+  "external_training_jobs_not_operated": true,
+  "local_branch": "research/nba-coherent-opportunity-20261120",
+  "no_remote_mutation": true,
+  "protected_old_files": {
+    ".github/workflows/audit-afternoon.yml": "686cac2a7218c2bea69e45b9d1586148b2cfbde8d27747e98e5b3c501ac88c10",
+    ".github/workflows/historical-bayes-training.yml": "e44f05429bcb63fb86f068cd8f01b20f82e11871d2f8535e78163201b649bdaf",
+    "config/production_consensus.json": "955749b0cac3007484d6892a64dc3b9a8bb5027fadfde609c115cb0d7332bb89",
+    "v2/nba_architecture/pbp_evidence_v1.py": "2fdb7ca21017fe567115cc4316f6b8109d52af9b908ffb0a6b177b585874c2f1",
+    "v2/nba_architecture/prospective_s_sources_v1.py": "8b61c753a41b59b9baad25ce179bd56ef3ceaf31645e76998b6408f296a447fd",
+    "v2/nba_joint/residual_audit_v1.py": "5d99e90df7f9b5164d66f92e70b0e894d3e0d5540131354d8f85cd89560f5197",
+    "v2/nba_joint/residual_events_v1.py": "75be57a993360b693d61dfd5acde07dad92a28e831ed6b781c068b793fce01ee",
+    "v2/nba_joint/residual_opportunity_v1.py": "d53627276ba972cd23ce91bd4d9cb212f28fa141e45d44ea6f5a276b41215803",
+    "v2/nba_s_family/model.py": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6"
+  },
+  "recorded_at": "2026-11-20T12:53:14.831801+00:00",
+  "recorded_checkout": "46df901da58e3c3b959cc973b5d7be9645e2a78c"
+}

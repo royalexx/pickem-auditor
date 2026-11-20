@@ -1,0 +1,489 @@
+{
+  "comparison": {
+    "DKW95_half_width": 0.24549425822029622,
+    "abstentions": 84,
+    "empirical_TV_max": 0.3414299225600394,
+    "empirical_TV_min": 0.03837320466173529,
+    "maximum_CDF_gap": 0.17062577759329134,
+    "mean_difference_max": 1.2776584333830865,
+    "mean_difference_min": -1.091324504425108,
+    "old_S1_match_required": false,
+    "quality_accepted": false,
+    "rows": [
+      {
+        "CDF_gap": 0.09530789280592017,
+        "empirical_TV": 0.2494199510431956,
+        "mean_difference": -0.17096402750908624,
+        "player_id": "espn:player:4432816",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.08680346691154317,
+        "empirical_TV": 0.11823385923170601,
+        "mean_difference": -0.5032219815253045,
+        "player_id": "espn:player:4432816",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.07240093293310695,
+        "empirical_TV": 0.13548384879799927,
+        "mean_difference": -0.3359344215249891,
+        "player_id": "espn:player:4432816",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.06954016789712514,
+        "empirical_TV": 0.1602646547570818,
+        "mean_difference": 0.17345585350687154,
+        "player_id": "espn:player:4432816",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.11893132346611002,
+        "empirical_TV": 0.18018569683828645,
+        "mean_difference": 0.9395597215494131,
+        "player_id": "espn:player:5279133",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.11124048653946017,
+        "empirical_TV": 0.1565039386757565,
+        "mean_difference": -0.5703214509613481,
+        "player_id": "espn:player:5279133",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.1190231762287009,
+        "empirical_TV": 0.12636646641690769,
+        "mean_difference": 0.1996821385594031,
+        "player_id": "espn:player:5279133",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.026869983828586186,
+        "empirical_TV": 0.03837320466173529,
+        "mean_difference": 0.028768138968719437,
+        "player_id": "espn:player:5279133",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.13456245840570813,
+        "empirical_TV": 0.33605039876214476,
+        "mean_difference": 0.2578445268509135,
+        "player_id": "espn:player:4397002",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.03362085958010805,
+        "empirical_TV": 0.12191173898076389,
+        "mean_difference": -0.07552890765158615,
+        "player_id": "espn:player:4397002",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.05799151569733296,
+        "empirical_TV": 0.10709688644991436,
+        "mean_difference": -0.16643258518702808,
+        "player_id": "espn:player:4397002",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.04076863641367179,
+        "empirical_TV": 0.1476704327428103,
+        "mean_difference": 0.04707000517002191,
+        "player_id": "espn:player:4397002",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.06981810963301005,
+        "empirical_TV": 0.23620380860229778,
+        "mean_difference": 0.19018375848522062,
+        "player_id": "espn:player:4592492",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.08179386566657021,
+        "empirical_TV": 0.08265542943739032,
+        "mean_difference": -0.3114985809778277,
+        "player_id": "espn:player:4592492",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.09524754786550316,
+        "empirical_TV": 0.12604273703237892,
+        "mean_difference": -0.5099802117001291,
+        "player_id": "espn:player:4592492",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.07753883863491273,
+        "empirical_TV": 0.12554236477558203,
+        "mean_difference": 0.14873726188162184,
+        "player_id": "espn:player:4592492",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.17062577759329134,
+        "empirical_TV": 0.28440835999652525,
+        "mean_difference": 1.2776584333830865,
+        "player_id": "espn:player:3136196",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.06184268670910753,
+        "empirical_TV": 0.1328255992964993,
+        "mean_difference": -0.09151389650016961,
+        "player_id": "espn:player:3136196",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.07047984045070654,
+        "empirical_TV": 0.08752506851007691,
+        "mean_difference": 0.15510242896060844,
+        "player_id": "espn:player:3136196",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.08023408976240387,
+        "empirical_TV": 0.11616546961819836,
+        "mean_difference": 0.19739582261849442,
+        "player_id": "espn:player:3136196",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.1220181028988423,
+        "empirical_TV": 0.3414299225600394,
+        "mean_difference": 0.41842147851436096,
+        "player_id": "espn:player:4431671",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.11121273326985759,
+        "empirical_TV": 0.1655615968510491,
+        "mean_difference": -0.5756358476134178,
+        "player_id": "espn:player:4431671",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.09992881580230345,
+        "empirical_TV": 0.1328568044447775,
+        "mean_difference": 0.24994431344006873,
+        "player_id": "espn:player:4431671",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.09993636590692401,
+        "empirical_TV": 0.13383409609707544,
+        "mean_difference": 0.21549762328915523,
+        "player_id": "espn:player:4431671",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.0834157617080254,
+        "empirical_TV": 0.24470334316842196,
+        "mean_difference": 0.6931441513579464,
+        "player_id": "espn:player:4895758",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.0445996485050949,
+        "empirical_TV": 0.10352287238296573,
+        "mean_difference": 0.007966543143602234,
+        "player_id": "espn:player:4895758",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.0667548187748721,
+        "empirical_TV": 0.07906358950736042,
+        "mean_difference": 0.12113662832341776,
+        "player_id": "espn:player:4895758",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.06700667391638526,
+        "empirical_TV": 0.06840004691453017,
+        "mean_difference": 0.13867831790819268,
+        "player_id": "espn:player:4895758",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.09355976630485624,
+        "empirical_TV": 0.23233822785225042,
+        "mean_difference": -0.16123816293192483,
+        "player_id": "espn:player:5041935",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.12260844085007128,
+        "empirical_TV": 0.16854968792427208,
+        "mean_difference": -0.6179110283736327,
+        "player_id": "espn:player:5041935",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.08436812475433009,
+        "empirical_TV": 0.1395519407306143,
+        "mean_difference": -0.2478829111931402,
+        "player_id": "espn:player:5041935",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.05113253293612777,
+        "empirical_TV": 0.14004485080857715,
+        "mean_difference": 0.05066308876569536,
+        "player_id": "espn:player:5041935",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.1355101345202905,
+        "empirical_TV": 0.2411679028560446,
+        "mean_difference": -1.091324504425108,
+        "player_id": "espn:player:4903027",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.13919652585739206,
+        "empirical_TV": 0.20103714870108153,
+        "mean_difference": -0.7566230369789508,
+        "player_id": "espn:player:4903027",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.03933989328209775,
+        "empirical_TV": 0.06530464873836987,
+        "mean_difference": 0.12107897920861443,
+        "player_id": "espn:player:4903027",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.055491465237028303,
+        "empirical_TV": 0.12920664478701965,
+        "mean_difference": 8.357431558514428e-05,
+        "player_id": "espn:player:4903027",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.1441624684103311,
+        "empirical_TV": 0.28624854756383694,
+        "mean_difference": 0.43243657956099746,
+        "player_id": "espn:player:4684806",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.038100745085019705,
+        "empirical_TV": 0.12645701101172357,
+        "mean_difference": 0.05656101476055131,
+        "player_id": "espn:player:4684806",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.07076878659497665,
+        "empirical_TV": 0.11352088942732619,
+        "mean_difference": 0.0334028800927999,
+        "player_id": "espn:player:4684806",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.06578623421653063,
+        "empirical_TV": 0.07341886672073847,
+        "mean_difference": 0.12374302401641124,
+        "player_id": "espn:player:4684806",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.09588302222301093,
+        "empirical_TV": 0.20755164282591096,
+        "mean_difference": 0.5016646570634085,
+        "player_id": "espn:player:4594326",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.051634138480697866,
+        "empirical_TV": 0.10625288305999199,
+        "mean_difference": 0.08120031705678232,
+        "player_id": "espn:player:4594326",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.05502687662886663,
+        "empirical_TV": 0.06053645062422785,
+        "mean_difference": 0.15188601496922916,
+        "player_id": "espn:player:4594326",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.0783487248625625,
+        "empirical_TV": 0.08272065766964455,
+        "mean_difference": 0.11366037361300596,
+        "player_id": "espn:player:4594326",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.08518510919115474,
+        "empirical_TV": 0.30095727232245495,
+        "mean_difference": 0.6126515682055755,
+        "player_id": "espn:player:4595400",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.13575372293436738,
+        "empirical_TV": 0.15212481008372203,
+        "mean_difference": 0.591486752712763,
+        "player_id": "espn:player:4595400",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.09691196699579985,
+        "empirical_TV": 0.11868379575417065,
+        "mean_difference": 0.16371264331851676,
+        "player_id": "espn:player:4595400",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.05684605444444846,
+        "empirical_TV": 0.08902871823518516,
+        "mean_difference": 0.10686020064926272,
+        "player_id": "espn:player:4595400",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.1299818650746515,
+        "empirical_TV": 0.2920381795855115,
+        "mean_difference": -0.8090309245080629,
+        "player_id": "espn:player:4433083",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.05795899081025241,
+        "empirical_TV": 0.10476207392840808,
+        "mean_difference": -0.246741604025015,
+        "player_id": "espn:player:4433083",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.1062461978966045,
+        "empirical_TV": 0.17865329257927037,
+        "mean_difference": -0.849432659451054,
+        "player_id": "espn:player:4433083",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.049977353016061044,
+        "empirical_TV": 0.11557007867904417,
+        "mean_difference": -0.13325432554141692,
+        "player_id": "espn:player:4433083",
+        "statistic": "threes"
+      },
+      {
+        "CDF_gap": 0.0793563351617469,
+        "empirical_TV": 0.24726415364537704,
+        "mean_difference": 0.673910312516572,
+        "player_id": "espn:player:5112087",
+        "statistic": "points"
+      },
+      {
+        "CDF_gap": 0.058217814942071455,
+        "empirical_TV": 0.14899525773757427,
+        "mean_difference": 0.06785482533196596,
+        "player_id": "espn:player:5112087",
+        "statistic": "rebounds"
+      },
+      {
+        "CDF_gap": 0.09274390665632415,
+        "empirical_TV": 0.11674080685717737,
+        "mean_difference": 0.25154453471609006,
+        "player_id": "espn:player:5112087",
+        "statistic": "assists"
+      },
+      {
+        "CDF_gap": 0.04369252248413305,
+        "empirical_TV": 0.0921763020492804,
+        "mean_difference": 0.17246704656534817,
+        "player_id": "espn:player:5112087",
+        "statistic": "threes"
+      }
+    ],
+    "supported": 56
+  },
+  "coverage": {
+    "abstentions": 168,
+    "actual_scores": 0,
+    "all_attempts": 280,
+    "all_public_query_pairs_exact": 336,
+    "pending_outcomes": 280,
+    "primitive_abstentions": 84,
+    "primitive_attempts": 140,
+    "primitive_supported": 56,
+    "supported": 112
+  },
+  "errors": 0,
+  "execution": {
+    "OT_counts": {
+      "0": 62,
+      "1": 2
+    },
+    "OT_rejections": 67,
+    "all64_bank_bytes_reproduced": true,
+    "all_gzip_trace_bytes_reproduced": true,
+    "bank_raw_sha256": "318bb9b2317ae120b6b51852a88b97177424fc0caeba36ed8b38b4f6ead01d88",
+    "model_raw_sha256": "f1f6dd4a4d3753042c28b71fa9b7949628d69ccdad8f38ece47bb2ccdc6ffa2a",
+    "paths": 131,
+    "physics": {
+      "all_physics_unchanged": true,
+      "scenarios": 64,
+      "violations": 0
+    },
+    "receipt": {
+      "addendum_raw_sha256": "545f3eb596a43299c01a5bb5f0169421e3df4ede364879a55a0f1324c15af1b1",
+      "artifact_raw_sha256": {
+        "BANK.json": "318bb9b2317ae120b6b51852a88b97177424fc0caeba36ed8b38b4f6ead01d88",
+        "COHERENCE.json": "7286cda75fe1038a2a80abc7e71de90b951779cfcff041b2a341b3682ba122d5",
+        "COHORT.json": "930715bcd2cb55ecca60bff433ea310c452ce4004791029989e1842a9286a969",
+        "MARGINALS.json": "c0f745829b8643780a3fc34b314f0a3dd11e9c035bbaffd7398c503bb61dec9a",
+        "REFERENCE_COMPARISON.json": "8e0c7e50c8d08c837842e8077f943d3c0c79430a4ef00f995885f2fd4ade21c7"
+      },
+      "bank_payload_sha256": "f5342f714c0af10def25fd2c9f41bda2d2ee9e341c0b07d39ef1f7be9b926453",
+      "bank_raw_sha256": "318bb9b2317ae120b6b51852a88b97177424fc0caeba36ed8b38b4f6ead01d88",
+      "code_raw_sha256": {
+        "v2/nba_architecture/conditional_c_v1.py": "a6e2aa7d540d01e2492ce4984a20fc2d6e40a1778d2228d89598632e4ab03687",
+        "v2/nba_joint/coherent_components_v1.py": "7f5ad29ce603af69491e6046f78567d98e06f4460e9d8333bebdb605b1bf5973",
+        "v2/nba_joint/coherent_predictive_v1.py": "7d1d722bc37fca565daed5b98582f92bb5c7aba3c186f9fe3b18d5576eddea0f",
+        "v2/nba_joint/common.py": "35df67a2e76cad1f978f35693924ba6c63c43ec7b519c93289a3c8e13a912478",
+        "v2/nba_joint/residual_audit_v1.py": "5d99e90df7f9b5164d66f92e70b0e894d3e0d5540131354d8f85cd89560f5197",
+        "v2/nba_joint/residual_events_v1.py": "75be57a993360b693d61dfd5acde07dad92a28e831ed6b781c068b793fce01ee",
+        "v2/nba_joint/residual_opportunity_v1.py": "d53627276ba972cd23ce91bd4d9cb212f28fa141e45d44ea6f5a276b41215803"
+      },
+      "completed_at": "2026-11-20T13:09:03.026510+00:00",
+      "exact_S4_J_query_pairs": 336,
+      "failed": [],
+      "fit_receipt_raw_sha256": "7a68dc5bd6d4a1b4d4ba3a63599b1d39b9a4cc3eea0844240603809ec344c571",
+      "freeze_at": "2026-11-20T13:07:59.046901+00:00",
+      "gzip_format": "GZIP_MTIME0_EMPTY_FILENAME_DEFAULT_LEVEL9",
+      "historical_validation": false,
+      "implementation_commit": "8d8df996a44b00ba9af3f9e58325539b75641802",
+      "market_attempts": 280,
+      "model_admission_raw_sha256": "fe76962f35dc49351b5e73f7371fc7d5206e4062ab8c40dcf19c6b2e526a0970",
+      "model_raw_sha256": "f1f6dd4a4d3753042c28b71fa9b7949628d69ccdad8f38ece47bb2ccdc6ffa2a",
+      "numpy": "2.3.5",
+      "path_proposals": 131,
+      "population_accuracy_established": false,
+      "primitive_attempts": 140,
+      "protocol_raw_sha256": "e12290d9021c82340ed75dfe16647d7672c42cbfd581f67273bef40e0eb6d303",
+      "python": "3.12.14",
+      "release": false,
+      "scenarios_dropped": 0,
+      "scenarios_requested": 64,
+      "schema": "coherent-S4-J-actual-execution/1",
+      "scipy": "1.17.0",
+      "source_primitive_abstentions": 84,
+      "started_at": "2026-11-20T13:07:59.063142+00:00",
+      "status": "ENGINEERING_SAMPLE",
+      "supported_primitive_requests": 56,
+      "zero_sensitivity_gate": "PENDING",
+      "zlib": "1.3.2"
+    },
+    "scenarios": 64
+  },
+  "failures": 0,
+  "methods": 3
+}

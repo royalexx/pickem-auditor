@@ -1,0 +1,19 @@
+{
+  "actual_execution_implementation_commit": "8d8df996a44b00ba9af3f9e58325539b75641802",
+  "actual_source_methods_pass": 3,
+  "any_other_reader_change_approved": false,
+  "decision": "APPROVE_INSTALL_EXACT_SOURCE_BACKED_COHERENT_BANK_REPLAY_ROOTS_ONLY",
+  "historical_validation": false,
+  "mocked_proposed_roots_are_not_installed_admission": true,
+  "permitted_constant_replacements": {
+    "BANK_SHA": "318bb9b2317ae120b6b51852a88b97177424fc0caeba36ed8b38b4f6ead01d88",
+    "MODEL_ADMISSION_SHA": "fe76962f35dc49351b5e73f7371fc7d5206e4062ab8c40dcf19c6b2e526a0970",
+    "RECEIPT_SHA": "dc7f7cdab93129c3b11c7157bd6222fa67e4f71e024487ef8685f4939a30d459"
+  },
+  "proposed_root_public_methods_pass": 4,
+  "reader_before_activation_git_commit": "3d9d5dd4df6dec6907694e14636db02c501d5e2b",
+  "reader_code_before_activation_sha256": "cea32050af0dd28063cd8134366c7c208f2eb55d67bb0542c3604c4da10a511e",
+  "release": false,
+  "reviewer_authored_implementation_repairs": false,
+  "zero_sensitivity_gate": "PENDING_NOT_ACCEPTED"
+}

@@ -1,0 +1,61 @@
+{
+  "recorded_at": "2026-11-20T13:15:17.306788+00:00",
+  "byte_domain": "EXACT_SAVED_FILE_BYTES",
+  "artifacts": [
+    {
+      "path": "PROTOCOL.json",
+      "bytes": 4289,
+      "raw_sha256": "e12290d9021c82340ed75dfe16647d7672c42cbfd581f67273bef40e0eb6d303"
+    },
+    {
+      "path": "PROTOCOL_ADDENDUM.json",
+      "bytes": 1349,
+      "raw_sha256": "545f3eb596a43299c01a5bb5f0169421e3df4ede364879a55a0f1324c15af1b1"
+    },
+    {
+      "path": "fitted/model.json",
+      "bytes": 36372,
+      "raw_sha256": "f1f6dd4a4d3753042c28b71fa9b7949628d69ccdad8f38ece47bb2ccdc6ffa2a"
+    },
+    {
+      "path": "fitted/FIT_RECEIPT.json",
+      "bytes": 1196,
+      "raw_sha256": "7a68dc5bd6d4a1b4d4ba3a63599b1d39b9a4cc3eea0844240603809ec344c571"
+    },
+    {
+      "path": "actual/COHORT.json",
+      "bytes": 4675,
+      "raw_sha256": "930715bcd2cb55ecca60bff433ea310c452ce4004791029989e1842a9286a969"
+    },
+    {
+      "path": "actual/BANK.json",
+      "bytes": 9277931,
+      "raw_sha256": "318bb9b2317ae120b6b51852a88b97177424fc0caeba36ed8b38b4f6ead01d88"
+    },
+    {
+      "path": "actual/EXECUTION_RECEIPT.json",
+      "bytes": 2582,
+      "raw_sha256": "dc7f7cdab93129c3b11c7157bd6222fa67e4f71e024487ef8685f4939a30d459"
+    },
+    {
+      "path": "actual/MARGINALS.json",
+      "bytes": 113506,
+      "raw_sha256": "c0f745829b8643780a3fc34b314f0a3dd11e9c035bbaffd7398c503bb61dec9a"
+    },
+    {
+      "path": "actual/COHERENCE.json",
+      "bytes": 289015,
+      "raw_sha256": "7286cda75fe1038a2a80abc7e71de90b951779cfcff041b2a341b3682ba122d5"
+    },
+    {
+      "path": "actual/REFERENCE_COMPARISON.json",
+      "bytes": 49481,
+      "raw_sha256": "8e0c7e50c8d08c837842e8077f943d3c0c79430a4ef00f995885f2fd4ade21c7"
+    },
+    {
+      "path": "replayed/RESULT.json",
+      "bytes": 795,
+      "raw_sha256": "3ae862610a0078432e008c7ef6b1c6fec5c2a0b0837ec15875a195db60f2f918"
+    }
+  ]
+}

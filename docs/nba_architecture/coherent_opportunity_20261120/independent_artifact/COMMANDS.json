@@ -1,0 +1,20 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/coherent_opportunity_20261120/independent_artifact/artifact_probe.py"
+      ],
+      "exit_code": 0,
+      "stderr": "tests.stderr",
+      "stdout": "tests.stdout"
+    }
+  ],
+  "cwd": "/workspace/pickem-auditor",
+  "fit_writer_calls": 0,
+  "in_memory_assembly_verification_replays": 1,
+  "new_J_runs": 0,
+  "new_forecasts": 0,
+  "new_model_artifacts_created": 0,
+  "outcome_scores": 0
+}

@@ -1,0 +1,20 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/coherent_opportunity_20261120/independent_protocol/protocol_probe.py"
+      ],
+      "exit_code": 0,
+      "stderr": "tests.stderr",
+      "stdout": "tests.stdout"
+    }
+  ],
+  "cwd": "/workspace/pickem-auditor",
+  "new_J_runs": 0,
+  "new_fit_calls": 0,
+  "new_forecasts": 0,
+  "new_model_artifacts": 0,
+  "outcome_scores": 0,
+  "startup_commands": "STARTUP.json"
+}

@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-11-20T12:45:27.430310+00:00",
+  "parent_protocol_sha256": "e12290d9021c82340ed75dfe16647d7672c42cbfd581f67273bef40e0eb6d303",
+  "scope": "PRE_FIT_CLARIFICATIONS_AND_FAIL_CLOSED_RESOURCE_CAPS",
+  "assumptions": [
+    "Homogeneous component rates below30seconds remain unvalidated extrapolation.",
+    "Beta(.5,49.5) zero-state prior remains unupdated; genuine true-zero and participation probabilities unknown.",
+    "Rates/minutes conditional product remains an assumption.",
+    "New-family zero-weight sensitivity gate PENDING; earlier S1 sensitivity grid does not validate S4.",
+    "Gamma-Poisson/Beta-binomial identities apply to working likelihoods, not event-kernel count marginals; attempt intensities become relative branch weights.",
+    "Same-bank S4/J equality is software measure identity, not convergence or accuracy."
+  ],
+  "trace": {
+    "format": "CANONICAL_UTF8_JSON_GZIP_MTIME0_EMPTY_FILENAME_COMPRESSLEVEL9",
+    "serialization_version": "PYTHON_GZIP_RUNTIME_VERSION_RECORDED_IN_RECEIPT",
+    "per_path_json_bytes": 2097152,
+    "per_path_gzip_bytes": 524288,
+    "total_json_bytes": 2147483648,
+    "total_gzip_bytes": 268435456,
+    "on_exhaustion": "PRESERVE_PARTIAL_FIXED_OR_EVENT_RECORD_AND_PATH_METADATA_THEN_FAIL_WHOLE_BATCH_NO_RESAMPLING_NO_SUCCESSFUL_SUBSET_FORECAST"
+  },
+  "release": false
+}

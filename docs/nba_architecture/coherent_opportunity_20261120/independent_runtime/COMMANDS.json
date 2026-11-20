@@ -1,0 +1,99 @@
+{
+  "PYTHONPATH": ".",
+  "negative_commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/identity_red.py"
+      ],
+      "original_exit_code": 1,
+      "original_streams": [
+        "identity-red.stdout",
+        "identity-red.stderr"
+      ],
+      "repaired_exit_code": 0,
+      "repaired_streams": [
+        "identity-repair.stdout",
+        "identity-repair.stderr"
+      ]
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/trace_metadata_red.py"
+      ],
+      "original_exit_code": 1,
+      "original_streams": [
+        "trace-metadata-red.stdout",
+        "trace-metadata-red.stderr"
+      ],
+      "repaired_exit_code": 0,
+      "repaired_streams": [
+        "trace-metadata-repair.stdout",
+        "trace-metadata-repair.stderr"
+      ]
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/failed_cli_probe.py"
+      ],
+      "domain": "CONTROLLED_EVENT_BUDGET_FAILURE_NOT_A_NEW_PROSPECTIVE_FORECAST",
+      "observed_public_CLI_exit_code": 2,
+      "stderr": "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/failed-cli.stderr",
+      "stdout": "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/failed-cli.stdout",
+      "test_wrapper_exit_code": 0
+    }
+  ],
+  "no_fit_or_new_positive_forecast_by_reviewer": true,
+  "positive_commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/public_probe.py"
+      ],
+      "environment": {
+        "COHERENT_REVIEW_OUT": "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/final_4b"
+      },
+      "exit_code": 0,
+      "stderr": "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/final_4b/tests.stderr",
+      "stdout": "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/final_4b/tests.stdout"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/actual_probe.py"
+      ],
+      "exit_code": 0,
+      "stderr": "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/actual.stderr",
+      "stdout": "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/actual.stdout"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/issued_probe.py"
+      ],
+      "environment": {
+        "COHERENT_ISSUED_REVIEW_OUT": "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/issued_installed"
+      },
+      "exit_code": 0,
+      "stderr": "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/issued_installed/tests.stderr",
+      "stdout": "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/issued_installed/tests.stdout"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/nba_coherent.py",
+        "replay",
+        "--output",
+        "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/cli_replay"
+      ],
+      "exit_code": 0,
+      "stderr": "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/cli-replay.stderr",
+      "stdout": "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/cli-replay.stdout"
+    }
+  ],
+  "producer_commit": "8d8df996a44b00ba9af3f9e58325539b75641802",
+  "proposed_root_controls": "issued_proposed uses process-only mocked actual roots; installed tests do not mock roots",
+  "reader_commit": "4b464906782e02d1ea630c6cbd1dbd99f440317a"
+}

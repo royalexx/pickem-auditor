@@ -1,0 +1,40 @@
+{
+  "recorded_at": "2026-11-20T13:23:35.631996+00:00",
+  "verified_input_commit": "04b9422b10e7d3ca7ff49810cae54a8423535d70",
+  "fresh_worktree": "/workspace/scratch/coherent-published-verify",
+  "commands": [
+    {
+      "argv": [
+        "/workspace/scratch/p1-p5-ci-venv/bin/python",
+        "scripts/nba_coherent.py",
+        "replay",
+        "--output",
+        "/workspace/scratch/coherent-verified-public-output"
+      ],
+      "cwd": "/workspace/scratch/coherent-published-verify",
+      "environment": {
+        "PYTHONPATH": "."
+      },
+      "exit_code": 0,
+      "stdout": "fresh_replay.stdout",
+      "stderr": "fresh_replay.stderr"
+    },
+    {
+      "argv": [
+        "sha256sum",
+        "-c",
+        "docs/nba_architecture/coherent_opportunity_20261120/SHA256SUMS"
+      ],
+      "cwd": "/workspace/pickem-auditor",
+      "exit_code": 0,
+      "verified_entries": 1381,
+      "stdout": "checksums.stdout",
+      "stderr": "checksums.stderr"
+    }
+  ],
+  "fresh_output_identical_to_original": true,
+  "result_raw_sha256": "3ae862610a0078432e008c7ef6b1c6fec5c2a0b0837ec15875a195db60f2f918",
+  "new_fit": false,
+  "new_forecast": false,
+  "release": false
+}

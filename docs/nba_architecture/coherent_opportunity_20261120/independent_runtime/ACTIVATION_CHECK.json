@@ -1,0 +1,22 @@
+{
+  "approved_roots": {
+    "BANK_SHA": "318bb9b2317ae120b6b51852a88b97177424fc0caeba36ed8b38b4f6ead01d88",
+    "MODEL_ADMISSION_SHA": "fe76962f35dc49351b5e73f7371fc7d5206e4062ab8c40dcf19c6b2e526a0970",
+    "RECEIPT_SHA": "dc7f7cdab93129c3b11c7157bd6222fa67e4f71e024487ef8685f4939a30d459"
+  },
+  "checked_at": "2026-11-20T13:15:32.213635+00:00",
+  "installed_commit": "4b464906782e02d1ea630c6cbd1dbd99f440317a",
+  "installed_reader_raw_sha256": "cca039ba97e7c0fc79dd1d7d731958e8828e933819635def0fbaee0077d75445",
+  "only_three_approved_root_constants_changed": true,
+  "public_cli_existing_output_negative": {
+    "command": [
+      "python",
+      "scripts/nba_coherent.py",
+      "replay",
+      "--output",
+      "docs/nba_architecture/coherent_opportunity_20261120/independent_runtime/cli_replay"
+    ],
+    "exit_code": 1,
+    "original_result_sha256_unchanged": "3ae862610a0078432e008c7ef6b1c6fec5c2a0b0837ec15875a195db60f2f918"
+  }
+}

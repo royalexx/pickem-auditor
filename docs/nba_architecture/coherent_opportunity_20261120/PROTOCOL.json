@@ -1,0 +1,60 @@
+{
+  "schema": "coherent-opportunity-family-preregistration/1",
+  "created_at": "2026-11-20T12:42:04.906167+00:00",
+  "authority": "PA-V25-MASTER-2026-11-09/v1.1",
+  "authorization": "Latest user instruction implement joint-compatible statistic generation without softening physical accounting.",
+  "base": "d029747c106c8b825d13f13c0d107d45b36d6ec3",
+  "cohort_raw_sha256": "affcf904c315b090950c81960c5044bbaa577af8359117bc6be7ea043f8a9c14",
+  "target": "401910026",
+  "target_start": "2026-11-22T01:00Z",
+  "source_candidates": 35,
+  "named_supported": 14,
+  "primitive_attempts": 140,
+  "abstentions": 84,
+  "source_population": "SAME_ORIGINAL20_GAMES_698_RECORDS_456_ORDINARY_INCLUDED_NO_COHORT_REPLACEMENT",
+  "old_model_raw_sha256": "85f27b2ce96a96e14449da3e10ab0d3bb7e9c4e60d7aa30bc5b311d46c48e46d",
+  "new_family": "MODULAR_OPPORTUNITY_POSTERIOR_PREDICTIVE_WITH_SHARED_S_AND_J_KERNEL",
+  "components": {
+    "attempt_rates": [
+      "twoPA",
+      "threePA",
+      "FTA",
+      "TO"
+    ],
+    "prior": "Named Gamma(.5+180*leave-player-out same-role count/minute,1+180), then own Poisson count+reported-minute update. Residual Gamma(.5,1) then historical non-named same-team count+reported-minute update.",
+    "conversions": "Named Beta(.5+40*same-role leave-player-out make proportion,.5+40*fail proportion), then own makes/misses; residual Beta(.5,.5)+pooled makes/misses for2PT/3PT/FT.",
+    "auxiliary": "Reuse exact admitted G/OT/minute/copula/assist/rebound/foul-length proxies and restrictions. No new lineup, roster, availability or publication claim."
+  },
+  "factorization_limit": "Component Gamma-Poisson/Beta-binomial posteriors conditional on reported exposure/attempts are exact for declared working likelihoods. Their modular use in constrained chronological J is not a posterior of the entire observed event process.",
+  "mechanism": "Sample attempt rates and conversion probabilities once. Derive expected made3=threePA*p3, non3points=2*twoPA*p2+FTA*pFT, PTS=3*made3+non3points, FTshare=FTA*pFT/non3points. Reuse unchanged audited chronological path; its branch weights equal underlying2PA/3PA/FTseries/TO rates. No independent PTS/3PM posterior, no rPTS<3r3 rejection or projection.",
+  "S_definition": "S4 marginal is a projection of EXACT_SAME_MODEL_AND_SCENARIO_BANK as new J, not independent S1 plus a coupling correction. All8 primitive/combo vectors share scenario IDs; same-stat public S/J queries must match exactly.",
+  "inference": {
+    "seed": 20261120,
+    "scenarios": 64,
+    "path_budget_per_scenario": 4096,
+    "event_budget_per_path": 4096,
+    "stream": "Fixed scenario keys use coherent-family namespace; no seed selection after results. Retain all proposals as create-only deterministic gzip raw JSON with both compressed and uncompressed hashes. FixedG/O/parameters never resampled across OT rejects; exhaustion fails whole batch.",
+    "one_new_prospective_fit": true
+  },
+  "acceptance": [
+    "Unchanged hard physics auditor and old core bytes.",
+    "Independent prefit source/contract review before new artifact.",
+    "Conjugate parameter values and posterior predictive identities independently checked.",
+    "No independent points/threes input accepted; moment constraint compatible by shared construction.",
+    "Actual public source->fit->same S/J law->C transport, all140/280 denominators.",
+    "PMF/CDF/OUP are Monte Carlo estimates with error bands; zero hits never exact population zero, full population support not replaced by empirical support.",
+    "Strict source/model/code/clock/ancestry/version binding; mutations/reject/unknown populations preserved."
+  ],
+  "metrics": [
+    "Exact same-bank S/J PMF/CDF/OUP equality (software identity, not predictive quality).",
+    "Physics violations and complete denominators.",
+    "Old S1/newS4 means,CDF/partitionTV with MC uncertainty, no required match of incompatible old marginals."
+  ],
+  "stop": [
+    "No new fit if protocol not independently accepted.",
+    "No issuance if any scenario fails, source/identity/clock/code fails, or target already started.",
+    "No historical replacement fitting, holdout scoring/decompression, weight optimization,NUTS,schedule change,merge,deploy,Tier promotion."
+  ],
+  "historical_validation_required": true,
+  "release": false
+}

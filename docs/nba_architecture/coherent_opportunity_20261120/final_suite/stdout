@@ -1,0 +1,191 @@
+rectangular exact integer reference assignments: 37500
+triangular exact integer reference assignments: 30662
+{"attempt": "/tmp/tmpyebgq4yr/pregame-20261119T000000000000Z-06da3aea", "status": "CAPTURED_UNADMITTED_WITH_GAPS", "returned_roster_rows": 0, "errors": ["MISSED_ORIGINAL_FREEZE"]}
+{
+  "date": "2026-10-27",
+  "candidate_ids": 1,
+  "source_attempts": 1,
+  "verified_pregame_games": 0,
+  "resolved_statuses": 0,
+  "resolved_venues": 0,
+  "resolved_goalies": 0,
+  "started_games_excluded": 0,
+  "evidence_complete": false,
+  "note": "Structured evidence only; missing scouting and adversarial validation retain existing ranking vetoes."
+}
+{
+  "date": "2026-10-26",
+  "started_at": "2026-11-20T13:18:17.450233+00:00",
+  "status": "blocked",
+  "research_complete": false,
+  "stages": [
+    {
+      "name": "collect",
+      "returncode": 2
+    }
+  ],
+  "sources": {
+    "NFL": "nflreadpy",
+    "NHL": "nhl-api-py and NHL REST",
+    "NBA": "ESPN"
+  },
+  "failed_stage": "collect",
+  "finished_at": "2026-11-20T13:18:17.451180+00:00"
+}
+{
+  "date": "2026-10-26",
+  "started_at": "2026-11-20T13:18:17.453607+00:00",
+  "status": "research_required",
+  "research_complete": false,
+  "stages": [
+    {
+      "name": "collect",
+      "returncode": 0
+    },
+    {
+      "name": "prep",
+      "returncode": 0
+    },
+    {
+      "name": "scan",
+      "returncode": 0
+    },
+    {
+      "name": "research_queue",
+      "returncode": 0
+    }
+  ],
+  "sources": {
+    "NFL": "nflreadpy",
+    "NHL": "nhl-api-py and NHL REST",
+    "NBA": "ESPN"
+  },
+  "coverage": {
+    "has_priced_history_rows": true
+  },
+  "scan_counts": {
+    "shortlisted": 1
+  },
+  "context": {},
+  "finished_at": "2026-11-20T13:18:17.456587+00:00"
+}
+{
+  "date": "2026-10-26",
+  "started_at": "2026-11-20T13:18:17.457773+00:00",
+  "status": "research_required",
+  "research_complete": false,
+  "stages": [
+    {
+      "name": "collect",
+      "returncode": 0
+    },
+    {
+      "name": "prep",
+      "returncode": 0
+    },
+    {
+      "name": "scan",
+      "returncode": 0
+    },
+    {
+      "name": "research_queue",
+      "returncode": 0
+    }
+  ],
+  "sources": {
+    "NFL": "nflreadpy",
+    "NHL": "nhl-api-py and NHL REST",
+    "NBA": "ESPN"
+  },
+  "coverage": {
+    "has_priced_history_rows": true
+  },
+  "scan_counts": {
+    "shortlisted": 1
+  },
+  "context": {},
+  "finished_at": "2026-11-20T13:18:17.460375+00:00"
+}
+{"contracts": 1, "receipt": "/tmp/tmpczuu5uap/receipt.json", "status": "read_only_audited"}
+{"contracts": 1, "receipt": "/tmp/tmpczuu5uap/receipt.json", "status": "read_only_audited"}
+{"schema": "pickem-history-full-v1", "archive_sha256": "6f9b11bf456c1637b5061c8761653dec05a2396c825e5cf2babdd829713fed64", "forecast_rows_original": 1492, "existing_files_preserved": 0, "files_restored": 5, "seeded_from_2026_10_26": true}
+{"schema": "pickem-history-full-v1", "archive_sha256": "6f9b11bf456c1637b5061c8761653dec05a2396c825e5cf2babdd829713fed64", "forecast_rows_original": 1492, "existing_files_preserved": 5, "files_restored": 0, "seeded_from_2026_10_26": true}
+{"status": "completed_marker_preserved_after_explicit_rerun", "date": "2026-10-28", "run_id": "40799999999"}
+NHL_SAVES_SHADOW {"date": "2026-10-30", "forecast_count": 1, "model_convergence_passed": true, "new_rows": 1, "previously_recorded": 0, "production_snapshot_unchanged": true, "publication_eligible": false, "ranking_allowed": false, "reasons": {}, "release_tag": "research-nhl-saves-20261029-run40993538888", "schema": "nhl_saves_joint_posterior_daily_shadow_v1", "snapshot_candidates": 1, "source_digest": "sha-verified-source", "total_rows": 1, "unavailable_count": 0}
+{"output": "/tmp/tmp4ixsr_l4/receipt.json", "schema": "pickem-phase15-diagnostics-v1", "promotion_allowed": false, "paired_contracts": 1, "oracle_rows": 0}
+FROZEN_HISTORY_CACHE_UNAVAILABLE history_cache_integrity_mismatch
+FROZEN_HISTORY_CACHE_UNAVAILABLE cache_miss
+PERSISTENT_FROZEN_STATE_SAVED {"code_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "index": "0", "phase": "final", "run_id": "41571885953", "source_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "state": "/tmp/tmpdyn7qmlc/cache/campaigns/week-20261102/market-00/run-41571885953/state.json"}
+FROZEN_HISTORY_CACHE_RESTORED source_sha=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+NHL_BENCHMARK_RESULT {"backend": "pymc", "backend_approved": false, "error": "RuntimeError: benchmark-source-unavailable", "minimum_bulk_ess_per_second": null, "pilot_diagnostics_pass": false, "players": null, "stat": "hits", "status": "failed", "total_seconds": null, "training_rows": null}
+V25_SOG_CPU_SMOKE 1000_contract_lines_seconds=0.103 peak_python_bytes=1572
+V25_SOG_NO_SOURCE_DRY_RUN {"attempted_at": "2026-11-20T13:19:41.433443Z", "contract_id": null, "event_id": null, "experiment_id": "EXP-V25-NHL-SOG-EXPOSURE-EB-001", "outcome_used": false, "production_selection_allowed": false, "reason": "ExperimentBlocked:RAW_REAL_OFFER_RECEIPT_MISSING", "schema": "v25_sog_prospective_attempt_v1", "source_semantics": "collector_possession_not_upstream_publication", "status": "ABSTAIN", "tier_publication_allowed": false}
+{
+  "date": "2026-10-27",
+  "retrieved_at": "2026-10-27T15:00:00Z",
+  "verified_at_utc": "2026-11-20T13:19:41.465112+00:00",
+  "source_slate": "/tmp/tmp_rmacd0g/slate.jsonl",
+  "slot": "morning",
+  "feed_status": {
+    "NHL": {
+      "status": "ok",
+      "source_reported_rows": 1,
+      "verified_rows": 1,
+      "archived_path": "data/history_slate/2026-10-27/morning/nhl.jsonl.gz"
+    },
+    "NBA": {
+      "status": "ok",
+      "source_reported_rows": 1,
+      "verified_rows": 1,
+      "archived_path": "data/history_slate/2026-10-27/morning/nba.jsonl.gz"
+    },
+    "NFL": {
+      "status": "failed",
+      "source_reported_rows": 0,
+      "verified_rows": 0
+    }
+  },
+  "source_rows": {
+    "NHL": 1,
+    "NBA": 1,
+    "NFL": 0
+  },
+  "status": "partial",
+  "errors": [
+    "NFL_FEED_UNVERIFIED"
+  ]
+}
+{
+  "date": "2026-10-27",
+  "retrieved_at": "2026-10-27T15:00:00Z",
+  "verified_at_utc": "2026-11-20T13:19:41.468038+00:00",
+  "source_slate": "/tmp/tmpr81kesv3/slate.jsonl",
+  "slot": "morning",
+  "feed_status": {
+    "NHL": {
+      "status": "ok",
+      "source_reported_rows": 1,
+      "verified_rows": 1,
+      "archived_path": "data/history_slate/2026-10-27/morning/nhl.jsonl.gz"
+    },
+    "NBA": {
+      "status": "ok",
+      "source_reported_rows": 1,
+      "verified_rows": 1,
+      "archived_path": "data/history_slate/2026-10-27/morning/nba.jsonl.gz"
+    },
+    "NFL": {
+      "status": "no_games_scheduled",
+      "source_reported_rows": 0,
+      "verified_rows": 0,
+      "explanation": "Verified official schedule returned no NFL regular-season game"
+    }
+  },
+  "source_rows": {
+    "NHL": 1,
+    "NBA": 1,
+    "NFL": 0
+  },
+  "status": "success",
+  "errors": []
+}
