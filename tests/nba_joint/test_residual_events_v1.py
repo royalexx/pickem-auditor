@@ -64,5 +64,26 @@ class ResidualPublicPathTests(unittest.TestCase):
         d['actors'][0]['team_id']='WRONG'
         with self.assertRaises(ValueError):audit_team(d,48.)
 
+    def test_necessary_unchanged_marginal_constraint_pointwise(self):
+        import math
+        from v2.nba_joint.s_marginal_compatibility_v1 import check_saved_marginals
+        from pathlib import Path
+        import json
+        def falling(x,r):return math.prod(x-i for i in range(r)) if r<=x else 0
+        for y in range(15):
+            for x in range(3*y,3*y+10):
+                for r in range(1,18):self.assertGreaterEqual(falling(x,r),3**r*falling(y,r))
+        p=Path(__file__).resolve().parents[2]/'docs/nba_architecture/complete_predictive_20261120'
+        result=check_saved_marginals(json.loads((p/'actual_full_forecast/forecast.json').read_bytes()))
+        self.assertEqual(result['incompatible_rows'],14)
+        self.assertTrue(all(r['witness']['log_factorial_moment_ratio'] < -1 for r in result['rows']))
+
+    def test_hold_and_period_mutations_reject(self):
+        run=simulate(fixture(),seed=41,n=1);s=run['scenarios'][0];fixed=s['fixed'];base=s['proposals'][-1]
+        value=copy.deepcopy(base);next(r for r in value['ledger'] if r['kind']=='PERIOD_HOLD_END')['shot_clock_before']+=100
+        with self.assertRaises(ValueError):audit_path(fixed,value)
+        value=copy.deepcopy(base);value['ledger'].pop()
+        with self.assertRaises(ValueError):audit_path(fixed,value)
+
 
 if __name__=='__main__':unittest.main()
