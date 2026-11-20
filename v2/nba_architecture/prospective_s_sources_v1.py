@@ -109,7 +109,9 @@ def parse_completed_game(official_raw,espn_raw,index_raw,join):
         tid=str(team['team']['id']);side=homeaway[tid];nba=game[side+'Team'];index_team=card[side+'Team']
         require(nba['teamName']==team['team']['name']==index_team['teamName'],'TEAM_NAME_SCOPE_JOIN')
         require(int(nba['teamId'])==int(index_team['teamId'])==int(game[side+'TeamId']),'OFFICIAL_TEAM_ID_JOIN')
-        require(nba['periods']==index_team['periods'] and nba['score']==index_team['score'],'OFFICIAL_INDEX_PERIOD_SCORE_JOIN')
+        period_scores=lambda rows:[(p['period'],p['score']) for p in rows]
+        require(period_scores(nba['periods'])==period_scores(index_team['periods']) and nba['score']==index_team['score'],
+            'OFFICIAL_INDEX_PERIOD_SCORE_JOIN')
         require([p['period'] for p in nba['periods']]==list(range(1,period+1)),'OFFICIAL_PERIOD_COVERAGE')
         require(sum(_integer(p['score'],'OFFICIAL_PERIOD_SCORE') for p in nba['periods'])==nba['score']==nba['statistics']['points'],'OFFICIAL_PERIOD_SCORE_ACCOUNTING')
         stats=team['statistics'];require(len(stats)==1,'ESPN_STAT_GROUP_POPULATION');names=stats[0]['names']
