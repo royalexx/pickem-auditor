@@ -1,0 +1,25 @@
+{
+  "J_scenarios_generated": 0,
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_j_artifact/artifact_probe.py"
+      ],
+      "exit_code": 0,
+      "stderr": "tests.stderr",
+      "stdout": "tests.stdout"
+    }
+  ],
+  "compiler_writer_calls": 0,
+  "cwd": "/workspace/pickem-auditor",
+  "new_fit_artifacts_created": 0,
+  "outcome_scores": 0,
+  "preserved_initial_red": {
+    "exit_code": 1,
+    "results": "INITIAL_REVIEWER_RESULTS.json",
+    "script": "initial_artifact_probe.py",
+    "stderr": "initial_reviewer.stderr",
+    "stdout": "initial_reviewer.stdout"
+  }
+}
