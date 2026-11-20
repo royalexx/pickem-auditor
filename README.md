@@ -22,6 +22,17 @@ Numerical engineering is independently accepted; the real S registry remains
 empty because no compatible genuine saved artifact was recovered. Synthetic
 control execution is not real model admission or a statistic forecast.
 
+An additional, explicitly frozen MEM–MIN cohort now has genuine source-backed
+S1 artifacts and a public research path in `scripts/nba_genuine_s.py`. The
+November 19 actual-clock execution produced 56 conditional statistic forecasts
+for 14 players and retained all 84 abstentions across 35 candidates. See the
+[cohort, exact hashes and replay commands](docs/nba_architecture/genuine_s_prospective_20261120/REPRODUCE.md)
+and [all player-stat outputs](docs/nba_architecture/genuine_s_prospective_20261120/FORECASTS.csv).
+This separate bounded admission preserves the original empty registry and
+forecasts. It conditions on participation and fixed M0 projected minutes;
+participation probabilities, later legal roster completeness, predictive
+accuracy, joint-law acceptance and production approval remain unavailable.
+
 
 Code, original research, immutable history, collection jobs, diagnostics, and design decisions live in this repository. Before interpreting any dated status or launching work, verify the current repository, schedules, source receipts, and training state.
 
