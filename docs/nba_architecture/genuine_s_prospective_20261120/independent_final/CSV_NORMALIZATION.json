@@ -1,0 +1,7 @@
+{
+  "kind": "REVIEW_CSV_LF_BYTE_DOMAIN_NORMALIZATION",
+  "parsed_rows_unchanged": 140,
+  "numerical_values_changed": false,
+  "implementation_files_changed": false,
+  "reason": "Git normalized diagnostic CSV CRLF to LF at first publication. The final probe explicitly writes LF; all140parsedrows are unchanged and checksums cover committed Git bytes."
+}

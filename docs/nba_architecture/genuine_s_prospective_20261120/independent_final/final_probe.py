@@ -109,7 +109,7 @@ class FinalReview(unittest.TestCase):
                 record.update(M0_minutes=exposure,posterior_mean=fullmean,retained_support_mean=mean,tail_mass_upper_bound=p['tail_mass_upper_bound'])
             csv_rows.append(record)
         with (HERE/'INDEPENDENT_FORECAST_CHECKS.csv').open('w') as out:
-            writer=csv.DictWriter(out,fieldnames=list(csv_rows[0]));writer.writeheader();writer.writerows(csv_rows)
+            writer=csv.DictWriter(out,fieldnames=list(csv_rows[0]),lineterminator=chr(10));writer.writeheader();writer.writerows(csv_rows)
         RESULT['numeric_checks']=checks
 
     def test_04_public_cli_verified_replay_and_cold_original_repository_denial(self):
