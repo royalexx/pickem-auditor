@@ -18,6 +18,7 @@ def capacity_certificate(players,*,query_budget=1000):
     teams={p.get('team_id') for p in players}
     require(len(teams)==1 and all(type(t) is str and bool(t) for t in teams),'RESIDUAL_O_SINGLE_TEAM')
     require(all(p['minutes'].get('family','beta')=='beta' for p in players),'RESIDUAL_O_BETA_ONLY')
+    require(all(type(p.get('player_id')) is str and bool(p['player_id']) for p in players),'RESIDUAL_O_NAMED_ID')
     ids=sorted(p['player_id'] for p in players)
     require(len(ids)==len(set(ids)),'RESIDUAL_O_DUPLICATE_ID')
     byid={p['player_id']:p for p in players};n=len(ids)
@@ -113,8 +114,16 @@ def audit_team(draw,length):
         previous=segment['end']
     require(abs(previous-length)<1e-7 and np.allclose(integrated,minutes,atol=1e-7,rtol=0),
         'RESIDUAL_O_STINT_RECONCILIATION')
+    residual_slots=set()
     for actor in actors:
+        require(actor['kind'] in ('NAMED_SOURCE_PLAYER','ANONYMOUS_RESIDUAL_ACTOR_SLOT'),'RESIDUAL_O_ACTOR_KIND')
         if actor['kind']=='ANONYMOUS_RESIDUAL_ACTOR_SLOT':
             require(actor['player_id'] is None and actor['source_identity_claim'] is False,'RESIDUAL_O_FAKE_PLAYER_ID')
+            slot=actor['residual_slot_index']
+            require(type(slot) is int and 0<=slot<5 and slot not in residual_slots and
+                actor['residual_group']=='RESIDUAL_TEAM:'+actor['team_id'],'RESIDUAL_O_RESIDUAL_IDENTITY')
+            residual_slots.add(slot)
+        else:
+            require(type(actor['player_id']) is str and bool(actor['player_id']),'RESIDUAL_O_NAMED_ID')
     return dict(violations=0,actors=len(actors),named_players=sum(a['kind']=='NAMED_SOURCE_PLAYER' for a in actors),
         residual_is_group_not_fake_player=True,team_minute_total=math.fsum(minutes))
