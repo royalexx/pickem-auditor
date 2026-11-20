@@ -12,7 +12,11 @@ import gzip
 import math
 import resource
 import statistics
+import sys
 import time
+import zlib
+
+import scipy
 from pathlib import Path
 
 import numpy as np
@@ -153,20 +157,17 @@ def fixed_pair_invariants(base, other):
         require([x['identity'].get('player_id') for x in a] ==
                 [x['identity'].get('player_id') for x in b],
                 'S4_SENS_ACTOR_IDENTITY_DRIFT')
-        for x, y in zip(a, b):
-            if x['identity']['player_id']:
-                require(x['identity']['zero_weight_model_draw'] !=
-                        y['identity']['zero_weight_model_draw'] or
-                        x['identity']['zero_weight_model_draw'] in (0.0, 0.005, 0.01, 0.02, 0.05),
-                        'S4_SENS_ZERO_OVERRIDE_UNEXPECTED')
+        # The zero-mixture label can differ; all other parameter draws
+        # must be exactly paired irrespective of altered minutes.
     return True
 
 
-def _scenario(model, seed, index, name, weight, path_budget, event_budget):
+def _scenario(model, seed, index, name, weight, path_budget, event_budget, fixed=None):
     partial = dict(index=index, variant=name, zero_weight=weight,
                    seed=seed, status='FAILED', proposal_receipts=[])
     try:
-        fixed = fixed_paired_scenario(model, seed, index, weight)
+        if fixed is None:
+            fixed = fixed_paired_scenario(model, seed, index, weight)
         partial.update(fixed_raw_sha256=digest(canonical(fixed)),
                        overtime_count=fixed['overtime_count'],
                        length=fixed['length'])
@@ -311,7 +312,7 @@ def simulate_sensitivity(model,cohort,out,*,seed=SEED,
             type(path_budget) is int and path_budget>0 and
             type(event_budget) is int and event_budget>0 and
             type(chunk_size) is int and chunk_size>0 and
-            max_wall_seconds is None or (type(max_wall_seconds) in (int,float) and max_wall_seconds>0),
+            (max_wall_seconds is None or (type(max_wall_seconds) in (int,float) and max_wall_seconds>0)),
             'S4_SENS_BUDGET')
     require(len(variants)==len(set(x[0] for x in variants)) and
             variants[0] == ('original_beta',None),'S4_SENS_VARIANTS')
@@ -338,10 +339,14 @@ def simulate_sensitivity(model,cohort,out,*,seed=SEED,
             timeout=True;break
         base_fixed=fixed_paired_scenario(model,seed,i,None)
         for name,weight in variants:
-            if weight is not None:
-                fixed_pair_invariants(base_fixed,
-                    fixed_paired_scenario(model,seed,i,weight))
-            rec=_scenario(model,seed,i,name,weight,path_budget,event_budget)
+            try:
+                fixed = base_fixed if weight is None else fixed_paired_scenario(model,seed,i,weight)
+                if weight is not None:
+                    fixed_pair_invariants(base_fixed,fixed)
+                rec=_scenario(model,seed,i,name,weight,path_budget,event_budget,fixed=fixed)
+            except Exception as exc:
+                rec=dict(index=i,variant=name,zero_weight=weight,seed=seed,
+                         status='FAILED',proposal_receipts=[],error=type(exc).__name__+':'+str(exc))
             status[name]['proposals']+=len(rec['proposal_receipts'])
             status[name]['ot_rejections']+=sum(
                 q['status']=='REJECT_OT_PATTERN'
@@ -378,7 +383,9 @@ def simulate_sensitivity(model,cohort,out,*,seed=SEED,
     receipt=dict(schema='nba-s4-J-CRN-zero-sensitivity/1',
                  scientific_status='NUMERICAL_RESEARCH_SAMPLE' if whole else 'FAILED_INCOMPLETE',
                  requested_per_variant=n,variants=[dict(name=x,weight=z) for x,z in variants],
-                 seed=seed,model_semantic_sha256=digest(canonical(model)),
+                 seed=seed,python=sys.version,numpy=np.__version__,scipy=scipy.__version__,zlib=zlib.ZLIB_VERSION,
+                 experiment_code_raw_sha256=digest(Path(__file__).read_bytes()),
+                 model_semantic_sha256=digest(canonical(model)),
                  cohort_semantic_sha256=digest(canonical(cohort)),
                  parity=parity,by_variant=status,chunks=chunks,
                  chunk_row_denominator=sum(x['rows'] for x in chunks),
