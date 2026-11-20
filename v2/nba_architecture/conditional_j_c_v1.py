@@ -42,7 +42,9 @@ def read_J_for_C(*,run_raw,receipt_raw,model_raw,model_admission_raw,full_raw,pa
     run=strict_json(run_raw);receipt=strict_json(receipt_raw);model=strict_json(model_raw)
     a=strict_json(model_admission_raw);full=strict_json(full_raw)
     require(receipt['input_full_forecast_raw_sha256']==digest(full_raw) and receipt['input_model_raw_sha256']==MODEL_SHA and
-        receipt['run_raw_sha256']==RUN_SHA and receipt['model_admission_sha256']==MODEL_ADMISSION_SHA,'J_C_LINEAGE_JOIN')
+        receipt['run_raw_sha256']==RUN_SHA and receipt['model_admission_sha256']==MODEL_ADMISSION_SHA and
+        receipt['input_model_receipt_raw_sha256']==a['fit_receipt_raw_sha256'] and a['model_raw_sha256']==MODEL_SHA,
+        'J_C_LINEAGE_JOIN')
     require(utc(a['admitted_at'])<=utc(receipt['freeze_at'])<=utc(receipt['started_at'])<=utc(receipt['completed_at'])<
         utc(receipt['event_start_at'])==utc(full['event_start_at']),'J_C_ACTUAL_CLOCK_CHAIN')
     require(model['target']==full['cohort']['game_id'] and run['model_raw_sha256']==MODEL_SHA and
