@@ -84,6 +84,36 @@ class ConditionalOTMathAndKernelTests(unittest.TestCase):
             pimh_sample(self.fixed0,SEED,particles=16,iterations=2,
                         minimum_accepted_moves=2)
 
+    def test_pimh_reweights_particle_proposals_to_exact_toy_conditional(self):
+        """Independent enumerated two-state reference, testing the MH ratio.
+
+        X~Bern(1/2), terminal tie probability .9 for X=1, .1 for X=0.
+        P(X=1 | tie)=.9; a finite-size particle proposal is not exact.
+        """
+        import numpy as np
+        rng=np.random.default_rng(324390)
+        n=2
+        def proposal():
+            latent=rng.integers(0,2,size=n)
+            survive=[int(x) for x in latent
+                     if rng.random()<(.9 if x==1 else .1)]
+            if not survive:return None,0.
+            return survive[int(rng.integers(len(survive)))],len(survive)/n
+        current=None;weight=None;track=[];naive=[]
+        for iteration in range(30000):
+            proposed,phat=proposal()
+            if phat:
+                naive.append(proposed)
+                if weight is None or rng.random()<min(1.,phat/weight):
+                    current,weight=proposed,phat
+            if iteration>=5000:
+                track.append(current)
+        # Exact target is .9, and finite particle output before PIMH
+        # generally is biased toward the unconditioned .5 mixture.
+        self.assertAlmostEqual(float(np.mean(track)),.9,delta=.025)
+        self.assertLess(float(np.mean(naive)),.87)
+        self.assertGreater(float(np.mean(naive)),.55)
+
     def test_unbiased_evidence_bpf_toy_analytical_reference(self):
         # A small two-stage finite model allows an independent exact
         # expectation check of the SMC normalizing constant identity.
