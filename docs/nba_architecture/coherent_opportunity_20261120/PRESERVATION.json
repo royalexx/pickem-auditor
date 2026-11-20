@@ -1,0 +1,14 @@
+{
+  "base": "d029747c106c8b825d13f13c0d107d45b36d6ec3",
+  "modified_or_deleted_existing_paths": [],
+  "hard_physics_O_and_event_auditor_unchanged": true,
+  "frozen_forecasts_models_posteriors_sources_and_rejection_history_unchanged": true,
+  "schedule_change": false,
+  "merge": false,
+  "deploy": false,
+  "NUTS_started": false,
+  "holdout_scoring_or_decompression": false,
+  "historical_replacement_fitting": false,
+  "ensemble_weight_optimization": false,
+  "Tier_promotion": false
+}

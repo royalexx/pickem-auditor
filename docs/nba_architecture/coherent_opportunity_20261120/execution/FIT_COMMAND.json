@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-11-20T13:01:38.175671+00:00",
+  "argv": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "scripts/nba_coherent.py",
+    "fit",
+    "--output",
+    "docs/nba_architecture/coherent_opportunity_20261120/fitted"
+  ],
+  "cwd": "/workspace/pickem-auditor",
+  "environment": {
+    "PYTHONPATH": "."
+  },
+  "exit_code": 0,
+  "outer_process_start_at": null,
+  "actual_compiler_started_at": "2026-11-20T13:00:57.538825+00:00",
+  "actual_compiler_completed_at": "2026-11-20T13:00:57.551179+00:00",
+  "verified_at": "2026-11-20T13:00:57.551289+00:00",
+  "implementation_commit": "5a39abb8ab006319d5554e74d49c7e49b48dc04e",
+  "stdout_raw_sha256": "280a2752e63ebfad2ca64adba0c7ec82f94aec317c5f2825d11febddcfb260f6",
+  "stderr_raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "model_raw_sha256": "f1f6dd4a4d3753042c28b71fa9b7949628d69ccdad8f38ece47bb2ccdc6ffa2a",
+  "fit_receipt_raw_sha256": "7a68dc5bd6d4a1b4d4ba3a63599b1d39b9a4cc3eea0844240603809ec344c571",
+  "byte_domains": {
+    "stdout_stderr": "EXACT_REDIRECTED_PROCESS_BYTES",
+    "model_and_receipt": "EXACT_SAVED_UTF8_CANONICAL_JSON_BYTES"
+  },
+  "new_prospective_fit_count": 1,
+  "historical_replacement": false
+}

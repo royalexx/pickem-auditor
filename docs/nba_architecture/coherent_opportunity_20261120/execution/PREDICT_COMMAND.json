@@ -1,0 +1,27 @@
+{
+  "recorded_at": "2026-11-20T13:10:47.677121+00:00",
+  "argv": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "scripts/nba_coherent.py",
+    "predict",
+    "--output",
+    "docs/nba_architecture/coherent_opportunity_20261120/actual"
+  ],
+  "environment": {
+    "PYTHONPATH": "."
+  },
+  "cwd": "/workspace/pickem-auditor",
+  "exit_code": 0,
+  "actual_started_at": "2026-11-20T13:07:59.063142+00:00",
+  "actual_completed_at": "2026-11-20T13:09:03.026510+00:00",
+  "actual_freeze_at": "2026-11-20T13:07:59.046901+00:00",
+  "outer_process_start_at": null,
+  "implementation_commit": "8d8df996a44b00ba9af3f9e58325539b75641802",
+  "bank_raw_sha256": "318bb9b2317ae120b6b51852a88b97177424fc0caeba36ed8b38b4f6ead01d88",
+  "execution_receipt_raw_sha256": "dc7f7cdab93129c3b11c7157bd6222fa67e4f71e024487ef8685f4939a30d459",
+  "stdout_raw_sha256": "264497301243129d8141948944959cea37dbca0af316b26954277178906207d4",
+  "stderr_raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "new_prospective_run_count": 1,
+  "fit_writer_called": false,
+  "byte_domain": "EXACT_SAVED_MODEL_BANK_RECEIPT_AND_REDIRECTED_STREAM_BYTES"
+}
