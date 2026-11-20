@@ -1,0 +1,139 @@
+{
+  "TV_lower_bound_claimed": false,
+  "approximate_coupling_impossibility_claimed": false,
+  "arithmetic": "PythonDecimal ln, exact binary64 parameter values, independent 100/180-digit summation",
+  "finite_moments": "Gamma rates and beta-scaled geometric-OT durations have finite moments of every finite integer order.",
+  "pointwise_integer_cases_checked": 5740,
+  "predictive_quality_claimed": false,
+  "proof": "For integer y>=r every factor 3y-j >= 3(y-j), otherwise (y)_r=0; (x)_r is nondecreasing on nonnegative integer x. Integrate finite nonnegative factorial moments. Common nonzero minute/zero-mixture factor cancels.",
+  "rows": [
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.143977879940616178694290839153800954048147719740092898515394004173338966888541705560269616370621478116189929932680586241182476336422299968460641239449052206802777281608033372831",
+      "necessary_condition_violated": true,
+      "order": 122,
+      "owner_log_ratio": -1.1439778799405644,
+      "player_id": "espn:player:3136196"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.234932913249093047788624104718001431873385692851192681478838352149349302301696513840363990734361721988895606436327873765804486476657299634336607321855567406550487616259249528015",
+      "necessary_condition_violated": true,
+      "order": 245,
+      "owner_log_ratio": -1.2349329132491675,
+      "player_id": "espn:player:4397002"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.413927335394895047582768745547177716508882755988679764820493260919692783409904237513638139950762302398686683263585016732319473231064031339373924243901001305850876265169182073563",
+      "necessary_condition_violated": true,
+      "order": 252,
+      "owner_log_ratio": -1.4139273353950443,
+      "player_id": "espn:player:4431671"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.331293250584682581770362259818267683484692598622033177200163276743496654518247162837798393359083014266010182369952525732612438382757197452444394483267691169704871855021015257559",
+      "necessary_condition_violated": true,
+      "order": 171,
+      "owner_log_ratio": -1.3312932505846504,
+      "player_id": "espn:player:4432816"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.063814283422623419864858377856935062815547320072017196780254472509528813498112211233934419903176474476177894209880601475381889938245474882965378565723438659228267658517736227039",
+      "necessary_condition_violated": true,
+      "order": 146,
+      "owner_log_ratio": -1.063814283422687,
+      "player_id": "espn:player:4433083"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.061489458816636063819117184450538739340980788349177558422516311708563153500874737261250112747478284387626550631986335308789270135506308000454977863409694947489762367319754415393",
+      "necessary_condition_violated": true,
+      "order": 142,
+      "owner_log_ratio": -1.0614894588164816,
+      "player_id": "espn:player:4592492"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.1156715071209543485389483193555268401387081333560822030339450847288126334738222602305609396465109968089800604260759678976784816333597593639011546224569613359120081846560513130273",
+      "necessary_condition_violated": true,
+      "order": 81,
+      "owner_log_ratio": -1.1156715071210073,
+      "player_id": "espn:player:4594326"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.244088433864285446768207202374019073360919564728954891268145503937552601840010789770773465875727746717170015989417404390314772058431204301390843025690796840502448213324026256690",
+      "necessary_condition_violated": true,
+      "order": 114,
+      "owner_log_ratio": -1.2440884338645475,
+      "player_id": "espn:player:4595400"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.334155587024167747303193994728410745291801471480581376362870806983166411831461088043371750616570348395108592803912650662776417005067357377529904912517938440524501324678343438198",
+      "necessary_condition_violated": true,
+      "order": 144,
+      "owner_log_ratio": -1.334155587023929,
+      "player_id": "espn:player:4684806"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.0404812547668786462183556587415381993288336900600476863805351296552862433235644586961359559893579229420959594408520259945270583842282055414574625346258099227928575757122319066854",
+      "necessary_condition_violated": true,
+      "order": 71,
+      "owner_log_ratio": -1.0404812547669593,
+      "player_id": "espn:player:4895758"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.256009220418551814221026064104401408386883007442745741145757584109978558674238284983173812777699970940085578370767397993981974438070034566548839177635658226996381847740795383734",
+      "necessary_condition_violated": true,
+      "order": 168,
+      "owner_log_ratio": -1.2560092204184912,
+      "player_id": "espn:player:4903027"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.142436706102895848680907543371323445160724751096659289504863398871161546293534049144337714074756026047378491565735850630295999487439640104645863614551073981572369820183981471897",
+      "necessary_condition_violated": true,
+      "order": 220,
+      "owner_log_ratio": -1.1424367061027567,
+      "player_id": "espn:player:5041935"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.307700732399682052503152351576101276124072091474738953053685903381562150536813698639699732769827461909944453317735282035649848132799259967543173088728732488591081789241740176601",
+      "necessary_condition_violated": true,
+      "order": 112,
+      "owner_log_ratio": -1.307700732399482,
+      "player_id": "espn:player:5112087"
+    },
+    {
+      "common_minutes_and_zero_prior_verified": true,
+      "exact_reference_parameters_match": true,
+      "log_ratio_180_decimal_digits": "-1.272158435603953533361768556262220181296726443383366043099087315921078664282166856218485414428336771298248107894707409598549937878499522379754095005417678096273960632481894454985",
+      "necessary_condition_violated": true,
+      "order": 136,
+      "owner_log_ratio": -1.2721584356038704,
+      "player_id": "espn:player:5279133"
+    }
+  ],
+  "source_forecast_raw_sha256": "a60ec92b970e6b417a1b9b48dceca3b2a1140dcf84f7f4ef24a8b57edcfc987f",
+  "status": "VERIFIED14_NECESSARY_FACTORIAL_MOMENT_VIOLATIONS"
+}

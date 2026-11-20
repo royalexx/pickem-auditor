@@ -1,0 +1,23 @@
+{
+  "OT_rejections": {
+    "fixed_draw_calls": 1,
+    "identical_fixed_hashes": true,
+    "proposals": 11
+  },
+  "errors": 0,
+  "exhaustion": {
+    "event_scenarios_preserved": 3,
+    "event_scenarios_requested": 3,
+    "rate_scenarios_preserved": 1,
+    "rate_scenarios_requested": 1,
+    "rate_vectors_retained": 4096
+  },
+  "failures": 0,
+  "methods": 5,
+  "synthetic_positive": {
+    "OT": 0,
+    "events": 447,
+    "scenarios": 1,
+    "source_or_model_admission": false
+  }
+}

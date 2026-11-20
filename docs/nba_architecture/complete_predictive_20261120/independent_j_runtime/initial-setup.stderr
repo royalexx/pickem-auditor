@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/complete_predictive_20261120/independent_j_runtime/clock_period_red.py", line 10, in <module>
+    r=simulate(m,seed=41,n=1);s=r['scenarios'][0];base=s['proposals'][-1];result=[]
+                                ~~~~~~~~~~~~~~^^^
+IndexError: list index out of range

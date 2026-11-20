@@ -1,0 +1,15 @@
+{
+  "synthetic_only": true,
+  "mutations": [
+    {
+      "attack": "hold_shot_clock_before",
+      "status": "REJECTED",
+      "reason": "J_AUDIT_PERIOD_HOLD"
+    },
+    {
+      "attack": "missing_final_period_end_duplicate_prior",
+      "status": "REJECTED",
+      "reason": "J_AUDIT_PERIOD_ID"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+{"attack": "accepted_last_proposal_relabelled_REJECT_EXECUTION", "status": "RED_REJECTED_PATH_ACCEPTED", "audit": {"status": "PHYSICAL_ACCOUNTING_ONLY", "scenarios": 1, "results": [{"violations": 0, "events": 447, "periods": 4, "score": {"A": 89, "B": 95}, "all_counts_rederived": true, "all_stats_same_path": true, "residual_identity_claim": false}], "marginal_fidelity_accepted": false, "release": false}}
+natural_K1_fixture_seed 9

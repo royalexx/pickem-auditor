@@ -1,0 +1,23 @@
+{
+  "status": "VERIFIED14_NECESSARY_FACTORIAL_MOMENT_VIOLATIONS",
+  "players": 14,
+  "pointwise_cases": 5740,
+  "orders": [
+    122,
+    245,
+    252,
+    171,
+    146,
+    142,
+    81,
+    114,
+    144,
+    71,
+    168,
+    220,
+    112,
+    136
+  ],
+  "maximum_log_ratio": -1.0404812547668787,
+  "TV_lower_bound_claimed": false
+}

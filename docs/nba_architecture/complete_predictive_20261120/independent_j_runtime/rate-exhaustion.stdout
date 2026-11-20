@@ -1,0 +1,15 @@
+{
+  "synthetic_only": true,
+  "scenario_denominator": 1,
+  "status": "FAILED_WHOLE_RUN",
+  "scenario_records": 0,
+  "failed": [
+    {
+      "index": 0,
+      "stage": "FIXED_SCENARIO",
+      "error": "REAL_J_RATE_BUDGET_EXHAUSTED"
+    }
+  ],
+  "rate_proposals_preserved": 0,
+  "scenarios_dropped": 0
+}

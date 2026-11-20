@@ -1,0 +1,10 @@
+test_01_actual_generator_independent_accounting_determinism (__main__.JEngineering.test_01_actual_generator_independent_accounting_determinism) ... ok
+test_02_raw_count_score_actor_miss_FT_clock_lineup_attacks (__main__.JEngineering.test_02_raw_count_score_actor_miss_FT_clock_lineup_attacks) ... ok
+test_03_G_O_rates_fixed_across_genuine_OT_path_rejections (__main__.JEngineering.test_03_G_O_rates_fixed_across_genuine_OT_path_rejections) ... ok
+test_04_event_and_rate_exhaustion_retains_failed_whole_run (__main__.JEngineering.test_04_event_and_rate_exhaustion_retains_failed_whole_run) ... ok
+test_05_rejected_status_and_dropped_run_cannot_pass (__main__.JEngineering.test_05_rejected_status_and_dropped_run_cannot_pass) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.474s
+
+OK
