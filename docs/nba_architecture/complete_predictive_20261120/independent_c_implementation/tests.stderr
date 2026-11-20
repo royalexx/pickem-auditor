@@ -1,0 +1,11 @@
+test_01_genuine_public698_all_counts_states_clocks (__main__.IndependentC.test_01_genuine_public698_all_counts_states_clocks) ... ok
+test_02_actual_issued140_pending_postevent_safe_no_generation (__main__.IndependentC.test_02_actual_issued140_pending_postevent_safe_no_generation) ... ok
+test_03_every_pinned_helper_byte_drift_rejects (__main__.IndependentC.test_03_every_pinned_helper_byte_drift_rejects) ... ok
+test_04_immutable_source_profile_and_forecast_mutations_reject (__main__.IndependentC.test_04_immutable_source_profile_and_forecast_mutations_reject) ... ok
+test_05_score_and_threshold_mechanics_no_actual_outcome_admission (__main__.IndependentC.test_05_score_and_threshold_mechanics_no_actual_outcome_admission) ... ok
+test_06_empirical_crps_exact_brute_force_not_population_tail (__main__.IndependentC.test_06_empirical_crps_exact_brute_force_not_population_tail) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 15.048s
+
+OK
