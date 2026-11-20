@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/independent_artifacts/artifact_probe.py", line 10, in <module>
+    from unittest.mock import patch,SimpleNamespace
+ImportError: cannot import name 'SimpleNamespace' from 'unittest.mock' (/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py)

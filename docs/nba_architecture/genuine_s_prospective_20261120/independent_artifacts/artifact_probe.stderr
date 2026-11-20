@@ -1,0 +1,9 @@
+test_01_approved_activation_receipt_actual_clocks_and_all_saved_hashes (__main__.ArtifactReview.test_01_approved_activation_receipt_actual_clocks_and_all_saved_hashes) ... ok
+test_02_rebuild_each_native_artifact_byte_for_byte_from_original_sources (__main__.ArtifactReview.test_02_rebuild_each_native_artifact_byte_for_byte_from_original_sources) ... ok
+test_03_independent_gamma_poisson_math_and_support_diagnostics (__main__.ArtifactReview.test_03_independent_gamma_poisson_math_and_support_diagnostics) ... ok
+test_04_uncompleted_intervening_counterexample_and_repaired_minutes_control (__main__.ArtifactReview.test_04_uncompleted_intervening_counterexample_and_repaired_minutes_control) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 3.285s
+
+OK

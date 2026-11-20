@@ -1,0 +1,27 @@
+{
+  "outcome": "FORGED_ARCHIVE_ACCEPTED",
+  "verification": {
+    "schema": "nba-genuine-S-archive-verification/1.0.0",
+    "status": "VERIFIED_OFFLINE_REPLAY",
+    "manifest_raw_sha256": "775ed35dcbc565d56693fc5da691ac97c87c7e4e52ada234d2a2bce4fd4ba729",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-I",
+      "-B",
+      "/tmp/tmpipbkthhn/reader/scripts/nba_genuine_s.py",
+      "replay-archive",
+      "/tmp/tmpipbkthhn"
+    ],
+    "stdout": "{\"payload_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}\n",
+    "stderr": "",
+    "candidate_denominator": 35,
+    "attempt_denominator": 140,
+    "forecasted_rows": 140,
+    "abstained_rows": 0,
+    "payload_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "new_forecast_issued": false
+  },
+  "tested_commit": "7938073b57542ebfd3073bc96938417d28a8b5ab",
+  "archive_code_raw_sha256": "44fe83d8cf23a1808ebefb35a1174145bdb39a696a1955fd008363c82cc0c07a",
+  "qualification": "No genuine source, admitted model, forecast, fit or score exists in this synthetic forged archive."
+}

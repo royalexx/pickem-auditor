@@ -1,0 +1,46 @@
+{
+  "cwd": "/workspace/pickem-auditor",
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/genuine_s_prospective_20261120/independent_artifacts/artifact_probe.py"
+      ],
+      "exit_code": 1,
+      "stdout": "initial_probe_import.stdout",
+      "stderr": "initial_probe_import.stderr",
+      "scope": "Reviewer-only wrong SimpleNamespace import; stopped before native verification"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/genuine_s_prospective_20261120/independent_artifacts/artifact_probe.py"
+      ],
+      "exit_code": 0,
+      "stdout": "artifact_probe.stdout",
+      "stderr": "artifact_probe.stderr",
+      "scope": "4independent methods;4in-memory deterministic native artifact replays;0genuine forecasts"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/genuine_s_prospective_20261120/independent_artifacts/archive_counterexample.py"
+      ],
+      "exit_code": 0,
+      "stdout": "initial_archive_counterexample.stdout",
+      "stderr": "initial_archive_counterexample.stderr",
+      "scope": "Synthetic forged archive accepted by original verifier; original red preserved"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/genuine_s_prospective_20261120/independent_artifacts/archive_counterexample.py"
+      ],
+      "exit_code": 0,
+      "stdout": "repaired_archive_counterexample.stdout",
+      "stderr": "repaired_archive_counterexample.stderr",
+      "scope": "Same synthetic forged archive rejected by repaired verifier"
+    }
+  ],
+  "artifact_admission_raw_sha256": "2e94902d767a74c74f102042ad27de3684560b22552c76b5bb4d4410b5275aea"
+}
