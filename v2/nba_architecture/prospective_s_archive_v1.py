@@ -81,7 +81,8 @@ def verify_archive(output, *, expected_manifest_sha256, python=sys.executable):
         'GENUINE_ARCHIVE_MANIFEST_DENOMINATORS')
     for path in root.rglob('*'):
         require(not path.is_symlink(), 'GENUINE_ARCHIVE_SYMLINK')
-        if path.is_file() and path.name!='manifest.json':actual.add(path.relative_to(root).as_posix())
+        if path.is_file() and path != root/'manifest.json':actual.add(path.relative_to(root).as_posix())
+    require(isinstance(manifest['files'],dict), 'GENUINE_ARCHIVE_FILE_REFERENCE_POPULATION')
     require(actual==set(manifest['files']), 'GENUINE_ARCHIVE_FILE_POPULATION')
     # A resealed hash manifest grants transport integrity only. The archived
     # executable and admission registry must equal this separately reviewed
@@ -93,6 +94,11 @@ def verify_archive(output, *, expected_manifest_sha256, python=sys.executable):
         require((root/'reader'/name).read_bytes() == (ROOT/name).read_bytes(),
             'GENUINE_ARCHIVE_UNREVIEWED_READER_BYTES:'+name)
     for name,item in manifest['files'].items():
+        require(isinstance(item,dict) and set(item)=={'sha256','bytes','byte_domain'} and
+            type(item['bytes']) is int and item['bytes']>=0 and
+            isinstance(item['sha256'],str) and len(item['sha256'])==64 and
+            all(c in '0123456789abcdef' for c in item['sha256']) and
+            item['byte_domain']=='EXACT_ARCHIVED_FILE_BYTES', 'GENUINE_ARCHIVE_FILE_REFERENCE_SCHEMA:'+name)
         path = root/name
         require(path.resolve().is_relative_to(root) and path.is_file(), 'GENUINE_ARCHIVE_PATH')
         require(digest(path.read_bytes())==item['sha256'] and path.stat().st_size==item['bytes'],

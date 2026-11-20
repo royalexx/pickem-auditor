@@ -16,7 +16,7 @@ from v2.nba_architecture.prospective_s_archive_v1 import verify_archive
 from v2.nba_s_family.model import exact_triplet
 
 PACK=Path(__file__).resolve().parents[2]/'docs/nba_architecture/genuine_s_prospective_20261120'
-ARCHIVE=PACK/'actual_forecast'
+ARCHIVE=PACK/'corrected_archive'
 
 
 class GenuineProspectiveTests(unittest.TestCase):
@@ -114,6 +114,19 @@ class GenuineProspectiveTests(unittest.TestCase):
             manifest=json.loads(original);manifest['forecasted_rows']=140;manifest['abstained_rows']=0
             raw=canonical(manifest);(root/'manifest.json').write_bytes(raw)
             with self.assertRaisesRegex(ValueError,'REPLAY_DENOMINATOR_JOIN'):
+                verify_archive(root,expected_manifest_sha256=digest(raw))
+
+    def test_nested_manifest_and_false_byte_domain_do_not_escape_archive_inventory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)/'archive';shutil.copytree(ARCHIVE,root)
+            original=(root/'manifest.json').read_bytes()
+            extra=root/'inputs/extra/manifest.json';extra.parent.mkdir();extra.write_bytes(b'{}')
+            with self.assertRaisesRegex(ValueError,'FILE_POPULATION'):
+                verify_archive(root,expected_manifest_sha256=digest(original))
+            extra.unlink();extra.parent.rmdir()
+            manifest=json.loads(original);next(iter(manifest['files'].values()))['byte_domain']='FALSE_UNREVIEWED_DOMAIN'
+            raw=canonical(manifest);(root/'manifest.json').write_bytes(raw)
+            with self.assertRaisesRegex(ValueError,'FILE_REFERENCE_SCHEMA'):
                 verify_archive(root,expected_manifest_sha256=digest(raw))
 
     def test_public_cli_rejected_source_batch_retains_140_attempts(self):
