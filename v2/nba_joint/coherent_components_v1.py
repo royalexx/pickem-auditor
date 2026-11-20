@@ -16,7 +16,7 @@ from v2.nba_architecture.prospective_s_sources_v1 import build_dataset
 from v2.nba_architecture.conditional_c_v1 import read_native_outcomes
 from v2.nba_opportunity import utc
 
-PREFIT_SHA=None
+PREFIT_SHA='920e576767e4b6b19615f03ee9f141e72c29294943ac32357138753c6fa2b690'
 PROTOCOL_SHA='e12290d9021c82340ed75dfe16647d7672c42cbfd581f67273bef40e0eb6d303'
 ADDENDUM_SHA='545f3eb596a43299c01a5bb5f0169421e3df4ede364879a55a0f1324c15af1b1'
 OLD_MODEL_SHA='85f27b2ce96a96e14449da3e10ab0d3bb7e9c4e60d7aa30bc5b311d46c48e46d'
