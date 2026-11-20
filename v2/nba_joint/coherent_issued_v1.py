@@ -34,13 +34,16 @@ def replay(directory,*,model_dir,source_inputs):
         'v2/nba_joint/common.py','v2/nba_architecture/conditional_c_v1.py'}
     require(set(receipt['code_raw_sha256'])==required,'COHERENT_REPLAY_CODE_CLOSURE')
     for name,sha in receipt['code_raw_sha256'].items():require(digest((repo/name).read_bytes())==sha,'COHERENT_REPLAY_CODE:'+name)
+    require(set(receipt['artifact_raw_sha256'])=={'BANK.json','COHORT.json','MARGINALS.json','COHERENCE.json','REFERENCE_COMPARISON.json'},
+        'COHERENT_REPLAY_ARTIFACT_SCOPE')
     for name,sha in receipt['artifact_raw_sha256'].items():
-        require(name in {'BANK.json','COHORT.json','MARGINALS.json','COHERENCE.json','REFERENCE_COMPARISON.json'},'COHERENT_REPLAY_ARTIFACT_SCOPE')
         require(digest((root/name).read_bytes())==sha,'COHERENT_REPLAY_ARTIFACT:'+name)
     require(utc(fit['verified_at'])<=utc(admission['admitted_at'])<=utc(receipt['freeze_at'])<=utc(receipt['started_at'])<=
         utc(receipt['completed_at'])<utc(bank['cohort']['start']),'COHERENT_REPLAY_RECORDED_CLOCK_CHAIN')
     require(bank['cohort']['freeze_at']==receipt['freeze_at'] and bank['model_raw_sha256']==MODEL_SHA,
         'COHERENT_REPLAY_SOURCE_MODEL_JOIN')
+    require(bank['scenario_denominator']==receipt['scenarios_requested']==64 and
+        bank['status']==receipt['status']=='ENGINEERING_SAMPLE','COHERENT_REPLAY_DECLARED_EXECUTION')
     source=read_native_outcomes(**source_inputs)
     require(source['payload_sha256']==fit['source_outcome_payload_sha256'],'COHERENT_REPLAY_NATIVE_SOURCE_PAYLOAD')
     physics=validate_bank(bank,root/'trace',model);projected=rows(bank);view=SharedForecast(bank)
