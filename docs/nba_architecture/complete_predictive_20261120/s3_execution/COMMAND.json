@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "docs/nba_architecture/complete_predictive_20261120/run_s3_fit.py"
+  ],
+  "environment": {
+    "PYTHONPATH": "/workspace/pickem-auditor"
+  },
+  "implementation_commit": "c2eb67d7a5163459c71a966b2ff96978d75a14dd",
+  "started_at": "2026-11-20T03:33:16.664653+00:00",
+  "completed_at": "2026-11-20T03:33:20.328770+00:00",
+  "exit_code": 0
+}

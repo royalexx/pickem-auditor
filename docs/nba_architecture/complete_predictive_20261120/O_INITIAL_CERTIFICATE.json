@@ -1,0 +1,26 @@
+[
+  {
+    "team": "espn:team:16",
+    "upper": 3.9876282208869718,
+    "queries": 49,
+    "audit": {
+      "violations": 0,
+      "actors": 12,
+      "named_players": 7,
+      "residual_is_group_not_fake_player": true,
+      "team_minute_total": 240.0
+    }
+  },
+  {
+    "team": "espn:team:29",
+    "upper": 4.0902888266639135,
+    "queries": 49,
+    "audit": {
+      "violations": 0,
+      "actors": 12,
+      "named_players": 7,
+      "residual_is_group_not_fake_player": true,
+      "team_minute_total": 240.0
+    }
+  }
+]

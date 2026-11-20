@@ -1,0 +1,33 @@
+{
+  "schema": "owner-command-receipt/1",
+  "recorded_at": "2026-11-20T04:03:41.870602+00:00",
+  "cwd": "/workspace/pickem-auditor",
+  "argv": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "scripts/nba_complete_predictive.py",
+    "compile-j",
+    "--output",
+    "docs/nba_architecture/complete_predictive_20261120/fitted_j"
+  ],
+  "environment": {
+    "PYTHONPATH": "."
+  },
+  "process_exit_code": 0,
+  "outer_process_started_at": null,
+  "clock_note": "Outer process start clock was not captured. The compiler actual started/completed clocks are separate fields from its immutable receipt.",
+  "compiler_started_at": "2026-11-20T04:01:55.415392+00:00",
+  "compiler_completed_at": "2026-11-20T04:01:55.836619+00:00",
+  "implementation_commit": "39614b990504d3fff9848730b1117100fafb05b2",
+  "compiler_raw_sha256": "ecf1e3b3ff63f7b71066a40a4b168d1877d369ead4b8a84d4c9c75f68b218fc9",
+  "input_model_profile": "J_MODEL_CARD.json + independent_j_prefit/PREFIT_APPROVAL.json exact pinned source population",
+  "stdout_raw_sha256": "c9aabe48642194e2f33431a5483094ed339189968caaf9872ff41a8f8b6abf6f",
+  "stderr_raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "model_raw_sha256": "85f27b2ce96a96e14449da3e10ab0d3bb7e9c4e60d7aa30bc5b311d46c48e46d",
+  "fit_receipt_raw_sha256": "53ab4fc601a3883c6d3a849faeba0fa58d929695ba80af256de929a93bf9e298",
+  "byte_domains": {
+    "stdout": "exact redirected process stdout bytes",
+    "stderr": "exact redirected process stderr bytes",
+    "model": "exact UTF8 canonical JSON file bytes",
+    "fit_receipt": "exact UTF8 canonical JSON file bytes"
+  }
+}

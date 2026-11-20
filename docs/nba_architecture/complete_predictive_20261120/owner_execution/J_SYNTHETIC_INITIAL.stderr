@@ -1,0 +1,32 @@
+test_actual_event_accounting_and_determinism (tests.nba_joint.test_residual_events_v1.ResidualPublicPathTests.test_actual_event_accounting_and_determinism) ... ERROR
+test_execution_failure_not_dropped_or_scored (tests.nba_joint.test_residual_events_v1.ResidualPublicPathTests.test_execution_failure_not_dropped_or_scored) ... ok
+test_mutations_rejected_from_independent_reconstruction (tests.nba_joint.test_residual_events_v1.ResidualPublicPathTests.test_mutations_rejected_from_independent_reconstruction) ... ERROR
+test_o_negative_public_contracts (tests.nba_joint.test_residual_events_v1.ResidualPublicPathTests.test_o_negative_public_contracts) ... ok
+
+======================================================================
+ERROR: test_actual_event_accounting_and_determinism (tests.nba_joint.test_residual_events_v1.ResidualPublicPathTests.test_actual_event_accounting_and_determinism)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/tests/nba_joint/test_residual_events_v1.py", line 27, in test_actual_event_accounting_and_determinism
+    self.assertEqual(a,b);self.assertEqual(audit_run(a)['scenarios'],3)
+                                           ^^^^^^^^^^^^
+  File "/workspace/pickem-auditor/v2/nba_joint/residual_audit_v1.py", line 123, in audit_run
+    require(run['status']=='ENGINEERING_SAMPLE' and not run['failed'] and
+  File "/workspace/pickem-auditor/v2/nba_architecture/subset_p3_v1.py", line 40, in require
+    if not condition:raise ValueError(reason)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: J_AUDIT_FAILED_OR_DROPPED_SCENARIO
+
+======================================================================
+ERROR: test_mutations_rejected_from_independent_reconstruction (tests.nba_joint.test_residual_events_v1.ResidualPublicPathTests.test_mutations_rejected_from_independent_reconstruction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/tests/nba_joint/test_residual_events_v1.py", line 36, in test_mutations_rejected_from_independent_reconstruction
+    v=copy.deepcopy(base);v['counts']['A'][0]['points']+=1;mutations.append(v)
+                          ~^^^^^^^^^^
+KeyError: 'counts'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.089s
+
+FAILED (errors=2)
