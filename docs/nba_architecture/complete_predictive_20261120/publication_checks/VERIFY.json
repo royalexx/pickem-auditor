@@ -1,0 +1,49 @@
+{
+  "recorded_at": "2026-11-20T04:25:30.548378+00:00",
+  "verified_input_commit": "f8db48b86f34cbfdde13e39df59ed8f8ab38aa1d",
+  "isolated_worktree": "/workspace/scratch/complete-published-verify",
+  "commands": [
+    {
+      "argv": [
+        "sha256sum",
+        "-c",
+        "docs/nba_architecture/complete_predictive_20261120/SHA256SUMS"
+      ],
+      "cwd": "/workspace/pickem-auditor",
+      "exit_code": 0,
+      "checked_files": 1041,
+      "stdout": "checksums.stdout",
+      "stderr": "checksums.stderr"
+    },
+    {
+      "argv": [
+        "/workspace/scratch/p1-p5-ci-venv/bin/python",
+        "scripts/nba_complete_predictive.py",
+        "read-j",
+        "--output",
+        "/workspace/scratch/complete-offline-J-C-verified"
+      ],
+      "environment": {
+        "PYTHONPATH": "."
+      },
+      "cwd": "/workspace/scratch/complete-published-verify",
+      "exit_code": 0,
+      "stdout": "fresh_read_J.stdout",
+      "stderr": "fresh_read_J.stderr"
+    }
+  ],
+  "preserved_initial_launch": {
+    "exit_code": 2,
+    "cause": "CLI launched before asynchronous Git checkout finished; script file absent then. Waited for successful checkout before rerun; no forecast or artifact created by failed launch.",
+    "stdout": "initial_launch.stdout",
+    "stderr": "initial_launch.stderr"
+  },
+  "fresh_output_identical_to_published_repaired_transport": true,
+  "fresh_output_raw_sha256": "c59a7b440e172c5b34df07e72d5d923799a855003cf4bf71f787e451cf006d4a",
+  "runtime_bytes_unchanged_from_full_suite": true,
+  "new_J_simulation": false,
+  "new_fit": false,
+  "new_forecast_issued": false,
+  "actual_scores": 0,
+  "release": false
+}
