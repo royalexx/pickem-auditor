@@ -3,6 +3,7 @@
 from datetime import datetime,timezone
 import argparse
 import importlib.util
+import importlib.metadata
 import json
 from pathlib import Path
 import platform
@@ -107,6 +108,7 @@ def main():
         exact_S4_J_query_pairs=len(coherence),population_accuracy_established=False,historical_validation=False,
         artifact_raw_sha256={f.name:digest(f.read_bytes()) for f in sorted(out.iterdir()) if f.is_file()},
         zero_sensitivity_gate='PENDING',python=platform.python_version(),zlib=zlib.ZLIB_RUNTIME_VERSION,
+        numpy=importlib.metadata.version('numpy'),scipy=importlib.metadata.version('scipy'),
         gzip_format='GZIP_MTIME0_EMPTY_FILENAME_DEFAULT_LEVEL9',release=False)
     (out/'EXECUTION_RECEIPT.json').write_bytes(canonical(receipt));sums(out);print(canonical(receipt).decode())
 

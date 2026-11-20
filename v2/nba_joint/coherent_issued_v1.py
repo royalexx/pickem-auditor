@@ -4,6 +4,7 @@ Pins are activated only after independent review of the actual source-backed
 artifact. A supplied hash, reviewer label or caller flag cannot extend it.
 """
 from pathlib import Path
+import importlib.metadata
 from v2.nba_architecture.p1_subset_handoff_v1 import canonical,digest
 from v2.nba_architecture.subset_contract_v1 import strict_json
 from v2.nba_architecture.subset_p3_v1 import require
@@ -23,6 +24,7 @@ def replay(directory,*,model_dir,source_inputs):
     br=(root/'BANK.json').read_bytes();rr=(root/'EXECUTION_RECEIPT.json').read_bytes()
     require(digest(br)==BANK_SHA and digest(rr)==RECEIPT_SHA,'COHERENT_EXACT_ISSUANCE_BYTES')
     receipt=strict_json(rr);model_raw=(mr/'model.json').read_bytes();fit_raw=(mr/'FIT_RECEIPT.json').read_bytes()
+    require(all(importlib.metadata.version(name)==receipt[name] for name in ('numpy','scipy')),'COHERENT_REPLAY_NUMERICAL_RUNTIME')
     ar=(mr.parent/'independent_artifact/ARTIFACT_ADMISSION.json').read_bytes()
     require(digest(ar)==MODEL_ADMISSION_SHA and digest(model_raw)==MODEL_SHA,'COHERENT_ADMITTED_MODEL_ROOT')
     admission=strict_json(ar);fit=strict_json(fit_raw);model=strict_json(model_raw);bank=strict_json(br)
