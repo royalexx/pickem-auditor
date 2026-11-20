@@ -181,9 +181,8 @@ def rows(bank):
     return result
 
 
-def query(bank,*,player_id,statistic,kind,value,channel='S4'):
+def _query(row,bank_payload,*,player_id,statistic,kind,value,channel='S4'):
     require(channel in ('S4','J') and statistic in STATS and kind in ('pmf','cdf','oup'),'COHERENT_QUERY_SCOPE')
-    row=next((r for r in rows(bank) if r['player_id']==player_id and r['statistic']==statistic),None)
     require(row is not None,'COHERENT_UNKNOWN_PLAYER')
     if row['samples'] is None:return dict(status='ABSTAINED',estimate=None,samples=None)
     require(type(value) in (int,float) and math.isfinite(value) and value>=0 and
@@ -194,8 +193,27 @@ def query(bank,*,player_id,statistic,kind,value,channel='S4'):
     alpha=.05/len(hits)
     intervals=[dict(lower=0. if h==0 else float(beta_distribution.ppf(alpha/2,h,n-h+1)),
         upper=1. if h==n else float(beta_distribution.ppf(1-alpha/2,h+1,n-h))) for h in hits]
-    return dict(status='MONTE_CARLO_ESTIMATE_NOT_CERTIFIED_POPULATION_PROBABILITY',bank_payload_sha256=bank['payload_sha256'],
+    return dict(status='MONTE_CARLO_ESTIMATE_NOT_CERTIFIED_POPULATION_PROBABILITY',bank_payload_sha256=bank_payload,
         player_id=player_id,statistic=statistic,kind=kind,value=value,estimate=[h/n for h in hits],hits=hits,n=n,
         componentwise_MC_95_family_intervals=intervals,intervals_condition_on_iid_successful_execution=True,
         population_exact_zero_claim=False,count_support_truncated=False,S4_J_same_measure=True,independent_vote=False,
         score_admitted=False)
+
+
+class SharedForecast:
+    """Validate once; retain only immutable sample tuples for public queries.
+
+    This numerical view grants no source/model/forecast admission. The issued
+    artifact reader separately verifies exact independently reviewed roots.
+    """
+    def __init__(self,bank):
+        self._payload=bank['payload_sha256']
+        self._rows={(r['player_id'],r['statistic']):dict(r,samples=tuple(r['samples']) if r['samples'] is not None else None)
+            for r in rows(bank)}
+
+    def query(self,*,player_id,statistic,kind,value,channel='S4'):
+        return _query(self._rows.get((player_id,statistic)),self._payload,
+            player_id=player_id,statistic=statistic,kind=kind,value=value,channel=channel)
+
+
+def query(bank,**kwargs):return SharedForecast(bank).query(**kwargs)
