@@ -1,0 +1,18 @@
+{
+  "schema": "nba-corrected-replay-archive-receipt/1.0.0",
+  "kind": "CORRECTED_ARCHIVE_OF_UNCHANGED_ORIGINAL_FORECAST",
+  "original_actual_manifest_raw_sha256": "9eadc31814e66123259758ac9717b826ec45935cfa70d06d58bd339a1fdf9396",
+  "original_forecast_raw_sha256": "6ebe7eb039c01a963663ec5253a46ec4e9a87379f59adac47087338e9c119f8d",
+  "original_forecast_at": "2026-11-20T01:41:35.539742+00:00",
+  "archive_creation_started_at": "2026-11-20T01:46:37.087048+00:00",
+  "archive_creation_completed_at": "2026-11-20T01:46:46.648289+00:00",
+  "implementation_commit": "30b506f3d5c72af50f0624cf1a52f6e86e52a126",
+  "new_forecast_issued": false,
+  "original_forecast_replaced": false,
+  "manifest_raw_sha256": "934671c7c8ab61293a0c9eadad6d8456d3615f03cdfc558933bf9fe7854a327f",
+  "file_denominator": 165,
+  "candidate_denominator": 35,
+  "attempt_denominator": 140,
+  "forecasted_rows": 56,
+  "abstained_rows": 84
+}

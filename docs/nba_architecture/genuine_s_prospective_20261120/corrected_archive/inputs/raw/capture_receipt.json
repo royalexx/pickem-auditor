@@ -1,0 +1,13 @@
+{
+  "completed_at": "2026-11-20T01:04:09.697121+00:00",
+  "target_game": "401910026",
+  "target_start": "2026-11-22T01:00Z",
+  "selected_team_games": {
+    "29": 10,
+    "16": 10
+  },
+  "unique_games": 20,
+  "official_matches": 20,
+  "bad_sources": [],
+  "scope": "Discovery only; no admission or fitting. Initial schema failure preserved; native team names now joined from captured summary boxscore, not guessed from a missing schedule field."
+}

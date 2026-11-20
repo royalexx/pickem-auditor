@@ -1,0 +1,65 @@
+[
+  {
+    "command": [
+      "/workspace/scratch/p1-p5-ci-venv/bin/python",
+      "-m",
+      "compileall",
+      "-q",
+      "scripts",
+      "tests",
+      "v2"
+    ],
+    "tested_commit": "abf8c332cf4423d2742047bd02238c9ae91bfebb",
+    "started_at": "2026-11-20T01:44:17.337844+00:00",
+    "completed_at": "2026-11-20T01:44:17.672404+00:00",
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "bash",
+      "-n",
+      "scripts/shadow_store.sh"
+    ],
+    "tested_commit": "abf8c332cf4423d2742047bd02238c9ae91bfebb",
+    "started_at": "2026-11-20T01:44:17.672910+00:00",
+    "completed_at": "2026-11-20T01:44:17.676372+00:00",
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "bash",
+      "-n",
+      "scripts/history_warehouse_store.sh"
+    ],
+    "tested_commit": "abf8c332cf4423d2742047bd02238c9ae91bfebb",
+    "started_at": "2026-11-20T01:44:17.676647+00:00",
+    "completed_at": "2026-11-20T01:44:17.680510+00:00",
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "/workspace/scratch/p1-p5-ci-venv/bin/python",
+      "-c",
+      "from pathlib import Path; import yaml; files=sorted(Path('.github/workflows').glob('*.yml')); data=[(str(p),yaml.safe_load(p.read_text())) for p in files]; assert all(isinstance(x,dict) and isinstance(x.get('jobs'),dict) and x.get('on',x.get(True)) is not None for _,x in data); print('valid workflow files:',len(data))"
+    ],
+    "tested_commit": "abf8c332cf4423d2742047bd02238c9ae91bfebb",
+    "started_at": "2026-11-20T01:44:17.681002+00:00",
+    "completed_at": "2026-11-20T01:44:17.907711+00:00",
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "/workspace/scratch/p1-p5-ci-venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-q"
+    ],
+    "tested_commit": "abf8c332cf4423d2742047bd02238c9ae91bfebb",
+    "started_at": "2026-11-20T01:44:17.908038+00:00",
+    "completed_at": "2026-11-20T01:46:25.712782+00:00",
+    "exit_code": -15
+  }
+]
