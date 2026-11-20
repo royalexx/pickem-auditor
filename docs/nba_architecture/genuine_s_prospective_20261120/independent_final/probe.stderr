@@ -1,0 +1,13 @@
+test_01_actual_public_cli_receipts_full140_coverage_and_clock_chain (__main__.FinalReview.test_01_actual_public_cli_receipts_full140_coverage_and_clock_chain) ... ok
+test_02_public_reader_observes_native_execution_and_exact_M0_binding (__main__.FinalReview.test_02_public_reader_observes_native_execution_and_exact_M0_binding) ... ok
+test_03_all56_numeric_laws_against_independent_gamma_poisson_and_triplets (__main__.FinalReview.test_03_all56_numeric_laws_against_independent_gamma_poisson_and_triplets) ... ok
+test_04_public_cli_verified_replay_and_cold_original_repository_denial (__main__.FinalReview.test_04_public_cli_verified_replay_and_cold_original_repository_denial) ... ok
+test_05_resealed_output_clock_and_population_mutations_reject (__main__.FinalReview.test_05_resealed_output_clock_and_population_mutations_reject) ... ok
+test_06_all_archive_code_schema_domain_count_clock_and_object_attacks_reject (__main__.FinalReview.test_06_all_archive_code_schema_domain_count_clock_and_object_attacks_reject) ... ok
+test_07_actual_cli_rejected_batch_retains140_and_existing_output_is_immutable (__main__.FinalReview.test_07_actual_cli_rejected_batch_retains140_and_existing_output_is_immutable) ... ok
+test_08_old_twenty_readers_and_original_forecast_source_bytes_remain_unchanged (__main__.FinalReview.test_08_old_twenty_readers_and_original_forecast_source_bytes_remain_unchanged) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 219.211s
+
+OK

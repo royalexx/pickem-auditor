@@ -1,0 +1,41 @@
+{
+  "baseline": "a4493ac7",
+  "argv": [
+    "git",
+    "diff",
+    "--exit-code",
+    "a4493ac7",
+    "--",
+    ".training-control",
+    ".github/workflows",
+    "config/production_consensus.json",
+    "config/nba_research_profile.json",
+    "research/nba_ws2/results/model.json",
+    "research/nba_p4_latest/fixtures_v2",
+    "docs/nba_architecture/p1_p5_handoffs_20261119",
+    "docs/nba_architecture/p1_subset_acceptance_20261119",
+    "docs/nba_architecture/p2_dispatch_20261120/SCOPE.md"
+  ],
+  "exit_code": 0,
+  "all_selected_paths_unchanged": true,
+  "paths": [
+    ".training-control",
+    ".github/workflows",
+    "config/production_consensus.json",
+    "config/nba_research_profile.json",
+    "research/nba_ws2/results/model.json",
+    "research/nba_p4_latest/fixtures_v2",
+    "docs/nba_architecture/p1_p5_handoffs_20261119",
+    "docs/nba_architecture/p1_subset_acceptance_20261119",
+    "docs/nba_architecture/p2_dispatch_20261120/SCOPE.md"
+  ],
+  "training_pause": {
+    "schema": "pickem_training_pause_v1",
+    "paused": true,
+    "requested_date": "2026-11-08",
+    "reason": "User-directed pause of Bayesian/NUTS training during model reform",
+    "resume_requires_explicit_user_approval": true,
+    "preserve_existing_posteriors_and_checkpoints": true
+  },
+  "old_empty_registry_still_present": true
+}

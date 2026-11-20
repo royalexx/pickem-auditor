@@ -1,0 +1,104 @@
+{
+  "schema": "nba-genuine-S-current-scoped-status/1.0.0",
+  "recorded_at": "2026-11-20T01:59:19.573701+00:00",
+  "authority": "PA-V25-MASTER-2026-11-09/v1.1",
+  "profile": "source_listed_subset",
+  "phase_ticket": "NBA P0/P1 source integrity to existing P2 native S1, bounded prospective shadow research; no advanced scientific release",
+  "engineering_disposition": "ACCEPT_BOUNDED_GENUINE_FIXED_M0_S1_RESEARCH_ENGINEERING",
+  "independent_decision_raw_sha256": "4598ee22db84cfcc10f60163fd253e7bb97e79571bac392c0ed87c145a90fd2a",
+  "independent_decision_commit": "cb8497ec596bd2ba79a737f27c642d0906ab30b4",
+  "independently_tested_commit": "eda90d77d4cd3c415701a95b5f186e56bc585183",
+  "actual_fit_implementation": "2e2bab6220636ad93d1dd18a03daa0d323f31770",
+  "actual_forecast_implementation": "76201b7795b718005d82b6443c2ea614e9824310",
+  "corrected_archive_implementation": "30b506f3d5c72af50f0624cf1a52f6e86e52a126",
+  "target_game_id": "401910026",
+  "target_start_utc": "2026-11-22T01:00Z",
+  "target_start_toronto": "2026-11-21T20:00:00-05:00",
+  "source_capture_count": 60,
+  "completed_training_games": 20,
+  "source_observation_denominator": 698,
+  "training_statistic_attempts": 2792,
+  "included_training_attempts": 1824,
+  "excluded_training_attempts": 968,
+  "rows_per_S_artifact": 456,
+  "candidate_denominator": 35,
+  "attempt_denominator": 140,
+  "genuine_statistic_forecasts": 56,
+  "supported_players": 14,
+  "abstentions": 84,
+  "abstention_reasons": {
+    "P1_SOURCE_ABSTENTION": 32,
+    "INSUFFICIENT_PRIOR_APPEARANCES": 20,
+    "UNKNOWN_CONDITIONAL_HISTORY_WINDOW": 32
+  },
+  "actual_input_freeze_at": "2026-11-20T01:41:16.119939+00:00",
+  "actual_forecast_at": "2026-11-20T01:41:35.539742+00:00",
+  "conditioning": "UNCERTIFIED/SHADOW_CONDITIONAL_ON_PARTICIPATION_AND_FIXED_PROJECTED_ORDINARY_M0_EXPOSURE",
+  "native_S_executions_observed_by_reviewer": 56,
+  "native_M0_executions_observed_by_reviewer": 14,
+  "independent_review_methods": 8,
+  "independent_targeted_tests": 14,
+  "independent_subtests": 17,
+  "owner_full_suite": {
+    "tested_commit": "eda90d77d4cd3c415701a95b5f186e56bc585183",
+    "tests_run": 2310,
+    "passed": 2301,
+    "skipped": 9,
+    "failures": 0,
+    "errors": 0
+  },
+  "public_negative_CLI_cases": 9,
+  "independent_criterion_status_counts": {
+    "PASS": 12,
+    "PASS_WITH_DISCLOSED_LIMITS": 2,
+    "OWNER_RECORDED_PASS_LOG_INSPECTED": 1,
+    "NOT_ESTABLISHED": 1,
+    "NOT_ACCEPTED": 1
+  },
+  "forecast_raw_sha256": "6ebe7eb039c01a963663ec5253a46ec4e9a87379f59adac47087338e9c119f8d",
+  "forecast_payload_sha256": "d416d25ae69ff390c760537e9615f24a3e86e80b1c7d6d18047fa38a1e0b659f",
+  "original_archive_manifest_raw_sha256": "9eadc31814e66123259758ac9717b826ec45935cfa70d06d58bd339a1fdf9396",
+  "corrected_archive_manifest_raw_sha256": "934671c7c8ab61293a0c9eadad6d8456d3615f03cdfc558933bf9fe7854a327f",
+  "archive_correction_issued_or_replaced_forecast": false,
+  "protected_original_reader_files": 20,
+  "original_full_population_B_P1_decisions": "HISTORICAL_FULL_PROFILE_SUPERSEDED_FOR_NARROW_PROFILE_NOT_RELABELED_PASS",
+  "genuine_participation_probability": null,
+  "legal_eligible_population_count": null,
+  "source_publication_times": null,
+  "original_historical_pregame_availability": null,
+  "complete_correction_history": null,
+  "minute_uncertainty_integrated": false,
+  "joint_law_accepted": false,
+  "predictive_accuracy_validated": false,
+  "scoring_admitted": false,
+  "full_G1_accepted": false,
+  "production_release": false,
+  "remaining_requirements": [
+    {
+      "missing": "Authenticated original training-source provenance/predictive acceptance for the saved exploratory WS2 minute model.",
+      "consequence": "M0 remains a disclosed exploratory fixed-exposure input, not a certified minute forecast."
+    },
+    {
+      "missing": "Genuine participation/legal eligibility evidence and future/intervening-game observations.",
+      "consequence": "No unconditional law, complete legal-roster claim or inferred later membership; q remains unknown."
+    },
+    {
+      "missing": "Minute-uncertainty integration and a separately admitted coherent joint/statistic-composite producer.",
+      "consequence": "Primitive fixed-M0 laws do not close P4 joint mechanisms or full G1."
+    },
+    {
+      "missing": "Prospective out-of-sample outcomes, calibrated reliability and dependence-aware evaluation within a separately authorized scoring contract.",
+      "consequence": "Numerical consistency is established; accuracy, calibration, market edge and Tier release are not."
+    },
+    {
+      "missing": "Original historical publication/availability and complete correction-history evidence.",
+      "consequence": "Only observed frozen source capabilities are admitted; inaccessible earlier clocks/history are not promised recoverable."
+    },
+    {
+      "missing": "A new independently reviewed population/source/model/freeze contract for a later capture or different slate.",
+      "consequence": "The current registry is usable only for this exact frozen target and preregistered window; no automatic general source admission."
+    }
+  ],
+  "changes_to_schedules_weights_NUTS_merges_deployment_Tiers": false,
+  "independent_review_publication_commit": "dde845885cc5db2ce0626f603545b8aaddfa884b"
+}

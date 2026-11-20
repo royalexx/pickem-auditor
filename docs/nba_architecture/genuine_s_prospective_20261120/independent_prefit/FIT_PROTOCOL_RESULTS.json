@@ -1,0 +1,108 @@
+{
+  "actual_native_fit_executions": 0,
+  "errors": 0,
+  "failures": 0,
+  "mode": "SYNTHETIC_PROTOCOL_ENGINEERING_ONLY",
+  "native_raw_sha256": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+  "real_model_admission_granted": false,
+  "synthetic_cases": [
+    {
+      "case": "four_fixed_parameter_stub_calls",
+      "mock_native_calls": 4,
+      "qualification": "This receipt is a mocked-clock mocked-native protocol control, not a fitted model or actual operation chronology.",
+      "receipt": {
+        "artifact_bytes_verified_at": "2026-11-20T02:00:02Z",
+        "artifacts": {
+          "assists": {
+            "bytes": 171,
+            "last_game_start_at": "2026-11-19T00:00:00Z",
+            "last_outcome_available_at": "2026-11-20T01:04:09.691922+00:00",
+            "sha256": "4f37d973410078543f3a792554d87210aa271cd8ac1a9e2935f7f83110bd1609",
+            "training_rows": 456
+          },
+          "points": {
+            "bytes": 170,
+            "last_game_start_at": "2026-11-19T00:00:00Z",
+            "last_outcome_available_at": "2026-11-20T01:04:09.691922+00:00",
+            "sha256": "d10e0e3bbbc6a6c0b35922441ef350613399e9ad44e2736f7a1afee88eb1f093",
+            "training_rows": 456
+          },
+          "rebounds": {
+            "bytes": 172,
+            "last_game_start_at": "2026-11-19T00:00:00Z",
+            "last_outcome_available_at": "2026-11-20T01:04:09.691922+00:00",
+            "sha256": "7611e15fa857b91271b01e1513cf6477b06622745e96a82e9f596fb5087bc624",
+            "training_rows": 456
+          },
+          "threes": {
+            "bytes": 170,
+            "last_game_start_at": "2026-11-19T00:00:00Z",
+            "last_outcome_available_at": "2026-11-20T01:04:09.691922+00:00",
+            "sha256": "56c9dd2be91d22b19d69a6d20e3bf0ad04e3ff5ecf2caab79e92188b38016ea7",
+            "training_rows": 456
+          }
+        },
+        "data_cutoff_at": "2026-11-20T01:07:00.131517+00:00",
+        "excluded_training_attempts": 968,
+        "fit_code_sha256": "f81d42820e4c364400803e4e13d52ba84e80d11a51fb396ab6e3a05077c4533a",
+        "fit_completed_at": "2026-11-20T02:00:01Z",
+        "fit_started_at": "2026-11-20T02:00:00Z",
+        "fixed_hyperparameters": {
+          "dispersion": 12.0,
+          "min_player_games": 2,
+          "prior_attempts": 40.0,
+          "prior_minutes": 180.0
+        },
+        "holdout_scoring": false,
+        "implementation_commit": "ef360a88f847da27a456ddab3ba8c93e45f0a042",
+        "included_training_attempts": 1824,
+        "kind": "NEW_PROSPECTIVE_BASELINE_NOT_HISTORICAL_REPLACEMENT",
+        "model_admission": "PENDING_SEPARATE_INDEPENDENT_ARTIFACT_REVIEW",
+        "native_code_sha256": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+        "nuts": false,
+        "prefit_approval_raw_sha256": "1274a9a3b9e0946373a07ef83052f22edf05af23d6c5e70faec897a25d0fc4de",
+        "prefit_spec_raw_sha256": "9b4ffaf085deeffe83cee50c6d3ecfc5dd2c41848cb849ee32240389cc7b2ed8",
+        "production_release": false,
+        "raw_sources_raw_sha256": "4c7124414905ef92d68d008023c7d1073437ae94dfc5400d8794ceca8de5ceb0",
+        "schema": "nba-new-prospective-S1-fit/1.0.0",
+        "seed": 20261120,
+        "source_dataset_raw_sha256": "a8230745eae80c0831ce36dc71d7fb41d9faeaef9e053f9844b8f70fb0e334a2",
+        "source_dataset_sha256": "e5cb76ef446d6651b718c6279367a7078ffa86f01b621cfbfd9c7b4d74adbd1d",
+        "source_manifest_raw_sha256": "5269b9d38d383b965b2c88587ac7a69eee5c75dcc52e941a703076b76dc1b82b",
+        "source_observation_denominator": 698,
+        "source_reader_sha256": "8b61c753a41b59b9baad25ce179bd56ef3ceaf31645e76998b6408f296a447fd",
+        "target": {
+          "game_id": "401910026",
+          "name": "Memphis Grizzlies at Minnesota Timberwolves",
+          "start": "2026-11-22T01:00Z",
+          "teams": {
+            "16": "MIN",
+            "29": "MEM"
+          }
+        },
+        "timing_rule_raw_sha256": "ead50b6b76dc319a6c0a390d3dd3add2d25b2330b8314bc7a3e2e4c17add5eed",
+        "training_attempt_denominator": 2792,
+        "tuning": false,
+        "weight_optimization": false
+      }
+    },
+    {
+      "admissible_receipt_written": false,
+      "case": "before_cutoff",
+      "mock_native_calls": 0
+    },
+    {
+      "admissible_receipt_written": false,
+      "case": "completed_reversed",
+      "mock_native_calls": 4
+    },
+    {
+      "admissible_receipt_written": false,
+      "case": "verified_reversed",
+      "mock_native_calls": 4
+    }
+  ],
+  "tested_commit": "ef360a88f847da27a456ddab3ba8c93e45f0a042",
+  "tests_run": 4,
+  "writer_raw_sha256": "f81d42820e4c364400803e4e13d52ba84e80d11a51fb396ab6e3a05077c4533a"
+}

@@ -1,0 +1,10 @@
+{
+  "outcome": "FORGED_ARCHIVE_REJECTED",
+  "verification": {
+    "error_type": "ValueError",
+    "error": "GENUINE_ARCHIVE_MANIFEST_SCOPE"
+  },
+  "tested_commit": "e31031dc161dd16c1f66e43f0450d49126dff005",
+  "archive_code_raw_sha256": "9664200ecc591a32d825906528be3db2978a520353eb00cacc1d3fec95c8ccc5",
+  "qualification": "No genuine source, admitted model, forecast, fit or score exists in this synthetic forged archive."
+}

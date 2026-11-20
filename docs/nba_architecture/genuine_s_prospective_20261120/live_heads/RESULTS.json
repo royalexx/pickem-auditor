@@ -1,0 +1,237 @@
+{
+  "observed_at": "2026-11-20T01:51:24.147219+00:00",
+  "local_branch": "research/nba-genuine-s-prospective-20261120",
+  "local_head": "02c2ed8989e9827c494968b1c8be0591f610d614",
+  "selected_base": "a4493ac71bc03cb0afe0dc3a267230e82424d37c",
+  "accepted_G0": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "candidate_registry_runtime_bytes_unchanged_since": "30b506f3d5c72af50f0624cf1a52f6e86e52a126",
+  "remote_results": {
+    "161": {
+      "command": [
+        "gh",
+        "pr",
+        "view",
+        "161",
+        "--json",
+        "number,url,state,headRefName,headRefOid,baseRefName,mergeCommit"
+      ],
+      "exit_code": 0,
+      "value": {
+        "baseRefName": "research/nba-g0-law-coupling-repair-20261116",
+        "headRefName": "audit/nba-g0-accepted-downstream-20261116",
+        "headRefOid": "269efb4050b35368a2642face3a846e09422387a",
+        "mergeCommit": null,
+        "number": 161,
+        "state": "OPEN",
+        "url": "https://github.com/royalexx/pickem-auditor/pull/161"
+      }
+    },
+    "173": {
+      "command": [
+        "gh",
+        "pr",
+        "view",
+        "173",
+        "--json",
+        "number,url,state,headRefName,headRefOid,baseRefName,mergeCommit"
+      ],
+      "exit_code": 0,
+      "value": {
+        "baseRefName": "audit/nba-p6-g1-remediation-v4-independent-20261116",
+        "headRefName": "audit/nba-p6-full-blocker-audit-20261117",
+        "headRefOid": "b7ca2899ab8d902cda62bfb802ab74dcb5598a30",
+        "mergeCommit": null,
+        "number": 173,
+        "state": "OPEN",
+        "url": "https://github.com/royalexx/pickem-auditor/pull/173"
+      }
+    },
+    "175": {
+      "command": [
+        "gh",
+        "pr",
+        "view",
+        "175",
+        "--json",
+        "number,url,state,headRefName,headRefOid,baseRefName,mergeCommit"
+      ],
+      "exit_code": 0,
+      "value": {
+        "baseRefName": "qa/nba-g1-exact-owner-assembly-v4-r3-20261116",
+        "headRefName": "repair/nba-g1-accounting-20261117",
+        "headRefOid": "cea11ebf5c11f59c1f62a78c86892451f614a670",
+        "mergeCommit": null,
+        "number": 175,
+        "state": "OPEN",
+        "url": "https://github.com/royalexx/pickem-auditor/pull/175"
+      }
+    },
+    "176": {
+      "command": [
+        "gh",
+        "pr",
+        "view",
+        "176",
+        "--json",
+        "number,url,state,headRefName,headRefOid,baseRefName,mergeCommit"
+      ],
+      "exit_code": 0,
+      "value": {
+        "baseRefName": "repair/nba-g1-accounting-20261117",
+        "headRefName": "repair/nba-g1-substantive-20261117",
+        "headRefOid": "ebbfcd6f430da35cd98340bb834e89de84239544",
+        "mergeCommit": null,
+        "number": 176,
+        "state": "OPEN",
+        "url": "https://github.com/royalexx/pickem-auditor/pull/176"
+      }
+    },
+    "188": {
+      "command": [
+        "gh",
+        "pr",
+        "view",
+        "188",
+        "--json",
+        "number,url,state,headRefName,headRefOid,baseRefName,mergeCommit"
+      ],
+      "exit_code": 0,
+      "value": {
+        "baseRefName": "acceptance/p1-subset-20261119",
+        "headRefName": "integration/nba-subset-p1-p5-20261119",
+        "headRefOid": "82c6092f2b970552e4a1a8a8a6c495052fb3e8b2",
+        "mergeCommit": null,
+        "number": 188,
+        "state": "OPEN",
+        "url": "https://github.com/royalexx/pickem-auditor/pull/188"
+      }
+    },
+    "189": {
+      "command": [
+        "gh",
+        "pr",
+        "view",
+        "189",
+        "--json",
+        "number,url,state,headRefName,headRefOid,baseRefName,mergeCommit"
+      ],
+      "exit_code": 0,
+      "value": {
+        "baseRefName": "integration/nba-subset-p1-p5-20261119",
+        "headRefName": "integration/nba-subset-p2-dispatch-20261120",
+        "headRefOid": "a4493ac71bc03cb0afe0dc3a267230e82424d37c",
+        "mergeCommit": null,
+        "number": 189,
+        "state": "OPEN",
+        "url": "https://github.com/royalexx/pickem-auditor/pull/189"
+      }
+    },
+    "main": {
+      "command": [
+        "gh",
+        "api",
+        "repos/royalexx/pickem-auditor/branches/main"
+      ],
+      "exit_code": 0,
+      "value": {
+        "name": "main",
+        "commit": {
+          "sha": "912bc7010058092ea735dcda0aa941429194474b",
+          "node_id": "C_kwDOVZfhX9oAKDkxMmJjNzAxMDA1ODA5MmVhNzM1ZGNkYTBhYTk0MTQyOTE5NDQ3NGI",
+          "commit": {
+            "author": {
+              "name": "Alexis Roy",
+              "email": "37934550+royalexx@users.noreply.github.com",
+              "date": "2026-11-15T03:08:27Z"
+            },
+            "committer": {
+              "name": "GitHub",
+              "email": "noreply@github.com",
+              "date": "2026-11-15T03:08:27Z"
+            },
+            "message": "research(phase5): validate isolated NHL SOG micro-TOI sensitivity\n\nAdd a source-hash-bound posthoc exposure-bin repair sensitivity and independent SciPy audit. Preserves all frozen original forecast values and prospective trials; no model promotion.",
+            "tree": {
+              "sha": "9e460ac53a80aac678d5b663c900fe7ba0d9b954",
+              "url": "https://api.github.com/repos/royalexx/pickem-auditor/git/trees/9e460ac53a80aac678d5b663c900fe7ba0d9b954"
+            },
+            "url": "https://api.github.com/repos/royalexx/pickem-auditor/git/commits/912bc7010058092ea735dcda0aa941429194474b",
+            "comment_count": 0,
+            "verification": {
+              "verified": true,
+              "reason": "valid",
+              "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq+SIrCRC1aQ7uu5UhlAAAdRsQAASxSiZhR+8PhxfOvxmcR/aF\ndSOPB8k6oOe0cxeoDq2rEDyuUw+oekwE9kcvj/KVxOUYvLOCS/nSJxCXGwYkFKnZ\nzg6znkakGCZkFyhcWtwmUZRt6Kwqbm7KJn4FpGX68f7YIQzjalWN+8c/MXskRs84\nNd8FuUL9STxQ8+6uf4jWuO0FGRYoDY/fkBETkuy1CLF+Rr8kNyKBPLWnstkJ+Efq\nGfLr6dsERbc5xUr0rRqHUvx4j7wXlR8JQ7QKhWmtdVQRqIkSGpLAQSDKJrLlJyMB\nQfUD0th8Ho4gE74AmVXhi1pDsSHXkIFzaiFs0STySHk5dQMdJKm6GMg4tWFy7XHi\nvTcGa5pVhLjwtq3LfE6uK0cUbnRpRLWSvV2QOxfscC7xfDpnbOr7JUY3Uddvzymt\nxeIEemoz0+79jRBWS6GTFs9bfFadIv8rMW8e/vZx5Vo9u3rx1XzSz+4FV1uRQfa8\n0X8z2p5AIVxqIZCXcF+CzyqRr8rFroK6UdoHEt/LPtZuj/C5hvnVDlTNYMAKCGlu\nXsvEDGTsR9sSeasW9rBHOizHnX2i8AQxhfsoz1eIb5JDC42NbN8iqdcB2SPBcyrY\n2+/rWMqiW8wdjksGXHOshUK3k9f95kUwSdrZzgJggQQOkEJ+nr84R/4NpBiN48U3\nqpvuZ19rLPYEQ6guIJYl\n=9W84\n-----END PGP SIGNATURE-----\n",
+              "payload": "tree 9e460ac53a80aac678d5b663c900fe7ba0d9b954\nparent b98eb8503a222231486813ac82b2e8964467a929\nauthor Alexis Roy <37934550+royalexx@users.noreply.github.com> 1794712107 -0500\ncommitter GitHub <noreply@github.com> 1794712107 -0500\n\nresearch(phase5): validate isolated NHL SOG micro-TOI sensitivity\n\nAdd a source-hash-bound posthoc exposure-bin repair sensitivity and independent SciPy audit. Preserves all frozen original forecast values and prospective trials; no model promotion.",
+              "verified_at": "2026-11-15T03:08:27Z"
+            }
+          },
+          "url": "https://api.github.com/repos/royalexx/pickem-auditor/commits/912bc7010058092ea735dcda0aa941429194474b",
+          "html_url": "https://github.com/royalexx/pickem-auditor/commit/912bc7010058092ea735dcda0aa941429194474b",
+          "comments_url": "https://api.github.com/repos/royalexx/pickem-auditor/commits/912bc7010058092ea735dcda0aa941429194474b/comments",
+          "author": {
+            "login": "royalexx",
+            "id": 37934550,
+            "node_id": "MDQ6VXNlcjM3OTM0NTUw",
+            "avatar_url": "https://avatars.githubusercontent.com/u/37934550?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/royalexx",
+            "html_url": "https://github.com/royalexx",
+            "followers_url": "https://api.github.com/users/royalexx/followers",
+            "following_url": "https://api.github.com/users/royalexx/following{/other_user}",
+            "gists_url": "https://api.github.com/users/royalexx/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/royalexx/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/royalexx/subscriptions",
+            "organizations_url": "https://api.github.com/users/royalexx/orgs",
+            "repos_url": "https://api.github.com/users/royalexx/repos",
+            "events_url": "https://api.github.com/users/royalexx/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/royalexx/received_events",
+            "type": "User",
+            "user_view_type": "public",
+            "site_admin": false
+          },
+          "committer": {
+            "login": "web-flow",
+            "id": 19864447,
+            "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+            "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/web-flow",
+            "html_url": "https://github.com/web-flow",
+            "followers_url": "https://api.github.com/users/web-flow/followers",
+            "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+            "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+            "organizations_url": "https://api.github.com/users/web-flow/orgs",
+            "repos_url": "https://api.github.com/users/web-flow/repos",
+            "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/web-flow/received_events",
+            "type": "User",
+            "user_view_type": "public",
+            "site_admin": false
+          },
+          "parents": [
+            {
+              "sha": "b98eb8503a222231486813ac82b2e8964467a929",
+              "url": "https://api.github.com/repos/royalexx/pickem-auditor/commits/b98eb8503a222231486813ac82b2e8964467a929",
+              "html_url": "https://github.com/royalexx/pickem-auditor/commit/b98eb8503a222231486813ac82b2e8964467a929"
+            }
+          ]
+        },
+        "_links": {
+          "self": "https://api.github.com/repos/royalexx/pickem-auditor/branches/main",
+          "html": "https://github.com/royalexx/pickem-auditor/tree/main"
+        },
+        "protected": false,
+        "protection": {
+          "enabled": false,
+          "required_status_checks": {
+            "enforcement_level": "off",
+            "contexts": [],
+            "checks": []
+          }
+        },
+        "protection_url": "https://api.github.com/repos/royalexx/pickem-auditor/branches/main/protection"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0 -- /workspace/scratch/p1-p5-ci-venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/pickem-auditor
+collecting ... collected 13 items
+
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_actual_frozen_population_exact_rows_and_every_stat_attempt PASSED [  7%]
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_full_vector_conflict_and_ambiguous_name_do_not_create_fit_rows PASSED [ 15%]
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_identity_period_clock_count_and_duplicate_mutations_reject 
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_identity_period_clock_count_and_duplicate_mutations_reject PASSED [ 23%]
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_resealed_spec_policy_and_capture_bytes_cannot_admit PASSED [ 30%]
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_structural_source_parser_is_not_admission_and_zero_dnp_sub30_stay_distinct PASSED [ 38%]
+tests/nba_architecture/test_genuine_prospective_s_v1.py::GenuineProspectiveTests::test_actual_numeric_laws_have_integer_support_bounded_tail_and_exact_triplets PASSED [ 46%]
+tests/nba_architecture/test_genuine_prospective_s_v1.py::GenuineProspectiveTests::test_archive_public_path_runs_with_isolated_reader_and_original_paths_unavailable PASSED [ 53%]
+tests/nba_architecture/test_genuine_prospective_s_v1.py::GenuineProspectiveTests::test_changed_population_target_late_freeze_and_forged_decision_do_not_admit 
+tests/nba_architecture/test_genuine_prospective_s_v1.py::GenuineProspectiveTests::test_changed_population_target_late_freeze_and_forged_decision_do_not_admit PASSED [ 61%]
+tests/nba_architecture/test_genuine_prospective_s_v1.py::GenuineProspectiveTests::test_live_cli_rejects_same_archive_destination_without_overwriting PASSED [ 69%]
+tests/nba_architecture/test_genuine_prospective_s_v1.py::GenuineProspectiveTests::test_model_source_and_resealed_output_mutations_are_rejected 
+tests/nba_architecture/test_genuine_prospective_s_v1.py::GenuineProspectiveTests::test_model_source_and_resealed_output_mutations_are_rejected PASSED [ 76%]
+tests/nba_architecture/test_genuine_prospective_s_v1.py::GenuineProspectiveTests::test_public_cli_rejected_source_batch_retains_140_attempts PASSED [ 84%]
+tests/nba_architecture/test_genuine_prospective_s_v1.py::GenuineProspectiveTests::test_real_public_source_to_fitted_S_path_keeps_every_candidate_attempt_and_unknown PASSED [ 92%]
+tests/nba_architecture/test_genuine_prospective_s_v1.py::GenuineProspectiveTests::test_resealed_reader_registry_and_manifest_coverage_cannot_appoint_admission 
+tests/nba_architecture/test_genuine_prospective_s_v1.py::GenuineProspectiveTests::test_resealed_reader_registry_and_manifest_coverage_cannot_appoint_admission PASSED [100%]
+
+============== 13 passed, 17 subtests passed in 72.60s (0:01:12) ===============

@@ -1,0 +1,11 @@
+{
+  "cwd": "/workspace/pickem-auditor",
+  "argv": [
+    "python",
+    "docs/nba_architecture/p2_dispatch_20261120/independent_official_capability/inspect_official.py"
+  ],
+  "exit_code": 0,
+  "stdout": "inspection.stdout",
+  "stderr": "inspection.stderr",
+  "scope": "Read-only existing official-source capability and matching count-vector inspection; no source recapture, fit or real-model admission"
+}

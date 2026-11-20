@@ -1,0 +1,462 @@
+{
+  "explicit_DNP_exclusions": 3,
+  "fit_performed": false,
+  "fresh_source_admission_granted": false,
+  "game": {
+    "gameClock": "PT00M00.00S",
+    "gameCode": "20261118/MEMCLE",
+    "gameEt": "2026-11-18T19:00:00Z",
+    "gameId": "0022600258",
+    "gameStatus": 3,
+    "gameStatusText": "Final",
+    "gameTimeUTC": "2026-11-19T00:00:00Z",
+    "period": 4
+  },
+  "inactive_row_denominator": 10,
+  "model_admission_granted": false,
+  "player_row_denominator": 25,
+  "positive_exact_seconds_and_full_count_vector_matches": 22,
+  "source_sha256": {
+    "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs/summary-401910007/body.raw": "f0913b3d3f3ac2da67a62969aad981026e2fd766923ab0038a96fba9c30dc773",
+    "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs/summary-401910007/receipt.json": "a8a84e70ec1cb579c8d94c65eb3fe076af9373d0f05045ef9ef200f96b5c5622",
+    "docs/nba_architecture/p1_workflow_repair_20261119/independent/source_search/official-game-box-page/body.raw": "9eb5034103e1a661ce39649ce3a8010bc92d47e2d8f7faa3c38263a1b8d86910",
+    "docs/nba_architecture/p1_workflow_repair_20261119/independent/source_search/official-game-box-page/receipt.json": "a5a8000df44a0235800c9db9a1be27ea209820f3d834198c4f78d393a5b6d3b7"
+  },
+  "teams": [
+    {
+      "bench_aggregate_minutes": "154:22",
+      "inactive_observations": [
+        {
+          "name": "Evan Mobley",
+          "nba_person_id": 1630596,
+          "state": "OFFICIAL_INACTIVE_CATEGORY_EXCLUDED"
+        },
+        {
+          "name": "Peyton Watson",
+          "nba_person_id": 1631212,
+          "state": "OFFICIAL_INACTIVE_CATEGORY_EXCLUDED"
+        },
+        {
+          "name": "Nae'Qwan Tomlin",
+          "nba_person_id": 1641772,
+          "state": "OFFICIAL_INACTIVE_CATEGORY_EXCLUDED"
+        },
+        {
+          "name": "Jaylon Tyson",
+          "nba_person_id": 1642281,
+          "state": "OFFICIAL_INACTIVE_CATEGORY_EXCLUDED"
+        },
+        {
+          "name": "Ernest Udeh Jr.",
+          "nba_person_id": 1643640,
+          "state": "OFFICIAL_INACTIVE_CATEGORY_EXCLUDED"
+        }
+      ],
+      "inactive_rows": 5,
+      "nba_team_id": 1610612739,
+      "observations": [
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 1546,
+          "minutes_raw": "25:46",
+          "name": "Tyrese Proctor",
+          "nba_person_id": 1642878,
+          "official_position": "F",
+          "sample_crosswalk": {
+            "espn_player_id": "5023693",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 1682,
+          "minutes_raw": "28:02",
+          "name": "Mario Hezonja",
+          "nba_person_id": 1626209,
+          "official_position": "F",
+          "sample_crosswalk": {
+            "espn_player_id": "2995706",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 1777,
+          "minutes_raw": "29:37",
+          "name": "Jarrett Allen",
+          "nba_person_id": 1628386,
+          "official_position": "C",
+          "sample_crosswalk": {
+            "espn_player_id": "4066328",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 2126,
+          "minutes_raw": "35:26",
+          "name": "Donovan Mitchell",
+          "nba_person_id": 1628378,
+          "official_position": "G",
+          "sample_crosswalk": {
+            "espn_player_id": "3908809",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 2131,
+          "minutes_raw": "35:31",
+          "name": "James Harden",
+          "nba_person_id": 201935,
+          "official_position": "G",
+          "sample_crosswalk": {
+            "espn_player_id": "3992",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 1326,
+          "minutes_raw": "22:06",
+          "name": "Meleek Thomas",
+          "nba_person_id": 1643509,
+          "official_position": "",
+          "sample_crosswalk": {
+            "espn_player_id": "5041951",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 1377,
+          "minutes_raw": "22:57",
+          "name": "Sam Merrill",
+          "nba_person_id": 1630241,
+          "official_position": "",
+          "sample_crosswalk": {
+            "espn_player_id": "4066757",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 721,
+          "minutes_raw": "12:01",
+          "name": "Thomas Bryant",
+          "nba_person_id": 1628418,
+          "official_position": "",
+          "sample_crosswalk": {
+            "espn_player_id": "3934723",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 981,
+          "minutes_raw": "16:21",
+          "name": "Norchad Omier",
+          "nba_person_id": 1641807,
+          "official_position": "",
+          "sample_crosswalk": {
+            "espn_player_id": "4702134",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 733,
+          "minutes_raw": "12:13",
+          "name": "Craig Porter Jr.",
+          "nba_person_id": 1641854,
+          "official_position": "",
+          "sample_crosswalk": {
+            "espn_player_id": "4701233",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "DNP - Coach's Decision",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": null,
+          "minutes_raw": "",
+          "name": "Zack Austin",
+          "nba_person_id": 1643113,
+          "official_position": "",
+          "sample_crosswalk": null,
+          "state": "EXPLICIT_DNP_EXCLUDED"
+        },
+        {
+          "comment": "DNP - Coach's Decision",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": null,
+          "minutes_raw": "",
+          "name": "Khalifa Diop",
+          "nba_person_id": 1631215,
+          "official_position": "",
+          "sample_crosswalk": null,
+          "state": "EXPLICIT_DNP_EXCLUDED"
+        }
+      ],
+      "official_team_minutes": "240:00",
+      "player_rows": 12,
+      "starters_aggregate_minutes": "154:22",
+      "states": {
+        "EXPLICIT_DNP_EXCLUDED": 2,
+        "PLAYED_EXACT_SECONDS_GE30": 10
+      },
+      "sum_player_seconds": 14400,
+      "tricode": "CLE"
+    },
+    {
+      "bench_aggregate_minutes": "137:38",
+      "inactive_observations": [
+        {
+          "name": "Richie Saunders",
+          "nba_person_id": 1643563,
+          "state": "OFFICIAL_INACTIVE_CATEGORY_EXCLUDED"
+        },
+        {
+          "name": "GG Jackson",
+          "nba_person_id": 1641713,
+          "state": "OFFICIAL_INACTIVE_CATEGORY_EXCLUDED"
+        },
+        {
+          "name": "Ty Jerome",
+          "nba_person_id": 1629660,
+          "state": "OFFICIAL_INACTIVE_CATEGORY_EXCLUDED"
+        },
+        {
+          "name": "Isaiah Stewart",
+          "nba_person_id": 1630191,
+          "state": "OFFICIAL_INACTIVE_CATEGORY_EXCLUDED"
+        },
+        {
+          "name": "Scotty Pippen Jr.",
+          "nba_person_id": 1630590,
+          "state": "OFFICIAL_INACTIVE_CATEGORY_EXCLUDED"
+        }
+      ],
+      "inactive_rows": 5,
+      "nba_team_id": 1610612763,
+      "observations": [
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 1550,
+          "minutes_raw": "25:50",
+          "name": "Jaylen Wells",
+          "nba_person_id": 1642377,
+          "official_position": "F",
+          "sample_crosswalk": {
+            "espn_player_id": "5112087",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 1661,
+          "minutes_raw": "27:41",
+          "name": "Cameron Boozer",
+          "nba_person_id": 1643409,
+          "official_position": "F",
+          "sample_crosswalk": {
+            "espn_player_id": "5041935",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 1274,
+          "minutes_raw": "21:14",
+          "name": "Zach Edey",
+          "nba_person_id": 1641744,
+          "official_position": "C",
+          "sample_crosswalk": {
+            "espn_player_id": "4600663",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 2006,
+          "minutes_raw": "33:26",
+          "name": "Cedric Coward",
+          "nba_person_id": 1642907,
+          "official_position": "G",
+          "sample_crosswalk": {
+            "espn_player_id": "4903027",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 1767,
+          "minutes_raw": "29:27",
+          "name": "Cam Spencer",
+          "nba_person_id": 1642285,
+          "official_position": "G",
+          "sample_crosswalk": {
+            "espn_player_id": "4433083",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 1242,
+          "minutes_raw": "20:42",
+          "name": "Taylor Hendricks",
+          "nba_person_id": 1641707,
+          "official_position": "",
+          "sample_crosswalk": {
+            "espn_player_id": "4684806",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 1243,
+          "minutes_raw": "20:43",
+          "name": "Javon Small",
+          "nba_person_id": 1642914,
+          "official_position": "",
+          "sample_crosswalk": {
+            "espn_player_id": "4781746",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 965,
+          "minutes_raw": "16:05",
+          "name": "Olivier-Maxence Prosper",
+          "nba_person_id": 1641765,
+          "official_position": "",
+          "sample_crosswalk": {
+            "espn_player_id": "4595400",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 349,
+          "minutes_raw": "5:49",
+          "name": "Kris Murray",
+          "nba_person_id": 1631200,
+          "official_position": "",
+          "sample_crosswalk": {
+            "espn_player_id": "4594326",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 1210,
+          "minutes_raw": "20:10",
+          "name": "Jerami Grant",
+          "nba_person_id": 203924,
+          "official_position": "",
+          "sample_crosswalk": {
+            "espn_player_id": "2991070",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 364,
+          "minutes_raw": "6:04",
+          "name": "Quinten Post",
+          "nba_person_id": 1642366,
+          "official_position": "",
+          "sample_crosswalk": {
+            "espn_player_id": "4593016",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "",
+          "exact_name_espn_matches": 1,
+          "exact_reported_seconds": 769,
+          "minutes_raw": "12:49",
+          "name": "Jahmai Mashack",
+          "nba_person_id": 1642942,
+          "official_position": "",
+          "sample_crosswalk": {
+            "espn_player_id": "4683934",
+            "scope": "EXACT_FULL_NAME_GAME_TEAM_AND_COUNT_VECTOR_SAMPLE_ONLY"
+          },
+          "state": "PLAYED_EXACT_SECONDS_GE30"
+        },
+        {
+          "comment": "DNP - Coach's Decision",
+          "exact_name_espn_matches": 0,
+          "exact_reported_seconds": null,
+          "minutes_raw": "",
+          "name": "Karim L\u00f3pez",
+          "nba_person_id": 1643510,
+          "official_position": "",
+          "sample_crosswalk": null,
+          "state": "EXPLICIT_DNP_EXCLUDED"
+        }
+      ],
+      "official_team_minutes": "240:00",
+      "player_rows": 13,
+      "starters_aggregate_minutes": "137:38",
+      "states": {
+        "EXPLICIT_DNP_EXCLUDED": 1,
+        "PLAYED_EXACT_SECONDS_GE30": 12
+      },
+      "sum_player_seconds": 14400,
+      "tricode": "MEM"
+    }
+  ],
+  "total_observed_native_people": 35,
+  "warnings": [
+    "Bench aggregate minutes duplicate starter aggregate minutes and are not a valid exposure witness.",
+    "Official position is blank on bench rows; it is not a substitute for reviewed ESPN observed-at-capture peer bins.",
+    "DNP Karim L\u00f3pez has no exact full-name ESPN match; this script does not normalize or silently alias it.",
+    "Exact reported seconds have source reporting resolution; no subsecond precision is claimed.",
+    "This one saved page establishes capability only. Fresh population, source reader, fit and real artifact admission remain unapproved."
+  ]
+}

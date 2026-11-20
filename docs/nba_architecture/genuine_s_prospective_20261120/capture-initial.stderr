@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/capture_inputs.py", line 40, in <module>
+    expected={t['homeAway']:t['team']['name'] for t in e['competitions'][0]['competitors']}
+                            ~~~~~~~~~^^^^^^^^
+KeyError: 'name'

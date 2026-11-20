@@ -1,0 +1,42 @@
+{
+  "cwd": "/workspace/pickem-auditor",
+  "reader_reviewed_commit": "64fa2cdd31eae9f7c70c2cb5d293d742995a5748",
+  "writer_reviewed_commit": "ef360a88f847da27a456ddab3ba8c93e45f0a042",
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/genuine_s_prospective_20261120/independent_prefit/reader_probe.py"
+      ],
+      "exit_code": 0,
+      "stdout": "reader_probe.stdout",
+      "stderr": "reader_probe.stderr",
+      "scope": "6 independent source-reader methods; native fit forbidden,0 calls"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/genuine_s_prospective_20261120/independent_prefit/fit_protocol_probe.py"
+      ],
+      "exit_code": 0,
+      "stdout": "fit_protocol.stdout",
+      "stderr": "fit_protocol.stderr",
+      "scope": "4 independent synthetic protocol methods; mocked native calls only;0actualfit executions"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-v",
+        "tests/nba_architecture/test_prospective_s_sources_v1.py"
+      ],
+      "exit_code": 0,
+      "stdout": "implementation_tests.stdout",
+      "stderr": "implementation_tests.stderr",
+      "scope": "5implementationtests+6subtests independently rerun"
+    }
+  ],
+  "approval_raw_sha256": "a76ce1e31d029edecc30b57d9ee7dd37941cb31fc697c5c01b0566c18b9fe558",
+  "actual_native_fit_executions": 0
+}

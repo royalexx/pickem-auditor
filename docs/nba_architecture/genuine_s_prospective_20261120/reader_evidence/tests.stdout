@@ -1,0 +1,91 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0 -- /workspace/scratch/p1-p5-ci-venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/pickem-auditor
+collecting ... collected 5 items
+
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_actual_frozen_population_exact_rows_and_every_stat_attempt FAILED [ 20%]
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_full_vector_conflict_and_ambiguous_name_do_not_create_fit_rows FAILED [ 40%]
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_identity_period_clock_count_and_duplicate_mutations_reject 
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_identity_period_clock_count_and_duplicate_mutations_reject PASSED [ 60%]
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_resealed_spec_policy_and_capture_bytes_cannot_admit PASSED [ 80%]
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_structural_source_parser_is_not_admission_and_zero_dnp_sub30_stay_distinct FAILED [100%]
+
+=================================== FAILURES ===================================
+_ ProspectiveSourceTests.test_actual_frozen_population_exact_rows_and_every_stat_attempt _
+
+self = <nba_architecture.test_prospective_s_sources_v1.ProspectiveSourceTests testMethod=test_actual_frozen_population_exact_rows_and_every_stat_attempt>
+
+    def test_actual_frozen_population_exact_rows_and_every_stat_attempt(self):
+>       x=build_dataset(RAW,SPEC,POLICY)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/nba_architecture/test_prospective_s_sources_v1.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+v2/nba_architecture/prospective_s_sources_v1.py:189: in build_dataset
+    parsed=parse_completed_game(bodies[official],bodies[summary],bodies[join['index']],join)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+v2/nba_architecture/prospective_s_sources_v1.py:112: in parse_completed_game
+    require(nba['periods']==index_team['periods'] and nba['score']==index_team['score'],'OFFICIAL_INDEX_PERIOD_SCORE_JOIN')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False, reason = 'OFFICIAL_INDEX_PERIOD_SCORE_JOIN'
+
+    def require(condition,reason):
+>       if not condition:raise ValueError(reason)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: OFFICIAL_INDEX_PERIOD_SCORE_JOIN
+
+v2/nba_architecture/subset_p3_v1.py:40: ValueError
+_ ProspectiveSourceTests.test_full_vector_conflict_and_ambiguous_name_do_not_create_fit_rows _
+
+self = <nba_architecture.test_prospective_s_sources_v1.ProspectiveSourceTests testMethod=test_full_vector_conflict_and_ambiguous_name_do_not_create_fit_rows>
+
+    def test_full_vector_conflict_and_ambiguous_name_do_not_create_fit_rows(self):
+>       x=build_dataset(RAW,SPEC,POLICY)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/nba_architecture/test_prospective_s_sources_v1.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+v2/nba_architecture/prospective_s_sources_v1.py:189: in build_dataset
+    parsed=parse_completed_game(bodies[official],bodies[summary],bodies[join['index']],join)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+v2/nba_architecture/prospective_s_sources_v1.py:112: in parse_completed_game
+    require(nba['periods']==index_team['periods'] and nba['score']==index_team['score'],'OFFICIAL_INDEX_PERIOD_SCORE_JOIN')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False, reason = 'OFFICIAL_INDEX_PERIOD_SCORE_JOIN'
+
+    def require(condition,reason):
+>       if not condition:raise ValueError(reason)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: OFFICIAL_INDEX_PERIOD_SCORE_JOIN
+
+v2/nba_architecture/subset_p3_v1.py:40: ValueError
+_ ProspectiveSourceTests.test_structural_source_parser_is_not_admission_and_zero_dnp_sub30_stay_distinct _
+
+self = <nba_architecture.test_prospective_s_sources_v1.ProspectiveSourceTests testMethod=test_structural_source_parser_is_not_admission_and_zero_dnp_sub30_stay_distinct>
+
+    def test_structural_source_parser_is_not_admission_and_zero_dnp_sub30_stay_distinct(self):
+>       args=inputs();g=next_data(args[0])['game'];result=parse_completed_game(*args)
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/nba_architecture/test_prospective_s_sources_v1.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+v2/nba_architecture/prospective_s_sources_v1.py:112: in parse_completed_game
+    require(nba['periods']==index_team['periods'] and nba['score']==index_team['score'],'OFFICIAL_INDEX_PERIOD_SCORE_JOIN')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False, reason = 'OFFICIAL_INDEX_PERIOD_SCORE_JOIN'
+
+    def require(condition,reason):
+>       if not condition:raise ValueError(reason)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: OFFICIAL_INDEX_PERIOD_SCORE_JOIN
+
+v2/nba_architecture/subset_p3_v1.py:40: ValueError
+=========================== short test summary info ============================
+FAILED tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_actual_frozen_population_exact_rows_and_every_stat_attempt
+FAILED tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_full_vector_conflict_and_ambiguous_name_do_not_create_fit_rows
+FAILED tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_structural_source_parser_is_not_admission_and_zero_dnp_sub30_stay_distinct
+================ 3 failed, 2 passed, 6 subtests passed in 1.34s ================

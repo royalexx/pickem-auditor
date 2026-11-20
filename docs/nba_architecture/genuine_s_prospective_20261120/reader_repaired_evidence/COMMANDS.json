@@ -1,0 +1,13 @@
+{
+  "tested_commit": "6b0887848b16633b1c952446b9409bc13c574efc",
+  "command": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "-m",
+    "pytest",
+    "-v",
+    "tests/nba_architecture/test_prospective_s_sources_v1.py"
+  ],
+  "exit_code": 0,
+  "dataset_command": "build_dataset(raw, PREFIT_POPULATION.json, policy/nba_rule5.raw); no fit",
+  "data_sha256": "e5cb76ef446d6651b718c6279367a7078ffa86f01b621cfbfd9c7b4d74adbd1d"
+}

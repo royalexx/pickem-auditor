@@ -1,0 +1,543 @@
+{
+  "actual_forecast_implementation_commit": "76201b7795b718005d82b6443c2ea614e9824310",
+  "archive_mutations": [
+    {
+      "attack": "cli",
+      "error": "GENUINE_ARCHIVE_UNREVIEWED_READER_BYTES:scripts/nba_genuine_s.py",
+      "rejected": true
+    },
+    {
+      "attack": "registry",
+      "error": "GENUINE_ARCHIVE_UNREVIEWED_READER_BYTES:v2/nba_architecture/prospective_s_admission_v1.py",
+      "rejected": true
+    },
+    {
+      "attack": "reader_drop",
+      "error": "GENUINE_ARCHIVE_READER_POPULATION",
+      "rejected": true
+    },
+    {
+      "attack": "count",
+      "error": "GENUINE_ARCHIVE_REPLAY_DENOMINATOR_JOIN",
+      "rejected": true
+    },
+    {
+      "attack": "forecast_clock",
+      "error": "GENUINE_ARCHIVE_REPLAY_DENOMINATOR_JOIN",
+      "rejected": true
+    },
+    {
+      "attack": "production",
+      "error": "GENUINE_ARCHIVE_MANIFEST_SCOPE",
+      "rejected": true
+    },
+    {
+      "attack": "schema",
+      "error": "GENUINE_ARCHIVE_MANIFEST_SCOPE",
+      "rejected": true
+    },
+    {
+      "attack": "extra_key",
+      "error": "GENUINE_ARCHIVE_MANIFEST_SCOPE",
+      "rejected": true
+    },
+    {
+      "attack": "domain",
+      "error": "GENUINE_ARCHIVE_FILE_REFERENCE_SCHEMA:forecast.json",
+      "rejected": true
+    },
+    {
+      "attack": "ref_key",
+      "error": "GENUINE_ARCHIVE_FILE_REFERENCE_SCHEMA:forecast.json",
+      "rejected": true
+    },
+    {
+      "attack": "ref_bool_size",
+      "error": "GENUINE_ARCHIVE_FILE_REFERENCE_SCHEMA:forecast.json",
+      "rejected": true
+    },
+    {
+      "attack": "nested_manifest",
+      "error": "GENUINE_ARCHIVE_FILE_POPULATION",
+      "rejected": true
+    },
+    {
+      "attack": "missing_file",
+      "error": "GENUINE_ARCHIVE_FILE_POPULATION",
+      "rejected": true
+    },
+    {
+      "attack": "model_resealed",
+      "error": "GENUINE_ARCHIVE_OFFLINE_REPLAY:Traceback (most recent call last):\n  File \"/tmp/tmppgngx43t/archive/reader/scripts/nba_genuine_s.py\", line 76, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/tmp/tmppgngx43t/archive/reader/scripts/nba_genuine_s.py\", line 40, in main\n    result=read_forecasts((root/'forecast.json').read_bytes(),forecast_at=expected['forecast_at'],**frozen_inputs(root))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmppgngx43t/archive/reader/v2/nba_architecture/prospective_s_runtime_v1.py\", line 223, in read_forecasts\n    require(canonical(result)==canonical(run_forecasts(**inputs)), 'GENUINE_S_SOURCE_MODEL_OUTPUT_REPLAY')\n                                         ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmppgngx43t/archive/reader/v2/nba_architecture/prospective_s_runtime_v1.py\", line 154, in run_forecasts\n    dataset, receipt, artifacts, manifest_raw, bodymap_raw = verify_bundle(\n                                                             ^^^^^^^^^^^^^^\n  File \"/tmp/tmppgngx43t/archive/reader/v2/nba_architecture/prospective_s_runtime_v1.py\", line 62, in verify_bundle\n    require(digest(raw) == registry.ARTIFACTS[stat] == receipt['artifacts'][stat]['sha256'],\n  File \"/tmp/tmppgngx43t/archive/reader/v2/nba_architecture/subset_p3_v1.py\", line 40, in require\n    if not condition:raise ValueError(reason)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: GENUINE_S_ARTIFACT_BYTES:points\n",
+      "rejected": true
+    },
+    {
+      "attack": "forecast_resealed",
+      "error": "GENUINE_ARCHIVE_OFFLINE_REPLAY:Traceback (most recent call last):\n  File \"/tmp/tmpdtdu1wi1/archive/reader/scripts/nba_genuine_s.py\", line 76, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/tmp/tmpdtdu1wi1/archive/reader/scripts/nba_genuine_s.py\", line 40, in main\n    result=read_forecasts((root/'forecast.json').read_bytes(),forecast_at=expected['forecast_at'],**frozen_inputs(root))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpdtdu1wi1/archive/reader/v2/nba_architecture/prospective_s_runtime_v1.py\", line 223, in read_forecasts\n    require(canonical(result)==canonical(run_forecasts(**inputs)), 'GENUINE_S_SOURCE_MODEL_OUTPUT_REPLAY')\n  File \"/tmp/tmpdtdu1wi1/archive/reader/v2/nba_architecture/subset_p3_v1.py\", line 40, in require\n    if not condition:raise ValueError(reason)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: GENUINE_S_SOURCE_MODEL_OUTPUT_REPLAY\n",
+      "rejected": true
+    },
+    {
+      "attack": "source_resealed",
+      "error": "GENUINE_ARCHIVE_OFFLINE_REPLAY:Traceback (most recent call last):\n  File \"/tmp/tmptlznji15/archive/reader/scripts/nba_genuine_s.py\", line 76, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/tmp/tmptlznji15/archive/reader/scripts/nba_genuine_s.py\", line 40, in main\n    result=read_forecasts((root/'forecast.json').read_bytes(),forecast_at=expected['forecast_at'],**frozen_inputs(root))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmptlznji15/archive/reader/v2/nba_architecture/prospective_s_runtime_v1.py\", line 223, in read_forecasts\n    require(canonical(result)==canonical(run_forecasts(**inputs)), 'GENUINE_S_SOURCE_MODEL_OUTPUT_REPLAY')\n                                         ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmptlznji15/archive/reader/v2/nba_architecture/prospective_s_runtime_v1.py\", line 154, in run_forecasts\n    dataset, receipt, artifacts, manifest_raw, bodymap_raw = verify_bundle(\n                                                             ^^^^^^^^^^^^^^\n  File \"/tmp/tmptlznji15/archive/reader/v2/nba_architecture/prospective_s_runtime_v1.py\", line 32, in verify_bundle\n    dataset = build_dataset(raw_dir, spec_path, policy_path)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmptlznji15/archive/reader/v2/nba_architecture/prospective_s_sources_v1.py\", line 183, in build_dataset\n    require(digest(body)==expected['body_sha256']==r['raw_sha256'] and digest(rr)==expected['receipt_sha256'],'FROZEN_CAPTURE_BYTES:'+name)\n  File \"/tmp/tmptlznji15/archive/reader/v2/nba_architecture/subset_p3_v1.py\", line 40, in require\n    if not condition:raise ValueError(reason)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FROZEN_CAPTURE_BYTES:summary-401910007\n",
+      "rejected": true
+    }
+  ],
+  "clock_chain": [
+    "2026-11-20T01:07:00.131517+00:00",
+    "2026-11-20T01:32:22.724075+00:00",
+    "2026-11-20T01:32:22.802609+00:00",
+    "2026-11-20T01:32:22.803507+00:00",
+    "2026-11-20T01:39:59.762830+00:00",
+    "2026-11-20T01:41:16.119939+00:00",
+    "2026-11-20T01:41:35.539742+00:00",
+    "2026-11-22T01:00Z"
+  ],
+  "code_raw_sha256": {
+    "config/nba_research_profile.json": "951cb869d0fb8e83f272f1d4d3964bee602353ffd47c723c3147c42044087b50",
+    "scripts/nba_genuine_s.py": "c58e602805fcb77ce9760e42fcf3f38991205cc2a293dd90cb8fc23b5be2585f",
+    "scripts/nba_p1_prospective_capture.py": "4df0240932dcfed1c4a243b6015b152618a36d69d03bdcd6f505080ca45da68b",
+    "v2/__init__.py": "09f3c34317c05039666deecdf6b4e2a9c0a4c05a1b31650f9417bbe15a4cdb6f",
+    "v2/nba_architecture/__init__.py": "1cab61333a0a007ae7c7b732e4c2118ed51946d73a75886040574057dd6fb150",
+    "v2/nba_architecture/contracts.py": "6f46700b630102583c05a73f0fb258b11681f13c688c180da9efc0e64474ad10",
+    "v2/nba_architecture/gamebook_identity_v1.py": "51ebbe20652a8beb776e2bfcf887825e9b7a441bda3532420181d4465670fe55",
+    "v2/nba_architecture/p1_capture_v1.py": "581e37de6be49e7a0efe74741dcec5c294e50937bfcd9885226363c7157a5e91",
+    "v2/nba_architecture/p1_subset_handoff_v1.py": "745c333f110dea7d16ec74aca3a6179cc9bc043468c1f0bf081157946d48ff68",
+    "v2/nba_architecture/prospective_s_admission_v1.py": "d9e4835038b04741c492fa2ddb4058a218f4a2f93786fbb2e0e5473cf6697b27",
+    "v2/nba_architecture/prospective_s_archive_v1.py": "13e9be8703fe34ba1dafc77322a6b7ff81a6d0d5159420d7af4efd81bdbf26b8",
+    "v2/nba_architecture/prospective_s_runtime_v1.py": "a44880eef3012f67c9cff95ac759a1da76310638954b9c9657f7c4cd84480bc0",
+    "v2/nba_architecture/prospective_s_sources_v1.py": "8b61c753a41b59b9baad25ce179bd56ef3ceaf31645e76998b6408f296a447fd",
+    "v2/nba_architecture/research_profile_v1.py": "bc25182f07f86f695ae0fefdf4a3a0b8924808c67bbcd809484824337e7ee070",
+    "v2/nba_architecture/schema-2.0.0.json": "cb36a9dfb343c07c215f02b43d3eeb32190093805532548bceb0749b98e0ac58",
+    "v2/nba_architecture/subset_contract_v1.py": "34c7de07e4e2244c663c07908b087d57ffbbd3c72f40d62b1b42554364854bd5",
+    "v2/nba_architecture/subset_p2_dispatch_v1.py": "017468373bb92cc453d20dea63f584676bf1d669b4a5f60e30f0ffa731e92202",
+    "v2/nba_architecture/subset_p2_v1.py": "3f09c5574eaca1ebbdb155bd439c300b38f50445e0e27e2f323e6b8ebf515323",
+    "v2/nba_architecture/subset_p3_v1.py": "1034c56a5e58c4134d17a6050644488e6458f3f5ca1aa061d3363e696c23c172",
+    "v2/nba_architecture/v2_contracts.py": "e3b703ef7630e50f9778bf469506ebce2d0841698d5878b825448a3cd70afeb4",
+    "v2/nba_opportunity.py": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30",
+    "v2/nba_s_family/__init__.py": "337985ce0b7ec5fefe5874eb51f263fe87e5a28ca277177b9747d4218ecd5c03",
+    "v2/nba_s_family/model.py": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+    "v2/nba_s_family/prospective_fit_v1.py": "11c4bede78a803f8f00f779a5497eb22e3c2a53cf811fe7e47553fa7ec45e490"
+  },
+  "cold_recompute": {
+    "abstained_rows": 84,
+    "attempt_denominator": 140,
+    "candidate_denominator": 35,
+    "forecast_at": "2026-11-20T01:41:35.539742+00:00",
+    "forecasted_rows": 56,
+    "mode": "DETERMINISTIC_RECOMPUTATION_ONLY_UNVERIFIED_CODE",
+    "new_forecast_issued": false,
+    "payload_sha256": "d416d25ae69ff390c760537e9615f24a3e86e80b1c7d6d18047fa38a1e0b659f"
+  },
+  "completed_at": "2026-11-20T01:53:24.565477+00:00",
+  "coverage": {
+    "abstentions": 84,
+    "archive_files_rehashed": 165,
+    "attempts": 140,
+    "candidates": 35,
+    "genuine_laws": 56,
+    "insufficient_history": 20,
+    "source_abstentions": 32,
+    "supported_players": 14,
+    "unknown_history": 32
+  },
+  "errors": 0,
+  "failures": 0,
+  "forecast_payload_sha256": "d416d25ae69ff390c760537e9615f24a3e86e80b1c7d6d18047fa38a1e0b659f",
+  "forecast_raw_sha256": "6ebe7eb039c01a963663ec5253a46ec4e9a87379f59adac47087338e9c119f8d",
+  "manifest_raw_sha256": "934671c7c8ab61293a0c9eadad6d8456d3615f03cdfc558933bf9fe7854a327f",
+  "new_genuine_forecasts_issued_by_reviewer": 0,
+  "numeric_checks": [
+    {
+      "max_pmf_abs_error": 1.6806001035263307e-14,
+      "mean_abs_error": 5.684341886080802e-14,
+      "player_id": "espn:player:4432816",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 7.605027718682322e-15,
+      "mean_abs_error": 3.631761558153812e-12,
+      "player_id": "espn:player:4432816",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 8.798517470154366e-15,
+      "mean_abs_error": 1.6759926779741363e-12,
+      "player_id": "espn:player:4432816",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 4.440892098500626e-15,
+      "mean_abs_error": 2.071232074740692e-12,
+      "player_id": "espn:player:4432816",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 5.218048215738236e-15,
+      "mean_abs_error": 2.851052727237402e-13,
+      "player_id": "espn:player:5279133",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 4.440892098500626e-15,
+      "mean_abs_error": 8.197886813832156e-13,
+      "player_id": "espn:player:5279133",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 2.220446049250313e-15,
+      "mean_abs_error": 2.418065747633591e-13,
+      "player_id": "espn:player:5279133",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 7.771561172376096e-16,
+      "mean_abs_error": 1.6653345369377348e-16,
+      "player_id": "espn:player:5279133",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 1.8263168755083825e-14,
+      "mean_abs_error": 6.394884621840902e-14,
+      "player_id": "espn:player:4397002",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 8.909539772616881e-15,
+      "mean_abs_error": 2.084554751036194e-12,
+      "player_id": "espn:player:4397002",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 5.9674487573602164e-15,
+      "mean_abs_error": 4.636291350834654e-12,
+      "player_id": "espn:player:4397002",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 3.247402347028583e-15,
+      "mean_abs_error": 4.062084002498523e-12,
+      "player_id": "espn:player:4397002",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 2.2315482794965646e-14,
+      "mean_abs_error": 1.4921397450962104e-13,
+      "player_id": "espn:player:4592492",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 2.7200464103316335e-15,
+      "mean_abs_error": 8.955947095046213e-12,
+      "player_id": "espn:player:4592492",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 3.4139358007223564e-15,
+      "mean_abs_error": 1.9118040484045196e-12,
+      "player_id": "espn:player:4592492",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 3.6637359812630166e-15,
+      "mean_abs_error": 2.668087972779176e-12,
+      "player_id": "espn:player:4592492",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 1.0533240946131173e-14,
+      "mean_abs_error": 4.760636329592671e-13,
+      "player_id": "espn:player:3136196",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 1.6209256159527285e-14,
+      "mean_abs_error": 8.242295734817162e-13,
+      "player_id": "espn:player:3136196",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 2.4424906541753444e-15,
+      "mean_abs_error": 6.5776273316942024e-12,
+      "player_id": "espn:player:3136196",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 9.992007221626409e-16,
+      "mean_abs_error": 1.5867307467942737e-12,
+      "player_id": "espn:player:3136196",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 1.1504686092678185e-14,
+      "mean_abs_error": 4.973799150320701e-14,
+      "player_id": "espn:player:4431671",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 7.327471962526033e-15,
+      "mean_abs_error": 5.302425165609748e-13,
+      "player_id": "espn:player:4431671",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 2.914335439641036e-15,
+      "mean_abs_error": 2.0539125955565396e-12,
+      "player_id": "espn:player:4431671",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 1.5265566588595902e-15,
+      "mean_abs_error": 5.310640815991974e-12,
+      "player_id": "espn:player:4431671",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 1.482147737874584e-14,
+      "mean_abs_error": 1.396660564978447e-12,
+      "player_id": "espn:player:4895758",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 4.3298697960381105e-15,
+      "mean_abs_error": 4.67847982577041e-13,
+      "player_id": "espn:player:4895758",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 1.3322676295501878e-15,
+      "mean_abs_error": 8.326672684688674e-16,
+      "player_id": "espn:player:4895758",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 1.1102230246251565e-16,
+      "mean_abs_error": 4.996003610813204e-16,
+      "player_id": "espn:player:4895758",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 1.5154544286133387e-14,
+      "mean_abs_error": 6.572520305780927e-14,
+      "player_id": "espn:player:5041935",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 6.591949208711867e-15,
+      "mean_abs_error": 5.186961971048731e-13,
+      "player_id": "espn:player:5041935",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 2.3037127760972e-15,
+      "mean_abs_error": 1.1901590823981678e-12,
+      "player_id": "espn:player:5041935",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 3.608224830031759e-15,
+      "mean_abs_error": 3.1172842085425145e-12,
+      "player_id": "espn:player:5041935",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 1.700029006457271e-14,
+      "mean_abs_error": 6.217248937900877e-14,
+      "player_id": "espn:player:4903027",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 7.840950111415168e-15,
+      "mean_abs_error": 1.1715073355844652e-12,
+      "player_id": "espn:player:4903027",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 2.5396351688300456e-15,
+      "mean_abs_error": 5.6417093219351955e-12,
+      "player_id": "espn:player:4903027",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 1.790234627208065e-15,
+      "mean_abs_error": 9.902745290446546e-12,
+      "player_id": "espn:player:4903027",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 1.4030443473700416e-14,
+      "mean_abs_error": 2.788880237858393e-13,
+      "player_id": "espn:player:4684806",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 4.3576253716537394e-15,
+      "mean_abs_error": 3.133493464702042e-12,
+      "player_id": "espn:player:4684806",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 9.992007221626409e-16,
+      "mean_abs_error": 9.567235892404824e-12,
+      "player_id": "espn:player:4684806",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 6.106226635438361e-16,
+      "mean_abs_error": 2.688071987222429e-12,
+      "player_id": "espn:player:4684806",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 2.1149748619109232e-14,
+      "mean_abs_error": 1.0511591597150982e-12,
+      "player_id": "espn:player:4594326",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 2.9976021664879227e-15,
+      "mean_abs_error": 1.1612932837579137e-13,
+      "player_id": "espn:player:4594326",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 1.6653345369377348e-15,
+      "mean_abs_error": 7.771561172376096e-16,
+      "player_id": "espn:player:4594326",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 6.245004513516506e-17,
+      "mean_abs_error": 5.551115123125783e-16,
+      "player_id": "espn:player:4594326",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 9.367506770274758e-15,
+      "mean_abs_error": 9.103828801926284e-13,
+      "player_id": "espn:player:4595400",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 5.440092820663267e-15,
+      "mean_abs_error": 3.4519054281645367e-12,
+      "player_id": "espn:player:4595400",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 2.3314683517128287e-15,
+      "mean_abs_error": 4.653832874623731e-12,
+      "player_id": "espn:player:4595400",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 8.326672684688674e-16,
+      "mean_abs_error": 3.842481888227667e-13,
+      "player_id": "espn:player:4595400",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 2.4216739724636227e-14,
+      "mean_abs_error": 3.730349362740526e-14,
+      "player_id": "espn:player:4433083",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 1.27675647831893e-15,
+      "mean_abs_error": 4.378719609121617e-12,
+      "player_id": "espn:player:4433083",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 5.551115123125783e-15,
+      "mean_abs_error": 1.9593215938584763e-12,
+      "player_id": "espn:player:4433083",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 2.6645352591003757e-15,
+      "mean_abs_error": 5.8406612879480235e-12,
+      "player_id": "espn:player:4433083",
+      "statistic": "threes"
+    },
+    {
+      "max_pmf_abs_error": 9.617306950815419e-15,
+      "mean_abs_error": 1.7763568394002505e-13,
+      "player_id": "espn:player:5112087",
+      "statistic": "points"
+    },
+    {
+      "max_pmf_abs_error": 5.023759186428833e-15,
+      "mean_abs_error": 4.757527705123721e-12,
+      "player_id": "espn:player:5112087",
+      "statistic": "rebounds"
+    },
+    {
+      "max_pmf_abs_error": 1.942890293094024e-15,
+      "mean_abs_error": 3.997691067070264e-12,
+      "player_id": "espn:player:5112087",
+      "statistic": "assists"
+    },
+    {
+      "max_pmf_abs_error": 3.774758283725532e-15,
+      "mean_abs_error": 6.502576255229542e-12,
+      "player_id": "espn:player:5112087",
+      "statistic": "threes"
+    }
+  ],
+  "observed_native_calls": {
+    "M0_forecast": 14,
+    "S_predict_conditional": 56
+  },
+  "old_twenty_readers_unchanged": [
+    "config/nba_research_profile.json",
+    "scripts/nba_subset_pipeline.py",
+    "scripts/nba_p1_prospective_capture.py",
+    "v2/nba_architecture/p1_capture_v1.py",
+    "v2/nba_architecture/p1_subset_handoff_v1.py",
+    "v2/nba_architecture/research_profile_v1.py",
+    "v2/nba_architecture/gamebook_identity_v1.py",
+    "v2/nba_architecture/subset_contract_v1.py",
+    "v2/nba_architecture/subset_p2_v1.py",
+    "v2/nba_architecture/subset_p3_v1.py",
+    "v2/nba_architecture/subset_p4_v1.py",
+    "v2/nba_architecture/v2_contracts.py",
+    "v2/nba_architecture/families_v2.py",
+    "v2/nba_opportunity.py",
+    "v2/nba_s_family/model.py",
+    "v2/nba_c/warehouse.py",
+    "v2/nba_c/subset_archive_v1.py",
+    "v2/nba_architecture/subset_p2_dispatch_v1.py",
+    "v2/nba_c/subset_dispatch_archive_v1.py",
+    "scripts/nba_subset_p2_dispatch.py"
+  ],
+  "public_verified_replay": {
+    "abstained_rows": 84,
+    "attempt_denominator": 140,
+    "candidate_denominator": 35,
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-I",
+      "-B",
+      "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/reader/scripts/nba_genuine_s.py",
+      "_recompute-archive",
+      "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive"
+    ],
+    "forecasted_rows": 56,
+    "manifest_raw_sha256": "934671c7c8ab61293a0c9eadad6d8456d3615f03cdfc558933bf9fe7854a327f",
+    "new_forecast_issued": false,
+    "payload_sha256": "d416d25ae69ff390c760537e9615f24a3e86e80b1c7d6d18047fa38a1e0b659f",
+    "schema": "nba-genuine-S-archive-verification/1.0.0",
+    "status": "VERIFIED_OFFLINE_REPLAY",
+    "stderr": "",
+    "stdout": "{\"abstained_rows\":84,\"attempt_denominator\":140,\"candidate_denominator\":35,\"forecast_at\":\"2026-11-20T01:41:35.539742+00:00\",\"forecasted_rows\":56,\"mode\":\"DETERMINISTIC_RECOMPUTATION_ONLY_UNVERIFIED_CODE\",\"new_forecast_issued\":false,\"payload_sha256\":\"d416d25ae69ff390c760537e9615f24a3e86e80b1c7d6d18047fa38a1e0b659f\"}\n"
+  },
+  "rejected_batch": {
+    "attempt_denominator": 140,
+    "candidate_denominator": 35,
+    "error": "FROZEN_CAPTURE_BYTES:summary-401910007",
+    "forecasted_rows": 0,
+    "rejected_rows": 140
+  },
+  "tested_commit": "eda90d77d4cd3c415701a95b5f186e56bc585183",
+  "tests_run": 8
+}

@@ -1,0 +1,162 @@
+{
+  "actual_fit_clocks": {
+    "artifact_verified": "2026-11-20T01:32:22.803507+00:00",
+    "execution_completed": "2026-11-20T01:32:23.039678+00:00",
+    "execution_started": "2026-11-20T01:32:18.959815+00:00",
+    "fit_completed": "2026-11-20T01:32:22.802609+00:00",
+    "fit_started": "2026-11-20T01:32:22.724075+00:00",
+    "prefit_decided": "2026-11-20T01:31:01.785215+00:00"
+  },
+  "artifacts": {
+    "assists": {
+      "byte_identical_native_reconstruction": true,
+      "bytes": 219760,
+      "observed_role_counts": {
+        "ESPN_POSITION_BIN_AT_CAPTURE:C": 66,
+        "ESPN_POSITION_BIN_AT_CAPTURE:F": 210,
+        "ESPN_POSITION_BIN_AT_CAPTURE:G": 180
+      },
+      "sha256": "f8cea715972a36be0d3dd32c255084587397f2d4a8954864b873928c8225afb7",
+      "training_rows": 456
+    },
+    "points": {
+      "byte_identical_native_reconstruction": true,
+      "bytes": 219513,
+      "observed_role_counts": {
+        "ESPN_POSITION_BIN_AT_CAPTURE:C": 66,
+        "ESPN_POSITION_BIN_AT_CAPTURE:F": 210,
+        "ESPN_POSITION_BIN_AT_CAPTURE:G": 180
+      },
+      "sha256": "a8b2e1e4cad5f2c46dfc902913d9186e99d1b997190fdaef8691c997acef2da2",
+      "training_rows": 456
+    },
+    "rebounds": {
+      "byte_identical_native_reconstruction": true,
+      "bytes": 220239,
+      "observed_role_counts": {
+        "ESPN_POSITION_BIN_AT_CAPTURE:C": 66,
+        "ESPN_POSITION_BIN_AT_CAPTURE:F": 210,
+        "ESPN_POSITION_BIN_AT_CAPTURE:G": 180
+      },
+      "sha256": "b0f5f9fc0dbc3a330cd17b257e1278759f0a57c78ddd6ece2ee64f2c1e7bea6e",
+      "training_rows": 456
+    },
+    "threes": {
+      "byte_identical_native_reconstruction": true,
+      "bytes": 219298,
+      "observed_role_counts": {
+        "ESPN_POSITION_BIN_AT_CAPTURE:C": 66,
+        "ESPN_POSITION_BIN_AT_CAPTURE:F": 210,
+        "ESPN_POSITION_BIN_AT_CAPTURE:G": 180
+      },
+      "sha256": "ebbfe7836f2f160550bc5cd5b7ae1731aaa3c305149254a8fb6ca174b49331dc",
+      "training_rows": 456
+    }
+  },
+  "errors": 0,
+  "failures": 0,
+  "fit_files_independently_rehashed": 8,
+  "fit_receipt_raw_sha256": "20e924334578cf9cd60c5c8b7f9e8a2b9dafc3153a13fe671f4db54f14c3fb4e",
+  "genuine_forecasts_issued_during_review": 0,
+  "intervening_game_control": {
+    "old_cutoff_filter_result": {
+      "16": [],
+      "29": []
+    },
+    "qualification": "Native M0 model mocked; no forecast issued.",
+    "repaired_result": {
+      "16": [
+        {
+          "captured_status": {
+            "clock": 0.0,
+            "displayClock": "0.0",
+            "period": 0,
+            "type": {
+              "completed": false,
+              "description": "Scheduled",
+              "detail": "Thu, November 19th at 8:00 PM EST",
+              "id": "1",
+              "name": "STATUS_SCHEDULED",
+              "shortDetail": "11/19 - 8:00 PM EST",
+              "state": "pre"
+            }
+          },
+          "game_id": "401910021",
+          "start": "2026-11-20T01:00Z",
+          "state": "UNOBSERVED_AT_DATA_CUTOFF"
+        }
+      ],
+      "29": [
+        {
+          "captured_status": {
+            "clock": 0.0,
+            "displayClock": "0.0",
+            "period": 0,
+            "type": {
+              "completed": false,
+              "description": "Scheduled",
+              "detail": "Thu, November 19th at 8:00 PM EST",
+              "id": "1",
+              "name": "STATUS_SCHEDULED",
+              "shortDetail": "11/19 - 8:00 PM EST",
+              "state": "pre"
+            }
+          },
+          "game_id": "401910019",
+          "start": "2026-11-20T01:00Z",
+          "state": "UNOBSERVED_AT_DATA_CUTOFF"
+        }
+      ]
+    }
+  },
+  "native_diagnostics": {
+    "qualification": "Fixed20minute artifact diagnostics only; no source-M0 forecast or target forecast issued.",
+    "statistics": {
+      "assists": {
+        "alpha": 75.39879313802345,
+        "beta": 467.23333333333335,
+        "fixed_diagnostic_exposure": 20.0,
+        "independent_pmf_max_abs_error": 5.440092820663267e-15,
+        "observed_peer_position_bin": "ESPN_POSITION_BIN_AT_CAPTURE:G",
+        "player_id": "espn:player:4432816",
+        "tail_mass_upper_bound": 3.483553691462791e-14
+      },
+      "points": {
+        "alpha": 290.89834648970884,
+        "beta": 467.23333333333335,
+        "fixed_diagnostic_exposure": 20.0,
+        "independent_pmf_max_abs_error": 2.736699755701011e-14,
+        "observed_peer_position_bin": "ESPN_POSITION_BIN_AT_CAPTURE:G",
+        "player_id": "espn:player:4432816",
+        "tail_mass_upper_bound": 2.4018063206357932e-15
+      },
+      "rebounds": {
+        "alpha": 72.59311250068365,
+        "beta": 467.23333333333335,
+        "fixed_diagnostic_exposure": 20.0,
+        "independent_pmf_max_abs_error": 6.2727600891321345e-15,
+        "observed_peer_position_bin": "ESPN_POSITION_BIN_AT_CAPTURE:G",
+        "player_id": "espn:player:4432816",
+        "tail_mass_upper_bound": 1.0869468396549231e-13
+      },
+      "threes": {
+        "alpha": 50.15794942847246,
+        "beta": 467.23333333333335,
+        "fixed_diagnostic_exposure": 20.0,
+        "independent_pmf_max_abs_error": 4.9960036108132044e-15,
+        "observed_peer_position_bin": "ESPN_POSITION_BIN_AT_CAPTURE:G",
+        "player_id": "espn:player:4432816",
+        "tail_mass_upper_bound": 5.741205357543668e-14
+      }
+    }
+  },
+  "native_fit_verification_replays": 4,
+  "prefit_approval_raw_sha256": "a76ce1e31d029edecc30b57d9ee7dd37941cb31fc697c5c01b0566c18b9fe558",
+  "replay_qualification": "Four in-memory deterministic construction replays of the admitted candidate, not a second model selection or published fit batch.",
+  "source_dataset_payload_sha256": "e5cb76ef446d6651b718c6279367a7078ffa86f01b621cfbfd9c7b4d74adbd1d",
+  "source_dataset_raw_sha256": "a8230745eae80c0831ce36dc71d7fb41d9faeaef9e053f9844b8f70fb0e334a2",
+  "tested_commit": "e31031dc161dd16c1f66e43f0450d49126dff005",
+  "tests_run": 4,
+  "verification_completed_at": "2026-11-20T01:38:29.374153+00:00",
+  "verification_started_at": "2026-11-20T01:38:28.336298+00:00"
+}

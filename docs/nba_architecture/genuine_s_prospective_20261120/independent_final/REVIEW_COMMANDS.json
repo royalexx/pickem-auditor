@@ -1,0 +1,83 @@
+{
+  "cwd": "/workspace/pickem-auditor",
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/genuine_s_prospective_20261120/independent_final/final_probe.py"
+      ],
+      "exit_code": 0,
+      "stdout": "probe.stdout",
+      "stderr": "probe.stderr",
+      "result": "8independent methods passed;0failures/errors"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-v",
+        "tests/nba_architecture/test_prospective_s_sources_v1.py",
+        "tests/nba_architecture/test_genuine_prospective_s_v1.py"
+      ],
+      "exit_code": 0,
+      "stdout": "implementation_tests.stdout",
+      "stderr": "implementation_tests.stderr",
+      "result": "14tests and17subtests passed"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/genuine_s_prospective_20261120/independent_final/manifest_population_counterexample.py"
+      ],
+      "exit_code": 0,
+      "stdout": "initial_manifest_population.stdout",
+      "stderr": "initial_manifest_population.stderr",
+      "result": "Originalabf8 actualarchive: both unauthorized mutations accepted; original reds retained"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/genuine_s_prospective_20261120/independent_final/manifest_population_counterexample.py"
+      ],
+      "exit_code": 0,
+      "stdout": "intermediate_old_snapshot_recheck.stdout",
+      "stderr": "intermediate_old_snapshot_recheck.stderr",
+      "result": "Originaloldarchive rejected against later trusted code; not the schema repair proof"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/genuine_s_prospective_20261120/independent_final/manifest_population_counterexample.py",
+        "docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive"
+      ],
+      "exit_code": 0,
+      "stdout": "repaired_manifest_population.stdout",
+      "stderr": "repaired_manifest_population.stderr",
+      "result": "Correctedarchive: nestedmanifest rejected FILE_POPULATION andfalsedomain rejected FILE_REFERENCE_SCHEMA"
+    }
+  ],
+  "subprocess_commands": "COMMANDS.json",
+  "preservation_command": "PRESERVATION.json",
+  "owner_full_suite_evidence_inspected_not_independently_rerun": {
+    "docs/nba_architecture/genuine_s_prospective_20261120/full_offline_checks_repaired/0.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/nba_architecture/genuine_s_prospective_20261120/full_offline_checks_repaired/0.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/nba_architecture/genuine_s_prospective_20261120/full_offline_checks_repaired/1.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/nba_architecture/genuine_s_prospective_20261120/full_offline_checks_repaired/1.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/nba_architecture/genuine_s_prospective_20261120/full_offline_checks_repaired/2.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/nba_architecture/genuine_s_prospective_20261120/full_offline_checks_repaired/2.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/nba_architecture/genuine_s_prospective_20261120/full_offline_checks_repaired/3.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/nba_architecture/genuine_s_prospective_20261120/full_offline_checks_repaired/3.stdout": "a9e849115373ea73830717ad0a02868f1d4cdbe2ac686c37291fc7e6f62fa6a0",
+    "docs/nba_architecture/genuine_s_prospective_20261120/full_offline_checks_repaired/4.stderr": "20027df95b2322694ca389b5e8a64a5691bffaf228ff236b1dbd3f83a6cb69a2",
+    "docs/nba_architecture/genuine_s_prospective_20261120/full_offline_checks_repaired/4.stdout": "c30649c5d81e16a73b8193146564a80a237f9e10fd29a514a2b4a84022a529ab",
+    "docs/nba_architecture/genuine_s_prospective_20261120/full_offline_checks_repaired/COMMANDS.json": "e32d766cc88262fe4f0d63435aa7b6203c1bd65f29bf40aac972750c13fdd79c"
+  },
+  "owner_full_suite_result": {
+    "run": 2310,
+    "passed": 2301,
+    "skipped": 9,
+    "failures": 0,
+    "errors": 0
+  },
+  "final_decision_raw_sha256": "4598ee22db84cfcc10f60163fd253e7bb97e79571bac392c0ed87c145a90fd2a"
+}

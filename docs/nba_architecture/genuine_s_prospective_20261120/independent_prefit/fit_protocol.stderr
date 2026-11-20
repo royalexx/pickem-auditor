@@ -1,0 +1,9 @@
+test_01_real_compiled_gate_is_closed_before_any_data_or_native_call (__main__.FitProtocolReview.test_01_real_compiled_gate_is_closed_before_any_data_or_native_call) ... ok
+test_02_approved_protocol_calls_four_fixed_parameter_stubs_and_refuses_overwrite (__main__.FitProtocolReview.test_02_approved_protocol_calls_four_fixed_parameter_stubs_and_refuses_overwrite) ... ok
+test_03_bad_approval_native_bytes_reader_or_dataset_reject_before_output (__main__.FitProtocolReview.test_03_bad_approval_native_bytes_reader_or_dataset_reject_before_output) ... ok
+test_04_bad_clock_chains_cannot_write_admissible_receipt (__main__.FitProtocolReview.test_04_bad_clock_chains_cannot_write_admissible_receipt) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.971s
+
+OK

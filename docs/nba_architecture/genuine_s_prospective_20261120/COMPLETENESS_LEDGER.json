@@ -1,0 +1,45 @@
+{
+  "schema": "nba-genuine-S-source-completeness/1.0.0",
+  "source_capture_count": 60,
+  "completed_games": 20,
+  "source_observation_denominator": 698,
+  "player_rows": 532,
+  "inactive_identity_rows": 166,
+  "training_stat_attempts": 2792,
+  "included_training_attempts": 1824,
+  "excluded_training_attempts": 968,
+  "usable_rows_per_stat": {
+    "assists": 456,
+    "points": 456,
+    "rebounds": 456,
+    "threes": 456
+  },
+  "states": {
+    "PLAYED_ORDINARY": 458,
+    "DNP": 68,
+    "INACTIVE_LISTED": 166,
+    "PLAYED_SUB30": 1,
+    "UNKNOWN": 5
+  },
+  "exclusion_reasons": {
+    "EXPLICIT_DNP_NO_TRAINING_EXPOSURE": 67,
+    "INACTIVE_LIST_HAS_NO_ORDINARY_PLAY_EXPOSURE": 166,
+    "SUB_30_SECOND_EXPOSURE": 1,
+    "SOURCE_MMSS_REQUIRED": 5,
+    "CROSS_SOURCE_FULL_COUNT_VECTOR_CONFLICT": 1,
+    "UNMATCHED_OR_AMBIGUOUS_NAME": 2
+  },
+  "source_population": "EXACT_FROZEN_LISTED_PLAYER_AND_INACTIVE_ROWS_ON20COMPLETED_GAMES",
+  "eligible_roster_completeness": null,
+  "participation_probability": null,
+  "source_publication_clock": null,
+  "original_historical_pregame_availability": null,
+  "correction_history_completeness": null,
+  "correction_ancestry": "No asserted corrections/predecessors; all capture predecessor fields unknown. Immutable previous raw and red evidence preserved.",
+  "minute_exception_admission": "NONE: zero and sub30 rows distinct and excluded; no inference from quarter-only evidence",
+  "source_authenticity_scope": "Independently reviewed bounded HTTPS captures and native readers for this exact population only",
+  "upcoming_membership_scope": "35current ESPN source-listed candidate identities observed at capture; no legal eligibility or later roster claim",
+  "historical_identity_scope": "Unique dated completed-game name/count/team joins only, no global or later roster identity grant",
+  "duration_scope": "Official final period and zero clock plus fixed NBA 12-minute regulation/5-minute OT policy witness; no player-sum normalization",
+  "model_quality_admission": false
+}

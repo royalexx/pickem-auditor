@@ -1,0 +1,1407 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/royalexx/pickem-auditor/blob/research/nba-p0-sojc-architecture-g0-20261116/v2/nba_architecture/schema-2.0.0.json",
+  "title": "NBA V2.5 G0 interface contract v2.0.0",
+  "description": "Structural Draft 2020-12 schema. v2_contracts.py enforces semantics, mathematics, hashes and clocks; no source truth asserted.",
+  "$defs": {
+    "sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|\\+00:00)$"
+    },
+    "receipt": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "source_revision",
+        "supersedes_receipt_sha256",
+        "receipt_sha256",
+        "raw_sha256",
+        "origin",
+        "scope",
+        "contains_target_final",
+        "provider_published_at",
+        "publication_evidence",
+        "collector_observed_at",
+        "retrieved_at",
+        "ingested_at",
+        "asof_basis",
+        "historical_game_date",
+        "asof_limitations"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "pattern": ":"
+        },
+        "source_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "supersedes_receipt_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "receipt_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "raw_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "origin": {
+          "enum": [
+            "original_capture",
+            "retrospective_retrieval"
+          ]
+        },
+        "scope": {
+          "enum": [
+            "prior_game",
+            "pregame_context",
+            "original_offer"
+          ]
+        },
+        "contains_target_final": {
+          "const": false
+        },
+        "provider_published_at": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/utc"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "publication_evidence": {
+          "enum": [
+            "unknown",
+            "source_header_claim",
+            "verified"
+          ]
+        },
+        "collector_observed_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "retrieved_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "ingested_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "asof_basis": {
+          "enum": [
+            "observed_before_freeze",
+            "prior_game_date_only"
+          ]
+        },
+        "historical_game_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "asof_limitations": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "player": {
+      "type": "object",
+      "required": [
+        "player_id",
+        "team_id",
+        "legal_eligibility",
+        "eligibility_evidence",
+        "availability"
+      ],
+      "properties": {
+        "player_id": {
+          "type": "string",
+          "minLength": 4
+        },
+        "team_id": {
+          "type": "string",
+          "minLength": 4
+        },
+        "legal_eligibility": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "eligibility_evidence": {
+          "type": [
+            "string",
+            "object",
+            "null"
+          ]
+        },
+        "availability": {
+          "enum": [
+            "out",
+            "active_reported",
+            "questionable",
+            "unknown"
+          ]
+        },
+        "availability_evidence": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "feature": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "kind",
+        "asof_basis",
+        "target_game_outcome",
+        "prior_game_date",
+        "available_at",
+        "source_receipt_sha256",
+        "name",
+        "value",
+        "measurement_units"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "prior_boxscore",
+            "schedule",
+            "pregame_availability",
+            "pregame_team_context"
+          ]
+        },
+        "asof_basis": {
+          "enum": [
+            "prior_game_date_only",
+            "original_capture"
+          ]
+        },
+        "target_game_outcome": {
+          "const": false
+        },
+        "prior_game_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "available_at": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/utc"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_receipt_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          ]
+        },
+        "measurement_units": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "component": {
+      "type": "object",
+      "required": [
+        "model_id",
+        "version",
+        "artifact_sha256",
+        "code_sha256",
+        "training_cutoff_at"
+      ],
+      "properties": {
+        "model_id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "artifact_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "code_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "training_cutoff_at": {
+          "$ref": "#/$defs/utc"
+        }
+      },
+      "additionalProperties": false
+    },
+    "pmf": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "value",
+          "mass"
+        ],
+        "properties": {
+          "value": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "mass": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "pregame": {
+      "type": "object",
+      "required": [
+        "schema",
+        "kind",
+        "content_hash",
+        "source_profile",
+        "game_id",
+        "team_ids",
+        "event_start_at",
+        "input_freeze_at",
+        "forecast_at",
+        "training_cutoff_at",
+        "decision_local_date",
+        "certification",
+        "historical_asof_limitations",
+        "sources",
+        "players",
+        "features",
+        "original_offer_count"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/2.0.0"
+        },
+        "kind": {
+          "const": "pregame"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "source_profile": {
+          "enum": [
+            "historical_reconstruction",
+            "original_prospective"
+          ]
+        },
+        "game_id": {
+          "type": "string",
+          "minLength": 4
+        },
+        "team_ids": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "event_start_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "input_freeze_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "forecast_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "training_cutoff_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "decision_local_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "certification": {
+          "enum": [
+            "HISTORICAL_RECONSTRUCTION_UNCERTIFIED",
+            "ORIGINAL_SOURCE_SHADOW"
+          ]
+        },
+        "historical_asof_limitations": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/receipt"
+          }
+        },
+        "players": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/player"
+          }
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/feature"
+          }
+        },
+        "original_offer_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "distribution": {
+      "type": "object",
+      "required": [
+        "schema",
+        "kind",
+        "content_hash",
+        "source_profile",
+        "source_snapshot_sha256",
+        "game_id",
+        "player_id",
+        "team_id",
+        "stat",
+        "period",
+        "support",
+        "pipeline_mode",
+        "conditioning",
+        "lineage",
+        "forecast_at",
+        "frozen_at",
+        "rng_seed",
+        "scenario_bundle_sha256",
+        "derivation",
+        "numerical",
+        "pmf",
+        "historical_asof_limitations",
+        "status",
+        "event_start_at",
+        "opportunity_output_sha256"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/2.0.0"
+        },
+        "kind": {
+          "const": "distribution"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "game_id": {
+          "type": "string"
+        },
+        "source_profile": {
+          "enum": [
+            "historical_reconstruction",
+            "original_prospective"
+          ]
+        },
+        "source_snapshot_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "player_id": {
+          "type": "string"
+        },
+        "team_id": {
+          "type": "string"
+        },
+        "stat": {
+          "enum": [
+            "points",
+            "rebounds",
+            "assists",
+            "threes",
+            "pr",
+            "pa",
+            "ra",
+            "pra"
+          ]
+        },
+        "period": {
+          "const": "full_game_including_ot"
+        },
+        "support": {
+          "const": "nonnegative_integer"
+        },
+        "pipeline_mode": {
+          "enum": [
+            "S_ONLY",
+            "S_O",
+            "S_O_J"
+          ]
+        },
+        "conditioning": {
+          "enum": [
+            "unconditional",
+            "conditional_on_participation",
+            "conditional_on_declared_roster"
+          ]
+        },
+        "lineage": {
+          "type": "object",
+          "required": [
+            "S",
+            "O",
+            "G",
+            "J"
+          ],
+          "properties": {
+            "S": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/component"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "O": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/component"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "G": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/component"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "J": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/component"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "forecast_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "frozen_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "rng_seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scenario_bundle_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "derivation": {
+          "type": "string"
+        },
+        "numerical": {
+          "type": "object",
+          "required": [
+            "method",
+            "scenario_count",
+            "max_probability_se",
+            "tail_mass_upper_bound",
+            "effective_sample_size",
+            "uncertainty_basis",
+            "zero_event_95_upper_bound"
+          ],
+          "properties": {
+            "method": {
+              "enum": [
+                "analytic",
+                "empirical_mc"
+              ]
+            },
+            "scenario_count": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "max_probability_se": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 0.5
+            },
+            "tail_mass_upper_bound": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "effective_sample_size": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "uncertainty_basis": {
+              "enum": [
+                "analytic_exact_or_bound",
+                "heuristic_weighted_ess"
+              ]
+            },
+            "zero_event_95_upper_bound": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "pmf": {
+          "$ref": "#/$defs/pmf"
+        },
+        "historical_asof_limitations": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "enum": [
+            "RESEARCH_RECONSTRUCTION",
+            "UNCERTIFIED_SHADOW"
+          ]
+        },
+        "event_start_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "opportunity_output_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "scenarios": {
+      "type": "object",
+      "required": [
+        "schema",
+        "kind",
+        "content_hash",
+        "source_snapshot_sha256",
+        "game_id",
+        "pipeline_mode",
+        "lineage",
+        "scenarios",
+        "conditioning",
+        "game_state_witness",
+        "opportunity_witness",
+        "game_state_sha256",
+        "opportunity_sha256"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/2.0.0"
+        },
+        "kind": {
+          "const": "scenarios"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "source_snapshot_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "game_id": {
+          "type": "string"
+        },
+        "pipeline_mode": {
+          "const": "S_O_J"
+        },
+        "lineage": {
+          "type": "object",
+          "required": [
+            "S",
+            "O",
+            "G",
+            "J"
+          ],
+          "properties": {
+            "S": {
+              "$ref": "#/$defs/component"
+            },
+            "O": {
+              "$ref": "#/$defs/component"
+            },
+            "G": {
+              "$ref": "#/$defs/component"
+            },
+            "J": {
+              "$ref": "#/$defs/component"
+            }
+          },
+          "additionalProperties": false
+        },
+        "conditioning": {
+          "enum": [
+            "unconditional",
+            "conditional_on_participation",
+            "conditional_on_declared_roster"
+          ]
+        },
+        "scenarios": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "scenario_id",
+              "weight",
+              "overtime_periods",
+              "team_points",
+              "players"
+            ],
+            "properties": {
+              "scenario_id": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "number",
+                "minimum": 0
+              },
+              "overtime_periods": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "team_points": {
+                "type": "object"
+              },
+              "players": {
+                "type": "array",
+                "minItems": 10,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "player_id",
+                    "team_id",
+                    "minutes",
+                    "participation",
+                    "stats"
+                  ],
+                  "properties": {
+                    "player_id": {
+                      "type": "string"
+                    },
+                    "team_id": {
+                      "type": "string"
+                    },
+                    "minutes": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "participation": {
+                      "enum": [
+                        "DNP",
+                        "PLAYED_ZERO_MINUTES",
+                        "PLAYED"
+                      ]
+                    },
+                    "stats": {
+                      "type": "object"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "game_state_witness": {
+          "type": "object"
+        },
+        "opportunity_witness": {
+          "type": "object"
+        },
+        "game_state_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "opportunity_sha256": {
+          "$ref": "#/$defs/sha"
+        }
+      },
+      "additionalProperties": false
+    },
+    "original_offer": {
+      "type": "object",
+      "required": [
+        "schema",
+        "kind",
+        "content_hash",
+        "source_snapshot_sha256",
+        "game_id",
+        "player_id",
+        "team_id",
+        "stat",
+        "period",
+        "contract_id",
+        "quote_id",
+        "book",
+        "product_type",
+        "line",
+        "raw_quote_sha256",
+        "source_receipt_sha256",
+        "quoted_at",
+        "observed_at",
+        "payout_terms"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/2.0.0"
+        },
+        "kind": {
+          "const": "original_offer"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "game_id": {
+          "type": "string"
+        },
+        "source_profile": {
+          "enum": [
+            "historical_reconstruction",
+            "original_prospective"
+          ]
+        },
+        "source_snapshot_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "player_id": {
+          "type": "string"
+        },
+        "team_id": {
+          "type": "string"
+        },
+        "stat": {
+          "enum": [
+            "points",
+            "rebounds",
+            "assists",
+            "threes",
+            "pr",
+            "pa",
+            "ra",
+            "pra"
+          ]
+        },
+        "period": {
+          "const": "full_game_including_ot"
+        },
+        "contract_id": {
+          "type": "string"
+        },
+        "quote_id": {
+          "type": "string"
+        },
+        "book": {
+          "type": "string"
+        },
+        "product_type": {
+          "type": "string"
+        },
+        "line": {
+          "type": "number",
+          "minimum": 0
+        },
+        "raw_quote_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "source_receipt_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "quoted_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "observed_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "payout_terms": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "offer_view": {
+      "type": "object",
+      "required": [
+        "schema",
+        "kind",
+        "content_hash",
+        "game_id",
+        "distribution_sha256",
+        "original_offer_sha256",
+        "contract_id",
+        "quote_id",
+        "quote_source_receipt",
+        "contract_line",
+        "product_terms_sha256",
+        "probabilities",
+        "status",
+        "frozen_at",
+        "product_void_semantics"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/2.0.0"
+        },
+        "kind": {
+          "const": "offer_view"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "game_id": {
+          "type": "string"
+        },
+        "distribution_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "original_offer_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "contract_id": {
+          "type": "string"
+        },
+        "quote_id": {
+          "type": "string"
+        },
+        "quote_source_receipt": {
+          "$ref": "#/$defs/sha"
+        },
+        "probabilities": {
+          "type": "object",
+          "required": [
+            "over",
+            "under",
+            "push"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "over": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "under": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "push": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "status": {
+          "const": "UNCERTIFIED_SHADOW"
+        },
+        "frozen_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "product_void_semantics": {
+          "const": "requires_original_product_terms"
+        },
+        "contract_line": {
+          "type": "number",
+          "minimum": 0
+        },
+        "product_terms_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "evaluation": {
+      "type": "object",
+      "required": [
+        "schema",
+        "kind",
+        "content_hash",
+        "distribution_sha256",
+        "offer_view_sha256",
+        "status",
+        "actual",
+        "revision",
+        "supersedes_evaluation_sha256",
+        "official_source_sha256",
+        "participation",
+        "void_basis",
+        "contract_line",
+        "game_id",
+        "event_start_at",
+        "evaluated_at"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/2.0.0"
+        },
+        "kind": {
+          "const": "evaluation"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "distribution_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "offer_view_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "settled",
+            "push",
+            "void",
+            "unmatched"
+          ]
+        },
+        "actual": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "supersedes_evaluation_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "official_source_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "participation": {
+          "enum": [
+            "unknown",
+            "DNP",
+            "PLAYED_ZERO_MINUTES",
+            "PLAYED"
+          ]
+        },
+        "void_basis": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contract_line": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "game_id": {
+          "type": "string"
+        },
+        "event_start_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "evaluated_at": {
+          "$ref": "#/$defs/utc"
+        }
+      },
+      "additionalProperties": false
+    },
+    "game_state": {
+      "type": "object",
+      "required": [
+        "schema",
+        "kind",
+        "content_hash",
+        "source_snapshot_sha256",
+        "game_id",
+        "model",
+        "rng_seed",
+        "scenarios"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/2.0.0"
+        },
+        "kind": {
+          "const": "game_state"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "source_snapshot_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "game_id": {
+          "type": "string"
+        },
+        "model": {
+          "$ref": "#/$defs/component"
+        },
+        "rng_seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scenarios": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "scenario_id",
+              "weight",
+              "overtime_periods",
+              "pace_regulation",
+              "possessions_home",
+              "possessions_away",
+              "score_state"
+            ],
+            "properties": {
+              "scenario_id": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "number",
+                "minimum": 0
+              },
+              "overtime_periods": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "pace_regulation": {
+                "type": "number",
+                "minimum": 0
+              },
+              "possessions_home": {
+                "type": "number",
+                "minimum": 0
+              },
+              "possessions_away": {
+                "type": "number",
+                "minimum": 0
+              },
+              "score_state": {
+                "enum": [
+                  "home_leading",
+                  "away_leading",
+                  "tied"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "opportunity": {
+      "type": "object",
+      "required": [
+        "schema",
+        "kind",
+        "content_hash",
+        "source_snapshot_sha256",
+        "game_id",
+        "model",
+        "game_state_sha256",
+        "players",
+        "scenarios"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nba-sojc-contract/2.0.0"
+        },
+        "kind": {
+          "const": "opportunity"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/sha"
+        },
+        "source_snapshot_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "game_id": {
+          "type": "string"
+        },
+        "model": {
+          "$ref": "#/$defs/component"
+        },
+        "game_state_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "players": {
+          "type": "array",
+          "minItems": 10,
+          "items": {
+            "type": "object",
+            "required": [
+              "player_id",
+              "team_id",
+              "participation_probability",
+              "participation_evidence",
+              "minutes_law"
+            ],
+            "properties": {
+              "player_id": {
+                "type": "string"
+              },
+              "team_id": {
+                "type": "string"
+              },
+              "participation_probability": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 1
+              },
+              "participation_evidence": {
+                "enum": [
+                  "unknown",
+                  "verified_out",
+                  "independently_estimated"
+                ]
+              },
+              "minutes_law": {
+                "type": "object",
+                "required": [
+                  "family",
+                  "parameters",
+                  "conditioning",
+                  "units"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "scenarios": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "scenario_id",
+              "weight",
+              "overtime_periods",
+              "players"
+            ],
+            "properties": {
+              "scenario_id": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "number",
+                "minimum": 0
+              },
+              "overtime_periods": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "players": {
+                "type": "array",
+                "minItems": 10,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "player_id",
+                    "team_id",
+                    "minutes",
+                    "participation"
+                  ],
+                  "properties": {
+                    "player_id": {
+                      "type": "string"
+                    },
+                    "team_id": {
+                      "type": "string"
+                    },
+                    "minutes": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "participation": {
+                      "enum": [
+                        "DNP",
+                        "PLAYED_ZERO_MINUTES",
+                        "PLAYED"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/pregame"
+    },
+    {
+      "$ref": "#/$defs/distribution"
+    },
+    {
+      "$ref": "#/$defs/scenarios"
+    },
+    {
+      "$ref": "#/$defs/original_offer"
+    },
+    {
+      "$ref": "#/$defs/offer_view"
+    },
+    {
+      "$ref": "#/$defs/evaluation"
+    },
+    {
+      "$ref": "#/$defs/game_state"
+    },
+    {
+      "$ref": "#/$defs/opportunity"
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "accepted_ordinary_exposure_clause": "Ordinary exposure: source-specific exact duration/exposure required where used;\nzero/sub30seconds/unsupported accounting excluded with reasons, DNP separate,\nevery row retained. Full exception-population proof is not a prerequisite to\nordinary supported rows in this profile. Unknown corrections remain unknown;",
+  "findings": [
+    "Integer displayed MIN is not an exact seconds exposure witness.",
+    "Summary competition.status has no period in this accepted real source sample.",
+    "Schedule competition.status has period; summary competitors have linescores. A new reviewed join is needed.",
+    "Historical summary athlete.position is metadata observed at capture; original game-time role is not authenticated.",
+    "Accepted ordinary-exposure clause explicitly excludes zero and sub30seconds."
+  ],
+  "fit_performed": false,
+  "model_admission_granted": false,
+  "reviewed_head": "a4493ac71bc03cb0afe0dc3a267230e82424d37c",
+  "sample_boxscore_row": {
+    "active": false,
+    "athlete": {
+      "displayName": "Draymond Green",
+      "guid": "de360720-e416-25f2-8a6b-b5ff82616cb1",
+      "headshot": {
+        "alt": "Draymond Green",
+        "href": "https://a.espncdn.com/i/headshots/nba/players/full/6589.png"
+      },
+      "id": "6589",
+      "jersey": "23",
+      "links": [
+        {
+          "href": "https://www.espn.com/nba/player/_/id/6589/draymond-green",
+          "rel": [
+            "playercard",
+            "desktop",
+            "athlete"
+          ],
+          "text": "Player Card"
+        }
+      ],
+      "position": {
+        "abbreviation": "F",
+        "displayName": "Forward",
+        "name": "Forward"
+      },
+      "shortName": "D. Green",
+      "uid": "s:40~l:46~a:6589"
+    },
+    "didNotPlay": false,
+    "ejected": false,
+    "reason": "COACH'S DECISION",
+    "starter": true,
+    "stats": [
+      "23",
+      "3",
+      "1-1",
+      "1-1",
+      "0-0",
+      "1",
+      "2",
+      "1",
+      "1",
+      "2",
+      "1",
+      "0",
+      "1",
+      "-28"
+    ]
+  },
+  "sample_boxscore_stat_names": [
+    "MIN",
+    "PTS",
+    "FG",
+    "3PT",
+    "FT",
+    "REB",
+    "AST",
+    "TO",
+    "STL",
+    "BLK",
+    "OREB",
+    "DREB",
+    "PF",
+    "+/-"
+  ],
+  "sample_schedule_status": {
+    "clock": 720.0,
+    "displayClock": "12:00",
+    "period": 4,
+    "type": {
+      "completed": true,
+      "description": "Final",
+      "detail": "Final",
+      "id": "3",
+      "name": "STATUS_FINAL",
+      "shortDetail": "Final",
+      "state": "post"
+    }
+  },
+  "sample_summary_competition_keys": [
+    "boxscoreAvailable",
+    "boxscoreMinutes",
+    "boxscoreSource",
+    "broadcasts",
+    "commentaryAvailable",
+    "competitors",
+    "conferenceCompetition",
+    "date",
+    "id",
+    "liveAvailable",
+    "neutralSite",
+    "onWatchESPN",
+    "playByPlaySource",
+    "possessionArrowAvailable",
+    "recent",
+    "series",
+    "shotChartAvailable",
+    "status",
+    "timeoutsAvailable",
+    "uid",
+    "wallclockAvailable"
+  ],
+  "sample_summary_linescores": [
+    {
+      "linescores": [
+        {
+          "displayValue": "35"
+        },
+        {
+          "displayValue": "27"
+        },
+        {
+          "displayValue": "30"
+        },
+        {
+          "displayValue": "24"
+        }
+      ],
+      "team_id": "6"
+    },
+    {
+      "linescores": [
+        {
+          "displayValue": "25"
+        },
+        {
+          "displayValue": "24"
+        },
+        {
+          "displayValue": "23"
+        },
+        {
+          "displayValue": "22"
+        }
+      ],
+      "team_id": "9"
+    }
+  ],
+  "sample_summary_status": {
+    "type": {
+      "completed": true,
+      "description": "Final",
+      "detail": "Final",
+      "id": "3",
+      "name": "STATUS_FINAL",
+      "shortDetail": "Final",
+      "state": "post"
+    }
+  },
+  "source_paths_and_sha256": {
+    "docs/nba_architecture/narrow_default_20261119/ADR.md": "c34da3fa743ffccf1a13d278d9ebdc229bd67f3a9a520a9c68640d659b98a9e8",
+    "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs/schedule-9/body.raw": "11136ced27341a280af7b52406b70e7a65b2cf556c0d1fc61020cec40a177477",
+    "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs/summary-401910016/body.raw": "a38008ef64f1e4486d4fb8700b44ad2d69328b9a6a09afe6957f5568d388e69c",
+    "v2/nba_s_family/model.py": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6"
+  }
+}

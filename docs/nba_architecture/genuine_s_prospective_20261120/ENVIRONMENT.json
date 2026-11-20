@@ -1,0 +1,15 @@
+{
+  "observed_at": "2026-11-20T01:43:39.907756+00:00",
+  "byte_domain": "POST_EXECUTION_ENVIRONMENT_OBSERVATION_NOT_A_BACKDATED_FIT_CLOCK",
+  "executable": "/workspace/scratch/p1-p5-ci-venv/bin/python",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "packages": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "jsonschema": "4.26.0",
+    "pytest": "9.2.0",
+    "PyYAML": "6.0.2",
+    "tzdata": "2026.6"
+  }
+}

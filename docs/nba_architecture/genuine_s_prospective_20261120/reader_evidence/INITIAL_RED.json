@@ -1,0 +1,11 @@
+{
+  "tested_commit": "7223ff37279f49e33ac926019929455867c2568e",
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "-v",
+    "tests/nba_architecture/test_prospective_s_sources_v1.py"
+  ],
+  "failure": "Literal whole-period-dict equality rejected semantically matching scores due to additional NBA box descriptive fields; no fitting occurred. Raw pytest streams preserved. Dataset generation raised OFFICIAL_INDEX_PERIOD_SCORE_JOIN."
+}

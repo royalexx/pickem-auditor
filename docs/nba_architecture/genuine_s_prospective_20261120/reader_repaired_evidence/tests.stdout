@@ -1,0 +1,14 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0 -- /workspace/scratch/p1-p5-ci-venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/pickem-auditor
+collecting ... collected 5 items
+
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_actual_frozen_population_exact_rows_and_every_stat_attempt PASSED [ 20%]
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_full_vector_conflict_and_ambiguous_name_do_not_create_fit_rows PASSED [ 40%]
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_identity_period_clock_count_and_duplicate_mutations_reject 
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_identity_period_clock_count_and_duplicate_mutations_reject PASSED [ 60%]
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_resealed_spec_policy_and_capture_bytes_cannot_admit PASSED [ 80%]
+tests/nba_architecture/test_prospective_s_sources_v1.py::ProspectiveSourceTests::test_structural_source_parser_is_not_admission_and_zero_dnp_sub30_stay_distinct PASSED [100%]
+
+===================== 5 passed, 6 subtests passed in 5.28s =====================

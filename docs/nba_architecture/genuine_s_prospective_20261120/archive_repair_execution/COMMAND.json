@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "docs/nba_architecture/genuine_s_prospective_20261120/create_corrected_archive.py"
+  ],
+  "environment": {
+    "PYTHONPATH": "/workspace/pickem-auditor"
+  },
+  "implementation_commit": "30b506f3d5c72af50f0624cf1a52f6e86e52a126",
+  "started_at": "2026-11-20T01:46:35.909357+00:00",
+  "completed_at": "2026-11-20T01:46:46.771261+00:00",
+  "exit_code": 0,
+  "new_forecast_issued": false
+}

@@ -1,0 +1,75 @@
+{
+  "artifact_bytes_verified_at": "2026-11-20T01:32:22.803507+00:00",
+  "artifacts": {
+    "assists": {
+      "bytes": 219760,
+      "last_game_start_at": "2026-11-19T00:00:00Z",
+      "last_outcome_available_at": "2026-11-20T01:04:09.691922+00:00",
+      "sha256": "f8cea715972a36be0d3dd32c255084587397f2d4a8954864b873928c8225afb7",
+      "training_rows": 456
+    },
+    "points": {
+      "bytes": 219513,
+      "last_game_start_at": "2026-11-19T00:00:00Z",
+      "last_outcome_available_at": "2026-11-20T01:04:09.691922+00:00",
+      "sha256": "a8b2e1e4cad5f2c46dfc902913d9186e99d1b997190fdaef8691c997acef2da2",
+      "training_rows": 456
+    },
+    "rebounds": {
+      "bytes": 220239,
+      "last_game_start_at": "2026-11-19T00:00:00Z",
+      "last_outcome_available_at": "2026-11-20T01:04:09.691922+00:00",
+      "sha256": "b0f5f9fc0dbc3a330cd17b257e1278759f0a57c78ddd6ece2ee64f2c1e7bea6e",
+      "training_rows": 456
+    },
+    "threes": {
+      "bytes": 219298,
+      "last_game_start_at": "2026-11-19T00:00:00Z",
+      "last_outcome_available_at": "2026-11-20T01:04:09.691922+00:00",
+      "sha256": "ebbfe7836f2f160550bc5cd5b7ae1731aaa3c305149254a8fb6ca174b49331dc",
+      "training_rows": 456
+    }
+  },
+  "data_cutoff_at": "2026-11-20T01:07:00.131517+00:00",
+  "excluded_training_attempts": 968,
+  "fit_code_sha256": "11c4bede78a803f8f00f779a5497eb22e3c2a53cf811fe7e47553fa7ec45e490",
+  "fit_completed_at": "2026-11-20T01:32:22.802609+00:00",
+  "fit_started_at": "2026-11-20T01:32:22.724075+00:00",
+  "fixed_hyperparameters": {
+    "dispersion": 12.0,
+    "min_player_games": 2,
+    "prior_attempts": 40.0,
+    "prior_minutes": 180.0
+  },
+  "holdout_scoring": false,
+  "implementation_commit": "2e2bab6220636ad93d1dd18a03daa0d323f31770",
+  "included_training_attempts": 1824,
+  "kind": "NEW_PROSPECTIVE_BASELINE_NOT_HISTORICAL_REPLACEMENT",
+  "model_admission": "PENDING_SEPARATE_INDEPENDENT_ARTIFACT_REVIEW",
+  "native_code_sha256": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+  "nuts": false,
+  "prefit_approval_raw_sha256": "a76ce1e31d029edecc30b57d9ee7dd37941cb31fc697c5c01b0566c18b9fe558",
+  "prefit_spec_raw_sha256": "9b4ffaf085deeffe83cee50c6d3ecfc5dd2c41848cb849ee32240389cc7b2ed8",
+  "production_release": false,
+  "raw_sources_raw_sha256": "4c7124414905ef92d68d008023c7d1073437ae94dfc5400d8794ceca8de5ceb0",
+  "schema": "nba-new-prospective-S1-fit/1.0.0",
+  "seed": 20261120,
+  "source_dataset_raw_sha256": "a8230745eae80c0831ce36dc71d7fb41d9faeaef9e053f9844b8f70fb0e334a2",
+  "source_dataset_sha256": "e5cb76ef446d6651b718c6279367a7078ffa86f01b621cfbfd9c7b4d74adbd1d",
+  "source_manifest_raw_sha256": "5269b9d38d383b965b2c88587ac7a69eee5c75dcc52e941a703076b76dc1b82b",
+  "source_observation_denominator": 698,
+  "source_reader_sha256": "8b61c753a41b59b9baad25ce179bd56ef3ceaf31645e76998b6408f296a447fd",
+  "target": {
+    "game_id": "401910026",
+    "name": "Memphis Grizzlies at Minnesota Timberwolves",
+    "start": "2026-11-22T01:00Z",
+    "teams": {
+      "16": "MIN",
+      "29": "MEM"
+    }
+  },
+  "timing_rule_raw_sha256": "ead50b6b76dc319a6c0a390d3dd3add2d25b2330b8314bc7a3e2e4c17add5eed",
+  "training_attempt_denominator": 2792,
+  "tuning": false,
+  "weight_optimization": false
+}

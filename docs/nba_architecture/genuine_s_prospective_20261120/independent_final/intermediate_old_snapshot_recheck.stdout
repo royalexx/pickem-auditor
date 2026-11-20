@@ -1,0 +1,22 @@
+{
+  "tested_commit": "eda90d77d4cd3c415701a95b5f186e56bc585183",
+  "code_raw_sha256": "13e9be8703fe34ba1dafc77322a6b7ff81a6d0d5159420d7af4efd81bdbf26b8",
+  "results": [
+    {
+      "attack": "extra_nested_manifest",
+      "outcome": "MUTATION_REJECTED",
+      "verification": {
+        "error_type": "ValueError",
+        "error": "GENUINE_ARCHIVE_FILE_POPULATION"
+      }
+    },
+    {
+      "attack": "false_file_byte_domain",
+      "outcome": "MUTATION_REJECTED",
+      "verification": {
+        "error_type": "ValueError",
+        "error": "GENUINE_ARCHIVE_UNREVIEWED_READER_BYTES:v2/nba_architecture/prospective_s_archive_v1.py"
+      }
+    }
+  ]
+}

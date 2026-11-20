@@ -1,0 +1,11 @@
+{
+  "kind": "EXISTING_TIMING_RULE_POLICY_WITNESS_NOT_NEW_OUTCOME_DATA",
+  "raw_sha256": "ead50b6b76dc319a6c0a390d3dd3add2d25b2330b8314bc7a3e2e4c17add5eed",
+  "original_path": "docs/nba_architecture/p1_remediation_20261117/sources/nba_rule5.raw",
+  "existing_receipt": "docs/nba_architecture/p1_remediation_20261117/engineering_receipt.json",
+  "existing_receipt_recorded_at": "2026-11-17T00:47:08.817185+00:00",
+  "existing_git_witness": "6dee6e09fa786479dc2e163a33e14257f207b35e",
+  "original_retrieval_clock": null,
+  "source_publication_clock": null,
+  "interpretation": "Existing accepted NBA timing policy: four twelve-minute regulation periods and five-minute overtime. New game final-period/zero-clock/period-score witnesses required; no player/bench-minute-sum inference."
+}

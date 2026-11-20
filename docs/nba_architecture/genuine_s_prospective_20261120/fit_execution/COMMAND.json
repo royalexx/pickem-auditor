@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "docs/nba_architecture/genuine_s_prospective_20261120/run_fixed_fit.py"
+  ],
+  "cwd": "/workspace/pickem-auditor",
+  "environment": {
+    "PYTHONPATH": "/workspace/pickem-auditor"
+  },
+  "implementation_commit": "2e2bab6220636ad93d1dd18a03daa0d323f31770",
+  "started_at": "2026-11-20T01:32:18.959815+00:00",
+  "completed_at": "2026-11-20T01:32:23.039678+00:00",
+  "exit_code": 0
+}

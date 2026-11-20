@@ -1,0 +1,11 @@
+test_01_exact_frozen_reader_dataset_matches_independent_raw_audit (__main__.IndependentPreFitReader.test_01_exact_frozen_reader_dataset_matches_independent_raw_audit) ... ok
+test_02_native_fit_rows_are_exact_typed_transforms_with_full_lineage (__main__.IndependentPreFitReader.test_02_native_fit_rows_are_exact_typed_transforms_with_full_lineage) ... ok
+test_03_closed_frozen_source_policy_and_receipt_mutations_reject (__main__.IndependentPreFitReader.test_03_closed_frozen_source_policy_and_receipt_mutations_reject) ... ok
+test_04_public_parser_rejects_game_time_period_identity_and_json_attacks (__main__.IndependentPreFitReader.test_04_public_parser_rejects_game_time_period_identity_and_json_attacks) ... ok
+test_05_public_parser_preserves_exposure_role_and_conflict_abstentions (__main__.IndependentPreFitReader.test_05_public_parser_preserves_exposure_role_and_conflict_abstentions) ... ok
+test_06_preserved_twenty_readers_old_model_and_timing_rule (__main__.IndependentPreFitReader.test_06_preserved_twenty_readers_old_model_and_timing_rule) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 5.940s
+
+OK

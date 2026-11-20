@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/scripts/nba_genuine_s.py", line 76, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/pickem-auditor/scripts/nba_genuine_s.py", line 50, in main
+    require(not Path(args.output).exists(),'GENUINE_FORECAST_OUTPUT_ALREADY_EXISTS')
+  File "/workspace/pickem-auditor/v2/nba_architecture/subset_p3_v1.py", line 40, in require
+    if not condition:raise ValueError(reason)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: GENUINE_FORECAST_OUTPUT_ALREADY_EXISTS

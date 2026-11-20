@@ -1,0 +1,7 @@
+{
+  "interrupted_at": "2026-11-20T01:46:25.739351+00:00",
+  "process_id": 12902,
+  "reason": "Independent review required archive code repairs after suite start; terminate only this owned offline-test process and rerun exact repaired candidate. No successful full-suite claim is made for interrupted run.",
+  "repair_commit": "30b506f3d5c72af50f0624cf1a52f6e86e52a126",
+  "samplers_or_schedules_touched": false
+}
