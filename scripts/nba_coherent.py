@@ -95,6 +95,14 @@ def main():
         adapted['payload_sha256']=digest(canonical(adapted))
         from v2.nba_joint.residual_diagnostics_v1 import compare_with_full_S
         (out/'REFERENCE_COMPARISON.json').write_bytes(canonical(compare_with_full_S(adapted,reference)))
+    else:
+        supported={p['player_id'] for p in model['named_players']}
+        rejected=[dict(player_id=p['player_id'],team_id=p['team_id'],statistic=s,samples=None,
+            status='REJECTED_FAILED_BATCH' if p['player_id'] in supported else 'ABSTAINED_SOURCE_OR_MINUTE_MODEL',
+            inherited_abstention_reasons=cohort['inherited_abstention_reasons'].get(p['player_id']))
+            for p in cohort['frozen_candidates'] for s in ('points','rebounds','assists','threes','pr','pa','ra','pra')]
+        (out/'REJECTED_ATTEMPTS.json').write_bytes(canonical(dict(rows=rejected,attempts=280,primitive_attempts=140,
+            forecasts=0,failed_supported_attempts=112,source_abstentions=168,actual_scores=0)))
     completed=now();require(utc(started)<=utc(completed)<utc(cohort['start']),'COHERENT_ISSUE_CLOCK')
     modules=['v2/nba_joint/coherent_predictive_v1.py','v2/nba_joint/coherent_components_v1.py',
         'v2/nba_joint/residual_events_v1.py','v2/nba_joint/residual_opportunity_v1.py','v2/nba_joint/residual_audit_v1.py',
@@ -105,12 +113,14 @@ def main():
         protocol_raw_sha256=PROTOCOL_SHA,addendum_raw_sha256=ADDENDUM_SHA,freeze_at=freeze,started_at=started,completed_at=completed,
         bank_raw_sha256=digest((out/'BANK.json').read_bytes()),bank_payload_sha256=bank['payload_sha256'],status=bank['status'],
         scenarios_requested=64,scenarios_dropped=0,failed=bank['failed'],path_proposals=sum(len(s['proposals']) for s in bank['scenarios']),
+        market_attempts=280,primitive_attempts=140,supported_primitive_requests=56,source_primitive_abstentions=84,
         exact_S4_J_query_pairs=len(coherence),population_accuracy_established=False,historical_validation=False,
         artifact_raw_sha256={f.name:digest(f.read_bytes()) for f in sorted(out.iterdir()) if f.is_file()},
         zero_sensitivity_gate='PENDING',python=platform.python_version(),zlib=zlib.ZLIB_RUNTIME_VERSION,
         numpy=importlib.metadata.version('numpy'),scipy=importlib.metadata.version('scipy'),
         gzip_format='GZIP_MTIME0_EMPTY_FILENAME_DEFAULT_LEVEL9',release=False)
     (out/'EXECUTION_RECEIPT.json').write_bytes(canonical(receipt));sums(out);print(canonical(receipt).decode())
+    if bank['status']!='ENGINEERING_SAMPLE':raise SystemExit(2)
 
 
 if __name__=='__main__':main()
