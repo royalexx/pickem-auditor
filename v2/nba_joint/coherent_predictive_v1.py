@@ -206,7 +206,9 @@ def _query(row,bank_payload,*,player_id,statistic,kind,value,channel='S4'):
         upper=1. if h==n else float(beta_distribution.ppf(1-alpha/2,h+1,n-h))) for h in hits]
     return dict(status='MONTE_CARLO_ESTIMATE_NOT_CERTIFIED_POPULATION_PROBABILITY',bank_payload_sha256=bank_payload,
         player_id=player_id,statistic=statistic,kind=kind,value=value,estimate=[h/n for h in hits],hits=hits,n=n,
-        componentwise_MC_95_family_intervals=intervals,intervals_condition_on_iid_successful_execution=True,
+        componentwise_MC_95_family_intervals=intervals,
+        interval_assumptions='IID_IDEAL_KERNEL_SAMPLES_NOT_PROVEN_BY_FINITE_EXECUTION_OR_COMPLETED_RUN_SELECTION',
+        intervals_simultaneous_across_queries=False,population_error_guarantee=False,
         validation_scope='STRUCTURAL_SHARED_BANK_ONLY_SOURCE_MODEL_CLOCK_ADMISSION_IS_SEPARATE',
         population_exact_zero_claim=False,count_support_truncated=False,S4_J_same_measure=True,independent_vote=False,
         score_admitted=False)
