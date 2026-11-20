@@ -1,0 +1,30 @@
+{
+  "command": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "scripts/nba_genuine_s.py",
+    "forecast",
+    "--raw-dir",
+    "docs/nba_architecture/genuine_s_prospective_20261120/raw",
+    "--spec-path",
+    "docs/nba_architecture/genuine_s_prospective_20261120/PREFIT_POPULATION.json",
+    "--policy-path",
+    "docs/nba_architecture/genuine_s_prospective_20261120/policy/nba_rule5.raw",
+    "--model-dir",
+    "docs/nba_architecture/genuine_s_prospective_20261120/fitted",
+    "--prefit-path",
+    "docs/nba_architecture/genuine_s_prospective_20261120/independent_prefit/PREFIT_APPROVAL.json",
+    "--admission-path",
+    "docs/nba_architecture/genuine_s_prospective_20261120/independent_artifacts/ARTIFACT_ADMISSION.json",
+    "--model-path",
+    "research/nba_ws2/results/model.json",
+    "--cohort-path",
+    "docs/nba_architecture/genuine_s_prospective_20261120/COHORT.json",
+    "--output",
+    "docs/nba_architecture/genuine_s_prospective_20261120/actual_forecast"
+  ],
+  "cwd": "/workspace/pickem-auditor",
+  "implementation_commit": "76201b7795b718005d82b6443c2ea614e9824310",
+  "started_at": "2026-11-20T01:41:34.302032+00:00",
+  "completed_at": "2026-11-20T01:41:53.083461+00:00",
+  "exit_code": 0
+}
