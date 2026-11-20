@@ -3,6 +3,8 @@
 These pins are code-reviewed entries, never caller-issued credentials. The old
 empty S registry and all historical source/model contracts remain untouched.
 """
+from types import MappingProxyType
+
 PREFIT_DECISION_SHA = None
 ARTIFACT_DECISION_SHA = None
 ARTIFACT_ADMITTED_AT = None
@@ -10,4 +12,4 @@ FIT_RECEIPT_SHA = None
 DATASET_SHA = None
 READER_SHA = None
 COHORT_SHA = None
-ARTIFACTS = {}
+ARTIFACTS = MappingProxyType({})

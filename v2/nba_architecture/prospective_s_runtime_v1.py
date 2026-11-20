@@ -210,7 +210,7 @@ def run_forecasts(*, raw_dir, spec_path, policy_path, model_dir, prefit_path, ad
         source_requests=handoff['requests'],minutes=m0,minute_history_observation_denominator=len(observations),
         minute_history_observations=observations,rows=rows,
         minute_model_raw_sha256=MODEL_SHA,minute_reader_raw_sha256=NATIVE_SHA,
-        admitted_S_artifacts=registry.ARTIFACTS,conditioning=CONDITIONING,
+        admitted_S_artifacts=dict(registry.ARTIFACTS),conditioning=CONDITIONING,
         minute_uncertainty_integrated=False,team_allocation_performed=False,
         genuine_participation_probability=None,legal_eligible_population_count=None,
         source_publication_at=None,original_historical_pregame_availability=None,correction_history_complete=None,
