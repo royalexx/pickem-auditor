@@ -1,0 +1,262 @@
+[
+  {
+    "byte_domain": "ORIGINAL_REPOSITORY_FILE_BYTES",
+    "classification": "SYNTHETIC_FIXTURE_NOT_REAL_MODEL_ADMISSION",
+    "family": "S2",
+    "native_code_sha256": "6cb9cf0616bdbdcd70d1bed9fb67ad4b727eca373cc8a1d48de51dc3a452333d",
+    "path": "research/nba_p4_latest/fixtures/assists.json",
+    "player_ids": [
+      "espn:player:10",
+      "espn:player:11",
+      "espn:player:12",
+      "espn:player:13",
+      "espn:player:14",
+      "espn:player:15",
+      "espn:player:20",
+      "espn:player:21",
+      "espn:player:22",
+      "espn:player:23",
+      "espn:player:24",
+      "espn:player:25"
+    ],
+    "sha256": "b3a9e092913c0a2d33e0a66841086babdb4f3c47d2d118cce952f10c32d3eca7",
+    "training_cutoff_at": "2026-11-16T20:00:00Z",
+    "training_role_values": [
+      "rotation"
+    ]
+  },
+  {
+    "byte_domain": "ORIGINAL_REPOSITORY_FILE_BYTES",
+    "classification": "SYNTHETIC_FIXTURE_NOT_REAL_MODEL_ADMISSION",
+    "family": "S1",
+    "native_code_sha256": "6cb9cf0616bdbdcd70d1bed9fb67ad4b727eca373cc8a1d48de51dc3a452333d",
+    "path": "research/nba_p4_latest/fixtures/points.json",
+    "player_ids": [
+      "espn:player:10",
+      "espn:player:11",
+      "espn:player:12",
+      "espn:player:13",
+      "espn:player:14",
+      "espn:player:15",
+      "espn:player:20",
+      "espn:player:21",
+      "espn:player:22",
+      "espn:player:23",
+      "espn:player:24",
+      "espn:player:25"
+    ],
+    "sha256": "0b8170f10b105d37726c62a4457d7fcfceb030f460c8b9b4f0171a96bf774481",
+    "training_cutoff_at": "2026-11-16T20:00:00Z",
+    "training_role_values": [
+      "rotation"
+    ]
+  },
+  {
+    "byte_domain": "ORIGINAL_REPOSITORY_FILE_BYTES",
+    "classification": "SYNTHETIC_FIXTURE_NOT_REAL_MODEL_ADMISSION",
+    "family": "S1",
+    "native_code_sha256": "6cb9cf0616bdbdcd70d1bed9fb67ad4b727eca373cc8a1d48de51dc3a452333d",
+    "path": "research/nba_p4_latest/fixtures/rebounds.json",
+    "player_ids": [
+      "espn:player:10",
+      "espn:player:11",
+      "espn:player:12",
+      "espn:player:13",
+      "espn:player:14",
+      "espn:player:15",
+      "espn:player:20",
+      "espn:player:21",
+      "espn:player:22",
+      "espn:player:23",
+      "espn:player:24",
+      "espn:player:25"
+    ],
+    "sha256": "ea0f5096b7cc8d4e232a62f0e0ab494987e95666533a0190f3a49b5a6a05f930",
+    "training_cutoff_at": "2026-11-16T20:00:00Z",
+    "training_role_values": [
+      "rotation"
+    ]
+  },
+  {
+    "byte_domain": "ORIGINAL_REPOSITORY_FILE_BYTES",
+    "classification": "SYNTHETIC_FIXTURE_NOT_REAL_MODEL_ADMISSION",
+    "family": "S3",
+    "native_code_sha256": "6cb9cf0616bdbdcd70d1bed9fb67ad4b727eca373cc8a1d48de51dc3a452333d",
+    "path": "research/nba_p4_latest/fixtures/three_conversion.json",
+    "player_ids": [
+      "espn:player:10",
+      "espn:player:11",
+      "espn:player:12",
+      "espn:player:13",
+      "espn:player:14",
+      "espn:player:15",
+      "espn:player:20",
+      "espn:player:21",
+      "espn:player:22",
+      "espn:player:23",
+      "espn:player:24",
+      "espn:player:25"
+    ],
+    "sha256": "4c32783ce167f935052168d11ada35e38ff3fa0970589b1ff0894a63a8399d8e",
+    "training_cutoff_at": "2026-11-16T20:00:00Z",
+    "training_role_values": [
+      "rotation"
+    ]
+  },
+  {
+    "byte_domain": "ORIGINAL_REPOSITORY_FILE_BYTES",
+    "classification": "SYNTHETIC_FIXTURE_NOT_REAL_MODEL_ADMISSION",
+    "family": "S1",
+    "native_code_sha256": "6cb9cf0616bdbdcd70d1bed9fb67ad4b727eca373cc8a1d48de51dc3a452333d",
+    "path": "research/nba_p4_latest/fixtures/threes.json",
+    "player_ids": [
+      "espn:player:10",
+      "espn:player:11",
+      "espn:player:12",
+      "espn:player:13",
+      "espn:player:14",
+      "espn:player:15",
+      "espn:player:20",
+      "espn:player:21",
+      "espn:player:22",
+      "espn:player:23",
+      "espn:player:24",
+      "espn:player:25"
+    ],
+    "sha256": "20aa510944a234adb14c19c646f3395f4ef3eef4fb47689d3c13a3f07e5c387e",
+    "training_cutoff_at": "2026-11-16T20:00:00Z",
+    "training_role_values": [
+      "rotation"
+    ]
+  },
+  {
+    "byte_domain": "ORIGINAL_REPOSITORY_FILE_BYTES",
+    "classification": "SYNTHETIC_FIXTURE_NOT_REAL_MODEL_ADMISSION",
+    "family": "S2",
+    "native_code_sha256": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+    "path": "research/nba_p4_latest/fixtures_v2/assists.json",
+    "player_ids": [
+      "espn:player:10",
+      "espn:player:11",
+      "espn:player:12",
+      "espn:player:13",
+      "espn:player:14",
+      "espn:player:15",
+      "espn:player:20",
+      "espn:player:21",
+      "espn:player:22",
+      "espn:player:23",
+      "espn:player:24",
+      "espn:player:25"
+    ],
+    "sha256": "42b6da6a9f055fd0be0b0a6d558a7c303db06b9e82e4edb67289a2b068d7c7e2",
+    "training_cutoff_at": "2026-11-16T20:00:00Z",
+    "training_role_values": [
+      "rotation"
+    ]
+  },
+  {
+    "byte_domain": "ORIGINAL_REPOSITORY_FILE_BYTES",
+    "classification": "SYNTHETIC_FIXTURE_NOT_REAL_MODEL_ADMISSION",
+    "family": "S1",
+    "native_code_sha256": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+    "path": "research/nba_p4_latest/fixtures_v2/points.json",
+    "player_ids": [
+      "espn:player:10",
+      "espn:player:11",
+      "espn:player:12",
+      "espn:player:13",
+      "espn:player:14",
+      "espn:player:15",
+      "espn:player:20",
+      "espn:player:21",
+      "espn:player:22",
+      "espn:player:23",
+      "espn:player:24",
+      "espn:player:25"
+    ],
+    "sha256": "662cc75155f2fd26e42c7b177df396a61acf7b8f0505a3479a314cf6feebf96f",
+    "training_cutoff_at": "2026-11-16T20:00:00Z",
+    "training_role_values": [
+      "rotation"
+    ]
+  },
+  {
+    "byte_domain": "ORIGINAL_REPOSITORY_FILE_BYTES",
+    "classification": "SYNTHETIC_FIXTURE_NOT_REAL_MODEL_ADMISSION",
+    "family": "S1",
+    "native_code_sha256": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+    "path": "research/nba_p4_latest/fixtures_v2/rebounds.json",
+    "player_ids": [
+      "espn:player:10",
+      "espn:player:11",
+      "espn:player:12",
+      "espn:player:13",
+      "espn:player:14",
+      "espn:player:15",
+      "espn:player:20",
+      "espn:player:21",
+      "espn:player:22",
+      "espn:player:23",
+      "espn:player:24",
+      "espn:player:25"
+    ],
+    "sha256": "871c56743647998807c8bd9aa90a5c208ce20b86e23cb9f15e46cd7567d772c2",
+    "training_cutoff_at": "2026-11-16T20:00:00Z",
+    "training_role_values": [
+      "rotation"
+    ]
+  },
+  {
+    "byte_domain": "ORIGINAL_REPOSITORY_FILE_BYTES",
+    "classification": "SYNTHETIC_FIXTURE_NOT_REAL_MODEL_ADMISSION",
+    "family": "S3",
+    "native_code_sha256": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+    "path": "research/nba_p4_latest/fixtures_v2/three_conversion.json",
+    "player_ids": [
+      "espn:player:10",
+      "espn:player:11",
+      "espn:player:12",
+      "espn:player:13",
+      "espn:player:14",
+      "espn:player:15",
+      "espn:player:20",
+      "espn:player:21",
+      "espn:player:22",
+      "espn:player:23",
+      "espn:player:24",
+      "espn:player:25"
+    ],
+    "sha256": "6f5f4aa5c77c5fb22b41c9f87a37f0d0b9a37cbebee6db8dc41008e88cbf12ca",
+    "training_cutoff_at": "2026-11-16T20:00:00Z",
+    "training_role_values": [
+      "rotation"
+    ]
+  },
+  {
+    "byte_domain": "ORIGINAL_REPOSITORY_FILE_BYTES",
+    "classification": "SYNTHETIC_FIXTURE_NOT_REAL_MODEL_ADMISSION",
+    "family": "S1",
+    "native_code_sha256": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+    "path": "research/nba_p4_latest/fixtures_v2/threes.json",
+    "player_ids": [
+      "espn:player:10",
+      "espn:player:11",
+      "espn:player:12",
+      "espn:player:13",
+      "espn:player:14",
+      "espn:player:15",
+      "espn:player:20",
+      "espn:player:21",
+      "espn:player:22",
+      "espn:player:23",
+      "espn:player:24",
+      "espn:player:25"
+    ],
+    "sha256": "e47d009dbc167b0b9b8a28a4555061b730f51d3763fa3e139c484c7214fdce1c",
+    "training_cutoff_at": "2026-11-16T20:00:00Z",
+    "training_role_values": [
+      "rotation"
+    ]
+  }
+]

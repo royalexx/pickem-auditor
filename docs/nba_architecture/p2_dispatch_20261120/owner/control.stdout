@@ -1,0 +1,27 @@
+{
+  "command": [
+    "docs/nba_architecture/p2_dispatch_20261120/exercise_frozen_control.py",
+    "docs/nba_architecture/p2_dispatch_20261120/owner/frozen_control"
+  ],
+  "tested_commit": "3669bf79273463eb34c1b76a1ef5a1e9151ca3b3",
+  "executed_at": "2026-11-20T00:23:39.297978+00:00",
+  "kind": "SYNTHETIC_ENGINEERING_NO_ADMISSION_NO_FIT",
+  "input_hashes": {
+    "binding.json": "9348dc76d6085e2987ad5250923b67ebe2f02573a05a80ab11bf92739e5e7f7a",
+    "contract.json": "d5f0fce13862759e55a3de84ca1ef75ecc1d3127f461ea88f8f7e8f4cac5549c",
+    "artifact.raw": "662cc75155f2fd26e42c7b177df396a61acf7b8f0505a3479a314cf6feebf96f",
+    "manifest.raw": "73554f4b5a707c5de7e407e9f5fac90695f2b09200492e02426954a524973079",
+    "raw_sources.raw": "fc18d7d4276250e3ed49312fc6c62e2b44aa25b5b622ff47935a892800f22285"
+  },
+  "output_sha256": "1835c36edfd2539eb17fbc047f6eb6819ed5fae6d9a7455033e0169a8ea5dcd5",
+  "byte_domains": {
+    "artifact.raw": "ORIGINAL_FROZEN_SYNTHETIC_MODEL_BYTES",
+    "manifest.raw": "CANONICAL_SYNTHETIC_MANIFEST_DERIVED_FROM_FROZEN_INPUTS",
+    "raw_sources.raw": "ORIGINAL_FROZEN_SYNTHETIC_BODY_MAP_BYTES",
+    "binding.json": "CANONICAL_SYNTHETIC_BINDING",
+    "contract.json": "CANONICAL_STRUCTURAL_CONTROL_CONTRACT_NOT_REAL_ADMISSION",
+    "result.json": "CANONICAL_ACTUAL_NATIVE_CONTROL_RESULT"
+  },
+  "admitted": false,
+  "actual_native_model_executed": true
+}

@@ -1,0 +1,49 @@
+{
+  "tested_commit": "3669bf79273463eb34c1b76a1ef5a1e9151ca3b3",
+  "commands": [
+    {
+      "command": [
+        "/workspace/scratch/p1-p5-ci-venv/bin/python",
+        "-m",
+        "pytest",
+        "-v",
+        "tests/nba_architecture",
+        "tests/nba_s_family",
+        "tests/nba_c"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/workspace/scratch/p1-p5-ci-venv/bin/python",
+        "scripts/nba_subset_p2_dispatch.py",
+        "--capture",
+        "docs/nba_architecture/p1_subset_acceptance_20261119/initial_tonight_capture",
+        "--cohort",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/PROSPECTIVE_COHORT.json",
+        "--history",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs",
+        "--output",
+        "docs/nba_architecture/p2_dispatch_20261120/owner/actual_missing_models"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/workspace/scratch/p1-p5-ci-venv/bin/python",
+        "scripts/nba_subset_p2_dispatch.py",
+        "--capture",
+        "docs/nba_architecture/p1_subset_acceptance_20261119/initial_tonight_capture",
+        "--cohort",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/PROSPECTIVE_COHORT.json",
+        "--history",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs",
+        "--s-model-dir",
+        "docs/nba_architecture/p2_dispatch_20261120/owner/synthetic_candidates",
+        "--output",
+        "docs/nba_architecture/p2_dispatch_20261120/owner/actual_rejected_synthetic_model"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

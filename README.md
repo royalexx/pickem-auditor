@@ -13,6 +13,15 @@ every candidate and abstention. Genuine conditional-minute execution is separate
 from the unavailable statistic/joint producers; another cohort requires a reviewed
 reuse decision. Tonight's pinned source-only worker is unchanged.
 
+The next bounded P2 numerical path is `scripts/nba_subset_p2_dispatch.py`: it
+binds fixed M0 projected minutes to the native S API through reviewed model/role/
+source contracts and links the result to the immutable original archive. See
+[current dispatcher status](docs/nba_architecture/P2_DISPATCH_CURRENT_SCOPED_STATUS.json)
+and [exact replay evidence](docs/nba_architecture/p2_dispatch_20261120/REPRODUCE.md).
+Numerical engineering is independently accepted; the real S registry remains
+empty because no compatible genuine saved artifact was recovered. Synthetic
+control execution is not real model admission or a statistic forecast.
+
 
 Code, original research, immutable history, collection jobs, diagnostics, and design decisions live in this repository. Before interpreting any dated status or launching work, verify the current repository, schedules, source receipts, and training state.
 
