@@ -54,6 +54,15 @@ class CoherentTests(unittest.TestCase):
             self.assertTrue(all(s['proposals'] for s in bank['scenarios']))
             with self.assertRaises(ValueError):rows(bank)
 
+    def test_wrong_team_and_false_trace_totals_reject(self):
+        from v2.nba_architecture.p1_subset_handoff_v1 import canonical,digest
+        model,c=coherent_fixture();wrong=copy.deepcopy(c);wrong['frozen_candidates'][0]['team_id']='B'
+        with tempfile.TemporaryDirectory() as temp:
+            with self.assertRaises(ValueError):generate(model,wrong,Path(temp)/'wrong',n=1)
+            bank=generate(model,c,Path(temp)/'trace',seed=5,n=1)
+            bank['trace_json_bytes']+=1;bank['payload_sha256']=digest(canonical({k:v for k,v in bank.items() if k!='payload_sha256'}))
+            with self.assertRaises(ValueError):validate_bank(bank,Path(temp)/'trace',model)
+
     def test_conjugate_working_likelihood_update(self):
         def row(a,m,sec):
             return dict(exact_seconds=sec,official_counts=dict(fieldGoalsAttempted=a+2,threePointersAttempted=2,
