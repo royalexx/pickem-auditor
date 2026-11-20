@@ -11,6 +11,7 @@ from .p1_subset_handoff_v1 import canonical,digest
 from .subset_contract_v1 import strict_json
 from .subset_p3_v1 import require
 from .prospective_s_sources_v1 import next_data,official_vector
+from .gamebook_identity_v1 import name_key
 from v2.nba_opportunity import utc
 
 
@@ -43,7 +44,7 @@ def parse_pbp(raw,box_raw,game_id):
             players[pid]=dict(team_id=tid,name=p['firstName']+' '+p['familyName'],reported_minutes=p['statistics']['minutes'],comment=p.get('comment'))
             expected[pid]=vector;counts[pid]=Counter()
             for name in (p['familyName'],p.get('nameI','')):
-                if name:aliases[(tid,name)].add(pid)
+                if name:aliases[(tid,name_key(name))].add(pid)
     actions=pbp['actions'];require(isinstance(actions,list) and bool(actions),'PBP_ACTIONS_REQUIRED')
     ids=set();previous=None;ends={};unresolved=[];events=[]
     for number,row in enumerate(actions):
@@ -56,7 +57,12 @@ def parse_pbp(raw,box_raw,game_id):
         typ=row['actionType'];pid=str(row['personId']);tid=str(row['teamId']);description=row['description']
         if pid in players:
             require(tid==players[pid]['team_id'],'PBP_ACTOR_TEAM')
-            if row.get('playerName'):aliases[(tid,row['playerName'])].add(pid)
+            if row.get('playerName'):aliases[(tid,name_key(row['playerName']))].add(pid)
+            # Native source initial-name field can differ from box family-name
+            # order. This remains a dated native-ID alias, never an ESPN or
+            # forward roster crosswalk. Ambiguous strings stay unresolved.
+            initial=re.fullmatch(r'[A-Za-z]{1,3}\.\s+(.+)',row.get('playerNameI',''))
+            if initial:aliases[(tid,name_key(initial.group(1)))].add(pid)
         if typ=='period' and row['subType']=='end':
             require(clock==0 and period not in ends,'PBP_PERIOD_END')
             ends[period]=(int(row['scoreHome']),int(row['scoreAway']))
@@ -92,7 +98,7 @@ def parse_pbp(raw,box_raw,game_id):
     for row in actions:
         match=re.search(r'\(([^()]*) (\d+) AST\)',row['description'])
         if match:
-            candidates=aliases[(str(row['teamId']),match.group(1))]
+            candidates=aliases[(str(row['teamId']),name_key(match.group(1)))]
             if len(candidates)==1:
                 assister=next(iter(candidates));require(assister!=str(row['personId']),'PBP_SELF_ASSIST')
                 counts[assister]['assists']+=1
