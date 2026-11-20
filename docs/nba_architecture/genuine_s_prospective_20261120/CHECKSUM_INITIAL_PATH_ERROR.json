@@ -1,0 +1,9 @@
+{
+  "kind": "PRESERVED_PACKAGING_COMMAND_ERROR_NOT_A_MODEL_OR_TEST_FAILURE",
+  "cwd": "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120",
+  "attempted_relative_packet_path": "docs/nba_architecture/genuine_s_prospective_20261120",
+  "exit_code": 1,
+  "stderr": "FileNotFoundError: [Errno 2] No such file or directory: 'docs/nba_architecture/genuine_s_prospective_20261120/OWNER_STATUS.json'\nsha256sum: SHA256SUMS: No such file or directory\n",
+  "correction": "Run builder from repository root, then checksum verifier from packet directory.",
+  "source_or_forecast_bytes_changed": false
+}

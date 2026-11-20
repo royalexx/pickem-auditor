@@ -71,6 +71,10 @@ python3.12 -m venv /tmp/pickem-genuine-s-replay-venv
 /tmp/pickem-genuine-s-replay-venv/bin/python -m unittest discover -s tests -q
 ```
 
+From this packet directory, verify the complete published evidence bytes with
+`sha256sum --check --quiet SHA256SUMS`. An exit status of zero means every listed
+file matched; this transport check does not grant source or model admission.
+
 Expected public replay counts:35 candidates,140 attempts,56 forecasts,84 abstentions;
 new_forecast_issued=false. ENVIRONMENT.json and pip-freeze.stdout record the
 actual executable environment observed after execution. requirements-nba-research-tests.txt
