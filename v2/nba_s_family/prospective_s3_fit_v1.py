@@ -8,7 +8,7 @@ from v2.nba_architecture.p1_subset_handoff_v1 import canonical,digest
 from v2.nba_architecture.subset_p3_v1 import require
 from v2.nba_opportunity import utc
 
-APPROVAL_SHA=None
+APPROVAL_SHA='1e8e21143d8aba0afc53483f85e82af22c941c85f64091e9bd32a83bde734cd5'
 READER_SHA='8b61c753a41b59b9baad25ce179bd56ef3ceaf31645e76998b6408f296a447fd'
 DATASET_SHA='e5cb76ef446d6651b718c6279367a7078ffa86f01b621cfbfd9c7b4d74adbd1d'
 NATIVE_SHA='a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6'
