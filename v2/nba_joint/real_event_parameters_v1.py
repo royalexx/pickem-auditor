@@ -80,9 +80,13 @@ def fit_event_parameters(*,approval_path,full_forecast_raw,parent_raw,full_repla
     named={r['player_id']:r for r in full['law_payload']['rows'] if r['model']}
     require(len(named)==14 and set(named)==set(s3a['exact_current_target_role_map']),'J_EVENT_NAMED_ROLE_POPULATION')
     minute_rows={r['player_id']:r for r in parent['minutes']}
-    out=Path(output);out.mkdir(parents=True,exist_ok=False);started=_now()
+    started=_now()
     cutoff=strict_json(Path(pbp_population_path).read_bytes())['frozen_at']
-    require(utc(cutoff)<=utc(started) and utc(s3a['admitted_at'])<=utc(started),'J_EVENT_PRE_SOURCE_OR_S3_CLOCK')
+    approval=strict_json(Path(approval_path).read_bytes())
+    require(max(map(utc,(cutoff,s3a['admitted_at'],full['forecast_at'],
+        full_admission['model_admitted_at'],approval['decided_at'])))<=utc(started),
+        'J_EVENT_PRE_SOURCE_OR_MODEL_OR_REVIEW_CLOCK')
+    out=Path(output);out.mkdir(parents=True,exist_ok=False)
     players=[]
     for pid,row in sorted(named.items()):
         role=s3a['exact_current_target_role_map'][pid]
