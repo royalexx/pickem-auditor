@@ -1,0 +1,487 @@
+{
+  "addendum_raw_sha256": "545f3eb596a43299c01a5bb5f0169421e3df4ede364879a55a0f1324c15af1b1",
+  "completed_at": "2026-11-20T12:51:31.567441+00:00",
+  "errors": 0,
+  "exact_rational_branch_checks": 2187,
+  "failures": 0,
+  "new_J_runs": 0,
+  "new_artifacts_created": 0,
+  "new_fit_calls": 0,
+  "new_forecasts": 0,
+  "outcome_scores": 0,
+  "protocol_raw_sha256": "e12290d9021c82340ed75dfe16647d7672c42cbfd581f67273bef40e0eb6d303",
+  "source_population": {
+    "excluded": 242,
+    "included": 456,
+    "named_source_capability": [
+      {
+        "own_rows": 10,
+        "peer_rows": 200,
+        "player_id": "espn:player:3136196",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+      },
+      {
+        "own_rows": 10,
+        "peer_rows": 170,
+        "player_id": "espn:player:4397002",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:G"
+      },
+      {
+        "own_rows": 10,
+        "peer_rows": 200,
+        "player_id": "espn:player:4431671",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+      },
+      {
+        "own_rows": 10,
+        "peer_rows": 170,
+        "player_id": "espn:player:4432816",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:G"
+      },
+      {
+        "own_rows": 10,
+        "peer_rows": 170,
+        "player_id": "espn:player:4433083",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:G"
+      },
+      {
+        "own_rows": 10,
+        "peer_rows": 170,
+        "player_id": "espn:player:4592492",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:G"
+      },
+      {
+        "own_rows": 9,
+        "peer_rows": 201,
+        "player_id": "espn:player:4594326",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+      },
+      {
+        "own_rows": 8,
+        "peer_rows": 202,
+        "player_id": "espn:player:4595400",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+      },
+      {
+        "own_rows": 8,
+        "peer_rows": 202,
+        "player_id": "espn:player:4684806",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+      },
+      {
+        "own_rows": 6,
+        "peer_rows": 204,
+        "player_id": "espn:player:4895758",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+      },
+      {
+        "own_rows": 10,
+        "peer_rows": 200,
+        "player_id": "espn:player:4903027",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+      },
+      {
+        "own_rows": 10,
+        "peer_rows": 200,
+        "player_id": "espn:player:5041935",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+      },
+      {
+        "own_rows": 10,
+        "peer_rows": 200,
+        "player_id": "espn:player:5112087",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+      },
+      {
+        "own_rows": 10,
+        "peer_rows": 200,
+        "player_id": "espn:player:5279133",
+        "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+      }
+    ],
+    "old_games": 20,
+    "records": 698
+  },
+  "started_at": "2026-11-20T12:51:29.060552+00:00",
+  "synthetic_component_predictive_checks": [
+    {
+      "analytic": 0.5773502691896257,
+      "count": 0,
+      "error": 4.0144554347421035e-12,
+      "kind": "GammaPoisson",
+      "reference": 0.5773502691907836
+    },
+    {
+      "analytic": 0.19245008972987526,
+      "count": 1,
+      "error": 2.3037127760971998e-14,
+      "kind": "GammaPoisson",
+      "reference": 0.19245008972987535
+    },
+    {
+      "analytic": 0.01871042539040455,
+      "count": 5,
+      "error": 7.807804377342509e-13,
+      "kind": "GammaPoisson",
+      "reference": 0.018710425390404368
+    },
+    {
+      "analytic": 0.0017641090174843955,
+      "count": 10,
+      "error": 3.3047585360262244e-14,
+      "kind": "GammaPoisson",
+      "reference": 0.0017641090174843937
+    },
+    {
+      "analytic": 0.024547591555743535,
+      "count": 0,
+      "error": 3.03843859637671e-14,
+      "kind": "GammaPoisson",
+      "reference": 0.024547591555743903
+    },
+    {
+      "analytic": 0.08746842968138498,
+      "count": 1,
+      "error": 2.4426944296979017e-14,
+      "kind": "GammaPoisson",
+      "reference": 0.08746842968138632
+    },
+    {
+      "analytic": 0.1447304666031197,
+      "count": 5,
+      "error": 4.255175955861144e-14,
+      "kind": "GammaPoisson",
+      "reference": 0.14473046660312208
+    },
+    {
+      "analytic": 0.005532678277233147,
+      "count": 10,
+      "error": 3.5613595190028895e-14,
+      "kind": "GammaPoisson",
+      "reference": 0.00553267827723323
+    },
+    {
+      "analytic": 0.05496131687561288,
+      "count": 0,
+      "error": 8.645821351401215e-15,
+      "kind": "GammaPoisson",
+      "reference": 0.05496131687561291
+    },
+    {
+      "analytic": 0.13740329218903227,
+      "count": 1,
+      "error": 7.372168071934321e-14,
+      "kind": "GammaPoisson",
+      "reference": 0.1374032921890323
+    },
+    {
+      "analytic": 0.1118954499448949,
+      "count": 5,
+      "error": 4.5351199559261014e-13,
+      "kind": "GammaPoisson",
+      "reference": 0.11189544994489486
+    },
+    {
+      "analytic": 0.005606683992045466,
+      "count": 10,
+      "error": 8.183135228486761e-13,
+      "kind": "GammaPoisson",
+      "reference": 0.005606683992045451
+    },
+    {
+      "analytic": 1.0,
+      "count": 0,
+      "error": 3.197442310920451e-14,
+      "kind": "BetaBinomial",
+      "reference": 1.0
+    },
+    {
+      "analytic": 0.56383056640625,
+      "count": 0,
+      "error": 8.670906874452822e-15,
+      "kind": "BetaBinomial",
+      "reference": 0.5638305664062501
+    },
+    {
+      "analytic": 0.20772705078125006,
+      "count": 1,
+      "error": 2.4622231337145806e-15,
+      "kind": "BetaBinomial",
+      "reference": 0.20772705078125
+    },
+    {
+      "analytic": 0.10997314453125,
+      "count": 2,
+      "error": 9.575673587391975e-16,
+      "kind": "BetaBinomial",
+      "reference": 0.10997314453125001
+    },
+    {
+      "analytic": 0.06109619140625002,
+      "count": 3,
+      "error": 5.455705331947058e-16,
+      "kind": "BetaBinomial",
+      "reference": 0.06109619140625
+    },
+    {
+      "analytic": 0.03289794921875,
+      "count": 4,
+      "error": 5.533767888366015e-16,
+      "kind": "BetaBinomial",
+      "reference": 0.03289794921875
+    },
+    {
+      "analytic": 0.016149902343749998,
+      "count": 5,
+      "error": 5.984795992119984e-16,
+      "kind": "BetaBinomial",
+      "reference": 0.01614990234375
+    },
+    {
+      "analytic": 0.006579589843750011,
+      "count": 6,
+      "error": 4.612196041753336e-16,
+      "kind": "BetaBinomial",
+      "reference": 0.006579589843750002
+    },
+    {
+      "analytic": 0.0017456054687500016,
+      "count": 7,
+      "error": 1.8553409676658195e-16,
+      "kind": "BetaBinomial",
+      "reference": 0.0017456054687500007
+    },
+    {
+      "analytic": 3.2857145760537016e-06,
+      "count": 0,
+      "error": -1.4821898895818647e-12,
+      "kind": "BetaBinomial",
+      "reference": 3.2857145760536994e-06
+    },
+    {
+      "analytic": 3.8970103111334535e-05,
+      "count": 1,
+      "error": 5.378701121561192e-12,
+      "kind": "BetaBinomial",
+      "reference": 3.8970103111334556e-05
+    },
+    {
+      "analytic": 0.00023581515150441479,
+      "count": 2,
+      "error": -1.30060823160946e-12,
+      "kind": "BetaBinomial",
+      "reference": 0.00023581515150441408
+    },
+    {
+      "analytic": 0.0009684142221781204,
+      "count": 3,
+      "error": 9.37681042028993e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.0009684142221781265
+    },
+    {
+      "analytic": 0.003029246926691328,
+      "count": 4,
+      "error": 8.63429674897188e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.003029246926691338
+    },
+    {
+      "analytic": 0.007680768240569481,
+      "count": 5,
+      "error": 5.0852004381267e-14,
+      "kind": "BetaBinomial",
+      "reference": 0.007680768240569442
+    },
+    {
+      "analytic": 0.01640500219449359,
+      "count": 6,
+      "error": 5.059427773056296e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.016405002194493555
+    },
+    {
+      "analytic": 0.030286157897526526,
+      "count": 7,
+      "error": 7.134738655578549e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.030286157897526568
+    },
+    {
+      "analytic": 0.04921500658348066,
+      "count": 8,
+      "error": 1.4860440616564607e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.04921500658348067
+    },
+    {
+      "analytic": 0.07133030452708995,
+      "count": 9,
+      "error": 7.909057165750845e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.07133030452709
+    },
+    {
+      "analytic": 0.09311496509887696,
+      "count": 10,
+      "error": 5.48972593577643e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.0931149650988769
+    },
+    {
+      "analytic": 0.11027794031726904,
+      "count": 11,
+      "error": 5.491390053159025e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.11027794031726876
+    },
+    {
+      "analytic": 0.11912422369162913,
+      "count": 12,
+      "error": 7.540346587613081e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.11912422369162907
+    },
+    {
+      "analytic": 0.11781516628842424,
+      "count": 13,
+      "error": 1.3871113089857786e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.11781516628842437
+    },
+    {
+      "analytic": 0.1069487189123081,
+      "count": 14,
+      "error": 1.9782264647071272e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.10694871891230755
+    },
+    {
+      "analytic": 0.08922982224762786,
+      "count": 15,
+      "error": 7.035180471872486e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.08922982224762821
+    },
+    {
+      "analytic": 0.06844332956494235,
+      "count": 16,
+      "error": 4.937883454361916e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.06844332956494209
+    },
+    {
+      "analytic": 0.04822992659458034,
+      "count": 17,
+      "error": 2.581736326483476e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.04822992659458019
+    },
+    {
+      "analytic": 0.031166122156146836,
+      "count": 18,
+      "error": 2.808829848396337e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.03116612215614684
+    },
+    {
+      "analytic": 0.018413939745906747,
+      "count": 19,
+      "error": 4.272056229390303e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.018413939745906795
+    },
+    {
+      "analytic": 0.009905080775408104,
+      "count": 20,
+      "error": 8.757016197540308e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.009905080775408102
+    },
+    {
+      "analytic": 0.00482269850488034,
+      "count": 21,
+      "error": 4.899259484529855e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.004822698504880351
+    },
+    {
+      "analytic": 0.002108985709814445,
+      "count": 22,
+      "error": 3.487984273364405e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.002108985709814448
+    },
+    {
+      "analytic": 0.0008198614524086882,
+      "count": 23,
+      "error": 2.1536358574010343e-13,
+      "kind": "BetaBinomial",
+      "reference": 0.0008198614524086857
+    },
+    {
+      "analytic": 0.0002794608063180218,
+      "count": 24,
+      "error": 3.8042161456347416e-14,
+      "kind": "BetaBinomial",
+      "reference": 0.0002794608063180209
+    },
+    {
+      "analytic": 8.197516985328584e-05,
+      "count": 25,
+      "error": 1.4360631831257264e-14,
+      "kind": "BetaBinomial",
+      "reference": 8.197516985328613e-05
+    },
+    {
+      "analytic": 2.0154557339780668e-05,
+      "count": 26,
+      "error": 2.7453377102592727e-15,
+      "kind": "BetaBinomial",
+      "reference": 2.0154557339780674e-05
+    },
+    {
+      "analytic": 3.99407293121196e-06,
+      "count": 27,
+      "error": 6.608953517314852e-16,
+      "kind": "BetaBinomial",
+      "reference": 3.994072931211946e-06
+    },
+    {
+      "analytic": 5.991109396817929e-07,
+      "count": 28,
+      "error": 8.122160625232472e-13,
+      "kind": "BetaBinomial",
+      "reference": 5.99110939681794e-07
+    },
+    {
+      "analytic": 6.056199390264721e-08,
+      "count": 29,
+      "error": 1.5443520209149988e-13,
+      "kind": "BetaBinomial",
+      "reference": 6.056199390299285e-08
+    },
+    {
+      "analytic": 3.0991818476002347e-09,
+      "count": 30,
+      "error": 6.026992183111532e-13,
+      "kind": "BetaBinomial",
+      "reference": 3.0991818476024127e-09
+    }
+  ],
+  "synthetic_gzip_control": {
+    "gzip_sha256": "6319edcd0a7fbffca839f94de8f7023a7e84f0a0143a6069df3ba1c6f7895920",
+    "no_source_or_holdout_archive_decompressed": true,
+    "python_version": "3.12.14",
+    "raw_sha256": "e7627ff9fb5332bdb8037227b63fd0b613f1c571f16b8fb2833f01a152ce71c0"
+  },
+  "synthetic_roundoff_counterexample": {
+    "direct_non3": 1.5e-300,
+    "lambda2PA": 1e-300,
+    "lambda3PA": 1e+100,
+    "lambdaFTA": 1e-300,
+    "reconstructed_non3": 0.0,
+    "required_action": "PRESERVE_DRAW_AND_FAIL_WHOLE_RUN_NOT_CLIP_OR_RESAMPLE"
+  },
+  "test_methods": 5
+}
