@@ -20,7 +20,7 @@ from v2.nba_opportunity import utc
 P=ROOT/'docs/nba_architecture/coherent_opportunity_20261120';OLD=P.parent/'complete_predictive_20261120'
 spec=importlib.util.spec_from_file_location('coherent_frozen_inputs',OLD/'inputs.py')
 inputs=importlib.util.module_from_spec(spec);spec.loader.exec_module(inputs)
-MODEL_ADMISSION_SHA=None
+MODEL_ADMISSION_SHA='fe76962f35dc49351b5e73f7371fc7d5206e4062ab8c40dcf19c6b2e526a0970'
 
 
 def now():return datetime.now(timezone.utc).isoformat()
