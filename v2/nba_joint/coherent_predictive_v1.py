@@ -194,6 +194,7 @@ def rows(bank):
             require(values is None or len(values)==bank['scenario_denominator'],'COHERENT_EXACT_ONE_VALUE_PER_SCENARIO')
             result.append(dict(player_id=p['player_id'],team_id=p['team_id'],statistic=stat,samples=values,
                 status='SHARED_S4_J_ESTIMATE' if values is not None else 'ABSTAINED_SOURCE_OR_MINUTE_MODEL',
+                inherited_abstention_reasons=bank['cohort'].get('inherited_abstention_reasons',{}).get(p['player_id']) if values is None else None,
                 scenario_ids=list(range(bank['scenario_denominator'])) if values is not None else None,
                 genuine_participation_probability=None,legal_eligibility=None))
     require(len(result)==280 and sum(r['samples'] is not None for r in result)==112,'COHERENT_ALL_REQUESTS_RETAINED')

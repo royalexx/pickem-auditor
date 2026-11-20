@@ -61,6 +61,12 @@ def main():
         'COHERENT_FROZEN_ORIGINAL_COHORT')
     require(max(utc(a['admitted_at']),utc(fitted['verified_at']))<=utc(freeze)<utc(cohort['start']),'COHERENT_ACTUAL_FUTURE_FREEZE')
     cohort.update(freeze_at=freeze,kind='NEW_COHERENT_S4_J_SAME35_LATER_ACTUAL_FREEZE')
+    reference_raw=(OLD/'actual_full_forecast/forecast.json').read_bytes()
+    require(digest(reference_raw)=='a60ec92b970e6b417a1b9b48dceca3b2a1140dcf84f7f4ef24a8b57edcfc987f','COHERENT_FROZEN_S1_REFERENCE')
+    reference=strict_json(reference_raw);reasons={}
+    for r in reference['law_payload']['rows']:
+        if r['model'] is None:reasons.setdefault(r['player_id'],set()).add(r['reason'])
+    cohort['inherited_abstention_reasons']={k:sorted(v) for k,v in reasons.items()}
     out.mkdir(parents=True);(out/'COHORT.json').write_bytes(canonical(cohort));started=now()
     from v2.nba_joint.coherent_predictive_v1 import generate,validate_bank,rows,SharedForecast
     from v2.nba_joint import coherent_predictive_v1 as kernel
@@ -80,6 +86,14 @@ def main():
             source_bank_payload_sha256=bank['payload_sha256'],independent_vote=False,actual_scores=0,pending_outcomes=280,release=False)))
         (out/'COHERENCE.json').write_bytes(canonical(dict(queries=coherence,exact_equal_pairs=len(coherence),
             software_identity_not_accuracy=True,physics=physics,zero_sensitivity_gate='PENDING')))
+        # Read-only schema adapter to the frozen reference diagnostic. Rejected
+        # entries carry their real trace receipts, not fabricated event paths.
+        adapted=dict(schema='coherent-bank-reference-diagnostic-adapter/1',source_bank_payload_sha256=bank['payload_sha256'],
+            n_requested=64,scenario_denominator=64,status='ENGINEERING_SAMPLE',failed=[],scenarios=[dict(fixed=s['fixed'],
+                proposals=s['proposals'][:-1]+[s['accepted']],accepted_attempt=len(s['proposals'])-1) for s in bank['scenarios']])
+        adapted['payload_sha256']=digest(canonical(adapted))
+        from v2.nba_joint.residual_diagnostics_v1 import compare_with_full_S
+        (out/'REFERENCE_COMPARISON.json').write_bytes(canonical(compare_with_full_S(adapted,reference)))
     completed=now();require(utc(started)<=utc(completed)<utc(cohort['start']),'COHERENT_ISSUE_CLOCK')
     modules=['v2/nba_joint/coherent_predictive_v1.py','v2/nba_joint/coherent_components_v1.py',
         'v2/nba_joint/residual_events_v1.py','v2/nba_joint/residual_opportunity_v1.py','v2/nba_joint/residual_audit_v1.py',
