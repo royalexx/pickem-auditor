@@ -5,6 +5,7 @@ Run on the exact pinned PR193 model/bank only; this does not promote G1.
 """
 import argparse
 import json
+import sys
 from pathlib import Path
 
 from v2.nba_architecture.p1_subset_handoff_v1 import canonical,digest
@@ -41,14 +42,14 @@ def main():
                 source_population_unchanged=True,
                 actual_forecasts_unchanged=True,
                 release_approved=False)
-    raw=canonical(result)+b'\n' if isinstance(canonical(result),bytes) else canonical(result)+'\n'
+    raw=canonical(result)+b'\n'
     if args.output is None:
-        print(raw,end='')
+        sys.stdout.buffer.write(raw)
     else:
         args.output.parent.mkdir(parents=True,exist_ok=True)
-        with args.output.open('x',encoding='utf-8') as f:f.write(raw)
+        with args.output.open('xb') as f:f.write(raw)
         print(json.dumps(dict(schema=result['schema'],report=str(args.output),
-                              report_raw_sha256=digest(raw.encode()),zero_named_slots=frozen['observed_zero_minute_named_slots'],
+                              report_raw_sha256=digest(raw),zero_named_slots=frozen['observed_zero_minute_named_slots'],
                               scenarios=frozen['scenarios'],new_forecast=False),sort_keys=True))
 
 
