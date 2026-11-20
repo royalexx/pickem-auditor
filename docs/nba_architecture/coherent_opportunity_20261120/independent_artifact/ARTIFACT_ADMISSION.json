@@ -1,0 +1,100 @@
+{
+  "C_scoring_admitted": false,
+  "S4_J_runtime_or_law_admission_granted": false,
+  "abstained_market_rows": 168,
+  "activation_commit": "5a39abb8ab006319d5554e74d49c7e49b48dc04e",
+  "activation_is_only_approved_constant": true,
+  "admitted_at": "2026-11-20T13:07:09.021326+00:00",
+  "all_market_attempts": 280,
+  "artifact_admission_granted": true,
+  "artifact_admission_scope": "Exact prospective modular Gamma/Beta component parameter artifact and unchanged auxiliary working priors, current14 identities/roles and frozen sources; suitable for separately reviewed64-scenario shared S4/J engineering execution.",
+  "cohort_population_raw_sha256": "affcf904c315b090950c81960c5044bbaa577af8359117bc6be7ea043f8a9c14",
+  "compiler_raw_sha256": "7f5ad29ce603af69491e6046f78567d98e06f4460e9d8333bebdb605b1bf5973",
+  "component_posterior_scope": "Conjugate aggregate working likelihoods conditional on reported exposure/attempts and fixed empirical peer hyperparameters. Not a posterior of the full chronological event model.",
+  "decided_at": "2026-11-20T13:07:09.021326+00:00",
+  "decision": "ADMIT_EXACT_PROSPECTIVE_MODULAR_COMPONENT_ARTIFACT_FOR_SEPARATE_SHARED_KERNEL_ENGINEERING_REVIEW",
+  "empirical_true_zero_probability": null,
+  "excluded_rows_retained": 242,
+  "family": "S4_J_SHARED_GENERATIVE_KERNEL",
+  "fit_receipt_raw_sha256": "7a68dc5bd6d4a1b4d4ba3a63599b1d39b9a4cc3eea0844240603809ec344c571",
+  "full_G1_or_predictive_quality_claim": false,
+  "full_event_process_posterior_claim": false,
+  "genuine_participation_probability": null,
+  "historical_validation_passed": false,
+  "independent_evidence": {
+    "component_predictive_checks": {
+      "count": 1440,
+      "max_absolute_difference": 3.11972669919669e-14,
+      "scope": "EXOGENOUS_REPORTED_EXPOSURE_OR_ATTEMPTS_COMPONENT_IDENTITIES_NOT_EVENT_KERNEL_MARGINALS"
+    },
+    "fit_writer_calls": 0,
+    "in_memory_assembly_verification_replays": 1,
+    "max_rational_parameter_absolute_difference": 5.684341886080802e-14,
+    "named_parameter_pools": 14,
+    "new_J_runs": 0,
+    "new_forecasts": 0,
+    "new_model_artifacts_created": 0,
+    "outcome_scores": 0,
+    "rational_parameter_updates_checked": 112,
+    "residual_parameter_pools": 2,
+    "test_methods": 4,
+    "whole_model_bytes_reproduced": true
+  },
+  "independent_points_or_threes_posteriors": false,
+  "legal_eligibility": null,
+  "model_raw_sha256": "f1f6dd4a4d3753042c28b71fa9b7949628d69ccdad8f38ece47bb2ccdc6ffa2a",
+  "named_supported": 14,
+  "new_family_zero_sensitivity": "PENDING",
+  "new_forecast_admission_granted": false,
+  "old_model_admission_raw_sha256": "388e41fb537dc5e2c395078603473f8c8d524745c90f30957b672e2ed6015a42",
+  "old_working_model_raw_sha256": "85f27b2ce96a96e14449da3e10ab0d3bb7e9c4e60d7aa30bc5b311d46c48e46d",
+  "ordinary_fit_rows": 456,
+  "peer_hyperparameter_uncertainty_propagated": false,
+  "prefit_approval_raw_sha256": "920e576767e4b6b19615f03ee9f141e72c29294943ac32357138753c6fa2b690",
+  "primitive_abstentions": 84,
+  "primitive_attempts": 140,
+  "production": false,
+  "protocol_addendum_raw_sha256": "545f3eb596a43299c01a5bb5f0169421e3df4ede364879a55a0f1324c15af1b1",
+  "protocol_raw_sha256": "e12290d9021c82340ed75dfe16647d7672c42cbfd581f67273bef40e0eb6d303",
+  "protocol_review_raw_sha256": "18fb2170503ce7f9352850abff34d80266fbba9a54fe54e1010ac466f30451c9",
+  "release_approved": false,
+  "required_next_review": "Exact shared-kernel code/source/clock/identity/trace/physics/MC-bound review before accepting or issuing any64-scenario shared forecast. Frozen seed/budgets, every rejected/failed population and all140/280 denominators remain mandatory.",
+  "review": "REVIEW.md",
+  "schema": "independent-coherent-component-real-artifact-admission/1",
+  "scope_limits": [
+    "This is new component-artifact admission, not an extension of old native S3, independent S1 marginals or old canonical J acceptance.",
+    "Named/residual attempt and conversion parameters are source-derived working posteriors; constrained pace/clock/foul/OT use makes them relative opportunity weights, not unchanged event-count conjugate marginals.",
+    "The unchanged auxiliary pace/assist/rebound/FT-series proxies, minute law, zero prior and residual exchangeability retain their earlier limitations.",
+    "Same-bank S4/J equality will be a projection identity, not evidence of convergence, calibration, old-S1 fidelity or an additional independent model vote.",
+    "A newly issued coherent forecast requires actual new freeze/start/completion after this artifact admission and before the target, with no retroactive changes to earlier forecasts.",
+    "New-family zero-prior sensitivity, historical point-in-time validation and target outcome/native-ID evidence remain pending. No score or release follows."
+  ],
+  "source_candidates": 35,
+  "source_dataset_payload_sha256": "e5cb76ef446d6651b718c6279367a7078ffa86f01b621cfbfd9c7b4d74adbd1d",
+  "source_games": 20,
+  "source_outcome_payload_sha256": "a27dd3cd738cd579141b132bb3b2bc66977567d05e1d16b6d16cc1913c43c6e1",
+  "source_population_raw_sha256": "1d05830c44ee07fd89bbe7dcade95d70651a0cfae824e8f2edaadf30d4b20584",
+  "source_records": 698,
+  "source_role_semantics": "ESPN_POSITION_BIN_OBSERVED_AT_CAPTURE",
+  "source_zero_attempts_preserved": [
+    {
+      "component": "FTA",
+      "player_id": "espn:player:4895758"
+    },
+    {
+      "component": "conversion_ft",
+      "player_id": "espn:player:4895758"
+    },
+    {
+      "component": "threePA",
+      "player_id": "espn:player:5279133"
+    },
+    {
+      "component": "conversion3",
+      "player_id": "espn:player:5279133"
+    }
+  ],
+  "supported_market_rows": 112,
+  "target": "401910026",
+  "target_start": "2026-11-22T01:00Z"
+}

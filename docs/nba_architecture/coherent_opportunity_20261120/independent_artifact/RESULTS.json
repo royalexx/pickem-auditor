@@ -1,0 +1,830 @@
+{
+  "actual_fit_receipt": {
+    "NUTS": false,
+    "approval_raw_sha256": "920e576767e4b6b19615f03ee9f141e72c29294943ac32357138753c6fa2b690",
+    "compiler_raw_sha256": "7f5ad29ce603af69491e6046f78567d98e06f4460e9d8333bebdb605b1bf5973",
+    "completed_at": "2026-11-20T13:00:57.551179+00:00",
+    "excluded_rows": 242,
+    "historical_replacement": false,
+    "holdout_scoring": false,
+    "implementation_commit": "5a39abb8ab006319d5554e74d49c7e49b48dc04e",
+    "model_raw_sha256": "f1f6dd4a4d3753042c28b71fa9b7949628d69ccdad8f38ece47bb2ccdc6ffa2a",
+    "new_prospective_artifact": true,
+    "old_admission_raw_sha256": "388e41fb537dc5e2c395078603473f8c8d524745c90f30957b672e2ed6015a42",
+    "old_model_raw_sha256": "85f27b2ce96a96e14449da3e10ab0d3bb7e9c4e60d7aa30bc5b311d46c48e46d",
+    "ordinary_fit_rows": 456,
+    "protocol_raw_sha256": "e12290d9021c82340ed75dfe16647d7672c42cbfd581f67273bef40e0eb6d303",
+    "release": false,
+    "schema": "coherent-prospective-component-fit/1",
+    "source_dataset_sha256": "e5cb76ef446d6651b718c6279367a7078ffa86f01b621cfbfd9c7b4d74adbd1d",
+    "source_outcome_payload_sha256": "a27dd3cd738cd579141b132bb3b2bc66977567d05e1d16b6d16cc1913c43c6e1",
+    "source_rows": 698,
+    "started_at": "2026-11-20T13:00:57.538825+00:00",
+    "verified_at": "2026-11-20T13:00:57.551289+00:00",
+    "weight_optimization": false
+  },
+  "completed_at": "2026-11-20T13:04:50.811477+00:00",
+  "component_predictive_checks": {
+    "count": 1440,
+    "max_absolute_difference": 3.11972669919669e-14,
+    "scope": "EXOGENOUS_REPORTED_EXPOSURE_OR_ATTEMPTS_COMPONENT_IDENTITIES_NOT_EVENT_KERNEL_MARGINALS"
+  },
+  "errors": 0,
+  "failures": 0,
+  "fit_writer_calls": 0,
+  "in_memory_assembly_verification_replays": 1,
+  "independent_parameter_checks": [
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 17,
+      "pool": "espn:player:3136196",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 33,
+      "pool": "espn:player:3136196",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 23,
+      "pool": "espn:player:3136196",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 5,
+      "pool": "espn:player:3136196",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 17,
+      "pool": "espn:player:3136196",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 33,
+      "pool": "espn:player:3136196",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 23,
+      "pool": "espn:player:3136196",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 101,
+      "pool": "espn:player:4397002",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 53,
+      "pool": "espn:player:4397002",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 27,
+      "pool": "espn:player:4397002",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 24,
+      "pool": "espn:player:4397002",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 101,
+      "pool": "espn:player:4397002",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 53,
+      "pool": "espn:player:4397002",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 27,
+      "pool": "espn:player:4397002",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 96,
+      "pool": "espn:player:4431671",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 42,
+      "pool": "espn:player:4431671",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 23,
+      "pool": "espn:player:4431671",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 24,
+      "pool": "espn:player:4431671",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 96,
+      "pool": "espn:player:4431671",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 42,
+      "pool": "espn:player:4431671",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 23,
+      "pool": "espn:player:4431671",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 63,
+      "pool": "espn:player:4432816",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 102,
+      "pool": "espn:player:4432816",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 25,
+      "pool": "espn:player:4432816",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 36,
+      "pool": "espn:player:4432816",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 63,
+      "pool": "espn:player:4432816",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 102,
+      "pool": "espn:player:4432816",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 25,
+      "pool": "espn:player:4432816",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 35,
+      "pool": "espn:player:4433083",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 38,
+      "pool": "espn:player:4433083",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 21,
+      "pool": "espn:player:4433083",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 18,
+      "pool": "espn:player:4433083",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 35,
+      "pool": "espn:player:4433083",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 38,
+      "pool": "espn:player:4433083",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 21,
+      "pool": "espn:player:4433083",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 38,
+      "pool": "espn:player:4592492",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 55,
+      "pool": "espn:player:4592492",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 23,
+      "pool": "espn:player:4592492",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 11,
+      "pool": "espn:player:4592492",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 38,
+      "pool": "espn:player:4592492",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 55,
+      "pool": "espn:player:4592492",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 23,
+      "pool": "espn:player:4592492",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 5,
+      "pool": "espn:player:4594326",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 17,
+      "pool": "espn:player:4594326",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 2,
+      "pool": "espn:player:4594326",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 1,
+      "pool": "espn:player:4594326",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 5,
+      "pool": "espn:player:4594326",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 17,
+      "pool": "espn:player:4594326",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 2,
+      "pool": "espn:player:4594326",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 17,
+      "pool": "espn:player:4595400",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 8,
+      "pool": "espn:player:4595400",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 12,
+      "pool": "espn:player:4595400",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 2,
+      "pool": "espn:player:4595400",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 17,
+      "pool": "espn:player:4595400",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 8,
+      "pool": "espn:player:4595400",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 12,
+      "pool": "espn:player:4595400",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 26,
+      "pool": "espn:player:4684806",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 15,
+      "pool": "espn:player:4684806",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 21,
+      "pool": "espn:player:4684806",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 8,
+      "pool": "espn:player:4684806",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 26,
+      "pool": "espn:player:4684806",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 15,
+      "pool": "espn:player:4684806",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 21,
+      "pool": "espn:player:4684806",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 2,
+      "pool": "espn:player:4895758",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 2,
+      "pool": "espn:player:4895758",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 0,
+      "pool": "espn:player:4895758",
+      "zero_own_count_retained": true
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 2,
+      "pool": "espn:player:4895758",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 2,
+      "pool": "espn:player:4895758",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 2,
+      "pool": "espn:player:4895758",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 0,
+      "pool": "espn:player:4895758",
+      "zero_own_attempts_retained": true
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 49,
+      "pool": "espn:player:4903027",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 57,
+      "pool": "espn:player:4903027",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 32,
+      "pool": "espn:player:4903027",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 15,
+      "pool": "espn:player:4903027",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 49,
+      "pool": "espn:player:4903027",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 57,
+      "pool": "espn:player:4903027",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 32,
+      "pool": "espn:player:4903027",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 76,
+      "pool": "espn:player:5041935",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 58,
+      "pool": "espn:player:5041935",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 42,
+      "pool": "espn:player:5041935",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 35,
+      "pool": "espn:player:5041935",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 76,
+      "pool": "espn:player:5041935",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 58,
+      "pool": "espn:player:5041935",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 42,
+      "pool": "espn:player:5041935",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 19,
+      "pool": "espn:player:5112087",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 50,
+      "pool": "espn:player:5112087",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 14,
+      "pool": "espn:player:5112087",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 9,
+      "pool": "espn:player:5112087",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 19,
+      "pool": "espn:player:5112087",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 50,
+      "pool": "espn:player:5112087",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 14,
+      "pool": "espn:player:5112087",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 31,
+      "pool": "espn:player:5279133",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 0,
+      "pool": "espn:player:5279133",
+      "zero_own_count_retained": true
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 25,
+      "pool": "espn:player:5279133",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 5,
+      "pool": "espn:player:5279133",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 31,
+      "pool": "espn:player:5279133",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 0,
+      "pool": "espn:player:5279133",
+      "zero_own_attempts_retained": true
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 25,
+      "pool": "espn:player:5279133",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 168,
+      "pool": "RESIDUAL:espn:team:16",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 83,
+      "pool": "RESIDUAL:espn:team:16",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 115,
+      "pool": "RESIDUAL:espn:team:16",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 43,
+      "pool": "RESIDUAL:espn:team:16",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 168,
+      "pool": "RESIDUAL:espn:team:16",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 83,
+      "pool": "RESIDUAL:espn:team:16",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 115,
+      "pool": "RESIDUAL:espn:team:16",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "twoPA",
+      "kind": "GammaPoisson",
+      "observed_count": 248,
+      "pool": "RESIDUAL:espn:team:29",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "threePA",
+      "kind": "GammaPoisson",
+      "observed_count": 155,
+      "pool": "RESIDUAL:espn:team:29",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "FTA",
+      "kind": "GammaPoisson",
+      "observed_count": 112,
+      "pool": "RESIDUAL:espn:team:29",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "TO",
+      "kind": "GammaPoisson",
+      "observed_count": 63,
+      "pool": "RESIDUAL:espn:team:29",
+      "zero_own_count_retained": false
+    },
+    {
+      "component": "conversion2",
+      "kind": "BetaBinomial",
+      "observed_attempts": 248,
+      "pool": "RESIDUAL:espn:team:29",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion3",
+      "kind": "BetaBinomial",
+      "observed_attempts": 155,
+      "pool": "RESIDUAL:espn:team:29",
+      "zero_own_attempts_retained": false
+    },
+    {
+      "component": "conversion_ft",
+      "kind": "BetaBinomial",
+      "observed_attempts": 112,
+      "pool": "RESIDUAL:espn:team:29",
+      "zero_own_attempts_retained": false
+    }
+  ],
+  "max_exact_rational_parameter_difference": 5.684341886080802e-14,
+  "new_J_runs": 0,
+  "new_forecasts": 0,
+  "new_model_artifacts_created": 0,
+  "outcome_scores": 0,
+  "reconstructed_model_raw_sha256": "f1f6dd4a4d3753042c28b71fa9b7949628d69ccdad8f38ece47bb2ccdc6ffa2a",
+  "started_at": "2026-11-20T13:04:46.433232+00:00",
+  "test_methods": 4
+}

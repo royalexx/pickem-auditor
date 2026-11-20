@@ -1,0 +1,9 @@
+test_01_exact_approved_activation_source_and_clock_chain (__main__.ArtifactReview.test_01_exact_approved_activation_source_and_clock_chain) ... ok
+test_02_complete_model_byte_replay_without_writer (__main__.ArtifactReview.test_02_complete_model_byte_replay_without_writer) ... ok
+test_03_independent_rational_source_and_all112_posterior_updates (__main__.ArtifactReview.test_03_independent_rational_source_and_all112_posterior_updates) ... ok
+test_04_all_component_predictive_identities_and_scope (__main__.ArtifactReview.test_04_all_component_predictive_identities_and_scope) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 4.378s
+
+OK
