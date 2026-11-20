@@ -94,3 +94,18 @@ the supplied20 training games contain no matching pregame S4 model/forecast
 receipts. No historical replacement fitting, holdout scoring/decompression,
 ensemble-weight optimization, NUTS restart, schedule change, merge, deployment
 or Tier promotion was performed. **Release remains NO-GO.**
+
+## Exact final verification
+
+Final full regression: **2,331 tests passed,9 skipped**, exit0 at tested
+commit `4b464906782e02d1ea630c6cbd1dbd99f440317a`. The launcher recorded
+every runtime/test Python hash before and after the run and verified no bytes
+changed. See `final_suite/COMMAND.json`, stdout and stderr. Later publication
+changes add evidence and documentation, not different tested runtime bytes.
+
+Independent protocol approval: `0f576c6e`; prefit approval:
+`0e7ff7955b466d6266d9a77f507ad4ee4b97085b`; actual model admission:
+`7344a37c6636a07a52506110b7fa9ca932983d7a`; actual shared-law/replay
+engineering acceptance: `e0848401`. Full implementation/review SHAs, criterion
+ledgers, exact byte domains and raw executable outputs remain in those
+separate review packets. Neither reviewer authored implementation repairs.
