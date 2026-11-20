@@ -1,0 +1,26 @@
+{
+  "cwd": "/workspace/pickem-auditor",
+  "reviewed_source_commit": "178eafa99602e52f4807e96d307c4c3eecbea14a",
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/genuine_s_prospective_20261120/independent_prefit/fresh_population_probe.py"
+      ],
+      "exit_code": 1,
+      "stdout": "initial_tricode_probe.stdout",
+      "stderr": "initial_tricode_probe.stderr",
+      "scope": "Reviewer-only incorrect strict-tricode assumption; corrected to frozen exact home/away team-name contract"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/genuine_s_prospective_20261120/independent_prefit/fresh_population_probe.py"
+      ],
+      "exit_code": 0,
+      "stdout": "population.stdout",
+      "stderr": "population.stderr",
+      "scope": "All60source receipts,35candidate identities,20games and698source observations independently checked; no fit"
+    }
+  ]
+}

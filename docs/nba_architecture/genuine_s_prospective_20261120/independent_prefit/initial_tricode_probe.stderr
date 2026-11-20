@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/independent_prefit/fresh_population_probe.py", line 97, in <module>
+    assert et['team']['abbreviation']==team['teamTricode']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
