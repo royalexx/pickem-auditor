@@ -1,0 +1,12 @@
+{
+  "all_exact_bytes_unchanged": true,
+  "base": "d029747c106c8b825d13f13c0d107d45b36d6ec3",
+  "paths": {
+    "v2/nba_architecture/full_played_s_v1.py": "8f3620b692a242bc6751e37ff34ee66cff7e26b00fc82087a26197336a3c3a5d",
+    "v2/nba_joint/common.py": "35df67a2e76cad1f978f35693924ba6c63c43ec7b519c93289a3c8e13a912478",
+    "v2/nba_joint/residual_audit_v1.py": "5d99e90df7f9b5164d66f92e70b0e894d3e0d5540131354d8f85cd89560f5197",
+    "v2/nba_joint/residual_events_v1.py": "75be57a993360b693d61dfd5acde07dad92a28e831ed6b781c068b793fce01ee",
+    "v2/nba_joint/residual_opportunity_v1.py": "d53627276ba972cd23ce91bd4d9cb212f28fa141e45d44ea6f5a276b41215803"
+  },
+  "tested_final": "4b464906782e02d1ea630c6cbd1dbd99f440317a"
+}

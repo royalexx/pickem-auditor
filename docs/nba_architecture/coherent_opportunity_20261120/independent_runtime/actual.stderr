@@ -1,0 +1,8 @@
+test_01_source_admission_clocks_traces_and_all64_exact_reproduction (__main__.Actual.test_01_source_admission_clocks_traces_and_all64_exact_reproduction) ... ok
+test_02_all280_rows_same_measure336_queries_and_168abstentions (__main__.Actual.test_02_all280_rows_same_measure336_queries_and_168abstentions) ... ok
+test_03_all56_old_S1_reference_disclosures_independently_recomputed (__main__.Actual.test_03_all56_old_S1_reference_disclosures_independently_recomputed) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 68.446s
+
+OK

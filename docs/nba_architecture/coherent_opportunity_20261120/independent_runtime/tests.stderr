@@ -1,0 +1,11 @@
+test_01_component_to_unchanged_selector_algebra (__main__.Kernel.test_01_component_to_unchanged_selector_algebra) ... ok
+test_02_one_measure_all280_rows_combos_and_MC_limits (__main__.Kernel.test_02_one_measure_all280_rows_combos_and_MC_limits) ... ok
+test_03_view_snapshot_survives_original_bank_mutation (__main__.Kernel.test_03_view_snapshot_survives_original_bank_mutation) ... ok
+test_04_identity_count_and_false_metadata_mutations_reject (__main__.Kernel.test_04_identity_count_and_false_metadata_mutations_reject) ... ok
+test_05_trace_hash_traversal_and_missing_reject (__main__.Kernel.test_05_trace_hash_traversal_and_missing_reject) ... ok
+test_06_execution_exhaustion_and_partial_fixed_state (__main__.Kernel.test_06_execution_exhaustion_and_partial_fixed_state) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.644s
+
+OK

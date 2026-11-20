@@ -1,0 +1,15 @@
+{
+  "branch_weight_checks": 600,
+  "denominators": {
+    "abstained": 168,
+    "all": 280,
+    "primitive": 140,
+    "primitive_abstained": 84,
+    "primitive_supported": 56,
+    "supported": 112
+  },
+  "errors": 0,
+  "failures": 0,
+  "methods": 6,
+  "public_query_pairs": 336
+}

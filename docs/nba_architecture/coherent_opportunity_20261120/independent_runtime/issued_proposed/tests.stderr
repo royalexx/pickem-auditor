@@ -1,0 +1,9 @@
+test_01_actual_public_readonly_replay_no_fit_or_new_generation (__main__.Issued.test_01_actual_public_readonly_replay_no_fit_or_new_generation) ... ok
+test_02_exact_wire_model_receipt_admission_and_artifacts_cannot_reseal (__main__.Issued.test_02_exact_wire_model_receipt_admission_and_artifacts_cannot_reseal) ... ok
+test_03_all_declared_code_bytes_and_library_versions_bound (__main__.Issued.test_03_all_declared_code_bytes_and_library_versions_bound) ... ok
+test_04_compressed_trace_bytes_are_part_of_public_read (__main__.Issued.test_04_compressed_trace_bytes_are_part_of_public_read) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 9.237s
+
+OK

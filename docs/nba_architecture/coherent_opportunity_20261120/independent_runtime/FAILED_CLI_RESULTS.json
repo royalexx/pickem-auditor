@@ -1,0 +1,20 @@
+{
+  "CONTROLLED_FAULT_INJECTION_NOT_A_PROSPECTIVE_FORECAST": true,
+  "actual_scores": 0,
+  "failed_scenarios_retained": 64,
+  "forecasts": 0,
+  "market_attempts": 280,
+  "new_fit_calls": 0,
+  "primitive_attempts": 140,
+  "raw_cli_exit_code": 2,
+  "rejected_supported": 112,
+  "requested_and_forced_budgets": [
+    {
+      "forced_event_budget": 5,
+      "requested_event_budget": 4096,
+      "requested_n": 64
+    }
+  ],
+  "source_abstentions": 168,
+  "successful_subset_exposed": false
+}
