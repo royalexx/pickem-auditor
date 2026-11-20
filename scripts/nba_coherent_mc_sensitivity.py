@@ -5,7 +5,10 @@ Usage: python scripts/nba_coherent_mc_sensitivity.py --n 64 --output /tmp/s4mc-6
 import argparse
 import json
 import subprocess
+import sys
 from pathlib import Path
+
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 
 from v2.nba_architecture.p1_subset_handoff_v1 import canonical, digest
 from v2.nba_architecture.subset_contract_v1 import strict_json
