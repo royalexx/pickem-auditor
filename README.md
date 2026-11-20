@@ -33,6 +33,14 @@ forecasts. It conditions on participation and fixed M0 projected minutes;
 participation probabilities, later legal roster completeness, predictive
 accuracy, joint-law acceptance and production approval remain unavailable.
 
+The next integration step is a separate [minute-integrated S1 numerical
+candidate](docs/nba_architecture/minute_integrated_s_20261120/RESULTS.md). It
+propagates the saved minute distribution over the admitted ordinary-exposure
+domain and retains the below-30-second mass as unresolved. It does not replace
+the fixed-M0 forecasts or establish a complete played-conditional law, valid
+real J simulation, C scoring or historical predictive validation. Those gates
+remain prerequisites for release.
+
 
 Code, original research, immutable history, collection jobs, diagnostics, and design decisions live in this repository. Before interpreting any dated status or launching work, verify the current repository, schedules, source receipts, and training state.
 
