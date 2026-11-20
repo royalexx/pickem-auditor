@@ -9,7 +9,8 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from v2.nba_architecture.p1_subset_handoff_v1 import canonical
+from v2.nba_architecture.p1_subset_handoff_v1 import canonical, digest
+from v2.nba_architecture.prospective_s_sources_v1 import SPEC_SHA
 from v2.nba_architecture.subset_contract_v1 import strict_json
 from v2.nba_architecture.subset_p3_v1 import require
 from v2.nba_architecture.prospective_s_runtime_v1 import run_forecasts, read_forecasts
@@ -42,7 +43,26 @@ def main():
         # Issue time is actual invocation time; caller cannot backdate it.
         kwargs['forecast_at']=datetime.now(timezone.utc).isoformat()
         require(not Path(args.output).exists(),'GENUINE_FORECAST_OUTPUT_ALREADY_EXISTS')
-        result=run_forecasts(**kwargs)
+        try:
+            result=run_forecasts(**kwargs)
+        except (ValueError,OSError,KeyError,TypeError,StopIteration) as error:
+            # A rejected batch never becomes an empty success. If the original
+            # frozen spec is available, retain every expected player/stat attempt
+            # in the error receipt even when a capture/model has been tampered.
+            rejected=[];population_known=False
+            try:
+                raw=Path(args.spec_path).read_bytes()
+                require(digest(raw)==SPEC_SHA,'REJECT_RECEIPT_UNVERIFIED_POPULATION')
+                spec=strict_json(raw);population_known=True
+                rejected=[dict(player_id=p['player_id'],team_id=p['team_id'],statistic=s,
+                    status='REJECTED_BATCH',reason=str(error),forecast=None)
+                    for p in spec['frozen_candidates'] for s in ('points','rebounds','assists','threes')]
+            except (ValueError,OSError,KeyError,TypeError):pass
+            print(canonical(dict(mode='GENUINE_S_REJECTED_BATCH',forecast_at=kwargs['forecast_at'],
+                source_population_known=population_known,candidate_denominator=len(rejected)//4 if population_known else None,
+                attempt_denominator=len(rejected) if population_known else None,forecasted_rows=0,
+                rejected_rows=len(rejected) if population_known else None,rows=rejected,error=str(error))).decode())
+            raise
         archive=create_archive(args.output,result,**kwargs)
         print(canonical(dict(mode='ACTUAL_CLOCK_GENUINE_S_SHADOW_FORECAST',forecast_at=kwargs['forecast_at'],
             **archive,payload_sha256=result['payload_sha256'])).decode())
