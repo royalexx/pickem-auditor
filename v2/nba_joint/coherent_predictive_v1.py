@@ -170,6 +170,11 @@ def validate_bank(bank,trace_dir=None,model=None):
                 require(digest(raw)==r['json_raw_sha256'] and len(raw)==r['json_bytes'],'COHERENT_TRACE_JSON')
                 value=strict_json(raw);require(value['status']==r['status'],'COHERENT_TRACE_STATUS')
                 if j==len(s['proposals'])-1:require(canonical(value)==canonical(s['accepted']),'COHERENT_ACCEPTED_TRACE_JOIN')
+    declared_json=sum(r['json_bytes'] for s in bank['scenarios'] for r in s['proposals'])
+    declared_gzip=sum(r['gzip_bytes'] for s in bank['scenarios'] for r in s['proposals'])
+    require(bank['trace_json_bytes']==declared_json and bank['trace_gzip_bytes']==declared_gzip,
+        'COHERENT_TRACE_TOTAL_RECEIPTS')
+    if trace_dir is not None:require(json_total==declared_json and gzip_total==declared_gzip,'COHERENT_TRACE_TOTAL_ACTUAL_BYTES')
     return dict(scenarios=len(bank['scenarios']),violations=0,all_physics_unchanged=True)
 
 
