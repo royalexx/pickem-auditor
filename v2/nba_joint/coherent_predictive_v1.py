@@ -220,7 +220,7 @@ def _query(row,bank_payload,*,player_id,statistic,kind,value,channel='S4'):
         intervals_simultaneous_across_queries=False,population_error_guarantee=False,
         validation_scope='STRUCTURAL_SHARED_BANK_ONLY_SOURCE_MODEL_CLOCK_ADMISSION_IS_SEPARATE',
         population_exact_zero_claim=False,count_support_truncated=False,S4_J_same_measure=True,independent_vote=False,
-        score_admitted=False)
+        offered_quote_available=False,score_admitted=False)
 
 
 class SharedForecast:
