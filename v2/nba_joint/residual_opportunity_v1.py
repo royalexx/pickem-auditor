@@ -72,9 +72,23 @@ def draw_team(players,length,rng,*,fixed_zero_weight=None):
             residual_group='RESIDUAL_TEAM:'+players[0]['team_id'],team_id=players[0]['team_id'],
             player_id=None,source_identity_claim=False))
     require(residual<1e-7 and abs(math.fsum(minutes)-5*length)<1e-7,'RESIDUAL_O_MINUTE_CONSERVATION')
-    segments=lineup_segments(minutes,length)
+    original_segments=lineup_segments(minutes,length)
+    # The old witness can omit floating-point cuts <1e-7 minutes. Compile a
+    # contiguous representation and disclose every boundary adjustment; this
+    # never changes the sampled minute vector. Per-actor reconciliation remains
+    # bounded by the existing declared 1e-7 minute representation tolerance.
+    segments=[];adjustments=[];previous=0.
+    for segment in original_segments:
+        start=float(segment['start']);end=float(segment['end'])
+        require(abs(start-previous)<1e-7,'RESIDUAL_O_WITNESS_GAP')
+        if start!=previous:adjustments.append(dict(original=start,represented=previous))
+        segments.append(dict(start=previous,end=end,player_indices=segment['player_indices']));previous=end
+    require(bool(segments) and abs(previous-length)<1e-7,'RESIDUAL_O_WITNESS_END')
+    if previous!=length:adjustments.append(dict(original=previous,represented=length))
+    segments[-1]['end']=length
     return dict(schema='conditional-residual-team-O/1',actors=actors,minutes=minutes,
-        segments=segments,residual_group_minutes=group_minutes,uniform_draw=u,
+        segments=segments,witness_boundary_roundoff_adjustments=adjustments,
+        witness_representation_tolerance_minutes=1e-7,residual_group_minutes=group_minutes,uniform_draw=u,
         capacity_certificate=certificate,latent_zero_dependence='INDEPENDENT_BETA_PER_NAMED_PLAYER_SCENARIO',
         all_stats_share_exact_exposure=True,renormalized_named_exposures=False,
         genuine_participation_probability=None,complete_legal_roster_claim=False)
