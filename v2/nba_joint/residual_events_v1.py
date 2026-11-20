@@ -22,6 +22,11 @@ class PathExecutionFailure(ValueError):
         super().__init__(str(error));self.partial=partial
 
 
+class FixedExecutionFailure(ValueError):
+    def __init__(self,error,partial):
+        super().__init__(str(error));self.partial=partial
+
+
 def _beta(rng,p):
     value=float(rng.beta(p['alpha'],p['beta']))
     require(math.isfinite(value) and 0<value<1,'REAL_J_BETA_NUMERIC')
@@ -35,7 +40,7 @@ def _pick(rng,indices,weights):
     return indices[int(rng.choice(len(indices),p=w/w.sum()))]
 
 
-def fixed_scenario(model,seed,index,*,zero_weight=None,rate_budget=4096):
+def _fixed_scenario(model,seed,index,*,zero_weight=None,rate_budget=4096,capture):
     require(type(seed) is int and type(index) is int and index>=0,'REAL_J_SEED_SCENARIO')
     rng=rng_for(seed,model['target'],index,'fixed-G-O-rate')
     players=model['named_players'];teams=sorted({p['team_id'] for p in players})
@@ -44,6 +49,8 @@ def fixed_scenario(model,seed,index,*,zero_weight=None,rate_budget=4096):
     require(len(ots)==1,'REAL_J_SHARED_OT_PRIOR')
     p,q=next(iter(ots));k=int(rng.geometric(1-q)) if rng.random()<p else 0
     length=48+5*k;draws={};actors={};rate_rejections=[]
+    capture.update(index=index,seed=seed,game_id=model['target'],overtime_count=k,length=length,
+        teams=teams,O=draws,actors=actors,rate_rejections=rate_rejections)
     for team in teams:
         group=[p for p in players if p['team_id']==team]
         draw=draw_team(group,length,rng,fixed_zero_weight=zero_weight);audit_team(draw,length);draws[team]=draw
@@ -74,6 +81,12 @@ def fixed_scenario(model,seed,index,*,zero_weight=None,rate_budget=4096):
         rate_rejections=rate_rejections,zero_weight_sensitivity=zero_weight,
         genuine_participation_probability=None,complete_legal_roster_claim=False,
         source_derived_working_priors_not_unchanged_S_marginals=True)
+
+
+def fixed_scenario(model,seed,index,*,zero_weight=None,rate_budget=4096):
+    partial={}
+    try:return _fixed_scenario(model,seed,index,zero_weight=zero_weight,rate_budget=rate_budget,capture=partial)
+    except ValueError as exc:raise FixedExecutionFailure(exc,partial) from exc
 
 
 def _oncourt(fixed,team,t):
@@ -206,7 +219,8 @@ def simulate(model,*,seed=20261120,n=32,path_budget=4096,event_budget=4096,zero_
     scenarios=[];failed=[]
     for i in range(n):
         try:fixed=fixed_scenario(model,seed,i,zero_weight=zero_weight)
-        except ValueError as exc:
+        except FixedExecutionFailure as exc:
+            scenarios.append(dict(fixed=None,fixed_partial=exc.partial,proposals=[],accepted_attempt=None))
             failed.append(dict(index=i,stage='FIXED_SCENARIO',error=str(exc)));continue
         proposals=[];accepted=None
         for attempt in range(path_budget):
@@ -224,5 +238,6 @@ def simulate(model,*,seed=20261120,n=32,path_budget=4096,event_budget=4096,zero_
         scenario_denominator=n,scenarios=scenarios,failed=failed,status='FAILED_WHOLE_RUN' if failed else 'ENGINEERING_SAMPLE',
         scenarios_dropped=0,path_budget=path_budget,event_budget=event_budget,
         source_candidates=35,primitive_attempts=140,conditional_named_players=14,
+        conditioning='ALL14_NAMED_PARTICIPATE_UNDER_DECLARED_MODEL_ASSUMPTIONS_NOT_A_GENUINE_PARTICIPATION_PROBABILITY',
         genuine_participation_probability=None,marginal_fidelity_accepted=False,production_release=False)
     payload['payload_sha256']=digest(canonical(payload));return payload

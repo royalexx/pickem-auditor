@@ -44,6 +44,7 @@ def compare_with_full_S(run,full_forecast):
     return dict(schema='new-J-reference-S-discrepancy/1',scenario_denominator=n,attempt_denominator=len(rows),
         supported_rows=sum(r['n']>0 for r in rows),abstentions=sum(r['n']==0 for r in rows),rows=rows,
         unchanged_S_marginals_claim=False,marginal_fidelity_accepted=False,
+        conditioning_comparison='NEW_J_CONDITIONS_ALL14_NAMED_PLAYED_REFERENCE_S_CONDITIONS_OWN_PLAYER_PLAYED;NO_IDENTIFIED_PARTICIPATION_MODEL',
         maximum_CDF_gap=max(r.get('empirical_CDF_max_difference',0) for r in rows),
         simultaneous_MC_DKW95_half_width=epsilon,original_n32_budget_red_preserved=True,
         independent_quality_decision_required=True,release=False)
