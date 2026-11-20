@@ -106,7 +106,7 @@ def generate(model,cohort,trace_dir,*,seed=20261120,n=64,path_budget=4096,event_
             for attempt in range(path_budget):
                 try:proposal=event_path(fixed,seed,attempt,event_budget=event_budget)
                 except PathExecutionFailure as exc:proposal=dict(status='REJECT_EXECUTION',error=str(exc),partial_path=exc.partial)
-                raw=canonical(proposal);compressed=gzip.compress(raw,mtime=0);name=f's{index:04d}-p{attempt:05d}.json.gz'
+                raw=canonical(proposal);compressed=gzip.compress(raw,compresslevel=9,mtime=0);name=f's{index:04d}-p{attempt:05d}.json.gz'
                 json_total+=len(raw);gzip_total+=len(compressed)
                 if len(raw)>2097152 or len(compressed)>524288 or json_total>2147483648 or gzip_total>268435456:
                     proposals.append(dict(attempt=attempt,status='REJECT_TRACE_RESOURCE_CAP',
@@ -165,7 +165,8 @@ def validate_bank(bank,trace_dir=None,model=None):
                 require(json_total<=2147483648 and gzip_total<=268435456,'COHERENT_TRACE_TOTAL_CAP')
                 packed=(Path(trace_dir)/r['path']).read_bytes()
                 require(digest(packed)==r['gzip_raw_sha256'] and len(packed)==r['gzip_bytes'],'COHERENT_TRACE_BYTES')
-                require(packed[:3]==b'\x1f\x8b\x08' and packed[3]==0 and packed[4:8]==b'\0'*4,'COHERENT_GZIP_FORMAT')
+                require(packed[:3]==b'\x1f\x8b\x08' and packed[3]==0 and packed[4:8]==b'\0'*4 and packed[8]==2,
+                    'COHERENT_GZIP_FORMAT')
                 with gzip.GzipFile(fileobj=io.BytesIO(packed)) as stream:raw=stream.read(2097153)
                 require(digest(raw)==r['json_raw_sha256'] and len(raw)==r['json_bytes'],'COHERENT_TRACE_JSON')
                 value=strict_json(raw);require(value['status']==r['status'],'COHERENT_TRACE_STATUS')
