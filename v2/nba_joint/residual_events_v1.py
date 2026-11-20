@@ -17,6 +17,11 @@ VERSION='conditional-residual-forward-J/1'
 COUNTS=('points','rebounds','assists','threes','fgm','fga','ftm','fta','oreb','dreb','turnovers','fouls')
 
 
+class PathExecutionFailure(ValueError):
+    def __init__(self,error,partial):
+        super().__init__(str(error));self.partial=partial
+
+
 def _beta(rng,p):
     value=float(rng.beta(p['alpha'],p['beta']))
     require(math.isfinite(value) and 0<value<1,'REAL_J_BETA_NUMERIC')
@@ -77,7 +82,7 @@ def _oncourt(fixed,team,t):
     raise ValueError('REAL_J_NO_LINEUP_AT_CLOCK')
 
 
-def event_path(fixed,seed,attempt,*,event_budget=4096):
+def _event_path(fixed,seed,attempt,*,event_budget=4096,capture):
     """One path proposal; discrete rebounds resolve at reported shot-clock time.
 
     Baseline excludes disqualifications, steals, blocks, technicals, and-and-one
@@ -88,6 +93,7 @@ def event_path(fixed,seed,attempt,*,event_budget=4096):
     teams=fixed['teams'];actors=fixed['actors'];length=fixed['length'];k=fixed['overtime_count']
     counts={t:[{s:0 for s in COUNTS} for a in actors[t]] for t in teams}
     score={t:0 for t in teams};ledger=[];t=0.;offense=teams[int(rng.integers(2))]
+    capture.update(ledger=ledger,counts=counts,score=score,attempt=attempt)
     ep=fixed['event_probabilities'];remaining_shot=24.;reset_limit=24.
     rotation_boundaries=sorted({s['end'] for team in teams for s in fixed['O'][team]['segments']}|{0.,length})
     ends=[12.,24.,36.,48.]+[48.+5*j for j in range(1,k+1)]
@@ -185,6 +191,12 @@ def event_path(fixed,seed,attempt,*,event_budget=4096):
     return dict(status='ACCEPTED_PATH_PROPOSAL',ledger=ledger,counts=counts,period_scores=period_scores,attempt=attempt)
 
 
+def event_path(fixed,seed,attempt,*,event_budget=4096):
+    partial={}
+    try:return _event_path(fixed,seed,attempt,event_budget=event_budget,capture=partial)
+    except ValueError as exc:raise PathExecutionFailure(exc,partial) from exc
+
+
 def simulate(model,*,seed=20261120,n=32,path_budget=4096,event_budget=4096,zero_weight=None):
     require(type(n) is int and n>0 and type(path_budget) is int and path_budget>0,'REAL_J_EXECUTION_BUDGET')
     scenarios=[];failed=[]
@@ -195,8 +207,8 @@ def simulate(model,*,seed=20261120,n=32,path_budget=4096,event_budget=4096,zero_
         proposals=[];accepted=None
         for attempt in range(path_budget):
             try:proposal=event_path(fixed,seed,attempt,event_budget=event_budget)
-            except ValueError as exc:
-                proposals.append(dict(attempt=attempt,status='REJECT_EXECUTION',error=str(exc)))
+            except PathExecutionFailure as exc:
+                proposals.append(dict(attempt=attempt,status='REJECT_EXECUTION',error=str(exc),partial_path=exc.partial))
                 # Numeric/budget failures are not statistical rejections.
                 break
             proposals.append(proposal)
