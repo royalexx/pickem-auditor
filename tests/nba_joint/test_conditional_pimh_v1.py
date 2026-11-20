@@ -85,34 +85,44 @@ class ConditionalOTMathAndKernelTests(unittest.TestCase):
                         minimum_accepted_moves=2)
 
     def test_pimh_reweights_particle_proposals_to_exact_toy_conditional(self):
-        """Independent enumerated two-state reference, testing the MH ratio.
+        """Analytic two-stage reference: finite bootstrap filter is biased.
 
-        X~Bern(1/2), terminal tie probability .9 for X=1, .1 for X=0.
-        P(X=1 | tie)=.9; a finite-size particle proposal is not exact.
+        X~Bern(.5), first potential P(G0=1|X)=.2 if 1 else .8;
+        second P(G1=1|X)=.9 if 1 else .1.
+        Exact P(X=1 | G0=G1=1)=(.5*.2*.9)/(.5*.2*.9+.5*.8*.1)=9/13.
+        An uncorrected size-2 particle filter instead yields ~.59.
         """
         import numpy as np
         rng=np.random.default_rng(324390)
         n=2
-        def proposal():
-            latent=rng.integers(0,2,size=n)
-            survive=[int(x) for x in latent
-                     if rng.random()<(.9 if x==1 else .1)]
-            if not survive:return None,0.
-            return survive[int(rng.integers(len(survive)))],len(survive)/n
-        current=None;weight=None;track=[];naive=[]
+        current=None
+        weight=None
+        track=[]
+        naive=[]
         for iteration in range(30000):
-            proposed,phat=proposal()
-            if phat:
+            latent=rng.integers(0,2,size=n)
+            survivors0=[int(x) for x in latent if
+                        rng.random()<(.2 if x==1 else .8)]
+            proposed=None
+            zhat=0.
+            if survivors0:
+                z0=len(survivors0)/n
+                parents=[survivors0[int(rng.integers(len(survivors0)))]
+                         for _ in range(n)]
+                survivors1=[x for x in parents if
+                            rng.random()<(.9 if x==1 else .1)]
+                if survivors1:
+                    zhat=z0*len(survivors1)/n
+                    proposed=survivors1[int(rng.integers(len(survivors1)))]
+            if zhat>0:
                 naive.append(proposed)
-                if weight is None or rng.random()<min(1.,phat/weight):
-                    current,weight=proposed,phat
+                if weight is None or rng.random()<min(1.,zhat/weight):
+                    current,weight=proposed,zhat
             if iteration>=5000:
                 track.append(current)
-        # Exact target is .9, and finite particle output before PIMH
-        # generally is biased toward the unconditioned .5 mixture.
-        self.assertAlmostEqual(float(np.mean(track)),.9,delta=.025)
-        self.assertLess(float(np.mean(naive)),.87)
-        self.assertGreater(float(np.mean(naive)),.55)
+        self.assertAlmostEqual(float(np.mean(track)),9/13,delta=.025)
+        self.assertLess(abs(float(np.mean(naive))-9/13),.20)
+        self.assertGreater(abs(float(np.mean(naive))-9/13),.07)
 
     def test_unbiased_evidence_bpf_toy_analytical_reference(self):
         # A small two-stage finite model allows an independent exact
