@@ -336,6 +336,19 @@ def simulate_sensitivity(model,cohort,out,*,seed=SEED,
             all(ids.get(p['player_id'])==p['team_id']
                 for p in model['named_players']),
             'S4_SENS_COHORT_IDENTITY')
+    # For K=0 or K=1 the original sampler is mathematically exact.
+    # Any finite-PIMH bias is restricted to K>=2. Under the frozen
+    # geometric OT prior, P(K>=2)=p*q. This is a rigorous TOTAL
+    # VARIATION envelope for unconditional NBA S4/J marginal CDF and
+    # indicator-event differences, independent of PIMH mixing quality.
+    # It does not bound relative tail error, mean error, or conditioned
+    # rare-OT predictions.
+    ots={(p['minutes']['ot_probability'],p['minutes']['ot_continuation'])
+         for p in model['named_players']}
+    require(len(ots)==1,'S4_PIMH_OT_PRIOR_COHERENCE')
+    ot_p,ot_q=next(iter(ots))
+    require(0<=ot_p<=1 and 0<=ot_q<1,'S4_PIMH_OT_PRIOR_SUPPORT')
+    rare_ot_absolute_tv_envelope=ot_p*ot_q
     out=Path(out);out.mkdir(parents=True,exist_ok=False)
     t0=time.monotonic()
     samples={name:{p['player_id']:{s:[] for s in STATS}
@@ -396,6 +409,9 @@ def simulate_sensitivity(model,cohort,out,*,seed=SEED,
                  scientific_status='RESEARCH_FINITE_PIMH_CONVERGENCE_NOT_ACCEPTED' if whole else 'FAILED_INCOMPLETE',
                  requested_per_variant=n,variants=[dict(name=x,weight=z) for x,z in variants],
                  seed=seed,particles=particles,iterations=iterations,
+                 multiple_ot_prior_probability=rare_ot_absolute_tv_envelope,
+                 distributional_contamination_bound_applies_to_unconditional_cdfs=True,
+                 conditional_multiple_ot_distribution_uncertainty_not_bounded_by_this_envelope=True,
                  min_accepted_moves=min_moves,stationary_target_is_exact=True,
                  finite_chain_mc_stationarity_unproven=True,
                  seed_comment='SAME_FIXTURE_CRN_AND_FIXED_ZERO_INTERVENTIONS',
@@ -419,6 +435,15 @@ def simulate_sensitivity(model,cohort,out,*,seed=SEED,
                                   for x in PREFIX_SIZES if x<=n}
         if n not in PREFIX_SIZES:
             receipt['prefix_scores'][str(n)]=_analyze(samples,n,variants)
+        for prefix in receipt['prefix_scores'].values():
+            # Distribution-free family-uniform bound, only for count CDFs
+            # and probability indicators, *conditional on the declared
+            # IID pseudo-random sampling assumptions*. Do not apply to
+            # truncated expectation, quantile or relative tail precision.
+            prefix['rare_OT_finite_PIMH_bias_CDF_envelope']=rare_ot_absolute_tv_envelope
+            prefix['CDF_error_envelope_DKW_plus_rare_OT_bias']=min(1.,
+                prefix['dkw_family_epsilon_ideal_iid']+rare_ot_absolute_tv_envelope)
+            prefix['prediction_skill_or_tail_relative_error_certified']=False
         require(receipt['chunk_row_denominator']==n*len(variants),
                 'S4_SENS_CHUNK_DENOMINATOR')
     (out/'RECEIPT.json').write_bytes(canonical(receipt)+b'\n')
