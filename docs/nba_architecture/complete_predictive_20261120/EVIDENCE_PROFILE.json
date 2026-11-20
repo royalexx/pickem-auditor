@@ -1,0 +1,218 @@
+{
+  "schema": "complete-predictive-evidence-profile/1",
+  "base": "f3f50bca3bca24262b9a97d9a0f53f86de039c5e",
+  "target": {
+    "game_id": "401910026",
+    "name": "Memphis Grizzlies at Minnesota Timberwolves",
+    "start": "2026-11-22T01:00Z",
+    "teams": {
+      "16": "MIN",
+      "29": "MEM"
+    }
+  },
+  "frozen_source_candidates": [
+    {
+      "player_id": "espn:player:4432816",
+      "team_id": "espn:team:16",
+      "name": "LaMelo Ball"
+    },
+    {
+      "player_id": "espn:player:5279133",
+      "team_id": "espn:team:16",
+      "name": "Joan Beringer"
+    },
+    {
+      "player_id": "espn:player:4433569",
+      "team_id": "espn:team:16",
+      "name": "Johni Broome"
+    },
+    {
+      "player_id": "espn:player:4432247",
+      "team_id": "espn:team:16",
+      "name": "Jaylen Clark"
+    },
+    {
+      "player_id": "espn:player:3934673",
+      "team_id": "espn:team:16",
+      "name": "Donte DiVincenzo"
+    },
+    {
+      "player_id": "espn:player:4397002",
+      "team_id": "espn:team:16",
+      "name": "Ayo Dosunmu"
+    },
+    {
+      "player_id": "espn:player:4594268",
+      "team_id": "espn:team:16",
+      "name": "Anthony Edwards"
+    },
+    {
+      "player_id": "espn:player:5061585",
+      "team_id": "espn:team:16",
+      "name": "Isaiah Evans"
+    },
+    {
+      "player_id": "espn:player:3032976",
+      "team_id": "espn:team:16",
+      "name": "Rudy Gobert"
+    },
+    {
+      "player_id": "espn:player:4592492",
+      "team_id": "espn:team:16",
+      "name": "Bones Hyland"
+    },
+    {
+      "player_id": "espn:player:4433247",
+      "team_id": "espn:team:16",
+      "name": "Jonathan Kuminga"
+    },
+    {
+      "player_id": "espn:player:3136196",
+      "team_id": "espn:team:16",
+      "name": "Trey Lyles"
+    },
+    {
+      "player_id": "espn:player:4431671",
+      "team_id": "espn:team:16",
+      "name": "Jaden McDaniels"
+    },
+    {
+      "player_id": "espn:player:4592979",
+      "team_id": "espn:team:16",
+      "name": "Zyon Pullin"
+    },
+    {
+      "player_id": "espn:player:4432847",
+      "team_id": "espn:team:16",
+      "name": "Terrence Shannon Jr."
+    },
+    {
+      "player_id": "espn:player:4895758",
+      "team_id": "espn:team:16",
+      "name": "Cody Williams"
+    },
+    {
+      "player_id": "espn:player:5157587",
+      "team_id": "espn:team:16",
+      "name": "Rocco Zikarsky"
+    },
+    {
+      "player_id": "espn:player:5041935",
+      "team_id": "espn:team:29",
+      "name": "Cameron Boozer"
+    },
+    {
+      "player_id": "espn:player:4903027",
+      "team_id": "espn:team:29",
+      "name": "Cedric Coward"
+    },
+    {
+      "player_id": "espn:player:4600663",
+      "team_id": "espn:team:29",
+      "name": "Zach Edey"
+    },
+    {
+      "player_id": "espn:player:2991070",
+      "team_id": "espn:team:29",
+      "name": "Jerami Grant"
+    },
+    {
+      "player_id": "espn:player:4684806",
+      "team_id": "espn:team:29",
+      "name": "Taylor Hendricks"
+    },
+    {
+      "player_id": "espn:player:5105550",
+      "team_id": "espn:team:29",
+      "name": "GG Jackson"
+    },
+    {
+      "player_id": "espn:player:4065733",
+      "team_id": "espn:team:29",
+      "name": "Ty Jerome"
+    },
+    {
+      "player_id": "espn:player:5231919",
+      "team_id": "espn:team:29",
+      "name": "Karim Lopez"
+    },
+    {
+      "player_id": "espn:player:4683934",
+      "team_id": "espn:team:29",
+      "name": "Jahmai Mashack"
+    },
+    {
+      "player_id": "espn:player:4594326",
+      "team_id": "espn:team:29",
+      "name": "Kris Murray"
+    },
+    {
+      "player_id": "espn:player:4431785",
+      "team_id": "espn:team:29",
+      "name": "Scotty Pippen Jr."
+    },
+    {
+      "player_id": "espn:player:4593016",
+      "team_id": "espn:team:29",
+      "name": "Quinten Post"
+    },
+    {
+      "player_id": "espn:player:4595400",
+      "team_id": "espn:team:29",
+      "name": "Olivier-Maxence Prosper"
+    },
+    {
+      "player_id": "espn:player:5105462",
+      "team_id": "espn:team:29",
+      "name": "Richie Saunders"
+    },
+    {
+      "player_id": "espn:player:4781746",
+      "team_id": "espn:team:29",
+      "name": "Javon Small"
+    },
+    {
+      "player_id": "espn:player:4433083",
+      "team_id": "espn:team:29",
+      "name": "Cam Spencer"
+    },
+    {
+      "player_id": "espn:player:4432810",
+      "team_id": "espn:team:29",
+      "name": "Isaiah Stewart"
+    },
+    {
+      "player_id": "espn:player:5112087",
+      "team_id": "espn:team:29",
+      "name": "Jaylen Wells"
+    }
+  ],
+  "existing_population_spec_sha256": "9b4ffaf085deeffe83cee50c6d3ecfc5dd2c41848cb849ee32240389cc7b2ed8",
+  "new_capture_population": {
+    "0022600150": "https://www.nba.com/game/sac-vs-mem-0022600150/play-by-play",
+    "0022600165": "https://www.nba.com/game/nop-vs-mem-0022600165/play-by-play",
+    "0022600178": "https://www.nba.com/game/ind-vs-mem-0022600178/play-by-play",
+    "0022600029": "https://www.nba.com/game/okc-vs-mem-0022600029/play-by-play",
+    "0022600206": "https://www.nba.com/game/mem-vs-tor-0022600206/play-by-play",
+    "0022600221": "https://www.nba.com/game/den-vs-mem-0022600221/play-by-play",
+    "0022600038": "https://www.nba.com/game/mem-vs-nop-0022600038/play-by-play",
+    "0022600234": "https://www.nba.com/game/bkn-vs-mem-0022600234/play-by-play",
+    "0022600247": "https://www.nba.com/game/mem-vs-was-0022600247/play-by-play",
+    "0022600258": "https://www.nba.com/game/mem-vs-cle-0022600258/play-by-play",
+    "0022600022": "https://www.nba.com/game/lac-vs-min-0022600022/play-by-play",
+    "0022600152": "https://www.nba.com/game/min-vs-sas-0022600152/play-by-play",
+    "0022600166": "https://www.nba.com/game/mil-vs-min-0022600166/play-by-play",
+    "0022600181": "https://www.nba.com/game/min-vs-hou-0022600181/play-by-play",
+    "0022600031": "https://www.nba.com/game/min-vs-nop-0022600031/play-by-play",
+    "0022600198": "https://www.nba.com/game/uta-vs-min-0022600198/play-by-play",
+    "0022600229": "https://www.nba.com/game/dal-vs-min-0022600229/play-by-play",
+    "0022600235": "https://www.nba.com/game/chi-vs-min-0022600235/play-by-play",
+    "0022600250": "https://www.nba.com/game/por-vs-min-0022600250/play-by-play",
+    "0022600254": "https://www.nba.com/game/por-vs-min-0022600254/play-by-play"
+  },
+  "scope": "All20originaltraininggames PBP pages; not newtarget/cohort. Supporting event/exposure mechanism evidence, no automatic admission. New captures cannot enter oldforecastfreeze.",
+  "modeling": "Explicit new fullplayed extrapolation/playedzero mechanism requires independent review before admission. Unknown genuineq staysNone; no evidence iscreated by model assumptions.",
+  "historical": "No replacement fitting orholdout scoring/decompression; release requires historicalvalidation with PIT artifacts or separately authorized reconstruction protocol.",
+  "J_scope": "Conditional perplayer research + declared residualteam mechanism proposed for review only. No fake rostercompletion,q,or forcedmarginal normalization.",
+  "release": false
+}
