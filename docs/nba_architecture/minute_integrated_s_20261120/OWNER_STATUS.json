@@ -1,0 +1,31 @@
+{
+  "overall": "BLOCKED_COMPLETE_PREDICTIVE_J_C_AND_HISTORICAL_RELEASE",
+  "numerical_decision": "PASS_ORDINARY_CONDITIONAL_NUMERICAL_REPLAY_CANDIDATE_ONLY",
+  "implementation_commit": "8730aad9b20926e0de319c1aded94c16972c6592",
+  "candidate_and_test_implementation_commit": "13a5419f2b1765e68f4c170fbbf3638962d934a3",
+  "independent_review_commit": "ca8fe1484eed150dc6eb44484d654afa32540fb5",
+  "independent_decision_raw_sha256": "00173a39394aadcf7c75162cbf3f0f3ddbb4f9f936806387564e7455a5384822",
+  "candidate_raw_sha256": "3f7081ce2e60fc4dc1de20ee5cbdde3bcdfeece0956bcea12b1412de7d48520a",
+  "candidate_payload_sha256": "55c8f36b71c3a426bace324ec5916496ac19a84c188f265cc54ce57c6c926f16",
+  "candidate_denominator": 35,
+  "attempt_denominator": 140,
+  "integrated_candidates": 56,
+  "abstentions": 84,
+  "new_forecasts_issued": 0,
+  "new_saved_models_fitted": 0,
+  "existing_artifact_verification": "Existing four native fits reconstructed in memory by inherited admission reader only; no saved model changed.",
+  "full_suite": {
+    "run": 2312,
+    "passed": 2303,
+    "skipped": 9,
+    "failures": 0,
+    "errors": 0
+  },
+  "complete_played_conditional_law": false,
+  "J_admitted": false,
+  "C_scored_rows": 0,
+  "historical_predictive_validation": false,
+  "release_allowed": false,
+  "original_PR190_preserved": true,
+  "source_and_test_bytes_unchanged_since_tested_commit": true
+}
