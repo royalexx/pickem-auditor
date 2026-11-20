@@ -12,9 +12,9 @@ from v2.nba_architecture.conditional_c_v1 import read_native_outcomes
 from v2.nba_opportunity import utc
 from .coherent_predictive_v1 import validate_bank,rows,SharedForecast
 
-BANK_SHA=None
-RECEIPT_SHA=None
-MODEL_ADMISSION_SHA=None
+BANK_SHA='318bb9b2317ae120b6b51852a88b97177424fc0caeba36ed8b38b4f6ead01d88'
+RECEIPT_SHA='dc7f7cdab93129c3b11c7157bd6222fa67e4f71e024487ef8685f4939a30d459'
+MODEL_ADMISSION_SHA='fe76962f35dc49351b5e73f7371fc7d5206e4062ab8c40dcf19c6b2e526a0970'
 MODEL_SHA='f1f6dd4a4d3753042c28b71fa9b7949628d69ccdad8f38ece47bb2ccdc6ffa2a'
 
 
