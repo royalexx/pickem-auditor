@@ -1,0 +1,72 @@
+[
+  {
+    "criterion": "Exact frozen source population and provenance",
+    "status": "PASS",
+    "evidence": "Twenty bodies/receipts, exact source hashes/clocks; original reader profile unchanged."
+  },
+  {
+    "criterion": "Native event identity and chronological support",
+    "status": "PASS_BOUNDED",
+    "evidence": "Unique game/actionId, full period end coverage, native actor/team checks; shared actionNumber and secondary records preserved."
+  },
+  {
+    "criterion": "Fourteen event credits versus original box",
+    "status": "PASS_BOUNDED",
+    "evidence": "Reader reports exact14 fields; event-derived PF/plusminus false. Complete on-court lineups/possession remain unknown."
+  },
+  {
+    "criterion": "True-zero source identification",
+    "status": "UNIDENTIFIED",
+    "evidence": "No confirmed true-zero example; no absence update. Five original unknowns stay original unknowns."
+  },
+  {
+    "criterion": "All candidate and sensitivity denominators",
+    "status": "PASS",
+    "evidence": "35/140;56 models+84 abstentions; five scenarios imply280 supported+420 abstained attempts."
+  },
+  {
+    "criterion": "Full-positive and zero-mixture moments",
+    "status": "PASS",
+    "evidence": "Independent adaptive weighted integrals, all56 laws and five scenarios."
+  },
+  {
+    "criterion": "PMF CDF analytic controls",
+    "status": "PASS_BOUNDED",
+    "evidence": "72 independent PMF queries plus CDF checks for low/high minute players. SciPy2F1 honestly unresolved twice at count100; independent quad/public paths remained usable."
+  },
+  {
+    "criterion": "High precision rare log probabilities",
+    "status": "PASS",
+    "evidence": "70-digit mpmath reference at count100 and1000; public log differences below9.50e-11."
+  },
+  {
+    "criterion": "Extreme count failure semantics",
+    "status": "PASS",
+    "evidence": "Counts10000/1000000 explicit UNRESOLVED_NO_SCORE; structural p_zero=1 zeros exact."
+  },
+  {
+    "criterion": "Count tail and OT support",
+    "status": "PASS_BOUNDED",
+    "evidence": "DirectSF repair tested all56; default absolute OT bound dominates tiny tail estimate47/56 times; relative rare-tail claims unavailable from this default query."
+  },
+  {
+    "criterion": "Public exact source/model replay",
+    "status": "PASS",
+    "evidence": "Independent public builder replay matches semantic payload; actual current compute clocks distinct from original forecast."
+  },
+  {
+    "criterion": "Source, population, approval, ID, clock tampering",
+    "status": "PASS",
+    "evidence": "Direct malformed event controls and public frozen-byte/self-reseal/card/protocol/drop controls reject."
+  },
+  {
+    "criterion": "Original fits/readers/archive preservation",
+    "status": "PASS",
+    "evidence": "Protected PR190 reader/runtime/archive/native model/CLI/original fitted and corrected forecast archive have no diff."
+  },
+  {
+    "criterion": "J, C, historical validation, release",
+    "status": "NOT_GRANTED",
+    "evidence": "Separate exact models, source/physical/readout/outcome/point-in-time gates remain."
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "absolute_log_difference": 9.497114206169499e-11,
+    "count": 100,
+    "elapsed_seconds": 0.9297542572021484,
+    "independent_log_probability": -117.61492424369857,
+    "ot_terms": 128,
+    "player": "Cody Williams",
+    "precision_digits": 70,
+    "public_log_probability": -117.6149242436036,
+    "public_omitted_OT_relative_probability_bound": 3.409522421065246e-64,
+    "statistic": "threes"
+  },
+  {
+    "absolute_log_difference": 9.379164112033322e-11,
+    "count": 1000,
+    "elapsed_seconds": 40.78173089027405,
+    "independent_log_probability": -509.3623901637858,
+    "ot_terms": 512,
+    "player": "Cody Williams",
+    "precision_digits": 70,
+    "public_log_probability": -509.362390163692,
+    "public_omitted_OT_relative_probability_bound": 9.49574581962951e-234,
+    "statistic": "threes"
+  },
+  {
+    "absolute_log_difference": 7.389644451905042e-13,
+    "count": 1000,
+    "elapsed_seconds": 121.03671312332153,
+    "independent_log_probability": -373.12852148752717,
+    "ot_terms": 256,
+    "player": "LaMelo Ball",
+    "precision_digits": 70,
+    "public_log_probability": -373.1285214875279,
+    "public_omitted_OT_relative_probability_bound": 1.8672242494143143e-66,
+    "statistic": "points"
+  }
+]

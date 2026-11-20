@@ -1,0 +1,1287 @@
+{
+  "all56_moment_checks": [
+    {
+      "independent_positive_mean": 18.48077174495863,
+      "independent_positive_variance": 33.58703186073876,
+      "mean_error": 4.263256414560601e-14,
+      "player": "LaMelo Ball",
+      "statistic": "points",
+      "variance_error": 2.2168933355715126e-12
+    },
+    {
+      "independent_positive_mean": 4.611840385379084,
+      "independent_positive_variance": 5.781384600138239,
+      "mean_error": 1.1546319456101628e-14,
+      "player": "LaMelo Ball",
+      "statistic": "rebounds",
+      "variance_error": 1.4832579608992091e-13
+    },
+    {
+      "independent_positive_mean": 4.790085274267654,
+      "independent_positive_variance": 6.039541206198425,
+      "mean_error": 1.1546319456101628e-14,
+      "player": "LaMelo Ball",
+      "statistic": "assists",
+      "variance_error": 1.5543122344752192e-13
+    },
+    {
+      "independent_positive_mean": 3.1865344914071927,
+      "independent_positive_variance": 3.8099914006704303,
+      "mean_error": 7.549516567451064e-15,
+      "player": "LaMelo Ball",
+      "statistic": "threes",
+      "variance_error": 7.283063041541027e-14
+    },
+    {
+      "independent_positive_mean": 5.695520483283418,
+      "independent_positive_variance": 12.62090619912913,
+      "mean_error": 3.552713678800501e-15,
+      "player": "Joan Beringer",
+      "statistic": "points",
+      "variance_error": 1.2434497875801753e-14
+    },
+    {
+      "independent_positive_mean": 4.174567122183178,
+      "independent_positive_variance": 7.954146326924754,
+      "mean_error": 1.7763568394002505e-15,
+      "player": "Joan Beringer",
+      "statistic": "rebounds",
+      "variance_error": 5.329070518200751e-15
+    },
+    {
+      "independent_positive_mean": 0.8715331933743398,
+      "independent_positive_variance": 1.0728208007968887,
+      "mean_error": 5.551115123125783e-16,
+      "player": "Joan Beringer",
+      "statistic": "assists",
+      "variance_error": 2.220446049250313e-16
+    },
+    {
+      "independent_positive_mean": 0.44442612225381856,
+      "independent_positive_variance": 0.5083123480065148,
+      "mean_error": 2.220446049250313e-16,
+      "player": "Joan Beringer",
+      "statistic": "threes",
+      "variance_error": 1.1102230246251565e-16
+    },
+    {
+      "independent_positive_mean": 17.700409568837443,
+      "independent_positive_variance": 31.344698297901573,
+      "mean_error": 1.7763568394002505e-14,
+      "player": "Ayo Dosunmu",
+      "statistic": "points",
+      "variance_error": 7.105427357601002e-15
+    },
+    {
+      "independent_positive_mean": 4.211392836011699,
+      "independent_positive_variance": 5.176617703766276,
+      "mean_error": 4.440892098500626e-15,
+      "player": "Ayo Dosunmu",
+      "statistic": "rebounds",
+      "variance_error": 7.105427357601002e-15
+    },
+    {
+      "independent_positive_mean": 3.3878106921081055,
+      "independent_positive_variance": 4.052237451447025,
+      "mean_error": 3.552713678800501e-15,
+      "player": "Ayo Dosunmu",
+      "statistic": "assists",
+      "variance_error": 3.552713678800501e-15
+    },
+    {
+      "independent_positive_mean": 2.193616156393915,
+      "independent_positive_variance": 2.51864383873784,
+      "mean_error": 2.220446049250313e-15,
+      "player": "Ayo Dosunmu",
+      "statistic": "threes",
+      "variance_error": 3.552713678800501e-15
+    },
+    {
+      "independent_positive_mean": 10.729612365166455,
+      "independent_positive_variance": 32.307955590408085,
+      "mean_error": 1.0658141036401503e-14,
+      "player": "Bones Hyland",
+      "statistic": "points",
+      "variance_error": 2.1316282072803006e-14
+    },
+    {
+      "independent_positive_mean": 1.8455793747250804,
+      "independent_positive_variance": 2.572799305224848,
+      "mean_error": 1.7763568394002505e-15,
+      "player": "Bones Hyland",
+      "statistic": "rebounds",
+      "variance_error": 4.440892098500626e-16
+    },
+    {
+      "independent_positive_mean": 3.008818395656699,
+      "independent_positive_variance": 4.831457525361948,
+      "mean_error": 3.1086244689504383e-15,
+      "player": "Bones Hyland",
+      "statistic": "assists",
+      "variance_error": 0.0
+    },
+    {
+      "independent_positive_mean": 1.696351250624626,
+      "independent_positive_variance": 2.31869326118881,
+      "mean_error": 1.7763568394002505e-15,
+      "player": "Bones Hyland",
+      "statistic": "threes",
+      "variance_error": 8.881784197001252e-16
+    },
+    {
+      "independent_positive_mean": 7.674082390522154,
+      "independent_positive_variance": 16.067532098948007,
+      "mean_error": 1.865174681370263e-14,
+      "player": "Trey Lyles",
+      "statistic": "points",
+      "variance_error": 1.4566126083082054e-13
+    },
+    {
+      "independent_positive_mean": 3.785620097474928,
+      "independent_positive_variance": 5.936671810979215,
+      "mean_error": 8.881784197001252e-15,
+      "player": "Trey Lyles",
+      "statistic": "rebounds",
+      "variance_error": 2.3092638912203256e-14
+    },
+    {
+      "independent_positive_mean": 1.326916738423631,
+      "independent_positive_variance": 1.6399684773206007,
+      "mean_error": 3.1086244689504383e-15,
+      "player": "Trey Lyles",
+      "statistic": "assists",
+      "variance_error": 1.1102230246251565e-15
+    },
+    {
+      "independent_positive_mean": 0.9843224013954626,
+      "independent_positive_variance": 1.1709723271696566,
+      "mean_error": 2.3314683517128287e-15,
+      "player": "Trey Lyles",
+      "statistic": "threes",
+      "variance_error": 2.220446049250313e-16
+    },
+    {
+      "independent_positive_mean": 16.196670223722865,
+      "independent_positive_variance": 26.044384066910197,
+      "mean_error": 3.552713678800501e-15,
+      "player": "Jaden McDaniels",
+      "statistic": "points",
+      "variance_error": 3.375077994860476e-13
+    },
+    {
+      "independent_positive_mean": 5.979177623851936,
+      "independent_positive_variance": 7.566017485452214,
+      "mean_error": 8.881784197001252e-16,
+      "player": "Jaden McDaniels",
+      "statistic": "rebounds",
+      "variance_error": 4.884981308350689e-14
+    },
+    {
+      "independent_positive_mean": 3.503844127838314,
+      "independent_positive_variance": 4.142914284317053,
+      "mean_error": 4.440892098500626e-16,
+      "player": "Jaden McDaniels",
+      "statistic": "assists",
+      "variance_error": 1.9539925233402755e-14
+    },
+    {
+      "independent_positive_mean": 1.4395226027382269,
+      "independent_positive_variance": 1.6024334734013932,
+      "mean_error": 2.220446049250313e-16,
+      "player": "Jaden McDaniels",
+      "statistic": "threes",
+      "variance_error": 3.1086244689504383e-15
+    },
+    {
+      "independent_positive_mean": 2.5511170188303587,
+      "independent_positive_variance": 11.727717545442005,
+      "mean_error": 1.3322676295501878e-15,
+      "player": "Cody Williams",
+      "statistic": "points",
+      "variance_error": 1.0658141036401503e-14
+    },
+    {
+      "independent_positive_mean": 1.2072307645014126,
+      "independent_positive_variance": 3.3089885288574643,
+      "mean_error": 6.661338147750939e-16,
+      "player": "Cody Williams",
+      "statistic": "rebounds",
+      "variance_error": 2.6645352591003757e-15
+    },
+    {
+      "independent_positive_mean": 0.4773872441177601,
+      "independent_positive_variance": 0.8272865101018094,
+      "mean_error": 2.7755575615628914e-16,
+      "player": "Cody Williams",
+      "statistic": "assists",
+      "variance_error": 6.661338147750939e-16
+    },
+    {
+      "independent_positive_mean": 0.30184008292101766,
+      "independent_positive_variance": 0.44988912874934217,
+      "mean_error": 1.6653345369377348e-16,
+      "player": "Cody Williams",
+      "statistic": "threes",
+      "variance_error": 2.220446049250313e-16
+    },
+    {
+      "independent_positive_mean": 14.967159760537344,
+      "independent_positive_variance": 25.57807322258708,
+      "mean_error": 4.618527782440651e-14,
+      "player": "Cameron Boozer",
+      "statistic": "points",
+      "variance_error": 1.3109513474773848e-12
+    },
+    {
+      "independent_positive_mean": 7.158243463003692,
+      "independent_positive_variance": 9.81632051233958,
+      "mean_error": 2.220446049250313e-14,
+      "player": "Cameron Boozer",
+      "statistic": "rebounds",
+      "variance_error": 2.913225216616411e-13
+    },
+    {
+      "independent_positive_mean": 3.7541746577708603,
+      "independent_positive_variance": 4.595700388732736,
+      "mean_error": 1.1546319456101628e-14,
+      "player": "Cameron Boozer",
+      "statistic": "assists",
+      "variance_error": 7.460698725481052e-14
+    },
+    {
+      "independent_positive_mean": 1.6375877891255655,
+      "independent_positive_variance": 1.8548097345264067,
+      "mean_error": 5.10702591327572e-15,
+      "player": "Cameron Boozer",
+      "statistic": "threes",
+      "variance_error": 1.199040866595169e-14
+    },
+    {
+      "independent_positive_mean": 14.501969196388972,
+      "independent_positive_variance": 23.928460393444112,
+      "mean_error": 2.6645352591003757e-14,
+      "player": "Cedric Coward",
+      "statistic": "points",
+      "variance_error": 5.009326287108706e-13
+    },
+    {
+      "independent_positive_mean": 7.329922259574684,
+      "independent_positive_variance": 9.978785463400023,
+      "mean_error": 1.3322676295501878e-14,
+      "player": "Cedric Coward",
+      "statistic": "rebounds",
+      "variance_error": 1.1013412404281553e-13
+    },
+    {
+      "independent_positive_mean": 3.3657030513044237,
+      "independent_positive_variance": 4.045027668709871,
+      "mean_error": 6.217248937900877e-15,
+      "player": "Cedric Coward",
+      "statistic": "assists",
+      "variance_error": 2.1316282072803006e-14
+    },
+    {
+      "independent_positive_mean": 2.0043347734185972,
+      "independent_positive_variance": 2.299070832000112,
+      "mean_error": 3.552713678800501e-15,
+      "player": "Cedric Coward",
+      "statistic": "threes",
+      "variance_error": 5.773159728050814e-15
+    },
+    {
+      "independent_positive_mean": 10.279735778221221,
+      "independent_positive_variance": 26.35372348837228,
+      "mean_error": 7.105427357601002e-15,
+      "player": "Taylor Hendricks",
+      "statistic": "points",
+      "variance_error": 5.684341886080802e-14
+    },
+    {
+      "independent_positive_mean": 4.251579783070154,
+      "independent_positive_variance": 7.1782889230734455,
+      "mean_error": 3.552713678800501e-15,
+      "player": "Taylor Hendricks",
+      "statistic": "rebounds",
+      "variance_error": 1.3322676295501878e-14
+    },
+    {
+      "independent_positive_mean": 1.5129768887951527,
+      "independent_positive_variance": 1.9528627248821295,
+      "mean_error": 1.1102230246251565e-15,
+      "player": "Taylor Hendricks",
+      "statistic": "assists",
+      "variance_error": 8.881784197001252e-16
+    },
+    {
+      "independent_positive_mean": 1.1534161373571612,
+      "independent_positive_variance": 1.428545613635348,
+      "mean_error": 8.881784197001252e-16,
+      "player": "Taylor Hendricks",
+      "statistic": "threes",
+      "variance_error": 2.220446049250313e-16
+    },
+    {
+      "independent_positive_mean": 2.065869033269284,
+      "independent_positive_variance": 9.812113510388617,
+      "mean_error": 4.440892098500626e-16,
+      "player": "Kris Murray",
+      "statistic": "points",
+      "variance_error": 1.7763568394002505e-15
+    },
+    {
+      "independent_positive_mean": 0.9754289726699168,
+      "independent_positive_variance": 2.7319779346974715,
+      "mean_error": 1.1102230246251565e-16,
+      "player": "Kris Murray",
+      "statistic": "rebounds",
+      "variance_error": 0.0
+    },
+    {
+      "independent_positive_mean": 0.46211008588966745,
+      "independent_positive_variance": 0.8703350272568428,
+      "mean_error": 5.551115123125783e-17,
+      "player": "Kris Murray",
+      "statistic": "assists",
+      "variance_error": 1.1102230246251565e-16
+    },
+    {
+      "independent_positive_mean": 0.26397942059292323,
+      "independent_positive_variance": 0.40370222479501616,
+      "mean_error": 5.551115123125783e-17,
+      "player": "Kris Murray",
+      "statistic": "threes",
+      "variance_error": 5.551115123125783e-17
+    },
+    {
+      "independent_positive_mean": 7.682927708883257,
+      "independent_positive_variance": 22.215500523176438,
+      "mean_error": 0.0,
+      "player": "Olivier-Maxence Prosper",
+      "statistic": "points",
+      "variance_error": 1.4210854715202004e-14
+    },
+    {
+      "independent_positive_mean": 2.985240653825492,
+      "independent_positive_variance": 5.319530484097712,
+      "mean_error": 0.0,
+      "player": "Olivier-Maxence Prosper",
+      "statistic": "rebounds",
+      "variance_error": 3.552713678800501e-15
+    },
+    {
+      "independent_positive_mean": 1.2077397542237205,
+      "independent_positive_variance": 1.6450580695284938,
+      "mean_error": 0.0,
+      "player": "Olivier-Maxence Prosper",
+      "statistic": "assists",
+      "variance_error": 0.0
+    },
+    {
+      "independent_positive_mean": 0.7916816155057953,
+      "independent_positive_variance": 1.0005456079242734,
+      "mean_error": 0.0,
+      "player": "Olivier-Maxence Prosper",
+      "statistic": "threes",
+      "variance_error": 0.0
+    },
+    {
+      "independent_positive_mean": 15.479450428796014,
+      "independent_positive_variance": 30.673456146141262,
+      "mean_error": 8.881784197001252e-15,
+      "player": "Cam Spencer",
+      "statistic": "points",
+      "variance_error": 4.476419235288631e-13
+    },
+    {
+      "independent_positive_mean": 3.5794107111363767,
+      "independent_positive_variance": 4.594732755809751,
+      "mean_error": 2.220446049250313e-15,
+      "player": "Cam Spencer",
+      "statistic": "rebounds",
+      "variance_error": 2.5757174171303632e-14
+    },
+    {
+      "independent_positive_mean": 6.224174403485909,
+      "independent_positive_variance": 8.955118604498551,
+      "mean_error": 3.552713678800501e-15,
+      "player": "Cam Spencer",
+      "statistic": "assists",
+      "variance_error": 7.460698725481052e-14
+    },
+    {
+      "independent_positive_mean": 2.423110429839814,
+      "independent_positive_variance": 2.946120571619546,
+      "mean_error": 1.3322676295501878e-15,
+      "player": "Cam Spencer",
+      "statistic": "threes",
+      "variance_error": 9.769962616701378e-15
+    },
+    {
+      "independent_positive_mean": 10.572439078266072,
+      "independent_positive_variance": 19.181755959838185,
+      "mean_error": 1.5987211554602254e-14,
+      "player": "Jaylen Wells",
+      "statistic": "points",
+      "variance_error": 2.8066438062523957e-13
+    },
+    {
+      "independent_positive_mean": 3.6877729037050786,
+      "independent_positive_variance": 4.8905283521518985,
+      "mean_error": 6.217248937900877e-15,
+      "player": "Jaylen Wells",
+      "statistic": "rebounds",
+      "variance_error": 2.7533531010703882e-14
+    },
+    {
+      "independent_positive_mean": 1.9081620861453603,
+      "independent_positive_variance": 2.289718536592883,
+      "mean_error": 3.3306690738754696e-15,
+      "player": "Jaylen Wells",
+      "statistic": "assists",
+      "variance_error": 5.773159728050814e-15
+    },
+    {
+      "independent_positive_mean": 1.7197302559945948,
+      "independent_positive_variance": 2.0406303329653777,
+      "mean_error": 2.886579864025407e-15,
+      "player": "Jaylen Wells",
+      "statistic": "threes",
+      "variance_error": 4.440892098500626e-15
+    }
+  ],
+  "candidate_raw_sha256": "e70d899f8a37bb4fed7e22e97cd4386e3bea48c001ac4c8a67fc1600247c967a",
+  "completed_at": "2026-11-20T03:30:19.926744+00:00",
+  "errors": 0,
+  "failures": 0,
+  "honest_scipy_analytic_reference_failures": [
+    {
+      "count": 100,
+      "player": "Cody Williams",
+      "reason": "FULL_S_ANALYTIC_REFERENCE_UNRESOLVED",
+      "statistic": "points"
+    },
+    {
+      "count": 100,
+      "player": "Kris Murray",
+      "reason": "FULL_S_ANALYTIC_REFERENCE_UNRESOLVED",
+      "statistic": "points"
+    }
+  ],
+  "independent_query_checks": [
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.734723475976807e-18,
+      "actual": 0.010006176157272851,
+      "count": 0,
+      "error_estimate": 1.5068725196267827e-15,
+      "independent_quad": 0.010006176157272853,
+      "player": "LaMelo Ball",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.9651164376299768e-19,
+      "actual": 4.5559291566840904e-05,
+      "count": 1,
+      "error_estimate": 1.748436929990542e-14,
+      "independent_quad": 4.555929156684071e-05,
+      "player": "LaMelo Ball",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 9.540979117872439e-18,
+      "actual": 0.0027217524281168796,
+      "count": 5,
+      "error_estimate": 3.213673870658403e-13,
+      "independent_quad": 0.00272175242811687,
+      "player": "LaMelo Ball",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 8.673617379884035e-17,
+      "actual": 0.02556044487764085,
+      "count": 10,
+      "error_estimate": 8.0856347995652e-14,
+      "independent_quad": 0.025560444877640764,
+      "player": "LaMelo Ball",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.8163916471489756e-17,
+      "actual": 0.010183748534018919,
+      "count": 30,
+      "error_estimate": 1.3017442401311498e-13,
+      "independent_quad": 0.01018374853401888,
+      "player": "LaMelo Ball",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 6.841134274056788e-29,
+      "actual": 5.9363988857489045e-18,
+      "count": 100,
+      "error_estimate": 3.4278793627778987e-19,
+      "independent_quad": 5.936398885817316e-18,
+      "player": "LaMelo Ball",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 5.551115123125783e-17,
+      "actual": 0.026983174099108866,
+      "count": 0,
+      "error_estimate": 8.165167162722506e-15,
+      "independent_quad": 0.02698317409910881,
+      "player": "LaMelo Ball",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.942890293094024e-16,
+      "actual": 0.06045200634329719,
+      "count": 1,
+      "error_estimate": 5.361772046699572e-14,
+      "independent_quad": 0.060452006343297,
+      "player": "LaMelo Ball",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 4.163336342344337e-16,
+      "actual": 0.15154838615413688,
+      "count": 5,
+      "error_estimate": 5.598014231514688e-14,
+      "independent_quad": 0.15154838615413646,
+      "player": "LaMelo Ball",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 6.938893903907228e-18,
+      "actual": 0.017133988939280025,
+      "count": 10,
+      "error_estimate": 8.179943603572491e-13,
+      "independent_quad": 0.01713398893928003,
+      "player": "LaMelo Ball",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 4.817680833267829e-24,
+      "actual": 2.4505686407152352e-11,
+      "count": 30,
+      "error_estimate": 2.9635855950118756e-15,
+      "independent_quad": 2.4505686407147534e-11,
+      "player": "LaMelo Ball",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.9370662922775e-47,
+      "actual": 1.089559658779387e-43,
+      "count": 100,
+      "error_estimate": 7.501719318918854e-43,
+      "independent_quad": 1.0899533654086148e-43,
+      "player": "LaMelo Ball",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 4.5102810375396984e-17,
+      "actual": 0.02475462948415533,
+      "count": 0,
+      "error_estimate": 6.1760657680225215e-15,
+      "independent_quad": 0.024754629484155286,
+      "player": "LaMelo Ball",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.8041124150158794e-16,
+      "actual": 0.05408704876260601,
+      "count": 1,
+      "error_estimate": 6.381153669422961e-14,
+      "independent_quad": 0.05408704876260583,
+      "player": "LaMelo Ball",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.608224830031759e-16,
+      "actual": 0.15291141810725287,
+      "count": 5,
+      "error_estimate": 2.819995193920864e-14,
+      "independent_quad": 0.1529114181072525,
+      "player": "LaMelo Ball",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.5265566588595902e-16,
+      "actual": 0.02010749254063621,
+      "count": 10,
+      "error_estimate": 4.439827363335502e-13,
+      "independent_quad": 0.020107492540636058,
+      "player": "LaMelo Ball",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.192400176571841e-24,
+      "actual": 4.9338218897246933e-11,
+      "count": 30,
+      "error_estimate": 5.000621389924602e-15,
+      "independent_quad": 4.9338218897250126e-11,
+      "player": "LaMelo Ball",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.6354492184644516e-46,
+      "actual": 5.850428516614274e-43,
+      "count": 100,
+      "error_estimate": 3.789970338590379e-42,
+      "independent_quad": 5.852063965832739e-43,
+      "player": "LaMelo Ball",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.8041124150158794e-16,
+      "actual": 0.06467198803328914,
+      "count": 0,
+      "error_estimate": 1.4398970043072728e-15,
+      "independent_quad": 0.06467198803328895,
+      "player": "LaMelo Ball",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 4.996003610813204e-16,
+      "actual": 0.14361555042467758,
+      "count": 1,
+      "error_estimate": 5.847552360311993e-14,
+      "independent_quad": 0.14361555042467708,
+      "player": "LaMelo Ball",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 6.38378239159465e-16,
+      "actual": 0.10666457892731386,
+      "count": 5,
+      "error_estimate": 4.4803030489115267e-13,
+      "independent_quad": 0.10666457892731322,
+      "player": "LaMelo Ball",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.903127820947816e-18,
+      "actual": 0.002726737517380239,
+      "count": 10,
+      "error_estimate": 6.30200328162813e-13,
+      "independent_quad": 0.0027267375173802427,
+      "player": "LaMelo Ball",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.5029377966270717e-26,
+      "actual": 2.4296714586099065e-14,
+      "count": 30,
+      "error_estimate": 1.0051803598841883e-17,
+      "independent_quad": 2.4296714586114094e-14,
+      "player": "LaMelo Ball",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.334633731393771e-53,
+      "actual": 1.343059125569161e-50,
+      "count": 100,
+      "error_estimate": 1.5157500633015087e-49,
+      "independent_quad": 1.3463937593005547e-50,
+      "player": "LaMelo Ball",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 4.488076577047195e-12,
+      "actual": 0.38533423829197455,
+      "count": 0,
+      "error_estimate": 6.299500083826707e-13,
+      "independent_quad": 0.3853342382874865,
+      "player": "Cody Williams",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.1835532554016481e-12,
+      "actual": 0.16330116489693414,
+      "count": 1,
+      "error_estimate": 1.4536318973581297e-13,
+      "independent_quad": 0.1633011648981177,
+      "player": "Cody Williams",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.398253900499526e-13,
+      "actual": 0.04636924135882103,
+      "count": 5,
+      "error_estimate": 2.8211222785465787e-13,
+      "independent_quad": 0.04636924135916085,
+      "player": "Cody Williams",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.0052722543285597e-13,
+      "actual": 0.013721975337140127,
+      "count": 10,
+      "error_estimate": 2.316102373075555e-13,
+      "independent_quad": 0.013721975337240655,
+      "player": "Cody Williams",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.515694950873699e-17,
+      "actual": 4.793678615521845e-06,
+      "count": 30,
+      "error_estimate": 6.3548691532988664e-15,
+      "independent_quad": 4.793678615557002e-06,
+      "player": "Cody Williams",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.7844830764947746e-35,
+      "actual": 7.797833487061793e-25,
+      "count": 100,
+      "error_estimate": 1.9004460359621232e-28,
+      "independent_quad": 7.797833487240242e-25,
+      "player": "Cody Williams",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.494204925402755e-12,
+      "actual": 0.5219697488026303,
+      "count": 0,
+      "error_estimate": 1.1841913218615504e-13,
+      "independent_quad": 0.521969748799136,
+      "player": "Cody Williams",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.4180878693537124e-12,
+      "actual": 0.1945048997024643,
+      "count": 1,
+      "error_estimate": 1.9780877544793856e-14,
+      "independent_quad": 0.19450489970388238,
+      "player": "Cody Williams",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.914232661270887e-13,
+      "actual": 0.026126045283959957,
+      "count": 5,
+      "error_estimate": 2.0909845088707437e-13,
+      "independent_quad": 0.02612604528415138,
+      "player": "Cody Williams",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.329036707076181e-14,
+      "actual": 0.0018134033846626107,
+      "count": 10,
+      "error_estimate": 2.964558874763278e-15,
+      "independent_quad": 0.001813403384675901,
+      "player": "Cody Williams",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.1629642424612723e-21,
+      "actual": 1.5848914833633126e-10,
+      "count": 30,
+      "error_estimate": 2.7764640736409177e-19,
+      "independent_quad": 1.5848914833749423e-10,
+      "player": "Cody Williams",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.9507161476443166e-42,
+      "actual": 6.278009662657713e-36,
+      "count": 100,
+      "error_estimate": 9.64829179120011e-39,
+      "independent_quad": 6.27801161337386e-36,
+      "player": "Cody Williams",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 2.149835864884153e-12,
+      "actual": 0.7061306180085828,
+      "count": 0,
+      "error_estimate": 1.075646840685054e-14,
+      "independent_quad": 0.706130618006433,
+      "player": "Cody Williams",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.338457122912473e-12,
+      "actual": 0.18304069721481556,
+      "count": 1,
+      "error_estimate": 1.0206373574977556e-14,
+      "independent_quad": 0.183040697216154,
+      "player": "Cody Williams",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 2.7956803538842223e-14,
+      "actual": 0.0038149382859455246,
+      "count": 5,
+      "error_estimate": 1.907731619835158e-13,
+      "independent_quad": 0.0038149382859734814,
+      "player": "Cody Williams",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.3233365141543385e-16,
+      "actual": 1.8056437728965513e-05,
+      "count": 10,
+      "error_estimate": 7.620360255798483e-16,
+      "independent_quad": 1.8056437729097846e-05,
+      "player": "Cody Williams",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.2018788929107878e-27,
+      "actual": 1.6372172613075557e-16,
+      "count": 30,
+      "error_estimate": 5.767825268296566e-25,
+      "independent_quad": 1.6372172613195745e-16,
+      "player": "Cody Williams",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 5.688095146012379e-52,
+      "actual": 1.7098051148475456e-47,
+      "count": 100,
+      "error_estimate": 6.72121657364025e-50,
+      "independent_quad": 1.7098619957990057e-47,
+      "player": "Cody Williams",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.567412866165796e-12,
+      "actual": 0.7857566739163853,
+      "count": 0,
+      "error_estimate": 9.255103251219402e-15,
+      "independent_quad": 0.7857566739148178,
+      "player": "Cody Williams",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.12626574733099e-12,
+      "actual": 0.15395823995556823,
+      "count": 1,
+      "error_estimate": 9.598063080366832e-16,
+      "independent_quad": 0.1539582399566945,
+      "player": "Cody Williams",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 7.411389210676411e-15,
+      "actual": 0.0010113071732465852,
+      "count": 5,
+      "error_estimate": 7.0256972700103746e-15,
+      "independent_quad": 0.0010113071732539966,
+      "player": "Cody Williams",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 9.759301860027235e-18,
+      "actual": 1.3313966730363235e-06,
+      "count": 10,
+      "error_estimate": 3.8876924585439316e-17,
+      "independent_quad": 1.3313966730460828e-06,
+      "player": "Cody Williams",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.134788022230494e-30,
+      "actual": 4.2688452648558516e-19,
+      "count": 30,
+      "error_estimate": 9.118697171569865e-27,
+      "independent_quad": 4.2688452648871995e-19,
+      "player": "Cody Williams",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 7.650273611368326e-56,
+      "actual": 8.326212738554944e-52,
+      "count": 100,
+      "error_estimate": 4.0778720238986555e-54,
+      "independent_quad": 8.32697776591608e-52,
+      "player": "Cody Williams",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.19264614745407e-11,
+      "actual": 0.47123410169664426,
+      "count": 0,
+      "error_estimate": 6.162463987355523e-13,
+      "independent_quad": 0.4712341016647178,
+      "player": "Kris Murray",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 9.321071692269811e-12,
+      "actual": 0.15465750622678667,
+      "count": 1,
+      "error_estimate": 8.046312850307335e-14,
+      "independent_quad": 0.15465750623610774,
+      "player": "Kris Murray",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 2.29396363016221e-12,
+      "actual": 0.037959497999498756,
+      "count": 5,
+      "error_estimate": 3.6065205927785814e-13,
+      "independent_quad": 0.03795949800179272,
+      "player": "Kris Murray",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 6.46907874490843e-13,
+      "actual": 0.010705251936954228,
+      "count": 10,
+      "error_estimate": 3.938401158143687e-13,
+      "independent_quad": 0.010705251937601136,
+      "player": "Kris Murray",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.1293469109917905e-16,
+      "actual": 1.8689821932737463e-06,
+      "count": 30,
+      "error_estimate": 1.5327962803436839e-15,
+      "independent_quad": 1.868982193386681e-06,
+      "player": "Kris Murray",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.626661229478956e-36,
+      "actual": 8.810472294048479e-27,
+      "count": 100,
+      "error_estimate": 1.8813414709209706e-30,
+      "independent_quad": 8.81047229767514e-27,
+      "player": "Kris Murray",
+      "statistic": "points"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 2.4359736450207947e-11,
+      "actual": 0.5966779079203,
+      "count": 0,
+      "error_estimate": 1.4113726870048102e-13,
+      "independent_quad": 0.5966779078959402,
+      "player": "Kris Murray",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.048455766650136e-11,
+      "actual": 0.17370623056039752,
+      "count": 1,
+      "error_estimate": 2.0617746735296612e-14,
+      "independent_quad": 0.17370623057088208,
+      "player": "Kris Murray",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.2376870361929804e-12,
+      "actual": 0.02048138360202405,
+      "count": 5,
+      "error_estimate": 3.769843423632176e-13,
+      "independent_quad": 0.020481383603261738,
+      "player": "Kris Murray",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 7.530716501780166e-14,
+      "actual": 0.001246188312507171,
+      "count": 10,
+      "error_estimate": 5.208401773150786e-15,
+      "independent_quad": 0.0012461883125824782,
+      "player": "Kris Murray",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.5949722420641622e-21,
+      "actual": 2.6396631877727372e-11,
+      "count": 30,
+      "error_estimate": 1.6329181360721123e-20,
+      "independent_quad": 2.6396631879322344e-11,
+      "player": "Kris Murray",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 2.6739902901672533e-44,
+      "actual": 5.125711168220576e-39,
+      "count": 100,
+      "error_estimate": 5.94079809742367e-42,
+      "independent_quad": 5.125737908123478e-39,
+      "player": "Kris Murray",
+      "statistic": "rebounds"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.649713698981259e-11,
+      "actual": 0.7269018766288661,
+      "count": 0,
+      "error_estimate": 1.745393547743896e-14,
+      "independent_quad": 0.7269018766123689,
+      "player": "Kris Murray",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 9.896278241328105e-12,
+      "actual": 0.16386540794673246,
+      "count": 1,
+      "error_estimate": 4.9243498412301126e-14,
+      "independent_quad": 0.16386540795662874,
+      "player": "Kris Murray",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 2.716941255309635e-13,
+      "actual": 0.004496024422411029,
+      "count": 5,
+      "error_estimate": 4.681141504052331e-16,
+      "independent_quad": 0.004496024422682723,
+      "player": "Kris Murray",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.6631593563291858e-15,
+      "actual": 2.7522126065809855e-05,
+      "count": 10,
+      "error_estimate": 9.763397274714696e-15,
+      "independent_quad": 2.7522126067473015e-05,
+      "player": "Kris Murray",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 8.607705071125647e-27,
+      "actual": 1.4245499647019703e-16,
+      "count": 30,
+      "error_estimate": 7.3398476593071525e-25,
+      "independent_quad": 1.4245499647880473e-16,
+      "player": "Kris Murray",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 2.0946583892491816e-53,
+      "actual": 9.037543361603504e-50,
+      "count": 100,
+      "error_estimate": 2.2308941818868665e-52,
+      "independent_quad": 9.039638019992753e-50,
+      "player": "Kris Murray",
+      "statistic": "assists"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 1.1313172620930345e-11,
+      "actual": 0.8127237248625623,
+      "count": 0,
+      "error_estimate": 1.2555321034079478e-14,
+      "independent_quad": 0.8127237248512491,
+      "player": "Kris Murray",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 8.127498674070921e-12,
+      "actual": 0.13455139440730304,
+      "count": 1,
+      "error_estimate": 1.1319000901071968e-15,
+      "independent_quad": 0.13455139441543054,
+      "player": "Kris Murray",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 5.3553949469486994e-14,
+      "actual": 0.0008862019147996422,
+      "count": 5,
+      "error_estimate": 1.465857677857738e-14,
+      "independent_quad": 0.0008862019148531961,
+      "player": "Kris Murray",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 5.79643704047431e-17,
+      "actual": 9.591862809047443e-07,
+      "count": 10,
+      "error_estimate": 8.23336955518569e-17,
+      "independent_quad": 9.591862809627087e-07,
+      "player": "Kris Murray",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 2.2719473330207076e-30,
+      "actual": 3.760012535095279e-20,
+      "count": 30,
+      "error_estimate": 1.3067772478558516e-27,
+      "independent_quad": 3.760012535322474e-20,
+      "player": "Kris Murray",
+      "statistic": "threes"
+    },
+    {
+      "OT_tail_bound": 1.9886580679250485e-37,
+      "absolute_difference": 3.3478461554250793e-59,
+      "actual": 3.945416899607188e-56,
+      "count": 100,
+      "error_estimate": 1.2962373495542277e-58,
+      "independent_quad": 3.948764745762613e-56,
+      "player": "Kris Murray",
+      "statistic": "threes"
+    }
+  ],
+  "mutation_controls": [
+    {
+      "mutation": "duplicate_action_id",
+      "rejected": "PBP_DUPLICATE_ACTION_ID"
+    },
+    {
+      "mutation": "wrong_game",
+      "rejected": "PBP_GAME_IDENTITY"
+    },
+    {
+      "mutation": "backwards_clock",
+      "rejected": "PBP_CLOCK_SUPPORT"
+    },
+    {
+      "mutation": "actor_team",
+      "rejected": "PBP_ACTOR_TEAM"
+    },
+    {
+      "mutation": "bad_final",
+      "rejected": "PBP_FINAL_SCORE"
+    },
+    {
+      "mutation": "card_bytes",
+      "rejected": "FULL_MODEL_CARD_BYTES"
+    },
+    {
+      "mutation": "protocol_bytes",
+      "rejected": "FULL_PROTOCOL_BYTES"
+    },
+    {
+      "mutation": "population_bytes",
+      "rejected": "FULL_PBP_POPULATION_BYTES"
+    },
+    {
+      "mutation": "drop_population",
+      "rejected": "FULL_PBP_POPULATION_BYTES"
+    },
+    {
+      "mutation": "reseal_population",
+      "rejected": "FULL_PBP_POPULATION_BYTES"
+    }
+  ],
+  "native_fit_in_memory_exact_byte_verification_replays": 4,
+  "new_fit_artifacts_created": 0,
+  "own_public_replay": {
+    "computed_completed_at": "2026-11-20T03:30:16.522672+00:00",
+    "computed_started_at": "2026-11-20T03:29:35.598681+00:00",
+    "payload_sha256": "189d62e45583da8c7b7b5b019e153110506cf47c858aa69e286138047c49db8e"
+  },
+  "rare_queries": [
+    {
+      "count": 100,
+      "estimated_log_quadrature_difference": 1.0224709967587842e-10,
+      "exact_structural_zero": false,
+      "log_probability": -117.6149242436036,
+      "numerical_difference_is_rigorous_bound": false,
+      "numerical_status": "RESOLVED",
+      "omitted_OT_relative_probability_bound": 3.409522421065246e-64,
+      "ot_terms": 128
+    },
+    {
+      "count": 1000,
+      "estimated_log_quadrature_difference": 1.0226131053059362e-10,
+      "exact_structural_zero": false,
+      "log_probability": -509.362390163692,
+      "numerical_difference_is_rigorous_bound": false,
+      "numerical_status": "RESOLVED",
+      "omitted_OT_relative_probability_bound": 9.49574581962951e-234,
+      "ot_terms": 512
+    },
+    {
+      "count": 10000,
+      "status": "UNRESOLVED_NO_SCORE"
+    },
+    {
+      "count": 1000000,
+      "status": "UNRESOLVED_NO_SCORE"
+    }
+  ],
+  "reviewed_checkout": "ce08e5ccc1f533cc0050ed33c98eefda302b9b44",
+  "scoring_calls": 0,
+  "source_evidence": {
+    "actions": 10463,
+    "event_credit_reconciled_fields": 14,
+    "exact_end_or_complete_lineup_claimed": false,
+    "games": 20,
+    "payload_sha256": "b7100e9a316c9ac5d38196b2b8332d7362f8c46e871611ccf00f2b142b8cba89"
+  },
+  "source_sha256": {
+    "full_played_s_v1.py": "8f3620b692a242bc6751e37ff34ee66cff7e26b00fc82087a26197336a3c3a5d",
+    "full_predictive_candidate_v1.py": "9e44fbf0e1559d6080d8dabf269d31f5306424a210cef44a6f06f246914fcfed",
+    "pbp_evidence_v1.py": "2fdb7ca21017fe567115cc4316f6b8109d52af9b908ffb0a6b177b585874c2f1"
+  },
+  "started_at": "2026-11-20T03:29:06.398501+00:00",
+  "test_methods": 6
+}

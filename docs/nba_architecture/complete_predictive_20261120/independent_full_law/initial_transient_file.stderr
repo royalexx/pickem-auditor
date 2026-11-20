@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/complete_predictive_20261120/independent_full_law/review_probe.py", line 17, in <module>
+    SAVED=json.loads((P/'FULL_S_CANDIDATE.json').read_bytes());PARENT=json.loads((OLD/'forecast.json').read_bytes());RESULT={}
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/workspace/pickem-auditor/docs/nba_architecture/complete_predictive_20261120/FULL_S_CANDIDATE.json'

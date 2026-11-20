@@ -1,0 +1,20 @@
+test_01_exact_sources_counts_clocks_and_scope (__main__.Review.test_01_exact_sources_counts_clocks_and_scope) ... ok
+test_02_all56_moments_and_prior_sensitivity (__main__.Review.test_02_all56_moments_and_prior_sensitivity) ... ok
+test_03_low_and_high_exposure_independent_adaptive_quad (__main__.Review.test_03_low_and_high_exposure_independent_adaptive_quad) ... ERROR
+test_04_actual_public_builder_replay (__main__.Review.test_04_actual_public_builder_replay) ... ok
+test_05_source_and_scope_mutations (__main__.Review.test_05_source_and_scope_mutations) ... ok
+test_06_parameter_domains_structural_zero_and_rare_tail_failure (__main__.Review.test_06_parameter_domains_structural_zero_and_rare_tail_failure) ... ok
+
+======================================================================
+ERROR: test_03_low_and_high_exposure_independent_adaptive_quad (__main__.Review.test_03_low_and_high_exposure_independent_adaptive_quad)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/complete_predictive_20261120/independent_full_law/review_probe.py", line 104, in test_03_low_and_high_exposure_independent_adaptive_quad
+    checks.append(dict(player=row['name'],statistic=row['statistic'],count=k,actual=actual['probabilities'][i],independent_quad=expected,absolute_difference=difference,error_estimate=error,OT_tail_bound=tail))
+                                                                                                                                                                                       ^^^^^
+UnboundLocalError: cannot access local variable 'error' where it is not associated with a value
+
+----------------------------------------------------------------------
+Ran 6 tests in 58.718s
+
+FAILED (errors=1)

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/complete_predictive_20261120/independent_full_law/review_probe.py", line 6, in <module>
+    from v2.nba_s_family import model as native
+ModuleNotFoundError: No module named 'v2'

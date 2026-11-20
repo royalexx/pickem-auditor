@@ -1,0 +1,11 @@
+test_01_exact_sources_counts_clocks_and_scope (__main__.Review.test_01_exact_sources_counts_clocks_and_scope) ... ok
+test_02_all56_moments_and_prior_sensitivity (__main__.Review.test_02_all56_moments_and_prior_sensitivity) ... ok
+test_03_low_and_high_exposure_independent_adaptive_quad (__main__.Review.test_03_low_and_high_exposure_independent_adaptive_quad) ... ok
+test_04_actual_public_builder_replay (__main__.Review.test_04_actual_public_builder_replay) ... ok
+test_05_source_and_scope_mutations (__main__.Review.test_05_source_and_scope_mutations) ... ok
+test_06_parameter_domains_structural_zero_and_rare_tail_failure (__main__.Review.test_06_parameter_domains_structural_zero_and_rare_tail_failure) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 73.523s
+
+OK
