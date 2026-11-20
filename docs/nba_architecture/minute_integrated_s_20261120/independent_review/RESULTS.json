@@ -1,0 +1,1182 @@
+{
+  "all56_independent_moments": [
+    {
+      "excluded_sub30_probability": 1.5543122344752192e-15,
+      "independent_integrated_mean": 18.480771744954506,
+      "independent_integrated_variance": 33.58703186061382,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553312e-13,
+      "ordinary_conditional_minutes": 29.68333333332664,
+      "ordinary_probability": 0.9999999999998447,
+      "original_fixed_minutes": 29.68333333332209,
+      "player_id": "espn:player:4432816",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 1.5543122344752192e-15,
+      "independent_integrated_mean": 4.611840385378056,
+      "independent_integrated_variance": 5.78138460012951,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553312e-13,
+      "ordinary_conditional_minutes": 29.68333333332664,
+      "ordinary_probability": 0.9999999999998447,
+      "original_fixed_minutes": 29.68333333332209,
+      "player_id": "espn:player:4432816",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 1.5543122344752192e-15,
+      "independent_integrated_mean": 4.790085274266586,
+      "independent_integrated_variance": 6.039541206189057,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553312e-13,
+      "ordinary_conditional_minutes": 29.68333333332664,
+      "ordinary_probability": 0.9999999999998447,
+      "original_fixed_minutes": 29.68333333332209,
+      "player_id": "espn:player:4432816",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 1.5543122344752192e-15,
+      "independent_integrated_mean": 3.186534491406482,
+      "independent_integrated_variance": 3.809991400665991,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553312e-13,
+      "ordinary_conditional_minutes": 29.68333333332664,
+      "ordinary_probability": 0.9999999999998447,
+      "original_fixed_minutes": 29.68333333332209,
+      "player_id": "espn:player:4432816",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 6.762479490574069e-05,
+      "independent_integrated_mean": 5.69589655304491,
+      "independent_integrated_variance": 12.619659164421599,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5399834762220719e-13,
+      "ordinary_conditional_minutes": 15.784375491713691,
+      "ordinary_probability": 0.9999323752049372,
+      "original_fixed_minutes": 15.783333333327356,
+      "player_id": "espn:player:5279133",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 6.762479490574069e-05,
+      "independent_integrated_mean": 4.174842764851232,
+      "independent_integrated_variance": 7.953553991850175,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5399834762220719e-13,
+      "ordinary_conditional_minutes": 15.784375491713691,
+      "ordinary_probability": 0.9999323752049372,
+      "original_fixed_minutes": 15.783333333327356,
+      "player_id": "espn:player:5279133",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 6.762479490574069e-05,
+      "independent_integrated_mean": 0.8715907398762137,
+      "independent_integrated_variance": 1.0728429865358826,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5399834762220719e-13,
+      "ordinary_conditional_minutes": 15.784375491713691,
+      "ordinary_probability": 0.9999323752049372,
+      "original_fixed_minutes": 15.783333333327356,
+      "player_id": "espn:player:5279133",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 6.762479490574069e-05,
+      "independent_integrated_mean": 0.4444554672849333,
+      "independent_integrated_variance": 0.5083332783696329,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5399834762220719e-13,
+      "ordinary_conditional_minutes": 15.784375491713691,
+      "ordinary_probability": 0.9999323752049372,
+      "original_fixed_minutes": 15.783333333327356,
+      "player_id": "espn:player:5279133",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 1.3322676295501878e-15,
+      "independent_integrated_mean": 17.70040956883345,
+      "independent_integrated_variance": 31.344698297782543,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553276e-13,
+      "ordinary_conditional_minutes": 29.8666666666599,
+      "ordinary_probability": 0.999999999999847,
+      "original_fixed_minutes": 29.86666666665535,
+      "player_id": "espn:player:4397002",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 1.3322676295501878e-15,
+      "independent_integrated_mean": 4.211392836010749,
+      "independent_integrated_variance": 5.176617703758669,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553276e-13,
+      "ordinary_conditional_minutes": 29.8666666666599,
+      "ordinary_probability": 0.999999999999847,
+      "original_fixed_minutes": 29.86666666665535,
+      "player_id": "espn:player:4397002",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 1.3322676295501878e-15,
+      "independent_integrated_mean": 3.387810692107341,
+      "independent_integrated_variance": 4.05223745144192,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553276e-13,
+      "ordinary_conditional_minutes": 29.8666666666599,
+      "ordinary_probability": 0.999999999999847,
+      "original_fixed_minutes": 29.86666666665535,
+      "player_id": "espn:player:4397002",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 1.3322676295501878e-15,
+      "independent_integrated_mean": 2.1936161563934204,
+      "independent_integrated_variance": 2.518643838735488,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553276e-13,
+      "ordinary_conditional_minutes": 29.8666666666599,
+      "ordinary_probability": 0.999999999999847,
+      "original_fixed_minutes": 29.86666666665535,
+      "player_id": "espn:player:4397002",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 2.4354764856071576e-05,
+      "independent_integrated_mean": 10.7298677204579,
+      "independent_integrated_variance": 32.30605904650331,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5399168394678514e-13,
+      "ordinary_conditional_minutes": 16.717064508559137,
+      "ordinary_probability": 0.9999756452349905,
+      "original_fixed_minutes": 16.71666666666033,
+      "player_id": "espn:player:4592492",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 2.4354764856071576e-05,
+      "independent_integrated_mean": 1.8456232978830733,
+      "independent_integrated_variance": 2.5727817220813534,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5399168394678514e-13,
+      "ordinary_conditional_minutes": 16.717064508559137,
+      "ordinary_probability": 0.9999756452349905,
+      "original_fixed_minutes": 16.71666666666033,
+      "player_id": "espn:player:4592492",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 2.4354764856071576e-05,
+      "independent_integrated_mean": 3.0088900028753183,
+      "independent_integrated_variance": 4.8313629772190545,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5399168394678514e-13,
+      "ordinary_conditional_minutes": 16.717064508559137,
+      "ordinary_probability": 0.9999756452349905,
+      "original_fixed_minutes": 16.71666666666033,
+      "player_id": "espn:player:4592492",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 2.4354764856071576e-05,
+      "independent_integrated_mean": 1.6963916222851534,
+      "independent_integrated_variance": 2.3186818648711345,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5399168394678514e-13,
+      "ordinary_conditional_minutes": 16.717064508559137,
+      "ordinary_probability": 0.9999756452349905,
+      "original_fixed_minutes": 16.71666666666033,
+      "player_id": "espn:player:4592492",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 1.1655455426362593e-06,
+      "independent_integrated_mean": 7.674091150444731,
+      "independent_integrated_variance": 16.06748480318325,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398811299569122e-13,
+      "ordinary_conditional_minutes": 19.400022144992676,
+      "ordinary_probability": 0.9999988344543062,
+      "original_fixed_minutes": 19.399999999992648,
+      "player_id": "espn:player:3136196",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 1.1655455426362593e-06,
+      "independent_integrated_mean": 3.785624418739318,
+      "independent_integrated_variance": 5.9366626178876984,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398811299569122e-13,
+      "ordinary_conditional_minutes": 19.400022144992676,
+      "ordinary_probability": 0.9999988344543062,
+      "original_fixed_minutes": 19.399999999992648,
+      "player_id": "espn:player:3136196",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 1.1655455426362593e-06,
+      "independent_integrated_mean": 1.3269182530917443,
+      "independent_integrated_variance": 1.6399683884279492,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398811299569122e-13,
+      "ordinary_conditional_minutes": 19.400022144992676,
+      "ordinary_probability": 0.9999988344543062,
+      "original_fixed_minutes": 19.399999999992648,
+      "player_id": "espn:player:3136196",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 1.1655455426362593e-06,
+      "independent_integrated_mean": 0.9843235249940363,
+      "independent_integrated_variance": 1.1709725851101243,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398811299569122e-13,
+      "ordinary_conditional_minutes": 19.400022144992676,
+      "ordinary_probability": 0.9999988344543062,
+      "original_fixed_minutes": 19.399999999992648,
+      "player_id": "espn:player:3136196",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 2.220446049250313e-16,
+      "independent_integrated_mean": 16.19667022371919,
+      "independent_integrated_variance": 26.04438406681453,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553271e-13,
+      "ordinary_conditional_minutes": 32.683333333325905,
+      "ordinary_probability": 0.9999999999998475,
+      "original_fixed_minutes": 32.68333333332095,
+      "player_id": "espn:player:4431671",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 2.220446049250313e-16,
+      "independent_integrated_mean": 5.979177623850579,
+      "independent_integrated_variance": 7.566017485438138,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553271e-13,
+      "ordinary_conditional_minutes": 32.683333333325905,
+      "ordinary_probability": 0.9999999999998475,
+      "original_fixed_minutes": 32.68333333332095,
+      "player_id": "espn:player:4431671",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 2.220446049250313e-16,
+      "independent_integrated_mean": 3.5038441278375188,
+      "independent_integrated_variance": 4.142914284311816,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553271e-13,
+      "ordinary_conditional_minutes": 32.683333333325905,
+      "ordinary_probability": 0.9999999999998475,
+      "original_fixed_minutes": 32.68333333332095,
+      "player_id": "espn:player:4431671",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 2.220446049250313e-16,
+      "independent_integrated_mean": 1.4395226027379,
+      "independent_integrated_variance": 1.6024334734002745,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553271e-13,
+      "ordinary_conditional_minutes": 32.683333333325905,
+      "ordinary_probability": 0.9999999999998475,
+      "original_fixed_minutes": 32.68333333332095,
+      "player_id": "espn:player:4431671",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 0.1998955526578834,
+      "independent_integrated_mean": 3.1727643238119776,
+      "independent_integrated_variance": 12.707940069343044,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.9245978950257622e-13,
+      "ordinary_conditional_minutes": 8.228992942150846,
+      "ordinary_probability": 0.8001044473419626,
+      "original_fixed_minutes": 6.61666666666416,
+      "player_id": "espn:player:4895758",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 0.1998955526578834,
+      "independent_integrated_mean": 1.5014045502210818,
+      "independent_integrated_variance": 3.6951478344279916,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.9245978950257622e-13,
+      "ordinary_conditional_minutes": 8.228992942150846,
+      "ordinary_probability": 0.8001044473419626,
+      "original_fixed_minutes": 6.61666666666416,
+      "player_id": "espn:player:4895758",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 0.1998955526578834,
+      "independent_integrated_mean": 0.593715304158875,
+      "independent_integrated_variance": 0.9633030674978299,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.9245978950257622e-13,
+      "ordinary_conditional_minutes": 8.228992942150846,
+      "ordinary_probability": 0.8001044473419626,
+      "original_fixed_minutes": 6.61666666666416,
+      "player_id": "espn:player:4895758",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 0.1998955526578834,
+      "independent_integrated_mean": 0.3753914224708231,
+      "independent_integrated_variance": 0.5333513820844115,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.9245978950257622e-13,
+      "ordinary_conditional_minutes": 8.228992942150846,
+      "ordinary_probability": 0.8001044473419626,
+      "original_fixed_minutes": 6.61666666666416,
+      "player_id": "espn:player:4895758",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 3.9968028886505635e-15,
+      "independent_integrated_mean": 14.967159760533994,
+      "independent_integrated_variance": 25.578073222502894,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553312e-13,
+      "ordinary_conditional_minutes": 28.783333333326983,
+      "ordinary_probability": 0.9999999999998448,
+      "original_fixed_minutes": 28.783333333322435,
+      "player_id": "espn:player:5041935",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 3.9968028886505635e-15,
+      "independent_integrated_mean": 7.158243463002091,
+      "independent_integrated_variance": 9.816320512319301,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553312e-13,
+      "ordinary_conditional_minutes": 28.783333333326983,
+      "ordinary_probability": 0.9999999999998448,
+      "original_fixed_minutes": 28.783333333322435,
+      "player_id": "espn:player:5041935",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 3.9968028886505635e-15,
+      "independent_integrated_mean": 3.75417465777002,
+      "independent_integrated_variance": 4.595700388726675,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553312e-13,
+      "ordinary_conditional_minutes": 28.783333333326983,
+      "ordinary_probability": 0.9999999999998448,
+      "original_fixed_minutes": 28.783333333322435,
+      "player_id": "espn:player:5041935",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 3.9968028886505635e-15,
+      "independent_integrated_mean": 1.637587789125199,
+      "independent_integrated_variance": 1.8548097345250025,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553312e-13,
+      "ordinary_conditional_minutes": 28.783333333326983,
+      "ordinary_probability": 0.9999999999998448,
+      "original_fixed_minutes": 28.783333333322435,
+      "player_id": "espn:player:5041935",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 1.3322676295501878e-15,
+      "independent_integrated_mean": 14.501969196385716,
+      "independent_integrated_variance": 23.92846039336223,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553234e-13,
+      "ordinary_conditional_minutes": 29.833333333326582,
+      "ordinary_probability": 0.9999999999998498,
+      "original_fixed_minutes": 29.83333333332203,
+      "player_id": "espn:player:4903027",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 1.3322676295501878e-15,
+      "independent_integrated_mean": 7.3299222595730384,
+      "independent_integrated_variance": 9.978785463378102,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553234e-13,
+      "ordinary_conditional_minutes": 29.833333333326582,
+      "ordinary_probability": 0.9999999999998498,
+      "original_fixed_minutes": 29.83333333332203,
+      "player_id": "espn:player:4903027",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 1.3322676295501878e-15,
+      "independent_integrated_mean": 3.365703051303668,
+      "independent_integrated_variance": 4.045027668704748,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553234e-13,
+      "ordinary_conditional_minutes": 29.833333333326582,
+      "ordinary_probability": 0.9999999999998498,
+      "original_fixed_minutes": 29.83333333332203,
+      "player_id": "espn:player:4903027",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 1.3322676295501878e-15,
+      "independent_integrated_mean": 2.004334773418147,
+      "independent_integrated_variance": 2.299070831998069,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793351553234e-13,
+      "ordinary_conditional_minutes": 29.833333333326582,
+      "ordinary_probability": 0.9999999999998498,
+      "original_fixed_minutes": 29.83333333332203,
+      "player_id": "espn:player:4903027",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 2.550279378010778e-06,
+      "independent_integrated_mean": 10.279761439451882,
+      "independent_integrated_variance": 26.35353193007063,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398832622878566e-13,
+      "ordinary_conditional_minutes": 18.716713388947376,
+      "ordinary_probability": 0.9999974497204687,
+      "original_fixed_minutes": 18.716666666659577,
+      "player_id": "espn:player:4684806",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 2.550279378010778e-06,
+      "independent_integrated_mean": 4.251590396258259,
+      "independent_integrated_variance": 7.178262831331182,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398832622878566e-13,
+      "ordinary_conditional_minutes": 18.716713388947376,
+      "ordinary_probability": 0.9999974497204687,
+      "original_fixed_minutes": 18.716666666659577,
+      "player_id": "espn:player:4684806",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 2.550279378010778e-06,
+      "independent_integrated_mean": 1.5129806656285036,
+      "independent_integrated_variance": 1.9528620300213606,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398832622878566e-13,
+      "ordinary_conditional_minutes": 18.716713388947376,
+      "ordinary_probability": 0.9999974497204687,
+      "original_fixed_minutes": 18.716666666659577,
+      "player_id": "espn:player:4684806",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 2.550279378010778e-06,
+      "independent_integrated_mean": 1.1534190166215885,
+      "independent_integrated_variance": 1.428545943715189,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398832622878566e-13,
+      "ordinary_conditional_minutes": 18.716713388947376,
+      "ordinary_probability": 0.9999974497204687,
+      "original_fixed_minutes": 18.716666666659577,
+      "player_id": "espn:player:4684806",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 0.28376667211086126,
+      "independent_integrated_mean": 2.8653720947166916,
+      "independent_integrated_variance": 11.426996362412606,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 2.1499688372415028e-13,
+      "ordinary_conditional_minutes": 8.067749737532807,
+      "ordinary_probability": 0.7162333278889845,
+      "original_fixed_minutes": 5.816666666664462,
+      "player_id": "espn:player:4594326",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 0.28376667211086126,
+      "independent_integrated_mean": 1.3529255309294475,
+      "independent_integrated_variance": 3.302980839952962,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 2.1499688372415028e-13,
+      "ordinary_conditional_minutes": 8.067749737532807,
+      "ordinary_probability": 0.7162333278889845,
+      "original_fixed_minutes": 5.816666666664462,
+      "player_id": "espn:player:4594326",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 0.28376667211086126,
+      "independent_integrated_mean": 0.6409493164723716,
+      "independent_integrated_variance": 1.0981435049579178,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 2.1499688372415028e-13,
+      "ordinary_conditional_minutes": 8.067749737532807,
+      "ordinary_probability": 0.7162333278889845,
+      "original_fixed_minutes": 5.816666666664462,
+      "player_id": "espn:player:4594326",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 0.28376667211086126,
+      "independent_integrated_mean": 0.3661409572268114,
+      "independent_integrated_variance": 0.5244214210848889,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 2.1499688372415028e-13,
+      "ordinary_conditional_minutes": 8.067749737532807,
+      "ordinary_probability": 0.7162333278889845,
+      "original_fixed_minutes": 5.816666666664462,
+      "player_id": "espn:player:4594326",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 0.00024660007624155433,
+      "independent_integrated_mean": 7.684780550063083,
+      "independent_integrated_variance": 22.20701586297691,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.540259163182406e-13,
+      "ordinary_conditional_minutes": 16.00385861484066,
+      "ordinary_probability": 0.9997533999236017,
+      "original_fixed_minutes": 15.999999999993939,
+      "player_id": "espn:player:4595400",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 0.00024660007624155433,
+      "independent_integrated_mean": 2.985960584693604,
+      "independent_integrated_variance": 5.318724285170784,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.540259163182406e-13,
+      "ordinary_conditional_minutes": 16.00385861484066,
+      "ordinary_probability": 0.9997533999236017,
+      "original_fixed_minutes": 15.999999999993939,
+      "player_id": "espn:player:4595400",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 0.00024660007624155433,
+      "independent_integrated_mean": 1.2080310168824269,
+      "independent_integrated_variance": 1.6451131612887693,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.540259163182406e-13,
+      "ordinary_conditional_minutes": 16.00385861484066,
+      "ordinary_probability": 0.9997533999236017,
+      "original_fixed_minutes": 15.999999999993939,
+      "player_id": "espn:player:4595400",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 0.00024660007624155433,
+      "independent_integrated_mean": 0.791872540157712,
+      "independent_integrated_variance": 1.0006402185383472,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.540259163182406e-13,
+      "ordinary_conditional_minutes": 16.00385861484066,
+      "ordinary_probability": 0.9997533999236017,
+      "original_fixed_minutes": 15.999999999993939,
+      "player_id": "espn:player:4595400",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 5.435984995472154e-11,
+      "independent_integrated_mean": 15.479450429621723,
+      "independent_integrated_variance": 30.673456135054067,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793352390368e-13,
+      "ordinary_conditional_minutes": 29.450000001570913,
+      "ordinary_probability": 0.9999999999454862,
+      "original_fixed_minutes": 29.449999999988844,
+      "player_id": "espn:player:4433083",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 5.435984995472154e-11,
+      "independent_integrated_mean": 3.5794107113273106,
+      "independent_integrated_variance": 4.594732755374563,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793352390368e-13,
+      "ordinary_conditional_minutes": 29.450000001570913,
+      "ordinary_probability": 0.9999999999454862,
+      "original_fixed_minutes": 29.449999999988844,
+      "player_id": "espn:player:4433083",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 5.435984995472154e-11,
+      "independent_integrated_mean": 6.224174403817921,
+      "independent_integrated_variance": 8.955118602919185,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793352390368e-13,
+      "ordinary_conditional_minutes": 29.450000001570913,
+      "ordinary_probability": 0.9999999999454862,
+      "original_fixed_minutes": 29.449999999988844,
+      "player_id": "espn:player:4433083",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 5.435984995472154e-11,
+      "independent_integrated_mean": 2.4231104299690682,
+      "independent_integrated_variance": 2.9461205714649585,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793352390368e-13,
+      "ordinary_conditional_minutes": 29.450000001570913,
+      "ordinary_probability": 0.9999999999454862,
+      "original_fixed_minutes": 29.449999999988844,
+      "player_id": "espn:player:4433083",
+      "statistic": "threes"
+    },
+    {
+      "excluded_sub30_probability": 4.3388947990052884e-10,
+      "independent_integrated_mean": 10.572439082778013,
+      "independent_integrated_variance": 19.181755921073844,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793358234673e-13,
+      "ordinary_conditional_minutes": 26.783333344763466,
+      "ordinary_probability": 0.9999999995659561,
+      "original_fixed_minutes": 26.78333333332319,
+      "player_id": "espn:player:5112087",
+      "statistic": "points"
+    },
+    {
+      "excluded_sub30_probability": 4.3388947990052884e-10,
+      "independent_integrated_mean": 3.6877729052788895,
+      "independent_integrated_variance": 4.890528348527587,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793358234673e-13,
+      "ordinary_conditional_minutes": 26.783333344763466,
+      "ordinary_probability": 0.9999999995659561,
+      "original_fixed_minutes": 26.78333333332319,
+      "player_id": "espn:player:5112087",
+      "statistic": "rebounds"
+    },
+    {
+      "excluded_sub30_probability": 4.3388947990052884e-10,
+      "independent_integrated_mean": 1.9081620869596962,
+      "independent_integrated_variance": 2.2897185360412897,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793358234673e-13,
+      "ordinary_conditional_minutes": 26.783333344763466,
+      "ordinary_probability": 0.9999999995659561,
+      "original_fixed_minutes": 26.78333333332319,
+      "player_id": "espn:player:5112087",
+      "statistic": "assists"
+    },
+    {
+      "excluded_sub30_probability": 4.3388947990052884e-10,
+      "independent_integrated_mean": 1.7197302567285149,
+      "independent_integrated_variance": 2.040630332594574,
+      "omitted_OT_after_ordinary_conditioning_upper_bound": 1.5398793358234673e-13,
+      "ordinary_conditional_minutes": 26.783333344763466,
+      "ordinary_probability": 0.9999999995659561,
+      "original_fixed_minutes": 26.78333333332319,
+      "player_id": "espn:player:5112087",
+      "statistic": "threes"
+    }
+  ],
+  "candidate_payload_sha256": "55c8f36b71c3a426bace324ec5916496ac19a84c188f265cc54ce57c6c926f16",
+  "candidate_raw_sha256": "3f7081ce2e60fc4dc1de20ee5cbdde3bcdfeece0956bcea12b1412de7d48520a",
+  "completed_at": "2026-11-20T02:31:18.376279+00:00",
+  "errors": 0,
+  "failures": 0,
+  "holdout_scores": 0,
+  "implementation_raw_sha256": "3e8de1cfa9d95a5e874d62bbb353f3d220d25cd5ab2a8adf1d4a88706dd93bec",
+  "independent_pmf_checks": [
+    {
+      "absolute_difference": 1.765254609153999e-13,
+      "count": 0,
+      "independent_adaptive_quad_probability": 0.23885032249533203,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.2388503224951555,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 4.5379711481295274e-13
+    },
+    {
+      "absolute_difference": 3.3362201889985954e-14,
+      "count": 1,
+      "independent_adaptive_quad_probability": 0.19215307883051427,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.19215307883054764,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 1.3064901917649627e-13
+    },
+    {
+      "absolute_difference": 1.3676559884601147e-14,
+      "count": 5,
+      "independent_adaptive_quad_probability": 0.05853933280393566,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.05853933280394934,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 1.9059892212276457e-13
+    },
+    {
+      "absolute_difference": 6.0645932720149176e-15,
+      "count": 10,
+      "independent_adaptive_quad_probability": 0.01732346469860158,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.017323464698607644,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 2.3280673137571997e-13
+    },
+    {
+      "absolute_difference": 2.2742834633777964e-18,
+      "count": 30,
+      "independent_adaptive_quad_probability": 6.051834391516282e-06,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 6.051834391518556e-06,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 2.75668815260262e-13
+    },
+    {
+      "absolute_difference": 1.4904744105592727e-13,
+      "count": 0,
+      "independent_adaptive_quad_probability": 0.4037392077862139,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.40373920778606487,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 1.0442431546586139e-13
+    },
+    {
+      "absolute_difference": 5.256906021600116e-14,
+      "count": 1,
+      "independent_adaptive_quad_probability": 0.23851936537175578,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.23851936537180835,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 1.827135726376128e-14
+    },
+    {
+      "absolute_difference": 9.416079027602109e-15,
+      "count": 5,
+      "independent_adaptive_quad_probability": 0.03298312330603394,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.03298312330604335,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 1.4382979864479923e-13
+    },
+    {
+      "absolute_difference": 6.453171330633722e-16,
+      "count": 10,
+      "independent_adaptive_quad_probability": 0.0022893518423304556,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.002289351842331101,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 4.311374472609867e-14
+    },
+    {
+      "absolute_difference": 4.611531914983129e-23,
+      "count": 30,
+      "independent_adaptive_quad_probability": 2.0008642971825378e-10,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 2.000864297182999e-10,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 1.0143178125568482e-17
+    },
+    {
+      "absolute_difference": 9.681144774731365e-14,
+      "count": 0,
+      "independent_adaptive_quad_probability": 0.631908713653061,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.6319087136529642,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 5.803641960593557e-14
+    },
+    {
+      "absolute_difference": 5.384581669432009e-14,
+      "count": 1,
+      "independent_adaptive_quad_probability": 0.22820740128087288,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.22820740128092673,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 5.235741654805135e-15
+    },
+    {
+      "absolute_difference": 1.2758891165809416e-15,
+      "count": 5,
+      "independent_adaptive_quad_probability": 0.004816212449980397,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.004816212449981673,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 4.676206132568024e-13
+    },
+    {
+      "absolute_difference": 5.756435909540225e-18,
+      "count": 10,
+      "independent_adaptive_quad_probability": 2.2795556316787194e-05,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 2.279555631679295e-05,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 3.901726908607067e-14
+    },
+    {
+      "absolute_difference": 5.849896650279566e-29,
+      "count": 30,
+      "independent_adaptive_quad_probability": 2.066918154646364e-16,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 2.066918154646949e-16,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 3.344415296761149e-24
+    },
+    {
+      "absolute_difference": 7.216449660063518e-14,
+      "count": 0,
+      "independent_adaptive_quad_probability": 0.731371632271011,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.7313716322709388,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 5.197202344246945e-14
+    },
+    {
+      "absolute_difference": 4.7406523151494184e-14,
+      "count": 1,
+      "independent_adaptive_quad_probability": 0.19253453940572812,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.19253453940577553,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 3.5477428769149202e-15
+    },
+    {
+      "absolute_difference": 3.2786273695961654e-16,
+      "count": 5,
+      "independent_adaptive_quad_probability": 0.0012767363041991454,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 0.0012767363041994732,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 4.9668619589813616e-14
+    },
+    {
+      "absolute_difference": 4.2690460541616737e-19,
+      "count": 10,
+      "independent_adaptive_quad_probability": 1.6808369566088893e-06,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 1.6808369566093162e-06,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 1.4486811277549453e-15
+    },
+    {
+      "absolute_difference": 1.3000027124613842e-31,
+      "count": 30,
+      "independent_adaptive_quad_probability": 5.38921256995252e-19,
+      "player": "Cody Williams",
+      "quadrature_candidate_probability": 5.38921256995382e-19,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 2.057983500627802e-26
+    },
+    {
+      "absolute_difference": 4.3942627314663696e-13,
+      "count": 0,
+      "independent_adaptive_quad_probability": 0.2723213464834134,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.2723213464838528,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 4.820994047425417e-13
+    },
+    {
+      "absolute_difference": 4.274358644806853e-15,
+      "count": 1,
+      "independent_adaptive_quad_probability": 0.2009783346797546,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.20097833467975032,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 1.0821834490736627e-13
+    },
+    {
+      "absolute_difference": 3.072542220650121e-14,
+      "count": 5,
+      "independent_adaptive_quad_probability": 0.053534091144855425,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.0535340911448247,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 1.3198578940483884e-13
+    },
+    {
+      "absolute_difference": 9.226994168720637e-15,
+      "count": 10,
+      "independent_adaptive_quad_probability": 0.015097574176592816,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.015097574176583589,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 2.1952020101904872e-13
+    },
+    {
+      "absolute_difference": 1.6296913905172739e-18,
+      "count": 30,
+      "independent_adaptive_quad_probability": 2.6358181441120036e-06,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 2.635818144110374e-06,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 1.2257241305606248e-13
+    },
+    {
+      "absolute_difference": 3.6820546611693317e-13,
+      "count": 0,
+      "independent_adaptive_quad_probability": 0.43994111500293986,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.43994111500330807,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 1.4283077010665466e-13
+    },
+    {
+      "absolute_difference": 1.1460277171693178e-13,
+      "count": 1,
+      "independent_adaptive_quad_probability": 0.23644514348187054,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.23644514348175594,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 1.9827115041501563e-14
+    },
+    {
+      "absolute_difference": 2.0355245267111854e-14,
+      "count": 5,
+      "independent_adaptive_quad_probability": 0.028884812668077308,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.028884812668056953,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 7.670342924669917e-14
+    },
+    {
+      "absolute_difference": 1.2247147740396258e-15,
+      "count": 10,
+      "independent_adaptive_quad_probability": 0.0017574944145975905,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.0017574944145963658,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 1.1507266585164686e-14
+    },
+    {
+      "absolute_difference": 2.960401864144859e-23,
+      "count": 30,
+      "independent_adaptive_quad_probability": 3.7227060705913026e-11,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 3.722706070588342e-11,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 3.6136086205863564e-19
+    },
+    {
+      "absolute_difference": 2.636779683484747e-13,
+      "count": 0,
+      "independent_adaptive_quad_probability": 0.619046051165124,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.6190460511653877,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 9.192085811039682e-14
+    },
+    {
+      "absolute_difference": 1.3686274336066617e-13,
+      "count": 1,
+      "independent_adaptive_quad_probability": 0.2269533091229865,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.22695330912284964,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 7.430690103202707e-15
+    },
+    {
+      "absolute_difference": 4.55278176270113e-15,
+      "count": 5,
+      "independent_adaptive_quad_probability": 0.006340725306313958,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.006340725306309405,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 5.707360244586172e-13
+    },
+    {
+      "absolute_difference": 2.881267273380228e-17,
+      "count": 10,
+      "independent_adaptive_quad_probability": 3.881434479241749e-05,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 3.8814344792388676e-05,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 3.450172131541522e-14
+    },
+    {
+      "absolute_difference": 1.5027800244460275e-28,
+      "count": 30,
+      "independent_adaptive_quad_probability": 2.0090286997215284e-16,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 2.0090286997200256e-16,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 4.5394121416878255e-24
+    },
+    {
+      "absolute_difference": 1.8318679906315083e-13,
+      "count": 0,
+      "independent_adaptive_quad_probability": 0.7382932738469691,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.7382932738471523,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 8.044975458300821e-14
+    },
+    {
+      "absolute_difference": 1.220135104063047e-13,
+      "count": 1,
+      "independent_adaptive_quad_probability": 0.1873659509611358,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.1873659509610138,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 4.453691696998587e-15
+    },
+    {
+      "absolute_difference": 9.410874857174178e-16,
+      "count": 5,
+      "independent_adaptive_quad_probability": 0.0012498070287569663,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 0.0012498070287560253,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 3.3422147932175086e-14
+    },
+    {
+      "absolute_difference": 1.0244863497040763e-18,
+      "count": 10,
+      "independent_adaptive_quad_probability": 1.3527365922628656e-06,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 1.3527365922618411e-06,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 3.3063061891446128e-16
+    },
+    {
+      "absolute_difference": 3.968619391652948e-32,
+      "count": 30,
+      "independent_adaptive_quad_probability": 5.302639401540714e-20,
+      "player": "Kris Murray",
+      "quadrature_candidate_probability": 5.302639401536745e-20,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 2.9087002427295626e-27
+    },
+    {
+      "absolute_difference": 1.446732273910345e-18,
+      "count": 0,
+      "independent_adaptive_quad_probability": 6.2385426986384004e-06,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 6.238542698639847e-06,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 9.706901985477218e-16
+    },
+    {
+      "absolute_difference": 1.8939656700606156e-17,
+      "count": 1,
+      "independent_adaptive_quad_probability": 4.6019486430802635e-05,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 4.6019486430821574e-05,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 2.8961333323383384e-14
+    },
+    {
+      "absolute_difference": 1.3743346738426254e-15,
+      "count": 5,
+      "independent_adaptive_quad_probability": 0.0027492448768847884,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.0027492448768861627,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 2.1606947037243816e-13
+    },
+    {
+      "absolute_difference": 5.280498260873401e-15,
+      "count": 10,
+      "independent_adaptive_quad_probability": 0.025818631189534914,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.025818631189540194,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 6.956452438357194e-14
+    },
+    {
+      "absolute_difference": 4.154662724964453e-15,
+      "count": 30,
+      "independent_adaptive_quad_probability": 0.010286614680822315,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.01028661468082647,
+      "statistic": "points",
+      "weighted_quad_error_estimate": 1.804512091528501e-13
+    },
+    {
+      "absolute_difference": 5.48172618408671e-16,
+      "count": 0,
+      "independent_adaptive_quad_probability": 0.017154721312231766,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.017154721312232314,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 6.411175980830211e-15
+    },
+    {
+      "absolute_difference": 2.7478019859472624e-15,
+      "count": 1,
+      "independent_adaptive_quad_probability": 0.06106263267000357,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.06106263267000632,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 4.788046646617232e-14
+    },
+    {
+      "absolute_difference": 3.4139358007223564e-15,
+      "count": 5,
+      "independent_adaptive_quad_probability": 0.15307917793348666,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.15307917793349007,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 3.6471094071211137e-14
+    },
+    {
+      "absolute_difference": 4.40619762898109e-16,
+      "count": 10,
+      "independent_adaptive_quad_probability": 0.017307059534614123,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.017307059534614564,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 5.810146583528701e-13
+    },
+    {
+      "absolute_difference": 6.333101564859118e-25,
+      "count": 30,
+      "independent_adaptive_quad_probability": 2.4753200955601593e-11,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 2.4753200955602226e-11,
+      "statistic": "rebounds",
+      "weighted_quad_error_estimate": 2.5474068154475014e-15
+    },
+    {
+      "absolute_difference": 4.85722573273506e-16,
+      "count": 0,
+      "independent_adaptive_quad_probability": 0.014903666145611762,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.014903666145612247,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 4.775189252117904e-15
+    },
+    {
+      "absolute_difference": 5.23192600354605e-15,
+      "count": 1,
+      "independent_adaptive_quad_probability": 0.05463338258849393,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.05463338258849916,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 9.348646285141614e-14
+    },
+    {
+      "absolute_difference": 9.96425164601078e-15,
+      "count": 5,
+      "independent_adaptive_quad_probability": 0.1544559778861236,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.15445597788613358,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 1.301772541330892e-14
+    },
+    {
+      "absolute_difference": 1.3773704399255848e-15,
+      "count": 10,
+      "independent_adaptive_quad_probability": 0.020310598525883072,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.02031059852588445,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 5.172925603978843e-13
+    },
+    {
+      "absolute_difference": 1.5987850277001488e-23,
+      "count": 30,
+      "independent_adaptive_quad_probability": 4.9836557299704644e-11,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 4.9836557299688656e-11,
+      "statistic": "assists",
+      "weighted_quad_error_estimate": 4.293227250909457e-15
+    },
+    {
+      "absolute_difference": 3.122502256758253e-16,
+      "count": 0,
+      "independent_adaptive_quad_probability": 0.055224230336662114,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.055224230336662426,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 5.046450345244504e-13
+    },
+    {
+      "absolute_difference": 2.914335439641036e-15,
+      "count": 1,
+      "independent_adaptive_quad_probability": 0.14506621255020333,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.1450662125502004,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 4.6897168456900354e-14
+    },
+    {
+      "absolute_difference": 1.1657341758564144e-15,
+      "count": 5,
+      "independent_adaptive_quad_probability": 0.10774199891647897,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.10774199891648013,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 8.155769026531445e-13
+    },
+    {
+      "absolute_difference": 1.1145598333150986e-16,
+      "count": 10,
+      "independent_adaptive_quad_probability": 0.00275428032057387,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 0.0027542803205737585,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 2.150410662095045e-13
+    },
+    {
+      "absolute_difference": 4.272470662677e-27,
+      "count": 30,
+      "independent_adaptive_quad_probability": 2.4541997881518058e-14,
+      "player": "LaMelo Ball",
+      "quadrature_candidate_probability": 2.454199788152233e-14,
+      "statistic": "threes",
+      "weighted_quad_error_estimate": 8.738128851627135e-18
+    }
+  ],
+  "max_mean_error": 2.0268231537556858e-12,
+  "max_variance_error": 3.035793838535028e-12,
+  "new_artifact_fits": 0,
+  "new_forecasts_issued": 0,
+  "original_forecast_raw_sha256": "6ebe7eb039c01a963663ec5253a46ec4e9a87379f59adac47087338e9c119f8d",
+  "own_replay": {
+    "completed": "2026-11-20T02:31:18.375021+00:00",
+    "new_forecast_issued": false,
+    "payload_sha256": "55c8f36b71c3a426bace324ec5916496ac19a84c188f265cc54ce57c6c926f16",
+    "started": "2026-11-20T02:31:05.286740+00:00"
+  },
+  "tested_commit": "f2306ba07ace50986bbacaa6344d9b09494ddf73",
+  "tests_run": 4
+}

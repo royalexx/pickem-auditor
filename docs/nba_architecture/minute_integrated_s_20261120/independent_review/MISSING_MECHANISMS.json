@@ -1,0 +1,96 @@
+{
+  "schema": "nba-ordinary-integration-missing-mechanisms/1.0.0",
+  "gates": [
+    {
+      "id": "S_FULL_PLAYED",
+      "status": "BLOCKED_BY_ADMISSION_DOMAIN",
+      "missing": "Separately approved sub30/played-zero/early-exit source and model or explicit extrapolation contract.",
+      "current": "Ordinary M>=0.5 only; Cody/Kris excluded masses about0.200/0.284; q staysunknown.",
+      "next": "Review a distinct full-played contract before any full-played claim; do not delete or relabel excluded probability."
+    },
+    {
+      "id": "S_RELEASE_NUMERICAL",
+      "status": "NOT_CERTIFIED_AS_FULL_LAW",
+      "missing": "Reviewed full-support/error policy and numerical semantics compatible with any admitted consumer.",
+      "current": "Finite retainedOT/count support; raw Jacobi order difference is heuristic; bounded profile independentlychecked.",
+      "next": "Preserve stated conditioning, separate allthree mass domains, and do not claim rigorous globalerror fromorderdifference."
+    },
+    {
+      "id": "J_REAL_TRUST",
+      "status": "BLOCKED",
+      "missing": "New independent real J source/model/role admission and trusted code contract.",
+      "current": "integration_v2 explicitly pins syntheticengineeringfixtures and blocksreal.",
+      "next": "Keep current gateclosed; genuine S1 pins do not authorize flipping evidence_mode."
+    },
+    {
+      "id": "J_POPULATION_PARTICIPATION",
+      "status": "BLOCKED",
+      "missing": "Supported modeled full on-court allocation/residual and admitted participation mechanism or explicitly conditioned participation event.",
+      "current": "35source-listed/14supported players; q and legal eligibility unknown; no partial-team normalization.",
+      "next": "Define conditional or unconditional J scope honestly; do not use feasibility LP q as estimated participation probability."
+    },
+    {
+      "id": "J_SHARED_G_O",
+      "status": "BLOCKED",
+      "missing": "Admitted shared OT/pace/possession/score-state scenarios and identical exposure draws with conserving compatible marginal laws.",
+      "current": "Single-player beta-minute marginal integration only; no conserving sharedjointmeasure.",
+      "next": "Review marginal-to-scenario conversion/coupling with exactidentity, duration andweights; preserve coupling-budget failures."
+    },
+    {
+      "id": "J_PRIMITIVE_MODELS",
+      "status": "BLOCKED",
+      "missing": "Admitted projected shot/FT/possession mechanisms and conversions, including genuine S3three_conversion or another reviewed physicalmechanism.",
+      "current": "Historical raw shot/FTcounts exist; fouradmittedS1statmarginals do not supply these projections/conversions.",
+      "next": "Locate existing compatible artifacts or scope newmodels separately; no newfitting authorized bythisdecision."
+    },
+    {
+      "id": "J_PHYSICAL_PATHS_DISTORTION",
+      "status": "BLOCKED",
+      "missing": "Physical scoring/miss/rebound/assist/possession/FT/OTchronology and preregistered marginal-distortion contract.",
+      "current": "Independent S1 points/threes can conflict; rate rejection/projection changes law; aggregate-onlysyntheticproposal unaccepted.",
+      "next": "Produce andindependentlyvalidate real sharedpaths; do notmultiplymarginals orrelabelfeasibleaggregates asvalidchronologicalJ."
+    },
+    {
+      "id": "C_FORECAST_TRANSPORT",
+      "status": "NOT_YET_ADMITTED",
+      "missing": "Versioned C adapter for ordinaryconditioning, quadrature/numericalsupport and explicit S/Olineage.",
+      "current": "Existing G0conditioning enums do notexpress thislaw; currentfile isreplaycandidate.",
+      "next": "A candidatearchive canremainresearch; do notmislabelsimpleconditional-on-play orhide OasS_ONLY."
+    },
+    {
+      "id": "C_OFFICIAL_OUTCOME",
+      "status": "BLOCKED_FUTURE_TARGET_AND_ADMISSION",
+      "missing": "Independentlyadmitted official evaluation with exactIDs/participation/exposure/finalavailability/endtime/corrections.",
+      "current": "TargetNov22future; S-trainingHTMLadmission isnotCoutcomeadmission.",
+      "next": "Captureaftercompletion,retaincorrectionancestry,donotinventwallclockend fromplayingduration."
+    },
+    {
+      "id": "C_CONDITIONAL_SCORES",
+      "status": "BLOCKED",
+      "missing": "Matchedconditioning/ordinaryeligibility/fullsupport policy, independent officialevaluations and separatelyauthorized scores.",
+      "current": "DNP/zero/sub30/unknown mustnotbeordinarymisses; jointscoresrequirevalidJ; realcalibrationfit gatesstayclosed.",
+      "next": "Preregister denominators/score/baselines; noholdoutscoring orrealfit here."
+    },
+    {
+      "id": "H_ENGINEERING_REPLAY",
+      "status": "PASS",
+      "missing": null,
+      "current": "Samefrozenfuture-parentinputs reproduce semanticpayload55c8f36b71c3a426bace324ec5916496ac19a84c188f265cc54ce57c6c926f16.",
+      "next": "Keepimmutableoriginalandnewcandidateclockdomains separate."
+    },
+    {
+      "id": "H_PREDICTIVE_HISTORY",
+      "status": "BLOCKED_MISSING_POINT_IN_TIME_COHORT",
+      "missing": "Compatible genuine pre-target S/minute/source/feature snapshots plus matched admitted historical outcomes.",
+      "current": "Current S1fitcreated01:32after20traininggames and01:00interveninggames; oldpost-resultcapturescannotmanufactureprioravailability.",
+      "next": "Recover valid existing PITartifacts orscope separatelyauthorizedchronologicalexperiment; never scoretraining/ineligible targetsasheldout."
+    },
+    {
+      "id": "RELEASE",
+      "status": "BLOCKED",
+      "missing": "Required historicalpredictivevalidation, downstreamadmission and applicable governingreliability/releasegates.",
+      "current": "Numericalprototypeonly; no quality/fullG1/J/Cscore/production/Tier acceptance.",
+      "next": "Do notmerge scientificclaims orpublishtrustedrelease fromthese numericaltests."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+test_01_scope_hash_clock_denominators_and_all56_supports (__main__.NumericReview.test_01_scope_hash_clock_denominators_and_all56_supports) ... ok
+test_02_low_and_high_player_pmfs_against_independent_adaptive_weighted_quad (__main__.NumericReview.test_02_low_and_high_player_pmfs_against_independent_adaptive_weighted_quad) ... ok
+test_03_frozen_input_replay_matches_semantic_payload_without_issuing_forecast (__main__.NumericReview.test_03_frozen_input_replay_matches_semantic_payload_without_issuing_forecast) ... ok
+test_04_invalid_rates_and_unsupported_minute_family_reject (__main__.NumericReview.test_04_invalid_rates_and_unsupported_minute_family_reject) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 13.184s
+
+OK

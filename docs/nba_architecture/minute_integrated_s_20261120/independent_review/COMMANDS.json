@@ -1,0 +1,31 @@
+{
+  "cwd": "/workspace/pickem-auditor",
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/minute_integrated_s_20261120/independent_review/numeric_probe.py"
+      ],
+      "exit_code": 0,
+      "stdout": "probe.stdout",
+      "stderr": "probe.stderr",
+      "result": "4methodsPASS"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-v",
+        "tests/nba_architecture/test_minute_integrated_s_v1.py"
+      ],
+      "exit_code": 0,
+      "stdout": "implementation_tests.stdout",
+      "stderr": "implementation_tests.stderr",
+      "result": "2tests4subtestsPASS"
+    }
+  ],
+  "preservation": "PRESERVATION.json",
+  "verification_note": "The inherited parent reader replays construction of the same admitted artifacts to verify their bytes. This creates no new model artifact, source population, fitted parameter selection or training campaign.",
+  "decision_raw_sha256": "00173a39394aadcf7c75162cbf3f0f3ddbb4f9f936806387564e7455a5384822"
+}
