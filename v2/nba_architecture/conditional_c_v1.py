@@ -7,6 +7,7 @@ from collections import Counter
 from pathlib import Path
 import math
 import re
+import hashlib
 from fractions import Fraction
 from .p1_subset_handoff_v1 import canonical,digest
 from .subset_contract_v1 import strict_json
@@ -20,6 +21,13 @@ from v2.nba_opportunity import utc
 PROFILE_SHA='5eab873f4cc744e29d3d4bcf483bb5c0726398146b0ee90b15be37814b59c9a8'
 POPULATION_SHA='1d05830c44ee07fd89bbe7dcade95d70651a0cfae824e8f2edaadf30d4b20584'
 PBP_READER_SHA='2fdb7ca21017fe567115cc4316f6b8109d52af9b908ffb0a6b177b585874c2f1'
+SOURCE_HELPER_SHA={
+    'prospective_s_sources_v1.py':'8b61c753a41b59b9baad25ce179bd56ef3ceaf31645e76998b6408f296a447fd',
+    'gamebook_identity_v1.py':'51ebbe20652a8beb776e2bfcf887825e9b7a441bda3532420181d4465670fe55',
+    'p1_subset_handoff_v1.py':'745c333f110dea7d16ec74aca3a6179cc9bc043468c1f0bf081157946d48ff68',
+    'subset_contract_v1.py':'34c7de07e4e2244c663c07908b087d57ffbbd3c72f40d62b1b42554364854bd5',
+    'subset_p3_v1.py':'1034c56a5e58c4134d17a6050644488e6458f3f5ca1aa061d3363e696c23c172',
+    '../nba_opportunity.py':'6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30'}
 
 
 def read_native_outcomes(*,raw_dir,population_path,original_raw_dir,spec_path,profile_path):
@@ -28,6 +36,8 @@ def read_native_outcomes(*,raw_dir,population_path,original_raw_dir,spec_path,pr
     Caller labels/flags/reviewer names cannot extend this frozen population.
     Counts are reported even for DNP, but never interpreted as played outcomes.
     """
+    for helper,sha in SOURCE_HELPER_SHA.items():
+        require(hashlib.sha256((Path(__file__).parent/helper).read_bytes()).hexdigest()==sha,'C_SOURCE_HELPER_CODE:'+helper)
     require(digest(Path(profile_path).read_bytes())==PROFILE_SHA,'C_UNREVIEWED_EVIDENCE_PROFILE')
     require(digest(Path(population_path).read_bytes())==POPULATION_SHA,'C_UNADMITTED_POPULATION')
     require(digest(Path(__file__).with_name('pbp_evidence_v1.py').read_bytes())==PBP_READER_SHA,'C_UNREVIEWED_NATIVE_READER')
@@ -87,6 +97,7 @@ def read_native_outcomes(*,raw_dir,population_path,original_raw_dir,spec_path,pr
             reason='TRAINING_GAME_NO_SUPPLIED_PRE_EVENT_NEW_MODEL_OR_FORECAST'))
     result=dict(schema='bounded-native-C-outcomes/1',capability='EXACT20_NATIVE_IDENTITIES_REPORTED_FINAL_AND14_COUNTS',
         evidence_profile_sha256=PROFILE_SHA,population_sha256=POPULATION_SHA,source_facts_payload_sha256=facts['payload_sha256'],
+        C_reader_raw_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),source_helper_raw_sha256=SOURCE_HELPER_SHA,
         source_row_denominator=len(rows),rows=rows,games=games,state_denominators=dict(Counter(r['participation_state'] for r in rows)),
         historical_new_model_PIT_eligible=0,complete_eligible_roster_claim=False,source_admission_extensible_by_caller=False,
         official_publication_clock_known=False,correction_history_complete=None,release=False)
