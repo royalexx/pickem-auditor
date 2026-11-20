@@ -1,0 +1,53 @@
+{
+  "counts": {
+    "excluded_training_attempts": 968,
+    "game_count": 20,
+    "inactive_identity_denominator": 166,
+    "included_training_attempts": 1824,
+    "player_row_denominator": 532,
+    "source_capture_count": 60,
+    "source_observation_denominator": 698,
+    "training_attempt_denominator": 2792
+  },
+  "dataset_payload_sha256": "e5cb76ef446d6651b718c6279367a7078ffa86f01b621cfbfd9c7b4d74adbd1d",
+  "dataset_raw_sha256": "a8230745eae80c0831ce36dc71d7fb41d9faeaef9e053f9844b8f70fb0e334a2",
+  "disposition": "PREFIT_REVIEW_EVIDENCE_ONLY_ARTIFACT_ADMISSION_NOT_GRANTED",
+  "errors": 0,
+  "failures": 0,
+  "native_S_reader_raw_sha256": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+  "native_fit_calls": 0,
+  "old_twenty_readers_unchanged": [
+    "config/nba_research_profile.json",
+    "scripts/nba_subset_pipeline.py",
+    "scripts/nba_p1_prospective_capture.py",
+    "v2/nba_architecture/p1_capture_v1.py",
+    "v2/nba_architecture/p1_subset_handoff_v1.py",
+    "v2/nba_architecture/research_profile_v1.py",
+    "v2/nba_architecture/gamebook_identity_v1.py",
+    "v2/nba_architecture/subset_contract_v1.py",
+    "v2/nba_architecture/subset_p2_v1.py",
+    "v2/nba_architecture/subset_p3_v1.py",
+    "v2/nba_architecture/subset_p4_v1.py",
+    "v2/nba_architecture/v2_contracts.py",
+    "v2/nba_architecture/families_v2.py",
+    "v2/nba_opportunity.py",
+    "v2/nba_s_family/model.py",
+    "v2/nba_c/warehouse.py",
+    "v2/nba_c/subset_archive_v1.py",
+    "v2/nba_architecture/subset_p2_dispatch_v1.py",
+    "v2/nba_c/subset_dispatch_archive_v1.py",
+    "scripts/nba_subset_p2_dispatch.py"
+  ],
+  "prefit_spec_raw_sha256": "9b4ffaf085deeffe83cee50c6d3ecfc5dd2c41848cb849ee32240389cc7b2ed8",
+  "reader_raw_sha256": "8b61c753a41b59b9baad25ce179bd56ef3ceaf31645e76998b6408f296a447fd",
+  "record_states": {
+    "DNP": 68,
+    "INACTIVE_LISTED": 166,
+    "PLAYED_ORDINARY": 458,
+    "PLAYED_SUB30": 1,
+    "UNKNOWN": 5
+  },
+  "tested_commit": "64fa2cdd31eae9f7c70c2cb5d293d742995a5748",
+  "tests_run": 6,
+  "timing_policy_raw_sha256": "ead50b6b76dc319a6c0a390d3dd3add2d25b2330b8314bc7a3e2e4c17add5eed"
+}
