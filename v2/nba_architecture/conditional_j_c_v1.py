@@ -20,9 +20,14 @@ RECEIPT_SHA='f350a70b84abb479edfce3390a59a06fc234619e8ae3c8aaf3259db722d2c402'
 MODEL_SHA='85f27b2ce96a96e14449da3e10ab0d3bb7e9c4e60d7aa30bc5b311d46c48e46d'
 MODEL_ADMISSION_SHA='388e41fb537dc5e2c395078603473f8c8d524745c90f30957b672e2ed6015a42'
 J_CODE_SHA={
+    'common.py':'35df67a2e76cad1f978f35693924ba6c63c43ec7b519c93289a3c8e13a912478',
     'residual_events_v1.py':'75be57a993360b693d61dfd5acde07dad92a28e831ed6b781c068b793fce01ee',
     'residual_opportunity_v1.py':'d53627276ba972cd23ce91bd4d9cb212f28fa141e45d44ea6f5a276b41215803',
     'residual_audit_v1.py':'5d99e90df7f9b5164d66f92e70b0e894d3e0d5540131354d8f85cd89560f5197'}
+TRANSPORT_CODE_SHA={
+    'full_predictive_replay_v2.py':'0f6cf4dfdcbdc8661f9b45192c12f91aa0f2a768f9657b3b90071c7b5403aca6',
+    'conditional_c_v1.py':'a6e2aa7d540d01e2492ce4984a20fc2d6e40a1778d2228d89598632e4ab03687',
+    'prospective_s_runtime_v1.py':'a44880eef3012f67c9cff95ac759a1da76310638954b9c9657f7c4cd84480bc0'}
 
 
 def read_J_for_C(*,run_raw,receipt_raw,model_raw,model_admission_raw,full_raw,parent_raw,
@@ -31,6 +36,8 @@ def read_J_for_C(*,run_raw,receipt_raw,model_raw,model_admission_raw,full_raw,pa
     require(digest(model_raw)==MODEL_SHA and digest(model_admission_raw)==MODEL_ADMISSION_SHA,'J_C_ADMITTED_PARAMETER_BYTES')
     for name,sha in J_CODE_SHA.items():
         require(hashlib.sha256((Path(__file__).parents[1]/'nba_joint'/name).read_bytes()).hexdigest()==sha,'J_C_REVIEWED_RUNTIME_CODE:'+name)
+    for name,sha in TRANSPORT_CODE_SHA.items():
+        require(hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()==sha,'J_C_REVIEWED_TRANSPORT_CODE:'+name)
     read_issued_forecast(full_raw,parent_raw,**full_inputs);read_native_outcomes(**outcome_inputs)
     run=strict_json(run_raw);receipt=strict_json(receipt_raw);model=strict_json(model_raw)
     a=strict_json(model_admission_raw);full=strict_json(full_raw)
