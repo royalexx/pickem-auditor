@@ -4,6 +4,7 @@ No new forecast issuance, J admission, participation estimate or scoring authori
 The PR190 source/model/fixed-exposure admission is not extended by this reader.
 """
 import math
+from datetime import datetime,timezone
 from pathlib import Path
 import numpy as np
 from scipy.special import roots_jacobi,betainc,betaln
@@ -62,6 +63,10 @@ def integrate(parameters, minute_distribution):
         support=[dict(value=i,mass=float(x)) for i,x in enumerate(mass)],
         retained_mean=numerical_mean,analytic_mean_before_count_truncation=expected,
         analytic_variance_before_count_truncation=variance,
+        ordinary_conditional_expected_minutes=em,
+        matched_fixed_ordinary_control=dict(projected_minutes=em,mean=expected,
+            variance=expected+alpha/(beta*beta)*em*em,
+            purpose='NUMERICAL_CONTROL_AT_MATCHED_ORDINARY_MEAN_NOT_NEW_FORECAST'),
         quadrature_order=order,quadrature_L1_order_difference=error,
         quadrature_difference_is_rigorous_bound=False,mean_check_absolute_error=mean_error,
         count_tail_bound_within_retained_OT=count_tail,
@@ -75,6 +80,7 @@ def integrate(parameters, minute_distribution):
 
 
 def replay(raw,**original_inputs):
+    started=datetime.now(timezone.utc).isoformat()
     original=read_forecasts(raw,**original_inputs)
     minutes={r['player_id']:r for r in original['minutes']};rows=[]
     for row in original['rows']:
@@ -94,4 +100,7 @@ def replay(raw,**original_inputs):
         J_status='NOT_ADMITTED_REAL_SHARED_G_O_EVENT_COUPLING_REQUIRED',
         C_status='UNSCORED_NO_ADMITTED_EVALUATIONS_FOR_THIS_FUTURE_TARGET',
         historical_predictive_validation=False,full_G1_accepted=False,production_release=False)
-    return dict(payload,payload_sha256=digest(canonical(payload)))
+    return dict(payload,payload_sha256=digest(canonical(payload)),
+        candidate_computation_started_at=started,
+        candidate_computation_completed_at=datetime.now(timezone.utc).isoformat(),
+        payload_hash_domain='CANONICAL_PAYLOAD_EXCLUDES_PAYLOAD_SHA_AND_ACTUAL_COMPUTATION_CLOCKS')
