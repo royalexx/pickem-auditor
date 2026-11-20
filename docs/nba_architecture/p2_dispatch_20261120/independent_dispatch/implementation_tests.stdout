@@ -1,0 +1,29 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0 -- /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/pickem-auditor
+plugins: anyio-4.14.2
+collecting ... collected 8 items
+
+tests/nba_architecture/test_subset_p2_dispatch_v1.py::DispatchTests::test_duplicate_and_nonfinite_wire_reject PASSED [ 12%]
+tests/nba_architecture/test_subset_p2_dispatch_v1.py::DispatchTests::test_frozen_synthetic_native_numerical_positive_no_new_fit PASSED [ 25%]
+tests/nba_architecture/test_subset_p2_dispatch_v1.py::DispatchTests::test_model_manifest_raw_bytes_code_and_roles_reject PASSED [ 37%]
+tests/nba_architecture/test_subset_p2_dispatch_v1.py::DispatchTests::test_real_source_to_fixed_m0_exposure_all_144_attempts PASSED [ 50%]
+tests/nba_architecture/test_subset_p2_dispatch_v1.py::DispatchTests::test_rehashed_target_training_wrong_dated_team_future_cutoff_and_duplicates_reject 
+tests/nba_architecture/test_subset_p2_dispatch_v1.py::DispatchTests::test_rehashed_target_training_wrong_dated_team_future_cutoff_and_duplicates_reject PASSED [ 62%]
+tests/nba_architecture/test_subset_p2_dispatch_v1.py::DispatchTests::test_resealed_output_and_upstream_claims_reject 
+tests/nba_architecture/test_subset_p2_dispatch_v1.py::DispatchTests::test_resealed_output_and_upstream_claims_reject PASSED [ 75%]
+tests/nba_architecture/test_subset_p2_dispatch_v1.py::DispatchTests::test_synthetic_artifact_and_approval_file_do_not_register_real_model PASSED [ 87%]
+tests/nba_architecture/test_subset_p2_dispatch_v1.py::DispatchTests::test_wrong_target_exposure_clock_variant_and_q_reject 
+tests/nba_architecture/test_subset_p2_dispatch_v1.py::DispatchTests::test_wrong_target_exposure_clock_variant_and_q_reject PASSED [100%]
+
+=============================== warnings summary ===============================
+../../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/anyio/pytest_plugin.py:14
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/anyio/pytest_plugin.py:14: PytestRemovedIn10Warning: _pytest.python.CallSpec2 has been renamed to CallSpec.
+  The CallSpec2 alias will be removed in pytest 10.
+  Update imports to use CallSpec instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#callspec2-renamed
+    from _pytest.python import CallSpec2
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============== 8 passed, 1 warning, 17 subtests passed in 16.64s ===============

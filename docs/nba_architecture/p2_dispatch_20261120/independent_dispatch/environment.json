@@ -1,0 +1,75 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "versions": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "pytest": "9.2.0",
+    "jsonschema": "4.26.0"
+  },
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stdout": "environment_1.stdout",
+      "stderr": "environment_1.stderr"
+    },
+    {
+      "argv": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exit_code": 0,
+      "stdout": "environment_2.stdout",
+      "stderr": "environment_2.stderr"
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "main"
+      ],
+      "exit_code": 0,
+      "stdout": "environment_3.stdout",
+      "stderr": "environment_3.stderr"
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "exit_code": 0,
+      "stdout": "environment_4.stdout",
+      "stderr": "environment_4.stderr"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "82c6092f2b970552e4a1a8a8a6c495052fb3e8b2",
+        "--",
+        ".github/workflows",
+        ".training-control",
+        "research/nba_ws2/results/model.json",
+        "v2/nba_s_family/model.py"
+      ],
+      "exit_code": 0,
+      "stdout": "environment_5.stdout",
+      "stderr": "environment_5.stderr"
+    }
+  ],
+  "pause": {
+    "schema": "pickem_training_pause_v1",
+    "paused": true,
+    "requested_date": "2026-11-08",
+    "reason": "User-directed pause of Bayesian/NUTS training during model reform",
+    "resume_requires_explicit_user_approval": true,
+    "preserve_existing_posteriors_and_checkpoints": true
+  }
+}

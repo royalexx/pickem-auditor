@@ -1,0 +1,25 @@
+# Independent source review
+
+Reviewer: `independent_p2_dispatch_review`; implementation author and reviewer are separate agents. The reviewer edited only files in this review directory. Candidate `3669bf79273463eb34c1b76a1ef5a1e9151ca3b3` is the reviewed implementation; PR188 publication `82c6092f2b970552e4a1a8a8a6c495052fb3e8b2` is the preservation baseline. No material implementation defect was found in the frozen scope.
+
+Required reading covered README, AGENTS, the governing v1.1 master contracts and applicable audit/promotion sections, the complete launch brief, supporting November 8 directional research and frozen baseline manifest, accepted November 19 amendment, current fixed-M0 SCOPE, PR188 reproducibility/status and independent P5 decision, original source/cohort/history/model receipts through their replay readers, and prior candidate-search evidence. Current local `main` was observed at `912bc7010058092ea735dcda0aa941429194474b`; that local observation is not a fresh remote main certification. The training pause marker remains true. The afternoon workflow has manual dispatch and no active cron in its checked-out configuration. Workflow/pause/native-model/native-S-reader diffs against PR188 were empty. No external scheduling or notebook mutation was needed or performed.
+
+| Boundary | Review and independent evidence | Disposition |
+|---|---|---|
+| Original source → candidate requests | Reuse of strict public source reader; immutable original cohort and original freeze; 36 unique candidate identities retained | Accept bounded research-byte consistency |
+| Source/P3 → fixed exposure | Replays public P3 with exact source/cohort/history/model/forecast clock; unique M0 join; all four stats retained; exposure equals native M0 conditional mean for each of 48 bindings | Accept fixed exposure preparation |
+| Participation/legal status | Explicit null in all rows and bindings; rehashed q/legal attempts rejected | Unknown remains unknown |
+| Real model registration | Empty `MappingProxyType`; supplied candidate hashes, names and approval files are inventories, not credentials | No real model admitted |
+| Role semantics | No role fabricated on actual source. ModelContract resolves exact position/workload-state mapping, rejects ambiguity/unresolved values and absent training taxonomy | Synthetic mechanism exercised; future real semantic equivalence requires independent review |
+| Model/source/training | Exact model, manifest, body-map and native-reader bytes; cutoff before freeze; all used receipts linked; raw source hashes; dated historical player/team membership; duration support; duplicate/target-training/time checks | Synthetic controls passed; no genuine S training package supplied |
+| Native prediction | Public structural wrapper shares actual `_execute` path with the closed registry branch; native API invocation observed; independent PMF sums equal triplets | Synthetic numerical positive only |
+| Model candidate denominator | Four statistic slots plus every supplied file, including unmatched/nested evidence; rejected native fixture and forged approval remain represented | Accept candidate accounting |
+| Output reader | Strict JSON and source/model replay; cannot validate a malicious wire by merely updating its own payload hash | Mutation controls passed |
+| New archive → original archive | Original content-addressed base record, its strict reader and 17 original code/configuration files preserved; new exact dispatch/code/model byte objects bound separately | Accept linked immutable archive |
+| Offline reconstruction | Temporary archived input copies; source/model replay without original paths; exact current reader population and bytes | Passed |
+| Write-once storage | Native exclusive-write primitive observed, identical writes idempotent, conflicting object writes rejected | Passed |
+| Forecast quality/market/joint scoring | No evaluation data, genuine statistic forecast, real contract market or coherent joint law introduced | Not exercised; no acceptance |
+
+The fixed-M0 profile is conditional on participation **and fixed projected exposure**. It cannot be described as integration over uncertain minutes, unconditional player outcomes, full-team opportunity allocation or a coherent multi-stat joint law. S3 conversion cannot receive minutes in place of projected 3PA; S0 per-game control is outside this profile. Those guards were exercised. Source publication/correction completeness and the genuine WS2 model's training-source authentication retain the limitations of accepted PR188; a dispatch archive does not manufacture additional authenticity.
+
+Adversarial source/manifest checks on synthetic controls establish structural rejection behavior, not independent verification of real training data. Exact hashes are evidence-domain joins; they do not establish provenance on their own. The real registry's emptiness is therefore central to this bounded decision. A future compatible artifact must be reviewed as new evidence, including the content meaning of its source receipts and trained roles; this engineering acceptance is not advance approval of such an artifact.

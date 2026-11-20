@@ -1,0 +1,31 @@
+{
+  "original_mode": "CURRENT_RESEARCH_EXECUTION",
+  "replay_mode": "RECORDED_CLOCK_REPLAY",
+  "forecast_at": "2026-11-20T00:22:38.008017+00:00",
+  "wires": {
+    "p1.json": {
+      "equal": true,
+      "sha256": "2ca4b634113e925f684ff26e1d95f8383af1ddab9f545b3ff89e349d0486c483"
+    },
+    "p2.json": {
+      "equal": true,
+      "sha256": "4d112988412b4d17f40717ac4f64c3df3996df806fcb96197c8e0ff452857698"
+    },
+    "p3.json": {
+      "equal": true,
+      "sha256": "e2841c04ddb2c076904708422b2d3701adf012eef2e6fbc23371c9ec27a809a0"
+    },
+    "p4.json": {
+      "equal": true,
+      "sha256": "719cc7145f5656e80734fef9c054572fb13d00e2d6448de8d9ec4fedf10be4b8"
+    },
+    "dispatch.json": {
+      "equal": true,
+      "sha256": "38629aa6e1d6b036c25fd3da7717d3533d763d83ddc814c1fcc0630ade4aaa2a"
+    },
+    "dispatch-manifest.json": {
+      "equal": true,
+      "sha256": "8e657489b4adfe0745846eca72e75fe9a2a0f931c5c8c5ca80189617fe96daec"
+    }
+  }
+}

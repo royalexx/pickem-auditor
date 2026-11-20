@@ -1,0 +1,196 @@
+{
+  "tested_implementation": "3669bf79273463eb34c1b76a1ef5a1e9151ca3b3",
+  "commands": [
+    {
+      "name": "initial_review",
+      "argv": [
+        "python",
+        "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/independent_probe.py"
+      ],
+      "exit_code": 1,
+      "stdout": "initial_probe.stdout",
+      "stderr": "initial_probe.stderr",
+      "cwd": "/workspace/pickem-auditor",
+      "scope": "Reviewer-harness failure only; original raw error preserved; no candidate repairs"
+    },
+    {
+      "name": "pre_chmod_review",
+      "argv": [
+        "python",
+        "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/independent_probe.py"
+      ],
+      "exit_code": 1,
+      "stdout": "pre_chmod_probe.stdout",
+      "stderr": "pre_chmod_probe.stderr",
+      "cwd": "/workspace/pickem-auditor",
+      "scope": "Reviewer-harness failure only; original raw error preserved; no candidate repairs"
+    },
+    {
+      "name": "independent_review",
+      "argv": [
+        "python",
+        "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/independent_probe.py"
+      ],
+      "exit_code": 0,
+      "stdout": "probe.stdout",
+      "stderr": "probe.stderr",
+      "cwd": "/workspace/pickem-auditor"
+    },
+    {
+      "name": "reusable_current_review",
+      "argv": [
+        "python",
+        "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/independent_probe.py"
+      ],
+      "exit_code": 0,
+      "stdout": "reproduction/probe.stdout",
+      "stderr": "reproduction/probe.stderr",
+      "cwd": "/workspace/pickem-auditor",
+      "environment": {
+        "NBA_P2_REVIEW_OUTPUT": "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/reproduction"
+      }
+    },
+    {
+      "name": "explicit_recorded_review",
+      "argv": [
+        "python",
+        "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/independent_probe.py"
+      ],
+      "exit_code": 0,
+      "stdout": "recorded_reproduction/probe.stdout",
+      "stderr": "recorded_reproduction/probe.stderr",
+      "cwd": "/workspace/pickem-auditor",
+      "environment": {
+        "NBA_P2_REVIEW_OUTPUT": "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/recorded_reproduction",
+        "NBA_P2_REVIEW_FORECAST_AT": "2026-11-20T00:22:38.008017+00:00"
+      }
+    },
+    {
+      "name": "implementation_tests",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-v",
+        "tests/nba_architecture/test_subset_p2_dispatch_v1.py"
+      ],
+      "exit_code": 0,
+      "stdout": "implementation_tests.stdout",
+      "stderr": "implementation_tests.stderr",
+      "cwd": "/workspace/pickem-auditor"
+    },
+    {
+      "name": "archive_tests",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-v",
+        "tests/nba_c/test_subset_dispatch_archive_v1.py"
+      ],
+      "exit_code": 0,
+      "stdout": "archive_tests.stdout",
+      "stderr": "archive_tests.stderr",
+      "cwd": "/workspace/pickem-auditor"
+    },
+    {
+      "name": "actual_current_cli",
+      "argv": [
+        "scripts/nba_subset_p2_dispatch.py",
+        "--capture",
+        "docs/nba_architecture/p1_subset_acceptance_20261119/initial_tonight_capture",
+        "--cohort",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/PROSPECTIVE_COHORT.json",
+        "--history",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs",
+        "--output",
+        "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/actual_current_cli"
+      ],
+      "exit_code": 0,
+      "operation": "CURRENT_RESEARCH_EXECUTION",
+      "forecast_at": "2026-11-20T00:22:38.008017+00:00",
+      "executed_at": "2026-11-20T00:22:45.917411+00:00",
+      "receipt": "actual_current_cli/receipt.json"
+    },
+    {
+      "name": "initial_probe_current_cli",
+      "argv": [
+        "scripts/nba_subset_p2_dispatch.py",
+        "--capture",
+        "docs/nba_architecture/p1_subset_acceptance_20261119/initial_tonight_capture",
+        "--cohort",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/PROSPECTIVE_COHORT.json",
+        "--history",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs",
+        "--output",
+        "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/actual_current_cli"
+      ],
+      "exit_code": 0,
+      "operation": "CURRENT_RESEARCH_EXECUTION",
+      "forecast_at": "2026-11-20T00:20:55.786360+00:00",
+      "executed_at": "2026-11-20T00:21:11.630624+00:00",
+      "receipt": "initial_probe_current_cli/receipt.json"
+    },
+    {
+      "name": "pre_chmod_current_cli",
+      "argv": [
+        "scripts/nba_subset_p2_dispatch.py",
+        "--capture",
+        "docs/nba_architecture/p1_subset_acceptance_20261119/initial_tonight_capture",
+        "--cohort",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/PROSPECTIVE_COHORT.json",
+        "--history",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs",
+        "--output",
+        "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/actual_current_cli"
+      ],
+      "exit_code": 0,
+      "operation": "CURRENT_RESEARCH_EXECUTION",
+      "forecast_at": "2026-11-20T00:21:29.381284+00:00",
+      "executed_at": "2026-11-20T00:21:37.008767+00:00",
+      "receipt": "pre_chmod_current_cli/receipt.json"
+    },
+    {
+      "name": "reproduction/actual_current_cli",
+      "argv": [
+        "scripts/nba_subset_p2_dispatch.py",
+        "--capture",
+        "docs/nba_architecture/p1_subset_acceptance_20261119/initial_tonight_capture",
+        "--cohort",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/PROSPECTIVE_COHORT.json",
+        "--history",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs",
+        "--output",
+        "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/reproduction/actual_current_cli"
+      ],
+      "exit_code": 0,
+      "operation": "CURRENT_RESEARCH_EXECUTION",
+      "forecast_at": "2026-11-20T00:23:46.331813+00:00",
+      "executed_at": "2026-11-20T00:23:54.043781+00:00",
+      "receipt": "reproduction/actual_current_cli/receipt.json"
+    },
+    {
+      "name": "recorded_reproduction/recorded_replay_cli",
+      "argv": [
+        "scripts/nba_subset_p2_dispatch.py",
+        "--capture",
+        "docs/nba_architecture/p1_subset_acceptance_20261119/initial_tonight_capture",
+        "--cohort",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/PROSPECTIVE_COHORT.json",
+        "--history",
+        "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs",
+        "--output",
+        "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/recorded_reproduction/recorded_replay_cli",
+        "--forecast-at",
+        "2026-11-20T00:22:38.008017+00:00"
+      ],
+      "exit_code": 0,
+      "operation": "RECORDED_CLOCK_REPLAY",
+      "forecast_at": "2026-11-20T00:22:38.008017+00:00",
+      "executed_at": "2026-11-20T00:26:44.888683+00:00",
+      "receipt": "recorded_reproduction/recorded_replay_cli/receipt.json"
+    }
+  ],
+  "environment_commands": "environment.json",
+  "note": "No operation timestamps invented for manually launched test wrappers; exact actual CLI clocks are retained. Initial CLI separate raw stdout was not retained; see REVIEWER_FAILURES.md."
+}

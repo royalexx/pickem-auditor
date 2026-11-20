@@ -1,0 +1,14 @@
+test_01_actual_current_clock_and_complete_source_denominators (__main__.IndependentDispatcherReview.test_01_actual_current_clock_and_complete_source_denominators) ... ok
+test_02_all_old_reader_bytes_are_unchanged (__main__.IndependentDispatcherReview.test_02_all_old_reader_bytes_are_unchanged) ... ok
+test_03_frozen_native_positive_and_exact_probability_semantics (__main__.IndependentDispatcherReview.test_03_frozen_native_positive_and_exact_probability_semantics) ... ok
+test_04_contract_source_clock_role_and_training_attacks (__main__.IndependentDispatcherReview.test_04_contract_source_clock_role_and_training_attacks) ... ok
+test_05_untrusted_model_and_approval_candidates_never_admit (__main__.IndependentDispatcherReview.test_05_untrusted_model_and_approval_candidates_never_admit) ... ok
+test_06_resealed_public_wire_and_upstream_mutations_fail (__main__.IndependentDispatcherReview.test_06_resealed_public_wire_and_upstream_mutations_fail) ... ok
+test_07_archive_replay_idempotence_and_native_write_once (__main__.IndependentDispatcherReview.test_07_archive_replay_idempotence_and_native_write_once) ... ok
+test_08_archive_raw_and_resealed_tampering_rejects (__main__.IndependentDispatcherReview.test_08_archive_raw_and_resealed_tampering_rejects) ... ok
+test_09_exact_manifest_and_checksum_domains (__main__.IndependentDispatcherReview.test_09_exact_manifest_and_checksum_domains) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 41.971s
+
+OK
