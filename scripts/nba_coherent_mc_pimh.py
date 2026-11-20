@@ -58,6 +58,8 @@ def main():
     ap.add_argument('--particles',type=int,default=96)
     ap.add_argument('--iterations',type=int,default=16)
     ap.add_argument('--min-moves',type=int,default=3)
+    ap.add_argument('--rare-sampler',choices=['pimh','sequential'],default='pimh')
+    ap.add_argument('--start-index',type=int,default=0)
     args=ap.parse_args()
     target=args.output.resolve()
     require(not (target==PACKET.resolve() or PACKET.resolve() in target.parents),
@@ -67,7 +69,8 @@ def main():
         model,cohort,args.output,seed=args.seed,n=args.n,variants=VARIANTS,
         path_budget=args.path_budget,event_budget=args.event_budget,
         chunk_size=args.chunk_size,max_wall_seconds=args.max_wall_seconds,
-        particles=args.particles,iterations=args.iterations,min_moves=args.min_moves)
+        particles=args.particles,iterations=args.iterations,min_moves=args.min_moves,
+        rare_sampler=args.rare_sampler,start_index=args.start_index)
     head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     concise=dict(branch_execution_head=head,
                  receipt_raw_sha256=digest((target/'RECEIPT.json').read_bytes()),
@@ -81,6 +84,8 @@ def main():
                                           .get('dkw_family_epsilon_ideal_iid')),
                  numerical_research_only=True,actual_outcome_scores=0,
                  release=False,
+                 rare_sampler=args.rare_sampler,start_index=args.start_index,
+                 rare_OT_absolute_CDF_bias_envelope=result['multiple_ot_prior_probability'],
                  pimh_particles=args.particles,pimh_iterations=args.iterations,
                  stationarity_numerically_certified=False)
     print(json.dumps(concise,sort_keys=True))
