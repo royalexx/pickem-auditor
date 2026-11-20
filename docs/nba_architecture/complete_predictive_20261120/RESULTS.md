@@ -146,3 +146,25 @@ zero-probability evidence.
 The engineering work and exact independent decisions are reviewable now. The
 above gates remain NO-GO; no schedule, paused NUTS job, ensemble weight, frozen
 comparison model, source ancestry, Tier policy or production path was changed.
+
+## Exact verification
+
+Final full regression: **2,325 tests passed,9 skipped**, tested commit
+`03f340a23be575a3013fd72fa7a8035f0500bce7`, exit0. The before/after manifest
+confirms unchanged runtime/test Python bytes throughout that execution; later
+publication changes add evidence and documentation. `final_suite/COMMAND.json`
+contains the exact command, actual clocks, streams and every tested file SHA.
+
+Primary actual implementations: full-S issuer
+`8e9f1ba991762bb959fe1ef8a88dce74c0fc93ef`; new-J generator/auditor
+`20f79e89ae1365235fc2a7549b85d2997dd3338b`; native C reader
+`1818407a9591ec6ec8b355ec90165f8360afe606`; J-C reader
+`73a07497` (full SHA in the independent J-C ledger). The actual prospective
+working-model fit receipt records implementation
+`39614b990504d3fff9848730b1117100fafb05b2` and exact compiler bytes; its
+independent admission is `ee8ade211f9addfa92d901e4b287ae1b92e6acb7`.
+Full-S source/model acceptance is `3906588f6f32ec26a522fe894e6022bbdd2dae03`;
+new-J engineering acceptance is `2580dd36`; J-C engineering acceptance is
+`59db2994223d6cd0ccd8c2375332a96140e3e88c`. These independent reviewers made
+no implementation repairs. Every input/output byte domain is documented in
+`REPRODUCE.md`; `ARTIFACT_LEDGER.json` lists exact saved output hashes.
