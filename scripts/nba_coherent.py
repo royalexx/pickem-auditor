@@ -105,6 +105,7 @@ def main():
         bank_raw_sha256=digest((out/'BANK.json').read_bytes()),bank_payload_sha256=bank['payload_sha256'],status=bank['status'],
         scenarios_requested=64,scenarios_dropped=0,failed=bank['failed'],path_proposals=sum(len(s['proposals']) for s in bank['scenarios']),
         exact_S4_J_query_pairs=len(coherence),population_accuracy_established=False,historical_validation=False,
+        artifact_raw_sha256={f.name:digest(f.read_bytes()) for f in sorted(out.iterdir()) if f.is_file()},
         zero_sensitivity_gate='PENDING',python=platform.python_version(),zlib=zlib.ZLIB_RUNTIME_VERSION,
         gzip_format='GZIP_MTIME0_EMPTY_FILENAME_DEFAULT_LEVEL9',release=False)
     (out/'EXECUTION_RECEIPT.json').write_bytes(canonical(receipt));sums(out);print(canonical(receipt).decode())
