@@ -117,7 +117,7 @@ def audit_saved_bank(bank):
                 observed_zero_minute_slot_fraction=zero_rows/(14*n),
                 scenarios_with_one_or_more_named_zero=sum(s['zero_minutes']>0 for s in per_scenario),
                 zero_minutes_by_player=by_player,per_scenario=per_scenario,
-                zero_prior_is_not_genuine_DNP_or_eligibility=False,
+                zero_prior_is_not_genuine_DNP_or_eligibility=True,
                 all14_participation_requires_separate_semantic_review=True,
                 prior_sensitivity_only=False,full_S4_J_sensitivity_evaluated=False,
                 clinical_or_market_predictions=False,historical_validation=False,
