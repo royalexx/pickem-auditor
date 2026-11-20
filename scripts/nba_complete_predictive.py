@@ -21,7 +21,7 @@ from v2.nba_opportunity import utc
 P=ROOT/'docs/nba_architecture/complete_predictive_20261120'
 spec=importlib.util.spec_from_file_location('complete_predictive_inputs',P/'inputs.py')
 inputs=importlib.util.module_from_spec(spec);spec.loader.exec_module(inputs)
-MODEL_ADMISSION_SHA=None
+MODEL_ADMISSION_SHA='388e41fb537dc5e2c395078603473f8c8d524745c90f30957b672e2ed6015a42'
 
 
 def now():return datetime.now(timezone.utc).isoformat()

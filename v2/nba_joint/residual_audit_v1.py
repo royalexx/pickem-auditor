@@ -139,6 +139,7 @@ def audit_run(run):
     for index,scenario in enumerate(run['scenarios']):
         require(scenario['fixed']['index']==index and scenario['accepted_attempt']==len(scenario['proposals'])-1,
             'J_AUDIT_REJECTION_ANCESTRY')
+        require(scenario['proposals'][-1]['status']=='ACCEPTED_PATH_PROPOSAL','J_AUDIT_REJECTED_FINAL_PROPOSAL')
         require(all(p['status']=='REJECT_OT_PATTERN' for p in scenario['proposals'][:-1]),'J_AUDIT_SELECTED_RERUN')
         results.append(audit_path(scenario['fixed'],scenario['proposals'][-1]))
     return dict(status='PHYSICAL_ACCOUNTING_ONLY',scenarios=len(results),results=results,
