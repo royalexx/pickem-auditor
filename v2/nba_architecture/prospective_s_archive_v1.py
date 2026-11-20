@@ -15,6 +15,7 @@ SOURCE_FILES = (
     'v2/nba_s_family/__init__.py', 'v2/nba_s_family/model.py',
     'v2/nba_s_family/prospective_fit_v1.py',
     'v2/nba_architecture/__init__.py', 'v2/nba_architecture/v2_contracts.py',
+    'v2/nba_architecture/contracts.py',
     'v2/nba_architecture/schema-2.0.0.json',
     'v2/nba_architecture/gamebook_identity_v1.py',
     'v2/nba_architecture/p1_capture_v1.py',
