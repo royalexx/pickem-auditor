@@ -92,7 +92,7 @@ def _event_path(fixed,seed,attempt,*,event_budget=4096,capture):
     rng=rng_for(seed,fixed['game_id'],fixed['index'],'event-path:'+str(attempt))
     teams=fixed['teams'];actors=fixed['actors'];length=fixed['length'];k=fixed['overtime_count']
     counts={t:[{s:0 for s in COUNTS} for a in actors[t]] for t in teams}
-    score={t:0 for t in teams};ledger=[];t=0.;offense=teams[int(rng.integers(2))]
+    score={t:0 for t in teams};ledger=[];t=0.;offense=teams[int(rng.integers(2))];opening_jump_winner=offense
     capture.update(ledger=ledger,counts=counts,score=score,attempt=attempt)
     ep=fixed['event_probabilities'];remaining_shot=24.;reset_limit=24.
     rotation_boundaries=sorted({s['end'] for team in teams for s in fixed['O'][team]['segments']}|{0.,length})
@@ -106,7 +106,11 @@ def _event_path(fixed,seed,attempt,*,event_budget=4096,capture):
     def other(team):return teams[1] if team==teams[0] else teams[0]
     for period,end in enumerate(ends,1):
         current_period=period;remaining_shot=24.;reset_limit=24.
-        emit('PERIOD_START',on_court={team:_oncourt(fixed,team,t) for team in teams})
+        if period in (2,3):offense=other(opening_jump_winner)
+        elif period==4:offense=opening_jump_winner
+        elif period>4:offense=teams[int(rng.integers(2))]
+        emit('PERIOD_START',on_court={team:_oncourt(fixed,team,t) for team in teams},
+            opening_possession_type='FAIR_MODEL_JUMP_BALL' if period==1 or period>4 else 'NBA_QUARTER_ENTITLEMENT')
         while t<end-1e-10:
             defending=other(offense);start=t
             # Inverse-CDF draw from an actually truncated gamma, no floor/clip.
