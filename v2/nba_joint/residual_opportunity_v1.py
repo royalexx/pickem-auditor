@@ -15,6 +15,9 @@ from v2.nba_architecture.subset_p3_v1 import require
 def capacity_certificate(players,*,query_budget=1000):
     """Worst-case pi=0 suffices for every nonnegative zero-mixture weight."""
     require(isinstance(players,list) and bool(players),'RESIDUAL_O_PLAYERS')
+    teams={p.get('team_id') for p in players}
+    require(len(teams)==1 and all(type(t) is str and bool(t) for t in teams),'RESIDUAL_O_SINGLE_TEAM')
+    require(all(p['minutes'].get('family','beta')=='beta' for p in players),'RESIDUAL_O_BETA_ONLY')
     ids=sorted(p['player_id'] for p in players)
     require(len(ids)==len(set(ids)),'RESIDUAL_O_DUPLICATE_ID')
     byid={p['player_id']:p for p in players};n=len(ids)
@@ -44,7 +47,8 @@ def capacity_certificate(players,*,query_budget=1000):
 
 def draw_team(players,length,rng,*,fixed_zero_weight=None):
     certificate=capacity_certificate(players)
-    require(type(length) in (int,float) and math.isfinite(length) and length>=48,'RESIDUAL_O_DURATION')
+    require(type(length) in (int,float) and math.isfinite(length) and length>=48 and
+        (length-48)%5==0,'RESIDUAL_O_DURATION')
     byid={p['player_id']:p for p in players};ids=certificate['player_ids'];n=len(ids)
     u=float(rng.random());actors=[];minutes=[]
     for i,pid in enumerate(ids):
@@ -77,7 +81,13 @@ def draw_team(players,length,rng,*,fixed_zero_weight=None):
 
 
 def audit_team(draw,length):
+    require(type(length) in (int,float) and math.isfinite(length) and length>=48 and
+        (length-48)%5==0,'RESIDUAL_O_DURATION')
     actors=draw['actors'];minutes=draw['minutes'];segments=draw['segments']
+    teams={a.get('team_id') for a in actors}
+    require(len(teams)==1 and all(type(t) is str and bool(t) for t in teams),'RESIDUAL_O_SINGLE_TEAM')
+    ids=[a['player_id'] for a in actors if a['player_id'] is not None]
+    require(len(ids)==len(set(ids)),'RESIDUAL_O_DUPLICATE_ID')
     require(len(actors)==len(minutes) and all(0<=m<=length for m in minutes),'RESIDUAL_O_ACTOR_MINUTES')
     require(abs(math.fsum(minutes)-5*length)<1e-7,'RESIDUAL_O_TOTAL')
     integrated=np.zeros(len(actors));previous=0.
