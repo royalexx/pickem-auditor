@@ -41,6 +41,26 @@ class RealSourceTransportTests(unittest.TestCase):
             inputs=i.outcome_inputs();inputs['population_path']=fake
             with self.assertRaises(ValueError):read_native_outcomes(**inputs)
 
+    def test_real_frozen_J_to_C_and_same_draw_combos(self):
+        from v2.nba_architecture.conditional_j_c_v1 import read_J_for_C
+        args=dict(run_raw=(P/'actual_j_candidate/RUN.json').read_bytes(),
+            receipt_raw=(P/'actual_j_candidate/EXECUTION_RECEIPT.json').read_bytes(),
+            model_raw=(P/'fitted_j/event_model.json').read_bytes(),
+            model_admission_raw=(P/'independent_j_artifact/ARTIFACT_ADMISSION.json').read_bytes(),
+            full_raw=self.full,parent_raw=self.parent,full_inputs=i.full_inputs(),outcome_inputs=i.outcome_inputs())
+        result=read_J_for_C(**args)
+        self.assertEqual((result['all_market_attempts'],result['all_market_supported'],result['all_market_abstained']), (280,112,168))
+        self.assertEqual((result['actual_scores'],result['pending_outcomes']),(0,280))
+        byplayer={}
+        for row in result['rows']:
+            if row['samples'] is not None:byplayer.setdefault(row['player_id'],{})[row['statistic']]=row['samples']
+        for stats in byplayer.values():
+            for j in range(32):
+                self.assertEqual(stats['pra'][j],stats['points'][j]+stats['rebounds'][j]+stats['assists'][j])
+        for key in ('run_raw','receipt_raw','model_raw','model_admission_raw'):
+            bad=dict(args);bad[key]+=b' '
+            with self.assertRaises(ValueError):read_J_for_C(**bad)
+
 
 class ScoreMechanicsOnlyTests(unittest.TestCase):
     def model(self):return dict(alpha=10.,beta=20.,minutes=dict(mean=20.,variance=8.,ot_probability=.1,ot_continuation=.2))

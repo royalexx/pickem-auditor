@@ -38,7 +38,8 @@ def compare_with_full_S(run,full_forecast):
             sample_mean_MC_standard_error=sd/math.sqrt(n) if sd is not None else None,
             partition_empirical_TV=partition_tv,partition_limit=maximum,tail_cell_included=True,
             empirical_CDF_max_difference=cdf_gap,simultaneous56_MC_DKW95_half_width=epsilon,
-            population_CDF_difference_lower_bound=max(0.,cdf_gap-epsilon),
+            estimated_CDF_difference_lower_limit_vs_numerical_reference=max(0.,cdf_gap-epsilon),
+            true_S_CDF_lower_bound_certified=False,
             reference_S_OT_absolute_omission_bound=max(pmf['omitted_OT_probability_bound'],cdf['omitted_OT_probability_bound']),
             reference_quadrature_difference_is_estimate=True,TV_fidelity_certificate=False))
     return dict(schema='new-J-reference-S-discrepancy/1',scenario_denominator=n,attempt_denominator=len(rows),

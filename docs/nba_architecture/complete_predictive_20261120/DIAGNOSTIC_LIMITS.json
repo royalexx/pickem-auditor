@@ -1,0 +1,15 @@
+{
+  "schema": "J-diagnostic-numerical-reference-limits/1",
+  "recorded_at": "2026-11-20T04:13:48.532247+00:00",
+  "original_diagnostic_raw_sha256": "3e557a31dbeee677d6bc6d55fbff683fce1172ff0cf3b81ebcbbefe749716cfd",
+  "original_field": "population_CDF_difference_lower_bound",
+  "correct_interpretation": "Estimated CDF discrepancy lower limit versus numerical reference after DKW MC allowance. Not a certified lower bound against the true S distribution: quadrature order differences are not rigorous reference-error bounds.",
+  "all_original_values_zero": true,
+  "original_raw_replaced": false,
+  "new_sampling_or_fitting": false,
+  "future_field_name": "estimated_CDF_difference_lower_limit_vs_numerical_reference",
+  "true_S_CDF_lower_bound_certified": false,
+  "maximum_observed_CDF_gap": 0.24740680101107337,
+  "MC_DKW_half_width": 0.3471813094598656,
+  "fidelity_accepted": false
+}
