@@ -14,9 +14,9 @@ from v2.nba_architecture.prospective_s_sources_v1 import build_dataset,SPEC_SHA,
 from v2.nba_architecture.subset_p3_v1 import require
 from v2.nba_opportunity import utc
 
-PREFIT_APPROVAL_SHA=None
-APPROVED_READER_SHA=None
-APPROVED_DATASET_SHA=None
+PREFIT_APPROVAL_SHA='a76ce1e31d029edecc30b57d9ee7dd37941cb31fc697c5c01b0566c18b9fe558'
+APPROVED_READER_SHA='8b61c753a41b59b9baad25ce179bd56ef3ceaf31645e76998b6408f296a447fd'
+APPROVED_DATASET_SHA='e5cb76ef446d6651b718c6279367a7078ffa86f01b621cfbfd9c7b4d74adbd1d'
 PARAMETERS=dict(prior_minutes=180.,prior_attempts=40.,dispersion=12.,min_player_games=2)
 SEED=20261120
 NATIVE_SHA='a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6'
