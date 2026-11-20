@@ -75,5 +75,14 @@ class CoherentTests(unittest.TestCase):
         with patch('v2.nba_joint.coherent_components_v1.PREFIT_SHA',None),self.assertRaises(ValueError):fit(approval_path='missing',protocol_path='missing',old_model_path='missing',
             old_admission_path='missing',source_inputs={},original_raw_dir='missing',spec_path='missing',policy_path='missing',output='missing')
 
+    def test_actual_source_backed_bank_public_replay(self):
+        from scripts.nba_coherent import inputs,P
+        from v2.nba_joint.coherent_issued_v1 import replay
+        result=replay(P/'actual',model_dir=P/'fitted',source_inputs=inputs.outcome_inputs())
+        self.assertEqual((result['scenarios'],result['exact_S4_J_query_pairs']),(64,336))
+        self.assertEqual((result['all_market_attempts'],result['supported'],result['abstentions']), (280,112,168))
+        self.assertEqual((result['primitive_attempts'],result['primitive_supported'],result['primitive_abstentions']), (140,56,84))
+        self.assertFalse(result['new_forecast_issued']);self.assertEqual(result['actual_scores'],0)
+
 
 if __name__=='__main__':unittest.main()
