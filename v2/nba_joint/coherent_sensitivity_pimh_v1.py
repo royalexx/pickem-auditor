@@ -164,7 +164,8 @@ def fixed_pair_invariants(base, other):
 
 
 def _scenario(model, seed, index, name, weight, path_budget, event_budget,
-              fixed=None, particles=96, iterations=16, min_moves=3):
+              fixed=None, particles=96, iterations=16, min_moves=3,
+              rare_sampler='pimh'):
     partial = dict(index=index,variant=name,zero_weight=weight,
                    seed=seed,status='FAILED',proposal_receipts=[])
     try:
@@ -176,7 +177,8 @@ def _scenario(model, seed, index, name, weight, path_budget, event_budget,
                        kernel_schema='nba-conditional-OT-PIMH/1')
         sample=conditional_event_path(fixed,seed,particles=particles,
                        iterations=iterations,budget=path_budget,
-                       event_budget=event_budget,min_moves=min_moves)
+                       event_budget=event_budget,min_moves=min_moves,
+                       rare_sampler=rare_sampler)
         sample_status=sample['status']
         partial['sampler_status']=sample_status
         partial['finite_chain_is_exact_iid']=sample['finite_chain_is_exact_iid']
@@ -195,13 +197,16 @@ def _scenario(model, seed, index, name, weight, path_budget, event_budget,
                     selected_weight_trace=[x['selected_logZ']
                                               for x in sample['proposals']])]
         else:
-            partial['proposal_count']=sample.get('accepted_attempt',0)+1
-            partial['ot_rejections']=sample.get('rejected_count',0)
+            partial['proposal_count']=sample.get('path_proposals',
+                                     sample.get('accepted_attempt',0)+1)
+            partial['ot_rejections']=sample.get('rejected_proposals',
+                                      sample.get('rejected_count',0))
             partial['proposal_receipts']=[
                 dict(status=sample_status,
                     path_rejections=sample.get('rejected_count',0))]
         if sample_status not in ('EXACT_ORIGINAL_CONDITIONAL_REJECTION',
-                                'RESEARCH_FINITE_CHAIN_MIXED'):
+                                'RESEARCH_FINITE_CHAIN_MIXED',
+                                'RESEARCH_PERIOD_CONDITIONAL_Q_BOUNDED'):
             partial['error']=sample_status
             return partial
         proposal=sample['path']
@@ -221,8 +226,9 @@ def _scenario(model, seed, index, name, weight, path_budget, event_budget,
         require(len(counts)==14,'S4_SENS_NAMED_DENOMINATOR')
         partial.update(status='ACCEPTED_PATH',counts=counts,
                        accepted_path_raw_sha256=digest(canonical(proposal)),
-                       numerical_conditional_scope='FINITE_MCMC_RESEARCH'
-                           if fixed['overtime_count']>1 else 'EXACT_REJECTION',
+                       numerical_conditional_scope=('EXACT_REJECTION' if fixed['overtime_count']<=1
+                           else 'BOUNDED_APPROXIMATION_Q' if rare_sampler=='sequential'
+                           else 'FINITE_MCMC_RESEARCH'),
                        retained_full_trace=False)
     except Exception as exc:
         partial['error']=type(exc).__name__+':'+str(exc)
@@ -319,8 +325,12 @@ def simulate_sensitivity(model,cohort,out,*,seed=SEED,
                          n=64,variants=VARIANTS,
                          path_budget=4096,event_budget=4096,
                          chunk_size=16,max_wall_seconds=None,
-                         particles=96,iterations=16,min_moves=3):
-    require(type(n) is int and 1<=n<=20000 and type(seed) is int and
+                         particles=96,iterations=16,min_moves=3,
+                         rare_sampler='pimh',start_index=0):
+    require(type(n) is int and 1<=n<=20000 and
+            type(start_index) is int and start_index>=0 and
+            type(rare_sampler) is str and rare_sampler in ('pimh','sequential') and
+            type(seed) is int and
             type(path_budget) is int and path_budget>0 and
             type(event_budget) is int and event_budget>0 and
             type(chunk_size) is int and chunk_size>0 and
@@ -359,7 +369,7 @@ def simulate_sensitivity(model,cohort,out,*,seed=SEED,
             for name,_ in variants}
     chunks=[];buffer=[];timeout=False
     parity=assert_original_fixed_parity(model,seed=seed,indices=(0,1,2))
-    for i in range(n):
+    for i in range(start_index,start_index+n):
         if max_wall_seconds is not None and time.monotonic()-t0>max_wall_seconds:
             timeout=True;break
         base_fixed=fixed_paired_scenario(model,seed,i,None)
@@ -370,7 +380,7 @@ def simulate_sensitivity(model,cohort,out,*,seed=SEED,
                     fixed_pair_invariants(base_fixed,fixed)
                 rec=_scenario(model,seed,i,name,weight,path_budget,event_budget,
                               fixed=fixed,particles=particles,iterations=iterations,
-                              min_moves=min_moves)
+                              min_moves=min_moves,rare_sampler=rare_sampler)
             except Exception as exc:
                 rec=dict(index=i,variant=name,zero_weight=weight,seed=seed,
                          status='FAILED',proposal_receipts=[],error=type(exc).__name__+':'+str(exc))
@@ -385,7 +395,7 @@ def simulate_sensitivity(model,cohort,out,*,seed=SEED,
                 status[name]['failed']+=1
                 status[name]['errors'].append(dict(index=i,error=rec.get('error')))
             buffer.append(rec)
-        if len(buffer)>=len(variants)*chunk_size or i==n-1:
+        if len(buffer)>=len(variants)*chunk_size or i==start_index+n-1:
             raw=b''.join(canonical(x)+b'\n' for x in buffer)
             gz=gzip.compress(raw,compresslevel=9,mtime=0)
             fn='chunk-%06d-%06d.jsonl.gz'%(i+1-len(buffer)//len(variants),i)
@@ -406,14 +416,23 @@ def simulate_sensitivity(model,cohort,out,*,seed=SEED,
     wall=time.monotonic()-t0
     whole=not timeout and all(s['completed']==n and s['failed']==0 for s in status.values())
     receipt=dict(schema='nba-s4-J-CRN-zero-sensitivity-conditional-PIMH/1',
-                 scientific_status='RESEARCH_FINITE_PIMH_CONVERGENCE_NOT_ACCEPTED' if whole else 'FAILED_INCOMPLETE',
-                 requested_per_variant=n,variants=[dict(name=x,weight=z) for x,z in variants],
+                 scientific_status=('RESEARCH_BOUNDED_OT_Q_NOT_PRODUCTION_APPROVED'
+                    if rare_sampler=='sequential' else
+                    'RESEARCH_FINITE_PIMH_CONVERGENCE_NOT_ACCEPTED')
+                    if whole else 'FAILED_INCOMPLETE',
+                 requested_per_variant=n,start_index=start_index,
+                 end_index_exclusive=start_index+n,
+                 rare_sampler=rare_sampler,
+                 requested_scope='SHARD' if start_index>0 else 'PREFIX_OR_SHARD',
+                 variants=[dict(name=x,weight=z) for x,z in variants],
                  seed=seed,particles=particles,iterations=iterations,
                  multiple_ot_prior_probability=rare_ot_absolute_tv_envelope,
                  distributional_contamination_bound_applies_to_unconditional_cdfs=True,
                  conditional_multiple_ot_distribution_uncertainty_not_bounded_by_this_envelope=True,
                  min_accepted_moves=min_moves,stationary_target_is_exact=True,
                  finite_chain_mc_stationarity_unproven=True,
+                 original_exact_for_K_le_1=True,
+                 original_conditional_K_ge_2_exact_only_if_PIMH_at_stationarity=(rare_sampler=='pimh'),
                  seed_comment='SAME_FIXTURE_CRN_AND_FIXED_ZERO_INTERVENTIONS',
                  python=sys.version,numpy=np.__version__,scipy=scipy.__version__,zlib=zlib.ZLIB_VERSION,
                  experiment_code_raw_sha256=digest(Path(__file__).read_bytes()),
