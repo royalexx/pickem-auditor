@@ -67,12 +67,23 @@ def verify_archive(output, *, expected_manifest_sha256, python=sys.executable):
     the reviewed registry in the archived reader and full source/fit replay.
     """
     root = Path(output).resolve(); raw = (root/'manifest.json').read_bytes()
+    require(ROOT.resolve() != (root/'reader').resolve(),
+        'GENUINE_ARCHIVE_EXTERNAL_TRUSTED_READER_REQUIRED')
     require(digest(raw)==expected_manifest_sha256, 'GENUINE_ARCHIVE_MANIFEST_BYTES')
     manifest = strict_json(raw); actual = set()
     for path in root.rglob('*'):
         require(not path.is_symlink(), 'GENUINE_ARCHIVE_SYMLINK')
         if path.is_file() and path.name!='manifest.json':actual.add(path.relative_to(root).as_posix())
     require(actual==set(manifest['files']), 'GENUINE_ARCHIVE_FILE_POPULATION')
+    # A resealed hash manifest grants transport integrity only. The archived
+    # executable and admission registry must equal this separately reviewed
+    # checkout; an archive cannot appoint its own verification code.
+    reader_paths = {'reader/'+name for name in SOURCE_FILES}
+    require({name for name in actual if name.startswith('reader/')} == reader_paths,
+        'GENUINE_ARCHIVE_READER_POPULATION')
+    for name in SOURCE_FILES:
+        require((root/'reader'/name).read_bytes() == (ROOT/name).read_bytes(),
+            'GENUINE_ARCHIVE_UNREVIEWED_READER_BYTES:'+name)
     for name,item in manifest['files'].items():
         path = root/name
         require(path.resolve().is_relative_to(root) and path.is_file(), 'GENUINE_ARCHIVE_PATH')
@@ -80,11 +91,12 @@ def verify_archive(output, *, expected_manifest_sha256, python=sys.executable):
             'GENUINE_ARCHIVE_FILE_BYTES:'+name)
     # The archived CLI computes every result again using only frozen inputs.
     command = [str(python),'-I','-B',str(root/'reader/scripts/nba_genuine_s.py'),
-        'replay-archive',str(root)]
+        '_recompute-archive',str(root)]
     child = subprocess.run(command,cwd=root,capture_output=True,text=True)
     require(child.returncode==0, 'GENUINE_ARCHIVE_OFFLINE_REPLAY:'+child.stderr)
     result = strict_json(child.stdout)
-    require(result['payload_sha256']==manifest['payload_sha256'], 'GENUINE_ARCHIVE_OUTPUT_JOIN')
+    require(result['mode']=='DETERMINISTIC_RECOMPUTATION_ONLY_UNVERIFIED_CODE' and
+        result['payload_sha256']==manifest['payload_sha256'], 'GENUINE_ARCHIVE_OUTPUT_JOIN')
     return dict(schema='nba-genuine-S-archive-verification/1.0.0',status='VERIFIED_OFFLINE_REPLAY',
         manifest_raw_sha256=expected_manifest_sha256,command=command,stdout=child.stdout,stderr=child.stderr,
         candidate_denominator=manifest['candidate_denominator'],attempt_denominator=manifest['attempt_denominator'],

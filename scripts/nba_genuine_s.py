@@ -26,14 +26,19 @@ def frozen_inputs(root):
 def main():
     parser=argparse.ArgumentParser(description=__doc__); commands=parser.add_subparsers(dest='command',required=True)
     replay=commands.add_parser('replay-archive');replay.add_argument('archive')
+    replay.add_argument('--expected-manifest-sha256',required=True)
+    recompute=commands.add_parser('_recompute-archive',help=argparse.SUPPRESS);recompute.add_argument('archive')
     forecast=commands.add_parser('forecast')
     for name in ('raw-dir','spec-path','policy-path','model-dir','prefit-path','admission-path','model-path','cohort-path','output'):
         forecast.add_argument('--'+name,required=True)
     args=parser.parse_args()
     if args.command=='replay-archive':
+        from v2.nba_architecture.prospective_s_archive_v1 import verify_archive
+        print(canonical(verify_archive(args.archive,expected_manifest_sha256=args.expected_manifest_sha256)).decode())
+    elif args.command=='_recompute-archive':
         root=Path(args.archive); expected=strict_json((root/'forecast.json').read_bytes())
         result=read_forecasts((root/'forecast.json').read_bytes(),forecast_at=expected['forecast_at'],**frozen_inputs(root))
-        print(canonical(dict(mode='OFFLINE_REPLAY_ONLY',new_forecast_issued=False,payload_sha256=result['payload_sha256'],
+        print(canonical(dict(mode='DETERMINISTIC_RECOMPUTATION_ONLY_UNVERIFIED_CODE',new_forecast_issued=False,payload_sha256=result['payload_sha256'],
             candidate_denominator=result['candidate_denominator'],attempt_denominator=result['attempt_denominator'],
             forecasted_rows=result['forecasted_rows'],abstained_rows=result['abstained_rows'])).decode())
     else:
