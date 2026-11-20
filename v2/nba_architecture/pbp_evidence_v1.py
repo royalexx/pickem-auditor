@@ -110,6 +110,7 @@ def parse_pbp(raw,box_raw,game_id):
     return dict(schema='nba-official-PBP-facts/1',game_id=game_id,game_start_at=game['gameTimeUTC'],
         raw_sha256=digest(raw),box_raw_sha256=digest(box_raw),players=players,
         action_denominator=len(actions),events=events,unresolved_alias_denominator=len(unresolved),unresolved_aliases=unresolved,
+        reconciled_event_credit_fields=list(fields),event_derived_PF_and_plus_minus_admitted=False,
         event_credit_discrepancies=discrepancies,all_credited_event_counts_reconciled=not discrepancies,
         period_end_scores=ends,reported_end_wallclock_text=actions[-1]['description'],exact_wallclock_end_at=None,
         source_admission='STRUCTURAL_ONLY_PENDING_INDEPENDENT_CAPABILITY_REVIEW',

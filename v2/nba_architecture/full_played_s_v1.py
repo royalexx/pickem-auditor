@@ -50,14 +50,14 @@ class FullPlayedLaw:
         total=np.zeros(len(values))
         for length,weight in parts:
             probability=self.beta/(self.beta+length*u)
-            kernel=nbinom.pmf(counts,self.alpha,probability) if kind=='pmf' else nbinom.cdf(counts,self.alpha,probability)
+            kernel={'pmf':nbinom.pmf,'cdf':nbinom.cdf,'sf':nbinom.sf}[kind](counts,self.alpha,probability)
             total+=weight*(kernel@weights)
         total*=1-self.zero_prior_mean
-        total+=self.zero_prior_mean*(np.asarray(values)==0 if kind=='pmf' else np.ones(len(values)))
+        total+=self.zero_prior_mean*(np.asarray(values)==0 if kind=='pmf' else np.ones(len(values)) if kind=='cdf' else np.zeros(len(values)))
         return total,(1-self.zero_prior_mean)*tail
 
     def query(self,values,kind='pmf',*,ot_terms=32):
-        require(kind in ('pmf','cdf'),'FULL_S_QUERY_KIND')
+        require(kind in ('pmf','cdf','sf'),'FULL_S_QUERY_KIND')
         low,_=self._evaluate(values,kind,256,ot_terms);high,tail=self._evaluate(values,kind,512,ot_terms)
         difference=float(np.max(np.abs(high-low)));order=512
         if difference>1e-9:
@@ -66,6 +66,7 @@ class FullPlayedLaw:
         require(difference<=1e-9 and np.all(np.isfinite(high)) and np.all(high>=0)
             and np.all(high<=1+1e-10),'FULL_S_QUERY_NOT_CONVERGED')
         return dict(kind=kind,counts=values,probabilities=high.tolist(),quadrature_order=order,
+            value_interpretation='NUMERICAL_ESTIMATE_NOT_STRUCTURAL_ZERO_OR_ONE',
             estimated_order_difference=difference,order_difference_is_rigorous_bound=False,
             omitted_OT_probability_bound=tail,count_support_truncated=False,
             count_support_renormalized=False)
@@ -131,7 +132,7 @@ class FullPlayedLaw:
 
     def summary(self,display_max=128):
         require(type(display_max) is int and 0<=display_max<=4096,'FULL_S_DISPLAY_BUDGET')
-        pmf=self.query(list(range(display_max+1)));cdf=self.query([display_max],kind='cdf')
+        pmf=self.query(list(range(display_max+1)));cdf=self.query([display_max],kind='cdf');sf=self.query([display_max],kind='sf')
         return dict(schema='nba-assumption-defined-full-played-S1/1',
             kind='PRIOR_PREDICTIVE_SHADOW_NOT_EMPIRICALLY_IDENTIFIED',
             conditioning='conditional_on_participation_under_declared_model_assumptions',
@@ -142,9 +143,11 @@ class FullPlayedLaw:
             zero_prior_mean=self.zero_prior_mean,
             zero_weight_origin='BASELINE_PRIOR_MEAN' if self.zero_prior_mean==.01 else 'CHOSEN_SENSITIVITY_NOT_IDENTIFIED_BOUND',moments=self.moments(),
             displayed_support=[dict(value=k,mass=p) for k,p in zip(pmf['counts'],pmf['probabilities'])],
-            probability_beyond_display=1-cdf['probabilities'][0],
+            probability_beyond_display=sf['probabilities'][0],
+            probability_beyond_display_method='DIRECT_NB_SURVIVAL_INTEGRAL_NOT_ONE_MINUS_CDF',
+            probability_beyond_display_is_numerical_estimate=True,
             displayed_count_mass=math.fsum(pmf['probabilities']),
             displayed_support_is_not_full_law=True,count_support='ALL_NONNEGATIVE_INTEGERS',
-            numerical=pmf,full_model_measure_defined=True,empirical_zero_state_identified=False,
+            numerical=dict(pmf=pmf,cdf=cdf,sf=sf),full_model_measure_defined=True,empirical_zero_state_identified=False,
             genuine_participation_probability=None,genuine_zero_state_probability=None,
             source_model_admission='PENDING_SEPARATE_REVIEW',production_release=False)
