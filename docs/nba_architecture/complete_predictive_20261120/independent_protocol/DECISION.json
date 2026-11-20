@@ -1,0 +1,62 @@
+{
+  "approved_model_assumptions": {
+    "absence_updates": false,
+    "factorization": "conditional product assumption, not learned dependence",
+    "point_and_family_outputs_required": true,
+    "positive_kernel": "original S1 Gamma rate with full positive beta M0 exposure; homogeneous rate extrapolation below 30 seconds",
+    "prior": "Beta(0.5,49.5)",
+    "prior_mean": 0.01,
+    "required_sensitivity_means": [
+      0,
+      0.001,
+      0.01,
+      0.05,
+      0.1
+    ],
+    "sensitivity_range_identifies_true_probability": false,
+    "true_zero_observations": 0,
+    "zero_kernel": "structural hypothesis: all four counts zero at latent true zero exposure; not inferred from printed zero"
+  },
+  "calibration_or_scoring_admission_granted": false,
+  "decided_at": "2026-11-20T03:17:49.577062+00:00",
+  "decision": "APPROVE_SEPARATELY_VERSIONED_SHADOW_IMPLEMENTATION_PROTOCOL_ONLY",
+  "evidence": {
+    "actions": 10463,
+    "confirmed_true_zero_episode_observed": false,
+    "eleven_second_episode_observed": true,
+    "http200_sources": 20,
+    "new_capture_times_after_original_forecast_freeze": true,
+    "shared_action_number_groups": 540,
+    "source_statistics_equal_original": true
+  },
+  "exact_input_raw_sha256": {
+    "EVIDENCE_PROFILE.json": "9c6b69fde1f67c4144f599911b8f38fc9ece26528c9484ce0125632a10a787c8",
+    "FULL_PLAYED_MODEL_CARD.json": "739a6a6e1d6e3bca13c7d7151abb2ac765b0450b743121e04a5bb463990d4893",
+    "PBP_POPULATION.json": "1d05830c44ee07fd89bbe7dcade95d70651a0cfae824e8f2edaadf30d4b20584"
+  },
+  "full_G1_or_quality_claim": false,
+  "genuine_true_zero_probability": null,
+  "historical_replay_release_gate_passed": false,
+  "implementation_authorship": "Independent evidence/review only; no implementation repairs authored.",
+  "joint_admission_granted": false,
+  "legal_eligibility": null,
+  "model_artifact_or_forecast_admission_granted": false,
+  "next_gate_details": "PROTOCOL.md",
+  "participation_probability": null,
+  "production": false,
+  "protocol_implementation_approved": true,
+  "release_approved": false,
+  "required_before_any_new_law_admission": [
+    "Independent public-path source reader identity, event credit, status, clock and mutation tests.",
+    "Independent full-positive and zero-mixture numeric checks, moment and tail bounds, pmf/cdf/logpmf including rare-event failure behavior.",
+    "Separately versioned model and source/card hashes; actual current computation/admission/freeze clocks; no retroactive original forecast replacement.",
+    "All 140 attempts retained; unsupported attempts and unknown classifications explicit; prior-only fields distinct from genuine probability.",
+    "Point baseline and full chosen sensitivity family, original law and rejected prototypes retained."
+  ],
+  "reviewed_checkout": "f524b44ab68be16a0f92037a145a370ef8d9d060",
+  "schema": "independent-full-played-protocol-review/1",
+  "source_candidates": 35,
+  "source_reader_admission_granted": false,
+  "statistic_attempts": 140,
+  "target": "401910026"
+}

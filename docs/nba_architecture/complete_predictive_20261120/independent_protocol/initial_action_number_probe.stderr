@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/complete_predictive_20261120/independent_protocol/evidence_probe.py", line 31, in <module>
+    assert len({a['actionNumber'] for a in actions})==len(actions)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

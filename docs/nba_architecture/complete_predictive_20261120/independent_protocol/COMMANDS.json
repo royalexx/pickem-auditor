@@ -1,0 +1,27 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_protocol/evidence_probe.py"
+      ],
+      "exit_code": 0,
+      "purpose": "Read-only frozen PBP capability and provenance checks",
+      "stderr": "evidence.stderr",
+      "stdout": "evidence.stdout"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_protocol/evidence_probe.py"
+      ],
+      "exit_code": 1,
+      "purpose": "Initial reviewer-only actionNumber uniqueness assumption failed; original streams retained; corrected probe uses actionId",
+      "stderr": "initial_action_number_probe.stderr",
+      "stdout": "initial_action_number_probe.stdout"
+    }
+  ],
+  "cwd": "/workspace/pickem-auditor",
+  "fit_calls": 0,
+  "holdout_scoring": false
+}
