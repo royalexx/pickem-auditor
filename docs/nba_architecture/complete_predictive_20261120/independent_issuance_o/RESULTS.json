@@ -1,0 +1,79 @@
+{
+  "J_count_draws": 0,
+  "O_boundary_controls": [
+    {
+      "mutation": "mixed_team",
+      "rejected": "RESIDUAL_O_SINGLE_TEAM"
+    },
+    {
+      "mutation": "unsupported_family",
+      "rejected": "RESIDUAL_O_BETA_ONLY"
+    },
+    {
+      "mutation": "duration49",
+      "rejected": "RESIDUAL_O_DURATION"
+    },
+    {
+      "mutation": "boolean_duration",
+      "rejected": "RESIDUAL_O_DURATION"
+    },
+    {
+      "mutation": "unknown_kind",
+      "rejected": "RESIDUAL_O_ACTOR_KIND"
+    },
+    {
+      "mutation": "missing_named_id",
+      "rejected": "RESIDUAL_O_NAMED_ID"
+    },
+    {
+      "mutation": "residual_slot_bool",
+      "rejected": "RESIDUAL_O_RESIDUAL_IDENTITY"
+    },
+    {
+      "mutation": "wrong_residual_group",
+      "rejected": "RESIDUAL_O_RESIDUAL_IDENTITY"
+    }
+  ],
+  "actual_verified_issue": {
+    "abstentions": 84,
+    "attempts": 140,
+    "forecast_raw_sha256": "a60ec92b970e6b417a1b9b48dceca3b2a1140dcf84f7f4ef24a8b57edcfc987f",
+    "forecasts": 56,
+    "new_forecast_issued": false,
+    "original_forecast_at": "2026-11-20T03:39:42.250414+00:00",
+    "payload_sha256": "aa7906f0fafdb12aa22141f1819ddfb802fe5501bb030bcf30157c9490bd21ad",
+    "release_approved": false,
+    "status": "VERIFIED_FROZEN_FORECAST_POST_EVENT_SAFE"
+  },
+  "capacity_certificates": [
+    {
+      "capacity_slack": 1.0110000000000001,
+      "independent_upward_grid_upper": 3.989,
+      "public_upper": 3.9876282208869718,
+      "queries": 49,
+      "team_id": "espn:team:16"
+    },
+    {
+      "capacity_slack": 0.9059999999999997,
+      "independent_upward_grid_upper": 4.094,
+      "public_upper": 4.0902888266639135,
+      "queries": 49,
+      "team_id": "espn:team:29"
+    }
+  ],
+  "completed_at": "2026-11-20T03:59:24.591384+00:00",
+  "disclosed_boundary_adjustments": 601,
+  "draws_checked": 336,
+  "errors": 0,
+  "failures": 0,
+  "max_actor_witness_error_minutes": 4.263256414560601e-14,
+  "new_fit_artifacts_created": 0,
+  "new_forecasts_issued": 0,
+  "reviewed_source_sha256": {
+    "v2/nba_architecture/full_predictive_replay_v2.py": "0f6cf4dfdcbdc8661f9b45192c12f91aa0f2a768f9657b3b90071c7b5403aca6",
+    "v2/nba_architecture/full_predictive_runtime_v1.py": "6106fa00f9783e5fb8e6fdb5da1d60906bcf25bb0367dbb11219766b71f67de7",
+    "v2/nba_joint/residual_opportunity_v1.py": "d53627276ba972cd23ce91bd4d9cb212f28fa141e45d44ea6f5a276b41215803"
+  },
+  "started_at": "2026-11-20T03:59:06.078979+00:00",
+  "test_methods": 5
+}

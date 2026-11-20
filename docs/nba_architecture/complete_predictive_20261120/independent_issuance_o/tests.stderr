@@ -1,0 +1,10 @@
+test_01_actual_issuance_and_post_event_safe_exact_replay (__main__.Review.test_01_actual_issuance_and_post_event_safe_exact_replay) ... ok
+test_02_issued_byte_and_snapshot_mutations_and_write_once (__main__.Review.test_02_issued_byte_and_snapshot_mutations_and_write_once) ... ok
+test_03_independent_capacity_upper_brackets_all_wrap_limits (__main__.Review.test_03_independent_capacity_upper_brackets_all_wrap_limits) ... ok
+test_04_draws_preserve_exact_sampled_minutes_and_contiguous_witness (__main__.Review.test_04_draws_preserve_exact_sampled_minutes_and_contiguous_witness) ... ok
+test_05_old_bad_boundaries_and_repaired_rejections (__main__.Review.test_05_old_bad_boundaries_and_repaired_rejections) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 18.512s
+
+OK
