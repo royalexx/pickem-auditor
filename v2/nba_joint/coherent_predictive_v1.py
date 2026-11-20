@@ -146,9 +146,10 @@ def validate_bank(bank,trace_dir=None,model=None):
     for i,s in enumerate(bank['scenarios']):
         require(s['index']==s['fixed']['index']==i and s['error'] is None and s['accepted'] is not None,'COHERENT_SCENARIO_JOIN')
         require(s['fixed']['game_id']==bank['cohort']['game_id'],'COHERENT_SCENARIO_GAME_JOIN')
-        named={a['identity']['player_id']:team for team,actors in s['fixed']['actors'].items()
-            for a in actors if a['identity']['player_id']}
-        require(len(named)==14 and all(candidates.get(pid)==team for pid,team in named.items()),'COHERENT_BANK_PLAYER_TEAM_JOIN')
+        named_items=[(a['identity']['player_id'],team) for team,actors in s['fixed']['actors'].items()
+            for a in actors if a['identity']['player_id']]
+        named=dict(named_items)
+        require(len(named_items)==len(named)==14 and all(candidates.get(pid)==team for pid,team in named.items()),'COHERENT_BANK_PLAYER_TEAM_JOIN')
         if named_reference is None:named_reference=named
         else:require(named_reference==named,'COHERENT_CHANGING_NAMED_POPULATION')
         if model is not None:require(canonical(fixed_scenario(model,bank['seed'],i))==canonical(s['fixed']),'COHERENT_FIXED_HANDOFF')
@@ -184,6 +185,7 @@ def rows(bank):
     for p in bank['cohort']['frozen_candidates']:
         for stat in STATS:
             values=samples.get((p['player_id'],stat))
+            require(values is None or len(values)==bank['scenario_denominator'],'COHERENT_EXACT_ONE_VALUE_PER_SCENARIO')
             result.append(dict(player_id=p['player_id'],team_id=p['team_id'],statistic=stat,samples=values,
                 status='SHARED_S4_J_ESTIMATE' if values is not None else 'ABSTAINED_SOURCE_OR_MINUTE_MODEL',
                 scenario_ids=list(range(bank['scenario_denominator'])) if values is not None else None,
