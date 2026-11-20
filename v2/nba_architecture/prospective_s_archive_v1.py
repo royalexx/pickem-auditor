@@ -97,6 +97,9 @@ def verify_archive(output, *, expected_manifest_sha256, python=sys.executable):
     result = strict_json(child.stdout)
     require(result['mode']=='DETERMINISTIC_RECOMPUTATION_ONLY_UNVERIFIED_CODE' and
         result['payload_sha256']==manifest['payload_sha256'], 'GENUINE_ARCHIVE_OUTPUT_JOIN')
+    require(result['new_forecast_issued'] is False and all(result[key] == manifest[key]
+        for key in ('candidate_denominator','attempt_denominator','forecasted_rows','abstained_rows')),
+        'GENUINE_ARCHIVE_REPLAY_DENOMINATOR_JOIN')
     return dict(schema='nba-genuine-S-archive-verification/1.0.0',status='VERIFIED_OFFLINE_REPLAY',
         manifest_raw_sha256=expected_manifest_sha256,command=command,stdout=child.stdout,stderr=child.stderr,
         candidate_denominator=manifest['candidate_denominator'],attempt_denominator=manifest['attempt_denominator'],
