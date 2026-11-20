@@ -95,6 +95,9 @@ def generate(model,cohort,trace_dir,*,seed=20261120,n=64,path_budget=4096,event_
         type(event_budget) is int and event_budget>0,'COHERENT_EXECUTION_BUDGET')
     require(cohort['game_id']==model['target'] and len(cohort['frozen_candidates'])==35 and
         len({p['player_id'] for p in cohort['frozen_candidates']})==35,'COHERENT_FROZEN_COHORT')
+    candidates={p['player_id']:p['team_id'] for p in cohort['frozen_candidates']}
+    require(all(candidates.get(p['player_id'])==p['team_id'] for p in model['named_players']),
+        'COHERENT_MODEL_COHORT_TEAM_JOIN')
     root=Path(trace_dir);root.mkdir(parents=True,exist_ok=False);scenarios=[];failed=[];json_total=gzip_total=0
     for index in range(n):
         fixed=None;proposals=[];accepted=None;error=None;partial_fixed=None
@@ -137,9 +140,17 @@ def validate_bank(bank,trace_dir=None,model=None):
     require(bank['status']=='ENGINEERING_SAMPLE' and not bank['failed'] and
         len(bank['scenarios'])==bank['scenario_denominator'],'COHERENT_FAILED_OR_DROPPED_BANK')
     require(model is None or digest(canonical(model))==bank['model_raw_sha256'],'COHERENT_BANK_MODEL_BYTES')
-    json_total=gzip_total=0
+    candidates={p['player_id']:p['team_id'] for p in bank['cohort']['frozen_candidates']}
+    require(len(candidates)==len(bank['cohort']['frozen_candidates'])==35,'COHERENT_BANK_CANDIDATE_DENOMINATOR')
+    json_total=gzip_total=0;named_reference=None
     for i,s in enumerate(bank['scenarios']):
         require(s['index']==s['fixed']['index']==i and s['error'] is None and s['accepted'] is not None,'COHERENT_SCENARIO_JOIN')
+        require(s['fixed']['game_id']==bank['cohort']['game_id'],'COHERENT_SCENARIO_GAME_JOIN')
+        named={a['identity']['player_id']:team for team,actors in s['fixed']['actors'].items()
+            for a in actors if a['identity']['player_id']}
+        require(len(named)==14 and all(candidates.get(pid)==team for pid,team in named.items()),'COHERENT_BANK_PLAYER_TEAM_JOIN')
+        if named_reference is None:named_reference=named
+        else:require(named_reference==named,'COHERENT_CHANGING_NAMED_POPULATION')
         if model is not None:require(canonical(fixed_scenario(model,bank['seed'],i))==canonical(s['fixed']),'COHERENT_FIXED_HANDOFF')
         require(bool(s['proposals']) and s['proposals'][-1]['status']==s['accepted']['status']=='ACCEPTED_PATH_PROPOSAL' and
             all(r['status']=='REJECT_OT_PATTERN' for r in s['proposals'][:-1]),'COHERENT_REJECTION_ANCESTRY')
@@ -196,6 +207,7 @@ def _query(row,bank_payload,*,player_id,statistic,kind,value,channel='S4'):
     return dict(status='MONTE_CARLO_ESTIMATE_NOT_CERTIFIED_POPULATION_PROBABILITY',bank_payload_sha256=bank_payload,
         player_id=player_id,statistic=statistic,kind=kind,value=value,estimate=[h/n for h in hits],hits=hits,n=n,
         componentwise_MC_95_family_intervals=intervals,intervals_condition_on_iid_successful_execution=True,
+        validation_scope='STRUCTURAL_SHARED_BANK_ONLY_SOURCE_MODEL_CLOCK_ADMISSION_IS_SEPARATE',
         population_exact_zero_claim=False,count_support_truncated=False,S4_J_same_measure=True,independent_vote=False,
         score_admitted=False)
 

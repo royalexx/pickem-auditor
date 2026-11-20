@@ -105,6 +105,8 @@ def fit(*,approval_path,protocol_path,old_model_path,old_admission_path,source_i
     old_raw=Path(old_model_path).read_bytes();a_raw=Path(old_admission_path).read_bytes()
     require(digest(old_raw)==OLD_MODEL_SHA and digest(a_raw)==OLD_ADMISSION_SHA,'COHERENT_EXACT_UPSTREAM_ARTIFACT')
     admission=strict_json(a_raw);require(admission['model_raw_sha256']==OLD_MODEL_SHA,'COHERENT_UPSTREAM_JOIN')
+    require(digest((Path(__file__).parents[1]/'nba_architecture/conditional_c_v1.py').read_bytes())==
+        'a6e2aa7d540d01e2492ce4984a20fc2d6e40a1778d2228d89598632e4ab03687','COHERENT_NATIVE_C_READER_CODE')
     outcomes=read_native_outcomes(**source_inputs)
     require(Path(original_raw_dir).resolve()==Path(source_inputs['original_raw_dir']).resolve() and
         Path(spec_path).read_bytes()==Path(source_inputs['spec_path']).read_bytes(),'COHERENT_SAME_DIRECT_SOURCE_PATH')
@@ -113,11 +115,16 @@ def fit(*,approval_path,protocol_path,old_model_path,old_admission_path,source_i
     started=datetime.now(timezone.utc).isoformat();approval=strict_json(Path(approval_path).read_bytes())
     require(max(utc(approval['decided_at']),utc(admission['admitted_at']),
         *(utc(r['ingested_at']) for r in outcomes['rows']))<=utc(started),'COHERENT_PRE_SOURCE_MODEL_OR_REVIEW_CLOCK')
+    out=Path(output);out.mkdir(parents=True,exist_ok=False)
     model=assemble(strict_json(old_raw),data['records']);model['protocol_raw_sha256']=PROTOCOL_SHA
     model['protocol_addendum_raw_sha256']=ADDENDUM_SHA
-    raw=canonical(model);out=Path(output);out.mkdir(parents=True,exist_ok=False);(out/'model.json').write_bytes(raw)
+    raw=canonical(model);(out/'model.json').write_bytes(raw)
+    completed=datetime.now(timezone.utc).isoformat()
+    require(digest((out/'model.json').read_bytes())==digest(raw),'COHERENT_PERSISTED_MODEL_BYTES')
+    verified=datetime.now(timezone.utc).isoformat()
+    require(utc(started)<=utc(completed)<=utc(verified),'COHERENT_FIT_CLOCK_REVERSAL')
     receipt=dict(schema='coherent-prospective-component-fit/1',started_at=started,
-        completed_at=datetime.now(timezone.utc).isoformat(),implementation_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+        completed_at=completed,verified_at=verified,implementation_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         compiler_raw_sha256=digest(Path(__file__).read_bytes()),approval_raw_sha256=PREFIT_SHA,protocol_raw_sha256=PROTOCOL_SHA,
         old_model_raw_sha256=OLD_MODEL_SHA,old_admission_raw_sha256=OLD_ADMISSION_SHA,
         source_dataset_sha256=DATASET_SHA,source_outcome_payload_sha256=outcomes['payload_sha256'],
