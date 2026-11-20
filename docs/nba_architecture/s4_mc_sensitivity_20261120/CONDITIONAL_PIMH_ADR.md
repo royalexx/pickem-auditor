@@ -93,6 +93,41 @@ MCMC convergence remains unresolved. The original source-listed
 population, fixed G/O/rates, 14 named players, identities and
 source hashes are unchanged.
 
+## Exact worst-case envelope for finite-PIMH approximation
+
+The frozen fixed-scenario code first draws shared OT count K from
+`P(K=0)=1-p`, `P(K=k)=p(1-q)q^(k-1)` for k>=1. This is independent
+of the zero-state intervention and held fixed in all six variants.
+
+K=0 and K=1 use **the original exact conditional rejection sampler**.
+Only K>=2 uses finite PIMH. Without *any* assumption about finite-chain
+mixing, as long as PIMH produces a valid path and K is preserved, for
+any event B of a player or joint game count:
+
+```
+|P_proposal(B)-P_original(B)|
+ <= P(K>=2) * sup_B|P_proposal(B|K>=2)-P_original(B|K>=2)|
+ <= P(K>=2) = p*q.
+```
+
+For the frozen model, `p=.04866180048661801` and
+`q=.13043478260869565`, so `p*q` is approximately `0.00635`,
+**0.635 percentage points** of absolute probability. This bound is
+conservative, independent of particle count and can be added to a
+valid family-wide iid Monte Carlo CDF error band. Two variants'
+comparative effects incur at most `2*p*q` absolute bias from
+different rare-OT path approximations.
+
+This theorem **does not** certify conditional K>=2 predictions,
+event-relative tail accuracy when the event probability is tiny,
+a bound on unbounded count means, calibration against real games,
+or Markov-chain convergence. The nominal DKW band still presupposes
+independence across complete scenario draws; code-reused random seeds
+for CRN comparisons do not create 20,000 new independent observed games.
+The research result must display both the IID error band and the
+0.635 percentage point worst-case bias envelope. Truncating the OT
+prior itself would invalidate this proof.
+
 ## Required independent gates
 
 1. Exact transition parity and genuine zero-minute/five-on-court
