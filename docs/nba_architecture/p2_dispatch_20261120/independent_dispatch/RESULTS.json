@@ -1,0 +1,415 @@
+{
+  "actual_cli": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "scripts/nba_subset_p2_dispatch.py",
+      "--capture",
+      "docs/nba_architecture/p1_subset_acceptance_20261119/initial_tonight_capture",
+      "--cohort",
+      "docs/nba_architecture/p1_p5_handoffs_20261119/PROSPECTIVE_COHORT.json",
+      "--history",
+      "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs",
+      "--output",
+      "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/actual_current_cli"
+    ],
+    "completed_at": "2026-11-20T00:22:46.035040+00:00",
+    "exit_code": 0,
+    "started_at": "2026-11-20T00:22:37.055458+00:00"
+  },
+  "actual_counts": {
+    "candidate_rows": 36,
+    "dispatch_attempts": 144,
+    "exposure_bindings": 48,
+    "minute_history_abstentions": 52,
+    "missing_real_model_abstentions": 48,
+    "real_S_forecasts": 0,
+    "source_abstentions": 44
+  },
+  "cli_files_independently_rehashed": 112,
+  "dispatch_archive_manifest": {
+    "base_record_id": "6a7ef61994d9d628ad3316e0a946249b770a1277b89d120f65e214a2a88aa99b",
+    "candidate_denominator": 36,
+    "combined_attempt_records": 828,
+    "conditioning": "conditional_on_participation_and_fixed_projected_exposure",
+    "dispatch": {
+      "byte_domain": "EXACT_DISPATCH_WIRE_BYTES",
+      "bytes": 81718,
+      "sha256": "38629aa6e1d6b036c25fd3da7717d3533d763d83ddc814c1fcc0630ade4aaa2a"
+    },
+    "dispatch_abstentions": 144,
+    "dispatch_attempts": 144,
+    "exposure_bound_rows": 48,
+    "exposure_variant": "M0",
+    "kind": "REPLAY_VERIFIED_FIXED_EXPOSURE_DISPATCH_AUDIT",
+    "minute_uncertainty_integrated": false,
+    "model_admission_granted": false,
+    "model_candidate_denominator": 4,
+    "model_directory_status": "NOT_PROVIDED",
+    "model_files": {},
+    "original_attempt_records": 684,
+    "production_release": false,
+    "provided_file_denominator": 0,
+    "reader_files": {
+      "scripts/nba_subset_p2_dispatch.py": {
+        "byte_domain": "EXACT_EXECUTING_READER_BYTES",
+        "bytes": 3801,
+        "sha256": "f68f313c166caa99638e0966117198065e8d6289dd05a0ed8358c11d8cb27320"
+      },
+      "v2/nba_architecture/subset_p2_dispatch_v1.py": {
+        "byte_domain": "EXACT_EXECUTING_READER_BYTES",
+        "bytes": 15572,
+        "sha256": "017468373bb92cc453d20dea63f584676bf1d669b4a5f60e30f0ffa731e92202"
+      },
+      "v2/nba_c/subset_dispatch_archive_v1.py": {
+        "byte_domain": "EXACT_EXECUTING_READER_BYTES",
+        "bytes": 6868,
+        "sha256": "a3291d7ed28f6034a1ed988a5c49ee38a09400c37952a79d99c6c9c7645cd21a"
+      }
+    },
+    "schema": "nba-p2-dispatch-audit-archive/1.0.0",
+    "scoring_admitted": false,
+    "statistic_forecast_records": 0
+  },
+  "errors": 0,
+  "failures": 0,
+  "implementation_sha256": {
+    "scripts/nba_subset_p2_dispatch.py": "f68f313c166caa99638e0966117198065e8d6289dd05a0ed8358c11d8cb27320",
+    "v2/nba_architecture/subset_p2_dispatch_v1.py": "017468373bb92cc453d20dea63f584676bf1d669b4a5f60e30f0ffa731e92202",
+    "v2/nba_c/subset_dispatch_archive_v1.py": "a3291d7ed28f6034a1ed988a5c49ee38a09400c37952a79d99c6c9c7645cd21a"
+  },
+  "native_write_once_calls": 5,
+  "old_readers_unchanged": [
+    "config/nba_research_profile.json",
+    "scripts/nba_subset_pipeline.py",
+    "scripts/nba_p1_prospective_capture.py",
+    "v2/nba_architecture/p1_capture_v1.py",
+    "v2/nba_architecture/p1_subset_handoff_v1.py",
+    "v2/nba_architecture/research_profile_v1.py",
+    "v2/nba_architecture/gamebook_identity_v1.py",
+    "v2/nba_architecture/subset_contract_v1.py",
+    "v2/nba_architecture/subset_p2_v1.py",
+    "v2/nba_architecture/subset_p3_v1.py",
+    "v2/nba_architecture/subset_p4_v1.py",
+    "v2/nba_architecture/v2_contracts.py",
+    "v2/nba_architecture/families_v2.py",
+    "v2/nba_opportunity.py",
+    "v2/nba_s_family/model.py",
+    "v2/nba_c/warehouse.py",
+    "v2/nba_c/subset_archive_v1.py"
+  ],
+  "reviewer": "independent_p2_dispatch_review; no implementation repairs authored",
+  "synthetic_control": {
+    "admitted": false,
+    "mode": "SYNTHETIC_ENGINEERING_ONLY",
+    "result": {
+      "actual_native_model_executed": true,
+      "artifact_sha256": "662cc75155f2fd26e42c7b177df396a61acf7b8f0505a3479a314cf6feebf96f",
+      "conditioning": "conditional_on_participation_and_fixed_projected_exposure",
+      "event_start_at": "2026-11-17T00:00:00Z",
+      "exposure_units": "minutes",
+      "exposure_variant": "M0",
+      "forecast_at": "2026-11-16T23:01:00Z",
+      "game_id": "espn:game:synthetic-2026",
+      "input_freeze_at": "2026-11-16T23:00:00Z",
+      "kind": "FIXED_EXPOSURE_STATISTIC_LAW",
+      "legal_eligibility": null,
+      "minute_uncertainty_integrated": false,
+      "model_contract_sha256": "d5f0fce13862759e55a3de84ca1ef75ecc1d3127f461ea88f8f7e8f4cac5549c",
+      "model_training_cutoff_at": "2026-11-16T20:00:00Z",
+      "native_reader_sha256": "a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6",
+      "p3_forecast_id": "independent:synthetic:M0",
+      "parameters": {
+        "alpha": 162.0,
+        "beta": 270.0,
+        "historical_teams": [
+          "espn:team:1"
+        ],
+        "peer_games": 33,
+        "peer_rate": 0.6,
+        "player_games": 3,
+        "rate_mean": 0.6,
+        "rate_posterior_sd": 0.04714045207910317,
+        "support": [
+          {
+            "mass": 3.866219697871599e-08,
+            "value": 0
+          },
+          {
+            "mass": 6.263275910551984e-07,
+            "value": 1
+          },
+          {
+            "mass": 5.104569867099845e-06,
+            "value": 2
+          },
+          {
+            "mass": 2.790498194014589e-05,
+            "value": 3
+          },
+          {
+            "mass": 0.00011510805050310176,
+            "value": 4
+          },
+          {
+            "mass": 0.0003821587276702974,
+            "value": 5
+          },
+          {
+            "mass": 0.0010636751253489923,
+            "value": 6
+          },
+          {
+            "mass": 0.0025528203008375857,
+            "value": 7
+          },
+          {
+            "mass": 0.005392832885519392,
+            "value": 8
+          },
+          {
+            "mass": 0.010186462117092189,
+            "value": 9
+          },
+          {
+            "mass": 0.017418850220227648,
+            "value": 10
+          },
+          {
+            "mass": 0.02723674761708323,
+            "value": 11
+          },
+          {
+            "mass": 0.03926631114796169,
+            "value": 12
+          },
+          {
+            "mass": 0.052556447228810206,
+            "value": 13
+          },
+          {
+            "mass": 0.06569555903601285,
+            "value": 14
+          },
+          {
+            "mass": 0.07708278926892156,
+            "value": 15
+          },
+          {
+            "mass": 0.08527283562874458,
+            "value": 16
+          },
+          {
+            "mass": 0.08928567495244995,
+            "value": 17
+          },
+          {
+            "mass": 0.08878964342493656,
+            "value": 18
+          },
+          {
+            "mass": 0.08411650429730828,
+            "value": 19
+          },
+          {
+            "mass": 0.07612543638906394,
+            "value": 20
+          },
+          {
+            "mass": 0.06597537820385549,
+            "value": 21
+          },
+          {
+            "mass": 0.05487951914229786,
+            "value": 22
+          },
+          {
+            "mass": 0.043903615313838296,
+            "value": 23
+          },
+          {
+            "mass": 0.033842370137750356,
+            "value": 24
+          },
+          {
+            "mass": 0.02517872338248625,
+            "value": 25
+          },
+          {
+            "mass": 0.018109312586634296,
+            "value": 26
+          },
+          {
+            "mass": 0.012609447282545412,
+            "value": 27
+          },
+          {
+            "mass": 0.008511376915718114,
+            "value": 28
+          },
+          {
+            "mass": 0.005576419358573954,
+            "value": 29
+          },
+          {
+            "mass": 0.003550320324958743,
+            "value": 30
+          },
+          {
+            "mass": 0.00219890807223251,
+            "value": 31
+          },
+          {
+            "mass": 0.001326216431065234,
+            "value": 32
+          },
+          {
+            "mass": 0.0007796545079595616,
+            "value": 33
+          },
+          {
+            "mass": 0.00044715479132974935,
+            "value": 34
+          },
+          {
+            "mass": 0.00025040668314465895,
+            "value": 35
+          },
+          {
+            "mass": 0.00013702810160971633,
+            "value": 36
+          },
+          {
+            "mass": 7.33285516722263e-05,
+            "value": 37
+          },
+          {
+            "mass": 3.840100469150806e-05,
+            "value": 38
+          },
+          {
+            "mass": 1.9692822918722078e-05,
+            "value": 39
+          },
+          {
+            "mass": 9.895643516657802e-06,
+            "value": 40
+          },
+          {
+            "mass": 4.875414610646073e-06,
+            "value": 41
+          },
+          {
+            "mass": 2.356450395145597e-06,
+            "value": 42
+          },
+          {
+            "mass": 1.1179439083946519e-06,
+            "value": 43
+          },
+          {
+            "mass": 5.208602300475102e-07,
+            "value": 44
+          },
+          {
+            "mass": 2.3843823864397006e-07,
+            "value": 45
+          },
+          {
+            "mass": 1.0729720738978777e-07,
+            "value": 46
+          },
+          {
+            "mass": 4.7484721568245776e-08,
+            "value": 47
+          },
+          {
+            "mass": 2.067563918284057e-08,
+            "value": 48
+          },
+          {
+            "mass": 8.860988221217315e-09,
+            "value": 49
+          },
+          {
+            "mass": 3.739337029353721e-09,
+            "value": 50
+          },
+          {
+            "mass": 1.5543910788686139e-09,
+            "value": 51
+          },
+          {
+            "mass": 6.367024996134907e-10,
+            "value": 52
+          },
+          {
+            "mass": 2.570836507873323e-10,
+            "value": 53
+          },
+          {
+            "mass": 1.0235737948013959e-10,
+            "value": 54
+          },
+          {
+            "mass": 4.0198534486746607e-11,
+            "value": 55
+          },
+          {
+            "mass": 1.5576932113614038e-11,
+            "value": 56
+          },
+          {
+            "mass": 5.957493334680506e-12,
+            "value": 57
+          },
+          {
+            "mass": 2.249467310853516e-12,
+            "value": 58
+          },
+          {
+            "mass": 8.387844209962339e-13,
+            "value": 59
+          },
+          {
+            "mass": 3.089522617336087e-13,
+            "value": 60
+          },
+          {
+            "mass": 1.1243836410633089e-13,
+            "value": 61
+          },
+          {
+            "mass": 4.044154063824406e-14,
+            "value": 62
+          },
+          {
+            "mass": 1.4379214449153608e-14,
+            "value": 63
+          },
+          {
+            "mass": 5.055192579780591e-15,
+            "value": 64
+          }
+        ],
+        "tail_mass_upper_bound": 2.6715627390344073e-15
+      },
+      "participation_probability": null,
+      "player_id": "espn:player:10",
+      "projected_exposure": 30.0,
+      "retained_support_conditioning": true,
+      "schema": "nba-subset-fixed-exposure-S/1.0.0",
+      "source_binding_sha256": "c64a4085d5dae9a4d575dc59723234f9fdc40011a77ff45916fceba1aa70dee5",
+      "source_contract_id": "SYNTHETIC_ENGINEERING_ONLY",
+      "statistic": "points",
+      "status": "UNCERTIFIED/SHADOW",
+      "team_id": "espn:team:1",
+      "trained_role": "rotation",
+      "uncertainty": {
+        "p0": 3.866219697871599e-08,
+        "tail_mass_upper_bound": 2.6715627390344073e-15
+      }
+    }
+  },
+  "tested_commit": "3669bf79273463eb34c1b76a1ef5a1e9151ca3b3",
+  "tests_run": 9
+}

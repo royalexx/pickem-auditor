@@ -1,0 +1,8 @@
+{
+  "command": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "docs/nba_architecture/p2_dispatch_20261120/exercise_frozen_control.py",
+    "docs/nba_architecture/p2_dispatch_20261120/owner/frozen_control"
+  ],
+  "exit_code": 0
+}

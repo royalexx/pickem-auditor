@@ -1,0 +1,45 @@
+test_01_actual_current_clock_and_complete_source_denominators (__main__.IndependentDispatcherReview.test_01_actual_current_clock_and_complete_source_denominators) ... ok
+test_02_all_old_reader_bytes_are_unchanged (__main__.IndependentDispatcherReview.test_02_all_old_reader_bytes_are_unchanged) ... ok
+test_03_frozen_native_positive_and_exact_probability_semantics (__main__.IndependentDispatcherReview.test_03_frozen_native_positive_and_exact_probability_semantics) ... ok
+test_04_contract_source_clock_role_and_training_attacks (__main__.IndependentDispatcherReview.test_04_contract_source_clock_role_and_training_attacks) ... ok
+test_05_untrusted_model_and_approval_candidates_never_admit (__main__.IndependentDispatcherReview.test_05_untrusted_model_and_approval_candidates_never_admit) ... ok
+test_06_resealed_public_wire_and_upstream_mutations_fail (__main__.IndependentDispatcherReview.test_06_resealed_public_wire_and_upstream_mutations_fail) ... ok
+test_07_archive_replay_idempotence_and_native_write_once (__main__.IndependentDispatcherReview.test_07_archive_replay_idempotence_and_native_write_once) ... ok
+test_08_archive_raw_and_resealed_tampering_rejects (__main__.IndependentDispatcherReview.test_08_archive_raw_and_resealed_tampering_rejects) ... 
+  test_08_archive_raw_and_resealed_tampering_rejects (__main__.IndependentDispatcherReview.test_08_archive_raw_and_resealed_tampering_rejects) (attack='changed_object') ... ERROR
+  test_08_archive_raw_and_resealed_tampering_rejects (__main__.IndependentDispatcherReview.test_08_archive_raw_and_resealed_tampering_rejects) (attack='native_collision') ... ERROR
+test_09_exact_manifest_and_checksum_domains (__main__.IndependentDispatcherReview.test_09_exact_manifest_and_checksum_domains) ... ok
+
+======================================================================
+ERROR: test_08_archive_raw_and_resealed_tampering_rejects (__main__.IndependentDispatcherReview.test_08_archive_raw_and_resealed_tampering_rejects) (attack='changed_object')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/independent_probe.py", line 250, in test_08_archive_raw_and_resealed_tampering_rejects
+    elif attack=='changed_object':obj.write_bytes(obj.read_bytes()+b' ')
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1036, in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/tmp/tmpecwykj84/archive/p2_fixed_exposure_dispatch/objects/3c61d149ed825b8f1012bc2a30a56514bc2cf7669d952385c1f939bd98fa5511.bin'
+
+======================================================================
+ERROR: test_08_archive_raw_and_resealed_tampering_rejects (__main__.IndependentDispatcherReview.test_08_archive_raw_and_resealed_tampering_rejects) (attack='native_collision')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/independent_probe.py", line 252, in test_08_archive_raw_and_resealed_tampering_rejects
+    obj.write_bytes(b'collision')
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1036, in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/tmp/tmpej3pcnir/archive/p2_fixed_exposure_dispatch/objects/3c61d149ed825b8f1012bc2a30a56514bc2cf7669d952385c1f939bd98fa5511.bin'
+
+----------------------------------------------------------------------
+Ran 9 tests in 32.009s
+
+FAILED (errors=2)

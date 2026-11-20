@@ -1,0 +1,58 @@
+{
+  "schema": "nba-p2-fixed-exposure-dispatch-current-status/1.0.0",
+  "authority": "PA-V25-MASTER-2026-11-09 / v1.1 + November19 subset amendment",
+  "profile": "source_listed_subset",
+  "implementation_and_tested_commit": "3669bf79273463eb34c1b76a1ef5a1e9151ca3b3",
+  "base_pr": 188,
+  "base_publication": "82c6092f2b970552e4a1a8a8a6c495052fb3e8b2",
+  "independent_decision_commit": "4a0f2666be79c2bfae6bacf8724a599db9b2834a",
+  "independent_decision": "independent_dispatch/DECISION.md",
+  "status": "ACCEPT_BOUNDED_FIXED_M0_DISPATCH_AND_APPEND_ONLY_REPLAY",
+  "conditioning": "conditional_on_participation_and_fixed_projected_exposure",
+  "exposure_variant": "M0",
+  "minute_uncertainty_integrated": false,
+  "actual_forward_forecast_at": "2026-11-20T00:19:40.677111+00:00",
+  "candidate_denominator": 36,
+  "attempt_denominator": 144,
+  "source_abstentions": 44,
+  "minute_history_abstentions": 52,
+  "exposure_bound_rows": 48,
+  "distinct_exposure_supported_players": 12,
+  "real_model_registry_entries": 0,
+  "model_slot_denominator": 4,
+  "real_S_forecasts": 0,
+  "dispatch_abstentions": 144,
+  "combined_linked_archive": {
+    "original_attempt_records": 684,
+    "new_dispatch_attempt_records": 144,
+    "combined_attempt_records": 828,
+    "conditional_minute_records": 36,
+    "explicit_abstention_records": 792,
+    "base_record_id": "0ef9f0344765015be3af9b9dda41d0eceef4200e389cef3f861012b57b416b0b",
+    "dispatch_record_id": "fe6bc241aa33d1e029568620e912a2d45eed40190b224b519956ea830ccccdea"
+  },
+  "verification": {
+    "owner_targeted_tests_passed": 743,
+    "owner_subtests_passed": 1601,
+    "independent_review_methods_passed": 9,
+    "independent_implementation_tests_passed": 12,
+    "independent_implementation_subtests_passed": 22,
+    "synthetic_control_actual_native_execution": true,
+    "synthetic_control_admitted": false,
+    "new_fitting_performed": false
+  },
+  "missing_evidence": "Genuine compatible saved S artifact plus independently accepted exact source/trained-role/cutoff contract; no such artifact found in inspected repository/Deepnote populations.",
+  "not_accepted": [
+    "Genuine positive S forecast",
+    "Minute-uncertainty integrated statistic law",
+    "Genuine participation probability or legal roster completeness",
+    "Joint law or physical team allocation",
+    "Scoring or predictive accuracy",
+    "Full G1, production or Tier release"
+  ],
+  "evidence_limitations": [
+    "Initial independent harness CLI stdout was overwritten on next reviewer run; original initial CLI tree/receipt and harness streams retained. Final successful current/replay streams and artifacts are complete. See independent_dispatch/REVIEWER_FAILURES.md."
+  ],
+  "original_17_reader_bytes_unchanged": true,
+  "production_release": false
+}

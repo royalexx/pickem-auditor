@@ -1,0 +1,30 @@
+{
+  "schema": "nba-p1-raw-capture/1.0.0",
+  "url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909955",
+  "retrieval_started_at": "2026-11-19T22:45:16.500221+00:00",
+  "source_published_at": null,
+  "original_historical_available_at": null,
+  "admission": "UNADMITTED",
+  "correction_history_complete": null,
+  "predecessor_sha256": null,
+  "status": 200,
+  "headers": {
+    "content-type": "application/json;charset=UTF-8",
+    "access-control-allow-origin": "*",
+    "access-control-allow-methods": "GET,PUT,POST,DELETE,OPTIONS,HEAD",
+    "access-control-expose-headers": "content-length,location",
+    "link": "<summary.json#>; rel=\"describedby\"",
+    "vary": "Accept-Encoding",
+    "cache-control": "max-age=10",
+    "date": "Thu, 19 Nov 2026 22:45:16 GMT",
+    "x-envoy-upstream-service-time": "273",
+    "server": "envoy",
+    "connection": "close",
+    "transfer-encoding": "chunked"
+  },
+  "retrieval_completed_at": "2026-11-19T22:45:16.977422+00:00",
+  "raw_sha256": "fbc6df187628db51878a1b61591ecd9a8c9350a1d0b562c9c0c6bd5caff72380",
+  "bytes": 444659,
+  "byte_domain": "HTTP_RESPONSE_BODY_BYTES",
+  "ingested_at": "2026-11-19T22:45:16.979408+00:00"
+}

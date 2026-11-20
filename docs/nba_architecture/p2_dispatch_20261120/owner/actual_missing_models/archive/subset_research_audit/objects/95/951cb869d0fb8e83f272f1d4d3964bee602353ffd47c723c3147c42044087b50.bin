@@ -1,0 +1,13 @@
+{
+  "schema": "nba-research-profile/1.0.0",
+  "default_profile": "source_listed_subset",
+  "authority": "PA-V25-MASTER-2026-11-09 / v1.1 + user scope amendment 2026-11-19",
+  "scope": "research_only",
+  "require_complete_legal_roster": false,
+  "unknown_eligibility": "retain_null_and_disclose",
+  "unknown_participation": "conditional_on_participation_only_or_abstain",
+  "unsupported_player": "abstain_with_reason_retain_in_denominator",
+  "forecast_requirements": ["source_bound_identity", "actual_prefreeze_clocks", "valid_model_and_cutoff", "explicit_conditioning"],
+  "full_population_gate": "archived_superseded_for_this_profile",
+  "production_release": false
+}

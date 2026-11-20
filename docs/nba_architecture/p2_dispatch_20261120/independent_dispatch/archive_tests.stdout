@@ -1,0 +1,23 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0 -- /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/pickem-auditor
+plugins: anyio-4.14.2
+collecting ... collected 4 items
+
+tests/nba_c/test_subset_dispatch_archive_v1.py::DispatchArchiveTests::test_altered_object_native_collision_and_orphan_base_reject PASSED [ 25%]
+tests/nba_c/test_subset_dispatch_archive_v1.py::DispatchArchiveTests::test_real_exposure_handoff_and_original_archive_remain_readable PASSED [ 50%]
+tests/nba_c/test_subset_dispatch_archive_v1.py::DispatchArchiveTests::test_resealed_count_admission_model_drop_path_and_duplicate_claims_reject 
+tests/nba_c/test_subset_dispatch_archive_v1.py::DispatchArchiveTests::test_resealed_count_admission_model_drop_path_and_duplicate_claims_reject PASSED [ 75%]
+tests/nba_c/test_subset_dispatch_archive_v1.py::DispatchArchiveTests::test_supplied_rejected_model_and_unmatched_approval_bytes_are_archived PASSED [100%]
+
+=============================== warnings summary ===============================
+../../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/anyio/pytest_plugin.py:14
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/anyio/pytest_plugin.py:14: PytestRemovedIn10Warning: _pytest.python.CallSpec2 has been renamed to CallSpec.
+  The CallSpec2 alias will be removed in pytest 10.
+  Update imports to use CallSpec instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#callspec2-renamed
+    from _pytest.python import CallSpec2
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=============== 4 passed, 1 warning, 5 subtests passed in 28.81s ===============

@@ -1,0 +1,69 @@
+{
+  "command": [
+    "scripts/nba_subset_p2_dispatch.py",
+    "--capture",
+    "docs/nba_architecture/p1_subset_acceptance_20261119/initial_tonight_capture",
+    "--cohort",
+    "docs/nba_architecture/p1_p5_handoffs_20261119/PROSPECTIVE_COHORT.json",
+    "--history",
+    "docs/nba_architecture/p1_p5_handoffs_20261119/prospective_inputs",
+    "--output",
+    "docs/nba_architecture/p2_dispatch_20261120/independent_dispatch/actual_current_cli"
+  ],
+  "implementation_commit": "3669bf79273463eb34c1b76a1ef5a1e9151ca3b3",
+  "forecast_at": "2026-11-20T00:22:38.008017+00:00",
+  "executed_at": "2026-11-20T00:22:45.917411+00:00",
+  "operation": "CURRENT_RESEARCH_EXECUTION",
+  "base_receipt": {
+    "schema": "nba-subset-research-audit-archive/1.0.0",
+    "record_id": "6a7ef61994d9d628ad3316e0a946249b770a1277b89d120f65e214a2a88aa99b",
+    "created": true,
+    "operation_completed_at": "2026-11-20T00:22:40.934129+00:00",
+    "counts": {
+      "candidate_denominator": 36,
+      "source_ready_candidates": 25,
+      "source_abstained_candidates": 11,
+      "prior_observation_denominator": 540,
+      "p2_attempts": 144,
+      "p3_attempts": 108,
+      "p4_attempts": 432,
+      "total_attempt_records": 684,
+      "conditional_minute_forecast_records": 36,
+      "statistic_forecast_records": 0,
+      "explicit_abstention_records": 648,
+      "native_minute_laws_consumed": 36,
+      "minute_stat_references": 144,
+      "forecast_at": "2026-11-20T00:22:38.008017+00:00",
+      "input_freeze_at": "2026-11-19T22:47:40.810486+00:00",
+      "event_start_at": "2026-11-20T01:00Z"
+    },
+    "manifest_byte_domain": "CANONICAL_JSON_WITH_TERMINAL_LF",
+    "source_or_model_admission_granted": false,
+    "scoring_admitted": false
+  },
+  "dispatch_receipt": {
+    "schema": "nba-p2-dispatch-audit-archive/1.0.0",
+    "record_id": "8e657489b4adfe0745846eca72e75fe9a2a0f931c5c8c5ca80189617fe96daec",
+    "base_record_id": "6a7ef61994d9d628ad3316e0a946249b770a1277b89d120f65e214a2a88aa99b",
+    "created": true,
+    "operation_completed_at": "2026-11-20T00:22:43.951133+00:00",
+    "dispatch_attempts": 144,
+    "exposure_bound_rows": 48,
+    "statistic_forecast_records": 0,
+    "dispatch_abstentions": 144
+  },
+  "candidate_denominator": 36,
+  "attempt_denominator": 144,
+  "exposure_bound_rows": 48,
+  "forecasted_rows": 0,
+  "abstained_rows": 144,
+  "conditioning": "conditional_on_participation_and_fixed_projected_exposure",
+  "exposure_variant": "M0",
+  "model_candidate_denominator": 4,
+  "provided_file_denominator": 0,
+  "byte_domains": {
+    "outputs": "CANONICAL_COMPACT_JSON",
+    "manifests": "CANONICAL_COMPACT_JSON_PLUS_LF",
+    "objects": "EXACT_RAW_SOURCE_MODEL_READER_OR_WIRE_BYTES"
+  }
+}
