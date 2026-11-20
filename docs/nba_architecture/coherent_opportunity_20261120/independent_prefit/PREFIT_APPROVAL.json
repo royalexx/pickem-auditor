@@ -1,0 +1,112 @@
+{
+  "C_score_admission_granted": false,
+  "S4_J_runtime_or_forecast_admission_granted": false,
+  "all_market_attempts": 280,
+  "attempt_components": [
+    "twoPA",
+    "threePA",
+    "FTA",
+    "TO"
+  ],
+  "authorized_action": "ONE prospective component fit using exact source/input/recipe pins in a fresh create-only directory, actual start/completed/verified clocks after this approval and before target start. No old artifact or forecast replacement.",
+  "authorized_activation": "Change ONLY PREFIT_SHA=None to the exact raw SHA256 of this approval; preserve every other byte of the closed compiler.",
+  "closed_compiler_commit": "162ea8490958f2ab5f4704505d79aab64e9c33e5",
+  "closed_compiler_raw_sha256": "a55a863ed3aaab82b06257f6951185c227b826fe4e6966c05618050d1ecd8b50",
+  "conversion_components": [
+    "conversion2",
+    "conversion3",
+    "conversion_ft"
+  ],
+  "decided_at": "2026-11-20T13:00:13.553839+00:00",
+  "decision": "PREFIT_PASS_ONE_FIXED_NEW_PROSPECTIVE_COHERENT_COMPONENT_FIT",
+  "exact_input_raw_sha256": {
+    "docs/nba_architecture/coherent_opportunity_20261120/PROTOCOL.json": "e12290d9021c82340ed75dfe16647d7672c42cbfd581f67273bef40e0eb6d303",
+    "docs/nba_architecture/coherent_opportunity_20261120/PROTOCOL_ADDENDUM.json": "545f3eb596a43299c01a5bb5f0169421e3df4ede364879a55a0f1324c15af1b1",
+    "docs/nba_architecture/coherent_opportunity_20261120/independent_protocol/DECISION.json": "18fb2170503ce7f9352850abff34d80266fbba9a54fe54e1010ac466f30451c9",
+    "docs/nba_architecture/complete_predictive_20261120/FULL_FORECAST_COHORT.json": "affcf904c315b090950c81960c5044bbaa577af8359117bc6be7ea043f8a9c14",
+    "docs/nba_architecture/complete_predictive_20261120/PBP_POPULATION.json": "1d05830c44ee07fd89bbe7dcade95d70651a0cfae824e8f2edaadf30d4b20584",
+    "docs/nba_architecture/complete_predictive_20261120/fitted_j/FIT_RECEIPT.json": "53ab4fc601a3883c6d3a849faeba0fa58d929695ba80af256de929a93bf9e298",
+    "docs/nba_architecture/complete_predictive_20261120/fitted_j/event_model.json": "85f27b2ce96a96e14449da3e10ab0d3bb7e9c4e60d7aa30bc5b311d46c48e46d",
+    "docs/nba_architecture/complete_predictive_20261120/independent_c_profile/DECISION.json": "5eab873f4cc744e29d3d4bcf483bb5c0726398146b0ee90b15be37814b59c9a8",
+    "docs/nba_architecture/complete_predictive_20261120/independent_j_artifact/ARTIFACT_ADMISSION.json": "388e41fb537dc5e2c395078603473f8c8d524745c90f30957b672e2ed6015a42"
+  },
+  "excluded_source_records": 242,
+  "fit_authorization_granted": true,
+  "fixed_recipe": {
+    "auxiliary": "Only original assists/rebounds working rate priors plus exact old G/OT/minutes/copula/event proxies remain; old points/threes/TO/FTshare rates removed or replaced.",
+    "conversion_update": "add own makes/failures; zero own attempts retain prior and stay recorded",
+    "independent_points_threes_posteriors": false,
+    "named_conversion_prior": "Beta(.5+40*peer make proportion,.5+40*peer fail proportion)",
+    "named_gamma_prior": "Gamma(shape .5+180*leave-player-out same-role count/minute, rate181)",
+    "named_gamma_update": "add own count to shape and own reported minutes to rate",
+    "residual_conversion_prior": "Beta(.5,.5)",
+    "residual_gamma_prior": "Gamma(shape.5,rate1)",
+    "residual_gamma_update": "add historical non-named same-team counts and reported minutes"
+  },
+  "full_G1_or_predictive_quality_claim": false,
+  "historical_validation_passed": false,
+  "independent_evidence": {
+    "actual_source_posteriors_assembled": 0,
+    "actual_source_sufficient_statistic_pools": 30,
+    "completion_clock_reversal_no_success_receipt": true,
+    "existing_output_rejected_before_assembly": true,
+    "future_approval_rejects_before_output": true,
+    "new_J_runs": 0,
+    "new_forecasts": 0,
+    "new_real_component_fits": 0,
+    "outcome_scores": 0,
+    "persisted_byte_corruption_no_success_receipt": true,
+    "public_positive": "Mock assembly only with genuine immutable upstream validation; temporary synthetic payload, not a new real model",
+    "source_code_upstream_mutations_reject": true,
+    "synthetic_conversion_and_exposure_negatives_reject": true,
+    "test_methods": 7
+  },
+  "named_supported": 14,
+  "new_family": "S4_J_SHARED_GENERATIVE_KERNEL",
+  "new_family_zero_sensitivity": "PENDING",
+  "ordinary_fit_rows": 456,
+  "peer_conversion_denominators_checked_positive": true,
+  "preserved_reviewer_red": "Initial test wrongly demanded positive own-player attempts. Corrected test requires only peer conversion denominators positive; CodyWilliams ownFTA0 and JoanBeringer own3PA0 remain unchanged.",
+  "primitive_abstentions": 84,
+  "primitive_attempts": 140,
+  "production": false,
+  "protocol_review_raw_sha256": "18fb2170503ce7f9352850abff34d80266fbba9a54fe54e1010ac466f30451c9",
+  "real_model_artifact_admission_granted": false,
+  "release_approved": false,
+  "required_next_action": "Independently reconstruct the actual model and verify source/code/parameter/clock/hash lineage before model admission; separately review shared-kernel bank, retained traces, MC semantics and immutable C transport before any actual new issue.",
+  "review": "REVIEW.md",
+  "reviewed_dependency_raw_sha256": {
+    "v2/nba_architecture/conditional_c_v1.py": "a6e2aa7d540d01e2492ce4984a20fc2d6e40a1778d2228d89598632e4ab03687",
+    "v2/nba_architecture/gamebook_identity_v1.py": "51ebbe20652a8beb776e2bfcf887825e9b7a441bda3532420181d4465670fe55",
+    "v2/nba_architecture/p1_subset_handoff_v1.py": "745c333f110dea7d16ec74aca3a6179cc9bc043468c1f0bf081157946d48ff68",
+    "v2/nba_architecture/pbp_evidence_v1.py": "2fdb7ca21017fe567115cc4316f6b8109d52af9b908ffb0a6b177b585874c2f1",
+    "v2/nba_architecture/prospective_s_sources_v1.py": "8b61c753a41b59b9baad25ce179bd56ef3ceaf31645e76998b6408f296a447fd",
+    "v2/nba_architecture/subset_contract_v1.py": "34c7de07e4e2244c663c07908b087d57ffbbd3c72f40d62b1b42554364854bd5",
+    "v2/nba_architecture/subset_p3_v1.py": "1034c56a5e58c4134d17a6050644488e6458f3f5ca1aa061d3363e696c23c172",
+    "v2/nba_joint/coherent_components_v1.py": "a55a863ed3aaab82b06257f6951185c227b826fe4e6966c05618050d1ecd8b50",
+    "v2/nba_opportunity.py": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30"
+  },
+  "schema": "independent-coherent-component-prefit-approval/1",
+  "source_candidate_denominator": 35,
+  "source_dataset_payload_sha256": "e5cb76ef446d6651b718c6279367a7078ffa86f01b621cfbfd9c7b4d74adbd1d",
+  "source_games": 20,
+  "source_outcome_payload_sha256": "a27dd3cd738cd579141b132bb3b2bc66977567d05e1d16b6d16cc1913c43c6e1",
+  "source_records": 698,
+  "source_role_semantics": "ESPN_POSITION_BIN_OBSERVED_AT_CAPTURE",
+  "source_zero_attempts_retained": [
+    {
+      "components": [
+        "FTA"
+      ],
+      "label": "espn:player:4895758:own"
+    },
+    {
+      "components": [
+        "threePA"
+      ],
+      "label": "espn:player:5279133:own"
+    }
+  ],
+  "target": "401910026",
+  "target_start": "2026-11-22T01:00Z"
+}

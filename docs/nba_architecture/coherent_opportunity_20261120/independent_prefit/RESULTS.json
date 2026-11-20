@@ -1,0 +1,508 @@
+{
+  "C_profile_direct_source_and_reader_code_controls": "REJECTED",
+  "actual_component_fits": 0,
+  "actual_source_sufficient_statistics": [
+    {
+      "counts": {
+        "FTA": 23,
+        "FTM": 15,
+        "TO": 5,
+        "threePA": 33,
+        "threePM": 10,
+        "twoPA": 17,
+        "twoPM": 13
+      },
+      "label": "espn:player:3136196:own",
+      "reported_minutes": 209.13333333333333,
+      "rows": 10,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 412,
+        "FTM": 320,
+        "TO": 220,
+        "threePA": 629,
+        "threePM": 229,
+        "twoPA": 875,
+        "twoPM": 471
+      },
+      "label": "espn:player:3136196:peers",
+      "reported_minutes": 4230.316666666667,
+      "rows": 200,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 27,
+        "FTM": 25,
+        "TO": 24,
+        "threePA": 53,
+        "threePM": 25,
+        "twoPA": 101,
+        "twoPM": 57
+      },
+      "label": "espn:player:4397002:own",
+      "reported_minutes": 337.03333333333336,
+      "rows": 10,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 350,
+        "FTM": 292,
+        "TO": 245,
+        "threePA": 711,
+        "threePM": 260,
+        "twoPA": 775,
+        "twoPM": 390
+      },
+      "label": "espn:player:4397002:peers",
+      "reported_minutes": 3607.0666666666666,
+      "rows": 170,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 23,
+        "FTM": 20,
+        "TO": 24,
+        "threePA": 42,
+        "threePM": 13,
+        "twoPA": 96,
+        "twoPM": 59
+      },
+      "label": "espn:player:4431671:own",
+      "reported_minutes": 340.48333333333335,
+      "rows": 10,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 412,
+        "FTM": 315,
+        "TO": 201,
+        "threePA": 620,
+        "threePM": 226,
+        "twoPA": 796,
+        "twoPM": 425
+      },
+      "label": "espn:player:4431671:peers",
+      "reported_minutes": 4098.966666666666,
+      "rows": 200,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 25,
+        "FTM": 21,
+        "TO": 36,
+        "threePA": 102,
+        "threePM": 38,
+        "twoPA": 63,
+        "twoPM": 32
+      },
+      "label": "espn:player:4432816:own",
+      "reported_minutes": 287.23333333333335,
+      "rows": 10,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 352,
+        "FTM": 296,
+        "TO": 233,
+        "threePA": 662,
+        "threePM": 247,
+        "twoPA": 813,
+        "twoPM": 415
+      },
+      "label": "espn:player:4432816:peers",
+      "reported_minutes": 3656.866666666667,
+      "rows": 170,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 21,
+        "FTM": 20,
+        "TO": 18,
+        "threePA": 38,
+        "threePM": 22,
+        "twoPA": 35,
+        "twoPM": 21
+      },
+      "label": "espn:player:4433083:own",
+      "reported_minutes": 242.83333333333331,
+      "rows": 10,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 356,
+        "FTM": 297,
+        "TO": 251,
+        "threePA": 726,
+        "threePM": 263,
+        "twoPA": 841,
+        "twoPM": 426
+      },
+      "label": "espn:player:4433083:peers",
+      "reported_minutes": 3701.266666666667,
+      "rows": 170,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 23,
+        "FTM": 18,
+        "TO": 11,
+        "threePA": 55,
+        "threePM": 22,
+        "twoPA": 38,
+        "twoPM": 21
+      },
+      "label": "espn:player:4592492:own",
+      "reported_minutes": 160.08333333333334,
+      "rows": 10,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 354,
+        "FTM": 299,
+        "TO": 258,
+        "threePA": 709,
+        "threePM": 263,
+        "twoPA": 838,
+        "twoPM": 426
+      },
+      "label": "espn:player:4592492:peers",
+      "reported_minutes": 3784.016666666667,
+      "rows": 170,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 2,
+        "FTM": 2,
+        "TO": 1,
+        "threePA": 17,
+        "threePM": 3,
+        "twoPA": 5,
+        "twoPM": 3
+      },
+      "label": "espn:player:4594326:own",
+      "reported_minutes": 101.9,
+      "rows": 9,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 433,
+        "FTM": 333,
+        "TO": 224,
+        "threePA": 645,
+        "threePM": 236,
+        "twoPA": 887,
+        "twoPM": 481
+      },
+      "label": "espn:player:4594326:peers",
+      "reported_minutes": 4337.55,
+      "rows": 201,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 12,
+        "FTM": 9,
+        "TO": 2,
+        "threePA": 8,
+        "threePM": 3,
+        "twoPA": 17,
+        "twoPM": 12
+      },
+      "label": "espn:player:4595400:own",
+      "reported_minutes": 77.45,
+      "rows": 8,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 423,
+        "FTM": 326,
+        "TO": 223,
+        "threePA": 654,
+        "threePM": 236,
+        "twoPA": 875,
+        "twoPM": 472
+      },
+      "label": "espn:player:4595400:peers",
+      "reported_minutes": 4362.0,
+      "rows": 202,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 21,
+        "FTM": 16,
+        "TO": 8,
+        "threePA": 15,
+        "threePM": 9,
+        "twoPA": 26,
+        "twoPM": 21
+      },
+      "label": "espn:player:4684806:own",
+      "reported_minutes": 121.63333333333333,
+      "rows": 8,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 414,
+        "FTM": 319,
+        "TO": 217,
+        "threePA": 647,
+        "threePM": 230,
+        "twoPA": 866,
+        "twoPM": 463
+      },
+      "label": "espn:player:4684806:peers",
+      "reported_minutes": 4317.816666666667,
+      "rows": 202,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 0,
+        "FTM": 0,
+        "TO": 2,
+        "threePA": 2,
+        "threePM": 0,
+        "twoPA": 2,
+        "twoPM": 0
+      },
+      "label": "espn:player:4895758:own",
+      "reported_minutes": 34.06666666666666,
+      "rows": 6,
+      "zero_observed_attempt_components": [
+        "FTA"
+      ]
+    },
+    {
+      "counts": {
+        "FTA": 435,
+        "FTM": 335,
+        "TO": 223,
+        "threePA": 660,
+        "threePM": 239,
+        "twoPA": 890,
+        "twoPM": 484
+      },
+      "label": "espn:player:4895758:peers",
+      "reported_minutes": 4405.383333333333,
+      "rows": 204,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 32,
+        "FTM": 26,
+        "TO": 15,
+        "threePA": 57,
+        "threePM": 22,
+        "twoPA": 49,
+        "twoPM": 27
+      },
+      "label": "espn:player:4903027:own",
+      "reported_minutes": 287.48333333333335,
+      "rows": 10,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 403,
+        "FTM": 309,
+        "TO": 210,
+        "threePA": 605,
+        "threePM": 217,
+        "twoPA": 843,
+        "twoPM": 457
+      },
+      "label": "espn:player:4903027:peers",
+      "reported_minutes": 4151.966666666666,
+      "rows": 200,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 42,
+        "FTM": 36,
+        "TO": 35,
+        "threePA": 58,
+        "threePM": 18,
+        "twoPA": 76,
+        "twoPM": 41
+      },
+      "label": "espn:player:5041935:own",
+      "reported_minutes": 305.51666666666665,
+      "rows": 10,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 393,
+        "FTM": 299,
+        "TO": 190,
+        "threePA": 604,
+        "threePM": 221,
+        "twoPA": 816,
+        "twoPM": 443
+      },
+      "label": "espn:player:5041935:peers",
+      "reported_minutes": 4133.933333333333,
+      "rows": 200,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 14,
+        "FTM": 13,
+        "TO": 9,
+        "threePA": 50,
+        "threePM": 19,
+        "twoPA": 19,
+        "twoPM": 11
+      },
+      "label": "espn:player:5112087:own",
+      "reported_minutes": 263.6,
+      "rows": 10,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 421,
+        "FTM": 322,
+        "TO": 216,
+        "threePA": 612,
+        "threePM": 220,
+        "twoPA": 873,
+        "twoPM": 473
+      },
+      "label": "espn:player:5112087:peers",
+      "reported_minutes": 4175.85,
+      "rows": 200,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 25,
+        "FTM": 14,
+        "TO": 5,
+        "threePA": 0,
+        "threePM": 0,
+        "twoPA": 31,
+        "twoPM": 16
+      },
+      "label": "espn:player:5279133:own",
+      "reported_minutes": 178.56666666666666,
+      "rows": 10,
+      "zero_observed_attempt_components": [
+        "threePA"
+      ]
+    },
+    {
+      "counts": {
+        "FTA": 410,
+        "FTM": 321,
+        "TO": 220,
+        "threePA": 662,
+        "threePM": 239,
+        "twoPA": 861,
+        "twoPM": 468
+      },
+      "label": "espn:player:5279133:peers",
+      "reported_minutes": 4260.883333333333,
+      "rows": 200,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 115,
+        "FTM": 71,
+        "TO": 43,
+        "threePA": 83,
+        "threePM": 26,
+        "twoPA": 168,
+        "twoPM": 83
+      },
+      "label": "RESIDUAL:espn:team:16",
+      "reported_minutes": 853.45,
+      "rows": 40,
+      "zero_observed_attempt_components": []
+    },
+    {
+      "counts": {
+        "FTA": 112,
+        "FTM": 94,
+        "TO": 63,
+        "threePA": 155,
+        "threePM": 61,
+        "twoPA": 248,
+        "twoPM": 139
+      },
+      "label": "RESIDUAL:espn:team:29",
+      "reported_minutes": 1024.3833333333334,
+      "rows": 59,
+      "zero_observed_attempt_components": []
+    }
+  ],
+  "compiler_raw_sha256": "a55a863ed3aaab82b06257f6951185c227b826fe4e6966c05618050d1ecd8b50",
+  "completed_at": "2026-11-20T12:58:21.495840+00:00",
+  "errors": 0,
+  "failures": 0,
+  "mock_protocol_receipt": {
+    "NUTS": false,
+    "approval_raw_sha256": "aaf0e82a48354f3a662fbeb667d38b93a917cc2beab722eb0ff25ef1e250213f",
+    "compiler_raw_sha256": "a55a863ed3aaab82b06257f6951185c227b826fe4e6966c05618050d1ecd8b50",
+    "completed_at": "2026-11-20T12:58:05.065769+00:00",
+    "excluded_rows": 242,
+    "historical_replacement": false,
+    "holdout_scoring": false,
+    "implementation_commit": "6d09de9e08528608a0741936d7dc538900ec1374",
+    "model_raw_sha256": "de1a9c1b59b70daea42f47354c15dd14459c2201ddab19c68a59d4ad9472dad2",
+    "new_prospective_artifact": true,
+    "old_admission_raw_sha256": "388e41fb537dc5e2c395078603473f8c8d524745c90f30957b672e2ed6015a42",
+    "old_model_raw_sha256": "85f27b2ce96a96e14449da3e10ab0d3bb7e9c4e60d7aa30bc5b311d46c48e46d",
+    "ordinary_fit_rows": 456,
+    "protocol_raw_sha256": "e12290d9021c82340ed75dfe16647d7672c42cbfd581f67273bef40e0eb6d303",
+    "release": false,
+    "schema": "coherent-prospective-component-fit/1",
+    "source_dataset_sha256": "e5cb76ef446d6651b718c6279367a7078ffa86f01b621cfbfd9c7b4d74adbd1d",
+    "source_outcome_payload_sha256": "a27dd3cd738cd579141b132bb3b2bc66977567d05e1d16b6d16cc1913c43c6e1",
+    "source_rows": 698,
+    "started_at": "2026-11-20T12:58:05.064245+00:00",
+    "verified_at": "2026-11-20T12:58:05.065818+00:00",
+    "weight_optimization": false
+  },
+  "new_J_runs": 0,
+  "new_forecasts": 0,
+  "new_real_model_artifacts": 0,
+  "outcome_scores": 0,
+  "raw_byte_controls": [
+    {
+      "input": "protocol_path",
+      "rejected": "COHERENT_PROTOCOL_BYTES"
+    },
+    {
+      "input": "old_model_path",
+      "rejected": "COHERENT_EXACT_UPSTREAM_ARTIFACT"
+    },
+    {
+      "input": "old_admission_path",
+      "rejected": "COHERENT_EXACT_UPSTREAM_ARTIFACT"
+    }
+  ],
+  "started_at": "2026-11-20T12:57:58.999711+00:00",
+  "test_methods": 7
+}

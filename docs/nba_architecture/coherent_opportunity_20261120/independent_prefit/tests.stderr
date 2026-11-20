@@ -1,0 +1,12 @@
+test_01_closed_gate_precedes_all_sources_output_and_assembly (__main__.Review.test_01_closed_gate_precedes_all_sources_output_and_assembly) ... ok
+test_02_actual_source_sufficient_statistics_without_fitting (__main__.Review.test_02_actual_source_sufficient_statistics_without_fitting) ... ok
+test_03_synthetic_posterior_and_assembler_likelihood_contract (__main__.Review.test_03_synthetic_posterior_and_assembler_likelihood_contract) ... ok
+test_04_synthetic_row_negative_controls (__main__.Review.test_04_synthetic_row_negative_controls) ... ok
+test_05_mocked_actual_source_public_fit_is_create_only (__main__.Review.test_05_mocked_actual_source_public_fit_is_create_only) ... ok
+test_06_exact_upstream_source_and_code_mutations (__main__.Review.test_06_exact_upstream_source_and_code_mutations) ... ok
+test_07_approval_and_completion_clock_and_readback_guards (__main__.Review.test_07_approval_and_completion_clock_and_readback_guards) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 22.496s
+
+OK
