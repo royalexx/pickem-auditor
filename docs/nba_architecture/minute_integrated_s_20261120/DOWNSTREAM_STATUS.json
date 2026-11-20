@@ -1,0 +1,1008 @@
+{
+  "schema": "minute-integrated-downstream-readiness/1",
+  "attempt_denominator": 140,
+  "rows": [
+    {
+      "player_id": "espn:player:4432816",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432816",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432816",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432816",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5279133",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5279133",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5279133",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5279133",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4433569",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4433569",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4433569",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4433569",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432247",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432247",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432247",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432247",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:3934673",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:3934673",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:3934673",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:3934673",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4397002",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4397002",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4397002",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4397002",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4594268",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4594268",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4594268",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4594268",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5061585",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5061585",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5061585",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5061585",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:3032976",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:3032976",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:3032976",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:3032976",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4592492",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4592492",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4592492",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4592492",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4433247",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4433247",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4433247",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4433247",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:3136196",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:3136196",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:3136196",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:3136196",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4431671",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4431671",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4431671",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4431671",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4592979",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4592979",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4592979",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4592979",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432847",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432847",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432847",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432847",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4895758",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4895758",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4895758",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4895758",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5157587",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5157587",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5157587",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5157587",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5041935",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5041935",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5041935",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5041935",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4903027",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4903027",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4903027",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4903027",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4600663",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4600663",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4600663",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4600663",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:2991070",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:2991070",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:2991070",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:2991070",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4684806",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4684806",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4684806",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4684806",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5105550",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5105550",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5105550",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5105550",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4065733",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4065733",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4065733",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4065733",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5231919",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5231919",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5231919",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5231919",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4683934",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4683934",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4683934",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4683934",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4594326",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4594326",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4594326",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4594326",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4431785",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4431785",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4431785",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4431785",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4593016",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4593016",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4593016",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4593016",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4595400",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4595400",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4595400",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4595400",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5105462",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5105462",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5105462",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5105462",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4781746",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4781746",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4781746",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4781746",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4433083",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4433083",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4433083",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4433083",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432810",
+      "statistic": "points",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432810",
+      "statistic": "rebounds",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432810",
+      "statistic": "assists",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:4432810",
+      "statistic": "threes",
+      "J_status": "ABSTAIN_UPSTREAM",
+      "C_status": "ABSTAIN_UPSTREAM",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5112087",
+      "statistic": "points",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5112087",
+      "statistic": "rebounds",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5112087",
+      "statistic": "assists",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    },
+    {
+      "player_id": "espn:player:5112087",
+      "statistic": "threes",
+      "J_status": "BLOCKED_REAL_G_O_EVENT_AND_COUPLING_ADMISSION",
+      "C_status": "BLOCKED_NEW_LAW_ADMISSION_AND_OFFICIAL_EVALUATION",
+      "scored": false
+    }
+  ],
+  "J_simulations_run": 0,
+  "C_scored_rows": 0,
+  "release_allowed": false,
+  "historical_predictive_validation": false,
+  "blockers": [
+    {
+      "missing": "Separately admitted sub30/early-exit count mechanism with authentic full-game measurement and exposure-dependent law.",
+      "consequence": "Ordinary-conditioned56laws do not constitute full played-conditional forecasts; excludedmass notDNP."
+    },
+    {
+      "missing": "Accepted real G/O state/opportunity contracts, compatible outcome/opportunity artifacts and bounded physical event coupling with reviewed marginal-distortion budget. Existing integration_v2 admits only latest_synthetic_engineering.",
+      "consequence": "No valid real J simulation or composite laws can be claimed by substituting independent marginal draws."
+    },
+    {
+      "missing": "Accepted new distribution/evaluation handoff and genuine official outcome/participation/correction receipts for futureNov21MEMMIN target.",
+      "consequence": "No C score now;140attempts remain, no training outcome substitution."
+    },
+    {
+      "missing": "Original historical pre-cutoff source/features and compatible model/minute artifacts for a preregistered historical holdout, plus governingG1/G2/P8 prerequisites. New S1 cutoff is after all20traininggames.",
+      "consequence": "Frozen-input engineering replay is reproducible but historical predictive replay remains blocked; no release."
+    }
+  ]
+}

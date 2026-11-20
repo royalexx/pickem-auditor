@@ -1,0 +1,11 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0 -- /workspace/scratch/p1-p5-ci-venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/pickem-auditor
+collecting ... collected 2 items
+
+tests/nba_architecture/test_minute_integrated_s_v1.py::MinuteIntegrationTests::test_invalid_parameters_and_unsupported_family_reject 
+tests/nba_architecture/test_minute_integrated_s_v1.py::MinuteIntegrationTests::test_invalid_parameters_and_unsupported_family_reject PASSED [ 50%]
+tests/nba_architecture/test_minute_integrated_s_v1.py::MinuteIntegrationTests::test_real_low_and_regular_minute_laws_against_independent_scalar_integral PASSED [100%]
+
+===================== 2 passed, 4 subtests passed in 3.25s =====================
