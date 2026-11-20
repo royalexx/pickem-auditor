@@ -1,0 +1,16 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_s3_prefit/prefit_probe.py"
+      ],
+      "exit_code": 0,
+      "stderr": "tests.stderr",
+      "stdout": "tests.stdout"
+    }
+  ],
+  "cwd": "/workspace/pickem-auditor",
+  "native_fit_calls_all_mocked": true,
+  "real_fit_calls": 0
+}

@@ -1,0 +1,9 @@
+test_01_exact_source_dataset_and_roles (__main__.Prefit.test_01_exact_source_dataset_and_roles) ... ok
+test_02_closed_gate_precedes_source_fit_and_output (__main__.Prefit.test_02_closed_gate_precedes_source_fit_and_output) ... ok
+test_03_synthetic_activation_one_exact_fit_call_and_create_only (__main__.Prefit.test_03_synthetic_activation_one_exact_fit_call_and_create_only) ... ok
+test_04_native_hash_and_clock_fail_closed (__main__.Prefit.test_04_native_hash_and_clock_fail_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 2.236s
+
+OK
