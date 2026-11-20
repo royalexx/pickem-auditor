@@ -105,9 +105,14 @@ def _minutes_rows(dataset, handoff, raw_dir, spec_path, cohort, model_path, fore
             if state == 'PLAYED':
                 history.append(dict(game_date=start[:10], game_id=game['id'], workload=sec/60., team=team))
         schedule = strict_json((raw/('schedule-'+tid)/'body.raw').read_bytes())
-        unobserved = [dict(game_id=str(e['id']), start=e['date'], state='UNOBSERVED_AT_DATA_CUTOFF')
-            for e in schedule['events'] if minutes.utc(dataset['data_cutoff_at']) <=
-            minutes.utc(e['date']) < minutes.utc(cohort['start'])]
+        # A game can already have started while still being uncompleted at
+        # capture. Compare to the last completed history boundary, not cutoff,
+        # and retain the captured status without inventing a result or DNP.
+        unobserved = [dict(game_id=str(e['id']), start=e['date'], state='UNOBSERVED_AT_DATA_CUTOFF',
+            captured_status=e.get('competitions',[{}])[0].get('status'))
+            for e in schedule['events'] if minutes.utc(games[-1]['date']) <
+            minutes.utc(e['date']) < minutes.utc(cohort['start']) and
+            e.get('competitions',[{}])[0].get('status',{}).get('type',{}).get('completed') is not True]
         try:
             require(request['source_request_status']=='SOURCE_READY_CONDITIONAL_REQUEST', 'P1_SOURCE_ABSTENTION')
             require(position in POSITIONS, 'GENUINE_S_CURRENT_POSITION_UNRESOLVED')
