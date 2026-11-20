@@ -2,6 +2,7 @@ import copy
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 import numpy as np
 from tests.nba_joint.test_residual_events_v1 import fixture
 from v2.nba_joint.coherent_components_v1 import posterior,fit
@@ -62,7 +63,7 @@ class CoherentTests(unittest.TestCase):
         self.assertEqual(p['attempt_posteriors']['twoPA']['beta'],191.)
         self.assertEqual(p['conversion2']['alpha'],.5+40*.5+2)
         self.assertEqual(p['conversion2']['beta'],.5+40*.5+3)
-        with self.assertRaises(ValueError):fit(approval_path='missing',protocol_path='missing',old_model_path='missing',
+        with patch('v2.nba_joint.coherent_components_v1.PREFIT_SHA',None),self.assertRaises(ValueError):fit(approval_path='missing',protocol_path='missing',old_model_path='missing',
             old_admission_path='missing',source_inputs={},original_raw_dir='missing',spec_path='missing',policy_path='missing',output='missing')
 
 

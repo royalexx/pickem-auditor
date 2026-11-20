@@ -92,6 +92,7 @@ def assemble(old_model,records):
         component_posterior_scope='GAMMA_POISSON_COUNTS_GIVEN_REPORTED_MINUTES_AND_BETA_BINOMIAL_MAKES_GIVEN_ATTEMPTS',
         source_model_admission='PENDING_SEPARATE_COHERENT_MODEL_REVIEW')
     model.pop('S1_use',None);model.pop('S3_use',None)
+    if 's3_artifact_sha256' in model:model['legacy_S3_comparator_raw_sha256']=model.pop('s3_artifact_sha256')
     return model
 
 
