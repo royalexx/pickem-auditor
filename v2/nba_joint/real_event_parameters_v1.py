@@ -57,9 +57,14 @@ def fit_event_parameters(*,approval_path,full_forecast_raw,parent_raw,full_repla
     require(digest(Path(native.__file__).read_bytes())==NATIVE_SHA,'J_EVENT_NATIVE_CODE')
     read_issued_forecast(full_forecast_raw,parent_raw,**full_replay_inputs)
     full=strict_json(full_forecast_raw);parent=strict_json(parent_raw)
+    full_admission=strict_json(Path(full_admission_path).read_bytes())
+    require(digest(Path(pbp_population_path).read_bytes())==full_admission['population_raw_sha256'],
+        'J_EVENT_EXACT_ADMITTED_PBP_POPULATION')
     data=build_dataset(original_raw_dir,spec_path,policy_path)
     require(data['payload_sha256']==DATASET_SHA,'J_EVENT_OLD_SOURCE_DATASET')
     facts=read_population(pbp_raw_dir,pbp_population_path,original_raw_dir)
+    require(facts['payload_sha256']==full['law_payload']['evidence_payload_sha256'],
+        'J_EVENT_EXACT_ADMITTED_PBP_FACTS')
     require(facts['game_denominator']==20 and facts['rejected_games']==0 and
         all(r['facts']['all_credited_event_counts_reconciled'] for r in facts['rows']), 'J_EVENT_PBP_SOURCE_FACTS')
     s3a=strict_json(Path(s3_admission_path).read_bytes());s3raw=Path(s3_path).read_bytes()
