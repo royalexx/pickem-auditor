@@ -1,0 +1,56 @@
+{
+  "tested_commit": "abf8c332cf4423d2742047bd02238c9ae91bfebb",
+  "code_raw_sha256": "2a7b147a56dc284b76f70c96694a3b20ed54d8260b22957f13887a214f1dd4e3",
+  "results": [
+    {
+      "attack": "extra_nested_manifest",
+      "outcome": "MUTATION_ACCEPTED",
+      "verification": {
+        "schema": "nba-genuine-S-archive-verification/1.0.0",
+        "status": "VERIFIED_OFFLINE_REPLAY",
+        "manifest_raw_sha256": "9eadc31814e66123259758ac9717b826ec45935cfa70d06d58bd339a1fdf9396",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-I",
+          "-B",
+          "/tmp/tmpl30eyrgq/archive/reader/scripts/nba_genuine_s.py",
+          "_recompute-archive",
+          "/tmp/tmpl30eyrgq/archive"
+        ],
+        "stdout": "{\"abstained_rows\":84,\"attempt_denominator\":140,\"candidate_denominator\":35,\"forecast_at\":\"2026-11-20T01:41:35.539742+00:00\",\"forecasted_rows\":56,\"mode\":\"DETERMINISTIC_RECOMPUTATION_ONLY_UNVERIFIED_CODE\",\"new_forecast_issued\":false,\"payload_sha256\":\"d416d25ae69ff390c760537e9615f24a3e86e80b1c7d6d18047fa38a1e0b659f\"}\n",
+        "stderr": "",
+        "candidate_denominator": 35,
+        "attempt_denominator": 140,
+        "forecasted_rows": 56,
+        "abstained_rows": 84,
+        "payload_sha256": "d416d25ae69ff390c760537e9615f24a3e86e80b1c7d6d18047fa38a1e0b659f",
+        "new_forecast_issued": false
+      }
+    },
+    {
+      "attack": "false_file_byte_domain",
+      "outcome": "MUTATION_ACCEPTED",
+      "verification": {
+        "schema": "nba-genuine-S-archive-verification/1.0.0",
+        "status": "VERIFIED_OFFLINE_REPLAY",
+        "manifest_raw_sha256": "0bd9cbcfe2b68c9db05c4ef1fd1c823ad91520885e933ca112b04e5e2ae56f38",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-I",
+          "-B",
+          "/tmp/tmp314s855k/archive/reader/scripts/nba_genuine_s.py",
+          "_recompute-archive",
+          "/tmp/tmp314s855k/archive"
+        ],
+        "stdout": "{\"abstained_rows\":84,\"attempt_denominator\":140,\"candidate_denominator\":35,\"forecast_at\":\"2026-11-20T01:41:35.539742+00:00\",\"forecasted_rows\":56,\"mode\":\"DETERMINISTIC_RECOMPUTATION_ONLY_UNVERIFIED_CODE\",\"new_forecast_issued\":false,\"payload_sha256\":\"d416d25ae69ff390c760537e9615f24a3e86e80b1c7d6d18047fa38a1e0b659f\"}\n",
+        "stderr": "",
+        "candidate_denominator": 35,
+        "attempt_denominator": 140,
+        "forecasted_rows": 56,
+        "abstained_rows": 84,
+        "payload_sha256": "d416d25ae69ff390c760537e9615f24a3e86e80b1c7d6d18047fa38a1e0b659f",
+        "new_forecast_issued": false
+      }
+    }
+  ]
+}

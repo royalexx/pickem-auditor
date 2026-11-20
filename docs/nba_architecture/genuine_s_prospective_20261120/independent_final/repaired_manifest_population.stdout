@@ -1,0 +1,23 @@
+{
+  "archive_path": "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive",
+  "tested_commit": "02c2ed8989e9827c494968b1c8be0591f610d614",
+  "code_raw_sha256": "13e9be8703fe34ba1dafc77322a6b7ff81a6d0d5159420d7af4efd81bdbf26b8",
+  "results": [
+    {
+      "attack": "extra_nested_manifest",
+      "outcome": "MUTATION_REJECTED",
+      "verification": {
+        "error_type": "ValueError",
+        "error": "GENUINE_ARCHIVE_FILE_POPULATION"
+      }
+    },
+    {
+      "attack": "false_file_byte_domain",
+      "outcome": "MUTATION_REJECTED",
+      "verification": {
+        "error_type": "ValueError",
+        "error": "GENUINE_ARCHIVE_FILE_REFERENCE_SCHEMA:forecast.json"
+      }
+    }
+  ]
+}

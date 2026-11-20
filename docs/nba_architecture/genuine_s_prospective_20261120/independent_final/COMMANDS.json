@@ -1,0 +1,98 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/pickem-auditor/scripts/nba_genuine_s.py",
+        "replay-archive",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive",
+        "--expected-manifest-sha256",
+        "934671c7c8ab61293a0c9eadad6d8456d3615f03cdfc558933bf9fe7854a327f"
+      ],
+      "cwd": "/workspace/pickem-auditor",
+      "started_at": "2026-11-20T01:49:55.572047+00:00",
+      "completed_at": "2026-11-20T01:50:06.593855+00:00",
+      "exit_code": 0,
+      "stdout": "public_replay.stdout",
+      "stderr": "public_replay.stderr"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-I",
+        "-B",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/independent_final/cold_recompute.py",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive",
+        "/workspace/pickem-auditor"
+      ],
+      "cwd": "/tmp/tmphqu0rdso",
+      "started_at": "2026-11-20T01:50:06.594280+00:00",
+      "completed_at": "2026-11-20T01:50:20.650758+00:00",
+      "exit_code": 0,
+      "stdout": "cold_recompute.stdout",
+      "stderr": "cold_recompute.stderr"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/pickem-auditor/scripts/nba_genuine_s.py",
+        "forecast",
+        "--raw-dir",
+        "/tmp/tmp1wa490aa/raw",
+        "--spec-path",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/spec.json",
+        "--policy-path",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/policy.raw",
+        "--model-dir",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/models",
+        "--prefit-path",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/prefit_decision.md",
+        "--admission-path",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/artifact_decision.md",
+        "--model-path",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/minutes_model.json",
+        "--cohort-path",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/cohort.json",
+        "--output",
+        "/tmp/tmp1wa490aa/rejected-output"
+      ],
+      "cwd": "/workspace/pickem-auditor",
+      "started_at": "2026-11-20T01:53:20.556921+00:00",
+      "completed_at": "2026-11-20T01:53:22.782352+00:00",
+      "exit_code": 1,
+      "stdout": "rejected_batch.stdout",
+      "stderr": "rejected_batch.stderr"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/pickem-auditor/scripts/nba_genuine_s.py",
+        "forecast",
+        "--raw-dir",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/raw",
+        "--spec-path",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/spec.json",
+        "--policy-path",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/policy.raw",
+        "--model-dir",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/models",
+        "--prefit-path",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/prefit_decision.md",
+        "--admission-path",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/artifact_decision.md",
+        "--model-path",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/minutes_model.json",
+        "--cohort-path",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive/inputs/cohort.json",
+        "--output",
+        "/workspace/pickem-auditor/docs/nba_architecture/genuine_s_prospective_20261120/corrected_archive"
+      ],
+      "cwd": "/workspace/pickem-auditor",
+      "started_at": "2026-11-20T01:53:22.789415+00:00",
+      "completed_at": "2026-11-20T01:53:24.474175+00:00",
+      "exit_code": 1,
+      "stdout": "existing_output.stdout",
+      "stderr": "existing_output.stderr"
+    }
+  ]
+}

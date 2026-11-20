@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/scripts/nba_genuine_s.py", line 76, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/pickem-auditor/scripts/nba_genuine_s.py", line 52, in main
+    result=run_forecasts(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/pickem-auditor/v2/nba_architecture/prospective_s_runtime_v1.py", line 154, in run_forecasts
+    dataset, receipt, artifacts, manifest_raw, bodymap_raw = verify_bundle(
+                                                             ^^^^^^^^^^^^^^
+  File "/workspace/pickem-auditor/v2/nba_architecture/prospective_s_runtime_v1.py", line 32, in verify_bundle
+    dataset = build_dataset(raw_dir, spec_path, policy_path)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/pickem-auditor/v2/nba_architecture/prospective_s_sources_v1.py", line 183, in build_dataset
+    require(digest(body)==expected['body_sha256']==r['raw_sha256'] and digest(rr)==expected['receipt_sha256'],'FROZEN_CAPTURE_BYTES:'+name)
+  File "/workspace/pickem-auditor/v2/nba_architecture/subset_p3_v1.py", line 40, in require
+    if not condition:raise ValueError(reason)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: FROZEN_CAPTURE_BYTES:summary-401910007
