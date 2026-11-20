@@ -1,0 +1,9 @@
+test_01_exact20_population_rawreceipts_clocks_all14facts (__main__.Profile.test_01_exact20_population_rawreceipts_clocks_all14facts) ... ok
+test_02_actual_future_forecast_complete_denominator_no_outcomes (__main__.Profile.test_02_actual_future_forecast_complete_denominator_no_outcomes) ... ok
+test_03_structural_mutation_game_team_actor_population (__main__.Profile.test_03_structural_mutation_game_team_actor_population) ... ok
+test_04_late_publicationclaims_hashes_rejected_without_admission (__main__.Profile.test_04_late_publicationclaims_hashes_rejected_without_admission) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.774s
+
+OK

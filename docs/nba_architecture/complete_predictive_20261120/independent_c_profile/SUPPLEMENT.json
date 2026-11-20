@@ -1,0 +1,36 @@
+{
+  "all_source_rows": 698,
+  "inactive_rows": 166,
+  "unknown_blank_minutes_rows": [
+    {
+      "comment": "DND - Injury/Illness",
+      "game_id": "0022600178",
+      "minutes": "",
+      "native_person_id": 1626162
+    },
+    {
+      "comment": "DND - Injury/Illness",
+      "game_id": "0022600234",
+      "minutes": "",
+      "native_person_id": 1641744
+    },
+    {
+      "comment": "NWT - Personal",
+      "game_id": "0022600234",
+      "minutes": "",
+      "native_person_id": 1629008
+    },
+    {
+      "comment": "DND - Injury/Illness",
+      "game_id": "0022600254",
+      "minutes": "",
+      "native_person_id": 1630228
+    },
+    {
+      "comment": "DND - Injury/Illness",
+      "game_id": "0022600254",
+      "minutes": "",
+      "native_person_id": 1630166
+    }
+  ]
+}
