@@ -128,6 +128,46 @@ The research result must display both the IID error band and the
 0.635 percentage point worst-case bias envelope. Truncating the OT
 prior itself would invalidate this proof.
 
+## Predeclared numerical scale-out arm (bounded Q)
+
+The corrected PIMH kernel remains the mathematically exact-invariant
+target and is tested on real 2OT/4OT states. It can require tens of
+seconds per fixed rare-OT draw at 96 particles x 12--16 iterations.
+It is NOT reasonable to silently pretend 20,000 times six independent
+chains can be exactly equilibrated on a two-vCPU research machine.
+
+For the larger *unconditional numerical precision* test, the separate
+`rare_sampler='sequential'` arm is explicitly permitted. It samples
+the original, unmodified within-period kernel from stage 0 and
+rejects each stage until its **next** tie pattern is satisfied,
+preserving the full physical ledger and fixed K. This proposal
+`Q(X|K)` is exact for each stage conditional on the observed prefix,
+but **not** exact for the full joint conditioned trajectory because
+future acceptance likelihoods reweight earlier foul/score histories.
+It MUST be labeled `RESEARCH_PERIOD_CONDITIONAL_Q_BOUNDED`.
+Since it replaces the original sampler **only when K>=2**, the
+unconditional worst-case CDF bias stays rigorously bounded by
+`p*q=0.00635`. The corresponding 95% simultaneous CDF
+precision report must add this envelope to the nominal IID DKW
+band. It cannot certify conditional OT statistics, rare-tail
+relative error or mean error.
+
+Volume protocol remains frozen: six variants; same `2026112001`
+seed; original model and source hashes; no actual outcomes; full
+counts, sample CDFs and PMFs; one zero/drop failure fails the whole
+stage. For 5k/20k N, isolate globally indexed scenario shards
+with intervals `[start_index,start_index+n)`. Every selected
+scenario uses the same RNG keys it would in a monolithic run,
+and validation must reject overlaps, missing indices, wrong
+variants, source SHA drift, missing chunks and duplicated actor
+or game IDs. Each shard's receipt is create-only, and the
+aggregate summary must audit the union of all raw chunk hashes.
+
+This bounded approximate arm is a computational **engineering
+validation** of unconditional numeric precision; it is not a
+replacement for explicit P6 acceptance of conditional K>=2
+simulation, source-certified participation or predictive outcomes.
+
 ## Required independent gates
 
 1. Exact transition parity and genuine zero-minute/five-on-court
