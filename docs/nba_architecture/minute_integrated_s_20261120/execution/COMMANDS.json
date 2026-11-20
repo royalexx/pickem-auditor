@@ -1,0 +1,20 @@
+{
+  "implementation_commit": "13a5419f2b1765e68f4c170fbbf3638962d934a3",
+  "invocation": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "/workspace/pickem-auditor/docs/nba_architecture/minute_integrated_s_20261120/run_candidate.py"
+  ],
+  "tests_command": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "-m",
+    "pytest",
+    "-v",
+    "tests/nba_architecture/test_minute_integrated_s_v1.py"
+  ],
+  "test_exit_code": 0,
+  "completed_at": "2026-11-20T02:27:29.634399+00:00",
+  "new_forecast_issued": false,
+  "attempts": 140,
+  "integrated": 56,
+  "abstained": 84
+}

@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "git",
+    "diff",
+    "--exit-code",
+    "0f79277a3de6bf458a6da3f99377bf6a6bf8f688",
+    "--",
+    "docs/nba_architecture/genuine_s_prospective_20261120",
+    "v2/nba_opportunity.py",
+    "v2/nba_s_family/model.py",
+    "v2/nba_s_family/integration.py",
+    "v2/nba_architecture/prospective_s_sources_v1.py",
+    "v2/nba_architecture/prospective_s_runtime_v1.py",
+    "v2/nba_architecture/prospective_s_admission_v1.py",
+    "v2/nba_joint/integration_v2.py",
+    "v2/nba_c",
+    ".training-control",
+    ".github/workflows",
+    "config/production_consensus.json"
+  ],
+  "exit_code": 0,
+  "protected_PR190_source_models_forecasts_runtime_J_C_schedules_and_training_pause_unchanged": true
+}

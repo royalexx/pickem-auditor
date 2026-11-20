@@ -1,0 +1,20 @@
+{
+  "command": [
+    "/workspace/scratch/p1-p5-ci-venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-q"
+  ],
+  "tested_source_and_test_commit": "13a5419f2b1765e68f4c170fbbf3638962d934a3",
+  "checkout_head_at_start_not_separately_captured": true,
+  "source_test_changes_since_tested_commit": [],
+  "completion_receipt_observed_at": "2026-11-20T02:34:07.175410+00:00",
+  "tests_run": 2312,
+  "skipped": 9,
+  "failed": 0,
+  "errors": 0,
+  "exit_code": 0
+}

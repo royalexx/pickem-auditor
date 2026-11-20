@@ -1,0 +1,37 @@
+[
+  {
+    "criterion": "SCOPE_ORDINARY_DOMAIN",
+    "status": "PASS",
+    "evidence": "Full-betaextensionrejected; ordinaryM>=.5andretainedsupportexplicit; sub30massnotq."
+  },
+  {
+    "criterion": "ALL140_AND_Q_UNKNOWN",
+    "status": "PASS",
+    "evidence": "56integrated84originalabstentions; all35x4 preserved; q/legalnull."
+  },
+  {
+    "criterion": "JOINT_OT_ORDINARY_NORMALIZATION",
+    "status": "PASS",
+    "evidence": "One commonrestrictedmixturenormalizer; independentweightedadaptiveQUADmoment agreement."
+  },
+  {
+    "criterion": "NUMERICAL_MOMENTS_AND_PMFS",
+    "status": "PASS_BOUNDED_PROFILE",
+    "evidence": "56means/variances+60directPMFchecks; empiricalconvergence isnotrigorousglobalbound."
+  },
+  {
+    "criterion": "CLOCKS_AND_IMMUTABILITY",
+    "status": "PASS",
+    "evidence": "Originalparenttime distinctfromactualcandidatecomputation; noforecastissued; PR190protectedbytesunchanged."
+  },
+  {
+    "criterion": "HISTORICAL_ENGINEERING_REPLAY",
+    "status": "PASS",
+    "evidence": "Semanticpayloadreproduced; notpredictivehistoricalvalidation."
+  },
+  {
+    "criterion": "FULL_PLAYED_J_C_RELEASE",
+    "status": "BLOCKED",
+    "evidence": "MISSING_MECHANISMS.json andGATES.md"
+  }
+]
