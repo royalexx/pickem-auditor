@@ -22,6 +22,7 @@ def audit_path(fixed,path):
     expected={team:[{s:0 for s in KEYS} for a in fixed['actors'][team]] for team in teams}
     score={t:0 for t in teams};live=set();fouls={};ft_next={};period_ends=[];previous=0.;current_period=0
     offense=None;shot_clock=24.;last_reset=0.;rotation_seen=set();opening_jump_winner=None
+    period_open=False;ended_periods=[];hold_ended=False
     boundary={s['end'] for team in teams for s in fixed['O'][team]['segments'] if s['end']<length}
     period_boundaries={12.,24.,36.,48.}|{48.+5*j for j in range(1,k+1)}
     def active(team,t):
@@ -43,14 +44,17 @@ def audit_path(fixed,path):
         if any(ft_next[f]<=row['attempts'] for f,row in fouls.items()):
             require(kind=='FREE_THROW','J_AUDIT_INTERRUPTED_FT_SERIES')
         if kind=='PERIOD_START':
+            require(not period_open,'J_AUDIT_UNCLOSED_PREVIOUS_PERIOD')
             require(p==current_period+1 and t==(0 if p==1 else 12*(p-1) if p<=5 else 48+5*(p-5)),
                 'J_AUDIT_PERIOD_START')
-            current_period=p;change(row['offense'],t)
+            current_period=p;period_open=True;hold_ended=False;change(row['offense'],t)
             require(offense in teams and row['on_court']=={team:active(team,t) for team in teams},'J_AUDIT_PERIOD_LINEUP')
             if p==1:opening_jump_winner=offense
             elif p in (2,3):require(offense==other(opening_jump_winner),'J_AUDIT_QUARTER_POSSESSION')
             elif p==4:require(offense==opening_jump_winner,'J_AUDIT_QUARTER_POSSESSION')
-        else:require(p==current_period,'J_AUDIT_PERIOD_ID')
+        else:
+            require(period_open and p==current_period,'J_AUDIT_PERIOD_ID')
+            require(not hold_ended or kind=='PERIOD_END','J_AUDIT_EVENT_AFTER_PERIOD_HOLD')
         require(row['offense']==offense,'J_AUDIT_POSSESSION_TEAM')
         if kind=='DEFLECTION_OUT_OF_BOUNDS':
             require(t in boundary and row['on_court']=={team:active(team,t) for team in teams},'J_AUDIT_SUBSTITUTION')
@@ -103,15 +107,19 @@ def audit_path(fixed,path):
             else:change(other(offense),t)
         elif kind=='PERIOD_HOLD_END':
             require(t==(12*p if p<=4 else 48+5*(p-4)) and
+                row['possession_started']==last_reset and row['shot_clock_before']==shot_clock and
                 abs(row['shot_clock_elapsed']-60*(t-row['possession_started']))<1e-7 and
                 row['shot_clock_elapsed']<=row['shot_clock_before']+1e-7,'J_AUDIT_PERIOD_HOLD')
+            hold_ended=True
         elif kind=='PERIOD_END':
             require(t==(12*p if p<=4 else 48+5*(p-4)),'J_AUDIT_PERIOD_END_CLOCK')
             period_ends.append(score.copy())
+            ended_periods.append(p);period_open=False
             if p>=4:require((score[teams[0]]==score[teams[1]])==(p<4+k),'J_AUDIT_OT_SCORE_PATTERN')
         elif kind!='PERIOD_START':raise ValueError('J_AUDIT_UNKNOWN_EVENT')
         require(row['score']==score,'J_AUDIT_SCORE_LEDGER');previous=t
-    require(not live and len(period_ends)==4+k and previous==length,'J_AUDIT_COMPLETE_GAME')
+    require(not live and not period_open and ended_periods==list(range(1,5+k)) and
+        len(period_ends)==4+k and previous==length,'J_AUDIT_COMPLETE_GAME')
     require(boundary-period_boundaries<=rotation_seen,'J_AUDIT_MISSING_SUBSTITUTION')
     require(all(ft_next[f]==row['attempts']+1 for f,row in fouls.items()),'J_AUDIT_INCOMPLETE_FT_SERIES')
     for team in teams:
