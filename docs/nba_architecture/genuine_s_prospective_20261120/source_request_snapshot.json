@@ -1,0 +1,826 @@
+{
+  "schema": "nba-subset-research-requests/1.0.0",
+  "profile": "source_listed_subset",
+  "profile_config_sha256": "951cb869d0fb8e83f272f1d4d3964bee602353ffd47c723c3147c42044087b50",
+  "game_id": "401910026",
+  "input_freeze_at": "2026-11-20T01:07:00.131517+00:00",
+  "source_candidate_rows": 35,
+  "source_ready_rows": 27,
+  "abstained_source_rows": 8,
+  "forecasted_rows": 0,
+  "model_pending_rows": 27,
+  "missing_source_population": false,
+  "coverage": [
+    {
+      "team_id": "16",
+      "attempted_rows": 17,
+      "source_errors": [],
+      "official_name_population_checked": false
+    },
+    {
+      "team_id": "29",
+      "attempted_rows": 18,
+      "source_errors": [],
+      "official_name_population_checked": false
+    }
+  ],
+  "legal_eligible_population_count": null,
+  "complete_legal_roster_required": false,
+  "historical_full_population_gates": "SUPERSEDED_FOR_THIS_PROFILE",
+  "source_admission": "RESEARCH_BYTES_CONSISTENCY_ONLY",
+  "status": "RESEARCH_SUBSET_REQUESTS",
+  "production_release": false,
+  "rows": [
+    {
+      "source_row_index": 0,
+      "player_id": "espn:player:4432816",
+      "team_id": "espn:team:16",
+      "name": "LaMelo Ball",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 1,
+      "player_id": "espn:player:5279133",
+      "team_id": "espn:team:16",
+      "name": "Joan Beringer",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 2,
+      "player_id": "espn:player:4433569",
+      "team_id": "espn:team:16",
+      "name": "Johni Broome",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 3,
+      "player_id": "espn:player:4432247",
+      "team_id": "espn:team:16",
+      "name": "Jaylen Clark",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-15T22:40Z"
+        }
+      ],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [
+        "SOURCE_DECLARED_OUT"
+      ],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "ABSTAIN",
+      "forecast_status": "ABSTAIN_SOURCE"
+    },
+    {
+      "source_row_index": 4,
+      "player_id": "espn:player:3934673",
+      "team_id": "espn:team:16",
+      "name": "Donte DiVincenzo",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-10-05T20:53Z"
+        }
+      ],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [
+        "SOURCE_DECLARED_OUT"
+      ],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "ABSTAIN",
+      "forecast_status": "ABSTAIN_SOURCE"
+    },
+    {
+      "source_row_index": 5,
+      "player_id": "espn:player:4397002",
+      "team_id": "espn:team:16",
+      "name": "Ayo Dosunmu",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 6,
+      "player_id": "espn:player:4594268",
+      "team_id": "espn:team:16",
+      "name": "Anthony Edwards",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-10-29T18:33Z"
+        }
+      ],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [
+        "SOURCE_DECLARED_OUT"
+      ],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "ABSTAIN",
+      "forecast_status": "ABSTAIN_SOURCE"
+    },
+    {
+      "source_row_index": 7,
+      "player_id": "espn:player:5061585",
+      "team_id": "espn:team:16",
+      "name": "Isaiah Evans",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 8,
+      "player_id": "espn:player:3032976",
+      "team_id": "espn:team:16",
+      "name": "Rudy Gobert",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 9,
+      "player_id": "espn:player:4592492",
+      "team_id": "espn:team:16",
+      "name": "Bones Hyland",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 10,
+      "player_id": "espn:player:4433247",
+      "team_id": "espn:team:16",
+      "name": "Jonathan Kuminga",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 11,
+      "player_id": "espn:player:3136196",
+      "team_id": "espn:team:16",
+      "name": "Trey Lyles",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 12,
+      "player_id": "espn:player:4431671",
+      "team_id": "espn:team:16",
+      "name": "Jaden McDaniels",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 13,
+      "player_id": "espn:player:4592979",
+      "team_id": "espn:team:16",
+      "name": "Zyon Pullin",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 14,
+      "player_id": "espn:player:4432847",
+      "team_id": "espn:team:16",
+      "name": "Terrence Shannon Jr.",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 15,
+      "player_id": "espn:player:4895758",
+      "team_id": "espn:team:16",
+      "name": "Cody Williams",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 16,
+      "player_id": "espn:player:5157587",
+      "team_id": "espn:team:16",
+      "name": "Rocco Zikarsky",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "d0d7a354222bd285d7500436111cb0b2544b570a931251666453ba1dc9d91ad6",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 0,
+      "player_id": "espn:player:5041935",
+      "team_id": "espn:team:29",
+      "name": "Cameron Boozer",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 1,
+      "player_id": "espn:player:4903027",
+      "team_id": "espn:team:29",
+      "name": "Cedric Coward",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 2,
+      "player_id": "espn:player:4600663",
+      "team_id": "espn:team:29",
+      "name": "Zach Edey",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-19T19:09Z"
+        }
+      ],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [
+        "SOURCE_DECLARED_OUT"
+      ],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "ABSTAIN",
+      "forecast_status": "ABSTAIN_SOURCE"
+    },
+    {
+      "source_row_index": 3,
+      "player_id": "espn:player:2991070",
+      "team_id": "espn:team:29",
+      "name": "Jerami Grant",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 4,
+      "player_id": "espn:player:4684806",
+      "team_id": "espn:team:29",
+      "name": "Taylor Hendricks",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 5,
+      "player_id": "espn:player:5105550",
+      "team_id": "espn:team:29",
+      "name": "GG Jackson",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-17T23:18Z"
+        }
+      ],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [
+        "SOURCE_DECLARED_OUT"
+      ],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "ABSTAIN",
+      "forecast_status": "ABSTAIN_SOURCE"
+    },
+    {
+      "source_row_index": 6,
+      "player_id": "espn:player:4065733",
+      "team_id": "espn:team:29",
+      "name": "Ty Jerome",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-19T19:07Z"
+        }
+      ],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [
+        "SOURCE_DECLARED_OUT"
+      ],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "ABSTAIN",
+      "forecast_status": "ABSTAIN_SOURCE"
+    },
+    {
+      "source_row_index": 7,
+      "player_id": "espn:player:5231919",
+      "team_id": "espn:team:29",
+      "name": "Karim Lopez",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 8,
+      "player_id": "espn:player:4683934",
+      "team_id": "espn:team:29",
+      "name": "Jahmai Mashack",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 9,
+      "player_id": "espn:player:4594326",
+      "team_id": "espn:team:29",
+      "name": "Kris Murray",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 10,
+      "player_id": "espn:player:4431785",
+      "team_id": "espn:team:29",
+      "name": "Scotty Pippen Jr.",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-16T17:16Z"
+        }
+      ],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [
+        "SOURCE_DECLARED_OUT"
+      ],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "ABSTAIN",
+      "forecast_status": "ABSTAIN_SOURCE"
+    },
+    {
+      "source_row_index": 11,
+      "player_id": "espn:player:4593016",
+      "team_id": "espn:team:29",
+      "name": "Quinten Post",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 12,
+      "player_id": "espn:player:4595400",
+      "team_id": "espn:team:29",
+      "name": "Olivier-Maxence Prosper",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 13,
+      "player_id": "espn:player:5105462",
+      "team_id": "espn:team:29",
+      "name": "Richie Saunders",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [
+        {
+          "status": "Out",
+          "date": "2026-11-07T17:24Z"
+        }
+      ],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [
+        "SOURCE_DECLARED_OUT"
+      ],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "ABSTAIN",
+      "forecast_status": "ABSTAIN_SOURCE"
+    },
+    {
+      "source_row_index": 14,
+      "player_id": "espn:player:4781746",
+      "team_id": "espn:team:29",
+      "name": "Javon Small",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 15,
+      "player_id": "espn:player:4433083",
+      "team_id": "espn:team:29",
+      "name": "Cam Spencer",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 16,
+      "player_id": "espn:player:4432810",
+      "team_id": "espn:team:29",
+      "name": "Isaiah Stewart",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    },
+    {
+      "source_row_index": 17,
+      "player_id": "espn:player:5112087",
+      "team_id": "espn:team:29",
+      "name": "Jaylen Wells",
+      "source_status": {
+        "id": "1",
+        "name": "Active",
+        "type": "active",
+        "abbreviation": "Active"
+      },
+      "source_injuries": [],
+      "source_raw_sha256": "82c28c022470955f5dcd13b0b29d5ca4b74b28f4fa8ffdab470de72daf415191",
+      "legal_eligibility": null,
+      "genuine_participation_probability": null,
+      "issues": [],
+      "conditioning": "conditional_on_participation",
+      "forecast": null,
+      "source_request_status": "SOURCE_READY_CONDITIONAL_REQUEST",
+      "forecast_status": "AWAITING_VALID_MODEL"
+    }
+  ]
+}

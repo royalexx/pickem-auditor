@@ -1,0 +1,55 @@
+"""Create-only source discovery; no source/model admission, fitting or forecasts."""
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime,timezone
+from pathlib import Path
+from zoneinfo import ZoneInfo
+import hashlib,json,re,sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[3]))
+from v2.nba_architecture.p1_capture_v1 import capture
+
+ROOT=Path(sys.argv[1]);ROOT.mkdir(parents=True,exist_ok=False)
+BASE='https://site.api.espn.com/apis/site/v2/sports/basketball/nba/'
+def acquire(pair):
+ name,url=pair
+ result=capture(url,ROOT/name)
+ return name,result
+
+def grab(pairs):
+ with ThreadPoolExecutor(max_workers=4) as pool:return dict(pool.map(acquire,pairs))
+
+def body(name):return json.loads((ROOT/name/'body.raw').read_bytes())
+def nextdata(name):
+ s=(ROOT/name/'body.raw').read_text();matches=re.findall(r'<script[^>]*id="__NEXT_DATA__"[^>]*>(.*?)</script>',s,re.S)
+ if len(matches)!=1:raise ValueError('DISCOVERY_NEXT_DATA_COUNT:'+name)
+ return json.loads(matches[0])['props']['pageProps']
+
+sources=grab([('scoreboard',BASE+'scoreboard?dates=20261121')]+[(kind+'-'+tid,BASE+'teams/'+tid+'/'+kind) for tid in ('29','16') for kind in ('roster','schedule')])
+target=next(e for e in body('scoreboard')['events'] if e['id']=='401910026')
+selected={}
+for tid in ('29','16'):
+ events=body('schedule-'+tid)['events']
+ selected[tid]=sorted([e for e in events if e['date']<target['date'] and e['competitions'][0]['status']['type']['completed']],key=lambda e:(e['date'],e['id']))[-10:]
+(ROOT/'selected_espn_games.json').write_text(json.dumps(selected,indent=2)+'\n')
+unique={e['id']:e for group in selected.values() for e in group}
+sources.update(grab([('summary-'+eid,BASE+'summary?event='+eid) for eid in unique]))
+dates={datetime.fromisoformat(e['date'].replace('Z','+00:00')).astimezone(ZoneInfo('America/New_York')).strftime('%Y-%m-%d') for e in unique.values()}|{'2026-11-21'}
+sources.update(grab([('nba-index-'+date,'https://www.nba.com/games?date='+date) for date in sorted(dates)]))
+joins=[]
+for eid,e in unique.items():
+ date=datetime.fromisoformat(e['date'].replace('Z','+00:00')).astimezone(ZoneInfo('America/New_York')).strftime('%Y-%m-%d')
+ expected={t['homeAway']:t['team']['name'] for t in e['competitions'][0]['competitors']}
+ cards=[c['cardData'] for module in nextdata('nba-index-'+date)['gameCardFeed']['modules'] for c in module.get('cards',[]) if 'gameId' in c.get('cardData',{})]
+ matches=[c for c in cards if all(c[side+'Team']['teamName']==name for side,name in expected.items())]
+ if len(matches)!=1:
+  joins.append(dict(espn_id=eid,date=date,status='UNMATCHED_OR_AMBIGUOUS',matches=len(matches),expected=expected));continue
+ c=matches[0]
+ links=[a['resourceLocator']['resourceUrl'] for a in c['actions'] if a['title']=='Box Score']
+ if len(links)!=1:raise ValueError('NBA_BOX_LINK:'+eid)
+ joins.append(dict(espn_id=eid,date=date,status='DISCOVERY_MATCH_NOT_ADMISSION',nba_id=c['gameId'],official_start=c['gameTimeUtc'],espn_start=e['date'],url='https://www.nba.com'+links[0],index='nba-index-'+date))
+sources.update(grab([('nba-box-'+j['nba_id'],j['url']) for j in joins if 'nba_id' in j]))
+(ROOT/'game_joins.json').write_text(json.dumps(joins,indent=2)+'\n')
+(ROOT/'target.json').write_text(json.dumps(target,indent=2)+'\n')
+receipt=dict(completed_at=datetime.now(timezone.utc).isoformat(),target_game=target['id'],target_start=target['date'],selected_team_games={k:len(v) for k,v in selected.items()},unique_games=len(unique),official_matches=sum('nba_id' in j for j in joins),sources={k:dict(status=v.get('status'),bytes=v.get('bytes'),error=v.get('error')) for k,v in sources.items()},scope='UNADMITTED source discovery only; no fit, source publication or correction completeness claims')
+(ROOT/'capture_receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+(ROOT/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+str(p.relative_to(ROOT))+'\n' for p in sorted(ROOT.rglob('*')) if p.is_file()))
+print(json.dumps(receipt,indent=2))

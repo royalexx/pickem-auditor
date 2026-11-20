@@ -1,0 +1,202 @@
+[
+  {
+    "espn_id": "401909899",
+    "date": "2026-10-31",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600150",
+    "official_start": "2026-11-01T00:00:00Z",
+    "espn_start": "2026-11-01T00:00Z",
+    "url": "https://www.nba.com/game/sac-vs-mem-0022600150/box-score",
+    "index": "nba-index-2026-10-31"
+  },
+  {
+    "espn_id": "401909914",
+    "date": "2026-11-02",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600165",
+    "official_start": "2026-11-03T01:00:00Z",
+    "espn_start": "2026-11-03T01:00Z",
+    "url": "https://www.nba.com/game/nop-vs-mem-0022600165/box-score",
+    "index": "nba-index-2026-11-02"
+  },
+  {
+    "espn_id": "401909927",
+    "date": "2026-11-04",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600178",
+    "official_start": "2026-11-05T01:00:00Z",
+    "espn_start": "2026-11-05T01:00Z",
+    "url": "https://www.nba.com/game/ind-vs-mem-0022600178/box-score",
+    "index": "nba-index-2026-11-04"
+  },
+  {
+    "espn_id": "401909291",
+    "date": "2026-11-06",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600029",
+    "official_start": "2026-11-07T01:00:00Z",
+    "espn_start": "2026-11-07T01:00Z",
+    "url": "https://www.nba.com/game/okc-vs-mem-0022600029/box-score",
+    "index": "nba-index-2026-11-06"
+  },
+  {
+    "espn_id": "401909955",
+    "date": "2026-11-09",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600206",
+    "official_start": "2026-11-10T00:30:00Z",
+    "espn_start": "2026-11-10T00:30Z",
+    "url": "https://www.nba.com/game/mem-vs-tor-0022600206/box-score",
+    "index": "nba-index-2026-11-09"
+  },
+  {
+    "espn_id": "401909970",
+    "date": "2026-11-11",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600221",
+    "official_start": "2026-11-12T01:00:00Z",
+    "espn_start": "2026-11-12T01:00Z",
+    "url": "https://www.nba.com/game/den-vs-mem-0022600221/box-score",
+    "index": "nba-index-2026-11-11"
+  },
+  {
+    "espn_id": "401909300",
+    "date": "2026-11-13",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600038",
+    "official_start": "2026-11-14T01:00:00Z",
+    "espn_start": "2026-11-14T01:00Z",
+    "url": "https://www.nba.com/game/mem-vs-nop-0022600038/box-score",
+    "index": "nba-index-2026-11-13"
+  },
+  {
+    "espn_id": "401909983",
+    "date": "2026-11-14",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600234",
+    "official_start": "2026-11-15T01:00:00Z",
+    "espn_start": "2026-11-15T01:00Z",
+    "url": "https://www.nba.com/game/bkn-vs-mem-0022600234/box-score",
+    "index": "nba-index-2026-11-14"
+  },
+  {
+    "espn_id": "401909996",
+    "date": "2026-11-16",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600247",
+    "official_start": "2026-11-17T00:00:00Z",
+    "espn_start": "2026-11-17T00:00Z",
+    "url": "https://www.nba.com/game/mem-vs-was-0022600247/box-score",
+    "index": "nba-index-2026-11-16"
+  },
+  {
+    "espn_id": "401910007",
+    "date": "2026-11-18",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600258",
+    "official_start": "2026-11-19T00:00:00Z",
+    "espn_start": "2026-11-19T00:00Z",
+    "url": "https://www.nba.com/game/mem-vs-cle-0022600258/box-score",
+    "index": "nba-index-2026-11-18"
+  },
+  {
+    "espn_id": "401909284",
+    "date": "2026-10-30",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600022",
+    "official_start": "2026-10-31T00:00:00Z",
+    "espn_start": "2026-10-31T00:00Z",
+    "url": "https://www.nba.com/game/lac-vs-min-0022600022/box-score",
+    "index": "nba-index-2026-10-30"
+  },
+  {
+    "espn_id": "401909901",
+    "date": "2026-10-31",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600152",
+    "official_start": "2026-11-01T00:00:00Z",
+    "espn_start": "2026-11-01T00:00Z",
+    "url": "https://www.nba.com/game/min-vs-sas-0022600152/box-score",
+    "index": "nba-index-2026-10-31"
+  },
+  {
+    "espn_id": "401909915",
+    "date": "2026-11-02",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600166",
+    "official_start": "2026-11-03T01:00:00Z",
+    "espn_start": "2026-11-03T01:00Z",
+    "url": "https://www.nba.com/game/mil-vs-min-0022600166/box-score",
+    "index": "nba-index-2026-11-02"
+  },
+  {
+    "espn_id": "401909930",
+    "date": "2026-11-04",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600181",
+    "official_start": "2026-11-05T01:30:00Z",
+    "espn_start": "2026-11-05T01:30Z",
+    "url": "https://www.nba.com/game/min-vs-hou-0022600181/box-score",
+    "index": "nba-index-2026-11-04"
+  },
+  {
+    "espn_id": "401909293",
+    "date": "2026-11-06",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600031",
+    "official_start": "2026-11-07T01:00:00Z",
+    "espn_start": "2026-11-07T01:00Z",
+    "url": "https://www.nba.com/game/min-vs-nop-0022600031/box-score",
+    "index": "nba-index-2026-11-06"
+  },
+  {
+    "espn_id": "401909947",
+    "date": "2026-11-08",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600198",
+    "official_start": "2026-11-09T00:00:00Z",
+    "espn_start": "2026-11-09T00:00Z",
+    "url": "https://www.nba.com/game/uta-vs-min-0022600198/box-score",
+    "index": "nba-index-2026-11-08"
+  },
+  {
+    "espn_id": "401909978",
+    "date": "2026-11-12",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600229",
+    "official_start": "2026-11-13T01:00:00Z",
+    "espn_start": "2026-11-13T01:00Z",
+    "url": "https://www.nba.com/game/dal-vs-min-0022600229/box-score",
+    "index": "nba-index-2026-11-12"
+  },
+  {
+    "espn_id": "401909984",
+    "date": "2026-11-14",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600235",
+    "official_start": "2026-11-15T01:00:00Z",
+    "espn_start": "2026-11-15T01:00Z",
+    "url": "https://www.nba.com/game/chi-vs-min-0022600235/box-score",
+    "index": "nba-index-2026-11-14"
+  },
+  {
+    "espn_id": "401909999",
+    "date": "2026-11-16",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600250",
+    "official_start": "2026-11-17T01:00:00Z",
+    "espn_start": "2026-11-17T01:00Z",
+    "url": "https://www.nba.com/game/por-vs-min-0022600250/box-score",
+    "index": "nba-index-2026-11-16"
+  },
+  {
+    "espn_id": "401910003",
+    "date": "2026-11-17",
+    "status": "DISCOVERY_MATCH_NOT_ADMISSION",
+    "nba_id": "0022600254",
+    "official_start": "2026-11-18T01:00:00Z",
+    "espn_start": "2026-11-18T01:00Z",
+    "url": "https://www.nba.com/game/por-vs-min-0022600254/box-score",
+    "index": "nba-index-2026-11-17"
+  }
+]
