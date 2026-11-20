@@ -29,7 +29,7 @@ def now():return datetime.now(timezone.utc).isoformat()
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);sub=parser.add_subparsers(dest='command',required=True)
-    for name in ('replay','read-outcomes','compile-j','run-j'):
+    for name in ('replay','read-outcomes','compile-j','run-j','read-j'):
         p=sub.add_parser(name);p.add_argument('--output',required=True)
     a=parser.parse_args();out=Path(a.output)
     require(not out.exists(),'COMPLETE_PREDICTIVE_CREATE_ONLY_OUTPUT')
@@ -76,7 +76,14 @@ def main():
     else:
         from v2.nba_architecture.conditional_c_v1 import replay_and_pending,read_native_outcomes
         started=now();out.mkdir(parents=True)
-        if a.command=='read-outcomes':result=read_native_outcomes(**inputs.outcome_inputs())
+        if a.command=='read-j':
+            from v2.nba_architecture.conditional_j_c_v1 import read_J_for_C
+            result=read_J_for_C(run_raw=(P/'actual_j_candidate/RUN.json').read_bytes(),
+                receipt_raw=(P/'actual_j_candidate/EXECUTION_RECEIPT.json').read_bytes(),model_raw=(P/'fitted_j/event_model.json').read_bytes(),
+                model_admission_raw=(P/'independent_j_artifact/ARTIFACT_ADMISSION.json').read_bytes(),
+                full_raw=(P/'actual_full_forecast/forecast.json').read_bytes(),parent_raw=(inputs.ARCHIVE/'forecast.json').read_bytes(),
+                full_inputs=inputs.full_inputs(),outcome_inputs=inputs.outcome_inputs())
+        elif a.command=='read-outcomes':result=read_native_outcomes(**inputs.outcome_inputs())
         else:result=replay_and_pending((P/'actual_full_forecast/forecast.json').read_bytes(),
             (inputs.ARCHIVE/'forecast.json').read_bytes(),full_inputs=inputs.full_inputs(),outcome_inputs=inputs.outcome_inputs())
         (out/'RESULT.json').write_bytes(canonical(result))
