@@ -19,6 +19,7 @@ APPROVED_READER_SHA=None
 APPROVED_DATASET_SHA=None
 PARAMETERS=dict(prior_minutes=180.,prior_attempts=40.,dispersion=12.,min_player_games=2)
 SEED=20261120
+NATIVE_SHA='a63a469d8df74f6e6f82c7480ee289da443452dd62f603859629a5d821d28cd6'
 
 
 def _now():return datetime.now(timezone.utc).isoformat()
@@ -29,6 +30,7 @@ def fit_prospective(raw_dir,spec_path,policy_path,approval_path,output):
     require(PREFIT_APPROVAL_SHA is not None,'INDEPENDENT_PREFIT_APPROVAL_NOT_COMPILED')
     approval=Path(approval_path).read_bytes()
     require(digest(approval)==PREFIT_APPROVAL_SHA,'INDEPENDENT_PREFIT_APPROVAL_BYTES')
+    require(digest(Path(native.__file__).read_bytes())==NATIVE_SHA,'UNREVIEWED_NATIVE_S_FIT_CODE')
     data=build_dataset(raw_dir,spec_path,policy_path)
     require(data['reader_raw_sha256']==APPROVED_READER_SHA and data['payload_sha256']==APPROVED_DATASET_SHA,'UNREVIEWED_SOURCE_READER_OR_DATASET')
     out=Path(output);out.mkdir(parents=True,exist_ok=False)
@@ -47,6 +49,7 @@ def fit_prospective(raw_dir,spec_path,policy_path,approval_path,output):
     completed=_now()
     for statistic,item in artifacts.items():require(digest((out/(statistic+'.json')).read_bytes())==item['sha256'],'FITTED_ARTIFACT_WRITE_VERIFY')
     verified=_now()
+    require(utc(started)<=utc(completed)<=utc(verified),'FIT_OR_VERIFICATION_CLOCK_REVERSED')
     receipt=dict(schema='nba-new-prospective-S1-fit/1.0.0',kind='NEW_PROSPECTIVE_BASELINE_NOT_HISTORICAL_REPLACEMENT',
         implementation_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         fit_code_sha256=digest(Path(__file__).read_bytes()),native_code_sha256=digest(Path(native.__file__).read_bytes()),
