@@ -1,0 +1,54 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "scripts/nba_complete_predictive.py",
+        "read-j",
+        "--output",
+        "docs/nba_architecture/complete_predictive_20261120/independent_j_c/public_cli"
+      ],
+      "exit_code": 0,
+      "stderr": "public_cli.stderr",
+      "stdout": "public_cli.stdout"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_j_c/review_probe.py"
+      ],
+      "exit_code": 0,
+      "stderr": "tests.stderr",
+      "stdout": "tests.stdout"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_j_c/closure_counterexample.py"
+      ],
+      "exit_code": 0,
+      "stderr": "closure_counterexample.stderr",
+      "stdout": "closure_counterexample.stdout"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_j_c/outcome_root_control.py"
+      ],
+      "exit_code": 0,
+      "stderr": "outcome_root.stderr",
+      "stdout": "outcome_root.stdout"
+    }
+  ],
+  "cwd": "/workspace/pickem-auditor",
+  "new_J_runs": 0,
+  "new_fit_artifacts_created": 0,
+  "new_forecasts_issued": 0,
+  "outcome_scores": 0,
+  "public_output_reuse": {
+    "exit_code": 1,
+    "expected": "COMPLETE_PREDICTIVE_CREATE_ONLY_OUTPUT",
+    "stderr": "cli_reuse.stderr",
+    "stdout": "cli_reuse.stdout"
+  }
+}

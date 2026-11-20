@@ -1,0 +1,62 @@
+[
+  {
+    "criterion": "Exact run/receipt/model/admission bytes",
+    "status": "PASS",
+    "evidence": "Fixed raw pins and explicit fit-receipt ancestry; altered raw buffers reject."
+  },
+  {
+    "criterion": "Actual source and clock chain",
+    "status": "PASS_BOUNDED",
+    "evidence": "Reviewed full forecast and frozen native C root revalidated; model admission<=freeze<=runstart<=completion<target."
+  },
+  {
+    "criterion": "Fixed G/O/rate handoff",
+    "status": "PASS",
+    "evidence": "All32 fixed scenarios independently recomputed by public reader from exact model/seed/index."
+  },
+  {
+    "criterion": "Public event accounting",
+    "status": "PASS_BOUNDED",
+    "evidence": "All32 accepted paths pass current public audit;58 original proposals remain frozen. Separate runtime engineering decision pinned."
+  },
+  {
+    "criterion": "Every same-draw primitive/combination value",
+    "status": "PASS",
+    "evidence": "112arrays\u00d732values;1792 combos independently readded from primitives; scenario IDs remain0..31."
+  },
+  {
+    "criterion": "Population and missing attempts",
+    "status": "PASS",
+    "evidence": "35\u00d78=280,112supported168abstained; primitive140/56/84 unchanged."
+  },
+  {
+    "criterion": "Reader/helper closure",
+    "status": "PASS_BOUNDED",
+    "evidence": "Original missing RNG-helper check retained as counterexample; all7 repaired direct helper mutations reject; downstream source/native guards remain active."
+  },
+  {
+    "criterion": "Resealed deeper invariants",
+    "status": "PASS",
+    "evidence": "Synthetic root-pin mocks exercise3receipt clock/lineage and4run drop/status/count/fixed-rate failures; no alternate inputs admitted."
+  },
+  {
+    "criterion": "Second outcome-source root",
+    "status": "PASS",
+    "evidence": "A separately supplied unreviewed profile rejects under native C root, even though the original full-forecast root remains valid."
+  },
+  {
+    "criterion": "Public CLI write-once behavior",
+    "status": "PASS",
+    "evidence": "Actual read-j matches direct reader payload; reuse fails with every output byte unchanged."
+  },
+  {
+    "criterion": "Target outcome scoring",
+    "status": "PENDING_NOT_ADMITTED",
+    "evidence": "280pending outcomes,0scores. New target captures/native-ID join/outcome admission required."
+  },
+  {
+    "criterion": "J fidelity, historical validation, release",
+    "status": "NO_GO_NOT_ESTABLISHED",
+    "evidence": "Engineering transport supplies no quality, unchanged marginal fidelity, historical forecast receipts or promotion authority."
+  }
+]

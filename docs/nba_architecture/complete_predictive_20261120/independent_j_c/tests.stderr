@@ -1,0 +1,12 @@
+test_01_public_read_positive_and_public_cli_match (__main__.Review.test_01_public_read_positive_and_public_cli_match) ... ok
+test_02_all280_same_draw_values_and_combinations_independent (__main__.Review.test_02_all280_same_draw_values_and_combinations_independent) ... ok
+test_03_frozen_raw_input_mutations_reject (__main__.Review.test_03_frozen_raw_input_mutations_reject) ... ok
+test_04_all_direct_dependency_byte_mutations_reject (__main__.Review.test_04_all_direct_dependency_byte_mutations_reject) ... ok
+test_05_resealed_receipt_lineage_and_clock_controls (__main__.Review.test_05_resealed_receipt_lineage_and_clock_controls) ... ok
+test_06_resealed_run_physics_population_and_fixed_handoff_controls (__main__.Review.test_06_resealed_run_physics_population_and_fixed_handoff_controls) ... ok
+test_07_cli_output_is_create_only (__main__.Review.test_07_cli_output_is_create_only) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 17.076s
+
+OK
