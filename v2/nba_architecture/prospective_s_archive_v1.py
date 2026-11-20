@@ -71,6 +71,13 @@ def verify_archive(output, *, expected_manifest_sha256, python=sys.executable):
         'GENUINE_ARCHIVE_EXTERNAL_TRUSTED_READER_REQUIRED')
     require(digest(raw)==expected_manifest_sha256, 'GENUINE_ARCHIVE_MANIFEST_BYTES')
     manifest = strict_json(raw); actual = set()
+    require(set(manifest)=={'schema','forecast_at','implementation_commit','files','candidate_denominator',
+        'attempt_denominator','forecasted_rows','abstained_rows','payload_sha256','production_release'} and
+        manifest['schema']=='nba-genuine-S-offline-archive/1.0.0' and manifest['production_release'] is False,
+        'GENUINE_ARCHIVE_MANIFEST_SCOPE')
+    require(all(type(manifest[key]) is int and manifest[key]>=0 for key in
+        ('candidate_denominator','attempt_denominator','forecasted_rows','abstained_rows')),
+        'GENUINE_ARCHIVE_MANIFEST_DENOMINATORS')
     for path in root.rglob('*'):
         require(not path.is_symlink(), 'GENUINE_ARCHIVE_SYMLINK')
         if path.is_file() and path.name!='manifest.json':actual.add(path.relative_to(root).as_posix())
@@ -98,7 +105,7 @@ def verify_archive(output, *, expected_manifest_sha256, python=sys.executable):
     require(result['mode']=='DETERMINISTIC_RECOMPUTATION_ONLY_UNVERIFIED_CODE' and
         result['payload_sha256']==manifest['payload_sha256'], 'GENUINE_ARCHIVE_OUTPUT_JOIN')
     require(result['new_forecast_issued'] is False and all(result[key] == manifest[key]
-        for key in ('candidate_denominator','attempt_denominator','forecasted_rows','abstained_rows')),
+        for key in ('forecast_at','candidate_denominator','attempt_denominator','forecasted_rows','abstained_rows')),
         'GENUINE_ARCHIVE_REPLAY_DENOMINATOR_JOIN')
     return dict(schema='nba-genuine-S-archive-verification/1.0.0',status='VERIFIED_OFFLINE_REPLAY',
         manifest_raw_sha256=expected_manifest_sha256,command=command,stdout=child.stdout,stderr=child.stderr,

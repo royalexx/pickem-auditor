@@ -38,7 +38,7 @@ def main():
     elif args.command=='_recompute-archive':
         root=Path(args.archive); expected=strict_json((root/'forecast.json').read_bytes())
         result=read_forecasts((root/'forecast.json').read_bytes(),forecast_at=expected['forecast_at'],**frozen_inputs(root))
-        print(canonical(dict(mode='DETERMINISTIC_RECOMPUTATION_ONLY_UNVERIFIED_CODE',new_forecast_issued=False,payload_sha256=result['payload_sha256'],
+        print(canonical(dict(mode='DETERMINISTIC_RECOMPUTATION_ONLY_UNVERIFIED_CODE',new_forecast_issued=False,payload_sha256=result['payload_sha256'],forecast_at=result['forecast_at'],
             candidate_denominator=result['candidate_denominator'],attempt_denominator=result['attempt_denominator'],
             forecasted_rows=result['forecasted_rows'],abstained_rows=result['abstained_rows'])).decode())
     else:
