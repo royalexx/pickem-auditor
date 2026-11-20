@@ -1,0 +1,17 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_s3_artifact/artifact_probe.py"
+      ],
+      "exit_code": 0,
+      "stderr": "tests.stderr",
+      "stdout": "tests.stdout"
+    }
+  ],
+  "cwd": "/workspace/pickem-auditor",
+  "native_in_memory_fit_verification_calls": 1,
+  "new_fit_artifacts_created": 0,
+  "scoring_calls": 0
+}
