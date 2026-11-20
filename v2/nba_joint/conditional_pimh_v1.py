@@ -161,12 +161,67 @@ def exact_rejection_for_k_le_1(fixed,seed,*,budget=4096,event_budget=4096):
                 independent_P6_convergence_accepted=False)
 
 
+def sequential_period_conditional_proposal(fixed,seed,*,stage_budget=4096,
+                                          event_budget=4096):
+    """Fast period-by-period conditioned proposal Q; NOT identical to P(.|A).
+
+    Each period stage is conditionally exact *given its incoming prefix*.
+    Conditioning future OT stages tilts the law of earlier foul histories,
+    so Q is not the global original path-conditional law. The only claim
+    of predictive numerical control comes from the exact P(K>=2)=p*q
+    worst-case global total-variation envelope when paired with the
+    original exact K<=1 rejection kernel. Never call this an exact
+    original-law conditional sampler.
+    """
+    require(fixed['overtime_count']>=2 and
+            type(stage_budget) is int and stage_budget>0,
+            'SEQUENTIAL_Q_SCOPE')
+    prefix=empty_state(fixed)
+    counts=[];rejections=[]
+    for stage in range(fixed['overtime_count']+1):
+        selected=None
+        for attempt in range(stage_budget):
+            rng=rng_for(seed,fixed['game_id'],fixed['index'],
+                f'conditional-Q/1/stage:{stage}/attempt:{attempt}')
+            next_state,valid=stage_transition(fixed,prefix,rng,stage,
+                                               event_budget=event_budget)
+            if valid:
+                selected=next_state
+                counts.append(dict(stage=stage,proposals=attempt+1,
+                                   rejected=attempt))
+                break
+        if selected is None:
+            return dict(schema=VERSION,
+                        status='FAIL_PERIOD_CONDITIONING_BUDGET',
+                        stage=stage,counts=counts,path=None,
+                        finite_chain_is_exact_iid=False,
+                        original_target_distribution_exact=False,
+                        worst_case_unconditional_probability_bias_only_pq=True)
+        prefix=selected
+    path=finalize_path(fixed,prefix)
+    return dict(schema=VERSION,
+                status='RESEARCH_PERIOD_CONDITIONAL_Q_BOUNDED',
+                path=path,counts=counts,
+                accepted_path_raw_sha256=digest(canonical(path)),
+                path_proposals=sum(x['proposals'] for x in counts),
+                rejected_proposals=sum(x['rejected'] for x in counts),
+                finite_chain_is_exact_iid=False,
+                exact_original_conditional_law_is_stationary=False,
+                original_target_distribution_exact=False,
+                worst_case_unconditional_probability_bias_only_pq=True,
+                independent_P6_convergence_accepted=False)
+
+
 def conditional_event_path(fixed,seed,*,particles=128,iterations=32,
                            budget=4096,event_budget=4096,
-                           min_moves=3):
+                           min_moves=3,rare_sampler='pimh'):
+    require(rare_sampler in ('pimh','sequential'),'PIMH_RARE_SAMPLER')
     if fixed['overtime_count']<=1:
         return exact_rejection_for_k_le_1(fixed,seed,budget=budget,
                                           event_budget=event_budget)
+    if rare_sampler=='sequential':
+        return sequential_period_conditional_proposal(fixed,seed,
+                              stage_budget=budget,event_budget=event_budget)
     return pimh_sample(fixed,seed,particles=particles,iterations=iterations,
                        proposal_budget=iterations,event_budget=event_budget,
                        minimum_accepted_moves=min_moves)
