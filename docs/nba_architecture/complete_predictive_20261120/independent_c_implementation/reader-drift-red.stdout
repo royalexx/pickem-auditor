@@ -1,0 +1,1 @@
+{"status": "RED_SOURCE_READER_BYTE_DRIFT_NOT_REJECTED", "rows_admitted": 698, "parser_file_hash_reads": 0, "simulation_domain": "Path.read_bytes parser-file byte drift; source and parser behavior untouched"}

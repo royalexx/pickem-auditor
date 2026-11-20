@@ -1,0 +1,123 @@
+{
+  "schema": "conditional-residual-J-shadow-protocol/1",
+  "created_at": "2026-11-20T03:26:32.955584+00:00",
+  "target": "401910026",
+  "source_candidates": 35,
+  "primitive_attempts": 140,
+  "named_players": [
+    {
+      "player_id": "espn:player:3136196",
+      "team_id": "espn:team:16",
+      "name": "Trey Lyles"
+    },
+    {
+      "player_id": "espn:player:4397002",
+      "team_id": "espn:team:16",
+      "name": "Ayo Dosunmu"
+    },
+    {
+      "player_id": "espn:player:4431671",
+      "team_id": "espn:team:16",
+      "name": "Jaden McDaniels"
+    },
+    {
+      "player_id": "espn:player:4432816",
+      "team_id": "espn:team:16",
+      "name": "LaMelo Ball"
+    },
+    {
+      "player_id": "espn:player:4433083",
+      "team_id": "espn:team:29",
+      "name": "Cam Spencer"
+    },
+    {
+      "player_id": "espn:player:4592492",
+      "team_id": "espn:team:16",
+      "name": "Bones Hyland"
+    },
+    {
+      "player_id": "espn:player:4594326",
+      "team_id": "espn:team:29",
+      "name": "Kris Murray"
+    },
+    {
+      "player_id": "espn:player:4595400",
+      "team_id": "espn:team:29",
+      "name": "Olivier-Maxence Prosper"
+    },
+    {
+      "player_id": "espn:player:4684806",
+      "team_id": "espn:team:29",
+      "name": "Taylor Hendricks"
+    },
+    {
+      "player_id": "espn:player:4895758",
+      "team_id": "espn:team:16",
+      "name": "Cody Williams"
+    },
+    {
+      "player_id": "espn:player:4903027",
+      "team_id": "espn:team:29",
+      "name": "Cedric Coward"
+    },
+    {
+      "player_id": "espn:player:5041935",
+      "team_id": "espn:team:29",
+      "name": "Cameron Boozer"
+    },
+    {
+      "player_id": "espn:player:5112087",
+      "team_id": "espn:team:29",
+      "name": "Jaylen Wells"
+    },
+    {
+      "player_id": "espn:player:5279133",
+      "team_id": "espn:team:16",
+      "name": "Joan Beringer"
+    }
+  ],
+  "unsupported_players_remain_abstained": 21,
+  "scope": "NEWgroup-aware conditionalJ shadowmodel, not oldcanonicalJ/source-admission switch",
+  "conditioning": "All14namedplayers participate underdeclaredprior/extrapolationmodel; sourcelegal/qremainunknown; residualgroup exchangeability is a hypothesis notrostercompletion.",
+  "zero_dependence": "Independent latent pi_i~Beta(.5,49.5) pernamedplayer/modelscenario; same playerzero/exposure sharedacrossallstats. No sharedglobalpi. Sensitivityruns usefixedchosenweights.",
+  "O_coupling": {
+    "law": "Circularquantilecopula, sortednativeIDs perteam, offsetsj/n, oneuniformperteam. Exact theoreticalmarginals, numericallyevaluatedquantiles.",
+    "capacity_certificate": "Worstpi=0; monotonebetweenwraps; maxima areleftlimitsof7wraps perteam. Verify allwraplimits beforeanydraw. Numericalsharemargin1e-8; failclosedifsum>5. Norescale/projection/rejectionofexposurelaw.",
+    "query_budget": 1000,
+    "residual": "R=5L-sum_namedM. Groupnotplayer; atmost5anonymousactorslots each<=L forfiveoncourtwitness; thesearelatentmodelrolesnotgenuinerealidentities.",
+    "minute_conservation_tolerance": 1e-07,
+    "original_n32_red_unchanged": true
+  },
+  "G": {
+    "OT": "Same declared savedminute-law geometricOTprior, commonK/L acrossG/O/J. RequireallnamedlawOTparametersmatch.",
+    "pace": "NewGamma workingprior from20sourcegames regulationequivalentFGA+.44FTA-OREB+TO proxy, labeledproxy nottruepossessionobservation."
+  },
+  "fit_request": {
+    "kind": "NEWPROSPECTIVEONLY_NOT_REPLACEMENT",
+    "source_population": "Original456ordinaryverifiedhistories andnativecountvectors;20PBPfacts independentlyreviewed beforeG/eventparameteradmission.",
+    "S3": "native.fit familyS3statthrees fixedprior_attempts40,min_player_games2,seed20261120; exactsource/manifest/artifactclocks retained.",
+    "conversions": "NamedBeta(.5+own+40peerproportion,.5+ownfail+40peerfail) for2PT/FT; genuineobservedattempt/makecounts, nofuturelabels.",
+    "residual": "Ownteam historicalnon-namedplayers aggregatedasgroup, rawreportedexposure/counts retained. PosteriorrateGamma(.5+count,1+minutes), conversionBeta(.5+makes,.5+misses); commonratevectorperteammodelscenario."
+  },
+  "events": {
+    "type": "Newchronological finite-eventforwardmodel; not independentS1countcoupling andnotclaimofunchangedS1marginals.",
+    "rates": "SourceS1posteriorrates usedasworkingpriors/relativeallocationweights; drawonceperscenario; ratevectorrejectrPTS<3r3PM explicitlylogged beforeeventgeneration, budget4096.",
+    "opportunities": "NewS3p3,source2PT/FTconversion,non3pointFTshare,assistFG/reboundcredit/offrebound proxies; fitted/descriptiveratios labeled.",
+    "clock": "Possessionelapsedclockdrawsboundedby24sec,ORreset14; plannedrotationchanges areexplicitzero-timeout-of-boundsdeflectiondeadballs, notlive substitutions. Periodbreaks exact12/5min.",
+    "fouls": "ShootingFTseries2/3, individualdefenderpersonalcount<=5; no disqualifyingfoul mechanism inthisbaseline, explicitlystructuralrestriction. No posthocactor/minute repair.",
+    "assists": "Only distinctsame-teamoncourtactors; latentresidualslots aredistinctactors, notonefakeplayer.",
+    "rebounds": "Only frommodeledliveFG/terminalFTmisses; credited/unattributed sourceproxy split and offensive/defensiveownership recorded.",
+    "OT": "EventpathconditionalonsampledOTcount. FixedG/O/rateskeptacrossallattempts; exactrejectionforreg/OTtiepattern, max4096paths/scenario. Allrejectpaths/counts retained. Exhaustionfailstheentirerun; nofailedscenariosdropped."
+  },
+  "execution": {
+    "seed": 20261120,
+    "initial_scenarios": 32,
+    "numeric_baseline": "fullpriorS+M",
+    "new_fit_performed": false
+  },
+  "distortion": {
+    "status": "PREREGISTERED_DISCLOSURE_NOT_UNCHANGED_MARGINAL_CERTIFICATE",
+    "requirement": "Report Sreference vsNEWJmarginal mean/TV/CDFdifferences andMCerror. No existingacceptedfidelitybudget is silentlyloosened. Independentreviewmustdecideadmission; failingmandatorybudgetcannotbeGO."
+  },
+  "release": false
+}

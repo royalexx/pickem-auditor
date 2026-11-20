@@ -1,0 +1,19 @@
+{
+  "actual_scored_rows": 0,
+  "decision": "ACCEPT_NATIVE_C_OUTCOME_TRANSPORT_AND_PENDING_REPLAY",
+  "forecast_abstentions": 84,
+  "forecast_records": 56,
+  "historical_PIT_eligible_games": 0,
+  "implementation_and_tested_commit": "1818407a9591ec6ec8b355ec90165f8360afe606",
+  "initial_candidate": "d98a2443",
+  "model_admission_granted": false,
+  "native_source_rows": 698,
+  "pending_outcomes": 140,
+  "reader_drift_initial_red_preserved": true,
+  "release_granted": false,
+  "reviewer_authored_implementation_repairs": false,
+  "target_attempts": 140,
+  "tests_errors": 0,
+  "tests_fail": 0,
+  "tests_pass": 6
+}

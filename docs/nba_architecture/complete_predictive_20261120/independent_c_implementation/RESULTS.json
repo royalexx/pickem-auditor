@@ -1,0 +1,65 @@
+{
+  "errors": 0,
+  "failures": 0,
+  "native": {
+    "C_reader_raw_sha256": "a6e2aa7d540d01e2492ce4984a20fc2d6e40a1778d2228d89598632e4ab03687",
+    "capability": "EXACT20_NATIVE_IDENTITIES_REPORTED_FINAL_AND14_COUNTS",
+    "complete_eligible_roster_claim": false,
+    "correction_history_complete": null,
+    "evidence_profile_sha256": "5eab873f4cc744e29d3d4bcf483bb5c0726398146b0ee90b15be37814b59c9a8",
+    "historical_new_model_PIT_eligible": 0,
+    "official_publication_clock_known": false,
+    "payload_sha256": "a27dd3cd738cd579141b132bb3b2bc66977567d05e1d16b6d16cc1913c43c6e1",
+    "population_sha256": "1d05830c44ee07fd89bbe7dcade95d70651a0cfae824e8f2edaadf30d4b20584",
+    "release": false,
+    "schema": "bounded-native-C-outcomes/1",
+    "source_admission_extensible_by_caller": false,
+    "source_facts_payload_sha256": "b7100e9a316c9ac5d38196b2b8332d7362f8c46e871611ccf00f2b142b8cba89",
+    "source_helper_raw_sha256": {
+      "../nba_opportunity.py": "6dfb65b783f881de37e3779f3eb40433e1a1c99db103b0b3fef49e30092a5b30",
+      "gamebook_identity_v1.py": "51ebbe20652a8beb776e2bfcf887825e9b7a441bda3532420181d4465670fe55",
+      "p1_subset_handoff_v1.py": "745c333f110dea7d16ec74aca3a6179cc9bc043468c1f0bf081157946d48ff68",
+      "prospective_s_sources_v1.py": "8b61c753a41b59b9baad25ce179bd56ef3ceaf31645e76998b6408f296a447fd",
+      "subset_contract_v1.py": "34c7de07e4e2244c663c07908b087d57ffbbd3c72f40d62b1b42554364854bd5",
+      "subset_p3_v1.py": "1034c56a5e58c4134d17a6050644488e6458f3f5ca1aa061d3363e696c23c172"
+    },
+    "source_row_denominator": 698,
+    "state_denominators": {
+      "DNP_EXPLICIT": 68,
+      "PLAYED_REPORTED_POSITIVE": 459,
+      "SOURCE_LISTED_INACTIVE": 166,
+      "UNKNOWN_PARTICIPATION": 5
+    }
+  },
+  "replay": {
+    "attempt_denominator": 140,
+    "exact_missing_evidence": [
+      "TARGET_FINAL_NATIVE_BOX_AND_PBP_CAPTURE_AFTER_EVENT",
+      "DATED_TARGET_NATIVE_TO_FORECAST_IDENTITY_JOIN",
+      "INDEPENDENT_TARGET_OUTCOME_ADMISSION",
+      "GENUINE_PRE_EVENT_NEW_MODEL_FORECASTS_ON_HISTORICAL_VALIDATION_COHORT"
+    ],
+    "forecast_abstentions": 84,
+    "forecast_transport": {
+      "abstentions": 84,
+      "attempts": 140,
+      "forecast_raw_sha256": "a60ec92b970e6b417a1b9b48dceca3b2a1140dcf84f7f4ef24a8b57edcfc987f",
+      "forecasts": 56,
+      "new_forecast_issued": false,
+      "original_forecast_at": "2026-11-20T03:39:42.250414+00:00",
+      "payload_sha256": "aa7906f0fafdb12aa22141f1819ddfb802fe5501bb030bcf30157c9490bd21ad",
+      "release_approved": false,
+      "status": "VERIFIED_FROZEN_FORECAST_POST_EVENT_SAFE"
+    },
+    "forecasted_rows": 56,
+    "historical_PIT_eligible": 0,
+    "historical_source_games": 20,
+    "new_forecast_issued": false,
+    "pending_outcomes": 140,
+    "release": false,
+    "schema": "full-played-C-replay/1",
+    "scored_rows": 0,
+    "scoring_admitted": false
+  },
+  "test_methods": 6
+}

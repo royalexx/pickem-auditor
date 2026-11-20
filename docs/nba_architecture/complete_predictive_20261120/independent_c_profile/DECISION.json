@@ -1,0 +1,19 @@
+{
+  "all_source_rows": 698,
+  "count_comparisons": 7448,
+  "decision": "ACCEPT_BOUNDED_OUTCOME_EVIDENCE_PROFILE_ONLY",
+  "event_rows": 10463,
+  "historical_new_model_PIT_replay_eligible_in_supplied_population": 0,
+  "implemented_new_C_reader_reviewed": false,
+  "inactive_rows": 166,
+  "model_admission_granted": false,
+  "native_games": 20,
+  "player_rows": 532,
+  "public_test_methods_fail": 0,
+  "public_test_methods_pass": 4,
+  "release_granted": false,
+  "reviewed_baseline_commit": "cec3f5bfb3dd48082d43e132923fdc54dc654886",
+  "target_attempts": 140,
+  "target_outcome_scores_available": 0,
+  "target_outcomes_pending": 140
+}

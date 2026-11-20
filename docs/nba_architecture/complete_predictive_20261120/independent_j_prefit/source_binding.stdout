@@ -1,0 +1,17 @@
+{
+  "all20_games_and14_credit_fields_reconcile": true,
+  "mutation": {
+    "action_id": 68,
+    "before": "Jackson Free Throw 1 of 2 (1 PTS)",
+    "body_sha256": "7cda8410affa837cfa2735518840ecea2a7ce811ee6d8cb4ec3e67dae81b790d",
+    "forged": "Jackson Free Throw 1 of 3 (1 PTS)",
+    "game": "pbp-0022600022"
+  },
+  "new_fit_artifacts_created": 0,
+  "no_real_J_compile_performed": true,
+  "old_compiler_snapshot_sha256": "0641690420aafb193b97ee0e4a4d45df284fc135067fff6a488a585f8a4f3f96",
+  "old_result": "REACHED_OUTPUT_WITH_UNREVIEWED_PBP_NO_MODEL_COMPILED",
+  "repaired_compiler_sha256": "a6926cf86db0076ef22dadd00d2dc5ac4249ba3b31684fbff91b632b12ca5c1f",
+  "repaired_result": "J_EVENT_EXACT_ADMITTED_PBP_POPULATION",
+  "unreviewed_population_sha256": "b5a49b7326db591d27d79aa67863c3fc2cd324c2c56b49616c120ff5d3d15b93"
+}

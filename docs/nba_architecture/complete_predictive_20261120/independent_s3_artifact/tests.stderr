@@ -1,0 +1,9 @@
+test_01_exact_activation_receipt_sources_and_clocks (__main__.ArtifactReview.test_01_exact_activation_receipt_sources_and_clocks) ... ok
+test_02_native_exact_artifact_byte_reproduction (__main__.ArtifactReview.test_02_native_exact_artifact_byte_reproduction) ... ok
+test_03_all14_native_beta_binomial_kernels_independent_formula (__main__.ArtifactReview.test_03_all14_native_beta_binomial_kernels_independent_formula) ... ok
+test_04_public_abstentions_and_immutable_artifact (__main__.ArtifactReview.test_04_public_abstentions_and_immutable_artifact) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 2.840s
+
+OK

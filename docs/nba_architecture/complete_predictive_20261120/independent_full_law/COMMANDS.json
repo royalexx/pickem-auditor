@@ -1,0 +1,59 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_full_law/review_probe.py"
+      ],
+      "exit_code": 0,
+      "stderr": "tests.stderr",
+      "stdout": "tests.stdout"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_full_law/rare_reference.py"
+      ],
+      "exit_code": 0,
+      "stderr": "rare.stderr",
+      "stdout": "rare.stdout"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_full_law/tail_and_source_controls.py"
+      ],
+      "exit_code": 0,
+      "stderr": "tail_source.stderr",
+      "stdout": "tail_source.stdout"
+    }
+  ],
+  "cwd": "/workspace/pickem-auditor",
+  "holdout_or_other_outcome_scores": 0,
+  "native_fit_replay_calls_in_successful_public_builder": 4,
+  "new_fit_artifacts_created": 0,
+  "preserved_failed_launches": [
+    {
+      "cause": "Owner replaced candidate during launch; no tests started",
+      "exit_code": 1,
+      "stream_prefix": "initial_transient_file"
+    },
+    {
+      "cause": "Reviewer incorrectly required a fallible SciPy analytic helper to resolve all queries",
+      "exit_code": 1,
+      "stream_prefix": "initial_analytic_reference",
+      "tests_run": 6
+    },
+    {
+      "cause": "Reviewer import before sys.path insertion",
+      "exit_code": 1,
+      "stream_prefix": "reviewer_import_order"
+    },
+    {
+      "cause": "Reviewer exception binding cleared quad error variable",
+      "exit_code": 1,
+      "stream_prefix": "reviewer_exception_binding",
+      "tests_run": 6
+    }
+  ]
+}

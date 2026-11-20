@@ -1,0 +1,559 @@
+{
+  "all56_moment_checks": [
+    {
+      "independent_positive_mean": 18.48077174495863,
+      "independent_positive_variance": 33.58703186073876,
+      "mean_error": 4.263256414560601e-14,
+      "player": "LaMelo Ball",
+      "statistic": "points",
+      "variance_error": 2.2168933355715126e-12
+    },
+    {
+      "independent_positive_mean": 4.611840385379084,
+      "independent_positive_variance": 5.781384600138239,
+      "mean_error": 1.1546319456101628e-14,
+      "player": "LaMelo Ball",
+      "statistic": "rebounds",
+      "variance_error": 1.4832579608992091e-13
+    },
+    {
+      "independent_positive_mean": 4.790085274267654,
+      "independent_positive_variance": 6.039541206198425,
+      "mean_error": 1.1546319456101628e-14,
+      "player": "LaMelo Ball",
+      "statistic": "assists",
+      "variance_error": 1.5543122344752192e-13
+    },
+    {
+      "independent_positive_mean": 3.1865344914071927,
+      "independent_positive_variance": 3.8099914006704303,
+      "mean_error": 7.549516567451064e-15,
+      "player": "LaMelo Ball",
+      "statistic": "threes",
+      "variance_error": 7.283063041541027e-14
+    },
+    {
+      "independent_positive_mean": 5.695520483283418,
+      "independent_positive_variance": 12.62090619912913,
+      "mean_error": 3.552713678800501e-15,
+      "player": "Joan Beringer",
+      "statistic": "points",
+      "variance_error": 1.2434497875801753e-14
+    },
+    {
+      "independent_positive_mean": 4.174567122183178,
+      "independent_positive_variance": 7.954146326924754,
+      "mean_error": 1.7763568394002505e-15,
+      "player": "Joan Beringer",
+      "statistic": "rebounds",
+      "variance_error": 5.329070518200751e-15
+    },
+    {
+      "independent_positive_mean": 0.8715331933743398,
+      "independent_positive_variance": 1.0728208007968887,
+      "mean_error": 5.551115123125783e-16,
+      "player": "Joan Beringer",
+      "statistic": "assists",
+      "variance_error": 2.220446049250313e-16
+    },
+    {
+      "independent_positive_mean": 0.44442612225381856,
+      "independent_positive_variance": 0.5083123480065148,
+      "mean_error": 2.220446049250313e-16,
+      "player": "Joan Beringer",
+      "statistic": "threes",
+      "variance_error": 1.1102230246251565e-16
+    },
+    {
+      "independent_positive_mean": 17.700409568837443,
+      "independent_positive_variance": 31.344698297901573,
+      "mean_error": 1.7763568394002505e-14,
+      "player": "Ayo Dosunmu",
+      "statistic": "points",
+      "variance_error": 7.105427357601002e-15
+    },
+    {
+      "independent_positive_mean": 4.211392836011699,
+      "independent_positive_variance": 5.176617703766276,
+      "mean_error": 4.440892098500626e-15,
+      "player": "Ayo Dosunmu",
+      "statistic": "rebounds",
+      "variance_error": 7.105427357601002e-15
+    },
+    {
+      "independent_positive_mean": 3.3878106921081055,
+      "independent_positive_variance": 4.052237451447025,
+      "mean_error": 3.552713678800501e-15,
+      "player": "Ayo Dosunmu",
+      "statistic": "assists",
+      "variance_error": 3.552713678800501e-15
+    },
+    {
+      "independent_positive_mean": 2.193616156393915,
+      "independent_positive_variance": 2.51864383873784,
+      "mean_error": 2.220446049250313e-15,
+      "player": "Ayo Dosunmu",
+      "statistic": "threes",
+      "variance_error": 3.552713678800501e-15
+    },
+    {
+      "independent_positive_mean": 10.729612365166455,
+      "independent_positive_variance": 32.307955590408085,
+      "mean_error": 1.0658141036401503e-14,
+      "player": "Bones Hyland",
+      "statistic": "points",
+      "variance_error": 2.1316282072803006e-14
+    },
+    {
+      "independent_positive_mean": 1.8455793747250804,
+      "independent_positive_variance": 2.572799305224848,
+      "mean_error": 1.7763568394002505e-15,
+      "player": "Bones Hyland",
+      "statistic": "rebounds",
+      "variance_error": 4.440892098500626e-16
+    },
+    {
+      "independent_positive_mean": 3.008818395656699,
+      "independent_positive_variance": 4.831457525361948,
+      "mean_error": 3.1086244689504383e-15,
+      "player": "Bones Hyland",
+      "statistic": "assists",
+      "variance_error": 0.0
+    },
+    {
+      "independent_positive_mean": 1.696351250624626,
+      "independent_positive_variance": 2.31869326118881,
+      "mean_error": 1.7763568394002505e-15,
+      "player": "Bones Hyland",
+      "statistic": "threes",
+      "variance_error": 8.881784197001252e-16
+    },
+    {
+      "independent_positive_mean": 7.674082390522154,
+      "independent_positive_variance": 16.067532098948007,
+      "mean_error": 1.865174681370263e-14,
+      "player": "Trey Lyles",
+      "statistic": "points",
+      "variance_error": 1.4566126083082054e-13
+    },
+    {
+      "independent_positive_mean": 3.785620097474928,
+      "independent_positive_variance": 5.936671810979215,
+      "mean_error": 8.881784197001252e-15,
+      "player": "Trey Lyles",
+      "statistic": "rebounds",
+      "variance_error": 2.3092638912203256e-14
+    },
+    {
+      "independent_positive_mean": 1.326916738423631,
+      "independent_positive_variance": 1.6399684773206007,
+      "mean_error": 3.1086244689504383e-15,
+      "player": "Trey Lyles",
+      "statistic": "assists",
+      "variance_error": 1.1102230246251565e-15
+    },
+    {
+      "independent_positive_mean": 0.9843224013954626,
+      "independent_positive_variance": 1.1709723271696566,
+      "mean_error": 2.3314683517128287e-15,
+      "player": "Trey Lyles",
+      "statistic": "threes",
+      "variance_error": 2.220446049250313e-16
+    },
+    {
+      "independent_positive_mean": 16.196670223722865,
+      "independent_positive_variance": 26.044384066910197,
+      "mean_error": 3.552713678800501e-15,
+      "player": "Jaden McDaniels",
+      "statistic": "points",
+      "variance_error": 3.375077994860476e-13
+    },
+    {
+      "independent_positive_mean": 5.979177623851936,
+      "independent_positive_variance": 7.566017485452214,
+      "mean_error": 8.881784197001252e-16,
+      "player": "Jaden McDaniels",
+      "statistic": "rebounds",
+      "variance_error": 4.884981308350689e-14
+    },
+    {
+      "independent_positive_mean": 3.503844127838314,
+      "independent_positive_variance": 4.142914284317053,
+      "mean_error": 4.440892098500626e-16,
+      "player": "Jaden McDaniels",
+      "statistic": "assists",
+      "variance_error": 1.9539925233402755e-14
+    },
+    {
+      "independent_positive_mean": 1.4395226027382269,
+      "independent_positive_variance": 1.6024334734013932,
+      "mean_error": 2.220446049250313e-16,
+      "player": "Jaden McDaniels",
+      "statistic": "threes",
+      "variance_error": 3.1086244689504383e-15
+    },
+    {
+      "independent_positive_mean": 2.5511170188303587,
+      "independent_positive_variance": 11.727717545442005,
+      "mean_error": 1.3322676295501878e-15,
+      "player": "Cody Williams",
+      "statistic": "points",
+      "variance_error": 1.0658141036401503e-14
+    },
+    {
+      "independent_positive_mean": 1.2072307645014126,
+      "independent_positive_variance": 3.3089885288574643,
+      "mean_error": 6.661338147750939e-16,
+      "player": "Cody Williams",
+      "statistic": "rebounds",
+      "variance_error": 2.6645352591003757e-15
+    },
+    {
+      "independent_positive_mean": 0.4773872441177601,
+      "independent_positive_variance": 0.8272865101018094,
+      "mean_error": 2.7755575615628914e-16,
+      "player": "Cody Williams",
+      "statistic": "assists",
+      "variance_error": 6.661338147750939e-16
+    },
+    {
+      "independent_positive_mean": 0.30184008292101766,
+      "independent_positive_variance": 0.44988912874934217,
+      "mean_error": 1.6653345369377348e-16,
+      "player": "Cody Williams",
+      "statistic": "threes",
+      "variance_error": 2.220446049250313e-16
+    },
+    {
+      "independent_positive_mean": 14.967159760537344,
+      "independent_positive_variance": 25.57807322258708,
+      "mean_error": 4.618527782440651e-14,
+      "player": "Cameron Boozer",
+      "statistic": "points",
+      "variance_error": 1.3109513474773848e-12
+    },
+    {
+      "independent_positive_mean": 7.158243463003692,
+      "independent_positive_variance": 9.81632051233958,
+      "mean_error": 2.220446049250313e-14,
+      "player": "Cameron Boozer",
+      "statistic": "rebounds",
+      "variance_error": 2.913225216616411e-13
+    },
+    {
+      "independent_positive_mean": 3.7541746577708603,
+      "independent_positive_variance": 4.595700388732736,
+      "mean_error": 1.1546319456101628e-14,
+      "player": "Cameron Boozer",
+      "statistic": "assists",
+      "variance_error": 7.460698725481052e-14
+    },
+    {
+      "independent_positive_mean": 1.6375877891255655,
+      "independent_positive_variance": 1.8548097345264067,
+      "mean_error": 5.10702591327572e-15,
+      "player": "Cameron Boozer",
+      "statistic": "threes",
+      "variance_error": 1.199040866595169e-14
+    },
+    {
+      "independent_positive_mean": 14.501969196388972,
+      "independent_positive_variance": 23.928460393444112,
+      "mean_error": 2.6645352591003757e-14,
+      "player": "Cedric Coward",
+      "statistic": "points",
+      "variance_error": 5.009326287108706e-13
+    },
+    {
+      "independent_positive_mean": 7.329922259574684,
+      "independent_positive_variance": 9.978785463400023,
+      "mean_error": 1.3322676295501878e-14,
+      "player": "Cedric Coward",
+      "statistic": "rebounds",
+      "variance_error": 1.1013412404281553e-13
+    },
+    {
+      "independent_positive_mean": 3.3657030513044237,
+      "independent_positive_variance": 4.045027668709871,
+      "mean_error": 6.217248937900877e-15,
+      "player": "Cedric Coward",
+      "statistic": "assists",
+      "variance_error": 2.1316282072803006e-14
+    },
+    {
+      "independent_positive_mean": 2.0043347734185972,
+      "independent_positive_variance": 2.299070832000112,
+      "mean_error": 3.552713678800501e-15,
+      "player": "Cedric Coward",
+      "statistic": "threes",
+      "variance_error": 5.773159728050814e-15
+    },
+    {
+      "independent_positive_mean": 10.279735778221221,
+      "independent_positive_variance": 26.35372348837228,
+      "mean_error": 7.105427357601002e-15,
+      "player": "Taylor Hendricks",
+      "statistic": "points",
+      "variance_error": 5.684341886080802e-14
+    },
+    {
+      "independent_positive_mean": 4.251579783070154,
+      "independent_positive_variance": 7.1782889230734455,
+      "mean_error": 3.552713678800501e-15,
+      "player": "Taylor Hendricks",
+      "statistic": "rebounds",
+      "variance_error": 1.3322676295501878e-14
+    },
+    {
+      "independent_positive_mean": 1.5129768887951527,
+      "independent_positive_variance": 1.9528627248821295,
+      "mean_error": 1.1102230246251565e-15,
+      "player": "Taylor Hendricks",
+      "statistic": "assists",
+      "variance_error": 8.881784197001252e-16
+    },
+    {
+      "independent_positive_mean": 1.1534161373571612,
+      "independent_positive_variance": 1.428545613635348,
+      "mean_error": 8.881784197001252e-16,
+      "player": "Taylor Hendricks",
+      "statistic": "threes",
+      "variance_error": 2.220446049250313e-16
+    },
+    {
+      "independent_positive_mean": 2.065869033269284,
+      "independent_positive_variance": 9.812113510388617,
+      "mean_error": 4.440892098500626e-16,
+      "player": "Kris Murray",
+      "statistic": "points",
+      "variance_error": 1.7763568394002505e-15
+    },
+    {
+      "independent_positive_mean": 0.9754289726699168,
+      "independent_positive_variance": 2.7319779346974715,
+      "mean_error": 1.1102230246251565e-16,
+      "player": "Kris Murray",
+      "statistic": "rebounds",
+      "variance_error": 0.0
+    },
+    {
+      "independent_positive_mean": 0.46211008588966745,
+      "independent_positive_variance": 0.8703350272568428,
+      "mean_error": 5.551115123125783e-17,
+      "player": "Kris Murray",
+      "statistic": "assists",
+      "variance_error": 1.1102230246251565e-16
+    },
+    {
+      "independent_positive_mean": 0.26397942059292323,
+      "independent_positive_variance": 0.40370222479501616,
+      "mean_error": 5.551115123125783e-17,
+      "player": "Kris Murray",
+      "statistic": "threes",
+      "variance_error": 5.551115123125783e-17
+    },
+    {
+      "independent_positive_mean": 7.682927708883257,
+      "independent_positive_variance": 22.215500523176438,
+      "mean_error": 0.0,
+      "player": "Olivier-Maxence Prosper",
+      "statistic": "points",
+      "variance_error": 1.4210854715202004e-14
+    },
+    {
+      "independent_positive_mean": 2.985240653825492,
+      "independent_positive_variance": 5.319530484097712,
+      "mean_error": 0.0,
+      "player": "Olivier-Maxence Prosper",
+      "statistic": "rebounds",
+      "variance_error": 3.552713678800501e-15
+    },
+    {
+      "independent_positive_mean": 1.2077397542237205,
+      "independent_positive_variance": 1.6450580695284938,
+      "mean_error": 0.0,
+      "player": "Olivier-Maxence Prosper",
+      "statistic": "assists",
+      "variance_error": 0.0
+    },
+    {
+      "independent_positive_mean": 0.7916816155057953,
+      "independent_positive_variance": 1.0005456079242734,
+      "mean_error": 0.0,
+      "player": "Olivier-Maxence Prosper",
+      "statistic": "threes",
+      "variance_error": 0.0
+    },
+    {
+      "independent_positive_mean": 15.479450428796014,
+      "independent_positive_variance": 30.673456146141262,
+      "mean_error": 8.881784197001252e-15,
+      "player": "Cam Spencer",
+      "statistic": "points",
+      "variance_error": 4.476419235288631e-13
+    },
+    {
+      "independent_positive_mean": 3.5794107111363767,
+      "independent_positive_variance": 4.594732755809751,
+      "mean_error": 2.220446049250313e-15,
+      "player": "Cam Spencer",
+      "statistic": "rebounds",
+      "variance_error": 2.5757174171303632e-14
+    },
+    {
+      "independent_positive_mean": 6.224174403485909,
+      "independent_positive_variance": 8.955118604498551,
+      "mean_error": 3.552713678800501e-15,
+      "player": "Cam Spencer",
+      "statistic": "assists",
+      "variance_error": 7.460698725481052e-14
+    },
+    {
+      "independent_positive_mean": 2.423110429839814,
+      "independent_positive_variance": 2.946120571619546,
+      "mean_error": 1.3322676295501878e-15,
+      "player": "Cam Spencer",
+      "statistic": "threes",
+      "variance_error": 9.769962616701378e-15
+    },
+    {
+      "independent_positive_mean": 10.572439078266072,
+      "independent_positive_variance": 19.181755959838185,
+      "mean_error": 1.5987211554602254e-14,
+      "player": "Jaylen Wells",
+      "statistic": "points",
+      "variance_error": 2.8066438062523957e-13
+    },
+    {
+      "independent_positive_mean": 3.6877729037050786,
+      "independent_positive_variance": 4.8905283521518985,
+      "mean_error": 6.217248937900877e-15,
+      "player": "Jaylen Wells",
+      "statistic": "rebounds",
+      "variance_error": 2.7533531010703882e-14
+    },
+    {
+      "independent_positive_mean": 1.9081620861453603,
+      "independent_positive_variance": 2.289718536592883,
+      "mean_error": 3.3306690738754696e-15,
+      "player": "Jaylen Wells",
+      "statistic": "assists",
+      "variance_error": 5.773159728050814e-15
+    },
+    {
+      "independent_positive_mean": 1.7197302559945948,
+      "independent_positive_variance": 2.0406303329653777,
+      "mean_error": 2.886579864025407e-15,
+      "player": "Jaylen Wells",
+      "statistic": "threes",
+      "variance_error": 4.440892098500626e-15
+    }
+  ],
+  "candidate_raw_sha256": "e70d899f8a37bb4fed7e22e97cd4386e3bea48c001ac4c8a67fc1600247c967a",
+  "completed_at": "2026-11-20T03:28:50.096605+00:00",
+  "errors": 1,
+  "failures": 0,
+  "honest_scipy_analytic_reference_failures": [
+    {
+      "count": 100,
+      "player": "Cody Williams",
+      "reason": "FULL_S_ANALYTIC_REFERENCE_UNRESOLVED",
+      "statistic": "points"
+    }
+  ],
+  "mutation_controls": [
+    {
+      "mutation": "duplicate_action_id",
+      "rejected": "PBP_DUPLICATE_ACTION_ID"
+    },
+    {
+      "mutation": "wrong_game",
+      "rejected": "PBP_GAME_IDENTITY"
+    },
+    {
+      "mutation": "backwards_clock",
+      "rejected": "PBP_CLOCK_SUPPORT"
+    },
+    {
+      "mutation": "actor_team",
+      "rejected": "PBP_ACTOR_TEAM"
+    },
+    {
+      "mutation": "bad_final",
+      "rejected": "PBP_FINAL_SCORE"
+    },
+    {
+      "mutation": "card_bytes",
+      "rejected": "FULL_MODEL_CARD_BYTES"
+    },
+    {
+      "mutation": "protocol_bytes",
+      "rejected": "FULL_PROTOCOL_BYTES"
+    },
+    {
+      "mutation": "population_bytes",
+      "rejected": "FULL_PBP_POPULATION_BYTES"
+    },
+    {
+      "mutation": "drop_population",
+      "rejected": "FULL_PBP_POPULATION_BYTES"
+    },
+    {
+      "mutation": "reseal_population",
+      "rejected": "FULL_PBP_POPULATION_BYTES"
+    }
+  ],
+  "native_fit_in_memory_exact_byte_verification_replays": 4,
+  "new_fit_artifacts_created": 0,
+  "own_public_replay": {
+    "computed_completed_at": "2026-11-20T03:28:47.387442+00:00",
+    "computed_started_at": "2026-11-20T03:28:04.977700+00:00",
+    "payload_sha256": "189d62e45583da8c7b7b5b019e153110506cf47c858aa69e286138047c49db8e"
+  },
+  "rare_queries": [
+    {
+      "count": 100,
+      "estimated_log_quadrature_difference": 1.0224709967587842e-10,
+      "exact_structural_zero": false,
+      "log_probability": -117.6149242436036,
+      "numerical_difference_is_rigorous_bound": false,
+      "numerical_status": "RESOLVED",
+      "omitted_OT_relative_probability_bound": 3.409522421065246e-64,
+      "ot_terms": 128
+    },
+    {
+      "count": 1000,
+      "estimated_log_quadrature_difference": 1.0226131053059362e-10,
+      "exact_structural_zero": false,
+      "log_probability": -509.362390163692,
+      "numerical_difference_is_rigorous_bound": false,
+      "numerical_status": "RESOLVED",
+      "omitted_OT_relative_probability_bound": 9.49574581962951e-234,
+      "ot_terms": 512
+    },
+    {
+      "count": 10000,
+      "status": "UNRESOLVED_NO_SCORE"
+    },
+    {
+      "count": 1000000,
+      "status": "UNRESOLVED_NO_SCORE"
+    }
+  ],
+  "reviewed_checkout": "ce08e5ccc1f533cc0050ed33c98eefda302b9b44",
+  "scoring_calls": 0,
+  "source_evidence": {
+    "actions": 10463,
+    "event_credit_reconciled_fields": 14,
+    "exact_end_or_complete_lineup_claimed": false,
+    "games": 20,
+    "payload_sha256": "b7100e9a316c9ac5d38196b2b8332d7362f8c46e871611ccf00f2b142b8cba89"
+  },
+  "source_sha256": {
+    "full_played_s_v1.py": "8f3620b692a242bc6751e37ff34ee66cff7e26b00fc82087a26197336a3c3a5d",
+    "full_predictive_candidate_v1.py": "9e44fbf0e1559d6080d8dabf269d31f5306424a210cef44a6f06f246914fcfed",
+    "pbp_evidence_v1.py": "2fdb7ca21017fe567115cc4316f6b8109d52af9b908ffb0a6b177b585874c2f1"
+  },
+  "started_at": "2026-11-20T03:27:51.373664+00:00",
+  "test_methods": 6
+}

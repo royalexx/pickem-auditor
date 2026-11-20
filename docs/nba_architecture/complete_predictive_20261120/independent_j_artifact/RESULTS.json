@@ -1,0 +1,60 @@
+{
+  "FT_series_counts": {
+    "2": 398,
+    "3": 13
+  },
+  "J_scenarios_generated": 0,
+  "actual_fit_receipt": {
+    "NUTS": false,
+    "PBP_actions": 10463,
+    "PBP_games": 20,
+    "S3_admission_raw_sha256": "266096e230201ba65a4ea1f68f85e4bd7f76c0acef46ec6fe7a4f55a46e2111b",
+    "approval_raw_sha256": "27115bb7b49b41e34959b960e7ac1a8c4e0248a7679711a6374f1c62a7db7ebf",
+    "compiler_raw_sha256": "ecf1e3b3ff63f7b71066a40a4b168d1877d369ead4b8a84d4c9c75f68b218fc9",
+    "completed_at": "2026-11-20T04:01:55.836619+00:00",
+    "data_cutoff_at": "2026-11-20T03:02:41.931430+00:00",
+    "fit_kind": "NEW_SOURCE_DERIVED_WORKING_PRIORS_NOT_JOINT_POSTERIOR_NOT_HISTORICAL_REPLACEMENT",
+    "full_forecast_raw_sha256": "a60ec92b970e6b417a1b9b48dceca3b2a1140dcf84f7f4ef24a8b57edcfc987f",
+    "heldout_scoring": false,
+    "implementation_commit": "39614b990504d3fff9848730b1117100fafb05b2",
+    "in_memory_S3_verification_replays": 1,
+    "model_raw_sha256": "85f27b2ce96a96e14449da3e10ab0d3bb7e9c4e60d7aa30bc5b311d46c48e46d",
+    "original_all_stat_attempts": 2792,
+    "original_ordinary_source_rows": 456,
+    "original_source_observations": 698,
+    "release": false,
+    "schema": "new-prospective-J-working-prior-fit/1",
+    "source_full_admission_raw_sha256": "dd1e1b2b0663c4d889257cc17cceb160ea56df1c497f7bfb9046df96e3dfb2b2",
+    "started_at": "2026-11-20T04:01:55.415392+00:00",
+    "weight_optimization": false
+  },
+  "all_source_team_credit_sums_reconciled": true,
+  "compiler_writer_calls": 0,
+  "completed_at": "2026-11-20T04:06:04.833296+00:00",
+  "errors": 0,
+  "failures": 0,
+  "independently_reconstructed_model_sha256": "85f27b2ce96a96e14449da3e10ab0d3bb7e9c4e60d7aa30bc5b311d46c48e46d",
+  "named_players": 14,
+  "new_fit_artifacts_created": 0,
+  "outcome_scores": 0,
+  "pace": {
+    "mean": 101.51937735849057,
+    "variance": 16.26476326506903
+  },
+  "residual_pool_rows": {
+    "espn:team:16": 40,
+    "espn:team:29": 59
+  },
+  "source_totals": {
+    "assists": 1053,
+    "fieldGoalsAttempted": 3574,
+    "fieldGoalsMade": 1651,
+    "freeThrowsAttempted": 964,
+    "freeThrowsMade": 754,
+    "reboundsDefensive": 1265,
+    "reboundsOffensive": 495,
+    "reboundsTotal": 1760
+  },
+  "started_at": "2026-11-20T04:06:00.827489+00:00",
+  "test_methods": 2
+}

@@ -1,0 +1,10 @@
+test_01_closed_gate_before_inputs_and_output (__main__.Prefit.test_01_closed_gate_before_inputs_and_output) ... ok
+test_02_actual_readonly_source_and_pure_conversion_formula (__main__.Prefit.test_02_actual_readonly_source_and_pure_conversion_formula) ... ok
+test_03_mock_parameter_compile_create_only (__main__.Prefit.test_03_mock_parameter_compile_create_only) ... ok
+test_04_bad_approvals_admissions_card_and_artifact_reject (__main__.Prefit.test_04_bad_approvals_admissions_card_and_artifact_reject) ... ok
+test_05_future_prefit_clock_rejects_before_output (__main__.Prefit.test_05_future_prefit_clock_rejects_before_output) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 50.984s
+
+OK

@@ -1,0 +1,308 @@
+{
+  "actual_J_compiles": 0,
+  "binding_controls": [
+    {
+      "input": "full_admission_path",
+      "rejected": "J_EVENT_UPSTREAM_ADMISSIONS"
+    },
+    {
+      "input": "s3_admission_path",
+      "rejected": "J_EVENT_UPSTREAM_ADMISSIONS"
+    },
+    {
+      "input": "j_card_path",
+      "rejected": "J_EVENT_PREREGISTERED_CARD"
+    },
+    {
+      "input": "s3_path",
+      "rejected": "J_EVENT_S3_BYTES"
+    }
+  ],
+  "compiler_raw_sha256": "2c98b2c42a0fb9fe624fd55aa0a16129f796102eccc4a21fb7576f592442c405",
+  "completed_at": "2026-11-20T03:55:23.145262+00:00",
+  "errors": 0,
+  "failures": 0,
+  "mock_parameters_are_synthetic": true,
+  "mock_protocol_receipt": {
+    "NUTS": false,
+    "PBP_actions": 10463,
+    "PBP_games": 20,
+    "S3_admission_raw_sha256": "266096e230201ba65a4ea1f68f85e4bd7f76c0acef46ec6fe7a4f55a46e2111b",
+    "approval_raw_sha256": "80d2182a75f243ee61e65deb93a8c07d025695b8f0199318f3185027775ecd02",
+    "compiler_raw_sha256": "2c98b2c42a0fb9fe624fd55aa0a16129f796102eccc4a21fb7576f592442c405",
+    "completed_at": "2026-11-20T03:54:58.219754+00:00",
+    "data_cutoff_at": "2026-11-20T03:02:41.931430+00:00",
+    "fit_kind": "NEW_SOURCE_DERIVED_WORKING_PRIORS_NOT_JOINT_POSTERIOR_NOT_HISTORICAL_REPLACEMENT",
+    "full_forecast_raw_sha256": "a60ec92b970e6b417a1b9b48dceca3b2a1140dcf84f7f4ef24a8b57edcfc987f",
+    "heldout_scoring": false,
+    "implementation_commit": "e2cfa8f8791fdc55b6b8d975607fe2638cb6248e",
+    "in_memory_S3_verification_replays": 1,
+    "model_raw_sha256": "31edcca1df1c5e78bdbd7caf80a4f4fde81c6fdd66281a58d9f7904a85bc3964",
+    "original_all_stat_attempts": 2792,
+    "original_ordinary_source_rows": 456,
+    "original_source_observations": 698,
+    "release": false,
+    "schema": "new-prospective-J-working-prior-fit/1",
+    "source_full_admission_raw_sha256": "dd1e1b2b0663c4d889257cc17cceb160ea56df1c497f7bfb9046df96e3dfb2b2",
+    "started_at": "2026-11-20T03:54:58.176925+00:00",
+    "weight_optimization": false
+  },
+  "new_fit_artifacts_created": 0,
+  "outcome_scores": 0,
+  "readonly_conversion_source_checks": [
+    {
+      "conversion": "two_made",
+      "own_attempts": 17,
+      "own_makes": 13,
+      "peer_attempts": 875,
+      "peer_makes": 471,
+      "player_id": "espn:player:3136196",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 23,
+      "own_makes": 15,
+      "peer_attempts": 412,
+      "peer_makes": 320,
+      "player_id": "espn:player:3136196",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 101,
+      "own_makes": 57,
+      "peer_attempts": 775,
+      "peer_makes": 390,
+      "player_id": "espn:player:4397002",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:G"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 27,
+      "own_makes": 25,
+      "peer_attempts": 350,
+      "peer_makes": 292,
+      "player_id": "espn:player:4397002",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:G"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 96,
+      "own_makes": 59,
+      "peer_attempts": 796,
+      "peer_makes": 425,
+      "player_id": "espn:player:4431671",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 23,
+      "own_makes": 20,
+      "peer_attempts": 412,
+      "peer_makes": 315,
+      "player_id": "espn:player:4431671",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 63,
+      "own_makes": 32,
+      "peer_attempts": 813,
+      "peer_makes": 415,
+      "player_id": "espn:player:4432816",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:G"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 25,
+      "own_makes": 21,
+      "peer_attempts": 352,
+      "peer_makes": 296,
+      "player_id": "espn:player:4432816",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:G"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 35,
+      "own_makes": 21,
+      "peer_attempts": 841,
+      "peer_makes": 426,
+      "player_id": "espn:player:4433083",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:G"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 21,
+      "own_makes": 20,
+      "peer_attempts": 356,
+      "peer_makes": 297,
+      "player_id": "espn:player:4433083",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:G"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 38,
+      "own_makes": 21,
+      "peer_attempts": 838,
+      "peer_makes": 426,
+      "player_id": "espn:player:4592492",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:G"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 23,
+      "own_makes": 18,
+      "peer_attempts": 354,
+      "peer_makes": 299,
+      "player_id": "espn:player:4592492",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:G"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 5,
+      "own_makes": 3,
+      "peer_attempts": 887,
+      "peer_makes": 481,
+      "player_id": "espn:player:4594326",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 2,
+      "own_makes": 2,
+      "peer_attempts": 433,
+      "peer_makes": 333,
+      "player_id": "espn:player:4594326",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 17,
+      "own_makes": 12,
+      "peer_attempts": 875,
+      "peer_makes": 472,
+      "player_id": "espn:player:4595400",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 12,
+      "own_makes": 9,
+      "peer_attempts": 423,
+      "peer_makes": 326,
+      "player_id": "espn:player:4595400",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 26,
+      "own_makes": 21,
+      "peer_attempts": 866,
+      "peer_makes": 463,
+      "player_id": "espn:player:4684806",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 21,
+      "own_makes": 16,
+      "peer_attempts": 414,
+      "peer_makes": 319,
+      "player_id": "espn:player:4684806",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 2,
+      "own_makes": 0,
+      "peer_attempts": 890,
+      "peer_makes": 484,
+      "player_id": "espn:player:4895758",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 0,
+      "own_makes": 0,
+      "peer_attempts": 435,
+      "peer_makes": 335,
+      "player_id": "espn:player:4895758",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 49,
+      "own_makes": 27,
+      "peer_attempts": 843,
+      "peer_makes": 457,
+      "player_id": "espn:player:4903027",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 32,
+      "own_makes": 26,
+      "peer_attempts": 403,
+      "peer_makes": 309,
+      "player_id": "espn:player:4903027",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 76,
+      "own_makes": 41,
+      "peer_attempts": 816,
+      "peer_makes": 443,
+      "player_id": "espn:player:5041935",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 42,
+      "own_makes": 36,
+      "peer_attempts": 393,
+      "peer_makes": 299,
+      "player_id": "espn:player:5041935",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 19,
+      "own_makes": 11,
+      "peer_attempts": 873,
+      "peer_makes": 473,
+      "player_id": "espn:player:5112087",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 14,
+      "own_makes": 13,
+      "peer_attempts": 421,
+      "peer_makes": 322,
+      "player_id": "espn:player:5112087",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "two_made",
+      "own_attempts": 31,
+      "own_makes": 16,
+      "peer_attempts": 861,
+      "peer_makes": 468,
+      "player_id": "espn:player:5279133",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    },
+    {
+      "conversion": "freeThrowsMade",
+      "own_attempts": 25,
+      "own_makes": 14,
+      "peer_attempts": 410,
+      "peer_makes": 321,
+      "player_id": "espn:player:5279133",
+      "role": "ESPN_POSITION_BIN_AT_CAPTURE:F"
+    }
+  ],
+  "started_at": "2026-11-20T03:54:44.234784+00:00",
+  "test_methods": 4
+}

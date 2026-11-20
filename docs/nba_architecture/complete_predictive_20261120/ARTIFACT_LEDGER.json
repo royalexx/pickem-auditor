@@ -1,0 +1,66 @@
+{
+  "recorded_at": "2026-11-20T04:17:15.976067+00:00",
+  "byte_domain": "EXACT_SAVED_FILE_BYTES",
+  "artifacts": [
+    {
+      "path": "actual_full_forecast/forecast.json",
+      "bytes": 934092,
+      "raw_sha256": "a60ec92b970e6b417a1b9b48dceca3b2a1140dcf84f7f4ef24a8b57edcfc987f"
+    },
+    {
+      "path": "actual_full_forecast/ISSUANCE_RECEIPT.json",
+      "bytes": 548,
+      "raw_sha256": "f5fc5514e1d79744dcc70a938636f304b2c4cd8e58de1a401a34cc14ac8da165"
+    },
+    {
+      "path": "fitted_s3/three_conversion.json",
+      "bytes": 219298,
+      "raw_sha256": "04ffd94a6cf2a1bc00d3052aebcab98ac3aef77bac1d764ed9f0190c86812b18"
+    },
+    {
+      "path": "fitted_s3/FIT_RECEIPT.json",
+      "bytes": 1581,
+      "raw_sha256": "fbb9e82874484ff922459134de05921dec3a6ef20ed6eec6ad528c62498e48db"
+    },
+    {
+      "path": "fitted_j/event_model.json",
+      "bytes": 21807,
+      "raw_sha256": "85f27b2ce96a96e14449da3e10ab0d3bb7e9c4e60d7aa30bc5b311d46c48e46d"
+    },
+    {
+      "path": "fitted_j/FIT_RECEIPT.json",
+      "bytes": 1173,
+      "raw_sha256": "53ab4fc601a3883c6d3a849faeba0fa58d929695ba80af256de929a93bf9e298"
+    },
+    {
+      "path": "actual_j_candidate/RUN.json",
+      "bytes": 7332761,
+      "raw_sha256": "2b8a88ab928519011788e3737385155b2d240017c01df34b9a08e404f26d7c72"
+    },
+    {
+      "path": "actual_j_candidate/EXECUTION_RECEIPT.json",
+      "bytes": 1004,
+      "raw_sha256": "f350a70b84abb479edfce3390a59a06fc234619e8ae3c8aaf3259db722d2c402"
+    },
+    {
+      "path": "actual_j_candidate/DISCREPANCY.json",
+      "bytes": 45823,
+      "raw_sha256": "3e557a31dbeee677d6bc6d55fbff683fce1172ff0cf3b81ebcbbefe749716cfd"
+    },
+    {
+      "path": "native_c_read/RESULT.json",
+      "bytes": 1007538,
+      "raw_sha256": "d592db5bceb0c48d56e60749c3babdc3be231ebc6de5bd238784f355b10bf817"
+    },
+    {
+      "path": "full_c_replay/RESULT.json",
+      "bytes": 45329,
+      "raw_sha256": "2388f7c2915913c8dc673de28813d8667b94fa8d7c218801982c4fefa11c2122"
+    },
+    {
+      "path": "j_c_transport_repaired/RESULT.json",
+      "bytes": 123229,
+      "raw_sha256": "c59a7b440e172c5b34df07e72d5d923799a855003cf4bf71f787e451cf006d4a"
+    }
+  ]
+}

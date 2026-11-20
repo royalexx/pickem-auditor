@@ -1,0 +1,37 @@
+{
+  "PYTHONPATH": ".",
+  "actual_source_inputs": "original saved bytes; no fetch, fit, outcome score or newly issued cohort",
+  "actual_source_replay_command": [
+    "python",
+    "docs/nba_architecture/complete_predictive_20261120/independent_j_runtime/actual_probe.py"
+  ],
+  "actual_source_replay_exit_code": 0,
+  "high_precision_command": [
+    "python",
+    "docs/nba_architecture/complete_predictive_20261120/independent_j_runtime/moment_witness_probe.py"
+  ],
+  "high_precision_exit_code": 0,
+  "original_joint_byte_diff_command": [
+    "git",
+    "diff",
+    "--name-status",
+    "82c6092f",
+    "9fd03554",
+    "--",
+    "v2/nba_joint"
+  ],
+  "original_joint_byte_diff_result": "Only six new modules were added; no original J module modified.",
+  "public_engineering_command": [
+    "python",
+    "docs/nba_architecture/complete_predictive_20261120/independent_j_runtime/public_probe.py"
+  ],
+  "public_engineering_exit_code": 0,
+  "stdout_stderr_files": [
+    "tests.stdout",
+    "tests.stderr",
+    "actual.stdout",
+    "actual.stderr",
+    "moment.stdout",
+    "moment.stderr"
+  ]
+}

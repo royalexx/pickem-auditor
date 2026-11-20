@@ -1,0 +1,9 @@
+{
+  "tested_diagnostic_commit": "9fd0355447a8590ad1e13d70b6293f756ce079b0",
+  "public_new_label_positive": true,
+  "true_S_lower_bound_certified": false,
+  "old_raw_unchanged": true,
+  "all_old_lower_limits_zero": true,
+  "generator_auditor_unchanged_from_actual_execution": true,
+  "new_numeric_query_body_unchanged": "independently inspected exact git diff; only returned metadata key and false flag changed"
+}

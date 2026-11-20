@@ -1,0 +1,77 @@
+{
+  "C_scoring_admitted": false,
+  "abstained": 84,
+  "actual_forecast_at": "2026-11-20T03:39:42.250414+00:00",
+  "actual_issue_accepted": true,
+  "admission_scope": "New seven-named-player per-team circular-quantile law with independent player zero priors, common externally supplied NBA duration and anonymous residual actor slots; finite-population capacity and numerical five-on-court witness only.",
+  "all_named_players_participation_conditioned": true,
+  "attempt_denominator": 140,
+  "candidate_denominator": 35,
+  "cohort_raw_sha256": "affcf904c315b090950c81960c5044bbaa577af8359117bc6be7ea043f8a9c14",
+  "cohort_semantic_sha256": "ecd5d93685c90ecf7f1b6d31ba778982e6b23c0f748998747db9ca968dc16024",
+  "complete_roster_claim": false,
+  "conditional_O_admitted_at": "2026-11-20T04:02:35.536110+00:00",
+  "conditional_residual_O_accepted_for_exact14_player_population": true,
+  "decided_at": "2026-11-20T04:02:35.536110+00:00",
+  "decision": "ACCEPT_EXACT_NEW_ISSUANCE_POSTEVENT_TRANSPORT_AND_BOUNDED_RESIDUAL_O",
+  "forecast_raw_sha256": "a60ec92b970e6b417a1b9b48dceca3b2a1140dcf84f7f4ef24a8b57edcfc987f",
+  "forecasted": 56,
+  "genuine_participation_probability": null,
+  "historical_validation_passed": false,
+  "independent_evidence": {
+    "J_count_draws_by_reviewer": 0,
+    "disclosed_boundary_adjustments": 601,
+    "draws_checked": 336,
+    "formal_interval_arithmetic_certificate": false,
+    "independent_capacity_upper_brackets": [
+      {
+        "capacity_slack": 1.0110000000000001,
+        "independent_upward_grid_upper": 3.989,
+        "public_upper": 3.9876282208869718,
+        "queries": 49,
+        "team_id": "espn:team:16"
+      },
+      {
+        "capacity_slack": 0.9059999999999997,
+        "independent_upward_grid_upper": 4.094,
+        "public_upper": 4.0902888266639135,
+        "queries": 49,
+        "team_id": "espn:team:29"
+      }
+    ],
+    "max_actor_witness_error_minutes": 4.263256414560601e-14,
+    "new_fit_artifacts_created": 0,
+    "new_forecasts_issued_by_reviewer": 0,
+    "precision_digits": 70,
+    "test_methods": 5,
+    "witness_representation_tolerance_minutes": 1e-07
+  },
+  "issuance_receipt_raw_sha256": "f5fc5514e1d79744dcc70a938636f304b2c4cd8e58de1a401a34cc14ac8da165",
+  "law_snapshot_raw_sha256": "e70d899f8a37bb4fed7e22e97cd4386e3bea48c001ac4c8a67fc1600247c967a",
+  "legal_eligibility": null,
+  "model_admission_raw_sha256": "dd1e1b2b0663c4d889257cc17cceb160ea56df1c497f7bfb9046df96e3dfb2b2",
+  "new_J_event_model_or_runtime_admitted": false,
+  "old_G0_n32_or_general_max_q_gate_passed": false,
+  "postevent_safe_transport_accepted": true,
+  "predictive_quality_or_full_G1_claim": false,
+  "production": false,
+  "release_approved": false,
+  "required_limits": [
+    "Actual full-model admission03:33:59 precedes new freeze03:39:40 and invocation forecast03:39:42; calculation completed03:40:18 before target. These are a new issue, not revisions to old fixed/ordinary laws.",
+    "The transport replays exact frozen snapshot bytes and recorded clocks without invoking pre-event generation. It does not admit future revised forecasts or arbitrary snapshots.",
+    "The circular construction is a new conditional copula, not a solution to the older G0 LP, general maximum participation probability or old n32 fidelity gate.",
+    "The finite wrap-limit proof uses monotonicity and independently checked high-precision upward quantile brackets for these14 laws. The generic1e-8 library allowance is not a universal formal interval guarantee.",
+    "Named sampled minute vectors remain unchanged. The contiguous rotation representation has explicit boundary adjustments and reconciles within1e-7 minute, rather than claiming bit-identical integration.",
+    "Residual actors are anonymous model slots. They do not resolve21 unsupported identities, legal eligibility, source roster completeness or q.",
+    "Count opportunity/event conservation, shared OT/G/rate sampling, rejection/exhaustion, marginal distortions and MC errors remain separate J gates."
+  ],
+  "review": "REVIEW.md",
+  "reviewed_O_commit": "d23f2998",
+  "reviewed_code_raw_sha256": {
+    "v2/nba_architecture/full_predictive_replay_v2.py": "0f6cf4dfdcbdc8661f9b45192c12f91aa0f2a768f9657b3b90071c7b5403aca6",
+    "v2/nba_architecture/full_predictive_runtime_v1.py": "6106fa00f9783e5fb8e6fdb5da1d60906bcf25bb0367dbb11219766b71f67de7",
+    "v2/nba_joint/residual_opportunity_v1.py": "d53627276ba972cd23ce91bd4d9cb212f28fa141e45d44ea6f5a276b41215803"
+  },
+  "schema": "independent-issued-full-forecast-and-conditional-residual-O-review/1",
+  "target": "401910026"
+}

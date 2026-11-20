@@ -1,0 +1,31 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_j_prefit/prefit_probe.py"
+      ],
+      "exit_code": 0,
+      "stderr": "tests.stderr",
+      "stdout": "tests.stdout"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_j_prefit/source_binding_probe.py"
+      ],
+      "exit_code": 0,
+      "stderr": "source_binding.stderr",
+      "stdout": "source_binding.stdout"
+    }
+  ],
+  "cwd": "/workspace/pickem-auditor",
+  "new_fit_artifacts_created": 0,
+  "preserved_prior_pass": {
+    "methods": 4,
+    "results": "PRE_CLOCK_RESULTS.json",
+    "stderr": "pre_clock_controls.stderr",
+    "stdout": "pre_clock_controls.stdout"
+  },
+  "real_J_compiles": 0
+}

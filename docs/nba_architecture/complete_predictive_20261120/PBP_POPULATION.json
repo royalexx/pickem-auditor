@@ -1,0 +1,170 @@
+{
+  "schema": "nba-exact-PBP-population/1",
+  "frozen_at": "2026-11-20T03:02:41.931430+00:00",
+  "sources": {
+    "pbp-0022600022": {
+      "receipt_sha256": "3d518cef8c4f00634942d9a4b7020e7c776f7920c4fc3790e909c127f2dbe9fb",
+      "body_sha256": "aba7b218db74ffae80af7218eeeaf18364fda18665495edfe5094acd9fc6d520",
+      "url": "https://www.nba.com/game/lac-vs-min-0022600022/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:07.340654+00:00",
+      "ingested_at": "2026-11-20T02:55:07.342765+00:00"
+    },
+    "pbp-0022600029": {
+      "receipt_sha256": "aa3cc11b178ba99c62e5cff8373d7f5a55f9eb43b0d8d65becf7094ee551779a",
+      "body_sha256": "a48ae60ef7c6231f5b880cd79fc3e3f205b3d7ffd3fce2d5b152ff7a7122a3d5",
+      "url": "https://www.nba.com/game/okc-vs-mem-0022600029/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:02.908664+00:00",
+      "ingested_at": "2026-11-20T02:55:02.910940+00:00"
+    },
+    "pbp-0022600031": {
+      "receipt_sha256": "baa131ecb47ad5102feffe42c0fe3f0ba4ecc5ba320c33f91c17c91936bc4869",
+      "body_sha256": "b2233880619e7ab92c774c4082d950c4e4e401f096c7759b7e9160b2dc88a1a0",
+      "url": "https://www.nba.com/game/min-vs-nop-0022600031/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:08.921079+00:00",
+      "ingested_at": "2026-11-20T02:55:08.923171+00:00"
+    },
+    "pbp-0022600038": {
+      "receipt_sha256": "35bf4353b626e37cad87da64944c265642669175c9c3c8228519af1bf3d8031b",
+      "body_sha256": "fe288b65be4154b2a21a6ef202412ae6c85e8408b786cfb3fe640e8549259b7e",
+      "url": "https://www.nba.com/game/mem-vs-nop-0022600038/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:07.454364+00:00",
+      "ingested_at": "2026-11-20T02:55:07.456508+00:00"
+    },
+    "pbp-0022600150": {
+      "receipt_sha256": "beb93e12ab9f6c1c2064d139b191c9f051e3229b5987e6e8d8dfb9426d46294e",
+      "body_sha256": "fcbc3e1927d8f30ba69deeea33d36070a070d3c629a5c7a4fc4f9f674af3c5f9",
+      "url": "https://www.nba.com/game/sac-vs-mem-0022600150/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:03.108828+00:00",
+      "ingested_at": "2026-11-20T02:55:03.110863+00:00"
+    },
+    "pbp-0022600152": {
+      "receipt_sha256": "25ec3535c2ed42ec8c93a81866731169af96d0b278acc458a6d63eb3fd85c731",
+      "body_sha256": "b9d6e266124dd2c8799405207b6e5c07525a44243bcd42ee2dd2d24743c67979",
+      "url": "https://www.nba.com/game/min-vs-sas-0022600152/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:07.289059+00:00",
+      "ingested_at": "2026-11-20T02:55:07.292844+00:00"
+    },
+    "pbp-0022600165": {
+      "receipt_sha256": "cfbcd24d41db9fa0b2a3f6d9bf6a147b42ee5d913bb64dd969a037f0b817fc4c",
+      "body_sha256": "08b0b521397471ef5ebff779fc32ab88b7a26351d6ce151debff53923ad35998",
+      "url": "https://www.nba.com/game/nop-vs-mem-0022600165/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:54:29.003417+00:00",
+      "ingested_at": "2026-11-20T02:54:29.005637+00:00"
+    },
+    "pbp-0022600166": {
+      "receipt_sha256": "5c4fff11c491a7af3776963f8c7f2df1d1c58930c755d1b322aaa3abed3d309e",
+      "body_sha256": "fb6165a4fd83de8d7b3b48b3f2b12f1c3b26b72d0badb8b4818fd0828d9c3fb7",
+      "url": "https://www.nba.com/game/mil-vs-min-0022600166/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:08.290602+00:00",
+      "ingested_at": "2026-11-20T02:55:08.292711+00:00"
+    },
+    "pbp-0022600178": {
+      "receipt_sha256": "00b495217aef9e297d91943617486d9a228198b1ae07c8ff893656340dbd59c5",
+      "body_sha256": "1a55cf2748defc49501156f0fa0b0bd7bf939f0dc299b4b3260ce3887027f2bb",
+      "url": "https://www.nba.com/game/ind-vs-mem-0022600178/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:04.338441+00:00",
+      "ingested_at": "2026-11-20T02:55:04.340659+00:00"
+    },
+    "pbp-0022600181": {
+      "receipt_sha256": "7a054a7f81e393bc2d29128579e833decb6e39ced5ce8ece9a7d6fce877baf77",
+      "body_sha256": "ff4ec2bcb01d6818d40591990cadad3312ea004cf6974d36e7e9cf0f0738fe1e",
+      "url": "https://www.nba.com/game/min-vs-hou-0022600181/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:08.819088+00:00",
+      "ingested_at": "2026-11-20T02:55:08.821266+00:00"
+    },
+    "pbp-0022600198": {
+      "receipt_sha256": "47e5610df791845a9a297cd05e043b3e1ea475907ad5702e9b27837029e13cdb",
+      "body_sha256": "3f862ac041ad4afbb4a37163c143de61065b81701de265d03b3e651a611d5328",
+      "url": "https://www.nba.com/game/uta-vs-min-0022600198/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:09.643657+00:00",
+      "ingested_at": "2026-11-20T02:55:09.646117+00:00"
+    },
+    "pbp-0022600206": {
+      "receipt_sha256": "4338b524ce573010393eeaed6e95656db5cb6a2d9c5ba7cb7c44460966301d1f",
+      "body_sha256": "a30336228f88a141e12048ce18b3ea9d3336441ce08a9070b12991c165598ab6",
+      "url": "https://www.nba.com/game/mem-vs-tor-0022600206/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:05.095036+00:00",
+      "ingested_at": "2026-11-20T02:55:05.097210+00:00"
+    },
+    "pbp-0022600221": {
+      "receipt_sha256": "742cdf4155f17c5fa07d647379f5c26392b10f4e51587d71d5fccf8ec69a03d5",
+      "body_sha256": "0a77802026bde8e32600f17c4696582eddf560fba3468d6175674af18f662d74",
+      "url": "https://www.nba.com/game/den-vs-mem-0022600221/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:04.070691+00:00",
+      "ingested_at": "2026-11-20T02:55:04.073308+00:00"
+    },
+    "pbp-0022600229": {
+      "receipt_sha256": "ab5998368767e42c010a668cebe1a8fce73eb2f7c2edced0cd7ca21ea26e862a",
+      "body_sha256": "854f8e7dda4ffb39e1550ce081757fcc5cc25bf08b9b439915fa53247b60acea",
+      "url": "https://www.nba.com/game/dal-vs-min-0022600229/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:10.085668+00:00",
+      "ingested_at": "2026-11-20T02:55:10.087822+00:00"
+    },
+    "pbp-0022600234": {
+      "receipt_sha256": "8fa325bc228524f3eab8d748d60a9956c16f19f1e2dc635adc0a6fc27b7b9408",
+      "body_sha256": "1d1a39c81a98eca092eb60f0072bb80b43ef5bda2afc45741e33b1dd90480339",
+      "url": "https://www.nba.com/game/bkn-vs-mem-0022600234/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:05.793841+00:00",
+      "ingested_at": "2026-11-20T02:55:05.796185+00:00"
+    },
+    "pbp-0022600235": {
+      "receipt_sha256": "04a879200ea6894d73f74539f9e7bd5b57749508e62b7f6e0fbaba2a2527a6e5",
+      "body_sha256": "42e705aafaec5f2540ac4480528be9ba2755d13b7351416f4e41c3bcb72e135f",
+      "url": "https://www.nba.com/game/chi-vs-min-0022600235/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:10.089625+00:00",
+      "ingested_at": "2026-11-20T02:55:10.092051+00:00"
+    },
+    "pbp-0022600247": {
+      "receipt_sha256": "6a2a7702fa1580d3dd6e3878b272bc4f0170b98f5881dcd6d15294630326a35e",
+      "body_sha256": "f969424b247ddee69964361d094ce9f63883910288fc8912105ed152d99d34d1",
+      "url": "https://www.nba.com/game/mem-vs-was-0022600247/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:06.328108+00:00",
+      "ingested_at": "2026-11-20T02:55:06.330328+00:00"
+    },
+    "pbp-0022600250": {
+      "receipt_sha256": "62eb1581c6f0772cb7c0e1a828cfc6c1a9d53a4a1bd5eb03ab916e83d1dd38c2",
+      "body_sha256": "128689dccbb1a97a534643e026b74a73d2d3306eda5208964d6eec5361bb68ff",
+      "url": "https://www.nba.com/game/por-vs-min-0022600250/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:10.894775+00:00",
+      "ingested_at": "2026-11-20T02:55:10.897665+00:00"
+    },
+    "pbp-0022600254": {
+      "receipt_sha256": "a5baa88a47284ea17e2c72ba67080ec863c10551304e0a34c21df54628a53940",
+      "body_sha256": "6b71f2668526e7dd391ed007f2f61e5bfe23954c3035fda623cc9aeffdd0faf7",
+      "url": "https://www.nba.com/game/por-vs-min-0022600254/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:11.081315+00:00",
+      "ingested_at": "2026-11-20T02:55:11.083796+00:00"
+    },
+    "pbp-0022600258": {
+      "receipt_sha256": "473ed44fb656412bde39e7c97e5f9d33225bc69e208f9c106028635a85982403",
+      "body_sha256": "eb586935baa47482eefdfcfdcac155563a34cd1e10ba9ae91e0e6f92546d2f6b",
+      "url": "https://www.nba.com/game/mem-vs-cle-0022600258/play-by-play",
+      "status": 200,
+      "observed_at": "2026-11-20T02:55:06.510115+00:00",
+      "ingested_at": "2026-11-20T02:55:06.512334+00:00"
+    }
+  },
+  "original_target": "401910026",
+  "original_candidate_denominator": 35,
+  "source_admission": "PENDING_EXACT_NATIVE_READER_REVIEW",
+  "clock_precision": "Raw game-clock strings and source-declared walltime text only; no original publication or exact end clock inferred."
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "nba-full-played-prior-predictive-proposal/1",
+  "kind": "NEW_SHADOW_MODEL_NOT_PR190_ADMISSION_EXTENSION",
+  "target": "401910026",
+  "source_candidates": 35,
+  "statistic_attempts": 140,
+  "base_S1": "Original exact four admitted artifacts; no new fit or historical replacement.",
+  "positive_minutes": "Original beta M0 law incl all0<m<duration under explicitly assumed homogeneous per-minute S1 extrapolation below30sec.",
+  "true_zero_weight": {
+    "kind": "PRIOR_DRIVEN_UNIDENTIFIED_NOT_EMPIRICAL",
+    "prior": "Beta(0.5,49.5)",
+    "mean": 0.01,
+    "observed_true_zero_examples": 0,
+    "posterior_updated_from_absence": false,
+    "sensitivity_means": [
+      0.0,
+      0.001,
+      0.01,
+      0.05,
+      0.1
+    ],
+    "genuine_probability": null
+  },
+  "true_zero_count_kernel": "delta_at_all_four_counts_zero, structural current G0 true-zero constraint, not empirical zero-credit evidence. Printed-zero rows never automatically classified true-zero.",
+  "rate_future_minutes_factorization": "Explicit conditional-product model assumption, not fitted joint posterior.",
+  "participation_probability": null,
+  "legal_eligibility": null,
+  "numerical": "Full integer-support pmf/cdf/logpmf queries; count/OT tail bounds and adaptive integration diagnostics separate from model domain. No deletion of earlyexit mass.",
+  "gate": "Requires independent pre-implementation model/source review; no admitted claim by this card.",
+  "historical": "No new historical fitting/holdout scoring under this card.",
+  "created_at": "2026-11-20T03:02:41.931739+00:00"
+}

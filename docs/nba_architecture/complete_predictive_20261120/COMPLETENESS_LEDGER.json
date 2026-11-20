@@ -1,0 +1,121 @@
+{
+  "schema": "complete-predictive-gate-ledger/1",
+  "recorded_at": "2026-11-20T04:21:52.448376+00:00",
+  "authority": "PA-V25-MASTER-2026-11-09/v1.1",
+  "profile": "source_listed_subset",
+  "release": "NO_GO",
+  "source_candidates": 35,
+  "primitive_attempts": 140,
+  "conditional_full_S_forecasts": 56,
+  "abstentions": 84,
+  "source_games": 20,
+  "source_actions": 10463,
+  "source_rows": 698,
+  "ordinary_fit_rows": 456,
+  "all_source_stat_attempts": 2792,
+  "source_stat_included": 1824,
+  "source_stat_excluded": 968,
+  "full_S_sensitivity_attempts": 700,
+  "full_S_sensitivity_supported": 280,
+  "full_S_sensitivity_abstained": 420,
+  "J_scenarios_requested": 32,
+  "J_scenarios_retained": 32,
+  "J_failed": 0,
+  "J_proposed_paths": 58,
+  "J_OT_rejections": 26,
+  "J_event_rows_all_proposals": 23925,
+  "J_C_market_attempts": 280,
+  "J_C_supported": 112,
+  "J_C_abstentions": 168,
+  "actual_scores": 0,
+  "historical_new_model_PIT_eligible_in_supplied_population": 0,
+  "source_publication_at": null,
+  "official_wallclock_end_at": null,
+  "genuine_participation_probability": null,
+  "legal_eligibility": null,
+  "correction_history_complete": null,
+  "independent_decisions": {
+    "independent_c_implementation/DECISION.json": {
+      "raw_sha256": "b224a947864210d081af25c95b4afb584ea412e5239a55c22d4a3af610fc9467",
+      "decision": "ACCEPT_NATIVE_C_OUTCOME_TRANSPORT_AND_PENDING_REPLAY",
+      "scope": null
+    },
+    "independent_c_profile/DECISION.json": {
+      "raw_sha256": "5eab873f4cc744e29d3d4bcf483bb5c0726398146b0ee90b15be37814b59c9a8",
+      "decision": "ACCEPT_BOUNDED_OUTCOME_EVIDENCE_PROFILE_ONLY",
+      "scope": null
+    },
+    "independent_full_law/ADMISSION.json": {
+      "raw_sha256": "dd1e1b2b0663c4d889257cc17cceb160ea56df1c497f7bfb9046df96e3dfb2b2",
+      "decision": "ACCEPT_FROZEN_SOURCE_CAPABILITIES_AND_ASSUMPTION_DEFINED_FULL_PLAYED_SHADOW_MODEL",
+      "scope": "56 per-statistic marginal measures conditional on participation under the exact new prior/extrapolation/product assumptions. All35 source candidates/140 attempts retained. No empirical zero probability or joint law inferred."
+    },
+    "independent_issuance_o/DECISION.json": {
+      "raw_sha256": "6faa45e3b1d4a0c5454604a0c7f2b8b838e02f95f348459d8694d559cf7d2701",
+      "decision": "ACCEPT_EXACT_NEW_ISSUANCE_POSTEVENT_TRANSPORT_AND_BOUNDED_RESIDUAL_O",
+      "scope": null
+    },
+    "independent_j_artifact/ARTIFACT_ADMISSION.json": {
+      "raw_sha256": "388e41fb537dc5e2c395078603473f8c8d524745c90f30957b672e2ed6015a42",
+      "decision": "ADMIT_EXACT_SOURCE_DERIVED_WORKING_PARAMETER_ARTIFACT_FOR_SEPARATE_J_ENGINEERING_REVIEW",
+      "scope": null
+    },
+    "independent_j_c/DECISION.json": {
+      "raw_sha256": "5ea0d7769cd395420e6a64a26da65fd68d8ff3fd2a2c0cc254f5085be91c2d46",
+      "decision": "ACCEPT_EXACT_FROZEN_J_TO_C_ENGINEERING_TRANSPORT_ONLY",
+      "scope": null
+    },
+    "independent_j_prefit/PREFIT_APPROVAL.json": {
+      "raw_sha256": "27115bb7b49b41e34959b960e7ac1a8c4e0248a7679711a6374f1c62a7db7ebf",
+      "decision": "PREFIT_PASS_ONE_PINNED_PROSPECTIVE_J_WORKING_PRIOR_COMPILE",
+      "scope": null
+    },
+    "independent_j_runtime/DECISION.json": {
+      "raw_sha256": "bd2a8d12e4c8e6390b381f3eaa26bab778c5d9abf3d0fcb5e33b2005fc0c59a3",
+      "decision": "ACCEPT_NEW_RESTRICTED_CONDITIONAL_J_ENGINEERING_SAMPLE_ONLY",
+      "scope": null
+    },
+    "independent_protocol/DECISION.json": {
+      "raw_sha256": "51c45b6aef179e7b4418b42e5af6f31753eadf01ecb09c49030e20514b4006fc",
+      "decision": "APPROVE_SEPARATELY_VERSIONED_SHADOW_IMPLEMENTATION_PROTOCOL_ONLY",
+      "scope": null
+    },
+    "independent_s3_artifact/ARTIFACT_ADMISSION.json": {
+      "raw_sha256": "266096e230201ba65a4ea1f68f85e4bd7f76c0acef46ec6fe7a4f55a46e2111b",
+      "decision": "ADMIT_EXACT_GENUINE_PROSPECTIVE_S3_CONVERSION_ARTIFACT_FOR_REVIEWED_RESEARCH_SCOPE",
+      "scope": null
+    },
+    "independent_s3_prefit/PREFIT_APPROVAL.json": {
+      "raw_sha256": "1e8e21143d8aba0afc53483f85e82af22c941c85f64091e9bd32a83bde734cd5",
+      "decision": "PREFIT_PASS_ONE_FIXED_NEW_PROSPECTIVE_S3_ARTIFACT",
+      "scope": null
+    }
+  },
+  "blockers": [
+    {
+      "id": "J_EXACT_MARGINAL_COMPATIBILITY",
+      "kind": "MATHEMATICAL_INCOMPATIBILITY",
+      "missing": "A coherent jointly admissible statistic family, or separately preregistered approximate-compatibility decision; existing saved S marginals cannot all be preserved.",
+      "consequence": "No unchanged canonical S-to-J acceptance; new restricted event law remains separate shadow engineering."
+    },
+    {
+      "id": "J_FIDELITY_AND_PREDICTIVE_QUALITY",
+      "kind": "INSUFFICIENT_SCIENTIFIC_EVIDENCE",
+      "missing": "Independently accepted distortion/convergence evidence and chronological predictive validation;32 draws are insufficient.",
+      "consequence": "No model quality/fidelity or release acceptance."
+    },
+    {
+      "id": "C_TARGET_OUTCOME",
+      "kind": "FUTURE_OBSERVATION_AND_ADMISSION",
+      "missing": "Final target box/PBP captures after2026-11-22T01:00UTC game, dated target native-to-forecast identity join, participation states/revisions and independently approved honest timing/admission contract.",
+      "consequence": "All140 primitive and280 primitive/combo outcome attempts remain pending;0 actual scores."
+    },
+    {
+      "id": "HISTORICAL_REPLAY",
+      "kind": "NO_SUPPLIED_MATCHING_PIT_COHORT",
+      "missing": "Genuine pre-event model/forecast/freeze/cutoff/horizon evidence for a historical new-model cohort, or separately authorized preregistered study after governing gates.",
+      "consequence": "20 supplied training games are ineligible; historical validation and release remain NO-GO."
+    }
+  ],
+  "forbidden_actions_performed": false
+}

@@ -1,0 +1,25 @@
+test_01_exact_activation_input_and_actual_clock_chain (__main__.Review.test_01_exact_activation_input_and_actual_clock_chain) ... ERROR
+test_02_independent_complete_model_byte_reconstruction (__main__.Review.test_02_independent_complete_model_byte_reconstruction) ... FAIL
+
+======================================================================
+ERROR: test_01_exact_activation_input_and_actual_clock_chain (__main__.Review.test_01_exact_activation_input_and_actual_clock_chain)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/complete_predictive_20261120/independent_j_artifact/artifact_probe.py", line 40, in test_01_exact_activation_input_and_actual_clock_chain
+    command=json.loads((P/'owner_execution/COMPILE_J.command.json').read_bytes());self.assertEqual(command['exit_code'],0);self.assertEqual((P/'owner_execution/COMPILE_J.stderr').read_bytes(),b'');self.assertEqual((receipt['PBP_games'],receipt['PBP_actions']),(20,10463));self.assertFalse(receipt['release']);self.assertFalse(receipt['heldout_scoring'])
+                                                                                                   ~~~~~~~^^^^^^^^^^^^^
+KeyError: 'exit_code'
+
+======================================================================
+FAIL: test_02_independent_complete_model_byte_reconstruction (__main__.Review.test_02_independent_complete_model_byte_reconstruction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/pickem-auditor/docs/nba_architecture/complete_predictive_20261120/independent_j_artifact/artifact_probe.py", line 79, in test_02_independent_complete_model_byte_reconstruction
+    self.assertEqual(canonical(expected),actual_raw);RESULT.update(independently_reconstructed_model_sha256=digest(canonical(expected)),named_players=len(players),residual_pool_rows={k:v['source_rows'] for k,v in residual.items()},all_source_team_credit_sums_reconciled=True,pace=dict(mean=mean,variance=variance),FT_series_counts=dict(series),source_totals=totals)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: b'{"S[2224 chars]63853},"conversion_ft":{"alpha":58.87142857142[19530 chars]ll}}' != b'{"S[2224 chars]638536},"conversion_ft":{"alpha":58.8714285714[19530 chars]ll}}'
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.944s
+
+FAILED (failures=1, errors=1)

@@ -1,0 +1,37 @@
+{
+  "synthetic_only": true,
+  "mutations": [
+    {
+      "attack": "hold_shot_clock_before",
+      "status": "RED_INVALID_PATH_ACCEPTED",
+      "audit": {
+        "violations": 0,
+        "events": 447,
+        "periods": 4,
+        "score": {
+          "A": 89,
+          "B": 95
+        },
+        "all_counts_rederived": true,
+        "all_stats_same_path": true,
+        "residual_identity_claim": false
+      }
+    },
+    {
+      "attack": "missing_final_period_end_duplicate_prior",
+      "status": "RED_INVALID_PATH_ACCEPTED",
+      "audit": {
+        "violations": 0,
+        "events": 447,
+        "periods": 4,
+        "score": {
+          "A": 89,
+          "B": 95
+        },
+        "all_counts_rederived": true,
+        "all_stats_same_path": true,
+        "residual_identity_claim": false
+      }
+    }
+  ]
+}

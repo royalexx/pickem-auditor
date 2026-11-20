@@ -1,0 +1,23 @@
+{
+  "J_count_draws": 0,
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "docs/nba_architecture/complete_predictive_20261120/independent_issuance_o/review_probe.py"
+      ],
+      "exit_code": 0,
+      "stderr": "tests.stderr",
+      "stdout": "tests.stdout"
+    }
+  ],
+  "cwd": "/workspace/pickem-auditor",
+  "new_fit_artifacts_created": 0,
+  "new_forecasts_issued": 0,
+  "preserved_prior_pass": {
+    "results": "PRE_ACTOR_SCHEMA_RESULTS.json",
+    "stderr": "pre_actor_schema.stderr",
+    "stdout": "pre_actor_schema.stdout",
+    "test_methods": 5
+  }
+}

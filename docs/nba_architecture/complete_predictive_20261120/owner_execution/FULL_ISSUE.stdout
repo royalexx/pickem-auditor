@@ -1,0 +1,14 @@
+{
+  "kind": "ACTUAL_NEW_SHADOW_FORECAST_NOT_HISTORICAL_REPLACEMENT",
+  "implementation_commit": "8e9f1ba991762bb959fe1ef8a88dce74c0fc93ef",
+  "forecast_at": "2026-11-20T03:39:42.250414+00:00",
+  "calculation_completed_at": "2026-11-20T03:40:18.786445+00:00",
+  "forecast_raw_sha256": "a60ec92b970e6b417a1b9b48dceca3b2a1140dcf84f7f4ef24a8b57edcfc987f",
+  "forecast_payload_sha256": "aa7906f0fafdb12aa22141f1819ddfb802fe5501bb030bcf30157c9490bd21ad",
+  "new_forecast_issued": true,
+  "parent_forecast_unchanged": true,
+  "candidates": 35,
+  "attempts": 140,
+  "forecasted": 56,
+  "abstentions": 84
+}

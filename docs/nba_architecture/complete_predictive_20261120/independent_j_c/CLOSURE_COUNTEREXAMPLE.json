@@ -1,0 +1,12 @@
+{
+  "abstained": 168,
+  "attempts": 280,
+  "helper_byte_reads_during_old_validation": 0,
+  "no_implementation_file_writes": true,
+  "no_new_forecast_or_J_run": true,
+  "old_reader_snapshot_raw_sha256": "3910a23d699cc5b138580612b519a67bb92567fd9203f567c1ab1892d52b381e",
+  "old_transport_returned_success": true,
+  "scores": 0,
+  "simulated_changed_helper": "v2/nba_joint/common.py",
+  "supported": 112
+}

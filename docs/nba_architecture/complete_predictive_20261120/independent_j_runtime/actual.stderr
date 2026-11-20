@@ -1,0 +1,7 @@
+test_01_real_source_model_exact_execution_replay_and_accounting (__main__.ActualJ.test_01_real_source_model_exact_execution_replay_and_accounting) ... ok
+test_02_all56_reference_discrepancies_and84abstentions_recomputed (__main__.ActualJ.test_02_all56_reference_discrepancies_and84abstentions_recomputed) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 71.793s
+
+OK

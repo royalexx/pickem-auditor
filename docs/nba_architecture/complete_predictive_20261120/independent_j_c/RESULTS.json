@@ -1,0 +1,116 @@
+{
+  "C_reader_raw_sha256": "0feb041bce5d02c07d21f7d7a76a502e6d7c8ffc6580e695d7f3d5bec91d48ed",
+  "cli_reuse_exit_code": 1,
+  "completed_at": "2026-11-20T04:16:21.247093+00:00",
+  "dependency_mutations": [
+    {
+      "helper": "v2/nba_joint/common.py",
+      "rejected": "J_C_REVIEWED_RUNTIME_CODE:common.py"
+    },
+    {
+      "helper": "v2/nba_joint/residual_events_v1.py",
+      "rejected": "J_C_REVIEWED_RUNTIME_CODE:residual_events_v1.py"
+    },
+    {
+      "helper": "v2/nba_joint/residual_opportunity_v1.py",
+      "rejected": "J_C_REVIEWED_RUNTIME_CODE:residual_opportunity_v1.py"
+    },
+    {
+      "helper": "v2/nba_joint/residual_audit_v1.py",
+      "rejected": "J_C_REVIEWED_RUNTIME_CODE:residual_audit_v1.py"
+    },
+    {
+      "helper": "v2/nba_architecture/full_predictive_replay_v2.py",
+      "rejected": "J_C_REVIEWED_TRANSPORT_CODE:full_predictive_replay_v2.py"
+    },
+    {
+      "helper": "v2/nba_architecture/conditional_c_v1.py",
+      "rejected": "J_C_REVIEWED_TRANSPORT_CODE:conditional_c_v1.py"
+    },
+    {
+      "helper": "v2/nba_architecture/prospective_s_runtime_v1.py",
+      "rejected": "J_C_REVIEWED_TRANSPORT_CODE:prospective_s_runtime_v1.py"
+    }
+  ],
+  "errors": 0,
+  "failures": 0,
+  "fixed_scenarios_recomputed": 32,
+  "new_J_runs": 0,
+  "new_fit_artifacts_created": 0,
+  "new_forecasts_issued": 0,
+  "outcome_scores": 0,
+  "public_CLI_raw_sha256": "ce477e140bcf21b7ed61f40a4def11cd3aaf07d42c617b8db63f07ea6cf52c54",
+  "public_full_run_audits": 1,
+  "public_inputs_raw_sha256": "5c2000ecec0ee2499434cc5252f0ec3d0ac80b9b264fef06508c5420f5a0602f",
+  "raw_byte_mutations": [
+    {
+      "input": "run_raw",
+      "rejected": "J_C_FROZEN_EXECUTION_BYTES"
+    },
+    {
+      "input": "receipt_raw",
+      "rejected": "J_C_FROZEN_EXECUTION_BYTES"
+    },
+    {
+      "input": "model_raw",
+      "rejected": "J_C_ADMITTED_PARAMETER_BYTES"
+    },
+    {
+      "input": "model_admission_raw",
+      "rejected": "J_C_ADMITTED_PARAMETER_BYTES"
+    },
+    {
+      "input": "full_raw",
+      "rejected": "FULL_REPLAY_FROZEN_FORECAST_BYTES"
+    }
+  ],
+  "resealed_receipt_controls": [
+    {
+      "field": "input_model_receipt_raw_sha256",
+      "rejected": "J_C_LINEAGE_JOIN"
+    },
+    {
+      "field": "freeze_at",
+      "rejected": "J_C_ACTUAL_CLOCK_CHAIN"
+    },
+    {
+      "field": "event_start_at",
+      "rejected": "J_C_ACTUAL_CLOCK_CHAIN"
+    }
+  ],
+  "resealed_run_controls": [
+    {
+      "mutation": "dropped_scenario",
+      "rejected": "J_AUDIT_FAILED_OR_DROPPED_SCENARIO"
+    },
+    {
+      "mutation": "failed_final_proposal",
+      "rejected": "J_AUDIT_REJECTED_FINAL_PROPOSAL"
+    },
+    {
+      "mutation": "count_tamper",
+      "rejected": "J_AUDIT_COUNT_RECONSTRUCTION"
+    },
+    {
+      "mutation": "fixed_rate_tamper",
+      "rejected": "J_C_EXACT_FIXED_G_O_RATE_HANDOFF"
+    }
+  ],
+  "result_payload_sha256": "6e8eec03d248a639dfe91d39b51a242399b1b3a3bcdc82a26f61d8aa6fdcb029",
+  "same_draw_checks": {
+    "abstained_rows": 168,
+    "combo_values_independently_readded": 1792,
+    "individual_values": 3584,
+    "supported_arrays": 112
+  },
+  "source_execution": {
+    "OT_scenarios": [
+      18
+    ],
+    "proposals": 58,
+    "rejections": 26,
+    "scenarios": 32
+  },
+  "started_at": "2026-11-20T04:16:04.170643+00:00",
+  "test_methods": 7
+}

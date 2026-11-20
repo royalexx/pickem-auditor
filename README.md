@@ -41,6 +41,16 @@ the fixed-M0 forecasts or establish a complete played-conditional law, valid
 real J simulation, C scoring or historical predictive validation. Those gates
 remain prerequisites for release.
 
+A later [complete-predictive engineering packet](docs/nba_architecture/complete_predictive_20261120/RESULTS.md)
+now contains56 independently admitted, assumption-defined full-played shadow
+marginals, a source-backed32-scenario residual J run and exercised native C
+transports. Use `scripts/nba_complete_predictive.py` for immutable replay and
+source/J reads. It preserves all140 primitive attempts and all abstentions.
+Independent checks found that the saved points/threes marginals cannot be
+coupled exactly without changes; the new J law reports those changes explicitly.
+J fidelity, actual target scoring and historical predictive validation remain
+open. No release or Tier approval follows from this engineering packet.
+
 
 Code, original research, immutable history, collection jobs, diagnostics, and design decisions live in this repository. Before interpreting any dated status or launching work, verify the current repository, schedules, source receipts, and training state.
 
