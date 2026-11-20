@@ -36,9 +36,12 @@ def sufficient(rows):
     require(bool(rows),'COHERENT_EMPTY_COMPONENT_SOURCE')
     counts={k:0 for k in ('twoPA','twoPM','threePA','threePM','FTA','FTM','TO')}
     for r in rows:
+        for m,a in (('twoPM','twoPA'),('threePM','threePA'),('FTM','FTA')):
+            require(component_count(r,m)<=component_count(r,a),'COHERENT_ROW_CONVERSION_SUPPORT')
         for k in counts:
             x=component_count(r,k);require(type(x) is int and x>=0,'COHERENT_COMPONENT_COUNT');counts[k]+=x
-        require(r['exact_seconds']>0,'COHERENT_REPORTED_EXPOSURE')
+        require(type(r['exact_seconds']) in (int,float) and math.isfinite(r['exact_seconds']) and
+            r['exact_seconds']>0,'COHERENT_REPORTED_EXPOSURE')
     for m,a in (('twoPM','twoPA'),('threePM','threePA'),('FTM','FTA')):
         require(counts[m]<=counts[a],'COHERENT_CONVERSION_SUPPORT')
     return dict(rows=len(rows),reported_minutes=math.fsum(r['exact_seconds']/60 for r in rows),counts=counts)
@@ -47,7 +50,8 @@ def sufficient(rows):
 def posterior(own,peers=None):
     """Exact conditional Gamma-Poisson and Beta-Binomial updates.
 
-    The empirical role prior excludes this player's own records. This does not
+    The fitted assembler excludes this player's own records from the peer
+    prior. This generic numerical updater grants no source admission and does not
     claim independence of historical players, a learned clock or joint fitting.
     """
     a=sufficient(own);p=sufficient(peers) if peers is not None else None
