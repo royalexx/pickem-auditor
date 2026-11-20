@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-11-20T04:19:02.903972+00:00",
+  "accepted_G0_commit": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+  "PR176_publication": "ebbfcd6f430da35cd98340bb834e89de84239544",
+  "PR176_reviewed_candidate": "9e8145972077a598687eaabdbc559f3cbce5e4d7",
+  "preservation_base": "f3f50bca3bca24262b9a97d9a0f53f86de039c5e",
+  "modified_or_deleted_existing_files_in_runtime_tests_config_workflow_docs": [],
+  "README_change": "APPEND_NEW_SCOPED_STATUS_ONLY",
+  "original_frozen_forecasts_controls_posteriors_sources_and_ancestry": "UNCHANGED_FROM_ACCEPTED_STACK_BASE",
+  "P2_P5_accounting_repairs": "PRESERVED",
+  "original_n32_red": "PRESERVED_NOT_SUPERSEDED",
+  "schedule_changed": false,
+  "NUTS_started": false,
+  "holdout_decompressed_or_scored": false,
+  "historical_replacement_fit": false,
+  "weight_optimization": false,
+  "merged": false,
+  "deployed": false,
+  "Tier_promotion": false
+}

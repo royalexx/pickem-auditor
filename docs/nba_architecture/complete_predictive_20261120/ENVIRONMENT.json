@@ -1,0 +1,14 @@
+{
+  "recorded_at": "2026-11-20T04:18:39.190803+00:00",
+  "python": "3.12.14",
+  "packages": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "jsonschema": "4.26.0",
+    "pytest": "9.2.0"
+  },
+  "mpmath_installed_in_owner_venv": false,
+  "independent_reference_environment": "SEPARATE_REVIEWER_ENVIRONMENT_SEE_REVIEW_PROBES",
+  "scope": "ACTUAL_OWNER_RESEARCH_ENVIRONMENT",
+  "NUTS_started": false
+}
