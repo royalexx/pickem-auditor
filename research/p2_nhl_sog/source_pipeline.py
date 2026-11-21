@@ -432,11 +432,13 @@ def quote_from_archived_raw(root, raw_ref, offered, *, player_id, team, opponent
 
 def build_bundle(root, *, game, schedule_source, rosters, roster_members,
                  player_id, history_entries, freeze, quote=None,
-                 required_experiment=None, peer_entries=None):
+                 required_experiment=None, peer_entries=None, history_pool=None,
+                 quote_evidence=None, role_transition_uncertain=False):
     """Stable source-only P4/P5 handoff, preserving P0 feature contract."""
     current_storage(root)
     start = game["start_at"]
-    require(clock(freeze) < clock(start), "INVALID_INPUT_FREEZE")
+    require(datetime.now(UTC) <= clock(freeze) < clock(start),
+            "INVALID_OR_EXPIRED_ORIGINAL_INPUT_FREEZE")
     event_id = game["event_id"]
     require(game["game_state"] in FUTURE_STATES, "TARGET_NOT_PREGAME")
     retrieve_source(root, schedule_source, freeze=freeze, event_start=start)
@@ -451,20 +453,45 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
     require(group in ("F", "D"), "UNSUPPORTED_SOG_POSITION")
     require(set(rosters) == {game["home_team"], game["away_team"]},
             "TWO_TEAM_ROSTER_SOURCE_REQUIRED")
-    for source in rosters.values():
-        retrieve_source(root, source, freeze=freeze, event_start=start)
+    from .history_bridge import verified_player_history
+    from .quote_bridge import verify_real_quote
+    for verified_team, source in rosters.items():
+        signed_doc = retrieve_source(root, source, freeze=freeze, event_start=start)
+        if signed_doc is not None:  # Unit fixtures can mock this return.
+            require(parse_roster(signed_doc, verified_team) == roster_members[verified_team],
+                    "SIGNED_CURRENT_ROSTER_INDEX_DRIFT")
         require((clock(freeze) - clock(source["p0_receipt"]["collected_at"]))
                 <= timedelta(hours=6), "ROSTER_SOURCE_STALE")
-    own = verified_history(root, history_entries, player_id=player_id,
-                           position_group=group, freeze=freeze,
-                           start=start, allow_empty=False)
-    peer = []
+    require(history_pool is not None,
+            "P0_BRIDGED_ORIGINAL_HISTORICAL_SOURCE_POOL_REQUIRED")
+    own, own_refs = verified_player_history(root, history_pool, history_entries,
+                        player_id=player_id, group=group,
+                        freeze=freeze, event_start=start)
+    require(len(own) > 0, "NO_ORIGINAL_VERIFIED_SOG_TOI_HISTORY")
+    peer, peer_refs = [], []
     for other_player, entries in sorted((peer_entries or {}).items()):
         require(str(other_player) != str(player_id), "PEER_IS_TARGET_PLAYER")
-        peer.extend(verified_history(root, entries, player_id=other_player,
-                                     position_group=group, freeze=freeze, start=start))
-    require(len({(x["game_id"], x["derived_observation_sha256"]) for x in own}) ==
-            len(own), "DUPLICATE_OWN_GAME")
+        rows, references = verified_player_history(root, history_pool, entries,
+                player_id=other_player, group=group,
+                freeze=freeze, event_start=start)
+        peer.extend(rows)
+        peer_refs.extend(references)
+    all_game_ids = [x["game_id"] for x in own]
+    require(len(set(all_game_ids)) == len(own),
+            "HISTORICAL_PLAYER_GAME_DOUBLE_COUNT")
+    historical_source_ids = sorted({
+        item["record"]["receipt_id"] for item in own_refs + peer_refs
+    })
+    require(historical_source_ids, "NO_P0_ORIGINAL_HISTORICAL_SOURCE_RECEIPTS")
+    if quote is not None:
+        require(quote_evidence is not None,
+                "P0_ORIGINAL_QUOTE_RECEIPT_REQUIRED")
+        original_quote = verify_real_quote(root, quote_evidence,
+                        freeze=freeze, event_start=start)
+        require(original_quote["quote_id"] == quote["quote_id"] and
+                original_quote["event_id"] == event_id and
+                original_quote["player_id"] == str(player_id),
+                "SOURCE_QUOTE_P0_IDENTITY_DRIFT")
     requires_quote = required_experiment in {
         "EXP-V25-NHL-SOG-EXPOSURE-EB-001",
         "EXP_NHL_SOG_P15_RATE_DISPERSION_NEXT_PROSPECTIVE",
@@ -481,7 +508,10 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
             "QUOTE_BUNDLE_IDENTITY_MISMATCH")
     source_ids = [schedule_source["p0_receipt"]["receipt_id"]] + [
         rosters[t]["p0_receipt"]["receipt_id"]
-        for t in (game["home_team"], game["away_team"])]
+        for t in (game["home_team"], game["away_team"])] + historical_source_ids
+    if quote is not None:
+        source_ids.append(quote_evidence["p0_source_record"]["receipt_id"])
+    source_ids = sorted(set(source_ids))
     # Original signed history is stored by the existing C03 producer and is
     # reverified here. Its raw proof hashes remain explicit, not replaced
     # with invented P0 SourceReceipt IDs.
@@ -491,14 +521,15 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
                    "opponent_id": other, "position_group": group,
                    "participation_status": "UNKNOWN",
                    "roster_is_not_game_participation_confirmation": True},
-        "history": {"own": own, "peers": peer, "cutoff_at": freeze},
+        "history": {"own": own, "peers": peer, "cutoff_at": freeze,
+                    "P0_historical_source_receipt_ids": historical_source_ids},
         "market": quote,
         "missingness": {"quote_missing": quote is None,
                         "participation_unconfirmed": True,
-                        "role_transition_uncertain": False},
+                        "role_transition_uncertain": bool(role_transition_uncertain)},
         "evidence_class": "ORIGINAL_PREGAME_COLLECTOR_POSSESSION",
-        "model_artifact": None,
-        "predictions": None
+        "P4_gamma_artifact_required": True,
+        "history_count_is_not_experiment_admission": True
     }
     feature_record = {
         "record_type": "PregameFeatureSnapshot", "schema_version": P0_VERSION,
@@ -523,10 +554,14 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
             team: rosters[team]["p0_sha256"],
             other: rosters[other]["p0_sha256"]},
         "signed_historical_observation_hashes": [
-            x["derived_observation_sha256"] for x in own + peer],
+            x["observation_receipt_sha256"] for x in own + peer],
+        "P0_original_historical_source_receipt_ids": historical_source_ids,
+        "P0_quote_record_sha256": (quote_evidence["p0_quote_sha256"]
+                                  if quote is not None else None),
         "own_history_count": len(own), "peer_history_count": len(peer),
         "quote_id": quote["quote_id"] if quote else None,
         "source_admission": admission, "registered_experiment": required_experiment,
+        "P4_registered_model_cohort_admission_required": True,
         "p0_feature_snapshot_id": feature_record["feature_snapshot_id"],
         "p0_feature_record_sha256": stored["sha256"],
         "source_availability_clock_semantics": "collector_possession",
