@@ -221,6 +221,11 @@ def generate(feature,model,sources,*,source_root,event_start_at,forecast_at,
     try:
         if pipeline not in PIPELINES:
             _fail("MODEL_NOT_READY","unknown_complete_pipeline")
+        # Synthetic J compliance harness is not an admitted native WS5 J model.
+        # It cannot freeze an apparently original NBA forecast even with a
+        # complete two-team fixture. Native J witness integration remains gated.
+        if pipeline == "S_O_J" and feature.get("reconstruction_class") == "original":
+            _fail("MODEL_NOT_READY","native_WS5_joint_witness_not_admitted")
         validate_record("PregameFeatureSnapshot",feature)
         validate_record("ModelArtifact",model)
         if feature["sport"]!="NBA":
