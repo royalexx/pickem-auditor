@@ -36,6 +36,9 @@ class CommonContractsTests(unittest.TestCase):
         (self.root/"original").mkdir()
         (self.root/"original"/"stats.json").write_bytes(b'{"historical":true}')
         self.src=self.source("source-1","original/stats.json",AVAIL,CAPTURE)
+        (self.root/"original"/"official.json").write_bytes(b'{"final":true}')
+        self.official_src=self.source("official-1","original/official.json",
+                  "2026-11-21T22:00:00Z","2026-11-21T22:01:00Z")
         self.features={"past_games":[{"p":22}],"injury_state":"UNKNOWN"}
         self.feature=record("PregameFeatureSnapshot",
             feature_snapshot_id="feature-1",sport="NBA",event_id="event-99",
@@ -250,7 +253,7 @@ class CommonContractsTests(unittest.TestCase):
             stat_key="points",period="full_game",
             official_result_available_at="2026-11-21T22:00:00Z",
             official_source_receipt_id="official-1",
-            official_source_sha256="e"*64,
+            official_source_sha256=self.official_src["source_sha256"],
             actual_value=1,participation="PLAYED",result_version=1,status="FINAL")
 
     def settlement(self):
@@ -262,18 +265,39 @@ class CommonContractsTests(unittest.TestCase):
             source_receipt_ids=["official-1"],computation_sha256="9"*64)
 
     def test_valid_A_postgame_score(self):
-        a=admit_settlement(self.settlement(),self.fc,self.outcome())
+        a=admit_settlement(self.settlement(),self.fc,self.outcome(),official_sources=[self.official_src],source_root=self.root)
         self.assertEqual(a["status"],"SETTLEMENT_ADMITTED_RESEARCH_ONLY")
 
     def test_official_outcome_after_settlement_rejected(self):
         o=dict(self.outcome(),official_result_available_at="2026-11-21T23:00:00Z")
-        self.assertBlocked(lambda:admit_settlement(self.settlement(),self.fc,o),
+        self.assertBlocked(lambda:admit_settlement(self.settlement(),self.fc,o,official_sources=[self.official_src],source_root=self.root),
             "OUTCOME_NOT_AVAILABLE_FOR_SETTLEMENT")
 
     def test_wrong_settlement_player_rejected(self):
         o=dict(self.outcome(),player_id="NBA:999")
-        self.assertBlocked(lambda:admit_settlement(self.settlement(),self.fc,o),
+        self.assertBlocked(lambda:admit_settlement(self.settlement(),self.fc,o,official_sources=[self.official_src],source_root=self.root),
             "OUTCOME_IDENTITY_MISMATCH")
+
+
+    def test_official_outcome_requires_source_byte_verification(self):
+        self.assertBlocked(lambda:admit_settlement(self.settlement(),self.fc,self.outcome()),
+                           "OFFICIAL_RESULT_BYTES_NOT_REVERIFIED")
+
+    def test_official_outcome_bytes_tamper_rejected(self):
+        (self.root/"original"/"official.json").write_bytes(b'{"final":false}')
+        self.assertBlocked(lambda:admit_settlement(self.settlement(),self.fc,self.outcome(),
+                official_sources=[self.official_src],source_root=self.root),
+                           "SOURCE_CONTENT_CHANGED")
+
+    def test_training_receipt_cannot_skip_settlement_admission(self):
+        update=record("TrainingUpdateReceipt",training_state_id="tr-1",
+            sport="NBA",model_id="nba:S1+O0",prior_artifact_sha256=ART,
+            new_artifact_sha256="d"*64,observation_cutoff_at="2026-11-22T00:00:00Z",
+            updated_at="2026-11-22T00:30:00Z",
+            settlement_ids=["settle-1"],source_receipt_ids=["official-1"],
+            model_code_sha=CODE,state_sha256="1"*64,update_mode="shadow_incremental")
+        self.assertBlocked(lambda:admit_training_update(update,[self.settlement()]),
+                           "TRAINING_SETTLEMENT_ADMISSION_PROOF_MISSING")
 
     def test_training_uses_only_settled_past(self):
         update=record("TrainingUpdateReceipt",training_state_id="tr-1",
@@ -282,10 +306,10 @@ class CommonContractsTests(unittest.TestCase):
             updated_at="2026-11-22T00:30:00Z",
             settlement_ids=["settle-1"],source_receipt_ids=["official-1"],
             model_code_sha=CODE,state_sha256="1"*64,update_mode="shadow_incremental")
-        self.assertEqual(admit_training_update(update,[self.settlement()])["status"],
+        self.assertEqual(admit_training_update(update,[self.settlement()],[admit_settlement(self.settlement(),self.fc,self.outcome(),official_sources=[self.official_src],source_root=self.root)])["status"],
                          "RESEARCH_TRAINING_RECEIPT_ADMITTED")
         early=dict(update,observation_cutoff_at="2026-11-21T21:00:00Z")
-        self.assertBlocked(lambda:admit_training_update(early,[self.settlement()]),
+        self.assertBlocked(lambda:admit_training_update(early,[self.settlement()],[admit_settlement(self.settlement(),self.fc,self.outcome(),official_sources=[self.official_src],source_root=self.root)]),
             "TRAINING_USES_UNRELEASED_SETTLEMENT")
 
 
