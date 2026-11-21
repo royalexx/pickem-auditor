@@ -7,6 +7,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
+from urllib.parse import urlparse, parse_qs, urlencode
 from urllib.parse import urlsplit
 import hashlib
 import hmac
@@ -16,6 +17,8 @@ from v2.p0_integrity.contracts import canonical_bytes, utc
 from .source_pipeline import ROOT_NAMESPACE, SourceBlocked, require, stamp, digest, put_once, safe_relative, current_storage
 
 URL = "https://api.prop-line.com/v1/sports/icehockey_nhl/odds"
+QUOTA_URL = "https://api.prop-line.com/v1/sports"
+BOOKS = ("draftkings", "fanduel", "betmgm")
 PROOF_SCHEMA = "PA-P2-NHL-PROVIDER-COLLECTOR-HMAC/1"
 KEY_ENV = "PICKEM_C03_COLLECTOR_HMAC_KEY_HEX"
 
@@ -23,6 +26,16 @@ KEY_ENV = "PICKEM_C03_COLLECTOR_HMAC_KEY_HEX"
 def signing_key():
     from scripts.c03_live_transport import _key
     return _key()
+
+
+def allowed_url(url):
+    u = urlparse(str(url))
+    q = parse_qs(u.query, keep_blank_values=True)
+    return (u.scheme == "https" and u.netloc == "api.prop-line.com"
+            and u.path == "/v1/sports/icehockey_nhl/odds"
+            and q.get("markets") == ["player_shots_on_goal"]
+            and bool(q.get("bookmakers")) and not any(
+                key.lower() in {"key","token","secret","api_key"} for key in q))
 
 
 def proof_payload(record):
@@ -33,7 +46,7 @@ def proof_payload(record):
 
 def verify_original_provider(root, record, *, freeze, event_start, key_func=None):
     require(isinstance(record, dict) and record.get("schema") == PROOF_SCHEMA and
-            record.get("source_url") == URL and
+            allowed_url(record.get("source_url")) and
             record.get("source_kind") == "original_provider_http_bytes",
             "ORIGINAL_PROVIDER_PROOF_MISSING")
     require(record.get("transport_semantics") == "collector_tls_possession_only",
@@ -66,7 +79,7 @@ def verify_original_provider(root, record, *, freeze, event_start, key_func=None
     return json.loads(raw)
 
 
-def capture_original_provider(root, *, freeze, event_start, token,
+def capture_original_provider(root, *, freeze, event_start, token, books=BOOKS,
                               opener=urlopen, key_func=signing_key):
     """Direct HTTPS before real event; never run when token or time is missing.
 
@@ -77,8 +90,21 @@ def capture_original_provider(root, *, freeze, event_start, token,
     require(datetime.now(timezone.utc) < utc(freeze) < utc(event_start),
             "PROVIDER_LIVE_CAPTURE_DEADLINE_EXPIRED")
     require(isinstance(token, str) and token.strip(), "PROVIDER_TOKEN_MISSING")
-    request = Request(URL, headers={"Authorization": "Bearer " + token,
-              "Accept": "application/json", "User-Agent": "pickem-auditor-P2/1"})
+    require(isinstance(books, (list, tuple)) and books and all(
+        isinstance(x, str) and x.replace("_", "").isalnum() for x in books),
+        "PROVIDER_BOOK_ALLOWLIST_INVALID")
+    headers = {"X-API-Key": token, "Accept": "application/json",
+               "User-Agent": "pickem-auditor-P2-source/1"}
+    # Quota-safe by default: do not compete with the active canonical collector.
+    quota_request = Request(QUOTA_URL, headers=headers)
+    with opener(quota_request, timeout=12) as q:
+        remaining = q.headers.get("X-Daily-Remaining")
+        require(q.status == 200 and remaining and remaining.isdigit(),
+                "PROVIDER_QUOTA_UNVERIFIABLE")
+        require(int(remaining) >= 20, "PROVIDER_QUOTA_RESERVED_FOR_CANONICAL_COLLECTOR")
+    url = URL + "?" + urlencode({"markets": "player_shots_on_goal",
+                                "bookmakers": ",".join(books)}, safe=",")
+    request = Request(url, headers=headers)
     with opener(request, timeout=12) as response:
         require(response.status == 200, "PROVIDER_HTTP_NOT_200")
         body = response.read()
@@ -88,7 +114,7 @@ def capture_original_provider(root, *, freeze, event_start, token,
     json.loads(body)
     path = ROOT_NAMESPACE + "/provider/" + digest(body) + ".json"
     put_once(root, path, body)
-    record = {"schema": PROOF_SCHEMA, "source_url": URL,
+    record = {"schema": PROOF_SCHEMA, "source_url": url,
               "source_kind": "original_provider_http_bytes",
               "received_at": received, "archive_path": path,
               "sha256": digest(body), "bytes": len(body),
