@@ -29,7 +29,7 @@ SCHEMAS = {
  player_id stat_key period input_freeze_at source_receipt_ids feature_sha256
  reconstruction_class features""".split(),
  "ModelArtifact": """model_artifact_id model_id model_version model_code_sha
- artifact_sha256 training_data_sha256 training_cutoff_at created_at
+ artifact_sha256 artifact_path training_data_sha256 training_cutoff_at created_at
  training_scope feature_schema_id""".split(),
  "ForecastSnapshot": """forecast_id run_id sport league season event_id team_id
  opponent_id player_id stat_key period event_start_at forecast_at input_freeze_at
@@ -166,8 +166,14 @@ def validate_record(kind, data):
     if set(data)!=expected:
         fail("REQUIRED_OR_UNKNOWN_FIELDS:"+",".join(sorted(set(data)^expected)))
     for key,value in data.items():
-        if key in ID_FIELDS and value is not None and not valid_id(value):
-            fail("INVALID_ID:"+key)
+        if key in ID_FIELDS:
+            nullable=(kind,key) in {
+                ("ForecastSnapshot","quote_id"),
+                ("SettlementRecord","quote_id"),
+                ("SettlementRecord","contract_id"),
+            }
+            if not (nullable and value is None) and not valid_id(value):
+                fail("INVALID_ID:"+key)
         if key in TIME_FIELDS:
             utc(value)
         if key in HASH_FIELDS:
@@ -193,6 +199,7 @@ def validate_record(kind, data):
         if sha256(data["features"])!=data["feature_sha256"]:
             fail("FEATURE_HASH_MISMATCH")
     if kind=="ModelArtifact":
+        relative_path(data["artifact_path"])
         if utc(data["training_cutoff_at"])>utc(data["created_at"]):
             fail("MODEL_TRAINED_BEFORE_CUTOFF")
     if kind=="ForecastSnapshot":
@@ -325,6 +332,15 @@ def admit_forecast(forecast,feature,model,sources,quote=None,*,source_root=None)
        forecast["model_id"]!=model["model_id"] or \
        forecast["model_version"]!=model["model_version"]:
         fail("MODEL_ARTIFACT_IDENTITY_MISMATCH")
+    # Model manifest fields alone cannot prove artifact integrity.
+    path=Path(source_root)/model["artifact_path"]
+    root=Path(source_root).resolve(strict=True)
+    if path.is_symlink() or any(x.is_symlink() for x in path.parents if x!=Path(source_root)):
+        fail("UNSAFE_MODEL_ARTIFACT_PATH")
+    if not path.is_file() or not path.resolve(strict=True).is_relative_to(root):
+        fail("MODEL_ARTIFACT_BYTES_MISSING")
+    if hashlib.sha256(path.read_bytes()).hexdigest()!=model["artifact_sha256"]:
+        fail("MODEL_ARTIFACT_BYTES_CHANGED")
     if utc(model["created_at"])>utc(forecast["forecast_at"]):
         fail("MODEL_CREATED_AFTER_FORECAST")
     refs={s["receipt_id"]:s for s in sources}
@@ -360,6 +376,9 @@ def admit_forecast(forecast,feature,model,sources,quote=None,*,source_root=None)
         if quote["source_receipt_id"] not in refs or \
            refs[quote["source_receipt_id"]]["source_sha256"]!=quote["source_sha256"]:
             fail("QUOTE_SOURCE_RECEIPT_MISMATCH")
+        if "raw_quote_path" in quote["terms"] and \
+           quote["terms"]["raw_quote_path"]!=refs[quote["source_receipt_id"]]["archive_path"]:
+            fail("QUOTE_SOURCE_PATH_MISMATCH")
     elif quote is not None:
         fail("QUOTE_WITH_MARKET_FREE_FORECAST")
     return {"status":"ADMITTED_RESEARCH_ONLY","admission_class":forecast["admission_class"],
