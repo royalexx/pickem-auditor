@@ -292,6 +292,64 @@ class ForecastTests(Fixture):
             create_research_model(self.model_payload,source_root=self.root,
                 model_code_sha=CODE,created_at="2026-11-21T19:00:00Z")
 
+
+    def test_exact_P1_source_listed_fixture_contract_and_abstentions(self):
+        """Read the exact synthetic P1 PR200 handoff, not a copied live roster."""
+        file=Path(__file__).parent/"fixtures"/"nba_p3_p1_exact_synthetic_handoff.json"
+        package=json.loads(file.read_text(encoding="utf8"))
+        self.assertEqual(package["model_forecast_count"],0)
+        receipt_id="synthetic-receipt-1"
+        raw=bytes.fromhex(package["source_bytes_hex_by_receipt"][receipt_id])
+        expected=package["source_bytes_sha256"][receipt_id]
+        self.assertEqual(hashlib.sha256(raw).hexdigest(),expected)
+        archive=self.root/"sources"/"p1_exact_test.txt"
+        archive.write_bytes(raw)
+        src=record("SourceReceipt",receipt_id=receipt_id,
+             source_id="fixture:p1-exact-PR200",source_kind="synthetic_fixture",
+             source_available_at="2026-11-21T23:00:00Z",
+             collected_at="2026-11-21T23:35:00Z",
+             source_sha256=expected,archive_path="sources/p1_exact_test.txt",
+             provenance_class="original_publication")
+        self.model_payload["min_history_games"]=1
+        self.refresh_model()
+        point=next(x for x in package["p0_features"] if x["stat_key"]=="points")
+        validate_record("PregameFeatureSnapshot",point)
+        self.assertEqual(point["reconstruction_class"],"reconstructed")
+        result=generate(point,self.model,[src],source_root=self.root,
+             event_start_at=package["feature_summary"]["event_start_at"],
+             forecast_at="2026-11-21T23:36:00Z",code_commit=CODE,
+             run_id="p1-source-fixture-only",season=2026,seed=77,pipeline="S_ONLY")
+        self.assertEqual(result.status,"RESEARCH_DRY_RUN",result.reason)
+        self.assertEqual(result.forecast["admission_class"],"C")
+        self.assertFalse(result.forecast["eligible"])
+        self.assertIn("PARTICIPATION_UNRESOLVED",result.forecast["abstention_reasons"])
+        self.assertEqual(generate(point,self.model,[src],source_root=self.root,
+             event_start_at=package["feature_summary"]["event_start_at"],
+             forecast_at="2026-11-21T23:36:00Z",code_commit=CODE,
+             run_id="p1-source-fixture-only",season=2026,seed=77,
+             pipeline="S_PLUS_O").status,"PARTICIPATION_UNRESOLVED")
+        self.assertEqual(generate(point,self.model,[src],source_root=self.root,
+             event_start_at=package["feature_summary"]["event_start_at"],
+             forecast_at="2026-11-21T23:36:00Z",code_commit=CODE,
+             run_id="p1-source-fixture-only",season=2026,seed=77,
+             pipeline="S_O_J",n_scenarios=5).status,"MODEL_NOT_READY")
+
+    def test_s_and_j_all_eight_p0_statistics(self):
+        for stat in ("points","rebounds","assists","threes"):
+            self.feature["stat_key"]=stat
+            self.feature["feature_sha256"]=sha256(self.features)
+            a=self.run_forecast(pipeline="S_ONLY")
+            self.assertEqual(a.status,"RESEARCH_DRY_RUN",a.reason)
+            b=self.run_forecast(pipeline="S_PLUS_O")
+            self.assertEqual(b.status,"RESEARCH_DRY_RUN",b.reason)
+        for stat in ("pr","pa","ra","pra"):
+            self.feature["stat_key"]=stat
+            self.feature["feature_sha256"]=sha256(self.features)
+            j=self.run_forecast(pipeline="S_O_J",n_scenarios=8)
+            self.assertEqual(j.status,"RESEARCH_DRY_RUN",j.reason)
+            self.assertAlmostEqual(sum(p for _,p in
+                j.forecast["distribution"]["masses"]),1.,12)
+
     def test_rng_reproduction_and_full_game_physics(self):
         a=simulate(self.game,self.model_payload,seed=25,n=10,variant="J2")
         b=simulate(self.game,self.model_payload,seed=25,n=10,variant="J2")
