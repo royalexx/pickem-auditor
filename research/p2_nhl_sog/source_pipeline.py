@@ -15,6 +15,7 @@ import json
 import os
 import re
 import tempfile
+import time
 
 from v2.p0_integrity.contracts import VERSION as P0_VERSION, AdmissionError, utc, canonical_bytes, sha256, validate_record
 from v2.p0_integrity.storage import attest_project_storage, append_immutable, verify_immutable_record
@@ -28,7 +29,7 @@ SOURCE_FREEZE_MINUTES = 20
 FUTURE_STATES = {"FUT", "PRE"}
 HEX = re.compile(r"^[0-9a-f]{64}$")
 PLAYER_ID = re.compile(r"^[0-9]{4,12}$")
-DATE = re.compile(r"^\\d{4}-\\d{2}-\\d{2}$")
+DATE = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
 
 
 class SourceBlocked(ValueError):
@@ -68,48 +69,69 @@ def safe_relative(root, rel):
     return path
 
 
-def put_once(root, relative, raw):
-    """Atomic publish by same-filesystem hardlink; never expose partial bytes.
+def _completed_target(target, wanted):
+    marker = target.with_name(target.name + ".complete")
+    if not marker.is_file() or marker.is_symlink():
+        return False
+    require(marker.read_bytes() == wanted.encode("ascii"),
+            "IMMUTABLE_COMPLETION_MARKER_CORRUPT")
+    require(target.is_file() and not target.is_symlink() and
+            digest(target.read_bytes()) == wanted,
+            "IMMUTABLE_SOURCE_COLLISION")
+    return True
 
-    Two concurrent writers of the same content are idempotent. A conflicting
-    write is rejected. A crash leaves an unlinked temp file only, never a
-    trusted partial target. Existing bytes are never replaced.
+
+def put_once(root, relative, raw):
+    """Deepnote-compatible no-clobber O_EXCL plus verified completion marker.
+
+    O_EXCL publishes a reserved target. Other readers must wait for its
+    independently durable .complete marker. A crash leaves untrusted partial
+    evidence that no runner may certify or overwrite.
     """
     require(isinstance(raw, bytes), "RAW_SOURCE_BYTES_REQUIRED")
     target = safe_relative(root, relative)
     target.parent.mkdir(parents=True, exist_ok=True)
-    tmp_name = None
+    wanted = digest(raw)
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
     try:
-        with tempfile.NamedTemporaryFile(dir=target.parent, prefix=".p2-pending-",
-                                         delete=False) as f:
-            tmp_name = f.name
+        fd = os.open(target, flags, 0o640)
+    except FileExistsError:
+        for _ in range(80):
+            if _completed_target(target, wanted):
+                return {"relative_path": relative, "sha256": wanted, "bytes": len(raw)}
+            time.sleep(0.025)
+        raise SourceBlocked("IMMUTABLE_PARTIAL_OR_INTERRUPTED_SOURCE")
+    else:
+        with os.fdopen(fd, "wb") as f:
             f.write(raw)
             f.flush()
             os.fsync(f.fileno())
-        require(digest(Path(tmp_name).read_bytes()) == digest(raw),
-                "SOURCE_TEMP_WRITE_CORRUPT")
+        require(digest(target.read_bytes()) == wanted,
+                "SOURCE_WRITE_READBACK_SHA_MISMATCH")
+        marker = target.with_name(target.name + ".complete")
         try:
-            os.link(tmp_name, target, follow_symlinks=False)
-        except FileExistsError:
-            require(not target.is_symlink() and target.read_bytes() == raw,
-                    "IMMUTABLE_SOURCE_COLLISION")
-        else:
-            # Publish parent directory entry durably where supported.
-            if hasattr(os, "O_DIRECTORY"):
-                fd = os.open(target.parent, os.O_RDONLY | os.O_DIRECTORY)
-                try:
-                    os.fsync(fd)
-                finally:
-                    os.close(fd)
-    finally:
-        if tmp_name is not None:
+            fd = os.open(marker, flags, 0o640)
+        except FileExistsError as exc:
+            raise SourceBlocked("IMMUTABLE_COMPLETION_COLLISION") from exc
+        with os.fdopen(fd, "wb") as f:
+            f.write(wanted.encode("ascii"))
+            f.flush()
+            os.fsync(f.fileno())
+        if hasattr(os, "O_DIRECTORY"):
             try:
-                os.unlink(tmp_name)
-            except FileNotFoundError:
+                parent_fd = os.open(target.parent, os.O_RDONLY | os.O_DIRECTORY)
+                try:
+                    os.fsync(parent_fd)
+                finally:
+                    os.close(parent_fd)
+            except OSError:
+                # Some attested project mounts reject directory fsync.
+                # Content+marker readback is still mandatory.
                 pass
-    require(not target.is_symlink() and digest(target.read_bytes()) == digest(raw),
-            "SOURCE_READBACK_SHA_MISMATCH")
-    return {"relative_path": relative, "sha256": digest(raw), "bytes": len(raw)}
+    require(_completed_target(target, wanted), "SOURCE_COMPLETION_NOT_DURABLE")
+    return {"relative_path": relative, "sha256": wanted, "bytes": len(raw)}
 
 
 def attempt(root, stage, status, reasons, **metadata):
@@ -579,6 +601,8 @@ def verify_bundle(root, manifest_sha):
             "SOURCE_BUNDLE_DIGEST_INVALID")
     path = ROOT_NAMESPACE + "/bundles/" + manifest_sha + ".json"
     raw = safe_relative(root, path).read_bytes()
+    require(_completed_target(safe_relative(root, path), manifest_sha),
+            "SOURCE_BUNDLE_INCOMPLETE_OR_CORRUPT")
     require(digest(raw) == manifest_sha, "SOURCE_BUNDLE_CORRUPT")
     doc = json.loads(raw)
     require(doc.get("schema") == SCHEMA and doc["model_predictions_present"] is False,
