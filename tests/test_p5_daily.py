@@ -206,7 +206,23 @@ class MathTests(unittest.TestCase):
         self.assertEqual(matched_native_nhl_pair(nb,base,count_dates=39)["status"],
                          "DESCRIPTIVE_ONLY")
         self.assertEqual(matched_native_nhl_pair(nb,base,count_dates=40)["status"],
-                         "CONFIRMATORY_LOCKED")
+                         "DESCRIPTIVE_ONLY")
+        cohort=[]
+        from datetime import timedelta
+        first=datetime(2026,9,1,tzinfo=timezone.utc)
+        for i in range(40):
+            date=(first+timedelta(days=i)).isoformat().replace("+00:00","Z")
+            cohort.append({"nb2":{**nb,"event_start_at":date},
+                           "poisson":{**base,"event_start_at":date}})
+        proof=matched_native_nhl_pair(nb,base,count_dates=40,
+                                     verified_daily_cohort=cohort)
+        self.assertEqual(proof["distinct_prospective_dates"],40)
+        self.assertEqual(proof["status"],"C10_REVIEW_PENDING_INDEPENDENT_AUDIT")
+        self.assertFalse(proof["production_approval"])
+        wrong=matched_native_nhl_pair(nb,base,count_dates=40,
+                                     verified_daily_cohort=cohort[:39])
+        self.assertEqual(wrong["status"],"DESCRIPTIVE_ONLY")
+        self.assertTrue(wrong["self_reported_dates_disagree"])
         with self.assertRaises(ScoreError):
             matched_native_nhl_pair({**nb,"shape":5},base,count_dates=41)
         with self.assertRaises(ScoreError):
