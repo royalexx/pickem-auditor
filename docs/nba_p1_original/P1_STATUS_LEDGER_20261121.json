@@ -1,1 +1,82 @@
-The requested file reference is not currently visible. Use files.search or files.list to rediscover the file, then retry with a returned ref_id or file_id.
+{
+  "P0_genuine_schedule_canary_attempt": "BLOCKED_DEEPNOTE_TEAM_TRIAL_LIMIT_5_PARALLEL_RUNNING_PROJECTS;NOTEBOOK_PREPARED_NOT_RUN",
+  "P1_engineering_status": "TESTED_45_WITH_REAL_P0",
+  "P1_operational_status": "BLOCKED_BY_DATA",
+  "P5_handoff": "READY_FOR_SYNTHETIC_RESEARCH_ONLY",
+  "as_of_utc": "2026-11-21",
+  "authentic_nba_two_sided_market_quotes": 0,
+  "base_p0_pr": "https://github.com/royalexx/pickem-auditor/pull/198",
+  "branch": "research/nba-p1-original-acquisition-20261121",
+  "cross_detached_readback_prior": {
+    "first_receipt_sha256": "82851311577a75fd3d3a8c069b49a9f16f3cf5de3fa9824c55f0411d132228fc",
+    "receipt_path": "research/nba_p1_original/dev_v1/canaries/sha91fc2f0b/independent_readback.json",
+    "run_id": "73b267c1-1cf1-46d7-a0a9-90dc5a5241c3",
+    "status": "PASS_READONLY_RESEARCH"
+  },
+  "deepnote_final_real_p0_canary_45": {
+    "actual_p0_staged": true,
+    "commit": "1dfca36169fdfb43f2c9939e06a72708e91067ed",
+    "errors": 0,
+    "failures": 0,
+    "notebook_id": "977ee4c0c9084d4fa885c1aef7ba4c21",
+    "receipt_path": "research/nba_p1_original/dev_v1/canaries/sha1dfca361/receipt.json",
+    "run_id": "2693ece6-e054-4a4d-b4c8-8ad77b75fe0a",
+    "skipped": 0,
+    "status": "PASS",
+    "storage_attestation_status": "STORAGE_ATTESTED_FOR_PROJECT_PATH",
+    "tests": 45
+  },
+  "deepnote_prior_real_p0_canary_38": {
+    "commit": "91fc2f0bdde7e5ec8f569610fbf1cc8121473939",
+    "run_id": "7a460afb-9995-4117-9316-c86777254ab8",
+    "status": "PASS"
+  },
+  "deepnote_prior_real_p0_canary_43": {
+    "commit": "6b4e80f9928527e7d805ff8958e9ebe6ccdf2eb0",
+    "run_id": "20493e57-9748-4043-85fc-4db1f33c714d",
+    "status": "PASS"
+  },
+  "draft_pr_url": "https://github.com/royalexx/pickem-auditor/pull/200",
+  "existing_automation_modified": false,
+  "genuine_original_new_event_capture": 0,
+  "genuine_original_pregame_status": "BLOCKED_BY_UPSTREAM_WS1_P0_INTEGRATION_AND_LIVE_WINDOW",
+  "head_code_commit_sha": "1dfca36169fdfb43f2c9939e06a72708e91067ed",
+  "historical_original_claims_reconstructed": 0,
+  "historical_reconstruction_status": "SYNTHETIC_CLASS_C_VERIFIED;REAL_HISTORICAL_SNAPSHOT_CANARY_BLOCKED",
+  "local_unit_adversarial": {
+    "errors": 0,
+    "failures": 0,
+    "p0_local": "stub only",
+    "run": 45,
+    "skipped": 0,
+    "status": "PASS"
+  },
+  "market_comparison_status": "BLOCKED_BY_DATA",
+  "next_live_canary_dependency": "EXISTING_ALLOWED_DEEPNOTE_EXECUTION_CAPACITY_PLUS_INTEGRATED_WS1_SOURCE_BRANCH",
+  "nfl_modified": false,
+  "nhl_modified": false,
+  "p0_contract": "PA-P0/1",
+  "p1_interface": "PA-NBA-P1/1",
+  "p3_interface_status": "SYNTHETIC_RESEARCH_TESTED_REAL_P0;NATIVE_UPSTREAM_WS1_NOT_INTEGRATED",
+  "p3_synthetic_fixture_player_candidates": 1,
+  "p3_synthetic_fixture_stat_records": 8,
+  "p6_independent_review": "PENDING",
+  "preserved_pilot_20261116_20": true,
+  "production_deployment": "NOT_AUTHORIZED",
+  "production_forecasts": 0,
+  "repo": "royalexx/pickem-auditor",
+  "shared_p0_contract_modified": false,
+  "shared_p0_record_store_modified_by_p1": false,
+  "source_archive_status": "IMMUTABLE_DEV_SCHEMA_TESTED;NO_NEW_LIVE_PREGAME_SOURCE_ARCHIVE",
+  "source_pregame_player_game_coverage": {
+    "features": 0,
+    "games": 0,
+    "players": 0,
+    "status": "NOT_EXECUTED_ON_REAL_EVENT"
+  },
+  "source_profile": "source_listed_subset",
+  "status": "RESEARCH_ONLY",
+  "storage_root": "/work/research/nba_p1_original/dev_v1",
+  "storage_status": "P0_PROJECT_ROOT_ATTESTED;P1_ONLY_DEV_WRITES",
+  "task": "NBA P1 prospective original acquisition and point-in-time feature store"
+}
