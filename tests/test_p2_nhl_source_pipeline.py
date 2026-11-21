@@ -316,10 +316,24 @@ class FeatureContractTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
+        self.event = dict(EVENT,
+            start_at="2030-01-15T23:00:00Z",
+            scheduled_day="2030-01-15",
+            local_date="2030-01-15")
+        self.freeze = "2030-01-15T22:40:00Z"
         self.source = lambda kind: {
             "p0_sha256": kind * 64,
-            "p0_receipt": {"receipt_id": "p2:" + kind,
-                           "collected_at": RECEIVED}}
+            "c03_receipt": {"source_url": (
+                s.OFFICIAL + "/score/2030-01-15" if kind == "a" else
+                s.OFFICIAL + "/roster/MTL/current" if kind == "b" else
+                s.OFFICIAL + "/roster/BOS/current")},
+            "p0_receipt": {
+                "receipt_id": "p2:" + kind,
+                "source_id": ("nhl:schedule:2030-01-15" if kind=="a" else
+                              "nhl:roster:MTL" if kind=="b" else
+                              "nhl:roster:BOS"),
+                "collected_at": "2030-01-15T22:10:00Z"
+            }}
         self.members = {
             "MTL": {"8471234": {"position_group": "F"}},
             "BOS": {"8472222": {"position_group": "F"}}}
@@ -343,10 +357,10 @@ class FeatureContractTests(unittest.TestCase):
                     [{"record": {"receipt_id": "p2hist:synthetic-only"}}])),
               patch.object(s, "append_immutable", return_value={"sha256": "f" * 64})):
             return s.build_bundle(
-                self.root, game=EVENT, schedule_source=self.source("a"),
+                self.root, game=self.event, schedule_source=self.source("a"),
                 rosters={"MTL": self.source("b"), "BOS": self.source("c")},
                 roster_members=self.members, player_id="8471234",
-                 history_entries=[], freeze=FREEZE, required_experiment=experiment,
+                 history_entries=[], freeze=self.freeze, required_experiment=experiment,
                 history_pool=self.root)
 
     def test_market_free_accepted_separately(self):
@@ -378,14 +392,14 @@ class FeatureContractTests(unittest.TestCase):
 
     def test_stale_roster_rejected(self):
         old = self.source("b")
-        old["p0_receipt"]["collected_at"] = "2026-11-21T10:00:00Z"
+        old["p0_receipt"]["collected_at"] = "2030-01-15T10:00:00Z"
         with patch.object(s, "current_storage"), patch.object(s, "retrieve_source"):
             with self.assertRaisesRegex(s.SourceBlocked, "ROSTER_SOURCE_STALE"):
                 s.build_bundle(
-                    self.root, game=EVENT, schedule_source=self.source("a"),
+                    self.root, game=self.event, schedule_source=self.source("a"),
                     rosters={"MTL": old, "BOS": self.source("c")},
                     roster_members=self.members, player_id="8471234",
-                    history_entries=[], freeze=FREEZE)
+                    history_entries=[], freeze=self.freeze)
 
     def test_repeat_bundle_immutable(self):
         x = self.make()
