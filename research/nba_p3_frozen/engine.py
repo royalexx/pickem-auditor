@@ -64,8 +64,8 @@ def load_model(model, source_root, expected_commit):
         _fail("MODEL_NOT_READY", "code_commit_mismatch")
     root=Path(source_root).resolve(strict=True)
     file=Path(source_root)/model["artifact_path"]
-    if file.is_symlink() or not file.resolve(strict=True).is_relative_to(root):
-        _fail("MODEL_NOT_READY", "unsafe_model_artifact")
+    if not file.is_file() or file.is_symlink() or not file.resolve(strict=True).is_relative_to(root):
+        _fail("MODEL_NOT_READY", "unsafe_or_missing_model_artifact")
     raw=file.read_bytes()
     if hashlib.sha256(raw).hexdigest()!=model["artifact_sha256"]:
         _fail("MODEL_NOT_READY", "model_bytes_hash_mismatch")
@@ -101,7 +101,7 @@ def _history(feature,stat):
     target=utc(feature["input_freeze_at"]).date()
     for r in rows:
         if not isinstance(r,dict) or r.get("player_id")!=feature["player_id"] or \
-           r.get("team_id")!=feature["team_id"] or r.get("game_id")==feature["event_id"]:
+           not isinstance(r.get("team_id"),str) or not r.get("team_id") or r.get("game_id")==feature["event_id"]:
             _fail("IDENTITY_UNVERIFIED","history_player_team_event_mismatch")
         if r["game_id"] in seen:
             _fail("IDENTITY_UNVERIFIED","duplicate_prior_game")
@@ -174,7 +174,7 @@ def _make_distribution(feature,payload,pipeline,stat,seed,n):
         _fail("MODEL_NOT_READY","combination_requires_single_joint_draw")
     if family=="S3":
         _fail("MODEL_NOT_READY","S3_conversion_requires_verified_three_attempt_fit")
-    base_stat = stat if stat in STATS else "points"
+    base_stat = stat if stat in STATS else COMBOS[stat][0]
     rate,mins,history=_historical_rate(feature,base_stat,payload,family)
     shape=None if family=="S0" else payload.get("dispersion_shapes",{}).get(base_stat)
     if family!="S0" and shape is None:
@@ -292,8 +292,10 @@ def generate(feature,model,sources,*,source_root,event_start_at,forecast_at,
           "distribution":distribution,"moments":mom,"quantiles":mom["quantiles"],
           "scenario_sha256":scenario_sha,"evidence_class":uncertainty["evidence_class"],
           "research_only":True,"eligible":eligible,"abstention_reasons":reasons,
+          "durable_forecast_written": bool(storage),
           "forecast_sha256":sha256(forecast)}
-        return Attempt("FORECAST_FROZEN",None,forecast,admission,warehouse,storage)
+        return Attempt("FORECAST_FROZEN" if persist else "RESEARCH_DRY_RUN",None,
+                       forecast,admission,warehouse,storage)
     except (ForecastBlocked,AdmissionError,FileNotFoundError,ValueError,KeyError,TypeError) as e:
         return blocked(e)
 
