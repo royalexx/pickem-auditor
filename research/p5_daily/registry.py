@@ -180,6 +180,11 @@ def register_model(root, *, model_id, family, pipeline_id, sport,
         else:
             _need(previous["version"]==parent_version,"REGISTRY_PARENT_VERSION_RACE")
             _need(_utc(previous["created_at"])<=_utc(created_at),"REGISTRY_TIME_REVERSAL")
+            _need(_utc(previous["training_cutoff_at"])<_utc(cutoff_at),
+                  "NONINCREASING_TRAINING_CUTOFF")
+            _need(any(_utc(r["official_result_available_at"])>
+                      _utc(previous["training_cutoff_at"]) for r in training_rows),
+                  "NO_NEW_ELIGIBLE_OBSERVATIONS")
             _need(digest(previous["state"])!=digest(state),"MODEL_STATE_UNCHANGED")
             version=max(r["version"] for r in read_transitions(base,model_id) if r["action"]=="REGISTER")+1
         manifest=digest(sorted(training_rows,key=lambda z:(z["event_id"],z["player_id"],z["stat_key"])))
