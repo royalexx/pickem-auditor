@@ -14,6 +14,7 @@ import hashlib
 import json
 import os
 import re
+import tempfile
 
 from v2.p0_integrity.contracts import VERSION as P0_VERSION, AdmissionError, utc, canonical_bytes, sha256, validate_record
 from v2.p0_integrity.storage import attest_project_storage, append_immutable, verify_immutable_record
@@ -68,24 +69,46 @@ def safe_relative(root, rel):
 
 
 def put_once(root, relative, raw):
-    """O_EXCL/verified immutable artifact; no tmp-renames or silent overwrite."""
+    """Atomic publish by same-filesystem hardlink; never expose partial bytes.
+
+    Two concurrent writers of the same content are idempotent. A conflicting
+    write is rejected. A crash leaves an unlinked temp file only, never a
+    trusted partial target. Existing bytes are never replaced.
+    """
     require(isinstance(raw, bytes), "RAW_SOURCE_BYTES_REQUIRED")
     target = safe_relative(root, relative)
     target.parent.mkdir(parents=True, exist_ok=True)
-    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
-    if hasattr(os, "O_NOFOLLOW"):
-        flags |= os.O_NOFOLLOW
+    tmp_name = None
     try:
-        fd = os.open(target, flags, 0o640)
-    except FileExistsError:
-        require(not target.is_symlink() and target.read_bytes() == raw,
-                "IMMUTABLE_SOURCE_COLLISION")
-    else:
-        with os.fdopen(fd, "wb") as f:
+        with tempfile.NamedTemporaryFile(dir=target.parent, prefix=".p2-pending-",
+                                         delete=False) as f:
+            tmp_name = f.name
             f.write(raw)
             f.flush()
             os.fsync(f.fileno())
-    require(digest(target.read_bytes()) == digest(raw), "SOURCE_READBACK_SHA_MISMATCH")
+        require(digest(Path(tmp_name).read_bytes()) == digest(raw),
+                "SOURCE_TEMP_WRITE_CORRUPT")
+        try:
+            os.link(tmp_name, target, follow_symlinks=False)
+        except FileExistsError:
+            require(not target.is_symlink() and target.read_bytes() == raw,
+                    "IMMUTABLE_SOURCE_COLLISION")
+        else:
+            # Publish parent directory entry durably where supported.
+            if hasattr(os, "O_DIRECTORY"):
+                fd = os.open(target.parent, os.O_RDONLY | os.O_DIRECTORY)
+                try:
+                    os.fsync(fd)
+                finally:
+                    os.close(fd)
+    finally:
+        if tmp_name is not None:
+            try:
+                os.unlink(tmp_name)
+            except FileNotFoundError:
+                pass
+    require(not target.is_symlink() and digest(target.read_bytes()) == digest(raw),
+            "SOURCE_READBACK_SHA_MISMATCH")
     return {"relative_path": relative, "sha256": digest(raw), "bytes": len(raw)}
 
 
