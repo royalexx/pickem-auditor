@@ -221,6 +221,10 @@ class SettlementTests(unittest.TestCase):
         self.assertEqual(before,sha256(self.f.frozen["forecast"]))
         self.assertEqual(result["p5_receipt"]["status"],"APPENDED")
         self.assertEqual(self.run_case()["p5_receipt"]["status"],"IDEMPOTENT_EXISTING")
+        # A rerun after the original morning must preserve the identical
+        # settlement bytes rather than rewrite settled_at to its new wall time.
+        self.assertEqual(self.run_case(run=LATER)["p5_receipt"]["status"],
+                         "IDEMPOTENT_EXISTING")
     def test_future_result_and_dnp(self):
         with self.assertRaises(ScoreError):
             self.run_case(run=FORECAST)
