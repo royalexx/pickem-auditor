@@ -1,0 +1,67 @@
+{
+  "document_id": "PA-V25-NBA-P3-STATUS-20261121",
+  "branch": "research/nba-p3-soj-frozen-forecast-20261121",
+  "p0_base_sha": "c14de84839161f207d6fd7524c18d68b13707365",
+  "p3_implementation_tested_sha": "49430e7b86580d63f021c26be32efa8a65df924a",
+  "p3_draft_pr": 203,
+  "production_modified": false,
+  "automations_modified": false,
+  "collectors_modified": false,
+  "synthetic_qa": {
+    "status": "PASS",
+    "passed": 27,
+    "failed": 0,
+    "skipped": 0,
+    "deepnote_run_id": "3825c447-47dc-4d0c-a018-e995c7e2a180",
+    "test_subprocess_wall_seconds": 2.174,
+    "p0_base_sha": "c14de84839161f207d6fd7524c18d68b13707365"
+  },
+  "exact_p1_source_listed_fixture": {
+    "status": "PASS_SYNTHETIC_ONLY",
+    "source_branch_sha": "91fc2f0bdde7e5ec8f569610fbf1cc8121473939",
+    "source_fixture_git_blob": "3d3418b4ef3221f5633d67e5ef405230466004ac",
+    "reconstruction_class": "reconstructed",
+    "p3_forecast_status": "RESEARCH_DRY_RUN",
+    "legal_eligibility": "UNVERIFIED",
+    "o_variant": "PARTICIPATION_UNRESOLVED",
+    "j_variant": "MODEL_NOT_READY"
+  },
+  "numeric_j1_mc_precision": {
+    "status": "PASS_SYNTHETIC_ONLY",
+    "n5000_seconds": 53.1982,
+    "n20000_seconds": 228.4138,
+    "max_abs_probability_difference": 0.01055,
+    "tolerance": 0.025,
+    "deepnote_run_id": "4ad56d88-8098-4450-86e8-fa306aa52d11",
+    "actual_executed_sha": "d2ed2e310435d365f947e8cdd4487158f55da202"
+  },
+  "model_fixture_artifact_sha256": "05f482d0c50951b6b91184ddb2ef97e01ecfd684b641f2b7acfa6032930f9166",
+  "synthetic_only_code_commit_placeholder": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "genuine_live_model_artifact_sha256": null,
+  "genuine_live_source_manifest_sha256": null,
+  "genuine_live_forecast_sha256": null,
+  "genuinely_frozen_count": 0,
+  "family_status": {
+    "S0": "PASS_SYNTHETIC_ENGINEERING_NOT_INDEPENDENTLY_ADMITTED",
+    "S1": "PASS_SYNTHETIC_ENGINEERING_NOT_CALIBRATED",
+    "S2": "PASS_SYNTHETIC_ENGINEERING_NOT_CALIBRATED",
+    "S3": "BLOCKED_NATIVE_OWNER_ADAPTER_AND_PROJECTED_3PA",
+    "S4": "BLOCKED_UNAPPROVED_RESEARCH",
+    "O_simple": "PASS_SYNTHETIC_WITH_SUPPORTED_PARTICIPATION_AND_MINUTE_LAW",
+    "O_P1_current": "BLOCKED_PARTICIPATION_UNRESOLVED",
+    "J0_J1_J2_toy": "PASS_SYNTHETIC_ENGINEERING_ONLY",
+    "J0_J1_J2_native": "BLOCKED_NATIVE_G1_AND_FULL_GAME_WITNESS",
+    "J3": "BLOCKED_NOT_AUTHORIZED",
+    "J4": "BLOCKED_DIAGNOSTIC_ONLY",
+    "C_P5_native": "BLOCKED_P0_TO_G0_ADAPTER"
+  },
+  "full_p0_immutable_writer": {
+    "status": "API_WIRED_MOCK_TEST_PASS",
+    "durable_original_record_written": false,
+    "reason": "No independently admitted prospective P1/model source bundle; no synthetic originals allowed"
+  },
+  "independent_G1_P6_status": "NO_GO",
+  "tier_publication": "DISABLED_UNCHANGED",
+  "model_learning_schedule": "NOT_CREATED",
+  "next_gate": "Native accepted S/O/J bridges and P0-to-C witness adapter, P1 live source receipts, independent review."
+}
