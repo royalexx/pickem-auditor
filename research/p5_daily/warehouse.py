@@ -24,7 +24,7 @@ from .workflow import (
 )
 from .registry import (
     _secure_root, _write_once, admit_training_observation,
-    select_for_forecast,
+    select_for_forecast,latest_training_observations,
 )
 
 P0_STORE="research/p0_integrity_store"
@@ -238,10 +238,41 @@ def run_morning_from_frozen_p0(*,root="/work",run_at,
             except Exception as ex:
                 attempts.append({"forecast_id":f["forecast_id"],"status":"BLOCKED",
                                  "reason":type(ex).__name__+":"+str(ex)})
+        owner_status=[]
+        if update_adapters is None:
+            owner_status=[{"status":"BLOCKED","reason":"OWNER_UPDATE_ADAPTERS_NOT_CONFIGURED"}]
+        else:
+            try:
+                prior=latest_training_observations(outroot,cutoff_at=run_at,sport=sport)
+                for cfg in update_adapters.get(sport,[]):
+                    _need(cfg.get("research_only") is True,
+                          "P5_MODEL_CALLBACK_RESEARCH_FLAG_REQUIRED")
+                    allowed=set(cfg.get("eligible_stat_keys",[]))
+                    subset=[r for r in prior if r["stat_key"] in allowed]
+                    outcome=execute_model_update(outroot,
+                        family=cfg["family"],model_id=cfg["model_id"],
+                        sport=sport,pipeline_id=cfg["pipeline_id"],
+                        state_update=cfg["operation"],training_rows=subset,
+                        cutoff_at=run_at,created_at=run_at,
+                        code_commit=cfg["code_commit"],seed=cfg["seed"],
+                        diagnostics=cfg.get("diagnostics",{}),
+                        previous_version=cfg.get("previous_version"),
+                        fit_callback=cfg.get("fit_callback"),
+                        validation_callback=cfg.get("validation_callback"))
+                    owner_status.append({"family":cfg["family"],
+                      "model_id":cfg["model_id"],"eligible_observations":len(subset),
+                      "result":outcome.get("status"),
+                      "reason":outcome.get("reason"),
+                      "new_model_sha256":outcome.get("artifact_receipt",{}).get("sha256")})
+            except Exception as exc:
+                owner_status.append({"status":"BLOCKED",
+                       "reason":type(exc).__name__+":"+str(exc)})
         report["sports"][sport]={"n_candidate_forecasts":len(cases),
                    "n_settlement_receipts":len(completed),
                    "n_admitted_training_observations":len(training),
                    "attempts":attempts,"scores":scorecard(completed),
-                   "owner_updates": "BLOCKED_BY_MODEL_INTERFACE" if
-                                  update_adapters is None else "UNEXECUTED_PENDING_AUDIT"}
+                   "owner_updates":owner_status}
+    report_receipt=_write_once(outroot,
+          "daily_reports/"+run_at[:10]+"/"+digest(report)+".json",report)
+    report["immutable_daily_report_receipt"]=report_receipt
     return report
