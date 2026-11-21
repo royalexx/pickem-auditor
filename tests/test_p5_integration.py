@@ -23,7 +23,7 @@ from research.p5_daily.official_adapters import (
 )
 from research.p5_daily.registry import (
     admit_training_observation,register_model,select_for_forecast,
-    read_transitions,rollback_model,
+    read_transitions,rollback_model,latest_training_observations,
 )
 from research.p5_daily.workflow import (
     settle,execute_model_update,eligible_training_row,
@@ -173,6 +173,30 @@ class OfficialAdaptersTests(unittest.TestCase):
                 team_id="BOS",opponent_id="NYK",expected_player_ids=["123"],
                 event_start_at=START,official_first_observed_at=SETTLED,
                 original_archive_path="test_synthetic/nba.json")
+
+class ChronologicalCorrectionTests(unittest.TestCase):
+    def test_append_only_correction_asof_training_dedup(self):
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t)
+            old={"sport":"NHL","event_id":"E","player_id":"P",
+                 "team_id":"T","stat_key":"shots on goal",
+                 "official_value":1,"participation":"PLAYED",
+                 "official_source_sha256":"a"*64,
+                 "official_result_available_at":"2026-11-20T23:00:00Z",
+                 "event_start_at":START,"training_admitted":True,
+                 "official_outcome_id":"OFFICIAL-v1",
+                 "exposure":{"toi_minutes_verified":15.0}}
+            new=dict(old,official_value=2,official_source_sha256="b"*64,
+                 official_result_available_at="2026-11-21T17:00:00Z",
+                 official_outcome_id="OFFICIAL-v2")
+            admit_training_observation(root,old,effective_cutoff=LATER)
+            admit_training_observation(root,new,effective_cutoff=LATER)
+            before=latest_training_observations(root,cutoff_at=SETTLED)
+            after=latest_training_observations(root,cutoff_at=LATER)
+            self.assertEqual(len(before),1)
+            self.assertEqual(before[0]["official_value"],1)
+            self.assertEqual(len(after),1)
+            self.assertEqual(after[0]["official_value"],2)
 
 class SyntheticLifecycle(unittest.TestCase):
     def test_pregame_to_settlement_to_new_model_and_next_version(self):
