@@ -411,8 +411,140 @@ class FeatureContractTests(unittest.TestCase):
         path = s.safe_relative(self.root, x["receipt"]["relative_path"])
         path.write_bytes(b"corrupted")
         with patch.object(s, "current_storage"):
-            with self.assertRaisesRegex(s.SourceBlocked, "SOURCE_BUNDLE_CORRUPT"):
+            with self.assertRaisesRegex(s.SourceBlocked, "IMMUTABLE_SOURCE_COLLISION"):
                 s.verify_bundle(self.root, x["receipt"]["sha256"])
+
+
+
+class OriginalSourceAdversarialExtensions(unittest.TestCase):
+    def test_date_regex_not_backslash_literal(self):
+        self.assertTrue(s.DATE.fullmatch("2026-11-21"))
+        self.assertFalse(s.DATE.fullmatch("2026X11X21"))
+
+    def test_interrupted_original_partial_file_never_certain(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            p = root / "attempts/partial.json"
+            p.parent.mkdir(parents=True)
+            p.write_bytes(b"only part")
+            with self.assertRaisesRegex(s.SourceBlocked,
+                    "IMMUTABLE_PARTIAL_OR_INTERRUPTED_SOURCE"):
+                s.put_once(root, "attempts/partial.json", b"complete")
+
+    def test_source_id_wrong_origin_team(self):
+        import research.p2_nhl_sog.history_bridge as history
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            game=dict(EVENT,start_at="2030-01-15T23:00:00Z",
+                 scheduled_day="2030-01-15",local_date="2030-01-15")
+            freeze="2030-01-15T22:40:00Z"
+            def source(kind):
+                return {"p0_receipt": {"source_id": "nhl:roster:MTL",
+                        "receipt_id": "r"+kind, "collected_at": "2030-01-15T22:10:00Z"},
+                        "c03_receipt": {"source_url": s.OFFICIAL + "/roster/MTL/current"}}
+            with patch.object(s,"current_storage"), patch.object(s,"retrieve_source"):
+                with self.assertRaisesRegex(s.SourceBlocked,
+                                            "SIGNED_SCHEDULE_ORIGIN_MISMATCH"):
+                    s.build_bundle(root,game=game,schedule_source=source("a"),
+                       rosters={"MTL":source("b"),"BOS":source("c")},
+                       roster_members={"MTL":{"8471234":{"position_group":"F"}},
+                                       "BOS":{}}, player_id="8471234",
+                       history_entries=[],history_pool=root,freeze=freeze)
+
+    def test_missing_quote_p0_proof_blocks_genuine_admission(self):
+        import research.p2_nhl_sog.history_bridge as history
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            game=dict(EVENT,start_at="2030-01-15T23:00:00Z",
+                 scheduled_day="2030-01-15",local_date="2030-01-15")
+            freeze="2030-01-15T22:40:00Z"
+            src=lambda kind,team: {
+                "p0_receipt":{"receipt_id":kind, "source_id":
+                    "nhl:schedule:2030-01-15" if kind=="schedule" else
+                    "nhl:roster:"+team,
+                    "collected_at":"2030-01-15T22:10:00Z"},
+                "c03_receipt":{"source_url":
+                    s.OFFICIAL+"/score/2030-01-15" if kind=="schedule" else
+                    s.OFFICIAL+"/roster/"+team+"/current"}}
+            fakehist=([{"game_id":"old","game_date":"2026-10-01",
+                        "observation_receipt_sha256":"a"*64,
+                        "historical_team":"MTL"}],
+                      [{"record":{"receipt_id":"test:historical"}}])
+            with (patch.object(s,"current_storage"),
+                  patch.object(s,"retrieve_source",return_value=None),
+                  patch.object(history,"verified_player_history",return_value=fakehist)):
+                with self.assertRaisesRegex(s.SourceBlocked,
+                                            "P0_ORIGINAL_QUOTE_RECEIPT_REQUIRED"):
+                    s.build_bundle(root,game=game,
+                       schedule_source=src("schedule","MTL"),
+                       rosters={"MTL":src("roster","MTL"),
+                                "BOS":src("roster","BOS")},
+                       roster_members={"MTL":{"8471234":{"position_group":"F"}},
+                                       "BOS":{}},player_id="8471234",
+                       history_entries=[],history_pool=root,freeze=freeze,
+                       quote={"quote_id":"a","event_id":game["event_id"],
+                              "player_id":"8471234","team_id":"MTL",
+                              "opponent_id":"BOS"})
+
+    def test_fixture_generator_all_marked_untrusted(self):
+        from research.p2_nhl_sog.fixtures import CASES, all_cases
+        from v2.p0_integrity.contracts import validate_record, sha256
+        fixtures=all_cases()
+        self.assertEqual(len(fixtures),len(CASES))
+        for key,fixture in fixtures.items():
+            with self.subTest(key=key):
+                self.assertEqual(fixture["source_admission"],
+                                 "TEST_ONLY_NOT_CERTIFIABLE")
+                self.assertFalse(fixture["has_authentic_market"])
+                self.assertFalse(fixture["model_predictions_present"])
+                feature=fixture["p0_feature"]
+                validate_record("PregameFeatureSnapshot",feature)
+                self.assertEqual(feature["feature_sha256"],
+                                 sha256(feature["features"]))
+                self.assertEqual(feature["reconstruction_class"],
+                                 "reconstructed")
+                self.assertEqual(
+                    feature["features"]["evidence_class"],
+                    "SYNTHETIC_TEST_ONLY_NOT_ORIGINAL")
+
+    def test_trade_preserves_old_and_new_team(self):
+        from research.p2_nhl_sog.fixtures import make_case
+        features=make_case("traded_player")["p0_feature"]["features"]
+        self.assertEqual(features["player"]["team_id"],"MTL")
+        self.assertEqual(features["history"]["own"][0]["team_id_at_game"],"NYR")
+        self.assertTrue(features["player"]["role_uncertain"])
+
+    def test_future_historical_final_fixture_is_explicit_abstention(self):
+        from research.p2_nhl_sog.fixtures import make_case
+        case=make_case("historical_final_late")
+        self.assertIn("HISTORICAL_FINAL_AFTER_INPUT_FREEZE",
+                      case["expected_source_gate_flags"])
+
+    def test_original_player_log_does_not_permit_target_game_or_bad_shots(self):
+        from research.p2_nhl_sog.official_player_capture import capture_player_inputs
+        game = dict(EVENT)
+        game["official_season"] = 20262027
+        profile={"playerId": 8471234,"position":"C"}
+        goodlog={"gameLog":[{"gameId":2026020130, "gameDate":"2026-11-20",
+                             "shots":3,"toi":"15:22"}]}
+        def capture(root,url,**kwargs):
+            return {"document": profile if url.endswith("/landing") else goodlog,
+                    "p0_sha256":"a"*64}
+        with patch("research.p2_nhl_sog.official_player_capture.current_storage"):
+            with patch("research.p2_nhl_sog.official_player_capture.capture_official",
+                       side_effect=capture):
+                got=capture_player_inputs("/tmp",game=game,player_id="8471234",
+                     team="MTL",position_group="F",freeze=FREEZE)
+                self.assertEqual(got["eligible_prior_game_count"],1)
+                goodlog["gameLog"][0]["gameId"]=int(game["event_id"])
+                with self.assertRaisesRegex(s.SourceBlocked,"TARGET"):
+                    capture_player_inputs("/tmp",game=game,player_id="8471234",
+                      team="MTL",position_group="F",freeze=FREEZE)
+                goodlog["gameLog"][0]["gameId"]=2026020130
+                goodlog["gameLog"][0]["shots"]=-1
+                with self.assertRaisesRegex(s.SourceBlocked,"SHOTS_INVALID"):
+                    capture_player_inputs("/tmp",game=game,player_id="8471234",
+                      team="MTL",position_group="F",freeze=FREEZE)
 
 
 if __name__ == "__main__":
