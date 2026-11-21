@@ -31,7 +31,7 @@ def proof_payload(record):
         "sha256", "bytes", "http_status", "transport_semantics")}
 
 
-def verify_original_provider(root, record, *, freeze, event_start, key_func=signing_key):
+def verify_original_provider(root, record, *, freeze, event_start, key_func=None):
     require(isinstance(record, dict) and record.get("schema") == PROOF_SCHEMA and
             record.get("source_url") == URL and
             record.get("source_kind") == "original_provider_http_bytes",
@@ -49,6 +49,7 @@ def verify_original_provider(root, record, *, freeze, event_start, key_func=sign
     require(digest(raw) == record.get("sha256") and
             len(raw) == record.get("bytes"), "PROVIDER_BODY_CORRUPT")
     require(isinstance(record.get("hmac_sha256"), str), "PROVIDER_HMAC_MISSING")
+    key_func = key_func or signing_key
     expected = hmac.new(key_func(), canonical_bytes(proof_payload(record)),
                         hashlib.sha256).hexdigest()
     require(hmac.compare_digest(record["hmac_sha256"], expected),
