@@ -19,7 +19,8 @@ from research.nba_p3_frozen.distributions import (
     ForecastBlocked, pmf, mixture, empirical, statistics, threshold, combo_counts)
 from research.nba_p3_frozen.joint import lineup_segments, simulate
 from research.nba_p3_frozen.engine import (
-    generate, fit_research_parameters, previous_version, MODEL_SCHEMA)
+    generate, fit_research_parameters, previous_version, create_research_model,
+    validate_research_model, MODEL_SCHEMA)
 
 CODE="a"*40
 TRAIN="c"*64
@@ -249,6 +250,47 @@ class ForecastTests(Fixture):
         with patch("research.nba_p3_frozen.engine.append_immutable") as writer:
             self.assertEqual(self.run_forecast(persist=True).status,"SOURCE_UNCERTIFIED")
             writer.assert_not_called()
+
+
+    def test_s1_s2_finite_complete_likelihoods(self):
+        for family in ("S1","S2"):
+            self.model_payload["family"]=family
+            self.refresh_model()
+            a=self.run_forecast()
+            self.assertEqual(a.status,"RESEARCH_DRY_RUN",a.reason)
+            self.assertEqual(a.forecast["distribution"]["kind"],"nb2")
+            d=a.forecast["distribution"]["parameters"]
+            self.assertGreater(d["mean"],0)
+            self.assertGreater(d["shape"],0)
+            self.assertAlmostEqual(a.warehouse["moments"]["p_zero"],
+                (d["shape"]/(d["shape"]+d["mean"]))**d["shape"],9)
+
+    def test_traded_player_history_is_not_invalid_identity(self):
+        self.features["prior_player_history"][0]["team_id"]="espn:team:prior"
+        self.refresh_feature()
+        self.assertEqual(self.run_forecast().status,"RESEARCH_DRY_RUN")
+
+    def test_historical_dnp_not_scored_as_zero(self):
+        prior=self.features["prior_player_history"][0]
+        prior["participation"]="dnp"
+        prior["minutes"]=None
+        prior["stats"]={}
+        self.refresh_feature()
+        self.assertEqual(self.run_forecast().status,"INSUFFICIENT_HISTORY")
+
+    def test_write_once_synthetic_model_artifact(self):
+        obj=create_research_model(self.model_payload,source_root=self.root,
+             model_code_sha=CODE,created_at="2026-11-21T19:00:00Z")
+        obj2=create_research_model(self.model_payload,source_root=self.root,
+             model_code_sha=CODE,created_at="2026-11-21T19:00:00Z")
+        self.assertEqual(obj["record"]["artifact_sha256"],
+                         obj2["record"]["artifact_sha256"])
+        self.assertIsNone(obj["persisted"])
+        p=self.root/obj["record"]["artifact_path"]
+        p.write_bytes(b"CORRUPTED AFTER FROZEN")
+        with self.assertRaises(ForecastBlocked):
+            create_research_model(self.model_payload,source_root=self.root,
+                model_code_sha=CODE,created_at="2026-11-21T19:00:00Z")
 
     def test_rng_reproduction_and_full_game_physics(self):
         a=simulate(self.game,self.model_payload,seed=25,n=10,variant="J2")
