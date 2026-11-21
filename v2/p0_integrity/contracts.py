@@ -404,11 +404,28 @@ def reject_duplicate_records(rows):
     return True
 
 
-def admit_settlement(settlement, forecast, outcome, quote=None):
+def admit_settlement(settlement, forecast, outcome, quote=None, *,
+                     official_sources=None, source_root=None):
     """An official outcome is not an admissible pregame input."""
     validate_record("SettlementRecord",settlement)
     validate_record("ForecastSnapshot",forecast)
     validate_record("OutcomeRecord",outcome)
+    if official_sources is None or source_root is None:
+        fail("OFFICIAL_RESULT_BYTES_NOT_REVERIFIED")
+    official_ids={r["receipt_id"]:r for r in official_sources}
+    if len(official_ids)!=len(official_sources) or \
+       outcome["official_source_receipt_id"] not in official_ids or \
+       not set(settlement["source_receipt_ids"]).issubset(official_ids):
+        fail("OFFICIAL_RESULT_RECEIPT_IDENTITY_MISMATCH")
+    for original in official_sources:
+        verify_source_bytes(original,source_root)
+        if utc(original["collected_at"])>utc(settlement["settled_at"]):
+            fail("OFFICIAL_RESULT_OBSERVED_AFTER_SETTLEMENT")
+    official=official_ids[outcome["official_source_receipt_id"]]
+    if official["source_sha256"]!=outcome["official_source_sha256"] or \
+       utc(official["source_available_at"])>utc(outcome["official_result_available_at"]) or \
+       utc(official["source_available_at"])<utc(forecast["event_start_at"]):
+        fail("OFFICIAL_RESULT_SHA_OR_TIME_MISMATCH")
     if settlement["forecast_id"]!=forecast["forecast_id"] or \
        settlement["outcome_id"]!=outcome["outcome_id"]:
         fail("SETTLEMENT_REFERENCE_MISMATCH")
@@ -420,8 +437,13 @@ def admit_settlement(settlement, forecast, outcome, quote=None):
         fail("OUTCOME_NOT_AVAILABLE_FOR_SETTLEMENT")
     if outcome["status"]=="PENDING" and settlement["disposition"]!="PENDING":
         fail("EARLY_SETTLEMENT")
-    if outcome["participation"]=="DNP" and settlement["disposition"] not in ("VOID","PENDING"):
-        fail("DNP_IMPROPERLY_SCORED")
+    if outcome["participation"]=="DNP":
+        if settlement["disposition"] not in ("VOID","PENDING"):
+            fail("DNP_IMPROPERLY_SCORED")
+        if forecast["admission_class"]=="B" and quote is not None and \
+           settlement["disposition"]=="VOID" and \
+           quote.get("terms",{}).get("dnp_policy")!="void":
+            fail("BOOK_DNP_POLICY_UNVERIFIED")
     if forecast["admission_class"]=="B":
         if quote is None or quote["quote_id"]!=settlement["quote_id"] or \
            quote["contract_id"]!=settlement["contract_id"]:
@@ -432,8 +454,16 @@ def admit_settlement(settlement, forecast, outcome, quote=None):
     return {"status":"SETTLEMENT_ADMITTED_RESEARCH_ONLY",
             "settlement_sha256":sha256(settlement)}
 
-def admit_training_update(update, settlements):
+def admit_training_update(update, settlements, settlement_admissions=None):
     validate_record("TrainingUpdateReceipt",update)
+    if settlement_admissions is None or \
+       not isinstance(settlement_admissions,list) or \
+       len(settlement_admissions)!=len(settlements):
+        fail("TRAINING_SETTLEMENT_ADMISSION_PROOF_MISSING")
+    admitted={x.get("settlement_sha256") for x in settlement_admissions
+              if x.get("status")=="SETTLEMENT_ADMITTED_RESEARCH_ONLY"}
+    if admitted!={sha256(x) for x in settlements}:
+        fail("TRAINING_REQUIRES_INDEPENDENTLY_ADMITTED_SETTLEMENTS")
     if set(update["settlement_ids"])!={x["settlement_id"] for x in settlements}:
         fail("TRAINING_SETTLEMENT_SET_MISMATCH")
     for settlement in settlements:
