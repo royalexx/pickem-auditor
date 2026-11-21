@@ -5,6 +5,8 @@ pilot slots. Output is development-only until P6 authorizes live cutover.
 """
 from __future__ import annotations
 from dataclasses import dataclass
+from concurrent.futures import ThreadPoolExecutor
+from itertools import groupby
 from datetime import datetime,timedelta,timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -215,31 +217,26 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
         for phase in ('early','final'):
             opened,deadline=policy.window(tip,phase)
             queue.append((opened,deadline,game['game_id'],phase,game))
-    for opened,deadline,gid,phase,game in sorted(queue,key=lambda x:(x[0],x[1],x[2],x[3])):
+    def _execute_window(entry):
+        opened,deadline,gid,phase,game=entry
         t=_clock(clock())
         if game['status']!='scheduled':
-            observations.append({'event_id':gid,'phase':phase,'status':'EVENT_NOT_SCHEDULED',
-                                 'event_status':game['status'],'observed_at':stamp(t)})
-            continue
+            return {'event_id':gid,'phase':phase,'status':'EVENT_NOT_SCHEDULED',
+                    'event_status':game['status'],'observed_at':stamp(t)},t
         if t>deadline:
-            observations.append({'event_id':gid,'phase':phase,'status':'MISSED_FREEZE','observed_at':stamp(t),
-                                 'deadline':stamp(deadline)})
-            continue
+            return {'event_id':gid,'phase':phase,'status':'MISSED_FREEZE',
+                    'observed_at':stamp(t),'deadline':stamp(deadline)},t
         if t<opened:
             delay=(opened-t).total_seconds()
             if not wait or max_wait_seconds is not None and delay>max_wait_seconds:
-                observations.append({'event_id':gid,'phase':phase,'status':'NOT_DUE','observed_at':stamp(t)})
-                continue
+                return {'event_id':gid,'phase':phase,'status':'NOT_DUE','observed_at':stamp(t)},t
             sleep(delay);t=_clock(clock())
         if t>deadline:
-            observations.append({'event_id':gid,'phase':phase,'status':'MISSED_FREEZE','observed_at':stamp(t)})
-            continue
+            return {'event_id':gid,'phase':phase,'status':'MISSED_FREEZE',
+                    'observed_at':stamp(t),'deadline':stamp(deadline)},t
         claim_id=day+'|'+gid+'|'+phase+'|'+VERSION
         try:
-            # One winner across detached workers; failed ownership requires
-            # review, never silently reclaims the original capture ID.
-            claim_path=vault.dev_root/'claims'/(digest(claim_id.encode())+'.json')
-            if claim_path.exists():raise AcquisitionError('PREVIOUS_CLAIM_NO_OVERWRITE')
+            # O_EXCL is the actual concurrency guard. Do not trust an exists() precheck.
             vault.claim(claim_id)
             output=vault.dev_root/'ws1'/(digest(claim_id.encode()))
             cap=capture(game,phase,output,deadline)
@@ -247,15 +244,28 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
             summary=_archive_ws1(cap,output,vault,deadline)
             if _clock(clock())>deadline:raise AcquisitionError('MISSED_FREEZE_AFTER_BUILD')
             info=vault.save_json('handoffs/'+digest(claim_id.encode())+'.json',summary)
-            observations.append({'event_id':gid,'phase':phase,'status':'SOURCE_FEATURE_FROZEN',
-                                 'at':summary['input_freeze_at'],'receipt_sha256':info['sha256'],
-                                 'feature_rows':summary['feature_rows'],
-                                 'player_candidates_accepted':summary['player_candidates_accepted']})
+            outcome={'event_id':gid,'phase':phase,'status':'SOURCE_FEATURE_FROZEN',
+                     'at':summary['input_freeze_at'],'receipt_sha256':info['sha256'],
+                     'feature_rows':summary['feature_rows'],
+                     'player_candidates_accepted':summary['player_candidates_accepted']}
+        except FileExistsError:
+            outcome={'event_id':gid,'phase':phase,'status':'BLOCKED_DUPLICATE_CAPTURE',
+                     'observed_at':stamp(_clock(clock())),'reason':'ORIGINAL_CLAIM_ALREADY_EXISTS'}
         except Exception as exc:
-            observations.append({'event_id':gid,'phase':phase,'status':'BLOCKED_CAPTURE',
-                                 'observed_at':stamp(_clock(clock())),
-                                 'reason':type(exc).__name__+':'+str(exc)})
-        vault.save_json('attempts/'+digest((claim_id+'|'+stamp(t)).encode())+'.json',observations[-1])
+            outcome={'event_id':gid,'phase':phase,'status':'BLOCKED_CAPTURE',
+                     'observed_at':stamp(_clock(clock())),
+                     'reason':type(exc).__name__+':'+str(exc)}
+        # Immutable attempt journal, including blocked and failed acquisition attempts.
+        vault.save_json('attempts/'+digest((claim_id+'|'+stamp(t)).encode())+'.json',outcome)
+        return outcome,t
+
+    # Simultaneous source windows are separate workers with disjoint event claims.
+    # Keep completion timestamps attached to each actual execution, never scheduler time.
+    queue.sort(key=lambda x:(x[0],x[1],x[2],x[3]))
+    for opened,bucket in groupby(queue,key=lambda x:x[0]):
+        batch=list(bucket)
+        with ThreadPoolExecutor(max_workers=min(8,len(batch))) as pool:
+            observations.extend(record for record,at in pool.map(_execute_window,batch))
     manifest={'schema':'PA-NBA-P1-DAILY/1','day_toronto':day,'research_profile':'source_listed_subset',
               'created_at':stamp(_clock(clock())),'collector':'NBA_P1_REUSE_WS1','games_discovered':len(events),
               'source_schedule':source_info,'events':events,'attempts':observations,

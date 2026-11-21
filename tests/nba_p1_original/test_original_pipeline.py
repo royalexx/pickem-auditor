@@ -11,6 +11,7 @@ import tempfile
 import threading
 import types
 import unittest
+from unittest.mock import patch
 
 # The canonical P0 package is imported directly in repository/Deepnote CI. A
 # deliberately restricted local stand-in permits static local tests when the
@@ -131,6 +132,27 @@ class FeatureCases(unittest.TestCase):
         self.assertEqual(rows[0]['reconstruction_class'],'reconstructed')
         m['reconstruction_class']='original'
         with self.assertRaisesRegex(FeatureAdmissionError,'RECONSTRUCTION_CLASS_MISMATCH'):verify_handoff(rows,m,r)
+    def test_wrong_target_game_day_history_rejected(self):
+        x,r=fixture();x['players'][0]['history'][0]['game_date']='2026-11-21'
+        rows,m=build_feature_rows(x,r)
+        self.assertEqual(len(rows),0)
+        self.assertEqual(m['rejected'][0]['reason'],'HISTORY_TARGET_LEAKAGE_OR_IDENTITY')
+    def test_source_listed_questionable_not_confirmed(self):
+        x,r=fixture();x['players'][0]['availability']=[{'status':'questionable','receipt_id':'synthetic-receipt-1'}]
+        rows,m=build_feature_rows(x,r)
+        self.assertEqual(rows[0]['features']['availability_status'],'QUESTIONABLE_SOURCE_REPORTED')
+        self.assertEqual(rows[0]['features']['legal_eligibility'],'UNVERIFIED')
+    def test_no_crosswalk_does_not_invent_official_id(self):
+        x,r=fixture();rows,m=build_feature_rows(x,r)
+        self.assertIsNone(rows[0]['features']['official_nba_player_id'])
+    def test_p3_rejects_late_manifest(self):
+        x,r,rows,m=self.good();m['input_freeze_at']=iso(BASE+timedelta(minutes=10))
+        with self.assertRaisesRegex(FeatureAdmissionError,'HANDOFF_AFTER_TIPOFF'):
+            verify_handoff(rows,m,r)
+    def test_p3_rejects_missing_statistic_records(self):
+        x,r,rows,m=self.good()
+        with self.assertRaisesRegex(FeatureAdmissionError,'FEATURE_DENOMINATOR_MISMATCH'):
+            verify_handoff(rows[:-1],m,r)
     def test_feature_hash_mutation_rejected(self):
         x,r,rows,m=self.good();rows[0]['features']['legal_eligibility']='CONFIRMED'
         with self.assertRaises(ValueError):verify_handoff(rows,m,r)
@@ -174,7 +196,12 @@ class WindowCases(unittest.TestCase):
             P0ProjectVault('/tmp')
 
 class FakeVault:
-    def __init__(self):self.root=Path('/work');self.dev_root=Path('/dev/null');self.files={}
+    def __init__(self):
+        self.root=Path('/work');self.dev_root=Path('/dev/null');self.files={};self.claims=set();self.lock=threading.Lock()
+    def claim(self,identity):
+        with self.lock:
+            if identity in self.claims:raise FileExistsError('prior original')
+            self.claims.add(identity)
     def assert_verified(self):pass
     def source(self,url,raw,t,**kw):return {'receipt_id':'sim-schedule'}, {'path':'fixture','sha256':'a'}, {'sha256':'b'}
     def save_json(self,path,data):
@@ -206,6 +233,41 @@ class DailyCases(unittest.TestCase):
         r=run_daily(day='2026-11-21',clock=lambda:t,vault=v,discover=fake_discover,
                     parse=lambda *x:[e],wait=False)
         self.assertEqual(r['counts']['EVENT_NOT_SCHEDULED'],2)
+    def test_simultaneous_games_have_independent_claims(self):
+        v=FakeVault();t=BASE-timedelta(minutes=60)
+        events=[{'game_id':'espn:game:'+str(i),'event_start_at':iso(BASE),
+                 'home_team_id':'espn:team:1','away_team_id':'espn:team:2',
+                 'status':'scheduled'} for i in (42,43)]
+        summary={'input_freeze_at':iso(t),'feature_rows':8,'player_candidates_accepted':1}
+        with patch('research.nba_p1_original.rolling._archive_ws1',return_value=summary):
+            result=run_daily(day='2026-11-21',clock=lambda:t,vault=v,discover=fake_discover,
+                parse=lambda *x:events,capture=lambda *a:{'status':'captured_partial_shadow'},wait=False)
+        self.assertEqual(result['counts']['SOURCE_FEATURE_FROZEN'],2)
+        self.assertEqual(result['counts']['NOT_DUE'],2)
+        self.assertEqual(len(v.claims),2)
+        self.assertEqual({x['event_id'] for x in result['attempts'] if x['status']=='SOURCE_FEATURE_FROZEN'},
+                         {'espn:game:42','espn:game:43'})
+    def test_repeated_claim_fails_closed(self):
+        v=FakeVault();t=BASE-timedelta(minutes=60)
+        e={'game_id':'espn:game:42','event_start_at':iso(BASE),'home_team_id':'espn:team:1',
+           'away_team_id':'espn:team:2','status':'scheduled'}
+        v.claim('2026-11-21|espn:game:42|early|PA-NBA-P1/1')
+        x=run_daily(day='2026-11-21',clock=lambda:t,vault=v,discover=fake_discover,
+                    parse=lambda *y:[e],capture=lambda *a:None,wait=False)
+        self.assertEqual(x['counts']['BLOCKED_DUPLICATE_CAPTURE'],1)
+    def test_source_capture_that_finishes_after_deadline_is_rejected(self):
+        v=FakeVault();state={'calls':0};t=BASE-timedelta(minutes=60)
+        def clock():
+            state['calls']+=1
+            return t if state['calls']<3 else BASE-timedelta(minutes=15)
+        e={'game_id':'espn:game:42','event_start_at':iso(BASE),'home_team_id':'espn:team:1',
+           'away_team_id':'espn:team:2','status':'scheduled'}
+        summary={'input_freeze_at':iso(t),'feature_rows':8,'player_candidates_accepted':1}
+        with patch('research.nba_p1_original.rolling._archive_ws1',return_value=summary):
+            x=run_daily(day='2026-11-21',clock=clock,vault=v,discover=fake_discover,
+                parse=lambda *y:[e],capture=lambda *a:{'status':'captured_partial_shadow'},wait=False)
+        self.assertNotIn('SOURCE_FEATURE_FROZEN',x['counts'])
+        self.assertTrue(x['counts'].get('MISSED_FREEZE',0)+x['counts'].get('BLOCKED_CAPTURE',0))
     def test_duplicate_game_ids_block(self):
         v=FakeVault();t=BASE-timedelta(minutes=60)
         e={'game_id':'espn:game:42','event_start_at':iso(BASE),'home_team_id':'espn:team:1',

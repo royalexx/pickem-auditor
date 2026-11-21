@@ -192,6 +192,11 @@ def verify_handoff(rows, manifest, raw_by_receipt):
 
 def load_handoff(root, manifest_relpath):
     """Read-only P3 API; immutable file hashes verified; no network/collector import."""
+    from v2.p0_integrity.storage import attest_project_storage, verify_immutable_record
+    # The accepted P0 attestation recognizes the Deepnote logical /work root,
+    # not its detached-run-specific resolved physical mount.
+    if Path(root)!=Path('/work'):fail('P0_HANDOFF_ROOT_NOT_ATTESTED')
+    attest_project_storage('/work')
     root=Path(root).resolve(strict=True)
     manifest_file=(root/manifest_relpath).resolve(strict=True)
     if not manifest_file.is_relative_to(root):fail('HANDOFF_PATH_ESCAPE')
@@ -203,6 +208,14 @@ def load_handoff(root, manifest_relpath):
         if not p.is_relative_to(root) or _digest(p.read_bytes())!=item['sha256']:fail('FEATURE_BYTES_CHANGED')
         rows.append(json.loads(p.read_bytes()))
     for item in manifest['sources']:
+        receipt=verify_immutable_record('/work','SourceReceipt',item['p0_sha256'])
+        if receipt['receipt_id']!=item['receipt_id']:
+            fail('P0_RECEIPT_IDENTITY_CHANGED')
+        if _iso(receipt['source_available_at'])>_iso(manifest['input_freeze_at']) or \
+           _iso(receipt['collected_at'])>_iso(manifest['input_freeze_at']):
+            fail('P0_SOURCE_AVAILABLE_AFTER_FREEZE')
+        if receipt['archive_path']!=item['path'] or receipt['source_sha256']!=item['sha256']:
+            fail('P0_RECEIPT_SOURCE_BYTES_MISMATCH')
         p=(root/item['path']).resolve(strict=True)
         if not p.is_relative_to(root) or _digest(p.read_bytes())!=item['sha256']:fail('SOURCE_BYTES_CHANGED')
         raws[item['receipt_id']]=p.read_bytes()
