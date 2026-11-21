@@ -37,7 +37,7 @@ All upstream PRs above were draft/unmerged when inspected. P1/P2/P3 stack on P0,
 |`research/p5_daily/registry.py`|Append-only official-revision-aware observations, as-of corrected outcome selection, code+training source SHA registry, exclusive SHA writes, file-lock serialized transitions, rollback and as-of model selection|Synthetic registry/concurrency/version lifecycle QA passed|
 |`research/p5_daily/native_update_adapters.py`|Optional owner P3 full-refit and P4 adaptive-only Gamma callbacks with verified minutes/TOI and explicit gates|UNEXECUTED against owner integration; missing authentic inputs|
 |`scripts/p5_daily_research.py`|Manual **read-only** inventory by default and opt-in research settlement; no scheduler|No production invocation|
-|`tests/test_p5_daily.py` and `tests/test_p5_integration.py`|Mathematical, temporal, identity, DNP/push, revision, complete pipeline, native official, model registry and full synthetic lifecycle tests|38 tests passed in latest detached Deepnote run including new correction/idempotence checks|
+|`tests/test_p5_daily.py` and `tests/test_p5_integration.py`|Mathematical, temporal, identity, DNP/push, revision, complete pipeline, native official, model registry and full synthetic lifecycle tests|39 tests passed in latest detached Deepnote run including correction/idempotence, impossible log scores and source-counted C10|
 
 The repository code only adds P5 research modules and tests/docs. No original collector, owner model likelihood, P0 shared field, production weight, NFL path or existing automation has been changed.
 
@@ -119,3 +119,13 @@ Required operational sequence after P6: P0 storage attestation -> frozen forecas
 **P6 critical checks:** independently review exact P5 PR commit, compare P0/owner interfaces byte-for-byte, test whole official source and shadow cohort against stamped real original records, run the latest tests as a fresh independent detached QA (including negative control), benchmark CPU/RAM on actual daily denominators, check P0 and P5 logical ID claims under failure, validate official correction precedence, enforce training-data/version cutoff across all model components, ensure C weights use complete matched distributions and date/game blocked uncertainty and never recompute frozen forecasts. Missing native NBA C witnesses, unverified current P1/P2 genuine captures, unexecuted P4 source suite, no original Gamma and no 40-date C10 remain hard blockers.
 
 **No independent release approval is requested by passing synthetic P5 code.** The next bounded integration ticket is a genuine source-qualified P1+P3 NBA or P2+P4 NHL pregame original forecast written into the attested P0 store before its event, then independently recovered and settled after official final. Only after that can P6 verify a true original model-update transition and authorize a schedule pin change.
+
+## I. Final P5 branch QA receipt — latest exact source revision
+
+**Detached run:** `d6ce795d-f817-4f30-9404-fe6d1e0ffb5d` in unscheduled notebook `e023e3da94aa4ffb82e6071ffbb3ee54`.
+
+- Core adversarial and mathematical reference suite: **26/26 PASS**, 0 skips, 1.130781181 s, reported max RSS 253,188 KiB. Source/test includes integer-line push, future official release, immutable original SHA, distinct dates derived from individually matched native NB2/Poisson original pairs, zero-mass infinite log loss represented in canonical JSON, corrected-outcome append, cross-sport isolation, interrupted registry staging, exclusive writer version race and rollback.
+- Native official/C-family/synthetic complete lifecycle suite: **13/13 PASS**, 0 skips, 0.108374832 s, reported peak RSS 253,316 KiB. Source SHA256: `f62a5407e0c29e62d2b53422a01005fca25a9f415f678f392d8ef94b072e7d3d`.
+- **39/39 executed tests passed**. All nine staged P5 Python source/CLI modules compiled in **read-only** mode without writing bytecode or altering the P0 store.
+- Original P0 canonical store readback remained 0 original/reconstructed forecasts and 0 integrity rejects. There are **zero** genuine P5 model-update receipts. Model registry v2 and its rollback in the lifecycle test were created from **synthetic** rows in ephemeral isolated test storage only.
+- These tests are stronger engineering evidence than the prior 38 tests but **not** a second independently authored P6 review, a native P1–P4 integrated source canary, a Deepnote FUSE atomic-write validation, or prospective model calibration.
