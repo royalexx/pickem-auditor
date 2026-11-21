@@ -351,7 +351,7 @@ class FeatureContractTests(unittest.TestCase):
 
     def make(self, experiment=None):
         with (patch.object(s, "current_storage"),
-              patch.object(s, "retrieve_source"),
+              patch.object(s, "retrieve_source", return_value=None),
               patch("research.p2_nhl_sog.history_bridge.verified_player_history",
                     return_value=(self.history,
                     [{"record": {"receipt_id": "p2hist:synthetic-only"}}])),
@@ -393,7 +393,7 @@ class FeatureContractTests(unittest.TestCase):
     def test_stale_roster_rejected(self):
         old = self.source("b")
         old["p0_receipt"]["collected_at"] = "2030-01-15T10:00:00Z"
-        with patch.object(s, "current_storage"), patch.object(s, "retrieve_source"):
+        with patch.object(s, "current_storage"), patch.object(s, "retrieve_source", return_value=None):
             with self.assertRaisesRegex(s.SourceBlocked, "ROSTER_SOURCE_STALE"):
                 s.build_bundle(
                     self.root, game=self.event, schedule_source=self.source("a"),
