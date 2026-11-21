@@ -137,7 +137,8 @@ def score_count(distribution, actual, *, forecast_id="", level=.90):
          (i for i in range(len(masses)) if math.fsum(masses[:i+1]) >= .95),
          len(masses)-1)
     return {
-        "crps": crps, "nlpd": -math.log(observed_mass) if observed_mass else math.inf,
+        "crps": crps, "nlpd": -math.log(observed_mass) if observed_mass else None,
+        "nlpd_infinite": observed_mass==0,
         "mae": abs(mean-actual), "squared_error": (mean-actual)**2,
         "rmse": abs(mean-actual), "signed_bias": mean-actual,
         "randomized_pit": randomized_pit, "mean": mean, "variance": var,
@@ -175,7 +176,8 @@ def score_contract(distribution, actual, quote):
     outcome="over" if actual>line else "under" if actual<line else "push"
     brier=math.fsum((p[k]-int(k==outcome))**2 for k in ("over","under","push"))
     return {"probabilities":p,"observed":outcome,"three_way_brier":brier,
-            "three_way_log_loss": -math.log(p[outcome]) if p[outcome] else math.inf,
+            "three_way_log_loss": -math.log(p[outcome]) if p[outcome] else None,
+            "three_way_log_loss_infinite": p[outcome]==0,
             "quote_id": quote["quote_id"], "contract_id":quote["contract_id"],
             "line":line,"book":quote["book"]}
 
