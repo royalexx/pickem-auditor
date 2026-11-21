@@ -164,7 +164,9 @@ def scorecard(rows):
            "n_distinct_dates":len({r["event_start_at"][:10]
                                    for r in records}),
            "mean_crps":sum(x["crps"] for x in ps)/len(ps),
-           "mean_nlpd":sum(x["nlpd"] for x in ps)/len(ps),
+           "mean_nlpd":(None if any(x["nlpd_infinite"] for x in ps)
+                   else sum(x["nlpd"] for x in ps)/len(ps)),
+           "mean_nlpd_infinite":any(x["nlpd_infinite"] for x in ps),
            "mae":sum(x["mae"] for x in ps)/len(ps),
            "rmse":(sum(x["squared_error"] for x in ps)/len(ps))**.5,
            "signed_bias":sum(x["signed_bias"] for x in ps)/len(ps),
