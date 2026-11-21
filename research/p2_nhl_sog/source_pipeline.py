@@ -19,7 +19,8 @@ import time
 
 from v2.p0_integrity.contracts import VERSION as P0_VERSION, AdmissionError, utc, canonical_bytes, sha256, validate_record
 from v2.p0_integrity.storage import attest_project_storage, append_immutable, verify_immutable_record
-from scripts.c03_live_transport import capture_signed_live, verify_signed_capture
+from scripts.c03_live_transport import verify_signed_capture
+from .official_transport import capture_signed_nhl_p2
 
 UTC = timezone.utc
 ROOT_NAMESPACE = "research/p2_nhl_sog_original"
@@ -154,7 +155,7 @@ def current_storage(root="/work"):
 
 
 def capture_official(root, url, *, event_start_at, input_freeze_at, source_kind,
-                     source_id, capture=capture_signed_live,
+                     source_id, capture=capture_signed_nhl_p2,
                      verify=verify_signed_capture):
     """Capture and independently verify original NHL HTTPS bytes and C03 HMAC."""
     current_storage(root)
@@ -263,7 +264,7 @@ def capture_window(start_at, now, *, early_minutes=60, final_minutes=20,
     return "OUTSIDE_CAPTURE_WINDOW"
 
 
-def signed_schedule_game(root, game, *, day, freeze, capture=capture_signed_live,
+def signed_schedule_game(root, game, *, day, freeze, capture=capture_signed_nhl_p2,
                          verify=verify_signed_capture):
     source = capture_official(root, OFFICIAL + "/score/" + day,
                               event_start_at=game["start_at"], input_freeze_at=freeze,
@@ -305,7 +306,7 @@ def parse_roster(doc, team):
     return indexed
 
 
-def capture_two_rosters(root, game, *, freeze, capture=capture_signed_live,
+def capture_two_rosters(root, game, *, freeze, capture=capture_signed_nhl_p2,
                         verify=verify_signed_capture):
     docs, source, members = {}, {}, {}
     for team in (game["home_team"], game["away_team"]):
