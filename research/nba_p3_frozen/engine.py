@@ -350,3 +350,71 @@ def previous_version(registry, model_id, current_version):
     if len(indexes)!=1 or indexes[0]==0:
         _fail("MODEL_NOT_READY","rollback_target_not_found")
     return entries[indexes[0]-1]
+
+
+def validate_research_model(payload, *, cutoff_at=None):
+    """Structural validation only; not calibration or independent fit approval."""
+    if not isinstance(payload,dict) or payload.get("schema")!=MODEL_SCHEMA or \
+       payload.get("family") not in ("S0","S1","S2") or \
+       not all(isinstance(payload.get(k),str) and payload[k] for k in
+               ("model_id","model_version","training_cutoff_at","training_reference_sha256")):
+        _fail("MODEL_NOT_READY","research_model_schema")
+    if cutoff_at is not None and utc(payload["training_cutoff_at"])>utc(cutoff_at):
+        _fail("MODEL_NOT_READY","model_fit_after_requested_cutoff")
+    if not isinstance(payload.get("priors_per_minute"),dict) or \
+       not isinstance(payload.get("dispersion_shapes"),dict):
+        _fail("MODEL_NOT_READY","missing_model_coefficients")
+    for value in payload["priors_per_minute"].values():
+        if not isinstance(value,dict) or set(value)!={"alpha","beta"} or \
+           any(type(v) not in (int,float) or not math.isfinite(v) or v<=0 for v in value.values()):
+            _fail("NUMERICAL_FAILURE","invalid_rate_prior")
+    for v in payload["dispersion_shapes"].values():
+        if type(v) not in (int,float) or not math.isfinite(v) or v<=0:
+            _fail("NUMERICAL_FAILURE","invalid_dispersion")
+    return True
+
+
+def create_research_model(payload, *, source_root, model_code_sha,
+                          created_at, persist=False, storage_root="/work"):
+    """Write-once model bytes; P0 registry recording only after model materializes.
+
+    Creation requires an already known frozen training-reference SHA. Neither
+    this function nor synthetic tests confer independent source admission.
+    """
+    validate_research_model(payload,cutoff_at=created_at)
+    if not isinstance(model_code_sha,str) or len(model_code_sha)!=40 or \
+       any(c not in "0123456789abcdef" for c in model_code_sha):
+        _fail("MODEL_NOT_READY","invalid_code_commit")
+    from .distributions import canonical
+    raw=canonical(payload)
+    artifact_sha=hashlib.sha256(raw).hexdigest()
+    root=Path(source_root).resolve(strict=True)
+    relative="models/nba_p3/"+artifact_sha+".json"
+    target=root/relative
+    if target.exists() and (target.is_symlink() or target.read_bytes()!=raw):
+        _fail("MODEL_NOT_READY","model_artifact_conflict")
+    if not target.exists():
+        target.parent.mkdir(parents=True,exist_ok=True)
+        # If a concurrent writer wins, verify original bytes rather than clobber.
+        try:
+            with target.open("xb") as file:
+                file.write(raw)
+                file.flush()
+                import os
+                os.fsync(file.fileno())
+        except FileExistsError:
+            if target.is_symlink() or target.read_bytes()!=raw:
+                _fail("MODEL_NOT_READY","model_artifact_concurrent_conflict")
+    if not target.resolve(strict=True).is_relative_to(root) or target.read_bytes()!=raw:
+        _fail("MODEL_NOT_READY","model_artifact_changed_after_write")
+    model=record("ModelArtifact",
+      model_artifact_id="nba-p3-model:"+artifact_sha,
+      model_id=payload["model_id"],model_version=payload["model_version"],
+      model_code_sha=model_code_sha,artifact_sha256=artifact_sha,
+      artifact_path=relative,
+      training_data_sha256=payload["training_reference_sha256"],
+      training_cutoff_at=payload["training_cutoff_at"],
+      created_at=created_at,training_scope="research_fit_no_auto_promotion",
+      feature_schema_id="PA-NBA-P1/1")
+    published=append_immutable(storage_root,"ModelArtifact",model) if persist else None
+    return {"record":model,"persisted":published,"research_only":True}
