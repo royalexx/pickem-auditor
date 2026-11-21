@@ -43,9 +43,12 @@ class CommonContractsTests(unittest.TestCase):
             stat_key="points",period="full_game",input_freeze_at=FREEZE,
             source_receipt_ids=["source-1"],feature_sha256=sha256(self.features),
             reconstruction_class="original",features=self.features)
+        (self.root/"models").mkdir()
+        (self.root/"models"/"model.bin").write_bytes(b"frozen model example")
+        self.actual_artifact_sha=hashlib.sha256((self.root/"models"/"model.bin").read_bytes()).hexdigest()
         self.model=record("ModelArtifact",model_artifact_id="model-1",
             model_id="nba:S1+O0",model_version="1",model_code_sha=CODE,
-            artifact_sha256=ART,training_data_sha256=TRAIN,
+            artifact_sha256=self.actual_artifact_sha,artifact_path="models/model.bin",training_data_sha256=TRAIN,
             training_cutoff_at=CUTOFF,created_at="2026-11-21T16:30:00Z",
             training_scope="pre-event",feature_schema_id="P0/1")
         self.distribution={"kind":"discrete","masses":[[0,0.4],[1,0.6]]}
@@ -58,7 +61,7 @@ class CommonContractsTests(unittest.TestCase):
             model_artifact_id="model-1",model_id="nba:S1+O0",
             model_version="1",source_receipt_ids=["source-1"],
             input_sha256=sha256(self.feature),output_sha256=sha256(self.distribution),
-            model_code_sha=CODE,artifact_sha256=ART,seed=20261121,
+            model_code_sha=CODE,artifact_sha256=self.actual_artifact_sha,seed=20261121,
             distribution=self.distribution,uncertainty={"epistemic":0.1,"aleatoric":0.2},
             abstention_reasons=[],admission_class="A",eligible=True,
             quote_id=None,line=None,side=None,market_probability=None)
@@ -108,11 +111,12 @@ class CommonContractsTests(unittest.TestCase):
 
     def test_reconstructed_history_not_original(self):
         f=dict(self.feature,reconstruction_class="reconstructed")
-        self.assertBlocked(lambda:self.admit(feat=f),"RECONSTRUCTED_MASQUERADES_AS_ORIGINAL")
+        forecast=dict(self.fc,input_sha256=sha256(f))
+        self.assertBlocked(lambda:self.admit(fc=forecast,feat=f),"RECONSTRUCTED_MASQUERADES_AS_ORIGINAL")
 
     def test_reconstructed_C_is_separate(self):
         f=dict(self.feature,reconstruction_class="reconstructed")
-        c=dict(self.fc,admission_class="C")
+        c=dict(self.fc,admission_class="C",input_sha256=sha256(f))
         self.assertEqual(self.admit(c,f)["admission_class"],"C")
 
     def test_source_future_publication_rejected(self):
@@ -284,6 +288,28 @@ class CommonContractsTests(unittest.TestCase):
         self.assertBlocked(lambda:admit_training_update(early,[self.settlement()]),
             "TRAINING_USES_UNRELEASED_SETTLEMENT")
 
+
+    def test_model_actual_artifact_bytes_tampered(self):
+        (self.root/"models"/"model.bin").write_bytes(b"frozen model changed")
+        self.assertBlocked(self.admit,"MODEL_ARTIFACT_BYTES_CHANGED")
+
+    def test_model_artifact_symlink_attack(self):
+        (self.root/"models"/"model.bin").unlink()
+        (self.root/"models"/"model.bin").symlink_to("/etc/hosts")
+        self.assertBlocked(self.admit,"UNSAFE_MODEL_ARTIFACT_PATH")
+
+    def test_missing_event_id_rejected(self):
+        f=dict(self.fc,event_id=None)
+        self.assertBlocked(lambda:validate_record("ForecastSnapshot",f),"INVALID_ID:event_id")
+
+    def test_missing_player_id_rejected(self):
+        f=dict(self.fc,player_id=None)
+        self.assertBlocked(lambda:validate_record("ForecastSnapshot",f),"INVALID_ID:player_id")
+
+    def test_missing_model_artifact_path_rejected(self):
+        m=dict(self.model,artifact_path=None)
+        self.assertBlocked(lambda:validate_record("ModelArtifact",m),"UNSAFE_ARCHIVE_PATH")
+
     def test_legacy_forecast_never_promoted(self):
         ref=legacy_forecast_reference({"forecast_id":"old","event_id":"old-event",
                                        "model":"legacy-60-40"})
@@ -298,7 +324,7 @@ class CommonContractsTests(unittest.TestCase):
         self.assertEqual(adapted["provenance_class"],"collector_possession")
 
     def test_nba_subset_needs_explicit_reconstruction_class(self):
-        self.assertBlocked(lambda:nba_pregame_feature_adapter({},"assumed"),
+        self.assertBlocked(lambda:nba_pregame_feature_adapter({},reconstruction_class="assumed"),
             "MISSING_EXPLICIT_NBA_RECONSTRUCTION_CLASS")
 
 class StorageTests(unittest.TestCase):
