@@ -354,7 +354,8 @@ class FeatureContractTests(unittest.TestCase):
               patch.object(s, "retrieve_source", return_value=None),
               patch("research.p2_nhl_sog.history_bridge.verified_player_history",
                     return_value=(self.history,
-                    [{"record": {"receipt_id": "p2hist:synthetic-only"}}])),
+                    [{"record": {"receipt_id": "p2hist:synthetic-only"},
+                      "record_sha256": "1" * 64}])),
               patch.object(s, "append_immutable", return_value={"sha256": "f" * 64})):
             return s.build_bundle(
                 self.root, game=self.event, schedule_source=self.source("a"),
