@@ -326,7 +326,7 @@ class FeatureContractTests(unittest.TestCase):
         self.history = [{
             "game_id": "2026020123", "game_date": "2026-11-20",
             "historical_team": "MTL", "shots_on_goal": 3,
-            "toi_minutes": 17.5, "derived_observation_sha256": "d" * 64,
+            "toi_minutes": 17.5, "observation_receipt_sha256": "d" * 64,
             "derived_archive_path": "fixture", "signed_profile_proof_sha256": "a" * 64,
             "signed_log_proof_sha256": "b" * 64,
             "signed_final_proof_sha256": "c" * 64
@@ -338,13 +338,16 @@ class FeatureContractTests(unittest.TestCase):
     def make(self, experiment=None):
         with (patch.object(s, "current_storage"),
               patch.object(s, "retrieve_source"),
-              patch.object(s, "verified_history", return_value=self.history),
+              patch("research.p2_nhl_sog.history_bridge.verified_player_history",
+                    return_value=(self.history,
+                    [{"record": {"receipt_id": "p2hist:synthetic-only"}}])),
               patch.object(s, "append_immutable", return_value={"sha256": "f" * 64})):
             return s.build_bundle(
                 self.root, game=EVENT, schedule_source=self.source("a"),
                 rosters={"MTL": self.source("b"), "BOS": self.source("c")},
                 roster_members=self.members, player_id="8471234",
-                history_entries=[], freeze=FREEZE, required_experiment=experiment)
+                 history_entries=[], freeze=FREEZE, required_experiment=experiment,
+                history_pool=self.root)
 
     def test_market_free_accepted_separately(self):
         b = self.make()
