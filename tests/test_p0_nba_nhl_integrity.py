@@ -44,7 +44,7 @@ class CommonContractsTests(unittest.TestCase):
         self.feature=record("PregameFeatureSnapshot",
             feature_snapshot_id="feature-1",sport="NBA",event_id="event-99",
             team_id="BOS",opponent_id="LAL",player_id="NBA:7",
-            stat_key="points",period="full_game",input_freeze_at=FREEZE,
+            stat_key="points",period="full",input_freeze_at=FREEZE,
             source_receipt_ids=["source-1"],feature_sha256=sha256(self.features),
             reconstruction_class="original",features=self.features)
         (self.root/"models").mkdir()
@@ -59,7 +59,7 @@ class CommonContractsTests(unittest.TestCase):
         self.fc=record("ForecastSnapshot",forecast_id="forecast-1",
             run_id="research-run",sport="NBA",league="NBA",season=2026,
             event_id="event-99",team_id="BOS",opponent_id="LAL",
-            player_id="NBA:7",stat_key="points",period="full_game",
+            player_id="NBA:7",stat_key="points",period="full",
             event_start_at=START,forecast_at=FORECAST,input_freeze_at=FREEZE,
             model_training_cutoff_at=CUTOFF,feature_snapshot_id="feature-1",
             model_artifact_id="model-1",model_id="nba:S1+O0",
@@ -85,7 +85,7 @@ class CommonContractsTests(unittest.TestCase):
         self.quote=record("MarketQuote",quote_id="quote-one",
             contract_id="original-book-contract",event_id="event-99",sport="NBA",
             team_id="BOS",opponent_id="LAL",player_id="NBA:7",
-            stat_key="points",period="full_game",quote_timestamp="2026-11-21T17:04:00Z",
+            stat_key="points",period="full",quote_timestamp="2026-11-21T17:04:00Z",
             event_start_at=START,book="ExampleBook",product_type="sportsbook_two_sided",
             quote_kind="real",line=0.5,side="over",source_receipt_id="quote-1",
             source_sha256=quoted["source_sha256"],terms={"over_decimal_odds":None,
@@ -251,7 +251,7 @@ class CommonContractsTests(unittest.TestCase):
     def outcome(self):
         return record("OutcomeRecord",outcome_id="out-1",sport="NBA",
             event_id="event-99",team_id="BOS",player_id="NBA:7",
-            stat_key="points",period="full_game",
+            stat_key="points",period="full",
             official_result_available_at="2026-11-21T22:00:00Z",
             official_source_receipt_id="official-1",
             official_source_sha256=self.official_src["source_sha256"],
@@ -261,7 +261,7 @@ class CommonContractsTests(unittest.TestCase):
         return record("SettlementRecord",settlement_id="settle-1",
             forecast_id="forecast-1",outcome_id="out-1",quote_id=None,
             contract_id=None,settled_at="2026-11-21T22:30:00Z",
-            disposition="SCORED",settlement_policy="full_game",
+            disposition="SCORED",settlement_policy="full",
             settlement_version=1,supersedes_id=None,
             source_receipt_ids=["official-1"],computation_sha256="9"*64)
 
@@ -348,6 +348,31 @@ class CommonContractsTests(unittest.TestCase):
         self.assertEqual(adapted["source_available_at"],CAPTURE)
         self.assertEqual(adapted["provenance_class"],"collector_possession")
 
+
+    def test_unregistered_stat_rejected_using_existing_v2_registry(self):
+        f=dict(self.fc,stat_key="invented NBA statistic")
+        self.assertBlocked(lambda:validate_record("ForecastSnapshot",f),
+                           "STAT_OR_PERIOD_NOT_REGISTERED")
+
+    def test_noncanonical_threes_alias_rejected(self):
+        f=dict(self.fc,stat_key="3pm")
+        self.assertBlocked(lambda:validate_record("ForecastSnapshot",f),
+                           "NONCANONICAL_STAT_ALIAS")
+
+    def test_unsupported_period_rejected(self):
+        f=dict(self.fc,period="first_quarter")
+        self.assertBlocked(lambda:validate_record("ForecastSnapshot",f),
+                           "STAT_OR_PERIOD_NOT_REGISTERED")
+
+    def test_nhl_outside_sog_scope_rejected(self):
+        f=dict(self.fc,sport="NHL",stat_key="goalie saves")
+        self.assertBlocked(lambda:validate_record("ForecastSnapshot",f),
+                           "P0_NHL_SOG_ONLY")
+
+    def test_fractional_official_count_rejected(self):
+        o=dict(self.outcome(),actual_value=1.5)
+        self.assertBlocked(lambda:validate_record("OutcomeRecord",o),
+                           "INVALID_OFFICIAL_STAT_SUPPORT")
     def test_nba_subset_needs_explicit_reconstruction_class(self):
         self.assertBlocked(lambda:nba_pregame_feature_adapter({},reconstruction_class="assumed"),
             "MISSING_EXPLICIT_NBA_RECONSTRUCTION_CLASS")
