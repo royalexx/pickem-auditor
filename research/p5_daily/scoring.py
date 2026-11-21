@@ -242,18 +242,50 @@ def paired_differences(rows, *, group="event_id", seed=9, n_boot=1000):
             "n_simulated_paths_as_games":0}
 
 LOCKED_NHL="EXP-V25-NHL-SOG-NB2-NATIVE-PLUGIN-MEAN-20261114"
-def matched_native_nhl_pair(nb, control, *, count_dates):
+def matched_native_nhl_pair(nb, control, *, count_dates=None,
+                            verified_daily_cohort=None):
+    """C10 fixed original pair; caller-reported date counts NEVER grant review.
+
+    Every claim to C10 eligibility must independently replay original matched
+    forecast bytes/quote IDs and derive unique eligible dates from them. Even
+    then the status is only audit-eligible, not confirmatory approval.
+    """
     fields=("event_id","player_id","book","quote_id","contract_id",
             "line","source_manifest_sha256","input_freeze_at",
             "original_mean","outcome_id")
-    if any(nb.get(k)!=control.get(k) or nb.get(k) is None for k in fields):
-        _fail("REGISTERED_NB2_PAIR_IDENTITY_MISMATCH")
-    if nb.get("experiment_id")!=LOCKED_NHL or nb.get("shape")!=4 or nb.get("model_family")!="native_nb2":
-        _fail("REGISTERED_NB2_OR_SHAPE_INVALID")
-    if control.get("model_family")!="plugin_poisson" or control.get("source_classification")!="original_signed":
-        _fail("ORIGINAL_PLUGIN_POISSON_CONTROL_MISSING")
-    if not nb.get("original_verified") or not control.get("original_verified"):
-        _fail("REGISTERED_ORIGINAL_BYTES_UNVERIFIED")
-    return {"status":"CONFIRMATORY_LOCKED" if count_dates>=40 else "DESCRIPTIVE_ONLY",
-            "distinct_prospective_dates":count_dates,"minimum_distinct_dates":40,
-            "control_original_mean":control["original_mean"],"shape":4}
+    def require_original_pair(a,b):
+        if any(a.get(k)!=b.get(k) or a.get(k) is None for k in fields):
+            _fail("REGISTERED_NB2_PAIR_IDENTITY_MISMATCH")
+        if (a.get("experiment_id")!=LOCKED_NHL or a.get("shape")!=4
+                or a.get("model_family")!="native_nb2"):
+            _fail("REGISTERED_NB2_OR_SHAPE_INVALID")
+        if (b.get("model_family")!="plugin_poisson"
+                or b.get("source_classification")!="original_signed"):
+            _fail("ORIGINAL_PLUGIN_POISSON_CONTROL_MISSING")
+        if not a.get("original_verified") or not b.get("original_verified"):
+            _fail("REGISTERED_ORIGINAL_BYTES_UNVERIFIED")
+    require_original_pair(nb,control)
+    dates=set()
+    for item in verified_daily_cohort or []:
+        if set(item)!={"nb2","poisson"}:
+            _fail("C10_VERIFIED_PAIR_COHORT_MALFORMED")
+        a,b=item["nb2"],item["poisson"]
+        require_original_pair(a,b)
+        dt=a.get("event_start_at")
+        if (not isinstance(dt,str) or len(dt)<10
+                or not (dt.endswith("Z") or dt.endswith("+00:00"))):
+            _fail("C10_EVENT_DATE_SOURCE_MISSING")
+        dates.add(dt[:10])
+    if count_dates is not None and count_dates!=len(dates):
+        # A caller's legacy date counter is untrusted and must not override
+        # independently re-counted eligible original daily pairs.
+        stated_discrepancy=True
+    else:
+        stated_discrepancy=False
+    n=len(dates)
+    return {"status":("C10_REVIEW_PENDING_INDEPENDENT_AUDIT" if n>=40
+                      else "DESCRIPTIVE_ONLY"),
+            "distinct_prospective_dates":n,"minimum_distinct_dates":40,
+            "self_reported_dates_disagree":stated_discrepancy,
+            "control_original_mean":control["original_mean"],"shape":4,
+            "production_approval":False}
