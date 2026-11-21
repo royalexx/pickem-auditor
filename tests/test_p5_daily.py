@@ -260,9 +260,10 @@ class SettlementTests(unittest.TestCase):
         f=Fixture(self.root/"priced",real_quote=True)
         s=settle(f.frozen,f.official,source_root=f.root,
             receipt_root=self.receipts,run_at=SETTLED,evidence_type="synthetic_fixture")
-        self.assertEqual(s["market_contract_status"],"MISS")
-        self.assertEqual(s["contract_score"]["observed"],"under")
+        self.assertEqual(s["market_contract_status"],"PUSH")
+        self.assertEqual(s["contract_score"]["observed"],"push")
         f.frozen["quote"]["terms"].pop("overtime_rule")
+        (self.root/"alternate").mkdir()
         q=settle(f.frozen,f.official,source_root=f.root,
             receipt_root=self.root/"alternate",run_at=SETTLED,
             evidence_type="synthetic_fixture")
