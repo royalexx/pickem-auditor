@@ -336,9 +336,10 @@ class FeatureContractTests(unittest.TestCase):
         self.temp.cleanup()
 
     def make(self, experiment=None):
-        with patch.object(s, "current_storage"), patch.object(s, "retrieve_source"), \\
-             patch.object(s, "verified_history", return_value=self.history), \\
-             patch.object(s, "append_immutable", return_value={"sha256": "f" * 64}):
+        with (patch.object(s, "current_storage"),
+              patch.object(s, "retrieve_source"),
+              patch.object(s, "verified_history", return_value=self.history),
+              patch.object(s, "append_immutable", return_value={"sha256": "f" * 64})):
             return s.build_bundle(
                 self.root, game=EVENT, schedule_source=self.source("a"),
                 rosters={"MTL": self.source("b"), "BOS": self.source("c")},
