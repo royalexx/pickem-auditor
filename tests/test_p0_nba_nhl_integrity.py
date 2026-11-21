@@ -364,6 +364,47 @@ class CommonContractsTests(unittest.TestCase):
         self.assertBlocked(lambda:validate_record("ForecastSnapshot",f),
                            "STAT_OR_PERIOD_NOT_REGISTERED")
 
+
+    def test_nhl_sog_A_original_complete_distribution(self):
+        feature=dict(self.feature,sport="NHL",player_id="NHL:7",stat_key="shots on goal")
+        model=dict(self.model,model_id="nhl:gamma-poisson")
+        dist={"kind":"gamma_poisson","parameters":{"shape":3.0,"rate":1.0}}
+        forecast=dict(self.fc,sport="NHL",league="NHL",player_id="NHL:7",
+                      stat_key="shots on goal",model_id=model["model_id"],
+                      input_sha256=sha256(feature),distribution=dist,
+                      output_sha256=sha256(dist))
+        self.assertEqual(self.admit(fc=forecast,feat=feature,model=model)["admission_class"],"A")
+
+    def test_nhl_sog_B_original_quote_without_two_sided_odds(self):
+        fc,sources,q=self.b_fixture()
+        feature=dict(self.feature,sport="NHL",player_id="NHL:7",stat_key="shots on goal")
+        model=dict(self.model,model_id="nhl:poisson-control")
+        dist={"kind":"poisson","parameters":{"rate":2.5}}
+        fc=dict(fc,sport="NHL",league="NHL",player_id="NHL:7",
+                stat_key="shots on goal",model_id=model["model_id"],
+                input_sha256=sha256(feature),distribution=dist,
+                output_sha256=sha256(dist))
+        q=dict(q,sport="NHL",player_id="NHL:7",stat_key="shots on goal")
+        self.assertEqual(self.admit(fc,feature,model,sources,q)["admission_class"],"B")
+
+    def test_original_fixed_line_only_not_a_full_distribution(self):
+        dist={"kind":"fixed_line","over":0.5,"under":0.5,"push":0.0}
+        f=dict(self.fc,distribution=dist,output_sha256=sha256(dist))
+        self.assertBlocked(lambda:validate_record("ForecastSnapshot",f),
+            "ORIGINAL_REQUIRES_COMPLETE_STAT_DISTRIBUTION")
+
+    def test_nhl_gamma_poisson_bad_zero_shape_rejected(self):
+        dist={"kind":"gamma_poisson","parameters":{"shape":0,"rate":1.0}}
+        f=dict(self.fc,distribution=dist,output_sha256=sha256(dist))
+        self.assertBlocked(lambda:validate_record("ForecastSnapshot",f),
+            "DISTRIBUTION_PARAMETERS_INVALID")
+
+    def test_nb2_missing_shape_rejected(self):
+        dist={"kind":"nb2","parameters":{"mean":2.0}}
+        f=dict(self.fc,distribution=dist,output_sha256=sha256(dist))
+        self.assertBlocked(lambda:validate_record("ForecastSnapshot",f),
+            "DISTRIBUTION_PARAMETERS_SCHEMA")
+
     def test_nhl_outside_sog_scope_rejected(self):
         f=dict(self.fc,sport="NHL",stat_key="goalie saves")
         self.assertBlocked(lambda:validate_record("ForecastSnapshot",f),
