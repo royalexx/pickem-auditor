@@ -87,7 +87,7 @@ python -m scripts.p4_nhl_sog_generate --mode synthetic \
     --source-root /tmp/p4_sog --artifact-root /tmp/p4_sog/out \
     --code-commit <actual-reviewed-40-character-commit-SHA>
 
-python -m unittest -v tests.test_nhl_sog_p4_forecasts
+python -m unittest discover -s tests -p test_nhl_sog_p4_forecasts.py -v
 
 # Requires original P2 signed quote/historical data, NOT the fixture:
 python -m scripts.p4_nhl_sog_generate --mode original \
