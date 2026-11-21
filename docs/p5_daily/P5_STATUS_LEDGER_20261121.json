@@ -54,7 +54,15 @@
       "peak_rss_kib": 253392,
       "wall_seconds_total_test_blocks": 1.22053
     },
-    "new_revision_tests": "LATEST_RERUN_NOT_YET_RECORDED"
+    "new_revision_tests": {
+      "run_id": "61165437-2a14-4544-9dbc-6368ef7f929f",
+      "passed": 38,
+      "failed": 0,
+      "skipped": 0,
+      "peak_rss_kib": 252412,
+      "core_wall_seconds": 1.249684269001591,
+      "extra_wall_seconds": 0.1124194180010818
+    }
   },
   "real_p0_inventory": {
     "run_id": "d8bcadf9-0b28-4a67-8971-bad12fc95d8e",
