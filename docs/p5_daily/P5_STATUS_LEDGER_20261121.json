@@ -1,0 +1,95 @@
+{
+  "schema": "PA-P5-STATUS-LEDGER/1",
+  "date": "2026-11-21",
+  "branch": "integration/p5-nba-nhl-daily-settlement-learning-20261121",
+  "base_sha": "c14de84839161f207d6fd7524c18d68b13707365",
+  "upstream": {
+    "P0": {
+      "pr": 198,
+      "sha": "c14de84839161f207d6fd7524c18d68b13707365",
+      "status": "ENGINEERING_ONLY"
+    },
+    "P1": {
+      "pr": 200,
+      "sha": "cf71e6662347755020217c78a04642a5b36ec5a9",
+      "status": "BLOCKED_BY_SOURCE"
+    },
+    "P2": {
+      "pr": 201,
+      "sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "status": "BLOCKED_BY_SOURCE"
+    },
+    "P3": {
+      "pr": 203,
+      "sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "status": "BLOCKED_BY_MODEL"
+    },
+    "P4": {
+      "pr": 202,
+      "sha": "786f3c900922b1bc8a11de85659bc97150369a4f",
+      "status": "BLOCKED_BY_MODEL"
+    }
+  },
+  "contracts": {
+    "p0": "PA-P0/1",
+    "p5_registry": "PA-P5-REGISTRY/1",
+    "p5_settlement": "PA-P5-SETTLEMENT/1",
+    "nba_feature": "PA-NBA-P1/1",
+    "nhl_p4": "v25_nhl_sog_p4_full_count_v1"
+  },
+  "deepnote_project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+  "deepnote_qa_notebook_id": "e023e3da94aa4ffb82e6071ffbb3ee54",
+  "qa": {
+    "initial_success": {
+      "run_id": "7708658f-d410-44b3-a890-168f5f202f34",
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0
+    },
+    "expanded_success": {
+      "run_id": "765dac46-f39f-4c52-a65f-a16f99446e54",
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0,
+      "peak_rss_kib": 253392,
+      "wall_seconds_total_test_blocks": 1.22053
+    },
+    "new_revision_tests": "LATEST_RERUN_NOT_YET_RECORDED"
+  },
+  "real_p0_inventory": {
+    "run_id": "d8bcadf9-0b28-4a67-8971-bad12fc95d8e",
+    "status": "STORAGE_ATTESTED_FOR_PROJECT_PATH",
+    "original_pregame_forecasts": 0,
+    "reconstructed_forecasts": 0,
+    "integrity_rejections": 0,
+    "model_updates": 0
+  },
+  "model_eligible_new_original_observations": {
+    "NBA": 0,
+    "NHL": 0
+  },
+  "actual_update_status": {
+    "NBA": "NO_GENUINE_ORIGINAL_UPDATE",
+    "NHL": "NO_GENUINE_ORIGINAL_UPDATE"
+  },
+  "confirmatory_nhl_nb2": {
+    "experiment_id": "EXP-V25-NHL-SOG-NB2-NATIVE-PLUGIN-MEAN-20261114",
+    "fixed_shape": 4,
+    "min_distinct_prospective_dates": 40,
+    "status": "LOCKED_NOT_READY"
+  },
+  "legacy_prod_weights_modified": false,
+  "nfl_infrastructure_modified": false,
+  "active_automation_modified": false,
+  "approved_for_production": false,
+  "p6_independent_verdict": "PENDING",
+  "blockers": [
+    "ZERO_ORIGINAL_FORECASTS_IN_P0_STORE",
+    "P1_GENUINE_SOURCE_NOT_ADMITTED",
+    "P2_GENUINE_SOURCE_NOT_ADMITTED",
+    "P3_ORIGINAL_NATIVE_S_O_J_NOT_CERTIFIED",
+    "P4_NEW_ORIGINAL_GAMMA_AND_NATIVE_CONTROL_NOT_CERTIFIED",
+    "G0_C_NATIVE_BRIDGE_NOT_AVAILABLE",
+    "NO_GENUINE_OFFICIAL_TO_MODEL_UPDATE_CYCLE"
+  ]
+}
