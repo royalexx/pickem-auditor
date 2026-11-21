@@ -52,8 +52,8 @@ from research.nba_p1_original.rolling import WindowPolicy,run_daily,atomic_once,
 BASE=datetime(2026,11,22,0,0,tzinfo=timezone.utc)
 def iso(x):return x.isoformat().replace('+00:00','Z')
 def fixture():
-    raw=b'{"source":"pregame"}';rid='synthetic-receipt-1'
-    receipt={'receipt_id':rid,'source':'https://example.invalid/ESPN','raw_sha256':hashlib.sha256(raw).hexdigest(),
+    raw=b'{"team":{"id":"1"},"athletes":[{"id":"123"}]}';rid='synthetic-receipt-1'
+    receipt={'receipt_id':rid,'source':'https://example.invalid/teams/1/roster','raw_sha256':hashlib.sha256(raw).hexdigest(),
              'observed_at':iso(BASE-timedelta(hours=1)),'source_available_at':iso(BASE-timedelta(hours=1)),'origin':'fixture'}
     pid='espn:player:123';tid='espn:team:1';opp='espn:team:2';gid='espn:game:401999111'
     history={'game_id':'espn:game:401900000','game_date':'2026-11-19','receipt_id':rid,
@@ -67,7 +67,9 @@ def fixture():
           'game':{'game_id':gid,'home_team_id':tid,'away_team_id':opp,'event_start_at':iso(BASE),'status':'scheduled'},
           'input_freeze_at':iso(BASE-timedelta(minutes=25)),'forecast_at':iso(BASE-timedelta(minutes=25)),
           'source_available_at':receipt['observed_at'],'receipts':[receipt],
-          'input_records':[{'record_id':'roster-1','kind':'roster','receipt_id':rid}],
+          'input_records':[{'record_id':'roster-1','kind':'roster','receipt_id':rid,
+                           'payload':json.dumps({'player_id':pid,'team_id':tid,'game_id':gid,
+                                                 'status':'membership_only','uncertainty':'reported'})}],
           'players':[{'player_id':pid,'team_id':tid,'opponent_id':opp,'home':True,'roster_record_id':'roster-1',
                       'history':[history],'availability':[],'missing_feature_codes':['AVAILABILITY_UNAVAILABLE'],
                       'features':{'games_played':1,'minutes_recent':{'values':[31.2]},'statistics':{'points':{'recent':summary}}}}],
@@ -146,31 +148,45 @@ class FeatureCases(unittest.TestCase):
         rows,m=build_feature_rows(x,r)
         self.assertEqual(rows[0]['features']['availability_status'],'QUESTIONABLE_SOURCE_REPORTED')
         self.assertEqual(rows[0]['features']['legal_eligibility'],'UNVERIFIED')
+    def test_roster_record_player_collision_withheld(self):
+        x,r=fixture();data=json.loads(x['input_records'][0]['payload'])
+        data['player_id']='espn:player:999'
+        x['input_records'][0]['payload']=json.dumps(data)
+        rows,m=build_feature_rows(x,r)
+        self.assertEqual(len(rows),0)
+        self.assertEqual(m['rejected'][0]['reason'],'ROSTER_PAYLOAD_IDENTITY_COLLISION')
+    def test_missing_player_in_original_roster_withheld(self):
+        x,r=fixture();rid='synthetic-receipt-1'
+        raw=b'{"team":{"id":"1"},"athletes":[{"id":"999"}]}'
+        r[rid]=raw;x['receipts'][0]['raw_sha256']=hashlib.sha256(raw).hexdigest()
+        rows,m=build_feature_rows(x,r)
+        self.assertEqual(len(rows),0)
+        self.assertEqual(m['rejected'][0]['reason'],'PLAYER_NOT_IN_ORIGINAL_ROSTER')
     def test_current_name_position_source_bound_not_joined_by_name(self):
         x,r=fixture();rid='synthetic-receipt-1'
-        raw=json.dumps({'athletes':[{'items':[{'id':'123','displayName':'Synthetic Player One',
-                      'position':{'abbreviation':'SG'}}]}]}).encode()
+        raw=json.dumps({'team':{'id':'1'},'athletes':[{'id':'123','displayName':'Synthetic Player One',
+                      'position':{'abbreviation':'SG'}}]}).encode()
         r[rid]=raw
         x['receipts'][0]['source']='https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/1/roster'
         x['receipts'][0]['raw_sha256']=hashlib.sha256(raw).hexdigest()
-        x['input_records'][0]['payload']=json.dumps({'status':'active','uncertainty':'unknown'})
+        x['input_records'][0]['payload']=json.dumps({'player_id':'espn:player:123','team_id':'espn:team:1',
+                                                     'game_id':'espn:game:401999111','status':'membership_only','uncertainty':'reported'})
         rows,m=build_feature_rows(x,r)
         self.assertEqual(rows[0]['features']['current_name'],'Synthetic Player One')
         self.assertEqual(rows[0]['features']['position'],'SG')
-        self.assertEqual(rows[0]['features']['listed_roster_status'],'active')
+        self.assertEqual(rows[0]['features']['listed_roster_status'],'membership_only')
         self.assertEqual(rows[0]['features']['legal_eligibility'],'UNVERIFIED')
         self.assertEqual(rows[0]['features']['espn_player_id'],'espn:player:123')
     def test_conflicting_roster_name_unresolved(self):
         x,r=fixture();rid='synthetic-receipt-1'
-        raw=json.dumps({'athletes':[{'id':'123','displayName':'One','position':{'abbreviation':'SG'}},
+        raw=json.dumps({'team':{'id':'1'},'athletes':[{'id':'123','displayName':'One','position':{'abbreviation':'SG'}},
                                     {'id':'123','displayName':'Two','position':{'abbreviation':'SF'}}]}).encode()
         r[rid]=raw
         x['receipts'][0]['source']='https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/1/roster'
         x['receipts'][0]['raw_sha256']=hashlib.sha256(raw).hexdigest()
         rows,m=build_feature_rows(x,r)
-        self.assertIsNone(rows[0]['features']['current_name'])
-        self.assertIsNone(rows[0]['features']['position'])
-        self.assertIn('PLAYER_NAME_UNAVAILABLE',rows[0]['features']['missingness'])
+        self.assertEqual(len(rows),0)
+        self.assertEqual(m['rejected'][0]['reason'],'ROSTER_NAME_POSITION_AMBIGUOUS')
     def test_no_crosswalk_does_not_invent_official_id(self):
         x,r=fixture();rows,m=build_feature_rows(x,r)
         self.assertIsNone(rows[0]['features']['official_nba_player_id'])

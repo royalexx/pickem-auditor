@@ -72,7 +72,7 @@ def _raw_crosswalk(evidence, at, source_receipts):
     if len(set(accepted))!=1 or len(accepted)!=1:fail('CROSSWALK_AMBIGUOUS')
     return accepted[0]
 
-def _roster_metadata(pid,roster_record,records,receipts,raw_by_receipt):
+def _roster_metadata(pid,team,game_id,roster_record,records,receipts,raw_by_receipt):
     """Read name/position only from the already-archived ORIGINAL ESPN roster.
 
     Never match on names or lift identities from old boxscores. Conflicting
@@ -83,13 +83,18 @@ def _roster_metadata(pid,roster_record,records,receipts,raw_by_receipt):
     rid=entry['receipt_id'];receipt=receipts.get(rid)
     try:payload=json.loads(entry['payload'])
     except (KeyError,TypeError,ValueError):return {'name':None,'position':None,'listed_roster_status':None,'listed_roster_uncertainty':None,'evidence_receipt_id':rid,'status':'ROSTER_PAYLOAD_MISSING'}
+    if any(payload.get(k)!=v for k,v in [('player_id',pid),('team_id',team),('game_id',game_id)]):
+        return {'name':None,'position':None,'listed_roster_status':None,'listed_roster_uncertainty':None,'evidence_receipt_id':rid,'status':'ROSTER_PAYLOAD_IDENTITY_COLLISION'}
     base={'name':None,'position':None,'listed_roster_status':payload.get('status'),
           'listed_roster_uncertainty':payload.get('uncertainty'),
           'evidence_receipt_id':rid,'status':'SOURCE_LISTED_NOT_CONFIRMED'}
     if not receipt or not receipt['source'].split('?')[0].endswith('/roster'):
-        return base
+        return {**base,'status':'ROSTER_ORIGINAL_SOURCE_NOT_BOUND'}
     try:roster=json.loads(raw_by_receipt[rid])
-    except (KeyError,ValueError,TypeError):return base
+    except (KeyError,ValueError,TypeError):return {**base,'status':'ROSTER_RAW_JSON_INVALID'}
+    entries=roster.get('athletes') if isinstance(roster,dict) else None
+    if not isinstance(entries,list) or not any(isinstance(x,dict) and str(x.get('id',''))==pid.rsplit(':',1)[-1] for x in entries):
+        return {**base,'status':'PLAYER_NOT_IN_ORIGINAL_ROSTER'}
     seen=[]
     def walk(x):
         if isinstance(x,dict):
@@ -177,7 +182,11 @@ def build_feature_rows(snapshot, raw_by_receipt, *, reconstruction_class='origin
             except FeatureAdmissionError:
                 excluded.append({'player_id':pid,'reason':'CROSSWALK_AMBIGUOUS_OR_UNVERIFIED'});continue
         status=_status(aw)
-        roster_meta=_roster_metadata(pid,roster_record,snapshot.get('input_records',[]),receipts,raw_by_receipt)
+        roster_meta=_roster_metadata(pid,team,game_id,roster_record,snapshot.get('input_records',[]),receipts,raw_by_receipt)
+        if roster_meta['status'] in ('ROSTER_RECORD_MISSING','ROSTER_PAYLOAD_MISSING','ROSTER_PAYLOAD_IDENTITY_COLLISION',
+                                     'ROSTER_ORIGINAL_SOURCE_NOT_BOUND','ROSTER_RAW_JSON_INVALID',
+                                     'PLAYER_NOT_IN_ORIGINAL_ROSTER','ROSTER_NAME_POSITION_AMBIGUOUS'):
+            excluded.append({'player_id':pid,'reason':roster_meta['status']});continue
         for field,reason in [('name','PLAYER_NAME_UNAVAILABLE'),('position','PLAYER_POSITION_UNAVAILABLE'),('listed_roster_status','ROSTER_STATUS_UNAVAILABLE')]:
             if roster_meta[field] is None:missing.append(reason)
         missing=sorted(set(missing))
