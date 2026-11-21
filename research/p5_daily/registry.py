@@ -172,6 +172,9 @@ def register_model(root, *, model_id, family, pipeline_id, sport,
               "TRAINING_SOURCE_RECEIPT_MISSING")
         _need(_utc(row["official_result_available_at"])<=_utc(cutoff_at),
               "FUTURE_OFFICIAL_OUTCOME_IN_TRAINING")
+        key_text="|".join(str(row[k]) for k in ("sport","event_id","player_id","stat_key"))
+        archived=_read(base, f"observations/{digest(key_text)}.json")
+        _need(archived==row,"TRAINING_OBSERVATION_NOT_ARCHIVED_UNCHANGED")
     with _lock(base):
         previous=_latest(base,model_id)
         if previous is None:
