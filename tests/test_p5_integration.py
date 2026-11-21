@@ -29,7 +29,7 @@ from research.p5_daily.workflow import (
     settle,execute_model_update,eligible_training_row,
 )
 from research.p5_daily.warehouse import scorecard
-from test_p5_daily_staged import Fixture, CODE, SETTLED, LATER, START, AVAILABLE
+from test_p5_daily import Fixture, CODE, SETTLED, LATER, START, AVAILABLE
 
 def row(event, date, pipe, stat="points", actual=1, original=True):
     at=date+"T19:00:00Z"
