@@ -308,18 +308,31 @@ class RegistryTests(unittest.TestCase):
                   "exposure":{"toi_minutes":15.0}}
     def tearDown(self):
         self.tmp.cleanup()
-    def reg(self,state,parent=None,mode="INCREMENTAL_UPDATE",at=SETTLED):
+    def new_row(self,event_id,available_at):
+        row=dict(self.row,event_id=event_id,
+                 official_outcome_id="O_"+event_id,
+                 event_start_at="2026-11-21T09:00:00Z",
+                 official_result_available_at=available_at)
+        admit_training_observation(self.root,row,effective_cutoff=available_at)
+        return row
+    def reg(self,state,parent=None,mode="INCREMENTAL_UPDATE",at=SETTLED,
+            cutoff=SETTLED,rows=None):
+        rows=[self.row] if rows is None else rows
+        for r in rows:
+            admit_training_observation(self.root,r,effective_cutoff=cutoff)
         return register_model(self.root,model_id="NHL_ADAPTIVE",family="NHL_GAMMA_ADAPTIVE",
               pipeline_id="GAMMA_ADAPTIVE",sport="NHL",state=state,
-              parent_version=parent,training_rows=[self.row],
-              cutoff_at=SETTLED,created_at=at,code_commit=CODE,
+              parent_version=parent,training_rows=rows,
+              cutoff_at=cutoff,created_at=at,code_commit=CODE,
               update_mode=mode,seed=3,diagnostics={"excluded_count":0},
               passed_validation=True)
     def test_register_select_roll_back_and_no_mutation(self):
         admit_training_observation(self.root,self.row,effective_cutoff=SETTLED)
         a=self.reg({"alpha":2,"beta":4})
         self.assertEqual(a["status"],"NEW_RESEARCH_MODEL_ELIGIBLE")
-        b=self.reg({"alpha":3,"beta":19},parent=1,at=LATER)
+        second=self.new_row("E2","2026-11-21T16:00:00Z")
+        b=self.reg({"alpha":3,"beta":19},parent=1,at=LATER,
+                   cutoff=LATER,rows=[self.row,second])
         self.assertEqual(b["model"]["version"],2)
         self.assertEqual(select_for_forecast(self.root,"NHL_ADAPTIVE",
                  freeze_at="2026-11-21T07:00:00Z")["model_version"],1)
@@ -330,12 +343,17 @@ class RegistryTests(unittest.TestCase):
         self.assertEqual(select_for_forecast(self.root,"NHL_ADAPTIVE",
                  freeze_at="2026-11-23T01:00:00Z")["model_version"],1)
         self.assertEqual(len(read_transitions(self.root,"NHL_ADAPTIVE")),3)
+        third=self.new_row("E3","2026-11-23T10:00:00Z")
         self.assertEqual(self.reg({"alpha":4},parent=1,
+                 cutoff="2026-11-23T23:00:00Z",
+                 rows=[self.row,second,third],
                  at="2026-11-24T00:00:00Z")["model"]["version"],3)
     def test_model_state_unchanged_fails(self):
         self.reg({"alpha":2})
+        second=self.new_row("E2","2026-11-21T16:00:00Z")
         with self.assertRaises(ScoreError):
-            self.reg({"alpha":2},parent=1,at=LATER)
+            self.reg({"alpha":2},parent=1,at=LATER,cutoff=LATER,
+                     rows=[self.row,second])
     def test_future_training_and_missing_source(self):
         with self.assertRaises(ScoreError):
             self.reg({"alpha":2},at="2026-11-20T20:00:00Z")
@@ -362,15 +380,18 @@ class RegistryTests(unittest.TestCase):
               state_update="INCREMENTAL_UPDATE",training_rows=[self.row],
               cutoff_at=SETTLED,created_at=LATER,code_commit=CODE,
               seed=1,diagnostics={},previous_version=1,
-              fit_callback=lambda *a:1/0)
+              fit_callback=lambda *a:1/0,
+              validation_callback=lambda *a: True)
         self.assertEqual(result["status"],"BLOCKED")
         self.assertEqual(len(read_transitions(self.root,"NHL_ADAPTIVE")),1)
     def test_registry_concurrent_same_parent_only_one_wins(self):
         self.reg({"alpha":2})
+        second=self.new_row("E2","2026-11-21T16:00:00Z")
         results=[]
         def worker(a):
             try:
-                results.append(self.reg({"alpha":a},parent=1,at=LATER)["status"])
+                results.append(self.reg({"alpha":a},parent=1,at=LATER,cutoff=LATER,
+                     rows=[self.row,second])["status"])
             except Exception as e:
                 results.append(type(e).__name__)
         ts=[threading.Thread(target=worker,args=(x,)) for x in (3,4)]
