@@ -11,7 +11,7 @@ import hashlib
 import json
 import os
 
-from .contracts import AdmissionError, canonical_bytes, utc, validate_record
+from .contracts import AdmissionError, SCHEMAS, canonical_bytes, utc, validate_record
 
 PROJECT_ID="9cc31536-93be-44db-bdeb-06fba3f61410"
 APPROVED_ROOT=Path("/work")
@@ -136,6 +136,31 @@ def append_immutable(root, kind, obj, *, project_id=PROJECT_ID):
     base=APPROVED_ROOT/"research"/"p0_integrity_store"/NAMESPACES[kind]
     base.mkdir(parents=True,exist_ok=True)
     _safe_path(base)
+    # Reserve the logical ID with an immutable O_EXCL claim first.
+    # A crash after reservation may leave an incomplete record, but an
+    # incompatible second payload cannot reuse an already-reserved identity.
+    logical_id=obj[SCHEMAS[kind][0]]
+    claim_key=hashlib.sha256((kind+"\x00"+logical_id).encode("utf-8")).hexdigest()
+    claims=base/"_ids"
+    claims.mkdir(exist_ok=True)
+    _safe_path(claims)
+    claim_path=claims/(claim_key+".json")
+    claim_body=canonical_bytes({"kind":kind,"id":logical_id,"record_sha256":digest})
+    claim_flags=os.O_WRONLY|os.O_CREAT|os.O_EXCL
+    if hasattr(os,"O_NOFOLLOW"):
+        claim_flags|=os.O_NOFOLLOW
+    try:
+        claim_fd=os.open(claim_path,claim_flags,0o640)
+    except FileExistsError:
+        if claim_path.is_symlink():
+            _reject("IMMUTABLE_ID_CLAIM_SYMLINK")
+        if claim_path.read_bytes()!=claim_body:
+            _reject("APPEND_ONLY_DUPLICATE_ID_DIFFERENT_CONTENT")
+    else:
+        with os.fdopen(claim_fd,"wb") as f:
+            f.write(claim_body)
+            f.flush()
+            os.fsync(f.fileno())
     path=base/(digest+".json")
     flags=os.O_WRONLY|os.O_CREAT|os.O_EXCL
     if hasattr(os,"O_NOFOLLOW"):
@@ -174,4 +199,10 @@ def verify_immutable_record(root,kind,sha):
         _reject("IMMUTABLE_RECORD_HASH_CHANGED")
     data=json.loads(body)
     validate_record(kind,data)
+    logical_id=data[SCHEMAS[kind][0]]
+    claim_key=hashlib.sha256((kind+"\x00"+logical_id).encode("utf-8")).hexdigest()
+    claim=path.parent/"_ids"/(claim_key+".json")
+    expected=canonical_bytes({"kind":kind,"id":logical_id,"record_sha256":sha})
+    if not claim.is_file() or claim.is_symlink() or claim.read_bytes()!=expected:
+        _reject("IMMUTABLE_ID_CLAIM_INVALID")
     return data
