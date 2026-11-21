@@ -263,7 +263,8 @@ def eligible_training_row(settlement, official, frozen, *,cutoff):
 def execute_model_update(root, *,family, model_id, sport, pipeline_id,
                          state_update, training_rows, cutoff_at, created_at,
                          code_commit, seed, diagnostics,
-                         previous_version=None, fit_callback=None):
+                         previous_version=None, fit_callback=None,
+                         validation_callback=None):
     """No callback means NO_UPDATE, not successful learning.
 
     The callback is the P3/P4-owner-approved algorithm. P5 never substitutes
@@ -278,6 +279,8 @@ def execute_model_update(root, *,family, model_id, sport, pipeline_id,
         return {"status":"UNCHANGED","reason":"NO_ELIGIBLE_UPDATE"}
     if fit_callback is None:
         return {"status":"BLOCKED","reason":"OWNER_MODEL_UPDATE_INTERFACE_NOT_INSTALLED"}
+    if validation_callback is None:
+        return {"status":"BLOCKED","reason":"INDEPENDENT_NUMERICAL_VALIDATOR_NOT_CONFIGURED"}
     for row in training_rows:
         _need(row.get("training_admitted") is True and
               _utc(row["official_result_available_at"])<=_utc(cutoff_at),
@@ -286,6 +289,8 @@ def execute_model_update(root, *,family, model_id, sport, pipeline_id,
         new_state=fit_callback(training_rows,cutoff_at)
         if not isinstance(new_state,dict) or not new_state:
             raise ScoreError("OWNER_FIT_RETURNED_EMPTY_STATE")
+        if validation_callback(new_state, training_rows, cutoff_at) is not True:
+            raise ScoreError("OWNER_MODEL_VALIDATION_FAILED")
         return register_model(root,model_id=model_id,family=family,
                pipeline_id=pipeline_id,sport=sport,state=new_state,
                parent_version=previous_version,training_rows=training_rows,
