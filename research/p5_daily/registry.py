@@ -134,7 +134,7 @@ def _latest(root, model_id):
     last=entries[-1]
     artifact=_read(root,last["artifact_path"],last["artifact_sha256"])
     _need(artifact.get("model_id")==model_id and
-          artifact.get("artifact_sha256")==last["artifact_sha256"],"REGISTRY_TRANSITION_BROKEN")
+          digest({k:v for k,v in artifact.items() if k!="payload_sha256"})==artifact.get("payload_sha256"),"REGISTRY_TRANSITION_BROKEN")
     return artifact
 
 def register_model(root, *, model_id, family, pipeline_id, sport,
@@ -181,12 +181,12 @@ def register_model(root, *, model_id, family, pipeline_id, sport,
             _need(previous["version"]==parent_version,"REGISTRY_PARENT_VERSION_RACE")
             _need(_utc(previous["created_at"])<=_utc(created_at),"REGISTRY_TIME_REVERSAL")
             _need(digest(previous["state"])!=digest(state),"MODEL_STATE_UNCHANGED")
-            version=previous["version"]+1
+            version=max(r["version"] for r in read_transitions(base,model_id) if r["action"]=="REGISTER")+1
         manifest=digest(sorted(training_rows,key=lambda z:(z["event_id"],z["player_id"],z["stat_key"])))
         body={
             "schema":VERSION, "model_id":model_id,"family":family,"pipeline_id":pipeline_id,
             "sport":sport,"version":version,"parent_version":parent_version,
-            "parent_artifact_sha256":previous["artifact_sha256"] if previous else None,
+            "parent_artifact_sha256":read_transitions(base,model_id)[-1]["artifact_sha256"] if previous else None,
             "created_at":created_at,"training_cutoff_at":cutoff_at,
             "max_official_availability_at":max(x["official_result_available_at"] for x in training_rows),
             "training_manifest_sha256":manifest,"training_sample_count":len(training_rows),
@@ -197,7 +197,7 @@ def register_model(root, *, model_id, family, pipeline_id, sport,
             "research_only":True,
         }
         artifact_sha=digest(body)
-        body["artifact_sha256"]=artifact_sha
+        body["payload_sha256"]=artifact_sha
         # Exact SHA covers the body without its own checksum field.
         relative=f"versions/{model_id}/v{version:06d}-{artifact_sha}.json"
         write=_write_once(base,relative,body)
