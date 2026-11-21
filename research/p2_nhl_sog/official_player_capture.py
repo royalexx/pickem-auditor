@@ -9,7 +9,6 @@ from collections import defaultdict
 from datetime import datetime, timezone
 import re
 
-from v2.nhl_sog_official_history_producer import import_signed_official_history
 from .source_pipeline import (SourceBlocked, require, clock, capture_official,
                               retrieve_source, OFFICIAL, attempt, current_storage)
 
