@@ -79,6 +79,55 @@ def _write_once(root, relative, obj):
     _need(path.read_bytes()==raw,"IMMUTABLE_WRITE_FAILED")
     return {"status":"APPENDED","path":relative,"sha256":hashlib.sha256(raw).hexdigest()}
 
+def _write_transition_once(root, relative, obj):
+    """Durable file then atomic no-clobber activation via hardlink.
+
+    An interrupted .pending file is ignored by transition readers. If the
+    verified project filesystem cannot promise atomic hardlink, fail-closed:
+    NEVER activate a partially written transition or silently use os.replace.
+    P6 must independently validate FUSE hardlink/fsync on actual project disk.
+    """
+    path=_safe(root,relative)
+    path.parent.mkdir(parents=True,exist_ok=True)
+    raw=_canon(obj)
+    digest_value=hashlib.sha256(raw).hexdigest()
+    temp=path.parent/(".pending-"+digest_value+".tmp")
+    flags=os.O_WRONLY|os.O_CREAT|os.O_EXCL
+    if hasattr(os,"O_NOFOLLOW"):
+        flags|=os.O_NOFOLLOW
+    try:
+        fd=os.open(temp,flags,0o600)
+    except FileExistsError:
+        _need(not temp.is_symlink() and temp.read_bytes()==raw,
+              "TRANSITION_PENDING_CONFLICT")
+    else:
+        with os.fdopen(fd,"wb") as h:
+            h.write(raw)
+            h.flush()
+            os.fsync(h.fileno())
+    _need(temp.read_bytes()==raw,"TRANSITION_PENDING_BYTES_INVALID")
+    try:
+        os.link(temp,path,follow_symlinks=False)
+    except FileExistsError:
+        _need(not path.is_symlink() and path.read_bytes()==raw,
+              "TRANSITION_ALREADY_EXISTS_DIFFERENT_BYTES")
+        status="IDEMPOTENT_EXISTING"
+    except OSError as exc:
+        raise ScoreError("ATOMIC_TRANSITION_LINK_UNSUPPORTED") from exc
+    else:
+        status="APPENDED"
+    try:
+        fd_dir=os.open(path.parent,os.O_RDONLY)
+        try:
+            os.fsync(fd_dir)
+        finally:
+            os.close(fd_dir)
+    except OSError as exc:
+        raise ScoreError("TRANSITION_DIRECTORY_FSYNC_UNVERIFIED") from exc
+    _need(path.read_bytes()==raw,"TRANSITION_ACTIVATION_CHANGED")
+    temp.unlink(missing_ok=True)
+    return {"status":status,"path":relative,"sha256":digest_value}
+
 def _read(root,relative,expected_sha=None):
     path=_safe(root,relative)
     _need(path.is_file() and not path.is_symlink(),"REGISTRY_ARTIFACT_MISSING")
@@ -216,7 +265,7 @@ def register_model(root, *, model_id, family, pipeline_id, sport,
             "artifact_sha256":hashlib.sha256(_canon(body)).hexdigest(),
             "created_at":created_at,"research_only":True,
         }
-        t=_write_once(base,f"transitions/{model_id}/{transition['sequence']:08d}.json",transition)
+        t=_write_transition_once(base,f"transitions/{model_id}/{transition['sequence']:08d}.json",transition)
         return {"model":body,"artifact_receipt":write,
                 "transition_receipt":t,"status":"NEW_RESEARCH_MODEL_ELIGIBLE"}
 
@@ -235,7 +284,7 @@ def rollback_model(root, model_id, *, rollback_to, at, reason):
              "version":rollback_to,"artifact_path":target["artifact_path"],
              "artifact_sha256":target["artifact_sha256"],"created_at":at,
              "reason":reason,"research_only":True}
-        return _write_once(base,f"transitions/{model_id}/{seq:08d}.json",row)
+        return _write_transition_once(base,f"transitions/{model_id}/{seq:08d}.json",row)
 
 def select_for_forecast(root,model_id,*,freeze_at,code_commit=None):
     """One locked version+SHA selection; never return mutable active pointers."""
