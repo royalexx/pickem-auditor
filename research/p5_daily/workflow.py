@@ -211,12 +211,12 @@ def settle(frozen, official, *, source_root, receipt_root,
     p0_receipt=None
     # P0 canonical record registration is intentionally caller-controlled:
     # P5 never writes to live shared store in an isolated synthetic test.
-    if receipt_root=="/work/research/p5_daily":
+    if str(receipt_root)=="/work/research/p5_daily":
         p0_receipt=append_immutable("/work","SettlementRecord",s)
     result={"schema":RUN_SCHEMA,"forecast_id":f["forecast_id"],
             "sport":f["sport"],"event_id":f["event_id"],
             "player_id":f["player_id"],"stat_key":f["stat_key"],
-            "period":f["period"],"model_id":f["model_id"],
+            "period":f["period"],"event_start_at":f["event_start_at"],"model_id":f["model_id"],
             "model_version":f["model_version"],
             "complete_pipeline_id":f["uncertainty"].get("complete_pipeline_id"),
             "outcome_id":o["outcome_id"],"outcome_available_at":o["official_result_available_at"],
