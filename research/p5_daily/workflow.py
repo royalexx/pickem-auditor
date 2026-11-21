@@ -164,6 +164,13 @@ def settle(frozen, official, *, source_root, receipt_root,
         return {"status":"FORECAST_UNCERTIFIED","forecast_id":f["forecast_id"],
                 "classification":classification}
     official_sources=official.get("sources") or []
+    _need(bool(official_sources),"OFFICIAL_SOURCE_RECEIPTS_MISSING")
+    # Clock of first independently verifiable original final: deterministic
+    # across later reruns, never the arbitrary rerun processing wall time.
+    settled_clock=max([o["official_result_available_at"]]+
+                      [r["collected_at"] for r in official_sources],
+                      key=lambda x:_utc(x))
+    _need(_utc(settled_clock)<=_utc(run_at),"OFFICIAL_SOURCE_NOT_YET_COLLECTED")
     stat=None
     contract=None
     actual=o["actual_value"]
@@ -201,7 +208,7 @@ def settle(frozen, official, *, source_root, receipt_root,
     s=record("SettlementRecord",settlement_id=settlement_id,
              forecast_id=f["forecast_id"],outcome_id=o["outcome_id"],
              quote_id=f["quote_id"],contract_id=quote["contract_id"] if quote else None,
-             settled_at=run_at,disposition=disposition,
+             settled_at=settled_clock,disposition=disposition,
              settlement_policy="research_statistic_independent_contract",
              settlement_version=n,supersedes_id=previous,
              source_receipt_ids=[o["official_source_receipt_id"]],
