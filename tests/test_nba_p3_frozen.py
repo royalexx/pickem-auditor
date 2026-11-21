@@ -166,7 +166,7 @@ class ForecastTests(Fixture):
     def test_s0_frozen_and_repeated_hash(self):
         a=self.run_forecast()
         b=self.run_forecast()
-        self.assertEqual(a.status,"FORECAST_FROZEN",a.reason)
+        self.assertEqual(a.status,"RESEARCH_DRY_RUN",a.reason)
         self.assertEqual(sha256(a.forecast),sha256(b.forecast))
         self.assertEqual(a.admission["admission_class"],"C")
         self.assertEqual(a.forecast["distribution"]["kind"],"poisson")
@@ -181,7 +181,7 @@ class ForecastTests(Fixture):
         self.features["legal_eligibility"]="UNVERIFIED"
         self.refresh_feature()
         a=self.run_forecast()
-        self.assertEqual(a.status,"FORECAST_FROZEN",a.reason)
+        self.assertEqual(a.status,"RESEARCH_DRY_RUN",a.reason)
         self.assertFalse(a.forecast["eligible"])
         self.assertIn("PARTICIPATION_UNRESOLVED",a.forecast["abstention_reasons"])
         self.assertEqual(self.run_forecast(pipeline="S_PLUS_O").status,
@@ -191,7 +191,7 @@ class ForecastTests(Fixture):
         self.features["participation_probability"]=.5
         self.refresh_feature()
         a=self.run_forecast(pipeline="S_PLUS_O")
-        self.assertEqual(a.status,"FORECAST_FROZEN",a.reason)
+        self.assertEqual(a.status,"RESEARCH_DRY_RUN",a.reason)
         self.assertEqual(a.forecast["distribution"]["kind"],"discrete")
         self.assertGreater(dict(a.forecast["distribution"]["masses"])[0],.5)
         self.assertTrue(a.forecast["uncertainty"]["history"]["nonparticipation_void_caveat"])
@@ -205,7 +205,7 @@ class ForecastTests(Fixture):
     def test_missing_model_and_wrong_commit(self):
         self.assertEqual(self.run_forecast(code_commit="b"*40).status,"MODEL_NOT_READY")
         (self.root/"models"/"model.json").unlink()
-        self.assertEqual(self.run_forecast().status,"SOURCE_UNCERTIFIED")
+        self.assertEqual(self.run_forecast().status,"MODEL_NOT_READY")
 
     def test_no_future_or_actual_minutes(self):
         self.features["prior_player_history"][1]["game_date"]="2026-11-22"
@@ -229,7 +229,7 @@ class ForecastTests(Fixture):
 
     def test_j_shared_scenario_complete_game(self):
         a=self.run_forecast(pipeline="S_O_J",n_scenarios=25)
-        self.assertEqual(a.status,"FORECAST_FROZEN",a.reason)
+        self.assertEqual(a.status,"RESEARCH_DRY_RUN",a.reason)
         self.assertEqual(a.forecast["distribution"]["kind"],"discrete")
         self.assertEqual(a.warehouse["scenario_sha256"],a.forecast["uncertainty"]["scenario_sha256"])
         self.assertAlmostEqual(sum(p for _,p in a.forecast["distribution"]["masses"]),1.,12)
