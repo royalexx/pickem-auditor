@@ -30,7 +30,7 @@ Independent writer notebook 73767f33b6dc4e8f9fbfc9e3a09ecf89, detached run 207a1
 - Rejected: /tmp, unapproved mounts, outer and nested symlinks, overwrite attempts.
 - Mount st_dev changed between detached namespaces: not a stable project identifier. Content SHA, project-specific preexisting anchor, approved logical path and provenance are required instead.
 - Independent smoke run 069f782b-3c6b-4108-b349-6b6397b9f935 passed nine-schema import and cross-run attestation.
-- Latest adversarial run 2df6d21f-5b20-4e14-b05f-d2bdc04a94f2: 53/53 PASS, zero skips/errors. Includes actual project append-once, idempotent readback, conflicting same-ID rejection and no-clobber.
+- Latest detached exact-repository-registry run b57d7efa-0972-4bb9-b615-64e299232951 completed 2026-11-21T19:38:02.239Z: 63/63 PASS, zero skips/errors, using original main v2/stat_registry.py (blob f34087ad726626cf04de00a8cb318a2ab881a752) and v2/contracts.py (blob d8cd576d583d2387174c85b59cbb75e53c59f64c) in an isolated source checkout. Includes actual project append-once, idempotent readback, conflicting same-ID rejection and no-clobber.
 
 The tested path is persistent across these runs. This is NOT a Deepnote backup, disaster-recovery or indefinite-retention SLA. No live collector pin was changed.
 
@@ -133,7 +133,7 @@ Nov21 morning main Deepnote run 86414e6f-c763-4a51-a09d-c7e65cbe79c6 succeeded a
 Research-only test: python -m unittest discover -s tests -p 'test_p0_nba_nhl_integrity.py' -v  
 Deepnote tested: PYTHONPATH=/work python -m unittest discover -s /work/tests -p 'test_p0_nba_nhl_integrity.py' -v
 
-Actual detached result: 53/53 PASS, no skip, with cross-run project proof and durable append-only ID canary. Tests prove gateway behavior on synthetic fixtures, not currently deployed owner pipelines or scientific accuracy.
+Actual latest detached result: 63/63 PASS, no skip, with cross-run project proof and durable append-only ID canary. The active Deepnote /work root lacks native v2/stat_registry.py, so exact-original-registry tests ran from an isolated staged source checkout (not a production dependency installed at the project root). Production-native adoption remains blocked until its dependency environment is reconciled. Tests prove gateway behavior on synthetic fixtures, not currently deployed owner pipelines or scientific accuracy.
 
 GATE: P0 common-contract ENGINEERING TESTED / durable path VERIFIED; **global P0 READY-FOR-ACTUAL-PREGAME-CANARY ONLY**, no operational release. The pinned existing NBA collector must receive a narrowly reviewed attestation call-site fix, the task pin must be separately authorized, and a genuine next pregame event must produce immutable forecast/official settlement to reach operational readiness. NHL original source/roster/archive source coverage and settled cohort must separately pass without altering locked NB2/Gamma/C10 protocols. Independent external review of the combined native producers is still pending. Keep all existing automation state, production weights, past failed receipts, NUTS pause and NFL unchanged.
 
