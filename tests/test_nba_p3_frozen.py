@@ -334,6 +334,22 @@ class ForecastTests(Fixture):
              run_id="p1-source-fixture-only",season=2026,seed=77,
              pipeline="S_O_J",n_scenarios=5).status,"MODEL_NOT_READY")
 
+
+    def test_unapproved_native_joint_cannot_freeze_original_source(self):
+        # Deliberate negative-control tampering: this fixture is never original.
+        self.feature["reconstruction_class"]="original"
+        a=self.run_forecast(pipeline="S_O_J",persist=True,n_scenarios=5)
+        self.assertEqual(a.status,"MODEL_NOT_READY")
+        self.assertIsNone(a.forecast)
+        self.assertIsNone(a.storage)
+
+    def test_tampered_forecast_body_fails_P0_output_hash(self):
+        a=self.run_forecast()
+        self.assertEqual(a.status,"RESEARCH_DRY_RUN",a.reason)
+        a.forecast["distribution"]["parameters"]["rate"]+=1.0
+        with self.assertRaises(ValueError):
+            validate_record("ForecastSnapshot",a.forecast)
+
     def test_s_and_j_all_eight_p0_statistics(self):
         for stat in ("points","rebounds","assists","threes"):
             self.feature["stat_key"]=stat
