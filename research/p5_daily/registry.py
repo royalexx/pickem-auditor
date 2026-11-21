@@ -172,7 +172,8 @@ def register_model(root, *, model_id, family, pipeline_id, sport,
               "TRAINING_SOURCE_RECEIPT_MISSING")
         _need(_utc(row["official_result_available_at"])<=_utc(cutoff_at),
               "FUTURE_OFFICIAL_OUTCOME_IN_TRAINING")
-        key_text="|".join(str(row[k]) for k in ("sport","event_id","player_id","stat_key"))
+        key_text="|".join(str(row[k]) for k in ("sport","event_id","player_id",
+                                                   "stat_key","official_outcome_id"))
         archived=_read(base, f"observations/{digest(key_text)}.json")
         _need(archived==row,"TRAINING_OBSERVATION_NOT_ARCHIVED_UNCHANGED")
     with _lock(base):
@@ -278,6 +279,42 @@ def admit_training_observation(root, row, *, effective_cutoff):
     _need(_utc(row["event_start_at"])<_utc(row["official_result_available_at"])<=
           _utc(effective_cutoff),"TRAINING_CUTOFF_VIOLATION")
     _need(isinstance(row["exposure"],dict),"EXPOSURE_MUST_BE_VERIFIED_OR_EMPTY")
-    key="|".join(str(row[k]) for k in ("sport","event_id","player_id","stat_key"))
+    _need(isinstance(row["official_outcome_id"],str) and bool(row["official_outcome_id"]),
+          "OFFICIAL_REVISION_ID_MISSING")
+    key="|".join(str(row[k]) for k in ("sport","event_id","player_id",
+                                      "stat_key","official_outcome_id"))
     filename=digest(key)
     return _write_once(base,f"observations/{filename}.json",row)
+
+def latest_training_observations(root, *, cutoff_at, sport=None):
+    """Select one as-of-known final version per player-game-stat, not both corrections.
+
+    Outcome corrections are append-only; the newest official source available
+    by cutoff wins, and the older version remains recoverable for forensic replay.
+    """
+    base=_secure_root(root)
+    _utc(cutoff_at)
+    _need(sport in (None,"NBA","NHL"),"TRAINING_SPORT_INVALID")
+    folder=_safe(base,"observations")
+    latest={}
+    if not folder.exists():
+        return []
+    for path in sorted(folder.glob("*.json")):
+        if path.is_symlink():
+            raise ScoreError("TRAINING_OBSERVATION_SYMLINK")
+        row=_read(base,str(path.relative_to(base)))
+        key_text="|".join(str(row[k]) for k in ("sport","event_id","player_id",
+                                                  "stat_key","official_outcome_id"))
+        _need(path.stem==digest(key_text),"TRAINING_OBSERVATION_FILENAME_MISMATCH")
+        if sport is not None and row["sport"]!=sport:
+            continue
+        when=_utc(row["official_result_available_at"])
+        if when>_utc(cutoff_at):
+            continue
+        key=tuple(row[k] for k in ("sport","event_id","player_id","stat_key"))
+        prev=latest.get(key)
+        if prev is None or when>_utc(prev["official_result_available_at"]):
+            latest[key]=row
+        elif when==_utc(prev["official_result_available_at"]) and row!=prev:
+            raise ScoreError("DUPLICATE_OFFICIAL_REVISION_AVAILABILITY")
+    return [latest[k] for k in sorted(latest)]
