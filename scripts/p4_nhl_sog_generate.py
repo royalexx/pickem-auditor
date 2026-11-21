@@ -30,15 +30,25 @@ def run(args):
     blob=Path(args.input).read_bytes()
     bundle=json.loads(blob)
     if args.mode=="original":
-        # No synthetic fixture can use the original quote route.
-        if bundle.get("schema")!="v25_sog_prospective_input_v1":
-            raise P4Blocked("P2_ORIGINAL_BUNDLE_SCHEMA_REQUIRED")
-        return run_verified_original_gamma_bundle(bundle,
-            source_root=args.source_root,artifact_root=args.artifact_root)
+        try:
+            if bundle.get("schema")!="v25_sog_prospective_input_v1":
+                raise P4Blocked("P2_ORIGINAL_BUNDLE_SCHEMA_REQUIRED")
+            return run_verified_original_gamma_bundle(bundle,
+                source_root=args.source_root,artifact_root=args.artifact_root)
+        except (P4Blocked, ValueError, TypeError, KeyError, OSError) as exc:
+            reason=type(exc).__name__+":"+str(exc)[:200]
+            receipt=coverage_attempt(args.artifact_root,
+                attempt_id="p4_original_"+hashlib.sha256(blob+clock.encode()).hexdigest()[:24],
+                event_id=(bundle.get("quote") or {}).get("event_id"),
+                player_id=(bundle.get("quote") or {}).get("player_id"),
+                reason=reason,source_classification="original_signed",
+                forecast_at=clock)
+            return {"status":"ABSTAIN","reason":reason,
+                    "attempt_receipt":receipt,"research_only":True}
     if bundle.get("schema")!=BUNDLE_SCHEMA or (
-            bundle.get("source_classification")!="synthetic" and
-            bundle.get("source_classification")!="original_signed"):
-        raise P4Blocked("INVALID_DISTRIBUTION_ONLY_SOURCE_BUNDLE")
+            (args.mode=="synthetic" and bundle.get("source_classification")!="synthetic") or
+            (args.mode=="distribution" and bundle.get("source_classification")!="original_signed")):
+        raise P4Blocked("SOURCE_BUNDLE_MODE_OR_CLASSIFICATION_MISMATCH")
     ident=hashlib.sha256(blob).hexdigest()[:16]
     try:
         model=fit_source_bundle(bundle,source_root=args.source_root)
@@ -61,7 +71,7 @@ def run(args):
                 "source_input_sha256":hashlib.sha256(blob).hexdigest(),
                 "forecast_count":len(out),"forecasts":out,
                 "native_nb2_not_admitted":True,"production_unchanged":True}
-    except Exception as exc:
+    except (P4Blocked, ValueError, TypeError, KeyError, OSError) as exc:
         reason=type(exc).__name__+":"+str(exc)[:200]
         receipt=coverage_attempt(args.artifact_root,
             attempt_id="p4_"+ident+"_abstain_"+hashlib.sha256(clock.encode()).hexdigest()[:12],
