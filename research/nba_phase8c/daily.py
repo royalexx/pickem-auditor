@@ -74,16 +74,23 @@ def events_for_day(slots, day):
 
 
 def ensure_authoritative_storage(root):
-    root = Path(root).resolve()
-    if root == Path("/tmp") or "/tmp/" in str(root):
-        raise ValueError("EPHEMERAL_PILOT_STORAGE_FORBIDDEN")
-    root.mkdir(parents=True, exist_ok=True)
-    # /work is Deepnote's writable project storage. A Cloud worker can use
-    # another explicitly configured durable mount but must attest to it.
-    if not (root == Path("/work") or root.is_relative_to(Path("/work")) or
-            os.environ.get("NBA_PILOT_DURABLE_STORAGE_ATTESTED") == "1"):
-        raise ValueError("DURABLE_STORAGE_NOT_ATTESTED")
-    return root
+    """Authenticate project storage by independently rereading cross-run bytes.
+
+    The logical /work alias resolves to /datasets/_deepnote_work in detached
+    Deepnote executions. Neither literal path equality nor an environment flag
+    is durable-storage evidence. Reuse the shared P0 NBA/NHL gateway: if it has
+    not been installed/reviewed, fail closed without capturing original data.
+    """
+    try:
+        from v2.p0_integrity.storage import attest_project_storage
+        from v2.p0_integrity.contracts import AdmissionError
+    except ImportError as exc:
+        raise ValueError("COMMON_STORAGE_ATTESTATION_MODULE_MISSING") from exc
+    try:
+        attested = attest_project_storage(root)
+    except (AdmissionError, OSError, ValueError) as exc:
+        raise ValueError("DURABLE_STORAGE_NOT_ATTESTED: " + str(exc)) from exc
+    return Path(attested["verified_path"])
 
 
 def run_group(slots, output, at):
