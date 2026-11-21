@@ -729,7 +729,7 @@ def run_rolling(root="/work", *, days=None, early_minutes=60,
                 attempts.append(attempt(root, "official_game_rosters", "REJECTED",
                                         [type(exc).__name__ + ":" + str(exc)[:160]],
                                         event_id=game["event_id"], window=status))
-    return {"schema": "PA-P2-NHL-ROLLING-RUN/1",
+    summary = {"schema": "PA-P2-NHL-ROLLING-RUN/1",
             "generated_at": stamp(datetime.now(UTC)),
             "official_partial_source_games": accepted,
             "attempt_count": len(attempts),
@@ -740,3 +740,8 @@ def run_rolling(root="/work", *, days=None, early_minutes=60,
             "real_two_sided_quotes_created": 0,
             "attempt_receipt_hashes": [x["receipt"]["sha256"] for x in attempts],
             "release_certified": False}
+    raw = canonical_bytes(summary)
+    stored = put_once(root, ROOT_NAMESPACE + "/runs/" +
+                      digest(raw) + ".json", raw)
+    return dict(summary, run_receipt_sha256=stored["sha256"],
+                run_receipt_relative_path=stored["relative_path"])
