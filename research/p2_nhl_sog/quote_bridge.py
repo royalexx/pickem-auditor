@@ -29,14 +29,22 @@ def _source_record(original):
 
 
 def verified_real_quote(root, *, raw_ref, offered, player_id, team,
-                        opponent, event_id, start, freeze, official_name):
+                        opponent, event_id, start, freeze,
+                        official_profile_entry, history_pool):
     """Validate the exact two-sided rows and write P0 receipts once."""
     current_storage(root)
     verify_original_provider(root, raw_ref, freeze=freeze, event_start=start)
+    from .history_bridge import signed_original_profile_name, checked_pool
+    verified_pool = checked_pool(root, history_pool)
+    require(isinstance(official_profile_entry, dict),
+            "SIGNED_OFFICIAL_PROFILE_REQUIRED_FOR_REAL_QUOTE")
+    name = signed_original_profile_name(
+        verified_pool, official_profile_entry, freeze=freeze,
+        event_start=start)
     item = quote_from_archived_raw(
         root, raw_ref, offered, player_id=player_id, team=team,
         opponent=opponent, event_id=event_id, start=start, freeze=freeze,
-        official_name=official_name)
+        official_name=name)
     source = _source_record(raw_ref)
     validate_record("SourceReceipt", source)
     stored_source = append_immutable(root, "SourceReceipt", source)
@@ -65,6 +73,8 @@ def verified_real_quote(root, *, raw_ref, offered, player_id, team,
             "crosswalk_source_sha256": item["crosswalk_source_sha256"],
             "structured_row_sha256": item["structured_row_sha256"],
             "source_hmac_proof_sha256": raw_ref["proof_sha256"],
+            "official_name_source_proof_sha256":
+                official_profile_entry["raw_profile_receipt"]["collector_proof_sha256"],
             "origin": "original_collector_possession",
             "publisher_publication_time_verified": False
         },
@@ -78,6 +88,8 @@ def verified_real_quote(root, *, raw_ref, offered, player_id, team,
         "p0_source_record": source,
         "p0_source_sha256": stored_source["sha256"],
         "provider_original_capture": raw_ref,
+        "official_profile_entry": official_profile_entry,
+        "history_pool": str(verified_pool.relative_to(__import__("pathlib").Path(root).resolve())),
         "source_status": "REAL_TWO_SIDED_VERIFIED_COLLECTOR_POSSESSION"
     }
 
@@ -105,7 +117,15 @@ def verify_real_quote(root, evidence, *, freeze, event_start):
     require(original["sha256"] == source["source_sha256"],
             "ORIGINAL_PROVIDER_P0_HASH_MISMATCH")
     verify_original_provider(root, original, freeze=freeze, event_start=event_start)
-    source_name = quote["terms"]["provider_player_name"]
+    from .history_bridge import checked_pool, signed_original_profile_name
+    checked_history_pool = checked_pool(root, __import__("pathlib").Path(root) /
+                                       evidence["history_pool"])
+    source_name = signed_original_profile_name(
+        checked_history_pool, evidence["official_profile_entry"],
+        freeze=freeze, event_start=event_start)
+    require(quote["terms"]["official_name_source_proof_sha256"] ==
+            evidence["official_profile_entry"]["raw_profile_receipt"]["collector_proof_sha256"],
+            "ORIGINAL_OFFICIAL_NAME_SOURCE_PROOF_CHANGED")
     checked = quote_from_archived_raw(
         root, original,
         {
@@ -133,13 +153,15 @@ def verify_real_quote(root, evidence, *, freeze, event_start):
 
 
 def record_quote_candidate(root, *, raw_ref, offered, player_id, team,
-                           opponent, event_id, start, freeze, official_name):
+                           opponent, event_id, start, freeze,
+                           official_profile_entry, history_pool):
     """Include every rejected offer and failure reason, never invent odds."""
     try:
         original = verified_real_quote(
             root, raw_ref=raw_ref, offered=offered, player_id=player_id,
             team=team, opponent=opponent, event_id=event_id, start=start,
-            freeze=freeze, official_name=official_name)
+            freeze=freeze, official_profile_entry=official_profile_entry,
+            history_pool=history_pool)
     except Exception as exc:
         rejection = attempt(
             root, "market_quote", "REJECTED",
