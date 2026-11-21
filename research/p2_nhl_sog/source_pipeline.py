@@ -73,9 +73,8 @@ def _completed_target(target, wanted):
     marker = target.with_name(target.name + ".complete")
     if not marker.is_file() or marker.is_symlink():
         return False
-    require(marker.read_bytes() == wanted.encode("ascii"),
-            "IMMUTABLE_COMPLETION_MARKER_CORRUPT")
-    require(target.is_file() and not target.is_symlink() and
+    require(marker.read_bytes() == wanted.encode("ascii") and
+            target.is_file() and not target.is_symlink() and
             digest(target.read_bytes()) == wanted,
             "IMMUTABLE_SOURCE_COLLISION")
     return True
