@@ -406,6 +406,9 @@ class RegistryTests(unittest.TestCase):
     def test_interrupted_prepared_artifact_does_not_activate(self):
         self.reg({"alpha":2})
         (self.root/"versions/NHL_ADAPTIVE/orphan.json").write_text("{}")
+        # Simulated mid-write transition in the fsynced .pending namespace:
+        # non-activated data must not hide an older valid registry version.
+        (self.root/"transitions/NHL_ADAPTIVE/.pending-stalled.tmp").write_bytes(b"{")
         self.assertEqual(select_for_forecast(self.root,"NHL_ADAPTIVE",
                    freeze_at=LATER)["model_version"],1)
         with self.assertRaises(ScoreError):
