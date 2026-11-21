@@ -116,6 +116,45 @@ def _feature_keys(v):
         for child in v:
             _feature_keys(child)
 
+
+def validate_distribution(d):
+    if not isinstance(d,dict) or not isinstance(d.get("kind"),str):
+        fail("DISTRIBUTION_MISSING")
+    kind=d["kind"]
+    if kind in ("discrete","scenario_pmf"):
+        masses=d.get("masses")
+        if not isinstance(masses,list) or not masses:
+            fail("DISTRIBUTION_MASS_MISSING")
+        seen=set()
+        for x,p in masses:
+            if type(x) is not int or x<0 or type(p) not in (int,float) or \
+               not math.isfinite(p) or p<0 or x in seen:
+                fail("DISTRIBUTION_MASS_OR_SUPPORT_INVALID")
+            seen.add(x)
+        if abs(math.fsum(p for x,p in masses)-1.0)>1e-10:
+            fail("DISTRIBUTION_NOT_NORMALIZED")
+    elif kind in ("poisson","gamma_poisson","nb2"):
+        params=d.get("parameters",{})
+        if not isinstance(params,dict) or not params:
+            fail("DISTRIBUTION_PARAMETERS_MISSING")
+        for v in params.values():
+            if type(v) not in (int,float) or not math.isfinite(v) or v<0:
+                fail("DISTRIBUTION_PARAMETERS_INVALID")
+    elif kind=="scenario_ref":
+        if not isinstance(d.get("count"),int) or d["count"]<=0:
+            fail("SCENARIO_COUNT_INVALID")
+        _require_hash(d.get("scenario_sha256"),"SCENARIO_SHA_INVALID")
+        if d.get("support")!="nonnegative_integer":
+            fail("SCENARIO_SUPPORT_INVALID")
+    elif kind=="fixed_line":
+        probs=(d.get("over"),d.get("under"),d.get("push"))
+        if any(type(x) not in (int,float) or not math.isfinite(x) or
+               not 0<=x<=1 for x in probs) or abs(math.fsum(probs)-1)>1e-10:
+            fail("FIXED_LINE_PROBABILITY_INVALID")
+    else:
+        fail("DISTRIBUTION_KIND_UNREGISTERED")
+    return True
+
 def validate_record(kind, data):
     """Exact, versioned schema: unexpected or missing fields are rejected."""
     if kind not in SCHEMAS:
@@ -173,6 +212,7 @@ def validate_record(kind, data):
         if not isinstance(data["distribution"],dict) or \
            not valid_id(data["distribution"].get("kind")):
             fail("DISTRIBUTION_MISSING")
+        validate_distribution(data["distribution"])
         if sha256(data["distribution"])!=data["output_sha256"]:
             fail("OUTPUT_HASH_MISMATCH")
         if not isinstance(data["uncertainty"],dict):
@@ -285,7 +325,7 @@ def admit_forecast(forecast,feature,model,sources,quote=None,*,source_root=None)
        forecast["model_id"]!=model["model_id"] or \
        forecast["model_version"]!=model["model_version"]:
         fail("MODEL_ARTIFACT_IDENTITY_MISMATCH")
-    if model["created_at"]>forecast["forecast_at"]:
+    if utc(model["created_at"])>utc(forecast["forecast_at"]):
         fail("MODEL_CREATED_AFTER_FORECAST")
     refs={s["receipt_id"]:s for s in sources}
     if len(refs)!=len(sources) or set(forecast["source_receipt_ids"])!=set(refs) or \
@@ -343,3 +383,44 @@ def reject_duplicate_records(rows):
                 fail("DUPLICATE_FORECAST_NATURAL_KEY")
             seen_forecasts.add(natural)
     return True
+
+
+def admit_settlement(settlement, forecast, outcome, quote=None):
+    """An official outcome is not an admissible pregame input."""
+    validate_record("SettlementRecord",settlement)
+    validate_record("ForecastSnapshot",forecast)
+    validate_record("OutcomeRecord",outcome)
+    if settlement["forecast_id"]!=forecast["forecast_id"] or \
+       settlement["outcome_id"]!=outcome["outcome_id"]:
+        fail("SETTLEMENT_REFERENCE_MISMATCH")
+    for k in ("sport","event_id","team_id","player_id","stat_key","period"):
+        if forecast[k]!=outcome[k]:
+            fail("OUTCOME_IDENTITY_MISMATCH:"+k)
+    if utc(outcome["official_result_available_at"])>utc(settlement["settled_at"]) or \
+       utc(forecast["event_start_at"])>utc(outcome["official_result_available_at"]):
+        fail("OUTCOME_NOT_AVAILABLE_FOR_SETTLEMENT")
+    if outcome["status"]=="PENDING" and settlement["disposition"]!="PENDING":
+        fail("EARLY_SETTLEMENT")
+    if outcome["participation"]=="DNP" and settlement["disposition"] not in ("VOID","PENDING"):
+        fail("DNP_IMPROPERLY_SCORED")
+    if forecast["admission_class"]=="B":
+        if quote is None or quote["quote_id"]!=settlement["quote_id"] or \
+           quote["contract_id"]!=settlement["contract_id"]:
+            fail("SETTLEMENT_QUOTE_MISMATCH")
+        validate_record("MarketQuote",quote)
+    elif settlement["quote_id"] is not None or settlement["contract_id"] is not None:
+        fail("DISTRIBUTION_ONLY_SETTLEMENT_MUST_BE_UNPRICED")
+    return {"status":"SETTLEMENT_ADMITTED_RESEARCH_ONLY",
+            "settlement_sha256":sha256(settlement)}
+
+def admit_training_update(update, settlements):
+    validate_record("TrainingUpdateReceipt",update)
+    if set(update["settlement_ids"])!={x["settlement_id"] for x in settlements}:
+        fail("TRAINING_SETTLEMENT_SET_MISMATCH")
+    for settlement in settlements:
+        validate_record("SettlementRecord",settlement)
+        if settlement["disposition"]=="PENDING" or \
+           utc(settlement["settled_at"])>utc(update["observation_cutoff_at"]):
+            fail("TRAINING_USES_UNRELEASED_SETTLEMENT")
+    return {"status":"RESEARCH_TRAINING_RECEIPT_ADMITTED","sha256":sha256(update)}
+
