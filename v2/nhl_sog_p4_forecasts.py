@@ -57,7 +57,7 @@ def _check(ok, code):
 
 def _safe_child(root, rel):
     _check(isinstance(rel, str) and bool(rel) and not rel.startswith("/")
-           and "\\\\" not in rel and ".." not in Path(rel).parts,
+           and "\\" not in rel and ".." not in Path(rel).parts,
            "UNSAFE_SOURCE_PATH")
     p = (Path(root).resolve() / rel).resolve()
     _check(p.is_relative_to(Path(root).resolve()), "SOURCE_PATH_ESCAPES_ROOT")
@@ -447,3 +447,127 @@ def coverage_attempt(root, *, attempt_id, event_id, player_id, reason,
          "source_classification":source_classification,
          "attempted_at":forecast_at,"research_only":True}
     return append_immutable(root,"p4_nhl_sog/attempts",attempt_id,row)
+
+def run_verified_original_gamma_bundle(bundle, *, source_root, artifact_root):
+    """Original P2 signed quote -> existing native Gamma generator -> P4 laws.
+
+    Strict original quote/profile/roster/history admission is delegated to the
+    registered prospective_shadow_attempt; not repeated with weaker checks.
+    If its evidence chain abstains, no 'original' distribution is minted.
+    The existing registered native NB2 reads its own original daily manifest,
+    not these distribution-only receipts.
+    """
+    from .nhl_sog_prospective_runner import prospective_shadow_attempt
+    _check(isinstance(bundle,dict) and
+           bundle.get("schema")=="v25_sog_prospective_input_v1",
+           "P2_ORIGINAL_BUNDLE_SCHEMA_INVALID")
+    source_manifest_sha=bundle.get("p4_source_manifest_sha256")
+    verify_manifest(source_root,bundle.get("p4_source_manifest_path"),
+                    source_manifest_sha)
+    raw_quote=bundle.get("quote") or {}
+    _check(bool(raw_quote.get("quote_id")) and bool(raw_quote.get("contract_id"))
+           and bool(raw_quote.get("event_id")) and bool(raw_quote.get("player_id")),
+           "P2_ORIGINAL_QUOTE_IDENTITY_MISSING")
+    # The only pregame generator is the previously registered verified runner.
+    result=prospective_shadow_attempt(bundle,source_root=source_root,
+                                      output_root=artifact_root)
+    attempt=result["attempt"]
+    if attempt["status"]!="SHADOW_FORECAST":
+        receipt=coverage_attempt(artifact_root,
+            attempt_id="source_abstain_"+result["attempt_receipt"]["sha256"],
+            event_id=raw_quote.get("event_id"),player_id=raw_quote.get("player_id"),
+            reason=attempt["reason"],source_classification="original_signed",
+            forecast_at=attempt["attempted_at"])
+        return {"status":"ABSTAIN","reason":attempt["reason"],
+                "source_attempt":result["attempt_receipt"],"p4_abstention":receipt,
+                "cohort":"original_quote_matched","research_only":True}
+    model_ref=attempt["model_artifact"]
+    snapshot_ref=attempt["snapshot_artifact"]
+    model=read_immutable(Path(model_ref["path"]).parent.parent,
+                         {"path":"models/"+Path(model_ref["path"]).name,
+                          "sha256":model_ref["sha256"]})
+    snap_wrapper=read_immutable(Path(snapshot_ref["path"]).parent.parent,
+                         {"path":"snapshots/"+Path(snapshot_ref["path"]).name,
+                          "sha256":snapshot_ref["sha256"]})
+    snap=snap_wrapper["snapshot"]
+    _check(model.get("verified_original_source_lineage") is True,
+           "ORIGINAL_SIGNED_HISTORY_NOT_VERIFIED")
+    _check(snap_wrapper["full_distribution_sha256"]==stable_hash(model)
+           and snap["model_artifact_sha256"]==stable_hash(model)
+           and snap["quote_id"]==raw_quote["quote_id"],
+           "ORIGINAL_GAMMA_SNAPSHOT_MODEL_HASH_MISMATCH")
+    _check(attempt["source_manifest_digest"]==stable_hash(model["source_manifest"]),
+           "ORIGINAL_OBSERVATION_MANIFEST_CHANGED")
+    code=bundle.get("code_commit")
+    issued=[]
+    for kind in MODELS.values():
+        f_id=str(snap["forecast_id"])+"_p4_"+kind
+        frozen=freeze_forecast(model,kind=kind,event_id=snap["event_id"],
+            player_id=snap["player_id"],team_id=snap["team_id"],
+            opponent_id=snap["opponent_id"],event_start_at=raw_quote["event_start_at"],
+            forecast_at=snap["forecast_at"],
+            training_cutoff_at=snap["model_training_cutoff_at"],
+            code_commit=code,source_manifest_sha256=source_manifest_sha,
+            artifact_root=artifact_root,forecast_id=f_id,
+            quote={**raw_quote,"source_verified":True},
+            cohort="original_quote_matched",
+            experiment_id=GAMMA_EXPERIMENT)
+        issued.append({"kind":kind,**frozen})
+    return {"status":"ORIGINAL_GAMMA_POISSON_RESEARCH_FROZEN",
+            "original_model_reference":model_ref,
+            "original_snapshot_reference":snapshot_ref,
+            "registered_native_nb2_automatic_admission":False,
+            "native_requires_independent_original_daily_manifest":True,
+            "full_count_forecasts":issued,"research_only":True,
+            "cohort":"original_quote_matched",
+            "source_manifest_sha256":source_manifest_sha}
+
+
+def run_registered_native_nb2_if_original_manifest_exists(root, *, code_commit):
+    """Invoke EXACT existing preregistered native verifier, real clock only.
+
+    An absent original Gamma daily generator is recorded as abstention by the
+    registered runner. It must never be replaced by a model refitted here.
+    """
+    from .nhl_sog_nb2_source_native import run_day
+    _check(isinstance(code_commit,str) and len(code_commit)==40
+           and all(c in "0123456789abcdef" for c in code_commit),
+           "CODE_COMMIT_UNPINNED")
+    return run_day(Path(root),now=datetime.now(timezone.utc),
+                   code_sha=code_commit)
+
+
+def p5_scoring_packet(artifact_root, forecast_receipt):
+    """Portable read-only P5 input. Settlement and scoring stay with P5."""
+    f=read_immutable(artifact_root,forecast_receipt)
+    _check(f.get("schema")==SCHEMA and f.get("research_only") is True,
+           "P5_FORECAST_SCHEMA_INVALID")
+    law=f["distribution"]
+    _check(law["support"]=="nonnegative_integer" and
+           law["no_truncation_renormalization"] is True,
+           "P5_DISTRIBUTION_INTEGRITY_FAILURE")
+    return {
+        "forecast_sha256":forecast_receipt["sha256"],
+        "forecast_id":f["forecast_id"],"event_id":f["event_id"],
+        "player_id":f["player_id"],"model":f["model_family"],
+        "date_utc":f["event_start_at"][:10],
+        "game_cluster_key":f["event_id"],
+        "date_cluster_key":f["event_start_at"][:10],
+        "cohort":f["cohort"],"experiment_id":f["experiment_id"],
+        "conditional_on_played":True,
+        "scorable_if":"official_played_and_verified_final_sog",
+        "do_not_score_if":["DNP","scratched","unverified","void"],
+        "pmf_from_zero":law["pmf_from_zero"],
+        "upper_tail_mass":law["unallocated_upper_tail_mass"],
+        "tail_evaluator":law["tail_evaluator"],
+        "distribution_parameters":law["parameters"],
+        "mean":law["mean"],"variance":law["variance"],
+        "zero_probability":law["zero_probability"],
+        "quantiles":law["quantiles"],
+        "original_quote":f["original_quote"],
+        "available_metrics":["full_count_CRPS","NLPD","MAE","RMSE",
+                             "signed_bias","randomized_PIT","quantile_coverage",
+                             "zero_tail_calibration","three_way_Brier",
+                             "three_way_log_loss"],
+        "research_only":True,
+    }
