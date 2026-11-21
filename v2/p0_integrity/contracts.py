@@ -181,6 +181,27 @@ def validate_record(kind, data):
         if key in CODE_FIELDS and (not isinstance(value,str) or
                                   HEX40.fullmatch(value) is None):
             fail("INVALID_CODE_SHA:"+key)
+    # Reuse the established V2 statistic/period registry, never introduce
+    # an incompatible cross-sport stat spelling or silent alias in this gate.
+    if kind in ("PregameFeatureSnapshot","ForecastSnapshot","MarketQuote","OutcomeRecord"):
+        from v2.stat_registry import canonical_stat
+        from v2.contracts import ContractError
+        try:
+            canonical=canonical_stat(data["sport"],data["stat_key"],data["period"])
+        except ContractError as exc:
+            raise AdmissionError("STAT_OR_PERIOD_NOT_REGISTERED") from exc
+        if canonical.key!=data["stat_key"]:
+            fail("NONCANONICAL_STAT_ALIAS")
+        if data["sport"]=="NHL" and data["stat_key"]!="shots on goal":
+            fail("P0_NHL_SOG_ONLY")
+        if kind=="OutcomeRecord" and data["actual_value"] is not None:
+            try:
+                canonical.validate_actual(data["actual_value"])
+            except ContractError as exc:
+                raise AdmissionError("INVALID_OFFICIAL_STAT_SUPPORT") from exc
+        if kind in ("ForecastSnapshot","MarketQuote") and data.get("line") is not None and canonical.value_kind!="signed_count":
+            if isinstance(data["line"],bool) or not isinstance(data["line"],(float,int)) or data["line"]<0:
+                fail("INVALID_NONNEGATIVE_STAT_LINE")
     if kind=="SourceReceipt":
         relative_path(data["archive_path"])
         if data["provenance_class"] not in ("original_publication","collector_possession"):
