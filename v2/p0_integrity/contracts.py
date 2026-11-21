@@ -135,10 +135,16 @@ def validate_distribution(d):
             fail("DISTRIBUTION_NOT_NORMALIZED")
     elif kind in ("poisson","gamma_poisson","nb2"):
         params=d.get("parameters",{})
-        if not isinstance(params,dict) or not params:
-            fail("DISTRIBUTION_PARAMETERS_MISSING")
-        for v in params.values():
-            if type(v) not in (int,float) or not math.isfinite(v) or v<0:
+        expected={
+            "poisson":{"rate"},
+            "gamma_poisson":{"shape","rate"},
+            "nb2":{"mean","shape"},
+        }[kind]
+        if not isinstance(params,dict) or set(params)!=expected:
+            fail("DISTRIBUTION_PARAMETERS_SCHEMA")
+        for key,v in params.items():
+            if type(v) not in (int,float) or not math.isfinite(v) or v<0 or \
+               (key=="shape" and v<=0) or (kind=="gamma_poisson" and key=="rate" and v<=0):
                 fail("DISTRIBUTION_PARAMETERS_INVALID")
     elif kind=="scenario_ref":
         if not isinstance(d.get("count"),int) or d["count"]<=0:
@@ -241,6 +247,8 @@ def validate_record(kind, data):
            not valid_id(data["distribution"].get("kind")):
             fail("DISTRIBUTION_MISSING")
         validate_distribution(data["distribution"])
+        if data["admission_class"] in ("A","B") and data["distribution"]["kind"]=="fixed_line":
+            fail("ORIGINAL_REQUIRES_COMPLETE_STAT_DISTRIBUTION")
         if sha256(data["distribution"])!=data["output_sha256"]:
             fail("OUTPUT_HASH_MISMATCH")
         if not isinstance(data["uncertainty"],dict):
