@@ -108,7 +108,7 @@ def attest_project_storage(root="/work", *, project_id=PROJECT_ID):
         if not file.is_file() or file.is_symlink():
             _reject("ATTESTATION_SOURCE_GONE")
         actual=hashlib.sha256(file.read_bytes()).hexdigest()
-        if actual!=writer[digestfield] or actual!=reader[digestfield+"_verified"]:
+        if actual!=writer[digestfield] or actual!=reader[("payload_sha256_verified" if relfield=="payload_relpath" else "anchor_sha256_verified")]:
             _reject("CROSS_RUN_HASH_CHANGED:"+relfield)
     if (APPROVED_ROOT/writer["payload_relpath"]).stat().st_size!=writer["payload_bytes"]:
         _reject("ATTESTATION_PAYLOAD_LENGTH_CHANGED")
