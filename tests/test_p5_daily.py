@@ -143,6 +143,20 @@ class MathTests(unittest.TestCase):
         self.assertAlmostEqual(full_pmf(n)[0][0],(4/7)**4,places=11)
         self.assertAlmostEqual(full_pmf(g)[0][0],(4/7)**4,places=11)
         self.assertAlmostEqual(sum(full_pmf(n)[0]),1,places=9)
+    def test_impossible_count_log_loss_is_explicit_and_json_safe(self):
+        d={"kind":"discrete","masses":[[0,1.0]]}
+        s=score_count(d,1,forecast_id="IMPOSSIBLE")
+        self.assertTrue(s["nlpd_infinite"])
+        self.assertIsNone(s["nlpd"])
+        self.assertAlmostEqual(s["crps"],1.0)
+        json.dumps(s,allow_nan=False)
+        quote={"quote_kind":"real","accepted":True,
+               "terms":{"stat_period":"full"},"line":0.5,
+               "quote_id":"Q","contract_id":"C","book":"fixture"}
+        c=score_contract(d,1,quote)
+        self.assertTrue(c["three_way_log_loss_infinite"])
+        self.assertIsNone(c["three_way_log_loss"])
+        json.dumps(c,allow_nan=False)
     def test_invalid_distribution_and_tail(self):
         for d in ({"kind":"discrete","masses":[[0,.8]]},
                   {"kind":"discrete","masses":[[0,.5],[0,.5]]},
