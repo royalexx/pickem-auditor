@@ -3,6 +3,7 @@
     "abstention_reasons": [
       "ELIGIBILITY_UNCERTAIN"
     ],
+    "confirmed_available_count": 0,
     "event_id": "espn:game:401999111",
     "event_start_at": "2026-11-22T00:00:00Z",
     "feature_rows": 8,
@@ -10,13 +11,19 @@
     "historical_reconstruction_never_original": true,
     "input_freeze_at": "2026-11-21T23:35:00Z",
     "market_category": "DISTRIBUTION_ONLY_NO_VERIFIED_QUOTE",
+    "name_supported_count": 0,
+    "official_player_ids_verified_count": 0,
     "player_candidates_accepted": 1,
     "player_candidates_rejected": 0,
     "player_candidates_total": 1,
+    "position_supported_count": 0,
+    "questionable_count": 0,
     "reconstruction_class": "reconstructed",
     "rejected": [],
     "research_profile": "source_listed_subset",
+    "ruled_out_count": 0,
     "schema": "PA-NBA-P1/1",
+    "source_listed_count": 1,
     "source_receipt_count": 1,
     "unknown_availability": 1
   },
@@ -24,11 +31,12 @@
   "p0_features": [
     {
       "event_id": "espn:game:401999111",
-      "feature_sha256": "5f9c8315c60cc0e044c95faf1be1a8b2a5f1d4a3b41037c4eb43eb3c9fef7f4c",
+      "feature_sha256": "e01930503f48202c5eed2e37009ce9253538a7d31049714faf43cab7bd16ce2e",
       "feature_snapshot_id": "nba-p1:077fdcf00a50079a281c684f6bf8d90ed513015c85749409e4b8ff72454a6cef",
       "features": {
         "availability_status": "UNVERIFIED_AVAILABILITY",
         "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
         "current_team_context": {
           "back_to_back": false,
           "defensive_profile": {},
@@ -48,18 +56,27 @@
           "rest_days": 1,
           "team_id": "espn:team:1"
         },
+        "espn_event_id": "espn:game:401999111",
         "espn_player_id": "espn:player:123",
         "feature_source_receipt_ids": [
           "synthetic-receipt-1"
         ],
         "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_PAYLOAD_MISSING",
         "injury_evidence": [],
         "interface_version": "PA-NBA-P1/1",
         "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": null,
+        "listed_roster_uncertainty": null,
         "missingness": [
           "AVAILABILITY_UNAVAILABLE",
-          "PACE_UNAVAILABLE"
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE",
+          "ROSTER_STATUS_UNAVAILABLE"
         ],
+        "official_nba_event_id": null,
         "official_nba_player_id": null,
         "opponent_context": {
           "back_to_back": false,
@@ -81,6 +98,7 @@
           "team_id": "espn:team:2"
         },
         "participation_probability": null,
+        "position": null,
         "prior_player_features": {
           "games_played": 1,
           "minutes_recent": {
@@ -139,11 +157,12 @@
     },
     {
       "event_id": "espn:game:401999111",
-      "feature_sha256": "5f9c8315c60cc0e044c95faf1be1a8b2a5f1d4a3b41037c4eb43eb3c9fef7f4c",
+      "feature_sha256": "e01930503f48202c5eed2e37009ce9253538a7d31049714faf43cab7bd16ce2e",
       "feature_snapshot_id": "nba-p1:4e0cbe551740a0c6a885a5245999ed31e7c7782e8829e3f689ffde6a25198903",
       "features": {
         "availability_status": "UNVERIFIED_AVAILABILITY",
         "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
         "current_team_context": {
           "back_to_back": false,
           "defensive_profile": {},
@@ -163,18 +182,27 @@
           "rest_days": 1,
           "team_id": "espn:team:1"
         },
+        "espn_event_id": "espn:game:401999111",
         "espn_player_id": "espn:player:123",
         "feature_source_receipt_ids": [
           "synthetic-receipt-1"
         ],
         "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_PAYLOAD_MISSING",
         "injury_evidence": [],
         "interface_version": "PA-NBA-P1/1",
         "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": null,
+        "listed_roster_uncertainty": null,
         "missingness": [
           "AVAILABILITY_UNAVAILABLE",
-          "PACE_UNAVAILABLE"
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE",
+          "ROSTER_STATUS_UNAVAILABLE"
         ],
+        "official_nba_event_id": null,
         "official_nba_player_id": null,
         "opponent_context": {
           "back_to_back": false,
@@ -196,6 +224,7 @@
           "team_id": "espn:team:2"
         },
         "participation_probability": null,
+        "position": null,
         "prior_player_features": {
           "games_played": 1,
           "minutes_recent": {
@@ -254,11 +283,12 @@
     },
     {
       "event_id": "espn:game:401999111",
-      "feature_sha256": "5f9c8315c60cc0e044c95faf1be1a8b2a5f1d4a3b41037c4eb43eb3c9fef7f4c",
+      "feature_sha256": "e01930503f48202c5eed2e37009ce9253538a7d31049714faf43cab7bd16ce2e",
       "feature_snapshot_id": "nba-p1:b91248424972a2b0e6c0475046b1e0aea03186cc0dc253686a800941f9155f99",
       "features": {
         "availability_status": "UNVERIFIED_AVAILABILITY",
         "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
         "current_team_context": {
           "back_to_back": false,
           "defensive_profile": {},
@@ -278,18 +308,27 @@
           "rest_days": 1,
           "team_id": "espn:team:1"
         },
+        "espn_event_id": "espn:game:401999111",
         "espn_player_id": "espn:player:123",
         "feature_source_receipt_ids": [
           "synthetic-receipt-1"
         ],
         "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_PAYLOAD_MISSING",
         "injury_evidence": [],
         "interface_version": "PA-NBA-P1/1",
         "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": null,
+        "listed_roster_uncertainty": null,
         "missingness": [
           "AVAILABILITY_UNAVAILABLE",
-          "PACE_UNAVAILABLE"
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE",
+          "ROSTER_STATUS_UNAVAILABLE"
         ],
+        "official_nba_event_id": null,
         "official_nba_player_id": null,
         "opponent_context": {
           "back_to_back": false,
@@ -311,6 +350,7 @@
           "team_id": "espn:team:2"
         },
         "participation_probability": null,
+        "position": null,
         "prior_player_features": {
           "games_played": 1,
           "minutes_recent": {
@@ -369,11 +409,12 @@
     },
     {
       "event_id": "espn:game:401999111",
-      "feature_sha256": "5f9c8315c60cc0e044c95faf1be1a8b2a5f1d4a3b41037c4eb43eb3c9fef7f4c",
+      "feature_sha256": "e01930503f48202c5eed2e37009ce9253538a7d31049714faf43cab7bd16ce2e",
       "feature_snapshot_id": "nba-p1:0657c0899d6178dd3d664e4570b0b9800cdafcc7284275a0b9d3eafcda148738",
       "features": {
         "availability_status": "UNVERIFIED_AVAILABILITY",
         "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
         "current_team_context": {
           "back_to_back": false,
           "defensive_profile": {},
@@ -393,18 +434,27 @@
           "rest_days": 1,
           "team_id": "espn:team:1"
         },
+        "espn_event_id": "espn:game:401999111",
         "espn_player_id": "espn:player:123",
         "feature_source_receipt_ids": [
           "synthetic-receipt-1"
         ],
         "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_PAYLOAD_MISSING",
         "injury_evidence": [],
         "interface_version": "PA-NBA-P1/1",
         "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": null,
+        "listed_roster_uncertainty": null,
         "missingness": [
           "AVAILABILITY_UNAVAILABLE",
-          "PACE_UNAVAILABLE"
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE",
+          "ROSTER_STATUS_UNAVAILABLE"
         ],
+        "official_nba_event_id": null,
         "official_nba_player_id": null,
         "opponent_context": {
           "back_to_back": false,
@@ -426,6 +476,7 @@
           "team_id": "espn:team:2"
         },
         "participation_probability": null,
+        "position": null,
         "prior_player_features": {
           "games_played": 1,
           "minutes_recent": {
@@ -484,11 +535,12 @@
     },
     {
       "event_id": "espn:game:401999111",
-      "feature_sha256": "5f9c8315c60cc0e044c95faf1be1a8b2a5f1d4a3b41037c4eb43eb3c9fef7f4c",
+      "feature_sha256": "e01930503f48202c5eed2e37009ce9253538a7d31049714faf43cab7bd16ce2e",
       "feature_snapshot_id": "nba-p1:8de8cd1fb017c4f9441e604ffa30a71fcee44262a5b37cc8924cd342d493e01c",
       "features": {
         "availability_status": "UNVERIFIED_AVAILABILITY",
         "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
         "current_team_context": {
           "back_to_back": false,
           "defensive_profile": {},
@@ -508,18 +560,27 @@
           "rest_days": 1,
           "team_id": "espn:team:1"
         },
+        "espn_event_id": "espn:game:401999111",
         "espn_player_id": "espn:player:123",
         "feature_source_receipt_ids": [
           "synthetic-receipt-1"
         ],
         "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_PAYLOAD_MISSING",
         "injury_evidence": [],
         "interface_version": "PA-NBA-P1/1",
         "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": null,
+        "listed_roster_uncertainty": null,
         "missingness": [
           "AVAILABILITY_UNAVAILABLE",
-          "PACE_UNAVAILABLE"
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE",
+          "ROSTER_STATUS_UNAVAILABLE"
         ],
+        "official_nba_event_id": null,
         "official_nba_player_id": null,
         "opponent_context": {
           "back_to_back": false,
@@ -541,6 +602,7 @@
           "team_id": "espn:team:2"
         },
         "participation_probability": null,
+        "position": null,
         "prior_player_features": {
           "games_played": 1,
           "minutes_recent": {
@@ -599,11 +661,12 @@
     },
     {
       "event_id": "espn:game:401999111",
-      "feature_sha256": "5f9c8315c60cc0e044c95faf1be1a8b2a5f1d4a3b41037c4eb43eb3c9fef7f4c",
+      "feature_sha256": "e01930503f48202c5eed2e37009ce9253538a7d31049714faf43cab7bd16ce2e",
       "feature_snapshot_id": "nba-p1:8b2bb95dbbba1e8d4628a9d3a2a5d663074d456abd00b0237deae6fedb37559a",
       "features": {
         "availability_status": "UNVERIFIED_AVAILABILITY",
         "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
         "current_team_context": {
           "back_to_back": false,
           "defensive_profile": {},
@@ -623,18 +686,27 @@
           "rest_days": 1,
           "team_id": "espn:team:1"
         },
+        "espn_event_id": "espn:game:401999111",
         "espn_player_id": "espn:player:123",
         "feature_source_receipt_ids": [
           "synthetic-receipt-1"
         ],
         "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_PAYLOAD_MISSING",
         "injury_evidence": [],
         "interface_version": "PA-NBA-P1/1",
         "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": null,
+        "listed_roster_uncertainty": null,
         "missingness": [
           "AVAILABILITY_UNAVAILABLE",
-          "PACE_UNAVAILABLE"
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE",
+          "ROSTER_STATUS_UNAVAILABLE"
         ],
+        "official_nba_event_id": null,
         "official_nba_player_id": null,
         "opponent_context": {
           "back_to_back": false,
@@ -656,6 +728,7 @@
           "team_id": "espn:team:2"
         },
         "participation_probability": null,
+        "position": null,
         "prior_player_features": {
           "games_played": 1,
           "minutes_recent": {
@@ -714,11 +787,12 @@
     },
     {
       "event_id": "espn:game:401999111",
-      "feature_sha256": "5f9c8315c60cc0e044c95faf1be1a8b2a5f1d4a3b41037c4eb43eb3c9fef7f4c",
+      "feature_sha256": "e01930503f48202c5eed2e37009ce9253538a7d31049714faf43cab7bd16ce2e",
       "feature_snapshot_id": "nba-p1:af572859b203adf5fd9aec6b08a8577b526acd3b53f4d84aa795d8fb117e8e8a",
       "features": {
         "availability_status": "UNVERIFIED_AVAILABILITY",
         "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
         "current_team_context": {
           "back_to_back": false,
           "defensive_profile": {},
@@ -738,18 +812,27 @@
           "rest_days": 1,
           "team_id": "espn:team:1"
         },
+        "espn_event_id": "espn:game:401999111",
         "espn_player_id": "espn:player:123",
         "feature_source_receipt_ids": [
           "synthetic-receipt-1"
         ],
         "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_PAYLOAD_MISSING",
         "injury_evidence": [],
         "interface_version": "PA-NBA-P1/1",
         "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": null,
+        "listed_roster_uncertainty": null,
         "missingness": [
           "AVAILABILITY_UNAVAILABLE",
-          "PACE_UNAVAILABLE"
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE",
+          "ROSTER_STATUS_UNAVAILABLE"
         ],
+        "official_nba_event_id": null,
         "official_nba_player_id": null,
         "opponent_context": {
           "back_to_back": false,
@@ -771,6 +854,7 @@
           "team_id": "espn:team:2"
         },
         "participation_probability": null,
+        "position": null,
         "prior_player_features": {
           "games_played": 1,
           "minutes_recent": {
@@ -829,11 +913,12 @@
     },
     {
       "event_id": "espn:game:401999111",
-      "feature_sha256": "5f9c8315c60cc0e044c95faf1be1a8b2a5f1d4a3b41037c4eb43eb3c9fef7f4c",
+      "feature_sha256": "e01930503f48202c5eed2e37009ce9253538a7d31049714faf43cab7bd16ce2e",
       "feature_snapshot_id": "nba-p1:e0be9a87277ab9d0888b6856776545badccfcf09f59bb7c2ec9f3b88bc1be7bc",
       "features": {
         "availability_status": "UNVERIFIED_AVAILABILITY",
         "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
         "current_team_context": {
           "back_to_back": false,
           "defensive_profile": {},
@@ -853,18 +938,27 @@
           "rest_days": 1,
           "team_id": "espn:team:1"
         },
+        "espn_event_id": "espn:game:401999111",
         "espn_player_id": "espn:player:123",
         "feature_source_receipt_ids": [
           "synthetic-receipt-1"
         ],
         "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_PAYLOAD_MISSING",
         "injury_evidence": [],
         "interface_version": "PA-NBA-P1/1",
         "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": null,
+        "listed_roster_uncertainty": null,
         "missingness": [
           "AVAILABILITY_UNAVAILABLE",
-          "PACE_UNAVAILABLE"
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE",
+          "ROSTER_STATUS_UNAVAILABLE"
         ],
+        "official_nba_event_id": null,
         "official_nba_player_id": null,
         "opponent_context": {
           "back_to_back": false,
@@ -886,6 +980,7 @@
           "team_id": "espn:team:2"
         },
         "participation_probability": null,
+        "position": null,
         "prior_player_features": {
           "games_played": 1,
           "minutes_recent": {

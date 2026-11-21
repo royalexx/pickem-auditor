@@ -72,6 +72,40 @@ def _raw_crosswalk(evidence, at, source_receipts):
     if len(set(accepted))!=1 or len(accepted)!=1:fail('CROSSWALK_AMBIGUOUS')
     return accepted[0]
 
+def _roster_metadata(pid,roster_record,records,receipts,raw_by_receipt):
+    """Read name/position only from the already-archived ORIGINAL ESPN roster.
+
+    Never match on names or lift identities from old boxscores. Conflicting
+    current roster aliases are missing/ambiguous, never guessed.
+    """
+    entry=next((x for x in records if x.get('record_id')==roster_record and x.get('kind')=='roster'),None)
+    if entry is None:return {'name':None,'position':None,'listed_roster_status':None,'listed_roster_uncertainty':None,'evidence_receipt_id':None,'status':'ROSTER_RECORD_MISSING'}
+    rid=entry['receipt_id'];receipt=receipts.get(rid)
+    try:payload=json.loads(entry['payload'])
+    except (KeyError,TypeError,ValueError):return {'name':None,'position':None,'listed_roster_status':None,'listed_roster_uncertainty':None,'evidence_receipt_id':rid,'status':'ROSTER_PAYLOAD_MISSING'}
+    base={'name':None,'position':None,'listed_roster_status':payload.get('status'),
+          'listed_roster_uncertainty':payload.get('uncertainty'),
+          'evidence_receipt_id':rid,'status':'SOURCE_LISTED_NOT_CONFIRMED'}
+    if not receipt or not receipt['source'].split('?')[0].endswith('/roster'):
+        return base
+    try:roster=json.loads(raw_by_receipt[rid])
+    except (KeyError,ValueError,TypeError):return base
+    seen=[]
+    def walk(x):
+        if isinstance(x,dict):
+            if str(x.get('id',''))==pid.rsplit(':',1)[-1] and (x.get('displayName') or x.get('fullName')):
+                p=x.get('position')
+                pos=(p.get('abbreviation') or p.get('name')) if isinstance(p,dict) else None
+                seen.append((x.get('displayName') or x.get('fullName'),pos))
+            for child in x.values():walk(child)
+        elif isinstance(x,list):
+            for child in x:walk(child)
+    walk(roster)
+    unique=set(seen)
+    if len(unique)!=1:return {**base,'status':'ROSTER_NAME_POSITION_AMBIGUOUS' if unique else 'ROSTER_DETAILS_UNAVAILABLE'}
+    name,position=next(iter(unique))
+    return {**base,'name':name,'position':position}
+
 def _status(evidence):
     """ESPN roster listing is a candidate, not verified legal eligibility."""
     if not evidence:return 'UNVERIFIED_AVAILABILITY'
@@ -143,12 +177,22 @@ def build_feature_rows(snapshot, raw_by_receipt, *, reconstruction_class='origin
             except FeatureAdmissionError:
                 excluded.append({'player_id':pid,'reason':'CROSSWALK_AMBIGUOUS_OR_UNVERIFIED'});continue
         status=_status(aw)
+        roster_meta=_roster_metadata(pid,roster_record,snapshot.get('input_records',[]),receipts,raw_by_receipt)
+        for field,reason in [('name','PLAYER_NAME_UNAVAILABLE'),('position','PLAYER_POSITION_UNAVAILABLE'),('listed_roster_status','ROSTER_STATUS_UNAVAILABLE')]:
+            if roster_meta[field] is None:missing.append(reason)
+        missing=sorted(set(missing))
         public_ids=sorted((receipt_id_map or {}).get(r,r) for r in source_ids)
         features={'interface_version':VERSION,'candidate_kind':'SOURCE_LISTED_SUBSET',
                   'legal_eligibility':'UNVERIFIED','availability_status':status,
                   'participation_probability':None,'source_listed':True,
                   'espn_player_id':pid,'official_nba_player_id':cross,
+                  'espn_event_id':game_id,'official_nba_event_id':None,
                   'home':p['home'],'roster_record_id':roster_record,
+                  'current_name':roster_meta['name'],'position':roster_meta['position'],
+                  'listed_roster_status':roster_meta['listed_roster_status'],
+                  'listed_roster_uncertainty':roster_meta['listed_roster_uncertainty'],
+                  'identity_source_status':roster_meta['status'],
+                  'identity_evidence_receipt_id':(receipt_id_map or {}).get(roster_meta['evidence_receipt_id'],roster_meta['evidence_receipt_id']),
                   'prior_player_history':history,'prior_player_features':stat_detail,
                   'current_team_context':t,'opponent_context':o,
                   'missingness':missing,'injury_evidence':aw,
@@ -172,7 +216,14 @@ def build_feature_rows(snapshot, raw_by_receipt, *, reconstruction_class='origin
              'feature_rows':len(rows),'market_category':'DISTRIBUTION_ONLY_NO_VERIFIED_QUOTE',
              'source_receipt_count':len(receipts),'unknown_availability':sum(x['features']['availability_status']=='UNVERIFIED_AVAILABILITY' for x in rows[::len(STATS)]),
              'rejected':excluded,'abstention_reasons':sorted(set(snapshot.get('abstention_codes',[]))),
-             'historical_reconstruction_never_original':reconstruction_class=='reconstructed'}
+             'historical_reconstruction_never_original':reconstruction_class=='reconstructed',
+             'source_listed_count':len(rows)//len(STATS),
+             'confirmed_available_count':0,
+             'questionable_count':sum(x['features']['availability_status']=='QUESTIONABLE_SOURCE_REPORTED' for x in rows[::len(STATS)]),
+             'ruled_out_count':sum(x['features']['availability_status']=='RULED_OUT_SOURCE_REPORTED' for x in rows[::len(STATS)]),
+             'name_supported_count':sum(x['features']['current_name'] is not None for x in rows[::len(STATS)]),
+             'position_supported_count':sum(x['features']['position'] is not None for x in rows[::len(STATS)]),
+             'official_player_ids_verified_count':sum(x['features']['official_nba_player_id'] is not None for x in rows[::len(STATS)])}
     return rows,summary
 
 def verify_handoff(rows, manifest, raw_by_receipt):
@@ -190,9 +241,30 @@ def verify_handoff(rows, manifest, raw_by_receipt):
         _clean(x['features'])
     return True
 
+def verify_dev_p0_record(root,kind,sha):
+    """Verify a P0-schema receipt inside P1-only staging (no global P0 writes)."""
+    from v2.p0_integrity.contracts import SCHEMAS,validate_record,canonical_bytes
+    if kind not in ('SourceReceipt','PregameFeatureSnapshot'):fail('P1_RECORD_KIND_FORBIDDEN')
+    if not isinstance(sha,str) or len(sha)!=64 or any(x not in '0123456789abcdef' for x in sha):
+        fail('INVALID_P1_RECORD_SHA')
+    base=(Path(root)/'research/nba_p1_original/dev_v1/p0_records'/kind)
+    path=base/(sha+'.json')
+    if path.is_symlink() or not path.is_file():fail('P1_P0_RECORD_MISSING')
+    raw=path.read_bytes()
+    if _digest(raw)!=sha:fail('P1_P0_RECORD_CORRUPTED')
+    obj=json.loads(raw)
+    validate_record(kind,obj)
+    logical_id=obj[SCHEMAS[kind][0]]
+    key=_digest((kind+'\x00'+logical_id).encode())
+    claim=base/'_ids'/(key+'.json')
+    expected=canonical_bytes({'kind':kind,'id':logical_id,'record_sha256':sha})
+    if claim.is_symlink() or not claim.is_file() or claim.read_bytes()!=expected:
+        fail('P1_P0_LOGICAL_ID_CLAIM_BROKEN')
+    return obj
+
 def load_handoff(root, manifest_relpath):
     """Read-only P3 API; immutable file hashes verified; no network/collector import."""
-    from v2.p0_integrity.storage import attest_project_storage, verify_immutable_record
+    from v2.p0_integrity.storage import attest_project_storage
     # The accepted P0 attestation recognizes the Deepnote logical /work root,
     # not its detached-run-specific resolved physical mount.
     if Path(root)!=Path('/work'):fail('P0_HANDOFF_ROOT_NOT_ATTESTED')
@@ -208,7 +280,7 @@ def load_handoff(root, manifest_relpath):
         if not p.is_relative_to(root) or _digest(p.read_bytes())!=item['sha256']:fail('FEATURE_BYTES_CHANGED')
         rows.append(json.loads(p.read_bytes()))
     for item in manifest['sources']:
-        receipt=verify_immutable_record('/work','SourceReceipt',item['p0_sha256'])
+        receipt=verify_dev_p0_record('/work','SourceReceipt',item['p0_sha256'])
         if receipt['receipt_id']!=item['receipt_id']:
             fail('P0_RECEIPT_IDENTITY_CHANGED')
         if _iso(receipt['source_available_at'])>_iso(manifest['input_freeze_at']) or \

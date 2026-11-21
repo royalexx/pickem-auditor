@@ -16,9 +16,9 @@ import hashlib
 import json
 import os
 import time
-from v2.p0_integrity.contracts import record, sha256, utc
-from v2.p0_integrity.storage import attest_project_storage,append_immutable,verify_immutable_record
-from .feature_store import build_feature_rows,verify_handoff,VERSION,FeatureAdmissionError
+from v2.p0_integrity.contracts import record, sha256, utc, canonical_bytes, validate_record, SCHEMAS
+from v2.p0_integrity.storage import attest_project_storage
+from .feature_store import build_feature_rows,verify_handoff,verify_dev_p0_record,VERSION,FeatureAdmissionError
 
 TORONTO=ZoneInfo('America/Toronto')
 ROOT='research/nba_p1_original/dev_v1'
@@ -90,11 +90,26 @@ class P0ProjectVault:
         # A pre-existing identical claim cannot represent a new capture right.
         return p
     def append_p0(self,kind,obj):
+        """P0-compatible append-only DEV records, never the shared P0 production root.
+
+        P0 may later adopt records after P6 approval. No global
+        /work/research/p0_integrity_store writes occur on this research path.
+        """
         self.assert_verified()
-        result=append_immutable(str(self.root),kind,obj)
-        reread=verify_immutable_record(str(self.root),kind,result['sha256'])
-        if reread!=obj:raise AcquisitionError('P0_READBACK_DIFFERENT')
-        return result
+        if kind not in ('SourceReceipt','PregameFeatureSnapshot'):
+            raise AcquisitionError('DEV_P0_KIND_NOT_ALLOWED')
+        validate_record(kind,obj)
+        body=canonical_bytes(obj)
+        sha=digest(body)
+        logical_id=obj[SCHEMAS[kind][0]]
+        claim_key=digest((kind+'\x00'+logical_id).encode())
+        base='p0_records/'+kind+'/'
+        claim=canonical({'kind':kind,'id':logical_id,'record_sha256':sha})
+        self.save_bytes(base+'_ids/'+claim_key+'.json',claim)
+        stored=self.save_bytes(base+sha+'.json',body)
+        reread=verify_dev_p0_record(self.root,kind,sha)
+        if reread!=obj:raise AcquisitionError('P0_DEV_READBACK_DIFFERENT')
+        return {'status':stored['status'],'relative_path':stored['path'],'sha256':sha}
     def source(self,source_id,raw,collected_at,*,label='original_capture'):
         if not isinstance(raw,bytes) or not raw:raise AcquisitionError('SOURCE_EMPTY_OR_INVALID')
         at=stamp(collected_at)

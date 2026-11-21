@@ -30,11 +30,15 @@ except ImportError:
         dt=datetime.fromisoformat(x.replace('Z','+00:00'))
         if dt.utcoffset()!=timedelta(0):raise AdmissionError('UTC_REQUIRED')
         return dt
+    def canonical_bytes(x):return json.dumps(x,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
+    SCHEMAS={'SourceReceipt':['receipt_id'],'PregameFeatureSnapshot':['feature_snapshot_id']}
     def record(kind,**fields):return dict(record_type=kind,schema_version='PA-P0/1',**fields)
+    p0_record=record
     def validate_record(kind,x):
-        if x['record_type']!=kind or x['feature_sha256']!=sha256(x['features']):raise AdmissionError('HASH_MISMATCH')
+        if x['record_type']!=kind:raise AdmissionError('KIND_MISMATCH')
+        if kind=='PregameFeatureSnapshot' and x['feature_sha256']!=sha256(x['features']):raise AdmissionError('HASH_MISMATCH')
         return x
-    for k,v in [('record',record),('validate_record',validate_record),('sha256',sha256),('utc',utc),('AdmissionError',AdmissionError)]:setattr(contracts,k,v)
+    for k,v in [('record',record),('validate_record',validate_record),('sha256',sha256),('utc',utc),('AdmissionError',AdmissionError),('canonical_bytes',canonical_bytes),('SCHEMAS',SCHEMAS)]:setattr(contracts,k,v)
     storage=types.ModuleType('v2.p0_integrity.storage')
     def blocked(*a,**k):raise AdmissionError('ATTESTATION_NOT_AVAILABLE_LOCAL')
     for k in ('attest_project_storage','append_immutable','verify_immutable_record'):setattr(storage,k,blocked)
@@ -42,7 +46,7 @@ except ImportError:
     sys.modules['v2.p0_integrity.contracts']=contracts
     sys.modules['v2.p0_integrity.storage']=storage
 
-from research.nba_p1_original.feature_store import build_feature_rows,verify_handoff,FeatureAdmissionError,VERSION
+from research.nba_p1_original.feature_store import build_feature_rows,verify_handoff,verify_dev_p0_record,FeatureAdmissionError,VERSION
 from research.nba_p1_original.rolling import WindowPolicy,run_daily,atomic_once,AcquisitionError,P0ProjectVault
 
 BASE=datetime(2026,11,22,0,0,tzinfo=timezone.utc)
@@ -142,6 +146,31 @@ class FeatureCases(unittest.TestCase):
         rows,m=build_feature_rows(x,r)
         self.assertEqual(rows[0]['features']['availability_status'],'QUESTIONABLE_SOURCE_REPORTED')
         self.assertEqual(rows[0]['features']['legal_eligibility'],'UNVERIFIED')
+    def test_current_name_position_source_bound_not_joined_by_name(self):
+        x,r=fixture();rid='synthetic-receipt-1'
+        raw=json.dumps({'athletes':[{'items':[{'id':'123','displayName':'Synthetic Player One',
+                      'position':{'abbreviation':'SG'}}]}]}).encode()
+        r[rid]=raw
+        x['receipts'][0]['source']='https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/1/roster'
+        x['receipts'][0]['raw_sha256']=hashlib.sha256(raw).hexdigest()
+        x['input_records'][0]['payload']=json.dumps({'status':'active','uncertainty':'unknown'})
+        rows,m=build_feature_rows(x,r)
+        self.assertEqual(rows[0]['features']['current_name'],'Synthetic Player One')
+        self.assertEqual(rows[0]['features']['position'],'SG')
+        self.assertEqual(rows[0]['features']['listed_roster_status'],'active')
+        self.assertEqual(rows[0]['features']['legal_eligibility'],'UNVERIFIED')
+        self.assertEqual(rows[0]['features']['espn_player_id'],'espn:player:123')
+    def test_conflicting_roster_name_unresolved(self):
+        x,r=fixture();rid='synthetic-receipt-1'
+        raw=json.dumps({'athletes':[{'id':'123','displayName':'One','position':{'abbreviation':'SG'}},
+                                    {'id':'123','displayName':'Two','position':{'abbreviation':'SF'}}]}).encode()
+        r[rid]=raw
+        x['receipts'][0]['source']='https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/1/roster'
+        x['receipts'][0]['raw_sha256']=hashlib.sha256(raw).hexdigest()
+        rows,m=build_feature_rows(x,r)
+        self.assertIsNone(rows[0]['features']['current_name'])
+        self.assertIsNone(rows[0]['features']['position'])
+        self.assertIn('PLAYER_NAME_UNAVAILABLE',rows[0]['features']['missingness'])
     def test_no_crosswalk_does_not_invent_official_id(self):
         x,r=fixture();rows,m=build_feature_rows(x,r)
         self.assertIsNone(rows[0]['features']['official_nba_player_id'])
@@ -194,6 +223,39 @@ class WindowCases(unittest.TestCase):
     def test_reject_unverified_project_root(self):
         with self.assertRaisesRegex(AcquisitionError,'UNAPPROVED_STORAGE_ROOT'):
             P0ProjectVault('/tmp')
+
+class DevRecordStorageCases(unittest.TestCase):
+    def make_vault(self,root):
+        vault=P0ProjectVault.__new__(P0ProjectVault)
+        vault.root=Path(root)
+        vault.dev_root=Path(root)/'research/nba_p1_original/dev_v1'
+        vault.assert_verified=lambda: None
+        return vault
+    def record(self):
+        at=iso(BASE-timedelta(minutes=40))
+        return p0_record('SourceReceipt',receipt_id='fixture-source-id',
+            source_id='https://example.invalid/schedule',source_kind='nba_schedule',
+            source_available_at=at,collected_at=at,source_sha256=hashlib.sha256(b'example').hexdigest(),
+            archive_path='research/nba_p1_original/dev_v1/source_bytes/example.raw',
+            provenance_class='collector_possession')
+    def test_dev_p0_records_immutable_and_sha_verifiable(self):
+        with tempfile.TemporaryDirectory() as root:
+            vault=self.make_vault(root);r=self.record();a=vault.append_p0('SourceReceipt',r)
+            self.assertEqual(verify_dev_p0_record(root,'SourceReceipt',a['sha256']),r)
+            self.assertEqual(vault.append_p0('SourceReceipt',r)['status'],'IDEMPOTENT_EXISTING')
+            self.assertTrue(a['relative_path'].startswith('research/nba_p1_original/dev_v1/'))
+    def test_dev_record_rejects_conflicting_logical_id(self):
+        with tempfile.TemporaryDirectory() as root:
+            vault=self.make_vault(root);r=self.record();vault.append_p0('SourceReceipt',r)
+            second={**r,'source_kind':'new_source_kind'}
+            with self.assertRaisesRegex(AcquisitionError,'IMMUTABLE_COLLISION'):
+                vault.append_p0('SourceReceipt',second)
+    def test_dev_record_tamper_rejected(self):
+        with tempfile.TemporaryDirectory() as root:
+            vault=self.make_vault(root);r=self.record();a=vault.append_p0('SourceReceipt',r)
+            (Path(root)/a['relative_path']).write_bytes(b'edited')
+            with self.assertRaisesRegex(FeatureAdmissionError,'P1_P0_RECORD_CORRUPTED'):
+                verify_dev_p0_record(root,'SourceReceipt',a['sha256'])
 
 class FakeVault:
     def __init__(self):
