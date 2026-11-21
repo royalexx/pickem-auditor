@@ -4,7 +4,7 @@
     "NBA",
     "NHL_SOG"
   ],
-  "asof_utc": "2026-11-21T19:29:00Z",
+  "asof_utc": "2026-11-21T19:38:02.239Z",
   "main_head": "912bc7010058092ea735dcda0aa941429194474b",
   "branch": "integration/p0-nba-nhl-contract-storage-20261121",
   "accepted_g0": {
@@ -100,12 +100,18 @@
   "gateway": {
     "schema_version": "PA-P0/1",
     "record_count": 9,
-    "test_run": "2df6d21f-5b20-4e14-b05f-d2bdc04a94f2",
-    "tests": 53,
+    "test_run": "b57d7efa-0972-4bb9-b615-64e299232951",
+    "tests": 63,
     "failures": 0,
     "errors": 0,
     "skips": 0,
-    "status": "TESTED_NOT_APPROVED_FOR_PRODUCTION"
+    "status": "TESTED_NOT_APPROVED_FOR_PRODUCTION",
+    "stat_registry": {
+      "version": "v25-stat-registry-1",
+      "original_main_blob": "f34087ad726626cf04de00a8cb318a2ab881a752",
+      "tested_in_isolated_checkout": true,
+      "installed_in_active_deepnote_project_root": false
+    }
   },
   "blockers": [
     {
@@ -149,6 +155,13 @@
       "stage": "release",
       "status": "BLOCKED",
       "cause": "No end-to-end actual source-feature-model-forecast-official settlement audit"
+    },
+    {
+      "id": "NATIVE_STAT_REGISTRY_INSTALL",
+      "sport": "NBA_NHL",
+      "stage": "native_integration",
+      "status": "BLOCKED",
+      "cause": "Active Deepnote project /work lacks v2/stat_registry.py; exact original code tested in isolated source checkout; no silent global copy"
     }
   ],
   "no_changes": [
@@ -161,5 +174,21 @@
     "NFL_automations",
     "legacy_archives"
   ],
-  "decision": "P0_COMMON_INFRASTRUCTURE_TESTED_BUT_OPERATIONAL_RELEASE_BLOCKED"
+  "decision": "P0_COMMON_INFRASTRUCTURE_TESTED_BUT_OPERATIONAL_RELEASE_BLOCKED",
+  "pull_requests": {
+    "common_gateway": 198,
+    "existing_worker_storage_bridge": 199,
+    "bridge_upstream": 144,
+    "merge_state": "BOTH_DRAFT_UNMERGED"
+  },
+  "bridge": {
+    "status": "TESTED_ISOLATED_CALLSITE_ONLY",
+    "base_original_sha": "ceddb41e8e13029849ec82ba2b537faab0ee0a24",
+    "branch_head_sha": "99ee844bb2cc860791b32c44077d5e2185fecc4b",
+    "detached_run": "3e865c9a-f118-4dd7-9516-cb31e859486d",
+    "tests": 4,
+    "failures": 0,
+    "environment_integrated": false,
+    "automation_pin_modified": false
+  }
 }
