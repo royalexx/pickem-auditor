@@ -73,7 +73,11 @@ def _completed_target(target, wanted):
     marker = target.with_name(target.name + ".complete")
     if not marker.is_file() or marker.is_symlink():
         return False
-    require(marker.read_bytes() == wanted.encode("ascii") and
+    marker_bytes = marker.read_bytes()
+    if len(marker_bytes) < 64:
+        # Another writer reserved the marker but has not flushed its body.
+        return False
+    require(marker_bytes == wanted.encode("ascii") and
             target.is_file() and not target.is_symlink() and
             digest(target.read_bytes()) == wanted,
             "IMMUTABLE_SOURCE_COLLISION")
