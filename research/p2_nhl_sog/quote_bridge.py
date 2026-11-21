@@ -88,6 +88,7 @@ def verified_real_quote(root, *, raw_ref, offered, player_id, team,
         "p0_source_record": source,
         "p0_source_sha256": stored_source["sha256"],
         "provider_original_capture": raw_ref,
+        "offered_original_structured_row": offered,
         "official_profile_entry": official_profile_entry,
         "history_pool": str(verified_pool.relative_to(__import__("pathlib").Path(root).resolve())),
         "source_status": "REAL_TWO_SIDED_VERIFIED_COLLECTOR_POSSESSION"
@@ -128,20 +129,7 @@ def verify_real_quote(root, evidence, *, freeze, event_start):
             "ORIGINAL_OFFICIAL_NAME_SOURCE_PROOF_CHANGED")
     checked = quote_from_archived_raw(
         root, original,
-        {
-          "provider_event_id": quote["terms"]["provider_event_id"],
-          "provider_player_id": quote["terms"]["provider_player_id"],
-          "provider_player_name": source_name,
-          "official_event_id": quote["event_id"],
-          "native_nhl_player_id": quote["player_id"],
-          "team": quote["team_id"], "opponent": quote["opponent_id"],
-          "stat": "player_shots_on_goal", "period": "full",
-          "product_type": quote["product_type"], "line": quote["line"],
-          "book": quote["book"],
-          "over_odds": quote["terms"]["over_american"],
-          "under_odds": quote["terms"]["under_american"],
-          "crosswalk_source_sha256": quote["terms"]["crosswalk_source_sha256"]
-        },
+        evidence["offered_original_structured_row"],
         player_id=quote["player_id"], team=quote["team_id"],
         opponent=quote["opponent_id"], event_id=quote["event_id"],
         start=event_start, freeze=freeze, official_name=source_name)
