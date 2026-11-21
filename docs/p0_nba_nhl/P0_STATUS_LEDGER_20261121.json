@@ -1,0 +1,194 @@
+{
+  "schema": "PA_P0_NBA_NHL_INTEGRATION_LEDGER_V1",
+  "scope": [
+    "NBA",
+    "NHL_SOG"
+  ],
+  "asof_utc": "2026-11-21T19:38:02.239Z",
+  "main_head": "912bc7010058092ea735dcda0aa941429194474b",
+  "branch": "integration/p0-nba-nhl-contract-storage-20261121",
+  "accepted_g0": {
+    "status": "PASS_EXACT_SHA_ONLY",
+    "implementation_sha": "59d28dc23be97de2a6a82d22be8338151e31f5b6",
+    "independent_review_sha": "269efb4050b35368a2642face3a846e09422387a",
+    "receipt_sha256": "a90dbe624b44013d6eaf03163726fcfe1cd9f7055b2d657a7d3fed100d3f519d",
+    "pr": 161
+  },
+  "p1_to_p6": {
+    "p1": {
+      "pr": 167,
+      "sha": "50d2b3874c7c14c9b73bdf13e441957986b88acd"
+    },
+    "p2_s": {
+      "pr": 165,
+      "sha": "fe46965394ea0f48ef5e9da501ec8ca9e441ce47"
+    },
+    "p3_o": {
+      "pr": 166,
+      "sha": "eb0882b5011f2004c5eaf27cccfdc6297704f261"
+    },
+    "p4_j": {
+      "pr": 164,
+      "sha": "865bdb8f4770ac28262e49c3b4901cf1d72a22fb"
+    },
+    "p5_c": {
+      "pr": 163,
+      "sha": "cb3ff8279bc7f4cc7b86a519a1e386ddbe37ae93"
+    },
+    "p6": {
+      "status": "NO_GO",
+      "pr": 173,
+      "sha": "b7ca2899ab8d902cda62bfb802ab74dcb5598a30",
+      "pass": 26,
+      "fail": 2,
+      "blocked": 8
+    }
+  },
+  "nba_subset": {
+    "profile": "source_listed_subset",
+    "profile_pr": 186,
+    "sha": "3e293c37f25690a6b33d6c7c9776245bf4a7f3ff",
+    "scoped_acceptance_pr": 187,
+    "scoped_acceptance_sha": "33842b96093a453e5bdeb49dacc64986e27d5b37",
+    "candidates": 36,
+    "requests": 26,
+    "abstentions": 10,
+    "model_forecasts": 0
+  },
+  "nhl": {
+    "c03_signed_sources": true,
+    "gamma_poisson_shadow_only": true,
+    "fixed_nb2_shadow_only": true,
+    "c10_confirmatory_blocked": true,
+    "daily_repair_pr": 183,
+    "daily_repair_sha": "4ba7eef27cc2f29dc18ffd5d0b7bbef1e3af4183",
+    "nov20_original_sog_ledger": "MISSING"
+  },
+  "storage": {
+    "status": "CROSS_DETACHED_RUN_PASS",
+    "project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "logical_root": "/work",
+    "resolved_root": "/datasets/_deepnote_work",
+    "bytes": 4096,
+    "first_run": "207a1a65-1c3b-4d9f-957f-c4568a863ba1",
+    "second_run": "d446c692-604d-4c2e-ae14-357dd96278e2",
+    "writer_receipt_sha256": "e5fe4929c23f8b7aac9680d59e30083ee891ed46755322fb3e8a4220e7140c13",
+    "reader_receipt_sha256": "2ab6fa006b1c18d4c626986d54d089cebf4bf537c887e212318a1b19434bc185",
+    "payload_sha256": "21084d9cb869c6105a0d286ea268b2b8e5375af01790e6fec79309cc54cc6692",
+    "preexisting_anchor_sha256": "adf238bf36bfefce7adb6374321bdb3adba67945c93e7ec32dd89071b34c4a65",
+    "negative_tests": [
+      "/tmp",
+      "unverified_root",
+      "outer_symlink",
+      "nested_symlink",
+      "overwrite"
+    ],
+    "device_id_cross_run_stable": false,
+    "guarantees": [
+      "cross_detached_path_and_bytes",
+      "same_project_anchor",
+      "sha_integrity",
+      "no_clobber"
+    ],
+    "not_guaranteed": [
+      "vendor_backup",
+      "capacity",
+      "indefinite_retention",
+      "production_collector_use"
+    ]
+  },
+  "gateway": {
+    "schema_version": "PA-P0/1",
+    "record_count": 9,
+    "test_run": "b57d7efa-0972-4bb9-b615-64e299232951",
+    "tests": 63,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "status": "TESTED_NOT_APPROVED_FOR_PRODUCTION",
+    "stat_registry": {
+      "version": "v25-stat-registry-1",
+      "original_main_blob": "f34087ad726626cf04de00a8cb318a2ab881a752",
+      "tested_in_isolated_checkout": true,
+      "installed_in_active_deepnote_project_root": false
+    }
+  },
+  "blockers": [
+    {
+      "id": "NBA_STORAGE_PIN",
+      "sport": "NBA",
+      "stage": "capture",
+      "status": "FAIL",
+      "cause": "Original ceddb41 worker rejects resolved /work alias; task pin unchanged"
+    },
+    {
+      "id": "NBA_FAMILY_G1",
+      "sport": "NBA",
+      "stage": "model",
+      "status": "BLOCKED",
+      "cause": "P6 independent audit 2 FAIL and 8 BLOCKED"
+    },
+    {
+      "id": "NBA_NO_ORIGINAL_SLATE",
+      "sport": "NBA",
+      "stage": "frozen_forecast",
+      "status": "BLOCKED",
+      "cause": "Nov21 morning 10 NO_GENUINE_PREGAME_CAPTURE and 0 model scores"
+    },
+    {
+      "id": "NHL_NO_ORIGINAL_DAILY_LEDGER",
+      "sport": "NHL_SOG",
+      "stage": "freeze",
+      "status": "BLOCKED",
+      "cause": "Nov21 independent settlement reports BLOCKED_NO_DAILY_FROZEN_LEDGER"
+    },
+    {
+      "id": "NHL_C10",
+      "sport": "NHL_SOG",
+      "stage": "evaluation",
+      "status": "BLOCKED",
+      "cause": "Fixed-horizon confirmatory test lacks adequate prospective independent evidence"
+    },
+    {
+      "id": "BOTH_NO_LIVE_GATE",
+      "sport": "NBA_NHL",
+      "stage": "release",
+      "status": "BLOCKED",
+      "cause": "No end-to-end actual source-feature-model-forecast-official settlement audit"
+    },
+    {
+      "id": "NATIVE_STAT_REGISTRY_INSTALL",
+      "sport": "NBA_NHL",
+      "stage": "native_integration",
+      "status": "BLOCKED",
+      "cause": "Active Deepnote project /work lacks v2/stat_registry.py; exact original code tested in isolated source checkout; no silent global copy"
+    }
+  ],
+  "no_changes": [
+    "production_models",
+    "production_weights",
+    "NUTS_pause",
+    "Tier_publication",
+    "NBA_original_worker_pin",
+    "NHL_original_capture_ownership",
+    "NFL_automations",
+    "legacy_archives"
+  ],
+  "decision": "P0_COMMON_INFRASTRUCTURE_TESTED_BUT_OPERATIONAL_RELEASE_BLOCKED",
+  "pull_requests": {
+    "common_gateway": 198,
+    "existing_worker_storage_bridge": 199,
+    "bridge_upstream": 144,
+    "merge_state": "BOTH_DRAFT_UNMERGED"
+  },
+  "bridge": {
+    "status": "TESTED_ISOLATED_CALLSITE_ONLY",
+    "base_original_sha": "ceddb41e8e13029849ec82ba2b537faab0ee0a24",
+    "branch_head_sha": "99ee844bb2cc860791b32c44077d5e2185fecc4b",
+    "detached_run": "3e865c9a-f118-4dd7-9516-cb31e859486d",
+    "tests": 4,
+    "failures": 0,
+    "environment_integrated": false,
+    "automation_pin_modified": false
+  }
+}
