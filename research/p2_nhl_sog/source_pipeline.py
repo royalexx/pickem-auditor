@@ -462,6 +462,11 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
             "INVALID_OR_EXPIRED_ORIGINAL_INPUT_FREEZE")
     event_id = game["event_id"]
     require(game["game_state"] in FUTURE_STATES, "TARGET_NOT_PREGAME")
+    require(schedule_source["p0_receipt"]["source_id"] ==
+            "nhl:schedule:" + game["scheduled_day"] and
+            schedule_source["c03_receipt"]["source_url"] ==
+            OFFICIAL + "/score/" + game["scheduled_day"],
+            "SIGNED_SCHEDULE_ORIGIN_MISMATCH")
     retrieve_source(root, schedule_source, freeze=freeze, event_start=start)
     team = next((t for t in (game["home_team"], game["away_team"])
                  if str(player_id) in roster_members[t]), None)
@@ -477,6 +482,11 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
     from .history_bridge import verified_player_history
     from .quote_bridge import verify_real_quote
     for verified_team, source in rosters.items():
+        require(source["p0_receipt"]["source_id"] ==
+                "nhl:roster:" + verified_team and
+                source["c03_receipt"]["source_url"] ==
+                OFFICIAL + "/roster/" + verified_team + "/current",
+                "SIGNED_ROSTER_SOURCE_TEAM_MISMATCH")
         signed_doc = retrieve_source(root, source, freeze=freeze, event_start=start)
         if signed_doc is not None:  # Unit fixtures can mock this return.
             require(parse_roster(signed_doc, verified_team) == roster_members[verified_team],
@@ -536,26 +546,36 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
     # Original signed history is stored by the existing C03 producer and is
     # reverified here. Its raw proof hashes remain explicit, not replaced
     # with invented P0 SourceReceipt IDs.
+    latest_team = own[-1].get("historical_team")
+    if isinstance(latest_team, dict):
+        latest_team = latest_team.get("default")
+    inferred_transition = bool(latest_team and latest_team != team)
+    role_uncertain = bool(role_transition_uncertain or inferred_transition)
     features = {
         "official_game": game,
         "player": {"official_nhl_player_id": str(player_id), "team_id": team,
                    "opponent_id": other, "position_group": group,
                    "participation_status": "UNKNOWN",
-                   "roster_is_not_game_participation_confirmation": True},
+                   "roster_is_not_game_participation_confirmation": True,
+                   "last_verified_played_team": latest_team,
+                   "prior_team_differs_from_current_roster": inferred_transition},
         "history": {"own": own, "peers": peer, "cutoff_at": freeze,
                     "P0_historical_source_receipt_ids": historical_source_ids},
         "market": quote,
+        "market_source_evidence": (quote_evidence["provider_original_capture"]
+                                   if quote_evidence is not None else None),
         "missingness": {"quote_missing": quote is None,
                         "participation_unconfirmed": True,
-                        "role_transition_uncertain": bool(role_transition_uncertain)},
+                        "role_transition_uncertain": role_uncertain},
         "evidence_class": "ORIGINAL_PREGAME_COLLECTOR_POSSESSION",
         "P4_gamma_artifact_required": True,
         "history_count_is_not_experiment_admission": True
     }
     feature_record = {
         "record_type": "PregameFeatureSnapshot", "schema_version": P0_VERSION,
-        "feature_snapshot_id": "p2f:" + digest(canonical_bytes(
-            [event_id, str(player_id), freeze, required_experiment or "line_independent"])),
+        "feature_snapshot_id": "p2f:" + digest(canonical_bytes([
+            event_id, str(player_id), freeze, required_experiment or "line_independent",
+            sorted(source_ids), sha256(features)])),
         "sport": "NHL", "event_id": event_id, "team_id": team,
         "opponent_id": other, "player_id": str(player_id),
         "stat_key": "shots on goal", "period": "full",
@@ -577,6 +597,10 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
         "signed_historical_observation_hashes": [
             x["observation_receipt_sha256"] for x in own + peer],
         "P0_original_historical_source_receipt_ids": historical_source_ids,
+        "P0_original_historical_source_record_hashes": sorted({
+            ref["record_sha256"] for ref in own_refs + peer_refs}),
+        "P0_quote_source_sha256": (quote_evidence["p0_source_sha256"]
+                                  if quote is not None else None),
         "P0_quote_record_sha256": (quote_evidence["p0_quote_sha256"]
                                   if quote is not None else None),
         "own_history_count": len(own), "peer_history_count": len(peer),
@@ -606,11 +630,37 @@ def verify_bundle(root, manifest_sha):
     doc = json.loads(raw)
     require(doc.get("schema") == SCHEMA and doc["model_predictions_present"] is False,
             "SOURCE_BUNDLE_SCHEMA_INVALID")
+    from v2.p0_integrity.contracts import verify_source_bytes
+    sha_list = [
+        doc["official_schedule_source_sha256"],
+        *doc["official_roster_source_sha256"].values(),
+        *doc["P0_original_historical_source_record_hashes"]
+    ]
+    if doc.get("P0_quote_source_sha256"):
+        sha_list.append(doc["P0_quote_source_sha256"])
+    source_records = []
+    for sha in sorted(set(sha_list)):
+        src = verify_immutable_record(root, "SourceReceipt", sha)
+        verify_source_bytes(src, root)
+        require(clock(src["source_available_at"]) <= clock(doc["input_freeze_at"]) <
+                clock(doc["event_start_at"]), "SOURCE_RECHECK_AFTER_FREEZE")
+        source_records.append(src)
     feature = verify_immutable_record(root, "PregameFeatureSnapshot",
                                      doc["p0_feature_record_sha256"])
     require(feature["feature_snapshot_id"] == doc["p0_feature_snapshot_id"] and
             sha256(feature["features"]) == feature["feature_sha256"],
             "SOURCE_BUNDLE_FEATURE_DRIFT")
+    require(set(feature["source_receipt_ids"]) == {
+        src["receipt_id"] for src in source_records},
+        "SOURCE_BUNDLE_P0_SOURCE_CLOSURE_MISMATCH")
+    if doc.get("P0_quote_record_sha256"):
+        quote = verify_immutable_record(root, "MarketQuote",
+                                      doc["P0_quote_record_sha256"])
+        require(quote["source_receipt_id"] in feature["source_receipt_ids"] and
+                quote["event_id"] == doc["event_id"] and
+                quote["player_id"] == doc["official_nhl_player_id"] and
+                quote["quote_kind"] == "real",
+                "SOURCE_BUNDLE_QUOTE_NOT_SOURCE_BOUND")
     return doc, feature
 
 
