@@ -15,7 +15,7 @@ import json
 import os
 import re
 
-from v2.p0_integrity.contracts import VERSION as P0_VERSION, utc, canonical_bytes, sha256, validate_record
+from v2.p0_integrity.contracts import VERSION as P0_VERSION, AdmissionError, utc, canonical_bytes, sha256, validate_record
 from v2.p0_integrity.storage import attest_project_storage, append_immutable, verify_immutable_record
 from scripts.c03_live_transport import capture_signed_live, verify_signed_capture
 
@@ -324,17 +324,11 @@ def quote_from_archived_raw(root, raw_ref, offered, *, player_id, team, opponent
     raw_ref must be an ORIGINAL capture's possession/transport receipt.
     It is not accepted merely because somebody wrote a JSON quote dictionary.
     """
-    require(isinstance(raw_ref, dict) and raw_ref.get("source_url") ==
-            "https://api.prop-line.com/v1/sports/icehockey_nhl/odds" and
-            raw_ref.get("source_kind") == "original_provider_http_bytes" and
-            raw_ref.get("authenticated_collector_receipt") is True,
-            "ORIGINAL_PROVIDER_TRANSPORT_RECEIPT_MISSING")
-    received = clock(raw_ref.get("received_at"))
-    require(received <= clock(freeze) < clock(start), "QUOTE_SOURCE_AFTER_FREEZE")
-    raw = safe_relative(root, raw_ref.get("archive_path"))
-    require(raw.is_file() and digest(raw.read_bytes()) ==
-            raw_ref.get("sha256") and HEX.fullmatch(raw_ref["sha256"]),
-            "ORIGINAL_PROVIDER_RAW_SHA_MISMATCH")
+    from .market_capture import verify_original_provider
+    payload = verify_original_provider(root, raw_ref, freeze=freeze,
+                                       event_start=start)
+    received = clock(raw_ref["received_at"])
+    raw = safe_relative(root, raw_ref["archive_path"])
     require(offered.get("fixture_kind") != "synthetic", "SYNTHETIC_QUOTE_FORBIDDEN")
     native_id = str(offered.get("native_nhl_player_id") or "")
     provider_pid = str(offered.get("provider_player_id") or "")
@@ -367,7 +361,6 @@ def quote_from_archived_raw(root, raw_ref, offered, *, player_id, team, opponent
         require(type(x) in (int, float) and (x >= 100 or x <= -100),
                 "MISSING_OR_INVALID_" + side.upper() + "_PRICE")
         prices[side] = x
-    payload = json.loads(raw.read_bytes())
     events = payload if isinstance(payload, list) else payload.get(
         "events", payload.get("data", []))
     require(isinstance(events, list), "PROVIDER_EVENT_BODY_INVALID")
