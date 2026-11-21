@@ -7,6 +7,7 @@ from datetime import datetime,timezone
 from pathlib import Path
 import hashlib
 import json
+import uuid
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -352,6 +353,27 @@ class CommonContractsTests(unittest.TestCase):
             "MISSING_EXPLICIT_NBA_RECONSTRUCTION_CLASS")
 
 class StorageTests(unittest.TestCase):
+    def test_content_addressed_append_duplicate_guard_and_recovery(self):
+        if not Path("/work/research/p0_integration_integrity/probe_20261121").exists():
+            self.skipTest("Deepnote real storage only")
+        exp=record("ExperimentManifest",
+            experiment_id="P0-STORAGE-CANARY-"+uuid.uuid4().hex,
+            sport="NBA",created_at=datetime.now(timezone.utc).isoformat().replace("+00:00","Z"),
+            frozen_code_sha=CODE,protocol_sha256=TRAIN,
+            eligible_universe="synthetic-canary-only",primary_metric="storage-integrity",
+            baseline="no-comparison",challenger="no-model",cutoff_policy="no-outcomes",
+            freeze_policy="no-forecasts",approval_state="shadow_only",
+            evidence_refs=["crossrun-writer","crossrun-independent-reader"])
+        first=storage.append_immutable("/work","ExperimentManifest",exp)
+        self.assertEqual(first["status"],"APPENDED")
+        self.assertEqual(storage.verify_immutable_record("/work","ExperimentManifest",
+                          first["sha256"]),exp)
+        second=storage.append_immutable("/work","ExperimentManifest",exp)
+        self.assertEqual(second["status"],"IDEMPOTENT_EXISTING")
+        conflict=dict(exp,primary_metric="changed-primary-metric")
+        self.assertBlocked(lambda:storage.append_immutable("/work","ExperimentManifest",
+                           conflict),"APPEND_ONLY_DUPLICATE_ID_DIFFERENT_CONTENT")
+
     def test_actual_cross_run_proof_in_deepnote(self):
         if not Path("/work/research/p0_integration_integrity/probe_20261121").exists():
             self.skipTest("Real Deepnote project proof not present in local test environment")
