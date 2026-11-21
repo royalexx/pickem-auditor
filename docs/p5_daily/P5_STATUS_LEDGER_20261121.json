@@ -62,6 +62,20 @@
       "peak_rss_kib": 252412,
       "core_wall_seconds": 1.249684269001591,
       "extra_wall_seconds": 0.1124194180010818
+    },
+    "latest_complete_test": {
+      "run_id": "d6ce795d-f817-4f30-9404-fe6d1e0ffb5d",
+      "passed": 39,
+      "failed": 0,
+      "skipped": 0,
+      "core": 26,
+      "extra": 13,
+      "wall_seconds_core": 1.1307811810002022,
+      "wall_seconds_extra": 0.10837483200157294,
+      "peak_rss_kib": 253316,
+      "all_nine_modules_compiled": true,
+      "independent_p6_audit": false,
+      "source_sha256": "f62a5407e0c29e62d2b53422a01005fca25a9f415f678f392d8ef94b072e7d3d"
     }
   },
   "real_p0_inventory": {
@@ -84,7 +98,7 @@
     "experiment_id": "EXP-V25-NHL-SOG-NB2-NATIVE-PLUGIN-MEAN-20261114",
     "fixed_shape": 4,
     "min_distinct_prospective_dates": 40,
-    "status": "LOCKED_NOT_READY"
+    "status": "LOCKED_REQUIRES_RECOUNTED_40_ORIGINAL_PAIRED_DATES_AND_P6_REVIEW"
   },
   "legacy_prod_weights_modified": false,
   "nfl_infrastructure_modified": false,
