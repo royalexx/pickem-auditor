@@ -123,6 +123,10 @@ def _write_transition_once(root, relative, obj):
         finally:
             os.close(fd_dir)
     except OSError as exc:
+        if status=="APPENDED":
+            # Failed transition is not eligible: preserve the last complete
+            # activation and leave its parent model entirely untouched.
+            path.unlink(missing_ok=True)
         raise ScoreError("TRANSITION_DIRECTORY_FSYNC_UNVERIFIED") from exc
     _need(path.read_bytes()==raw,"TRANSITION_ACTIVATION_CHANGED")
     temp.unlink(missing_ok=True)
