@@ -161,7 +161,7 @@ def scorecard(rows):
         output.append({"sport":sport,"model_id":model,"stat_key":stat,
            "n_player_game_observations":len(records),
            "n_distinct_games":len({r["event_id"] for r in records}),
-           "n_distinct_dates":len({r["settlement_record"]["settled_at"][:10]
+           "n_distinct_dates":len({r["event_start_at"][:10]
                                    for r in records}),
            "mean_crps":sum(x["crps"] for x in ps)/len(ps),
            "mean_nlpd":sum(x["nlpd"] for x in ps)/len(ps),
@@ -230,8 +230,8 @@ def run_morning_from_frozen_p0(*,root="/work",run_at,
                 if "statistical_status" not in res:
                     continue
                 completed.append(res)
-                if res["statistical_status"]=="SETTLED" and
-                      res["classification"]=="ORIGINAL_PREGAME_VERIFIED":
+                if (res["statistical_status"]=="SETTLED" and
+                    res["classification"]=="ORIGINAL_PREGAME_VERIFIED"):
                     obs=eligible_training_row(res,official_record,b,cutoff=run_at)
                     admit_training_observation(outroot,obs,effective_cutoff=run_at)
                     training.append(obs)
