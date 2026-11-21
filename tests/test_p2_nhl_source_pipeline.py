@@ -67,7 +67,7 @@ def fixture_provider(root):
     path = s.ROOT_NAMESPACE + "/provider/" + s.digest(body) + ".json"
     s.put_once(root, path, body)
     rec = {
-        "schema": m.PROOF_SCHEMA, "source_url": m.URL,
+        "schema": m.PROOF_SCHEMA, "source_url": m.URL + "?markets=player_shots_on_goal&bookmakers=draftkings",
         "source_kind": "original_provider_http_bytes",
         "received_at": RECEIVED, "archive_path": path,
         "sha256": s.digest(body), "bytes": len(body),
