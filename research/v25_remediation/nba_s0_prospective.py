@@ -40,7 +40,7 @@ MODEL_ID = "PA-V25-NBA-S0-CONDITIONAL-PLAYED"
 MODEL_VERSION = "1-method-only"
 MODEL_STATS = tuple(STATS)
 CODE_SHA = re.compile(r"^[0-9a-f]{40}$")
-ORIGINAL_SRC_KINDS = {"original_capture"}
+ORIGINAL_SRC_KINDS = {"original_capture", "retrospective_retrieval"}
 ALLOWED_ABSTENTIONS = {
     "PARTICIPATION_UNRESOLVED", "CONDITIONAL_ON_PLAYING_ONLY",
     "ELIGIBILITY_UNVERIFIED",
@@ -230,9 +230,12 @@ def _verify_raw_handoff(bundle):
     sources = {}
     for x in summary["sources"]:
         src = verify_dev_p0_record("/work","SourceReceipt",x["p0_sha256"])
+        # Prior completed games are retrieved in the *current* genuine
+        # pregame session. Historical observation dates are NOT substituted
+        # for these original collector-possession timestamps.
         require(src["source_kind"] in ORIGINAL_SRC_KINDS and
                 src["provenance_class"]=="collector_possession",
-                "NONORIGINAL_SOURCE_CLASSIFICATION")
+                "SOURCE_NOT_CAPTURED_IN_ORIGINAL_PREGAME_SESSION")
         require(src["source_id"].startswith("https://") and
                 ("espn.com/" in src["source_id"] or
                  "nba.com/" in src["source_id"]),
