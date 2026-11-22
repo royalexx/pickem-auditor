@@ -25,7 +25,7 @@ from v2.p0_integrity.contracts import (
     record, sha256, canonical_bytes, utc, verify_source_bytes,
 )
 from v2.p0_integrity.storage import append_immutable, attest_project_storage
-from v2.official_nba_nhl_capture import nba_stat_rows, SettlementCaptureError
+from v2.official_nba_nhl_capture import nba_stat_rows, normalized_team, SettlementCaptureError
 from research.p5_daily.warehouse import (
     enumerate_p0, recover_frozen_forecasts, recover_official_outcomes,
     run_morning_from_frozen_p0,
@@ -110,7 +110,7 @@ def parse_verified_nba_final(raw, *, original_event_id,
         for c in competitor:
             t=c["team"]
             tid=str(t["id"])
-            abbr=str(t["abbreviation"]).upper()
+            abbr=normalized_team(t["abbreviation"],"NBA")
             require(tid not in team_by_id and abbr and abbr not in abbreviations,
                     "OFFICIAL_TEAM_IDENTIFIER_AMBIGUOUS")
             team_by_id[tid]=abbr
@@ -119,6 +119,15 @@ def parse_verified_nba_final(raw, *, original_event_id,
                 if TEAM_ID.fullmatch(x)}
         require(len(expect)==2 and expect==set(team_by_id),
                 "OFFICIAL_TEAMS_DIFFER_FROM_ORIGINAL_PREGAME")
+        # The existing stat parser checks team abbreviations. Bind each
+        # official boxscore team's numeric ESPN ID to the independently
+        # checked FINAL header so a fabricated label cannot redirect a player.
+        for section in source.get("boxscore",{}).get("players",[]):
+            t=section["team"]
+            tid=str(t["id"])
+            require(tid in team_by_id and
+                    normalized_team(t["abbreviation"],"NBA")==team_by_id[tid],
+                    "OFFICIAL_BOXSCORE_TEAM_NUMERIC_ID_MISMATCH")
         played=nba_stat_rows(source,expected_teams=abbreviations)
     except (KeyError,ValueError,TypeError,IndexError,SettlementCaptureError) as exc:
         raise FinalBlocked("OFFICIAL_FINAL_UNVERIFIED:"+str(exc)[:160]) from exc
