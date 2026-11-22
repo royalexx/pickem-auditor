@@ -57,28 +57,53 @@
     {
       "commit": "84b4e966b1e56709852449adf077421dc3f78a05",
       "parent": "c14de84839161f207d6fd7524c18d68b13707365",
-      "action": "single-parent selective Git tree assembly from 59 approved owner blobs; no merge or rebase of failing branches",
+      "action": "single-parent selective tree assembly from exactly 59 cross-owner Git blobs; NOT a merge/rebase of failing PRs",
       "tree": "adbc1c2b2adf7b96b1d3e0e9ce10f1b2e297fe09"
     },
     {
       "commit": "278664b1ce67e6433556f32889bbffb411c2b1a2",
       "parent": "84b4e966b1e56709852449adf077421dc3f78a05",
-      "action": "copy P5 updated registry code"
+      "action": "overlay P5 immutable registry owner fix"
     },
     {
       "commit": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
       "parent": "278664b1ce67e6433556f32889bbffb411c2b1a2",
-      "action": "copy P5 new idempotence regression"
+      "action": "overlay P5 idempotency regression; exact code passed original 259 tests"
+    },
+    {
+      "commit": "441bbcb6665ef5a05e8ea7f3e9b85348dceb20d7",
+      "parent": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "action": "write exact-source integration manifest"
+    },
+    {
+      "commit": "14f87df97b4be01b91c66b75086db8c75566fef9",
+      "parent": "441bbcb6665ef5a05e8ea7f3e9b85348dceb20d7",
+      "action": "write P6 22-case evidence matrix"
+    },
+    {
+      "commit": "c95199b75621424637543a61eddd74ecadd1a326",
+      "parent": "14f87df97b4be01b91c66b75086db8c75566fef9",
+      "action": "write machine-readable status ledger"
     },
     {
       "commit": "05c53d9ef917f0f2c746b7769b7a5b6ee755a3e7",
-      "parent": "44a921d6a19d8a782a7b2fcc21a7c75b35c69d07",
-      "action": "fix P1 same-day manifest and duplicate-attempt archive; docs-only P6/machine ledger commits are between prior code and this entry"
+      "parent": "c95199b75621424637543a61eddd74ecadd1a326",
+      "action": "overlay P1 live-discovered same-day append-once manifest fix"
     },
     {
       "commit": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "parent": "05c53d9ef917f0f2c746b7769b7a5b6ee755a3e7",
-      "action": "append P1 same-day duplicate invocation regressions"
+      "action": "overlay P1 repeated-invocation collision/attempt regressions; 261-test source code"
+    },
+    {
+      "commit": "44a921d6a19d8a782a7b2fcc21a7c75b35c69d07",
+      "parent": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
+      "action": "write gated research runbook"
+    },
+    {
+      "commit": "3227daeb05bb1cba3decea3d5d33eeb905094575",
+      "parent": "44a921d6a19d8a782a7b2fcc21a7c75b35c69d07",
+      "action": "update exact source blob graph and new 261-test receipt"
     }
   ],
   "evidence_manifest_deepnote": {
@@ -609,5 +634,6 @@
   "integration_regression_receipt_sha256": "c4809fbcaeab3b3e762c8ef5e094cb504ef9945da5c5ba7e1ad62d336b9f483a",
   "integration_regression_total": 261,
   "original_P1_broken_live_attempt_preserved": true,
-  "latest_P1_source_only_run": "ec7c7aaa-7daf-424b-99d5-ad11e2858455"
+  "latest_P1_source_only_run": "ec7c7aaa-7daf-424b-99d5-ad11e2858455",
+  "integration_graph_scope": "Git parent-SHA verified for entries above; subsequent documentation-only commits do not alter tested source. No source owner branch was merged/rebased."
 }
