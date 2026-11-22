@@ -176,10 +176,17 @@ def prepare_method(*, code_commit, now=None):
         spec = _method_spec(code_commit, at)
         _once(protocol_path, canonical_bytes(spec))
     model_payload, expected = _expected_model(spec)
-    published = create_research_model(model_payload, source_root="/work",
+    # P3's existing artifact writer serializes the exact model bytes.
+    # Its default ModelArtifact metadata says "research fit"; this model was
+    # NOT fitted. Therefore adopt only the verified unchanged artifact bytes
+    # and publish a correctly labeled *method-only* P0 ModelArtifact record.
+    staged = create_research_model(model_payload, source_root="/work",
         model_code_sha=code_commit, created_at=spec["declared_at"],
-        persist=True, storage_root="/work")
-    require(published["record"] == expected, "METHOD_MODEL_RECORD_CHANGED")
+        persist=False, storage_root="/work")
+    require(staged["record"]["artifact_sha256"]==expected["artifact_sha256"]
+            and staged["record"]["artifact_path"]==expected["artifact_path"],
+            "STAGED_METHOD_ARTIFACT_IDENTITY_CHANGED")
+    append_immutable("/work","ModelArtifact",expected)
     proof = verify_immutable_record("/work", "ModelArtifact", sha256(expected))
     require(proof == expected, "MODEL_READBACK_MISMATCH")
     return {
