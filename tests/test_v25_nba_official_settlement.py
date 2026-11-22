@@ -88,6 +88,7 @@ class ProviderFinalTests(unittest.TestCase):
         with TemporaryDirectory() as d:
             with patch.object(a,"ROOT",Path(d)),patch.object(
                 a,"_first_same_raw_receipt",return_value=None),patch.object(
+                a,"verify_source_bytes",return_value=True),patch.object(
                 a,"append_immutable") as store:
                 source=a._archive_final(summary(),"espn:game:401999001",
                                         URL,FINAL)
