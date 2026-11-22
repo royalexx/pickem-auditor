@@ -271,7 +271,12 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
                      'observed_at':stamp(_clock(clock())),
                      'reason':type(exc).__name__+':'+str(exc)}
         # Immutable attempt journal, including blocked and failed acquisition attempts.
-        vault.save_json('attempts/'+digest((claim_id+'|'+stamp(t)).encode())+'.json',outcome)
+        # A rerun at an identical clock instant may have a different valid
+        # outcome (e.g., original capture won before, duplicate claim now).
+        # Both attempts are immutable and independently addressable.
+        attempt_id=digest(canonical({'claim_id':claim_id,
+                                     'attempt_at':stamp(t),'outcome':outcome}))
+        vault.save_json('attempts/'+attempt_id+'.json',outcome)
         return outcome,t
 
     # Simultaneous source windows are separate workers with disjoint event claims.
@@ -287,7 +292,11 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
               'counts':{x:sum(a['status']==x for a in observations) for x in sorted({a['status'] for a in observations})},
               'genuine_original_certified':False,'model_forecasts':0,'market_quotes_generated':0,
               'production_automation_changed':False}
-    saved=vault.save_json(run_prefix+'/daily_manifest.json',manifest)
+    # A day/policy may be invoked more than once: separate immutable per-run
+    # manifests rather than overwriting the former fixed daily_manifest.json.
+    # Old fixed manifests, including previously failed attempts, remain intact.
+    manifest_id=digest(canonical(manifest)+bytes([10]))
+    saved=vault.save_json(run_prefix+'/daily_manifests/'+manifest_id+'.json',manifest)
     return {**manifest,'daily_manifest_sha256':saved['sha256'],'daily_manifest_path':saved['path']}
 
 def main():
