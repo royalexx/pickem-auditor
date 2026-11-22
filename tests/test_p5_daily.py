@@ -14,7 +14,7 @@ from v2.p0_integrity.contracts import record, sha256, AdmissionError
 from research.p5_daily.scoring import (
     score_count, full_pmf, three_way, score_contract, score_joint,
     paired_differences, matched_native_nhl_pair, validate_combo, ScoreError,
-    LOCKED_NHL,
+    LOCKED_NHL, local_slate_date,
 )
 from research.p5_daily.registry import (
     register_model, rollback_model, select_for_forecast, read_transitions,
@@ -197,6 +197,36 @@ class MathTests(unittest.TestCase):
         self.assertEqual(r["n_distinct_clusters"],2)
         self.assertEqual(r["n_simulated_paths_as_games"],0)
         self.assertAlmostEqual(r["mean_cluster_paired_difference"],0)
+    def test_toronto_local_slate_boundaries_and_dst(self):
+        self.assertEqual(local_slate_date("2026-11-21T23:30:00Z"),"2026-11-21")
+        self.assertEqual(local_slate_date("2026-11-22T00:30:00Z"),"2026-11-21")
+        self.assertEqual(local_slate_date("2026-11-22T05:00:00Z"),"2026-11-22")
+        self.assertEqual(local_slate_date("2026-07-10T03:30:00Z"),"2026-07-09")
+        self.assertEqual(local_slate_date("2026-07-10T04:30:00Z"),"2026-07-10")
+        self.assertEqual(local_slate_date("2026-03-08T06:59:00Z"),"2026-03-08")
+        self.assertEqual(local_slate_date("2026-03-08T07:01:00Z"),"2026-03-08")
+        self.assertEqual(local_slate_date("2026-11-01T05:30:00Z"),"2026-11-01")
+        self.assertEqual(local_slate_date("2026-11-01T06:30:00Z"),"2026-11-01")
+        self.assertEqual(local_slate_date("2026-11-22T00:30:00Z",
+            original_date="2026-11-20", original_date_verified=True),"2026-11-20")
+        with self.assertRaises(ScoreError):
+            local_slate_date("2026-11-22T00:30:00Z",
+                original_date="2026-99-99", original_date_verified=True)
+
+    def test_c10_same_toronto_day_is_one_date(self):
+        common={"event_id":"g","player_id":"p","book":"b","quote_id":"q",
+          "contract_id":"c","line":2.5,"source_manifest_sha256":"a"*64,
+          "input_freeze_at":FREEZE,"original_mean":2.8,"outcome_id":"o",
+          "original_verified":True,"source_classification":"original_signed"}
+        nb=dict(common,shape=4,experiment_id=LOCKED_NHL,model_family="native_nb2")
+        base=dict(common,model_family="plugin_poisson")
+        dates=("2026-11-21T23:30:00Z","2026-11-22T00:30:00Z")
+        cohort=[{"nb2":{**nb,"event_start_at":d},
+                 "poisson":{**base,"event_start_at":d}} for d in dates]
+        actual=matched_native_nhl_pair(nb,base,count_dates=2,verified_daily_cohort=cohort)
+        self.assertEqual(actual["distinct_prospective_dates"],1)
+        self.assertTrue(actual["self_reported_dates_disagree"])
+
     def test_locked_nhl_pair_and_c10(self):
         common={"event_id":"g","player_id":"p","book":"b","quote_id":"q",
           "contract_id":"c","line":2.5,"source_manifest_sha256":"a"*64,
