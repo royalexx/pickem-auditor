@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 import contextlib
 import fcntl
+import uuid
 import hashlib
 import json
 import os
@@ -80,57 +81,58 @@ def _write_once(root, relative, obj):
     return {"status":"APPENDED","path":relative,"sha256":hashlib.sha256(raw).hexdigest()}
 
 def _write_transition_once(root, relative, obj):
-    """Durable file then atomic no-clobber activation via hardlink.
+    """Prepare verified bytes; commit by exclusive creation of an EMPTY marker.
 
-    An interrupted .pending file is ignored by transition readers. If the
-    verified project filesystem cannot promise atomic hardlink, fail-closed:
-    NEVER activate a partially written transition or silently use os.replace.
-    P6 must independently validate FUSE hardlink/fsync on actual project disk.
+    Project FUSE rejected os.link(), so the hardlink activation is retired.
+    An immutable JSON record is fsynced and independently reread BEFORE the
+    zero-byte O_EXCL commit marker is created. The marker's single filesystem
+    namespace operation defines visibility. A crash before that call leaves
+    only an ignored prepared record; after it, the complete original bytes
+    are addressable by SHA. No rename, overwrite or hardlink is required.
+
+    This protocol still requires the actual mount's O_EXCL, flock, fsync and
+    cross-detached recovery tests; owner unit tests alone do not qualify it.
     """
-    path=_safe(root,relative)
-    path.parent.mkdir(parents=True,exist_ok=True)
+    base=_secure_root(root)
+    requested=_safe(base,relative)
+    requested.parent.mkdir(parents=True,exist_ok=True)
     raw=_canon(obj)
-    digest_value=hashlib.sha256(raw).hexdigest()
-    temp=path.parent/(".pending-"+digest_value+".tmp")
+    checksum=hashlib.sha256(raw).hexdigest()
+    seq=obj.get("sequence")
+    _need(type(seq) is int and seq>0 and requested.name==f"{seq:08d}.json",
+          "TRANSITION_SEQUENCE_INVALID")
+    # Every attempt has its own prepared path, so crashed partial writes do
+    # not have to be mutated, deleted, or mistaken for a committed transition.
+    nonce=uuid.uuid4().hex
+    stem=f"{seq:08d}-{checksum}-{nonce}"
+    prepared=requested.parent/(stem+".json")
+    marker=requested.parent/(stem+".commit")
     flags=os.O_WRONLY|os.O_CREAT|os.O_EXCL
     if hasattr(os,"O_NOFOLLOW"):
         flags|=os.O_NOFOLLOW
     try:
-        fd=os.open(temp,flags,0o600)
-    except FileExistsError:
-        _need(not temp.is_symlink() and temp.read_bytes()==raw,
-              "TRANSITION_PENDING_CONFLICT")
-    else:
-        with os.fdopen(fd,"wb") as h:
-            h.write(raw)
-            h.flush()
-            os.fsync(h.fileno())
-    _need(temp.read_bytes()==raw,"TRANSITION_PENDING_BYTES_INVALID")
-    try:
-        os.link(temp,path,follow_symlinks=False)
-    except FileExistsError:
-        _need(not path.is_symlink() and path.read_bytes()==raw,
-              "TRANSITION_ALREADY_EXISTS_DIFFERENT_BYTES")
-        status="IDEMPOTENT_EXISTING"
-    except OSError as exc:
-        raise ScoreError("ATOMIC_TRANSITION_LINK_UNSUPPORTED") from exc
-    else:
-        status="APPENDED"
-    try:
-        fd_dir=os.open(path.parent,os.O_RDONLY)
+        fd=os.open(prepared,flags,0o600)
+        with os.fdopen(fd,"wb") as handle:
+            handle.write(raw)
+            handle.flush()
+            os.fsync(handle.fileno())
+        _need(prepared.read_bytes()==raw,"TRANSITION_PREPARED_BYTES_INVALID")
+        fd=os.open(marker,flags,0o600)
         try:
-            os.fsync(fd_dir)
+            # Empty marker: its creation is the entire commit operation.
+            # No partially written marker can ever be considered committed.
+            os.fsync(fd)
         finally:
-            os.close(fd_dir)
-    except OSError as exc:
-        if status=="APPENDED":
-            # Failed transition is not eligible: preserve the last complete
-            # activation and leave its parent model entirely untouched.
-            path.unlink(missing_ok=True)
-        raise ScoreError("TRANSITION_DIRECTORY_FSYNC_UNVERIFIED") from exc
-    _need(path.read_bytes()==raw,"TRANSITION_ACTIVATION_CHANGED")
-    temp.unlink(missing_ok=True)
-    return {"status":status,"path":relative,"sha256":digest_value}
+            os.close(fd)
+        _need(marker.is_file() and not marker.is_symlink()
+              and marker.stat().st_size==0,"TRANSITION_COMMIT_MARKER_INVALID")
+    except (OSError,ValueError) as exc:
+        raise ScoreError("TRANSITION_PREPARE_OR_COMMIT_UNSUPPORTED") from exc
+    _need(prepared.read_bytes()==raw,"TRANSITION_POSTCOMMIT_SHA_DRIFT")
+    return {"status":"APPENDED","path":str(prepared.relative_to(base)),
+            "commit_marker":str(marker.relative_to(base)),
+            "sha256":checksum}
+
 
 def _read(root,relative,expected_sha=None):
     path=_safe(root,relative)
@@ -165,20 +167,38 @@ def _safe_id(s):
     return s
 
 def read_transitions(root, model_id):
+    """Only verified committed markers count; every orphan stays invisible."""
     base=_secure_root(root)
     name=_safe_id(model_id)
     folder=_safe(base,"transitions/"+name)
     if not folder.exists():
         return []
     out=[]
-    for path in sorted(folder.glob("*.json")):
-        row=_read(base,str(path.relative_to(base)))
-        _need(path.name==f"{int(row['sequence']):08d}.json",
-              "REGISTRY_SEQUENCE_FILE_INVALID")
+    found=set()
+    for marker in sorted(folder.glob("*.commit")):
+        _need(marker.is_file() and not marker.is_symlink()
+              and marker.stat().st_size==0,"REGISTRY_COMMIT_MARKER_CORRUPTED")
+        parts=marker.stem.split("-")
+        _need(len(parts)==3 and len(parts[0])==8 and parts[0].isdigit()
+              and re.fullmatch(r"[0-9a-f]{64}",parts[1])
+              and re.fullmatch(r"[0-9a-f]{32}",parts[2]),
+              "REGISTRY_COMMIT_MARKER_FILENAME_INVALID")
+        seq=int(parts[0])
+        _need(seq not in found,"REGISTRY_DUPLICATE_COMMITTED_SEQUENCE")
+        found.add(seq)
+        relative=str(marker.relative_to(base)).removesuffix(".commit")+".json"
+        path=_safe(base,relative)
+        _need(not path.is_symlink() and path.is_file(),
+              "REGISTRY_COMMITTED_TRANSITION_MISSING")
+        row=_read(base,relative,parts[1])
+        _need(row.get("sequence")==seq and row.get("model_id")==name,
+              "REGISTRY_SEQUENCE_OR_MODEL_MISMATCH")
         out.append(row)
+    out.sort(key=lambda x:x["sequence"])
     for i,row in enumerate(out,1):
-        _need(row.get("sequence")==i,"REGISTRY_TRANSITION_GAP")
+        _need(row["sequence"]==i,"REGISTRY_TRANSITION_GAP")
     return out
+
 
 def _latest(root, model_id):
     entries=read_transitions(root,model_id)
