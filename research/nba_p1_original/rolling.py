@@ -261,6 +261,7 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
             info=vault.save_json('handoffs/'+digest(claim_id.encode())+'.json',summary)
             outcome={'event_id':gid,'phase':phase,'status':'SOURCE_FEATURE_FROZEN',
                      'at':summary['input_freeze_at'],'receipt_sha256':info['sha256'],
+                     'handoff_path':info['path'],
                      'feature_rows':summary['feature_rows'],
                      'player_candidates_accepted':summary['player_candidates_accepted']}
         except FileExistsError:
