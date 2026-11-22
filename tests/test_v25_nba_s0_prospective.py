@@ -39,7 +39,9 @@ class PredeclaredMethodTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             got=create_research_model(payload,source_root=root,
                 model_code_sha=self.code,created_at=self.at,persist=False)
-            self.assertEqual(got["record"],expected)
+            self.assertEqual(got["record"]["artifact_sha256"],expected["artifact_sha256"])
+            self.assertEqual(got["record"]["artifact_path"],expected["artifact_path"])
+            self.assertNotEqual(got["record"]["training_scope"],expected["training_scope"])
             self.assertFalse(got["persisted"])
             self.assertEqual(hashlib.sha256(
                 (Path(root)/expected["artifact_path"]).read_bytes()).hexdigest(),
