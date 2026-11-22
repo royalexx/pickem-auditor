@@ -274,6 +274,7 @@ class SettlementTests(unittest.TestCase):
             receipt_root=self.receipts,run_at=run,prior_settlement=prior,
             evidence_type="synthetic_fixture")
     def _conditional_s0_fixture(self, root, *, dnp=False):
+        Path(root,"receipts").mkdir(parents=True,exist_ok=True)
         fx=Fixture(root,sport="NBA",dnp=dnp)
         feature=fx.frozen["feature"]
         feature["features"]={
