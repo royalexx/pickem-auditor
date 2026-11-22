@@ -273,6 +273,84 @@ class SettlementTests(unittest.TestCase):
         return settle(f.frozen,f.official,source_root=f.root,
             receipt_root=self.receipts,run_at=run,prior_settlement=prior,
             evidence_type="synthetic_fixture")
+    def _conditional_s0_fixture(self, root, *, dnp=False):
+        fx=Fixture(root,sport="NBA",dnp=dnp)
+        feature=fx.frozen["feature"]
+        feature["features"]={
+            "interface_version":"PA-NBA-P1/1",
+            "candidate_kind":"SOURCE_LISTED_SUBSET",
+            "participation_probability":None,
+            "legal_eligibility":"UNVERIFIED",
+            "reconstruction_note":"AUTHENTIC_SAME_DAY_POSSESSION",
+            "prior_player_history":[]
+        }
+        feature["feature_sha256"]=sha256(feature["features"])
+        forecast=fx.frozen["forecast"]
+        forecast["input_sha256"]=sha256(feature)
+        forecast["eligible"]=False
+        forecast["abstention_reasons"]=[
+            "PARTICIPATION_UNRESOLVED","CONDITIONAL_ON_PLAYING_ONLY",
+            "ELIGIBILITY_UNVERIFIED"]
+        forecast["uncertainty"]={
+            "research_only":True,"family":"S0","pipeline":"S_ONLY",
+            "complete_pipeline_id":"S_ONLY",
+            "calibration":"NOT_ESTABLISHED"}
+        return fx
+
+    def test_original_conditional_s0_played_zero_scored_not_trainable(self):
+        with tempfile.TemporaryDirectory() as root:
+            fx=self._conditional_s0_fixture(root)
+            result=settle(fx.frozen,fx.official,source_root=root,
+                          receipt_root=Path(root)/"receipts",run_at=SETTLED,
+                          evidence_type="original")
+            self.assertEqual(result["statistical_status"],"SETTLED")
+            self.assertEqual(result["classification"],
+                             "ORIGINAL_PREGAME_CONDITIONAL_ON_PLAYED")
+            self.assertIsNotNone(result["statistical_score"])
+            self.assertIsNone(result["contract_score"])
+            self.assertTrue(result["conditional_on_played_only"])
+            self.assertFalse(result["unconditional_participation_calibrated"])
+            with self.assertRaisesRegex(ScoreError,
+                                       "RECONSTRUCTED_OR_SYNTHETIC_TRAINING_FORBIDDEN"):
+                eligible_training_row(result,fx.official,fx.frozen,cutoff=SETTLED)
+
+    def test_conditional_s0_dnp_excluded_not_scored_zero(self):
+        with tempfile.TemporaryDirectory() as root:
+            fx=self._conditional_s0_fixture(root,dnp=True)
+            result=settle(fx.frozen,fx.official,source_root=root,
+                          receipt_root=Path(root)/"receipts",run_at=SETTLED,
+                          evidence_type="original")
+            self.assertEqual(result["status"],"DNP_EXCLUDED")
+            self.assertEqual(result["classification"],
+                             "ORIGINAL_PREGAME_CONDITIONAL_ON_PLAYED")
+            self.assertIsNone(result["conditional_statistical_score"])
+            self.assertEqual(result["training_update"],"BLOCKED")
+
+    def test_conditional_s0_no_broad_eligibility_override(self):
+        with tempfile.TemporaryDirectory() as root:
+            fx=self._conditional_s0_fixture(root)
+            for change in (
+                {"uncertainty":{"research_only":True,"family":"S1",
+                                "pipeline":"S_ONLY"}},
+                {"abstention_reasons":["CONDITIONAL_ON_PLAYING_ONLY",
+                                        "ELIGIBILITY_UNVERIFIED"]},
+                {"uncertainty":{"research_only":True,"family":"S0",
+                                "pipeline":"S_PLUS_O"}},
+                {"eligible":True},
+            ):
+                mutated={**fx.frozen["forecast"],**change}
+                item={**fx.frozen,"forecast":mutated}
+                if mutated["eligible"] is True:
+                    with self.assertRaises(AdmissionError):
+                        settle(item,fx.official,source_root=root,
+                               receipt_root=Path(root)/"receipts",run_at=SETTLED,
+                               evidence_type="original")
+                else:
+                    out=settle(item,fx.official,source_root=root,
+                               receipt_root=Path(root)/"receipts",run_at=SETTLED,
+                               evidence_type="original")
+                    self.assertEqual(out["status"],"FORECAST_UNCERTIFIED")
+
     def test_original_snapshot_bytes_never_change(self):
         before=sha256(self.f.frozen["forecast"])
         result=self.run_case()
