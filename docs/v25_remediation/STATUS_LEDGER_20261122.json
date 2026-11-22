@@ -1,0 +1,538 @@
+{
+  "schema": "PA-V25-REMEDIATION-STATUS-LEDGER/1",
+  "as_of_utc": "2026-11-22T16:13:31Z",
+  "repository": "royalexx/pickem-auditor",
+  "deepnote_project": "9cc31536-93be-44db-bdeb-06fba3f61410",
+  "main_sha_unchanged": "912bc7010058092ea735dcda0aa941429194474b",
+  "tested_exact_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+  "draft_pr": 206,
+  "single_integration_branch": "integration/v25-p0-p6-remediation-20261122",
+  "source_inventory_proof": {
+    "run_id": "15af45d2-eeaf-4999-8f8d-645c37a05a98",
+    "as_of_utc": "2026-11-22T16:11:16Z",
+    "p0_canonical_records": {
+      "SourceReceipt": 0,
+      "PregameFeatureSnapshot": 0,
+      "ModelArtifact": 0,
+      "ForecastSnapshot": 0,
+      "MarketQuote": 0,
+      "OutcomeRecord": 0,
+      "SettlementRecord": 0,
+      "TrainingUpdateReceipt": 0,
+      "ExperimentManifest": 8
+    },
+    "genuine_original_nba_forecasts": 0,
+    "genuine_original_nhl_sog_forecasts": 0,
+    "genuine_quote_qualified_native_nb2_pairs": 0,
+    "official_settlements_of_new_original_forecasts": 0,
+    "genuine_research_model_fit_updates": 0
+  },
+  "qa": {
+    "unified_run_id": "4a08e0cd-d44a-4a03-994e-498f6113b935",
+    "total": 259,
+    "passed": 259,
+    "failed": 0,
+    "errors": 0,
+    "receipt_sha256": "969963bda1a10536783f9374c2c38ddec98f2050879ba78f17397fa0b7962f29",
+    "components": {
+      "P0": 63,
+      "P1": 45,
+      "P2": 49,
+      "P3": 27,
+      "P4": 16,
+      "P5": 42,
+      "P6_independent_numeric": 17
+    }
+  },
+  "deepnote_synthetic_registry": {
+    "root": "/datasets/_deepnote_work/research/v25_remediation_registry_canary_20261122/experiment_B",
+    "writer_run_id": "e3037d58-583e-4dbc-90fb-946178f26b22",
+    "reader_run_id": "2e6e9b45-bdcc-4d7a-93c9-381939aaa345",
+    "sha256": "eb024cce51a7f6fb84e599e200503c19fd4dd403d8662b5218279bbbdc39ca51",
+    "committed_transitions": 4,
+    "asof_versions": [
+      1,
+      2,
+      3,
+      1
+    ],
+    "concurrent_writer_conflict": true,
+    "failed_commit_orphan_survived": true,
+    "real_training": false
+  },
+  "active_automations_changed": false,
+  "production_tiers_changed": false,
+  "nfl_code_changed": false,
+  "phase_and_model_families": [
+    {
+      "id": "P0",
+      "phase": "P0",
+      "family": "nine contracts/storage",
+      "previous_status": "PARTIAL",
+      "original_failure": "Old Phase8C literal /work resolution rejected valid mounted storage; downstream registry hardlink unsupported",
+      "exact_code_fix": "P0 common namespace/attestation unchanged; owner bridge #199 retained separately; all consumers staged with P0 contract tests",
+      "owner_commit_sha": "c14de84839161f207d6fd7524c18d68b13707365",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "passed": 63,
+        "failed": 0,
+        "skipped": 0
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "P0 contract/storage engineering PASS; authentic shared source/model/forecast namespace still empty. Old worker #199 remains separate.",
+      "engineering_status": "PASS",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Certify a P1/P2 authentic original source and dependent frozen forecast in P0 shared namespace, then independently recover bytes."
+    },
+    {
+      "id": "P1",
+      "phase": "P1",
+      "family": "NBA WS1 original source/rolling subset",
+      "previous_status": "PARTIAL",
+      "original_failure": "Native WS1 on old unmerged stack; expired/disabled six-day pilot, no genuine feature freeze",
+      "exact_code_fix": "Selectively imported exactly six native v2/nba_ws1 files from #144 without duplicate collector; P1 source-listed subset and event-relative code retained",
+      "owner_commit_sha": "cf71e6662347755020217c78a04642a5b36ec5a9",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "passed": 45,
+        "failed": 0,
+        "skipped": 0
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "WS1 current-day source-only probe requires full original scripts dependencies; no newly certified original player feature snapshot yet.",
+      "engineering_status": "BLOCKED",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Run the pinned native WS1 rolling worker with all original dependencies at a genuine future capture window, inspect source receipts, and promote source into shared P0 only after independent approval."
+    },
+    {
+      "id": "P2",
+      "phase": "P2",
+      "family": "NHL signed original source and SOG/TOI history",
+      "previous_status": "FAIL/PARTIAL",
+      "original_failure": "49-case suite previously had record_sha256 errors; live NHL official canary HTTP failed",
+      "exact_code_fix": "Use final corrected owner source record structures; no weakened provenance; entire 49-case suite rerun",
+      "owner_commit_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "passed": 49,
+        "failed": 0,
+        "skipped": 0
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "NHL actual signed event+two rosters+historical SOG/TOI bundle absent; C03 endpoint and source market qualifications not certified.",
+      "engineering_status": "PASS",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Capture future official event and both roster original bytes with C03 receipts, verify signed historical SOG/TOI and independent readback; preserve quote-free and quote-required cohorts separately."
+    },
+    {
+      "id": "P3-S0",
+      "phase": "P3",
+      "family": "NBA S0 full-count baseline",
+      "previous_status": "PARTIAL",
+      "original_failure": "Synthetic forecast distribution only, no genuine source/model eligibility and no accepted native G0/C bridge",
+      "exact_code_fix": "Preserved P3 original full count distribution/synthetic freeze; native WS1 and P0 staged together",
+      "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p3_suite_total": 27,
+        "p3_suite_passed": 27
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "S0 conditional distribution cannot certify unconditional appearance; original source and accepted model version unavailable.",
+      "engineering_status": "BLOCKED",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Load genuine P1 features and previously fitted, SHA-verified S0 model as of cutoff; freeze full distribution before tipoff."
+    },
+    {
+      "id": "P3-S1",
+      "phase": "P3",
+      "family": "NBA S1 statistical research",
+      "previous_status": "BLOCKED",
+      "original_failure": "Historical/native G1 acceptance remains NO-GO, regardless of synthetic P3 tests",
+      "exact_code_fix": "S-family synthetic tests retained without replacing native G1 work",
+      "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p3_suite_total": 27,
+        "p3_suite_passed": 27
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "Native approval, original point-in-time training and model artifact receipts absent.",
+      "engineering_status": "BLOCKED",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Reproduce native G1 failures/blocked cases on their owner branches, add accepted regression, then produce real source/model freeze."
+    },
+    {
+      "id": "P3-S2",
+      "phase": "P3",
+      "family": "NBA S2 statistical research",
+      "previous_status": "BLOCKED",
+      "original_failure": "Historical/native G1 acceptance remains NO-GO, regardless of synthetic P3 tests",
+      "exact_code_fix": "S-family synthetic tests retained without replacing native G1 work",
+      "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p3_suite_total": 27,
+        "p3_suite_passed": 27
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "Native approval, original point-in-time training and model artifact receipts absent.",
+      "engineering_status": "BLOCKED",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Reproduce native G1 failures/blocked cases on their owner branches, add accepted regression, then produce real source/model freeze."
+    },
+    {
+      "id": "P3-S3",
+      "phase": "P3",
+      "family": "NBA S3 statistical research",
+      "previous_status": "BLOCKED",
+      "original_failure": "Historical/native G1 acceptance remains NO-GO, regardless of synthetic P3 tests",
+      "exact_code_fix": "S-family synthetic tests retained without replacing native G1 work",
+      "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p3_suite_total": 27,
+        "p3_suite_passed": 27
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "Native approval, original point-in-time training and model artifact receipts absent.",
+      "engineering_status": "BLOCKED",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Reproduce native G1 failures/blocked cases on their owner branches, add accepted regression, then produce real source/model freeze."
+    },
+    {
+      "id": "P3-S4",
+      "phase": "P3",
+      "family": "NBA S4 statistical research",
+      "previous_status": "BLOCKED",
+      "original_failure": "Historical/native G1 acceptance remains NO-GO, regardless of synthetic P3 tests",
+      "exact_code_fix": "S-family synthetic tests retained without replacing native G1 work",
+      "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p3_suite_total": 27,
+        "p3_suite_passed": 27
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "Native approval, original point-in-time training and model artifact receipts absent.",
+      "engineering_status": "BLOCKED",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Reproduce native G1 failures/blocked cases on their owner branches, add accepted regression, then produce real source/model freeze."
+    },
+    {
+      "id": "P3-O",
+      "phase": "P3",
+      "family": "NBA O-family opportunity/participation",
+      "previous_status": "BLOCKED",
+      "original_failure": "Partial source-listed roster cannot justify full participation or rotation",
+      "exact_code_fix": "Preserved unknown participation and owner synthetic opportunity mixtures; no fabricated p_play",
+      "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p3_suite_total": 27,
+        "p3_suite_passed": 27
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "No source-qualified appearance/minutes/team roster coverage and no native G1 acceptance.",
+      "engineering_status": "BLOCKED",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Require original opportunity source inputs and accepted O-family fitness; retain conditional and unconditional interpretation separately."
+    },
+    {
+      "id": "P3-J",
+      "phase": "P3",
+      "family": "NBA J-family coherent game scenarios",
+      "previous_status": "BLOCKED",
+      "original_failure": "Full-team roster, 5-on-court and native joint-scenario witness incomplete",
+      "exact_code_fix": "Preserved same-scenario PR/PA/RA/PRA and synthetic constraints, no placeholder native witness",
+      "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p3_suite_total": 27,
+        "p3_suite_passed": 27
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "Original full-team source and immutable approved joint scenario bank absent.",
+      "engineering_status": "BLOCKED",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Persist complete official-identity joint scenario bank with common state, seed/model/source SHA, minute conservation and independent G1 tests."
+    },
+    {
+      "id": "P3-C",
+      "phase": "P3",
+      "family": "NBA native G0/C adapter",
+      "previous_status": "FAIL/BLOCKED",
+      "original_failure": "P0 forecast rows insufficient to establish native original G0/C scenario/source witnesses",
+      "exact_code_fix": "Adapter remains in backlog; source/model hashes only, no evidence fabricated",
+      "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p3_suite_total": 27,
+        "p3_suite_passed": 27
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "Original native G1 audit PR173 26 PASS,2 FAIL,8 BLOCKED; no accepted G0/C bridge.",
+      "engineering_status": "BLOCKED",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Reproduce and fix both native defects and eight blockers, then add independent adapter witness tests without renaming rows as proof."
+    },
+    {
+      "id": "P4-P",
+      "phase": "P4",
+      "family": "NHL plugin-Poisson SOG",
+      "previous_status": "FAIL",
+      "original_failure": "P4 exact-head freeze test rejected wrong fixture kind",
+      "exact_code_fix": "Changed test kind to registered full_gamma_poisson_exposure; retained Poisson/Gamma/NB2 likelihood mapping",
+      "owner_commit_sha": "df3171b1aa2e457c89037a830d857c5f76238b1f",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "passed": 16,
+        "failed": 0,
+        "skipped": 0
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "No signed original P2 game bundle and model pregame freeze.",
+      "engineering_status": "PASS",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Consume a genuine signed P2 bundle, freeze full Poisson SOG predictive distribution and independently read P0 receipt."
+    },
+    {
+      "id": "P4-G",
+      "phase": "P4",
+      "family": "NHL original Gamma–Poisson exposure",
+      "previous_status": "FAIL/BLOCKED",
+      "original_failure": "Gamma exposure test alias mismatch; original Gamma artifacts not verified",
+      "exact_code_fix": "Correct fixture to registered kind full_gamma_poisson_exposure without changing Gamma likelihood",
+      "owner_commit_sha": "df3171b1aa2e457c89037a830d857c5f76238b1f",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "passed": 16,
+        "failed": 0,
+        "skipped": 0
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "Actual original SOG/TOI history and original Gamma pregame state absent.",
+      "engineering_status": "PASS",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Fit/load only approved original Gamma state from eligible signed pregame history; freeze immutable distribution/control."
+    },
+    {
+      "id": "P4-NB2",
+      "phase": "P4",
+      "family": "NHL locked native NB2 shape=4 quote cohort",
+      "previous_status": "BLOCKED",
+      "original_failure": "Lacked registered original Gamma plugin-Poisson mean and genuine two-sided book offer",
+      "exact_code_fix": "Exact fixed NB2 shape remains four, original pair identity and locked protocol unchanged",
+      "owner_commit_sha": "df3171b1aa2e457c89037a830d857c5f76238b1f",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p4_reference_passed": 16
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "No actual original mean, market offer, line/book source SHA and matched pair; no dispersion re-estimation allowed.",
+      "engineering_status": "BLOCKED",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Require exact native original plugin-Poisson control and certified two-sided offer for same player/event/line/book; otherwise abstain."
+    },
+    {
+      "id": "P5-C10",
+      "phase": "P5",
+      "family": "NHL locked 40 local slate-date C10",
+      "previous_status": "FAIL",
+      "original_failure": "Used UTC YYYY-MM-DD slicing and overcounted same Toronto slate",
+      "exact_code_fix": "local_slate_date with America/Toronto DST and pair/source-bound date semantics; independent old P6 date reference now passes",
+      "owner_commit_sha": "babd757c728c94f6d0d67f0c715dd5bd30e540b7",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p5_passed": 42,
+        "independent_p6_passed": 17
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "No actual 40 distinct source-qualified native pairs; no interim performance inspection.",
+      "engineering_status": "PASS",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Accumulate 40 truly distinct original eligible Toronto slate dates under unchanged locked C10 after genuine pairs."
+    },
+    {
+      "id": "P5-R",
+      "phase": "P5",
+      "family": "research immutable registry",
+      "previous_status": "FAIL",
+      "original_failure": "Actual Deepnote FUSE did not support os.link atomic transition; no model publish",
+      "exact_code_fix": "Exclusive-create zero-byte commit marker after fsynced prepared immutable blob; shared read-only lock; idempotent exact retry",
+      "owner_commit_sha": "cf1655253e18cdd5b24615215307909f5d8ccfc5",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p5_passed": 42,
+        "synthetic_real_fuse_transition_count": 4,
+        "independent_cross_detached": true
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "Tested crash-before-marker, concurrent processes, as-of selection and rollback; not a power-loss durability guarantee, only synthetic model observations.",
+      "engineering_status": "PASS",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Submit registry protocol for independent filesystem review, then validate publication driven by new eligible official outcomes and later genuine forecast."
+    },
+    {
+      "id": "P5-S",
+      "phase": "P5",
+      "family": "official settlement and complete proper scoring",
+      "previous_status": "PARTIAL",
+      "original_failure": "Synthetic only, no canonical original forecast or FINAL reconciliation",
+      "exact_code_fix": "Existing P5 score methods and source/hash vault readers retained; P6 reference 17 pass",
+      "owner_commit_sha": "cf1655253e18cdd5b24615215307909f5d8ccfc5",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p5_passed": 42,
+        "independent_p6_passed": 17
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "Canonical forecast inventory zero; no official FINAL matched original, no genuine CRPS PIT/calibration sample.",
+      "engineering_status": "PASS",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Settle genuine original NBA and NHL forecasts against independent official FINAL, preserve pushes/DNP/corrections and denominators."
+    },
+    {
+      "id": "P5-L",
+      "phase": "P5",
+      "family": "adaptive NHL Gamma / NBA simple research learning",
+      "previous_status": "BLOCKED",
+      "original_failure": "Previous os.link failure prevented real version transition; no real model update verified",
+      "exact_code_fix": "Registry and owner-approved callback framework now synthetic-test proven, unchanged locked controls",
+      "owner_commit_sha": "cf1655253e18cdd5b24615215307909f5d8ccfc5",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "p5_passed": 42,
+        "synthetic_model_state_changed": true
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "Synthetic alpha/beta changes do not constitute actual training; no eligible official observations or approved NBA incremental fit interface.",
+      "engineering_status": "BLOCKED",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "After official matched settlement, run owner-approved deterministic low-cost fit with actual state difference, training SHA/cutoff, validation receipt and later model selection."
+    },
+    {
+      "id": "P6",
+      "phase": "P6",
+      "family": "independent QA and 22-case matrix",
+      "previous_status": "NO-GO",
+      "original_failure": "Prior 17-case suite had C10 FAIL; P4 and P2 test defects; real registry publication failed; fault matrix incomplete",
+      "exact_code_fix": "Independent P6 original reference suite rerun unchanged against exact corrected P3/P5 staging; 17 pass, 22-case matrix classified without manufactured coverage",
+      "owner_commit_sha": "14902fe786038698d259a1ae28295cb3ae4f756e",
+      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "tests_executed": {
+        "independent_numerical_passed": 17,
+        "fault_cases_total": 22,
+        "synthetic_real_mount_pass_cases": [
+          16,
+          19,
+          22
+        ]
+      },
+      "genuine_original_evidence_present": false,
+      "remaining_limitations": "19/22 fault cases not independently PASS; no genuine future-event full lifecycle, no external reviewer final signoff.",
+      "engineering_status": "BLOCKED",
+      "prospective_operational_status": "BLOCKED",
+      "daily_learning_status": "BLOCKED",
+      "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "exact_remaining_action": "Independent full fault-injection implementation on final exact SHA plus genuine NBA/NHL original pregame→official outcome→settlement→eligible update→later forecast."
+    }
+  ],
+  "global_engineering_status": "BLOCKED",
+  "global_prospective_status": "BLOCKED",
+  "global_daily_learning_status": "BLOCKED",
+  "global_research_only": true
+}
