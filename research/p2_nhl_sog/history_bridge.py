@@ -1,0 +1,137 @@
+"""P2 bridge: re-use the verified native NHL signed historical observations.
+
+Original game logs/profile/FINAL bytes are NOT recopied, rewritten, backdated
+or reconstructed from box scores. P0 source receipt binds the original
+verified archive and the original C03 collector-possession timestamp.
+"""
+from __future__ import annotations
+from pathlib import Path
+import hashlib
+import json
+
+from v2.p0_integrity.contracts import VERSION, canonical_bytes, validate_record
+from v2.p0_integrity.storage import append_immutable, verify_immutable_record
+from scripts.c03_live_transport import verify_signed_capture
+from v2.nhl_sog_official_history_producer import independent_verify_observation_lineage
+from .source_pipeline import (SourceBlocked, require, digest, clock, stamp,
+                              current_storage, safe_relative, ROOT_NAMESPACE)
+
+def checked_pool(root, pool):
+    current_storage(root)
+    base = Path(root).resolve()
+    p = Path(pool).resolve()
+    require(p != base and p.is_relative_to(base), "UNAPPROVED_HISTORICAL_SOURCE_POOL")
+    require(p.is_dir(), "HISTORICAL_ORIGINAL_SOURCE_POOL_MISSING")
+    return p
+
+def bridge_original_receipt(root, pool, original_receipt, *, freeze, event_start, kind):
+    pool = checked_pool(root, pool)
+    require(isinstance(original_receipt, dict), "SIGNED_ORIGINAL_RECEIPT_MISSING")
+    try:
+        raw_doc = verify_signed_capture(original_receipt, archive_root=pool,
+                                        freeze=freeze, event_start=event_start)
+    except Exception as exc:
+        raise SourceBlocked("C03_HISTORICAL_PROOF_INVALID:" + type(exc).__name__) from exc
+    received = clock(original_receipt.get("received_at"))
+    require(received <= clock(freeze) < clock(event_start),
+            "HISTORICAL_SOURCE_AFTER_FREEZE")
+    path = (pool / original_receipt["archive_path"]).resolve()
+    require(path.is_relative_to(pool) and path.is_file() and
+            digest(path.read_bytes()) == original_receipt["body_sha256"],
+            "HISTORICAL_BODY_SHA_MISMATCH")
+    relative = str(path.relative_to(Path(root).resolve()))
+    source_id = "nhl:history:" + kind + ":" + original_receipt["source_id"]
+    rec = {
+      "record_type": "SourceReceipt", "schema_version": VERSION,
+      "receipt_id": "p2hist:" + digest(canonical_bytes(
+          [kind, source_id, original_receipt["body_sha256"],
+           original_receipt["received_at"]])),
+      "source_id": source_id, "source_kind": "nhl_historical_" + kind,
+      "source_available_at": stamp(received), "collected_at": stamp(received),
+      "source_sha256": original_receipt["body_sha256"],
+      "archive_path": relative, "provenance_class": "collector_possession"
+    }
+    validate_record("SourceReceipt", rec)
+    out = append_immutable(root, "SourceReceipt", rec)
+    return {"record": rec, "record_sha256": out["sha256"],
+            "historical_source_url": original_receipt.get("source_url"),
+            "verified_at_original_possession": original_receipt["received_at"],
+            "publisher_release_time_verified": False}
+
+def verified_player_history(root, pool, entries, *, player_id, group,
+                            freeze, event_start):
+    pool = checked_pool(root, pool)
+    require(isinstance(entries, list), "SIGNED_HISTORICAL_ENTRIES_MISSING")
+    out, refs, seen = [], {}, set()
+    for entry in entries:
+        try:
+            receipt = independent_verify_observation_lineage(
+                entry, archive_root=pool, freeze=freeze, event_start=event_start)
+        except Exception as exc:
+            raise SourceBlocked("ORIGINAL_HISTORICAL_LINEAGE_REJECTED:" +
+                                type(exc).__name__) from exc
+        raw = safe_relative(pool, receipt["archive_path"]).read_bytes()
+        require(digest(raw) == receipt["content_sha256"],
+                "DERIVED_OBSERVATION_TAMPERED")
+        obs = json.loads(raw)
+        require(str(obs["player_id"]) == str(player_id) and
+                obs["position_group"] == group and obs["played"] is True,
+                "WRONG_HISTORICAL_PLAYER_POSITION_OR_PARTICIPATION")
+        gid = str(obs["event_id"])
+        require(gid not in seen and gid != str(obs.get("target_event_id")),
+                "HISTORICAL_DOUBLE_COUNT_OR_TARGET_GAME")
+        seen.add(gid)
+        row = obs["source_game_log_row"]
+        require(row.get("gameDate") < clock(event_start).date().isoformat() and
+                clock(obs["event_ended_at"]) <= clock(freeze),
+                "HISTORICAL_FINAL_NOT_AVAILABLE_PRE_FREEZE")
+        names = {
+            "profile": entry["raw_profile_receipt"],
+            "game_log": entry["raw_log_receipt"],
+            "final": entry["raw_final_receipt"]
+        }
+        ids = []
+        for kind, original in names.items():
+            proof_sha = original["collector_proof_sha256"]
+            if proof_sha not in refs:
+                refs[proof_sha] = bridge_original_receipt(
+                    root, pool, original, freeze=freeze,
+                    event_start=event_start, kind=kind)
+            ids.append(refs[proof_sha]["record"]["receipt_id"])
+        out.append({
+            "game_id": gid, "game_date": row["gameDate"],
+            "historical_team": row.get("teamAbbrev"),
+            "shots_on_goal": obs["shots_on_goal"],
+            "toi_minutes": obs["toi_minutes"],
+            "observation_receipt_sha256": receipt["content_sha256"],
+            "original_source_receipt_ids": ids,
+            "signed_original_source_proofs": {
+                kind: original["collector_proof_sha256"]
+                for kind, original in names.items()}
+        })
+    return sorted(out, key=lambda x: (x["game_date"], x["game_id"])), [
+        refs[k] for k in sorted(refs)]
+
+def load_signed_manifest(root, manifest_rel, expected_sha256):
+    current_storage(root)
+    p = safe_relative(root, manifest_rel)
+    raw = p.read_bytes()
+    require(digest(raw) == expected_sha256, "SIGNED_HISTORY_MANIFEST_HASH_MISMATCH")
+    doc = json.loads(raw)
+    mapping = doc.get("signed_observation_contracts_by_player")
+    require(isinstance(mapping, dict), "SIGNED_HISTORY_MANIFEST_SCHEMA_INVALID")
+    return mapping
+
+def signed_original_profile_name(pool, entry, *, freeze, event_start):
+    """Only names taken from the signed official NHL profile are source-bound."""
+    from scripts.c03_live_transport import verify_signed_capture
+    receipt = entry["raw_profile_receipt"]
+    data = verify_signed_capture(receipt, archive_root=pool,
+                                 freeze=freeze, event_start=event_start)
+    first, last = data.get("firstName"), data.get("lastName")
+    if isinstance(first, dict): first = first.get("default")
+    if isinstance(last, dict): last = last.get("default")
+    require(isinstance(first, str) and isinstance(last, str) and
+            bool(first.strip()) and bool(last.strip()),
+            "SIGNED_OFFICIAL_PROFILE_NAME_UNAVAILABLE")
+    return first.strip() + " " + last.strip()
