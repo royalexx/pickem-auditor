@@ -183,7 +183,7 @@ class P4Tests(unittest.TestCase):
             fit_source_bundle(b,source_root=self.root,now=self.now)
 
     def test_13_full_forecast_freeze_and_restore(self):
-        out=freeze_forecast(self.model,kind="gamma_exposure_mixture",
+        out=freeze_forecast(self.model,kind="full_gamma_poisson_exposure",
             event_id="synthetic_target",player_id="101",team_id="AAA",
             opponent_id="BBB",event_start_at=self.start,
             forecast_at="2026-11-21T21:00:00Z",training_cutoff_at=self.cutoff,
@@ -195,7 +195,7 @@ class P4Tests(unittest.TestCase):
         self.assertEqual(row["participation_condition"],"conditional_on_played")
         self.assertIsNone(row["dnp_probability"])
         self.assertEqual(row["cohort"],"synthetic")
-        same=freeze_forecast(self.model,kind="gamma_exposure_mixture",
+        same=freeze_forecast(self.model,kind="full_gamma_poisson_exposure",
             event_id="synthetic_target",player_id="101",team_id="AAA",
             opponent_id="BBB",event_start_at=self.start,
             forecast_at="2026-11-21T21:00:00Z",training_cutoff_at=self.cutoff,
