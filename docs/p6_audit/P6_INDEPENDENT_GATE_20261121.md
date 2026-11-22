@@ -106,7 +106,7 @@ Statuses are **independently reproduced**, **owner fixture only**, or **not done
 | Task | State Nov21 | Existing schedule | Observed role and blockers |
 |---|---|---|---|
 | NBA capture `6afa51eeb1488191956f2d672edf6d33` | DISABLED | `DTSTART:20261116T180500;FREQ=DAILY;COUNT=6` — expired limited pilot | Old Phase8C pin `ceddb41...`, last run 2026-11-21 failed storage attestation; never amend old evidence to pass |
-| NHL SOG shadow `6af480bda1448191956f2d672edf6d33` | ENABLED | 17:30 America/Toronto DAILY | NB2 native/settlement/C10 research work, NOT sole original Gamma collector; no original Gamma, 0 native NB2 forecasts; late consumer blocked no daily ledger. Nov21 Gamma/C10 retries were rate-limited |
+| NHL SOG shadow `6af480bda1448191b892f43091479f8d` | ENABLED | 17:30 America/Toronto DAILY | NB2 native/settlement/C10 research work, NOT sole original Gamma collector; no original Gamma, 0 native NB2 forecasts; late consumer blocked no daily ledger. Nov21 Gamma/C10 retries were rate-limited |
 | Morning `Automation_12f6ba43eb748191a213917780254329` | ENABLED | 06:00 America/Toronto DAILY | Legacy morning Deepnote run `86414e6f-c763-4a51-a09d-c7e65cbe79c6` SUCCESS but 0 original source forecast bundles, 0 scored contract rows for Nov20; NHL daily consumer blocked; P5 not integrated |
 
 **Note:** This inventory intentionally does not modify any task. The NHL task ID is the one given in the project instructions; verify exact name/ID from the task source before pasting a replacement. Existing original 16:45 Gamma provider capture and 17:30 NB2 shadow/consumer are separate and must not be replaced by an overlapping new source writer. NFL collector/task ownership untouched.
