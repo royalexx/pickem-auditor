@@ -263,7 +263,7 @@ def run_morning(*,max_games=12,clock=None,opener=urlopen,fetch_only=False):
             continue
         numeric=EVENT_ID.fullmatch(event).group(1)
         try:
-            reply=capture_final(numeric,opener=opener,now=now)
+            reply=capture_final(numeric,opener=opener)
             parsed=parse_verified_nba_final(reply["raw"],
                 original_event_id=event,
                 expected_team_ids={t for r in rows for t in
@@ -280,10 +280,12 @@ def run_morning(*,max_games=12,clock=None,opener=urlopen,fetch_only=False):
             results.append({"event_id":event,"status":"OFFICIAL_FINAL_BLOCKED",
                             "reason":type(exc).__name__+":"+str(exc)[:300]})
     settlement=None
-    if not fetch_only:
+    if not fetch_only and scope["events"]:
+        # This call is separate from the original player capture and only
+        # reads immutable already-existing pregame forecasts and FINAL rows.
         try:
             settlement=run_morning_from_frozen_p0(
-                root="/work",run_at=stamp(now),
+                root="/work",run_at=stamp(),
                 permit_research_writes=True,update_adapters=None)
         except Exception as exc:
             settlement={"status":"P5_SETTLEMENT_BLOCKED",
