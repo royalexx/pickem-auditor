@@ -435,7 +435,7 @@
       "previous_status": "FAIL",
       "original_failure": "Used UTC YYYY-MM-DD slicing and overcounted same Toronto slate",
       "exact_code_fix": "local_slate_date with America/Toronto DST and pair/source-bound date semantics; independent old P6 date reference now passes",
-      "owner_commit_sha": "babd757c728c94f6d0d67f0c715dd5bd30e540b7",
+      "owner_commit_sha": "75412c263f05cca37f699d853878d9c55cf06592",
       "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p5_passed": 42,
@@ -450,7 +450,14 @@
       "evidence_runs": [
         "17213080-970b-4d1e-b19f-70ba35836401"
       ],
-      "exact_remaining_action": "Accumulate 40 truly distinct original eligible Toronto slate dates under unchanged locked C10 after genuine pairs."
+      "exact_remaining_action": "Accumulate 40 truly distinct original eligible Toronto slate dates under unchanged locked C10 after genuine pairs.",
+      "additional_code_fix_commits": [
+        {
+          "commit": "7e90139dddc774fdda0bcfa321c27ac20d9e4dbf",
+          "path": "research/p5_daily/complete_pipelines.py",
+          "purpose": "NBA local-date clustering parallel correction"
+        }
+      ]
     },
     {
       "id": "P5-R",
