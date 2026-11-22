@@ -1,0 +1,1166 @@
+{
+  "feature_summary": {
+    "abstention_reasons": [
+      "ELIGIBILITY_UNCERTAIN"
+    ],
+    "confirmed_available_count": 0,
+    "event_id": "espn:game:401999111",
+    "event_start_at": "2026-11-22T00:00:00Z",
+    "feature_rows": 8,
+    "fixture_only": true,
+    "historical_reconstruction_never_original": true,
+    "input_freeze_at": "2026-11-21T23:35:00Z",
+    "market_category": "DISTRIBUTION_ONLY_NO_VERIFIED_QUOTE",
+    "name_supported_count": 0,
+    "official_player_ids_verified_count": 0,
+    "player_candidates_accepted": 1,
+    "player_candidates_rejected": 0,
+    "player_candidates_total": 1,
+    "position_supported_count": 0,
+    "questionable_count": 0,
+    "reconstruction_class": "reconstructed",
+    "rejected": [],
+    "research_profile": "source_listed_subset",
+    "ruled_out_count": 0,
+    "schema": "PA-NBA-P1/1",
+    "source_listed_count": 1,
+    "source_receipt_count": 1,
+    "unknown_availability": 1
+  },
+  "model_forecast_count": 0,
+  "p0_features": [
+    {
+      "event_id": "espn:game:401999111",
+      "feature_sha256": "2f09990285ef1f017aa45804b082440aeddeb347eb445a83a12d0ec754af4315",
+      "feature_snapshot_id": "nba-p1:077fdcf00a50079a281c684f6bf8d90ed513015c85749409e4b8ff72454a6cef",
+      "features": {
+        "availability_status": "UNVERIFIED_AVAILABILITY",
+        "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
+        "current_team_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": true,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:2",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:1"
+        },
+        "espn_event_id": "espn:game:401999111",
+        "espn_player_id": "espn:player:123",
+        "feature_source_receipt_ids": [
+          "synthetic-receipt-1"
+        ],
+        "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_DETAILS_UNAVAILABLE",
+        "injury_evidence": [],
+        "interface_version": "PA-NBA-P1/1",
+        "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": "membership_only",
+        "listed_roster_uncertainty": "reported",
+        "missingness": [
+          "AVAILABILITY_UNAVAILABLE",
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE"
+        ],
+        "official_nba_event_id": null,
+        "official_nba_player_id": null,
+        "opponent_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": false,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:1",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:2"
+        },
+        "participation_probability": null,
+        "position": null,
+        "prior_player_features": {
+          "games_played": 1,
+          "minutes_recent": {
+            "values": [
+              31.2
+            ]
+          },
+          "statistics": {
+            "points": {
+              "recent": {
+                "mean": 21,
+                "n": 1,
+                "values": [
+                  21
+                ]
+              }
+            }
+          }
+        },
+        "prior_player_history": [
+          {
+            "game_date": "2026-11-19",
+            "game_id": "espn:game:401900000",
+            "minutes": 31.2,
+            "opponent_id": "espn:team:2",
+            "participation": "played",
+            "player_id": "espn:player:123",
+            "receipt_id": "synthetic-receipt-1",
+            "starter": true,
+            "stats": {
+              "assists": 6,
+              "points": 21,
+              "rebounds": 8,
+              "threes": 3
+            },
+            "team_id": "espn:team:1"
+          }
+        ],
+        "reconstruction_note": "RETROSPECTIVE_NOT_ORIGINAL",
+        "roster_record_id": "roster-1",
+        "source_listed": true
+      },
+      "input_freeze_at": "2026-11-21T23:35:00Z",
+      "opponent_id": "espn:team:2",
+      "period": "full",
+      "player_id": "espn:player:123",
+      "reconstruction_class": "reconstructed",
+      "record_type": "PregameFeatureSnapshot",
+      "schema_version": "PA-P0/1",
+      "source_receipt_ids": [
+        "synthetic-receipt-1"
+      ],
+      "sport": "NBA",
+      "stat_key": "points",
+      "team_id": "espn:team:1"
+    },
+    {
+      "event_id": "espn:game:401999111",
+      "feature_sha256": "2f09990285ef1f017aa45804b082440aeddeb347eb445a83a12d0ec754af4315",
+      "feature_snapshot_id": "nba-p1:4e0cbe551740a0c6a885a5245999ed31e7c7782e8829e3f689ffde6a25198903",
+      "features": {
+        "availability_status": "UNVERIFIED_AVAILABILITY",
+        "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
+        "current_team_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": true,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:2",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:1"
+        },
+        "espn_event_id": "espn:game:401999111",
+        "espn_player_id": "espn:player:123",
+        "feature_source_receipt_ids": [
+          "synthetic-receipt-1"
+        ],
+        "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_DETAILS_UNAVAILABLE",
+        "injury_evidence": [],
+        "interface_version": "PA-NBA-P1/1",
+        "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": "membership_only",
+        "listed_roster_uncertainty": "reported",
+        "missingness": [
+          "AVAILABILITY_UNAVAILABLE",
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE"
+        ],
+        "official_nba_event_id": null,
+        "official_nba_player_id": null,
+        "opponent_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": false,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:1",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:2"
+        },
+        "participation_probability": null,
+        "position": null,
+        "prior_player_features": {
+          "games_played": 1,
+          "minutes_recent": {
+            "values": [
+              31.2
+            ]
+          },
+          "statistics": {
+            "points": {
+              "recent": {
+                "mean": 21,
+                "n": 1,
+                "values": [
+                  21
+                ]
+              }
+            }
+          }
+        },
+        "prior_player_history": [
+          {
+            "game_date": "2026-11-19",
+            "game_id": "espn:game:401900000",
+            "minutes": 31.2,
+            "opponent_id": "espn:team:2",
+            "participation": "played",
+            "player_id": "espn:player:123",
+            "receipt_id": "synthetic-receipt-1",
+            "starter": true,
+            "stats": {
+              "assists": 6,
+              "points": 21,
+              "rebounds": 8,
+              "threes": 3
+            },
+            "team_id": "espn:team:1"
+          }
+        ],
+        "reconstruction_note": "RETROSPECTIVE_NOT_ORIGINAL",
+        "roster_record_id": "roster-1",
+        "source_listed": true
+      },
+      "input_freeze_at": "2026-11-21T23:35:00Z",
+      "opponent_id": "espn:team:2",
+      "period": "full",
+      "player_id": "espn:player:123",
+      "reconstruction_class": "reconstructed",
+      "record_type": "PregameFeatureSnapshot",
+      "schema_version": "PA-P0/1",
+      "source_receipt_ids": [
+        "synthetic-receipt-1"
+      ],
+      "sport": "NBA",
+      "stat_key": "rebounds",
+      "team_id": "espn:team:1"
+    },
+    {
+      "event_id": "espn:game:401999111",
+      "feature_sha256": "2f09990285ef1f017aa45804b082440aeddeb347eb445a83a12d0ec754af4315",
+      "feature_snapshot_id": "nba-p1:b91248424972a2b0e6c0475046b1e0aea03186cc0dc253686a800941f9155f99",
+      "features": {
+        "availability_status": "UNVERIFIED_AVAILABILITY",
+        "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
+        "current_team_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": true,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:2",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:1"
+        },
+        "espn_event_id": "espn:game:401999111",
+        "espn_player_id": "espn:player:123",
+        "feature_source_receipt_ids": [
+          "synthetic-receipt-1"
+        ],
+        "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_DETAILS_UNAVAILABLE",
+        "injury_evidence": [],
+        "interface_version": "PA-NBA-P1/1",
+        "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": "membership_only",
+        "listed_roster_uncertainty": "reported",
+        "missingness": [
+          "AVAILABILITY_UNAVAILABLE",
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE"
+        ],
+        "official_nba_event_id": null,
+        "official_nba_player_id": null,
+        "opponent_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": false,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:1",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:2"
+        },
+        "participation_probability": null,
+        "position": null,
+        "prior_player_features": {
+          "games_played": 1,
+          "minutes_recent": {
+            "values": [
+              31.2
+            ]
+          },
+          "statistics": {
+            "points": {
+              "recent": {
+                "mean": 21,
+                "n": 1,
+                "values": [
+                  21
+                ]
+              }
+            }
+          }
+        },
+        "prior_player_history": [
+          {
+            "game_date": "2026-11-19",
+            "game_id": "espn:game:401900000",
+            "minutes": 31.2,
+            "opponent_id": "espn:team:2",
+            "participation": "played",
+            "player_id": "espn:player:123",
+            "receipt_id": "synthetic-receipt-1",
+            "starter": true,
+            "stats": {
+              "assists": 6,
+              "points": 21,
+              "rebounds": 8,
+              "threes": 3
+            },
+            "team_id": "espn:team:1"
+          }
+        ],
+        "reconstruction_note": "RETROSPECTIVE_NOT_ORIGINAL",
+        "roster_record_id": "roster-1",
+        "source_listed": true
+      },
+      "input_freeze_at": "2026-11-21T23:35:00Z",
+      "opponent_id": "espn:team:2",
+      "period": "full",
+      "player_id": "espn:player:123",
+      "reconstruction_class": "reconstructed",
+      "record_type": "PregameFeatureSnapshot",
+      "schema_version": "PA-P0/1",
+      "source_receipt_ids": [
+        "synthetic-receipt-1"
+      ],
+      "sport": "NBA",
+      "stat_key": "assists",
+      "team_id": "espn:team:1"
+    },
+    {
+      "event_id": "espn:game:401999111",
+      "feature_sha256": "2f09990285ef1f017aa45804b082440aeddeb347eb445a83a12d0ec754af4315",
+      "feature_snapshot_id": "nba-p1:0657c0899d6178dd3d664e4570b0b9800cdafcc7284275a0b9d3eafcda148738",
+      "features": {
+        "availability_status": "UNVERIFIED_AVAILABILITY",
+        "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
+        "current_team_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": true,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:2",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:1"
+        },
+        "espn_event_id": "espn:game:401999111",
+        "espn_player_id": "espn:player:123",
+        "feature_source_receipt_ids": [
+          "synthetic-receipt-1"
+        ],
+        "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_DETAILS_UNAVAILABLE",
+        "injury_evidence": [],
+        "interface_version": "PA-NBA-P1/1",
+        "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": "membership_only",
+        "listed_roster_uncertainty": "reported",
+        "missingness": [
+          "AVAILABILITY_UNAVAILABLE",
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE"
+        ],
+        "official_nba_event_id": null,
+        "official_nba_player_id": null,
+        "opponent_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": false,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:1",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:2"
+        },
+        "participation_probability": null,
+        "position": null,
+        "prior_player_features": {
+          "games_played": 1,
+          "minutes_recent": {
+            "values": [
+              31.2
+            ]
+          },
+          "statistics": {
+            "points": {
+              "recent": {
+                "mean": 21,
+                "n": 1,
+                "values": [
+                  21
+                ]
+              }
+            }
+          }
+        },
+        "prior_player_history": [
+          {
+            "game_date": "2026-11-19",
+            "game_id": "espn:game:401900000",
+            "minutes": 31.2,
+            "opponent_id": "espn:team:2",
+            "participation": "played",
+            "player_id": "espn:player:123",
+            "receipt_id": "synthetic-receipt-1",
+            "starter": true,
+            "stats": {
+              "assists": 6,
+              "points": 21,
+              "rebounds": 8,
+              "threes": 3
+            },
+            "team_id": "espn:team:1"
+          }
+        ],
+        "reconstruction_note": "RETROSPECTIVE_NOT_ORIGINAL",
+        "roster_record_id": "roster-1",
+        "source_listed": true
+      },
+      "input_freeze_at": "2026-11-21T23:35:00Z",
+      "opponent_id": "espn:team:2",
+      "period": "full",
+      "player_id": "espn:player:123",
+      "reconstruction_class": "reconstructed",
+      "record_type": "PregameFeatureSnapshot",
+      "schema_version": "PA-P0/1",
+      "source_receipt_ids": [
+        "synthetic-receipt-1"
+      ],
+      "sport": "NBA",
+      "stat_key": "threes",
+      "team_id": "espn:team:1"
+    },
+    {
+      "event_id": "espn:game:401999111",
+      "feature_sha256": "2f09990285ef1f017aa45804b082440aeddeb347eb445a83a12d0ec754af4315",
+      "feature_snapshot_id": "nba-p1:8de8cd1fb017c4f9441e604ffa30a71fcee44262a5b37cc8924cd342d493e01c",
+      "features": {
+        "availability_status": "UNVERIFIED_AVAILABILITY",
+        "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
+        "current_team_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": true,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:2",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:1"
+        },
+        "espn_event_id": "espn:game:401999111",
+        "espn_player_id": "espn:player:123",
+        "feature_source_receipt_ids": [
+          "synthetic-receipt-1"
+        ],
+        "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_DETAILS_UNAVAILABLE",
+        "injury_evidence": [],
+        "interface_version": "PA-NBA-P1/1",
+        "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": "membership_only",
+        "listed_roster_uncertainty": "reported",
+        "missingness": [
+          "AVAILABILITY_UNAVAILABLE",
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE"
+        ],
+        "official_nba_event_id": null,
+        "official_nba_player_id": null,
+        "opponent_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": false,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:1",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:2"
+        },
+        "participation_probability": null,
+        "position": null,
+        "prior_player_features": {
+          "games_played": 1,
+          "minutes_recent": {
+            "values": [
+              31.2
+            ]
+          },
+          "statistics": {
+            "points": {
+              "recent": {
+                "mean": 21,
+                "n": 1,
+                "values": [
+                  21
+                ]
+              }
+            }
+          }
+        },
+        "prior_player_history": [
+          {
+            "game_date": "2026-11-19",
+            "game_id": "espn:game:401900000",
+            "minutes": 31.2,
+            "opponent_id": "espn:team:2",
+            "participation": "played",
+            "player_id": "espn:player:123",
+            "receipt_id": "synthetic-receipt-1",
+            "starter": true,
+            "stats": {
+              "assists": 6,
+              "points": 21,
+              "rebounds": 8,
+              "threes": 3
+            },
+            "team_id": "espn:team:1"
+          }
+        ],
+        "reconstruction_note": "RETROSPECTIVE_NOT_ORIGINAL",
+        "roster_record_id": "roster-1",
+        "source_listed": true
+      },
+      "input_freeze_at": "2026-11-21T23:35:00Z",
+      "opponent_id": "espn:team:2",
+      "period": "full",
+      "player_id": "espn:player:123",
+      "reconstruction_class": "reconstructed",
+      "record_type": "PregameFeatureSnapshot",
+      "schema_version": "PA-P0/1",
+      "source_receipt_ids": [
+        "synthetic-receipt-1"
+      ],
+      "sport": "NBA",
+      "stat_key": "pra",
+      "team_id": "espn:team:1"
+    },
+    {
+      "event_id": "espn:game:401999111",
+      "feature_sha256": "2f09990285ef1f017aa45804b082440aeddeb347eb445a83a12d0ec754af4315",
+      "feature_snapshot_id": "nba-p1:8b2bb95dbbba1e8d4628a9d3a2a5d663074d456abd00b0237deae6fedb37559a",
+      "features": {
+        "availability_status": "UNVERIFIED_AVAILABILITY",
+        "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
+        "current_team_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": true,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:2",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:1"
+        },
+        "espn_event_id": "espn:game:401999111",
+        "espn_player_id": "espn:player:123",
+        "feature_source_receipt_ids": [
+          "synthetic-receipt-1"
+        ],
+        "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_DETAILS_UNAVAILABLE",
+        "injury_evidence": [],
+        "interface_version": "PA-NBA-P1/1",
+        "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": "membership_only",
+        "listed_roster_uncertainty": "reported",
+        "missingness": [
+          "AVAILABILITY_UNAVAILABLE",
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE"
+        ],
+        "official_nba_event_id": null,
+        "official_nba_player_id": null,
+        "opponent_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": false,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:1",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:2"
+        },
+        "participation_probability": null,
+        "position": null,
+        "prior_player_features": {
+          "games_played": 1,
+          "minutes_recent": {
+            "values": [
+              31.2
+            ]
+          },
+          "statistics": {
+            "points": {
+              "recent": {
+                "mean": 21,
+                "n": 1,
+                "values": [
+                  21
+                ]
+              }
+            }
+          }
+        },
+        "prior_player_history": [
+          {
+            "game_date": "2026-11-19",
+            "game_id": "espn:game:401900000",
+            "minutes": 31.2,
+            "opponent_id": "espn:team:2",
+            "participation": "played",
+            "player_id": "espn:player:123",
+            "receipt_id": "synthetic-receipt-1",
+            "starter": true,
+            "stats": {
+              "assists": 6,
+              "points": 21,
+              "rebounds": 8,
+              "threes": 3
+            },
+            "team_id": "espn:team:1"
+          }
+        ],
+        "reconstruction_note": "RETROSPECTIVE_NOT_ORIGINAL",
+        "roster_record_id": "roster-1",
+        "source_listed": true
+      },
+      "input_freeze_at": "2026-11-21T23:35:00Z",
+      "opponent_id": "espn:team:2",
+      "period": "full",
+      "player_id": "espn:player:123",
+      "reconstruction_class": "reconstructed",
+      "record_type": "PregameFeatureSnapshot",
+      "schema_version": "PA-P0/1",
+      "source_receipt_ids": [
+        "synthetic-receipt-1"
+      ],
+      "sport": "NBA",
+      "stat_key": "pr",
+      "team_id": "espn:team:1"
+    },
+    {
+      "event_id": "espn:game:401999111",
+      "feature_sha256": "2f09990285ef1f017aa45804b082440aeddeb347eb445a83a12d0ec754af4315",
+      "feature_snapshot_id": "nba-p1:af572859b203adf5fd9aec6b08a8577b526acd3b53f4d84aa795d8fb117e8e8a",
+      "features": {
+        "availability_status": "UNVERIFIED_AVAILABILITY",
+        "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
+        "current_team_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": true,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:2",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:1"
+        },
+        "espn_event_id": "espn:game:401999111",
+        "espn_player_id": "espn:player:123",
+        "feature_source_receipt_ids": [
+          "synthetic-receipt-1"
+        ],
+        "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_DETAILS_UNAVAILABLE",
+        "injury_evidence": [],
+        "interface_version": "PA-NBA-P1/1",
+        "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": "membership_only",
+        "listed_roster_uncertainty": "reported",
+        "missingness": [
+          "AVAILABILITY_UNAVAILABLE",
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE"
+        ],
+        "official_nba_event_id": null,
+        "official_nba_player_id": null,
+        "opponent_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": false,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:1",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:2"
+        },
+        "participation_probability": null,
+        "position": null,
+        "prior_player_features": {
+          "games_played": 1,
+          "minutes_recent": {
+            "values": [
+              31.2
+            ]
+          },
+          "statistics": {
+            "points": {
+              "recent": {
+                "mean": 21,
+                "n": 1,
+                "values": [
+                  21
+                ]
+              }
+            }
+          }
+        },
+        "prior_player_history": [
+          {
+            "game_date": "2026-11-19",
+            "game_id": "espn:game:401900000",
+            "minutes": 31.2,
+            "opponent_id": "espn:team:2",
+            "participation": "played",
+            "player_id": "espn:player:123",
+            "receipt_id": "synthetic-receipt-1",
+            "starter": true,
+            "stats": {
+              "assists": 6,
+              "points": 21,
+              "rebounds": 8,
+              "threes": 3
+            },
+            "team_id": "espn:team:1"
+          }
+        ],
+        "reconstruction_note": "RETROSPECTIVE_NOT_ORIGINAL",
+        "roster_record_id": "roster-1",
+        "source_listed": true
+      },
+      "input_freeze_at": "2026-11-21T23:35:00Z",
+      "opponent_id": "espn:team:2",
+      "period": "full",
+      "player_id": "espn:player:123",
+      "reconstruction_class": "reconstructed",
+      "record_type": "PregameFeatureSnapshot",
+      "schema_version": "PA-P0/1",
+      "source_receipt_ids": [
+        "synthetic-receipt-1"
+      ],
+      "sport": "NBA",
+      "stat_key": "pa",
+      "team_id": "espn:team:1"
+    },
+    {
+      "event_id": "espn:game:401999111",
+      "feature_sha256": "2f09990285ef1f017aa45804b082440aeddeb347eb445a83a12d0ec754af4315",
+      "feature_snapshot_id": "nba-p1:e0be9a87277ab9d0888b6856776545badccfcf09f59bb7c2ec9f3b88bc1be7bc",
+      "features": {
+        "availability_status": "UNVERIFIED_AVAILABILITY",
+        "candidate_kind": "SOURCE_LISTED_SUBSET",
+        "current_name": null,
+        "current_team_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": true,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:2",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:1"
+        },
+        "espn_event_id": "espn:game:401999111",
+        "espn_player_id": "espn:player:123",
+        "feature_source_receipt_ids": [
+          "synthetic-receipt-1"
+        ],
+        "home": true,
+        "identity_evidence_receipt_id": "synthetic-receipt-1",
+        "identity_source_status": "ROSTER_DETAILS_UNAVAILABLE",
+        "injury_evidence": [],
+        "interface_version": "PA-NBA-P1/1",
+        "legal_eligibility": "UNVERIFIED",
+        "listed_roster_status": "membership_only",
+        "listed_roster_uncertainty": "reported",
+        "missingness": [
+          "AVAILABILITY_UNAVAILABLE",
+          "PACE_UNAVAILABLE",
+          "PLAYER_NAME_UNAVAILABLE",
+          "PLAYER_POSITION_UNAVAILABLE"
+        ],
+        "official_nba_event_id": null,
+        "official_nba_player_id": null,
+        "opponent_context": {
+          "back_to_back": false,
+          "defensive_profile": {},
+          "history": [],
+          "home": false,
+          "missing_feature_codes": [
+            "PACE_UNAVAILABLE"
+          ],
+          "offensive_profile": {},
+          "opponent_id": "espn:team:1",
+          "pace_per_48": {
+            "n": 0
+          },
+          "possessions": {
+            "n": 0
+          },
+          "rest_days": 1,
+          "team_id": "espn:team:2"
+        },
+        "participation_probability": null,
+        "position": null,
+        "prior_player_features": {
+          "games_played": 1,
+          "minutes_recent": {
+            "values": [
+              31.2
+            ]
+          },
+          "statistics": {
+            "points": {
+              "recent": {
+                "mean": 21,
+                "n": 1,
+                "values": [
+                  21
+                ]
+              }
+            }
+          }
+        },
+        "prior_player_history": [
+          {
+            "game_date": "2026-11-19",
+            "game_id": "espn:game:401900000",
+            "minutes": 31.2,
+            "opponent_id": "espn:team:2",
+            "participation": "played",
+            "player_id": "espn:player:123",
+            "receipt_id": "synthetic-receipt-1",
+            "starter": true,
+            "stats": {
+              "assists": 6,
+              "points": 21,
+              "rebounds": 8,
+              "threes": 3
+            },
+            "team_id": "espn:team:1"
+          }
+        ],
+        "reconstruction_note": "RETROSPECTIVE_NOT_ORIGINAL",
+        "roster_record_id": "roster-1",
+        "source_listed": true
+      },
+      "input_freeze_at": "2026-11-21T23:35:00Z",
+      "opponent_id": "espn:team:2",
+      "period": "full",
+      "player_id": "espn:player:123",
+      "reconstruction_class": "reconstructed",
+      "record_type": "PregameFeatureSnapshot",
+      "schema_version": "PA-P0/1",
+      "source_receipt_ids": [
+        "synthetic-receipt-1"
+      ],
+      "sport": "NBA",
+      "stat_key": "ra",
+      "team_id": "espn:team:1"
+    }
+  ],
+  "schema": "PA-NBA-P1-SYNTHETIC-P3/1",
+  "snapshot": {
+    "abstention_codes": [
+      "ELIGIBILITY_UNCERTAIN"
+    ],
+    "forecast_at": "2026-11-21T23:35:00Z",
+    "game": {
+      "away_team_id": "espn:team:2",
+      "event_start_at": "2026-11-22T00:00:00Z",
+      "game_id": "espn:game:401999111",
+      "home_team_id": "espn:team:1",
+      "status": "scheduled"
+    },
+    "input_freeze_at": "2026-11-21T23:35:00Z",
+    "input_records": [
+      {
+        "kind": "roster",
+        "payload": "{\"player_id\": \"espn:player:123\", \"team_id\": \"espn:team:1\", \"game_id\": \"espn:game:401999111\", \"status\": \"membership_only\", \"uncertainty\": \"reported\"}",
+        "receipt_id": "synthetic-receipt-1",
+        "record_id": "roster-1"
+      }
+    ],
+    "players": [
+      {
+        "availability": [],
+        "features": {
+          "games_played": 1,
+          "minutes_recent": {
+            "values": [
+              31.2
+            ]
+          },
+          "statistics": {
+            "points": {
+              "recent": {
+                "mean": 21,
+                "n": 1,
+                "values": [
+                  21
+                ]
+              }
+            }
+          }
+        },
+        "history": [
+          {
+            "game_date": "2026-11-19",
+            "game_id": "espn:game:401900000",
+            "minutes": 31.2,
+            "opponent_id": "espn:team:2",
+            "participation": "played",
+            "player_id": "espn:player:123",
+            "receipt_id": "synthetic-receipt-1",
+            "starter": true,
+            "stats": {
+              "assists": 6,
+              "points": 21,
+              "rebounds": 8,
+              "threes": 3
+            },
+            "team_id": "espn:team:1"
+          }
+        ],
+        "home": true,
+        "missing_feature_codes": [
+          "AVAILABILITY_UNAVAILABLE"
+        ],
+        "opponent_id": "espn:team:2",
+        "player_id": "espn:player:123",
+        "roster_record_id": "roster-1",
+        "team_id": "espn:team:1"
+      }
+    ],
+    "receipts": [
+      {
+        "observed_at": "2026-11-21T23:00:00Z",
+        "origin": "fixture",
+        "raw_sha256": "fce885d9dde8641ef774fbcd296a13e2f30775345e9a984a7bc14d6764b1f263",
+        "receipt_id": "synthetic-receipt-1",
+        "source": "https://example.invalid/teams/1/roster",
+        "source_available_at": "2026-11-21T23:00:00Z"
+      }
+    ],
+    "schema_version": "nba-pregame-feature-snapshot/1.0.0",
+    "source_available_at": "2026-11-21T23:00:00Z",
+    "teams": [
+      {
+        "back_to_back": false,
+        "defensive_profile": {},
+        "history": [],
+        "home": true,
+        "missing_feature_codes": [
+          "PACE_UNAVAILABLE"
+        ],
+        "offensive_profile": {},
+        "opponent_id": "espn:team:2",
+        "pace_per_48": {
+          "n": 0
+        },
+        "possessions": {
+          "n": 0
+        },
+        "rest_days": 1,
+        "team_id": "espn:team:1"
+      },
+      {
+        "back_to_back": false,
+        "defensive_profile": {},
+        "history": [],
+        "home": false,
+        "missing_feature_codes": [
+          "PACE_UNAVAILABLE"
+        ],
+        "offensive_profile": {},
+        "opponent_id": "espn:team:1",
+        "pace_per_48": {
+          "n": 0
+        },
+        "possessions": {
+          "n": 0
+        },
+        "rest_days": 1,
+        "team_id": "espn:team:2"
+      }
+    ]
+  },
+  "source_bytes_hex_by_receipt": {
+    "synthetic-receipt-1": "7b227465616d223a7b226964223a2231227d2c226174686c65746573223a5b7b226964223a22313233227d5d7d"
+  },
+  "source_bytes_sha256": {
+    "synthetic-receipt-1": "fce885d9dde8641ef774fbcd296a13e2f30775345e9a984a7bc14d6764b1f263"
+  },
+  "warning": "FAKE_SYNTHETIC_NO_ORIGINAL_CLAIM"
+}
