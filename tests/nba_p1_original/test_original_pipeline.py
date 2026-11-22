@@ -283,7 +283,9 @@ class FakeVault:
     def assert_verified(self):pass
     def source(self,url,raw,t,**kw):return {'receipt_id':'sim-schedule'}, {'path':'fixture','sha256':'a'}, {'sha256':'b'}
     def save_json(self,path,data):
-        if path in self.files:raise AcquisitionError('IMMUTABLE_COLLISION')
+        if path in self.files:
+            if self.files[path]!=data:raise AcquisitionError('IMMUTABLE_COLLISION')
+            return {'path':path,'sha256':hashlib.sha256(json.dumps(data,sort_keys=True).encode()).hexdigest()}
         self.files[path]=copy.deepcopy(data)
         return {'path':path,'sha256':hashlib.sha256(json.dumps(data,sort_keys=True).encode()).hexdigest()}
 
@@ -294,6 +296,43 @@ class DailyCases(unittest.TestCase):
         v=FakeVault();t=BASE-timedelta(minutes=40)
         result=run_daily(day='2026-11-21',clock=lambda:t,vault=v,discover=fake_discover,parse=no_games,wait=False)
         self.assertEqual(result['games_discovered'],0);self.assertTrue(result['daily_manifest_sha256']);self.assertEqual(result['model_forecasts'],0)
+    def test_repeat_same_day_uses_immutable_per_run_manifests(self):
+        v=FakeVault()
+        t1=BASE-timedelta(minutes=40)
+        t2=BASE-timedelta(minutes=39)
+        x=run_daily(day='2026-11-21',clock=lambda:t1,vault=v,
+                    discover=fake_discover,parse=no_games,wait=False)
+        old=copy.deepcopy(v.files[x['daily_manifest_path']])
+        y=run_daily(day='2026-11-21',clock=lambda:t2,vault=v,
+                    discover=fake_discover,parse=no_games,wait=False)
+        self.assertNotEqual(x['daily_manifest_path'],y['daily_manifest_path'])
+        self.assertNotEqual(x['daily_manifest_sha256'],y['daily_manifest_sha256'])
+        self.assertEqual(v.files[x['daily_manifest_path']],old)
+        self.assertIn('/daily_manifests/',x['daily_manifest_path'])
+        self.assertIn('/daily_manifests/',y['daily_manifest_path'])
+        z=run_daily(day='2026-11-21',clock=lambda:t1,vault=v,
+                    discover=fake_discover,parse=no_games,wait=False)
+        self.assertEqual(z['daily_manifest_sha256'],x['daily_manifest_sha256'])
+        self.assertEqual(z['daily_manifest_path'],x['daily_manifest_path'])
+
+    def test_repeat_identical_claim_clock_keeps_both_attempts(self):
+        v=FakeVault();t=BASE-timedelta(minutes=60)
+        event={'game_id':'espn:game:42','event_start_at':iso(BASE),
+          'home_team_id':'espn:team:1','away_team_id':'espn:team:2',
+          'status':'scheduled'}
+        summary={'input_freeze_at':iso(t),'feature_rows':8,'player_candidates_accepted':1}
+        with patch('research.nba_p1_original.rolling._archive_ws1',return_value=summary):
+            first=run_daily(day='2026-11-21',clock=lambda:t,vault=v,
+                discover=fake_discover,parse=lambda *args:[event],
+                capture=lambda *args:{'status':'captured_partial_shadow'},wait=False)
+            again=run_daily(day='2026-11-21',clock=lambda:t,vault=v,
+                discover=fake_discover,parse=lambda *args:[event],
+                capture=lambda *args:{'status':'captured_partial_shadow'},wait=False)
+        self.assertEqual(first['counts']['SOURCE_FEATURE_FROZEN'],1)
+        self.assertEqual(again['counts']['BLOCKED_DUPLICATE_CAPTURE'],1)
+        attempts=[path for path in v.files if path.startswith('attempts/')]
+        self.assertEqual(len(attempts),2)
+
     def test_past_day_cannot_backfill_original(self):
         with self.assertRaisesRegex(AcquisitionError,'NONCURRENT_DAY_ORIGINAL_FORBIDDEN'):
             run_daily(day='2026-11-19',clock=lambda:BASE,vault=FakeVault(),discover=fake_discover,parse=no_games)
