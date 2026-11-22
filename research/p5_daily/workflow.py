@@ -66,6 +66,35 @@ def _classification(f):
         return "RECONSTRUCTED_HISTORICAL"
     return "ORIGINAL_PREGAME_VERIFIED"
 
+def _eligible_conditional_s0_score(forecast, feature):
+    """Strict research exception: original *conditional-on-played* NBA S0.
+
+    Unknown participation is never assigned P(appearance)=1. This exception
+    allows scoring the frozen COUNT law only when official participation is
+    PLAYED; it does not make the forecast betting-eligible or trainable and
+    cannot alter quote-required or S/O/J study populations.
+    """
+    f=forecast
+    u=f.get("uncertainty") or {}
+    info=feature.get("features") or {}
+    return (
+        f.get("sport")=="NBA" and f.get("admission_class")=="A" and
+        f.get("eligible") is False and f.get("quote_id") is None and
+        f.get("line") is None and f.get("side") is None and
+        set(f.get("abstention_reasons") or ())==
+        {"PARTICIPATION_UNRESOLVED","CONDITIONAL_ON_PLAYING_ONLY",
+         "ELIGIBILITY_UNVERIFIED"} and
+        u.get("research_only") is True and u.get("family")=="S0" and
+        u.get("pipeline")=="S_ONLY" and
+        feature.get("reconstruction_class")=="original" and
+        info.get("interface_version")=="PA-NBA-P1/1" and
+        info.get("participation_probability","not_missing") is None and
+        info.get("legal_eligibility")=="UNVERIFIED" and
+        info.get("candidate_kind")=="SOURCE_LISTED_SUBSET" and
+        info.get("reconstruction_note")=="AUTHENTIC_SAME_DAY_POSSESSION"
+    )
+
+
 def load_frozen_p0(*, forecast_sha, feature_sha, model_sha, source_shas,
                    quote_sha=None, source_root="/work"):
     """Canonical P0 reader: exact immutable paths AND original bytes verified."""
@@ -160,9 +189,19 @@ def settle(frozen, official, *, source_root, receipt_root,
         return {"status":status,"forecast_id":f["forecast_id"],
                 "classification":classification,"training_update":"BLOCKED"}
     _match(f,o)
-    if f["eligible"] is not True or f["abstention_reasons"]:
+    conditional_s0=_eligible_conditional_s0_score(f,feature)
+    if (f["eligible"] is not True or f["abstention_reasons"]) and not conditional_s0:
         return {"status":"FORECAST_UNCERTIFIED","forecast_id":f["forecast_id"],
                 "classification":classification}
+    if conditional_s0:
+        # This is a conditional *statistical* evaluation, not an unconditional
+        # research cohort, sports-bookside bet or training observation.
+        classification="ORIGINAL_PREGAME_CONDITIONAL_ON_PLAYED"
+        if status=="DNP_EXCLUDED":
+            return {"status":"DNP_EXCLUDED","forecast_id":f["forecast_id"],
+                    "classification":classification,
+                    "training_update":"BLOCKED",
+                    "conditional_statistical_score":None}
     official_sources=official.get("sources") or []
     _need(bool(official_sources),"OFFICIAL_SOURCE_RECEIPTS_MISSING")
     # Clock of first independently verifiable original final: deterministic
@@ -232,6 +271,8 @@ def settle(frozen, official, *, source_root, receipt_root,
             "market_contract_status":("VOID" if disposition=="VOID" else
                    disposition if contract is not None else "NOT_SCOREABLE"),
             "statistical_score":stat,"contract_score":contract,
+            "conditional_on_played_only":bool(conditional_s0),
+            "unconditional_participation_calibrated":False,
             "original_forecast_sha256":sha256(f),
             "original_model_artifact_sha256":f["artifact_sha256"],
             "original_source_sha256s":[x["source_sha256"] for x in frozen["sources"]],
