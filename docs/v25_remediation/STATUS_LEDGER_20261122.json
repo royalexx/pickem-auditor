@@ -1,10 +1,10 @@
 {
   "schema": "PA-V25-REMEDIATION-STATUS-LEDGER/1",
-  "as_of_utc": "2026-11-22T16:13:31Z",
+  "as_of_utc": "2026-11-22T16:20:50Z",
   "repository": "royalexx/pickem-auditor",
   "deepnote_project": "9cc31536-93be-44db-bdeb-06fba3f61410",
   "main_sha_unchanged": "912bc7010058092ea735dcda0aa941429194474b",
-  "tested_exact_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+  "tested_exact_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
   "draft_pr": 206,
   "single_integration_branch": "integration/v25-p0-p6-remediation-20261122",
   "source_inventory_proof": {
@@ -25,24 +25,45 @@
     "genuine_original_nhl_sog_forecasts": 0,
     "genuine_quote_qualified_native_nb2_pairs": 0,
     "official_settlements_of_new_original_forecasts": 0,
-    "genuine_research_model_fit_updates": 0
+    "genuine_research_model_fit_updates": 0,
+    "additional_p1_dev_original_schedule": {
+      "source_classification": "GENUINE_SCHEDULE_ORIGINAL_BYTES_ONLY_NOT_PLAYER_OR_FORECAST",
+      "player_feature_snapshots": 0,
+      "forecasts": 0,
+      "scheduled_games": 7,
+      "event_relative_windows_not_due": 14,
+      "source_sha256": "ac1014d1fd8af2511814e634d58838eab7177f975bc3ebfc0bc08539922f4906",
+      "receipt_sha256": "28ec2c98e199fcda2aa86ce30a6a764f3e8007ecec23da675fb6e56de6d0a5ba",
+      "daily_manifest_sha256": "2e25b65d7c83f844e08e8d450c56f7e627785a12b2ff1c6170a8f3e8f7fbdd34",
+      "first_capture_run_id": "ec7c7aaa-7daf-424b-99d5-ad11e2858455",
+      "read_only_independent_recovery_run_id": "179d7168-9fc7-42cb-bd1c-791f8bcd3d53"
+    },
+    "additional_p2_original_source_attempt": {
+      "run_id": "ec7c7aaa-7daf-424b-99d5-ad11e2858455",
+      "current_day_official_in_window_game_count": 0,
+      "frozen_predictions": 0,
+      "source_rejections": 0,
+      "run_receipt_relative_path": "research/p2_nhl_sog_original/runs/858ce60f99ed3ae7a59f04377b87fb293b33b97e39e9a5026d602f2543f1f500.json",
+      "run_receipt_sha256": "858ce60f99ed3ae7a59f04377b87fb293b33b97e39e9a5026d602f2543f1f500"
+    }
   },
   "qa": {
-    "unified_run_id": "4a08e0cd-d44a-4a03-994e-498f6113b935",
-    "total": 259,
-    "passed": 259,
+    "unified_run_id": "17213080-970b-4d1e-b19f-70ba35836401",
+    "total": 261,
+    "passed": 261,
     "failed": 0,
     "errors": 0,
-    "receipt_sha256": "969963bda1a10536783f9374c2c38ddec98f2050879ba78f17397fa0b7962f29",
+    "receipt_sha256": "c4809fbcaeab3b3e762c8ef5e094cb504ef9945da5c5ba7e1ad62d336b9f483a",
     "components": {
       "P0": 63,
-      "P1": 45,
+      "P1": 47,
       "P2": 49,
       "P3": 27,
       "P4": 16,
       "P5": 42,
       "P6_independent_numeric": 17
-    }
+    },
+    "source_commit": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb"
   },
   "deepnote_synthetic_registry": {
     "root": "/datasets/_deepnote_work/research/v25_remediation_registry_canary_20261122/experiment_B",
@@ -72,7 +93,7 @@
       "original_failure": "Old Phase8C literal /work resolution rejected valid mounted storage; downstream registry hardlink unsupported",
       "exact_code_fix": "P0 common namespace/attestation unchanged; owner bridge #199 retained separately; all consumers staged with P0 contract tests",
       "owner_commit_sha": "c14de84839161f207d6fd7524c18d68b13707365",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "passed": 63,
         "failed": 0,
@@ -85,7 +106,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Certify a P1/P2 authentic original source and dependent frozen forecast in P0 shared namespace, then independently recover bytes."
     },
@@ -94,25 +115,28 @@
       "phase": "P1",
       "family": "NBA WS1 original source/rolling subset",
       "previous_status": "PARTIAL",
-      "original_failure": "Native WS1 on old unmerged stack; expired/disabled six-day pilot, no genuine feature freeze",
-      "exact_code_fix": "Selectively imported exactly six native v2/nba_ws1 files from #144 without duplicate collector; P1 source-listed subset and event-relative code retained",
-      "owner_commit_sha": "cf71e6662347755020217c78a04642a5b36ec5a9",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "original_failure": "Native WS1 on old unmerged stack; expired/disabled six-day pilot, no genuine feature freeze; real November 22 rerun revealed fixed same-day manifest IMMUTABLE_COLLISION and was repaired without modifying prior evidence",
+      "exact_code_fix": "Native WS1 reused with full original parser dependencies; same-day manifests content-addressed; attempt journal content-addressed; initial immutable manifest retained; two new regression tests passed.",
+      "owner_commit_sha": "9a3ff231d5649edda93d5c39da13149f7b02ca40",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
-        "passed": 45,
+        "passed": 47,
         "failed": 0,
         "skipped": 0
       },
       "genuine_original_evidence_present": false,
-      "remaining_limitations": "WS1 current-day source-only probe requires full original scripts dependencies; no newly certified original player feature snapshot yet.",
+      "remaining_limitations": "Seven authentic NBA games discovered; all 14 event-relative pregame capture windows NOT_DUE at 16:18Z. No certified player features, model, or original forecast.",
       "engineering_status": "BLOCKED",
       "prospective_operational_status": "BLOCKED",
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401",
+        "ec7c7aaa-7daf-424b-99d5-ad11e2858455",
+        "179d7168-9fc7-42cb-bd1c-791f8bcd3d53"
       ],
-      "exact_remaining_action": "Run the pinned native WS1 rolling worker with all original dependencies at a genuine future capture window, inspect source receipts, and promote source into shared P0 only after independent approval."
+      "exact_remaining_action": "At a legitimate NBA source window, run native WS1 capture and preserve original roster/history receipts in P0, freeze qualified S0 model distribution before tipoff; independently reread bytes.",
+      "genuine_original_schedule_present": true
     },
     {
       "id": "P2",
@@ -122,7 +146,7 @@
       "original_failure": "49-case suite previously had record_sha256 errors; live NHL official canary HTTP failed",
       "exact_code_fix": "Use final corrected owner source record structures; no weakened provenance; entire 49-case suite rerun",
       "owner_commit_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "passed": 49,
         "failed": 0,
@@ -135,7 +159,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Capture future official event and both roster original bytes with C03 receipts, verify signed historical SOG/TOI and independent readback; preserve quote-free and quote-required cohorts separately."
     },
@@ -147,7 +171,7 @@
       "original_failure": "Synthetic forecast distribution only, no genuine source/model eligibility and no accepted native G0/C bridge",
       "exact_code_fix": "Preserved P3 original full count distribution/synthetic freeze; native WS1 and P0 staged together",
       "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p3_suite_total": 27,
         "p3_suite_passed": 27
@@ -159,7 +183,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Load genuine P1 features and previously fitted, SHA-verified S0 model as of cutoff; freeze full distribution before tipoff."
     },
@@ -171,7 +195,7 @@
       "original_failure": "Historical/native G1 acceptance remains NO-GO, regardless of synthetic P3 tests",
       "exact_code_fix": "S-family synthetic tests retained without replacing native G1 work",
       "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p3_suite_total": 27,
         "p3_suite_passed": 27
@@ -183,7 +207,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Reproduce native G1 failures/blocked cases on their owner branches, add accepted regression, then produce real source/model freeze."
     },
@@ -195,7 +219,7 @@
       "original_failure": "Historical/native G1 acceptance remains NO-GO, regardless of synthetic P3 tests",
       "exact_code_fix": "S-family synthetic tests retained without replacing native G1 work",
       "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p3_suite_total": 27,
         "p3_suite_passed": 27
@@ -207,7 +231,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Reproduce native G1 failures/blocked cases on their owner branches, add accepted regression, then produce real source/model freeze."
     },
@@ -219,7 +243,7 @@
       "original_failure": "Historical/native G1 acceptance remains NO-GO, regardless of synthetic P3 tests",
       "exact_code_fix": "S-family synthetic tests retained without replacing native G1 work",
       "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p3_suite_total": 27,
         "p3_suite_passed": 27
@@ -231,7 +255,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Reproduce native G1 failures/blocked cases on their owner branches, add accepted regression, then produce real source/model freeze."
     },
@@ -243,7 +267,7 @@
       "original_failure": "Historical/native G1 acceptance remains NO-GO, regardless of synthetic P3 tests",
       "exact_code_fix": "S-family synthetic tests retained without replacing native G1 work",
       "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p3_suite_total": 27,
         "p3_suite_passed": 27
@@ -255,7 +279,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Reproduce native G1 failures/blocked cases on their owner branches, add accepted regression, then produce real source/model freeze."
     },
@@ -267,7 +291,7 @@
       "original_failure": "Partial source-listed roster cannot justify full participation or rotation",
       "exact_code_fix": "Preserved unknown participation and owner synthetic opportunity mixtures; no fabricated p_play",
       "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p3_suite_total": 27,
         "p3_suite_passed": 27
@@ -279,7 +303,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Require original opportunity source inputs and accepted O-family fitness; retain conditional and unconditional interpretation separately."
     },
@@ -291,7 +315,7 @@
       "original_failure": "Full-team roster, 5-on-court and native joint-scenario witness incomplete",
       "exact_code_fix": "Preserved same-scenario PR/PA/RA/PRA and synthetic constraints, no placeholder native witness",
       "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p3_suite_total": 27,
         "p3_suite_passed": 27
@@ -303,7 +327,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Persist complete official-identity joint scenario bank with common state, seed/model/source SHA, minute conservation and independent G1 tests."
     },
@@ -315,7 +339,7 @@
       "original_failure": "P0 forecast rows insufficient to establish native original G0/C scenario/source witnesses",
       "exact_code_fix": "Adapter remains in backlog; source/model hashes only, no evidence fabricated",
       "owner_commit_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p3_suite_total": 27,
         "p3_suite_passed": 27
@@ -327,7 +351,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Reproduce and fix both native defects and eight blockers, then add independent adapter witness tests without renaming rows as proof."
     },
@@ -339,7 +363,7 @@
       "original_failure": "P4 exact-head freeze test rejected wrong fixture kind",
       "exact_code_fix": "Changed test kind to registered full_gamma_poisson_exposure; retained Poisson/Gamma/NB2 likelihood mapping",
       "owner_commit_sha": "df3171b1aa2e457c89037a830d857c5f76238b1f",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "passed": 16,
         "failed": 0,
@@ -352,7 +376,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Consume a genuine signed P2 bundle, freeze full Poisson SOG predictive distribution and independently read P0 receipt."
     },
@@ -364,7 +388,7 @@
       "original_failure": "Gamma exposure test alias mismatch; original Gamma artifacts not verified",
       "exact_code_fix": "Correct fixture to registered kind full_gamma_poisson_exposure without changing Gamma likelihood",
       "owner_commit_sha": "df3171b1aa2e457c89037a830d857c5f76238b1f",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "passed": 16,
         "failed": 0,
@@ -377,7 +401,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Fit/load only approved original Gamma state from eligible signed pregame history; freeze immutable distribution/control."
     },
@@ -389,7 +413,7 @@
       "original_failure": "Lacked registered original Gamma plugin-Poisson mean and genuine two-sided book offer",
       "exact_code_fix": "Exact fixed NB2 shape remains four, original pair identity and locked protocol unchanged",
       "owner_commit_sha": "df3171b1aa2e457c89037a830d857c5f76238b1f",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p4_reference_passed": 16
       },
@@ -400,7 +424,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Require exact native original plugin-Poisson control and certified two-sided offer for same player/event/line/book; otherwise abstain."
     },
@@ -412,7 +436,7 @@
       "original_failure": "Used UTC YYYY-MM-DD slicing and overcounted same Toronto slate",
       "exact_code_fix": "local_slate_date with America/Toronto DST and pair/source-bound date semantics; independent old P6 date reference now passes",
       "owner_commit_sha": "babd757c728c94f6d0d67f0c715dd5bd30e540b7",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p5_passed": 42,
         "independent_p6_passed": 17
@@ -424,7 +448,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Accumulate 40 truly distinct original eligible Toronto slate dates under unchanged locked C10 after genuine pairs."
     },
@@ -436,7 +460,7 @@
       "original_failure": "Actual Deepnote FUSE did not support os.link atomic transition; no model publish",
       "exact_code_fix": "Exclusive-create zero-byte commit marker after fsynced prepared immutable blob; shared read-only lock; idempotent exact retry",
       "owner_commit_sha": "cf1655253e18cdd5b24615215307909f5d8ccfc5",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p5_passed": 42,
         "synthetic_real_fuse_transition_count": 4,
@@ -449,7 +473,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Submit registry protocol for independent filesystem review, then validate publication driven by new eligible official outcomes and later genuine forecast."
     },
@@ -461,7 +485,7 @@
       "original_failure": "Synthetic only, no canonical original forecast or FINAL reconciliation",
       "exact_code_fix": "Existing P5 score methods and source/hash vault readers retained; P6 reference 17 pass",
       "owner_commit_sha": "cf1655253e18cdd5b24615215307909f5d8ccfc5",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p5_passed": 42,
         "independent_p6_passed": 17
@@ -473,7 +497,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Settle genuine original NBA and NHL forecasts against independent official FINAL, preserve pushes/DNP/corrections and denominators."
     },
@@ -485,7 +509,7 @@
       "original_failure": "Previous os.link failure prevented real version transition; no real model update verified",
       "exact_code_fix": "Registry and owner-approved callback framework now synthetic-test proven, unchanged locked controls",
       "owner_commit_sha": "cf1655253e18cdd5b24615215307909f5d8ccfc5",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "p5_passed": 42,
         "synthetic_model_state_changed": true
@@ -497,7 +521,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "After official matched settlement, run owner-approved deterministic low-cost fit with actual state difference, training SHA/cutoff, validation receipt and later model selection."
     },
@@ -509,7 +533,7 @@
       "original_failure": "Prior 17-case suite had C10 FAIL; P4 and P2 test defects; real registry publication failed; fault matrix incomplete",
       "exact_code_fix": "Independent P6 original reference suite rerun unchanged against exact corrected P3/P5 staging; 17 pass, 22-case matrix classified without manufactured coverage",
       "owner_commit_sha": "14902fe786038698d259a1ae28295cb3ae4f756e",
-      "unified_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "unified_tested_code_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
       "tests_executed": {
         "independent_numerical_passed": 17,
         "fault_cases_total": 22,
@@ -526,7 +550,7 @@
       "daily_learning_status": "BLOCKED",
       "independently_checked_by": "P6 original mathematical reference suite and detached Deepnote exact-code QA; no external independent human reviewer",
       "evidence_runs": [
-        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+        "17213080-970b-4d1e-b19f-70ba35836401"
       ],
       "exact_remaining_action": "Independent full fault-injection implementation on final exact SHA plus genuine NBA/NHL original pregame→official outcome→settlement→eligible update→later forecast."
     }
@@ -534,5 +558,32 @@
   "global_engineering_status": "BLOCKED",
   "global_prospective_status": "BLOCKED",
   "global_daily_learning_status": "BLOCKED",
-  "global_research_only": true
+  "global_research_only": true,
+  "qa_source_corrections": [
+    {
+      "defect": "P1 repeat-day IMMUTABLE_COLLISION",
+      "before_live_run": "4d71d159-96e5-4090-ba1b-e33d5ee25227",
+      "fixed_run": "ec7c7aaa-7daf-424b-99d5-ad11e2858455",
+      "old_evidence_preserved": true
+    },
+    {
+      "defect": "P5 unsupported os.link",
+      "old_audit_pr": 205,
+      "verified_synthetic_mount_fixed": true
+    },
+    {
+      "defect": "P5 C10 UTC local date",
+      "original_P6_test_unchanged": true,
+      "passed": true
+    },
+    {
+      "defect": "P4 Gamma model-kind fixture",
+      "corrected_registered_kind": "full_gamma_poisson_exposure",
+      "suite_passed": 16
+    },
+    {
+      "defect": "P2 record_sha256 source fixtures",
+      "suite_passed": 49
+    }
+  ]
 }
