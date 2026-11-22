@@ -8,7 +8,7 @@ from collections import defaultdict
 from datetime import datetime
 import math
 
-from .scoring import (_utc, ScoreError, full_pmf, score_count, digest)
+from .scoring import (_utc, ScoreError, full_pmf, score_count, digest, local_slate_date)
 
 PIPELINES={"S_ONLY","S_PLUS_O","S_O_J"}
 WEIGHT_POLICIES={"W0","W1","W2","W3","W4"}
@@ -138,7 +138,10 @@ def fit_chronological_weights(rows, *, policy, cutoff_at, names=None, min_dates=
         first=x[names[0]]
         if _utc(first["official_available_at"])<=_utc(cutoff_at):
             usable.append(x)
-    dates={x[names[0]]["event_start_at"][:10] for x in usable}
+    dates={local_slate_date(x[names[0]]["event_start_at"],
+         original_date=x[names[0]].get("original_local_slate_date"),
+         original_date_verified=x[names[0]].get("original_local_slate_date_verified") is True)
+         for x in usable}
     games={x[names[0]]["event_id"] for x in usable}
     if len(dates)<min_dates or len(games)<min_games:
         return {"status":"INSUFFICIENT_CHRONOLOGICAL_EVIDENCE",
