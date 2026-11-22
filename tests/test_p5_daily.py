@@ -413,6 +413,26 @@ class RegistryTests(unittest.TestCase):
                  cutoff="2026-11-23T23:00:00Z",
                  rows=[self.row,second,third],
                  at="2026-11-24T00:00:00Z")["model"]["version"],3)
+    def test_identical_model_registration_retry_is_idempotent(self):
+        first=self.reg({"alpha":2,"beta":4})
+        before=read_transitions(self.root,"NHL_ADAPTIVE")
+        again=self.reg({"alpha":2,"beta":4})
+        self.assertEqual(again["status"],"IDEMPOTENT_EXISTING")
+        self.assertEqual(again["model"],first["model"])
+        self.assertEqual(read_transitions(self.root,"NHL_ADAPTIVE"),before)
+        second=self.new_row("E2","2026-11-21T16:00:00Z")
+        updated=self.reg({"alpha":3,"beta":6},parent=1,at=LATER,
+                         cutoff=LATER,rows=[self.row,second])
+        retry=self.reg({"alpha":3,"beta":6},parent=1,at=LATER,
+                       cutoff=LATER,rows=[self.row,second])
+        self.assertEqual(retry["status"],"IDEMPOTENT_EXISTING")
+        self.assertEqual(retry["model"]["version"],2)
+        self.assertEqual(updated["model"],retry["model"])
+        self.assertEqual(len(read_transitions(self.root,"NHL_ADAPTIVE")),2)
+        with self.assertRaises(ScoreError):
+            self.reg({"alpha":9,"beta":6},parent=1,at=LATER,
+                     cutoff=LATER,rows=[self.row,second])
+
     def test_model_state_unchanged_fails(self):
         self.reg({"alpha":2})
         second=self.new_row("E2","2026-11-21T16:00:00Z")
