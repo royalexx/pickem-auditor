@@ -252,6 +252,34 @@ def register_model(root, *, model_id, family, pipeline_id, sport,
         _need(archived==row,"TRAINING_OBSERVATION_NOT_ARCHIVED_UNCHANGED")
     with _lock(base):
         previous=_latest(base,model_id)
+        # Deterministic retry of the exact same already committed update is a
+        # readback, never an additional training event or transition.
+        committed=read_transitions(base,model_id)
+        training_sha=digest(sorted(training_rows,key=lambda z:
+                              (z["event_id"],z["player_id"],z["stat_key"])))
+        if previous is not None and committed and committed[-1]["action"]=="REGISTER":
+            last=committed[-1]
+            retry_fields={
+                "model_id":model_id,"family":family,"pipeline_id":pipeline_id,
+                "sport":sport,"parent_version":parent_version,
+                "created_at":created_at,"training_cutoff_at":cutoff_at,
+                "training_manifest_sha256":training_sha,
+                "training_sample_count":len(training_rows),
+                "code_commit":code_commit,"seed":seed,"update_mode":update_mode,
+                "state":state,"diagnostics":diagnostics,"approval":approval,
+            }
+            if (previous.get("version")==last["version"] and
+                all(previous.get(k)==v for k,v in retry_fields.items())):
+                _read(base,last["artifact_path"],last["artifact_sha256"])
+                return {"status":"IDEMPOTENT_EXISTING","model":previous,
+                        "artifact_receipt":{
+                            "status":"IDEMPOTENT_EXISTING",
+                            "path":last["artifact_path"],
+                            "sha256":last["artifact_sha256"]},
+                        "transition_receipt":{
+                            "status":"IDEMPOTENT_EXISTING",
+                            "sequence":last["sequence"],
+                            "sha256":digest(last)}}
         if previous is None:
             _need(parent_version is None,"REGISTRY_PARENT_NOT_FOUND")
             version=1
