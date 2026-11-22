@@ -295,7 +295,7 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
     # A day/policy may be invoked more than once: separate immutable per-run
     # manifests rather than overwriting the former fixed daily_manifest.json.
     # Old fixed manifests, including previously failed attempts, remain intact.
-    manifest_id=digest(canonical(manifest)+b'\\n')
+    manifest_id=digest(canonical(manifest)+bytes([10]))
     saved=vault.save_json(run_prefix+'/daily_manifests/'+manifest_id+'.json',manifest)
     return {**manifest,'daily_manifest_sha256':saved['sha256'],'daily_manifest_path':saved['path']}
 
