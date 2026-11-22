@@ -6,6 +6,7 @@ import math
 import random
 from collections import defaultdict
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 class ScoreError(ValueError):
     pass
@@ -23,6 +24,27 @@ def _utc(s):
     if d.utcoffset() is None or d.utcoffset().total_seconds() != 0:
         _fail("UTC_TIMESTAMP_REQUIRED")
     return d
+
+def local_slate_date(event_start_at, *, original_date=None, original_date_verified=False):
+    """The authoritative NHL/NBA slate-day key in America/Toronto.
+
+    Source-bound original slate dates take priority ONLY with an independent
+    provenance-verification flag. All other dates come from an aware UTC
+    event timestamp; never from UTC string slicing.
+    """
+    event_local = _utc(event_start_at).astimezone(ZoneInfo("America/Toronto"))
+    if original_date_verified:
+        if not isinstance(original_date, str):
+            _fail("ORIGINAL_SLATE_DATE_MISSING")
+        try:
+            parsed = datetime.strptime(original_date, "%Y-%m-%d").date()
+        except ValueError:
+            _fail("ORIGINAL_SLATE_DATE_INVALID")
+        if parsed.isoformat() != original_date:
+            _fail("ORIGINAL_SLATE_DATE_INVALID")
+        return original_date
+    return event_local.date().isoformat()
+
 
 def digest(data):
     return hashlib.sha256(json.dumps(data, sort_keys=True, separators=(",", ":"),
@@ -275,7 +297,17 @@ def matched_native_nhl_pair(nb, control, *, count_dates=None,
         if (not isinstance(dt,str) or len(dt)<10
                 or not (dt.endswith("Z") or dt.endswith("+00:00"))):
             _fail("C10_EVENT_DATE_SOURCE_MISSING")
-        dates.add(dt[:10])
+        if a.get("event_start_at") != b.get("event_start_at"):
+            _fail("C10_PAIR_EVENT_TIME_MISMATCH")
+        date_a = local_slate_date(dt,
+            original_date=a.get("original_local_slate_date"),
+            original_date_verified=a.get("original_local_slate_date_verified") is True)
+        date_b = local_slate_date(b["event_start_at"],
+            original_date=b.get("original_local_slate_date"),
+            original_date_verified=b.get("original_local_slate_date_verified") is True)
+        if date_a != date_b:
+            _fail("C10_PAIR_SLATE_DATE_MISMATCH")
+        dates.add(date_a)
     if count_dates is not None and count_dates!=len(dates):
         # A caller's legacy date counter is untrusted and must not override
         # independently re-counted eligible original daily pairs.
