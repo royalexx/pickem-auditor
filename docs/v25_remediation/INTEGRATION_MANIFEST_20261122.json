@@ -19,7 +19,7 @@
     },
     {
       "pr": 200,
-      "head": "cf71e6662347755020217c78a04642a5b36ec5a9",
+      "head": "9a3ff231d5649edda93d5c39da13149f7b02ca40",
       "role": "NBA_source"
     },
     {
@@ -69,6 +69,16 @@
       "commit": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
       "parent": "278664b1ce67e6433556f32889bbffb411c2b1a2",
       "action": "copy P5 new idempotence regression"
+    },
+    {
+      "commit": "05c53d9ef917f0f2c746b7769b7a5b6ee755a3e7",
+      "parent": "44a921d6a19d8a782a7b2fcc21a7c75b35c69d07",
+      "action": "fix P1 same-day manifest and duplicate-attempt archive; docs-only P6/machine ledger commits are between prior code and this entry"
+    },
+    {
+      "commit": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
+      "parent": "05c53d9ef917f0f2c746b7769b7a5b6ee755a3e7",
+      "action": "append P1 same-day duplicate invocation regressions"
     }
   ],
   "evidence_manifest_deepnote": {
@@ -134,20 +144,22 @@
       "size_bytes": 35294
     },
     {
-      "blob_sha": "c6e7e5150bf828b7d1e431d0eadae02d7a0e8878",
+      "blob_sha": "d63cfd19b3c0c26c150ae7ee1d7306d57ea652c7",
       "owner_pr": 200,
-      "owner_sha": "cf71e6662347755020217c78a04642a5b36ec5a9",
+      "owner_sha": "9a3ff231d5649edda93d5c39da13149f7b02ca40",
       "path": "research/nba_p1_original/rolling.py",
       "sha256": "1948fd63227d658b6a5fce01061b02a8ceb78bb52c3c69aeac4ad65c1f8cf9d1",
-      "size_bytes": 16509
+      "size_bytes": 16509,
+      "overlay": "post_live_canary_P1_same_day_immutable_manifest_fix"
     },
     {
-      "blob_sha": "31019105dbe4cd71b7783fb769704a10dfefc125",
+      "blob_sha": "3e9e9b2823f7c3c30eca24e89efff517d4cfc48f",
       "owner_pr": 200,
-      "owner_sha": "cf71e6662347755020217c78a04642a5b36ec5a9",
+      "owner_sha": "9a3ff231d5649edda93d5c39da13149f7b02ca40",
       "path": "tests/nba_p1_original/test_original_pipeline.py",
       "sha256": "927e8d2cd9bb27bf1f703cb9d708f1885ad7525afac052f92189e000099cf6ca",
-      "size_bytes": 23625
+      "size_bytes": 23625,
+      "overlay": "post_live_canary_P1_same_day_immutable_manifest_fix"
     },
     {
       "blob_sha": "09246278ab3bcdffec7b001c457544848cffcd1f",
@@ -564,6 +576,18 @@
       "staged_blob_sha": "3b09025a0f130135379580c67a37381a5f3aa9fc",
       "previous_bulk_blob_sha": "db5a83f33799c8dba24f158a66e0002ab1d99522",
       "source_head": "cf1655253e18cdd5b24615215307909f5d8ccfc5"
+    },
+    {
+      "path": "research/nba_p1_original/rolling.py",
+      "staged_blob_sha": "d63cfd19b3c0c26c150ae7ee1d7306d57ea652c7",
+      "previous_bulk_blob_sha": "c6e7e5150bf828b7d1e431d0eadae02d7a0e8878",
+      "source_head": "9a3ff231d5649edda93d5c39da13149f7b02ca40"
+    },
+    {
+      "path": "tests/nba_p1_original/test_original_pipeline.py",
+      "staged_blob_sha": "3e9e9b2823f7c3c30eca24e89efff517d4cfc48f",
+      "previous_bulk_blob_sha": "31019105dbe4cd71b7783fb769704a10dfefc125",
+      "source_head": "9a3ff231d5649edda93d5c39da13149f7b02ca40"
     }
   ],
   "content_conflicts_detected": [],
@@ -580,5 +604,10 @@
     "keep_main_at": "912bc7010058092ea735dcda0aa941429194474b",
     "disable_new_invocations": true,
     "branch_only_revert": "git revert 714c7bdd... 278664b1... 84b4e9... on research branch if separately authorized; never rewrite historical source/forecast bytes"
-  }
+  },
+  "integration_code_tested_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
+  "integration_regression_receipt_sha256": "c4809fbcaeab3b3e762c8ef5e094cb504ef9945da5c5ba7e1ad62d336b9f483a",
+  "integration_regression_total": 261,
+  "original_P1_broken_live_attempt_preserved": true,
+  "latest_P1_source_only_run": "ec7c7aaa-7daf-424b-99d5-ad11e2858455"
 }
