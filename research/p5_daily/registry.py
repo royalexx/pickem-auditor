@@ -147,15 +147,16 @@ def _read(root,relative,expected_sha=None):
         raise ScoreError("REGISTRY_JSON_CORRUPTED") from ex
 
 @contextlib.contextmanager
-def _lock(root):
+def _lock(root, *, read_only=False):
+    """Shared readers never request write permissions on the Deepnote mount."""
     _secure_root(root)
     lock=_safe(root,"registry.lock")
-    flags=os.O_CREAT|os.O_RDWR
+    flags=os.O_RDONLY if read_only else os.O_CREAT|os.O_RDWR
     if hasattr(os,"O_NOFOLLOW"):
         flags|=os.O_NOFOLLOW
     fd=os.open(lock,flags,0o600)
     try:
-        fcntl.flock(fd,fcntl.LOCK_EX)
+        fcntl.flock(fd,fcntl.LOCK_SH if read_only else fcntl.LOCK_EX)
         yield
     finally:
         fcntl.flock(fd,fcntl.LOCK_UN)
@@ -313,7 +314,7 @@ def rollback_model(root, model_id, *, rollback_to, at, reason):
 def select_for_forecast(root,model_id,*,freeze_at,code_commit=None):
     """One locked version+SHA selection; never return mutable active pointers."""
     base=_secure_root(root)
-    with _lock(base):
+    with _lock(base,read_only=True):
         entries=read_transitions(base,model_id)
         eligible=[r for r in entries if _utc(r["created_at"])<=_utc(freeze_at)]
         _need(bool(eligible),"NO_PRIOR_MODEL_VERSION_AT_FREEZE")
