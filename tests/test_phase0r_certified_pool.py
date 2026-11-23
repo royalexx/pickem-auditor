@@ -48,9 +48,11 @@ def mock_model(candidate, *, now):
 class LiveCertifiedOnlyPoolTests(unittest.TestCase):
     def run_live(self, data, rows):
         receipts = []
-        with patch.dict(os.environ, {"PICKEM_PRODUCTION_CONSENSUS": "1"}), (
-            patch.object(jobs.pm, "evaluate_candidate", side_effect=mock_model)
-        ) as evaluated:
+        with patch.dict(os.environ, {
+            "PICKEM_PRODUCTION_CONSENSUS": "1",
+            "PICKEM_PHASE0_CERTIFIED_ONLY": "1",
+            "PICKEM_PHASE0_CAPTURE": "0",
+        }), patch.object(jobs.pm, "evaluate_candidate", side_effect=mock_model) as evaluated:
             snapshots, errors = jobs.run_pipeline_batch(
                 rows, now=WHEN, clock_fn=lambda: WHEN,
                 data_root=data, attempt_receipts=receipts)
@@ -117,19 +119,21 @@ class LiveCertifiedOnlyPoolTests(unittest.TestCase):
             self.assertIn("phase0r_source_capture_failed:", ledger[0]["reason"])
             self.assertEqual(ledger[0]["status"], "unavailable")
 
-    def test_historical_legacy_run_not_retroactively_filtered(self):
+    def test_production_consensus_does_not_imply_certified_only(self):
         with tempfile.TemporaryDirectory() as tmp:
             data, row = prepared(Path(tmp))
             row["event_context"] = {"events": [{"player_id": "X"}]}
             with patch.dict(os.environ, {
-                "PICKEM_PRODUCTION_CONSENSUS": "0",
+                "PICKEM_PRODUCTION_CONSENSUS": "1",
                 "PICKEM_PHASE0_CERTIFIED_ONLY": "0",
                 "PICKEM_PHASE0_CAPTURE": "0"
             }), patch.object(jobs.pm, "evaluate_candidate", side_effect=mock_model) as model:
                 rows, errors = jobs.run_pipeline_batch([row], now=WHEN,
                                                         clock_fn=lambda: WHEN, data_root=data)
             self.assertEqual((len(rows), errors, model.call_count), (1, 0, 1))
-            self.assertIsNone(rows[0].get("phase0r_original_source_certified"))
+            self.assertFalse(rows[0]["phase0r_original_source_certified"])
+            self.assertEqual(rows[0]["phase0r_certification_status"],
+                             "UNCERTIFIED_RESEARCH_SHADOW")
 
 
 if __name__ == "__main__":
