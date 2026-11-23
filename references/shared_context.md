@@ -171,7 +171,11 @@ Live collection also uses ESPN team season schedules: the tested scoreboard
 range endpoint rejects multi-day ranges. NHL uses the official club schedule.
 NFL's tested summary and core roster endpoints do not supply the required complete
 active roster. That missing-source condition remains explicit rather than becoming
-an invented inactive-player list.
+an invented inactive-player list. The collector reports
+`NFL_GAME_ACTIVE_ROSTER_MANIFEST_MISSING` separately from
+`NFL_ESPN_GSIS_ID_MAP_MISSING`. Weekly team-roster membership, practice status or
+positive snap/stat rows are not accepted as a substitute for a complete game-specific
+active roster.
 
 ### Verified NFL game-active roster import
 
