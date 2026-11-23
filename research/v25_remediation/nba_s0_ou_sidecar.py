@@ -114,7 +114,8 @@ def event_crosswalk(raw,forecasts):
             t["team"].get("abbreviation")) for t in teams}
         require(set(discovered)==expected and all(discovered.values()) and
                 len(set(discovered.values()))==2,"ESPN_TEAM_CROSSWALK_CONFLICT")
-        require(event.get("date")==rows[0]["forecast"]["event_start_at"],
+        require(abs((provider.parse_time(event.get("date"))-
+                     utc(rows[0]["forecast"]["event_start_at"])).total_seconds())<=60,
                 "ESPN_TIPOFF_CHANGED")
         status=event.get("status",{}).get("type",{}).get("name")
         require(status=="STATUS_SCHEDULED","ESPN_EVENT_NOT_SCHEDULED")
@@ -367,7 +368,6 @@ def verify_ou_against_official():
         if isinstance(outcome,dict) and "record" in outcome:outcome=outcome["record"]
         if outcome["status"]!="FINAL" or outcome["participation"]!="PLAYED":
             count["DNP_OR_UNFINAL"]+=1;continue
-        require(q["source_sha256"]==f["artifact_sha256"] or True,"NOOP")  # quote is separately sourced, not a model input
         require(utc(q["quote_timestamp"])<utc(f["event_start_at"]) and
                 utc(f["forecast_at"])<utc(f["event_start_at"]),"NO_PREGAME_QUOTE_OR_FORECAST")
         assert f["distribution"]["kind"]=="poisson"
@@ -377,7 +377,7 @@ def verify_ou_against_official():
         outcome_side="over" if actual>q["line"] else "under" if actual<q["line"] else "push"
         denom=pm["over"]+pm["under"]
         r={"schema":"PA-V25-NBA-S0-OU-POSTGAME/1",
-           "forecast_id":f["forecast_id"],"original_forecast_sha256":entry.get("forecast_sha256"),
+           "forecast_id":f["forecast_id"],"original_forecast_sha256":original["original_forecast_sha256"],
            "quote_id":q["quote_id"],"quote_sha256":sha256(q),
            "outcome_id":outcome["outcome_id"],"outcome_sha256":sha256(outcome),
            "event_id":f["event_id"],"player_id":f["player_id"],
