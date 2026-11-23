@@ -28,9 +28,10 @@ def _check(condition, reason):
 class HistorySources:
     """Open one byte-pinned history manifest and reuse verified peer observations."""
 
-    def __init__(self, root, path, manifest_sha256, pool):
+    def __init__(self, root, path, manifest_sha256, pool, *, derived_root=None):
         self.root = Path(root).resolve()
         self.pool = checked_pool(root, pool)
+        self.derived_root = Path(derived_root).resolve(strict=True) if derived_root is not None else self.pool
         self.path = path
         self.sha256 = manifest_sha256
         self.entries = {}
@@ -66,8 +67,9 @@ class HistorySources:
         cached = self.verified.get(key)
         if cached is None:
             receipt = independent_verify_observation_lineage(
-                entry, archive_root=self.pool, freeze=freeze, event_start=start)
-            observation = verify_observation(receipt, self.pool, freeze)
+                entry, archive_root=self.pool, freeze=freeze, event_start=start,
+                observation_root=self.derived_root)
+            observation = verify_observation(receipt, self.derived_root, freeze)
             self.verified[key] = (receipt, observation)
         else:
             receipt, observation = cached
@@ -177,7 +179,7 @@ def _existing_record(root, kind, logical_id):
 
 def forecast_bundle(root, manifest_sha256, *, code_commit, run_id,
                     signed_history_manifest_path=None, signed_history_manifest_sha256=None,
-                    history_pool=None, history_sources=None):
+                    history_pool=None, history_sources=None, derived_root=None):
     """Read one complete P2 bundle, then emit the two line-independent P0 forecasts.
 
     The original quote-matched Gamma generator and registered native NB2
@@ -208,7 +210,8 @@ def forecast_bundle(root, manifest_sha256, *, code_commit, run_id,
                "P2_HISTORY_OBSERVATION_COUNTS_DRIFT")
         if history_sources is None:
             history_sources = HistorySources(root, signed_history_manifest_path,
-                                             signed_history_manifest_sha256, history_pool)
+                                             signed_history_manifest_sha256, history_pool,
+                                             derived_root=derived_root)
         _check(history_sources.root == Path(root).resolve(), "P2_HISTORY_SOURCE_ROOT_MISMATCH")
         own_receipts, peer_receipts = [], []
         for for_target, rows, receipts in ((True, own, own_receipts), (False, peers, peer_receipts)):
@@ -218,7 +221,7 @@ def forecast_bundle(root, manifest_sha256, *, code_commit, run_id,
                 _check((observed_player == player_id) is for_target and row["game_id"] != event,
                        "P2_HISTORICAL_PLAYER_OR_GAME_MISMATCH")
                 receipts.append(receipt)
-        model = fit_model(own_receipts, peer_receipts, archive_root=history_sources.pool,
+        model = fit_model(own_receipts, peer_receipts, archive_root=history_sources.derived_root,
                           player_id=player_id, position_group=position, input_freeze_at=freeze,
                           event_start_at=start, target_event_id=event, current_team_id=feature["team_id"])
         distributions, laws = _distributions(model)

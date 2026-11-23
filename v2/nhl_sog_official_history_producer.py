@@ -151,10 +151,11 @@ def import_signed_official_history(*,player_id,position_group,gamelog_receipt,
     return returned
 
 
-def independent_verify_observation_lineage(entry,*,archive_root,freeze,event_start):
+def independent_verify_observation_lineage(entry,*,archive_root,freeze,event_start,
+                                           observation_root=None):
     """Reject a tampered derived record even if its own digest is recomputed."""
     rec=entry.get("observation_receipt")
-    obs=verify_observation(rec,archive_root,freeze)
+    obs=verify_observation(rec,observation_root if observation_root is not None else archive_root,freeze)
     rawlog=_signed(entry.get("raw_log_receipt"),archive_root,freeze,event_start)
     profile_receipt=entry.get("raw_profile_receipt")
     profile=_signed(profile_receipt,archive_root,freeze,event_start)

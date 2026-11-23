@@ -103,7 +103,7 @@ def _reason(exc):
 
 def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                          signed_history_manifest_sha256, history_pool,
-                         original_quote_by_player=None):
+                         original_quote_by_player=None, derived_root=None):
     """Capture one game's two official rosters and freeze every listed skater.
 
     The source owner supplies immutable signed history and may supply previously
@@ -157,11 +157,12 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
     except (OSError, ValueError, KeyError, TypeError) as exc:
         history_error = _reason(exc)
         history = {}
-    histories = (VerifiedGameHistories(root, pool, freeze=freeze, event_start=game["start_at"])
+    histories = (VerifiedGameHistories(root, pool, freeze=freeze, event_start=game["start_at"],
+                                       derived_root=derived_root)
                  if history else None)
     for pid, entries in history.items():
         try:
-            indexed[pid] = _eligible_history(entries, pool=pool, player_id=pid,
+            indexed[pid] = _eligible_history(entries, pool=derived_root or pool, player_id=pid,
                                              freeze=freeze_at, game=game)
         except (OSError, ValueError, KeyError, TypeError) as exc:
             failures[pid] = _reason(exc)

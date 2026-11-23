@@ -8,6 +8,7 @@ from functools import partial
 import json
 from pathlib import Path
 import re
+from tempfile import TemporaryDirectory
 import time
 
 from research.p2_nhl_sog.source_pipeline import (
@@ -230,6 +231,8 @@ def main(argv=None):
                         help="split source and forecast into separate hosted run windows")
     parser.add_argument("--roster-prewarm", action="store_true",
                         help="restore exact archived history for current roster IDs and peer reserves")
+    parser.add_argument("--packed-derived-cache", action="store_true",
+                        help="read derived rows from a local cache of the verified project archive")
     args = parser.parse_args(argv)
     if not re.fullmatch(r"[0-9a-f]{40}", args.code_commit):
         parser.error("--code-commit must be the exact 40-character revision")
@@ -245,27 +248,30 @@ def main(argv=None):
     print("NHL_SOG_SCHEDULE " + json.dumps(games, sort_keys=True), flush=True)
     roster_games = [game for game in games if not args.event_id or game["event_id"] in args.event_id]
     players = discover_slate_roster_skaters(roster_games) if args.roster_prewarm else None
-    pool = open_history_sources(args.root, args.signed_history_manifest,
-                                args.signed_history_sha256, args.history_pool,
-                                selected_players=players)
-    history = {
-        "signed_history_manifest_path": args.signed_history_manifest,
-        "signed_history_manifest_sha256": args.signed_history_sha256,
-        "history_pool": pool,
-    }
-    history_sources = HistorySources(args.root, args.signed_history_manifest,
-                                     args.signed_history_sha256, pool)
-    output = run_slate(
-        args.root,
-        day,
-        capture=partial(capture_game_sources, args.root, **history),
-        forecast=partial(forecast_bundle, args.root, history_sources=history_sources),
-        code_commit=args.code_commit,
-        games=games,
-        event_ids=args.event_id,
-        phase=args.phase,
-        progress=lambda row: print("NHL_SOG_GAME " + json.dumps(row, sort_keys=True), flush=True),
-    )
+    with TemporaryDirectory(prefix="nhl-sog-derived-") as temporary:
+        derived = Path(temporary) if args.packed_derived_cache else None
+        pool = open_history_sources(args.root, args.signed_history_manifest,
+                                    args.signed_history_sha256, args.history_pool,
+                                    selected_players=players, derived_cache=derived)
+        history = {
+            "signed_history_manifest_path": args.signed_history_manifest,
+            "signed_history_manifest_sha256": args.signed_history_sha256,
+            "history_pool": pool,
+            "derived_root": derived,
+        }
+        history_sources = HistorySources(args.root, args.signed_history_manifest,
+                                         args.signed_history_sha256, pool, derived_root=derived)
+        output = run_slate(
+            args.root,
+            day,
+            capture=partial(capture_game_sources, args.root, **history),
+            forecast=partial(forecast_bundle, args.root, history_sources=history_sources),
+            code_commit=args.code_commit,
+            games=games,
+            event_ids=args.event_id,
+            phase=args.phase,
+            progress=lambda row: print("NHL_SOG_GAME " + json.dumps(row, sort_keys=True), flush=True),
+        )
     print("NHL_SOG_SLATE " + json.dumps(output, sort_keys=True), flush=True)
     return 0 if output["complete_requested_coverage"] else 2
 

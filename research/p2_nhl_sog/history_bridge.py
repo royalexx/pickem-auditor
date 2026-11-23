@@ -11,7 +11,7 @@ import hashlib
 import json
 import os
 import stat
-from tempfile import SpooledTemporaryFile
+from tempfile import SpooledTemporaryFile, gettempdir
 from time import monotonic
 import zipfile
 
@@ -67,18 +67,20 @@ def bridge_original_receipt(root, pool, original_receipt, *, freeze, event_start
             "publisher_release_time_verified": False}
 
 def verified_player_history(root, pool, entries, *, player_id, group,
-                            freeze, event_start, _bridge_cache=None):
+                            freeze, event_start, derived_root=None, _bridge_cache=None):
     pool = checked_pool(root, pool)
     require(isinstance(entries, list), "SIGNED_HISTORICAL_ENTRIES_MISSING")
     out, refs, seen = [], {}, set()
+    lineage_options = {"observation_root": derived_root} if derived_root is not None else {}
     for entry in entries:
         try:
             receipt = independent_verify_observation_lineage(
-                entry, archive_root=pool, freeze=freeze, event_start=event_start)
+                entry, archive_root=pool, freeze=freeze, event_start=event_start,
+                **lineage_options)
         except Exception as exc:
             raise SourceBlocked("ORIGINAL_HISTORICAL_LINEAGE_REJECTED:" +
                                 type(exc).__name__) from exc
-        raw = safe_relative(pool, receipt["archive_path"]).read_bytes()
+        raw = safe_relative(derived_root or pool, receipt["archive_path"]).read_bytes()
         require(digest(raw) == receipt["content_sha256"],
                 "DERIVED_OBSERVATION_TAMPERED")
         obs = json.loads(raw)
@@ -130,8 +132,9 @@ def verified_player_history(root, pool, entries, *, player_id, group,
 class VerifiedGameHistories:
     """Reuse exact verified inputs inside one original game/freeze invocation."""
 
-    def __init__(self, root, pool, *, freeze, event_start):
+    def __init__(self, root, pool, *, freeze, event_start, derived_root=None):
         self.scope = (root, pool, freeze, event_start)
+        self._derived_root = derived_root
         self._sources = {}
         self._players = {}
 
@@ -142,7 +145,8 @@ class VerifiedGameHistories:
         if key not in self._players:
             self._players[key] = verified_player_history(
                 root, pool, entries, player_id=player_id, group=group,
-                freeze=freeze, event_start=event_start, _bridge_cache=self._sources,
+                freeze=freeze, event_start=event_start, derived_root=self._derived_root,
+                _bridge_cache=self._sources,
             )
         return self._players[key]
 
@@ -163,11 +167,11 @@ def load_signed_manifest(root, manifest_rel, expected_sha256):
     return doc["signed_observation_contracts_by_player"]
 
 
-def _restore_history_archive(root, source, entries, restored_rel):
+def _restore_history_archive(root, source, entries, restored_rel, *, label="full"):
     started = monotonic()
     last_report = started
     paths = [Path(entry.filename) for entry in entries]
-    folders = {parent: safe_relative(root, f"{restored_rel}/{parent}")
+    folders = {parent: safe_relative(root, str(Path(restored_rel) / parent))
                for parent in {path.parent for path in paths}}
     for folder in folders.values():
         folder.mkdir(parents=True, exist_ok=True)
@@ -187,7 +191,7 @@ def _restore_history_archive(root, source, entries, restored_rel):
             output.write(original)
         return False
 
-    print(f"NHL_SOG_HISTORY_RESTORE_START entries={len(entries)}", flush=True)
+    print(f"NHL_SOG_HISTORY_RESTORE_START scope={label} entries={len(entries)}", flush=True)
     count = 0
     reused = 0
     with ThreadPoolExecutor(max_workers=24) as workers:
@@ -203,7 +207,7 @@ def _restore_history_archive(root, source, entries, restored_rel):
             count += len(done)
             now = monotonic()
             if count == len(entries) or now - last_report >= 15:
-                print(f"NHL_SOG_HISTORY_RESTORE_PROGRESS entries={count}/{len(entries)} "
+                print(f"NHL_SOG_HISTORY_RESTORE_PROGRESS scope={label} entries={count}/{len(entries)} "
                       f"reused={reused} elapsed_seconds={now - started:.1f}", flush=True)
                 last_report = now
 
@@ -265,6 +269,8 @@ def available_history_players(pool):
     if pool.parent.parent.name not in {"verified_history_subsets", "verified_history_subset_recovery"}:
         return None
     marker = pool / "_verified_archive.json"
+    if not marker.with_suffix(".json.complete").is_file():
+        marker = pool / "_verified_raw_archive.json"
     raw = marker.read_bytes()
     require(marker.with_suffix(".json.complete").read_text() == digest(raw),
             "P2_SIGNED_HISTORY_SUBSET_MARKER_INVALID")
@@ -279,7 +285,7 @@ def available_history_players(pool):
 
 
 def open_history_sources(root, manifest_rel, expected_sha256, history_pool, *,
-                         selected_players=None):
+                         selected_players=None, derived_cache=None):
     """Resolve original loose receipts or restore bytes from their exact ZIP.
 
     The original C03 receipt paths and hashes remain unchanged. ZIP contents
@@ -288,7 +294,15 @@ def open_history_sources(root, manifest_rel, expected_sha256, history_pool, *,
     manifest_path, doc = _load_signed_manifest(root, manifest_rel, expected_sha256)
     bundle = doc.get("source_bundle")
     if bundle is None:
+        require(derived_cache is None, "P2_DERIVED_CACHE_REQUIRES_SIGNED_ZIP")
         return checked_pool(root, history_pool)
+
+    if derived_cache is not None:
+        temp_root = Path(gettempdir()).resolve()
+        derived_cache = Path(derived_cache).resolve()
+        require(derived_cache != temp_root and derived_cache.is_relative_to(temp_root),
+                "P2_DERIVED_CACHE_MUST_BE_EPHEMERAL")
+        derived_cache.mkdir(parents=True, exist_ok=True)
 
     require(isinstance(bundle, dict) and bundle.get("format") ==
             "exact_original_receipts_and_derived_zip_v1",
@@ -316,7 +330,7 @@ def open_history_sources(root, manifest_rel, expected_sha256, history_pool, *,
 
     print(f"NHL_SOG_HISTORY_ARCHIVE_VERIFY compressed_bytes={archive.stat().st_size}", flush=True)
     with archive.open("rb") as handle, SpooledTemporaryFile(max_size=32_000_000) as local:
-        for folder in candidates:
+        for folder in candidates if derived_cache is None else ():
             verified_rel = f"{folder}/_verified_archive.json"
             verified = safe_relative(root, verified_rel)
             if verified.is_file() and verified.with_suffix(".json.complete").is_file():
@@ -359,10 +373,28 @@ def open_history_sources(root, manifest_rel, expected_sha256, history_pool, *,
                 archive_identity["available_player_ids"] = selected
             archive_record = canonical_bytes(archive_identity)
 
+            marker_name = "_verified_archive.json"
+            if derived_cache is not None:
+                derived = [entry for entry in entries
+                           if entry.filename.startswith("nhl_sog_official_derived/")]
+                entries = [entry for entry in entries
+                           if not entry.filename.startswith("nhl_sog_official_derived/")]
+                require(bool(derived and entries), "P2_SIGNED_HISTORY_SPLIT_EMPTY")
+                _restore_history_archive(derived_cache, source, derived, ".", label="derived")
+                marker_name = "_verified_raw_archive.json"
+
             for folder in candidates:
-                verified_rel = f"{folder}/_verified_archive.json"
+                verified_rel = f"{folder}/{marker_name}"
                 try:
-                    _restore_history_archive(root, source, entries, folder)
+                    cached = safe_relative(root, verified_rel).with_suffix(".json.complete")
+                    fully_cached = safe_relative(root, f"{folder}/_verified_archive.json")
+                    if (derived_cache is not None and
+                            fully_cached.with_suffix(".json.complete").is_file()):
+                        put_once(root, f"{folder}/_verified_archive.json", archive_record)
+                        return checked_pool(root, fully_cached.parent)
+                    if not cached.is_file():
+                        _restore_history_archive(root, source, entries, folder,
+                                                 label="raw" if derived_cache is not None else "full")
                     put_once(root, verified_rel, archive_record)
                 except SourceBlocked as exc:
                     if folder == candidates[0] and exc.code in {

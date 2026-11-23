@@ -68,6 +68,7 @@ class SlateForecastTests(unittest.TestCase):
                 return {"sha256": digest, "relative_path": str(path.relative_to(root))}
 
             history = type("FixtureHistory", (), {"root": root, "pool": root / "history",
+                                                  "derived_root": root / "cached-derived",
                                                   "sha256": "b" * 64})()
             model = {**self.model_fixture.model, "fit_data_cutoff_at": freeze}
             with (patch.object(slate, "verify_bundle", return_value=(manifest, feature, {sha256(source): source})),
