@@ -1,8 +1,13 @@
-# Production consensus and slate reporting
+# Legacy consensus benchmark and slate reporting
 
 Effective policy: `production-historical-ensemble-60-40-20261108-v1`,
-authorized November 8, 2026. After sidecar inference the daily report
-combines 60% historical-model consensus (Engine A, Bayesian A, Bayesian B
+frozen November 8, 2026 as the V1 benchmark. Under V2.5 this is a research
+comparator, not the trusted decision model. `PICKEM_PRODUCTION_CONSENSUS=1`
+selects its numerical blend only; strict Phase 0R certification is controlled
+separately by `PICKEM_PHASE0_CERTIFIED_ONLY=1`. A forecast generated without
+strict certification remains `UNCERTIFIED/SHADOW`.
+
+After sidecar inference the benchmark combines 60% historical-model consensus (Engine A, Bayesian A, Bayesian B
 and any strictly eligible same-contract trained NUTS) and 40% opportunity-
 focused Engine B. Among historical models, available eligible families
 receive equal weight, with a minimum of two and Engine A mandatory.
@@ -11,9 +16,10 @@ provisional NUTS are independent benchmarks only. Mix complete win/push/loss
 masses before displaying P(win | no push).
 
 `config/production_consensus.json` freezes the weights and the numerical build.
-The policy is authorized for production while empirical calibration remains
-unestablished. It never sets a learned-blend certificate to true. Existing
-research, market, availability, sample and Tier 1 validation gates remain.
+The benchmark remains frozen while empirical calibration is unestablished.
+It never sets a learned-blend certificate to true and does not authorize Tier 1
+or Tier 2 publication. Existing research, market, availability, sample and
+Tier 1 validation gates remain.
 Missing/unreliable components cause explicit production abstention.
 The initial Engine A/B calculation occurs BEFORE Bayesian and NUTS inference
 and is a nonproduction preview; it cannot rank, set a Tier, or masquerade as
