@@ -104,13 +104,15 @@ def _reason(exc):
 def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                          signed_history_manifest_sha256, history_pool,
                          original_quote_by_player=None, derived_root=None,
-                         recover_archived=False):
+                         recover_archived=False, poisson_only=False, on_bundle=None):
     """Capture one game's two official rosters and freeze every listed skater.
 
     The source owner supplies immutable signed history and may supply previously
     captured market offers. A quote reject is independent of SOG distribution
     eligibility. The freeze is a real UTC deadline and remains the same across
     all skaters in this game. No model or network market call is made here.
+    Poisson-only callers need only the skater's signed history. A ready bundle
+    callback can enqueue that persisted player without waiting for the slate.
     """
     current_storage(root)
     records = []
@@ -128,6 +130,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
             peer_attempt_sha256s=peer_attempt_hashes,
             history_manifest_sha256=signed_history_manifest_sha256,
             source_capture_mode="archived" if recover_archived else "live",
+            model_source_scope="own_history_only" if poisson_only else "own_and_peer_history",
         )["receipt"]
         return {"game": game, "status": status, "records": records,
                 "reasons": list(reasons), "attempt_sha256": receipt["sha256"],
@@ -160,6 +163,8 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
         available = available_history_players(pool)
         if available is not None:
             history = {pid: history[pid] for pid in available if pid in history}
+        if poisson_only:
+            history = {pid: history[pid] for pid in skaters if pid in history}
     except (OSError, ValueError, KeyError, TypeError) as exc:
         history_error = _reason(exc)
         history = {}
@@ -189,7 +194,8 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                                                 "P2_ORIGINAL_SIGNED_PLAYER_HISTORY_MISSING"))
             if indexed[pid][0] != group:
                 raise SourceBlocked("P2_HISTORY_POSITION_OR_IDENTITY_MISMATCH")
-            while True:
+            peers = []
+            while not poisson_only:
                 peers = _peer_ids(indexed, player_id=pid, position_group=group)
                 unchecked = set(peers).difference(screened)
                 if not unchecked:
@@ -251,6 +257,9 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
         )["receipt"]
         row["attempt_sha256"] = receipt["sha256"]
         records.append(row)
+        if (on_bundle is not None and row["manifest_sha256"] is not None and
+                row["status"].startswith("SOURCE_READY")):
+            on_bundle(dict(row))
 
     available = any(row["manifest_sha256"] is not None for row in records)
     return finish("SOURCE_READY" if available else "BLOCKED_SOURCE",

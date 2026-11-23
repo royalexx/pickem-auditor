@@ -68,13 +68,29 @@ def _ready(source):
 
 
 def run_game(game, *, capture, forecast, now=_now, sleep=time.sleep,
-             checkpoint=None, recovered=(), phase="both", recover_archived=False):
+             checkpoint=None, recovered=(), phase="both", recover_archived=False,
+             stream_forecasts=False):
     """Capture within P2 windows, then emit forecasts from admitted bundles."""
     start = clock(game["start_at"])
     freeze = start - FINAL_LEAD
     source_attempts = list(recovered)
     source = next((item for item in reversed(source_attempts) if _ready(item)), {})
     published = []
+    processed = set()
+
+    def freeze_player(row):
+        manifest_sha = row["manifest_sha256"]
+        if manifest_sha in processed:
+            return
+        processed.add(manifest_sha)
+        if now() >= start:
+            published.append(dict(player_id=row["player_id"], status="FORECAST_DEADLINE_MISSED"))
+            return
+        try:
+            published.append(forecast(manifest_sha))
+        except (OSError, ValueError) as exc:
+            published.append(dict(player_id=row["player_id"], status="FORECAST_FAILURE",
+                                  reason=str(exc)))
     if game["game_state"] not in {"FUT", "PRE"}:
         status = "EVENT_ALREADY_STARTED" if now() >= start else "EVENT_NOT_PREGAME"
         return dict(game=game, status=status, source_attempts=[], players=[])
@@ -92,7 +108,8 @@ def run_game(game, *, capture, forecast, now=_now, sleep=time.sleep,
         if now() >= closes:
             continue
         try:
-            source = capture(game=game, freeze=stamp(freeze))
+            callbacks = {"on_bundle": freeze_player} if stream_forecasts and now() >= freeze else {}
+            source = capture(game=game, freeze=stamp(freeze), **callbacks)
         except (OSError, ValueError) as exc:
             source = {"status": "SOURCE_FAILURE", "reason": str(exc)}
         source_attempts.append(source)
@@ -113,14 +130,7 @@ def run_game(game, *, capture, forecast, now=_now, sleep=time.sleep,
     if admitted:
         _wait_until(freeze, now, sleep)
     for row in admitted:
-        if now() >= start:
-            published.append(dict(player_id=row["player_id"], status="FORECAST_DEADLINE_MISSED"))
-            continue
-        try:
-            published.append(forecast(row["manifest_sha256"]))
-        except (OSError, ValueError) as exc:
-            published.append(dict(player_id=row["player_id"], status="FORECAST_FAILURE",
-                                  reason=str(exc)))
+        freeze_player(row)
     forecast_count = sum(len(row.get("forecasts", ())) for row in published)
     return dict(game=game, status="FORECASTS_FROZEN" if forecast_count else "NO_FORECASTS",
                 source_attempts=source_attempts, players=published, forecast_count=forecast_count)
@@ -143,7 +153,8 @@ def _source_checkpoints(root, day, game, run_id):
     return [receipt["source"] for receipt in sorted(accepted, key=lambda r: r["saved_at"])]
 
 
-def _run_checkpointed_game(root, day, game, run_id, capture, forecast, phase, recover_archived):
+def _run_checkpointed_game(root, day, game, run_id, capture, forecast, phase, recover_archived,
+                           stream_forecasts):
     event_id = game["event_id"]
     freeze = stamp(clock(game["start_at"]) - FINAL_LEAD)
 
@@ -155,11 +166,11 @@ def _run_checkpointed_game(root, day, game, run_id, capture, forecast, phase, re
 
     return run_game(game, capture=capture, forecast=forecast, checkpoint=checkpoint,
                     recovered=_source_checkpoints(root, day, game, run_id), phase=phase,
-                    recover_archived=recover_archived)
+                    recover_archived=recover_archived, stream_forecasts=stream_forecasts)
 
 
 def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress=None,
-              event_ids=(), phase="both", recover_archived=False):
+              event_ids=(), phase="both", recover_archived=False, stream_forecasts=False):
     """Process simultaneous windows concurrently and persist each game's result."""
     current_storage(root)
     if games is None:
@@ -176,7 +187,8 @@ def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress
     game_forecast = partial(forecast, run_id=run_id, code_commit=code_commit)
     with ThreadPoolExecutor(max_workers=max(1, len(games))) as pool:
         pending = {pool.submit(_run_checkpointed_game, root, day, game, run_id,
-                               capture, game_forecast, phase, recover_archived): game
+                               capture, game_forecast, phase, recover_archived,
+                               stream_forecasts): game
                    for game in games}
         for work in as_completed(pending):
             game = pending[work]
@@ -240,6 +252,8 @@ def main(argv=None):
                         help="read derived rows from a local cache of the verified project archive")
     parser.add_argument("--recover-archived", action="store_true",
                         help="assemble the pregame bundle from already archived signed inputs")
+    parser.add_argument("--poisson-only", action="store_true",
+                        help="generate only the signed own-history plugin-Poisson control")
     args = parser.parse_args(argv)
     if not re.fullmatch(r"[0-9a-f]{40}", args.code_commit):
         parser.error("--code-commit must be the exact 40-character revision")
@@ -266,6 +280,7 @@ def main(argv=None):
             "history_pool": pool,
             "derived_root": derived,
             "recover_archived": args.recover_archived,
+            "poisson_only": args.poisson_only,
         }
         history_sources = HistorySources(args.root, args.signed_history_manifest,
                                          args.signed_history_sha256, pool, derived_root=derived)
@@ -273,12 +288,14 @@ def main(argv=None):
             args.root,
             day,
             capture=partial(capture_game_sources, args.root, **history),
-            forecast=partial(forecast_bundle, args.root, history_sources=history_sources),
+            forecast=partial(forecast_bundle, args.root, history_sources=history_sources,
+                             poisson_only=args.poisson_only),
             code_commit=args.code_commit,
             games=games,
             event_ids=args.event_id,
             phase=args.phase,
             recover_archived=args.recover_archived,
+            stream_forecasts=args.recover_archived and args.phase == "both",
             progress=lambda row: print("NHL_SOG_GAME " + json.dumps(row, sort_keys=True), flush=True),
         )
     print("NHL_SOG_SLATE " + json.dumps(output, sort_keys=True), flush=True)

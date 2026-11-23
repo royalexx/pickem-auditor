@@ -93,3 +93,15 @@ class SlateForecastTests(unittest.TestCase):
     def test_current_source_requires_matching_c03_evidence(self):
         with self.assertRaisesRegex(slate.P4Blocked, "CURRENT_C03_SOURCE_PROOF"):
             slate._current_source("/work", "a" * 64, {}, None, "test", {})
+
+    def test_own_history_poisson_matches_registered_plugin_without_peers(self):
+        fixture = self.model_fixture
+        model, distributions, laws = slate._fit_plugin(
+            fixture.own, archive_root=fixture.root, player_id="101", position_group="F",
+            freeze=fixture.freeze, start=fixture.start)
+        self.assertEqual(model["schema"], slate.PLUGIN_VERSION)
+        self.assertEqual(model["plugin_rate"], fixture.model["plugin_rate"])
+        self.assertEqual(model["plugin_exposure"], fixture.model["plugin_exposure"])
+        self.assertEqual(distributions, {"plugin_poisson": {
+            "kind": "poisson", "parameters": {"rate": laws["plugin_poisson"]["mean"]}}})
+        self.assertEqual(len(model["source_manifest"]), len(fixture.own))

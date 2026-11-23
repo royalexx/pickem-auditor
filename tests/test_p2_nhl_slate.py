@@ -69,6 +69,30 @@ class SlateSourceTests(unittest.TestCase):
         self.assertEqual(result["status_counts"], {"ABSTAIN_SOURCE_INVALID": 2})
         self.assertTrue(all(row["reasons"] == ["FileNotFoundError"] for row in result["records"]))
 
+    def test_poisson_lane_prepares_own_history_and_streams_committed_rows_only(self):
+        streamed = []
+
+        def collect(row):
+            self.assertEqual(self.attempt.call_args.args[1], "full_slate_player_sources")
+            self.assertEqual(row["attempt_sha256"], "b" * 64)
+            streamed.append(row)
+
+        with (patch.object(slate, "load_signed_manifest", return_value={"1000": [], "9000": []}),
+              patch.object(slate, "_eligible_history", return_value=("F", [{}])) as index,
+              patch.object(slate, "_peer_ids") as peers,
+              patch.object(slate, "build_bundle", return_value={
+                  "manifest": {"source_admission": "SOURCE_READY_LINE_INDEPENDENT_ONLY"},
+                  "receipt": {"sha256": "c" * 64}}) as bundle):
+            result = slate.capture_game_sources("/work", **self.kwargs,
+                                                poisson_only=True, on_bundle=collect)
+
+        self.assertEqual(result["candidate_count"], 2)
+        self.assertEqual([row["player_id"] for row in streamed], ["1000"])
+        self.assertEqual(index.call_args.kwargs["player_id"], "1000")
+        index.assert_called_once()
+        peers.assert_not_called()
+        self.assertEqual(bundle.call_args.kwargs["peer_entries"], {})
+
     def test_closed_freeze_skips_capture(self):
         self.kwargs["freeze"] = (datetime.now(timezone.utc) - timedelta(seconds=1)).isoformat()
         result = slate.capture_game_sources("/work", **self.kwargs)

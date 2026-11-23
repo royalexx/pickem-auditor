@@ -9,15 +9,19 @@ from research.p2_nhl_sog.history_bridge import checked_pool, load_signed_manifes
 from research.p2_nhl_sog.source_pipeline import (
     OFFICIAL, attempt, parse_roster, put_once, retrieve_source, scheduled_games, stamp, verify_bundle,
 )
-from v2.nhl_sog_exposure_shadow import SCHEMA as MODEL_VERSION, fit_model, verify_observation
+from v2.nhl_sog_exposure_shadow import (
+    MAX_RATE_GAMES, MIN_PLAYER_GAMES, SCHEMA as MODEL_VERSION,
+    _clean_history, _plugin_rate_exposure, _pmf_poisson, fit_model, verify_observation,
+)
 from v2.nhl_sog_official_history_producer import independent_verify_observation_lineage
-from v2.nhl_sog_p4_forecasts import P4Blocked, _mass_for, full_law
+from v2.nhl_sog_p4_forecasts import MAX_COUNT, P4Blocked, _mass_for, full_law
 from v2.p0_integrity.contracts import admit_forecast, canonical_bytes, record, sha256, utc
 from v2.p0_integrity.storage import NAMESPACES, append_immutable, verify_immutable_record
 
 
 MODELS = ("plugin_poisson", "full_gamma_poisson_exposure")
 NAMESPACE = "research/p4_nhl_sog_slate"
+PLUGIN_VERSION = "v25_nhl_sog_plugin_poisson_signed_own_history_v1"
 
 
 def _check(condition, reason):
@@ -161,6 +165,42 @@ def _distributions(model):
     }, laws
 
 
+def _fit_plugin(own_receipts, *, archive_root, player_id, position_group, freeze, start):
+    own = _clean_history(own_receipts, root=archive_root, freeze=freeze,
+                         intended=player_id, position=position_group)
+    _check(len(own) >= MIN_PLAYER_GAMES, "THIN_OWN_HISTORY")
+    own = own[-MAX_RATE_GAMES:]
+    rate, exposure = _plugin_rate_exposure(own)
+    mean = rate * exposure
+    quantiles = {}
+    cumulative = 0.0
+    for count in range(MAX_COUNT):
+        cumulative += _pmf_poisson(count, mean)
+        for q in (.05, .5, .9, .95, .99):
+            if cumulative >= q:
+                quantiles.setdefault(str(q), count)
+        if len(quantiles) == 5:
+            break
+    _check(len(quantiles) == 5, "COUNT_QUANTILES_NOT_BOUNDED")
+    model = {
+        "schema": PLUGIN_VERSION,
+        "player_id": player_id, "position_group": position_group,
+        "input_freeze_at": freeze, "event_start_at": start,
+        "fit_data_cutoff_at": max(row["source_received_at"] for row in own),
+        "own_played_games": len(own), "plugin_rate": rate, "plugin_exposure": exposure,
+        "history_source": "verified_official_sog_and_toi_only",
+        "conditioning": "played_game", "research_only": True,
+        "source_manifest": [{"archive_path": row["source_archive_path"],
+                             "content_sha256": row["source_sha256"],
+                             "received_at": row["source_received_at"],
+                             "source_uri": row["source_url"],
+                             "player_id": row["player_id"], "event_id": row["event_id"]}
+                            for row in own],
+    }
+    return (model, {"plugin_poisson": {"kind": "poisson", "parameters": {"rate": mean}}},
+            {"plugin_poisson": {"mean": mean, "variance": mean, "quantiles": quantiles}})
+
+
 def _existing_record(root, kind, logical_id):
     """Reuse only complete records independently verified by the P0 reader."""
     key = hashlib.sha256((kind + "\x00" + logical_id).encode()).hexdigest()
@@ -179,7 +219,7 @@ def _existing_record(root, kind, logical_id):
 
 def forecast_bundle(root, manifest_sha256, *, code_commit, run_id,
                     signed_history_manifest_path=None, signed_history_manifest_sha256=None,
-                    history_pool=None, history_sources=None, derived_root=None):
+                    history_pool=None, history_sources=None, derived_root=None, poisson_only=False):
     """Read one complete P2 bundle, then emit the two line-independent P0 forecasts.
 
     The original quote-matched Gamma generator and registered native NB2
@@ -214,19 +254,29 @@ def forecast_bundle(root, manifest_sha256, *, code_commit, run_id,
                                              derived_root=derived_root)
         _check(history_sources.root == Path(root).resolve(), "P2_HISTORY_SOURCE_ROOT_MISMATCH")
         own_receipts, peer_receipts = [], []
-        for for_target, rows, receipts in ((True, own, own_receipts), (False, peers, peer_receipts)):
+        observation_groups = [(True, own, own_receipts)]
+        if not poisson_only:
+            observation_groups.append((False, peers, peer_receipts))
+        for for_target, rows, receipts in observation_groups:
             for row in rows:
                 observed_player, receipt = history_sources.observation(
                     row, freeze=freeze, start=start, sources=sources)
                 _check((observed_player == player_id) is for_target and row["game_id"] != event,
                        "P2_HISTORICAL_PLAYER_OR_GAME_MISMATCH")
                 receipts.append(receipt)
-        model = fit_model(own_receipts, peer_receipts, archive_root=history_sources.derived_root,
-                          player_id=player_id, position_group=position, input_freeze_at=freeze,
-                          event_start_at=start, target_event_id=event, current_team_id=feature["team_id"])
-        distributions, laws = _distributions(model)
+        if poisson_only:
+            model, distributions, laws = _fit_plugin(
+                own_receipts, archive_root=history_sources.derived_root, player_id=player_id,
+                position_group=position, freeze=freeze, start=start)
+        else:
+            model = fit_model(own_receipts, peer_receipts, archive_root=history_sources.derived_root,
+                              player_id=player_id, position_group=position, input_freeze_at=freeze,
+                              event_start_at=start, target_event_id=event, current_team_id=feature["team_id"])
+            distributions, laws = _distributions(model)
+        version = PLUGIN_VERSION if poisson_only else MODEL_VERSION
         model = {**model, "p2_bundle_sha256": manifest_sha256,
                  "p2_original_history_verified": True,
+                 "target_event_id": event, "current_team_id": feature["team_id"],
                  "p0_feature_sha256": manifest["p0_feature_record_sha256"],
                  "signed_history_manifest_sha256": history_sources.sha256,
                  "history_pool_relative_path": str(history_sources.pool.relative_to(Path(root).resolve()))}
@@ -238,9 +288,12 @@ def forecast_bundle(root, manifest_sha256, *, code_commit, run_id,
         season = game["official_season"]
         _check(type(season) is int and 19001901 <= season and season % 10000 == season // 10000 + 1,
                "P2_OFFICIAL_SEASON_UNVERIFIED")
-        for kind in MODELS:
+        for kind in distributions:
             _check(datetime.now(timezone.utc) < utc(start), "PREGAME_FORECAST_WINDOW_CLOSED")
-            identifier = sha256([code_commit, run_id, manifest_sha256, kind])
+            model_key = [code_commit, run_id, manifest_sha256, kind]
+            if poisson_only:
+                model_key.append(version)
+            identifier = sha256(model_key)
             model_artifact_id = "p4s:model:" + identifier
             forecast_id = "p4s:forecast:" + identifier
             previous_model = _existing_record(root, "ModelArtifact", model_artifact_id)
@@ -248,11 +301,12 @@ def forecast_bundle(root, manifest_sha256, *, code_commit, run_id,
             created_at = previous_model[0]["created_at"] if previous_model else stamp(datetime.now(timezone.utc))
             model_ref = record(
                 "ModelArtifact", model_artifact_id=model_artifact_id,
-                model_id=kind, model_version=MODEL_VERSION, model_code_sha=code_commit,
+                model_id=kind, model_version=version, model_code_sha=code_commit,
                 artifact_sha256=artifact_sha, artifact_path=artifact_path,
                 training_data_sha256=sha256(model["source_manifest"]),
                 training_cutoff_at=model["fit_data_cutoff_at"], created_at=created_at,
-                training_scope="p2_signed_prior_sog_toi_distribution_only",
+                training_scope=("p2_signed_own_prior_sog_toi_poisson_only" if poisson_only
+                                else "p2_signed_prior_sog_toi_distribution_only"),
                 feature_schema_id=feature["schema_version"],
             )
             if previous_model:
@@ -270,7 +324,7 @@ def forecast_bundle(root, manifest_sha256, *, code_commit, run_id,
                 model_training_cutoff_at=model["fit_data_cutoff_at"],
                 feature_snapshot_id=feature["feature_snapshot_id"],
                 model_artifact_id=model_ref["model_artifact_id"], model_id=kind,
-                model_version=MODEL_VERSION, source_receipt_ids=feature["source_receipt_ids"],
+                model_version=version, source_receipt_ids=feature["source_receipt_ids"],
                 input_sha256=sha256(feature), output_sha256=sha256(distribution),
                 model_code_sha=code_commit, artifact_sha256=artifact_sha, seed=0,
                 distribution=distribution,

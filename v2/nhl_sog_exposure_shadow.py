@@ -171,6 +171,12 @@ def _moments(pi, lam, posterior_a=None, posterior_b=None):
     return mu,var
 
 
+def _plugin_rate_exposure(own):
+    rate = math.fsum(o["shots_on_goal"] for o in own) / math.fsum(o["toi_minutes"] for o in own)
+    exposure = float(statistics.median(o["toi_minutes"] for o in own[-5:]))
+    return rate, exposure
+
+
 def fit_model(own_receipts, peer_receipts, *, archive_root,player_id,
               position_group,input_freeze_at,event_start_at,role_change=False,
               subject_out=False,context_affected=False,
@@ -225,8 +231,7 @@ def fit_model(own_receipts, peer_receipts, *, archive_root,player_id,
     if abs(mass-1)>1e-12 or any(p<0 or w<=0 for w,p in pi):
         raise ExperimentBlocked("EXPOSURE_PMF_INVALID")
     mean,var=_moments(pi,a/b,a,b)
-    w0=float(statistics.median(o["toi_minutes"] for o in own[-5:]))
-    own_rate=math.fsum(o["shots_on_goal"] for o in own)/math.fsum(o["toi_minutes"] for o in own)
+    own_rate,w0=_plugin_rate_exposure(own)
     model={
       "schema":SCHEMA,"experiment_id":EXPERIMENT,
       "status":"RESEARCH_SHADOW_DISTRIBUTION_ONLY",
