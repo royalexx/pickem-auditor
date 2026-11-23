@@ -102,6 +102,11 @@ def publish_report(
     root = Path(output_dir)
     root.mkdir(parents=True, exist_ok=True)
     full_path = root / f"{run_id}-{digest[:16]}.full.json"
+    summary_path = root / f"{run_id}.summary.json"
+    if summary_path.exists():
+        previous = json.loads(summary_path.read_text(encoding="utf-8"))
+        if previous.get("full_evidence_sha256") != digest:
+            raise RuntimeError("run_id reused with different evidence; use a new run identifier")
     try:
         with full_path.open("xb") as fh:
             fh.write(full_bytes)
@@ -142,7 +147,17 @@ def publish_report(
         "diagnostic_gap": status != "success" and not issues,
         "full_evidence_path": str(full_path),
         "full_evidence_sha256": digest,
+        "summary_path": str(summary_path),
     }
+    summary_bytes = (json.dumps(
+        summary, sort_keys=True, ensure_ascii=False, separators=(",", ":"), allow_nan=False
+    ) + "\n").encode("utf-8")
+    try:
+        with summary_path.open("xb") as fh:
+            fh.write(summary_bytes)
+    except FileExistsError:
+        if summary_path.read_bytes() != summary_bytes:
+            raise RuntimeError("immutable summary collision: existing bytes differ") from None
     if emit_stdout:
         print(json.dumps(summary, sort_keys=True, ensure_ascii=False, separators=(",", ":")))
     return summary
