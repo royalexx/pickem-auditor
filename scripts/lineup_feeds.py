@@ -91,7 +91,7 @@ def espn_game(payload,sport,team,stat,event_id,source_url,*,id_map=None,active_r
         if not id_map:
             raise ValueError('NFL_ESPN_GSIS_ID_MAP_MISSING')
         if active_roster is None and not roster:
-            raise ValueError('NFL_GAME_ACTIVE_ROSTER_MANIFEST_MISSING')
+            raise ValueError('NFL_GAME_ACTIVE_ROSTER_MANIFEST_MISSING: complete game-active roster is required')
         for person in (roster.get('roster',[]) if active_roster is None else []):
             if person.get('active') is False:continue
             if person.get('active') is not True:raise ValueError('NFL roster lacks explicit active/inactive flags')
