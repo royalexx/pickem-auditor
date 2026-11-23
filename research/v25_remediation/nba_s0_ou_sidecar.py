@@ -347,7 +347,8 @@ def verify_ou_against_official():
     originals=recover_frozen_forecasts("/work",sport="NBA")
     official=recover_official_outcomes("/work")["by_stat_identity"]
     quotes,corrupt=enumerate_p0("/work","MarketQuote")
-    require(not corrupt,"MARKETQUOTE_VAULT_CORRUPTION")
+    sources,source_bad=enumerate_p0("/work","SourceReceipt")
+    require(not corrupt and not source_bad,"MARKET_OR_SOURCE_VAULT_CORRUPTION")
     by_identity={(f["forecast"]["event_id"],f["forecast"]["player_id"],
                   f["forecast"]["stat_key"],f["forecast"]["period"]):f
                  for f in originals["accepted"]
@@ -362,15 +363,24 @@ def verify_ou_against_official():
             count["FORECAST_NOT_FOUND"]+=1;continue
         f=original["forecast"]
         outcome_key=tuple(f[x] for x in ("sport","event_id","team_id","player_id","stat_key","period"))
-        outcome=official.get(outcome_key)
-        if not outcome:
+        candidates=official.get(outcome_key,[])
+        if not candidates:
             count["OFFICIAL_OUTCOME_PENDING"]+=1;continue
-        if isinstance(outcome,dict) and "record" in outcome:outcome=outcome["record"]
+        outcome=candidates[-1]["outcome"]
+        source=sources.get(q["source_receipt_id"])
+        if (source is None or
+            source["record"]["source_sha256"]!=q["source_sha256"]):
+            count["ORIGINAL_QUOTE_SOURCE_MISSING"]+=1;continue
+        verify_source_bytes(source["record"],"/work")
+        crosswalk=sources.get(q["terms"].get("espn_crosswalk_receipt_id"))
+        if not crosswalk:
+            count["ORIGINAL_ESPN_CROSSWALK_MISSING"]+=1;continue
+        verify_source_bytes(crosswalk["record"],"/work")
         if outcome["status"]!="FINAL" or outcome["participation"]!="PLAYED":
             count["DNP_OR_UNFINAL"]+=1;continue
         require(utc(q["quote_timestamp"])<utc(f["event_start_at"]) and
                 utc(f["forecast_at"])<utc(f["event_start_at"]),"NO_PREGAME_QUOTE_OR_FORECAST")
-        assert f["distribution"]["kind"]=="poisson"
+        require(f["distribution"]["kind"]=="poisson","S0_DISTRIBUTION_MISMATCH")
         pm=poisson_contract(f["distribution"]["parameters"]["rate"],q["line"])
         mk=market_probabilities(q["terms"]["over_american"],q["terms"]["under_american"])
         actual=outcome["actual_value"]
