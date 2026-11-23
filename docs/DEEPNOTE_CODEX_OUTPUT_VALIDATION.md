@@ -1,8 +1,8 @@
 # Deepnote output protocol validation receipt
 
-**Date** November 23, 2026 (America/Toronto)  
-**Governing plan** PA-V25-MASTER-2026-11-09 / v1.1  
-**Scope and status** Phase 1 reporting infrastructure, implemented and tested offline and through the official Deepnote MCP integration. The isolated pilot is synthetic and shadow-only. Independent scientific review and individual live-notebook adoption remain outside this pilot.
+- **Date** November 23, 2026 (America/Toronto)
+- **Governing plan** PA-V25-MASTER-2026-11-09 / v1.1
+- **Scope and status** Phase 1 reporting infrastructure, implemented and tested offline and through the official Deepnote MCP integration. The isolated pilot is synthetic and shadow-only. Independent scientific review and individual live-notebook adoption remain outside this pilot.
 
 - Branch `codex/deepnote-adaptive-output-20261123`. [Draft PR #210](https://github.com/royalexx/pickem-auditor/pull/210)
 - Verified `main` baseline `912bc7010058092ea735dcda0aa941429194474b`.
