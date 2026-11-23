@@ -7,6 +7,7 @@ full-count distribution outcome. All outputs are research-only.
 from __future__ import annotations
 from datetime import datetime, timezone
 import hashlib
+import json
 import math
 
 from v2.p0_integrity.contracts import (
@@ -254,6 +255,43 @@ def settle(frozen, official, *, source_root, receipt_root,
              computation_sha256=computation)
     proof=admit_settlement(s,f,o,quote,
                            official_sources=official_sources,source_root=source_root)
+    # A rerun of an already finalized, same-version outcome MUST reuse the
+    # original P5 receipt. The P0 append returns IDEMPOTENT_EXISTING on the
+    # second run, which is operation metadata and must not be serialized as
+    # a replacement for the original receipt's APPENDED status.
+    # Verify the existing immutable P5 bytes and both source/model identities
+    # before reusing them. Corrections get a DIFFERENT settlement_id and are
+    # never silently collapsed into this path.
+    existing_relative=(
+        f"settlements/{f['sport'].lower()}/{settlement_id.replace(':','_')}.json"
+    )
+    existing_path=root/existing_relative
+    if existing_path.exists() or existing_path.is_symlink():
+        _need(existing_path.is_file() and not existing_path.is_symlink(),
+              "EXISTING_SETTLEMENT_PATH_UNSAFE")
+        try:
+            original_result=json.loads(existing_path.read_bytes())
+        except (OSError,ValueError) as exc:
+            raise ScoreError("EXISTING_SETTLEMENT_INVALID_JSON") from exc
+        _need(original_result.get("schema")==RUN_SCHEMA and
+              original_result.get("settlement_record")==s and
+              original_result.get("admission_sha256")==proof["settlement_sha256"] and
+              original_result.get("original_forecast_sha256")==sha256(f) and
+              original_result.get("original_model_artifact_sha256")==f["artifact_sha256"] and
+              original_result.get("official_source_sha256")==o["official_source_sha256"] and
+              original_result.get("statistical_score")==stat and
+              original_result.get("contract_score")==contract and
+              original_result.get("classification")==classification,
+              "EXISTING_SETTLEMENT_CONTENT_MISMATCH")
+        if str(receipt_root)=="/work/research/p5_daily":
+            _need(verify_immutable_record("/work","SettlementRecord",sha256(s))==s and
+                  original_result.get("p0_receipt",{}).get("sha256")==sha256(s),
+                  "EXISTING_P0_SETTLEMENT_MISSING_OR_CHANGED")
+        # _write_once checks exact canonical byte equivalence without writing.
+        existing_receipt=_write_once(root,existing_relative,original_result)
+        _need(existing_receipt["status"]=="IDEMPOTENT_EXISTING",
+              "EXISTING_SETTLEMENT_NOT_READBACK_VERIFIED")
+        return {**original_result,"p5_receipt":existing_receipt}
     p0_receipt=None
     # P0 canonical record registration is intentionally caller-controlled:
     # P5 never writes to live shared store in an isolated synthetic test.
