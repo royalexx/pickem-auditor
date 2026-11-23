@@ -2,6 +2,7 @@
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import contextlib
+import errno
 import hashlib
 import io
 import json
@@ -193,6 +194,32 @@ class ReportTests(unittest.TestCase):
         (self.root / summary["full_evidence_path"]).write_bytes(b"{}\n")
         with self.assertRaisesRegex(reports.EvidenceError, "digest"):
             self.verify()
+
+    def test_exclusive_create_preserves_evidence_on_linkless_mount(self):
+        unsupported = OSError(errno.EOPNOTSUPP, "hard links unavailable")
+        with patch.object(reports.os, "link", side_effect=unsupported):
+            first = self.publish()
+            self.verify()
+            self.assertEqual(first, self.publish())
+            with self.assertRaisesRegex(reports.EvidenceError, "collision"):
+                self.publish(fixture(market="rebounds"))
+
+    def test_interrupted_exclusive_create_cannot_appear_as_a_published_report(self):
+        unsupported = OSError(errno.EOPNOTSUPP, "hard links unavailable")
+
+        def interrupt(source, target, **kwargs):
+            target.write(source.read(32))
+            raise OSError("interrupted copy")
+
+        with patch.object(reports.os, "link", side_effect=unsupported):
+            with patch.object(reports.shutil, "copyfileobj", side_effect=interrupt):
+                with self.assertRaisesRegex(OSError, "interrupted"):
+                    self.publish()
+            self.assertFalse((self.root / "report-001.summary.json").exists())
+            with self.assertRaisesRegex(reports.EvidenceError, "collision"):
+                self.publish()
+            with self.assertRaisesRegex(reports.EvidenceError, "full evidence"):
+                reports.recover_summary(self.root, "report-001", expected_sha256="0" * 64)
 
     def test_simultaneous_writers_cannot_overwrite_or_publish_conflicting_reports(self):
         def attempt(index):

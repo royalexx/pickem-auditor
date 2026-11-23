@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import argparse
+import errno
 import hashlib
 import json
 import math
 import os
 import re
+import shutil
 import tempfile
 from pathlib import Path
 from typing import Any, Mapping
@@ -95,7 +97,20 @@ def _sync_directory(path: Path) -> None:
 
 def _publish_staged(temp: Path, target: Path, digest: str, size: int) -> None:
     try:
-        os.link(temp, target)
+        try:
+            os.link(temp, target)
+        except OSError as exc:
+            if exc.errno not in (errno.EOPNOTSUPP, errno.ENOSYS):
+                raise
+            # Some persistent mounts do not implement hard links. Exclusive creation
+            # still claims the name once. A partial write stays untrusted and is never
+            # replaced. Publication completes only after the exact bytes read back.
+            with temp.open("rb") as source, target.open("xb") as output:
+                shutil.copyfileobj(source, output, length=1024 * 1024)
+                output.flush()
+                os.fsync(output.fileno())
+            if _file_ref(target) != (digest, size):
+                raise EvidenceError(f"incomplete exclusive publication: {target.name}")
     except FileExistsError:
         if target.is_symlink() or _file_ref(target) != (digest, size):
             raise EvidenceError(f"immutable collision or corruption: {target.name}") from None
