@@ -161,7 +161,7 @@ def _p0_official_source(receipt, *, source_kind, source_id):
         "record_type": "SourceReceipt", "schema_version": P0_VERSION,
         "receipt_id": "p2:" + digest(canonical_bytes(
             [source_id, receipt["source_url"], receipt["body_sha256"], receipt["received_at"]])),
-        "source_id": source_id, "source_kind": source_kind,
+        "source_id": str(source_id), "source_kind": str(source_kind),
         "source_available_at": stamp(observed), "collected_at": stamp(observed),
         "source_sha256": receipt["body_sha256"], "archive_path": relative,
         "provenance_class": "collector_possession"
@@ -344,6 +344,8 @@ def read_archived_game_sources(root, game, *, freeze):
     reopened = {}
     for file in (folder / "c03_collector_receipts").glob("*.json"):
         try:
+            if file.is_symlink():
+                continue
             body = file.read_bytes()
             proof_sha = digest(body)
             if file.stem != proof_sha:
@@ -375,6 +377,8 @@ def read_archived_game_sources(root, game, *, freeze):
                 require(len(matches) == 1 and all(matches[0][key] == game[key] for key in
                         ("home_team", "away_team", "start_at", "official_season", "game_type")),
                         "P2_ARCHIVED_SCHEDULE_IDENTITY_MISMATCH")
+            else:
+                parse_roster(loaded["document"], source_id.rsplit(":", 1)[-1])
             reopened[source_id] = received, loaded
         except (OSError, ValueError, TypeError, KeyError):
             continue
@@ -540,7 +544,12 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
             schedule_source["c03_receipt"]["source_url"] ==
             OFFICIAL + "/score/" + game["scheduled_day"],
             "SIGNED_SCHEDULE_ORIGIN_MISMATCH")
-    retrieve_source(root, schedule_source, freeze=freeze, event_start=start)
+    signed_schedule = retrieve_source(root, schedule_source, freeze=freeze, event_start=start)
+    if allow_post_freeze_assembly:
+        candidates = scheduled_games(signed_schedule, day=game["scheduled_day"])
+        require(any(all(candidate[k] == game[k] for k in ("event_id", "home_team", "away_team",
+                    "start_at", "official_season", "game_type")) for candidate in candidates),
+                "P2_SCHEDULE_IDENTITY_INVALID_FOR_FROZEN_INPUTS")
     team = next((t for t in (game["home_team"], game["away_team"])
                  if str(player_id) in roster_members[t]), None)
     if team is None:

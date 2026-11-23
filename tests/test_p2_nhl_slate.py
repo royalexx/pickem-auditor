@@ -3,12 +3,15 @@ from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 from pathlib import Path
+import os
 from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import patch
 import zipfile
 
-from research.p2_nhl_sog import history_bridge, slate
+from research.p2_nhl_sog import history_bridge, slate, source_pipeline
+from scripts.c03_context_cohorts import archive_response, canonical
+from scripts.c03_live_transport import SCHEMA, SECRET_ENV, _mac, _signed_body
 
 
 class SlateSourceTests(unittest.TestCase):
@@ -190,6 +193,52 @@ class HistoryBundleTests(unittest.TestCase):
                 self.assertNotIn("1032", available)
                 self.assertFalse((subset / "nhl_sog_official_derived/1032.json").exists())
                 self.assertEqual(history_bridge.open_history_sources(*args, selected_players={"1031"}), subset)
+
+
+class ArchivedGameSourceTests(unittest.TestCase):
+    def test_recovery_after_freeze_requires_existing_p0_and_independent_c03(self):
+        start = datetime.now(timezone.utc) + timedelta(minutes=5)
+        freeze = (start - timedelta(minutes=20)).isoformat()
+        day = start.date().isoformat()
+        row = {"id": 2026020300, "startTimeUTC": start.isoformat(), "gameState": "FUT",
+               "homeTeam": {"abbrev": "TOR"}, "awayTeam": {"abbrev": "BOS"},
+               "season": 20262027, "gameType": 2}
+        game = source_pipeline.scheduled_games({"games": [row]}, day=day)[0]
+        key = hashlib.sha256(b"local archived source test key").digest()
+        with TemporaryDirectory() as temp:
+            root = Path(temp)
+            folder = root / source_pipeline.ROOT_NAMESPACE / "c03"
+            proofs = folder / "c03_collector_receipts"
+            proofs.mkdir(parents=True)
+            p0 = {}
+            source_urls = [(f"nhl:schedule:{day}", "nhl_schedule", f"score/{day}", {"games": [row]})]
+            for team, player in (("TOR", 1000), ("BOS", 2000)):
+                source_urls.append((f"nhl:roster:{team}", "nhl_current_roster",
+                                    f"roster/{team}/current", {"forwards": [{"id": player}],
+                                                              "defensemen": [], "goalies": []}))
+            for sid, kind, url, doc in source_urls:
+                receipt = archive_response(
+                    canonical(doc), archive_root=folder,
+                    source_url=f"{source_pipeline.OFFICIAL}/{url}",
+                    observed_at=(start - timedelta(minutes=24)).isoformat(),
+                    received_at=(start - timedelta(minutes=23)).isoformat(),
+                    source_namespace="nhl_official", source_id=sid, http_status=200,
+                )
+                proof = canonical({"schema": SCHEMA, "receipt_fields": _signed_body(receipt),
+                                   "hmac_sha256": _mac(receipt, key)})
+                (proofs / (source_pipeline.digest(proof) + ".json")).write_bytes(proof)
+                p0_record = source_pipeline._p0_official_source(receipt, source_kind=kind, source_id=sid)
+                p0[source_pipeline.digest(source_pipeline.canonical_bytes(p0_record))] = p0_record
+
+            with (patch.object(source_pipeline, "current_storage"),
+                  patch.dict(os.environ, {SECRET_ENV: key.hex()}),
+                  patch.object(source_pipeline, "verify_immutable_record", side_effect=lambda *args: p0[args[-1]])):
+                schedule, rosters, members = source_pipeline.read_archived_game_sources(root, game, freeze=freeze)
+                self.assertEqual(schedule["document"], {"games": [row]})
+                self.assertEqual(set(members["BOS"]), {"2000"})
+                del p0[rosters["BOS"]["p0_sha256"]]
+                with self.assertRaisesRegex(ValueError, "P2_ARCHIVED_SIGNED_GAME_SOURCES_INCOMPLETE"):
+                    source_pipeline.read_archived_game_sources(root, game, freeze=freeze)
 
 
 if __name__ == "__main__":
