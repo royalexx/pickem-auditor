@@ -394,7 +394,10 @@ def run_once(*, day, code_commit, max_forecasts=80):
     attest_project_storage("/work")
     # Never initialize a new method from a previously frozen input.
     model=load_predeclared_model(code_commit=code_commit)
-    p1=run_daily(day=day,wait=False)
+    # Predeclared canary only: archive up to six source-listed players,
+    # selected from original past-game evidence, not any target-game outcome.
+    # Default P1 full-population capture is unchanged for every other caller.
+    p1=run_daily(day=day,wait=False,feature_player_limit=6)
     accepted=[]
     for x in p1["attempts"]:
         if x["status"]!="SOURCE_FEATURE_FROZEN":
