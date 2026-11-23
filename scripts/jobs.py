@@ -535,10 +535,11 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
         if isinstance(row.get("_phase0_market_quotes"), list):
             meta["phase0_market_quotes"] = row["_phase0_market_quotes"]
         candidate = _pipeline_input(row)
-        # User policy: unverifiable contracts never enter the live prediction
-        # pool. Retain their identities and reasons in the attempt ledger.
-        certified_only = (os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1"
-                          or os.environ.get("PICKEM_PHASE0_CERTIFIED_ONLY") == "1")
+        # The numerical benchmark and the certification gate are separate.
+        # PICKEM_PRODUCTION_CONSENSUS selects the frozen 60/40 blend; it does
+        # not suppress research forecasts. Only the explicit Phase 0R flag
+        # creates a certified-only pool. Uncertified rows remain shadow-only.
+        certified_only = os.environ.get("PICKEM_PHASE0_CERTIFIED_ONLY") == "1"
         # C03 is a separate, opt-in strict-source experimental route. It may
         # not bypass an unavailable source or the independent Phase 0R gate.
         c03_original = None
@@ -720,9 +721,16 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                 mark("unavailable", "phase0r_strict_rejected:" + reason)
                 continue
             forecast["phase0r_original_source_certified"] = True
+            forecast["phase0r_certification_status"] = "CERTIFIED"
             if c03_enabled:
                 forecast["c03_cohort"] = ("B" if c03_original is not None else "A")
                 forecast["c03_context_adjusted"] = False
+        if not certified_only:
+            # These rows are retained for research continuity only. They are
+            # never represented as Phase 0R-certified, even when the frozen
+            # production-consensus blend is enabled.
+            forecast["phase0r_original_source_certified"] = False
+            forecast["phase0r_certification_status"] = "UNCERTIFIED_RESEARCH_SHADOW"
         if c03_enabled and c03_original is not None:
             # Research source certification is not selection authorization.
             # Never let a verified-but-not-independent-review-approved B cohort
@@ -869,8 +877,7 @@ def run_snapshot(
     # collector-prepared numeric candidate in an immutable archive. Research
     # status is not allowed to back-fill or change this source. Disabled in
     # the legacy/default runner.
-    if os.environ.get("PICKEM_C03_V2_SHADOW") == "1" and (
-            os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1" or
+    if (os.environ.get("PICKEM_C03_V2_SHADOW") == "1" and
             os.environ.get("PICKEM_PHASE0_CERTIFIED_ONLY") == "1"):
         from c03_context_cohorts import archive_original_candidate
         premerge_root=slate_path.parent / "source_archives"
@@ -911,8 +918,7 @@ def run_snapshot(
     # named player/event claim are required. Propline IDs are NOT silently
     # treated as ESPN IDs, and a missing crosswalk is an explicit abstention.
     # This does NOT authorize context cohort B for publishing/ranking.
-    if os.environ.get("PICKEM_C03_V2_SHADOW") == "1" and (
-            os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1" or
+    if (os.environ.get("PICKEM_C03_V2_SHADOW") == "1" and
             os.environ.get("PICKEM_PHASE0_CERTIFIED_ONLY") == "1"):
         from c03_pregame_live_capture import annotate_prepared_candidates
         pipeline_rows = annotate_prepared_candidates(
@@ -972,8 +978,7 @@ def run_snapshot(
     from collections import Counter
     outcomes=Counter(item["status"] for item in evaluated_contracts)
     by_stat=Counter(str(item.get("sport"))+"|"+str(item.get("stat")) for item in evaluated_contracts)
-    strict_live_policy = (os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1"
-                          or os.environ.get("PICKEM_PHASE0_CERTIFIED_ONLY") == "1")
+    strict_live_policy = os.environ.get("PICKEM_PHASE0_CERTIFIED_ONLY") == "1"
     eligibility_by_sport = {}
     for sport in sorted({str(x.get("sport")) for x in evaluated_contracts}):
         eligible = [x for x in evaluated_contracts if str(x.get("sport")) == sport]
@@ -989,6 +994,11 @@ def run_snapshot(
         "normalized_two_sided_quote_rows":len(quotes),
         "forecast_pool_policy": ("strict_certified_only_original_inputs_v1"
                                   if strict_live_policy else "legacy_research_pool"),
+        "strict_certification_requested": strict_live_policy,
+        "production_consensus_enabled": os.environ.get("PICKEM_PRODUCTION_CONSENSUS") == "1",
+        "forecast_certification_status": (
+            "STRICT_CERTIFIED_ONLY" if strict_live_policy
+            else "UNCERTIFIED_RESEARCH_SHADOW"),
         "certification_exclusion_is_not_random":True,
         "all_prepared_contracts_in_coverage_denominator":True,
         "certified_forecast_contracts":outcomes["forecast"] if strict_live_policy else None,
