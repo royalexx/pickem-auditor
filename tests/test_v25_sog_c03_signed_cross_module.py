@@ -99,13 +99,30 @@ class C03NHLSourceIntegrationTests(unittest.TestCase):
             self.assertEqual(obs["source_kind"],"collector_observed_bytes")
             self.assertTrue(imported[0]["raw_log_receipt"]["source_publication_truth_verified"] is False)
             self.assertFalse(any("production" in x.lower() for x in imported[0]["observation_receipt"]))
+            # An exact derived-row cache can accelerate verification while all
+            # signed upstream bodies and HMAC proofs are still read at root.
+            cache=root/"cache"
+            local=cache/obs["archive_path"]
+            local.parent.mkdir(parents=True)
+            derived_bytes=(root/obs["archive_path"]).read_bytes()
+            local.write_bytes(derived_bytes)
+            self.assertEqual(independent_verify_observation_lineage(
+                imported[0],archive_root=root,freeze=cutoff,event_start=next_game,
+                observation_root=cache),obs)
+            local.write_bytes(derived_bytes+b" ")
+            with self.assertRaisesRegex(ExperimentBlocked,"SOURCE_DIGEST_MISMATCH"):
+                independent_verify_observation_lineage(
+                    imported[0],archive_root=root,freeze=cutoff,event_start=next_game,
+                    observation_root=cache)
+            local.write_bytes(derived_bytes)
             # Proof tamper must fail even if the structured observation already exists.
             original_path=root/log["collector_proof_archive_path"]
             original=original_path.read_bytes()
             original_path.write_bytes(original+b" ")
             with self.assertRaisesRegex(ExperimentBlocked,"AUTHENTIC_RAW_NHL_SOURCE_NOT_VERIFIED"):
                 independent_verify_observation_lineage(
-                    imported[0],archive_root=root,freeze=cutoff,event_start=next_game)
+                    imported[0],archive_root=root,freeze=cutoff,event_start=next_game,
+                    observation_root=cache)
             original_path.write_bytes(original)
             # Body tamper must also fail, even when the derived observation was not altered.
             rawpath=root/log["archive_path"]
