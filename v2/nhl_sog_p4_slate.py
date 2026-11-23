@@ -186,7 +186,8 @@ def forecast_bundle(root, manifest_sha256, *, code_commit, run_id,
     event = player_id = None
     written = []
     try:
-        manifest, feature = verify_bundle(root, manifest_sha256)
+        manifest, feature, sources_by_hash = verify_bundle(
+            root, manifest_sha256, return_source_records=True)
         event, player_id = manifest["event_id"], manifest["official_nhl_player_id"]
         start, freeze = manifest["event_start_at"], manifest["input_freeze_at"]
         _check(manifest["source_admission"] == "SOURCE_READY_LINE_INDEPENDENT_ONLY" and
@@ -198,11 +199,6 @@ def forecast_bundle(root, manifest_sha256, *, code_commit, run_id,
         history = feature["features"]["history"]
         _check(not feature["features"]["missingness"]["role_transition_uncertain"],
                "ROLE_TRANSITION_UNSUPPORTED")
-        source_hashes = [manifest["official_schedule_source_sha256"],
-                         *manifest["official_roster_source_sha256"].values(),
-                         *manifest["P0_original_historical_source_record_hashes"]]
-        sources_by_hash = {digest: verify_immutable_record(root, "SourceReceipt", digest)
-                            for digest in source_hashes}
         game, position = _official_identity(root, manifest, feature, sources_by_hash)
         sources = {source["receipt_id"]: source for source in sources_by_hash.values()}
         own, peers = history["own"], history["peers"]

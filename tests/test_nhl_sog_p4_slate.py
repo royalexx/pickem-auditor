@@ -70,7 +70,7 @@ class SlateForecastTests(unittest.TestCase):
             history = type("FixtureHistory", (), {"root": root, "pool": root / "history",
                                                   "sha256": "b" * 64})()
             model = {**self.model_fixture.model, "fit_data_cutoff_at": freeze}
-            with (patch.object(slate, "verify_bundle", return_value=(manifest, feature)),
+            with (patch.object(slate, "verify_bundle", return_value=(manifest, feature, {sha256(source): source})),
                   patch.object(slate, "_official_identity", return_value=({"official_season": 20262027}, "F")),
                   patch.object(slate, "fit_model", return_value=model),
                   patch.object(slate, "verify_immutable_record", side_effect=lambda _, kind, key: written[kind, key]),
