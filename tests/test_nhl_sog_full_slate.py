@@ -116,6 +116,7 @@ class TestNhlSogFullSlate(unittest.TestCase):
         concurrent = Barrier(len(simultaneous), timeout=5)
 
         def process(item, **kwargs):
+            self.assertEqual(kwargs["recover_archived"], item["event_id"] == "2026020378")
             if item["event_id"] in simultaneous:
                 concurrent.wait()
             return dict(game=item, status="FORECASTS_FROZEN", forecast_count=2)
@@ -124,7 +125,8 @@ class TestNhlSogFullSlate(unittest.TestCase):
              patch("scripts.nhl_sog_full_slate.run_game", side_effect=process), \
              patch("scripts.nhl_sog_full_slate._save", return_value={"sha256": "receipt"}):
             result = run_slate("/work", DAY, capture=Mock(), forecast=Mock(),
-                               code_commit="a" * 40, games=games)
+                               code_commit="a" * 40, games=games,
+                               recover_event_ids=["2026020378"])
 
         self.assertEqual(result["scheduled_games"], 7)
         self.assertEqual(result["games_with_forecasts"], 7)
