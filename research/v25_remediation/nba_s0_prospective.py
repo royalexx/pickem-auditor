@@ -328,7 +328,17 @@ def freeze_handoff(*, handoff_relpath, code_commit, run_id,
         require(obj in bundle["features"],"DEV_FEATURE_OBJECT_CHANGED")
         append_immutable("/work","PregameFeatureSnapshot",obj)
     results=[]
-    for feature in bundle["features"][:max_forecasts]:
+    primary_attempts = 0
+    for feature in bundle["features"]:
+        if feature["stat_key"] not in MODEL_STATS:
+            results.append({"stat_key":feature["stat_key"],"player_id":feature["player_id"],
+                "status":"MODEL_NOT_READY","reason":"combination_requires_single_joint_draw"})
+            continue
+        if primary_attempts >= max_forecasts:
+            results.append({"stat_key":feature["stat_key"],"player_id":feature["player_id"],
+                "status":"FORECAST_CAP_ABSTAIN"})
+            continue
+        primary_attempts += 1
         if utc(stamp(clock()))>=utc(start):
             results.append({"stat_key":feature["stat_key"],
                 "player_id":feature["player_id"],"status":"MISSED_FREEZE"})
@@ -389,7 +399,7 @@ def freeze_handoff(*, handoff_relpath, code_commit, run_id,
     return dict(result,receipt=receipt)
 
 
-def run_once(*, day, code_commit, max_forecasts=80):
+def run_once(*, day, code_commit, max_forecasts=80, feature_player_limit=6):
     """Existing P1 capture once; immediately consume each newly frozen handoff."""
     attest_project_storage("/work")
     # Never initialize a new method from a previously frozen input.
@@ -397,7 +407,8 @@ def run_once(*, day, code_commit, max_forecasts=80):
     # Predeclared canary only: archive up to six source-listed players,
     # selected from original past-game evidence, not any target-game outcome.
     # Default P1 full-population capture is unchanged for every other caller.
-    p1=run_daily(day=day,wait=False,feature_player_limit=6)
+    require(type(feature_player_limit) is int and 1 <= feature_player_limit <= 10, "INVALID_RESEARCH_STARTER_COVERAGE_CAP")
+    p1=run_daily(day=day,wait=False,feature_player_limit=feature_player_limit)
     accepted=[]
     for x in p1["attempts"]:
         if x["status"]!="SOURCE_FEATURE_FROZEN":
