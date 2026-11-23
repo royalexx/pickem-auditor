@@ -1,0 +1,79 @@
+{
+  "actual_p0_staged": true,
+  "code_commit": "1dfca36169fdfb43f2c9939e06a72708e91067ed",
+  "completed_at": "2026-11-21T21:37:59.578731+00:00",
+  "errors": [],
+  "files": {
+    "research/nba_p1_original/__init__.py": {
+      "bytes": 320,
+      "git_blob": "1fa00f649982790854e265d34130d6c607bf531a",
+      "sha256": "96b821adc336ae9be96ac2c36366a1bca3c885685ce70e41c2098e960c978cac"
+    },
+    "research/nba_p1_original/feature_store.py": {
+      "bytes": 19195,
+      "git_blob": "de70b662d1a69efe4ec8bb5785bf7c199870e7d2",
+      "sha256": "003e1ca328e64e9dec55c83f20f7bacba1c6d9743b9486ed5561fdf301906cfe"
+    },
+    "research/nba_p1_original/fixtures/p3_synthetic_source.json": {
+      "bytes": 35294,
+      "git_blob": "1fb1233b0022df75fb8e6148695d6b3c204c8252",
+      "sha256": "557242b8890dc79baa6c052a3e36851618f81a202bf385c3d16b5dd2da8782c9"
+    },
+    "research/nba_p1_original/rolling.py": {
+      "bytes": 16509,
+      "git_blob": "c6e7e5150bf828b7d1e431d0eadae02d7a0e8878",
+      "sha256": "1948fd63227d658b6a5fce01061b02a8ceb78bb52c3c69aeac4ad65c1f8cf9d1"
+    },
+    "tests/nba_p1_original/test_original_pipeline.py": {
+      "bytes": 23625,
+      "git_blob": "31019105dbe4cd71b7783fb769704a10dfefc125",
+      "sha256": "927e8d2cd9bb27bf1f703cb9d708f1885ad7525afac052f92189e000099cf6ca"
+    },
+    "v2/__init__.py": {
+      "bytes": 79,
+      "origin": "preverified P0/common code",
+      "sha256": "09f3c34317c05039666deecdf6b4e2a9c0a4c05a1b31650f9417bbe15a4cdb6f"
+    },
+    "v2/contracts.py": {
+      "bytes": 22426,
+      "origin": "preverified P0/common code",
+      "sha256": "b93c7c4365641e026cca1eb0409d5a81472bb93b9a82ecd048cbc092b0195b72"
+    },
+    "v2/p0_integrity/__init__.py": {
+      "bytes": 468,
+      "origin": "preverified P0/common code",
+      "sha256": "24b01354122c960da4d63ad3a396e816580d6405da3c8553c3e8e0e084950b8e"
+    },
+    "v2/p0_integrity/contracts.py": {
+      "bytes": 25886,
+      "origin": "preverified P0/common code",
+      "sha256": "91c062e75079954d814235ab3771b42ff4748873696fe027e1235017562995b2"
+    },
+    "v2/p0_integrity/storage.py": {
+      "bytes": 9574,
+      "origin": "preverified P0/common code",
+      "sha256": "c5917bf447e39d229c420f5eb06140fd8ca31120dd32995379c55ec3f5eb146c"
+    },
+    "v2/stat_registry.py": {
+      "bytes": 3979,
+      "origin": "preverified P0/common code",
+      "sha256": "452f68817c36a90f2fd5f8500943a863f8f31a5d281fb1859bd6f2a0b9f2d5ca"
+    }
+  },
+  "production_writes": false,
+  "schema": "PA-NBA-P1-REAL-P0-CANARY/2",
+  "status": "TESTED_REAL_P0_45_OF_45",
+  "storage_attestation": {
+    "payload_sha256": "21084d9cb869c6105a0d286ea268b2b8e5375af01790e6fec79309cc54cc6692",
+    "reader_receipt_sha256": "2ab6fa006b1c18d4c626986d54d089cebf4bf537c887e212318a1b19434bc185",
+    "resolved_root": "/datasets/_deepnote_work",
+    "status": "STORAGE_ATTESTED_FOR_PROJECT_PATH"
+  },
+  "test_output": "test_duplicate_game_ids_block (test_original_pipeline.DailyCases.test_duplicate_game_ids_block) ... ok\ntest_empty_day_still_has_manifest (test_original_pipeline.DailyCases.test_empty_day_still_has_manifest) ... ok\ntest_missed_final_window_recorded (test_original_pipeline.DailyCases.test_missed_final_window_recorded) ... ok\ntest_past_day_cannot_backfill_original (test_original_pipeline.DailyCases.test_past_day_cannot_backfill_original) ... ok\ntest_postponed_not_captured (test_original_pipeline.DailyCases.test_postponed_not_captured) ... ok\ntest_repeated_claim_fails_closed (test_original_pipeline.DailyCases.test_repeated_claim_fails_closed) ... ok\ntest_simultaneous_games_have_independent_claims (test_original_pipeline.DailyCases.test_simultaneous_games_have_independent_claims) ... ok\ntest_source_capture_that_finishes_after_deadline_is_rejected (test_original_pipeline.DailyCases.test_source_capture_that_finishes_after_deadline_is_rejected) ... ok\ntest_dev_p0_records_immutable_and_sha_verifiable (test_original_pipeline.DevRecordStorageCases.test_dev_p0_records_immutable_and_sha_verifiable) ... ok\ntest_dev_record_rejects_conflicting_logical_id (test_original_pipeline.DevRecordStorageCases.test_dev_record_rejects_conflicting_logical_id) ... ok\ntest_dev_record_tamper_rejected (test_original_pipeline.DevRecordStorageCases.test_dev_record_tamper_rejected) ... ok\ntest_ambiguous_official_crosswalk_rejected (test_original_pipeline.FeatureCases.test_ambiguous_official_crosswalk_rejected) ... ok\ntest_conflicting_roster_name_unresolved (test_original_pipeline.FeatureCases.test_conflicting_roster_name_unresolved) ... ok\ntest_corrupt_original_source_rejected (test_original_pipeline.FeatureCases.test_corrupt_original_source_rejected) ... ok\ntest_current_name_position_source_bound_not_joined_by_name (test_original_pipeline.FeatureCases.test_current_name_position_source_bound_not_joined_by_name) ... ok\ntest_duplicate_player_rejected (test_original_pipeline.FeatureCases.test_duplicate_player_rejected) ... ok\ntest_feature_hash_mutation_rejected (test_original_pipeline.FeatureCases.test_feature_hash_mutation_rejected) ... ok\ntest_future_source_availability_rejected (test_original_pipeline.FeatureCases.test_future_source_availability_rejected) ... ok\ntest_good_source_listed_not_confirmed (test_original_pipeline.FeatureCases.test_good_source_listed_not_confirmed) ... ok\ntest_handoff_source_missing_rejected (test_original_pipeline.FeatureCases.test_handoff_source_missing_rejected) ... ok\ntest_late_original_source_rejected (test_original_pipeline.FeatureCases.test_late_original_source_rejected) ... ok\ntest_missing_optional_injury_keeps_player (test_original_pipeline.FeatureCases.test_missing_optional_injury_keeps_player) ... ok\ntest_missing_player_in_original_roster_withheld (test_original_pipeline.FeatureCases.test_missing_player_in_original_roster_withheld) ... ok\ntest_no_crosswalk_does_not_invent_official_id (test_original_pipeline.FeatureCases.test_no_crosswalk_does_not_invent_official_id) ... ok\ntest_p3_rejects_late_manifest (test_original_pipeline.FeatureCases.test_p3_rejects_late_manifest) ... ok\ntest_p3_rejects_missing_statistic_records (test_original_pipeline.FeatureCases.test_p3_rejects_missing_statistic_records) ... ok\ntest_postgame_builder_rejected (test_original_pipeline.FeatureCases.test_postgame_builder_rejected) ... ok\ntest_receipt_id_remap_supported (test_original_pipeline.FeatureCases.test_receipt_id_remap_supported) ... ok\ntest_reconstruction_cannot_claim_original (test_original_pipeline.FeatureCases.test_reconstruction_cannot_claim_original) ... ok\ntest_roster_record_player_collision_withheld (test_original_pipeline.FeatureCases.test_roster_record_player_collision_withheld) ... ok\ntest_same_game_history_rejected (test_original_pipeline.FeatureCases.test_same_game_history_rejected) ... ok\ntest_source_listed_questionable_not_confirmed (test_original_pipeline.FeatureCases.test_source_listed_questionable_not_confirmed) ... ok\ntest_status_out_separate_from_dnp (test_original_pipeline.FeatureCases.test_status_out_separate_from_dnp) ... ok\ntest_target_minutes_field_rejected (test_original_pipeline.FeatureCases.test_target_minutes_field_rejected) ... ok\ntest_traded_player_past_team_preserved (test_original_pipeline.FeatureCases.test_traded_player_past_team_preserved) ... ok\ntest_unverified_crosswalk_proof_rejected (test_original_pipeline.FeatureCases.test_unverified_crosswalk_proof_rejected) ... ok\ntest_wrong_event_handoff_rejected (test_original_pipeline.FeatureCases.test_wrong_event_handoff_rejected) ... ok\ntest_wrong_history_player_rejected (test_original_pipeline.FeatureCases.test_wrong_history_player_rejected) ... ok\ntest_wrong_target_game_day_history_rejected (test_original_pipeline.FeatureCases.test_wrong_target_game_day_history_rejected) ... ok\ntest_wrong_team_and_trade_identity_rejected (test_original_pipeline.FeatureCases.test_wrong_team_and_trade_identity_rejected) ... ok\ntest_corrupt_existing_file_not_accepted (test_original_pipeline.WindowCases.test_corrupt_existing_file_not_accepted) ... ok\ntest_early_and_final (test_original_pipeline.WindowCases.test_early_and_final) ... ok\ntest_immutable_concurrent_write_one_content (test_original_pipeline.WindowCases.test_immutable_concurrent_write_one_content) ... ok\ntest_reject_unverified_project_root (test_original_pipeline.WindowCases.test_reject_unverified_project_root) ... ok\ntest_window_invalid (test_original_pipeline.WindowCases.test_window_invalid) ... ok\n\n----------------------------------------------------------------------\nRan 45 tests in 0.084s\n\nOK\n",
+  "tests": {
+    "errors": 0,
+    "failures": 0,
+    "run": 45,
+    "skipped": 0
+  }
+}

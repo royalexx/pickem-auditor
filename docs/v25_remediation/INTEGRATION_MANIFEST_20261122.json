@@ -1,0 +1,639 @@
+{
+  "schema": "PA-V25-UNIFIED-INTEGRATION/1",
+  "evidence_class": "GIT_SOURCE_RECONCILIATION_NOT_RELEASE",
+  "date": "2026-11-22",
+  "branch": "integration/v25-p0-p6-remediation-20261122",
+  "main_at_start": "912bc7010058092ea735dcda0aa941429194474b",
+  "p0_source_head": "c14de84839161f207d6fd7524c18d68b13707365",
+  "p0_base_tree": "c9e9b6fe6c814842c87bef5193f1ff0f6581b422",
+  "source_prs": [
+    {
+      "pr": 198,
+      "head": "c14de84839161f207d6fd7524c18d68b13707365",
+      "role": "base_shared_contracts"
+    },
+    {
+      "pr": 199,
+      "head": "99ee844bb2cc860791b32c44077d5e2185fecc4b",
+      "role": "old_phase8c_bridge_kept_separate"
+    },
+    {
+      "pr": 200,
+      "head": "9a3ff231d5649edda93d5c39da13149f7b02ca40",
+      "role": "NBA_source"
+    },
+    {
+      "pr": 201,
+      "head": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "role": "NHL_source"
+    },
+    {
+      "pr": 202,
+      "head": "df3171b1aa2e457c89037a830d857c5f76238b1f",
+      "role": "NHL_model_and_fixed_fixture"
+    },
+    {
+      "pr": 203,
+      "head": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "role": "NBA_model"
+    },
+    {
+      "pr": 204,
+      "head": "cf1655253e18cdd5b24615215307909f5d8ccfc5",
+      "role": "settlement_registry"
+    },
+    {
+      "pr": 205,
+      "head": "14902fe786038698d259a1ae28295cb3ae4f756e",
+      "role": "independent_P6"
+    }
+  ],
+  "original_ws1_source": {
+    "pr": 144,
+    "head": "ceddb41e8e13029849ec82ba2b537faab0ee0a24",
+    "selective_paths": "v2/nba_ws1/*"
+  },
+  "integration_graph": [
+    {
+      "commit": "84b4e966b1e56709852449adf077421dc3f78a05",
+      "parent": "c14de84839161f207d6fd7524c18d68b13707365",
+      "action": "single-parent selective tree assembly from exactly 59 cross-owner Git blobs; NOT a merge/rebase of failing PRs",
+      "tree": "adbc1c2b2adf7b96b1d3e0e9ce10f1b2e297fe09"
+    },
+    {
+      "commit": "278664b1ce67e6433556f32889bbffb411c2b1a2",
+      "parent": "84b4e966b1e56709852449adf077421dc3f78a05",
+      "action": "overlay P5 immutable registry owner fix"
+    },
+    {
+      "commit": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "parent": "278664b1ce67e6433556f32889bbffb411c2b1a2",
+      "action": "overlay P5 idempotency regression; exact code passed original 259 tests"
+    },
+    {
+      "commit": "441bbcb6665ef5a05e8ea7f3e9b85348dceb20d7",
+      "parent": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+      "action": "write exact-source integration manifest"
+    },
+    {
+      "commit": "14f87df97b4be01b91c66b75086db8c75566fef9",
+      "parent": "441bbcb6665ef5a05e8ea7f3e9b85348dceb20d7",
+      "action": "write P6 22-case evidence matrix"
+    },
+    {
+      "commit": "c95199b75621424637543a61eddd74ecadd1a326",
+      "parent": "14f87df97b4be01b91c66b75086db8c75566fef9",
+      "action": "write machine-readable status ledger"
+    },
+    {
+      "commit": "05c53d9ef917f0f2c746b7769b7a5b6ee755a3e7",
+      "parent": "c95199b75621424637543a61eddd74ecadd1a326",
+      "action": "overlay P1 live-discovered same-day append-once manifest fix"
+    },
+    {
+      "commit": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
+      "parent": "05c53d9ef917f0f2c746b7769b7a5b6ee755a3e7",
+      "action": "overlay P1 repeated-invocation collision/attempt regressions; 261-test source code"
+    },
+    {
+      "commit": "44a921d6a19d8a782a7b2fcc21a7c75b35c69d07",
+      "parent": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
+      "action": "write gated research runbook"
+    },
+    {
+      "commit": "3227daeb05bb1cba3decea3d5d33eeb905094575",
+      "parent": "44a921d6a19d8a782a7b2fcc21a7c75b35c69d07",
+      "action": "update exact source blob graph and new 261-test receipt"
+    }
+  ],
+  "evidence_manifest_deepnote": {
+    "path": "research/v25_remediation_20261122/integration_blob_manifest_v2.json",
+    "sha256": "8532bda02ca9c76ded9052072afac31be6fb4a9d304799687783b9fb26dd634c",
+    "file_count": 59
+  },
+  "file_blobs": [
+    {
+      "blob_sha": "e80924fdf5cab3ac27f9960af0b77c9ce4bf5e5f",
+      "owner_pr": 200,
+      "owner_sha": "cf71e6662347755020217c78a04642a5b36ec5a9",
+      "path": "docs/nba_p1_original/DEEPNOTE_INDEPENDENT_READBACK.json",
+      "sha256": "80147a64198dc59decaa1d6c22a22139010d5bb607f5176d5eb875464cb17b78",
+      "size_bytes": 692
+    },
+    {
+      "blob_sha": "7161c09ed75103b94e8129aafe9a0030d5b08baf",
+      "owner_pr": 200,
+      "owner_sha": "cf71e6662347755020217c78a04642a5b36ec5a9",
+      "path": "docs/nba_p1_original/DEEPNOTE_REAL_P0_45_CANARY.json",
+      "sha256": "afc9cc96320430d880d2f7b1f8537aa7d6c1d27da6a80746d1234d9589fd176e",
+      "size_bytes": 8632
+    },
+    {
+      "blob_sha": "6c22eb1eba3dd65d14bf87dad5fa191bcc85dc55",
+      "owner_pr": 200,
+      "owner_sha": "cf71e6662347755020217c78a04642a5b36ec5a9",
+      "path": "docs/nba_p1_original/P1_HANDOFF.md",
+      "sha256": "bc6313dca342b6861e134fcc960c4b3a49f3fe63b841748c34f5ae4092cdedb6",
+      "size_bytes": 12082
+    },
+    {
+      "blob_sha": "a760b8074a6f905508fae456da3b323848dea2a9",
+      "owner_pr": 200,
+      "owner_sha": "cf71e6662347755020217c78a04642a5b36ec5a9",
+      "path": "docs/nba_p1_original/P1_STATUS_LEDGER_20261121.json",
+      "sha256": "06c2b3252c304c743bef0a0f64bbd587aa5423d8a0b1e93f258f2d1d7b0d3f1e",
+      "size_bytes": 3569
+    },
+    {
+      "blob_sha": "1fa00f649982790854e265d34130d6c607bf531a",
+      "owner_pr": 200,
+      "owner_sha": "cf71e6662347755020217c78a04642a5b36ec5a9",
+      "path": "research/nba_p1_original/__init__.py",
+      "sha256": "96b821adc336ae9be96ac2c36366a1bca3c885685ce70e41c2098e960c978cac",
+      "size_bytes": 320
+    },
+    {
+      "blob_sha": "de70b662d1a69efe4ec8bb5785bf7c199870e7d2",
+      "owner_pr": 200,
+      "owner_sha": "cf71e6662347755020217c78a04642a5b36ec5a9",
+      "path": "research/nba_p1_original/feature_store.py",
+      "sha256": "003e1ca328e64e9dec55c83f20f7bacba1c6d9743b9486ed5561fdf301906cfe",
+      "size_bytes": 19195
+    },
+    {
+      "blob_sha": "1fb1233b0022df75fb8e6148695d6b3c204c8252",
+      "owner_pr": 200,
+      "owner_sha": "cf71e6662347755020217c78a04642a5b36ec5a9",
+      "path": "research/nba_p1_original/fixtures/p3_synthetic_source.json",
+      "sha256": "557242b8890dc79baa6c052a3e36851618f81a202bf385c3d16b5dd2da8782c9",
+      "size_bytes": 35294
+    },
+    {
+      "blob_sha": "d63cfd19b3c0c26c150ae7ee1d7306d57ea652c7",
+      "owner_pr": 200,
+      "owner_sha": "9a3ff231d5649edda93d5c39da13149f7b02ca40",
+      "path": "research/nba_p1_original/rolling.py",
+      "sha256": "1948fd63227d658b6a5fce01061b02a8ceb78bb52c3c69aeac4ad65c1f8cf9d1",
+      "size_bytes": 16509,
+      "overlay": "post_live_canary_P1_same_day_immutable_manifest_fix"
+    },
+    {
+      "blob_sha": "3e9e9b2823f7c3c30eca24e89efff517d4cfc48f",
+      "owner_pr": 200,
+      "owner_sha": "9a3ff231d5649edda93d5c39da13149f7b02ca40",
+      "path": "tests/nba_p1_original/test_original_pipeline.py",
+      "sha256": "927e8d2cd9bb27bf1f703cb9d708f1885ad7525afac052f92189e000099cf6ca",
+      "size_bytes": 23625,
+      "overlay": "post_live_canary_P1_same_day_immutable_manifest_fix"
+    },
+    {
+      "blob_sha": "09246278ab3bcdffec7b001c457544848cffcd1f",
+      "owner_pr": 201,
+      "owner_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "path": "docs/P2_NHL_SOG_SOURCE_HANDOFF_20261121.md",
+      "sha256": "7c1b1f327f9125363294cc132d9ae460436c9cf40a056a2370d7a6a36220af84",
+      "size_bytes": 18022
+    },
+    {
+      "blob_sha": "5d589fa4ec0e86e41ba3ce9f89c4147c080030ca",
+      "owner_pr": 201,
+      "owner_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "path": "research/p2_nhl_sog/cli.py",
+      "sha256": "fde2e408407efd56c27e20c57fc592723e76134cc9a3c67697f10a669b9cb585",
+      "size_bytes": 2406
+    },
+    {
+      "blob_sha": "732e00090aa855884416067c1e85d9ef4a2aa06a",
+      "owner_pr": 201,
+      "owner_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "path": "research/p2_nhl_sog/fixtures.py",
+      "sha256": "7ff537e86b13b25ee0a78ef8749f7fbc06486fa32b96540fe3f627e131b1ecc2",
+      "size_bytes": 6127
+    },
+    {
+      "blob_sha": "1922326bf4c1c76ae3c7c5a1446057d32940ebfa",
+      "owner_pr": 201,
+      "owner_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "path": "research/p2_nhl_sog/history_bridge.py",
+      "sha256": "0a85b0c7e29899263a003b4a628b85fd0e08b8e081c69236c7f176290413884d",
+      "size_bytes": 6962
+    },
+    {
+      "blob_sha": "b1455c647e2439f8260b86adec685c2bde2c997c",
+      "owner_pr": 201,
+      "owner_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "path": "research/p2_nhl_sog/market_capture.py",
+      "sha256": "08611699fb03e7c3bd81fbfebfd53e2a38b3581d412b91a180a1cb710324b4d2",
+      "size_bytes": 6360
+    },
+    {
+      "blob_sha": "6ee3f2c94c1616503c874264f878bc1da68bda85",
+      "owner_pr": 201,
+      "owner_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "path": "research/p2_nhl_sog/official_player_capture.py",
+      "sha256": "11827bb5e38e17842004a7edfaf543afa4e186cc679b138794338612c330aeff",
+      "size_bytes": 6842
+    },
+    {
+      "blob_sha": "92fbac1871bbd83cd29e4964687381996c7b63df",
+      "owner_pr": 201,
+      "owner_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "path": "research/p2_nhl_sog/official_transport.py",
+      "sha256": "7d50211b390f8a7f7dc0dc77d404663216214ebe15602d79951ce4e746e71579",
+      "size_bytes": 3864
+    },
+    {
+      "blob_sha": "0eacb65be1790de1dad9b1a7236fee3de1542711",
+      "owner_pr": 201,
+      "owner_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "path": "research/p2_nhl_sog/quote_bridge.py",
+      "sha256": "c341198c0075dcac07356efff111738a6d5ce789fc3920fa38b08d951ce106f1",
+      "size_bytes": 8578
+    },
+    {
+      "blob_sha": "88f0fc7cdf4cf110e8b6edb12818bdc156224058",
+      "owner_pr": 201,
+      "owner_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "path": "research/p2_nhl_sog/run_tests.py",
+      "sha256": "40c857e5229fa46b494af09131918f6f60e0f76c68ddfdad57333978c07eed41",
+      "size_bytes": 1292
+    },
+    {
+      "blob_sha": "ba945702ec7cdff2154d0fe9ada79f730408b130",
+      "owner_pr": 201,
+      "owner_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "path": "research/p2_nhl_sog/service.py",
+      "sha256": "afef6100f529762165e4cba9a8e9de01aedc5c3ee1d6fce589de33c409745524",
+      "size_bytes": 7850
+    },
+    {
+      "blob_sha": "524a4cf378384a6c803e74fe546c9da2cb8fa728",
+      "owner_pr": 201,
+      "owner_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "path": "research/p2_nhl_sog/source_pipeline.py",
+      "sha256": "4476f3759d12c19d5fa999eb40a80ef7a1b1e557d68bf8273442bb8c738ae415",
+      "size_bytes": 37673
+    },
+    {
+      "blob_sha": "d16eefa6c10b90ffcde03cd727cc2df09f621d6b",
+      "owner_pr": 201,
+      "owner_sha": "24b0159682a19d344b0baa6cd1f6e5a24db4802d",
+      "path": "tests/test_p2_nhl_source_pipeline.py",
+      "sha256": "81da933fb3a0ff69e65b504e7f22fc34c89a0b8202d96aae3b4d8f9b5df28add",
+      "size_bytes": 24924
+    },
+    {
+      "blob_sha": "2b91d9ae700ce6abed5e450a92cc630886b20653",
+      "owner_pr": 203,
+      "owner_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "path": "docs/nba_p3_forecast/BENCHMARK_PROTOCOL_20261121.md",
+      "sha256": "4117fca269399de4b77a2fbf7470ecfe9737a186761d414c2bcc721ffd12ebe6",
+      "size_bytes": 2575
+    },
+    {
+      "blob_sha": "90f30e540cfa2cd60f090ccd1e2de6901fb499fc",
+      "owner_pr": 203,
+      "owner_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "path": "docs/nba_p3_forecast/BENCHMARK_RECEIPT_20261121.json",
+      "sha256": "3b153efcead8dd1969a9547bfc3f52647dbca7de01dbaa8a06267436dfbcb675",
+      "size_bytes": 2585
+    },
+    {
+      "blob_sha": "02befcec221063f9fbc0f36e658d2cea673b52f5",
+      "owner_pr": 203,
+      "owner_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "path": "docs/nba_p3_forecast/P5_HANDOFF_20261121.md",
+      "sha256": "3c2f1d6400c3a486ab4d69c7e82c09b9ec38a0741dc83b96ae432fd9c217d3ee",
+      "size_bytes": 12979
+    },
+    {
+      "blob_sha": "bb8023b5bf51e1c5a757fa41f5b6175e5c1c6ec7",
+      "owner_pr": 203,
+      "owner_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "path": "docs/nba_p3_forecast/STATUS_LEDGER_20261121.json",
+      "sha256": "ae0397b699b8e04af0298386a4af9f82bc247c0255b1b50237c524686e46faaa",
+      "size_bytes": 2928
+    },
+    {
+      "blob_sha": "79a36a7e5dfa2dd68fa55e20ae7cc5f9af455f56",
+      "owner_pr": 203,
+      "owner_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "path": "research/nba_p3_frozen/__init__.py",
+      "sha256": "2f04b32cb16866f1d8116881101bc35eb8f208bb0f5f1e8ef7c5372d47673d44",
+      "size_bytes": 71
+    },
+    {
+      "blob_sha": "7ad3d8e2a67cce0c577fed4457d2caa0bb677e1a",
+      "owner_pr": 203,
+      "owner_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "path": "research/nba_p3_frozen/cli.py",
+      "sha256": "805cf9243e6cececcbf0e80ed6058bb4d51ca79ed09f12278b2ecd293f4ff5c3",
+      "size_bytes": 3175
+    },
+    {
+      "blob_sha": "4910aab8185db0d989b839416f71e8fa7bf24955",
+      "owner_pr": 203,
+      "owner_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "path": "research/nba_p3_frozen/distributions.py",
+      "sha256": "42f6a4727d89b4b26a029edb711d55c920f5ce2b8bf469f7837476b7ab1c41c1",
+      "size_bytes": 8827
+    },
+    {
+      "blob_sha": "078b095474cb69c90cdf60480668eaa9a83cf443",
+      "owner_pr": 203,
+      "owner_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "path": "research/nba_p3_frozen/engine.py",
+      "sha256": "aa0de28c9f8a604b14a5b4a426991cfdb1fc2eebb8788eb0a600cde8d86a9ca1",
+      "size_bytes": 22247
+    },
+    {
+      "blob_sha": "69ede323e9a685eb0004a8926996879200d563eb",
+      "owner_pr": 203,
+      "owner_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "path": "research/nba_p3_frozen/joint.py",
+      "sha256": "324946efeebdd3992973d064bd933238a595c3cc5723856b05a8ec9666e957d5",
+      "size_bytes": 11336
+    },
+    {
+      "blob_sha": "3d3418b4ef3221f5633d67e5ef405230466004ac",
+      "owner_pr": 203,
+      "owner_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "path": "tests/fixtures/nba_p3_p1_exact_synthetic_handoff.json",
+      "sha256": "234b977932c6cbf5fab655d5057a63696ece98845c23c0769f05da910c51d173",
+      "size_bytes": 31227
+    },
+    {
+      "blob_sha": "df4dfa0a0fd0ed693172667004ee2e8cfe8cc127",
+      "owner_pr": 203,
+      "owner_sha": "2280c751e4385400f681d19c5acaf6bce09c8423",
+      "path": "tests/test_nba_p3_frozen.py",
+      "sha256": "dce2ff48dda8c4aadc0bc6a4fbd32ac8ff49d3b071f483e623bcb559159be21e",
+      "size_bytes": 21159
+    },
+    {
+      "blob_sha": "c4c3e410e9f4e228655a9c0adba019c23e586f01",
+      "owner_pr": 202,
+      "owner_sha": "df3171b1aa2e457c89037a830d857c5f76238b1f",
+      "path": "docs/P4_NHL_SOG_MODEL_HANDOFF_20261121.md",
+      "sha256": "97301e0987cbc2e7792c9e5bee1fe0272cc42b21f631f47319be2dd82fd189db",
+      "size_bytes": 10924
+    },
+    {
+      "blob_sha": "eb6327bca0e1e06f8081397844499aac338e44b6",
+      "owner_pr": 202,
+      "owner_sha": "df3171b1aa2e457c89037a830d857c5f76238b1f",
+      "path": "scripts/p4_nhl_sog_generate.py",
+      "sha256": "d9782be2a38f9eac73b546a914135d6434cc68bab0a6f7888211a98ce1044658",
+      "size_bytes": 5178
+    },
+    {
+      "blob_sha": "af437095fe8995edd9b495de1b8df51e730f5357",
+      "owner_pr": 202,
+      "owner_sha": "df3171b1aa2e457c89037a830d857c5f76238b1f",
+      "path": "scripts/p4_nhl_sog_make_fixture.py",
+      "sha256": "ff48df2436e5dc176333f34746e9425ce8e68fa32f593824b6143cadfba0f7b1",
+      "size_bytes": 2784
+    },
+    {
+      "blob_sha": "dd2be16c3c28d4a39065ac7f0e9caafb49b02747",
+      "owner_pr": 202,
+      "owner_sha": "df3171b1aa2e457c89037a830d857c5f76238b1f",
+      "path": "tests/test_nhl_sog_p4_forecasts.py",
+      "sha256": "55782ef849dfb97594a15950e7387fc9f8865140b8dfb36ce43004b19b329576",
+      "size_bytes": 13248
+    },
+    {
+      "blob_sha": "329cb29502adf83ec20e0ce8449b28e5dac99402",
+      "owner_pr": 202,
+      "owner_sha": "df3171b1aa2e457c89037a830d857c5f76238b1f",
+      "path": "v2/nhl_sog_p4_forecasts.py",
+      "sha256": "01e3ed5ab8a854016de70cb4472dce5e17d46e458afffae79047ba885ccf29cf",
+      "size_bytes": 27404
+    },
+    {
+      "blob_sha": "d9cbb516988e44707752a15b925c526471e145b7",
+      "owner_pr": 204,
+      "owner_sha": "5087e1bbfccb7a6a61b1a053e3ca7a279463f572",
+      "path": "docs/p5_daily/P5_INTEGRATION_P6_HANDOFF_20261121.md",
+      "sha256": "69b079d304147457e02f6860ef6b11ef6544ffe4bd2269ac2c312d41fd453a03",
+      "size_bytes": 23519
+    },
+    {
+      "blob_sha": "7dccec346341b6d2979ebc04191b13f647ac1b8d",
+      "owner_pr": 204,
+      "owner_sha": "5087e1bbfccb7a6a61b1a053e3ca7a279463f572",
+      "path": "docs/p5_daily/P5_STATUS_LEDGER_20261121.json",
+      "sha256": "66efc64f5f506d099fd0a623d7c478ebabc471cf4f8c030fdc1e27e9e6ff3624",
+      "size_bytes": 3568
+    },
+    {
+      "blob_sha": "b780075c30b86f00da4f43630d9d0fca38feb0c9",
+      "owner_pr": 204,
+      "owner_sha": "5087e1bbfccb7a6a61b1a053e3ca7a279463f572",
+      "path": "research/p5_daily/__init__.py",
+      "sha256": "3be829e2641c44bb501fb2eef1102a6e645253d2a11600761dbc5333ffe1b7da",
+      "size_bytes": 89
+    },
+    {
+      "blob_sha": "e75534d63193df275d48fb048d903ac2563aec6b",
+      "owner_pr": 204,
+      "owner_sha": "5087e1bbfccb7a6a61b1a053e3ca7a279463f572",
+      "path": "research/p5_daily/complete_pipelines.py",
+      "sha256": "4a612ed9593abcfeaf26826bb024881a85f78c9a98d4e97103b136d083c57cdd",
+      "size_bytes": 8609
+    },
+    {
+      "blob_sha": "07894bd1ca70c26ce0a9fa9b1f6507b59fee4c96",
+      "owner_pr": 204,
+      "owner_sha": "5087e1bbfccb7a6a61b1a053e3ca7a279463f572",
+      "path": "research/p5_daily/native_update_adapters.py",
+      "sha256": "d62e9b0e7475c45dbe2dcaf676dc54a9858a5c2ca237e3b05a0467b62c701896",
+      "size_bytes": 5159
+    },
+    {
+      "blob_sha": "4dda4c5af29025dd7ad0d8e98f9f2baf362490c4",
+      "owner_pr": 204,
+      "owner_sha": "5087e1bbfccb7a6a61b1a053e3ca7a279463f572",
+      "path": "research/p5_daily/official_adapters.py",
+      "sha256": "10081b787682017d5aa0cacff2e46847b4cccf3bf62d1d5d07704fc903bd4b7f",
+      "size_bytes": 5921
+    },
+    {
+      "blob_sha": "ac1e1367a985fbe8dde7e4f0d943991c1dd52987",
+      "owner_pr": 204,
+      "owner_sha": "cf1655253e18cdd5b24615215307909f5d8ccfc5",
+      "path": "research/p5_daily/registry.py",
+      "sha256": "5ee35b77d03a14752d026cb52420958f994106a1f5a32bb4137481bacc95f151",
+      "size_bytes": 18718,
+      "overlay": "post_bulk_integration_from_P5_owner"
+    },
+    {
+      "blob_sha": "f5c14a7cf95b1bb8adbd2ad94301d29e750f0bd0",
+      "owner_pr": 204,
+      "owner_sha": "5087e1bbfccb7a6a61b1a053e3ca7a279463f572",
+      "path": "research/p5_daily/scoring.py",
+      "sha256": "49ffadf1bf495dd62c09a2cc8ba2d00760b1360f8fe958a86811a9a90df1dd30",
+      "size_bytes": 14952
+    },
+    {
+      "blob_sha": "7170cb11224c72d13a621f3c020959e3555ea0c8",
+      "owner_pr": 204,
+      "owner_sha": "5087e1bbfccb7a6a61b1a053e3ca7a279463f572",
+      "path": "research/p5_daily/warehouse.py",
+      "sha256": "7b28a68e9a138851858dc35dc5579f45995741b628740a6cb2e1425f9089a602",
+      "size_bytes": 14109
+    },
+    {
+      "blob_sha": "a35a979d30fe79f6a624d4a627831b90c19db3e2",
+      "owner_pr": 204,
+      "owner_sha": "5087e1bbfccb7a6a61b1a053e3ca7a279463f572",
+      "path": "research/p5_daily/workflow.py",
+      "sha256": "0733951fc4a8265861f02034ca22bd23517ae1db43aeb8ee1e7a66116634fc20",
+      "size_bytes": 16789
+    },
+    {
+      "blob_sha": "dfc8f751c0d5b5c586da2e735eb0850bea439b4f",
+      "owner_pr": 204,
+      "owner_sha": "5087e1bbfccb7a6a61b1a053e3ca7a279463f572",
+      "path": "scripts/p5_daily_research.py",
+      "sha256": "244355ddd61b2981353b2827e1078fd7dc3a97ac136f5312ef1f8ae42cb2464d",
+      "size_bytes": 1606
+    },
+    {
+      "blob_sha": "3b09025a0f130135379580c67a37381a5f3aa9fc",
+      "owner_pr": 204,
+      "owner_sha": "cf1655253e18cdd5b24615215307909f5d8ccfc5",
+      "path": "tests/test_p5_daily.py",
+      "sha256": "eb2d38246fc4b1179232a333b35d8d10ba32ba911a15a3de1c760abf936c4cc9",
+      "size_bytes": 26582,
+      "overlay": "post_bulk_integration_from_P5_owner"
+    },
+    {
+      "blob_sha": "b50515394cbe7cb5ce1836440a5b38a1a18c86aa",
+      "owner_pr": 204,
+      "owner_sha": "5087e1bbfccb7a6a61b1a053e3ca7a279463f572",
+      "path": "tests/test_p5_integration.py",
+      "sha256": "f62a5407e0c29e62d2b53422a01005fca25a9f415f678f392d8ef94b072e7d3d",
+      "size_bytes": 15808
+    },
+    {
+      "blob_sha": "c15c5c0198ca447f88a12e9f0e80ea724ec68940",
+      "owner_pr": 205,
+      "owner_sha": "14902fe786038698d259a1ae28295cb3ae4f756e",
+      "path": "docs/p6_audit/P6_INDEPENDENT_GATE_20261121.md",
+      "sha256": "4c245e87f766048318491c411d27a63fb61712bca0cee514e570027116b90f64",
+      "size_bytes": 26227
+    },
+    {
+      "blob_sha": "9e7c6c71d16336b6c68026884601e29b56c3a5b5",
+      "owner_pr": 205,
+      "owner_sha": "14902fe786038698d259a1ae28295cb3ae4f756e",
+      "path": "docs/p6_audit/PENDING_AUTOMATION_CUTOVER_20261121.md",
+      "sha256": "2d51add5b4f60c53bea6dc3fc2b6db69f546000f1ba8e50a777587366331335f",
+      "size_bytes": 9329
+    },
+    {
+      "blob_sha": "557d947b683021ccdca7dec79ad137a8464c06ea",
+      "owner_pr": 205,
+      "owner_sha": "14902fe786038698d259a1ae28295cb3ae4f756e",
+      "path": "research/p6_audit/test_reference.py",
+      "sha256": "76fa8471629a2eab965afe250a00d8db979e42aa99e40afd4f58c7eff24c63d3",
+      "size_bytes": 9946
+    },
+    {
+      "blob_sha": "c12399e4da61e11593e698fd5d12702ec4321b35",
+      "owner_pr": 144,
+      "owner_sha": "ceddb41e8e13029849ec82ba2b537faab0ee0a24",
+      "path": "v2/nba_ws1/__init__.py",
+      "sha256": "aa2e00d0faa0f24427e855407bbe77e2254bd966559f2efc29b19a5b855eb06d",
+      "size_bytes": 263
+    },
+    {
+      "blob_sha": "1e110be2344056096c3a9beba6bbc51e69f1fc6d",
+      "owner_pr": 144,
+      "owner_sha": "ceddb41e8e13029849ec82ba2b537faab0ee0a24",
+      "path": "v2/nba_ws1/adapters.py",
+      "sha256": "1a0404bf2c084aaa51d7c5d881c4f79cf5f6d611fab6922624ff7f19ada7bfc2",
+      "size_bytes": 11833
+    },
+    {
+      "blob_sha": "e8cbf236a5faea8d5fb97f38226aa019271ce864",
+      "owner_pr": 144,
+      "owner_sha": "ceddb41e8e13029849ec82ba2b537faab0ee0a24",
+      "path": "v2/nba_ws1/audit.py",
+      "sha256": "d47dcf9ea9dda88292e923ae1de24d8efed9cdeb7282fb2ea6babe9dbfcced9e",
+      "size_bytes": 7078
+    },
+    {
+      "blob_sha": "9176ab5f3fc90fd08ab7c083158baa94b0809820",
+      "owner_pr": 144,
+      "owner_sha": "ceddb41e8e13029849ec82ba2b537faab0ee0a24",
+      "path": "v2/nba_ws1/capture.py",
+      "sha256": "1275a0adf9ebbfd72d40b9cc5107890de55c311a25e708b551b77f3caeb03023",
+      "size_bytes": 6605
+    },
+    {
+      "blob_sha": "f3a20d54cf94d4d9746515c19fd3238ec248fdec",
+      "owner_pr": 144,
+      "owner_sha": "ceddb41e8e13029849ec82ba2b537faab0ee0a24",
+      "path": "v2/nba_ws1/replay.py",
+      "sha256": "0c4b74f11f272abe8faecebaa9cfd227d897384bfd3a00f5d599ba3a98455502",
+      "size_bytes": 2909
+    },
+    {
+      "blob_sha": "893fbf27192f69d95f565779cb25422114708952",
+      "owner_pr": 144,
+      "owner_sha": "ceddb41e8e13029849ec82ba2b537faab0ee0a24",
+      "path": "v2/nba_ws1/store.py",
+      "sha256": "15a58cc72d62e05cac2e7889e6449a0df2ab1cada4ce8d10f0eeb3c9e211dade",
+      "size_bytes": 21299
+    }
+  ],
+  "overlays": [
+    {
+      "path": "research/p5_daily/registry.py",
+      "staged_blob_sha": "ac1e1367a985fbe8dde7e4f0d943991c1dd52987",
+      "previous_bulk_blob_sha": "f4c9be0d77b8f1fe7b59aa9293764edf0783843d",
+      "source_head": "cf1655253e18cdd5b24615215307909f5d8ccfc5"
+    },
+    {
+      "path": "tests/test_p5_daily.py",
+      "staged_blob_sha": "3b09025a0f130135379580c67a37381a5f3aa9fc",
+      "previous_bulk_blob_sha": "db5a83f33799c8dba24f158a66e0002ab1d99522",
+      "source_head": "cf1655253e18cdd5b24615215307909f5d8ccfc5"
+    },
+    {
+      "path": "research/nba_p1_original/rolling.py",
+      "staged_blob_sha": "d63cfd19b3c0c26c150ae7ee1d7306d57ea652c7",
+      "previous_bulk_blob_sha": "c6e7e5150bf828b7d1e431d0eadae02d7a0e8878",
+      "source_head": "9a3ff231d5649edda93d5c39da13149f7b02ca40"
+    },
+    {
+      "path": "tests/nba_p1_original/test_original_pipeline.py",
+      "staged_blob_sha": "3e9e9b2823f7c3c30eca24e89efff517d4cfc48f",
+      "previous_bulk_blob_sha": "31019105dbe4cd71b7783fb769704a10dfefc125",
+      "source_head": "9a3ff231d5649edda93d5c39da13149f7b02ca40"
+    }
+  ],
+  "content_conflicts_detected": [],
+  "not_integrated": [
+    "Legacy Phase8C PR199 is a stacked old pilot; original Nov16-20 registration is preserved without reactivation",
+    "Native NBA G1/O/J owner branches awaiting independent acceptance; no fabricated G0/C witness",
+    "NBA production and NFL automation untouched"
+  ],
+  "visibility": "DRAFT_RESEARCH_ONLY",
+  "production_activation": false,
+  "model_promotion": false,
+  "source_owner_uniqueness": "NBA P1 invokes original native WS1; NHL P2 sole signed source acquisition; P3 and P4 forecast only; P5 settle/update only",
+  "rollback": {
+    "keep_main_at": "912bc7010058092ea735dcda0aa941429194474b",
+    "disable_new_invocations": true,
+    "branch_only_revert": "git revert 714c7bdd... 278664b1... 84b4e9... on research branch if separately authorized; never rewrite historical source/forecast bytes"
+  },
+  "integration_code_tested_sha": "001ec263ac1e6f4ee7e45ab3c629167c679a70fb",
+  "integration_regression_receipt_sha256": "c4809fbcaeab3b3e762c8ef5e094cb504ef9945da5c5ba7e1ad62d336b9f483a",
+  "integration_regression_total": 261,
+  "original_P1_broken_live_attempt_preserved": true,
+  "latest_P1_source_only_run": "ec7c7aaa-7daf-424b-99d5-ad11e2858455",
+  "integration_graph_scope": "Git parent-SHA verified for entries above; subsequent documentation-only commits do not alter tested source. No source owner branch was merged/rebased."
+}

@@ -1,0 +1,262 @@
+{
+  "schema": "PA-V25-P6-FAULT-MATRIX/1",
+  "as_of_utc": "2026-11-22T16:12:22Z",
+  "integrated_tested_code_sha": "714c7bddabc1d45cdbc724edca74c527cb521d3e",
+  "previous_audit_pr": 205,
+  "previous_no_go_preserved": true,
+  "classification_values": [
+    "independently reproduced PASS",
+    "independently reproduced FAIL",
+    "owner-test evidence only",
+    "not yet executed",
+    "blocked by external source/runtime"
+  ],
+  "cases": [
+    {
+      "id": 1,
+      "injection": "Deepnote worker termination",
+      "classification": "not yet executed",
+      "evidence": "Actual integrated worker stop and resume with exact immutable source/model receipts was not injected.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [],
+      "production_release_support": false
+    },
+    {
+      "id": 2,
+      "injection": "Missing durable storage",
+      "classification": "owner-test evidence only",
+      "evidence": "P0 63/63 suite rejected invalid project storage and prior old NBA pin failed; independent restarted integrated worker not executed.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 3,
+      "injection": "Corrupted source bytes",
+      "classification": "owner-test evidence only",
+      "evidence": "P0/P1/P2 source hash tamper fixtures passed; genuine canonical source cannot be mutated because none exists.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 4,
+      "injection": "Invalid C03 signature",
+      "classification": "owner-test evidence only",
+      "evidence": "P2 49/49 source provenance suite passed; actual original-signed current bundle still absent.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 5,
+      "injection": "Missing NBA roster evidence",
+      "classification": "owner-test evidence only",
+      "evidence": "P1 45/45 synthetic source-listed abstention/identity tests passed; native original future roster not yet certified.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 6,
+      "injection": "Missing original Gamma artifact",
+      "classification": "blocked by external source/runtime",
+      "evidence": "The registered native NHL experiment must abstain without original Gamma; no new actual Gamma artifact exists.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 7,
+      "injection": "Missing original sportsbook quote",
+      "classification": "blocked by external source/runtime",
+      "evidence": "No genuine exact original NHL two-sided source-verified quote exists; market-linked pair remains excluded.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 8,
+      "injection": "Expired deadline",
+      "classification": "owner-test evidence only",
+      "evidence": "P1/P2 event-relative timestamp fixtures passed; no genuine late callback was attempted for integration.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 9,
+      "injection": "Forecast after tipoff",
+      "classification": "owner-test evidence only",
+      "evidence": "P0/P3 immutable pregame cutoff rejection tests passed; no live original forecasts yet.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 10,
+      "injection": "Duplicate forecast ID",
+      "classification": "owner-test evidence only",
+      "evidence": "P0 O_EXCL logical-ID collision suite passed on physical project mount; not two detached forecast workers.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 11,
+      "injection": "Partial forecast ledger write",
+      "classification": "not yet executed",
+      "evidence": "No final unified P3/P4 ledger crash/recovery fault was injected; P0 owner claim tests only.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [],
+      "production_release_support": false
+    },
+    {
+      "id": 12,
+      "injection": "Missing official FINAL",
+      "classification": "owner-test evidence only",
+      "evidence": "P5 pending/unknown synthetic settlement tests passed; original forecast to reconcile unavailable.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 13,
+      "injection": "Incorrect DNP settlement",
+      "classification": "owner-test evidence only",
+      "evidence": "P5 independent numerical and synthetic official DNP/played-zero tests passed; no actual original game crosswalk.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 14,
+      "injection": "Corrupted model artifact",
+      "classification": "owner-test evidence only",
+      "evidence": "P0/P3/P5 source hash tamper fixture passes; synthetic FUSE model SHA readback verified, original model absent.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 15,
+      "injection": "Failed model training update",
+      "classification": "owner-test evidence only",
+      "evidence": "P5 callback failure and unchanged-state synthetic tests passed; real official-observation fit not authorized.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 16,
+      "injection": "Failed registry publication",
+      "classification": "independently reproduced PASS",
+      "evidence": "Actual FUSE os.link failure replaced by O_EXCL marker protocol; v1/v2/v3 committed, separate read-only validation, forced precommit failure preserves prior model.",
+      "source_classification": "SYNTHETIC_MODEL_REAL_PROJECT_FILESYSTEM",
+      "evidence_runs": [
+        "e3037d58-583e-4dbc-90fb-946178f26b22",
+        "2e6e9b45-bdcc-4d7a-93c9-381939aaa345"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 17,
+      "injection": "Repeated morning run",
+      "classification": "not yet executed",
+      "evidence": "Real daily P5 idempotent re-execution of genuine frozen ledgers not available; research registry exact-repeat test passed separately.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [],
+      "production_release_support": false
+    },
+    {
+      "id": 18,
+      "injection": "Simultaneous source workers",
+      "classification": "owner-test evidence only",
+      "evidence": "P1 event-relative simultaneous-window suite passed; actual NBA event dual detached original writer not run.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 19,
+      "injection": "Concurrent registry readers/writers",
+      "classification": "independently reproduced PASS",
+      "evidence": "Two distinct OS writer processes contested same parent on project mount; one committed, the other received REGISTRY_PARENT_VERSION_RACE; detached reader independently checked four transition markers.",
+      "source_classification": "SYNTHETIC_MODEL_REAL_PROJECT_FILESYSTEM",
+      "evidence_runs": [
+        "e3037d58-583e-4dbc-90fb-946178f26b22",
+        "2e6e9b45-bdcc-4d7a-93c9-381939aaa345"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 20,
+      "injection": "One sport fails while other succeeds",
+      "classification": "owner-test evidence only",
+      "evidence": "P5 synthetic per-sport isolation suite passed; genuinely mixed NBA/NHL original settlement unavailable.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [
+        "4a08e0cd-d44a-4a03-994e-498f6113b935"
+      ],
+      "production_release_support": false
+    },
+    {
+      "id": 21,
+      "injection": "Failed external GitHub publication",
+      "classification": "not yet executed",
+      "evidence": "No injected GitHub connector outage with immutable source/ledger recovery; integration branch drafts were created successfully.",
+      "source_classification": "OWNER_FIXTURE_OR_UNEXECUTED",
+      "evidence_runs": [],
+      "production_release_support": false
+    },
+    {
+      "id": 22,
+      "injection": "Rollback to older research model",
+      "classification": "independently reproduced PASS",
+      "evidence": "Actual project FUSE synthetic sequence rollback to version 1 retained three prior immutable model versions, and detached read-only as-of query recovered 1/2/3/1 chronology.",
+      "source_classification": "SYNTHETIC_MODEL_REAL_PROJECT_FILESYSTEM",
+      "evidence_runs": [
+        "e3037d58-583e-4dbc-90fb-946178f26b22",
+        "2e6e9b45-bdcc-4d7a-93c9-381939aaa345"
+      ],
+      "production_release_support": false
+    }
+  ],
+  "counts": {
+    "not yet executed": 4,
+    "owner-test evidence only": 13,
+    "blocked by external source/runtime": 2,
+    "independently reproduced PASS": 3
+  },
+  "note": "PASS for 16/19/22 denotes only independently recovered synthetic actual Deepnote FUSE operations, not live model training or genuine source certification. P6 17 numerical tests are separate from 22 fault cases.",
+  "external_review_required": true,
+  "activation_authorized": false
+}

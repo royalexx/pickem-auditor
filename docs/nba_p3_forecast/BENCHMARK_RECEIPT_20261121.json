@@ -1,0 +1,57 @@
+{
+  "schema": "NBA-P3-J1-SYNTHETIC-MC-PRECISION/1",
+  "evidence_type": "synthetic_engineering_only",
+  "actual_executed_repository_ref": "d2ed2e310435d365f947e8cdd4487158f55da202",
+  "original_output_source_commit_field": "2354f5281424292eaa5a031f2e7dcbe925dea15c",
+  "correction": "Original stdout source_commit field identified the protocol commit; actual runner SOURCE_PIN and fetched code were pinned to d2ed2e310435d365f947e8cdd4487158f55da202. Retain original record; interpret actual executed code from SOURCE_PIN.",
+  "p0_base": "c14de84839161f207d6fd7524c18d68b13707365",
+  "protocol_commit": "2354f5281424292eaa5a031f2e7dcbe925dea15c",
+  "deepnote_run_id": "4ad56d88-8098-4450-86e8-fa306aa52d11",
+  "scenario_module_sha256": "324946efeebdd3992973d064bd933238a595c3cc5723856b05a8ec9666e957d5",
+  "distribution_module_sha256": "42f6a4727d89b4b26a029edb711d55c920f5ce2b8bf469f7837476b7ab1c41c1",
+  "model_fixture_sha256": "05f482d0c50951b6b91184ddb2ef97e01ecfd684b641f2b7acfa6032930f9166",
+  "game_fixture_sha256": "0e4a4c26a7d58dc782298d9716a68021e9cd6b1dc58b64d8081803c18cb89fae",
+  "seed": 20261121,
+  "variant": "J1",
+  "n5000": {
+    "wall_seconds": 53.1982,
+    "process_ru_maxrss_kib": 339228,
+    "scenario_sha256": "83b67290a93f162fe691384bd162b571cdacd8982bc82ed8acf57ffe5925fad7",
+    "p_over": {
+      "points": 0.855,
+      "rebounds": 0.9706,
+      "assists": 0.7732,
+      "threes": 0.3924,
+      "pra": 0.9694
+    },
+    "pmf_mass_all": 1
+  },
+  "n20000": {
+    "wall_seconds": 228.4138,
+    "process_ru_maxrss_kib": 658580,
+    "scenario_sha256": "e75910d62e62f09392ea65f28b97130a0cfba7d33ba242d82ac5e5de5e4cb042",
+    "p_over": {
+      "points": 0.8577,
+      "rebounds": 0.96715,
+      "assists": 0.7756,
+      "threes": 0.40295,
+      "pra": 0.96955
+    },
+    "pmf_mass_all": 1
+  },
+  "threshold_lines": {
+    "points": 20.5,
+    "rebounds": 5.5,
+    "assists": 4.5,
+    "threes": 2.5,
+    "pra": 30.5
+  },
+  "maximum_absolute_probability_difference": 0.01055,
+  "preregistered_difference_tolerance": 0.025,
+  "preregistered_n20000_wall_time_cap_seconds": 240,
+  "outcome": "PASS",
+  "decision": "Keep 5000 synthetic research default; 20000 meets numerical tolerance but is approximately 4.29 times slower and near 240s CPU cap; no empirical NBA predictive claim",
+  "independent_sports_games_observed": 0,
+  "reviewer_signoff": "NOT_INDEPENDENTLY_REVIEWED",
+  "note": "Process ru_maxrss is a high-water mark, not isolated incremental peak per run. The synthetic 5k-versus-20k benchmark does not demonstrate event calibration or game accounting quality."
+}

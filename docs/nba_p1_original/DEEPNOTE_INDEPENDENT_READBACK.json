@@ -1,0 +1,17 @@
+{
+  "checked_file_count": 5,
+  "checks": [
+    "FIRST_RECEIPT_UNCHANGED_ACROSS_DETACHED_RUNS",
+    "ALL_CAPTURED_DEV_SOURCES_EXACT_SHA",
+    "ORIGINAL_P0_CROSS_RUN_ATTESTATION_RETAINED",
+    "P3_SYNTHETIC_CLASS_C_RECONSTRUCTION_ONLY"
+  ],
+  "errors": [],
+  "first_receipt_sha256": "82851311577a75fd3d3a8c069b49a9f16f3cf5de3fa9824c55f0411d132228fc",
+  "p0_anchor_sha256": "adf238bf36bfefce7adb6374321bdb3adba67945c93e7ec32dd89071b34c4a65",
+  "project": "9cc31536-93be-44db-bdeb-06fba3f61410",
+  "schema": "PA-NBA-P1-INDEPENDENT-READBACK/1",
+  "source_run": "7a460afb-9995-4117-9316-c86777254ab8",
+  "status": "PASS_READONLY_RESEARCH",
+  "verified_at_utc": "2026-11-21T21:32:06.713205+00:00"
+}
