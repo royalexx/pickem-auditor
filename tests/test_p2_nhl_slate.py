@@ -76,6 +76,45 @@ class SlateSourceTests(unittest.TestCase):
 
 
 class HistoryBundleTests(unittest.TestCase):
+    def test_split_cache_preserves_raw_and_proof_only_on_persistent_root(self):
+        with TemporaryDirectory() as project, TemporaryDirectory() as derived:
+            root = Path(project)
+            cache = Path(derived)
+            pool = root / "source"
+            manifests = pool / "daily_history_manifests"
+            manifests.mkdir(parents=True)
+            bundles = pool / "history_bundles"
+            bundles.mkdir()
+            paths = {
+                "raw_http_body/body.json": b'{"official":true}',
+                "c03_collector_receipts/proof.json": b'{"proof":true}',
+                "nhl_sog_official_derived/observation.json": b'{"derived":true}',
+            }
+            archive = bundles / "initial.zip"
+            with zipfile.ZipFile(archive, "w") as source:
+                for path, raw in paths.items():
+                    source.writestr(path, raw)
+            archive_sha = hashlib.sha256(archive.read_bytes()).hexdigest()
+            archive.rename(bundles / f"{archive_sha}.zip")
+            manifest = manifests / "original.json"
+            manifest.write_text(json.dumps({
+                "signed_observation_contracts_by_player": {},
+                "source_bundle": {
+                    "format": "exact_original_receipts_and_derived_zip_v1",
+                    "path": f"history_bundles/{archive_sha}.zip", "sha256": archive_sha,
+                },
+            }))
+            args = root, str(manifest.relative_to(root)), hashlib.sha256(manifest.read_bytes()).hexdigest(), pool
+            with patch.object(history_bridge, "current_storage"):
+                raw_pool = history_bridge.open_history_sources(*args, derived_cache=cache)
+                self.assertEqual((raw_pool / "raw_http_body/body.json").read_bytes(), paths["raw_http_body/body.json"])
+                self.assertTrue((raw_pool / "c03_collector_receipts/proof.json").is_file())
+                self.assertTrue((raw_pool / "_verified_raw_archive.json.complete").is_file())
+                observation = "nhl_sog_official_derived/observation.json"
+                self.assertFalse((raw_pool / observation).exists())
+                self.assertEqual((cache / observation).read_bytes(), paths[observation])
+                self.assertEqual(history_bridge.open_history_sources(*args, derived_cache=cache), raw_pool)
+
     def test_verified_zip_recovers_from_interrupted_write_without_replacing_bytes(self):
         with TemporaryDirectory() as temp:
             root = Path(temp)
