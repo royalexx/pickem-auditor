@@ -105,7 +105,7 @@ class OriginalOUContractTests(unittest.TestCase):
             m.market_probabilities(-90,-110)
 
     def test_supported_marketquote_p0_schema(self):
-        q=m.quote=record("MarketQuote",
+        q=record("MarketQuote",
             quote_id="nba-s0-ou-quote:abcd",contract_id="nba-s0-ou-contract:abcd",
             event_id="espn:game:401910035",sport="NBA",
             team_id="espn:team:9",opponent_id="espn:team:2",
