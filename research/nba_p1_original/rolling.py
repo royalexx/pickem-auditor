@@ -147,7 +147,7 @@ def default_capture(game,phase,out,deadline):
     tip=datetime.fromisoformat(game['event_start_at'].replace('Z','+00:00'))
     day=tip.astimezone(TORONTO).date().isoformat()
     return capture(day,out,game_id=game['game_id'],freeze_deadline_at=stamp(deadline),
-                   expected_game=game,history_games_per_team=10)
+                   expected_game=game,history_games_per_team=2)
 
 def _archive_ws1(cap,out,vault,deadline):
     from v2.nba_ws1.store import NBAPregameFeatureSnapshot,Receipt
