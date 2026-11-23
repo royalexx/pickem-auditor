@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+from threading import Barrier
 import unittest
 from unittest.mock import Mock, patch
 
@@ -95,3 +96,24 @@ class TestNhlSogFullSlate(unittest.TestCase):
         self.assertEqual([row["status"] for row in result["games"]],
                          ["FORECASTS_FROZEN", "GAME_RUN_FAILED", "EVENT_ALREADY_STARTED"])
         self.assertEqual(save.call_count, 4)
+
+    def test_full_seven_game_slate_runs_four_simultaneous_games(self):
+        games = [game(str(event)) for event in range(2026020378, 2026020385)]
+        simultaneous = {row["event_id"] for row in games[1:5]}
+        concurrent = Barrier(len(simultaneous), timeout=5)
+
+        def process(item, **kwargs):
+            if item["event_id"] in simultaneous:
+                concurrent.wait()
+            return dict(game=item, status="FORECASTS_FROZEN", forecast_count=2)
+
+        with patch("scripts.nhl_sog_full_slate.current_storage"), \
+             patch("scripts.nhl_sog_full_slate.run_game", side_effect=process), \
+             patch("scripts.nhl_sog_full_slate._save", return_value={"sha256": "receipt"}):
+            result = run_slate("/work", DAY, capture=Mock(), forecast=Mock(),
+                               code_commit="a" * 40, games=games)
+
+        self.assertEqual(result["scheduled_games"], 7)
+        self.assertEqual(result["games_with_forecasts"], 7)
+        self.assertEqual(result["distribution_forecasts"], 14)
+        self.assertTrue(result["complete_forecast_coverage"])
