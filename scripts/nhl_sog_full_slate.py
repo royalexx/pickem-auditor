@@ -91,6 +91,10 @@ def run_game(game, *, capture, forecast, now=_now, sleep=time.sleep,
         except (OSError, ValueError) as exc:
             published.append(dict(player_id=row["player_id"], status="FORECAST_FAILURE",
                                   reason=str(exc)))
+
+    def stream_player(row):
+        if now() >= freeze:
+            freeze_player(row)
     if game["game_state"] not in {"FUT", "PRE"}:
         status = "EVENT_ALREADY_STARTED" if now() >= start else "EVENT_NOT_PREGAME"
         return dict(game=game, status=status, source_attempts=[], players=[])
@@ -108,8 +112,10 @@ def run_game(game, *, capture, forecast, now=_now, sleep=time.sleep,
         if now() >= closes:
             continue
         try:
-            callbacks = {"on_bundle": freeze_player} if stream_forecasts and now() >= freeze else {}
-            source = capture(game=game, freeze=stamp(freeze), **callbacks)
+            options = {"on_bundle": stream_player} if stream_forecasts else {}
+            if recover_archived:
+                options["recover_archived"] = True
+            source = capture(game=game, freeze=stamp(freeze), **options)
         except (OSError, ValueError) as exc:
             source = {"status": "SOURCE_FAILURE", "reason": str(exc)}
         source_attempts.append(source)
@@ -170,7 +176,8 @@ def _run_checkpointed_game(root, day, game, run_id, capture, forecast, phase, re
 
 
 def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress=None,
-              event_ids=(), phase="both", recover_archived=False, stream_forecasts=False):
+              event_ids=(), phase="both", recover_archived=False, recover_event_ids=(),
+              stream_forecasts=False):
     """Process simultaneous windows concurrently and persist each game's result."""
     current_storage(root)
     if games is None:
@@ -184,10 +191,12 @@ def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress
     run_at = stamp(_now())
     run_id = f"nhl-sog-slate:{day}:{code_commit[:16]}"
     rows = {}
+    recovery = set(recover_event_ids)
     game_forecast = partial(forecast, run_id=run_id, code_commit=code_commit)
     with ThreadPoolExecutor(max_workers=max(1, len(games))) as pool:
         pending = {pool.submit(_run_checkpointed_game, root, day, game, run_id,
-                               capture, game_forecast, phase, recover_archived,
+                               capture, game_forecast, phase,
+                               recover_archived or game["event_id"] in recovery,
                                stream_forecasts): game
                    for game in games}
         for work in as_completed(pending):
@@ -252,6 +261,8 @@ def main(argv=None):
                         help="read derived rows from a local cache of the verified project archive")
     parser.add_argument("--recover-archived", action="store_true",
                         help="assemble the pregame bundle from already archived signed inputs")
+    parser.add_argument("--recover-event-id", action="append", default=[],
+                        help="use archived signed inputs for selected official events only")
     parser.add_argument("--poisson-only", action="store_true",
                         help="generate only the signed own-history plugin-Poisson control")
     args = parser.parse_args(argv)
@@ -279,7 +290,6 @@ def main(argv=None):
             "signed_history_manifest_sha256": args.signed_history_sha256,
             "history_pool": pool,
             "derived_root": derived,
-            "recover_archived": args.recover_archived,
             "poisson_only": args.poisson_only,
         }
         history_sources = HistorySources(args.root, args.signed_history_manifest,
@@ -295,7 +305,9 @@ def main(argv=None):
             event_ids=args.event_id,
             phase=args.phase,
             recover_archived=args.recover_archived,
-            stream_forecasts=args.recover_archived and args.phase == "both",
+            recover_event_ids=args.recover_event_id,
+            stream_forecasts=args.phase == "both" and (
+                args.poisson_only or args.recover_archived or bool(args.recover_event_id)),
             progress=lambda row: print("NHL_SOG_GAME " + json.dumps(row, sort_keys=True), flush=True),
         )
     print("NHL_SOG_SLATE " + json.dumps(output, sort_keys=True), flush=True)

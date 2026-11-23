@@ -84,7 +84,8 @@ class C03NHLSourceIntegrationTests(unittest.TestCase):
                      "firstName":{"default":"Test"},"lastName":{"default":"Skater"}},
                     clock=stamp,source_id="test_profile")
             log=signed_fixture(root,source_url=url+"player/"+PLAYER+"/game-log/20262027/2",
-                    document={"gameLog":[{"gameId":int(GAME),"shots":3,"toi":"20:30"}]},
+                    document={"gameLog":[{"gameId":int(GAME),"shots":3,"toi":"20:30",
+                                          "gameDate":"2026-11-19"}]},
                     clock=stamp,source_id="test_log")
             final=signed_fixture(root,source_url=url+"gamecenter/"+GAME+"/landing",
                     document={"id":int(GAME),"gameState":"OFF"},
@@ -99,6 +100,30 @@ class C03NHLSourceIntegrationTests(unittest.TestCase):
             self.assertEqual(obs["source_kind"],"collector_observed_bytes")
             self.assertTrue(imported[0]["raw_log_receipt"]["source_publication_truth_verified"] is False)
             self.assertFalse(any("production" in x.lower() for x in imported[0]["observation_receipt"]))
+            final_game={"id":int(GAME),"gameState":"OFF"}
+            for date,games,valid in (
+                    ("2026-11-19",[final_game],True),
+                    ("2026-11-18",[final_game],False),
+                    ("2026-11-19",[final_game,final_game],False),
+                    ("2026-11-19",[dict(final_game,gameState="LIVE")],False)):
+                with self.subTest(date=date,games=games):
+                    board=signed_fixture(root,source_url=url+"score/"+date,
+                        document={"games":games},clock=stamp,source_id="test_board")
+                    payload=json.loads((root/obs["archive_path"]).read_bytes())
+                    payload["source_final_sha256"]=board["body_sha256"]
+                    raw=canonical(payload)
+                    digest=hashlib.sha256(raw).hexdigest()
+                    relative="nhl_sog_official_derived/"+digest+".json"
+                    (root/relative).write_bytes(raw)
+                    derived=dict(obs,archive_path=relative,content_sha256=digest)
+                    entry=dict(imported[0],observation_receipt=derived,raw_final_receipt=board)
+                    if valid:
+                        self.assertEqual(independent_verify_observation_lineage(
+                            entry,archive_root=root,freeze=cutoff,event_start=next_game),derived)
+                    else:
+                        with self.assertRaisesRegex(ExperimentBlocked,"OFFICIAL_SOG_DERIVED_ORIGIN_MISMATCH"):
+                            independent_verify_observation_lineage(
+                                entry,archive_root=root,freeze=cutoff,event_start=next_game)
             # An exact derived-row cache can accelerate verification while all
             # signed upstream bodies and HMAC proofs are still read at root.
             cache=root/"cache"

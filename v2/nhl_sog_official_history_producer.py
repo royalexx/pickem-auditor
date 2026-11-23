@@ -169,11 +169,25 @@ def independent_verify_observation_lineage(entry,*,archive_root,freeze,event_sta
     if actual_group!=obs["position_group"] or (
             obs.get("source_player_profile_sha256")!=profile_receipt["body_sha256"]):
         raise ExperimentBlocked("OFFICIAL_PROFILE_POSITION_SOURCE_MISMATCH")
-    rawfinal=_signed(entry.get("raw_final_receipt"),archive_root,freeze,event_start)
-    if (str(rawfinal.get("id"))!=obs["event_id"] or
-            rawfinal.get("gameState") not in ("OFF","FINAL") or
+    final_receipt=entry.get("raw_final_receipt")
+    rawfinal=_signed(final_receipt,archive_root,freeze,event_start)
+    game_id=obs["event_id"]
+    game_date=(obs.get("source_game_log_row") or {}).get("gameDate")
+    url=final_receipt.get("source_url")
+    if url=="https://api-web.nhle.com/v1/gamecenter/"+game_id+"/landing":
+        final=rawfinal
+    elif (isinstance(game_date,str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}",game_date) and
+          url=="https://api-web.nhle.com/v1/score/"+game_date and
+          isinstance(rawfinal,dict) and isinstance(rawfinal.get("games"),list)):
+        matches=[game for game in rawfinal["games"]
+                 if isinstance(game,dict) and str(game.get("id"))==game_id]
+        final=matches[0] if len(matches)==1 else None
+    else:
+        final=None
+    if (not isinstance(final,dict) or str(final.get("id"))!=game_id or
+            final.get("gameState") not in ("OFF","FINAL") or
             obs.get("source_game_log_sha256")!=entry["raw_log_receipt"]["body_sha256"] or
-            obs.get("source_final_sha256")!=entry["raw_final_receipt"]["body_sha256"]):
+            obs.get("source_final_sha256")!=final_receipt["body_sha256"]):
         raise ExperimentBlocked("OFFICIAL_SOG_DERIVED_ORIGIN_MISMATCH")
     matching=[x for x in rawlog.get("gameLog",[]) if str(x.get("gameId"))==obs["event_id"]]
     if len(matching)!=1 or matching[0]!=obs.get("source_game_log_row") or (
