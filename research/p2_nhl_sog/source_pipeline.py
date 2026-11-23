@@ -154,6 +154,20 @@ def current_storage(root="/work"):
     return attest_project_storage(root)
 
 
+def _p0_official_source(receipt, *, source_kind, source_id):
+    observed = clock(receipt["received_at"])
+    relative = str(Path(ROOT_NAMESPACE) / "c03" / receipt["archive_path"])
+    return {
+        "record_type": "SourceReceipt", "schema_version": P0_VERSION,
+        "receipt_id": "p2:" + digest(canonical_bytes(
+            [source_id, receipt["source_url"], receipt["body_sha256"], receipt["received_at"]])),
+        "source_id": source_id, "source_kind": source_kind,
+        "source_available_at": stamp(observed), "collected_at": stamp(observed),
+        "source_sha256": receipt["body_sha256"], "archive_path": relative,
+        "provenance_class": "collector_possession"
+    }
+
+
 def capture_official(root, url, *, event_start_at, input_freeze_at, source_kind,
                      source_id, capture=capture_signed_nhl_p2,
                      verify=verify_signed_capture):
@@ -171,19 +185,11 @@ def capture_official(root, url, *, event_start_at, input_freeze_at, source_kind,
                  event_start=event_start_at)
     observed = clock(receipt.get("received_at"))
     require(observed <= freeze < start, "SOURCE_AFTER_INPUT_FREEZE")
-    relative = str(Path(ROOT_NAMESPACE) / "c03" / receipt["archive_path"])
-    archived = safe_relative(root, relative)
+    source_record = _p0_official_source(receipt, source_kind=source_kind,
+                                        source_id=str(source_id))
+    archived = safe_relative(root, source_record["archive_path"])
     require(archived.is_file() and digest(archived.read_bytes()) ==
             receipt.get("body_sha256"), "C03_ORIGINAL_BODY_MISSING_OR_CORRUPT")
-    source_record = {
-        "record_type": "SourceReceipt", "schema_version": P0_VERSION,
-        "receipt_id": "p2:" + digest(canonical_bytes(
-            [source_id, url, receipt["body_sha256"], receipt["received_at"]])),
-        "source_id": str(source_id), "source_kind": str(source_kind),
-        "source_available_at": stamp(observed), "collected_at": stamp(observed),
-        "source_sha256": receipt["body_sha256"], "archive_path": relative,
-        "provenance_class": "collector_possession"
-    }
     validate_record("SourceReceipt", source_record)
     added = append_immutable(root, "SourceReceipt", source_record)
     return {"document": doc, "c03_receipt": receipt, "p0_receipt": source_record,
@@ -320,6 +326,64 @@ def capture_two_rosters(root, game, *, freeze, capture=capture_signed_nhl_p2,
     require(not (set(members[game["home_team"]]) &
                  set(members[game["away_team"]])), "PLAYER_IN_BOTH_ROSTERS")
     return source, members
+
+
+def read_archived_game_sources(root, game, *, freeze):
+    """Reopen existing, independently signed in-window NHL sources before play."""
+    current_storage(root)
+    start = clock(game["start_at"])
+    cutoff = clock(freeze)
+    require(datetime.now(UTC) < start and cutoff == start - timedelta(minutes=SOURCE_FREEZE_MINUTES),
+            "P2_ARCHIVED_EVENT_OR_FREEZE_INVALID")
+    folder = Path(root) / ROOT_NAMESPACE / "c03"
+    day = game["scheduled_day"]
+    teams = (game["home_team"], game["away_team"])
+    required = {f"nhl:schedule:{day}": (f"{OFFICIAL}/score/{day}", "nhl_schedule")}
+    required.update({f"nhl:roster:{team}": (f"{OFFICIAL}/roster/{team}/current", "nhl_current_roster")
+                     for team in teams})
+    reopened = {}
+    for file in (folder / "c03_collector_receipts").glob("*.json"):
+        try:
+            body = file.read_bytes()
+            proof_sha = digest(body)
+            if file.stem != proof_sha:
+                continue
+            receipt = dict(json.loads(body)["receipt_fields"])
+            source_id = receipt["source_id"]
+            if source_id not in required:
+                continue
+            url, kind = required[source_id]
+            observed = clock(receipt["observed_at"])
+            received = clock(receipt["received_at"])
+            if (receipt["source_url"] != url or receipt["source_namespace"] != "nhl_official" or
+                    capture_window(game["start_at"], observed) not in {"EARLY", "FINAL"} or
+                    not observed <= received <= cutoff):
+                continue
+            if source_id in reopened and received <= reopened[source_id][0]:
+                continue
+            receipt.update(transport_attestation="collector_signed_tls_bytes_v1",
+                           collector_proof_archive_path=str(file.relative_to(folder)),
+                           collector_proof_sha256=proof_sha)
+            expected = _p0_official_source(receipt, source_kind=kind, source_id=source_id)
+            loaded = {"p0_receipt": expected, "p0_sha256": digest(canonical_bytes(expected)),
+                      "c03_receipt": receipt, "origin": "archived_signed_collector_possession"}
+            loaded["document"] = retrieve_source(root, loaded, freeze=freeze,
+                                                 event_start=game["start_at"])
+            if kind == "nhl_schedule":
+                matches = [row for row in scheduled_games(loaded["document"], day=day)
+                           if row["event_id"] == game["event_id"]]
+                require(len(matches) == 1 and all(matches[0][key] == game[key] for key in
+                        ("home_team", "away_team", "start_at", "official_season", "game_type")),
+                        "P2_ARCHIVED_SCHEDULE_IDENTITY_MISMATCH")
+            reopened[source_id] = received, loaded
+        except (OSError, ValueError, TypeError, KeyError):
+            continue
+    require(set(reopened) == set(required), "P2_ARCHIVED_SIGNED_GAME_SOURCES_INCOMPLETE")
+    schedule = reopened[f"nhl:schedule:{day}"][1]
+    rosters = {team: reopened[f"nhl:roster:{team}"][1] for team in teams}
+    members = {team: parse_roster(rosters[team]["document"], team) for team in teams}
+    require(not set(members[teams[0]]) & set(members[teams[1]]), "PLAYER_IN_BOTH_ROSTERS")
+    return schedule, rosters, members
 
 
 def verified_history(root, entries, *, player_id, position_group, freeze, start,
@@ -460,11 +524,14 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
                  player_id, history_entries, freeze, quote=None,
                  required_experiment=None, peer_entries=None, history_pool=None,
                  quote_evidence=None, role_transition_uncertain=False,
-                 include_official_c03_receipts=False, _game_histories=None):
+                 include_official_c03_receipts=False, _game_histories=None,
+                 allow_post_freeze_assembly=False):
     """Stable source-only P4/P5 handoff, preserving P0 feature contract."""
     current_storage(root)
     start = game["start_at"]
-    require(datetime.now(UTC) <= clock(freeze) < clock(start),
+    now = datetime.now(UTC)
+    require(clock(freeze) < clock(start) and now < clock(start) and
+            (allow_post_freeze_assembly or now <= clock(freeze)),
             "INVALID_OR_EXPIRED_ORIGINAL_INPUT_FREEZE")
     event_id = game["event_id"]
     require(game["game_state"] in FUTURE_STATES, "TARGET_NOT_PREGAME")

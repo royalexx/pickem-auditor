@@ -19,7 +19,7 @@ from .quote_bridge import record_quote_candidate
 from .source_pipeline import (
     FUTURE_STATES, OFFICIAL, SOURCE_FREEZE_MINUTES, UTC, SourceBlocked,
     attempt, build_bundle, capture_two_rosters, clock, current_storage,
-    digest, parse_roster, safe_relative, signed_schedule_game,
+    digest, parse_roster, read_archived_game_sources, safe_relative, signed_schedule_game,
 )
 
 
@@ -103,7 +103,8 @@ def _reason(exc):
 
 def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                          signed_history_manifest_sha256, history_pool,
-                         original_quote_by_player=None, derived_root=None):
+                         original_quote_by_player=None, derived_root=None,
+                         recover_archived=False):
     """Capture one game's two official rosters and freeze every listed skater.
 
     The source owner supplies immutable signed history and may supply previously
@@ -126,6 +127,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
             player_attempt_sha256s=[row["attempt_sha256"] for row in records],
             peer_attempt_sha256s=peer_attempt_hashes,
             history_manifest_sha256=signed_history_manifest_sha256,
+            source_capture_mode="archived" if recover_archived else "live",
         )["receipt"]
         return {"game": game, "status": status, "records": records,
                 "reasons": list(reasons), "attempt_sha256": receipt["sha256"],
@@ -133,12 +135,16 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
 
     if game["game_state"] not in FUTURE_STATES:
         return finish("BLOCKED_SOURCE", ("TARGET_NOT_PREGAME",))
-    if not datetime.now(UTC) < freeze_at <= start - timedelta(minutes=SOURCE_FREEZE_MINUTES):
+    deadline = start if recover_archived else freeze_at
+    if not datetime.now(UTC) < deadline or not freeze_at <= start - timedelta(minutes=SOURCE_FREEZE_MINUTES):
         return finish("MISSED_SOURCE_FREEZE_DEADLINE", ("SOURCE_FREEZE_WINDOW_CLOSED",))
 
     try:
-        schedule = signed_schedule_game(root, game, day=game["scheduled_day"], freeze=freeze)
-        rosters, members = capture_two_rosters(root, game, freeze=freeze)
+        if recover_archived:
+            schedule, rosters, members = read_archived_game_sources(root, game, freeze=freeze)
+        else:
+            schedule = signed_schedule_game(root, game, day=game["scheduled_day"], freeze=freeze)
+            rosters, members = capture_two_rosters(root, game, freeze=freeze)
     except (OSError, ValueError, KeyError, TypeError) as exc:
         return finish("BLOCKED_SOURCE", (_reason(exc),))
 
@@ -176,8 +182,8 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
         row = {"player_id": pid, "manifest_sha256": None,
                "quote_manifest_sha256": None, "quote_reasons": []}
         try:
-            if datetime.now(UTC) >= freeze_at:
-                raise SourceBlocked("SOURCE_FREEZE_WINDOW_CLOSED")
+            if datetime.now(UTC) >= start:
+                raise SourceBlocked("P2_SOURCE_ASSEMBLY_AFTER_PUCK_DROP")
             if pid not in indexed:
                 raise SourceBlocked(failures.get(pid, history_error or
                                                 "P2_ORIGINAL_SIGNED_PLAYER_HISTORY_MISSING"))
@@ -208,6 +214,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                 peer_entries={peer: indexed[peer][1] for peer in peers},
                 history_pool=pool, freeze=freeze, include_official_c03_receipts=True,
                 _game_histories=histories,
+                allow_post_freeze_assembly=True,
             )
             result = build_bundle(root, **options)
             row.update(status=result["manifest"]["source_admission"],
