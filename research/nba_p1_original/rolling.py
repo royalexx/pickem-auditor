@@ -151,61 +151,123 @@ def default_capture(game,phase,out,deadline):
 
 
 def _bounded_canary_subset(rows, summary, player_limit):
-    """P0-auditable PRE-GAME subset: never use target outcomes to select players.
+    """Research S0 canary: select recent VERIFIED-HISTORICAL starters only.
 
-    Only an explicitly opted-in research S0 canary may trim archived feature
-    rows. Default P1 capture stays full and changes no downstream consumer.
+    No target-game starting-five claim is made: these are PROJECTED starters.
+    Both underlying starter flags must derive from two different, fully
+    observed *earlier* played games already in the immutable P1 feature
+    bundle. No ID-order/bench fallback, and no future gamebook data.
+    The full P1 collector remains unchanged when player_limit is None.
     """
     if player_limit is None:
         return rows, summary
-    if type(player_limit) is not int or not (1 <= player_limit <= 24):
+    if type(player_limit) is not int or not 1 <= player_limit <= 24:
         raise AcquisitionError('CANARY_PLAYER_LIMIT_BOUNDS')
     from .feature_store import STATS
-    grouped={}
+    grouped = {}
     for item in rows:
-        grouped.setdefault(item['player_id'],[]).append(item)
-    if any(len(group)!=len(STATS) or {x['stat_key'] for x in group}!=set(STATS)
+        grouped.setdefault(item['player_id'], []).append(item)
+    if any(len(group) != len(STATS) or
+           {x['stat_key'] for x in group} != set(STATS)
            for group in grouped.values()):
         raise AcquisitionError('INCOMPLETE_CANARY_PLAYER_STAT_BUNDLE')
-    # One immutable selection rule, declared before observing *any* target outcome.
-    candidate_ids=sorted(
-        pid for pid,group in grouped.items()
-        if sum(h.get('participation')=='played'
-               for h in group[0]['features'].get('prior_player_history',[]))>=2
-        and group[0]['features']['availability_status']!='RULED_OUT_SOURCE_REPORTED'
-    )
-    selected=set(candidate_ids[:player_limit])
-    chosen=[x for x in rows if x['player_id'] in selected]
-    dropped=sorted(set(grouped)-selected)
-    new=dict(summary)
-    new['feature_rows']=len(chosen)
-    new['player_candidates_accepted']=len(selected)
-    new['source_listed_count']=len(selected)
-    new['player_candidates_rejected']=summary['player_candidates_rejected']+len(dropped)
-    new['rejected']=list(summary.get('rejected',[]))+[
-        {'player_id':pid,'reason':'PREDECLARED_S0_BOUNDED_CANARY_SUBSET'}
+
+    qualified = []
+    for pid, group in grouped.items():
+        first = group[0]
+        features = first['features']
+        team = first.get('team_id')
+        if not isinstance(team, str) or not team.startswith('espn:team:'):
+            raise AcquisitionError('STARTER_CANDIDATE_TEAM_UNVERIFIED')
+        if any(row.get('team_id') != team for row in group):
+            raise AcquisitionError('CANARY_STAT_BUNDLE_TEAM_MISMATCH')
+        if features.get('availability_status') in (
+                'RULED_OUT_SOURCE_REPORTED', 'QUESTIONABLE_SOURCE_REPORTED'):
+            continue
+        history = features.get('prior_player_history')
+        if not isinstance(history, list) or len(history) < 2:
+            continue
+        # The canonical P1 builder has independently established that
+        # historical records predate the target and bind to original bytes.
+        recent = history[-2:]
+        if any(h.get('participation') != 'played' or
+               h.get('starter') is not True or
+               h.get('team_id') != team or
+               type(h.get('minutes')) not in (int, float) or
+               h['minutes'] < 0 for h in recent):
+            continue
+        ids = [h.get('game_id') for h in recent]
+        if not all(isinstance(x, str) and x.startswith('espn:game:')
+                   for x in ids) or len(set(ids)) != 2:
+            continue
+        if 'event_id' in summary and summary['event_id'] in ids:
+            raise AcquisitionError('TARGET_STARTER_LEAKAGE')
+        avg_minutes = sum(h['minutes'] for h in recent) / 2
+        qualified.append((team, -avg_minutes, pid, recent))
+    # Balanced across both clubs; at most five starters per team.
+    teams = sorted({row[0] for row in qualified})
+    by_team = {team: sorted((x for x in qualified if x[0] == team),
+                            key=lambda x: (x[1], x[2]))
+               for team in teams}
+    limit_per_team = min(5, (player_limit + len(teams) - 1)//max(1,len(teams)))
+    chosen_records = []
+    for slot in range(limit_per_team):
+        for team in teams:
+            if len(chosen_records) >= player_limit:
+                break
+            if slot < len(by_team[team]):
+                chosen_records.append(by_team[team][slot])
+    selected = {x[2] for x in chosen_records}
+    chosen = [x for x in rows if x['player_id'] in selected]
+    dropped = sorted(set(grouped) - selected)
+    new = dict(summary)
+    new['feature_rows'] = len(chosen)
+    new['player_candidates_accepted'] = len(selected)
+    new['source_listed_count'] = len(selected)
+    new['player_candidates_rejected'] = summary['player_candidates_rejected'] + len(dropped)
+    new['rejected'] = list(summary.get('rejected', [])) + [
+        {'player_id': pid,
+         'reason': 'S0_RESEARCH_NOT_SELECTED_NO_PRIOR_TWO_STARTER_EVIDENCE_OR_CAP'}
         for pid in dropped]
-    byplayer=[grouped[pid][0]['features'] for pid in sorted(selected)]
-    new['unknown_availability']=sum(
-        f['availability_status']=='UNVERIFIED_AVAILABILITY' for f in byplayer)
-    new['questionable_count']=sum(
-        f['availability_status']=='QUESTIONABLE_SOURCE_REPORTED' for f in byplayer)
-    new['ruled_out_count']=sum(
-        f['availability_status']=='RULED_OUT_SOURCE_REPORTED' for f in byplayer)
-    new['name_supported_count']=sum(f['current_name'] is not None for f in byplayer)
-    new['position_supported_count']=sum(f['position'] is not None for f in byplayer)
-    new['official_player_ids_verified_count']=sum(
-        f['official_nba_player_id'] is not None for f in byplayer)
-    new['bounded_canary_selection']={
-        'basis':'lexicographic_espn_player_id_with_two_prior_played_games',
-        'criterion':'actual prior history and pregame availability ONLY',
-        'eligible_candidate_count':len(candidate_ids),
-        'maximum_player_count':player_limit,
-        'selected_player_ids':sorted(selected),
-        'full_original_player_candidate_count':len(grouped),
-        'research_only':True,
-        'no_target_outcome_data_used':True}
-    return chosen,new
+    byplayer = [grouped[pid][0]['features'] for pid in sorted(selected)]
+    new['unknown_availability'] = sum(
+        f['availability_status'] == 'UNVERIFIED_AVAILABILITY'
+        for f in byplayer)
+    new['questionable_count'] = sum(
+        f['availability_status'] == 'QUESTIONABLE_SOURCE_REPORTED'
+        for f in byplayer)
+    new['ruled_out_count'] = sum(
+        f['availability_status'] == 'RULED_OUT_SOURCE_REPORTED'
+        for f in byplayer)
+    new['name_supported_count'] = sum(
+        f.get('current_name') is not None for f in byplayer)
+    new['position_supported_count'] = sum(
+        f.get('position') is not None for f in byplayer)
+    new['official_player_ids_verified_count'] = sum(
+        f.get('official_nba_player_id') is not None for f in byplayer)
+    new['bounded_canary_selection'] = {
+        'basis': 'TWO_PRIOR_DISTINCT_GAMES_STARTED_SAME_TEAM',
+        'current_start_status': 'PROJECTED_ONLY_NOT_CONFIRMED_PREGAME',
+        'criterion': 'source_receipted_prior_two_appearances_both_started',
+        'ranking': 'balanced_teams_descending_prior_two_mean_minutes_then_player_id',
+        'eligible_candidate_count': len(qualified),
+        'maximum_player_count': player_limit,
+        'maximum_per_team': 5,
+        'selected_player_ids': sorted(selected),
+        'selected_player_evidence': [
+            {'player_id': pid, 'team_id': team,
+             'mean_minutes_prior_two': -negative_mean,
+             'earlier_game_ids': [h['game_id'] for h in history],
+             'historical_starts_verified': 2,
+             'current_starter_confirmed': False}
+            for team, negative_mean, pid, history in chosen_records],
+        'full_original_player_candidate_count': len(grouped),
+        'no_bench_fallback': True,
+        'research_only': True,
+        'no_target_outcome_data_used': True,
+    }
+    return chosen, new
+
 
 def _archive_ws1(cap,out,vault,deadline,*,feature_player_limit=None):
     from v2.nba_ws1.store import NBAPregameFeatureSnapshot,Receipt
