@@ -5,11 +5,14 @@ or reconstructed from box scores. P0 source receipt binds the original
 verified archive and the original C03 collector-possession timestamp.
 """
 from __future__ import annotations
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from pathlib import Path
 import hashlib
 import json
+import os
 import stat
+from tempfile import SpooledTemporaryFile
+from time import monotonic
 import zipfile
 
 from v2.p0_integrity.contracts import VERSION, canonical_bytes, validate_record
@@ -159,6 +162,51 @@ def load_signed_manifest(root, manifest_rel, expected_sha256):
     return doc["signed_observation_contracts_by_player"]
 
 
+def _restore_history_archive(root, source, entries, restored_rel):
+    started = monotonic()
+    last_report = started
+    paths = [Path(entry.filename) for entry in entries]
+    folders = {parent: safe_relative(root, f"{restored_rel}/{parent}")
+               for parent in {path.parent for path in paths}}
+    for folder in folders.values():
+        folder.mkdir(parents=True, exist_ok=True)
+    targets = [folders[path.parent] / path.name for path in paths]
+
+    def restore(pair):
+        entry, target = pair
+        original = source.read(entry)
+        flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+        try:
+            descriptor = os.open(target, flags, 0o640)
+        except FileExistsError:
+            require(not target.is_symlink() and target.read_bytes() == original,
+                    "P2_SIGNED_HISTORY_RESTORE_PARTIAL_OR_DIFFERENT")
+            return True
+        with os.fdopen(descriptor, "wb") as output:
+            output.write(original)
+        return False
+
+    print(f"NHL_SOG_HISTORY_RESTORE_START entries={len(entries)}", flush=True)
+    count = 0
+    reused = 0
+    with ThreadPoolExecutor(max_workers=24) as workers:
+        pending = {workers.submit(restore, pair) for pair in zip(entries, targets)}
+        while pending:
+            done, pending = wait(pending, timeout=15, return_when=FIRST_COMPLETED)
+            try:
+                reused += sum(work.result() for work in done)
+            except BaseException:
+                for work in pending:
+                    work.cancel()
+                raise
+            count += len(done)
+            now = monotonic()
+            if count == len(entries) or now - last_report >= 15:
+                print(f"NHL_SOG_HISTORY_RESTORE_PROGRESS entries={count}/{len(entries)} "
+                      f"reused={reused} elapsed_seconds={now - started:.1f}", flush=True)
+                last_report = now
+
+
 def open_history_sources(root, manifest_rel, expected_sha256, history_pool):
     """Resolve original loose receipts or restore bytes from their exact ZIP.
 
@@ -182,18 +230,27 @@ def open_history_sources(root, manifest_rel, expected_sha256, history_pool):
     original_pool = checked_pool(root, manifest_path.parent.parent)
     archive = safe_relative(original_pool, bundle["path"])
     restored_rel = f"{ROOT_NAMESPACE}/verified_history_bundles/{wanted}"
-    verified_rel = f"{restored_rel}/_verified_archive.json"
-    verified = safe_relative(root, verified_rel)
     archive_record = canonical_bytes({"format": bundle["format"], "archive_sha256": wanted})
+    candidates = (restored_rel, f"{ROOT_NAMESPACE}/verified_history_recovery/{wanted}")
 
-    with archive.open("rb") as handle:
-        require(hashlib.file_digest(handle, "sha256").hexdigest() == wanted,
-                "P2_SIGNED_HISTORY_BUNDLE_SHA_MISMATCH")
-        if verified.is_file():
-            put_once(root, verified_rel, archive_record)
-            return checked_pool(root, verified.parent)
-        handle.seek(0)
-        with zipfile.ZipFile(handle) as source:
+    print(f"NHL_SOG_HISTORY_ARCHIVE_VERIFY compressed_bytes={archive.stat().st_size}", flush=True)
+    with archive.open("rb") as handle, SpooledTemporaryFile(max_size=32_000_000) as local:
+        for folder in candidates:
+            verified_rel = f"{folder}/_verified_archive.json"
+            verified = safe_relative(root, verified_rel)
+            if verified.is_file() and verified.with_suffix(".json.complete").is_file():
+                require(hashlib.file_digest(handle, "sha256").hexdigest() == wanted,
+                        "P2_SIGNED_HISTORY_BUNDLE_SHA_MISMATCH")
+                put_once(root, verified_rel, archive_record)
+                print("NHL_SOG_HISTORY_RESTORE_CACHE_HIT", flush=True)
+                return checked_pool(root, verified.parent)
+
+        checksum = hashlib.sha256()
+        for chunk in iter(lambda: handle.read(4_000_000), b""):
+            checksum.update(chunk)
+            local.write(chunk)
+        require(checksum.hexdigest() == wanted, "P2_SIGNED_HISTORY_BUNDLE_SHA_MISMATCH")
+        with zipfile.ZipFile(local) as source:
             entries = source.infolist()
             require(entries and len({entry.filename for entry in entries}) == len(entries)
                     and sum(entry.file_size for entry in entries) <= 1_000_000_000,
@@ -204,17 +261,24 @@ def open_history_sources(root, manifest_rel, expected_sha256, history_pool):
                 require(not entry.is_dir() and not path.is_absolute() and
                         ".." not in path.parts and "\\" not in entry.filename and
                         len(path.parts) >= 2 and path.parts[0] in allowed and
+                        entry.filename == path.as_posix() and
                         not stat.S_ISLNK(entry.external_attr >> 16),
                         "P2_SIGNED_HISTORY_BUNDLE_ENTRY_INVALID")
 
-            def restore(entry):
-                put_once(root, f"{restored_rel}/{entry.filename}", source.read(entry))
-
-            with ThreadPoolExecutor(max_workers=8) as workers:
-                for _ in workers.map(restore, entries):
-                    pass
-    put_once(root, verified_rel, archive_record)
-    return checked_pool(root, verified.parent)
+            for folder in candidates:
+                verified_rel = f"{folder}/_verified_archive.json"
+                try:
+                    _restore_history_archive(root, source, entries, folder)
+                    put_once(root, verified_rel, archive_record)
+                except SourceBlocked as exc:
+                    if folder == candidates[0] and exc.code in {
+                        "P2_SIGNED_HISTORY_RESTORE_PARTIAL_OR_DIFFERENT",
+                        "IMMUTABLE_PARTIAL_OR_INTERRUPTED_SOURCE",
+                    }:
+                        print("NHL_SOG_HISTORY_RESTORE_ISOLATED_RECOVERY", flush=True)
+                        continue
+                    raise
+                return checked_pool(root, safe_relative(root, folder))
 
 def signed_original_profile_name(pool, entry, *, freeze, event_start):
     """Only names taken from the signed official NHL profile are source-bound."""
