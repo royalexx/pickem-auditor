@@ -9,7 +9,7 @@ from research.p2_nhl_sog.history_bridge import checked_pool, load_signed_manifes
 from research.p2_nhl_sog.source_pipeline import (
     OFFICIAL, attempt, parse_roster, put_once, retrieve_source, scheduled_games, stamp, verify_bundle,
 )
-from v2.nhl_sog_exposure_shadow import SCHEMA as MODEL_VERSION, fit_model
+from v2.nhl_sog_exposure_shadow import SCHEMA as MODEL_VERSION, fit_model, verify_observation
 from v2.nhl_sog_official_history_producer import independent_verify_observation_lineage
 from v2.nhl_sog_p4_forecasts import P4Blocked, _mass_for, full_law
 from v2.p0_integrity.contracts import admit_forecast, canonical_bytes, record, sha256, utc
@@ -63,17 +63,24 @@ class HistorySources:
                    bound["archive_path"] == str(relative_path) and
                    utc(bound["collected_at"]) == utc(source["received_at"]),
                    "P2_SIGNED_HISTORY_SOURCE_MISMATCH")
-        verified = self.verified.get(key)
-        if verified is None:
-            verified = independent_verify_observation_lineage(
+        cached = self.verified.get(key)
+        if cached is None:
+            receipt = independent_verify_observation_lineage(
                 entry, archive_root=self.pool, freeze=freeze, event_start=start)
-            self.verified[key] = verified
+            observation = verify_observation(receipt, self.pool, freeze)
+            self.verified[key] = (receipt, observation)
+        else:
+            receipt, observation = cached
+        _check((observation["player_id"], observation["event_id"], observation["shots_on_goal"],
+                observation["toi_minutes"], observation["source_game_log_row"]["gameDate"]) ==
+               (player_id, row["game_id"], row["shots_on_goal"], row["toi_minutes"], row["game_date"]),
+               "P2_SIGNED_HISTORY_DERIVED_OBSERVATION_DRIFT")
         # When reusing an observation for another event, check every original
         # clock against that event's freeze as well as the derived receipt.
         _check(all(utc(source["received_at"]) <= utc(freeze)
-                   for source in (*raw_receipts.values(), verified)),
+                   for source in (*raw_receipts.values(), receipt)),
                "HISTORICAL_SOURCE_AFTER_FREEZE")
-        return player_id, verified
+        return player_id, receipt
 
 
 def _official_identity(root, manifest, feature, sources):
@@ -220,6 +227,7 @@ def forecast_bundle(root, manifest_sha256, *, code_commit, run_id,
                           event_start_at=start, target_event_id=event, current_team_id=feature["team_id"])
         distributions, laws = _distributions(model)
         model = {**model, "p2_bundle_sha256": manifest_sha256,
+                 "p2_original_history_verified": True,
                  "p0_feature_sha256": manifest["p0_feature_record_sha256"],
                  "signed_history_manifest_sha256": history_sources.sha256,
                  "history_pool_relative_path": str(history_sources.pool.relative_to(Path(root).resolve()))}

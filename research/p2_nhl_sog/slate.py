@@ -4,18 +4,31 @@ from __future__ import annotations
 import json
 from collections import Counter
 from datetime import datetime, timedelta
+from functools import lru_cache
 
 from v2.nhl_sog_exposure_shadow import (
     MAX_PEER_RATE_GAMES, MAX_RATE_GAMES, MIN_PEER_GAMES, MIN_PEERS,
 )
 
-from .history_bridge import checked_pool, load_signed_manifest, verified_player_history
+from .history_bridge import VerifiedGameHistories, checked_pool, load_signed_manifest
 from .quote_bridge import record_quote_candidate
 from .source_pipeline import (
     FUTURE_STATES, SOURCE_FREEZE_MINUTES, UTC, SourceBlocked,
     attempt, build_bundle, capture_two_rosters, clock, current_storage,
     digest, safe_relative, signed_schedule_game,
 )
+
+
+@lru_cache(maxsize=40_000)
+def _study_observation(pool, relative_path, sha256):
+    # This cache serves player selection only. Content and signed raw sources
+    # are re-read through the verifying history bridge before bundle admission.
+    raw = safe_relative(pool, relative_path).read_bytes()
+    if digest(raw) != sha256:
+        raise SourceBlocked("P2_HISTORY_OBSERVATION_SHA_MISMATCH")
+    observation = json.loads(raw)
+    return (str(observation["player_id"]), str(observation["event_id"]),
+            observation["position_group"], observation["source_game_log_row"]["gameDate"])
 
 
 def _eligible_history(entries, *, pool, player_id, freeze, game):
@@ -28,17 +41,13 @@ def _eligible_history(entries, *, pool, player_id, freeze, game):
         receipt = entry["observation_receipt"]
         if clock(receipt["received_at"]) > freeze:
             continue
-        raw = safe_relative(pool, receipt["archive_path"]).read_bytes()
-        if digest(raw) != receipt["content_sha256"]:
-            raise SourceBlocked("P2_HISTORY_OBSERVATION_SHA_MISMATCH")
-        observation = json.loads(raw)
-        if str(observation["player_id"]) != player_id:
+        signed_pid, event_id, group, game_date = _study_observation(
+            pool, receipt["archive_path"], receipt["content_sha256"],
+        )
+        if signed_pid != player_id:
             raise SourceBlocked("P2_HISTORY_POSITION_OR_IDENTITY_MISMATCH")
-        event_id = str(observation["event_id"])
-        game_date = observation["source_game_log_row"]["gameDate"]
         if event_id == game["event_id"] or game_date >= start.date().isoformat():
             continue
-        group = observation["position_group"]
         observations.append((game_date, event_id, group, entry))
 
     observations.sort(key=lambda row: (row[0], row[1]))
@@ -126,6 +135,8 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
     except (OSError, ValueError, KeyError, TypeError) as exc:
         history_error = _reason(exc)
         history = {}
+    histories = (VerifiedGameHistories(root, pool, freeze=freeze, event_start=game["start_at"])
+                 if history else None)
     for pid, entries in history.items():
         try:
             indexed[pid] = _eligible_history(entries, pool=pool, player_id=pid,
@@ -156,9 +167,9 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                     break
                 for peer in sorted(unchecked):
                     try:
-                        verified_player_history(root, pool, indexed[peer][1], player_id=peer,
-                                                group=group, freeze=freeze,
-                                                event_start=game["start_at"])
+                        histories.verify(root, pool, indexed[peer][1], player_id=peer,
+                                         group=group, freeze=freeze,
+                                         event_start=game["start_at"])
                         screened.add(peer)
                     except (OSError, ValueError, KeyError, TypeError) as exc:
                         failures[peer] = _reason(exc)
@@ -173,6 +184,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                 roster_members=members, player_id=pid, history_entries=indexed[pid][1],
                 peer_entries={peer: indexed[peer][1] for peer in peers},
                 history_pool=pool, freeze=freeze, include_official_c03_receipts=True,
+                _game_histories=histories,
             )
             result = build_bundle(root, **options)
             row.update(status=result["manifest"]["source_admission"],

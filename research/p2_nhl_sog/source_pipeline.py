@@ -460,7 +460,7 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
                  player_id, history_entries, freeze, quote=None,
                  required_experiment=None, peer_entries=None, history_pool=None,
                  quote_evidence=None, role_transition_uncertain=False,
-                 include_official_c03_receipts=False):
+                 include_official_c03_receipts=False, _game_histories=None):
     """Stable source-only P4/P5 handoff, preserving P0 feature contract."""
     current_storage(root)
     start = game["start_at"]
@@ -485,7 +485,7 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
     require(group in ("F", "D"), "UNSUPPORTED_SOG_POSITION")
     require(set(rosters) == {game["home_team"], game["away_team"]},
             "TWO_TEAM_ROSTER_SOURCE_REQUIRED")
-    from .history_bridge import verified_player_history
+    from .history_bridge import VerifiedGameHistories, verified_player_history
     from .quote_bridge import verify_real_quote
     for verified_team, source in rosters.items():
         require(source["p0_receipt"]["source_id"] ==
@@ -501,14 +501,18 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
                 <= timedelta(hours=6), "ROSTER_SOURCE_STALE")
     require(history_pool is not None,
             "P0_BRIDGED_ORIGINAL_HISTORICAL_SOURCE_POOL_REQUIRED")
-    own, own_refs = verified_player_history(root, history_pool, history_entries,
+    require(_game_histories is None or type(_game_histories) is VerifiedGameHistories,
+            "P2_VERIFIED_HISTORY_CACHE_INVALID")
+    verify_history = (verified_player_history if _game_histories is None
+                      else _game_histories.verify)
+    own, own_refs = verify_history(root, history_pool, history_entries,
                         player_id=player_id, group=group,
                         freeze=freeze, event_start=start)
     require(len(own) > 0, "NO_ORIGINAL_VERIFIED_SOG_TOI_HISTORY")
     peer, peer_refs = [], []
     for other_player, entries in sorted((peer_entries or {}).items()):
         require(str(other_player) != str(player_id), "PEER_IS_TARGET_PLAYER")
-        rows, references = verified_player_history(root, history_pool, entries,
+        rows, references = verify_history(root, history_pool, entries,
                 player_id=other_player, group=group,
                 freeze=freeze, event_start=start)
         peer.extend(rows)
@@ -629,7 +633,7 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
     return {"manifest": manifest, "receipt": address, "feature": feature_record}
 
 
-def verify_bundle(root, manifest_sha):
+def verify_bundle(root, manifest_sha, *, return_source_records=False):
     current_storage(root)
     require(isinstance(manifest_sha, str) and HEX.fullmatch(manifest_sha),
             "SOURCE_BUNDLE_DIGEST_INVALID")
@@ -649,20 +653,20 @@ def verify_bundle(root, manifest_sha):
     ]
     if doc.get("P0_quote_source_sha256"):
         sha_list.append(doc["P0_quote_source_sha256"])
-    source_records = []
+    source_records = {}
     for sha in sorted(set(sha_list)):
         src = verify_immutable_record(root, "SourceReceipt", sha)
         verify_source_bytes(src, root)
         require(clock(src["source_available_at"]) <= clock(doc["input_freeze_at"]) <
                 clock(doc["event_start_at"]), "SOURCE_RECHECK_AFTER_FREEZE")
-        source_records.append(src)
+        source_records[sha] = src
     feature = verify_immutable_record(root, "PregameFeatureSnapshot",
                                      doc["p0_feature_record_sha256"])
     require(feature["feature_snapshot_id"] == doc["p0_feature_snapshot_id"] and
             sha256(feature["features"]) == feature["feature_sha256"],
             "SOURCE_BUNDLE_FEATURE_DRIFT")
     require(set(feature["source_receipt_ids"]) == {
-        src["receipt_id"] for src in source_records},
+        src["receipt_id"] for src in source_records.values()},
         "SOURCE_BUNDLE_P0_SOURCE_CLOSURE_MISMATCH")
     if doc.get("P0_quote_record_sha256"):
         quote = verify_immutable_record(root, "MarketQuote",
@@ -672,6 +676,8 @@ def verify_bundle(root, manifest_sha):
                 quote["player_id"] == doc["official_nhl_player_id"] and
                 quote["quote_kind"] == "real",
                 "SOURCE_BUNDLE_QUOTE_NOT_SOURCE_BOUND")
+    if return_source_records:
+        return doc, feature, source_records
     return doc, feature
 
 

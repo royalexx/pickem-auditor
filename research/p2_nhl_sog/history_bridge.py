@@ -63,7 +63,7 @@ def bridge_original_receipt(root, pool, original_receipt, *, freeze, event_start
             "publisher_release_time_verified": False}
 
 def verified_player_history(root, pool, entries, *, player_id, group,
-                            freeze, event_start):
+                            freeze, event_start, _bridge_cache=None):
     pool = checked_pool(root, pool)
     require(isinstance(entries, list), "SIGNED_HISTORICAL_ENTRIES_MISSING")
     out, refs, seen = [], {}, set()
@@ -98,9 +98,15 @@ def verified_player_history(root, pool, entries, *, player_id, group,
         for kind, original in names.items():
             proof_sha = original["collector_proof_sha256"]
             if proof_sha not in refs:
-                refs[proof_sha] = bridge_original_receipt(
-                    root, pool, original, freeze=freeze,
-                    event_start=event_start, kind=kind)
+                key = kind, digest(canonical_bytes(original))
+                if _bridge_cache is not None and key in _bridge_cache:
+                    refs[proof_sha] = _bridge_cache[key]
+                else:
+                    refs[proof_sha] = bridge_original_receipt(
+                        root, pool, original, freeze=freeze,
+                        event_start=event_start, kind=kind)
+                    if _bridge_cache is not None:
+                        _bridge_cache[key] = refs[proof_sha]
             ids.append(refs[proof_sha]["record"]["receipt_id"])
         out.append({
             "game_id": gid, "game_date": row["gameDate"],
@@ -115,6 +121,26 @@ def verified_player_history(root, pool, entries, *, player_id, group,
         })
     return sorted(out, key=lambda x: (x["game_date"], x["game_id"])), [
         refs[k] for k in sorted(refs)]
+
+
+class VerifiedGameHistories:
+    """Reuse exact verified inputs inside one original game/freeze invocation."""
+
+    def __init__(self, root, pool, *, freeze, event_start):
+        self.scope = (root, pool, freeze, event_start)
+        self._sources = {}
+        self._players = {}
+
+    def verify(self, root, pool, entries, *, player_id, group, freeze, event_start):
+        require((root, pool, freeze, event_start) == self.scope,
+                "P2_VERIFIED_HISTORY_SCOPE_MISMATCH")
+        key = player_id, group, digest(canonical_bytes(entries))
+        if key not in self._players:
+            self._players[key] = verified_player_history(
+                root, pool, entries, player_id=player_id, group=group,
+                freeze=freeze, event_start=event_start, _bridge_cache=self._sources,
+            )
+        return self._players[key]
 
 def _load_signed_manifest(root, manifest_rel, expected_sha256):
     current_storage(root)
