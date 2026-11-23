@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "tests"))
 import jobs
+import slate_model_report as slate_report
 from test_phase0r_pre_eval import make_inputs
 
 WHEN = datetime(2026, 11, 9, 14, 15, tzinfo=timezone.utc)
@@ -48,9 +49,11 @@ def mock_model(candidate, *, now):
 class LiveCertifiedOnlyPoolTests(unittest.TestCase):
     def run_live(self, data, rows):
         receipts = []
-        with patch.dict(os.environ, {"PICKEM_PRODUCTION_CONSENSUS": "1"}), (
-            patch.object(jobs.pm, "evaluate_candidate", side_effect=mock_model)
-        ) as evaluated:
+        with patch.dict(os.environ, {
+            "PICKEM_PRODUCTION_CONSENSUS": "1",
+            "PICKEM_PHASE0_CERTIFIED_ONLY": "1",
+            "PICKEM_PHASE0_CAPTURE": "0",
+        }), patch.object(jobs.pm, "evaluate_candidate", side_effect=mock_model) as evaluated:
             snapshots, errors = jobs.run_pipeline_batch(
                 rows, now=WHEN, clock_fn=lambda: WHEN,
                 data_root=data, attempt_receipts=receipts)
@@ -117,19 +120,50 @@ class LiveCertifiedOnlyPoolTests(unittest.TestCase):
             self.assertIn("phase0r_source_capture_failed:", ledger[0]["reason"])
             self.assertEqual(ledger[0]["status"], "unavailable")
 
-    def test_historical_legacy_run_not_retroactively_filtered(self):
+    def test_production_consensus_does_not_imply_certified_only(self):
         with tempfile.TemporaryDirectory() as tmp:
             data, row = prepared(Path(tmp))
             row["event_context"] = {"events": [{"player_id": "X"}]}
             with patch.dict(os.environ, {
-                "PICKEM_PRODUCTION_CONSENSUS": "0",
+                "PICKEM_PRODUCTION_CONSENSUS": "1",
                 "PICKEM_PHASE0_CERTIFIED_ONLY": "0",
                 "PICKEM_PHASE0_CAPTURE": "0"
             }), patch.object(jobs.pm, "evaluate_candidate", side_effect=mock_model) as model:
                 rows, errors = jobs.run_pipeline_batch([row], now=WHEN,
                                                         clock_fn=lambda: WHEN, data_root=data)
             self.assertEqual((len(rows), errors, model.call_count), (1, 0, 1))
-            self.assertIsNone(rows[0].get("phase0r_original_source_certified"))
+            self.assertFalse(rows[0]["phase0r_original_source_certified"])
+            self.assertEqual(rows[0]["phase0r_certification_status"],
+                             "UNCERTIFIED_RESEARCH_SHADOW")
+
+
+    def test_slate_report_preserves_uncertified_shadow_status(self):
+        row = {
+            "game_date": "2026-11-22",
+            "sport": "NFL",
+            "player": "Example Player",
+            "player_id": "00-0000001",
+            "team": "CHI",
+            "opponent": "GB",
+            "stat": "targets",
+            "side": "over",
+            "reference_line": 5.5,
+            "forecast_at": "2026-11-22T17:00:00Z",
+            "event_start": "2026-11-22T18:00:00Z",
+            "run_id": "test-run",
+            "engine_a": {},
+            "engine_b": {},
+            "blend": {},
+            "phase0r_original_source_certified": False,
+            "phase0r_certification_status": "UNCERTIFIED_RESEARCH_SHADOW",
+            "forecast_pool_policy": "legacy_research_pool",
+        }
+        result = slate_report.build(row, {}, [])
+        self.assertEqual(result["phase0r_certification_status"],
+                         "UNCERTIFIED_RESEARCH_SHADOW")
+        self.assertFalse(result["phase0r_original_source_certified"])
+        self.assertEqual(result["forecast_pool_policy"], "legacy_research_pool")
+        self.assertFalse(result["publication_eligible"])
 
 
 if __name__ == "__main__":

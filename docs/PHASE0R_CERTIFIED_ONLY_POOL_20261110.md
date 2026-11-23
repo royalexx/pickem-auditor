@@ -1,9 +1,22 @@
 # Phase 0R — prospective certified-only forecast pool
 
-Date: 2026-11-10. Applies to new production-afternoon collections under
-`PICKEM_PRODUCTION_CONSENSUS=1`, and to explicit strict live runs under
-`PICKEM_PHASE0_CERTIFIED_ONLY=1`. Historical testing and archived forecasts
-are not rewritten.
+Date: 2026-11-10. Strict certified-only collection is activated only by
+`PICKEM_PHASE0_CERTIFIED_ONLY=1`. `PICKEM_PRODUCTION_CONSENSUS=1` selects
+the frozen V1 60/40 numerical benchmark and does not itself activate the
+certification gate. Historical testing and archived forecasts are not rewritten.
+
+## Mode separation
+
+- **Benchmark/research mode:** the daily workflow may retain forecasts from the
+  frozen 60/40 benchmark as `legacy_research_pool`. Every such row is explicitly
+  marked `UNCERTIFIED_RESEARCH_SHADOW`; it is not a certified pick or a model
+  promotion. It may be used for diagnostics and research comparison only.
+- **Strict certification mode:** set `PICKEM_PHASE0_CERTIFIED_ONLY=1`. The
+  pre-inference rejection and immutable input-capture rules below apply. A
+  candidate that fails them is kept in the attempt ledger and does not enter
+  the certified forecast pool.
+- Tier 1/Tier 2 publication and V2.5 model promotion remain blocked regardless
+  of which mode generated a numerical forecast.
 
 ## Intent and observed failure
 

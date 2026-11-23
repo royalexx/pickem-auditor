@@ -65,6 +65,16 @@ class FeedCompletionTests(unittest.TestCase):
         self.assertEqual(out['id'],'2026_04_CHI_NYG')
         self.assertEqual(out['source_event_id'],'1')
 
+    def test_missing_nfl_game_active_roster_is_distinct_from_id_map_failure(self):
+        with self.assertRaisesRegex(ValueError, 'NFL_GAME_ACTIVE_ROSTER_MANIFEST_MISSING'):
+            lf.espn_game(football(),'NFL','CHI','tackles','1','https://www.espn.com/game/1',
+                         id_map={'10':'00-0000001'})
+
+    def test_missing_nfl_id_map_is_distinct_from_roster_failure(self):
+        with self.assertRaisesRegex(ValueError, 'NFL_ESPN_GSIS_ID_MAP_MISSING'):
+            lf.espn_game(football(),'NFL','CHI','tackles','1','https://www.espn.com/game/1',
+                         id_map={},active_roster=roster())
+
     def test_wrong_game_day_team_or_incomplete_roster_rejected(self):
         for key,value in [('event_id','2'),('date','2026-10-02'),('team','BOS'),('roster_complete',False),
                           ('active_players',['00-0000002'])]:
