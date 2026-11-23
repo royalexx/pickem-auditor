@@ -256,20 +256,20 @@ def run_morning(*,max_games=12,clock=None,opener=urlopen,fetch_only=False):
             "NAIVE_MORNING_CLOCK")
     scope=_original_frozen_scope()
     results=[]
+    prior=recover_official_outcomes("/work")["by_stat_identity"]
+    # Cap only NEW outstanding completed events. Previously archived games
+    # must never starve newer games after the first weeks of daily operation.
     for event,rows in sorted(scope["events"].items(),
                              key=lambda t:t[1][0]["forecast"]["event_start_at"]):
-        if len(results)>=max_games:break
         start=rows[0]["forecast"]["event_start_at"]
-        if utc(start)>=utc(now):
-            results.append({"event_id":event,"status":"EVENT_NOT_FINISHED"})
+        if utc(start)>=utc(stamp(now)):
             continue
-        prior=recover_official_outcomes("/work")["by_stat_identity"]
         uncovered=[r for r in rows
             if tuple(r["forecast"][k] for k in
               ("sport","event_id","team_id","player_id","stat_key","period")) not in prior]
         if not uncovered:
-            results.append({"event_id":event,"status":"OFFICIAL_ALREADY_ARCHIVED"})
             continue
+        if len(results)>=max_games:break
         numeric=EVENT_ID.fullmatch(event).group(1)
         try:
             reply=capture_final(numeric,opener=opener)
