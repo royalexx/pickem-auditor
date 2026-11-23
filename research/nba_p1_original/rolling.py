@@ -218,7 +218,9 @@ def _bounded_canary_subset(rows, summary, player_limit):
             if slot < len(by_team[team]):
                 chosen_records.append(by_team[team][slot])
     selected = {x[2] for x in chosen_records}
-    chosen = [x for x in rows if x['player_id'] in selected]
+    # Preserve balanced ranked selection order for bounded P3 consumers
+    # which forecast only the first K stat rows under the pregame deadline.
+    chosen = [x for candidate in chosen_records for x in grouped[candidate[2]]]
     dropped = sorted(set(grouped) - selected)
     new = dict(summary)
     new['feature_rows'] = len(chosen)
