@@ -722,6 +722,7 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
                 continue
             forecast["phase0r_original_source_certified"] = True
             forecast["phase0r_certification_status"] = "CERTIFIED"
+            forecast["forecast_pool_policy"] = "strict_certified_only_original_inputs_v1"
             if c03_enabled:
                 forecast["c03_cohort"] = ("B" if c03_original is not None else "A")
                 forecast["c03_context_adjusted"] = False
@@ -731,6 +732,7 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
             # production-consensus blend is enabled.
             forecast["phase0r_original_source_certified"] = False
             forecast["phase0r_certification_status"] = "UNCERTIFIED_RESEARCH_SHADOW"
+            forecast["forecast_pool_policy"] = "legacy_research_pool"
         if c03_enabled and c03_original is not None:
             # Research source certification is not selection authorization.
             # Never let a verified-but-not-independent-review-approved B cohort
