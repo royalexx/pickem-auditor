@@ -94,8 +94,11 @@ class ReportTests(unittest.TestCase):
             a = publish_report(original, folder, emit_stdout=False)
             b = publish_report(original, folder, emit_stdout=False)
             self.assertEqual(a["full_evidence_sha256"], b["full_evidence_sha256"])
-            newer = publish_report(fixture(metrics={"brier": 0.25}), folder, emit_stdout=False)
+            newer = publish_report(fixture(run_id="run-test-002", metrics={"brier": 0.25}), folder, emit_stdout=False)
             self.assertNotEqual(a["full_evidence_path"], newer["full_evidence_path"])
+            self.assertEqual(2, len(list(Path(folder).glob("*.summary.json"))))
+            with self.assertRaises(RuntimeError):
+                publish_report(fixture(metrics={"brier": 0.25}), folder, emit_stdout=False)
             self.assertEqual(2, len(list(Path(folder).glob("*.full.json"))))
             self.assertEqual(0.19, json.loads(Path(a["full_evidence_path"]).read_text())["metrics"]["brier"])
 
