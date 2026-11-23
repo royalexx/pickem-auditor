@@ -260,7 +260,7 @@ def run_morning(*,max_games=12,clock=None,opener=urlopen,fetch_only=False):
                              key=lambda t:t[1][0]["forecast"]["event_start_at"]):
         if len(results)>=max_games:break
         start=rows[0]["forecast"]["event_start_at"]
-        if utc(start)>=utc(now):
+        if utc(start)>=utc(stamp(now)):
             results.append({"event_id":event,"status":"EVENT_NOT_FINISHED"})
             continue
         prior=recover_official_outcomes("/work")["by_stat_identity"]
