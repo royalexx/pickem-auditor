@@ -5,16 +5,20 @@ or reconstructed from box scores. P0 source receipt binds the original
 verified archive and the original C03 collector-possession timestamp.
 """
 from __future__ import annotations
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import hashlib
 import json
+import stat
+import zipfile
 
 from v2.p0_integrity.contracts import VERSION, canonical_bytes, validate_record
 from v2.p0_integrity.storage import append_immutable, verify_immutable_record
 from scripts.c03_live_transport import verify_signed_capture
 from v2.nhl_sog_official_history_producer import independent_verify_observation_lineage
 from .source_pipeline import (SourceBlocked, require, digest, clock, stamp,
-                              current_storage, safe_relative, ROOT_NAMESPACE)
+                              current_storage, safe_relative, put_once,
+                              ROOT_NAMESPACE, HEX)
 
 def checked_pool(root, pool):
     current_storage(root)
@@ -112,15 +116,79 @@ def verified_player_history(root, pool, entries, *, player_id, group,
     return sorted(out, key=lambda x: (x["game_date"], x["game_id"])), [
         refs[k] for k in sorted(refs)]
 
-def load_signed_manifest(root, manifest_rel, expected_sha256):
+def _load_signed_manifest(root, manifest_rel, expected_sha256):
     current_storage(root)
     p = safe_relative(root, manifest_rel)
     raw = p.read_bytes()
     require(digest(raw) == expected_sha256, "SIGNED_HISTORY_MANIFEST_HASH_MISMATCH")
     doc = json.loads(raw)
-    mapping = doc.get("signed_observation_contracts_by_player")
-    require(isinstance(mapping, dict), "SIGNED_HISTORY_MANIFEST_SCHEMA_INVALID")
-    return mapping
+    require(isinstance(doc, dict) and
+            isinstance(doc.get("signed_observation_contracts_by_player"), dict),
+            "SIGNED_HISTORY_MANIFEST_SCHEMA_INVALID")
+    return p, doc
+
+
+def load_signed_manifest(root, manifest_rel, expected_sha256):
+    _, doc = _load_signed_manifest(root, manifest_rel, expected_sha256)
+    return doc["signed_observation_contracts_by_player"]
+
+
+def open_history_sources(root, manifest_rel, expected_sha256, history_pool):
+    """Resolve original loose receipts or restore bytes from their exact ZIP.
+
+    The original C03 receipt paths and hashes remain unchanged. ZIP contents
+    are still independently reverified by the same P2/P4 receipt readers.
+    """
+    manifest_path, doc = _load_signed_manifest(root, manifest_rel, expected_sha256)
+    bundle = doc.get("source_bundle")
+    if bundle is None:
+        return checked_pool(root, history_pool)
+
+    require(isinstance(bundle, dict) and bundle.get("format") ==
+            "exact_original_receipts_and_derived_zip_v1",
+            "P2_SIGNED_HISTORY_BUNDLE_FORMAT_INVALID")
+    wanted = bundle.get("sha256")
+    require(isinstance(wanted, str) and HEX.fullmatch(wanted) and
+            bundle.get("path") == f"history_bundles/{wanted}.zip",
+            "P2_SIGNED_HISTORY_BUNDLE_POINTER_INVALID")
+    require(manifest_path.parent.name == "daily_history_manifests",
+            "P2_SIGNED_HISTORY_BUNDLE_MANIFEST_LOCATION_INVALID")
+    original_pool = checked_pool(root, manifest_path.parent.parent)
+    archive = safe_relative(original_pool, bundle["path"])
+    restored_rel = f"{ROOT_NAMESPACE}/verified_history_bundles/{wanted}"
+    verified_rel = f"{restored_rel}/_verified_archive.json"
+    verified = safe_relative(root, verified_rel)
+    archive_record = canonical_bytes({"format": bundle["format"], "archive_sha256": wanted})
+
+    with archive.open("rb") as handle:
+        require(hashlib.file_digest(handle, "sha256").hexdigest() == wanted,
+                "P2_SIGNED_HISTORY_BUNDLE_SHA_MISMATCH")
+        if verified.is_file():
+            put_once(root, verified_rel, archive_record)
+            return checked_pool(root, verified.parent)
+        handle.seek(0)
+        with zipfile.ZipFile(handle) as source:
+            entries = source.infolist()
+            require(entries and len({entry.filename for entry in entries}) == len(entries)
+                    and sum(entry.file_size for entry in entries) <= 1_000_000_000,
+                    "P2_SIGNED_HISTORY_BUNDLE_ENTRY_LIMIT_INVALID")
+            allowed = {"raw_http_body", "c03_collector_receipts", "nhl_sog_official_derived"}
+            for entry in entries:
+                path = Path(entry.filename)
+                require(not entry.is_dir() and not path.is_absolute() and
+                        ".." not in path.parts and "\\" not in entry.filename and
+                        len(path.parts) >= 2 and path.parts[0] in allowed and
+                        not stat.S_ISLNK(entry.external_attr >> 16),
+                        "P2_SIGNED_HISTORY_BUNDLE_ENTRY_INVALID")
+
+            def restore(entry):
+                put_once(root, f"{restored_rel}/{entry.filename}", source.read(entry))
+
+            with ThreadPoolExecutor(max_workers=8) as workers:
+                for _ in workers.map(restore, entries):
+                    pass
+    put_once(root, verified_rel, archive_record)
+    return checked_pool(root, verified.parent)
 
 def signed_original_profile_name(pool, entry, *, freeze, event_start):
     """Only names taken from the signed official NHL profile are source-bound."""

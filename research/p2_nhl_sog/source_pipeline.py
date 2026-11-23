@@ -459,7 +459,8 @@ def quote_from_archived_raw(root, raw_ref, offered, *, player_id, team, opponent
 def build_bundle(root, *, game, schedule_source, rosters, roster_members,
                  player_id, history_entries, freeze, quote=None,
                  required_experiment=None, peer_entries=None, history_pool=None,
-                 quote_evidence=None, role_transition_uncertain=False):
+                 quote_evidence=None, role_transition_uncertain=False,
+                 include_official_c03_receipts=False):
     """Stable source-only P4/P5 handoff, preserving P0 feature contract."""
     current_storage(root)
     start = game["start_at"]
@@ -618,6 +619,11 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
         "P4_prediction_required": True, "P5_settlement_required": True,
         "model_predictions_present": False, "research_only": True
     }
+    if include_official_c03_receipts:
+        manifest["official_schedule_c03_receipt"] = schedule_source["c03_receipt"]
+        manifest["official_roster_c03_receipts"] = {
+            team: source["c03_receipt"] for team, source in rosters.items()
+        }
     raw = canonical_bytes(manifest)
     address = put_once(root, ROOT_NAMESPACE + "/bundles/" + digest(raw) + ".json", raw)
     return {"manifest": manifest, "receipt": address, "feature": feature_record}
