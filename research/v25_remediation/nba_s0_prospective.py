@@ -404,7 +404,7 @@ def run_once(*, day, code_commit, max_forecasts=80, feature_player_limit=6):
     attest_project_storage("/work")
     # Never initialize a new method from a previously frozen input.
     model=load_predeclared_model(code_commit=code_commit)
-    # Predeclared canary only: archive up to six source-listed players,
+    # Predeclared canary: archive up to the configured (maximum ten) source-listed players,
     # selected from original past-game evidence, not any target-game outcome.
     # Default P1 full-population capture is unchanged for every other caller.
     require(type(feature_player_limit) is int and 1 <= feature_player_limit <= 10, "INVALID_RESEARCH_STARTER_COVERAGE_CAP")
