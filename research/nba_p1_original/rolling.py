@@ -149,7 +149,65 @@ def default_capture(game,phase,out,deadline):
     return capture(day,out,game_id=game['game_id'],freeze_deadline_at=stamp(deadline),
                    expected_game=game,history_games_per_team=2)
 
-def _archive_ws1(cap,out,vault,deadline):
+
+def _bounded_canary_subset(rows, summary, player_limit):
+    """P0-auditable PRE-GAME subset: never use target outcomes to select players.
+
+    Only an explicitly opted-in research S0 canary may trim archived feature
+    rows. Default P1 capture stays full and changes no downstream consumer.
+    """
+    if player_limit is None:
+        return rows, summary
+    if type(player_limit) is not int or not (1 <= player_limit <= 24):
+        raise AcquisitionError('CANARY_PLAYER_LIMIT_BOUNDS')
+    from .feature_store import STATS
+    grouped={}
+    for item in rows:
+        grouped.setdefault(item['player_id'],[]).append(item)
+    if any(len(group)!=len(STATS) or {x['stat_key'] for x in group}!=set(STATS)
+           for group in grouped.values()):
+        raise AcquisitionError('INCOMPLETE_CANARY_PLAYER_STAT_BUNDLE')
+    # One immutable selection rule, declared before observing *any* target outcome.
+    candidate_ids=sorted(
+        pid for pid,group in grouped.items()
+        if sum(h.get('participation')=='played'
+               for h in group[0]['features'].get('prior_player_history',[]))>=2
+        and group[0]['features']['availability_status']!='RULED_OUT_SOURCE_REPORTED'
+    )
+    selected=set(candidate_ids[:player_limit])
+    chosen=[x for x in rows if x['player_id'] in selected]
+    dropped=sorted(set(grouped)-selected)
+    new=dict(summary)
+    new['feature_rows']=len(chosen)
+    new['player_candidates_accepted']=len(selected)
+    new['source_listed_count']=len(selected)
+    new['player_candidates_rejected']=summary['player_candidates_rejected']+len(dropped)
+    new['rejected']=list(summary.get('rejected',[]))+[
+        {'player_id':pid,'reason':'PREDECLARED_S0_BOUNDED_CANARY_SUBSET'}
+        for pid in dropped]
+    byplayer=[grouped[pid][0]['features'] for pid in sorted(selected)]
+    new['unknown_availability']=sum(
+        f['availability_status']=='UNVERIFIED_AVAILABILITY' for f in byplayer)
+    new['questionable_count']=sum(
+        f['availability_status']=='QUESTIONABLE_SOURCE_REPORTED' for f in byplayer)
+    new['ruled_out_count']=sum(
+        f['availability_status']=='RULED_OUT_SOURCE_REPORTED' for f in byplayer)
+    new['name_supported_count']=sum(f['current_name'] is not None for f in byplayer)
+    new['position_supported_count']=sum(f['position'] is not None for f in byplayer)
+    new['official_player_ids_verified_count']=sum(
+        f['official_nba_player_id'] is not None for f in byplayer)
+    new['bounded_canary_selection']={
+        'basis':'lexicographic_espn_player_id_with_two_prior_played_games',
+        'criterion':'actual prior history and pregame availability ONLY',
+        'eligible_candidate_count':len(candidate_ids),
+        'maximum_player_count':player_limit,
+        'selected_player_ids':sorted(selected),
+        'full_original_player_candidate_count':len(grouped),
+        'research_only':True,
+        'no_target_outcome_data_used':True}
+    return chosen,new
+
+def _archive_ws1(cap,out,vault,deadline,*,feature_player_limit=None):
     from v2.nba_ws1.store import NBAPregameFeatureSnapshot,Receipt
     snap_path=Path(out)/cap['snapshot_path']
     snapshot=NBAPregameFeatureSnapshot.from_json(snap_path.read_text()).to_dict()
@@ -172,6 +230,7 @@ def _archive_ws1(cap,out,vault,deadline):
     if set(raws)!=set(expected):raise AcquisitionError('WS1_RECEIPT_ARCHIVE_INCOMPLETE')
     # Byte verification precedes feature construction, P0 source closure follows.
     rows,summary=build_feature_rows(snapshot,raws,reconstruction_class='original',receipt_id_map=receipt_id_map)
+    rows,summary=_bounded_canary_subset(rows,summary,feature_player_limit)
     verify_handoff(rows,{**summary,'schema':VERSION},{receipt_id_map[k]:v for k,v in raws.items()})
     for obj in rows:
         cert=vault.append_p0('PregameFeatureSnapshot',obj)
@@ -192,12 +251,14 @@ def _clock(t):
 
 def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_discover,
               parse=default_parse,capture=default_capture,wait=True,sleep=time.sleep,
-              max_wait_seconds=None):
+              max_wait_seconds=None,feature_player_limit=None):
     """One daily invocation, no scheduler; genuine original allowed on current day only.
 
     The injected implementations are ONLY for test canaries; using an injected
     transport never constitutes genuine-original certification.
     """
+    if feature_player_limit is not None and (type(feature_player_limit) is not int or not 1<=feature_player_limit<=24):
+        raise AcquisitionError('CANARY_PLAYER_LIMIT_BOUNDS')
     policy=policy or WindowPolicy();now_utc=_clock(clock());today=now_utc.astimezone(TORONTO).date().isoformat()
     day=day or today
     if day!=today:raise AcquisitionError('NONCURRENT_DAY_ORIGINAL_FORBIDDEN')
@@ -256,7 +317,7 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
             output=vault.dev_root/'ws1'/(digest(claim_id.encode()))
             cap=capture(game,phase,output,deadline)
             if cap.get('status')=='blocked':raise AcquisitionError('WS1_BLOCKED:'+str(cap.get('errors')))
-            summary=_archive_ws1(cap,output,vault,deadline)
+            summary=_archive_ws1(cap,output,vault,deadline,feature_player_limit=feature_player_limit)
             if _clock(clock())>deadline:raise AcquisitionError('MISSED_FREEZE_AFTER_BUILD')
             info=vault.save_json('handoffs/'+digest(claim_id.encode())+'.json',summary)
             outcome={'event_id':gid,'phase':phase,'status':'SOURCE_FEATURE_FROZEN',
