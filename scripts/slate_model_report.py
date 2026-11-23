@@ -29,7 +29,9 @@ FOLDERS={'Bayesian_A':'bayesian_shadow','Bayesian_B':'bayesian_b_shadow',
          'NUTS_provisional':'provisional_nuts_shadow'}
 COLUMNS=('sport','player','stat','side','line','Engine_A','Engine_B','Consensus',
          'Bayesian_A','Bayesian_B','Market','NUTS','NUTS_provisional','NUTS_model','NUTS_status',
-         'Consensus_gap_pp','production_consensus_available','original_rank','block_reason')
+         'Consensus_gap_pp','production_consensus_available','phase0r_certification_status',
+         'phase0r_original_source_certified','forecast_pool_policy','publication_eligible',
+         'original_rank','block_reason')
 
 
 def rows(path):
@@ -186,7 +188,15 @@ def build(row,indices,quotes,policy=None):
         'reason':'no_eligible_provisional_nuts_artifact_for_exact_contract'}
     models['NUTS_provisional']=provisional
     record={k:row.get(k) for k in ('game_date','run_id','forecast_at','event_start','sport','player','player_id','team','opponent','stat','side')}
+    source_certified = row.get('phase0r_original_source_certified') is True
+    certification_status = row.get('phase0r_certification_status')
+    if not certification_status:
+        certification_status = 'CERTIFIED' if source_certified else 'LEGACY_UNVERIFIED'
     record.update(line=row.get('reference_line'),reference_line=row.get('reference_line'),original_rank=row.get('final_rank'),block_reason=row.get('reason'),
+                  phase0r_certification_status=certification_status,
+                  phase0r_original_source_certified=source_certified,
+                  forecast_pool_policy=row.get('forecast_pool_policy') or ('strict_certified_only_original_inputs_v1' if source_certified else 'legacy_or_unknown'),
+                  publication_eligible=False,
                   probability_scale='P(exact_side_wins | no_push)',models=models,nuts_models=nuts,
                   NUTS_model=selected,NUTS_status=chosen['status'],NUTS_reason=chosen.get('reason'),
                   production_consensus_available=models['Consensus']['probability'] is not None,
