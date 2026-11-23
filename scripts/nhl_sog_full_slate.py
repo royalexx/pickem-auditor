@@ -67,7 +67,7 @@ def _ready(source):
 
 
 def run_game(game, *, capture, forecast, now=_now, sleep=time.sleep,
-             checkpoint=None, recovered=()):
+             checkpoint=None, recovered=(), phase="both"):
     """Capture within P2 windows, then emit forecasts from admitted bundles."""
     start = clock(game["start_at"])
     freeze = start - FINAL_LEAD
@@ -78,8 +78,9 @@ def run_game(game, *, capture, forecast, now=_now, sleep=time.sleep,
         status = "EVENT_ALREADY_STARTED" if now() >= start else "EVENT_NOT_PREGAME"
         return dict(game=game, status=status, source_attempts=[], players=[])
 
-    for opens, closes in ((start - EARLY_WINDOW, start - EARLY_CLOSE),
-                          (start - FINAL_WINDOW, freeze)):
+    windows = ((start - EARLY_WINDOW, start - EARLY_CLOSE),
+               (start - FINAL_WINDOW, freeze)) if phase != "forecast" else ()
+    for opens, closes in windows:
         if _ready(source):
             break
         _wait_until(opens, now, sleep)
@@ -92,11 +93,18 @@ def run_game(game, *, capture, forecast, now=_now, sleep=time.sleep,
         source_attempts.append(source)
         if checkpoint is not None:
             checkpoint(source)
+        if phase == "source":
+            break
 
     if not source_attempts:
-        return dict(game=game, status="SOURCE_WINDOW_MISSED", source_attempts=[], players=[])
+        status = "SOURCE_CHECKPOINT_MISSING" if phase == "forecast" else "SOURCE_WINDOW_MISSED"
+        return dict(game=game, status=status, source_attempts=[], players=[])
 
     admitted = _ready(source)
+    if phase == "source":
+        status = "SOURCE_READY_PENDING_FREEZE" if admitted else "SOURCE_BLOCKED"
+        return dict(game=game, status=status, source_attempts=source_attempts, players=[],
+                    source_players=len(admitted))
     if admitted:
         _wait_until(freeze, now, sleep)
     for row in admitted:
@@ -130,7 +138,7 @@ def _source_checkpoints(root, day, game, run_id):
     return [receipt["source"] for receipt in sorted(accepted, key=lambda r: r["saved_at"])]
 
 
-def _run_checkpointed_game(root, day, game, run_id, capture, forecast):
+def _run_checkpointed_game(root, day, game, run_id, capture, forecast, phase):
     event_id = game["event_id"]
     freeze = stamp(clock(game["start_at"]) - FINAL_LEAD)
 
@@ -141,11 +149,11 @@ def _run_checkpointed_game(root, day, game, run_id, capture, forecast):
         })
 
     return run_game(game, capture=capture, forecast=forecast, checkpoint=checkpoint,
-                    recovered=_source_checkpoints(root, day, game, run_id))
+                    recovered=_source_checkpoints(root, day, game, run_id), phase=phase)
 
 
 def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress=None,
-              event_ids=()):
+              event_ids=(), phase="both"):
     """Process simultaneous windows concurrently and persist each game's result."""
     current_storage(root)
     if games is None:
@@ -162,7 +170,7 @@ def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress
     game_forecast = partial(forecast, run_id=run_id, code_commit=code_commit)
     with ThreadPoolExecutor(max_workers=max(1, len(games))) as pool:
         pending = {pool.submit(_run_checkpointed_game, root, day, game, run_id,
-                               capture, game_forecast): game
+                               capture, game_forecast, phase): game
                    for game in games}
         for work in as_completed(pending):
             game = pending[work]
@@ -177,6 +185,7 @@ def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress
                 "game": game,
                 "status": result["status"],
                 "forecast_count": result.get("forecast_count", 0),
+                "source_players": result.get("source_players", 0),
                 "receipt": receipt,
             }
             if progress is not None:
@@ -184,6 +193,7 @@ def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress
 
     ordered = [rows[game["event_id"]] for game in games]
     forecast_games = sum(row["forecast_count"] > 0 for row in ordered)
+    source_games = sum(row["source_players"] > 0 for row in ordered)
     manifest = {
         "schema": "PA-NHL-SOG-FULL-SLATE/1",
         "run_id": run_id,
@@ -192,12 +202,15 @@ def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress
         "started_at": run_at,
         "completed_at": stamp(_now()),
         "research_only": True,
+        "phase": phase,
         "scheduled_games": scheduled_games_count,
         "attempted_games": len(games),
         "games_with_forecasts": forecast_games,
+        "games_with_source": source_games,
         "distribution_forecasts": sum(row["forecast_count"] for row in ordered),
         "complete_forecast_coverage": bool(games) and forecast_games == scheduled_games_count,
-        "complete_requested_coverage": bool(games) and forecast_games == len(games),
+        "complete_requested_coverage": bool(games) and (
+            source_games if phase == "source" else forecast_games) == len(games),
         "games": ordered,
     }
     return dict(manifest, receipt=_save(root, day, "slates", manifest))
@@ -213,21 +226,28 @@ def main(argv=None):
     parser.add_argument("--history-pool", required=True)
     parser.add_argument("--event-id", action="append", default=[],
                         help="limit this worker to specified official events on the slate")
+    parser.add_argument("--phase", default="both", choices=("both", "source", "forecast"),
+                        help="split source and forecast into separate hosted run windows")
+    parser.add_argument("--roster-prewarm", action="store_true",
+                        help="restore exact archived history for current roster IDs and peer reserves")
     args = parser.parse_args(argv)
     if not re.fullmatch(r"[0-9a-f]{40}", args.code_commit):
         parser.error("--code-commit must be the exact 40-character revision")
     if not re.fullmatch(r"[0-9a-f]{64}", args.signed_history_sha256):
         parser.error("--signed-history-sha256 must be a 64-character SHA-256")
     from research.p2_nhl_sog.history_bridge import open_history_sources
-    from research.p2_nhl_sog.slate import capture_game_sources
+    from research.p2_nhl_sog.slate import capture_game_sources, discover_slate_roster_skaters
     from v2.nhl_sog_p4_slate import HistorySources, forecast_bundle
 
     day = args.day.isoformat()
     current_storage(args.root)
     games = discover_slate(day)
     print("NHL_SOG_SCHEDULE " + json.dumps(games, sort_keys=True), flush=True)
+    roster_games = [game for game in games if not args.event_id or game["event_id"] in args.event_id]
+    players = discover_slate_roster_skaters(roster_games) if args.roster_prewarm else None
     pool = open_history_sources(args.root, args.signed_history_manifest,
-                                args.signed_history_sha256, args.history_pool)
+                                args.signed_history_sha256, args.history_pool,
+                                selected_players=players)
     history = {
         "signed_history_manifest_path": args.signed_history_manifest,
         "signed_history_manifest_sha256": args.signed_history_sha256,
@@ -243,6 +263,7 @@ def main(argv=None):
         code_commit=args.code_commit,
         games=games,
         event_ids=args.event_id,
+        phase=args.phase,
         progress=lambda row: print("NHL_SOG_GAME " + json.dumps(row, sort_keys=True), flush=True),
     )
     print("NHL_SOG_SLATE " + json.dumps(output, sort_keys=True), flush=True)

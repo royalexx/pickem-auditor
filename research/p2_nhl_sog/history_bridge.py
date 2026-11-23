@@ -15,6 +15,7 @@ from tempfile import SpooledTemporaryFile
 from time import monotonic
 import zipfile
 
+from v2.nhl_sog_exposure_shadow import MAX_PEER_RATE_GAMES, MIN_PEER_GAMES, MIN_PEERS
 from v2.p0_integrity.contracts import VERSION, canonical_bytes, validate_record
 from v2.p0_integrity.storage import append_immutable, verify_immutable_record
 from scripts.c03_live_transport import verify_signed_capture
@@ -207,7 +208,78 @@ def _restore_history_archive(root, source, entries, restored_rel):
                 last_report = now
 
 
-def open_history_sources(root, manifest_rel, expected_sha256, history_pool):
+def _subset_history_entries(source, entries, signed_history, selected_players):
+    """Use source roster IDs as an I/O hint, then retain position-peer reserve."""
+    members = {entry.filename: entry for entry in entries}
+    selected = set(selected_players) & set(signed_history)
+    by_group = {"D": [], "F": []}
+    for player_id, history in signed_history.items():
+        if not isinstance(history, list) or not history:
+            continue
+        try:
+            receipt = history[0]["observation_receipt"]
+            raw = source.read(members[receipt["archive_path"]])
+            if digest(raw) != receipt["content_sha256"]:
+                continue
+            observation = json.loads(raw)
+            group = observation["position_group"]
+            if str(observation["player_id"]) == player_id and group in by_group:
+                by_group[group].append((min(len(history), MAX_PEER_RATE_GAMES), player_id))
+        except (OSError, ValueError, TypeError, KeyError):
+            continue
+
+    for peers in by_group.values():
+        played = 0
+        for count, (games, player_id) in enumerate(sorted(peers, key=lambda row: (-row[0], row[1])), 1):
+            selected.add(player_id)
+            played += games
+            # Extra peers protect the minimum against leave-one-out and
+            # individual receipt rejections during independent verification.
+            if count >= MIN_PEERS + 10 and played >= MIN_PEER_GAMES + 40:
+                break
+
+    selected_entries = set()
+    for player_id in sorted(selected):
+        for history_row in signed_history[player_id]:
+            if not isinstance(history_row, dict):
+                continue
+            for receipt_kind in ("observation_receipt", "raw_profile_receipt",
+                                 "raw_log_receipt", "raw_final_receipt"):
+                receipt = history_row.get(receipt_kind)
+                if not isinstance(receipt, dict):
+                    continue
+                for field in ("archive_path", "collector_proof_archive_path"):
+                    path = receipt.get(field)
+                    if isinstance(path, str) and path in members:
+                        selected_entries.add(path)
+
+    require(bool(selected_entries), "P2_SIGNED_HISTORY_SUBSET_EMPTY")
+    print(f"NHL_SOG_HISTORY_SUBSET players={len(selected)}/{len(signed_history)} "
+          f"entries={len(selected_entries)}/{len(entries)}", flush=True)
+    return [entry for entry in entries if entry.filename in selected_entries], sorted(selected)
+
+
+def available_history_players(pool):
+    """Return the exact published source IDs for a deliberately partial cache."""
+    pool = Path(pool)
+    if pool.parent.parent.name not in {"verified_history_subsets", "verified_history_subset_recovery"}:
+        return None
+    marker = pool / "_verified_archive.json"
+    raw = marker.read_bytes()
+    require(marker.with_suffix(".json.complete").read_text() == digest(raw),
+            "P2_SIGNED_HISTORY_SUBSET_MARKER_INVALID")
+    record = json.loads(raw)
+    selected = record.get("available_player_ids")
+    require(record["archive_sha256"] == pool.parent.name and
+            record["subset_request_sha256"] == pool.name and
+            isinstance(selected, list) and all(isinstance(pid, str) for pid in selected) and
+            selected == sorted(set(selected)),
+            "P2_SIGNED_HISTORY_SUBSET_IDENTITY_INVALID")
+    return set(selected)
+
+
+def open_history_sources(root, manifest_rel, expected_sha256, history_pool, *,
+                         selected_players=None):
     """Resolve original loose receipts or restore bytes from their exact ZIP.
 
     The original C03 receipt paths and hashes remain unchanged. ZIP contents
@@ -229,9 +301,18 @@ def open_history_sources(root, manifest_rel, expected_sha256, history_pool):
             "P2_SIGNED_HISTORY_BUNDLE_MANIFEST_LOCATION_INVALID")
     original_pool = checked_pool(root, manifest_path.parent.parent)
     archive = safe_relative(original_pool, bundle["path"])
-    restored_rel = f"{ROOT_NAMESPACE}/verified_history_bundles/{wanted}"
-    archive_record = canonical_bytes({"format": bundle["format"], "archive_sha256": wanted})
-    candidates = (restored_rel, f"{ROOT_NAMESPACE}/verified_history_recovery/{wanted}")
+    archive_identity = {"format": bundle["format"], "archive_sha256": wanted}
+    if selected_players is None:
+        candidates = (f"{ROOT_NAMESPACE}/verified_history_bundles/{wanted}",
+                      f"{ROOT_NAMESPACE}/verified_history_recovery/{wanted}")
+    else:
+        selected_players = sorted({str(player_id) for player_id in selected_players})
+        require(bool(selected_players), "P2_SIGNED_HISTORY_SUBSET_ROSTERS_EMPTY")
+        scope = digest(canonical_bytes({"requested_player_ids": selected_players,
+                                       "peer_reserve_policy": "same-position-ranked-v1"}))
+        archive_identity["subset_request_sha256"] = scope
+        candidates = (f"{ROOT_NAMESPACE}/verified_history_subsets/{wanted}/{scope}",
+                      f"{ROOT_NAMESPACE}/verified_history_subset_recovery/{wanted}/{scope}")
 
     print(f"NHL_SOG_HISTORY_ARCHIVE_VERIFY compressed_bytes={archive.stat().st_size}", flush=True)
     with archive.open("rb") as handle, SpooledTemporaryFile(max_size=32_000_000) as local:
@@ -241,6 +322,11 @@ def open_history_sources(root, manifest_rel, expected_sha256, history_pool):
             if verified.is_file() and verified.with_suffix(".json.complete").is_file():
                 require(hashlib.file_digest(handle, "sha256").hexdigest() == wanted,
                         "P2_SIGNED_HISTORY_BUNDLE_SHA_MISMATCH")
+                if selected_players is None:
+                    archive_record = canonical_bytes(archive_identity)
+                else:
+                    available_history_players(verified.parent)
+                    archive_record = verified.read_bytes()
                 put_once(root, verified_rel, archive_record)
                 print("NHL_SOG_HISTORY_RESTORE_CACHE_HIT", flush=True)
                 return checked_pool(root, verified.parent)
@@ -264,6 +350,14 @@ def open_history_sources(root, manifest_rel, expected_sha256, history_pool):
                         entry.filename == path.as_posix() and
                         not stat.S_ISLNK(entry.external_attr >> 16),
                         "P2_SIGNED_HISTORY_BUNDLE_ENTRY_INVALID")
+
+            if selected_players is not None:
+                entries, selected = _subset_history_entries(
+                    source, entries, doc["signed_observation_contracts_by_player"],
+                    selected_players,
+                )
+                archive_identity["available_player_ids"] = selected
+            archive_record = canonical_bytes(archive_identity)
 
             for folder in candidates:
                 verified_rel = f"{folder}/_verified_archive.json"

@@ -3,20 +3,39 @@ from __future__ import annotations
 
 import json
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
 from functools import lru_cache
+from urllib.request import Request, urlopen
 
 from v2.nhl_sog_exposure_shadow import (
     MAX_PEER_RATE_GAMES, MAX_RATE_GAMES, MIN_PEER_GAMES, MIN_PEERS,
 )
 
-from .history_bridge import VerifiedGameHistories, checked_pool, load_signed_manifest
+from .history_bridge import (
+    VerifiedGameHistories, available_history_players, checked_pool, load_signed_manifest,
+)
 from .quote_bridge import record_quote_candidate
 from .source_pipeline import (
-    FUTURE_STATES, SOURCE_FREEZE_MINUTES, UTC, SourceBlocked,
+    FUTURE_STATES, OFFICIAL, SOURCE_FREEZE_MINUTES, UTC, SourceBlocked,
     attempt, build_bundle, capture_two_rosters, clock, current_storage,
-    digest, safe_relative, signed_schedule_game,
+    digest, parse_roster, safe_relative, signed_schedule_game,
 )
+
+
+def discover_slate_roster_skaters(games, *, opener=urlopen):
+    """Get official roster IDs for prewarming only, without source admission."""
+    teams = sorted({game[side] for game in games for side in ("home_team", "away_team")})
+
+    def roster(team):
+        request = Request(f"{OFFICIAL}/roster/{team}/current",
+                          headers={"User-Agent": "pickem-auditor-P2-source/1"})
+        with opener(request, timeout=12) as response:
+            members = parse_roster(json.loads(response.read()), team)
+        return {pid for pid, member in members.items() if member["position_group"] in {"F", "D"}}
+
+    with ThreadPoolExecutor(max_workers=8) as workers:
+        return set().union(*workers.map(roster, teams))
 
 
 @lru_cache(maxsize=40_000)
@@ -132,6 +151,9 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
         pool = checked_pool(root, history_pool)
         history = load_signed_manifest(root, signed_history_manifest_path,
                                        signed_history_manifest_sha256)
+        available = available_history_players(pool)
+        if available is not None:
+            history = {pid: history[pid] for pid in available if pid in history}
     except (OSError, ValueError, KeyError, TypeError) as exc:
         history_error = _reason(exc)
         history = {}

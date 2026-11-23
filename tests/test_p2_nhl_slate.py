@@ -114,6 +114,44 @@ class HistoryBundleTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "P2_SIGNED_HISTORY_BUNDLE_SHA_MISMATCH"):
                     history_bridge.open_history_sources(*args)
 
+    def test_subset_restores_requested_roster_and_position_peer_reserve(self):
+        with TemporaryDirectory() as temp:
+            root = Path(temp)
+            pool = root / "original"
+            manifests = pool / "daily_history_manifests"
+            manifests.mkdir(parents=True)
+            bundles = pool / "history_bundles"
+            bundles.mkdir()
+            archive = bundles / "initial.zip"
+            players = {}
+            with zipfile.ZipFile(archive, "w") as source:
+                for number in range(1000, 1033):
+                    player_id = str(number)
+                    path = f"nhl_sog_official_derived/{player_id}.json"
+                    raw = json.dumps({"player_id": player_id, "position_group": "F"}).encode()
+                    receipt = {"archive_path": path, "content_sha256": hashlib.sha256(raw).hexdigest()}
+                    players[player_id] = [{"observation_receipt": receipt}] * 10
+                    source.writestr(path, raw)
+            archive_sha = hashlib.sha256(archive.read_bytes()).hexdigest()
+            archive.rename(bundles / f"{archive_sha}.zip")
+            manifest = manifests / "original.json"
+            manifest.write_text(json.dumps({
+                "signed_observation_contracts_by_player": players,
+                "source_bundle": {
+                    "format": "exact_original_receipts_and_derived_zip_v1",
+                    "path": f"history_bundles/{archive_sha}.zip", "sha256": archive_sha,
+                },
+            }))
+            args = root, str(manifest.relative_to(root)), hashlib.sha256(manifest.read_bytes()).hexdigest(), pool
+            with patch.object(history_bridge, "current_storage"):
+                subset = history_bridge.open_history_sources(*args, selected_players={"1031"})
+                available = history_bridge.available_history_players(subset)
+                self.assertEqual(len(available), 31)
+                self.assertIn("1031", available)
+                self.assertNotIn("1032", available)
+                self.assertFalse((subset / "nhl_sog_official_derived/1032.json").exists())
+                self.assertEqual(history_bridge.open_history_sources(*args, selected_players={"1031"}), subset)
+
 
 if __name__ == "__main__":
     unittest.main()
