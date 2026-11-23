@@ -65,6 +65,12 @@ class BoundedOriginalCaptureTests(unittest.TestCase):
         rows, summary = fixture()
         chosen, report = _bounded_canary_subset(rows, summary, 6)
         ids = sorted({r["player_id"] for r in chosen})
+        # The first two eight-stat bundles must come from opposite teams.
+        self.assertNotEqual(chosen[0]["team_id"], chosen[len(STATS)]["team_id"])
+        self.assertTrue(all(x["player_id"] == chosen[0]["player_id"]
+                            for x in chosen[:len(STATS)]))
+        self.assertTrue(all(x["player_id"] == chosen[len(STATS)]["player_id"]
+                            for x in chosen[len(STATS):2*len(STATS)]))
         self.assertEqual(ids, [f"espn:player:{i:03d}" for i in (2, 3, 4, 5, 6, 9)])
         self.assertEqual(report["feature_rows"], 6 * len(STATS))
         self.assertEqual(report["player_candidates_accepted"], 6)
