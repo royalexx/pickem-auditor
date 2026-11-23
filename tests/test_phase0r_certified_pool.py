@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "tests"))
 import jobs
+import slate_model_report as slate_report
 from test_phase0r_pre_eval import make_inputs
 
 WHEN = datetime(2026, 11, 9, 14, 15, tzinfo=timezone.utc)
@@ -134,6 +135,35 @@ class LiveCertifiedOnlyPoolTests(unittest.TestCase):
             self.assertFalse(rows[0]["phase0r_original_source_certified"])
             self.assertEqual(rows[0]["phase0r_certification_status"],
                              "UNCERTIFIED_RESEARCH_SHADOW")
+
+
+    def test_slate_report_preserves_uncertified_shadow_status(self):
+        row = {
+            "game_date": "2026-11-22",
+            "sport": "NFL",
+            "player": "Example Player",
+            "player_id": "00-0000001",
+            "team": "CHI",
+            "opponent": "GB",
+            "stat": "targets",
+            "side": "over",
+            "reference_line": 5.5,
+            "forecast_at": "2026-11-22T17:00:00Z",
+            "event_start": "2026-11-22T18:00:00Z",
+            "run_id": "test-run",
+            "engine_a": {},
+            "engine_b": {},
+            "blend": {},
+            "phase0r_original_source_certified": False,
+            "phase0r_certification_status": "UNCERTIFIED_RESEARCH_SHADOW",
+            "forecast_pool_policy": "legacy_research_pool",
+        }
+        result = slate_report.build(row, {}, [])
+        self.assertEqual(result["phase0r_certification_status"],
+                         "UNCERTIFIED_RESEARCH_SHADOW")
+        self.assertFalse(result["phase0r_original_source_certified"])
+        self.assertEqual(result["forecast_pool_policy"], "legacy_research_pool")
+        self.assertFalse(result["publication_eligible"])
 
 
 if __name__ == "__main__":
