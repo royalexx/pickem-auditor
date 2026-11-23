@@ -76,7 +76,7 @@ class SlateSourceTests(unittest.TestCase):
 
 
 class HistoryBundleTests(unittest.TestCase):
-    def test_verified_zip_restores_exact_original_bytes_as_durable_files(self):
+    def test_verified_zip_recovers_from_interrupted_write_without_replacing_bytes(self):
         with TemporaryDirectory() as temp:
             root = Path(temp)
             pool = root / "original"
@@ -99,10 +99,16 @@ class HistoryBundleTests(unittest.TestCase):
             }))
             manifest_sha = hashlib.sha256(manifest.read_bytes()).hexdigest()
             args = root, str(manifest.relative_to(root)), manifest_sha, pool
+            first_cache = (root / history_bridge.ROOT_NAMESPACE / "verified_history_bundles" /
+                           archive_sha / "raw_http_body" / "original.json")
+            first_cache.parent.mkdir(parents=True)
+            first_cache.write_bytes(b"partial")
             with patch.object(history_bridge, "current_storage"):
                 restored = history_bridge.open_history_sources(*args)
                 self.assertEqual((restored / "raw_http_body/original.json").read_bytes(),
                                  b'{"frozen":true}')
+                self.assertEqual(first_cache.read_bytes(), b"partial")
+                self.assertEqual(restored.parent.name, "verified_history_recovery")
                 self.assertEqual(history_bridge.open_history_sources(*args), restored)
                 archive.write_bytes(b"altered original archive")
                 with self.assertRaisesRegex(ValueError, "P2_SIGNED_HISTORY_BUNDLE_SHA_MISMATCH"):

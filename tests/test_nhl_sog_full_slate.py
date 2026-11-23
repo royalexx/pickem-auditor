@@ -73,6 +73,19 @@ class TestNhlSogFullSlate(unittest.TestCase):
         capture.assert_not_called()
         forecast.assert_not_called()
 
+    def test_retry_after_freeze_uses_original_source_checkpoint(self):
+        capture = Mock()
+        forecast = Mock(return_value={"status": "FROZEN", "forecasts": [{"kind": "poisson"}]})
+        previous = {"status": "SOURCE_READY", "records": [
+            {"status": "SOURCE_READY_LINE_INDEPENDENT_ONLY", "manifest_sha256": "signed",
+             "player_id": "1234567"},
+        ]}
+        result = run_game(game(), capture=capture, forecast=forecast,
+                          recovered=[previous], now=lambda: BASE - timedelta(minutes=15))
+        capture.assert_not_called()
+        forecast.assert_called_once_with("signed")
+        self.assertEqual(result["forecast_count"], 1)
+
     def test_partial_results_do_not_report_complete_slate(self):
         games = [game("2026020350"), game("2026020351"), game("2026020352", "LIVE")]
 
