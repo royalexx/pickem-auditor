@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from copy import deepcopy
-import hashlib
 from pathlib import Path
 import sys
 import tempfile
@@ -12,7 +11,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
 sys.path.insert(0,str(ROOT/"tests"))
 
-from test_v25_nhl_nba_phase1 import fixture
+from test_v25_nhl_nba_phase1 import fixture, official_fixture
 from v2.contracts import ContractError
 from v2.nhl_nba_phase1 import run_phase1
 from v2.phase15_nhl_nba import diagnose, digest
@@ -26,18 +25,8 @@ def make_source(*, settled=False):
     if settled:
         folder=root/"official"
         folder.mkdir()
-        original=b'{"provider":"nhl","game":"event-1","shots_on_goal":5}'
-        (folder/"game.json").write_bytes(original)
         kwargs["settlement_archive_root"]=folder
-        kwargs["settlement_rows"]=[{
-            "sport":"NHL","event_id":"event-1","player_id":"8470001",
-            "stat":"shots on goal","period":"full","status":"settled",
-            "actual":5,"settled_at":"2026-11-09T21:00:00Z",
-            "retrieved_at":"2026-11-09T21:01:00Z",
-            "source_url":"https://api-web.nhle.com/v1/gamecenter",
-            "source_sha256":hashlib.sha256(original).hexdigest(),
-            "source_archive_path":"game.json",
-        }]
+        kwargs["settlement_rows"]=[official_fixture(folder, packet)]
     receipt=run_phase1(packet,attempts,archive_root=root/"replay",
             bundle_sha256="a"*64,code_commit="a"*40,**kwargs)
     return temp,receipt

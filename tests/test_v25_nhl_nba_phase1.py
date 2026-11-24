@@ -107,6 +107,31 @@ def fixture(root):
     return packet,ledger
 
 
+def official_fixture(folder, packet):
+    original = json.dumps({
+        "id": 2026020001,
+        "gameState": "OFF",
+        "startTimeUTC": packet["forecasts"][0]["event_start"],
+        "homeTeam": {"abbrev": "BUF"},
+        "awayTeam": {"abbrev": "KC"},
+        "playerByGameStats": {"homeTeam": {"forwards": [
+            {"playerId": 8470001, "sog": 5, "toi": "15:01"},
+        ]}},
+    }).encode()
+    (folder/"game.json").write_bytes(original)
+    official = {
+        "sport":"NHL","event_id":"event-1","player_id":"8470001",
+        "stat":"shots on goal","period":"full","status":"settled",
+        "actual":5,"settled_at":"2026-11-09T21:00:00Z",
+        "retrieved_at":"2026-11-09T21:01:00Z",
+        "source_url":"https://api-web.nhle.com/v1/gamecenter/2026020001/boxscore",
+        "official_game_id":"2026020001",
+        "source_sha256":hashlib.sha256(original).hexdigest(),
+        "source_archive_path":"game.json",
+    }
+    return official
+
+
 class FrozenNhlNbaContractTests(unittest.TestCase):
     def test_original_pair_replays_and_pending_is_not_zero_accuracy(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -224,27 +249,8 @@ class FrozenNhlNbaContractTests(unittest.TestCase):
             packet,ledger=fixture(root)
             source=root/"official"
             source.mkdir()
-            original = json.dumps({
-                "id": 2026020001,
-                "gameState": "OFF",
-                "startTimeUTC": packet["forecasts"][0]["event_start"],
-                "homeTeam": {"abbrev": "BUF"},
-                "awayTeam": {"abbrev": "KC"},
-                "playerByGameStats": {"homeTeam": {"forwards": [
-                    {"playerId": 8470001, "sog": 5, "toi": "15:01"},
-                ]}},
-            }).encode()
-            (source/"game.json").write_bytes(original)
-            official = {
-                "sport":"NHL","event_id":"event-1","player_id":"8470001",
-                "stat":"shots on goal","period":"full","status":"settled",
-                "actual":5,"settled_at":"2026-11-09T21:00:00Z",
-                "retrieved_at":"2026-11-09T21:01:00Z",
-                "source_url":"https://api-web.nhle.com/v1/gamecenter/2026020001/boxscore",
-                "official_game_id":"2026020001",
-                "source_sha256":hashlib.sha256(original).hexdigest(),
-                "source_archive_path":"game.json",
-            }
+            official = official_fixture(source, packet)
+
             def replay(settlement):
                 return run_phase1(packet, ledger, archive_root=root/"replay",
                     bundle_sha256="a"*64, code_commit="a"*40,
