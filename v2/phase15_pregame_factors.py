@@ -236,6 +236,8 @@ def _assert_producer_output_identity(
     if forecast_id is not None and str(doc.get("forecast_id")) != str(forecast_id):
         raise SettlementCaptureError("producer_output_forecast_id_mismatch")
     if model_training_cutoff_at is not None:
+        if not doc.get("model_training_cutoff_at"):
+            raise SettlementCaptureError("producer_output_training_cutoff_missing")
         if instant(doc["model_training_cutoff_at"]) != instant(model_training_cutoff_at):
             raise SettlementCaptureError("producer_output_training_cutoff_mismatch")
 

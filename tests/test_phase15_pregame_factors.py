@@ -741,6 +741,23 @@ class JobsIntegrationTests(unittest.TestCase):
             )
         self.assertEqual(json.dumps(evaluated, sort_keys=True), before)
 
+    def test_archived_producer_without_cutoff_is_per_factor_invalid(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            bundle = frozen_bundle(root, "NHL")
+            source = bundle["contracts"][0]["producer_factors"]["source_receipts"][0]
+            path = root / source["archive_path"]
+            body = json.loads(path.read_text())
+            del body["model_training_cutoff_at"]
+            raw = json.dumps(body).encode()
+            path.write_bytes(raw)
+            source["sha256"] = hashlib.sha256(raw).hexdigest()
+            result = build_capture_manifest(bundle, source_root=root, observed_clock=CLOCK)
+            self.assertEqual(
+                [r["invalid_reason"] for r in result["contracts"][0]["factor_rows"]],
+                ["producer_output_training_cutoff_missing"] * 4,
+            )
+
     def test_J_default_disabled_env_gate(self):
         jobs_path = Path(__file__).resolve().parents[1] / "scripts" / "jobs.py"
         source = jobs_path.read_text(encoding="utf-8")
