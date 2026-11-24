@@ -255,14 +255,18 @@ def _settlement_index(items, *, source_archive_root=None):
         if s.get("status") not in ("settled", "void", "unavailable"):
             raise ContractError("unknown_settlement_status")
         if s.get("status") == "settled":
-            uri = urlsplit(str(s.get("source_url") or ""))
+            try:
+                uri = urlsplit(str(s.get("source_url") or ""))
+                valid_port = uri.port in (None, 443)
+            except ValueError as exc:
+                raise ContractError("official_settlement_source_missing_or_unapproved") from exc
             # An outcome is not certified merely because a user supplies a
             # URL and score. Require an immutable official/provider payload
             # hash, observed collection clock and an approved endpoint.
             allowed = {"api-web.nhle.com", "api.nhle.com", "site.web.api.espn.com",
                        "site.api.espn.com", "cdn.nba.com", "stats.nba.com"}
             if (uri.scheme != "https" or uri.hostname not in allowed
-                    or uri.username or uri.password):
+                    or uri.username or uri.password or not valid_port or uri.fragment):
                 raise ContractError("official_settlement_source_missing_or_unapproved")
             digest = s.get("source_sha256")
             if (not isinstance(digest, str) or len(digest) != 64
@@ -306,7 +310,7 @@ def _verify_settled_actual(settlement, forecast, source_root, cache):
         expected_endpoint = (uri.hostname in {"site.api.espn.com", "site.web.api.espn.com"} and
                              uri.path == "/apis/site/v2/sports/basketball/nba/summary" and
                              uri.query == f"event={official_id}")
-    if not expected_endpoint or uri.port not in (None, 443) or uri.fragment:
+    if not expected_endpoint:
         raise ContractError("official_settlement_game_endpoint_mismatch")
 
     team = normalized_team(forecast["team"], sport)

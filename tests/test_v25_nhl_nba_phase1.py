@@ -242,6 +242,9 @@ class FrozenNhlNbaContractTests(unittest.TestCase):
                                   source_archive_root=source)
             with self.assertRaisesRegex(ContractError,"source_archive_required"):
                 _settlement_index([item])
+            with self.assertRaisesRegex(ContractError,"source_missing_or_unapproved"):
+                _settlement_index([{**item,"source_url":"https://api-web.nhle.com:oops/v1/gamecenter"}],
+                                  source_archive_root=source)
 
     def test_matched_archived_official_settlement_scores_exact_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
