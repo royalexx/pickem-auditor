@@ -67,6 +67,17 @@ class LiveCertifiedOnlyPoolTests(unittest.TestCase):
             self.assertTrue(strict_snapshot_status(
                 snapshots[0], archive_root=data / "source_archives")[0])
 
+    def test_factor_opt_in_carries_actual_certified_snapshot_clocks(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            data, row = prepared(Path(tmp))
+            with patch.dict(os.environ, {"PICKEM_PHASE15_FACTOR_CAPTURE": "1"}):
+                snapshots, errors, ledger, calls = self.run_live(data, [row])
+            self.assertEqual((errors, calls, len(snapshots)), (0, 1, 1))
+            for field in ("event_id", "player_id", "input_freeze_at",
+                          "forecast_at", "model_training_cutoff_at"):
+                self.assertTrue(snapshots[0][field])
+                self.assertEqual(ledger[0]["meta"][field], snapshots[0][field])
+
     def test_unpinned_event_context_is_excluded_before_model_not_silently_removed(self):
         with tempfile.TemporaryDirectory() as tmp:
             data, row = prepared(Path(tmp))

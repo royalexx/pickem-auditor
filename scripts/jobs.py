@@ -517,6 +517,7 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
     """
     snapshots: list[dict] = []
     errors = 0
+    factor_capture_enabled = os.environ.get("PICKEM_PHASE15_FACTOR_CAPTURE") == "1"
     for row in rows:
         evaluation_now=clock_fn() if clock_fn else now
         meta=dict(row.get('_meta') or {})
@@ -731,6 +732,17 @@ def run_pipeline_batch(rows: list[dict], *, now=None, data_root=None, clock_fn=N
             mark("unavailable", "c03_v2_cohort_b_shadow_only_no_production_selection")
             continue
         snapshots.append(forecast)
+        if factor_capture_enabled:
+            audit["meta"] = {
+                key: forecast.get(key)
+                for key in ("event_id", "player_id", "game_date", "event_start",
+                            "forecast_at", "input_freeze_at", "model_training_cutoff_at")
+            }
+            audit["meta"].update({
+                key: meta[key]
+                for key in ("producer_run_id", "producer_factors", "model_version")
+                if key in meta
+            })
         mark("forecast")
     return snapshots, errors
 
@@ -1021,7 +1033,7 @@ def run_snapshot(
                 evaluated_contracts,
                 run_id=run_id,
                 output_root=SKILL_ROOT / "reports",
-                observed_clock=now,
+                observed_clock=clock_fn(),
                 data_root=slate_path.parent,
             )
         except (OSError, ValueError, TypeError, KeyError, ImportError) as exc:

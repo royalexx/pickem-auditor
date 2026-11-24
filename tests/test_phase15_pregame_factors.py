@@ -24,6 +24,7 @@ from v2.phase15_pregame_factors import (
     integrate_shadow_factor_capture,
     make_shadow_receipt,
     manifest_canonical_hash,
+    shadow_capture_from_evaluated,
     validate_factor_row,
     write_capture_manifest,
 )
@@ -686,6 +687,34 @@ class FactorReceiptTests(unittest.TestCase):
 
 
 class JobsIntegrationTests(unittest.TestCase):
+    def test_mixed_slate_preserves_bound_factors_and_excluded_attempts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = frozen_bundle(root, "NHL")["contracts"][0]
+            nhl = {
+                "id": source["original_forecast_contract_id"],
+                "status": "forecast",
+                "sport": "NHL",
+                "stat": "shots on goal",
+                "meta": source,
+            }
+            nfl = {"id": "nfl", "status": "forecast", "sport": "NFL", "stat": "pass attempts"}
+            late = {"id": "late", "status": "unavailable", "sport": "NBA", "stat": "pra",
+                    "reason": "event_started_before_evaluation"}
+            manifest = shadow_capture_from_evaluated(
+                [nhl, nfl, late], run_id=RUN_ID, experiment_id="EXP-TEST",
+                observed_clock=datetime.fromisoformat(CLOCK), source_root=root,
+            )
+            self.assertEqual(manifest["attempted_contract_count"], 3)
+            self.assertEqual(manifest["contract_count"], 1)
+            self.assertEqual(
+                [row["reason"] for row in manifest["excluded_contracts"]],
+                ["factor_market_unsupported", "event_started_before_evaluation"],
+            )
+            self.assertEqual([r["status"] for r in manifest["contracts"][0]["factor_rows"]],
+                             [STATUS_AVAILABLE] * 4)
+            self.assertEqual(manifest["manifest_sha256"], manifest_canonical_hash(manifest))
+
     def test_I_integrate_does_not_mutate_evaluated_contracts(self):
         evaluated = [
             {

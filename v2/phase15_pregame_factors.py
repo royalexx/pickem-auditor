@@ -664,12 +664,13 @@ def build_capture_manifest(
     source_root: Path | None,
     observed_clock: str,
     include_negative_control: bool = False,
+    excluded_contracts: list[dict] | None = None,
 ) -> dict:
     bundle_schema = bundle.get("schema")
     if bundle_schema is not None and bundle_schema != SCHEMA_BUNDLE_V1:
         raise SettlementCaptureError("capture_bundle_schema_invalid")
     contracts_in = bundle.get("contracts")
-    if not isinstance(contracts_in, list) or not contracts_in:
+    if not isinstance(contracts_in, list) or (not contracts_in and not excluded_contracts):
         raise SettlementCaptureError("capture_bundle_empty")
     possession = instant(observed_clock)
     experiment_id = bundle.get("experiment_id") or DEFAULT_EXPERIMENT
@@ -703,6 +704,9 @@ def build_capture_manifest(
             "AVAILABLE pregame factors from immutable source receipts are required first."
         ),
     }
+    if excluded_contracts:
+        manifest["excluded_contracts"] = excluded_contracts
+    manifest["attempted_contract_count"] = len(captures) + len(excluded_contracts or [])
     available_by_cat: dict[str, int] = {}
     for cap in captures:
         for row in cap["factor_rows"]:
@@ -839,32 +843,53 @@ def shadow_capture_from_evaluated(
     source_root: Path | None = None,
 ) -> dict | None:
     """Build manifest from pipeline attempt receipts; never mutates inputs."""
-    forecasts = [r for r in evaluated_contracts if r.get("status") == "forecast"]
-    if not forecasts:
+    if not evaluated_contracts:
         return None
     bundle_contracts = []
-    for item in forecasts:
+    excluded_contracts = []
+    for item in evaluated_contracts:
         meta = item.get("meta") or {}
-        parsed = item.get("sport"), item.get("stat")
-        if not item.get("sport") or not item.get("stat"):
+        sport, stat = item.get("sport"), item.get("stat")
+        event_id = meta.get("event_id") or item.get("event_id")
+        player_id = meta.get("player_id") or item.get("player_id")
+        event_start = meta.get("event_start") or item.get("event_start")
+        forecast_at = meta.get("forecast_at") or item.get("forecast_at")
+        input_freeze_at = meta.get("input_freeze_at")
+        if item.get("status") != "forecast":
+            reason = item.get("reason") or "forecast_unavailable"
+        elif (sport, stat) not in FACTOR_SPECS:
+            reason = "factor_market_unsupported"
+        elif not all((event_id, player_id, event_start, forecast_at, input_freeze_at)):
+            reason = "original_forecast_identity_or_freeze_missing"
+        else:
+            reason = None
+        if reason:
+            excluded_contracts.append({
+                "id": item.get("id"),
+                "sport": sport,
+                "stat": stat,
+                "event_id": event_id,
+                "player_id": player_id,
+                "reason": reason,
+            })
             continue
         bundle_contracts.append(
             {
-                "sport": item["sport"],
-                "stat": item["stat"],
-                "event_id": meta.get("event_id") or item.get("event_id"),
-                "player_id": meta.get("player_id") or item.get("player_id"),
+                "sport": sport,
+                "stat": stat,
+                "event_id": event_id,
+                "player_id": player_id,
                 "game_date": meta.get("game_date") or item.get("game_date"),
-                "event_start": meta.get("event_start") or item.get("event_start"),
-                "forecast_at": meta.get("forecast_at") or item.get("forecast_at"),
-                "input_freeze_at": meta.get("input_freeze_at") or meta.get("forecast_at"),
+                "event_start": event_start,
+                "forecast_at": forecast_at,
+                "input_freeze_at": input_freeze_at,
+                "model_training_cutoff_at": meta.get("model_training_cutoff_at"),
+                "producer_run_id": meta.get("producer_run_id") or run_id,
                 "original_forecast_contract_id": item.get("id"),
                 "model_version": meta.get("model_version") or "pipeline_shadow",
                 "producer_factors": meta.get("producer_factors") or {},
             }
         )
-    if not bundle_contracts:
-        return None
     bundle = {
         "schema": SCHEMA_BUNDLE_V1,
         "experiment_id": experiment_id,
@@ -876,6 +901,7 @@ def shadow_capture_from_evaluated(
         bundle,
         source_root=source_root,
         observed_clock=observed_clock.isoformat().replace("+00:00", "Z"),
+        excluded_contracts=excluded_contracts,
     )
 
 
@@ -899,7 +925,8 @@ def integrate_shadow_factor_capture(
         return {"captured": False, "reason": "no_forecast_contracts"}
     out_dir = output_root / "phase15_factor_captures"
     receipt = write_capture_manifest(manifest, out_dir)
-    return {"captured": True, "receipt": receipt, "contract_count": manifest["contract_count"]}
+    return {"captured": True, "receipt": receipt, "contract_count": manifest["contract_count"],
+            "attempted_contract_count": manifest["attempted_contract_count"]}
 
 
 # --- v1 producer receipt API (backward compatible) ---

@@ -140,7 +140,8 @@ def evaluate_contracts(source, *, replicates=1000, seed=20261110):
             raise Phase15Error("outcome_status_mismatch")
         actual = number(actual_raw, "actual_stat")
         if actual == line:
-            if result not in ("", "PUSH") or original.get("hit") not in (None, ""):
+            if (result not in ("", "PUSH") or original.get("hit") not in (None, "")
+                    or original.get("actual_over") not in (None, "")):
                 raise Phase15Error("outcome_status_mismatch")
             excluded["PUSH"] += 1
             continue

@@ -66,6 +66,9 @@ class Phase15Tests(unittest.TestCase):
             result = p.evaluate_contracts(self.make_csv(d, "a.csv", rows), replicates=0)
             self.assertEqual(result["excluded"]["PUSH"], 1)
             self.assertEqual(result["paired_scored_rows"], 0)
+            rows[0]["actual_over"] = "0"
+            with self.assertRaisesRegex(p.Phase15Error, "outcome_status_mismatch"):
+                p.evaluate_contracts(self.make_csv(d, "contradictory_push.csv", rows))
 
     def test_declared_direction_inconsistency_rejected(self):
         with tempfile.TemporaryDirectory() as d:
