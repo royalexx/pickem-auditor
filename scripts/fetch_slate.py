@@ -71,6 +71,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import io
 import json
 import math
@@ -81,11 +82,16 @@ import sys
 import tempfile
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
+
+REPOSITORY_ROOT = str(Path(__file__).resolve().parents[1])
+if REPOSITORY_ROOT not in sys.path:
+    sys.path.append(REPOSITORY_ROOT)
 
 from odds_providers import (
     PropLineProvider,
@@ -3877,6 +3883,7 @@ def _run_feed(name: str, fn, clock) -> tuple[dict, object]:
         status = "failed" if failed or count == 0 else "ok"
         record = _feed_record(status, count, started, finished, notes, urls)
         record["priced_stats"] = count
+        record["raw_response_receipts"] = feed_extras.get("raw_response_receipts", [])
         return record, payload if isinstance(payload, list) else {}
     if failed or not isinstance(payload, list):
         rows = []
@@ -3932,8 +3939,29 @@ def _builtin_fetchers(
         return rows, note, list(buckets["nba"])
 
     def odds():
-        quotes, note = fetch_odds(game_date, fetch=fetch_json_fn, source_urls=buckets["odds"])
-        return quotes, note, list(buckets["odds"])
+        raw_receipts = []
+        odds_fetch = fetch_json_fn
+        if (fetch_json_fn is fetch_json and data_dir is not None
+                and os.environ.get("PICKEM_CAPTURE_ORIGINAL_ODDS") == "1"):
+            from phase0_input_capture import preserve, utc
+
+            def odds_fetch(url, *, timeout, headers=None):
+                raw = fetch_bytes(url, timeout=timeout, headers=headers)
+                if urllib.parse.urlsplit(url).hostname == "api.prop-line.com":
+                    received = utc(clock())
+                    receipt = preserve(
+                        Path(data_dir) / "source_archives", "market", "propline_http_response",
+                        raw, captured=received, retrieved=received, url=url,
+                    )
+                    # PropLine keeps authentication in the request header.
+                    # This digest binds the query without storing its values.
+                    receipt["request_url_sha256"] = hashlib.sha256(url.encode("utf-8")).hexdigest()
+                    receipt["representation"] = "raw_http_response_body"
+                    raw_receipts.append(receipt)
+                return json.loads(raw)
+
+        quotes, note = fetch_odds(game_date, fetch=odds_fetch, source_urls=buckets["odds"])
+        return quotes, note, list(buckets["odds"]), {"raw_response_receipts": raw_receipts}
 
     return {"nhl": nhl, "nfl": nfl, "nba": nba, "odds": odds}
 
@@ -4202,6 +4230,8 @@ def meta_document(summary: dict) -> dict:
         if name == "nhl":
             entry["identity_rejection_count"] = len(feed.get("identity_rejections") or [])
             entry["roster_receipt_count"] = len(feed.get("roster_receipts") or [])
+        if name == "odds" and feed.get("raw_response_receipts"):
+            entry["raw_response_receipts"] = list(feed.get("raw_response_receipts") or [])
         feeds[name] = entry
     doc = {
         "date": summary.get("date"),

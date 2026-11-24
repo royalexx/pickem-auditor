@@ -11,6 +11,153 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"))
 import live_pool_exchange as live
 
 class LivePoolTests(unittest.TestCase):
+    def test_rehearsal_reconciles_quote_collection_strict_freeze_and_settlement(self):
+        from copy import deepcopy
+        from datetime import timedelta
+        from market_odds_archive import capture_records
+        from odds_providers import resolve_quote_teams
+        from phase0_input_capture import preserve, utc
+        from phase0r_contract import strict_snapshot_status
+        from settle import Fetchers, settle_rows
+        from test_phase0r_certified_pool import LiveCertifiedOnlyPoolTests, WHEN, prepared
+
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            data, over = prepared(root)
+            data.rename(root / "data")
+            data = root / "data"
+            under = deepcopy(over)
+            under["id"] = under["id"].removesuffix("over") + "under"
+            under["side"] = "under"
+            under["books"][0]["book_side"] = "under"
+            invalid = deepcopy(over)
+            invalid["_phase0_market_quotes"] = []
+            day = over["_meta"]["game_date"]
+            quote = {
+                **over["_phase0_market_quotes"][0],
+                **{key: over["_meta"][key] for key in
+                   ("sport", "stat", "player", "team", "game_date", "event_start")},
+                "source_url": "https://api.prop-line.com/v1/sports/americanfootball_nfl/odds",
+                "event_id_namespace": "propline",
+            }
+            quotes = [quote, {**quote, "retrieved_at": "2026-11-09T14:18:00Z"}]
+            resolved, _ = resolve_quote_teams(quotes, [])
+            live.dump_jsonl(data / "odds_quotes.jsonl", resolved)
+            live.dump_jsonl(data / "odds_quotes_original.jsonl", quotes)
+            live.dump_jsonl(data / "slate_fetch.jsonl", [{"game_date": day}])
+            raw_body = b'{"events": []}\n'
+            received = utc("2026-11-09T14:13:55Z")
+            raw_receipt = preserve(data / "source_archives", "market", "propline_http_response",
+                                   raw_body, captured=received, retrieved=received,
+                                   url=quote["source_url"])
+            meta = {
+                "date": day, "retrieved_at": "2026-11-09T14:09:00Z", "usable": True,
+                "feeds": {"odds": {"status": "ok", "rows": len(quotes),
+                                   "raw_response_receipts": [raw_receipt],
+                                   "finished_at": "2026-11-09T14:14:00Z"}},
+            }
+            (data / "slate_fetch.meta.json").write_text(json.dumps(meta))
+            capture_records(quotes, phase="afternoon", slate_date=day,
+                            observed_at=meta["feeds"]["odds"]["finished_at"],
+                            archive_root=data / "market_odds_history", capture_id="rehearsal",
+                            source_status="ok")
+            collection = live.collection_bundle(root, game_date=day, capture_id="rehearsal",
+                                                captured_at=WHEN.isoformat())
+            self.assertEqual(collection["quote_denominator"],
+                             {"attempted": 2, "accepted": 1, "rejected": 1})
+            raw_path = "data/source_archives/" + raw_receipt["archive_path"]
+            self.assertEqual(collection["raw_odds_response_count"], 1)
+            self.assertEqual(base64.b64decode(collection["collector_inputs"][raw_path]["content_b64"]),
+                             raw_body)
+            (root / raw_path).write_bytes(b"not the response")
+            with self.assertRaisesRegex(ValueError, "pregame_collector_source_hash_mismatch"):
+                live.collection_bundle(root, game_date=day, capture_id="rehearsal",
+                                       captured_at=WHEN.isoformat())
+            (root / raw_path).write_bytes(raw_body)
+            forecasts, errors, attempts, calls = LiveCertifiedOnlyPoolTests().run_live(
+                data, [over, under, invalid])
+            self.assertEqual((len(attempts), errors, calls, len(forecasts)), (3, 0, 2, 2), attempts)
+            self.assertEqual(attempts[-1]["status"], "unavailable")
+            self.assertEqual({row["side"] for row in forecasts}, {"over", "under"})
+            self.assertTrue(all(strict_snapshot_status(
+                row, archive_root=data / "source_archives")[0] for row in forecasts))
+            live.dump_jsonl(data / "prop_snapshots.jsonl", forecasts)
+            pregame = live.bundle(root, phase="afternoon", game_date=day)
+            self.assertEqual(len(pregame["forecasts"]), 2)
+            self.assertGreater(pregame["phase0_source_input_count"], 0)
+            self.assertEqual(pregame["settlements"], [])
+            self.assertTrue(all(row.get("actual_stat") is None for row in pregame["forecasts"]))
+            actuals = Fetchers.from_tables({"NFL": {(day, "example player", "receptions"): 5}})
+            next_day = (WHEN + timedelta(days=1)).date().isoformat()
+            graded, count = settle_rows(pregame["forecasts"], as_of=next_day, fetchers=actuals,
+                                        settled_at=next_day + "T11:00:00Z")
+            self.assertEqual(count, 2)
+            self.assertEqual({row["side"]: row["outcome"] for row in graded},
+                             {"over": "win", "under": "loss"})
+            live.dump_jsonl(data / "settled.jsonl", graded)
+            postgame = live.bundle(root, phase="morning", game_date=day,
+                                   snapshot_path=data / "settled.jsonl")
+            self.assertEqual(postgame["settlement_disposition"]["graded_forecast_rows"], 2)
+            self.assertEqual(postgame["forecasts"], [])
+            self.assertTrue(all(row.get("actual_stat") is None for row in pregame["forecasts"]))
+
+    def test_pregame_collection_survives_provider_and_publish_failure_without_forecasts(self):
+        from market_odds_archive import capture_records
+
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            source = root / "data"
+            source.mkdir()
+            day = "2026-11-05"
+            finished = day + "T17:00:01Z"
+            meta = {"date": day, "retrieved_at": day + "T17:00:00Z", "usable": False,
+                    "feeds": {"odds": {"status": "failed", "finished_at": finished}}}
+            (source / "slate_fetch.meta.json").write_text(json.dumps(meta))
+            (source / "odds_quotes.jsonl").write_text("stale data")
+            capture_records([], phase="afternoon", slate_date=day, observed_at=finished,
+                            archive_root=source / "market_odds_history",
+                            capture_id="fixture-1", source_status="failed")
+            doc = live.collection_bundle(root, game_date=day, capture_id="fixture-1",
+                                         captured_at=day + "T17:00:02Z")
+            self.assertEqual(doc["provider_status"], "failed")
+            self.assertEqual(doc["quote_denominator"], {"attempted": 0, "accepted": 0, "rejected": 0})
+            self.assertNotIn("data/odds_quotes.jsonl", doc["collector_inputs"])
+            recovery = live.write_recovery_copy(doc, root / "recovery")
+            self.assertEqual(live.load_recovery_copy(recovery), doc)
+            stored = {}
+            fail = True
+
+            def fake_api(route, *, method="GET", **kwargs):
+                nonlocal fail
+                path = route.removeprefix("/contents/").split("?ref=")[0]
+                if method == "PUT":
+                    if fail:
+                        fail = False
+                        raise RuntimeError("GITHUB_API_503_PUT_contents")
+                    if path in stored:
+                        raise RuntimeError("GITHUB_API_422_PUT_contents")
+                    stored[path] = base64.b64decode(kwargs["payload"]["content"])
+                    return {"commit": {"sha": "test"}}
+                if route.startswith("/git/trees/"):
+                    return {"tree": [{"type": "blob", "path": key, "sha": "a" * 40}
+                                     for key in stored]}
+                return {"sha": "a" * 40}
+
+            with (patch.object(live, "api", side_effect=fake_api),
+                  patch.object(live, "read_blob", side_effect=lambda *_, **__: next(iter(stored.values())))):
+                with self.assertRaisesRegex(RuntimeError, "503"):
+                    live.publish_and_verify_collection(doc, token="test")
+                frozen = live.load_recovery_copy(recovery)
+                receipt = live.publish_and_verify_collection(frozen, token="test")
+                self.assertTrue(receipt["readback_verified"])
+                self.assertEqual(live.publish_and_verify_collection(frozen, token="test")["status"],
+                                 "already_present")
+                self.assertEqual(len(stored), 1)
+                self.assertEqual(list(live.iter_remote_docs(token="test", before="2026-11-06")), [])
+                stored[receipt["path"]] = b"tampered"
+                with self.assertRaisesRegex(ValueError, "LIVE_POOL_HASH_MISMATCH"):
+                    list(live.iter_remote_docs(token="test", before="2026-11-06", phase="pregame"))
+
     def test_gzip_content_digest_is_stable_and_refuses_bad_phase(self):
         record={"schema":live.SCHEMA,"phase":"afternoon","game_date":"2026-11-05","forecasts":[]}
         first=live.pack(record)
@@ -45,13 +192,21 @@ class LivePoolTests(unittest.TestCase):
             root=Path(tmp)
             live.dump_jsonl(root/"settled.jsonl",[
                 {"game_date":"2026-11-04","run_type":"shadow","run_id":"r1",
-                 "actual_stat":4,"outcome":"win","settled_at":"2026-11-05T11:00:00Z"}])
+                 "actual_stat":4,"outcome":"win","settled_at":"2026-11-05T11:00:00Z"},
+                {"game_date":"2026-11-04","run_type":"shadow","run_id":"r1",
+                 "actual_stat":None,"outcome":None,"player_id":"missing","event_id":"game"}])
             doc=live.bundle(root,phase="morning",game_date="2026-11-04",
                             snapshot_path=root/"settled.jsonl")
             self.assertEqual(len(doc["settlements"]),1)
             self.assertEqual(doc["forecasts"],[])
             self.assertEqual(doc["source_quotes"],[])
             self.assertEqual(doc["population"],[])
+            disposition = doc["settlement_disposition"]
+            self.assertEqual(disposition["attempted_forecast_rows"], 2)
+            self.assertEqual(disposition["graded_forecast_rows"], 1)
+            self.assertEqual(disposition["ungraded_forecast_rows"], 1)
+            self.assertEqual(disposition["ungraded"][0]["player_id"], "missing")
+            self.assertEqual(disposition["ungraded"][0]["reason"], "no_verified_actual")
 
     def test_github_put_is_add_only_and_uses_data_branch(self):
         doc={"schema":live.SCHEMA,"phase":"morning","game_date":"2026-11-04","population":[]}

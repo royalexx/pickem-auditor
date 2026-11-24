@@ -4,11 +4,13 @@ import json
 import sys
 import tempfile
 import unittest
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from market_odds_archive import (
-    capture_records, evaluate, normalize_quote, no_vig_probability,
+    capture_records, evaluate, main, normalize_quote, no_vig_probability,
 )
 
 DAY = "2026-11-03"
@@ -109,6 +111,44 @@ class MarketOddsArchiveTest(unittest.TestCase):
         self.assertEqual(receipt["quote_count"], 0)
         self.assertEqual(receipt["status"], "no_eligible_market_quotes")
         self.assertEqual(sum(receipt["exclusions"].values()), len(invalid))
+
+    def test_cli_uses_odds_feed_completion_and_keeps_rejects(self):
+        root = Path(self.temp.name)
+        quotes = root / "quotes.jsonl"
+        received = quote(retrieved_at="2026-11-03T16:00:05Z")
+        rows = [received, received, quote(retrieved_at=None),
+                quote(retrieved_at="2026-11-03T16:00:11Z")]
+        quotes.write_text("".join(json.dumps(row) + "\n" for row in rows))
+        meta = root / "meta.json"
+        metadata = {
+            "date": DAY, "retrieved_at": OBSERVED,
+            "feeds": {"odds": {"status": "ok", "started_at": OBSERVED,
+                               "finished_at": "2026-11-03T16:00:10Z"}},
+        }
+        meta.write_text(json.dumps(metadata))
+        command = ["capture", "--date", DAY, "--phase", "afternoon",
+                   "--capture-id", "capture", "--source-meta", str(meta),
+                   "--quotes", str(quotes), "--archive-root", str(self.root),
+                   "--out", str(root / "receipt.json")]
+        with redirect_stdout(StringIO()):
+            self.assertEqual(main(command), 0)
+            self.assertEqual(main(command), 0)
+        archived = json.loads((self.root / DAY / "afternoon" / "capture-1.json").read_text())
+        self.assertEqual(archived["observed_at"], "2026-11-03T16:00:10Z")
+        self.assertEqual(archived["quote_count"], 1)
+        self.assertEqual(archived["quote_rejections"], [
+            {"input_ordinal": 2, "reason": "duplicate_normalized_quote"},
+            {"input_ordinal": 3, "reason": "market_update_missing_or_invalid"},
+            {"input_ordinal": 4, "reason": "market_update_after_collection"},
+        ])
+        metadata["feeds"]["odds"]["status"] = "failed"
+        meta.write_text(json.dumps(metadata))
+        command[command.index("capture", 1)] = "failed-provider"
+        with redirect_stdout(StringIO()):
+            self.assertEqual(main(command), 0)
+        failed = json.loads((self.root / DAY / "afternoon" / "failed-provider-1.json").read_text())
+        self.assertEqual(failed["input_quote_count"], 0)
+        self.assertEqual(failed["source_status"], "failed")
 
     def test_push_and_unsettled_are_not_scored(self):
         self.capture()

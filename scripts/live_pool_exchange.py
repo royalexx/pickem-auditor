@@ -15,6 +15,7 @@ import json
 import os
 import re
 import sys
+import tempfile
 import time
 import urllib.error
 import urllib.parse
@@ -44,7 +45,8 @@ def check_source_archive_size(total_size: int) -> None:
 ARCHIVE_PART_BYTES = 5_000_000
 MAX_ARCHIVE_PARTS = 64
 CHUNK_SCHEMA = "pickem_shared_live_pool_chunk_manifest_v1"
-ALLOWED_PHASES = ("afternoon", "morning")
+FORECAST_PHASES = ("afternoon", "morning")
+ALLOWED_PHASES = (*FORECAST_PHASES, "pregame")
 REQUIRED_POPULATION = (
     "schema","sport","stat","family","game_id","game_date","season","player_id",
     "position","team","opponent","home","value","workload","workload_unit",
@@ -257,9 +259,94 @@ def pick_latest(rows,day,*,run_id=None):
         raise ValueError("pregame_forecast_timestamp_required")
     return batch,run_id
 
+
+def collection_bundle(root, *, game_date, capture_id, captured_at):
+    """Preserve the collector output independently of forecasts and sidecars."""
+    from market_odds_archive import digest as odds_digest, utc
+    from phase0_input_capture import _safe_bytes
+
+    if not re.fullmatch(r"[A-Za-z0-9_-]{1,100}", capture_id or ""):
+        raise ValueError("invalid_pregame_collection_capture_id")
+    source = root / "data"
+    metadata_path = source / "slate_fetch.meta.json"
+    metadata = json.loads(metadata_path.read_bytes())
+    captured = utc(captured_at)
+    batch_start = utc(metadata.get("retrieved_at"))
+    odds_feed = (metadata.get("feeds") or {}).get("odds") or {}
+    odds_finished = utc(odds_feed.get("finished_at"))
+    if (metadata.get("date") != game_date or not captured or not batch_start
+            or batch_start > captured or (odds_finished and odds_finished > captured)):
+        raise ValueError("invalid_pregame_collection_clock_or_date")
+
+    archive_path = source / "market_odds_history" / game_date / "afternoon" / (capture_id + ".json")
+    odds = json.loads(archive_path.read_bytes())
+    odds_sha = odds.get("snapshot_sha256")
+    attempted = odds["input_quote_count"]
+    accepted = odds["quote_count"]
+    rejected = len(odds["quote_rejections"])
+    if (odds.get("date") != game_date or odds.get("capture_id") != capture_id
+            or odds.get("phase") != "afternoon"
+            or odds_sha != odds_digest({k: v for k, v in odds.items() if k != "snapshot_sha256"})
+            or utc(odds["observed_at"]) != odds_finished
+            or attempted != accepted + rejected
+            or odds["source_status"] != (odds_feed.get("status") or "missing")
+            or accepted != len(odds["quotes"])):
+        raise ValueError("invalid_pregame_market_capture_receipt")
+    rejection_counts = Counter(reject["reason"] for reject in odds["quote_rejections"])
+    if accepted:
+        rejection_counts["accepted"] = accepted
+    ordinals = {reject["input_ordinal"] for reject in odds["quote_rejections"]}
+    if (rejection_counts != odds["exclusions"] or len(ordinals) != rejected
+            or any(type(index) is not int or not 1 <= index <= attempted for index in ordinals)):
+        raise ValueError("invalid_pregame_market_rejection_denominator")
+
+    inputs = {metadata_path: None, archive_path: None}
+    if metadata.get("usable"):
+        inputs[source / "slate_fetch.jsonl"] = None
+    if odds_feed.get("status") == "ok":
+        quotes_path = source / "odds_quotes.jsonl"
+        if len(jsonl(quotes_path)) != attempted or odds_feed.get("rows") != attempted:
+            raise ValueError("pregame_quote_input_denominator_mismatch")
+        inputs.update({quotes_path: None, source / "odds_quotes_original.jsonl": None})
+    elif attempted:
+        raise ValueError("failed_feed_pregame_quotes_nonempty")
+
+    raw_receipts = odds_feed.get("raw_response_receipts") or []
+    source_archive = (source / "source_archives").resolve()
+    for receipt in raw_receipts:
+        path = (source_archive / receipt["archive_path"]).resolve()
+        observed = utc(receipt.get("observed_at"))
+        if (not path.is_relative_to(source_archive) or not observed or not odds_finished
+                or not batch_start <= observed <= odds_finished):
+            raise ValueError("invalid_raw_odds_receipt_path_or_clock")
+        inputs[path] = receipt["content_sha256"]
+
+    archived = {}
+    for path, expected_digest in inputs.items():
+        raw = _safe_bytes(path.read_bytes())
+        digest = sha256(raw)
+        if expected_digest is not None and digest != expected_digest:
+            raise ValueError("pregame_collector_source_hash_mismatch")
+        archived[str(path.resolve().relative_to(root.resolve()))] = {
+            "sha256": digest,
+            "content_b64": base64.b64encode(raw).decode("ascii"),
+        }
+    return {
+        "schema": SCHEMA, "game_date": game_date, "phase": "pregame",
+        "run_id": capture_id, "captured_at_utc": captured.isoformat(),
+        "forecasts": [], "settlements": [], "population": [],
+        "collector_inputs": archived, "market_capture_sha256": odds_sha,
+        "raw_odds_response_count": len(raw_receipts),
+        "quote_denominator": {"attempted": attempted, "accepted": accepted, "rejected": rejected},
+        "quote_denominator_scope": "normalized_collector_quote_rows_before_archive_filter",
+        "provider_status": odds_feed.get("status") or "missing",
+        "publication_eligible": False,
+    }
+
+
 def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=None, run_id=None):
     date.fromisoformat(game_date)
-    if phase not in ALLOWED_PHASES:raise ValueError("unknown_phase")
+    if phase not in FORECAST_PHASES:raise ValueError("unknown_phase")
     source=root/"data"
     snapshot=Path(snapshot_path) if snapshot_path else source/"prop_snapshots.jsonl"
     records=jsonl(snapshot)
@@ -270,14 +357,31 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
         if any(r.get("actual_stat") is not None for r in forecasts):
             raise ValueError("pregame_forecast_already_contains_outcome")
         settlements=[]
+        unresolved=[]
     else:
         forecasts=[]
-        settlements=[r for r in records if r.get("game_date")==game_date and
-            r.get("actual_stat") is not None and r.get("outcome") in ("win","loss","push")]
+        attempted=[r for r in records if r.get("game_date")==game_date]
+        settlements=[]
+        unresolved=[]
+        for row in attempted:
+            if row.get("actual_stat") is not None and row.get("outcome") in ("win","loss","push"):
+                settlements.append(row)
+            else:
+                disposition = {key: row.get(key) for key in (
+                    "run_id", "sport", "event_id", "event_id_namespace", "player_id",
+                    "player", "team", "stat", "side", "reference_line", "forecast_at",
+                )}
+                outcome = row.get("outcome")
+                disposition["outcome"] = outcome
+                disposition["status"] = "ungraded"
+                disposition["reason"] = (
+                    "no_verified_actual" if row.get("actual_stat") is None else "unrecognized_outcome"
+                )
+                unresolved.append(disposition)
         selected_run=run_id or "morning"
         if any(r.get("settled_at") is None for r in settlements):
             raise ValueError("settled_row_missing_settlement_timestamp")
-        if not settlements and not population:
+        if not settlements and not unresolved and not population:
             raise ValueError("no_settled_predictions_or_training_observations")
         if any(r.get("game_date")!=game_date for r in population):
             raise ValueError("population_date_mismatch")
@@ -311,6 +415,7 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
     # reconstruction. Verify the normalized archive's SHA before publication.
     market_quote_archive=[]
     phase0_pregame_receipt=None
+    prepared_contract_receipt=None
     if phase=="afternoon":
         from market_odds_archive import SCHEMA as ODDS_SCHEMA, digest as odds_digest
         odds_folder=source/"market_odds_history"/game_date/"afternoon"
@@ -332,6 +437,17 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
                     and candidate.get("selected_run_id")==selected_run
                     and candidate.get("publication_eligible") is False):
                 phase0_pregame_receipt=candidate
+        attempted_path = root / "reports" / "all_prepared_props_attempts.json"
+        if attempted_path.is_file():
+            attempted_doc = json.loads(attempted_path.read_bytes())
+            if (attempted_doc.get("schema") == "all_prepared_props_attempts_v1"
+                    and attempted_doc.get("date") == game_date
+                    and attempted_doc.get("run_id") == selected_run):
+                if (attempted_doc["prepared_contracts"] != len(attempted_doc["attempts"])
+                        or attempted_doc["prepared_contracts"] !=
+                        attempted_doc["forecast_contracts"] + attempted_doc["unavailable_contracts"]):
+                    raise ValueError("prepared_contract_denominator_mismatch")
+                prepared_contract_receipt = attempted_doc
     raw_source_path=root/"data/live_pool_staging/raw"/(game_date+".json")
     raw_collected_sources=(json.loads(raw_source_path.read_text())
                            if phase=="morning" and raw_source_path.is_file() else {})
@@ -398,6 +514,16 @@ def bundle(root: Path, *, phase, game_date, snapshot_path=None, population_path=
          "phase0_source_input_count":len(source_input_archive),
          "shadow":shadow,
          "verification_state":"research_only; no retrospective model upgrades"}
+    if prepared_contract_receipt is not None:
+        doc["prepared_contract_receipt"] = prepared_contract_receipt
+    if phase == "morning":
+        doc["settlement_disposition"] = {
+            "attempted_forecast_rows": len(settlements) + len(unresolved),
+            "graded_forecast_rows": len(settlements),
+            "ungraded_forecast_rows": len(unresolved),
+            "scope": "frozen_forecast_rows_requested_for_settlement",
+            "ungraded": unresolved,
+        }
     if phase=="afternoon" and any(
             (r.get("game_date")!=game_date for r in source_slate)):
         raise ValueError("source_date_mismatch")
@@ -425,15 +551,21 @@ def write_recovery_copy(doc, directory):
         if path.read_bytes()!=payload:
             raise ValueError("IMMUTABLE_RECOVERY_COPY_CONFLICT")
         return path
-    temp=path.with_name(path.name+".tmp")
-    temp.write_bytes(payload)
-    os.replace(temp,path)
+    with tempfile.NamedTemporaryFile(dir=dest, prefix=".live_pool_", delete=False) as handle:
+        temp = Path(handle.name)
+        try:
+            handle.write(payload)
+            handle.flush()
+            os.fsync(handle.fileno())
+            os.replace(temp, path)
+        finally:
+            temp.unlink(missing_ok=True)
     return path
 
 
 def load_recovery_copy(file):
     path=Path(file)
-    match=re.fullmatch(r"live_pool_(\d{4}-\d{2}-\d{2})_(afternoon|morning)_([0-9a-f]{64})\.json\.gz",path.name)
+    match=re.fullmatch(r"live_pool_(\d{4}-\d{2}-\d{2})_(afternoon|morning|pregame)_([0-9a-f]{64})\.json\.gz",path.name)
     if match is None:
         raise ValueError("RECOVERY_COPY_IDENTITY_INVALID")
     payload=path.read_bytes()
@@ -494,7 +626,7 @@ def read_blob(blob_sha,*,token):
         raise ValueError("unsupported_github_blob_encoding")
     return base64.b64decode(blob["content"])
 
-def iter_remote_docs(*,token,before,after=None,phase=None):
+def iter_remote_docs(*,token,before,after=None,phase=None,selected_path=None):
     cutoff=date.fromisoformat(before)
     begin=date.fromisoformat(after) if after else None
     tree=api("/git/trees/"+BRANCH+
@@ -513,7 +645,10 @@ def iter_remote_docs(*,token,before,after=None,phase=None):
             continue
         try:day=date.fromisoformat(parts[2])
         except ValueError:continue
-        if day>=cutoff or (begin and day<begin) or (phase and parts[3]!=phase):
+        if (day>=cutoff or (begin and day<begin)
+                or (phase and parts[3]!=phase)
+                or (not phase and parts[3] not in FORECAST_PHASES)
+                or (selected_path is not None and selected_path != path)):
             continue
         entries.append((path,item["sha"]))
     for path,sha in sorted(entries):
@@ -527,6 +662,22 @@ def iter_remote_docs(*,token,before,after=None,phase=None):
             if path!=archive_path(doc["game_date"],doc["phase"],sha256(payload)):
                 raise ValueError("LIVE_POOL_PATH_METADATA_MISMATCH:"+path)
         yield doc,path
+
+
+def verify_published(doc, result, *, token):
+    day = date.fromisoformat(doc["game_date"])
+    restored = list(iter_remote_docs(
+        token=token, before=(day + timedelta(days=1)).isoformat(),
+        after=day.isoformat(), phase=doc["phase"], selected_path=result["path"]))
+    if len(restored) != 1 or restored[0][0] != doc:
+        raise ValueError("LIVE_POOL_PUBLISHED_READBACK_MISMATCH")
+    return {**result, "readback_verified": True}
+
+
+def publish_and_verify_collection(doc, *, token):
+    result = verify_published(doc, publish(doc, token=token), token=token)
+    return {**result, "provider_status": doc["provider_status"],
+            "quote_denominator": doc["quote_denominator"]}
 
 def canonical_afternoon_docs(documents):
     """Deterministically use the first archived frozen batch for each game date.
@@ -699,7 +850,7 @@ def import_population(root, *,token,before,after=None):
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     sub=p.add_subparsers(dest="cmd",required=True)
-    for command in ("collect","publish","publish-frozen","import","restore-forecasts"):
+    for command in ("collect","publish","publish-collection","publish-frozen","import","restore-forecasts"):
         subp=sub.add_parser(command)
         subp.add_argument("--root",type=Path,default=ROOT)
         subp.add_argument("--day")
@@ -708,10 +859,14 @@ def main(argv=None):
         if command=="publish-frozen":
             subp.add_argument("--frozen",type=Path,required=True)
         if command=="publish":
-            subp.add_argument("--phase",choices=ALLOWED_PHASES,required=True)
+            subp.add_argument("--phase",choices=FORECAST_PHASES,required=True)
             subp.add_argument("--snapshots",type=Path)
             subp.add_argument("--population",type=Path)
             subp.add_argument("--run-id")
+            subp.add_argument("--verify-readback",action="store_true")
+        if command=="publish-collection":
+            subp.add_argument("--capture-id",required=True)
+            subp.add_argument("--captured-at",required=True)
         if command in ("import","restore-forecasts"):
             subp.add_argument("--before",required=True)
             subp.add_argument("--after")
@@ -731,16 +886,27 @@ def main(argv=None):
         # This makes future repair possible without another model invocation.
         recovery=write_recovery_copy(
             doc,os.environ.get("PICKEM_LIVE_ARCHIVE_RECOVERY_DIR"))
-        result=publish(doc,token=os.environ.get("GITHUB_TOKEN"))
+        token = os.environ.get("GITHUB_TOKEN")
+        result=publish(doc,token=token)
+        if args.verify_readback:
+            result=verify_published(doc,result,token=token)
         if recovery:result["recovery_copy"]=str(recovery)
         result["forecasts"]=len(doc["forecasts"])
         result["settlements"]=len(doc["settlements"])
         result["population"]=len(doc["population"])
+    elif args.cmd=="publish-collection":
+        doc = collection_bundle(args.root, game_date=args.day, capture_id=args.capture_id,
+                                captured_at=args.captured_at)
+        recovery = write_recovery_copy(doc, os.environ.get("PICKEM_LIVE_ARCHIVE_RECOVERY_DIR"))
+        result = publish_and_verify_collection(doc, token=os.environ.get("GITHUB_TOKEN"))
+        if recovery:
+            result["recovery_copy"] = str(recovery)
     elif args.cmd=="publish-frozen":
         # Reads and verifies bytes captured before the game. No new model
         # computation or source fetch occurs at any point in recovery.
         doc=load_recovery_copy(args.frozen)
-        result=publish(doc,token=os.environ.get("GITHUB_TOKEN"))
+        publisher = publish_and_verify_collection if doc["phase"] == "pregame" else publish
+        result=publisher(doc,token=os.environ.get("GITHUB_TOKEN"))
         result["restored_from_frozen_bytes"]=True
         result["original_forecasts"]=len(doc.get("forecasts") or [])
     elif args.cmd=="import":

@@ -115,8 +115,10 @@ def normalize_quote(raw: dict, *, date_text: str, observed: datetime) -> tuple[d
         return None, "wrong_slate_date"
     if observed >= start:
         return None, "event_already_started"
-    if not updated or updated > observed:
-        return None, "market_update_unverified_or_future"
+    if not updated:
+        return None, "market_update_missing_or_invalid"
+    if updated > observed:
+        return None, "market_update_after_collection"
     if (not isinstance(line, (int, float)) or isinstance(line, bool)
             or not math.isfinite(line) or line < 0
             or not valid_american(raw.get("over_odds"))
@@ -169,11 +171,17 @@ def capture_records(quotes: list[dict], *, phase: str, slate_date: str,
         raise ValueError("missing_or_wrong_date_source_capture_timestamp")
     counts: Counter = Counter()
     dedup = {}
-    for raw in quotes:
+    rejections = []
+    for ordinal, raw in enumerate(quotes, start=1):
         row, reason = normalize_quote(raw, date_text=slate_date, observed=observed)
+        if row is not None and row["quote_sha256"] in dedup:
+            reason = "duplicate_normalized_quote"
+            row = None
         counts[reason] += 1
         if row is not None:
             dedup[row["quote_sha256"]] = row
+        else:
+            rejections.append({"input_ordinal": ordinal, "reason": reason})
     rows = sorted(dedup.values(), key=lambda q: (
         q["sport"], q["event_id"], q["player_norm"], q["stat"],
         q["book"], q["line"], q["quote_sha256"]))
@@ -184,6 +192,7 @@ def capture_records(quotes: list[dict], *, phase: str, slate_date: str,
         "status": "captured" if rows else "no_eligible_market_quotes",
         "quote_count": len(rows), "input_quote_count": len(quotes),
         "exclusions": dict(sorted(counts.items())), "quotes": rows,
+        "quote_rejections": rejections,
         "uses_only_existing_collector_quotes": True,
         "api_requests_added": 0, "changes_original_predictions": False,
         "quote_time_qualification": (
@@ -208,7 +217,7 @@ def capture_records(quotes: list[dict], *, phase: str, slate_date: str,
         except FileExistsError:
             if json.loads(path.read_text(encoding="utf-8")) != document:
                 raise ValueError("immutable_market_odds_capture_conflict")
-    receipt = {k: v for k, v in document.items() if k != "quotes"}
+    receipt = {k: v for k, v in document.items() if k not in ("quotes", "quote_rejections")}
     receipt["archive_path"] = str(path)
     if receipt_out:
         atomic_json(Path(receipt_out), receipt)
@@ -478,16 +487,24 @@ def main(argv=None) -> int:
         meta_path = Path(args.source_meta)
         if meta_path.is_file():
             meta = json.loads(meta_path.read_text(encoding="utf-8"))
-        observed = args.observed_at or meta.get("retrieved_at")
-        if utc(observed) is None:
-            # Missing collector timestamp means no trusted contemporaneous odds.
-            raise ValueError("cannot_archive_odds_without_authenticated_capture_timestamp")
+        odds_feed = (meta.get("feeds") or {}).get("odds") or {}
+        # Batch retrieval starts before the market response arrives. The odds
+        # feed's completed clock is the first recorded possession bound for
+        # this quote file as a whole.
+        observed = args.observed_at or odds_feed.get("finished_at")
+        completed = utc(observed)
+        if not args.observed_at:
+            started = utc(odds_feed.get("started_at"))
+            batch_start = utc(meta.get("retrieved_at"))
+            if (meta.get("date") != args.date or not batch_start or not started
+                    or not completed or not batch_start <= started <= completed):
+                raise ValueError("cannot_archive_odds_without_authenticated_capture_timestamp")
         run_id = args.capture_id or os.environ.get("GITHUB_RUN_ID") or datetime.now(timezone.utc).strftime("local-%Y%m%dT%H%M%S%f")
         attempt = os.environ.get("GITHUB_RUN_ATTEMPT", "1")
         identifier = f"{run_id}-{attempt}"
         quotes = read_jsonl(Path(args.quotes))
         # A disabled/failed collector must not promote a leftover local quote file.
-        source_state = str(((meta.get("feeds") or {}).get("odds") or {}).get("status") or "missing")
+        source_state = str(odds_feed.get("status") or "missing")
         if source_state != "ok" and not args.observed_at:
             quotes = []
         receipt = capture_records(
