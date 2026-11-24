@@ -9,12 +9,9 @@ from __future__ import annotations
 
 from collections import Counter
 from datetime import datetime
-import hashlib
-import json
-import math
 
 from .baselines import HistoricalExposure, poisson_rate_baseline, role_shrunk_rate
-from .contracts import (ContractError, MarketQuote, SourceReceipt, canonical_hash,
+from .contracts import (ContractError, SourceReceipt,
                         finite, no_vig_over, parse_quote, utc)
 from .evaluation import Settlement, brier, log_loss, _mean, _cluster_interval
 from .stat_registry import canonical_stat
@@ -86,9 +83,12 @@ def run_rolling(payload: dict, *, seed: int = 20261109, bootstrap_replicates: in
                 raise ContractError("unknown_or_reused_origin_quote")
             covered.add(qid)
             q = by_quote[qid]
-            if utc(q.quote_at, "quote_at") > frozen and q.accepted:
+            if not q.accepted:
+                offers.append((q, offer, (), None))
+                continue
+            if utc(q.quote_at, "quote_at") > frozen:
                 raise ContractError("future_market_quote_in_rolling_origin")
-            if frozen >= utc(q.event_start_at, "event_start") and q.accepted:
+            if frozen >= utc(q.event_start_at, "event_start"):
                 raise ContractError("rolling_origin_after_kickoff")
             if not isinstance(offer.get("sources"), list) or not offer["sources"]:
                 raise ContractError("projected_exposure_source_receipt_missing")
@@ -112,6 +112,7 @@ def run_rolling(payload: dict, *, seed: int = 20261109, bootstrap_replicates: in
     all_origins = []
     ledger = []
     model_results = {name: {} for name in MODELS}
+    prediction_counts = Counter()
     missing = {name: Counter() for name in MODELS}
     statuses = Counter()
     for frozen, origin_id, offers in prepared:
@@ -120,7 +121,7 @@ def run_rolling(payload: dict, *, seed: int = 20261109, bootstrap_replicates: in
         # before a later game that shares an experiment fold.
         current_events = {q.event_id for q, _o, _s, _e in offers}
         eligible = [h for h in history
-                    if utc(h.available_at, "history_available_at") <= frozen
+                    if utc(h.available_at, "history_available_at") < frozen
                     and utc(h.event_start_at, "history_event_start_at") < frozen
                     and h.event_id not in current_events]
         used_cutoff = max((utc(h.available_at, "available_at")
@@ -144,24 +145,7 @@ def run_rolling(payload: dict, *, seed: int = 20261109, bootstrap_replicates: in
                 row["reason"] = q.reject_reason
                 ledger.append(row)
                 continue
-            s = by_result.get(q.settlement_key())
-            if s is None:
-                statuses["missing_settlement"] += 1
-                row["status"] = "missing_settlement"
-                ledger.append(row)
-                continue
-            if s.status != "settled":
-                statuses[s.status] += 1
-                row["status"] = s.status
-                ledger.append(row)
-                continue
-            if utc(s.settled_at, "settled_at") < utc(q.event_start_at, "start"):
-                raise ContractError("rolling_outcome_available_before_game")
             canonical = canonical_stat(q.sport, q.stat_key, q.period)
-            actual = canonical.validate_actual(s.actual)
-            status = "push" if actual == q.line else "scorable"
-            row["status"] = status
-            statuses[status] += 1
             if canonical.value_kind != "count":
                 for model in MODELS[:2]:
                     missing[model]["non_count_likelihood_requires_distinct_baseline"] += 1
@@ -184,8 +168,6 @@ def run_rolling(payload: dict, *, seed: int = 20261109, bootstrap_replicates: in
                                                       "prior_exposure"))
                         pred = distribution.probabilities(q.line)
                         p = pred.conditional_over()
-                        if p is None and status != "push":
-                            raise ContractError("baseline_only_predicts_push")
                         prediction = {
                             "model": model, "q_over": pred.over, "q_under": pred.under,
                             "q_push": pred.push, "p_over_conditional": p,
@@ -194,16 +176,8 @@ def run_rolling(payload: dict, *, seed: int = 20261109, bootstrap_replicates: in
                             "source_receipt_ids": sorted(r.source_id for r in sources),
                             "counterfactual_generated_not_original": True,
                         }
-                        if status != "push":
-                            y = int(actual > q.line)
-                            prediction.update(
-                                brier=brier(p, y), log_loss=log_loss(p, y),
-                                direction_hit=int((p > .5) == bool(y)) if p != .5 else None)
-                            model_results[model][q.quote_id] = {
-                                **prediction, "event_id": q.event_id,
-                                "date_utc": q.event_start_at[:10],
-                                "observed_over": y}
                         row["model_results"][model] = prediction
+                        prediction_counts[model] += 1
                     except (ContractError, ValueError) as exc:
                         reason = str(exc)
                         missing[model][reason] += 1
@@ -217,15 +191,41 @@ def run_rolling(payload: dict, *, seed: int = 20261109, bootstrap_replicates: in
             else:
                 market = {"q_over_nonpush": baseline, "market_is_only_binary_reference": True,
                           "original_quote_sha256": q.quote_receipt_sha256}
-                if status != "push":
-                    y = int(actual > q.line)
-                    market.update(brier=brier(baseline, y), log_loss=log_loss(baseline, y),
-                                  direction_hit=int((baseline > .5) == bool(y))
-                                  if baseline != .5 else None)
-                    model_results[MODELS[2]][q.quote_id] = {
-                        **market, "event_id": q.event_id,
-                        "date_utc": q.event_start_at[:10], "observed_over": y}
                 row["model_results"][MODELS[2]] = market
+                prediction_counts[MODELS[2]] += 1
+
+            # Settlement availability controls scoring only. Even missing and
+            # void outcomes must retain the same counterfactual forecast.
+            s = by_result.get(q.settlement_key())
+            start = utc(q.event_start_at, "start")
+            if s is None:
+                status = "missing_settlement"
+            elif s.status != "settled":
+                status = s.status
+            else:
+                if utc(s.settled_at, "settled_at") <= start:
+                    raise ContractError("rolling_outcome_available_before_game")
+                actual = canonical.validate_actual(s.actual)
+                status = "push" if actual == q.line else "scorable"
+                if status == "scorable":
+                    y = int(actual > q.line)
+                    for model, prediction in row["model_results"].items():
+                        if not prediction or prediction.get("status") == "unavailable":
+                            continue
+                        p = prediction.get("p_over_conditional", prediction.get("q_over_nonpush"))
+                        if p is None:
+                            missing[model]["baseline_only_predicts_push"] += 1
+                            continue
+                        prediction.update(
+                            brier=brier(p, y), log_loss=log_loss(p, y),
+                            direction_hit=int((p > .5) == bool(y)) if p != .5 else None,
+                        )
+                        model_results[model][q.quote_id] = {
+                            **prediction, "event_id": q.event_id,
+                            "date_utc": start.date().isoformat(), "observed_over": y,
+                        }
+            row["status"] = status
+            statuses[status] += 1
             ledger.append(row)
 
     summaries = {}
@@ -233,6 +233,7 @@ def run_rolling(payload: dict, *, seed: int = 20261109, bootstrap_replicates: in
         records = model_results[model]
         summaries[model] = {
             "matched_scorable_contracts": len(records),
+            "available_predictions": prediction_counts[model],
             "offered_contracts": len(quotes),
             "coverage_of_all_offers": len(records) / len(quotes),
             "brier": _mean(x["brier"] for x in records.values()),

@@ -352,6 +352,7 @@ class RollingTests(unittest.TestCase):
         payload=synthetic_rolling(3)
         payload["quotes"][0]["accepted"]=False
         payload["quotes"][0]["reject_reason"]="original_quote_unverified"
+        payload["origins"][0]["offers"][0] = {"quote_id": payload["quotes"][0]["quote_id"]}
         payload["settlements"]= [
             s for s in payload["settlements"] if s["player_id"]!="p2" or not s["event_id"].endswith("0")
         ]
@@ -365,6 +366,33 @@ class RollingTests(unittest.TestCase):
         self.assertEqual(out["statuses"]["missing_settlement"],1)
         self.assertEqual(out["statuses"]["void"],1)
         self.assertEqual(len(out["contract_ledger"]),6)
+        self.assertEqual(out["models"]["naive_pregame_exposure_rate"]["available_predictions"], 5)
+        for row in out["contract_ledger"]:
+            if row["status"] in ("void", "missing_settlement"):
+                prediction = row["model_results"]["naive_pregame_exposure_rate"]
+                self.assertIn("rate", prediction)
+                self.assertNotIn("brier", prediction)
+
+    def test_prediction_independent_of_settlement_availability(self):
+        payload = synthetic_rolling(2)
+        settled = run_rolling(payload)
+        payload["settlements"] = []
+        pending = run_rolling(payload)
+        self.assertEqual(pending["statuses"], {"missing_settlement": 4})
+        for original, replay in zip(settled["contract_ledger"], pending["contract_ledger"]):
+            for key, prediction in replay["model_results"].items():
+                comparable = {field: value for field, value in original["model_results"][key].items()
+                              if field not in ("brier", "log_loss", "direction_hit")}
+                self.assertEqual(prediction, comparable)
+
+    def test_history_observed_at_exact_freeze_is_embargoed(self):
+        payload = synthetic_rolling(1)
+        exact_boundary = payload["history"][0].copy()
+        exact_boundary.update(event_id="boundary", count=100,
+                              available_at=payload["origins"][0]["freeze_at"])
+        original = run_rolling(payload)
+        payload["history"].append(exact_boundary)
+        self.assertEqual(run_rolling(payload), original)
 
     def test_unregistered_signed_yards_not_as_poisson(self):
         payload=synthetic_rolling(1)
