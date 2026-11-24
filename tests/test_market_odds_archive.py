@@ -143,6 +143,7 @@ class MarketOddsArchiveTest(unittest.TestCase):
         ])
         metadata["feeds"]["odds"]["status"] = "failed"
         meta.write_text(json.dumps(metadata))
+        quotes.write_text("partial stale output (invalid JSON)")
         command[command.index("capture", 1)] = "failed-provider"
         with redirect_stdout(StringIO()):
             self.assertEqual(main(command), 0)
