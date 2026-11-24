@@ -21,7 +21,7 @@ from usage_baseline import key as usage_key
 from v2.contracts import ContractError
 from v2.nhl_nba_phase1 import (_observations, _legacy_baseline,
                                _market_reference, _original_archives,
-                               _settlement_index, run_phase1)
+                               _pool_history, _settlement_index, run_phase1)
 
 
 def fixture(root):
@@ -182,6 +182,25 @@ class FrozenNhlNbaContractTests(unittest.TestCase):
         rows=_observations(docs,START)
         self.assertEqual(rows[0]["time_precision"],
                          "original_calendar_day_only_ordering")
+
+    def test_peer_history_records_later_clock_and_first_duplicate_possession(self):
+        observations = _observations({"observations": [{"id": "game-past", "date": "2026-11-01",
+                                                        "value": 3, "workload": 20}]}, START)
+        early = "2026-11-09T14:00:00Z"
+        late = "2026-11-09T19:00:00Z"
+        key = ("NHL", "event", "player", "shots on goal")
+        history = {
+            (*key, 3.5): ({"retrieved_at": early}, {"retrieved_at": late}, observations),
+            (*key, 4.5): ({"retrieved_at": early}, {"retrieved_at": early}, observations),
+        }
+        members = _pool_history(history)[("NHL", "shots on goal")]
+        self.assertEqual(len(members), 1)
+        self.assertEqual(members[("player", "game-past")][0],
+                         datetime.fromisoformat(early))
+        history.pop((*key, 4.5))
+        members = _pool_history(history)[("NHL", "shots on goal")]
+        self.assertEqual(members[("player", "game-past")][0],
+                         datetime.fromisoformat(late))
 
     def test_bad_and_duplicate_immutable_sources_fail_closed(self):
         blob=b'{"ok":true}'

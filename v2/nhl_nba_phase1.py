@@ -102,7 +102,8 @@ def _usage_doc(row, root):
             or str(doc.get("player_id")) != str(row["player_id"])
             or str(doc.get("stat")) != str(row["stat"])):
         raise ContractError("usage_source_contract_identity_mismatch")
-    retrieved = utc(doc.get("retrieved_at"), "history_retrieved_at")
+    retrieved = max(utc(doc.get("retrieved_at"), "history_retrieved_at"),
+                    utc(receipt.get("retrieved_at"), "history_receipt_retrieved_at"))
     if retrieved > utc(row["input_freeze_at"], "input_freeze_at"):
         raise ContractError("usage_source_retrieved_after_original_freeze")
     return doc, receipt
@@ -157,6 +158,22 @@ def _observations(doc, freeze):
 
 def _ready_history(obs):
     return [r for r in obs if r["workload"] > 0]
+
+
+def _pool_history(history):
+    pool = defaultdict(dict)
+    for (sport, _event, player_id, stat, _line), (doc, receipt, observations) in history.items():
+        available = max(utc(doc["retrieved_at"], "history_retrieved_at"),
+                        utc(receipt["retrieved_at"], "history_receipt_retrieved_at"))
+        members = pool[(sport, stat)]
+        for row in _ready_history(observations):
+            key = (player_id, row["event_id"])
+            prior = members.get(key)
+            if prior is not None and prior[1] != row:
+                raise ContractError("contradictory_peer_history")
+            if prior is None or available < prior[0]:
+                members[key] = (available, row)
+    return pool
 
 
 def _probs(rate, line):
@@ -419,28 +436,16 @@ def run_phase1(packet, attempts, *, archive_root, bundle_sha256,
     # Every provider game history is first observed at the collector's actual
     # pre-evaluation retrieval time. Do not invent historical publication times.
     history = {}
+    freezes = {}
     for key in sorted(groups):
-        row = groups[key]["over"]
+        over, under = groups[key]["over"], groups[key]["under"]
+        row = min((over, under), key=lambda side: utc(side["input_freeze_at"], "input_freeze_at"))
         doc, receipt = _usage_doc(row, root)
-        obs = _observations(doc, utc(row["input_freeze_at"], "input_freeze_at"))
+        freeze = utc(row["input_freeze_at"], "input_freeze_at")
+        obs = _observations(doc, freeze)
         history[key] = (doc, receipt, obs)
-    peers = defaultdict(list)
-    for key, (_doc, _receipt, obs) in history.items():
-        sport, event_id, player_id, stat, _line = key
-        token = (sport, stat)
-        # Multiple alternate quote lines from the same player-game do not
-        # duplicate their prior history in the peer pool.
-        for o in _ready_history(obs):
-            pkey = (sport, stat, player_id, o["event_id"])
-            peers[token].append((pkey, o))
-    pool = {}
-    for token, members in peers.items():
-        seen = {}
-        for ident, o in members:
-            if ident in seen and seen[ident] != o:
-                raise ContractError("contradictory_peer_history")
-            seen[ident] = o
-        pool[token] = list(seen.items())
+        freezes[key] = (freeze, row["input_freeze_at"])
+    pool = _pool_history(history)
 
     indexed = _settlement_index(
         settlement_rows or [], source_archive_root=settlement_archive_root)
@@ -465,17 +470,17 @@ def run_phase1(packet, attempts, *, archive_root, bundle_sha256,
         canonical_stat(sport, stat, "full")
         by_sport[sport] += 1
         by_stat[sport + "|" + stat] += 1
-        freeze = utc(over["input_freeze_at"], "freeze_at")
+        freeze, freeze_raw = freezes[key]
         doc, receipt, obs = history[key]
         eligible = _ready_history(obs)
         own = eligible[-5:]
         recent_current = [o for o in own if not o["prior_season"]]
-        peer = [(ident, r) for ident, r in pool.get((sport, stat), [])
-                if ident[2] != player_id]
+        peer = [r for (donor, _event), (available, r) in pool.get((sport, stat), {}).items()
+                if donor != player_id and available <= freeze]
         opportunity = {
             "source_receipt_sha256": receipt["content_sha256"],
             "original_source_observed_at": receipt["retrieved_at"],
-            "pregame_input_freeze_at": over["input_freeze_at"],
+            "pregame_input_freeze_at": freeze_raw,
             "history_games_usable": len(eligible),
             "last5_count": len(own),
             "last5_current_season_count": len(recent_current),
@@ -504,8 +509,7 @@ def run_phase1(packet, attempts, *, archive_root, bundle_sha256,
                     "status": "unavailable", "reason": "no_distinct_peer_history"
                 }
             else:
-                peer_rate = sum(r["value"] for _ident, r in peer)/sum(
-                    r["workload"] for _ident, r in peer)
+                peer_rate = sum(r["value"] for r in peer)/sum(r["workload"] for r in peer)
                 prior_exposure = 20.0
                 shrunk = (sum(r["value"] for r in eligible) +
                           peer_rate*prior_exposure)/(
@@ -573,7 +577,7 @@ def run_phase1(packet, attempts, *, archive_root, bundle_sha256,
             "opponent_id": over["opponent"],
             "stat": stat, "period": "full", "line": line,
             "event_start": over["event_start"],
-            "input_freeze_at": over["input_freeze_at"],
+            "input_freeze_at": freeze_raw,
             "original_over_snapshot_sha256": _sha(_canonical(over)),
             "original_under_snapshot_sha256": _sha(_canonical(under)),
             "source_archive_receipt": receipt["source_id"],
