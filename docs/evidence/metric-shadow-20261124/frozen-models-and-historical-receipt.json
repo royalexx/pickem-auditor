@@ -1,0 +1,339 @@
+{
+  "design": "2021\u201322 and 2022\u201323 fit; prior 2020\u201321 source warm-up; 2023\u201324 and 2024\u201325 design-exposed chronological recheck. Separate Poisson offsets on identical matched players. Fixed coefficients. CRPS primary.",
+  "sports": {
+    "NBA": {
+      "canonical_models": [
+        "baseline",
+        "actual_eFG_pct",
+        "TS_pct"
+      ],
+      "features": [
+        "actual_eFG_pct",
+        "TS_pct"
+      ],
+      "holdout": {
+        "2023": {
+          "comparisons": {
+            "TS_pct_minus_baseline": {
+              "date_bootstrap_95": [
+                -0.020778465662412437,
+                -0.010339291519373411
+              ],
+              "delta_crps": -0.01543678349754543,
+              "delta_nll": -0.01583129898024239
+            },
+            "actual_eFG_pct_and_TS_pct_minus_baseline": {
+              "date_bootstrap_95": [
+                -0.020624701608151143,
+                -0.010155149855074319
+              ],
+              "delta_crps": -0.015268417614364758,
+              "delta_nll": -0.01580816854045364
+            },
+            "actual_eFG_pct_minus_TS_pct": {
+              "date_bootstrap_95": [
+                -0.002461069118228569,
+                0.0012644485132433769
+              ],
+              "delta_crps": -0.00057825342493902,
+              "delta_nll": 0.001411546955941738
+            },
+            "actual_eFG_pct_minus_actual_eFG_pct_and_TS_pct": {
+              "date_bootstrap_95": [
+                -0.0027372914396747447,
+                0.0011980483545868538
+              ],
+              "delta_crps": -0.0007466193081196873,
+              "delta_nll": 0.0013884165161529858
+            },
+            "actual_eFG_pct_minus_baseline": {
+              "date_bootstrap_95": [
+                -0.020878066382515464,
+                -0.011331442398582187
+              ],
+              "delta_crps": -0.01601503692248445,
+              "delta_nll": -0.014419752024300656
+            }
+          },
+          "dates": 159,
+          "games": 1216,
+          "matched": 24590,
+          "scores": {
+            "TS_pct": {
+              "crps": 3.484061971164972,
+              "nll": 3.735221484347489
+            },
+            "actual_eFG_pct": {
+              "crps": 3.4834837177400333,
+              "nll": 3.7366330313034304
+            },
+            "actual_eFG_pct_and_TS_pct": {
+              "crps": 3.484230337048153,
+              "nll": 3.735244614787278
+            },
+            "baseline": {
+              "crps": 3.4994987546625174,
+              "nll": 3.7510527833277307
+            }
+          }
+        },
+        "2024": {
+          "comparisons": {
+            "TS_pct_minus_baseline": {
+              "date_bootstrap_95": [
+                -0.018118952706850558,
+                -0.007269105646744532
+              ],
+              "delta_crps": -0.01275408921073188,
+              "delta_nll": -0.017241673611599454
+            },
+            "actual_eFG_pct_and_TS_pct_minus_baseline": {
+              "date_bootstrap_95": [
+                -0.01798185568902522,
+                -0.00716988310046739
+              ],
+              "delta_crps": -0.01261070120485016,
+              "delta_nll": -0.01727632557172997
+            },
+            "actual_eFG_pct_minus_TS_pct": {
+              "date_bootstrap_95": [
+                -0.0026301480794159735,
+                0.0013001265894537653
+              ],
+              "delta_crps": -0.0006817774418082698,
+              "delta_nll": 0.0023581148596683726
+            },
+            "actual_eFG_pct_minus_actual_eFG_pct_and_TS_pct": {
+              "date_bootstrap_95": [
+                -0.0028915552689802782,
+                0.0012628674663414643
+              ],
+              "delta_crps": -0.0008251654476899892,
+              "delta_nll": 0.0023927668197988887
+            },
+            "actual_eFG_pct_minus_baseline": {
+              "date_bootstrap_95": [
+                -0.01858844098350334,
+                -0.008224728455312056
+              ],
+              "delta_crps": -0.01343586665254015,
+              "delta_nll": -0.014883558751931083
+            }
+          },
+          "dates": 162,
+          "games": 1217,
+          "matched": 24462,
+          "scores": {
+            "TS_pct": {
+              "crps": 3.56783026347812,
+              "nll": 3.8237033192694625
+            },
+            "actual_eFG_pct": {
+              "crps": 3.567148486036312,
+              "nll": 3.8260614341291315
+            },
+            "actual_eFG_pct_and_TS_pct": {
+              "crps": 3.5679736514840017,
+              "nll": 3.8236686673093323
+            },
+            "baseline": {
+              "crps": 3.580584352688852,
+              "nll": 3.840944992881062
+            }
+          }
+        }
+      },
+      "market": "points",
+      "parameters": {
+        "TS_pct": {
+          "beta": [
+            0.010916184573359194,
+            -0.055169094981866756
+          ],
+          "center": [
+            0.5697346277059632
+          ],
+          "columns": [
+            1
+          ],
+          "scale": [
+            0.06755994645587579
+          ]
+        },
+        "actual_eFG_pct": {
+          "beta": [
+            0.006686627968896621,
+            -0.05189404399367176
+          ],
+          "center": [
+            0.5399015707550777
+          ],
+          "columns": [
+            0
+          ],
+          "scale": [
+            0.07187539574872015
+          ]
+        },
+        "actual_eFG_pct_and_TS_pct": {
+          "beta": [
+            0.01113824347387132,
+            0.0033854765877184413,
+            -0.058359072043930586
+          ],
+          "center": [
+            0.5399015707550777,
+            0.5697346277059632
+          ],
+          "columns": [
+            0,
+            1
+          ],
+          "scale": [
+            0.07187539574872015,
+            0.06755994645587579
+          ]
+        },
+        "baseline": {
+          "beta": [
+            0.003650391044424693
+          ],
+          "center": [],
+          "columns": [],
+          "scale": []
+        }
+      },
+      "sources": {
+        "2021": {
+          "frozen_feature_sha256": "d08222c61f643bf417c649d44449a0efe1ea682b128dac097bef99add6fa8df5",
+          "matched": 24118,
+          "outcomes_sha256": "c49fb889a5ee1b911dcdd7f023cfb35e0b2887793eac9bf9f21b526eb8ea9a1c"
+        },
+        "2022": {
+          "frozen_feature_sha256": "3993eb617b0098f4a81bb81944a34571bbb65c051d5c4189ccaef5f100c6e87f",
+          "matched": 24333,
+          "outcomes_sha256": "4c767f20d08f15d5410636663fab4c85dd967228391cd5f4f13fbc6693ce1a6a"
+        },
+        "2023": {
+          "frozen_feature_sha256": "3895d7fb88ddc24765c315c63280212ab45100edf46cee55b3ac3e1ddae7d854",
+          "matched": 24590,
+          "outcomes_sha256": "962fcd89499e8b06bd5dfbef0cfad882da5f23bb308aed76383db4e3f111c8b6"
+        },
+        "2024": {
+          "frozen_feature_sha256": "4f9769501bc743a05d55a3c0f42dacd5db21c56546a6d80b4e6e426743f55736",
+          "matched": 24462,
+          "outcomes_sha256": "c129a51b37fe3ef2eb4771ab02a9897342fd90eb80ed3bb510fce06412b30f6d"
+        }
+      }
+    },
+    "NHL": {
+      "canonical_models": [
+        "baseline",
+        "iFF_per60_5v5"
+      ],
+      "features": [
+        "iFF_per60_5v5"
+      ],
+      "holdout": {
+        "2023": {
+          "comparisons": {
+            "iFF_per60_5v5_minus_baseline": {
+              "date_bootstrap_95": [
+                -0.002307700975921162,
+                -0.000890488168099844
+              ],
+              "delta_crps": -0.001596130141337663,
+              "delta_nll": -0.0026600599102585116
+            }
+          },
+          "dates": 182,
+          "games": 1299,
+          "matched": 44196,
+          "scores": {
+            "baseline": {
+              "crps": 0.7320488557014151,
+              "nll": 1.6089920854891675
+            },
+            "iFF_per60_5v5": {
+              "crps": 0.7304527255600775,
+              "nll": 1.6063320255789089
+            }
+          }
+        },
+        "2024": {
+          "comparisons": {
+            "iFF_per60_5v5_minus_baseline": {
+              "date_bootstrap_95": [
+                -0.0031896911275650108,
+                -0.0018467411915847828
+              ],
+              "delta_crps": -0.0025245048101617856,
+              "delta_nll": -0.0037429075390715445
+            }
+          },
+          "dates": 175,
+          "games": 1300,
+          "matched": 43769,
+          "scores": {
+            "baseline": {
+              "crps": 0.7076228263001244,
+              "nll": 1.5730003498931562
+            },
+            "iFF_per60_5v5": {
+              "crps": 0.7050983214899625,
+              "nll": 1.5692574423540848
+            }
+          }
+        }
+      },
+      "market": "shots_on_goal",
+      "parameters": {
+        "baseline": {
+          "beta": [
+            -0.0027064376274229932
+          ],
+          "center": [],
+          "columns": [],
+          "scale": []
+        },
+        "iFF_per60_5v5": {
+          "beta": [
+            0.015549295038790071,
+            -0.057640281537035924
+          ],
+          "center": [
+            8.566012631916584
+          ],
+          "columns": [
+            0
+          ],
+          "scale": [
+            2.9056591213658196
+          ]
+        }
+      },
+      "sources": {
+        "2021": {
+          "frozen_feature_sha256": "15cd9fe67219885ee94a0801c3413e65457284ced328aa3d084f80379ef9ebb2",
+          "matched": 42768,
+          "outcomes_sha256": "df56b7935d47f4fca1fb162f3d5b64f66645a1d1a8b0f0614f9488d28b24ea87"
+        },
+        "2022": {
+          "frozen_feature_sha256": "d8263457df45728c4fc7e12ecbdac4ad9e227cf035b72381ae90d6847fe48e41",
+          "matched": 43592,
+          "outcomes_sha256": "4b495df7a1e8bc9d42480a57407752c0d1fa8b9e0a3a1fe58c2ded9ab1da9875"
+        },
+        "2023": {
+          "frozen_feature_sha256": "0f3eca782f3fbda261e1aba0b2f9542a21e76844760eabc3ea23249d929e3d25",
+          "matched": 44196,
+          "outcomes_sha256": "e89273f594583feb742ce13dd33968d12de580e5347add0586b7da94adfe7a84"
+        },
+        "2024": {
+          "frozen_feature_sha256": "6dd1cfd86f763540f6255ab9c3b6df5cbd0739bb7f8e0487c4cddfca974a2702",
+          "matched": 43769,
+          "outcomes_sha256": "24016d5f311d16607ad4f4764e934dbe30ca96fca55aed63eec0bae1b81458db"
+        }
+      }
+    }
+  }
+}
