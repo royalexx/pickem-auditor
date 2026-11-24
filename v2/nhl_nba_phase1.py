@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import base64
 from collections import Counter, defaultdict
-from datetime import datetime
+from datetime import datetime, timedelta
 import hashlib
 import json
 import math
@@ -24,6 +24,7 @@ import tempfile
 
 from .contracts import ContractError, FixedLineDistribution, PoissonDistribution, utc
 from .evaluation import brier, log_loss, _cluster_interval, _mean
+from .official_nba_nhl_capture import nba_stat_rows, nhl_stat_rows, normalized_team
 from .stat_registry import canonical_stat
 
 SCHEMA = "v25-phase1-nhl-nba-certified-replay-v1"
@@ -239,6 +240,7 @@ def _status_for_raw_component(row, key):
 
 def _settlement_index(items, *, source_archive_root=None):
     index = {}
+    verified_files = set()
     for s in items:
         if not isinstance(s, dict):
             raise ContractError("invalid_official_settlement")
@@ -282,11 +284,64 @@ def _settlement_index(items, *, source_archive_root=None):
             original_file = (source_root / relative).resolve()
             if not original_file.is_relative_to(source_root):
                 raise ContractError("official_settlement_source_archive_path_escape")
-            if not original_file.is_file() or _sha(original_file.read_bytes()) != digest:
-                raise ContractError("official_settlement_source_archive_unverified")
+            if (original_file, digest) not in verified_files:
+                if not original_file.is_file() or _sha(original_file.read_bytes()) != digest:
+                    raise ContractError("official_settlement_source_archive_unverified")
+                verified_files.add((original_file, digest))
             canonical_stat(s["sport"], s["stat"], "full").validate_actual(s.get("actual"))
         index[key] = s
     return index
+
+
+def _verify_settled_actual(settlement, forecast, source_root, cache):
+    sport = settlement["sport"]
+    official_id = str(settlement.get("official_game_id", ""))
+    if not official_id.isascii() or not official_id.isdecimal():
+        raise ContractError("official_settlement_game_id_missing")
+    uri = urlsplit(settlement["source_url"])
+    if sport == "NHL":
+        expected_endpoint = (uri.hostname == "api-web.nhle.com" and
+                             uri.path == f"/v1/gamecenter/{official_id}/boxscore" and not uri.query)
+    else:
+        expected_endpoint = (uri.hostname in {"site.api.espn.com", "site.web.api.espn.com"} and
+                             uri.path == "/apis/site/v2/sports/basketball/nba/summary" and
+                             uri.query == f"event={official_id}")
+    if not expected_endpoint or uri.port not in (None, 443) or uri.fragment:
+        raise ContractError("official_settlement_game_endpoint_mismatch")
+
+    team = normalized_team(forecast["team"], sport)
+    opponent = normalized_team(forecast["opponent"], sport)
+    teams = {team, opponent}
+    relative = settlement["source_archive_path"]
+    digest = settlement["source_sha256"]
+    key = (sport, official_id, tuple(sorted(teams)), relative, digest)
+    if key not in cache:
+        raw = (Path(source_root) / relative).read_bytes()
+        if _sha(raw) != digest:
+            raise ContractError("official_settlement_source_archive_unverified")
+        try:
+            source = json.loads(raw)
+            if sport == "NHL":
+                identity, event_start = source["id"], source["startTimeUTC"]
+                players = nhl_stat_rows(source, expected_teams=teams)
+            else:
+                competition, = source["header"]["competitions"]
+                identity, event_start = competition["id"], competition["date"]
+                players = nba_stat_rows(source, expected_teams=teams)
+            source_start = utc(event_start, "official_game_start")
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ContractError("official_settlement_invalid_final_boxscore:" + str(exc)) from exc
+        if str(identity) != official_id:
+            raise ContractError("official_settlement_source_game_id_mismatch")
+        cache[key] = (source_start, players)
+    source_start, players = cache[key]
+    if abs(source_start - utc(forecast["event_start"], "event_start")) > timedelta(minutes=90):
+        raise ContractError("official_settlement_source_game_start_mismatch")
+    if utc(settlement["settled_at"], "settled_at") <= source_start:
+        raise ContractError("official_settlement_timestamp_precedes_source_game")
+    player = players.get(str(settlement["player_id"]))
+    if not player or player["team"] != team or player.get(settlement["stat"]) != settlement["actual"]:
+        raise ContractError("official_settlement_actual_or_player_mismatch")
 
 
 def run_phase1(packet, attempts, *, archive_root, bundle_sha256,
@@ -395,6 +450,7 @@ def run_phase1(packet, attempts, *, archive_root, bundle_sha256,
     all_states = Counter()
     by_sport = Counter()
     by_stat = Counter()
+    verified_boxscores = {}
     for key in sorted(groups):
         sport, event_id, player_id, stat, line = key
         over, under = groups[key]["over"], groups[key]["under"]
@@ -474,12 +530,14 @@ def run_phase1(packet, attempts, *, archive_root, bundle_sha256,
         elif s["status"] != "settled":
             outcome = {"status": s["status"]}
         else:
-            if utc(s["settled_at"], "settled_at") < utc(over["event_start"], "event_start"):
+            if utc(s["settled_at"], "settled_at") <= utc(over["event_start"], "event_start"):
                 raise ContractError("settlement_before_event")
+            _verify_settled_actual(s, over, settlement_archive_root, verified_boxscores)
             actual = canonical_stat(sport, stat, "full").validate_actual(s["actual"])
             state = "push" if actual == line else "over" if actual > line else "under"
             outcome = {"status": state, "actual": actual,
-                       "settled_at": s["settled_at"], "source_url": s["source_url"]}
+                       "settled_at": s["settled_at"], "source_url": s["source_url"],
+                       "source_sha256": s["source_sha256"], "official_game_id": str(s["official_game_id"])}
             if state != "push":
                 observed_over = int(state == "over")
                 for model, value in baseline.items():

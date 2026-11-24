@@ -224,20 +224,33 @@ class FrozenNhlNbaContractTests(unittest.TestCase):
             packet,ledger=fixture(root)
             source=root/"official"
             source.mkdir()
-            original=b'{"provider":"nhl","game":"event-1","shots_on_goal":5}'
+            original = json.dumps({
+                "id": 2026020001,
+                "gameState": "OFF",
+                "startTimeUTC": packet["forecasts"][0]["event_start"],
+                "homeTeam": {"abbrev": "BUF"},
+                "awayTeam": {"abbrev": "KC"},
+                "playerByGameStats": {"homeTeam": {"forwards": [
+                    {"playerId": 8470001, "sog": 5, "toi": "15:01"},
+                ]}},
+            }).encode()
             (source/"game.json").write_bytes(original)
-            result=run_phase1(packet,ledger,archive_root=root/"replay",
-                bundle_sha256="a"*64,code_commit="a"*40,
-                settlement_archive_root=source,
-                settlement_rows=[{
-                    "sport":"NHL","event_id":"event-1","player_id":"8470001",
-                    "stat":"shots on goal","period":"full","status":"settled",
-                    "actual":5,"settled_at":"2026-11-09T21:00:00Z",
-                    "retrieved_at":"2026-11-09T21:01:00Z",
-                    "source_url":"https://api-web.nhle.com/v1/gamecenter",
-                    "source_sha256":hashlib.sha256(original).hexdigest(),
-                    "source_archive_path":"game.json",
-                }])
+            official = {
+                "sport":"NHL","event_id":"event-1","player_id":"8470001",
+                "stat":"shots on goal","period":"full","status":"settled",
+                "actual":5,"settled_at":"2026-11-09T21:00:00Z",
+                "retrieved_at":"2026-11-09T21:01:00Z",
+                "source_url":"https://api-web.nhle.com/v1/gamecenter/2026020001/boxscore",
+                "official_game_id":"2026020001",
+                "source_sha256":hashlib.sha256(original).hexdigest(),
+                "source_archive_path":"game.json",
+            }
+            def replay(settlement):
+                return run_phase1(packet, ledger, archive_root=root/"replay",
+                    bundle_sha256="a"*64, code_commit="a"*40,
+                    settlement_archive_root=source, settlement_rows=[settlement])
+
+            result = replay(official)
             self.assertEqual(result["settlement_states"],{"over":1})
             self.assertEqual(result["models"]["naive_recent_exposure_rate"][
                 "scored_contracts"],1)
@@ -249,6 +262,13 @@ class FrozenNhlNbaContractTests(unittest.TestCase):
                 "matched_contracts"],1)
             self.assertEqual(result["paired"]["real_no_vig_market"][
                 "game_cluster_interval"]["status"],"insufficient_clusters")
+            with self.assertRaisesRegex(ContractError, "actual_or_player_mismatch"):
+                replay({**official, "actual": 3})
+            with self.assertRaisesRegex(ContractError, "game_endpoint_mismatch"):
+                replay({**official, "official_game_id": "2026020002"})
+            with self.assertRaisesRegex(ContractError, "source_game_id_mismatch"):
+                replay({**official, "official_game_id": "2026020002",
+                        "source_url": "https://api-web.nhle.com/v1/gamecenter/2026020002/boxscore"})
 
     def test_no_synthetic_settlement_or_postgame_features_allowed(self):
         with tempfile.TemporaryDirectory() as tmp:
