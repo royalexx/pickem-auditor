@@ -1,0 +1,1136 @@
+{
+  "calibration_receipts": {
+    "NB2_sha256": "041ce7891fc564c8c58587741995b38e239fe54020e9220564a62f30fa9d73e8",
+    "compound_sha256": "10b6fd7112d441051656b42dc2f94f2e262089a80447ae9aee520ac6dd1433f4"
+  },
+  "exclusions": [],
+  "forecast_rows": 79,
+  "forecasts": [
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.8082391883621154,
+        "threes": 1.5738140822198705,
+        "twos": 1.025563056066006
+      },
+      "eFG_mean": 8.580807547153738,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "2596112",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.14684290085157947,
+        "threes": 1.8087300180700536,
+        "twos": 0.8003728428190647
+      },
+      "eFG_mean": 7.17377864069987,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "2990962",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 2.297799238421807,
+        "threes": 3.558238434004276,
+        "twos": 1.5680755953815777
+      },
+      "eFG_mean": 16.10866573119779,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "3157465",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.2601926216022372,
+        "threes": 1.151924970779604,
+        "twos": 2.826332375350198
+      },
+      "eFG_mean": 10.368632284641444,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "3908845",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.4341362839241554,
+        "threes": 2.1558150815335013,
+        "twos": 2.888559783007103
+      },
+      "eFG_mean": 13.678701094538866,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "4066372",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.6510386942760176,
+        "threes": 0.2507092278114039,
+        "twos": 4.327513046923778
+      },
+      "eFG_mean": 11.058192471557787,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "4278562",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.0811959064134224,
+        "threes": 2.099415893905802,
+        "twos": 0.9113194523379056
+      },
+      "eFG_mean": 9.202082492806637,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "4395702",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.9815097720992241,
+        "threes": 0.4641110621664657,
+        "twos": 0.6704979286031268
+      },
+      "eFG_mean": 3.7148388158048746,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "4397449",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.5880860832856505,
+        "threes": 0.0,
+        "twos": 0.46366448712474684
+      },
+      "eFG_mean": 1.5154150575351442,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "4397882",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 5.150079851341228,
+        "threes": 1.993936052273371,
+        "twos": 7.438278003273974
+      },
+      "eFG_mean": 26.00844401470929,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "4432166",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.6780292409356539,
+        "threes": 0.8108456412973164,
+        "twos": 1.2997278025195056
+      },
+      "eFG_mean": 5.710021769866615,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "4683771",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.5058547721143956,
+        "threes": 0.08773078494083049,
+        "twos": 4.742968504746713
+      },
+      "eFG_mean": 11.254984136430314,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "4684742",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.05200602993417504,
+        "threes": 0.8245729778894006,
+        "twos": 0.4293089953947086
+      },
+      "eFG_mean": 3.3843429543917942,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "4700852",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 2.9070976212232336,
+        "threes": 2.309472969003631,
+        "twos": 3.5787538888072743
+      },
+      "eFG_mean": 16.993024305848678,
+      "game_id": "401909314",
+      "opponent": "ORL",
+      "player_id": "5107199",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "DET"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.0,
+        "threes": 0.962390086926531,
+        "twos": 0.4989320668487451
+      },
+      "eFG_mean": 3.885034394477083,
+      "game_id": "401909314",
+      "opponent": "DET",
+      "player_id": "3133635",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "ORL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 2.362158669451456,
+        "threes": 3.6163571007348314,
+        "twos": 2.5222215437572606
+      },
+      "eFG_mean": 18.255673059170473,
+      "game_id": "401909314",
+      "opponent": "DET",
+      "player_id": "4066320",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "ORL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 2.6614730046449218,
+        "threes": 0.7827724950877044,
+        "twos": 2.8810640228074385
+      },
+      "eFG_mean": 10.771918535522913,
+      "game_id": "401909314",
+      "opponent": "DET",
+      "player_id": "4277847",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "ORL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.6170501204056247,
+        "threes": 0.4847778992994781,
+        "twos": 0.7473319059127707
+      },
+      "eFG_mean": 3.5660476301296002,
+      "game_id": "401909314",
+      "opponent": "DET",
+      "player_id": "4278572",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "ORL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.3412750690796917,
+        "threes": 0.0,
+        "twos": 2.3932370069506503
+      },
+      "eFG_mean": 6.127749082980992,
+      "game_id": "401909314",
+      "opponent": "DET",
+      "player_id": "4348700",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "ORL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.969702333776541,
+        "threes": 1.8087531205064975,
+        "twos": 1.8697860670413016
+      },
+      "eFG_mean": 10.135533829378636,
+      "game_id": "401909314",
+      "opponent": "DET",
+      "player_id": "4432165",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "ORL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 4.802690971716774,
+        "threes": 1.3934936585784343,
+        "twos": 7.643881442204945
+      },
+      "eFG_mean": 24.270934831861968,
+      "game_id": "401909314",
+      "opponent": "DET",
+      "player_id": "4566434",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "ORL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.7463835027592751,
+        "threes": 2.3476534276413847,
+        "twos": 1.916989518587049
+      },
+      "eFG_mean": 11.623322822857526,
+      "game_id": "401909314",
+      "opponent": "DET",
+      "player_id": "4702382",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "ORL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 3.6952770250711193,
+        "threes": 2.120803086743585,
+        "twos": 3.7151168119805194
+      },
+      "eFG_mean": 17.487919909262914,
+      "game_id": "401909314",
+      "opponent": "DET",
+      "player_id": "4712849",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "ORL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.756456314155432,
+        "threes": 0.6963905544438563,
+        "twos": 1.7267944390015029
+      },
+      "eFG_mean": 6.299216855490006,
+      "game_id": "401909314",
+      "opponent": "DET",
+      "player_id": "5239561",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "ORL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.4442513202705306,
+        "threes": 0.9188911503095952,
+        "twos": 1.291015820444949
+      },
+      "eFG_mean": 5.782956412089214,
+      "game_id": "401909314",
+      "opponent": "DET",
+      "player_id": "6478",
+      "start_at": "2026-11-25T00:00:00+00:00",
+      "team": "ORL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.3417039169783804,
+        "threes": 2.060844187353241,
+        "twos": 2.9343762962912354
+      },
+      "eFG_mean": 13.392989071620573,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "3078576",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.2824280824400946,
+        "threes": 0.9011449440006309,
+        "twos": 0.2104538703793279
+      },
+      "eFG_mean": 3.406770655200643,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "3195",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 6.8070836126048615,
+        "threes": 2.976865847244655,
+        "twos": 5.87037036917458
+      },
+      "eFG_mean": 27.478421892687987,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "4065648",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.07630247932022632,
+        "threes": 2.3838692643571333,
+        "twos": 0.47647685528146
+      },
+      "eFG_mean": 8.180863982954547,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "4065804",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.667557045065414,
+        "threes": 2.5106841157322894,
+        "twos": 2.53130703237278
+      },
+      "eFG_mean": 14.262223457007842,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "4066354",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 2.6513400024170126,
+        "threes": 2.9760730285069825,
+        "twos": 3.698363706034207
+      },
+      "eFG_mean": 18.976286500006378,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "4251",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.2622658873405632,
+        "threes": 0.8923020551702047,
+        "twos": 1.5631804940547454
+      },
+      "eFG_mean": 7.065533040960668,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "4277951",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.6711482883508987,
+        "threes": 0.0,
+        "twos": 1.8877553697796956
+      },
+      "eFG_mean": 4.44665902791029,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "4351852",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.0649774252798753,
+        "threes": 0.7841169026794064,
+        "twos": 0.6143009262465037
+      },
+      "eFG_mean": 3.645929985811102,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "4397251",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 2.0180786982690337,
+        "threes": 0.21512142160991665,
+        "twos": 4.029578087288364
+      },
+      "eFG_mean": 10.722599137675509,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "4397424",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 2.035249493422259,
+        "threes": 1.0490232654282745,
+        "twos": 2.824036066575321
+      },
+      "eFG_mean": 10.830391422857723,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "4433188",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.5526728001580311,
+        "threes": 1.1908007716911428,
+        "twos": 0.6088461679374965
+      },
+      "eFG_mean": 5.342767451106452,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "4593841",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.3673353557609257,
+        "threes": 0.6392822555904731,
+        "twos": 0.6675955010882845
+      },
+      "eFG_mean": 3.6203731247089137,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "4683689",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.6466173222949047,
+        "threes": 0.7624748145549132,
+        "twos": 0.9687721335588723
+      },
+      "eFG_mean": 4.871586033077389,
+      "game_id": "401909315",
+      "opponent": "WSH",
+      "player_id": "5175647",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "BOS"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.18480336034206993,
+        "threes": 0.0723507466673176,
+        "twos": 0.5076084479442166
+      },
+      "eFG_mean": 1.417072496232456,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "2581184",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 4.896944809286859,
+        "threes": 1.8347753649749106,
+        "twos": 2.437512342097699
+      },
+      "eFG_mean": 15.276295588406988,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "4277905",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.2014648060055261,
+        "threes": 0.0,
+        "twos": 1.1773088561023126
+      },
+      "eFG_mean": 2.556082518210151,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "4278129",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.33708862083179003,
+        "threes": 0.35178849187693123,
+        "twos": 0.6592494154789764
+      },
+      "eFG_mean": 2.7109529274205366,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "4432819",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.23754019540696086,
+        "threes": 0.8037035029301953,
+        "twos": 0.3629087226114297
+      },
+      "eFG_mean": 3.374468149420406,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "4845374",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.2852723497185288,
+        "threes": 0.6182317670808349,
+        "twos": 2.098743505768372
+      },
+      "eFG_mean": 7.337454662497778,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "5104155",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 3.4337451713296865,
+        "threes": 0.9197511341185495,
+        "twos": 5.086414514968905
+      },
+      "eFG_mean": 16.365827603623146,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "5142718",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.7360280747097377,
+        "threes": 0.35063507023837887,
+        "twos": 0.951138679606219
+      },
+      "eFG_mean": 3.6902106446373124,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "5144126",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.2539663253351798,
+        "threes": 1.0717977356779,
+        "twos": 2.5517399211281044
+      },
+      "eFG_mean": 9.572839374625088,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "5160992",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 2.0409797971285872,
+        "threes": 2.550281909977208,
+        "twos": 3.915930176323372
+      },
+      "eFG_mean": 17.523685879706957,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "5174563",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.4274788333570644,
+        "threes": 0.9642389727676126,
+        "twos": 1.5942640692945365
+      },
+      "eFG_mean": 6.508723890248975,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "5238230",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 4.291918599842236,
+        "threes": 0.6066800119643503,
+        "twos": 7.765867003845043
+      },
+      "eFG_mean": 21.643692643425375,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "6583",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.9959039466259966,
+        "threes": 0.8757943238944753,
+        "twos": 1.25844062449361
+      },
+      "eFG_mean": 6.140168167296642,
+      "game_id": "401909315",
+      "opponent": "BOS",
+      "player_id": "6609",
+      "start_at": "2026-11-25T01:00:00+00:00",
+      "team": "WSH"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.8634560415151145,
+        "threes": 1.0701641375479687,
+        "twos": 1.4862106771867885
+      },
+      "eFG_mean": 7.046369808532598,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "3138160",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.8665504619527735,
+        "threes": 0.04422407806959954,
+        "twos": 3.178036032742525
+      },
+      "eFG_mean": 8.355294761646624,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "4278049",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.8135890960487826,
+        "threes": 1.652763392732777,
+        "twos": 2.149074986173819
+      },
+      "eFG_mean": 11.070029246594752,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "4278078",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.9962538177571545,
+        "threes": 0.8874062820863203,
+        "twos": 3.2462504655726434
+      },
+      "eFG_mean": 11.150973595161402,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "4278594",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.2597612241708326,
+        "threes": 0.6513432632814584,
+        "twos": 0.5933220672521207
+      },
+      "eFG_mean": 3.400435148519449,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "4432107",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.6803895111113796,
+        "threes": 0.9288758775225752,
+        "twos": 0.5614892907170088
+      },
+      "eFG_mean": 4.5899957251131225,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "4432582",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.7508067872781093,
+        "threes": 0.6245177282269141,
+        "twos": 1.2862406313989356
+      },
+      "eFG_mean": 5.1968412347567225,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "4593125",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.3379276803375609,
+        "threes": 0.0,
+        "twos": 0.5360193654631459
+      },
+      "eFG_mean": 1.4099664112638526,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "4701208",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.4436558622051145,
+        "threes": 0.3331880021685425,
+        "twos": 2.334746731221642
+      },
+      "eFG_mean": 7.112713331154026,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "4873153",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.4896754648842934,
+        "threes": 1.668819210908029,
+        "twos": 1.5412822283670324
+      },
+      "eFG_mean": 9.578697554342446,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "4896372",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 5.958086808163183,
+        "threes": 1.5674608739548883,
+        "twos": 6.817849669595046
+      },
+      "eFG_mean": 24.296168769217942,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "5041939",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.09636390596493309,
+        "threes": 0.30379483571272786,
+        "twos": 0.27221676325645633
+      },
+      "eFG_mean": 1.5521819396160295,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "5105806",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.777302200532463,
+        "threes": 0.9509572811607624,
+        "twos": 2.5129469998514713
+      },
+      "eFG_mean": 8.656068043717692,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "5211175",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 2.6855991635074528,
+        "threes": 3.255783505809522,
+        "twos": 4.517937275470556
+      },
+      "eFG_mean": 21.48882423187713,
+      "game_id": "401909316",
+      "opponent": "DEN",
+      "player_id": "6442",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DAL"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 2.8122159675156726,
+        "threes": 1.1849537059537252,
+        "twos": 3.2930022901162515
+      },
+      "eFG_mean": 12.953081665609352,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "3064290",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 5.118571767810443,
+        "threes": 1.1883802428374786,
+        "twos": 8.815180923788333
+      },
+      "eFG_mean": 26.314074343899545,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "3112335",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.25122576142151976,
+        "threes": 0.4134977405945331,
+        "twos": 0.4809351391803657
+      },
+      "eFG_mean": 2.4535892615658503,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "3135046",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.3826365330855692,
+        "threes": 2.045255206262657,
+        "twos": 2.503866331765523
+      },
+      "eFG_mean": 12.526134815404587,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "3138196",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 4.889124382910174,
+        "threes": 3.4842654566949345,
+        "twos": 4.772678077402716
+      },
+      "eFG_mean": 24.88727690780041,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "3936299",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 3.0113112495067313,
+        "threes": 0.35899192963751453,
+        "twos": 3.671869184065866
+      },
+      "eFG_mean": 11.432025406551007,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "3978",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.9297730249441764,
+        "threes": 0.32667083805321234,
+        "twos": 1.8633096260871644
+      },
+      "eFG_mean": 5.636404791278141,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "4277848",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.334430197486953,
+        "threes": 0.2698260571469092,
+        "twos": 0.6382646279611655
+      },
+      "eFG_mean": 2.4204376248500115,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "4431690",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 1.3505832948406056,
+        "threes": 1.514907398117677,
+        "twos": 3.570633928423544
+      },
+      "eFG_mean": 13.036573346040726,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "4431767",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.18707130767746427,
+        "threes": 0.3136474090123052,
+        "twos": 0.18225789647434182
+      },
+      "eFG_mean": 1.4925293276630636,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "4433607",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.47101075247665825,
+        "threes": 0.5461198453124139,
+        "twos": 1.6167139117685512
+      },
+      "eFG_mean": 5.3427981119510015,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "4433629",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.1896216810159951,
+        "threes": 0.5308946487739018,
+        "twos": 0.9972785406377578
+      },
+      "eFG_mean": 3.776862708613216,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "4592427",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    },
+    {
+      "NB2_size": 2.934392272369097,
+      "compound_made_rates": {
+        "free_throws": 0.5199800216938045,
+        "threes": 0.5727276157436992,
+        "twos": 1.3639150520554644
+      },
+      "eFG_mean": 4.965992973035831,
+      "game_id": "401909316",
+      "opponent": "DAL",
+      "player_id": "4698719",
+      "start_at": "2026-11-25T03:00:00+00:00",
+      "team": "DEN"
+    }
+  ],
+  "freeze_at": "2026-11-24T16:10:17.104046+00:00",
+  "parent_pregame_sha256": "b2039d4008c79ba089bd7476557096e69e210e5e81562b330b8bb710fd720e37",
+  "schema": "v25-nba-shadow-distribution-companion-v1",
+  "scope": "Conditional on play, equal eFG mean for Poisson, compound and NB2. Count CRPS primary, log score secondary. Research-only.",
+  "source_receipts": {
+    "nba-2026.csv": {
+      "bytes": 17729581,
+      "sha256": "7a4868da67ae7f6ebfba23389e04220be2e3f69d2e56a3942c02aa56f1becc89",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2026.csv",
+      "workspace_received_at": "2026-11-24T15:02:35.225134+00:00"
+    },
+    "nba-2027.csv": {
+      "bytes": 3482182,
+      "sha256": "9964590579a3bda1495f3cc853dc76e575d413fc5c43a484b64f1aa7c8e05e0c",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2027.csv",
+      "workspace_received_at": "2026-11-24T15:02:34.109152+00:00"
+    }
+  }
+}

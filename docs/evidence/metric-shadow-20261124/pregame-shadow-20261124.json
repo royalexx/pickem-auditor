@@ -1,0 +1,2294 @@
+{
+  "freeze_at": "2026-11-24T16:09:46.253006+00:00",
+  "freeze_script_sha256": "98ae700353732f39b05c6c4a0f37dc8b5b9f5f2c66136e23b5c0d34dd9d17ba9",
+  "imported_code_sha256": {
+    "/workspace/scratch/nba-nhl-context-replay/replay_context.py": "fb9f80d9fe824419f136f473e316d738c0893861dc0162f01c5ac86aa7c15e8c",
+    "/workspace/scratch/nhl-advanced-replay/replay_advanced.py": "eb7e61a2106e2bc2fcbe63361fbb91e13b7db315beb50b0f4ac3ae31e4ac2d2b",
+    "/workspace/shared/v25-live-metric-shadows/nhl_live_inputs.py": "b0afbdb5046a1245e476123accc615879d8ea8e7e3392a54fe321f029b9f8a35"
+  },
+  "model_receipt_sha256": "3bc0766354cef373c01cdfa5f866af363586d2ac4763470963afc3c8d950a211",
+  "predeclared_score": "paired count CRPS primary, log score secondary on every matched played row; no-appearance and rejected/unmatched rows accounted separately; one initial date per sport, descriptive only",
+  "previous_complete_dates_before": "2026-11-24",
+  "schema": "v25-pre-event-metric-shadow-v1",
+  "scope": "Research-only count distributions conditional on playing; candidates based on prior team history. No official starter probability, book lines, published picks or model changes.",
+  "source_receipts": {
+    "nba-2026.csv": {
+      "bytes": 17729581,
+      "sha256": "7a4868da67ae7f6ebfba23389e04220be2e3f69d2e56a3942c02aa56f1becc89",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2026.csv",
+      "workspace_received_at": "2026-11-24T15:02:35.225134+00:00"
+    },
+    "nba-2027.csv": {
+      "bytes": 3482182,
+      "sha256": "9964590579a3bda1495f3cc853dc76e575d413fc5c43a484b64f1aa7c8e05e0c",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2027.csv",
+      "workspace_received_at": "2026-11-24T15:02:34.109152+00:00"
+    },
+    "nba-schedule-2027.csv": {
+      "bytes": 3498176,
+      "sha256": "01d6b11c5f12670cd203c03096d1723b63823cb5704454de2e7ec7249ca56682",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_schedules/nba_schedule_2027.csv",
+      "workspace_received_at": "2026-11-24T15:03:07.728535+00:00"
+    },
+    "nhl-2026.parquet": {
+      "bytes": 24290978,
+      "sha256": "73e9db34550c816e448140c70b02720efe7ce88f6a5fa41cca1ead68b43b7e0e",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_2026_lite.parquet",
+      "workspace_received_at": "2026-11-24T15:02:35.717126+00:00"
+    },
+    "nhl-2027.parquet": {
+      "bytes": 5515022,
+      "sha256": "37ded0f6d9a627ebfda6a96cb7cdc4d3dceaf799521ca5b6dd954049ebfd0c84",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_pbp_lite/play_by_play_lite_2027.parquet",
+      "workspace_received_at": "2026-11-24T15:03:07.716536+00:00"
+    },
+    "nhl-schedule-2026.parquet": {
+      "bytes": 31563,
+      "sha256": "63c5a4824587924dd9640eca64c54fe76d62e69a05ca787de8efb04b62f8e6a3",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_schedules/nhl_schedule_2026.parquet",
+      "workspace_received_at": "2026-11-24T15:04:12.491975+00:00"
+    },
+    "nhl-schedule-2027.parquet": {
+      "bytes": 25780,
+      "sha256": "700126c2d557c5394f64804cf5e3a5223ea6e5dc2bfed07620fd6e538f9c111a",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_schedules/nhl_schedule_2027.parquet",
+      "workspace_received_at": "2026-11-24T15:03:07.576537+00:00"
+    },
+    "shifts-2026.parquet": {
+      "bytes": 12046994,
+      "sha256": "110a837b3742a485cfbb02ea3f18adac8643fd8aafef35a1f43106b3be28d577",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_shifts/shifts_2026.parquet",
+      "workspace_received_at": "2026-11-24T15:02:34.961138+00:00"
+    },
+    "shifts-2027.parquet": {
+      "bytes": 3270824,
+      "sha256": "028602fd9f2410652cfef4b4207d72f806637089de7945309d164fecce010e6c",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_shifts/shifts_2027.parquet",
+      "workspace_received_at": "2026-11-24T15:02:34.217150+00:00"
+    },
+    "skater-2026.parquet": {
+      "bytes": 369816,
+      "sha256": "bd12c00a222a7da7578a2279c2e2f9b7341e2e9b72a8dc45bf59d1338c101c16",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2026.parquet",
+      "workspace_received_at": "2026-11-24T15:03:07.460538+00:00"
+    },
+    "skater-2027.parquet": {
+      "bytes": 119807,
+      "sha256": "96d5115afd3e3f4cb8dfdfc5f58d52af90e2dcaeb0676a203b6fe50e77817e6d",
+      "sha256_matches_release_listing": true,
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_skater_boxscores/skater_box_2027.parquet",
+      "workspace_received_at": "2026-11-24T15:03:07.468538+00:00"
+    }
+  },
+  "sports": {
+    "NBA": {
+      "date_toronto": "2026-11-24",
+      "exclusions": {
+        "insufficient_advanced_history": 7,
+        "insufficient_baseline_history": 2
+      },
+      "forecast_rows": 79,
+      "forecasts": [
+        {
+          "features": {
+            "TS_pct": 0.6486254295532645,
+            "actual_eFG_pct": 0.5891089108910891,
+            "field_goal_attempts": 101.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "2596112",
+          "poisson_means": {
+            "TS_pct": 8.37175449027135,
+            "actual_eFG_pct": 8.580807547153738,
+            "baseline": 8.864189399923912
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.623409669211196,
+            "actual_eFG_pct": 0.6193548387096774,
+            "field_goal_attempts": 155.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "2990962",
+          "poisson_means": {
+            "TS_pct": 7.3023527666918815,
+            "actual_eFG_pct": 7.17377864069987,
+            "baseline": 7.574304670706422
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6880542077965535,
+            "actual_eFG_pct": 0.6612149532710281,
+            "field_goal_attempts": 214.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "3157465",
+          "poisson_means": {
+            "TS_pct": 16.031508399479577,
+            "actual_eFG_pct": 16.10866573119779,
+            "baseline": 17.529924825006145
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5781414994720169,
+            "actual_eFG_pct": 0.5545977011494253,
+            "field_goal_attempts": 174.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "3908845",
+          "poisson_means": {
+            "TS_pct": 10.451654376373448,
+            "actual_eFG_pct": 10.368632284641444,
+            "baseline": 10.447466333656894
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5389762107051826,
+            "actual_eFG_pct": 0.5170454545454546,
+            "field_goal_attempts": 176.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "4066372",
+          "poisson_means": {
+            "TS_pct": 13.85553174945947,
+            "actual_eFG_pct": 13.678701094538866,
+            "baseline": 13.414035752701448
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6530883329643569,
+            "actual_eFG_pct": 0.63125,
+            "field_goal_attempts": 160.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "4278562",
+          "poisson_means": {
+            "TS_pct": 11.081626776553328,
+            "actual_eFG_pct": 11.058192471557787,
+            "baseline": 11.77629830056318
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6699751861042184,
+            "actual_eFG_pct": 0.6452702702702703,
+            "field_goal_attempts": 148.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "4395702",
+          "poisson_means": {
+            "TS_pct": 9.18782902608492,
+            "actual_eFG_pct": 9.202082492806637,
+            "baseline": 9.899356871867777
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.4677380666826577,
+            "actual_eFG_pct": 0.3951048951048951,
+            "field_goal_attempts": 143.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "4397449",
+          "poisson_means": {
+            "TS_pct": 3.6521333718362317,
+            "actual_eFG_pct": 3.7148388158048746,
+            "baseline": 3.33594446253586
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5104083266613291,
+            "actual_eFG_pct": 0.45714285714285713,
+            "field_goal_attempts": 35.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "4397882",
+          "poisson_means": {
+            "TS_pct": 1.504728775513836,
+            "actual_eFG_pct": 1.5154150575351442,
+            "baseline": 1.4231907090578517
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5688935281837161,
+            "actual_eFG_pct": 0.5178041543026706,
+            "field_goal_attempts": 337.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "4432166",
+          "poisson_means": {
+            "TS_pct": 25.72294285860201,
+            "actual_eFG_pct": 26.00844401470929,
+            "baseline": 25.519189050359987
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.4694835680751174,
+            "actual_eFG_pct": 0.44537815126050423,
+            "field_goal_attempts": 119.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "4683771",
+          "poisson_means": {
+            "TS_pct": 5.8128498492551985,
+            "actual_eFG_pct": 5.710021769866615,
+            "baseline": 5.317167196003102
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5941949616648412,
+            "actual_eFG_pct": 0.5696969696969697,
+            "field_goal_attempts": 165.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "4684742",
+          "poisson_means": {
+            "TS_pct": 11.320086607712746,
+            "actual_eFG_pct": 11.254984136430314,
+            "baseline": 11.464864634875891
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.42624900872323557,
+            "actual_eFG_pct": 0.43,
+            "field_goal_attempts": 50.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "4700852",
+          "poisson_means": {
+            "TS_pct": 3.529689793839853,
+            "actual_eFG_pct": 3.3843429543917942,
+            "baseline": 3.1166995295729762
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5518763796909493,
+            "actual_eFG_pct": 0.5,
+            "field_goal_attempts": 214.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "ORL",
+          "player_id": "5107199",
+          "poisson_means": {
+            "TS_pct": 16.824000930572907,
+            "actual_eFG_pct": 16.993024305848678,
+            "baseline": 16.460404164623313
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "DET"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5,
+            "actual_eFG_pct": 0.5,
+            "field_goal_attempts": 91.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "DET",
+          "player_id": "3133635",
+          "poisson_means": {
+            "TS_pct": 4.012832628342251,
+            "actual_eFG_pct": 3.885034394477083,
+            "baseline": 3.7632639826534744
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "ORL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5956342339944097,
+            "actual_eFG_pct": 0.5672727272727273,
+            "field_goal_attempts": 275.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "DET",
+          "player_id": "4066320",
+          "poisson_means": {
+            "TS_pct": 18.307630451674967,
+            "actual_eFG_pct": 18.255673059170473,
+            "baseline": 18.56358053501186
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "ORL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6479840496233938,
+            "actual_eFG_pct": 0.597972972972973,
+            "field_goal_attempts": 148.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "DET",
+          "player_id": "4277847",
+          "poisson_means": {
+            "TS_pct": 10.582499687433614,
+            "actual_eFG_pct": 10.771918535522913,
+            "baseline": 11.199105784677513
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "ORL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5863844393592678,
+            "actual_eFG_pct": 0.5483870967741935,
+            "field_goal_attempts": 93.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "DET",
+          "player_id": "4278572",
+          "poisson_means": {
+            "TS_pct": 3.554512188138039,
+            "actual_eFG_pct": 3.5660476301296002,
+            "baseline": 3.577084881966083
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "ORL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.7122163206180588,
+            "actual_eFG_pct": 0.7014925373134329,
+            "field_goal_attempts": 67.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "DET",
+          "player_id": "4348700",
+          "poisson_means": {
+            "TS_pct": 6.155684363874262,
+            "actual_eFG_pct": 6.127749082980992,
+            "baseline": 6.865164115959242
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "ORL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5203680543148115,
+            "actual_eFG_pct": 0.49528301886792453,
+            "field_goal_attempts": 212.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "DET",
+          "player_id": "4432165",
+          "poisson_means": {
+            "TS_pct": 10.26125231360736,
+            "actual_eFG_pct": 10.135533829378636,
+            "baseline": 9.784471751659392
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "ORL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.558518304987028,
+            "actual_eFG_pct": 0.5068119891008175,
+            "field_goal_attempts": 367.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "DET",
+          "player_id": "4566434",
+          "poisson_means": {
+            "TS_pct": 24.01737679907273,
+            "actual_eFG_pct": 24.270934831861968,
+            "baseline": 23.626113825321656
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "ORL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6126021003500584,
+            "actual_eFG_pct": 0.6045918367346939,
+            "field_goal_attempts": 196.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "DET",
+          "player_id": "4702382",
+          "poisson_means": {
+            "TS_pct": 11.809971917949571,
+            "actual_eFG_pct": 11.623322822857526,
+            "baseline": 12.142161412013603
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "ORL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5260876418663304,
+            "actual_eFG_pct": 0.4817351598173516,
+            "field_goal_attempts": 219.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "DET",
+          "player_id": "4712849",
+          "poisson_means": {
+            "TS_pct": 17.4508027542218,
+            "actual_eFG_pct": 17.487919909262914,
+            "baseline": 16.717865856714116
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "ORL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.44427989633469084,
+            "actual_eFG_pct": 0.4158415841584158,
+            "field_goal_attempts": 101.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "DET",
+          "player_id": "5239561",
+          "poisson_means": {
+            "TS_pct": 6.407884717501306,
+            "actual_eFG_pct": 6.299216855490006,
+            "baseline": 5.7420584183116485
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "ORL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.49466429524232997,
+            "actual_eFG_pct": 0.47674418604651164,
+            "field_goal_attempts": 86.0,
+            "previous_games": 20
+          },
+          "game_id": "401909314",
+          "opponent": "DET",
+          "player_id": "6478",
+          "poisson_means": {
+            "TS_pct": 5.899378438525128,
+            "actual_eFG_pct": 5.782956412089214,
+            "baseline": 5.5084273552394105
+          },
+          "start_at": "2026-11-25T00:00:00+00:00",
+          "team": "ORL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5262474012474012,
+            "actual_eFG_pct": 0.4954337899543379,
+            "field_goal_attempts": 219.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "3078576",
+          "poisson_means": {
+            "TS_pct": 13.495639311802758,
+            "actual_eFG_pct": 13.392989071620573,
+            "baseline": 12.930506786659095
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6172037422037423,
+            "actual_eFG_pct": 0.589041095890411,
+            "field_goal_attempts": 73.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "3195",
+          "poisson_means": {
+            "TS_pct": 3.409992501081909,
+            "actual_eFG_pct": 3.406770655200643,
+            "baseline": 3.5191072191750536
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5698447893569845,
+            "actual_eFG_pct": 0.5012987012987012,
+            "field_goal_attempts": 385.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "4065648",
+          "poisson_means": {
+            "TS_pct": 26.833989831213323,
+            "actual_eFG_pct": 27.478421892687987,
+            "baseline": 26.642122744773705
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6454888308674209,
+            "actual_eFG_pct": 0.6423357664233577,
+            "field_goal_attempts": 137.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "4065804",
+          "poisson_means": {
+            "TS_pct": 8.315525772089762,
+            "actual_eFG_pct": 8.180863982954547,
+            "baseline": 8.78213048752568
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5548407848182696,
+            "actual_eFG_pct": 0.5237068965517241,
+            "field_goal_attempts": 232.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "4066354",
+          "poisson_means": {
+            "TS_pct": 14.329402694282782,
+            "actual_eFG_pct": 14.262223457007842,
+            "baseline": 14.053697549252382
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5715675544205278,
+            "actual_eFG_pct": 0.5418060200668896,
+            "field_goal_attempts": 299.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "4251",
+          "poisson_means": {
+            "TS_pct": 19.054397821197583,
+            "actual_eFG_pct": 18.976286500006378,
+            "baseline": 18.94478880131812
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5562619198982836,
+            "actual_eFG_pct": 0.5272727272727272,
+            "field_goal_attempts": 110.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "4277951",
+          "poisson_means": {
+            "TS_pct": 7.108858863332345,
+            "actual_eFG_pct": 7.065533040960668,
+            "baseline": 6.9801764654571175
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6511001347103728,
+            "actual_eFG_pct": 0.68,
+            "field_goal_attempts": 75.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "4351852",
+          "poisson_means": {
+            "TS_pct": 4.623218140762133,
+            "actual_eFG_pct": 4.44665902791029,
+            "baseline": 4.905062715907399
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.603492552645095,
+            "actual_eFG_pct": 0.5974025974025974,
+            "field_goal_attempts": 77.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "4397251",
+          "poisson_means": {
+            "TS_pct": 3.7128145749700536,
+            "actual_eFG_pct": 3.645929985811102,
+            "baseline": 3.7889577602636244
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6630519989547948,
+            "actual_eFG_pct": 0.65625,
+            "field_goal_attempts": 128.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "4397424",
+          "poisson_means": {
+            "TS_pct": 10.852378224592066,
+            "actual_eFG_pct": 10.722599137675509,
+            "baseline": 11.626894727377431
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5146082337317397,
+            "actual_eFG_pct": 0.48097826086956524,
+            "field_goal_attempts": 184.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "4433188",
+          "poisson_means": {
+            "TS_pct": 10.90322966289286,
+            "actual_eFG_pct": 10.830391422857723,
+            "baseline": 10.347835106571035
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6114350502105604,
+            "actual_eFG_pct": 0.5775862068965517,
+            "field_goal_attempts": 116.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "4593841",
+          "poisson_means": {
+            "TS_pct": 5.328817156790785,
+            "actual_eFG_pct": 5.342767451106452,
+            "baseline": 5.4734867384797115
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5038593481989708,
+            "actual_eFG_pct": 0.4772727272727273,
+            "field_goal_attempts": 88.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "4683689",
+          "poisson_means": {
+            "TS_pct": 3.6670298268825605,
+            "actual_eFG_pct": 3.6203731247089137,
+            "baseline": 3.44982265209188
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5495978552278821,
+            "actual_eFG_pct": 0.5294117647058824,
+            "field_goal_attempts": 68.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "WSH",
+          "player_id": "5175647",
+          "poisson_means": {
+            "TS_pct": 4.935821166809504,
+            "actual_eFG_pct": 4.871586033077389,
+            "baseline": 4.820172327994948
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "BOS"
+        },
+        {
+          "features": {
+            "TS_pct": 0.7307427785419532,
+            "actual_eFG_pct": 0.7163461538461539,
+            "field_goal_attempts": 104.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "2581184",
+          "poisson_means": {
+            "TS_pct": 1.417276798124121,
+            "actual_eFG_pct": 1.417072496232456,
+            "baseline": 1.604720974050399
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5617046659597031,
+            "actual_eFG_pct": 0.4673469387755102,
+            "field_goal_attempts": 245.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "4277905",
+          "poisson_means": {
+            "TS_pct": 14.65387268021084,
+            "actual_eFG_pct": 15.276295588406988,
+            "baseline": 14.452705508829768
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6518817204301075,
+            "actual_eFG_pct": 0.6428571428571429,
+            "field_goal_attempts": 70.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "4278129",
+          "poisson_means": {
+            "TS_pct": 2.5856021739422284,
+            "actual_eFG_pct": 2.556082518210151,
+            "baseline": 2.744979256447919
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.406003937007874,
+            "actual_eFG_pct": 0.3684210526315789,
+            "field_goal_attempts": 38.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "4432819",
+          "poisson_means": {
+            "TS_pct": 2.7495092074953926,
+            "actual_eFG_pct": 2.7109529274205366,
+            "baseline": 2.387997183506968
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6081554077703886,
+            "actual_eFG_pct": 0.591743119266055,
+            "field_goal_attempts": 109.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "4845374",
+          "poisson_means": {
+            "TS_pct": 3.4093534913070633,
+            "actual_eFG_pct": 3.374468149420406,
+            "baseline": 3.492546385810907
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5668491008600469,
+            "actual_eFG_pct": 0.5333333333333333,
+            "field_goal_attempts": 135.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "5104155",
+          "poisson_means": {
+            "TS_pct": 7.350994429856937,
+            "actual_eFG_pct": 7.337454662497778,
+            "baseline": 7.280601636433202
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.500173220162827,
+            "actual_eFG_pct": 0.4527363184079602,
+            "field_goal_attempts": 201.0,
+            "previous_games": 14
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "5142718",
+          "poisson_means": {
+            "TS_pct": 16.334757346911942,
+            "actual_eFG_pct": 16.365827603623146,
+            "baseline": 15.321022717436879
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.4712382190445239,
+            "actual_eFG_pct": 0.42201834862385323,
+            "field_goal_attempts": 109.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "5144126",
+          "poisson_means": {
+            "TS_pct": 3.6885485905233275,
+            "actual_eFG_pct": 3.6902106446373124,
+            "baseline": 3.378850641712034
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5730277185501066,
+            "actual_eFG_pct": 0.5529411764705883,
+            "field_goal_attempts": 170.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "5160992",
+          "poisson_means": {
+            "TS_pct": 9.678286679322618,
+            "actual_eFG_pct": 9.572839374625088,
+            "baseline": 9.634093532295303
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.596618028092186,
+            "actual_eFG_pct": 0.5740740740740741,
+            "field_goal_attempts": 270.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "5174563",
+          "poisson_means": {
+            "TS_pct": 17.645886734064472,
+            "actual_eFG_pct": 17.523685879706957,
+            "baseline": 17.906965281742544
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.46819418288344844,
+            "actual_eFG_pct": 0.4486486486486487,
+            "field_goal_attempts": 185.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "5238230",
+          "poisson_means": {
+            "TS_pct": 6.648596239602173,
+            "actual_eFG_pct": 6.508723890248975,
+            "baseline": 6.075246453165844
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5838512332491745,
+            "actual_eFG_pct": 0.5347222222222222,
+            "field_goal_attempts": 360.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "6583",
+          "poisson_means": {
+            "TS_pct": 21.406114383513206,
+            "actual_eFG_pct": 21.643692643425375,
+            "baseline": 21.497536603224614
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5371277798718431,
+            "actual_eFG_pct": 0.4947916666666667,
+            "field_goal_attempts": 96.0,
+            "previous_games": 20
+          },
+          "game_id": "401909315",
+          "opponent": "BOS",
+          "player_id": "6609",
+          "poisson_means": {
+            "TS_pct": 6.129657715330853,
+            "actual_eFG_pct": 6.140168167296642,
+            "baseline": 5.925390178309233
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "WSH"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5949733096085409,
+            "actual_eFG_pct": 0.5792682926829268,
+            "field_goal_attempts": 82.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "3138160",
+          "poisson_means": {
+            "TS_pct": 7.131739142078391,
+            "actual_eFG_pct": 7.046369808532598,
+            "baseline": 7.227542709998589
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6803542673107891,
+            "actual_eFG_pct": 0.67,
+            "field_goal_attempts": 100.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "4278049",
+          "poisson_means": {
+            "TS_pct": 8.420966988393465,
+            "actual_eFG_pct": 8.355294761646624,
+            "baseline": 9.150333118722727
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5720964566929134,
+            "actual_eFG_pct": 0.5391705069124424,
+            "field_goal_attempts": 217.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "4278078",
+          "poisson_means": {
+            "TS_pct": 11.089674609640573,
+            "actual_eFG_pct": 11.070029246594752,
+            "baseline": 11.030645167070471
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5097594980829557,
+            "actual_eFG_pct": 0.47058823529411764,
+            "field_goal_attempts": 204.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "4278594",
+          "poisson_means": {
+            "TS_pct": 11.18627416940491,
+            "actual_eFG_pct": 11.150973595161402,
+            "baseline": 10.574509479613425
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5139186295503212,
+            "actual_eFG_pct": 0.5,
+            "field_goal_attempts": 89.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "4432107",
+          "poisson_means": {
+            "TS_pct": 3.4725982019016786,
+            "actual_eFG_pct": 3.400435148519449,
+            "baseline": 3.2938537527399605
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5660780404443179,
+            "actual_eFG_pct": 0.5193798449612403,
+            "field_goal_attempts": 129.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "4432582",
+          "poisson_means": {
+            "TS_pct": 4.555238597395092,
+            "actual_eFG_pct": 4.5899957251131225,
+            "baseline": 4.508778018278429
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5534269902085993,
+            "actual_eFG_pct": 0.5295857988165681,
+            "field_goal_attempts": 169.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "4593125",
+          "poisson_means": {
+            "TS_pct": 5.249586359185657,
+            "actual_eFG_pct": 5.1968412347567225,
+            "baseline": 5.142640999833412
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5239933811362383,
+            "actual_eFG_pct": 0.5172413793103449,
+            "field_goal_attempts": 58.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "4701208",
+          "poisson_means": {
+            "TS_pct": 1.445979343157514,
+            "actual_eFG_pct": 1.4099664112638526,
+            "baseline": 1.3828809729017486
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.49143635655897233,
+            "actual_eFG_pct": 0.4444444444444444,
+            "field_goal_attempts": 90.0,
+            "previous_games": 16
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "4873153",
+          "poisson_means": {
+            "TS_pct": 7.1073627047785,
+            "actual_eFG_pct": 7.112713331154026,
+            "baseline": 6.61888879250947
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.608272506082725,
+            "actual_eFG_pct": 0.5714285714285714,
+            "field_goal_attempts": 133.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "4896372",
+          "poisson_means": {
+            "TS_pct": 9.535902206892393,
+            "actual_eFG_pct": 9.578697554342446,
+            "baseline": 9.769525416289952
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5727993733476942,
+            "actual_eFG_pct": 0.5028571428571429,
+            "field_goal_attempts": 350.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "5041939",
+          "poisson_means": {
+            "TS_pct": 23.695839741958668,
+            "actual_eFG_pct": 24.296168769217942,
+            "baseline": 23.583241549944088
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6030701754385965,
+            "actual_eFG_pct": 0.5822784810126582,
+            "field_goal_attempts": 79.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "5105806",
+          "poisson_means": {
+            "TS_pct": 1.5640298110649762,
+            "actual_eFG_pct": 1.5521819396160295,
+            "baseline": 1.5955548453639439
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5147771317829457,
+            "actual_eFG_pct": 0.5032258064516129,
+            "field_goal_attempts": 155.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "5211175",
+          "poisson_means": {
+            "TS_pct": 8.85416733972659,
+            "actual_eFG_pct": 8.656068043717692,
+            "baseline": 8.404308071037622
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5882352941176471,
+            "actual_eFG_pct": 0.5557851239669421,
+            "field_goal_attempts": 242.0,
+            "previous_games": 14
+          },
+          "game_id": "401909316",
+          "opponent": "DEN",
+          "player_id": "6442",
+          "poisson_means": {
+            "TS_pct": 21.501505035181264,
+            "actual_eFG_pct": 21.48882423187713,
+            "baseline": 21.67077735135996
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DAL"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5529789511237959,
+            "actual_eFG_pct": 0.5025906735751295,
+            "field_goal_attempts": 193.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "3064290",
+          "poisson_means": {
+            "TS_pct": 12.83668911247803,
+            "actual_eFG_pct": 12.953081665609352,
+            "baseline": 12.570578166830748
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6159988243362399,
+            "actual_eFG_pct": 0.5626740947075209,
+            "field_goal_attempts": 359.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "3112335",
+          "poisson_means": {
+            "TS_pct": 25.867727917509935,
+            "actual_eFG_pct": 26.314074343899545,
+            "baseline": 26.669203432155967
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        },
+        {
+          "features": {
+            "TS_pct": 0.4541864139020537,
+            "actual_eFG_pct": 0.4166666666666667,
+            "field_goal_attempts": 48.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "3135046",
+          "poisson_means": {
+            "TS_pct": 2.477281920174107,
+            "actual_eFG_pct": 2.4535892615658503,
+            "baseline": 2.237904876886299
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6303724928366762,
+            "actual_eFG_pct": 0.6056701030927835,
+            "field_goal_attempts": 194.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "3138196",
+          "poisson_means": {
+            "TS_pct": 12.55369609053901,
+            "actual_eFG_pct": 12.526134815404587,
+            "baseline": 13.095463832009855
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6623975941097169,
+            "actual_eFG_pct": 0.6116071428571429,
+            "field_goal_attempts": 336.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "3936299",
+          "poisson_means": {
+            "TS_pct": 24.40259807018405,
+            "actual_eFG_pct": 24.88727690780041,
+            "baseline": 26.130204341796844
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5258967482400269,
+            "actual_eFG_pct": 0.45073891625615764,
+            "field_goal_attempts": 203.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "3978",
+          "poisson_means": {
+            "TS_pct": 11.157038489032482,
+            "actual_eFG_pct": 11.432025406551007,
+            "baseline": 10.686774824777487
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6534637588197563,
+            "actual_eFG_pct": 0.6388888888888888,
+            "field_goal_attempts": 108.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "4277848",
+          "poisson_means": {
+            "TS_pct": 5.677846706645834,
+            "actual_eFG_pct": 5.636404791278141,
+            "baseline": 6.035622708319095
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        },
+        {
+          "features": {
+            "TS_pct": 0.4934210526315789,
+            "actual_eFG_pct": 0.4722222222222222,
+            "field_goal_attempts": 36.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "4431690",
+          "poisson_means": {
+            "TS_pct": 2.463617212505422,
+            "actual_eFG_pct": 2.4204376248500115,
+            "baseline": 2.298019410741123
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6134564643799472,
+            "actual_eFG_pct": 0.589622641509434,
+            "field_goal_attempts": 212.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "4431767",
+          "poisson_means": {
+            "TS_pct": 13.094390030731242,
+            "actual_eFG_pct": 13.036573346040726,
+            "baseline": 13.472103278505712
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        },
+        {
+          "features": {
+            "TS_pct": 0.7139148494288681,
+            "actual_eFG_pct": 0.7,
+            "field_goal_attempts": 35.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "4433607",
+          "poisson_means": {
+            "TS_pct": 1.495642754380357,
+            "actual_eFG_pct": 1.4925293276630636,
+            "baseline": 1.6703397744910529
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        },
+        {
+          "features": {
+            "TS_pct": 0.47686993091018326,
+            "actual_eFG_pct": 0.452755905511811,
+            "field_goal_attempts": 127.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "4433629",
+          "poisson_means": {
+            "TS_pct": 5.43518035112921,
+            "actual_eFG_pct": 5.3427981119510015,
+            "baseline": 5.001781202472776
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        },
+        {
+          "features": {
+            "TS_pct": 0.5932439977666109,
+            "actual_eFG_pct": 0.5942028985507246,
+            "field_goal_attempts": 69.0,
+            "previous_games": 20
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "4592427",
+          "poisson_means": {
+            "TS_pct": 3.86952278474509,
+            "actual_eFG_pct": 3.776862708613216,
+            "baseline": 3.915969835429508
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        },
+        {
+          "features": {
+            "TS_pct": 0.6501340482573728,
+            "actual_eFG_pct": 0.6544117647058824,
+            "field_goal_attempts": 68.0,
+            "previous_games": 15
+          },
+          "game_id": "401909316",
+          "opponent": "DAL",
+          "player_id": "4698719",
+          "poisson_means": {
+            "TS_pct": 5.072660636077269,
+            "actual_eFG_pct": 4.965992973035831,
+            "baseline": 5.377660392690321
+          },
+          "start_at": "2026-11-25T03:00:00+00:00",
+          "team": "DEN"
+        }
+      ],
+      "games": [
+        {
+          "away": "DET",
+          "game_id": "401909314",
+          "home": "ORL",
+          "start_at": "2026-11-25T00:00:00+00:00"
+        },
+        {
+          "away": "BOS",
+          "game_id": "401909315",
+          "home": "WSH",
+          "start_at": "2026-11-25T01:00:00+00:00"
+        },
+        {
+          "away": "DAL",
+          "game_id": "401909316",
+          "home": "DEN",
+          "start_at": "2026-11-25T03:00:00+00:00"
+        }
+      ],
+      "history_coverage": {
+        "2026": {
+          "history_rows": 26628,
+          "latest_completed_box_date": "2026-04-12"
+        },
+        "2027": {
+          "history_rows": 5755,
+          "latest_completed_box_date": "2026-11-23"
+        }
+      },
+      "market": "points"
+    },
+    "NHL": {
+      "date_toronto": "2026-11-24",
+      "exclusions": {},
+      "forecast_rows": 41,
+      "forecasts": [
+        {
+          "features": {
+            "five_on_five_toi_minutes": 344.01666666666694,
+            "five_on_five_unblocked_attempts": 36.0,
+            "iFF_per60_5v5": 6.278765563683925,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8475218",
+          "poisson_means": {
+            "baseline": 1.1918676820971756,
+            "iFF_per60_5v5": 1.2701690200489435
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 266.9000000000002,
+            "five_on_five_unblocked_attempts": 36.0,
+            "iFF_per60_5v5": 8.09291869614087,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8475786",
+          "poisson_means": {
+            "baseline": 1.3972360542259368,
+            "iFF_per60_5v5": 1.4363952159723827
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 268.5833333333335,
+            "five_on_five_unblocked_attempts": 24.0,
+            "iFF_per60_5v5": 5.3614644740924575,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8476454",
+          "poisson_means": {
+            "baseline": 1.4127335550878484,
+            "iFF_per60_5v5": 1.5331917434662783
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 335.3666666666669,
+            "five_on_five_unblocked_attempts": 26.0,
+            "iFF_per60_5v5": 4.651625086969483,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8476473",
+          "poisson_means": {
+            "baseline": 1.0440879826446308,
+            "iFF_per60_5v5": 1.149181754048492
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 218.46666666666678,
+            "five_on_five_unblocked_attempts": 28.0,
+            "iFF_per60_5v5": 7.6899603295697245,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8477450",
+          "poisson_means": {
+            "baseline": 0.8935427374879078,
+            "iFF_per60_5v5": 0.9259575254377937
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 313.33333333333354,
+            "five_on_five_unblocked_attempts": 56.0,
+            "iFF_per60_5v5": 10.723404255319142,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8477934",
+          "poisson_means": {
+            "baseline": 3.6263133454449177,
+            "iFF_per60_5v5": 3.538403172567077
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 262.58333333333354,
+            "five_on_five_unblocked_attempts": 27.0,
+            "iFF_per60_5v5": 6.169470009520782,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8477953",
+          "poisson_means": {
+            "baseline": 1.204186531546681,
+            "iFF_per60_5v5": 1.2860825373468976
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 272.31666666666683,
+            "five_on_five_unblocked_attempts": 43.0,
+            "iFF_per60_5v5": 9.474264030846435,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8478013",
+          "poisson_means": {
+            "baseline": 1.248904498164241,
+            "iFF_per60_5v5": 1.2492024275465337
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 321.58333333333366,
+            "five_on_five_unblocked_attempts": 49.0,
+            "iFF_per60_5v5": 9.14226483544959,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8478402",
+          "poisson_means": {
+            "baseline": 2.6212262755103453,
+            "iFF_per60_5v5": 2.63917594653946
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 202.15000000000006,
+            "five_on_five_unblocked_attempts": 16.0,
+            "iFF_per60_5v5": 4.748948800395744,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8478472",
+          "poisson_means": {
+            "baseline": 0.7365041792488917,
+            "iFF_per60_5v5": 0.8090742445787648
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 346.4833333333336,
+            "five_on_five_unblocked_attempts": 24.0,
+            "iFF_per60_5v5": 4.1560440617634296,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8478854",
+          "poisson_means": {
+            "baseline": 0.7758907811651423,
+            "iFF_per60_5v5": 0.8624258193467002
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 175.38333333333335,
+            "five_on_five_unblocked_attempts": 22.0,
+            "iFF_per60_5v5": 7.526370806804143,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8479365",
+          "poisson_means": {
+            "baseline": 0.9450891110154126,
+            "iFF_per60_5v5": 0.9825572248195029
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 170.38333333333333,
+            "five_on_five_unblocked_attempts": 20.0,
+            "iFF_per60_5v5": 7.042942384818547,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8479368",
+          "poisson_means": {
+            "baseline": 0.5043486349347119,
+            "iFF_per60_5v5": 0.5293961515377841
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 190.8,
+            "five_on_five_unblocked_attempts": 23.0,
+            "iFF_per60_5v5": 7.232704402515723,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8480029",
+          "poisson_means": {
+            "baseline": 0.7676021644964601,
+            "iFF_per60_5v5": 0.8026963380279168
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 375.9833333333336,
+            "five_on_five_unblocked_attempts": 56.0,
+            "iFF_per60_5v5": 8.936566337160329,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8480803",
+          "poisson_means": {
+            "baseline": 2.324605250848628,
+            "iFF_per60_5v5": 2.350093716777667
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 245.83333333333348,
+            "five_on_five_unblocked_attempts": 19.0,
+            "iFF_per60_5v5": 4.637288135593217,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8480834",
+          "poisson_means": {
+            "baseline": 0.7020701394559151,
+            "iFF_per60_5v5": 0.7729575482382024
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 210.80000000000007,
+            "five_on_five_unblocked_attempts": 40.0,
+            "iFF_per60_5v5": 11.385199240986713,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8480842",
+          "poisson_means": {
+            "baseline": 1.2655531913458828,
+            "iFF_per60_5v5": 1.2187675702360483
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 301.53333333333353,
+            "five_on_five_unblocked_attempts": 44.0,
+            "iFF_per60_5v5": 8.755250939641824,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8481617",
+          "poisson_means": {
+            "baseline": 1.6702856871758753,
+            "iFF_per60_5v5": 1.694684261918156
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 263.83333333333354,
+            "five_on_five_unblocked_attempts": 15.0,
+            "iFF_per60_5v5": 3.411244472520528,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8482166",
+          "poisson_means": {
+            "baseline": 0.5981348863628061,
+            "iFF_per60_5v5": 0.6747406802799748
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 252.4666666666668,
+            "five_on_five_unblocked_attempts": 37.0,
+            "iFF_per60_5v5": 8.793240031687347,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8482703",
+          "poisson_means": {
+            "baseline": 1.55457209199531,
+            "iFF_per60_5v5": 1.5760921997058468
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 187.63333333333335,
+            "five_on_five_unblocked_attempts": 17.0,
+            "iFF_per60_5v5": 5.436134304494581,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "VGK",
+          "player_id": "8486161",
+          "poisson_means": {
+            "baseline": 0.39110564566781647,
+            "iFF_per60_5v5": 0.42382541920653183
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "EDM"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 351.3833333333336,
+            "five_on_five_unblocked_attempts": 34.0,
+            "iFF_per60_5v5": 5.805625385381583,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8475188",
+          "poisson_means": {
+            "baseline": 1.0140139762666098,
+            "iFF_per60_5v5": 1.0908213104399456
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 203.01666666666674,
+            "five_on_five_unblocked_attempts": 15.0,
+            "iFF_per60_5v5": 4.433133568672521,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8475343",
+          "poisson_means": {
+            "baseline": 0.24971160568020703,
+            "iFF_per60_5v5": 0.27604043418017604
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 269.48333333333346,
+            "five_on_five_unblocked_attempts": 30.0,
+            "iFF_per60_5v5": 6.679448327045578,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8475913",
+          "poisson_means": {
+            "baseline": 1.5811173732473005,
+            "iFF_per60_5v5": 1.6716510197162178
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 273.4833333333335,
+            "five_on_five_unblocked_attempts": 50.0,
+            "iFF_per60_5v5": 10.96958985922359,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8476448",
+          "poisson_means": {
+            "baseline": 2.1967593727612718,
+            "iFF_per60_5v5": 2.1330622778657573
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 234.43333333333342,
+            "five_on_five_unblocked_attempts": 37.0,
+            "iFF_per60_5v5": 9.469643111047914,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8476881",
+          "poisson_means": {
+            "baseline": 2.393695095614299,
+            "iFF_per60_5v5": 2.3944856013959033
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 358.1666666666669,
+            "five_on_five_unblocked_attempts": 36.0,
+            "iFF_per60_5v5": 6.030711959050717,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8477447",
+          "poisson_means": {
+            "baseline": 1.420900612196161,
+            "iFF_per60_5v5": 1.5217181011249674
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 286.2000000000002,
+            "five_on_five_unblocked_attempts": 35.0,
+            "iFF_per60_5v5": 7.337526205450728,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8477964",
+          "poisson_means": {
+            "baseline": 1.079508607757296,
+            "iFF_per60_5v5": 1.1265180093410325
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 230.8000000000001,
+            "five_on_five_unblocked_attempts": 43.0,
+            "iFF_per60_5v5": 11.178509532062387,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8478109",
+          "poisson_means": {
+            "baseline": 2.316680584171045,
+            "iFF_per60_5v5": 2.2402027190708047
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 362.4833333333335,
+            "five_on_five_unblocked_attempts": 36.0,
+            "iFF_per60_5v5": 5.958894661823529,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8478396",
+          "poisson_means": {
+            "baseline": 1.36361559865329,
+            "iFF_per60_5v5": 1.4624505385893347
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 347.0166666666669,
+            "five_on_five_unblocked_attempts": 42.0,
+            "iFF_per60_5v5": 7.261899044234182,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8478397",
+          "poisson_means": {
+            "baseline": 1.9759770309885338,
+            "iFF_per60_5v5": 2.0651208196632496
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 287.2833333333336,
+            "five_on_five_unblocked_attempts": 48.0,
+            "iFF_per60_5v5": 10.024946336369428,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8478403",
+          "poisson_means": {
+            "baseline": 2.982876556236338,
+            "iFF_per60_5v5": 2.9511727234721175
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 334.58333333333354,
+            "five_on_five_unblocked_attempts": 26.0,
+            "iFF_per60_5v5": 4.662515566625153,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8478450",
+          "poisson_means": {
+            "baseline": 0.9535111089329146,
+            "iFF_per60_5v5": 1.0492610662184463
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 311.03333333333353,
+            "five_on_five_unblocked_attempts": 40.0,
+            "iFF_per60_5v5": 7.716214767977704,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8478468",
+          "poisson_means": {
+            "baseline": 0.9965554403328301,
+            "iFF_per60_5v5": 1.0321694797061955
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 274.2500000000002,
+            "five_on_five_unblocked_attempts": 44.0,
+            "iFF_per60_5v5": 9.626253418413848,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8478483",
+          "poisson_means": {
+            "baseline": 2.639352645324149,
+            "iFF_per60_5v5": 2.6320345752908523
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 268.0833333333335,
+            "five_on_five_unblocked_attempts": 48.0,
+            "iFF_per60_5v5": 10.742928193969531,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8479353",
+          "poisson_means": {
+            "baseline": 1.5267081411430685,
+            "iFF_per60_5v5": 1.4891203758561653
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 280.61666666666684,
+            "five_on_five_unblocked_attempts": 42.0,
+            "iFF_per60_5v5": 8.9802221298331,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8479639",
+          "poisson_means": {
+            "baseline": 1.4328219593306977,
+            "iFF_per60_5v5": 1.4472784385011335
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 138.75000000000003,
+            "five_on_five_unblocked_attempts": 18.0,
+            "iFF_per60_5v5": 7.783783783783782,
+            "previous_games": 14
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8481534",
+          "poisson_means": {
+            "baseline": 0.6946512947512602,
+            "iFF_per60_5v5": 0.7185124161734077
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 205.10000000000005,
+            "five_on_five_unblocked_attempts": 33.0,
+            "iFF_per60_5v5": 9.653827401267671,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8483553",
+          "poisson_means": {
+            "baseline": 1.0619292847366826,
+            "iFF_per60_5v5": 1.0584058009609432
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 221.88333333333344,
+            "five_on_five_unblocked_attempts": 30.0,
+            "iFF_per60_5v5": 8.112371366333655,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8483890",
+          "poisson_means": {
+            "baseline": 0.9079187605794433,
+            "iFF_per60_5v5": 0.9330041333163087
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        },
+        {
+          "features": {
+            "five_on_five_toi_minutes": 250.4666666666668,
+            "five_on_five_unblocked_attempts": 53.0,
+            "iFF_per60_5v5": 12.696300239552828,
+            "previous_games": 20
+          },
+          "game_id": "2026020385",
+          "opponent": "EDM",
+          "player_id": "8484803",
+          "poisson_means": {
+            "baseline": 2.406118179873412,
+            "iFF_per60_5v5": 2.2576781702755397
+          },
+          "start_at": "2026-11-25T01:00:00+00:00",
+          "team": "VGK"
+        }
+      ],
+      "games": [
+        {
+          "away": "VGK",
+          "game_id": "2026020385",
+          "home": "EDM",
+          "start_at": "2026-11-25T01:00:00+00:00"
+        }
+      ],
+      "history_coverage": {
+        "2026": {
+          "advanced_played_rows_excluded": 66,
+          "completed_scheduled_games_with_box": 1312,
+          "games_with_reconciled_pbp_sog": 1312,
+          "latest_completed_box_date": "2026-04-16",
+          "pdo_complete_shot_lineups": 41802,
+          "pdo_incomplete_shot_lineups": 14637,
+          "shift_games_mapped": 1311,
+          "shift_sha256": "110a837b3742a485cfbb02ea3f18adac8643fd8aafef35a1f43106b3be28d577",
+          "unmapped_shift_games": 1
+        },
+        "2027": {
+          "advanced_played_rows_excluded": 6,
+          "completed_scheduled_games_with_box": 384,
+          "games_with_reconciled_pbp_sog": 384,
+          "latest_completed_box_date": "2026-11-23",
+          "pdo_complete_shot_lineups": 12245,
+          "pdo_incomplete_shot_lineups": 3798,
+          "shift_games_mapped": 384,
+          "shift_sha256": "028602fd9f2410652cfef4b4207d72f806637089de7945309d164fecce010e6c"
+        }
+      },
+      "market": "shots_on_goal"
+    }
+  }
+}

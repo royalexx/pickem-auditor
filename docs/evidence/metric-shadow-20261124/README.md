@@ -39,3 +39,13 @@ The NBA companion was frozen at 2026-11-24 15:51:49.932665 UTC. It covers all 30
 - [NHL 2025–26 results](nhl-2025-26-results.json), SHA-256 `9a0fe9265d98d78f3c31021136940742352ba45ac2b46166cf684c6eae8ee01a`.
 
 Score the companion with `scripts/score_nba_shadow_distribution.py` after the original NBA final report. Supply the companion and settlement hashes, the parent packet, and a new output path next to the original settlement report. The scorer revalidates the original NBA finals and the exact eFG means before scoring. It passed 16 negative-binomial numerical checks, an ESPN-format settlement integration fixture and rejection of tampered original bytes.
+
+## November 24 early start
+
+The user advanced the first prospective comparison to the November 24 slate. The separate base packet was frozen at 16:09:46.253006 UTC using completed-game inputs through November 23. The NBA distribution companion was frozen at 16:10:17.104046 UTC with the exact same eFG mean on every original row.
+
+- NHL Vegas at Edmonton, 8:00 p.m. ET. 41 matched-model pregame candidates. Compare baseline and 5v5 iFF/60.
+- NBA Detroit at Orlando at 7:00 p.m. ET, Boston at Washington at 8:00 p.m. ET, and Dallas at Denver at 10:00 p.m. ET. 79 matched-model pregame candidates and nine insufficient-history exclusions. Compare baseline, eFG% and TS%, plus compound and NB2 distributions at the same eFG mean for all 79 candidates.
+- [November 24 parent packet](pregame-shadow-20261124.json), SHA-256 `b2039d4008c79ba089bd7476557096e69e210e5e81562b330b8bb710fd720e37`.
+- [November 24 NBA companion](nba-shadow-distribution-companion-20261124.json), SHA-256 `0fa725fa4748184917a40fd85b96790a73ac774f13460e9855299c3ef3f5c487`.
+- Separate official-final receipt scoring for both sports is scheduled for November 25 at 09:45 ET. These count comparisons are conditional on an official played appearance. The Nov 25 NHL and Nov 27 NBA packets already recorded above are separate future observations.
