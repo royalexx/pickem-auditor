@@ -2,12 +2,14 @@
 
 import io
 import json
+import os
 import sys
 import tempfile
 import unittest
 import urllib.error
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
+from unittest.mock import patch
 
 SKILL_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SKILL_DIR / "tests"))
@@ -1627,6 +1629,25 @@ def _slate_row(player="Example Wing", stat="shots on goal", source="https://exam
 
 
 class FetchHardenTests(unittest.TestCase):
+    def test_nhl_only_capture_uses_only_one_bulk_request(self):
+        fixture = {"sport": "NHL", "game_date": "2026-11-27", "stat": "shots on goal"}
+        with (patch.dict(os.environ, {"PROPLINE_API_KEY": "test-only", "PICKEM_ODDS_QUOTA_GUARD": "1",
+                                      "PICKEM_DISABLE_ODDS": "0", "PICKEM_ENABLE_ODDS_API_NHL_BLOCKS": "0"}),
+              patch.object(fs, "fetch_nhl", return_value=([fixture], None, [], [])),
+              patch.object(fs, "fetch_nfl") as nfl,
+              patch.object(fs, "fetch_nba") as nba,
+              patch.object(op.PropLineProvider, "_daily_quota_check", return_value=(1, None)),
+              patch.object(op.PropLineProvider, "_bulk_odds", return_value=([], None)) as bulk):
+            _, summary = fs.collect("2026-11-27", sports=["nhl"])
+        nfl.assert_not_called()
+        nba.assert_not_called()
+        bulk.assert_called_once()
+        self.assertEqual(bulk.call_args.args[0], "icehockey_nhl")
+        self.assertEqual(summary["missing"], ["odds"])
+        self.assertEqual(summary["feeds"]["nba"]["status"], "not_requested")
+        self.assertEqual(summary["feeds"]["nfl"]["status"], "not_requested")
+        self.assertEqual(fs.meta_document(summary)["requested_sports"], ["NHL"])
+
     def setUp(self):
         self._real_slate = fs.DEFAULT_OUT
         self._real_bytes = self._real_slate.read_bytes() if self._real_slate.exists() else None

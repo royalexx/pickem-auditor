@@ -3901,7 +3901,8 @@ def _run_feed(name: str, fn, clock) -> tuple[dict, object]:
 
 
 def _builtin_fetchers(
-    game_date, retrieved_at, nhl_client, nhl_client_error, fetch_json_fn, data_dir=None, clock=None,
+    game_date, retrieved_at, nhl_client, nhl_client_error, fetch_json_fn,
+    data_dir=None, clock=None, sports=None,
 ):
     clock = clock or utc_now
     buckets = {name: [] for name in FEED_NAMES}
@@ -3960,7 +3961,8 @@ def _builtin_fetchers(
                     raw_receipts.append(receipt)
                 return json.loads(raw)
 
-        quotes, note = fetch_odds(game_date, fetch=odds_fetch, source_urls=buckets["odds"])
+        quotes, note = fetch_odds(game_date, fetch=odds_fetch, source_urls=buckets["odds"],
+                                  sports=sports)
         return quotes, note, list(buckets["odds"]), {"raw_response_receipts": raw_receipts}
 
     return {"nhl": nhl, "nfl": nfl, "nba": nba, "odds": odds}
@@ -3995,10 +3997,16 @@ def collect(
     fetchers=None,
     clock=None,
     quotes_path=None,
+    sports=None,
 ) -> tuple[list[dict], dict]:
     """Fetch every feed. A feed with zero rows is status ``failed`` and is not required for the others."""
     clock = clock or utc_now
     retrieved_at = retrieved_at or clock()
+    if sports is not None:
+        sports = sorted({sport.upper() for sport in sports})
+        if not sports or any(sport.lower() not in FEED_NAMES[:-1] for sport in sports):
+            raise ValueError("unsupported_slate_capture_sport")
+    selected = FEED_NAMES if sports is None else tuple(sport.lower() for sport in sports) + ("odds",)
     if fetchers is None:
         fetchers = _builtin_fetchers(
             game_date,
@@ -4008,12 +4016,18 @@ def collect(
             fetch_json_fn,
             data_dir=Path(quotes_path).parent if quotes_path else None,
             clock=clock,
+            sports=sports,
         )
     summary = {"date": game_date, "retrieved_at": retrieved_at, "feeds": {}}
+    if sports is not None:
+        summary["requested_sports"] = sports
     player_rows: list[dict] = []
     quote_payload: list = []
     quotes_ready = False
     for name in FEED_NAMES:
+        if name not in selected:
+            summary["feeds"][name] = _feed_record("not_requested", 0, None, None, [], [])
+            continue
         record, payload = _run_feed(name, fetchers.get(name), clock)
         summary["feeds"][name] = record
         if name == "odds":
@@ -4043,7 +4057,8 @@ def collect(
     summary['coverage']=collected_coverage(player_rows,resolved)
     summary["flagged"] = sum(1 for row in player_rows if row.get("flag"))
     summary["usable"] = bool(player_rows)
-    summary["missing"] = [name for name in FEED_NAMES if summary["feeds"][name]["status"] != "ok"]
+    summary["missing"] = [name for name in FEED_NAMES
+                          if name in selected and summary["feeds"][name]["status"] != "ok"]
     return player_rows, summary
 
 
@@ -4152,7 +4167,7 @@ def resolve_nhl_identity_ledger_path(ref: dict, *, base: Path | None = None) -> 
 def persist_nhl_identity_ledger(out: Path, summary: dict, clock=None) -> dict | None:
     """Write immutable NHL identity rejection ledger linked to this collector run."""
     feed = (summary.get("feeds") or {}).get("nhl")
-    if not isinstance(feed, dict):
+    if not isinstance(feed, dict) or feed.get("status") == "not_requested":
         return None
     rejections = list(feed.get("identity_rejections") or [])
     roster_receipts = list(feed.get("roster_receipts") or [])
@@ -4244,6 +4259,8 @@ def meta_document(summary: dict) -> dict:
     }
     if summary.get("nhl_identity_ledger"):
         doc["nhl_identity_ledger"] = dict(summary["nhl_identity_ledger"])
+    if summary.get("requested_sports") is not None:
+        doc["requested_sports"] = list(summary["requested_sports"])
     return doc
 
 
@@ -4521,6 +4538,8 @@ def main(
     parser = argparse.ArgumentParser(description="Fetch structured slate numbers. Does not grade.")
     parser.add_argument("--date", default=eastern_today(), help="Game date YYYY-MM-DD in US Eastern.")
     parser.add_argument("--out", default=str(DEFAULT_OUT))
+    parser.add_argument("--sports", type=str.upper, choices=("NHL", "NBA", "NFL"), nargs="+",
+                        help="Limit a source capture and its bulk odds requests to named sports.")
     parser.add_argument(
         "--preflight",
         action="store_true",
@@ -4528,6 +4547,8 @@ def main(
     )
     args = parser.parse_args(argv)
     if args.preflight:
+        if args.sports is not None:
+            parser.error("--sports only applies to source capture")
         try:
             report = preflight(import_check=import_check, reach_check=reach_check)
             sys.stdout.write(format_preflight(report))
@@ -4540,18 +4561,21 @@ def main(
         raise SystemExit(code)
     quotes_path = quotes_path_for(Path(args.out))
     if fetchers is None:
-        client, client_error = make_nhl_client()
+        client, client_error = (make_nhl_client() if not args.sports or "NHL" in args.sports
+                                else (None, None))
         rows, summary = collect(
             args.date,
             nhl_client=client,
             nhl_client_error=client_error,
             clock=clock,
             quotes_path=quotes_path,
+            sports=args.sports,
         )
     else:
-        rows, summary = collect(args.date, fetchers=fetchers, clock=clock, quotes_path=quotes_path)
+        rows, summary = collect(args.date, fetchers=fetchers, clock=clock,
+                                quotes_path=quotes_path, sports=args.sports)
     code = commit_slate(rows, summary, Path(args.out))
-    if code == 0 and rows:
+    if code == 0 and rows and args.sports is None:
         try:
             summary["context"] = (context_emitter or emit_slate_context)(
                 args.date,
