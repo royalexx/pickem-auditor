@@ -61,7 +61,7 @@ def _mac(receipt,key):
 
 
 def capture_signed_live(url,*,archive_root,source_namespace,source_id,
-                        input_cutoff_at,event_start_at,timeout=12):
+                        input_cutoff_at,event_start_at,timeout=12,user_agent=None):
     """Only live direct-HTTPS capture can mint a transport signature."""
     key=_key()
     uri=urlsplit(url)
@@ -74,8 +74,9 @@ def capture_signed_live(url,*,archive_root,source_namespace,source_id,
     event=_utc(event_start_at,"event_start")
     if not datetime.now(timezone.utc)<cutoff<event:
         raise CohortError("C03_CAPTURE_CUTOFF_EXPIRED")
+    headers = {"user_agent": user_agent} if user_agent is not None else {}
     receipt=capture_live_http_body(url,archive_root=archive_root,
-             source_namespace=source_namespace,source_id=source_id,timeout=timeout)
+             source_namespace=source_namespace,source_id=source_id,timeout=timeout,**headers)
     if _utc(receipt["received_at"],"received_at")>cutoff:
         raise CohortError("C03_SOURCE_COMPLETED_AFTER_CUTOFF")
     if receipt["source_url"]!=url:

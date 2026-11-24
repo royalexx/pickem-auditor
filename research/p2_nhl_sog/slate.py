@@ -105,7 +105,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                          signed_history_manifest_sha256, history_pool,
                          original_quote_by_player=None, derived_root=None,
                          recover_archived=False, poisson_only=False, on_bundle=None,
-                         fetch_schedule=None):
+                         fetch_schedule=None, selection=None):
     """Capture one game's two official rosters and freeze every listed skater.
 
     The source owner supplies immutable signed history and may supply previously
@@ -118,6 +118,8 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
     current_storage(root)
     records = []
     peer_attempt_hashes = []
+    selection_sha256 = None
+    selection_count = None
     event_id = game["event_id"]
     freeze_at = clock(freeze)
     start = clock(game["start_at"])
@@ -127,6 +129,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
         receipt = attempt(
             root, "full_slate_game_sources", status, reasons,
             event_id=event_id, input_freeze_at=freeze, status_counts=counts,
+            selection_sha256=selection_sha256,
             player_attempt_sha256s=[row["attempt_sha256"] for row in records],
             peer_attempt_sha256s=peer_attempt_hashes,
             history_manifest_sha256=signed_history_manifest_sha256,
@@ -135,7 +138,8 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
         )["receipt"]
         return {"game": game, "status": status, "records": records,
                 "reasons": list(reasons), "attempt_sha256": receipt["sha256"],
-                "candidate_count": len(records), "status_counts": counts}
+                "candidate_count": len(records), "status_counts": counts,
+                "selection_sha256": selection_sha256, "selection_eligible": selection_count}
 
     if game["game_state"] not in FUTURE_STATES:
         return finish("BLOCKED_SOURCE", ("TARGET_NOT_PREGAME",))
@@ -157,6 +161,12 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
     failures = {}
     skaters = {pid: member for roster in members.values() for pid, member in roster.items()
                if member["position_group"] in {"F", "D"}}
+    selected = None
+    if selection is not None:
+        selected, selection_sha256 = selection(game, rosters, members)
+        if set(selected) != set(skaters):
+            raise SourceBlocked("SLATE_SELECTION_DENOMINATOR_MISMATCH")
+        selection_count = sum(row["reason"] is None for row in selected.values())
     history_error = None
     try:
         pool = checked_pool(root, history_pool)
@@ -173,7 +183,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
     histories = (VerifiedGameHistories(root, pool, freeze=freeze, event_start=game["start_at"],
                                        derived_root=derived_root)
                  if history else None)
-    for pid, entries in history.items():
+    for pid, entries in (history.items() if selection_count != 0 else ()):
         try:
             indexed[pid] = _eligible_history(entries, pool=derived_root or pool, player_id=pid,
                                              freeze=freeze_at, game=game)
@@ -187,8 +197,13 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
     for pid, member in sorted(skaters.items()):
         group = member["position_group"]
         row = {"player_id": pid, "manifest_sha256": None,
-               "quote_manifest_sha256": None, "quote_reasons": []}
+               "quote_manifest_sha256": None, "quote_reasons": [],
+               "team_id": member["team_id"]}
+        if selected is not None:
+            row["selection"] = selected[pid]
         try:
+            if selected is not None and selected[pid]["reason"] is not None:
+                raise SourceBlocked(selected[pid]["reason"])
             if datetime.now(UTC) >= start:
                 raise SourceBlocked("P2_SOURCE_ASSEMBLY_AFTER_PUCK_DROP")
             if pid not in indexed:
@@ -223,12 +238,15 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                 history_pool=pool, freeze=freeze, include_official_c03_receipts=True,
                 _game_histories=histories,
                 allow_post_freeze_assembly=True,
+                selection_sha256=selection_sha256,
             )
             result = build_bundle(root, **options)
             row.update(status=result["manifest"]["source_admission"],
                        manifest_sha256=result["receipt"]["sha256"], reasons=[])
         except (OSError, ValueError, KeyError, TypeError) as exc:
-            row.update(status="ABSTAIN_SOURCE_INVALID", reasons=[_reason(exc)])
+            status = ("ABSTAIN_ROSTER_UNCERTAIN" if selected is not None
+                      and selected[pid]["reason"] is not None else "ABSTAIN_SOURCE_INVALID")
+            row.update(status=status, reasons=[_reason(exc)])
 
         market = (original_quote_by_player or {}).get(pid)
         if market is not None and row["manifest_sha256"] is not None:
@@ -255,6 +273,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
             root, "full_slate_player_sources", row["status"],
             row["reasons"] + row["quote_reasons"], event_id=event_id, player_id=pid,
             source_manifest_sha256=row["manifest_sha256"],
+            selection_sha256=selection_sha256,
             quote_manifest_sha256=row["quote_manifest_sha256"],
         )["receipt"]
         row["attempt_sha256"] = receipt["sha256"]

@@ -13,6 +13,9 @@ import time
 
 from research.p2_nhl_sog.source_pipeline import (
     SourceBlocked,
+    FUTURE_STATES,
+    OFFICIAL,
+    capture_official,
     canonical_bytes,
     clock,
     current_storage,
@@ -69,10 +72,10 @@ def _ready(source):
 
 def run_game(game, *, capture, forecast, now=_now, sleep=time.sleep,
              checkpoint=None, recovered=(), phase="both", recover_archived=False,
-             stream_forecasts=False):
+             stream_forecasts=False, slate_freeze=None):
     """Capture within P2 windows, then emit forecasts from admitted bundles."""
     start = clock(game["start_at"])
-    freeze = start - FINAL_LEAD
+    freeze = clock(slate_freeze) if slate_freeze else start - FINAL_LEAD
     source_attempts = list(recovered)
     source = next((item for item in reversed(source_attempts) if _ready(item)), {})
     published = []
@@ -103,6 +106,8 @@ def run_game(game, *, capture, forecast, now=_now, sleep=time.sleep,
         windows = ()
     elif recover_archived:
         windows = ((freeze, start),)
+    elif slate_freeze:
+        windows = ((now(), freeze),)
     else:
         windows = ((start - EARLY_WINDOW, start - EARLY_CLOSE), (start - FINAL_WINDOW, freeze))
     for opens, closes in windows:
@@ -139,12 +144,13 @@ def run_game(game, *, capture, forecast, now=_now, sleep=time.sleep,
         freeze_player(row)
     forecast_count = sum(len(row.get("forecasts", ())) for row in published)
     return dict(game=game, status="FORECASTS_FROZEN" if forecast_count else "NO_FORECASTS",
-                source_attempts=source_attempts, players=published, forecast_count=forecast_count)
+                source_attempts=source_attempts, players=published, forecast_count=forecast_count,
+                source_players=len(admitted))
 
 
-def _source_checkpoints(root, day, game, run_id):
+def _source_checkpoints(root, day, game, run_id, slate_freeze=None):
     directory = Path(root) / NAMESPACE / day / "checks" / game["event_id"]
-    freeze = stamp(clock(game["start_at"]) - FINAL_LEAD)
+    freeze = slate_freeze or stamp(clock(game["start_at"]) - FINAL_LEAD)
     accepted = []
     for path in sorted(directory.glob("*.json")):
         marker = path.with_name(path.name + ".complete")
@@ -160,9 +166,9 @@ def _source_checkpoints(root, day, game, run_id):
 
 
 def _run_checkpointed_game(root, day, game, run_id, capture, forecast, phase, recover_archived,
-                           stream_forecasts):
+                           stream_forecasts, slate_freeze):
     event_id = game["event_id"]
-    freeze = stamp(clock(game["start_at"]) - FINAL_LEAD)
+    freeze = slate_freeze or stamp(clock(game["start_at"]) - FINAL_LEAD)
 
     def checkpoint(source):
         _save(root, day, f"checks/{event_id}", {
@@ -171,13 +177,13 @@ def _run_checkpointed_game(root, day, game, run_id, capture, forecast, phase, re
         })
 
     return run_game(game, capture=capture, forecast=forecast, checkpoint=checkpoint,
-                    recovered=_source_checkpoints(root, day, game, run_id), phase=phase,
+                    recovered=_source_checkpoints(root, day, game, run_id, slate_freeze), phase=phase,
                     recover_archived=recover_archived, stream_forecasts=stream_forecasts)
 
 
 def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress=None,
               event_ids=(), phase="both", recover_archived=False, recover_event_ids=(),
-              stream_forecasts=False):
+              stream_forecasts=False, slate_freeze=None):
     """Process simultaneous windows concurrently and persist each game's result."""
     current_storage(root)
     if games is None:
@@ -197,7 +203,7 @@ def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress
         pending = {pool.submit(_run_checkpointed_game, root, day, game, run_id,
                                capture, game_forecast, phase,
                                recover_archived or game["event_id"] in recovery,
-                               stream_forecasts): game
+                               stream_forecasts, slate_freeze): game
                    for game in games}
         for work in as_completed(pending):
             game = pending[work]
@@ -213,6 +219,11 @@ def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress
                 "status": result["status"],
                 "forecast_count": result.get("forecast_count", 0),
                 "source_players": result.get("source_players", 0),
+                "source_attempts": [
+                    {k: item.get(k) for k in ("status", "reason", "reasons", "candidate_count",
+                     "status_counts", "selection_eligible", "selection_sha256", "attempt_sha256")}
+                    for item in result.get("source_attempts", [])
+                ],
                 "receipt": receipt,
             }
             if progress is not None:
@@ -240,7 +251,46 @@ def run_slate(root, day, *, capture, forecast, code_commit, games=None, progress
             source_games if phase == "source" else forecast_games) == len(games),
         "games": ordered,
     }
+    if slate_freeze:
+        manifest["capture_policy"] = "nhl-sog-slate-once-v1"
+        manifest["input_freeze_at"] = slate_freeze
     return dict(manifest, receipt=_save(root, day, "slates", manifest))
+
+
+def capture_slate_scoreboard(root, day, freeze):
+    """Fetch, archive and independently read one scoreboard before game workers."""
+    cutoff = clock(freeze)
+    if _now() >= cutoff:
+        raise SourceBlocked("SLATE_FREEZE_ALREADY_CLOSED")
+    # The transport needs a strict upper clock bound before reading the starts.
+    # Its signed receipt attests possession time, not a particular start time.
+    minimum_start = cutoff + FINAL_LEAD
+    source = capture_official(
+        root, OFFICIAL + "/score/" + day, event_start_at=stamp(minimum_start),
+        input_freeze_at=freeze, source_kind="nhl_schedule", source_id="nhl:schedule:" + day)
+    games = discover_slate(day, probe=lambda _: source["document"])
+    usable = [game for game in games if game["game_state"] in FUTURE_STATES
+              and clock(game["start_at"]) >= minimum_start]
+    earliest = usable[0]["start_at"] if usable else None
+
+    def fetch(request_root, url, **options):
+        if (request_root != root or url != source["c03_receipt"]["source_url"] or
+                options["input_freeze_at"] != freeze or clock(options["event_start_at"]) < minimum_start):
+            raise SourceBlocked("SLATE_SCOREBOARD_REQUEST_MISMATCH")
+        return source
+
+    return games, earliest, fetch, source["p0_sha256"]
+
+
+def forecast_slate_control(root, manifest_sha256, *, forecast, **options):
+    """Keep the Poisson control when Gamma cannot be fit on a valid bundle."""
+    result = forecast(root, manifest_sha256, poisson_only=False, **options)
+    if result["status"] != "ABSTAIN" or result.get("forecasts"):
+        return result
+    control = forecast(root, manifest_sha256, poisson_only=True, **options)
+    control["gamma_abstention"] = {
+        "reason": result.get("reason"), "attempt_sha256": result.get("attempt_sha256")}
+    return control
 
 
 def main(argv=None):
@@ -263,6 +313,7 @@ def main(argv=None):
                         help="assemble the pregame bundle from already archived signed inputs")
     parser.add_argument("--recover-event-id", action="append", default=[],
                         help="use archived signed inputs for selected official events only")
+    parser.add_argument("--slate-freeze-at", help="opt into the shared pregame research capture with this UTC cutoff")
     parser.add_argument("--poisson-only", action="store_true",
                         help="generate only the signed own-history plugin-Poisson control")
     args = parser.parse_args(argv)
@@ -270,6 +321,9 @@ def main(argv=None):
         parser.error("--code-commit must be the exact 40-character revision")
     if not re.fullmatch(r"[0-9a-f]{64}", args.signed_history_sha256):
         parser.error("--signed-history-sha256 must be a 64-character SHA-256")
+    if args.slate_freeze_at and (args.recover_archived or args.recover_event_id
+                                 or args.phase != "both" or args.event_id):
+        parser.error("--slate-freeze-at requires a full prospective slate")
     from research.p2_nhl_sog.history_bridge import open_history_sources
     from research.p2_nhl_sog.slate import capture_game_sources, discover_slate_roster_skaters
     from research.p2_nhl_sog.source_pipeline import SlateScheduleCapture
@@ -277,7 +331,17 @@ def main(argv=None):
 
     day = args.day.isoformat()
     current_storage(args.root)
-    games = discover_slate(day)
+    slate_freeze = stamp(clock(args.slate_freeze_at)) if args.slate_freeze_at else None
+    selection = None
+    fetch_schedule = SlateScheduleCapture()
+    if slate_freeze:
+        from research.p2_nhl_sog.slate_selection import SlateSelection
+        games, earliest, fetch_schedule, scoreboard_sha = capture_slate_scoreboard(args.root, day, slate_freeze)
+        if earliest is not None:
+            selection = SlateSelection(args.root, day, slate_freeze, earliest)
+        print("NHL_SOG_SLATE_SCOREBOARD " + scoreboard_sha, flush=True)
+    else:
+        games = discover_slate(day)
     print("NHL_SOG_SCHEDULE " + json.dumps(games, sort_keys=True), flush=True)
     roster_games = [game for game in games if not args.event_id or game["event_id"] in args.event_id]
     players = discover_slate_roster_skaters(roster_games) if args.roster_prewarm else None
@@ -292,23 +356,27 @@ def main(argv=None):
             "history_pool": pool,
             "derived_root": derived,
             "poisson_only": args.poisson_only,
-            "fetch_schedule": SlateScheduleCapture(),
+            "fetch_schedule": fetch_schedule,
+            "selection": selection,
         }
         history_sources = HistorySources(args.root, args.signed_history_manifest,
                                          args.signed_history_sha256, pool, derived_root=derived)
+        runner = (partial(forecast_slate_control, forecast=forecast_bundle)
+                  if slate_freeze and not args.poisson_only
+                  else partial(forecast_bundle, poisson_only=args.poisson_only))
         output = run_slate(
             args.root,
             day,
             capture=partial(capture_game_sources, args.root, **history),
-            forecast=partial(forecast_bundle, args.root, history_sources=history_sources,
-                             poisson_only=args.poisson_only),
+            forecast=partial(runner, args.root, history_sources=history_sources),
             code_commit=args.code_commit,
             games=games,
             event_ids=args.event_id,
             phase=args.phase,
             recover_archived=args.recover_archived,
             recover_event_ids=args.recover_event_id,
-            stream_forecasts=args.phase == "both" and (
+            slate_freeze=slate_freeze,
+            stream_forecasts=bool(slate_freeze) or args.phase == "both" and (
                 args.poisson_only or args.recover_archived or bool(args.recover_event_id)),
             progress=lambda row: print("NHL_SOG_GAME " + json.dumps(row, sort_keys=True), flush=True),
         )

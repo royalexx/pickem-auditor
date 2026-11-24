@@ -477,7 +477,7 @@ def archive_original_candidate(candidate,archive_root,*,possessed_at=None):
             "collector_possessed_at":possessed_at}
 
 
-def capture_live_http_body(url,*,archive_root,source_namespace,source_id,timeout=12):
+def capture_live_http_body(url,*,archive_root,source_namespace,source_id,timeout=12,user_agent=None):
     """Opt-in live transport capture. No retroactive/injected collection clock.
 
     This helper is not called by the legacy collector and never changes its
@@ -489,7 +489,10 @@ def capture_live_http_body(url,*,archive_root,source_namespace,source_id,timeout
          "site.api.espn.com","api-web.nhle.com","api.nhle.com"):
         raise CohortError("LIVE_SOURCE_DOMAIN_NOT_ALLOWED")
     observed=datetime.now(timezone.utc)
-    req=Request(url,headers={"Accept":"application/json"})
+    headers = {"Accept": "application/json"}
+    if user_agent is not None:
+        headers["User-Agent"] = user_agent
+    req = Request(url, headers=headers)
     try:
         with urlopen(req,timeout=timeout) as response:
             status=response.status

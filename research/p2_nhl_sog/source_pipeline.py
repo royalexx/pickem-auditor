@@ -562,7 +562,7 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
                  required_experiment=None, peer_entries=None, history_pool=None,
                  quote_evidence=None, role_transition_uncertain=False,
                  include_official_c03_receipts=False, _game_histories=None,
-                 allow_post_freeze_assembly=False):
+                 allow_post_freeze_assembly=False, selection_sha256=None):
     """Stable source-only P4/P5 handoff, preserving P0 feature contract."""
     current_storage(root)
     start = game["start_at"]
@@ -690,6 +690,10 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
         "P4_gamma_artifact_required": True,
         "history_count_is_not_experiment_admission": True
     }
+    if selection_sha256 is not None:
+        require(quote is None and required_experiment is None, "SLATE_SELECTION_RESEARCH_ONLY")
+        _verify_selection(root, selection_sha256, event_id, player_id, team, freeze)
+        features["selection_receipt_sha256"] = selection_sha256
     feature_record = {
         "record_type": "PregameFeatureSnapshot", "schema_version": P0_VERSION,
         "feature_snapshot_id": "p2f:" + digest(canonical_bytes([
@@ -732,6 +736,8 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
         "P4_prediction_required": True, "P5_settlement_required": True,
         "model_predictions_present": False, "research_only": True
     }
+    if selection_sha256 is not None:
+        manifest["selection_sha256"] = selection_sha256
     if include_official_c03_receipts:
         manifest["official_schedule_c03_receipt"] = schedule_source["c03_receipt"]
         manifest["official_roster_c03_receipts"] = {
@@ -740,6 +746,18 @@ def build_bundle(root, *, game, schedule_source, rosters, roster_members,
     raw = canonical_bytes(manifest)
     address = put_once(root, ROOT_NAMESPACE + "/bundles/" + digest(raw) + ".json", raw)
     return {"manifest": manifest, "receipt": address, "feature": feature_record}
+
+
+def _verify_selection(root, sha, event, player, team, freeze):
+    from .slate_selection import DECISION_PATH, POLICY
+    require(isinstance(sha, str) and HEX.fullmatch(sha), "SLATE_SELECTION_SHA_INVALID")
+    path = safe_relative(root, DECISION_PATH + sha + ".json")
+    require(_completed_target(path, sha), "SLATE_SELECTION_RECEIPT_INCOMPLETE")
+    receipt = json.loads(path.read_bytes())
+    row = receipt["skaters"][str(player)]
+    require(receipt["policy"] == POLICY and receipt["research_only"] is True and
+            receipt["event_id"] == event and receipt["input_freeze_at"] == freeze and
+            row["team_id"] == team and row["reason"] is None, "SLATE_SELECTION_IDENTITY_INVALID")
 
 
 def verify_bundle(root, manifest_sha, *, return_source_records=False):
@@ -777,6 +795,12 @@ def verify_bundle(root, manifest_sha, *, return_source_records=False):
     require(set(feature["source_receipt_ids"]) == {
         src["receipt_id"] for src in source_records.values()},
         "SOURCE_BUNDLE_P0_SOURCE_CLOSURE_MISMATCH")
+    choice = doc.get("selection_sha256")
+    if choice is not None:
+        require(feature["features"]["selection_receipt_sha256"] == choice and
+                doc.get("quote_id") is None, "SLATE_SELECTION_FEATURE_DRIFT")
+        _verify_selection(root, choice, doc["event_id"], doc["official_nhl_player_id"],
+                          feature["team_id"], doc["input_freeze_at"])
     if doc.get("P0_quote_record_sha256"):
         quote = verify_immutable_record(root, "MarketQuote",
                                       doc["P0_quote_record_sha256"])
