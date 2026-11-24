@@ -1,0 +1,280 @@
+{
+  "archive_ref": "6dc7871094470a811d19ae3d54a8e2f72f2c4165",
+  "closure": "OPEN",
+  "exact_independent_power": [
+    {
+      "alpha": 0.04776270558027652,
+      "alternative_percent": 80,
+      "hit_threshold": 92,
+      "independent_observations": 119,
+      "null_percent": 70,
+      "power": 0.8036259999243301
+    },
+    {
+      "alpha": 0.049870214367919614,
+      "alternative_percent": 80,
+      "hit_threshold": 343,
+      "independent_observations": 437,
+      "null_percent": 75,
+      "power": 0.8030312384529151
+    },
+    {
+      "alpha": 0.048450864769998485,
+      "alternative_percent": 85,
+      "hit_threshold": 305,
+      "independent_observations": 365,
+      "null_percent": 80,
+      "power": 0.8017786275340952
+    },
+    {
+      "alpha": 0.049668974831102504,
+      "alternative_percent": 90,
+      "hit_threshold": 249,
+      "independent_observations": 281,
+      "null_percent": 85,
+      "power": 0.8110308476386515
+    },
+    {
+      "alpha": 0.04857534487269877,
+      "alternative_percent": 95,
+      "hit_threshold": 168,
+      "independent_observations": 179,
+      "null_percent": 90,
+      "power": 0.812940653347176
+    }
+  ],
+  "limits": [
+    "Nov10 one date, NBA raw finals inaccessible via line-limited connector",
+    "Nov23 all forecast rows uncertified",
+    "No independent confirmation of future scheduled execution or unsettled games",
+    "Tier calculations assume independent fixed-n observations"
+  ],
+  "nov09": [
+    {
+      "absent_forecast_lineage_overlap": {
+        "event_id|input_freeze_at|model_training_cutoff_at|model_input_binding|source_receipts": 1490
+      },
+      "accepted": 1893,
+      "archive_clock": "2026-11-09T22:36:16Z",
+      "captured_at": "2026-11-09T22:44:16.594037+00:00",
+      "false_future_rows_by_sport": {
+        "NBA": 131,
+        "NHL": 54
+      },
+      "forecast_sides": 1490,
+      "forecast_sides_by_sport": {
+        "NBA": 1294,
+        "NFL": 84,
+        "NHL": 112
+      },
+      "input": 2078,
+      "odds_feed_finish_clock": "2026-11-09T22:37:07Z",
+      "rejected": 185,
+      "sha256": "c922f75110d0fb748e295442ef378c788158e4fb70e47bf55315175c6024da05"
+    },
+    {
+      "absent_forecast_lineage_overlap": {
+        "event_id|input_freeze_at|model_input_binding": 18,
+        "event_id|input_freeze_at|model_training_cutoff_at|model_input_binding|source_receipts": 1490
+      },
+      "accepted": 1387,
+      "archive_clock": "2026-11-09T23:05:34Z",
+      "captured_at": "2026-11-09T23:14:16.107104+00:00",
+      "false_future_rows_by_sport": {
+        "NBA": 502,
+        "NFL": 56,
+        "NHL": 100
+      },
+      "forecast_sides": 1508,
+      "forecast_sides_by_sport": {
+        "NBA": 1304,
+        "NFL": 92,
+        "NHL": 112
+      },
+      "input": 2045,
+      "odds_feed_finish_clock": "2026-11-09T23:06:34Z",
+      "rejected": 658,
+      "sha256": "027848a18f27b9b8f4ba02efe8b2ddea3d8e992e17278d057206dad7a4c94e9a"
+    },
+    {
+      "absent_forecast_lineage_overlap": {
+        "event_id|input_freeze_at|model_input_binding": 18,
+        "event_id|input_freeze_at|model_training_cutoff_at|model_input_binding|source_receipts": 1506
+      },
+      "accepted": 1510,
+      "archive_clock": "2026-11-09T23:12:57Z",
+      "captured_at": "2026-11-09T23:21:17.804219+00:00",
+      "false_future_rows_by_sport": {
+        "NBA": 479,
+        "NFL": 77
+      },
+      "forecast_sides": 1524,
+      "forecast_sides_by_sport": {
+        "NBA": 1320,
+        "NFL": 92,
+        "NHL": 112
+      },
+      "input": 2066,
+      "odds_feed_finish_clock": "2026-11-09T23:13:45Z",
+      "rejected": 556,
+      "sha256": "92b59179c11b4bd644e634f4562ead6ae905142a0f6770dc94a48119f7f10c3b"
+    }
+  ],
+  "nov10": {
+    "attempt_statuses": {
+      "forecast": 712,
+      "unavailable": 602
+    },
+    "attempts_sha256": "b57eb04ba8bdeca2b7c40adde2fcebabb1ff98ee5a6938baf88b3a32c89eb2d2",
+    "matched_Brier": {
+      "NBA|Bayesian_A": {
+        "median_market": 0.24846935467504266,
+        "model": 0.24082162649107328,
+        "n": 221
+      },
+      "NBA|Bayesian_B": {
+        "median_market": 0.2489814599209298,
+        "model": 0.2385750184974818,
+        "n": 225
+      },
+      "NBA|Consensus": {
+        "median_market": 0.24656247692870542,
+        "model": 0.23975491001822946,
+        "n": 146
+      },
+      "NBA|Engine_A": {
+        "median_market": 0.2485283622217606,
+        "model": 0.2763106118911949,
+        "n": 217
+      },
+      "NBA|Engine_B": {
+        "median_market": 0.24618124253143722,
+        "model": 0.2441062810978636,
+        "n": 155
+      },
+      "NBA|Market": {
+        "median_market": 0.24859962054294463,
+        "model": 0.24859962054294463,
+        "n": 250
+      },
+      "NHL|Bayesian_A": {
+        "median_market": 0.25039861183509055,
+        "model": 0.264914719238241,
+        "n": 102
+      },
+      "NHL|Bayesian_B": {
+        "median_market": 0.25039861183509055,
+        "model": 0.2608093677333515,
+        "n": 102
+      },
+      "NHL|Consensus": {
+        "median_market": 0.25039861183509055,
+        "model": 0.26398695039964454,
+        "n": 102
+      },
+      "NHL|Engine_A": {
+        "median_market": 0.25039474181727417,
+        "model": 0.2566045712472261,
+        "n": 103
+      },
+      "NHL|Engine_B": {
+        "median_market": 0.25039474181727417,
+        "model": 0.272385493193227,
+        "n": 103
+      },
+      "NHL|Market": {
+        "median_market": 0.24955227824060916,
+        "model": 0.24955227824060916,
+        "n": 104
+      }
+    },
+    "matched_outcomes": {
+      "over": 160,
+      "under": 194
+    },
+    "original_comparison_sidecar_sha256": "65ec6f549d32aa735999841c42f10941cd75aa811ddd7e9d9d2ee8e98ba67921",
+    "paired_contracts": 356,
+    "pregame_sha256": "76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6",
+    "restored_pregame_source_objects": 1783,
+    "settlements_by_sport_stat": {
+      "NBA|assists": 28,
+      "NBA|pa": 21,
+      "NBA|points": 47,
+      "NBA|pr": 30,
+      "NBA|pra": 15,
+      "NBA|ra": 26,
+      "NBA|rebounds": 45,
+      "NBA|threes": 38,
+      "NHL|shots on goal": 104
+    },
+    "settlements_sha256": "7f61d5933b714756e7f7d5561a2b0ca226cecaaff5b801d5567dc56a2f9970b3",
+    "unresolved_contracts": [
+      [
+        "NHL",
+        "649663",
+        "8482110",
+        "shots on goal",
+        1.5
+      ],
+      [
+        "NHL",
+        "696018",
+        "8476979",
+        "shots on goal",
+        1.5
+      ]
+    ],
+    "verified_nhl_raw_boxscore_sha256": [
+      "0267c58e42f8d86db1e86bd785edd1ea8a9276f41db330d5f4ea9713ec33ad24",
+      "284c034314190e3446e333ef7466fad50dc8537a0d4b8275ea2307de4edcbb71",
+      "4ae54bfebc6ec7ed2ef85e305fcac5879a709f242ed0ba5507d6f44d3825eb22",
+      "6a5bbe095299dbdebd1a1ffca196b943f5dfadc77e6d28dd54423c1944ec6724",
+      "c7cec704396285a676f0f2e99ad65790ffb347fff70c1ed5c30f6342cc47a606",
+      "c8f4280c1a00eda437a0606067017984ad50a42620d63b32df6831fd8c77e49d",
+      "fd54e4b2ba069802f6dcb1ad4543ee6ba77bdd491bccdd7d721218e4c5266c95"
+    ]
+  },
+  "nov23": {
+    "accepted": 2592,
+    "archive_clock": "2026-11-23T17:42:17Z",
+    "certified_sides": 0,
+    "false_future_rows_by_sport": {
+      "NBA": 71,
+      "NFL": 32,
+      "NHL": 128
+    },
+    "forecast_sides_by_sport": {
+      "NBA": 1592,
+      "NFL": 100
+    },
+    "input": 2823,
+    "nhl_feed": {
+      "notes": [
+        "nhl: ModuleNotFoundError: No module named 'v2'"
+      ],
+      "rows": 0,
+      "status": "failed"
+    },
+    "odds_feed_finish_clock": "2026-11-23T17:42:57Z",
+    "postgame_sha256": "2b7701595fcb8180560ecafe89170ea81a0fe8ccad3127f2106b557875075a13",
+    "pregame_sha256": "e87c58c9267a135043c1dccc3c2032c9994a14c33c0adbd5d6c6eda41178334d",
+    "rejected": 231,
+    "settled_sides_by_sport": {
+      "NBA": 1520,
+      "NFL": 100
+    },
+    "uncertified_reasons": {
+      "missing_or_imprecise_timestamp:input_freeze_at": 1692
+    },
+    "unmatched_sides_by_sport_stat": {
+      "NBA|assists": 6,
+      "NBA|pa": 10,
+      "NBA|points": 10,
+      "NBA|pr": 10,
+      "NBA|pra": 10,
+      "NBA|ra": 8,
+      "NBA|rebounds": 10,
+      "NBA|threes": 8
+    }
+  }
+}
