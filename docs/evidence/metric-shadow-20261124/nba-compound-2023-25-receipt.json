@@ -1,0 +1,163 @@
+{
+  "calibration_fit_seasons": [
+    "2021\u201322",
+    "2022\u201323"
+  ],
+  "component_mean_multipliers": [
+    1.005465097593042,
+    1.0057914685512044,
+    0.98979575509859
+  ],
+  "components": [
+    "made free throws",
+    "made twos",
+    "made threes"
+  ],
+  "compound_free_throw_only_identity": "verified",
+  "fit_rows": 48451,
+  "input_receipts": {
+    "2020": {
+      "baseline_candidates": 0,
+      "baseline_features_sha256": null,
+      "box_sha256": "86b12342459b786450460000ad4de6a6c6a618ae064f6047e19565110bcc638f",
+      "frozen_forecast_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scoreable": 0,
+      "with_structured_features": 0
+    },
+    "2021": {
+      "baseline_candidates": 33317,
+      "baseline_features_sha256": "d08222c61f643bf417c649d44449a0efe1ea682b128dac097bef99add6fa8df5",
+      "box_sha256": "1a639a8c47250a35cb823a17510d6a1a900bbab9bcaec19b7b79abe2f7f803e6",
+      "frozen_forecast_sha256": "ac29823988bbe3de4a375323c640e54b708ebf1fe1669f0fc153cec6255973c0",
+      "no_verified_played_box": 9199,
+      "scoreable": 24118,
+      "with_structured_features": 33317
+    },
+    "2022": {
+      "baseline_candidates": 33114,
+      "baseline_features_sha256": "3993eb617b0098f4a81bb81944a34571bbb65c051d5c4189ccaef5f100c6e87f",
+      "box_sha256": "1b797107d4a0b2fbc98862bd283b9e807a05aa11c671b89a471b25591a589493",
+      "frozen_forecast_sha256": "a357e44eb09b0441b6b8da628397dba691c53f729f25403a75fb1476e3ea3e8b",
+      "no_verified_played_box": 8781,
+      "scoreable": 24333,
+      "with_structured_features": 33114
+    },
+    "2023": {
+      "baseline_candidates": 33941,
+      "baseline_features_sha256": "3895d7fb88ddc24765c315c63280212ab45100edf46cee55b3ac3e1ddae7d854",
+      "box_sha256": "c52a708ac80542baa0711f166154e0a647543036854e29aa903bd2fc27b49ae2",
+      "frozen_forecast_sha256": "334a468e85f69a3f77c365f5a45b8d58de2e1628e6f119d2d67e12421214fb1d",
+      "no_verified_played_box": 9351,
+      "scoreable": 24590,
+      "with_structured_features": 33941
+    },
+    "2024": {
+      "baseline_candidates": 34050,
+      "baseline_features_sha256": "4f9769501bc743a05d55a3c0f42dacd5db21c56546a6d80b4e6e426743f55736",
+      "box_sha256": "8e34c5b1b7629dda89483356b5ec40f76a0b534aa273a5ddd8d9ef23f3e0e4f7",
+      "frozen_forecast_sha256": "c3888945c4cfda61e2f189a9b6f559d1d472251630352b320b02a48a467f31d0",
+      "no_verified_played_box": 9588,
+      "scoreable": 24462,
+      "with_structured_features": 34050
+    }
+  },
+  "prior_fit_source": "2020\u201321",
+  "same_day_history_injection": "rejected",
+  "scope": "Retrospective earlier-date replay conditional on played minutes; no contemporaneous lineup or result publication claim",
+  "test": {
+    "2023": {
+      "dates": 159,
+      "games": 1216,
+      "models": {
+        "compound_at_control_mean": {
+          "crps": 3.2888871448671253,
+          "date_cluster_95": [
+            -0.2003377644028504,
+            -0.1887424548632731
+          ],
+          "delta_crps": -0.19459657287290838,
+          "delta_log_loss": -0.6110283745256494,
+          "log_loss": 3.1256046567777815
+        },
+        "control": {
+          "crps": 3.4834837177400333,
+          "date_cluster_95": [
+            0.0,
+            0.0
+          ],
+          "delta_crps": 0.0,
+          "delta_log_loss": 0.0,
+          "log_loss": 3.7366330313034304
+        },
+        "structured_compound": {
+          "crps": 3.3008600181461265,
+          "date_cluster_95": [
+            -0.19025668019123998,
+            -0.17475863303209718
+          ],
+          "delta_crps": -0.1826236995939063,
+          "delta_log_loss": -0.6075460297388015,
+          "log_loss": 3.1290870015646295
+        },
+        "structured_mean_poisson": {
+          "crps": 3.497774604027241,
+          "date_cluster_95": [
+            0.00910560896210707,
+            0.019374579211227413
+          ],
+          "delta_crps": 0.014290886287207552,
+          "delta_log_loss": 0.008030796887726625,
+          "log_loss": 3.7446638281911566
+        }
+      },
+      "rows": 24590
+    },
+    "2024": {
+      "dates": 162,
+      "games": 1217,
+      "models": {
+        "compound_at_control_mean": {
+          "crps": 3.3654144334942857,
+          "date_cluster_95": [
+            -0.2080227634400383,
+            -0.19546736284634908
+          ],
+          "delta_crps": -0.2017340525420261,
+          "delta_log_loss": -0.6783357531597826,
+          "log_loss": 3.147725680969349
+        },
+        "control": {
+          "crps": 3.567148486036312,
+          "date_cluster_95": [
+            0.0,
+            0.0
+          ],
+          "delta_crps": 0.0,
+          "delta_log_loss": 0.0,
+          "log_loss": 3.8260614341291315
+        },
+        "structured_compound": {
+          "crps": 3.3732363214732777,
+          "date_cluster_95": [
+            -0.2019954235095562,
+            -0.18582464043232602
+          ],
+          "delta_crps": -0.19391216456303406,
+          "delta_log_loss": -0.6755606629782323,
+          "log_loss": 3.1505007711508983
+        },
+        "structured_mean_poisson": {
+          "crps": 3.575318078095972,
+          "date_cluster_95": [
+            0.0031822070761515875,
+            0.013311163767580826
+          ],
+          "delta_crps": 0.008169592059660086,
+          "delta_log_loss": 0.007214515754118805,
+          "log_loss": 3.8332759498832503
+        }
+      },
+      "rows": 24462
+    }
+  }
+}

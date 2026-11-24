@@ -1,0 +1,91 @@
+{
+  "coverage": {
+    "candidate_insufficient_verified_exposure": 3524,
+    "candidate_insufficient_verified_history": 1205,
+    "frozen": 51131,
+    "frozen_without_played_row": 8487,
+    "games_attempted": 1312,
+    "played_rows": 47230
+  },
+  "frozen_sha256": "8f2cf0973e1264ddc29dc92a66d1f5cc4f14759e78651a90df9cf1b395bb4624",
+  "monthly_delta_crps": {
+    "2025-10": {
+      "control": 0.0,
+      "iFF_5v5": -0.0008681778119355983
+    },
+    "2025-11": {
+      "control": 0.0,
+      "iFF_5v5": -0.001021990676159772
+    },
+    "2025-12": {
+      "control": 0.0,
+      "iFF_5v5": -0.00221625040871707
+    },
+    "2026-01": {
+      "control": 0.0,
+      "iFF_5v5": -0.0019211521442412942
+    },
+    "2026-02": {
+      "control": 0.0,
+      "iFF_5v5": 0.0004823135114942487
+    },
+    "2026-03": {
+      "control": 0.0,
+      "iFF_5v5": -0.0020074089407853086
+    },
+    "2026-04": {
+      "control": 0.0,
+      "iFF_5v5": -0.0011514264714957301
+    }
+  },
+  "scope": "Retrospective earlier-date replay, played conditional; coefficients and calibration from earlier seasons remain fixed. Outcomes flow into state only after each whole date is frozen.",
+  "scores": {
+    "dates": 166,
+    "games": 1298,
+    "models": {
+      "control": {
+        "crps": 0.7054842093792956,
+        "date_cluster_95": [
+          0.0,
+          0.0
+        ],
+        "delta_crps": 0.0,
+        "delta_log_loss": 0.0,
+        "log_loss": 1.569587340200041
+      },
+      "iFF_5v5": {
+        "crps": 0.7039780639071657,
+        "date_cluster_95": [
+          -0.0021722378420836195,
+          -0.0008456932761484291
+        ],
+        "delta_crps": -0.0015061454721298519,
+        "delta_log_loss": -0.002661027875787757,
+        "log_loss": 1.5669263123242534
+      }
+    },
+    "rows": 42644
+  },
+  "season": "2025-26",
+  "source_receipts": {
+    "2025": {
+      "box_sha256": "24016d5f311d16607ad4f4764e934dbe30ca96fca55aed63eec0bae1b81458db",
+      "games_reconciled": 1312,
+      "pbp_sha256": "f30f6589dd9ed3697dc4ac07bb8660feb33f5ad0412705fd94c863ee994bcae1",
+      "pdo_complete_shot_lineups": 44643,
+      "pdo_incomplete_shot_lineups": 11216,
+      "shift_games_mapped": 1312,
+      "shift_sha256": "ede6568c6d7ea1cf0db50b7426b40e34fa4f661c03f6306834b0e47fd29db663"
+    },
+    "2026": {
+      "box_sha256": "bd12c00a222a7da7578a2279c2e2f9b7341e2e9b72a8dc45bf59d1338c101c16",
+      "games_reconciled": 1312,
+      "pbp_sha256": "73e9db34550c816e448140c70b02720efe7ce88f6a5fa41cca1ead68b43b7e0e",
+      "pdo_complete_shot_lineups": 41802,
+      "pdo_incomplete_shot_lineups": 14637,
+      "shift_games_mapped": 1311,
+      "shift_sha256": "110a837b3742a485cfbb02ea3f18adac8643fd8aafef35a1f43106b3be28d577",
+      "unmapped_shift_games": 1
+    }
+  }
+}

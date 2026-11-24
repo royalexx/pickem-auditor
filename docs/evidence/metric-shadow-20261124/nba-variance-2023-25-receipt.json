@@ -1,0 +1,81 @@
+{
+  "NB2_size": 2.934392272369097,
+  "fitting_period": "2021\u201322 and 2022\u201323 only",
+  "individual_frozen_forecasts_reconstructed_from_strict_earlier_date_prefixes": 200,
+  "test": {
+    "2023": {
+      "dates": 159,
+      "games": 1216,
+      "models": {
+        "NB2_at_eFG_mean": {
+          "crps": 3.3783987573952525,
+          "date_cluster_95": [
+            -0.1208379802529318,
+            -0.08944859850894146
+          ],
+          "delta_crps": -0.10508496034478033,
+          "delta_log_loss": -0.5922530731281014,
+          "log_loss": 3.144379958175329
+        },
+        "compound_at_eFG_mean": {
+          "crps": 3.2888871448671253,
+          "date_cluster_95": [
+            -0.2003377644028504,
+            -0.1887424548632731
+          ],
+          "delta_crps": -0.19459657287290838,
+          "delta_log_loss": -0.6110283745256494,
+          "log_loss": 3.1256046567777815
+        },
+        "control": {
+          "crps": 3.4834837177400333,
+          "date_cluster_95": [
+            0.0,
+            0.0
+          ],
+          "delta_crps": 0.0,
+          "delta_log_loss": 0.0,
+          "log_loss": 3.7366330313034304
+        }
+      },
+      "rows": 24590
+    },
+    "2024": {
+      "dates": 162,
+      "games": 1217,
+      "models": {
+        "NB2_at_eFG_mean": {
+          "crps": 3.4417566780157345,
+          "date_cluster_95": [
+            -0.14064392607213158,
+            -0.11039846805860032
+          ],
+          "delta_crps": -0.12539180802057787,
+          "delta_log_loss": -0.6468033276788241,
+          "log_loss": 3.1792581064503067
+        },
+        "compound_at_eFG_mean": {
+          "crps": 3.3654144334942857,
+          "date_cluster_95": [
+            -0.2080227634400383,
+            -0.19546736284634908
+          ],
+          "delta_crps": -0.2017340525420261,
+          "delta_log_loss": -0.6783357531597826,
+          "log_loss": 3.147725680969349
+        },
+        "control": {
+          "crps": 3.567148486036312,
+          "date_cluster_95": [
+            0.0,
+            0.0
+          ],
+          "delta_crps": 0.0,
+          "delta_log_loss": 0.0,
+          "log_loss": 3.8260614341291315
+        }
+      },
+      "rows": 24462
+    }
+  }
+}

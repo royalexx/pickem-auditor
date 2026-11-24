@@ -19,3 +19,23 @@ python scripts/score_metric_shadow.py --sport NHL \
 ```
 
 For NBA use `--sport NBA` and a distinct `nba-nov27-final` destination. The shell runtime verified 16 numerical Poisson CRPS cases, one original final-box integration with a missing-player denominator, and rejection of a false forecast digest. A negative or inconclusive one-slate outcome remains part of the research record.
+
+## 2025–26 replay and NBA distribution addition
+
+The independent chronological season extension reuses the frozen control, NHL iFF, NBA eFG and NBA TS coefficients. NBA compound and NB2 calibration was fitted on 2021–22 and 2022–23 and reused without refitting. Each rate uses strictly earlier dated inputs, then the replay reveals the whole date only after freezing it. The NBA schedule crosswalk admitted 1,230 official standard regular-season games and excluded four ESPN-flagged All-Star games and the Cup championship. NHL admitted 1,312 official regular-season games. Report ungraded appearances separately. This is retrospective and uses revised archived inputs.
+
+| 2025–26 comparison | Delta count CRPS | Improved months |
+|---|---:|---:|
+| NHL iFF vs regular count baseline | −0.001506 | 6 of 7 |
+| NBA eFG vs regular count baseline | −0.013413 | 7 of 7 |
+| NBA TS vs regular count baseline | −0.013155 | 7 of 7 |
+| NBA compound at eFG mean vs eFG Poisson | −0.193381 | 7 of 7 |
+| NBA NB2 at eFG mean vs eFG Poisson | −0.111259 | 7 of 7 |
+
+The NBA companion was frozen at 2026-11-24 15:51:49.932665 UTC. It covers all 307 original NBA rows. It preserves the exact original eFG forecast mean for each row and tests two alternative distributions. The compound count draws made free throws, twos and threes separately. The negative binomial is a variance comparator. The original parent forecast packet and its forecasts remain immutable.
+
+- [NBA distribution companion](nba-shadow-distribution-companion.json), SHA-256 `a6bd418cfa52f13c2302f636754d8b10d011d420e583bf6456a4f4d2fd057cb2`.
+- [NBA 2025–26 results](nba-2025-26-results.json), SHA-256 `2ab20d8935a58f7eebec29f0c0f4e64b600509633eaa6eba6bc9ec9d07441c4c`.
+- [NHL 2025–26 results](nhl-2025-26-results.json), SHA-256 `9a0fe9265d98d78f3c31021136940742352ba45ac2b46166cf684c6eae8ee01a`.
+
+Score the companion with `scripts/score_nba_shadow_distribution.py` after the original NBA final report. Supply the companion and settlement hashes, the parent packet, and a new output path next to the original settlement report. The scorer revalidates the original NBA finals and the exact eFG means before scoring. It passed 16 negative-binomial numerical checks, an ESPN-format settlement integration fixture and rejection of tampered original bytes.

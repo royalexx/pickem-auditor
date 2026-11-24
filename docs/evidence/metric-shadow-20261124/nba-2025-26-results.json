@@ -1,0 +1,207 @@
+{
+  "coverage": {
+    "candidate_insufficient_field_goal_attempts": 1417,
+    "candidate_insufficient_player_history": 1125,
+    "frozen": 33834,
+    "frozen_without_played_row": 9156,
+    "games_attempted": 1230,
+    "played_rows": 26547
+  },
+  "frozen_sha256": "f4c2dd7607234f3e091092562f1c74383769d65d9f7a24bdb351ee87833523c2",
+  "monthly_delta_crps": {
+    "2025-10": {
+      "NB2_at_eFG_mean": -0.22867936209082382,
+      "TS": -0.011520240891117313,
+      "compound_at_eFG_mean": -0.25759772172961676,
+      "compound_minus_efg": -0.23744686731832185,
+      "control": 0.0,
+      "eFG": -0.020150854411294966,
+      "structured_mean_poisson": -0.028271811208714283
+    },
+    "2025-11": {
+      "NB2_at_eFG_mean": -0.11134696164926507,
+      "TS": -0.008476428627418235,
+      "compound_at_eFG_mean": -0.20219054911652054,
+      "compound_minus_efg": -0.18949785047985562,
+      "control": 0.0,
+      "eFG": -0.01269269863666491,
+      "structured_mean_poisson": -0.011374538323402239
+    },
+    "2025-12": {
+      "NB2_at_eFG_mean": -0.14384274982152956,
+      "TS": -0.024680334566192542,
+      "compound_at_eFG_mean": -0.22452997474979283,
+      "compound_minus_efg": -0.1993959982108429,
+      "control": 0.0,
+      "eFG": -0.02513397653894992,
+      "structured_mean_poisson": -0.006088546390879535
+    },
+    "2026-01": {
+      "NB2_at_eFG_mean": -0.07379577701473407,
+      "TS": -0.012445498888831513,
+      "compound_at_eFG_mean": -0.18695668016857667,
+      "compound_minus_efg": -0.17465825157805068,
+      "control": 0.0,
+      "eFG": -0.012298428590526,
+      "structured_mean_poisson": 0.002023873412164794
+    },
+    "2026-02": {
+      "NB2_at_eFG_mean": -0.1164305280236568,
+      "TS": -0.003943140820983452,
+      "compound_at_eFG_mean": -0.1925027114171753,
+      "compound_minus_efg": -0.19077922454566382,
+      "control": 0.0,
+      "eFG": -0.0017234868715114717,
+      "structured_mean_poisson": 0.010763996188832444
+    },
+    "2026-03": {
+      "NB2_at_eFG_mean": -0.1265429035492012,
+      "TS": -0.012782829585599207,
+      "compound_at_eFG_mean": -0.2047648710536363,
+      "compound_minus_efg": -0.19211403842034308,
+      "control": 0.0,
+      "eFG": -0.012650832633293215,
+      "structured_mean_poisson": 0.0031801977579735056
+    },
+    "2026-04": {
+      "NB2_at_eFG_mean": -0.18737435504060482,
+      "TS": -0.019626134520233027,
+      "compound_at_eFG_mean": -0.2283897315709361,
+      "compound_minus_efg": -0.21691178047344586,
+      "control": 0.0,
+      "eFG": -0.01147795109749027,
+      "structured_mean_poisson": 0.014542379334245983
+    }
+  },
+  "scope": "Retrospective earlier-date replay, played conditional; coefficients and calibration from earlier seasons remain fixed. Outcomes flow into state only after each whole date is frozen.",
+  "scores": {
+    "dates": 162,
+    "games": 1216,
+    "models": {
+      "NB2_at_eFG_mean": {
+        "crps": 3.413694664821534,
+        "date_cluster_95": [
+          -0.14061151311394934,
+          -0.10896000795908163
+        ],
+        "delta_crps": -0.12467138217221953,
+        "delta_log_loss": -0.6275398214015719,
+        "log_loss": 3.1722096267164024
+      },
+      "TS": {
+        "crps": 3.525210697465178,
+        "date_cluster_95": [
+          -0.018579952011271616,
+          -0.0077778592252739165
+        ],
+        "delta_crps": -0.013155349528574996,
+        "delta_log_loss": -0.015004003283319668,
+        "log_loss": 3.7847454448346545
+      },
+      "compound_at_eFG_mean": {
+        "crps": 3.331571945986789,
+        "date_cluster_95": [
+          -0.2144804982725591,
+          -0.19941370463835015
+        ],
+        "delta_crps": -0.2067941010069638,
+        "delta_log_loss": -0.6033215546250108,
+        "log_loss": 3.1964278934929635
+      },
+      "control": {
+        "crps": 3.5383660469937537,
+        "date_cluster_95": [
+          0.0,
+          0.0
+        ],
+        "delta_crps": 0.0,
+        "delta_log_loss": 0.0,
+        "log_loss": 3.799749448117974
+      },
+      "eFG": {
+        "crps": 3.5249533669252906,
+        "date_cluster_95": [
+          -0.018306276386147048,
+          -0.008574614593619604
+        ],
+        "delta_crps": -0.013412680068462501,
+        "delta_log_loss": -0.013200747122375036,
+        "log_loss": 3.7865487009955996
+      },
+      "structured_mean_poisson": {
+        "crps": 3.537586251136067,
+        "date_cluster_95": [
+          -0.004988485137260524,
+          0.003566836321916678
+        ],
+        "delta_crps": -0.0007797958576861358,
+        "delta_log_loss": -0.002851602629829457,
+        "log_loss": 3.796897845488145
+      }
+    },
+    "rows": 24678,
+    "vs_efg": {
+      "NB2_at_eFG_mean": {
+        "crps": 3.413694664821534,
+        "date_cluster_95": [
+          -0.12680644293053264,
+          -0.09572740928079905
+        ],
+        "delta_crps": -0.11125870210375705,
+        "delta_log_loss": -0.614339074279197,
+        "log_loss": 3.1722096267164024
+      },
+      "TS": {
+        "crps": 3.525210697465178,
+        "date_cluster_95": [
+          -0.0018380673607274018,
+          0.0023884643299566604
+        ],
+        "delta_crps": 0.00025733053988750125,
+        "delta_log_loss": -0.0018032561609446305,
+        "log_loss": 3.7847454448346545
+      },
+      "compound_at_eFG_mean": {
+        "crps": 3.331571945986789,
+        "date_cluster_95": [
+          -0.1994702639000046,
+          -0.18719819334318888
+        ],
+        "delta_crps": -0.19338142093850133,
+        "delta_log_loss": -0.5901208075026357,
+        "log_loss": 3.1964278934929635
+      },
+      "control": {
+        "crps": 3.5249533669252906,
+        "date_cluster_95": [
+          0.0,
+          0.0
+        ],
+        "delta_crps": 0.0,
+        "delta_log_loss": 0.0,
+        "log_loss": 3.7865487009955996
+      },
+      "structured_mean_poisson": {
+        "crps": 3.537586251136067,
+        "date_cluster_95": [
+          0.007529619632286926,
+          0.017828378360586556
+        ],
+        "delta_crps": 0.012632884210776362,
+        "delta_log_loss": 0.010349144492545582,
+        "log_loss": 3.796897845488145
+      }
+    }
+  },
+  "season": "2025-26",
+  "source_receipts": {
+    "2025": {
+      "box_sha256": "8e34c5b1b7629dda89483356b5ec40f76a0b534aa273a5ddd8d9ef23f3e0e4f7",
+      "official_schedule_sha256": "a7a5b6607a256c84a324f819e4461248bdff90a78b1ddb675a5a117a9a94e74f"
+    },
+    "2026": {
+      "box_sha256": "7a4868da67ae7f6ebfba23389e04220be2e3f69d2e56a3942c02aa56f1becc89",
+      "official_schedule_sha256": "5a4a7473fce1c49d56382211c5955ad405f421d59869143b1d501e997e79223e"
+    }
+  }
+}
