@@ -1,0 +1,48 @@
+{
+  "experiment_id": "EXP-V25-NFL-QB-PASS-ATTEMPTS-SHADOW",
+  "governing_plan": "PA-V25-MASTER-2026-11-09 / v1.1 sections 6.5, 6.7 and 7",
+  "status": "draft_precommit_execution_blocked",
+  "hypothesis": "Replacing the player's standalone pass-attempt count forecast with a team-attempt pool and a starter-specific share estimated from past verified starts improves matched QB count CRPS.",
+  "activation_requirements": [
+    "Independent Phase 1 evaluator acceptance for NFL pass attempts with original-byte evidence",
+    "Signed Phase 1.5 NFL error-priority memo showing enough pregame allocation evidence to justify this bounded mechanism",
+    "Immutable verified event, explicit league-source starter identity, model/feature provenance, and point-in-time history available for the precommitted cohort",
+    "Independent approval and pinning of the exact code, prior and challenger versions, source adapter, and first eligible origin before accessing any pilot outcomes"
+  ],
+  "historical_reference": {
+    "role": "design-exposed regression only",
+    "source_gate_commit": "d4c96a59b2e09238a92cbbab769299957e64c88b",
+    "frozen_manifest_sha256": "e416676f803022dda60d715a45e4a3206b2fb771f5631fd8859aee57b87e6b41",
+    "qb_forecasts": 1105,
+    "qb_matched": 378,
+    "qb_unmatched": 727,
+    "pregame_starter_qualified": 0
+  },
+  "eligible_universe": "NFL regular-season full-game player pass attempts including overtime. Keep all official team-games, candidate QBs and real offers with explicit reasons for all skips. Count scoring uses one independently confirmed starting QB per team-game with verified played status and valid official count. Real-offer scoring is secondary and requires exact original two-sided terms, line, and DNP/push convention.",
+  "baseline": "Simple empirical player prior over the last eight verified earlier starts, minimum four, equal weights. Forecast the empirical pass-attempt count PMF. Record original frozen V1 separately wherever comparable.",
+  "challenger": "Empirical team pass-attempt pool over last eight verified earlier team games, minimum four. For each pool draw allocate N attempts by a binomial probability equal to (1 + sum of starter attempts) / (2 + sum of team attempts) over the same starter-history games used by the prior, bound starter attempts by team attempts and retain the residual bucket T - N. No market conditioning or extra fitted feature.",
+  "cutoff_policy": "Every training observation must have a verified official result available strictly before entry to the event's pregame freeze. Team-game and starter histories use only verified official identities and results. Require an exact-identity signed or source-bound original explicit starter claim before freeze, at most six hours old, and reject projection, depth-chart-only, contradictory and post-kickoff source claims.",
+  "cohort_and_splits": {
+    "first_origin": "First untouched eligible slate after activation is documented",
+    "horizon": "First four NFL regular-season weeks from first origin, analysis once after official settlement. No outcome-dependent extension.",
+    "minimum_for_investment": "At least 24 matched unique games and eight distinct dates; report feasibility and retain baseline if either minimum or interval criterion fails.",
+    "resampling": "10000 paired whole-date bootstrap replicates, seed 20261124; report whole-game sensitivity and individual week results"
+  },
+  "primary_metric": "Challenger minus player prior empirical count CRPS, equal date weight; 95 percent paired interval",
+  "secondary_metrics": [
+    "MAE and signed mean error by game, team, and low versus high starter share",
+    "Availability, coverage, zero/tail errors, conservation and runtime",
+    "Three-way Brier/log loss on exact matched real contracts, when available"
+  ],
+  "negative_controls": [
+    "future or same-origin official result sentinel",
+    "future, stale, wrong-team, duplicate, contradictory and unofficial starter claim",
+    "absent QB, unverified participant, and actual stake/DNP/push semantics",
+    "permuted starter identities within training weeks, descriptive only",
+    "exact count PMF normalization and zero illegal or overallocated draws"
+  ],
+  "investment_rule": "Require all integrity gates, no illegal allocations, paired CRPS upper confidence limit below zero, no material loss in matched or attempted coverage, and no material adverse zero/tail, latency or official grading failure. Independently review before funding further work.",
+  "rollback_rule": "Keep or revert to simple player prior if evidence is missing, interval inconclusive, coverage degraded or any integrity failure occurs. No production wiring or publishing.",
+  "artifact_manifest": "At activation record exact 40-hex code SHA, experiment card SHA, source and model artifact SHAs, origin roster, source availability and freeze clocks, immutable PMFs, candidate/abstention/reject ledger, official outcomes as separate artifact, seeds/runtime and independent review receipt.",
+  "production_promotion_allowed": false
+}
