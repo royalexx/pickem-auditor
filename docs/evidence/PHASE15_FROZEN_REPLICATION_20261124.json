@@ -1,0 +1,268 @@
+{
+  "schema": "pickem_v25_phase15_independent_replication_20261124_v1",
+  "governing_plan": "PA-V25-MASTER-2026-11-09 / v1.1",
+  "baseline_main": "237331c113049326e2d8945f8ea2c17bc5f36486",
+  "repairs": {
+    "archival_diagnostics": "d60f63342b6cab9a958e80ae4f5951b28325235b",
+    "original_factor_capture_lineage": "d1ff852139385821b9dd48a5f2b65e35a977180d",
+    "invalid_producer_missing_cutoff": "e357b8bbbb47fdb668927d8de8385708b06234e6",
+    "passing_focused_tests": {
+      "phase15": 108,
+      "strict_live_pool": 8,
+      "whole_prepared_universe": 1
+    }
+  },
+  "deepnote": {
+    "project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "notebook_id": "d56dfb0a90c74f7d8373ec24f78090e9",
+    "run_id": "113e5eab-38a0-415e-b222-add73f96bed0",
+    "status": "success",
+    "storage_mode": "readonly",
+    "machine": "lake",
+    "created_at": "2026-11-24T13:18:00.029Z",
+    "completed_at": "2026-11-24T13:18:54.281Z",
+    "blocks": [
+      {
+        "id": "dcfd2c08e8914ed2b43d37555db3faec",
+        "content_hash": "sha256:977f04a0cfa69f41b55b147346ca6bcea7aa0d195332f9c4ddcf8123f07c070d"
+      },
+      {
+        "id": "223f87f684e84b87afa41c1df214eeae",
+        "content_hash": "sha256:bb7929e9c93e8a94033cee3edca7e6f71b55a9b1ddeca496e6990e77f11c1e8b"
+      }
+    ],
+    "archived_nfl_source_run": "47cef69a-b4a2-4e58-823a-deff2c4cd3cd",
+    "scope": "Independent Python arithmetic on original frozen NFL CSV and weekly QB archives, and on archived NBA/NHL original sidecar and final-provider raw box scores. Derived NBA/NHL report digests remain discrepant with old documentation."
+  },
+  "replication": [
+    {
+      "gate": "directional_frozen_NFL",
+      "receipt_sha256": "a6692d44e18d14d7b1a0eafb6bfc6aaba4e6d8d0091ea2eb03491676d1cd75be",
+      "source_sha256": "617b8693b6dbd17923c88b461789bfa7a3c50ec67b3b10783ce1e51f8526ff9b",
+      "n": 107319,
+      "matched": 71009,
+      "labels": {
+        "UNMATCHED": 36310,
+        "HIT": 49841,
+        "MISS": 21168
+      },
+      "excluded": {
+        "UNMATCHED": 36310
+      },
+      "markets": [
+        "carries",
+        "completions",
+        "pass attempts",
+        "passes defended",
+        "passing touchdowns",
+        "passing yards",
+        "qb hits",
+        "receiving touchdowns",
+        "receiving yards",
+        "receptions",
+        "rushing touchdowns",
+        "rushing yards",
+        "solo tackles",
+        "tackle assists",
+        "tackles + assists",
+        "targets"
+      ],
+      "game_week_intervals_reproduced": true
+    },
+    {
+      "gate": "QB_frozen_NFL",
+      "receipt_sha256": "19492f00d2d428e31a0d8a2db321337ded8a1be96d06f5e5acc9befc73b0ebb5",
+      "oracle_sha256": "978637383e6bfc8f9795ca102a358259e20753ea1ddb2ca4d78001f5e0849efa",
+      "weeks_with_all_file_hashes_verified": 18,
+      "graded": 547,
+      "ungraded": 321,
+      "frozen_rows_without_reveal": 0,
+      "game_week_intervals_reproduced": true,
+      "gain": {
+        "volume": 45.03384209800393,
+        "share": 107.96011463508566
+      }
+    },
+    {
+      "gate": "derived_receipt_hash_reconciliation",
+      "mismatches": {
+        "reports/phase15_Nov10_FULL_REAL_FINAL_scored_phase1_20261111_f3162e921187.json": {
+          "reported": "c6811bebc6cf125211f994ba0228ce9638d2022b428ac9dde60567b295cd3d6c",
+          "observed": "3f417d0e9ba271ca95fd0dcec5e1a4291d84099a6bb50a48077ffbafe9bcb474"
+        },
+        "reports/phase15_Nov10_FULL_REAL_FINAL_scored_phase15_20261111_f3162e921187.json": {
+          "reported": "e1636a40ffad609cd8dabbbd8f405ce37fb1a7867be10fec4b1046a883c62bd7",
+          "observed": "76a507ff82f2bb416e1818fe212da289e273526cb8360042241041e1f18082e7"
+        }
+      }
+    },
+    {
+      "gate": "NBA_NHL_original_20261110",
+      "observed_digests": {
+        "capture_manifest.json": "28265c1aed00c12017842b05715c12b8b8f102ca4a5d8bcc59a06fe3e81457d8",
+        "phase15_Nov10_FULL_REAL_FINAL_scored_phase1_20261111_f3162e921187.json": "3f417d0e9ba271ca95fd0dcec5e1a4291d84099a6bb50a48077ffbafe9bcb474",
+        "phase15_Nov10_FULL_REAL_FINAL_scored_phase15_20261111_f3162e921187.json": "76a507ff82f2bb416e1818fe212da289e273526cb8360042241041e1f18082e7",
+        "phase15_20261111_full_independent_NBA_NHL_audit.json": "e136f283a369ec373703675fee5eee2b6cee08e7bb599d561079091d0e73fa90",
+        "model_comparisons.jsonl": "65ec6f549d32aa735999841c42f10941cd75aa811ddd7e9d9d2ee8e98ba67921",
+        "live_pool_2026-11-10_afternoon_76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6.json.gz": "76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6"
+      },
+      "derived_digest_mismatches": {
+        "reports/phase15_Nov10_FULL_REAL_FINAL_scored_phase1_20261111_f3162e921187.json": {
+          "reported": "c6811bebc6cf125211f994ba0228ce9638d2022b428ac9dde60567b295cd3d6c",
+          "observed": "3f417d0e9ba271ca95fd0dcec5e1a4291d84099a6bb50a48077ffbafe9bcb474"
+        },
+        "reports/phase15_Nov10_FULL_REAL_FINAL_scored_phase15_20261111_f3162e921187.json": {
+          "reported": "e1636a40ffad609cd8dabbbd8f405ce37fb1a7867be10fec4b1046a883c62bd7",
+          "observed": "76a507ff82f2bb416e1818fe212da289e273526cb8360042241041e1f18082e7"
+        }
+      },
+      "verified_final_game_bytes": 12,
+      "unique_contracts": 356,
+      "scored": {
+        "NBA": 250,
+        "NHL": 104
+      },
+      "unresolved": [
+        [
+          "NHL",
+          "8482110",
+          "pending_official_settlement"
+        ],
+        [
+          "NHL",
+          "8476979",
+          "pending_official_settlement"
+        ]
+      ],
+      "markets": {
+        "NBA|points": 47,
+        "NBA|pr": 30,
+        "NBA|rebounds": 45,
+        "NBA|threes": 38,
+        "NBA|assists": 28,
+        "NBA|ra": 26,
+        "NBA|pa": 21,
+        "NBA|pra": 15,
+        "NHL|shots on goal": 104
+      },
+      "descriptive_controls": {
+        "NBA|naive_recent_exposure_rate": {
+          "brier": 0.285865785674977,
+          "signed_over_residual": 0.03397419507886344
+        },
+        "NBA|pooled_peer_shrunk_rate": {
+          "brier": 0.2617353384893933,
+          "signed_over_residual": 0.06250554992067628
+        },
+        "NBA|real_no_vig_market": {
+          "brier": 0.2500120164177449,
+          "signed_over_residual": 0.04179511087290237
+        },
+        "NHL|naive_recent_exposure_rate": {
+          "brier": 0.28659062598864127,
+          "signed_over_residual": 0.03191687079998159
+        },
+        "NHL|pooled_peer_shrunk_rate": {
+          "brier": 0.25615771601032356,
+          "signed_over_residual": 0.030298979607628465
+        },
+        "NHL|real_no_vig_market": {
+          "brier": 0.25064374980542875,
+          "signed_over_residual": 0.026108368458186815
+        }
+      },
+      "consensus_median_market_same_contracts": {
+        "NBA": [
+          146,
+          0.23975491001822946,
+          0.24656247692870542
+        ],
+        "NHL": [
+          102,
+          0.26398695039964454,
+          0.25039861183509055
+        ]
+      }
+    }
+  ],
+  "nba_nhl_denominator": {
+    "attempted_sides": 1314,
+    "retained_sides": 712,
+    "excluded_sides": 602,
+    "retained_unique_contracts": 356,
+    "scored_unique_contracts": 354,
+    "unresolved_unique_contracts": 2,
+    "calendar_dates": 1,
+    "game_clusters": 12
+  },
+  "power": {
+    "alpha": 0.05,
+    "target": 0.8,
+    "method": "Independently summed exact integer Binomial(n,a/100) masses (mass at n is a**n; m[k-1]=m[k]*k*(100-a)//((n-k+1)*a)) and compared tails against 100**n. Searched n upward from 1, using the smallest threshold that passes the one-sided null-rate bound.",
+    "fields": [
+      "null_p",
+      "true_p",
+      "minimum_independent_n",
+      "rejection_minimum_hits",
+      "achieved_alpha",
+      "achieved_power",
+      "illustrative_weeks_at_20_independent_eligible_units"
+    ],
+    "scenarios": [
+      [
+        0.7,
+        0.8,
+        119,
+        92,
+        0.04776270558027652,
+        0.8036259999243301,
+        6
+      ],
+      [
+        0.75,
+        0.8,
+        437,
+        343,
+        0.049870214367919614,
+        0.8030312384529151,
+        22
+      ],
+      [
+        0.8,
+        0.85,
+        365,
+        305,
+        0.048450864769998485,
+        0.8017786275340952,
+        19
+      ],
+      [
+        0.85,
+        0.9,
+        281,
+        249,
+        0.049668974831102504,
+        0.8110308476386515,
+        15
+      ],
+      [
+        0.9,
+        0.95,
+        179,
+        168,
+        0.04857534487269877,
+        0.812940653347176,
+        9
+      ]
+    ],
+    "measured_dependent_tier_yield_or_effective_n": null,
+    "limitations": "Fixed prespecified Bernoulli planning only. Actual selection yield, dependence, multiplicity and any sequential rule require preregistering and accruing an eligible prospective cohort."
+  },
+  "limitations": [
+    "NFL archive is synthetic and exposed to model design. QB share is the ratio of archived pregame-replay means, with date-level provenance, not a reliable role or starter probability. Two-factor postgame oracle remains separate from authorized forecast inputs.",
+    "NBA and NHL results derive from one slate. The original pregame source and official source bytes match. Both dated derived scoring reports differ from the historical claimed bytes, so that claim stays unresolved until the old bytes or a reason for the discrepancy are recovered.",
+    "All four-factor structural attribution remains unmeasured for NFL across markets, including authenticated QB starter/participation. NFL historic QB volume and implied share are research-only exceptions for separate two-factor lineage.",
+    "Full authentic vectors are unmeasured for NHL shots on goal and NBA points, rebounds, assists, threes, PA, PR, RA and PRA. Stored workload priors and postgame workload are insufficient. NHL hits, blocks, goalie saves, and other unsupported NHL or NBA markets lack a validated producer and joined protocol.",
+    "Retain simple baselines. QB pass-attempt role allocation is a bounded hypothesis conditional on the preregistered prerequisites. Economics and Tier claims remain open."
+  ]
+}
