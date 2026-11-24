@@ -56,7 +56,6 @@ def process(root: Path, vault: Path, *, replicates=1000, seed=20261110):
     rejected = Counter()
     source_hashes = {"oracle_sha256": sha256_file(vault), "weeks": {}}
     all_qb_forecasts = Counter()
-    pair_cache = []
     for week in range(1, 19):
         frozen_path = root / "FROZEN" / ("week_%02d.json" % week)
         revealed_path = root / "REVEALED" / ("week_%02d.json" % week)
@@ -138,10 +137,14 @@ def process(root: Path, vault: Path, *, replicates=1000, seed=20261110):
                    "qb_forecast_count_for_team_game": all_qb_forecasts[(week, ident[0], ident[1])],
                    **oracle_diag}
             rows.append(row)
-        if not set(originals).issuperset(seen_revealed):
-            raise Phase15Error("revealed_outside_frozen")
+        missing_reveals = len(originals.keys() - seen_revealed)
+        if missing_reveals:
+            rejected["missing_reveal"] += missing_reveals
     if not rows:
         raise Phase15Error("empty_verified_qb_cohort")
+    input_rows = sum(all_qb_forecasts.values())
+    if len(rows) + sum(rejected.values()) != input_rows:
+        raise Phase15Error("frozen_qb_denominator_mismatch")
     # All actual team outcomes are postgame and allowed only in this audit.
     if abs(mean([r["team_volume"]+r["qb_allocation_share"] for r in rows])
            - mean([r["base_squared_error"]-r["oracle_squared_error"] for r in rows])) > 1e-7:
@@ -152,6 +155,7 @@ def process(root: Path, vault: Path, *, replicates=1000, seed=20261110):
               "tier_certified":False,"production_changes":False,
               "n":len(rows),"games":len({r["game"] for r in rows}),
               "weeks":len({r["week"] for r in rows}),
+              "input_rows":input_rows,
               "excluded":dict(rejected),
               "mean_predicted_team_attempts":mean([r["pred_team"] for r in rows]),
               "mean_actual_team_attempts":mean([r["actual_team"] for r in rows]),

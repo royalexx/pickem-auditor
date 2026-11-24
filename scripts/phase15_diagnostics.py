@@ -130,7 +130,9 @@ def evaluate_contracts(source, *, replicates=1000, seed=20261110):
         result = str(original.get("result") or "").strip().upper()
         actual_raw = original.get("actual_stat")
         if actual_raw is None or str(actual_raw).strip() == "":
-            if result not in ("", "UNMATCHED", "UNSETTLED", "VOID"):
+            if (result not in ("", "UNMATCHED", "UNSETTLED", "VOID")
+                    or original.get("actual_over") not in (None, "")
+                    or original.get("hit") not in (None, "")):
                 raise Phase15Error("outcome_status_mismatch")
             excluded[result or "UNSETTLED"] += 1
             continue
@@ -138,25 +140,39 @@ def evaluate_contracts(source, *, replicates=1000, seed=20261110):
             raise Phase15Error("outcome_status_mismatch")
         actual = number(actual_raw, "actual_stat")
         if actual == line:
+            if result not in ("", "PUSH") or original.get("hit") not in (None, ""):
+                raise Phase15Error("outcome_status_mismatch")
             excluded["PUSH"] += 1
             continue
+        if result == "PUSH":
+            raise Phase15Error("outcome_status_mismatch")
         over = int(actual > line)
+        if original.get("actual_over") not in (None, ""):
+            if number(original["actual_over"], "actual_over") != over:
+                raise Phase15Error("settlement_direction_mismatch")
         p = number(original.get("model_p_over"), "model_p_over", low=0, high=1)
-        baseline_raw = original.get("baseline_p_over")
-        if baseline_raw is None or str(baseline_raw).strip() == "":
-            excluded["missing_baseline"] += 1
-            continue
-        b = number(baseline_raw, "baseline_p_over", low=0, high=1)
         declared = str(original.get("predicted_side") or "").strip().lower()
         if declared not in ("over", "under"):
             raise Phase15Error("missing_prediction_side")
         if (p > .5 and declared != "over") or (p < .5 and declared != "under"):
             raise Phase15Error("frozen_side_probability_mismatch")
         chosen = p if declared == "over" else 1 - p
+        if original.get("selected_model_probability") not in (None, ""):
+            recorded = number(original["selected_model_probability"],
+                              "selected_model_probability", low=0, high=1)
+            if not math.isclose(recorded, chosen, rel_tol=0, abs_tol=1e-9):
+                raise Phase15Error("frozen_selected_probability_mismatch")
         hit = int((declared == "over") == bool(over))
         game = str(original["week"]).strip() + "|" + str(original["game_id"]).strip()
-        if original.get("hit") not in ("", None) and int(original["hit"]) != hit:
+        if original.get("hit") not in ("", None) and number(original["hit"], "hit") != hit:
             raise Phase15Error("settlement_hit_mismatch")
+        if result in ("HIT", "MISS") and (result == "HIT") != bool(hit):
+            raise Phase15Error("settlement_hit_mismatch")
+        baseline_raw = original.get("baseline_p_over")
+        if baseline_raw is None or str(baseline_raw).strip() == "":
+            excluded["missing_baseline"] += 1
+            continue
+        b = number(baseline_raw, "baseline_p_over", low=0, high=1)
         joined.append({"week": str(original["week"]), "game": game,
                        "market": str(original["market"]), "line_type": str(original.get("line_type") or ""),
                        "over": over, "p_model": p, "p_baseline": b,

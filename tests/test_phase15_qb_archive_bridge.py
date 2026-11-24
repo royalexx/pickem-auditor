@@ -68,6 +68,19 @@ class QBBridgeTests(unittest.TestCase):
             with self.assertRaisesRegex(Phase15Error,"tampered_frozen_hash"):
                 m.process(root,oracle,replicates=0)
 
+    def test_missing_reveal_remains_in_frozen_denominator(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d) / "archive"
+            oracle = self.fixture(root)
+            path = root / "REVEALED" / "week_07.json"
+            revealed = json.loads(path.read_text())
+            revealed["full_research_rows"] = []
+            self.write_json(path, revealed)
+            result = m.process(root, oracle, replicates=0)
+            self.assertEqual(result["input_rows"], 18)
+            self.assertEqual(result["n"], 17)
+            self.assertEqual(result["excluded"], {"missing_reveal": 1})
+
     def test_mutated_prediction_in_revealed_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d)/"archive"

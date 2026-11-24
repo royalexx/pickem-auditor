@@ -81,6 +81,21 @@ class Phase15Tests(unittest.TestCase):
             with self.assertRaisesRegex(p.Phase15Error, "settlement_hit_mismatch"):
                 p.evaluate_contracts(self.make_csv(d, "a.csv", [r]))
 
+    def test_contradictory_frozen_fields_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            cases = (
+                ("actual_over", "0", "settlement_direction_mismatch"),
+                ("selected_model_probability", "0.8", "frozen_selected_probability_mismatch"),
+                ("result", "MISS", "settlement_hit_mismatch"),
+                ("result", "PUSH", "outcome_status_mismatch"),
+            )
+            for field, value, reason in cases:
+                with self.subTest(field=field):
+                    row = self.contract()
+                    row[field] = value
+                    with self.assertRaisesRegex(p.Phase15Error, reason):
+                        p.evaluate_contracts(self.make_csv(d, field + ".csv", [row]))
+
     def test_duplicate_contracts_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             r = self.contract()
