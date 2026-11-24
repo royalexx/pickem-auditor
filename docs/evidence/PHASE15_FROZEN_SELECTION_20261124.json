@@ -1,0 +1,358 @@
+{
+  "schema": "pickem_v25_phase15_frozen_selection_20261124_v1",
+  "governing_plan": "PA-V25-MASTER-2026-11-09 / v1.1, P1.5-05",
+  "original_frozen_replication_receipt": "PHASE15_FROZEN_REPLICATION_20261124.json",
+  "original_frozen_replication_sha256": "249efe765023bc99796e684ae9c3bbb29a5707ecfea0887d3cc8f77253222831",
+  "deepnote": {
+    "project_id": "9cc31536-93be-44db-bdeb-06fba3f61410",
+    "notebook_id": "d56dfb0a90c74f7d8373ec24f78090e9",
+    "run_id": "fb0cde5f-e126-41bf-8013-aebf716b24e9",
+    "status": "success",
+    "mode": "readonly",
+    "machine": "lake",
+    "created_at": "2026-11-24T13:23:38.098Z",
+    "completed_at": "2026-11-24T13:24:41.889Z",
+    "block_id": "7d199725063b4be3921f8f929fd2a4ec",
+    "block_content_hash": "sha256:bd84c835edf2e750daf456994bd645dfe137787757ac1edb78b9768a46ff9622"
+  },
+  "results": {
+    "gate": "frozen_selection_descriptive",
+    "selection_policy": "Retrospective scenario diagnostics. Rank chosen-side confidence descending, exact archived tuple ascending to break ties. NFL synthetic archived selected side per week; NBA/NHL original 60/40 matched median-market comparator per sport on a single date; 0.5 original consensus treated as selection abstention.",
+    "NFL": {
+      "weekly_topk": {
+        "1": {
+          "n": 18,
+          "over_selected_n": 0,
+          "selected_hits": 18,
+          "mean_selected_confidence": 0.9990401351465228,
+          "brier": 9.78726760092048e-7,
+          "baseline_brier_same_rows": 0.0036982739727343572,
+          "signed_over_residual": 0.0009598648534773352,
+          "log_loss": 0.0009603545601833777
+        },
+        "5": {
+          "n": 90,
+          "over_selected_n": 0,
+          "selected_hits": 89,
+          "mean_selected_confidence": 0.9988978626175326,
+          "brier": 0.011088163238812345,
+          "baseline_brier_same_rows": 0.011631416161381606,
+          "signed_over_residual": -0.0100089737286437,
+          "log_loss": 0.07690481604714389
+        },
+        "10": {
+          "n": 180,
+          "over_selected_n": 0,
+          "selected_hits": 175,
+          "mean_selected_confidence": 0.9988610337561608,
+          "brier": 0.027711660246902657,
+          "baseline_brier_same_rows": 0.027781011486475184,
+          "signed_over_residual": -0.026638811533938517,
+          "log_loss": 0.1878003281474714
+        }
+      },
+      "archived_position_label_not_verified_role": {
+        "CB": {
+          "n": 8510,
+          "over_selected_n": 663,
+          "selected_hits": 5684,
+          "mean_selected_confidence": 0.7180581576728533,
+          "brier": 0.19785041974988724,
+          "baseline_brier_same_rows": 0.1956271352425903,
+          "signed_over_residual": -0.05992605044115346,
+          "log_loss": 0.5678998710875899
+        },
+        "DB": {
+          "n": 1280,
+          "over_selected_n": 76,
+          "selected_hits": 854,
+          "mean_selected_confidence": 0.7364909619678072,
+          "brier": 0.20605372298312735,
+          "baseline_brier_same_rows": 0.20435691917288645,
+          "signed_over_residual": -0.06786303120392011,
+          "log_loss": 0.5950796916820268
+        },
+        "DE": {
+          "n": 6885,
+          "over_selected_n": 657,
+          "selected_hits": 4736,
+          "mean_selected_confidence": 0.7204444967121268,
+          "brier": 0.1950945126508584,
+          "baseline_brier_same_rows": 0.1949845970316237,
+          "signed_over_residual": -0.04332889412871826,
+          "log_loss": 0.5701406738543904
+        },
+        "DT": {
+          "n": 7185,
+          "over_selected_n": 1285,
+          "selected_hits": 4972,
+          "mean_selected_confidence": 0.7143958430611487,
+          "brier": 0.19310441197968067,
+          "baseline_brier_same_rows": 0.18994878539960583,
+          "signed_over_residual": -0.058654344223401,
+          "log_loss": 0.5651045014311346
+        },
+        "FS": {
+          "n": 1215,
+          "over_selected_n": 164,
+          "selected_hits": 831,
+          "mean_selected_confidence": 0.6972002268348592,
+          "brier": 0.19825800438778235,
+          "baseline_brier_same_rows": 0.19940997101774993,
+          "signed_over_residual": -0.028202135559059854,
+          "log_loss": 0.572493625178132
+        },
+        "ILB": {
+          "n": 340,
+          "over_selected_n": 8,
+          "selected_hits": 230,
+          "mean_selected_confidence": 0.7423857118084177,
+          "brier": 0.1958877932445413,
+          "baseline_brier_same_rows": 0.19422142595327707,
+          "signed_over_residual": -0.05582236213926919,
+          "log_loss": 0.5712997821008204
+        },
+        "LB": {
+          "n": 9875,
+          "over_selected_n": 415,
+          "selected_hits": 6895,
+          "mean_selected_confidence": 0.750055568066666,
+          "brier": 0.1977480425259465,
+          "baseline_brier_same_rows": 0.19572144577446107,
+          "signed_over_residual": -0.05824281438041596,
+          "log_loss": 0.5801111510531549
+        },
+        "MLB": {
+          "n": 670,
+          "over_selected_n": 31,
+          "selected_hits": 467,
+          "mean_selected_confidence": 0.7118447788338051,
+          "brier": 0.201244891927962,
+          "baseline_brier_same_rows": 0.20320639579602504,
+          "signed_over_residual": -0.023204299238379345,
+          "log_loss": 0.5875662684712233
+        },
+        "NT": {
+          "n": 290,
+          "over_selected_n": 68,
+          "selected_hits": 211,
+          "mean_selected_confidence": 0.7019936113110841,
+          "brier": 0.1775354051951251,
+          "baseline_brier_same_rows": 0.18161789850845803,
+          "signed_over_residual": -0.012261511919372543,
+          "log_loss": 0.5352624350677083
+        },
+        "OLB": {
+          "n": 1075,
+          "over_selected_n": 125,
+          "selected_hits": 704,
+          "mean_selected_confidence": 0.6787249589062918,
+          "brier": 0.22095677275125972,
+          "baseline_brier_same_rows": 0.22418504173607048,
+          "signed_over_residual": -0.028384806814764147,
+          "log_loss": 0.631664810299619
+        },
+        "QB": {
+          "n": 4179,
+          "over_selected_n": 368,
+          "selected_hits": 2504,
+          "mean_selected_confidence": 0.674349678290379,
+          "brier": 0.23370278522838048,
+          "baseline_brier_same_rows": 0.2358777422165022,
+          "signed_over_residual": -0.08065357386235933,
+          "log_loss": 0.6619344444414869
+        },
+        "RB": {
+          "n": 9261,
+          "over_selected_n": 411,
+          "selected_hits": 6499,
+          "mean_selected_confidence": 0.7457155474390459,
+          "brier": 0.19773670847159244,
+          "baseline_brier_same_rows": 0.2043067731578951,
+          "signed_over_residual": -0.04161333000211004,
+          "log_loss": 0.584761766761361
+        },
+        "S": {
+          "n": 450,
+          "over_selected_n": 28,
+          "selected_hits": 310,
+          "mean_selected_confidence": 0.720806305331235,
+          "brier": 0.195268148470747,
+          "baseline_brier_same_rows": 0.19652586063178346,
+          "signed_over_residual": -0.029605275934699485,
+          "log_loss": 0.574184495134538
+        },
+        "TE": {
+          "n": 4492,
+          "over_selected_n": 266,
+          "selected_hits": 3126,
+          "mean_selected_confidence": 0.7087499083602781,
+          "brier": 0.19538080792569973,
+          "baseline_brier_same_rows": 0.20737722646919585,
+          "signed_over_residual": -0.015539439808247105,
+          "log_loss": 0.5705890727120921
+        },
+        "WR": {
+          "n": 15302,
+          "over_selected_n": 512,
+          "selected_hits": 11818,
+          "mean_selected_confidence": 0.7533935285497817,
+          "brier": 0.167050394919754,
+          "baseline_brier_same_rows": 0.17372858758586684,
+          "signed_over_residual": 0.026016538944941502,
+          "log_loss": 0.4905703054113509
+        }
+      },
+      "archived_positions_all_rows": {
+        "DE": 10155,
+        "S": 720,
+        "DT": 10745,
+        "OLB": 1420,
+        "CB": 12740,
+        "LB": 15375,
+        "FS": 1510,
+        "MLB": 945,
+        "NT": 560,
+        "ILB": 580,
+        "DB": 2615,
+        "TE": 6960,
+        "WR": 22554,
+        "RB": 13447,
+        "QB": 6993
+      },
+      "selected_confidence_decile_lower_bound": {
+        "50": {
+          "n": 16926,
+          "over_selected_n": 4074,
+          "selected_hits": 9783,
+          "mean_selected_confidence": 0.5486305730045979,
+          "brier": 0.24643046841411057,
+          "baseline_brier_same_rows": 0.25221985219504156,
+          "signed_over_residual": 0.008419385464168278,
+          "log_loss": 0.6860148175600371
+        },
+        "60": {
+          "n": 16241,
+          "over_selected_n": 934,
+          "selected_hits": 9590,
+          "mean_selected_confidence": 0.6497013056318591,
+          "brier": 0.24474705666663277,
+          "baseline_brier_same_rows": 0.24740881280464566,
+          "signed_over_residual": -0.06282223999664334,
+          "log_loss": 0.6831009605451266
+        },
+        "70": {
+          "n": 14562,
+          "over_selected_n": 64,
+          "selected_hits": 10010,
+          "mean_selected_confidence": 0.7468691870303207,
+          "brier": 0.21756396675240597,
+          "baseline_brier_same_rows": 0.21902006132908006,
+          "signed_over_residual": -0.0598254331764158,
+          "log_loss": 0.6281661815052291
+        },
+        "80": {
+          "n": 10430,
+          "over_selected_n": 4,
+          "selected_hits": 8415,
+          "mean_selected_confidence": 0.8491378382375024,
+          "brier": 0.15652521476108644,
+          "baseline_brier_same_rows": 0.15742531860379724,
+          "signed_over_residual": -0.04242893442406304,
+          "log_loss": 0.4936927532492969
+        },
+        "90": {
+          "n": 12850,
+          "over_selected_n": 1,
+          "selected_hits": 12043,
+          "mean_selected_confidence": 0.9535694108799957,
+          "brier": 0.05798430693722519,
+          "baseline_brier_same_rows": 0.05775338264598328,
+          "signed_over_residual": -0.016384997075813656,
+          "log_loss": 0.2283390371426778
+        }
+      },
+      "independent_live_directional_pass": false
+    },
+    "NBA_NHL": {
+      "topk": {
+        "NBA": {
+          "1": {
+            "n": 1,
+            "over_selected_n": 0,
+            "selected_hits": 1,
+            "mean_selected_confidence": 0.7908006302676672,
+            "brier": 0.04376437629640528,
+            "baseline_brier_same_rows": 0.11341203683936898,
+            "signed_over_residual": 0.2091993697323328,
+            "log_loss": 0.2347093906859078
+          },
+          "5": {
+            "n": 5,
+            "over_selected_n": 0,
+            "selected_hits": 3,
+            "mean_selected_confidence": 0.7360031800095018,
+            "brier": 0.2545293501525679,
+            "baseline_brier_same_rows": 0.23861616785865056,
+            "signed_over_residual": -0.13600318000950182,
+            "log_loss": 0.7057219478429687
+          },
+          "10": {
+            "n": 10,
+            "over_selected_n": 0,
+            "selected_hits": 5,
+            "mean_selected_confidence": 0.707972424331955,
+            "brier": 0.28248677331827066,
+            "baseline_brier_same_rows": 0.267882076148423,
+            "signed_over_residual": -0.20797242433195504,
+            "log_loss": 0.7627118769967833
+          }
+        },
+        "NHL": {
+          "1": {
+            "n": 1,
+            "over_selected_n": 0,
+            "selected_hits": 0,
+            "mean_selected_confidence": 0.7120118224275134,
+            "brier": 0.5069608352765488,
+            "baseline_brier_same_rows": 0.3308129351958649,
+            "signed_over_residual": -0.7120118224275134,
+            "log_loss": 1.2448358497843017
+          },
+          "5": {
+            "n": 5,
+            "over_selected_n": 0,
+            "selected_hits": 2,
+            "mean_selected_confidence": 0.7025702786811576,
+            "brier": 0.32710726796965195,
+            "baseline_brier_same_rows": 0.2549057812422129,
+            "signed_over_residual": -0.3025702786811577,
+            "log_loss": 0.8584709383769958
+          },
+          "10": {
+            "n": 10,
+            "over_selected_n": 0,
+            "selected_hits": 4,
+            "mean_selected_confidence": 0.6770428265945747,
+            "brier": 0.3159027407736806,
+            "baseline_brier_same_rows": 0.25981990013556033,
+            "signed_over_residual": -0.2770428265945747,
+            "log_loss": 0.8327602447999196
+          }
+        }
+      },
+      "selection_ties": {},
+      "unmatched_or_unavailable": {
+        "NBA|no_matched_consensus_market": 104,
+        "NHL|no_matched_consensus_market": 2,
+        "NHL|unmatched": 2
+      },
+      "independent_live_directional_pass": false
+    }
+  },
+  "open": [
+    "Independent prospective selection performance and Tier selection yield",
+    "Authentic pregame role cohorts, as archived NFL position labels do not establish current role",
+    "Dependence and repeated-look adjustments in a preregistered prospective sample"
+  ]
+}
