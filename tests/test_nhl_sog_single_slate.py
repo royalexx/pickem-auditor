@@ -70,7 +70,8 @@ class SlateSelectionTests(unittest.TestCase):
         document = {"games": raw}
         url = f"{source.OFFICIAL}/score/{DAY}"
         with (patch.object(slate, "_now", return_value=source.clock(FREEZE) - timedelta(minutes=20)),
-              patch.object(slate, "capture_official", return_value={"c03_receipt": {"source_url": url},
+              patch.object(slate, "capture_official", return_value={"c03_receipt": {"source_url": url,
+                               "received_at": "2026-11-24T23:10:00Z"},
                            "p0_sha256": "a" * 64, "document": document}) as collect,
               TemporaryDirectory() as root):
             games, earliest, fetch, sha = slate.capture_slate_scoreboard(root, DAY, FREEZE)
@@ -99,6 +100,34 @@ class SlateSelectionTests(unittest.TestCase):
         forecast.assert_called_once_with("a")
         self.assertEqual(now, source.clock(FREEZE))
         self.assertEqual(result["forecast_count"], 1)
+
+    def test_1845_toronto_freeze_covers_1900_and_reports_every_game(self):
+        freeze = "2026-11-24T23:45:00Z"
+        early_start = "2026-11-24T23:30:00Z"
+        starts = [early_start, "2026-11-25T00:00:00Z", "2026-11-25T00:00:00Z",
+                  "2026-11-25T00:00:00Z", "2026-11-25T01:00:00Z",
+                  "2026-11-25T02:15:00Z", "2026-11-25T03:00:00Z"]
+        games = source.scheduled_games({"games": [official_game(i, "VGK", "EDM", start)
+                                                  for i, start in enumerate(starts, 20)]}, day=DAY)
+        cutoffs = {}
+        def process(item, **options):
+            self.assertEqual(options["slate_freeze"], freeze)
+            cutoff = source.stamp(slate.game_freeze(item, options["slate_freeze"]))
+            cutoffs[item["event_id"]] = cutoff
+            if item["event_id"] == "20":
+                return {"game": item, "status": "SOURCE_WINDOW_MISSED"}
+            return {"game": item, "status": "FORECASTS_FROZEN", "forecast_count": 2, "source_players": 1}
+        with (patch.object(slate, "current_storage"), patch.object(slate, "run_game", side_effect=process),
+              TemporaryDirectory() as root):
+            manifest = slate.run_slate(root, DAY, games=games, capture=Mock(), forecast=Mock(),
+                                       code_commit="a" * 40, slate_freeze=freeze)
+            self.assertEqual(manifest["scheduled_event_ids"], [str(i) for i in range(20, 27)])
+            self.assertEqual(manifest["attempted_games"], 7)
+            self.assertEqual(manifest["games_without_forecasts"], ["20"])
+            self.assertEqual(manifest["games_without_verified_sources"], ["20"])
+            self.assertEqual(len(list(Path(root).glob("**/games/*/*.complete"))), 7)
+        self.assertEqual(cutoffs["20"], "2026-11-24T23:15:00Z")
+        self.assertEqual({cutoffs[str(i)] for i in range(21, 27)}, {freeze})
 
     def test_morning_reports_played_zero_and_abstained_without_play(self):
         event = "10"

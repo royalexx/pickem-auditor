@@ -17,7 +17,7 @@ from .history_bridge import (
 )
 from .quote_bridge import record_quote_candidate
 from .source_pipeline import (
-    FUTURE_STATES, OFFICIAL, SOURCE_FREEZE_MINUTES, UTC, SourceBlocked,
+    FUTURE_STATES, OFFICIAL, SLATE_FREEZE_MINUTES, SOURCE_FREEZE_MINUTES, UTC, SourceBlocked,
     attempt, build_bundle, capture_two_rosters, clock, current_storage,
     digest, parse_roster, read_archived_game_sources, safe_relative, signed_schedule_game,
 )
@@ -105,7 +105,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                          signed_history_manifest_sha256, history_pool,
                          original_quote_by_player=None, derived_root=None,
                          recover_archived=False, poisson_only=False, on_bundle=None,
-                         fetch_schedule=None, selection=None):
+                         fetch_schedule=None, selection=None, slate_mode=False):
     """Capture one game's two official rosters and freeze every listed skater.
 
     The source owner supplies immutable signed history and may supply previously
@@ -144,7 +144,8 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
     if game["game_state"] not in FUTURE_STATES:
         return finish("BLOCKED_SOURCE", ("TARGET_NOT_PREGAME",))
     deadline = start if recover_archived else freeze_at
-    if not datetime.now(UTC) < deadline or not freeze_at <= start - timedelta(minutes=SOURCE_FREEZE_MINUTES):
+    lead = SLATE_FREEZE_MINUTES if slate_mode else SOURCE_FREEZE_MINUTES
+    if not datetime.now(UTC) < deadline or freeze_at > start - timedelta(minutes=lead):
         return finish("MISSED_SOURCE_FREEZE_DEADLINE", ("SOURCE_FREEZE_WINDOW_CLOSED",))
 
     try:
@@ -163,7 +164,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                if member["position_group"] in {"F", "D"}}
     selected = None
     if selection is not None:
-        selected, selection_sha256 = selection(game, rosters, members)
+        selected, selection_sha256 = selection(game, rosters, members, freeze=freeze)
         if set(selected) != set(skaters):
             raise SourceBlocked("SLATE_SELECTION_DENOMINATOR_MISMATCH")
         selection_count = sum(row["reason"] is None for row in selected.values())

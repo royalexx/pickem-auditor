@@ -29,6 +29,7 @@ ROOT_NAMESPACE = "research/p2_nhl_sog_original"
 SCHEMA = "PA-P2-NHL-SOG-SOURCE-BUNDLE/1"
 OFFICIAL = "https://api-web.nhle.com/v1"
 SOURCE_FREEZE_MINUTES = 20
+SLATE_FREEZE_MINUTES = 15
 FUTURE_STATES = {"FUT", "PRE"}
 HEX = re.compile(r"^[0-9a-f]{64}$")
 PLAYER_ID = re.compile(r"^[0-9]{4,12}$")

@@ -1,6 +1,7 @@
 """Frozen research eligibility based on the five latest completed club games."""
 from __future__ import annotations
 
+from concurrent.futures import Future
 from datetime import timedelta
 from pathlib import Path
 from statistics import median
@@ -107,7 +108,7 @@ class SlateSelection:
     """One owner archives selection inputs and shares identical captures."""
 
     def __init__(self, root, day, freeze, first_start):
-        self.root, self.freeze, self.first_start = root, freeze, first_start
+        self.root = root
         self.lock = Lock()
         self.sources = {}
         self.injuries = None
@@ -124,20 +125,33 @@ class SlateSelection:
         except (OSError, ValueError, KeyError, TypeError) as exc:
             self.injury_error = str(exc)[:160]
 
-    def _nhl(self, route, kind):
+    def _nhl(self, route, kind, *, freeze, start):
         with self.lock:
-            if route not in self.sources:
-                self.sources[route] = capture_official(
-                    self.root, OFFICIAL + route, event_start_at=self.first_start,
-                    input_freeze_at=self.freeze, source_kind=kind, source_id="nhl:" + route)
-            return self.sources[route]
+            pending = self.sources.get(route)
+            owner = pending is None
+            if owner:
+                pending = self.sources[route] = Future()
+        if owner:
+            try:
+                pending.set_result(capture_official(
+                    self.root, OFFICIAL + route, event_start_at=start,
+                    input_freeze_at=freeze, source_kind=kind, source_id="nhl:" + route))
+            except BaseException as exc:
+                with self.lock:
+                    self.sources.pop(route)
+                pending.set_exception(exc)
+        source = pending.result()
+        require(clock(source["c03_receipt"]["received_at"]) <= clock(freeze),
+                "RECENT_SOURCE_AFTER_GAME_FREEZE")
+        return source
 
-    def __call__(self, game, rosters, members):
+    def __call__(self, game, rosters, members, *, freeze):
         rows, evidence = {}, {}
         teams = (game["home_team"], game["away_team"])
         try:
             require(self.injuries is not None, "PREGAME_INJURY_SOURCE_UNAVAILABLE")
             injury_receipt, injury_document = self.injuries
+            require(clock(injury_receipt["received_at"]) <= clock(freeze), "INJURY_SOURCE_AFTER_GAME_FREEZE")
             injuries = injury_index(injury_document, teams)
             injury_error = None
         except (OSError, ValueError, KeyError, TypeError) as exc:
@@ -148,12 +162,13 @@ class SlateSelection:
             try:
                 require(injury_error is None, injury_error)
                 schedule = self._nhl(f"/club-schedule-season/{team}/{game['official_season']}",
-                                     "nhl_recent_team_schedule")
+                                     "nhl_recent_team_schedule", freeze=freeze, start=game["start_at"])
                 refs.append(schedule["c03_receipt"])
                 appearances = []
-                for prior in recent_games(schedule["document"], team, self.freeze):
+                for prior in recent_games(schedule["document"], team, freeze):
                     require(str(prior["id"]) != game["event_id"], "TARGET_IN_RECENT_HISTORY")
-                    src = self._nhl(f"/gamecenter/{prior['id']}/boxscore", "nhl_recent_final")
+                    src = self._nhl(f"/gamecenter/{prior['id']}/boxscore", "nhl_recent_final",
+                                    freeze=freeze, start=game["start_at"])
                     refs.append(src["c03_receipt"])
                     doc = src["document"]
                     require(doc["id"] == prior["id"] and all(
@@ -171,7 +186,7 @@ class SlateSelection:
                                       if row["position_group"] in {"F", "D"}}
             evidence[team] = refs
             rows.update(decisions_for_team)
-        report = {"policy": POLICY, "event_id": game["event_id"], "input_freeze_at": self.freeze,
+        report = {"policy": POLICY, "event_id": game["event_id"], "input_freeze_at": freeze,
                   "skaters": rows, "team_evidence": evidence, "injury_receipt": injury_receipt,
                   "injury_error": self.injury_error or injury_error, "research_only": True}
         raw = canonical_bytes(report)
