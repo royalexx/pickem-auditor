@@ -1,0 +1,1211 @@
+{
+  "archives": {
+    "data/live_pool/2026-11-09/afternoon/027848a18f27b9b8f4ba02efe8b2ddea3d8e992e17278d057206dad7a4c94e9a.json.gz": {
+      "captured_at_utc": "2026-11-09T23:14:16.107104+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 132,
+        "NBA|pa": 138,
+        "NBA|points": 198,
+        "NBA|pr": 198,
+        "NBA|pra": 144,
+        "NBA|ra": 142,
+        "NBA|rebounds": 196,
+        "NBA|threes": 156,
+        "NFL|completions": 4,
+        "NFL|pass attempts": 4,
+        "NFL|passing yards": 4,
+        "NFL|receiving yards": 20,
+        "NFL|receptions": 20,
+        "NFL|rush attempts": 10,
+        "NFL|rushing yards": 8,
+        "NFL|tackles + assists": 22,
+        "NHL|goalie saves": 12,
+        "NHL|shots on goal": 100
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 1198,
+          "NBA|market_update_after_collection": 502,
+          "NFL|accepted": 110,
+          "NFL|market_update_after_collection": 56,
+          "NHL|accepted": 79,
+          "NHL|market_update_after_collection": 100
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 1700,
+          "NFL|accepted": 166,
+          "NHL|accepted": 179
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 1387,
+              "market_update_unverified_or_future": 658
+            },
+            "input": 2045,
+            "snapshot_sha256": "3fbb889d2729f83378cfd4800aac62e9668e9956b04b834ed0c8f1e45e2e1401"
+          }
+        ],
+        "original_batch_start_at": "2026-11-09T23:05:34Z",
+        "original_odds_feed_completed_at": "2026-11-09T23:06:34Z"
+      },
+      "provider_objects": 46,
+      "run_id": "1ac16b03-5488-50b2-9761-e1332f740884",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 1416,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 156,
+          "status": "ok"
+        },
+        "nhl": {
+          "rows": 161,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 2045,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 0,
+        "uncertified_reasons": {
+          "missing_or_imprecise_timestamp:input_freeze_at": 1508
+        },
+        "uncertified_rows": 1508
+      }
+    },
+    "data/live_pool/2026-11-09/afternoon/1a5b6c52fcd6682c71d2ab9b889b8528e75b68351e56a6fc823ac219c3b28971.manifest.json": {
+      "captured_at_utc": "2026-11-09T23:59:14.767190+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 146,
+        "NBA|pa": 146,
+        "NBA|points": 208,
+        "NBA|pr": 204,
+        "NBA|pra": 148,
+        "NBA|ra": 146,
+        "NBA|rebounds": 200,
+        "NBA|threes": 166,
+        "NFL|completions": 4,
+        "NFL|pass attempts": 4,
+        "NFL|passing yards": 4,
+        "NFL|receiving yards": 20,
+        "NFL|receptions": 20,
+        "NFL|rush attempts": 10,
+        "NFL|rushing yards": 8,
+        "NFL|tackles + assists": 22,
+        "NHL|goalie saves": 12,
+        "NHL|shots on goal": 100
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 933,
+          "NBA|market_update_after_collection": 844,
+          "NFL|accepted": 129,
+          "NFL|market_update_after_collection": 37,
+          "NHL|accepted": 112,
+          "NHL|market_update_after_collection": 67
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 1777,
+          "NFL|accepted": 166,
+          "NHL|accepted": 179
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 1174,
+              "market_update_unverified_or_future": 948
+            },
+            "input": 2122,
+            "snapshot_sha256": "3fbe1d7affcc0771f7fab628e0c35d872402de83e9f1e83009a020d50d5cccb5"
+          }
+        ],
+        "original_batch_start_at": "2026-11-09T23:47:47Z",
+        "original_odds_feed_completed_at": "2026-11-09T23:48:34Z"
+      },
+      "provider_objects": 3894,
+      "run_id": "1ac16b03-5488-50b2-9761-e1332f740884",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 1416,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 156,
+          "status": "ok"
+        },
+        "nhl": {
+          "rows": 161,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 2122,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 0,
+        "uncertified_reasons": {
+          "missing_or_imprecise_timestamp:input_freeze_at": 1568
+        },
+        "uncertified_rows": 1568
+      }
+    },
+    "data/live_pool/2026-11-09/afternoon/4d9554c47b87e26bf089d002f2527360f712c2c078d34e5997c0214135483a23.manifest.json": {
+      "captured_at_utc": "2026-11-10T00:21:15.004906+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 92,
+        "NBA|pa": 94,
+        "NBA|points": 128,
+        "NBA|pr": 124,
+        "NBA|pra": 94,
+        "NBA|ra": 94,
+        "NBA|rebounds": 122,
+        "NBA|threes": 104,
+        "NFL|completions": 4,
+        "NFL|pass attempts": 4,
+        "NFL|passing yards": 4,
+        "NFL|receiving yards": 20,
+        "NFL|receptions": 20,
+        "NFL|rush attempts": 10,
+        "NFL|rushing yards": 8,
+        "NFL|tackles + assists": 22,
+        "NHL|goalie saves": 12,
+        "NHL|shots on goal": 100
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 1078,
+          "NBA|event_already_started": 699,
+          "NBA|market_update_after_collection": 43,
+          "NFL|accepted": 45,
+          "NFL|market_update_after_collection": 121,
+          "NHL|accepted": 125,
+          "NHL|market_update_after_collection": 54
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 1121,
+          "NBA|event_already_started": 699,
+          "NFL|accepted": 166,
+          "NHL|accepted": 179
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 1248,
+              "event_already_started": 699,
+              "market_update_unverified_or_future": 218
+            },
+            "input": 2165,
+            "snapshot_sha256": "ac5291fdc29d1ec9358702c2bce5cd9b37ece2359cca072928bea92b9202f4d3"
+          }
+        ],
+        "original_batch_start_at": "2026-11-10T00:11:11Z",
+        "original_odds_feed_completed_at": "2026-11-10T00:12:11Z"
+      },
+      "provider_objects": 2634,
+      "run_id": "1ac16b03-5488-50b2-9761-e1332f740884",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 1416,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 156,
+          "status": "ok"
+        },
+        "nhl": {
+          "rows": 161,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 2165,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 0,
+        "uncertified_reasons": {
+          "market_unavailable_or_unverified": 196,
+          "pre_eval_input_binding_missing": 860
+        },
+        "uncertified_rows": 1056
+      }
+    },
+    "data/live_pool/2026-11-09/afternoon/6c6c1882a3aa5b7cfa4b878d9014870f0283c9b494be0f3e11c94b3ceab14d27.manifest.json": {
+      "captured_at_utc": "2026-11-09T23:30:24.126627+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 138,
+        "NBA|pa": 140,
+        "NBA|points": 202,
+        "NBA|pr": 196,
+        "NBA|pra": 142,
+        "NBA|ra": 140,
+        "NBA|rebounds": 194,
+        "NBA|threes": 158,
+        "NFL|completions": 4,
+        "NFL|pass attempts": 4,
+        "NFL|passing yards": 4,
+        "NFL|receiving yards": 20,
+        "NFL|receptions": 20,
+        "NFL|rush attempts": 10,
+        "NFL|rushing yards": 8,
+        "NFL|tackles + assists": 22,
+        "NHL|goalie saves": 12,
+        "NHL|shots on goal": 100
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 1106,
+          "NBA|market_update_after_collection": 624,
+          "NFL|accepted": 126,
+          "NFL|market_update_after_collection": 40,
+          "NHL|accepted": 179
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 1730,
+          "NFL|accepted": 166,
+          "NHL|accepted": 179
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 1411,
+              "market_update_unverified_or_future": 664
+            },
+            "input": 2075,
+            "snapshot_sha256": "f2ad2340bd94423f6c19aa3f8180dc2585b7587996898d3ee7957e798b8ffcb1"
+          }
+        ],
+        "original_batch_start_at": "2026-11-09T23:20:42Z",
+        "original_odds_feed_completed_at": "2026-11-09T23:21:32Z"
+      },
+      "provider_objects": 3777,
+      "run_id": "1ac16b03-5488-50b2-9761-e1332f740884",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 1416,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 156,
+          "status": "ok"
+        },
+        "nhl": {
+          "rows": 161,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 2075,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 0,
+        "uncertified_reasons": {
+          "missing_or_imprecise_timestamp:input_freeze_at": 1514
+        },
+        "uncertified_rows": 1514
+      }
+    },
+    "data/live_pool/2026-11-09/afternoon/78c5551a7359b39ef9d9bd1b86d601a238964c879ea64dfcc5e9c5bc02329a98.manifest.json": {
+      "captured_at_utc": "2026-11-09T23:47:19.767253+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 146,
+        "NBA|pa": 146,
+        "NBA|points": 208,
+        "NBA|pr": 202,
+        "NBA|pra": 148,
+        "NBA|ra": 146,
+        "NBA|rebounds": 200,
+        "NBA|threes": 164,
+        "NFL|completions": 4,
+        "NFL|pass attempts": 4,
+        "NFL|passing yards": 4,
+        "NFL|receiving yards": 20,
+        "NFL|receptions": 20,
+        "NFL|rush attempts": 10,
+        "NFL|rushing yards": 8,
+        "NFL|tackles + assists": 22,
+        "NHL|goalie saves": 12,
+        "NHL|shots on goal": 100
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 1692,
+          "NBA|market_update_after_collection": 88,
+          "NFL|accepted": 89,
+          "NFL|market_update_after_collection": 77,
+          "NHL|accepted": 100,
+          "NHL|market_update_after_collection": 79
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 1780,
+          "NFL|accepted": 166,
+          "NHL|accepted": 179
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 1881,
+              "market_update_unverified_or_future": 244
+            },
+            "input": 2125,
+            "snapshot_sha256": "80315570cf8b5dcac315f72f5d992681cdba030294426aa62fa11f359985b4c3"
+          }
+        ],
+        "original_batch_start_at": "2026-11-09T23:37:18Z",
+        "original_odds_feed_completed_at": "2026-11-09T23:38:15Z"
+      },
+      "provider_objects": 3894,
+      "run_id": "1ac16b03-5488-50b2-9761-e1332f740884",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 1416,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 156,
+          "status": "ok"
+        },
+        "nhl": {
+          "rows": 161,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 2125,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 0,
+        "uncertified_reasons": {
+          "missing_or_imprecise_timestamp:input_freeze_at": 1564
+        },
+        "uncertified_rows": 1564
+      }
+    },
+    "data/live_pool/2026-11-09/afternoon/8da592c8a256dab03157a55307c6e475392faf8591cb75eb67754afad825f398.manifest.json": {
+      "captured_at_utc": "2026-11-09T23:39:50.581893+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 142,
+        "NBA|pa": 142,
+        "NBA|points": 204,
+        "NBA|pr": 198,
+        "NBA|pra": 144,
+        "NBA|ra": 142,
+        "NBA|rebounds": 196,
+        "NBA|threes": 162,
+        "NFL|completions": 4,
+        "NFL|pass attempts": 4,
+        "NFL|passing yards": 4,
+        "NFL|receiving yards": 20,
+        "NFL|receptions": 20,
+        "NFL|rush attempts": 10,
+        "NFL|rushing yards": 8,
+        "NFL|tackles + assists": 22,
+        "NHL|goalie saves": 12,
+        "NHL|shots on goal": 100
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 1005,
+          "NBA|market_update_after_collection": 750,
+          "NFL|accepted": 129,
+          "NFL|market_update_after_collection": 37,
+          "NHL|accepted": 94,
+          "NHL|market_update_after_collection": 85
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 1755,
+          "NFL|accepted": 166,
+          "NHL|accepted": 179
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 1228,
+              "market_update_unverified_or_future": 872
+            },
+            "input": 2100,
+            "snapshot_sha256": "55412d022d4f95a1df95bf116737fe1f215821f170d192383a9c816db6c4be98"
+          }
+        ],
+        "original_batch_start_at": "2026-11-09T23:29:34Z",
+        "original_odds_feed_completed_at": "2026-11-09T23:30:25Z"
+      },
+      "provider_objects": 3827,
+      "run_id": "1ac16b03-5488-50b2-9761-e1332f740884",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 1416,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 156,
+          "status": "ok"
+        },
+        "nhl": {
+          "rows": 161,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 2100,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 0,
+        "uncertified_reasons": {
+          "missing_or_imprecise_timestamp:input_freeze_at": 1534
+        },
+        "uncertified_rows": 1534
+      }
+    },
+    "data/live_pool/2026-11-09/afternoon/92b59179c11b4bd644e634f4562ead6ae905142a0f6770dc94a48119f7f10c3b.json.gz": {
+      "captured_at_utc": "2026-11-09T23:21:17.804219+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 138,
+        "NBA|pa": 140,
+        "NBA|points": 198,
+        "NBA|pr": 196,
+        "NBA|pra": 148,
+        "NBA|ra": 146,
+        "NBA|rebounds": 196,
+        "NBA|threes": 158,
+        "NFL|completions": 4,
+        "NFL|pass attempts": 4,
+        "NFL|passing yards": 4,
+        "NFL|receiving yards": 20,
+        "NFL|receptions": 20,
+        "NFL|rush attempts": 10,
+        "NFL|rushing yards": 8,
+        "NFL|tackles + assists": 22,
+        "NHL|goalie saves": 12,
+        "NHL|shots on goal": 100
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 1242,
+          "NBA|market_update_after_collection": 479,
+          "NFL|accepted": 89,
+          "NFL|market_update_after_collection": 77,
+          "NHL|accepted": 179
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 1721,
+          "NFL|accepted": 166,
+          "NHL|accepted": 179
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 1510,
+              "market_update_unverified_or_future": 556
+            },
+            "input": 2066,
+            "snapshot_sha256": "761429e1e859153505ae1f8604b1735de3a90f7865b79565e9e44803c0fa928c"
+          }
+        ],
+        "original_batch_start_at": "2026-11-09T23:12:57Z",
+        "original_odds_feed_completed_at": "2026-11-09T23:13:45Z"
+      },
+      "provider_objects": 46,
+      "run_id": "1ac16b03-5488-50b2-9761-e1332f740884",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 1416,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 156,
+          "status": "ok"
+        },
+        "nhl": {
+          "rows": 161,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 2066,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 0,
+        "uncertified_reasons": {
+          "missing_or_imprecise_timestamp:input_freeze_at": 1524
+        },
+        "uncertified_rows": 1524
+      }
+    },
+    "data/live_pool/2026-11-09/afternoon/c922f75110d0fb748e295442ef378c788158e4fb70e47bf55315175c6024da05.json.gz": {
+      "captured_at_utc": "2026-11-09T22:44:16.594037+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 136,
+        "NBA|pa": 138,
+        "NBA|points": 200,
+        "NBA|pr": 196,
+        "NBA|pra": 140,
+        "NBA|ra": 138,
+        "NBA|rebounds": 194,
+        "NBA|threes": 152,
+        "NFL|completions": 4,
+        "NFL|pass attempts": 4,
+        "NFL|passing yards": 4,
+        "NFL|receiving yards": 20,
+        "NFL|receptions": 20,
+        "NFL|rush attempts": 10,
+        "NFL|rushing yards": 8,
+        "NFL|tackles + assists": 14,
+        "NHL|goalie saves": 12,
+        "NHL|shots on goal": 100
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 1605,
+          "NBA|market_update_after_collection": 131,
+          "NFL|accepted": 163,
+          "NHL|accepted": 125,
+          "NHL|market_update_after_collection": 54
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 1736,
+          "NFL|accepted": 163,
+          "NHL|accepted": 179
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 1893,
+              "market_update_unverified_or_future": 185
+            },
+            "input": 2078,
+            "snapshot_sha256": "8670ecd45116d33b0bdd2527c1c0f2de0273ce0c3a7a933ba6b85d0f92fb3d21"
+          }
+        ],
+        "original_batch_start_at": "2026-11-09T22:36:16Z",
+        "original_odds_feed_completed_at": "2026-11-09T22:37:07Z"
+      },
+      "provider_objects": 0,
+      "run_id": "1ac16b03-5488-50b2-9761-e1332f740884",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 1416,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 156,
+          "status": "ok"
+        },
+        "nhl": {
+          "rows": 161,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 2078,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 0,
+        "uncertified_reasons": {
+          "missing_or_imprecise_timestamp:input_freeze_at": 1490
+        },
+        "uncertified_rows": 1490
+      }
+    },
+    "data/live_pool/2026-11-09/morning/b7d8ce3e2aacbc82351e4ba1f76549cad6168cb24e569eaac75a51449de342db.json.gz": {
+      "captured_at_utc": "2026-11-10T10:58:23.666269+00:00",
+      "forecast_sides_by_market": {},
+      "provider_objects": 0,
+      "run_id": "morning",
+      "settlement_sides_by_disposition": {
+        "NBA|loss": 616,
+        "NBA|win": 616,
+        "NFL|loss": 42,
+        "NFL|win": 42,
+        "NHL|loss": 56,
+        "NHL|win": 56
+      },
+      "source_coverage": {}
+    },
+    "data/live_pool/2026-11-10/afternoon/76f8cabc512977ce33017e73c72b7708d452e5f5ec962b33d3ee7f91c75285e6.json.gz": {
+      "captured_at_utc": "2026-11-10T18:10:52.818549+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 56,
+        "NBA|pa": 42,
+        "NBA|points": 94,
+        "NBA|pr": 60,
+        "NBA|pra": 30,
+        "NBA|ra": 52,
+        "NBA|rebounds": 90,
+        "NBA|threes": 76,
+        "NHL|shots on goal": 212
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 895,
+          "NBA|market_update_after_collection": 526,
+          "NHL|accepted": 373,
+          "NHL|market_update_after_collection": 23
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 1421,
+          "NHL|accepted": 396
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 1268,
+              "market_update_unverified_or_future": 549
+            },
+            "input": 1817,
+            "snapshot_sha256": "9a211f13edff8c5c5829eba83429a96b29e1dd964c93dbf9065bb168f821dc68"
+          }
+        ],
+        "original_batch_start_at": "2026-11-10T18:04:33Z",
+        "original_odds_feed_completed_at": "2026-11-10T18:05:27Z"
+      },
+      "provider_objects": 1783,
+      "run_id": "b4f4cb8e-90d8-5d79-b7b2-a61ec4b77423",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 1024,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 0,
+          "status": "failed"
+        },
+        "nhl": {
+          "rows": 363,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 1817,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 712,
+        "uncertified_reasons": {},
+        "uncertified_rows": 0
+      }
+    },
+    "data/live_pool/2026-11-10/afternoon/99924b0f2915e3f84b15fd008ec393f98fc3bde88ec4eb8ca2c90131016c19c2.json.gz": {
+      "captured_at_utc": "2026-11-10T17:48:43.137038+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 110,
+        "NBA|pa": 118,
+        "NBA|points": 156,
+        "NBA|pr": 150,
+        "NBA|pra": 126,
+        "NBA|ra": 118,
+        "NBA|rebounds": 152,
+        "NBA|threes": 130,
+        "NHL|goalie saves": 12,
+        "NHL|shots on goal": 238
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 981,
+          "NBA|market_update_after_collection": 437,
+          "NHL|accepted": 386,
+          "NHL|market_update_after_collection": 6
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 1418,
+          "NHL|accepted": 392
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 1367,
+              "market_update_unverified_or_future": 443
+            },
+            "input": 1810,
+            "snapshot_sha256": "ff76fae9646e5c2ca7fa0072d26a0c2396bedb7e5e79607153b01b2aad6c638d"
+          }
+        ],
+        "original_batch_start_at": "2026-11-10T17:41:36Z",
+        "original_odds_feed_completed_at": "2026-11-10T17:42:34Z"
+      },
+      "provider_objects": 3296,
+      "run_id": "b4f4cb8e-90d8-5d79-b7b2-a61ec4b77423",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 1024,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 0,
+          "status": "failed"
+        },
+        "nhl": {
+          "rows": 363,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 1810,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 702,
+        "uncertified_reasons": {
+          "market_unavailable_or_unverified": 252,
+          "pre_eval_external_context_unpinned": 356
+        },
+        "uncertified_rows": 608
+      }
+    },
+    "data/live_pool/2026-11-10/morning/8661effeedfec04a9a0eb4cb73b57b5e3e125af5097bcd9c7fb1e2066f7e3458.json.gz": {
+      "captured_at_utc": "2026-11-11T11:05:42.984913+00:00",
+      "forecast_sides_by_market": {},
+      "provider_objects": 0,
+      "run_id": "morning",
+      "settlement_sides_by_disposition": {
+        "NBA|loss": 502,
+        "NBA|win": 502,
+        "NHL|loss": 122,
+        "NHL|win": 122
+      },
+      "source_coverage": {}
+    },
+    "data/live_pool/2026-11-11/afternoon/671f4c5fabc5b1df44be4b4c72959fecb252f5ab01ddc1d434b5f02418787951.json.gz": {
+      "captured_at_utc": "2026-11-11T21:09:20.332640+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 48,
+        "NBA|pa": 42,
+        "NBA|points": 72,
+        "NBA|pr": 52,
+        "NBA|pra": 42,
+        "NBA|ra": 44,
+        "NBA|rebounds": 66,
+        "NBA|threes": 54,
+        "NHL|goalie saves": 6,
+        "NHL|shots on goal": 174
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 1915,
+          "NBA|market_update_after_collection": 268,
+          "NHL|accepted": 295,
+          "NHL|market_update_after_collection": 39
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 2183,
+          "NHL|accepted": 334
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 2210,
+              "market_update_unverified_or_future": 307
+            },
+            "input": 2517,
+            "snapshot_sha256": "6dfe4ed1ad883c7041a2132b7dc135a4063b965eaf110a51a5aef3abaf5cc2b1"
+          }
+        ],
+        "original_batch_start_at": "2026-11-11T21:02:14Z",
+        "original_odds_feed_completed_at": "2026-11-11T21:03:09Z"
+      },
+      "provider_objects": 1501,
+      "run_id": "3d8a383c-6e4a-5809-9e9e-0cf5a43a21ea",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 1768,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 0,
+          "status": "failed"
+        },
+        "nhl": {
+          "rows": 320,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 2517,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 600,
+        "uncertified_reasons": {},
+        "uncertified_rows": 0
+      }
+    },
+    "data/live_pool/2026-11-11/morning/f42d2093e02e4563de31806bfaf75ce8fcf63b2f6e3804a65368522681ae98c7.json.gz": {
+      "captured_at_utc": "2026-11-12T11:04:04.007686+00:00",
+      "forecast_sides_by_market": {},
+      "provider_objects": 0,
+      "run_id": "morning",
+      "settlement_sides_by_disposition": {
+        "NBA|loss": 210,
+        "NBA|win": 210,
+        "NHL|loss": 89,
+        "NHL|win": 89
+      },
+      "source_coverage": {}
+    },
+    "data/live_pool/2026-11-12/afternoon/17758cfad3cdc38294485fcbfa4492c64ef6c783e47672ce90c2d724e8494881.manifest.json": {
+      "captured_at_utc": "2026-11-12T21:19:32.237081+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 48,
+        "NBA|pa": 34,
+        "NBA|points": 66,
+        "NBA|pr": 36,
+        "NBA|pra": 26,
+        "NBA|ra": 44,
+        "NBA|rebounds": 62,
+        "NBA|threes": 46,
+        "NFL|receiving yards": 12,
+        "NFL|receptions": 14,
+        "NFL|rush attempts": 4,
+        "NFL|rushing yards": 4,
+        "NHL|goalie saves": 4,
+        "NHL|shots on goal": 304
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 706,
+          "NBA|market_update_after_collection": 254,
+          "NFL|accepted": 79,
+          "NFL|market_update_after_collection": 99,
+          "NHL|accepted": 582
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 960,
+          "NFL|accepted": 178,
+          "NHL|accepted": 582
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 1367,
+              "market_update_unverified_or_future": 353
+            },
+            "input": 1720,
+            "snapshot_sha256": "452bf29597d87e89ceb432bbe264a731861695a75dde543fa969151c03e86958"
+          }
+        ],
+        "original_batch_start_at": "2026-11-12T21:05:19Z",
+        "original_odds_feed_completed_at": "2026-11-12T21:06:54Z"
+      },
+      "provider_objects": 1762,
+      "run_id": "a4a4d40e-2b6c-51c0-9601-e3d32c743a55",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 704,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 194,
+          "status": "ok"
+        },
+        "nhl": {
+          "rows": 571,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 1720,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 704,
+        "uncertified_reasons": {},
+        "uncertified_rows": 0
+      }
+    },
+    "data/live_pool/2026-11-12/afternoon/2d44cee04e3f175ba735cca6288eabf5443f4ca74207d80428341fa7a07038c9.manifest.json": {
+      "captured_at_utc": "2026-11-12T18:20:53.927273+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 44,
+        "NBA|pa": 42,
+        "NBA|points": 64,
+        "NBA|pr": 50,
+        "NBA|pra": 36,
+        "NBA|ra": 44,
+        "NBA|rebounds": 58,
+        "NBA|threes": 46,
+        "NFL|receiving yards": 12,
+        "NFL|receptions": 14,
+        "NFL|rush attempts": 4,
+        "NFL|rushing yards": 4,
+        "NHL|shots on goal": 300
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 63,
+          "NBA|market_update_after_collection": 843,
+          "NFL|accepted": 52,
+          "NFL|market_update_after_collection": 125,
+          "NHL|accepted": 328,
+          "NHL|event_already_started": 55,
+          "NHL|market_update_after_collection": 217
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 906,
+          "NFL|accepted": 177,
+          "NHL|accepted": 545,
+          "NHL|event_already_started": 55
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 443,
+              "event_already_started": 55,
+              "market_update_unverified_or_future": 1185
+            },
+            "input": 1683,
+            "snapshot_sha256": "4ee50f81f024fbe9fca376190e87aed32a410fedd44019b4e304bc5af148b2d4"
+          }
+        ],
+        "original_batch_start_at": "2026-11-12T18:01:29Z",
+        "original_odds_feed_completed_at": "2026-11-12T18:03:04Z"
+      },
+      "provider_objects": 1797,
+      "run_id": "a4a4d40e-2b6c-51c0-9601-e3d32c743a55",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 704,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 194,
+          "status": "ok"
+        },
+        "nhl": {
+          "rows": 571,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 1683,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 718,
+        "uncertified_reasons": {},
+        "uncertified_rows": 0
+      }
+    },
+    "data/live_pool/2026-11-12/afternoon/f7b4c38c44b43aa66dd60dec400dc2b6c30b343adb3cbafad6db1b0669710a46.manifest.json": {
+      "captured_at_utc": "2026-11-12T18:42:45.646104+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 44,
+        "NBA|pa": 42,
+        "NBA|points": 64,
+        "NBA|pr": 50,
+        "NBA|pra": 34,
+        "NBA|ra": 44,
+        "NBA|rebounds": 58,
+        "NBA|threes": 46,
+        "NFL|receiving yards": 12,
+        "NFL|receptions": 14,
+        "NFL|rush attempts": 4,
+        "NFL|rushing yards": 4,
+        "NHL|shots on goal": 302
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 410,
+          "NBA|market_update_after_collection": 481,
+          "NFL|accepted": 55,
+          "NFL|market_update_after_collection": 122,
+          "NHL|accepted": 247,
+          "NHL|event_already_started": 55,
+          "NHL|market_update_after_collection": 299
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 891,
+          "NFL|accepted": 177,
+          "NHL|accepted": 546,
+          "NHL|event_already_started": 55
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 712,
+              "event_already_started": 55,
+              "market_update_unverified_or_future": 902
+            },
+            "input": 1669,
+            "snapshot_sha256": "299526faccf49332f07fc135db68b6abdc8fb95dba94c4729fb1123c0ec617e2"
+          }
+        ],
+        "original_batch_start_at": "2026-11-12T18:23:12Z",
+        "original_odds_feed_completed_at": "2026-11-12T18:25:00Z"
+      },
+      "provider_objects": 1799,
+      "run_id": "a4a4d40e-2b6c-51c0-9601-e3d32c743a55",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 704,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 194,
+          "status": "ok"
+        },
+        "nhl": {
+          "rows": 571,
+          "status": "ok"
+        },
+        "odds": {
+          "rows": 1669,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 718,
+        "uncertified_reasons": {},
+        "uncertified_rows": 0
+      }
+    },
+    "data/live_pool/2026-11-12/morning/89292064a06d0a87852d0a9618ff3fbc80ae7f64e3ca962383956bcd03928319.json.gz": {
+      "captured_at_utc": "2026-11-13T11:06:09.645020+00:00",
+      "forecast_sides_by_market": {},
+      "provider_objects": 0,
+      "run_id": "morning",
+      "settlement_sides_by_disposition": {
+        "NBA|loss": 192,
+        "NBA|win": 192,
+        "NFL|loss": 17,
+        "NFL|win": 17,
+        "NHL|loss": 149,
+        "NHL|win": 149
+      },
+      "source_coverage": {}
+    },
+    "data/live_pool/2026-11-23/afternoon/e87c58c9267a135043c1dccc3c2032c9994a14c33c0adbd5d6c6eda41178334d.json.gz": {
+      "captured_at_utc": "2026-11-23T17:51:40.873584+00:00",
+      "forecast_sides_by_market": {
+        "NBA|assists": 164,
+        "NBA|pa": 186,
+        "NBA|points": 232,
+        "NBA|pr": 220,
+        "NBA|pra": 196,
+        "NBA|ra": 178,
+        "NBA|rebounds": 220,
+        "NBA|threes": 196,
+        "NFL|completions": 4,
+        "NFL|pass attempts": 4,
+        "NFL|passing yards": 4,
+        "NFL|receiving yards": 26,
+        "NFL|receptions": 26,
+        "NFL|rush attempts": 6,
+        "NFL|rushing yards": 14,
+        "NFL|tackles + assists": 16
+      },
+      "market_clock_reproduction": {
+        "batch_start_replay": {
+          "NBA|accepted": 2262,
+          "NBA|market_update_after_collection": 71,
+          "NFL|accepted": 129,
+          "NFL|market_update_after_collection": 32,
+          "NHL|accepted": 201,
+          "NHL|market_update_after_collection": 128
+        },
+        "feed_completion_replay": {
+          "NBA|accepted": 2333,
+          "NFL|accepted": 161,
+          "NHL|accepted": 329
+        },
+        "original_archive_counts": [
+          {
+            "exclusions": {
+              "accepted": 2592,
+              "market_update_unverified_or_future": 231
+            },
+            "input": 2823,
+            "snapshot_sha256": "e3ba643b5f3a7e87f0f7dddc7b1c8098f6af5383688e02047bbdc0ff087b64e3"
+          }
+        ],
+        "original_batch_start_at": "2026-11-23T17:42:17Z",
+        "original_odds_feed_completed_at": "2026-11-23T17:42:57Z"
+      },
+      "provider_objects": 0,
+      "run_id": "ce72f72c-a3e2-5b43-8713-c0c44f26a46a",
+      "settlement_sides_by_disposition": {},
+      "source_coverage": {
+        "nba": {
+          "rows": 1720,
+          "status": "ok"
+        },
+        "nfl": {
+          "rows": 178,
+          "status": "ok"
+        },
+        "nhl": {
+          "rows": 0,
+          "status": "failed"
+        },
+        "odds": {
+          "rows": 2823,
+          "status": "ok"
+        }
+      },
+      "strict_replay": {
+        "certified_rows": 0,
+        "uncertified_reasons": {
+          "missing_or_imprecise_timestamp:input_freeze_at": 1692
+        },
+        "uncertified_rows": 1692
+      }
+    },
+    "data/live_pool/2026-11-23/morning/2b7701595fcb8180560ecafe89170ea81a0fe8ccad3127f2106b557875075a13.json.gz": {
+      "captured_at_utc": "2026-11-24T11:01:30.149593+00:00",
+      "forecast_sides_by_market": {},
+      "provider_objects": 0,
+      "run_id": "morning",
+      "settlement_sides_by_disposition": {
+        "NBA|loss": 760,
+        "NBA|win": 760,
+        "NFL|loss": 50,
+        "NFL|win": 50
+      },
+      "source_coverage": {}
+    }
+  },
+  "hypothesis": "Batch start was used as odds possession time before the later market HTTP request.",
+  "live_observations_git_pin": "6dc7871094470a811d19ae3d54a8e2f72f2c4165",
+  "method": "Read git bytes by commit, verify gzip or manifest digest and all referenced phase0 source bytes, replay current strict provenance read-only, and compare normalized odds qualification at original batch-start and feed-finished clocks without changing originals.",
+  "nov23_reconciliation": {
+    "bookmaker_void_terms_verified": false,
+    "forecast_sides": 1692,
+    "settled_sides": 1620,
+    "ungraded_explanations": {
+      "no_final_boxscore_athlete_row": 48,
+      "official_espn_dnp": 24
+    },
+    "ungraded_sides": 72,
+    "ungraded_sides_by_player": {
+      "Aaron Nesmith": 12,
+      "Aday Mara": 12,
+      "De'Aaron Fox": 16,
+      "Joel Embiid": 16,
+      "Victor Wembanyama": 16
+    }
+  },
+  "schema": "pickem_phase0r_original_receipts_audit_v1"
+}
