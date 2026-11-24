@@ -104,7 +104,8 @@ def _reason(exc):
 def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                          signed_history_manifest_sha256, history_pool,
                          original_quote_by_player=None, derived_root=None,
-                         recover_archived=False, poisson_only=False, on_bundle=None):
+                         recover_archived=False, poisson_only=False, on_bundle=None,
+                         fetch_schedule=None):
     """Capture one game's two official rosters and freeze every listed skater.
 
     The source owner supplies immutable signed history and may supply previously
@@ -146,7 +147,8 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
         if recover_archived:
             schedule, rosters, members = read_archived_game_sources(root, game, freeze=freeze)
         else:
-            schedule = signed_schedule_game(root, game, day=game["scheduled_day"], freeze=freeze)
+            schedule = signed_schedule_game(root, game, day=game["scheduled_day"],
+                                            freeze=freeze, fetch=fetch_schedule)
             rosters, members = capture_two_rosters(root, game, freeze=freeze)
     except (OSError, ValueError, KeyError, TypeError) as exc:
         return finish("BLOCKED_SOURCE", (_reason(exc),))

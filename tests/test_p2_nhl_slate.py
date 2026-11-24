@@ -1,15 +1,18 @@
 """Regressions for all-skater source coverage and independent quote failures."""
 from datetime import datetime, timedelta, timezone
+from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 from pathlib import Path
 import os
 from tempfile import TemporaryDirectory
+from threading import Barrier
 import unittest
 from unittest.mock import patch
 import zipfile
 
 from research.p2_nhl_sog import history_bridge, slate, source_pipeline
+from scripts import c03_context_cohorts as c03
 from scripts.c03_context_cohorts import archive_response, canonical
 from scripts.c03_live_transport import SCHEMA, SECRET_ENV, _mac, _signed_body
 
@@ -100,6 +103,95 @@ class SlateSourceTests(unittest.TestCase):
         self.assertEqual(result["status"], "MISSED_SOURCE_FREEZE_DEADLINE")
         self.signed_schedule_game.assert_not_called()
         self.capture_two_rosters.assert_not_called()
+
+
+class SharedScheduleTests(unittest.TestCase):
+    def test_simultaneous_games_share_one_scoreboard_but_verify_each_event(self):
+        start = datetime.now(timezone.utc) + timedelta(minutes=24)
+        freeze = (start - timedelta(minutes=20)).isoformat()
+        day = "2026-11-23"
+        games = [
+            {"event_id": str(2026020379+i), "start_at": source_pipeline.stamp(start),
+             "away_team": "LAK", "home_team": "MTL"}
+            for i in range(4)
+        ]
+        scoreboard = {"document": {"games": [
+            {"id": int(game["event_id"]), "startTimeUTC": game["start_at"],
+             "gameState": "FUT", "awayTeam": {"abbrev": "LAK"},
+             "homeTeam": {"abbrev": "MTL"}} for game in games
+        ]}, "p0_sha256": "a"*64}
+        fetch = source_pipeline.SlateScheduleCapture()
+        barrier = Barrier(len(games), timeout=5)
+
+        def capture(game):
+            barrier.wait()
+            return source_pipeline.signed_schedule_game("/work", game, day=day,
+                                                       freeze=freeze, fetch=fetch)
+
+        with (patch.object(source_pipeline, "capture_official", return_value=scoreboard) as http,
+              patch.object(source_pipeline, "put_once") as save,
+              ThreadPoolExecutor(max_workers=4) as workers):
+            self.assertEqual(list(workers.map(capture, games)), [scoreboard]*4)
+            http.assert_called_once()
+            self.assertEqual(save.call_count, 4)
+            with self.assertRaisesRegex(source_pipeline.SourceBlocked, "SIGNED_OFFICIAL_EVENT_NOT_UNIQUE"):
+                source_pipeline.signed_schedule_game(
+                    "/work", dict(games[0], event_id="999"), day=day, freeze=freeze, fetch=fetch)
+
+    def test_capture_failure_can_retry_and_final_window_gets_a_fresh_capture(self):
+        fetch = source_pipeline.SlateScheduleCapture()
+        start = datetime.now(timezone.utc) + timedelta(hours=1)
+        options = {"event_start_at": start.isoformat(),
+                   "input_freeze_at": (start - timedelta(minutes=20)).isoformat()}
+        url = source_pipeline.OFFICIAL + "/score/2026-11-23"
+        with (patch.object(source_pipeline, "capture_window", return_value="EARLY") as window,
+              patch.object(source_pipeline, "capture_official",
+                           side_effect=[OSError("first capture failed"), "early", "final"]) as http):
+            with self.assertRaises(OSError):
+                fetch("/work", url, **options)
+            self.assertEqual(fetch("/work", url, **options), "early")
+            self.assertEqual(fetch("/work", url, **options), "early")
+            window.return_value = "FINAL"
+            self.assertEqual(fetch("/work", url, **options), "final")
+            self.assertEqual(http.call_count, 3)
+
+
+class C03ArchiveRaceTests(unittest.TestCase):
+    def test_existing_partial_write_is_rechecked_until_complete(self):
+        raw = b'{"games":[]}'
+        with TemporaryDirectory() as root:
+            path = Path(root)/"raw_http_body"/(hashlib.sha256(raw).hexdigest()+".bin")
+            path.parent.mkdir()
+            now = datetime.now(timezone.utc).isoformat()
+            with path.open("xb") as writer:
+                writer.write(raw[:5])
+                writer.flush()
+
+                def finish_write(delay):
+                    writer.write(raw[5:])
+                    writer.flush()
+
+                with patch.object(c03, "sleep", side_effect=finish_write) as wait:
+                    receipt = archive_response(
+                        raw, archive_root=root, source_url="https://api-web.nhle.com/v1/score/2026-11-23",
+                        observed_at=now, received_at=now, source_id="nhl:schedule:2026-11-23",
+                        source_namespace="nhl_official", http_status=200)
+                wait.assert_called_once()
+            self.assertEqual(receipt["body_sha256"], path.stem)
+            self.assertEqual(path.read_bytes(), raw)
+
+    def test_corrupt_and_abandoned_writes_are_rejected_without_overwrite(self):
+        with TemporaryDirectory() as root:
+            path = Path(root)/"body.bin"
+            for stored, clock in ((b"wrong", [0, 0]), (b"exp", [0, 5])):
+                with self.subTest(stored=stored):
+                    path.write_bytes(stored)
+                    with (patch.object(c03, "monotonic", side_effect=clock),
+                          patch.object(c03, "sleep") as wait,
+                          self.assertRaisesRegex(c03.CohortError, "RAW_ARCHIVE_MUTATED")):
+                        c03.write_archive_bytes(path, b"expected", mismatch="RAW_ARCHIVE_MUTATED")
+                    wait.assert_not_called()
+                    self.assertEqual(path.read_bytes(), stored)
 
 
 class HistoryBundleTests(unittest.TestCase):

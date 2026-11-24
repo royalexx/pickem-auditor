@@ -6,8 +6,10 @@ Schema: PA-P2-NHL-SOG-SOURCE-BUNDLE/1; P0 records: PA-P0/1.
 """
 from __future__ import annotations
 from collections import Counter
+from concurrent.futures import Future
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from threading import Lock
 from zoneinfo import ZoneInfo
 from urllib.request import Request, urlopen
 import hashlib
@@ -270,13 +272,44 @@ def capture_window(start_at, now, *, early_minutes=60, final_minutes=20,
     return "OUTSIDE_CAPTURE_WINDOW"
 
 
+class SlateScheduleCapture:
+    """Share a signed daily scoreboard across games in the same window."""
+
+    def __init__(self):
+        self._pending = {}
+        self._lock = Lock()
+
+    def __call__(self, root, url, **options):
+        start_at = options["event_start_at"]
+        start = clock(start_at)
+        freeze = clock(options["input_freeze_at"])
+        window = capture_window(start_at, datetime.now(UTC))
+        if window not in ("EARLY", "FINAL"):
+            return capture_official(root, url, **options)
+        key = (root, url, start, freeze, window)
+        with self._lock:
+            pending = self._pending.get(key)
+            owner = pending is None
+            if owner:
+                pending = self._pending[key] = Future()
+        if owner:
+            try:
+                pending.set_result(capture_official(root, url, **options))
+            except BaseException as exc:
+                pending.set_exception(exc)
+                with self._lock:
+                    self._pending.pop(key)
+        return pending.result()
+
+
 def signed_schedule_game(root, game, *, day, freeze, capture=capture_signed_nhl_p2,
-                         verify=verify_signed_capture):
-    source = capture_official(root, OFFICIAL + "/score/" + day,
-                              event_start_at=game["start_at"], input_freeze_at=freeze,
-                              source_kind="nhl_schedule",
-                              source_id="nhl:schedule:" + day,
-                              capture=capture, verify=verify)
+                         verify=verify_signed_capture, fetch=None):
+    if fetch is None:
+        fetch = capture_official
+    source = fetch(root, OFFICIAL + "/score/" + day,
+                   event_start_at=game["start_at"], input_freeze_at=freeze,
+                   source_kind="nhl_schedule", source_id="nhl:schedule:" + day,
+                   capture=capture, verify=verify)
     doc = source["document"]
     matching = [g for g in doc.get("games", []) if str(g.get("id")) == game["event_id"]]
     require(len(matching) == 1, "SIGNED_OFFICIAL_EVENT_NOT_UNIQUE")

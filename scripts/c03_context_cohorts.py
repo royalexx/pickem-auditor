@@ -11,7 +11,9 @@ from copy import deepcopy
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
+from time import monotonic, sleep
 from urllib.parse import urlsplit
 
 SCHEMA_RECEIPT="availability_source_receipt_v2"
@@ -85,6 +87,31 @@ def _url(raw):
     return uri._replace(fragment="").geturl()
 
 
+def write_archive_bytes(path, raw, *, mismatch, sync=False):
+    """Publish without clobbering and recheck an identical writer's partial file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with path.open("xb") as stream:
+            stream.write(raw)
+            if sync:
+                stream.flush()
+                os.fsync(stream.fileno())
+    except FileExistsError:
+        pass
+
+    deadline = monotonic() + 5
+    while True:
+        saved = path.read_bytes()
+        if saved == raw:
+            return
+        # Exclusive creation makes the name visible before the writer closes.
+        # A snapshot that diverges from the expected bytes cannot be that write.
+        remaining = deadline - monotonic()
+        if not raw.startswith(saved) or remaining <= 0:
+            raise CohortError(mismatch)
+        sleep(min(0.05, remaining))
+
+
 def archive_response(raw,*,archive_root,source_url,observed_at,received_at,
                      source_id,source_namespace,http_status):
     """Capture original HTTP response *body* bytes, not reserialized parsed data.
@@ -106,12 +133,7 @@ def archive_response(raw,*,archive_root,source_url,observed_at,received_at,
     digest=hashlib.sha256(raw).hexdigest()
     rel="raw_http_body/"+digest+".bin"
     path=_safe_archive(archive_root,rel)
-    path.parent.mkdir(parents=True,exist_ok=True)
-    try:
-        with path.open("xb") as f:f.write(raw)
-    except FileExistsError:pass
-    if path.read_bytes()!=raw:
-        raise CohortError("RAW_ARCHIVE_MUTATED")
+    write_archive_bytes(path, raw, mismatch="RAW_ARCHIVE_MUTATED")
     return {
         "schema":SCHEMA_RECEIPT,"source_id":source_id,
         "source_namespace":source_namespace,

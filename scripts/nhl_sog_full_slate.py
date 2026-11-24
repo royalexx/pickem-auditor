@@ -272,6 +272,7 @@ def main(argv=None):
         parser.error("--signed-history-sha256 must be a 64-character SHA-256")
     from research.p2_nhl_sog.history_bridge import open_history_sources
     from research.p2_nhl_sog.slate import capture_game_sources, discover_slate_roster_skaters
+    from research.p2_nhl_sog.source_pipeline import SlateScheduleCapture
     from v2.nhl_sog_p4_slate import HistorySources, forecast_bundle
 
     day = args.day.isoformat()
@@ -291,6 +292,7 @@ def main(argv=None):
             "history_pool": pool,
             "derived_root": derived,
             "poisson_only": args.poisson_only,
+            "fetch_schedule": SlateScheduleCapture(),
         }
         history_sources = HistorySources(args.root, args.signed_history_manifest,
                                          args.signed_history_sha256, pool, derived_root=derived)

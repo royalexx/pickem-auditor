@@ -10,11 +10,9 @@ from pathlib import Path
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 import hashlib
-import json
-import os
 
 from scripts.c03_context_cohorts import (
-    CohortError, archive_response, canonical, _utc, _safe_archive
+    CohortError, archive_response, canonical, _utc, _safe_archive, write_archive_bytes
 )
 from scripts.c03_live_transport import (
     HOSTS, SCHEMA, _signed_body, _key, _mac, verify_signed_capture
@@ -73,16 +71,8 @@ def capture_signed_nhl_p2(url, *, archive_root, source_namespace,
     proof_sha = hashlib.sha256(bytes_proof).hexdigest()
     proof_rel = "c03_collector_receipts/" + proof_sha + ".json"
     path = _safe_archive(archive_root, proof_rel)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        with path.open("xb") as file:
-            file.write(bytes_proof)
-            file.flush()
-            os.fsync(file.fileno())
-    except FileExistsError:
-        pass
-    if path.read_bytes() != bytes_proof:
-        raise CohortError("P2_NHL_C03_PROOF_IMMUTABLE_COLLISION")
+    write_archive_bytes(path, bytes_proof,
+                        mismatch="P2_NHL_C03_PROOF_IMMUTABLE_COLLISION", sync=True)
     receipt["collector_proof_archive_path"] = proof_rel
     receipt["collector_proof_sha256"] = proof_sha
     verify_signed_capture(receipt, archive_root=archive_root,
