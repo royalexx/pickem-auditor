@@ -1,6 +1,9 @@
 """NBA S0 V2.5 daily coverage and UTC/backlog regression tests."""
 from datetime import datetime,timezone
-from unittest.mock import patch
+from unittest.mock import Mock, patch
+from pathlib import Path
+from tempfile import TemporaryDirectory
+import json
 import unittest
 
 from research.v25_remediation import nba_s0_prospective as s0
@@ -65,5 +68,38 @@ class DailyExtensionTests(unittest.TestCase):
             self.assertEqual(r["status"],"NO_AUTHENTIC_PROPLINE_CREDENTIAL")
             self.assertEqual(r["matched_quotes"],0)
             fetch.assert_not_called()
+
+    def test_quota_probe_and_bulk_request_are_once_per_day_across_event_sets(self):
+        def forecast(event):
+            return {"forecast":{"event_id":event,"event_start_at":"2026-11-24T01:00:00Z",
+                                "stat_key":"points"},"feature":{"features":{"current_name":"Fixture Player"}}}
+        at=datetime(2026,11,23,21,tzinfo=timezone.utc)
+        provider=Mock()
+        provider.PropLineProvider._daily_quota_check.return_value=(10,None)
+        with (TemporaryDirectory() as tmp,patch.object(ou,"ROOT",Path(tmp)),
+              patch.object(ou,"attest_project_storage"),patch.object(ou,"odds_helpers",return_value=provider),
+              patch.object(ou,"qualified_forecasts",side_effect=[([forecast("a")],{}),([forecast("b")],{})]),
+              patch.object(ou,"http_raw",side_effect=[(b"{}",at.isoformat()),(b"[]",at.isoformat())]) as fetch,
+              patch.object(ou,"event_crosswalk",return_value={"a":{}}),
+              patch.object(ou,"original_source",return_value={"receipt_id":"r","source_sha256":"a"*64})):
+            first=ou.capture_original_ou(day="2026-11-23",key="fixture",clock=lambda:at)
+            second=ou.capture_original_ou(day="2026-11-23",key="fixture",clock=lambda:at)
+        self.assertEqual(first["status"],"QUOTES_CAPTURED_OR_ABSTAINED")
+        self.assertEqual(second["status"],"DAILY_OU_SCOPE_ALREADY_CLAIMED")
+        provider.PropLineProvider._daily_quota_check.assert_called_once()
+        self.assertEqual(sum(c.kwargs.get("key")=="fixture" for c in fetch.call_args_list),1)
+
+    def test_legacy_day_claim_prevents_another_authenticated_call(self):
+        f={"forecast":{"event_id":"new","event_start_at":"2026-11-24T01:00:00Z"}}
+        with (TemporaryDirectory() as tmp,patch.object(ou,"ROOT",Path(tmp)),
+              patch.object(ou,"attest_project_storage"),patch.object(ou,"odds_helpers") as provider,
+              patch.object(ou,"qualified_forecasts",return_value=([f],{}))):
+            path=Path(tmp)/ou.BASE/"claims"/"legacy.json"
+            path.parent.mkdir(parents=True)
+            path.write_text(json.dumps({"day":"2026-11-23","events":["old"]}))
+            r=ou.capture_original_ou(day="2026-11-23",key="fixture",
+                clock=lambda:datetime(2026,11,23,21,tzinfo=timezone.utc))
+        self.assertEqual(r["status"],"DAILY_OU_SCOPE_ALREADY_CLAIMED")
+        provider.assert_not_called()
 
 if __name__=="__main__":unittest.main()

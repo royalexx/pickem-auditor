@@ -399,7 +399,7 @@ def freeze_handoff(*, handoff_relpath, code_commit, run_id,
     return dict(result,receipt=receipt)
 
 
-def run_once(*, day, code_commit, max_forecasts=80, feature_player_limit=6):
+def run_once(*, day, code_commit, max_forecasts=80, feature_player_limit=6, common_freeze=False):
     """Existing P1 capture once; immediately consume each newly frozen handoff."""
     attest_project_storage("/work")
     # Never initialize a new method from a previously frozen input.
@@ -408,7 +408,8 @@ def run_once(*, day, code_commit, max_forecasts=80, feature_player_limit=6):
     # selected from original past-game evidence, not any target-game outcome.
     # Default P1 full-population capture is unchanged for every other caller.
     require(type(feature_player_limit) is int and 1 <= feature_player_limit <= 10, "INVALID_RESEARCH_STARTER_COVERAGE_CAP")
-    p1=run_daily(day=day,wait=False,feature_player_limit=feature_player_limit)
+    p1=run_daily(day=day,wait=False,feature_player_limit=feature_player_limit,
+                 **({"common_freeze": True} if common_freeze else {}))
     accepted=[]
     for x in p1["attempts"]:
         if x["status"]!="SOURCE_FEATURE_FROZEN":
@@ -427,7 +428,7 @@ def run_once(*, day, code_commit, max_forecasts=80, feature_player_limit=6):
                              "handoff_path":path,
                              "status":"FAIL_CLOSED_INTEGRATION_BLOCKED",
                              "reason":type(exc).__name__+":"+str(exc)[:240]})
-    return {
+    result = {
        "schema":"PA-V25-NBA-S0-SOURCE-TO-P0-DAILY/1",
        "day":day,"generated_at":stamp(),
        "source_attempts":p1["counts"],
@@ -438,6 +439,12 @@ def run_once(*, day, code_commit, max_forecasts=80, feature_player_limit=6):
        "predeclared_model_artifact_sha256":model["artifact_sha256"],
        "research_only":True,"production_automation_changes":False,
     }
+
+    if common_freeze:
+        result.update(capture_policy=p1["capture_policy"],
+                      common_input_cutoff_at=p1["common_input_cutoff_at"],
+                      source_manifest_path=p1["daily_manifest_path"])
+    return result
 
 
 def main(argv=None):

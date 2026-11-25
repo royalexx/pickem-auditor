@@ -204,8 +204,8 @@ def qualified_forecasts(*,now=None):
         results.append(original)
     return results,recovered
 
-def capture_original_ou(*,day,key=None,opener=urlopen,clock=None):
-    """Capture once per event/day when genuine pregame S0 is already frozen.
+def capture_original_ou(*,day,key=None,opener=urlopen,clock=None,forecast_ids=None):
+    """At most one Toronto-date PropLine quote batch for genuine frozen S0.
 
     Fail closed on unavailable key, broken identity or post-tip data.
     Original source bytes are preserved even when every candidate is rejected.
@@ -219,6 +219,9 @@ def capture_original_ou(*,day,key=None,opener=urlopen,clock=None):
     rows,recovery=qualified_forecasts(now=now)
     rows=[r for r in rows if utc(r["forecast"]["event_start_at"]).astimezone(
         ZoneInfo("America/Toronto")).date().isoformat()==day]
+    if forecast_ids is not None:
+        eligible_ids = set(forecast_ids)
+        rows = [row for row in rows if row["forecast"]["forecast_id"] in eligible_ids]
     if not rows:
         return {"status":"NO_FROZEN_UPCOMING_S0_TO_PRICE","candidate_forecasts":0,
                 "matched_quotes":0,"research_only":True}
@@ -226,6 +229,33 @@ def capture_original_ou(*,day,key=None,opener=urlopen,clock=None):
     if not secret:
         return {"status":"NO_AUTHENTIC_PROPLINE_CREDENTIAL","candidate_forecasts":len(rows),
                 "matched_quotes":0,"research_only":True}
+    # Claim before the first authenticated request, including the quota probe.
+    # The covered events may vary between invocations but do not reset the budget.
+    events=sorted({r["forecast"]["event_id"] for r in rows})
+    attempt_id=sha256({"day":day,"model":"S0","source":"PropLine"})
+    claim_dir=ROOT/BASE/"claims"
+    claim_path=claim_dir/(attempt_id+".json")
+    claim_dir.mkdir(parents=True,exist_ok=True)
+    claimed={"status":"DAILY_OU_SCOPE_ALREADY_CLAIMED","candidate_forecasts":len(rows),
+             "matched_quotes":0,"research_only":True}
+    # During cutover, an old event-scoped claim still owns that day's budget.
+    for previous in claim_dir.glob("*.json"):
+        try:
+            if json.loads(previous.read_bytes()).get("day")==day:
+                return claimed
+        except (OSError, ValueError, AttributeError):
+            modified = datetime.fromtimestamp(previous.stat().st_mtime, ZoneInfo("America/Toronto"))
+            if modified.date().isoformat()==day:
+                return {**claimed,"status":"DAILY_OU_PRIOR_CLAIM_UNREADABLE"}
+    claim=canonical_bytes({"schema":"PA-V25-NBA-OU-CAPTURE-CLAIM/1",
+                           "day":day,"events":events,"created_at":at})
+    try:
+        fd=os.open(claim_path,os.O_CREAT|os.O_EXCL|os.O_WRONLY|getattr(os,"O_NOFOLLOW",0),0o600)
+    except FileExistsError:
+        return claimed
+    with os.fdopen(fd,"wb") as out:
+        out.write(claim);out.flush();os.fsync(out.fileno())
+    require(claim_path.read_bytes()==claim,"DAILY_OU_CLAIM_READBACK_FAILED")
     # Credential never appears in URL, persisted log or exception text.
     provider=odds_helpers()
     remain,err=provider.PropLineProvider._daily_quota_check(secret)
@@ -234,21 +264,6 @@ def capture_original_ou(*,day,key=None,opener=urlopen,clock=None):
                 "candidate_forecasts":len(rows),"matched_quotes":0,"research_only":True}
     query=urlencode({"markets":",".join(MARKETS),"bookmakers":",".join(BOOKS)},safe=",")
     odds_url=PROPLINE+"?"+query
-    # The capture receipt is per project/day/provider/event scope and is
-    # reserved before the request. Never overwrite or retry a claimed attempt.
-    events=sorted({r["forecast"]["event_id"] for r in rows})
-    attempt_id=sha256({"day":day,"events":events,"model":"S0","source":"PropLine"})
-    attempt_rel=BASE/"claims"/(attempt_id+".json")
-    claim=canonical_bytes({"schema":"PA-V25-NBA-OU-CAPTURE-CLAIM/1",
-                           "day":day,"events":events,"created_at":at})
-    claim_path=ROOT/attempt_rel
-    claim_path.parent.mkdir(parents=True,exist_ok=True)
-    try:
-        fd=os.open(claim_path,os.O_CREAT|os.O_EXCL|os.O_WRONLY|getattr(os,"O_NOFOLLOW",0),0o600)
-    except FileExistsError:
-        return {"status":"DAILY_OU_SCOPE_ALREADY_CLAIMED","candidate_forecasts":len(rows),
-                "matched_quotes":0,"research_only":True}
-    with os.fdopen(fd,"wb") as out:out.write(claim);out.flush();os.fsync(out.fileno())
     try:
         # Independent ESPN source must also be original pregame; all events
         # are identity checked before any P0 MarketQuote admission.

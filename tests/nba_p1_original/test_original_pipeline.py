@@ -385,6 +385,32 @@ class DailyCases(unittest.TestCase):
                 parse=lambda *y:[e],capture=lambda *a:{'status':'captured_partial_shadow'},wait=False)
         self.assertNotIn('SOURCE_FEATURE_FROZEN',x['counts'])
         self.assertTrue(x['counts'].get('MISSED_FREEZE',0)+x['counts'].get('BLOCKED_CAPTURE',0))
+    def test_common_cutoff_includes_late_tipoffs_and_admits_one_slate_batch(self):
+        t=BASE-timedelta(minutes=85)
+        events=[{'game_id':'espn:game:'+str(i),
+                 'event_start_at':iso(BASE+timedelta(hours=i-42)),
+                 'home_team_id':'espn:team:1','away_team_id':'espn:team:2',
+                 'status':'scheduled'} for i in (42,43,44)]
+        v=FakeVault()
+        deadline=BASE-timedelta(minutes=60)
+        def capture(game,phase,out,cutoff):
+            self.assertEqual(phase,'common')
+            self.assertEqual(cutoff,deadline)
+            return {'status':'captured_partial_shadow'}
+        summary={'input_freeze_at':iso(t),'feature_rows':8,'player_candidates_accepted':1}
+        options=dict(day='2026-11-21',vault=v,discover=fake_discover,
+                     parse=lambda *x:events,capture=capture,wait=False,common_freeze=True)
+        with patch('research.nba_p1_original.rolling._archive_ws1',return_value=summary):
+            early=run_daily(clock=lambda:BASE-timedelta(minutes=130),**options)
+            first=run_daily(clock=lambda:t,**options)
+            again=run_daily(clock=lambda:t,**options)
+            late=run_daily(clock=lambda:deadline,**options)
+        self.assertEqual(early['counts'],{'NOT_DUE':3})
+        self.assertEqual(datetime.fromisoformat(first['common_input_cutoff_at'].replace('Z','+00:00')),deadline)
+        self.assertEqual(first['counts'],{'SOURCE_FEATURE_FROZEN':3})
+        self.assertEqual(again['counts'],{'COMMON_SLATE_ALREADY_CLAIMED':3})
+        self.assertEqual(late['counts'],{'MISSED_FREEZE':3})
+
     def test_duplicate_game_ids_block(self):
         v=FakeVault();t=BASE-timedelta(minutes=60)
         e={'game_id':'espn:game:42','event_start_at':iso(BASE),'home_team_id':'espn:team:1',

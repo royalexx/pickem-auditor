@@ -315,7 +315,7 @@ def _clock(t):
 
 def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_discover,
               parse=default_parse,capture=default_capture,wait=True,sleep=time.sleep,
-              max_wait_seconds=None,feature_player_limit=None):
+              max_wait_seconds=None,feature_player_limit=None,common_freeze=False):
     """One daily invocation, no scheduler; genuine original allowed on current day only.
 
     The injected implementations are ONLY for test canaries; using an injected
@@ -323,12 +323,15 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
     """
     if feature_player_limit is not None and (type(feature_player_limit) is not int or not 1<=feature_player_limit<=24):
         raise AcquisitionError('CANARY_PLAYER_LIMIT_BOUNDS')
+    if common_freeze and wait:
+        raise AcquisitionError('COMMON_SLATE_REQUIRES_NONWAITING_TRIGGER')
     policy=policy or WindowPolicy();now_utc=_clock(clock());today=now_utc.astimezone(TORONTO).date().isoformat()
     day=day or today
     if day!=today:raise AcquisitionError('NONCURRENT_DAY_ORIGINAL_FORBIDDEN')
     vault=vault or P0ProjectVault()
     vault.assert_verified()
-    run_key=digest((day+'\x00'+VERSION+'\x00'+repr(policy)).encode())[:20]
+    binding = repr(policy) + ('|common-slate-v1' if common_freeze else '')
+    run_key=digest((day+'\x00'+VERSION+'\x00'+binding).encode())[:20]
     run_prefix='runs/'+day+'/'+run_key
     observations=[];events=[];source_info=None
     try:
@@ -352,18 +355,37 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
     # Global phase-deadline queue; all games (including simultaneous tipoffs)
     # are ordered by actual event-relative source windows, not discovery order.
     queue=[]
-    for game in events:
-        tip=datetime.fromisoformat(game['event_start_at'].replace('Z','+00:00'))
-        for phase in ('early','final'):
-            opened,deadline=policy.window(tip,phase)
-            queue.append((opened,deadline,game['game_id'],phase,game))
+    common_cutoff = None
+    common_already_claimed = False
+    if common_freeze and events:
+        # Anchor to the earliest official tip, including an already started event.
+        # The entire slate shares one source admission deadline. Actual receipt
+        # and feature freeze clocks still come from original acquisition.
+        first_tip = datetime.fromisoformat(events[0]['event_start_at'].replace('Z','+00:00'))
+        common_cutoff = first_tip - timedelta(minutes=60)
+        common_open = common_cutoff - timedelta(minutes=60)
+        queue = [(common_open, common_cutoff, g['game_id'], 'common', g) for g in events]
+        if common_open <= _clock(clock()) < common_cutoff and any(g['status']=='scheduled' for g in events):
+            try:
+                vault.claim(day+'|common-slate-v1|'+VERSION)
+            except FileExistsError:
+                common_already_claimed = True
+    else:
+        for game in events:
+            tip=datetime.fromisoformat(game['event_start_at'].replace('Z','+00:00'))
+            for phase in ('early','final'):
+                opened,deadline=policy.window(tip,phase)
+                queue.append((opened,deadline,game['game_id'],phase,game))
     def _execute_window(entry):
         opened,deadline,gid,phase,game=entry
         t=_clock(clock())
         if game['status']!='scheduled':
             return {'event_id':gid,'phase':phase,'status':'EVENT_NOT_SCHEDULED',
                     'event_status':game['status'],'observed_at':stamp(t)},t
-        if t>deadline:
+        if common_already_claimed:
+            return {'event_id':gid,'phase':phase,'status':'COMMON_SLATE_ALREADY_CLAIMED',
+                    'observed_at':stamp(t)},t
+        if t>deadline or (common_freeze and t==deadline):
             return {'event_id':gid,'phase':phase,'status':'MISSED_FREEZE',
                     'observed_at':stamp(t),'deadline':stamp(deadline)},t
         if t<opened:
@@ -371,7 +393,10 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
             if not wait or max_wait_seconds is not None and delay>max_wait_seconds:
                 return {'event_id':gid,'phase':phase,'status':'NOT_DUE','observed_at':stamp(t)},t
             sleep(delay);t=_clock(clock())
-        if t>deadline:
+        if common_already_claimed:
+            return {'event_id':gid,'phase':phase,'status':'COMMON_SLATE_ALREADY_CLAIMED',
+                    'observed_at':stamp(t)},t
+        if t>deadline or (common_freeze and t==deadline):
             return {'event_id':gid,'phase':phase,'status':'MISSED_FREEZE',
                     'observed_at':stamp(t),'deadline':stamp(deadline)},t
         claim_id=day+'|'+gid+'|'+phase+'|'+VERSION
@@ -418,6 +443,9 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
               'counts':{x:sum(a['status']==x for a in observations) for x in sorted({a['status'] for a in observations})},
               'genuine_original_certified':False,'model_forecasts':0,'market_quotes_generated':0,
               'production_automation_changed':False}
+    if common_freeze:
+        manifest.update(capture_policy='common-slate-v1',
+                        common_input_cutoff_at=stamp(common_cutoff) if common_cutoff else None)
     # A day/policy may be invoked more than once: separate immutable per-run
     # manifests rather than overwriting the former fixed daily_manifest.json.
     # Old fixed manifests, including previously failed attempts, remain intact.
