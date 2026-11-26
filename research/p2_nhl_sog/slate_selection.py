@@ -1,6 +1,7 @@
 """Frozen research eligibility based on the five latest completed club games."""
 from __future__ import annotations
 
+from collections import Counter
 from concurrent.futures import Future
 from datetime import timedelta
 from pathlib import Path
@@ -17,7 +18,7 @@ from .source_pipeline import (
     clock, digest, require, put_once,
 )
 
-POLICY = "nhl-sog-slate-once-v1"
+POLICY = "nhl-sog-slate-once-v2"
 INJURIES = "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries"
 FINAL_STATES = {"FINAL", "OFF"}
 DECISION_PATH = ROOT_NAMESPACE + "/slate_selection/"
@@ -82,7 +83,7 @@ def decisions(members, roster_document, injuries, recent):
             name = _name(player["firstName"]["default"] + " " + player["lastName"]["default"])
             require(bool(name), "CURRENT_ROSTER_NAME_MISSING")
             names[str(player["id"])] = name
-    require(len(set(names.values())) == len(names), "ROSTER_NAME_IDENTITY_AMBIGUOUS")
+    name_counts = Counter(names.values())
     # An unmatched reported injury might be an alias for a rostered player.
     require(injuries <= set(names.values()), "INJURY_NAME_CROSSWALK_UNRESOLVED")
     result = {}
@@ -91,7 +92,9 @@ def decisions(members, roster_document, injuries, recent):
             continue
         played = [game[pid]["observed_workload_minutes"] for game in recent if pid in game]
         reason = None
-        if names[pid] in injuries:
+        if name_counts[names[pid]] > 1:
+            reason = "ROSTER_NAME_IDENTITY_AMBIGUOUS"
+        elif names[pid] in injuries:
             reason = "PREGAME_INJURY_STATUS_CONFLICT"
         elif len(played) < 4 or pid not in recent[0]:
             reason = "RECENT_DRESSING_UNCERTAIN"

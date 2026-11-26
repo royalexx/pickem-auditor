@@ -410,6 +410,7 @@ def main(argv=None):
             "fetch_schedule": fetch_schedule,
             "selection": selection,
             "slate_mode": bool(slate_freeze),
+            "progress": lambda stage: print("NHL_SOG_SOURCE_STAGE " + json.dumps(stage, sort_keys=True), flush=True),
         }
         runner = (partial(forecast_slate_control, forecast=forecast_bundle)
                   if slate_freeze and not args.poisson_only

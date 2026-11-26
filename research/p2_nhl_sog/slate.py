@@ -105,7 +105,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
                          signed_history_manifest_sha256, history_pool,
                          original_quote_by_player=None, derived_root=None,
                          recover_archived=False, poisson_only=False, on_bundle=None,
-                         fetch_schedule=None, selection=None, slate_mode=False):
+                         fetch_schedule=None, selection=None, slate_mode=False, progress=None):
     """Capture one game's two official rosters and freeze every listed skater.
 
     The source owner supplies immutable signed history and may supply previously
@@ -124,6 +124,11 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
     freeze_at = clock(freeze)
     start = clock(game["start_at"])
 
+    def report_stage(stage, **details):
+        if progress is not None:
+            progress({"event_id": event_id, "stage": stage,
+                      "at": datetime.now(UTC).isoformat(), **details})
+
     def finish(status, reasons=()):
         counts = dict(sorted(Counter(row["status"] for row in records).items()))
         receipt = attempt(
@@ -136,6 +141,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
             source_capture_mode="archived" if recover_archived else "live",
             model_source_scope="own_history_only" if poisson_only else "own_and_peer_history",
         )["receipt"]
+        report_stage("source_finished", status=status, candidate_count=len(records))
         return {"game": game, "status": status, "records": records,
                 "reasons": list(reasons), "attempt_sha256": receipt["sha256"],
                 "candidate_count": len(records), "status_counts": counts,
@@ -148,6 +154,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
     if not datetime.now(UTC) < deadline or freeze_at > start - timedelta(minutes=lead):
         return finish("MISSED_SOURCE_FREEZE_DEADLINE", ("SOURCE_FREEZE_WINDOW_CLOSED",))
 
+    report_stage("roster_start")
     try:
         if recover_archived:
             schedule, rosters, members = read_archived_game_sources(root, game, freeze=freeze)
@@ -158,6 +165,7 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
     except (OSError, ValueError, KeyError, TypeError) as exc:
         return finish("BLOCKED_SOURCE", (_reason(exc),))
 
+    report_stage("roster_finished")
     indexed = {}
     failures = {}
     skaters = {pid: member for roster in members.values() for pid, member in roster.items()
@@ -168,29 +176,33 @@ def capture_game_sources(root, *, game, freeze, signed_history_manifest_path,
         if set(selected) != set(skaters):
             raise SourceBlocked("SLATE_SELECTION_DENOMINATOR_MISMATCH")
         selection_count = sum(row["reason"] is None for row in selected.values())
+    report_stage("selection_finished", eligible=selection_count)
     history_error = None
-    try:
-        pool = checked_pool(root, history_pool)
-        history = load_signed_manifest(root, signed_history_manifest_path,
-                                       signed_history_manifest_sha256)
-        available = available_history_players(pool)
-        if available is not None:
-            history = {pid: history[pid] for pid in available if pid in history}
-        if poisson_only:
-            history = {pid: history[pid] for pid in skaters if pid in history}
-    except (OSError, ValueError, KeyError, TypeError) as exc:
-        history_error = _reason(exc)
-        history = {}
+    history = {}
+    if selection_count != 0:
+        report_stage("signed_history_start")
+        try:
+            pool = checked_pool(root, history_pool)
+            history = load_signed_manifest(root, signed_history_manifest_path,
+                                           signed_history_manifest_sha256)
+            available = available_history_players(pool)
+            if available is not None:
+                history = {pid: history[pid] for pid in available if pid in history}
+            if poisson_only:
+                history = {pid: history[pid] for pid in skaters if pid in history}
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            history_error = _reason(exc)
     histories = (VerifiedGameHistories(root, pool, freeze=freeze, event_start=game["start_at"],
                                        derived_root=derived_root)
                  if history else None)
-    for pid, entries in (history.items() if selection_count != 0 else ()):
+    for pid, entries in history.items():
         try:
             indexed[pid] = _eligible_history(entries, pool=derived_root or pool, player_id=pid,
                                              freeze=freeze_at, game=game)
         except (OSError, ValueError, KeyError, TypeError) as exc:
             failures[pid] = _reason(exc)
 
+    report_stage("signed_history_finished", available_players=len(indexed))
     # Confirm the selected peer pool once before constructing any player bundle.
     # Every original bundle and its independent forecast reader still reverify
     # the selected signed rows through their own admission path.

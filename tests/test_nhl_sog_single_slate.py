@@ -53,6 +53,17 @@ class SlateSelectionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "INJURY_NAME_CROSSWALK_UNRESOLVED"):
             decisions(members, roster, {"unmatchedinjury"}, recent)
 
+    def test_ambiguous_names_abstain_without_blocking_unrelated_skaters(self):
+        members = {str(pid): {"team_id": "VGK", "position_group": "F"} for pid in (1, 2, 3)}
+        roster = {"forwards": [listed_player(1, "Same Name"), listed_player(2, "Same Name"),
+                               listed_player(3, "Different Name")],
+                  "defensemen": [], "goalies": []}
+        recent = [{pid: {"observed_workload_minutes": 12} for pid in members} for _ in range(5)]
+        result = decisions(members, roster, {"samename"}, recent)
+        self.assertEqual(result["1"]["reason"], "ROSTER_NAME_IDENTITY_AMBIGUOUS")
+        self.assertEqual(result["2"]["reason"], "ROSTER_NAME_IDENTITY_AMBIGUOUS")
+        self.assertIsNone(result["3"]["reason"])
+
     def test_team_history_uses_prior_final_and_never_target_or_future(self):
         final_games = []
         for i in range(1, 7):
