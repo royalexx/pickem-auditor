@@ -24,6 +24,7 @@ import time
 import unicodedata
 
 from v2.nba_ws1.store import instant
+from v2.p0_integrity.storage import attest_project_storage
 
 TZ = ZoneInfo("America/Toronto")
 ROOT = "reports/nfl_forward_original"
@@ -257,8 +258,7 @@ def run(day=None,storage="/work",dry_run=False,wait=True,fetch=None,resume=False
         return {"status":"DRY_RUN_NO_SOURCE_CAPTURE","day":day,
                 "first_window":"T-60","freeze_deadline":"T-30",
                 "source_protocol":"ESPN / original two-sided PropLine, no retrospective stat forecasts"}
-    if not Path(storage).resolve().is_relative_to(Path("/work")):
-        raise ValueError("NFL_DURABLE_STORAGE_NOT_ATTESTED")
+    attest_project_storage(storage)
     if out.exists():
         if (out/"day_final.json").exists():
             return {"status":"ALREADY_FINISHED_DAY","day":day}
