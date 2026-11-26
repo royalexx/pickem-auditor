@@ -271,7 +271,7 @@ def _bounded_canary_subset(rows, summary, player_limit):
     return chosen, new
 
 
-def _archive_ws1(cap,out,vault,deadline,*,feature_player_limit=None):
+def _archive_ws1(cap,out,vault,deadline,*,feature_player_limit=None, check_deadline=None, timings=None):
     from v2.nba_ws1.store import NBAPregameFeatureSnapshot,Receipt
     snap_path=Path(out)/cap['snapshot_path']
     snapshot=NBAPregameFeatureSnapshot.from_json(snap_path.read_text()).to_dict()
@@ -279,7 +279,10 @@ def _archive_ws1(cap,out,vault,deadline,*,feature_player_limit=None):
         raise AcquisitionError('MISSED_FREEZE_AFTER_SOURCES')
     raws={};sources=[];retained=[];receipt_id_map={}
     expected={x['receipt_id']:x for x in snapshot['receipts']}
+    stage_started = time.monotonic()
     for item in cap['sources']:
+        if check_deadline is not None:
+            check_deadline()
         rid=item['receipt_id']
         if rid not in expected:raise AcquisitionError('SOURCE_RECEIPT_NOT_IN_SNAPSHOT')
         r=Receipt(**expected[rid]);raw=gzip.decompress((Path(out)/item['path']).read_bytes());r.verify(raw)
@@ -292,15 +295,25 @@ def _archive_ws1(cap,out,vault,deadline,*,feature_player_limit=None):
         receipt_id_map[rid]=obj['receipt_id']
         sources.append({'receipt_id':obj['receipt_id'],'ws1_receipt_id':rid,**stored,'p0_sha256':cert['sha256']})
     if set(raws)!=set(expected):raise AcquisitionError('WS1_RECEIPT_ARCHIVE_INCOMPLETE')
+    if timings is not None:
+        timings["source_archive"] = round(time.monotonic() - stage_started, 3)
+    stage_started = time.monotonic()
     # Byte verification precedes feature construction, P0 source closure follows.
     rows,summary=build_feature_rows(snapshot,raws,reconstruction_class='original',receipt_id_map=receipt_id_map)
     rows,summary=_bounded_canary_subset(rows,summary,feature_player_limit)
     verify_handoff(rows,{**summary,'schema':VERSION},{receipt_id_map[k]:v for k,v in raws.items()})
+    if timings is not None:
+        timings["feature_build_and_verify"] = round(time.monotonic() - stage_started, 3)
+    stage_started = time.monotonic()
     for obj in rows:
+        if check_deadline is not None:
+            check_deadline()
         cert=vault.append_p0('PregameFeatureSnapshot',obj)
         retained.append({'player_id':obj['player_id'],'stat_key':obj['stat_key'],
                          'sha256':cert['sha256'],'path':cert['relative_path'],
                          'source_receipt_ids':obj['source_receipt_ids']})
+    if timings is not None:
+        timings["feature_archive"] = round(time.monotonic() - stage_started, 3)
     summary['sources']=sources
     summary['features']=retained
     summary['ws1_snapshot_sha256']=digest(snap_path.read_bytes())
@@ -400,13 +413,28 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
             return {'event_id':gid,'phase':phase,'status':'MISSED_FREEZE',
                     'observed_at':stamp(t),'deadline':stamp(deadline)},t
         claim_id=day+'|'+gid+'|'+phase+'|'+VERSION
+        timings = {}
+        stage_started = time.monotonic()
+
+        def check_common_deadline():
+            if _clock(clock()) >= deadline:
+                raise AcquisitionError('MISSED_FREEZE_AFTER_BUILD')
+
         try:
             # O_EXCL is the actual concurrency guard. Do not trust an exists() precheck.
             vault.claim(claim_id)
             output=vault.dev_root/'ws1'/(digest(claim_id.encode()))
             cap=capture(game,phase,output,deadline)
             if cap.get('status')=='blocked':raise AcquisitionError('WS1_BLOCKED:'+str(cap.get('errors')))
-            summary=_archive_ws1(cap,output,vault,deadline,feature_player_limit=feature_player_limit)
+            if common_freeze:
+                timings['upstream_capture'] = round(time.monotonic() - stage_started, 3)
+                summary = _archive_ws1(
+                    cap, output, vault, deadline, feature_player_limit=feature_player_limit,
+                    check_deadline=check_common_deadline, timings=timings,
+                )
+                check_common_deadline()
+            else:
+                summary=_archive_ws1(cap,output,vault,deadline,feature_player_limit=feature_player_limit)
             if _clock(clock())>deadline:raise AcquisitionError('MISSED_FREEZE_AFTER_BUILD')
             info=vault.save_json('handoffs/'+digest(claim_id.encode())+'.json',summary)
             outcome={'event_id':gid,'phase':phase,'status':'SOURCE_FEATURE_FROZEN',
@@ -421,6 +449,9 @@ def run_daily(*,day=None,clock=now,policy=None,vault=None,discover=default_disco
             outcome={'event_id':gid,'phase':phase,'status':'BLOCKED_CAPTURE',
                      'observed_at':stamp(_clock(clock())),
                      'reason':type(exc).__name__+':'+str(exc)}
+        if common_freeze:
+            timings['total'] = round(time.monotonic() - stage_started, 3)
+            outcome['elapsed_seconds'] = timings
         # Immutable attempt journal, including blocked and failed acquisition attempts.
         # A rerun at an identical clock instant may have a different valid
         # outcome (e.g., original capture won before, duplicate claim now).
